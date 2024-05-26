@@ -3,11 +3,12 @@
 import { onMount, onDestroy} from 'svelte';
 import { browser } from '$app/environment';
 import { v4 as uuidv4 } from 'uuid';
+import { screenWidth } from '$lib/store';
 
   let id = uuidv4();
 
   export let src;
-
+  export let hideProgressbar = false;
 
 
   let container;
@@ -138,6 +139,7 @@ function toggleMute(event) {
     {/if}
   </div>
 
+{#if !hideProgressbar}
   <progress class="progress [&::-webkit-progress-value]:bg-[#FF0000] [&::-moz-progress-bar]:bg-[#FF0000] w-full bg-white" value={progress} max="100" style="height: 1.5px"></progress>
-
+{/if}
 

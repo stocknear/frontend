@@ -621,10 +621,7 @@ $: {
                                        
                                     </h1>
 
-                                    
-                                    
-                                   
-                                    
+                                  
                                     
                                     {#if videoId === null}
                                     
@@ -679,7 +676,7 @@ $: {
                                                     />
                                                 -->
                                                 <div class="relative m-auto {$screenWidth < 640 ? 'w-screen' : 'w-fit max-w-[800px] max-h-[700px]'}">
-                                                    <VideoPlayer src={getImageURL(post?.collectionId, post?.id, post?.thumbnail)} />
+                                                    <VideoPlayer src={getImageURL(post?.collectionId, post?.id, post?.thumbnail)} hideProgressbar = {$screenWidth > 640 ? true : false} />
                                                 </div>
                                                     
                                                 </label>
