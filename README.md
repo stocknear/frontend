@@ -30,7 +30,7 @@ Coming soon to run stocknear locally on your machine.
 # Contributing
 Stocknear is open-source software and you're welcome to contribute to its development.
 
-The core idea of stocknear shall always be: ***Simplicity***, **Maintainable**, ***Readable*** & ***Fast*** in this order.
+The core idea of stocknear shall always be: ***Simplicity***, ***Maintainable***, ***Readable*** & ***Fast*** in this order.
 
 If want to contribute to the codebase please follow these guidelines:
 - Reducing complexity and increasing readability is a huge plus!
