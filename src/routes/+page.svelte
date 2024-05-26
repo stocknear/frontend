@@ -195,7 +195,7 @@ $: {
 
                                   <div id="step-aistockfinder" class="flex flex-row justify-center items-center">
                                     <h1 class="text-4xl sm:text-5xl text-white font-bold mb-6 w-full">
-                                      Stock Analysis Platform to beat the Hedgies
+                                      Open Source Stock Analysis Platform to beat the Hedgies
                                     </h1>
                                   </div>
 

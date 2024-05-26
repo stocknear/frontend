@@ -47,7 +47,6 @@
 <body>
 
 
-
     
   <div class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-10 mb-40">
     
@@ -61,7 +60,7 @@
 
       
       <div class="text-white text-lg mt-3 text-center pl-10 pr-10">
-        Our mission is to create the first large-scale stock analysis platform in which the platform's interests are aligned with those of the user—a platform founded on ethical design principles. At the heart of these principles is the concept of complete transparency by open sourcing the entire codebase soon. 
+        Our mission is to create the first large-scale stock analysis platform in which the platform's interests are aligned with those of the user—a platform founded on ethical design principles. At the heart of these principles is the concept of complete transparency, which is why the entire codebase is <a href="https://github.com/stocknear" rel="noopener noreferrer" target="_blank" class="text-blue-400 sm:hover:text-white sm:hover:underline" >open source</a>. 
 
            <!-- Start Image -->
            <div class="m-auto flex justify-center mt-6">
