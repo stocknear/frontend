@@ -36,3 +36,8 @@ If want to contribute to the codebase please follow these guidelines:
 - Reducing complexity and increasing readability is a huge plus!
 - Anything you claim is a "speedup" must be benchmarked. In general, the goal is simplicity, so even if your PR makes things marginally faster, you have to consider the tradeoff with maintainablity and readablity.
 - If your PR looks "complex", is a big diff, or adds lots of lines, it won't be reviewed or merged. Consider breaking it up into smaller PRs that are individually clear wins. A common pattern I see is prerequisite refactors before adding new functionality. If you can (cleanly) refactor to the point that the feature is a 3 line change, this is great, and something easy for us to review.
+
+# Support ❤️
+If you love the idea of stocknear and want to support our mission you can help us in two ways:
+- Become a [Pro Member](https://stocknear.com/pricing) of stocknear to get unlimited feature access to enjoy the platform to the fullest.
+- You can donate money via [Ko-fi](https://ko-fi.com/stocknear) to help us pay the servers & data providers to keep everything running! 
