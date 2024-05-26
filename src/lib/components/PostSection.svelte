@@ -433,11 +433,10 @@ $: {
                           {posts?.title}
                         </div>
 
-                        {#if !posts?.pinned}
+                        
                         <div class="break-normal ml-3 mt-5 pr-6 sm:pr-0">
                           {@html posts?.description?.length > 182 ? posts?.description.slice(0, 182) + "..." : posts?.description}
                         </div>
-                        {/if}
                               
       
                           
