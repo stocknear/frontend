@@ -379,7 +379,15 @@ async function purchasePlan() {
                     </div>
                     <hr class="border-gray-800"/>
                     -->
- 
+                    
+                    <details class="collapse collapse-arrow bg-[#131313]">
+                        <summary class="collapse-title text-lg font-semibold">Is there a free trial?</summary>
+                        <div class="collapse-content"> 
+                          <p>While we don't offer a free trial, we provide a 30-day grace period from the date of your first payment. If you're unsatisfied, you can request a full refund within this period.</p>
+                        </div>
+                    </details>
+
+
                     <details class="collapse collapse-arrow bg-[#131313]">
                         <summary class="collapse-title text-lg font-semibold">What is your refund policy?</summary>
                         <div class="collapse-content"> 
