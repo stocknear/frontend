@@ -170,23 +170,36 @@
 						placeholder={'Please pick at least 1 tag but no more than 3' }
 					/>
 	
-	
-	
+					
+					<span class="hidden sm:block text-white text-sm sm:text-[1rem] text-start w-full max-w-lg">
+						Use <a href="/markdown-guide" rel="noopener noreferrer" target="_blank" class="text-blue-500 sm:hover:text-white">
+							Markdown
+						</a> to format posts.
+					</span>
+					
+
 					<input type="hidden" name="postType" value={postType}>
 		
-					<div class="w-full max-w-lg pt-3">
+					<div class="w-full max-w-sm sm:max-w-lg pt-5 sm:pt-3">
+
 						{#if !loading && !isClicked}
-						<button type="submit" class="btn bg-blue-700 hover:bg-blue-600 w-full max-w-lg normal-case text-lg">
+						<button type="submit" class="btn bg-blue-700 hover:bg-blue-600 w-full max-w-lg normal-case text-lg mb-3">
 							<span class="text-white">Post</span>
 						</button>
 						{:else}
-						<label class="cursor-not-allowed btn bg-blue-700  w-full max-w-lg normal-case text-lg">
+						<label class="cursor-not-allowed btn bg-blue-700  w-full max-w-lg normal-case text-lg mb-3">
 							<div class="flex flex-row m-auto">
 								<span class="loading loading-infinity"></span>
 								<span class="text-white ml-2">Loading</span>
 							</div>
 						</label>
 						{/if}
+
+						<span class="sm:hidden text-white text-sm sm:text-[1rem] text-start w-full max-w-sm sm:max-w-lg ">
+							Use <a href="/markdown-guide" rel="noopener noreferrer" target="_blank" class="text-blue-500 sm:hover:text-white">
+								Markdown
+							</a> to format posts.
+						</span>
 						
 					</div>
 	
