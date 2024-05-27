@@ -111,7 +111,7 @@ function checkIfYoutubeVideo(link) {
                               </label>
                                 
                                   <a href={item.url} target="_blank" class="text-lg font-bold text-white">
-                                    {item.title}
+                                    {item?.title?.length > 120 ? item?.title?.slice(0,120) +'...' : item?.title}
                                   </a>
                                   <p class="text-white text-sm mt-2">
                                     {item?.text.length > 100 ? item?.text.slice(0,100) + "..." : item?.text}

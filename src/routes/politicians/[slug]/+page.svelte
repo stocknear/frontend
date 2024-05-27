@@ -284,14 +284,14 @@ onMount(async () => {
     </div>
             
             
-    <div class="w-full overflow-hidden m-auto ">
+    <div class="w-full overflow-hidden m-auto px-3 sm:px-0">
       
       <div class="flex justify-center w-full m-auto overflow-hidden">
           <div class="relative flex flex-col sm:flex-row justify-between items-start overflow-hidden w-full">
 
-            <aside class="relative fixed w-full sm:w-1/3 px-3">        
+            <aside class="relative fixed w-full sm:w-1/3">        
                 <!--Start Card-->
-                <div class="w-full bg-[#202020] border border-slate-800 rounded-lg shadow-lg h-auto pb-4">
+                <div class="w-full bg-[#202020] border border-slate-800 rounded-lg h-auto pb-4">
                   <div class="flex flex-col relative ">
                     {#if politicianParty === 'Republican'}
                     <img class="absolute  w-full m-auto rounded-lg " src={republicanBackground} />
@@ -338,7 +338,7 @@ onMount(async () => {
                  <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center ">
                   <div class="w-full grid grid-cols-2 gap-y-3 lg:gap-y-3 gap-x-3 ">
                      <!--Start Total Amount Traded-->  
-                     <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
+                     <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] rounded-2xl h-20">
                       <div class="flex flex-col items-start">
                           <span class="font-medium text-gray-200 text-sm ">Total Amount</span>
                           <span class="text-start text-[1rem] font-medium text-white mt-0.5">
@@ -352,7 +352,7 @@ onMount(async () => {
                   </div>
                   <!--End Total Amount Traded-->
                     <!--Start Buy/Sell-->  
-                    <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] shadow-lg rounded-2xl h-20">
+                    <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
                       <div class="flex flex-col items-start">
                           <span class="font-medium text-gray-200 text-sm sm:text-[1rem] ">Buy/Sell</span>
                           <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
@@ -360,8 +360,8 @@ onMount(async () => {
                           </span>
                       </div>
                       <!-- Circular Progress -->
-                        <div class="relative size-14 ml-auto">
-                          <svg class="size-full w-14 h-14" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                        <div class="relative size-12 ml-auto">
+                          <svg class="size-full w-12 h-12" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
                             <!-- Background Circle -->
                             <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
                             <!-- Progress Circle inside a group with rotation -->
@@ -389,7 +389,7 @@ onMount(async () => {
               <main class="w-full mt-10 sm:mt-0 sm:w-3/4 sm:ml-5">
               
                 {#if isLoaded && Object?.keys(optionsData)?.length !== 0}
-                <div class="p-0 sm:p-10 bg-[#0F0F0F] sm:bg-[#202020] rounded-lg sm:min-h-[330px] mb-10 sm:mb-6 sm:shadow-lg">
+                <div class="p-0 sm:p-10 bg-[#0F0F0F] sm:bg-[#202020] rounded-lg sm:min-h-[330px] mb-10 sm:mb-6">
 
                   <div class="flex flex-row justify-center sm:justify-start items-center">
                     <svg class="w-7 h-7 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="#849AAE" d="M576 0c17.7 0 32 14.3 32 32v448c0 17.7-14.3 32-32 32s-32-14.3-32-32V32c0-17.7 14.3-32 32-32M448 96c17.7 0 32 14.3 32 32v352c0 17.7-14.3 32-32 32s-32-14.3-32-32V128c0-17.7 14.3-32 32-32m-96 128v256c0 17.7-14.3 32-32 32s-32-14.3-32-32V224c0-17.7 14.3-32 32-32s32 14.3 32 32m-160 64c17.7 0 32 14.3 32 32v160c0 17.7-14.3 32-32 32s-32-14.3-32-32V320c0-17.7 14.3-32 32-32M96 416v64c0 17.7-14.3 32-32 32s-32-14.3-32-32v-64c0-17.7 14.3-32 32-32s32 14.3 32 32"/></svg>
@@ -421,7 +421,7 @@ onMount(async () => {
 
                 </div>
                 {/if}
-              <div class="p-0 sm:p-10 bg-[#0F0F0F] sm:bg-[#202020] rounded-lg sm:min-h-[330px] shadow-lg">
+              <div class="p-0 sm:p-10 bg-[#0F0F0F] sm:bg-[#202020] rounded-lg sm:min-h-[330px]">
                 <div class="w-full m-auto h-auto sm:max-h-[500px] sm:overflow-y-scroll scroller">
 
 
@@ -460,8 +460,8 @@ onMount(async () => {
                                     <img style="clip-path: circle(50%);" class="avatar w-5 h-5" src={`https://financialmodelingprep.com/image-stock/${item?.ticker}.png`} alt="stock logo"/>
                                   </div>
                                   <div class="flex flex-col ml-3">
-                                    <span class="text-white">{item?.ticker?.replace('_',' ')}</span>
-                                    <span class="text-white text-opacity-60">{item?.name}</span>
+                                    <span class="text-blue-400">{item?.ticker?.replace('_',' ')}</span>
+                                    <span class="text-white text-opacity-60 text-xs">{item?.name}</span>
                                   </div>
                                 </div>
                                 <!--{item?.firstName} {item?.lastName}-->
@@ -504,7 +504,7 @@ onMount(async () => {
                     <div class="mt-4 w-full overflow-x-auto scroller">
                       
 
-                      <table class="table table-pin-cols table-sm table-compact mt-3">
+                      <table class="table table-pin-cols table-sm table-compact mt-3 w-screen border">
                           <thead>
                             <tr class="">
                               <td class="text-slate-200 font-semibold text-sm text-start">Name</td>
@@ -521,29 +521,26 @@ onMount(async () => {
                               
                               <td class="text-gray-200 pb-3 border-b border-b-[#0F0F0F]">
                                 <div class="-ml-2 flex flex-row items-center">
-                                  <div class="flex-shrink-0 rounded-full w-7 h-7 relative bg-[#0F0F0F] flex items-center justify-center">
-                                    <img style="clip-path: circle(50%);" class="avatar w-5 h-5" src={`https://financialmodelingprep.com/image-stock/${item?.ticker}.png`} alt="stock logo"/>
-                                  </div>
-                                  <div class="flex flex-col ml-3">
-                                    <span class="text-white">{item?.ticker?.replace('_',' ')}</span>
+                                  <div class="flex flex-col">
+                                    <span class="text-blue-400 text-sm">{item?.ticker?.replace('_',' ')}</span>
                                     <span class="text-white text-opacity-60 text-xs">{item?.name?.length < charNumber ? item?.name : item?.name?.slice(0,charNumber)+'...'}</span>
                                   </div>
                                 </div>
                                 <!--{item?.firstName} {item?.lastName}-->
                               </td>
     
-                                <td class="text-end text-sm text-white border-b border-b-[#0F0F0F]">
+                                <td class="text-end text-xs text-white border-b border-b-[#0F0F0F]">
                                     {new Date(item?.transactionDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                 </td>
 
-                                <td class="text-end text-sm text-white border-b border-b-[#0F0F0F]">
+                                <td class="text-end text-xs text-white border-b border-b-[#0F0F0F]">
                                   {new Date(item?.disclosureDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                 </td>
 
-                                <td class="text-end text-sm text-white border-b border-b-[#0F0F0F]">
+                                <td class="text-end text-xs text-white border-b border-b-[#0F0F0F]">
                                     {item?.amount}
                                 </td>
-                                <td class="text-start text-end text-sm text-white border-b border-b-[#0F0F0F]">
+                                <td class="text-start text-end text-xs text-white border-b border-b-[#0F0F0F]">
                                   {#if item?.type === 'Bought'}
                                     <span class="text-[#10DB06]">Bought</span>
                                   {:else if item?.type === 'Sold'}

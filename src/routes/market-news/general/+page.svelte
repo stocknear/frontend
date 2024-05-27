@@ -105,7 +105,7 @@
                               </label>
                                 
                                   <a href={item?.url} target="_blank" class="text-lg font-bold text-white">
-                                    {item?.headline?.length > 100 ? item?.headline?.slice(0,100) + "..." : item?.headline}
+                                    {item?.headline?.length > 120 ? item?.headline?.slice(0,120) + "..." : item?.headline}
                                   </a>
                                   <p class="text-white text-sm mt-2">
                                     {item?.summary?.length > 100 ? item?.summary?.slice(0,100) + "..." : item?.summary}
