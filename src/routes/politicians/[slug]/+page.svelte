@@ -401,15 +401,15 @@ onMount(async () => {
 
                   <div class="flex flex-row items-center justify-between mx-auto mt-10 sm:mt-5 w-56 sm:w-80">
                     <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
-                    <div class="h-full bg-gray-800 transform -translate-x-1/2 " aria-hidden="true"></div>
-                    <div class="w-3 h-3 bg-[#69B3A2] border-4 box-content border-gray-900 rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                    <div class="h-full bg-[#313131] transform -translate-x-1/2 " aria-hidden="true"></div>
+                    <div class="w-3 h-3 bg-[#69B3A2] border-4 box-content border-[#313131] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
                     <span class="mt-2 sm:mt-0 text-white text-center sm:text-start text-xs sm:text-md inline-block">
                         Bought
                     </span>
                 </div>
                     <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
-                        <div class="h-full bg-gray-800 transform -translate-x-1/2 " aria-hidden="true"></div>
-                        <div class="w-3 h-3 bg-[#E8864D] border-4 box-content border-gray-900 rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                        <div class="h-full bg-[#313131] transform -translate-x-1/2 " aria-hidden="true"></div>
+                        <div class="w-3 h-3 bg-[#E8864D] border-4 box-content border-[#313131] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
                         <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md sm:font-medium inline-block">
                         Sold
                         </span>

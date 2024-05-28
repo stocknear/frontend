@@ -1,0 +1,579 @@
+<script lang='ts'>
+  import { goto } from '$app/navigation';
+  import { screenWidth, numberOfUnreadNotification, displayCompanyName } from '$lib/store';
+  import cardBackground from "$lib/images/bg-hedge-funds.png";
+  import defaultAvatar from "$lib/images/hedge_funds/default-avatar.png";
+
+  import { abbreviateNumber, formatString } from '$lib/utils';
+  import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
+
+  import { Chart } from 'svelte-echarts'
+  
+  import { onMount } from 'svelte';
+  
+  export let data;
+  let isLoaded = false;
+  let rawData = data?.getHedgeFundsData;
+  let rawList = []
+  let displayList = [];
+  let optionsData = {};
+  
+  let numOfTrades = rawData?.numberOfStocks;
+  let images = {};
+  let buySellRatio = 0
+  let totalAmountTraded = 0;
+  let politicianImage;
+  let politicianDistrict;
+  let politicianCongress;
+  
+  let numOfAssets;
+  let changeAssetType = 'Share'
+  
+  
+  async function infiniteHandler({ detail: { loaded, complete } }) 
+  {
+    if (displayList?.length === rawList?.length) {
+        complete();
+      } else {
+        const nextIndex = displayList?.length;
+        const newArticles = rawList?.slice(nextIndex, nextIndex + 20);
+        displayList = [...displayList, ...newArticles];
+        loaded();
+      }
+  }
+  
+  // Function to load images only when they are viewed
+  async function loadImages() {
+      const imageFiles = import.meta.glob('$lib/images/hedge_funds/*.png');
+      const imagesPromises = [];
+  
+      for (const [path, resolver] of Object?.entries(imageFiles)) {
+        const imageNameMatch = path.match(/\/([^/]+)\.png$/);
+        if (imageNameMatch && imageNameMatch[1] !== 'default-avatar') {
+          imagesPromises?.push(resolver()?.then(module => {
+            images[imageNameMatch[1]] = module.default;
+          }));
+        }
+      }
+  
+      await Promise?.all(imagesPromises);
+    }
+  
+  
+  function normalizer(value) {
+    if (Math?.abs(value) >= 1e12) {
+      return { unit: 'T', denominator: 1e12 };
+    } else if (Math?.abs(value) >= 1e9) {
+      return { unit: 'B', denominator: 1e9 };
+    } else if (Math?.abs(value) >= 1e6) {
+      return { unit: 'M', denominator: 1e6 };
+    } else if (Math?.abs(value) >= 1e5) {
+      return { unit: 'K', denominator: 1e5 };
+    } else {
+      return { unit: '', denominator: 1 };
+    }
+  }
+
+
+function getYearFromDate(dateString) {
+  return new Date(dateString).getFullYear();
+}
+  
+  async function getPlotOptions() {
+      // Get unique years from the data
+      const dates = [...new Set(rawData?.summary?.slice(0,30)?.map(item => getYearFromDate(item?.date)))]?.reverse();
+      // Initialize boughtList and soldList arrays
+      const performanceList = rawData?.summary?.slice(0,30)?.map(item => item?.performancePercentage)?.reverse();
+      const { unit, denominator } = normalizer(Math.max(...performanceList) ?? 0);
+      console.log(performanceList)
+  
+    const option = {
+      silent: true,
+      grid: {
+          left: $screenWidth < 640 ? '5.2%' : '0.5%',
+          right: $screenWidth < 640 ? '5%' : '0.5%',
+          bottom: '0%',
+          containLabel: true
+      },
+      xAxis: {
+          data: dates,
+          type: 'category',
+          },
+          yAxis: [
+          {
+              type: 'value',
+              splitLine: {
+              show: false, // Disable x-axis grid lines
+              },
+              axisLabel: {
+              color: '#6E7079', // Change label color to white
+              formatter: function (value) {
+                  return +(value / denominator)?.toFixed(0) + unit+'%'; // Format value in millions
+                  },
+              },
+          },
+          ],
+      series: [
+          {
+              data: performanceList,
+              type: 'line',
+              itemStyle: {
+                      color: '#FF6384' // Change bar color to white
+                },
+              barWidth: '10%',
+            },
+      ]
+      };
+  
+  
+  return option;
+  }
+  
+  onMount(async () => {
+    isLoaded = false;
+      await loadImages();
+  
+      optionsData = await getPlotOptions();
+
+  
+    isLoaded = true;
+  
+  });
+  
+  
+  $: {
+    if(changeAssetType && typeof window !== 'undefined') {
+      let liste;
+      rawList = rawData?.holdings ?? [];
+      if(changeAssetType === 'Share') {
+        liste = rawList?.filter(item => item?.putCallShare === 'Share')
+      }
+      else {
+        liste = rawList?.filter(item => item?.putCallShare !== 'Share')
+      }
+      numOfAssets = new Set(liste?.map(item => item?.symbol))?.size;
+      rawList = liste;
+      displayList = rawList?.slice(0,20);
+     
+    }
+  }
+    let charNumber = 40;
+    $: {
+      if ($screenWidth < 640)
+      {
+        charNumber = 15;
+      }
+      else {
+        charNumber = 40;
+      }
+    }
+    
+          
+    </script>
+    
+
+
+<svelte:head>
+  <title> {$numberOfUnreadNotification > 0 ? `(${$numberOfUnreadNotification})` : ''} {formatString($displayCompanyName)} - Hedge Fund · stocknear</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+
+  <meta name="description" content="Get detailed information about portfolio size, market value, win rate, turn over, and peformance of the hedge fund.">
+  <!-- Other meta tags -->
+  <meta property="og:title" content="{formatString($displayCompanyName)} - Hedge Fund · stocknear"/>
+  <meta property="og:description" content="Get detailed information about portfolio size, market value, win rate, turn over, and peformance of the hedge fund.">
+  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
+  <meta property="og:type" content="website"/>
+  <!-- Add more Open Graph meta tags as needed -->
+
+  <!-- Twitter specific meta tags -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="{formatString($displayCompanyName)} - Hedge Fund · stocknear"/>
+  <meta name="twitter:description" content="Get detailed information about portfolio size, market value, win rate, turn over, and peformance of the hedge fund.">
+  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
+  <!-- Add more Twitter meta tags as needed -->
+</svelte:head>
+
+  
+  
+    <section class="w-full max-w-6xl overflow-hidden m-auto min-h-screen pt-5 pb-60 sm:px-10 xl:px-0">
+  
+      <div class="text-sm breadcrumbs ml-4 pb-10">
+        <ul>
+          <li><a href="/" class="text-gray-300">Home</a></li> 
+          <li><a href="/hedge-funds" class="text-gray-300">Hedge Funds</a></li> 
+          <li class="text-gray-300">Company Data</li>
+        </ul>
+      </div>
+              
+              
+      <div class="w-full overflow-hidden m-auto px-3 sm:px-0">
+        
+        <div class="flex justify-center w-full m-auto overflow-hidden">
+            <div class="relative flex flex-col sm:flex-row justify-between items-start overflow-hidden w-full">
+  
+              <aside class="relative fixed w-full sm:w-1/3">        
+                  <!--Start Card-->
+                  <div class="w-full bg-[#202020] border border-slate-800 rounded-lg h-auto pb-4">
+                    <div class="flex flex-col relative ">
+                      <img class="absolute  w-full m-auto rounded-lg " src={cardBackground} />
+                      <div class="flex flex-col justify-center items-center rounded-2xl ">
+  
+                        <div class="mt-10 rounded-full border border-slate-600 w-24 h-24 relative hedge-fund-striped bg-[#20202E] flex items-center justify-center">
+                          <img style="clip-path: circle(50%);" class="rounded-full w-20"  src={images[rawData?.cik] ?? defaultAvatar} loading="lazy"/>
+                        </div>
+                        <span class="text-white text-md font-semibold mt-2 mb-2 w-64 text-center">
+                          {formatString($displayCompanyName)}
+                        </span>
+  
+                      </div>
+
+
+                      <div class="relative bottom-0 w-full px-8 mt-8">
+                        <div class="flex flex-row justify-between items-center w-full mb-6">
+                          <label class="cursor-pointer flex flex-col items-start">
+                            <span class="text-white text-[1rem] font-semibold">{abbreviateNumber(rawData.numberOfStocks)}</span>
+                            <span class="text-slate-300 font-medium text-sm"># of Holdings</span>
+                          </label>
+      
+                          <div class="flex flex-col items-end ">
+                            <span class="text-white text-[1rem] font-semibold">
+                              {rawData.turnover?.toFixed(2)}
+                            </span>
+                            <span class="text-slate-300 font-medium text-sm">Turnover</span>
+                          </div>
+                        </div>
+
+                        <div class="flex flex-row justify-between items-center w-full">
+                          <label class="cursor-pointer flex flex-col items-start">
+                              <div class="flex flex-row mt-1 text-white text-[1rem] font-semibold">
+                                  {rawData?.averageHoldingPeriod} months
+                              </div>
+                            <span class="text-slate-300 font-medium text-sm">Avg. Holding</span>
+                          </label>
+      
+                          <div class="flex flex-col items-end ">
+                            <div class="flex flex-row mt-1 text-[1rem] font-semibold">
+                              {#if rawData.winRate >=0}
+                                <span class="text-[#10DB06]">+{abbreviateNumber(rawData.winRate?.toFixed(2))}%</span>
+                              {:else}
+                                <span class="text-[#FF2F1F]">{abbreviateNumber(rawData.winRate?.toFixed(2))}% </span> 
+                              {/if}
+                            </div>
+                            <span class="text-slate-300 font-medium text-sm">Win Rate</span>
+                          </div>
+                        </div>
+                      </div>
+  
+                  </div>
+                </div>
+                  <!--End Card-->
+  
+                   <!--Start Widget-->
+                   <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center ">
+                    <div class="w-full grid grid-cols-2 gap-y-3 lg:gap-y-3 gap-x-3 ">
+                       <!--Start Total Amount Traded-->  
+                       <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] rounded-2xl h-20">
+                        <div class="flex flex-col items-start">
+                            <span class="font-medium text-gray-200 text-sm ">AUM</span>
+                            <span class="text-start text-[1rem] font-medium text-white mt-0.5">
+                              {abbreviateNumber(rawData?.marketValue,true)}
+                            </span>
+                        </div>
+                        
+                    </div>
+                    <!--End Total Amount Traded-->
+                      <!--Start Buy/Sell-->  
+                      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
+                        <div class="flex flex-col items-start">
+                            <span class="font-medium text-gray-200 text-sm sm:text-[0.85rem]">3 Year Perf.</span>
+                            <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
+                              {#if rawData?.performancePercentage3year >=0}
+                              <span class="text-[#10DB06]">+{abbreviateNumber(rawData?.performancePercentage3year?.toFixed(2))}%</span>
+                            {:else}
+                              <span class="text-[#FF2F1F]">{abbreviateNumber(rawData?.performancePercentage3year?.toFixed(2))}% </span> 
+                            {/if}
+                            </span>
+                        </div>
+                        <!-- Circular Progress -->
+                          <div class="relative size-12 ml-auto">
+                            <svg class="size-full w-12 h-12" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                              <!-- Background Circle -->
+                              <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
+                              <!-- Progress Circle inside a group with rotation -->
+                              <g class="origin-center -rotate-90 transform">
+                                <circle cx="18" cy="18" r="16" fill="none" class="stroke-current {rawData?.performancePercentage3year >=0.5 ? 'text-[#00FC50]' : 'text-[#EE5365]'} " stroke-width="3" stroke-dasharray="100" stroke-dashoffset={(100- rawData?.performancePercentage3year) >= 0 ? 100-(rawData?.performancePercentage3year)?.toFixed(2) : 0}></circle>
+                              </g>
+                            </svg>
+                            <!-- Percentage Text -->
+                            <!--
+                            <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
+                              <span class="text-center text-white text-sm">{rawData?.performancePercentage3year?.toFixed(2)}</span>
+                            </div>
+                          </div>
+                          -->
+                        <!-- End Circular Progress -->
+              
+                    </div>
+                    <!--End Buy/Sell-->
+                    
+                      </div>
+                    </div>
+                  <!--End Widget-->
+  
+              </aside>
+  
+  
+                <main class="w-full mt-10 sm:mt-0 sm:w-3/4 sm:ml-5">
+                
+                  {#if isLoaded && Object?.keys(optionsData)?.length !== 0}
+                  <div class="p-0 sm:p-10 bg-[#0F0F0F] sm:bg-[#202020] rounded-lg sm:min-h-[330px] mb-10 sm:mb-6">
+  
+                    <div class="flex flex-row justify-center sm:justify-start items-center">
+                      <svg class="w-7 h-7 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="#849AAE" d="M576 0c17.7 0 32 14.3 32 32v448c0 17.7-14.3 32-32 32s-32-14.3-32-32V32c0-17.7 14.3-32 32-32M448 96c17.7 0 32 14.3 32 32v352c0 17.7-14.3 32-32 32s-32-14.3-32-32V128c0-17.7 14.3-32 32-32m-96 128v256c0 17.7-14.3 32-32 32s-32-14.3-32-32V224c0-17.7 14.3-32 32-32s32 14.3 32 32m-160 64c17.7 0 32 14.3 32 32v160c0 17.7-14.3 32-32 32s-32-14.3-32-32V320c0-17.7 14.3-32 32-32M96 416v64c0 17.7-14.3 32-32 32s-32-14.3-32-32v-64c0-17.7 14.3-32 32-32s32 14.3 32 32"/></svg>
+                      <span class="ml-3 text-white text-xl">Performance History</span>
+                    </div>
+                    
+                    <div class="app w-full h-[300px] ">
+                      <Chart options={optionsData} class="chart" />
+                    </div>
+                  
+  
+                    <div class="flex flex-row items-center justify-between mx-auto mt-10 sm:mt-5 w-56 sm:w-80">
+                      <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
+                      <div class="h-full bg-[#313131] transform -translate-x-1/2 " aria-hidden="true"></div>
+                      <div class="w-3 h-3 bg-[#69B3A2] border-4 box-content border-[#313131] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                      <span class="mt-2 sm:mt-0 text-white text-center sm:text-start text-xs sm:text-md inline-block">
+                          Bought
+                      </span>
+                  </div>
+                      <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
+                          <div class="h-full bg-[#313131] transform -translate-x-1/2 " aria-hidden="true"></div>
+                          <div class="w-3 h-3 bg-[#E8864D] border-4 box-content border-[#313131] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                          <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md sm:font-medium inline-block">
+                          Sold
+                          </span>
+                      </div>
+              
+                  
+              </div>
+  
+  
+                  </div>
+                  {/if}
+                <div class="p-0 sm:p-10 bg-[#0F0F0F] sm:bg-[#202020] rounded-lg sm:min-h-[430px]">
+                  <div class="h-auto w-full ">
+                    
+                  
+                      <span class="text-[#F5F5F5] font-bold text-2xl">
+                        {numOfAssets} Assets
+                      </span>
+  
+                      <div role="tablist" class="bg-[#313131] tabs tabs-boxed w-48 mt-4">
+                        <a on:click={() => changeAssetType = 'Share'} role="tab" class="tab text-white {changeAssetType === 'Share' ? 'bg-[#3C74D4]' : ''}">Stocks</a>
+                        <a on:click={() => changeAssetType = 'Option'} role="tab" class="tab text-white {changeAssetType !== 'Share' ? 'bg-[#3C74D4]' : ''}">Options</a>
+                      </div>
+                    
+                    {#if rawList?.length !== 0}
+                    <div class="hidden sm:block sm:-ml-1 sm:overflow-hidden sm:overflow-y-scroll scroller w-full m-auto h-auto sm:max-h-[700px]">
+
+                      <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#202020] m-auto mt-4 ">
+                        <!-- head -->
+                        <thead>
+                          <tr class="bg-[#202020]">
+                            <th class="shadow-md text-start bg-[#202020] text-white text-sm font-semibold">
+                              Name
+                            </th>
+                            <th class="shadow-md text-end bg-[#202020] text-white text-sm font-semibold">
+                              % of Portfolio
+                            </th>
+                            {#if changeAssetType === 'Share'}
+                            <th class="shadow-md text-end bg-[#202020] text-white text-sm font-semibold">
+                              Change of Shares
+                            </th>
+                            {/if}
+                            <th class="shadow-md text-end bg-[#202020] text-white text-sm font-semibold">
+                              Value Owned
+                            </th>
+                            <th class="shadow-md text-end bg-[#202020]  text-white text-sm font-semibold">
+                              Avg. Buy Price
+                            </th>
+                            {#if changeAssetType !== 'Share'}
+                            <th class="shadow-md text-end bg-[#202020]  text-white text-sm font-semibold">
+                              Type
+                            </th>
+                            {/if}
+                          </tr>
+                        </thead>
+                        <tbody class="p-0">
+                          {#each displayList as item}
+                              <tr on:click={() => goto(`/${item?.type}/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#202020] border-b-[#202020] cursor-pointer">
+      
+                                <td class="text-gray-200 pb-3 border-b border-b-[#202020]">
+                                  <div class="flex flex-row items-center">
+                                    <div class="flex-shrink-0 rounded-full w-7 h-7 relative bg-[#202020] flex items-center justify-center">
+                                      <img style="clip-path: circle(50%);" class="avatar w-5 h-5" src={`https://financialmodelingprep.com/image-stock/${item?.symbol}.png`} alt="stock logo"/>
+                                    </div>
+                                    <div class="flex flex-col ml-3">
+                                      <span class="text-blue-400">{item?.symbol?.replace('_',' ')}</span>
+                                      <span class="text-white text-opacity-60 text-xs">{formatString(item?.securityName)}</span>
+                                    </div>
+                                  </div>
+                                  <!--{item?.firstName} {item?.lastName}-->
+                                </td>
+      
+                                  <td class="text-end text-sm text-white border-b border-b-[#202020]">
+                                      {item?.weight?.toFixed(2)}%
+                                  </td>
+
+                                  {#if changeAssetType === 'Share'}
+                                  <td class="text-end text-sm border-b border-b-[#202020] {item?.changeInSharesNumberPercentage > 0 ? 'text-[#00FC50]' : item?.changeInSharesNumberPercentage < 0 ? 'text-[#FC2120]' : 'text-white'}">
+                                    {item?.changeInSharesNumberPercentage !== 0 ? abbreviateNumber(item?.changeInSharesNumberPercentage?.toFixed(2))+'%' : '-'}
+                                  </td>
+                                  {/if}
+  
+                                  <td class="text-end text-sm text-white border-b border-b-[#202020]">
+                                    {abbreviateNumber(item?.marketValue,true)}
+                                </td>
+  
+                                  <td class="text-end text-xs sm:text-sm text-white border-b border-b-[#202020]">
+                                      ${item?.avgPricePaid}
+                                  </td>
+                                  {#if changeAssetType !== 'Share'}
+                                  <td class="text-end text-xs sm:text-sm border-b border-b-[#202020] {item?.putCallShare === 'CALL' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
+                                    {formatString(item?.putCallShare)}
+                                  </td>
+                                  {/if}
+                              </tr>
+                            {/each}
+                        </tbody>
+                      </table>
+                    </div>
+                    
+  
+                    <div class="sm:hidden flex flex-col justify-center w-full m-auto h-full overflow-hidden mt-3">
+        
+                      <span class="ml-3 text-[#F5F5F5] font-bold text-2xl">
+                        {numOfAssets} Assets
+                      </span>
+
+                      
+  
+                      <!-- Content area -->
+                      <div class="mt-4 w-full overflow-x-auto scroller">
+                        
+  
+                        <table class="table table-pin-cols table-sm table-compact mt-3 w-screen border">
+                            <thead>
+                              <tr class="">
+                                <td class="text-slate-200 font-semibold text-sm text-start">Name</td>
+                                <td class="bg-[#0F0F0F] font-semibold text-slate-200 text-sm text-start">% of Portfolio</td>
+                                <td class="bg-[#0F0F0F] font-semibold text-slate-200 text-sm text-start">Disclosure Date</td>
+                                <td class="bg-[#0F0F0F] text-slate-200 font-semibold text-sm text-start">Amount</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {#each displayList as item,index}
+                              <!-- row -->
+                              <tr on:click={() => goto(`/${item?.type}/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#0F0F0F] border-b-[#0F0F0F] cursor-pointer">
+                                
+                                <td class="text-gray-200 pb-3 border-b border-b-[#0F0F0F]">
+                                  <div class="-ml-2 flex flex-row items-center">
+                                    <div class="flex flex-col">
+                                      <span class="text-blue-400 text-sm">{item?.ticker?.replace('_',' ')}</span>
+                                      <span class="text-white text-opacity-60 text-xs">{item?.securityName?.length < charNumber ? formatString(item?.securityName) : formatString(item?.securityName?.slice(0,charNumber)) + '...'}</span>
+                                    </div>
+                                  </div>
+                                  <!--{item?.firstName} {item?.lastName}-->
+                                </td>
+      
+                                  <td class="text-end text-xs text-white border-b border-b-[#0F0F0F]">
+                                      {new Date(item?.transactionDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                                  </td>
+  
+                                  <td class="text-end text-xs text-white border-b border-b-[#0F0F0F]">
+                                    {new Date(item?.disclosureDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                                  </td>
+  
+                                  <td class="text-end text-xs text-white border-b border-b-[#0F0F0F]">
+                                      {item?.amount}
+                                  </td>
+                                
+                        
+                
+                
+                              </tr>
+                              
+                          
+                              {/each}
+                            </tbody>
+                          </table>
+                        </div>
+          
+            
+            
+                  </div>
+              
+                      <InfiniteLoading on:infinite={infiniteHandler} />
+  
+  
+                      {:else} 
+                      <div class="flex justify-center items-center m-auto sm:mt-24 mt-32 mb-6">
+                        <div class="text-gray-100 text-sm sm:text-[1rem] sm:rounded-lg h-auto border border-slate-800 p-4">
+                          <svg class="w-5 h-5 inline-block mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#60a5fa" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
+                          No Trading activity found
+                        </div>
+                      </div>
+                      {/if}
+  
+                      
+  
+                      
+    
+                  </div>
+                </div>
+                </main>
+            </div>
+        </div>
+    
+      
+      </div>
+          
+          
+      
+    </section>
+    
+    
+      
+  
+  <style>
+  .scroller {
+    scrollbar-width: thin;
+  }
+    .app {
+        height: 300px;
+        max-width: 100%; /* Ensure chart width doesn't exceed the container */
+    
+        }
+    
+        @media (max-width: 640px) {
+        .app {
+            height: 230px;
+        }
+        }
+    
+        .chart {
+        width: 100%;
+        }
+
+.hedge-fund-striped {
+    background-image: repeating-linear-gradient(
+        -45deg,
+        #A77120,
+        #A77120 10px,
+        #90621C 10px,
+        #90621C 20px
+    );
+  }
+
+</style>

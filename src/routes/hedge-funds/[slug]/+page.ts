@@ -15,15 +15,11 @@ const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
 export const load = async ({ params }) => {
 
-  const getCIKData = async () => {
-    return params.cikID;
-  }
-
   const getHedgeFundsData = async () => {
     let output;
 
     // Get cached data for the specific tickerID
-    const cachedData = getCache(params.cikID, 'getHedgeFundsData');
+    const cachedData = getCache(params.slug, 'getHedgeFundsData');
     if (cachedData) {
       output = cachedData;
     } 
@@ -31,7 +27,7 @@ export const load = async ({ params }) => {
 
     
       const postData = {
-        cik: params.cikID
+        cik: params.slug
       };
 
         // make the POST request to the endpoint
@@ -46,22 +42,21 @@ export const load = async ({ params }) => {
         output = await response.json();
 
         // Cache the data for this specific tickerID with a specific name 'getHedgeFundsData'
-        setCache(params.cikID, output, 'getHedgeFundsData');
+        setCache(params.slug, output, 'getHedgeFundsData');
       }
       
     try {
-      output[0].holdings = output?.at(0)?.holdings?.filter(item => item?.sharesNumber !== 0 && item?.symbol !== null); //item?.symbol !== null
+      output.holdings = output?.holdings?.filter(item => item?.sharesNumber !== 0 && item?.symbol !== null); //item?.symbol !== null
     } catch(e) {
       console.log(e)
     }
   
-    displayCompanyName.update(value => output[0]?.name ?? params.cikID)
+    displayCompanyName.update(value => output?.name ?? params.slug)
     return output;
   };
 
   // Make sure to return a promise
   return {
-    getCIKData: await getCIKData(),
     getHedgeFundsData: await getHedgeFundsData()
   };
 };

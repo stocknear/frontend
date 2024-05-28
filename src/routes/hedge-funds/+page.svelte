@@ -191,7 +191,7 @@ async function handleInput(event) {
                                   <div class="flex flex-col justify-center items-center rounded-2xl ">
 
                                     <div class="-mt-3 shadow-lg rounded-full border border-slate-600 w-20 h-20 relative hedge-fund-striped bg-[#20202E] flex items-center justify-center">
-                                      <img style="clip-path: circle(50%);" class="rounded-full w-20" src={defaultAvatar} loading="lazy"/>
+                                      <img style="clip-path: circle(50%);" class="rounded-full w-16" src={item?.image} loading="lazy"/>
                                     </div>
                                     <span class="text-white text-md font-semibold mt-2 mb-2 w-64 text-center">
                                       {item?.name}
