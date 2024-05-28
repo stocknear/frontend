@@ -25,7 +25,7 @@
   let winRate = hedgeFundsData[0]?.winRate ?? 'n/a';
   let turnover = hedgeFundsData[0]?.turnover?.toFixed(2) ?? 'n/a';
   let averageHoldingPeriod = hedgeFundsData[0]?.averageHoldingPeriod ?? 'n/a';
-  let avgPerformancePercentage = hedgeFundsData[0]?.avgPerformancePercentage?.toFixed(2) ?? 'n/a';
+  let performancePercentage3year = hedgeFundsData[0]?.performancePercentage3year?.toFixed(2) ?? 'n/a';
   
 
   let industry = [];
@@ -298,7 +298,7 @@ $: {
     <div class="text-sm breadcrumbs ml-4 mb-5 no-scrollbar mr-5">
       <ul>
         <li><a href="/" class="text-gray-300">Home</a></li> 
-        <li><a href="/hedge-funds/category/best" class="text-gray-300">Hedge Funds</a></li>
+        <li><a href="/hedge-funds" class="text-gray-300">Hedge Funds</a></li>
         {#if $page.url.pathname.startsWith('/hedge-funds/')}
           <li class="text-gray-300">
               {formatString($displayCompanyName)}
@@ -310,7 +310,7 @@ $: {
     
     <div class="w-full max-w-4xl sm:flex sm:flex-row sm:items-center m-auto text-gray-100 bg-[#202020] sm:rounded-lg h-auto p-5 mb-4">
       <svg class="w-5 h-5 inline-block sm:mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#60a5fa" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
-      Core Profile of the Hedge Fund {formatString($displayCompanyName)} for the quarter Q4 2023.
+      Core Profile of the Hedge Fund {formatString($displayCompanyName)} for the quarter Q1 2024.
     </div>
 
 
@@ -324,7 +324,7 @@ $: {
               Stocks
               <svg class="ml-2 w-5 h-5 sm:w-6 sm:h-6 inline-block" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="info-circle"> <g> <circle cx="12" cy="12" data-name="--Circle" fill="none" id="_--Circle" r="10" stroke="#565656" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle> <line fill="none" stroke="#565656" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="12" y2="16"></line> <line fill="none" stroke="#565656" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="8" y2="8"></line> </g> </g> </g> </g></svg>
             </label>
-            <div class="stat-value mt-1 text-lg sm:text-xl text-gray-200">
+            <div class="stat-value mt-1 text-lg sm:text-xl text-gray-200 font-semibold">
               {rawData?.length}
             </div>
           </div>
@@ -347,7 +347,7 @@ $: {
               <svg class="ml-2 w-5 h-5 sm:w-6 sm:h-6 inline-block" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#565656"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="info-circle"> <g> <circle cx="12" cy="12" data-name="--Circle" fill="none" id="_--Circle" r="10" stroke="#565656" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle> <line fill="none" stroke="#565656" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="12" y2="16"></line> <line fill="none" stroke="#565656" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="8" y2="8"></line> </g> </g> </g> </g></svg>
             </label>
             <div class="stat-value text-lg font-semibold text-gray-200">
-              <div class="flex flex-row items-center font-medium">
+              <div class="flex flex-row items-center">
                 <div class="flex flex-col items-center">
                     <div class="flex flex-row mt-1 items-center">
                         {#if winRate >=0}
@@ -386,19 +386,19 @@ $: {
 
           <div class="stat">
             <label for="performanceInfo" class="cursor-pointer flex flex-row items-center stat-title -my-2 mb-1 text-lg sm:text-xl font-semibold text-gray-300">
-              Avg Performance
+              3-Year Performance
               <svg class="ml-2 w-5 h-5 sm:w-6 sm:h-6 inline-block" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#565656"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="info-circle"> <g> <circle cx="12" cy="12" data-name="--Circle" fill="none" id="_--Circle" r="10" stroke="#565656" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle> <line fill="none" stroke="#565656" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="12" y2="16"></line> <line fill="none" stroke="#565656" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="8" y2="8"></line> </g> </g> </g> </g></svg>
             </label>
             <div class="stat-value text-lg font-semibold text-gray-200">
               <div class="flex flex-row items-center font-medium">
                 <div class="flex flex-col items-center">
                     <div class="flex flex-row mt-1 items-center">
-                        {#if avgPerformancePercentage >=0}
+                        {#if performancePercentage3year >=0}
                         <svg class="inline-block w-6 h-6 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
-                        <span class="text-[#10DB06] text-[0.95rem] sm:text-lg">+{abbreviateNumber(avgPerformancePercentage)} %</span>
+                        <span class="text-[#10DB06] text-[0.95rem] sm:text-lg">+{abbreviateNumber(performancePercentage3year)} %</span>
                         {:else}
                         <svg class="inline-block w-6 h-6 mt-0.5 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
-                        <span class="text-[#FF2F1F] text-[0.95rem] sm:text-lg">{abbreviateNumber(avgPerformancePercentage)} % </span> 
+                        <span class="text-[#FF2F1F] text-[0.95rem] sm:text-lg">{abbreviateNumber(performancePercentage3year)} % </span> 
                         {/if}
                     </div>
                 </div>                

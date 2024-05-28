@@ -119,7 +119,7 @@ onMount(async () => {
             newData = rawData?.filter(item => {
                 const representative = item?.representative?.toLowerCase();
                 // Check if representative includes filterQuery
-                if (representative.includes(filterQuery)) return true;
+                if (representative?.includes(filterQuery)) return true;
                 
                 // Implement fuzzy search by checking similarity
                 // You can adjust the threshold as needed
@@ -164,7 +164,6 @@ onMount(async () => {
     {
       displayList = filterList?.length !== 0 ? filterData(rawData) : rawData;
       displayList = [...displayList];
-      console.log(filterList)
       changeRuleFilter = false;
       //console.log(slicedRawData?.length)
     }

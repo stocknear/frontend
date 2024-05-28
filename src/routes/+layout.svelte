@@ -767,7 +767,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
       </li>
 
       <li on:click={() => showSidebar = !showSidebar} class="px-1 rounded-sm mb-2 last:mb-0">
-          <a href={"/hedge-funds/category/best"} for="sidebar" class="block text-slate-200 hover:text-white truncate transition duration-150 {['/hedge-funds/category/best','/hedge-funds/category/worst','/hedge-funds/category/all']?.includes($page.url.pathname) ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+          <a href={"/hedge-funds"} for="sidebar" class="block text-slate-200 hover:text-white truncate transition duration-150 {$page?.url?.pathname?.startsWith('/hedge-funds') ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
               <div class="flex items-center justify-between">
                   <div class="flex items-center">
                     <svg class="w-7 h-7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white">
