@@ -267,7 +267,7 @@ $: {
 
 
   <!--Start what we offer-->
-  <div class="w-full max-w-3xl m-auto mb-20 flex justify-center items-center">
+  <div class="hidden w-full max-w-3xl m-auto mb-20 flex justify-center items-center">
     <!--
     <h1 class="text-4xl sm:text-5xl text-white font-bold mb-8 w-5/6 m-auto">
       The Tools for Diamond Hands
@@ -319,7 +319,7 @@ $: {
 
 
     <!--Start Portfolio Tournament-->
-    <div class="w-full max-w-3xl m-auto flex flex-col justify-center items-center pb-10">
+    <div class="hidden w-full max-w-3xl m-auto flex flex-col justify-center items-center pb-10">
   
 
       <div class="w-full bg-[#0F0F0F] sm:rounded-xl h-auto p-6 sm:p-10">
