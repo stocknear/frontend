@@ -178,7 +178,7 @@ if (usRegion.includes(value)) {
               Portfolio Tournament
             </h1>
             <h1 class="text-center text-lg sm:text-2xl text-white font-medium mb-5">
-              {displayMonth} 2023 🚀
+              {displayMonth} 2024 🚀
             </h1>
           </div>
   

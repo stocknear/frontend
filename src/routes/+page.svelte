@@ -392,7 +392,7 @@ $: {
     <!--End Portfolio Tournament-->
           
 
-  <div class="flex flex-wrap justify-between items-start w-full m-auto pb-14 sm:pb-20">
+  <div class="flex flex-wrap justify-between items-start w-full m-auto pb-14 sm:pb-20 sm:mt-10">
 
   
     <div class="hidden sm:block w-full sm:w-1/2">
