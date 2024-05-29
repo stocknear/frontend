@@ -205,7 +205,6 @@ function normalizer(value) {
     
     const {unit, denominator } = normalizer(Math.max(...valueList) ?? 0)
 
-    console.log(unit, denominator)
     const options = {
         xAxis: {
         data: xList,
