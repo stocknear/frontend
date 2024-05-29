@@ -532,7 +532,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
         <a href="/" for="sidebar" class="block text-slate-200 hover:text-white truncate transition duration-150 {$page.url.pathname=== '/' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
           <div class="flex items-center justify-between">
             <div class="flex items-center">
-              <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M6 19h3.692v-5.885h4.616V19H18v-9l-6-4.538L6 10zm-1 1V9.5l7-5.288L19 9.5V20h-5.692v-5.885h-2.616V20zm7-7.77"/></svg>
+              <svg class="w-7 h-7" viewBox="0 0 24 24" fill="#CCCCCC" xmlns="http://www.w3.org/2000/svg"><path d="M20.8593 8.36985L13.9293 2.82985C12.8593 1.96985 11.1293 1.96985 10.0693 2.81985L3.13929 8.36985C2.35929 8.98985 1.85929 10.2998 2.02929 11.2798L3.35929 19.2398C3.59929 20.6598 4.95929 21.8098 6.39929 21.8098H17.5993C19.0293 21.8098 20.3993 20.6498 20.6393 19.2398L21.9693 11.2798C22.1293 10.2998 21.6293 8.98985 20.8593 8.36985ZM11.9993 15.4998C10.6193 15.4998 9.49929 14.3798 9.49929 12.9998C9.49929 11.6198 10.6193 10.4998 11.9993 10.4998C13.3793 10.4998 14.4993 11.6198 14.4993 12.9998C14.4993 14.3798 13.3793 15.4998 11.9993 15.4998Z" fill="#CCCCCC"></path></svg>
                 <span class="2xl:{collapse ? 'hidden' : ''} text-md font-medium ml-3 duration-200">
                     Home
                 </span>
@@ -545,7 +545,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
       <li  class="px-1 rounded-sm mb-2 last:mb-0">
           <summary on:click={handleStockGuide}>
             <div class="flex flex-row items-center">
-              <svg class="w-7 h-7 inline-block mr-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M4 19h4.673v-8H4zm5.673 0h4.654V5H9.673zm5.654 0H20v-6h-4.673zM3 18.385v-6.77q0-.666.475-1.14Q3.949 10 4.615 10h4.058V5.615q0-.666.475-1.14Q9.622 4 10.288 4h3.424q.666 0 1.14.475q.475.474.475 1.14V12h4.058q.666 0 1.14.475q.475.474.475 1.14v4.77q0 .666-.475 1.14q-.474.475-1.14.475H4.615q-.666 0-1.14-.475Q3 19.051 3 18.385"/></svg>  
+              <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#CCCCCC" d="M16 19v-4.808h3V19zm-5.5 0V5h3v14zM5 19V9.808h3V19z"/></svg>
               <label class="cursor-pointer 2xl:{collapse ? 'hidden' : ''} text-md text-white font-medium ml-3 duration-200">
                     Stocks
                 </label>
@@ -612,7 +612,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
       <li  class="px-1 rounded-sm mb-2 last:mb-0">
         <summary on:click={handleETFGuide}>
           <div class="flex items-center">
-              <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M9.115 17q-.69 0-1.152-.462q-.463-.463-.463-1.153V4.615q0-.69.463-1.152Q8.425 3 9.115 3h7.77q.69 0 1.152.463q.463.462.463 1.152v10.77q0 .69-.462 1.153q-.463.462-1.153.462zm0-1h7.77q.23 0 .423-.192q.192-.193.192-.423V4.615q0-.23-.192-.423Q17.115 4 16.885 4h-7.77q-.23 0-.423.192q-.192.193-.192.423v10.77q0 .23.192.423q.193.192.423.192m-3 4q-.69 0-1.152-.462q-.463-.463-.463-1.153V6.615h1v11.77q0 .23.192.423q.193.192.423.192h8.77v1zM8.5 16V4z"/></svg>
+            <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#CCCCCC" d="M20.894 13.553a1 1 0 0 1-.447 1.341l-8 4a1 1 0 0 1-.894 0l-8-4a1 1 0 0 1 .894-1.788L12 16.88l7.554-3.775a1 1 0 0 1 1.341.447M12.008 5q.056 0 .111.007l.111.02l.086.024l.012.006l.012.002l.029.014l.05.019l.016.009l.012.005l8 4a1 1 0 0 1 0 1.788l-8 4a1 1 0 0 1-.894 0l-8-4a1 1 0 0 1 0-1.788l8-4l.011-.005l.018-.01l.078-.032l.011-.002l.013-.006l.086-.024l.11-.02l.056-.005z"/></svg>
               <span class="2xl:{collapse ? 'hidden' : ''} text-md text-white font-medium ml-3 duration-200">
                   ETFs
               </span>
@@ -647,7 +647,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
        <li  class="px-1 rounded-sm mb-2 last:mb-0">
         <summary on:click={handleCalendarGuide}>
           <div class="flex items-center">
-            <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#D4D4D4" d="M5 9.615h14v-3q0-.23-.192-.423Q18.615 6 18.385 6H5.615q-.23 0-.423.192Q5 6.385 5 6.615zm0 0V6zM5.615 21q-.69 0-1.152-.462Q4 20.075 4 19.385V6.615q0-.69.463-1.152Q4.925 5 5.615 5h1.77V2.77h1.077V5h7.153V2.77h1V5h1.77q.69 0 1.152.463q.463.462.463 1.152v5.252q-.244-.09-.494-.134q-.25-.045-.506-.081v-1.037H5v8.77q0 .23.192.423q.193.192.423.192h6.704q.08.28.201.521q.122.24.255.479zm12.77 1q-1.672 0-2.836-1.164Q14.385 19.67 14.385 18t1.164-2.836Q16.713 14 18.385 14q1.67 0 2.835 1.164T22.385 18q0 1.671-1.165 2.836T18.385 22m1.655-1.798l.547-.546l-1.818-1.818v-2.723H18v3.047z"/></svg>
+            <svg class="w-7 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#CCCCCC" d="M128 0c17.7 0 32 14.3 32 32v32h128V32c0-17.7 14.3-32 32-32s32 14.3 32 32v32h48c26.5 0 48 21.5 48 48v48H0v-48c0-26.5 21.5-48 48-48h48V32c0-17.7 14.3-32 32-32M0 192h448v272c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48zm64 80v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16m128 0v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16m144-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM64 400v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16m144-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm112 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16"/></svg>
               <span class="2xl:{collapse ? 'hidden' : ''} text-md text-white font-medium ml-3 duration-200">
                   Calendar
               </span>
@@ -701,7 +701,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
       <li  class="px-1 rounded-sm mb-2 last:mb-0">
         <summary on:click={handleOptionsGuide}>
           <div class="flex items-center">
-            <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="white" d="M237.43 130.55C215.84 176.57 197 198 178 198c-23.83 0-39.2-32.76-55.47-67.45C109.26 102.17 94.17 70 78 70c-9.18 0-25 10.5-48.53 60.55a6 6 0 0 1-10.86-5.1C40.16 79.43 59 58 78 58c23.83 0 39.2 32.76 55.47 67.45C146.74 153.83 161.83 186 178 186c9.18 0 25.05-10.5 48.53-60.55a6 6 0 0 1 10.86 5.1Z"/></svg>
+            <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#CCCCCC"><g fill="none"><path d="M24 0v24H0V0zM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z"/><path fill="white" d="M18.147 6.733a10.578 10.578 0 0 0-5.244.528l-.346.132a13.606 13.606 0 0 1-7.16.84c-1.038-.16-2.12-.418-3.068-.891a1.5 1.5 0 0 1 1.202-2.745l.132.058c.682.32 1.45.499 2.19.613c1.344.206 3.183.22 5.244-.529l.346-.132a13.606 13.606 0 0 1 7.16-.84c1.038.16 2.119.419 3.066.89a1.514 1.514 0 0 1 .672 2.014c-.369.738-1.122.907-2.005.674l-2.19-.612Zm0 6a10.578 10.578 0 0 0-5.244.528l-.346.132a13.606 13.606 0 0 1-7.16.84c-1.038-.16-2.12-.418-3.068-.891a1.5 1.5 0 0 1 1.202-2.745l.132.058c.682.32 1.45.499 2.19.613c1.344.206 3.183.22 5.244-.529l.346-.132a13.606 13.606 0 0 1 7.16-.84c1.038.16 2.119.419 3.066.89a1.514 1.514 0 0 1 .672 2.014c-.369.739-1.122.907-2.005.674l-2.19-.612Zm-5.954 6.8l.364-.14a10.607 10.607 0 0 1 5.59-.66l2.19.612c.882.233 1.635.065 2.005-.674a1.514 1.514 0 0 0-.673-2.013c-.947-.472-2.028-.73-3.066-.89a13.583 13.583 0 0 0-6.797.7l-.363.14c-2.202.88-4.172.878-5.59.66c-.634-.098-1.29-.243-1.893-.484l-.297-.13a1.5 1.5 0 0 0-1.334 2.688c.947.473 2.03.731 3.068.89c1.752.27 4.143.28 6.796-.7Z"/></g></svg>
               <span class="2xl:{collapse ? 'hidden' : ''} text-md text-white font-medium ml-3 duration-200">
                   Options
               </span>
@@ -733,9 +733,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
       <li  class="px-1 rounded-sm mb-2 last:mb-0">
         <summary on:click={handlePoliticianGuide}>
           <div class="flex items-center">
-            <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
-              <path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.6" d="M7 3.77A1.604 1.604 0 1 0 7 .564A1.604 1.604 0 0 0 7 3.77M1.959 6.979H12.04m-9.165 0l.459 6.416m7.791-6.416l-.459 6.416M7 8.59l.59 1.195l1.318.192l-.954.93l.225 1.313L7 11.6l-1.18.62l.226-1.313l-.954-.93l1.318-.192zM10 7a3 3 0 0 0-6 0"/>
-            </svg>
+            <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><path fill="#CCCCCC" fill-rule="evenodd" d="M7 3.36A1.68 1.68 0 1 0 7 0a1.68 1.68 0 0 0 0 3.36M4.359 5.788a2.801 2.801 0 0 1 5.282 0H4.36ZM1.894 7.035a.75.75 0 0 0 .065 1.497h.891l.36 4.9a.5.5 0 0 0 .498.463h6.584a.5.5 0 0 0 .498-.464l.36-4.899h.891a.75.75 0 0 0 .065-1.497a.632.632 0 0 1-.065.003H1.96a.633.633 0 0 1-.065-.003ZM7 8.7a.5.5 0 0 1 .448.279l.262.53l.586.086a.5.5 0 0 1 .277.853l-.424.413l.1.583a.5.5 0 0 1-.725.527L7 11.695l-.524.275a.5.5 0 0 1-.725-.527l.1-.583l-.424-.413a.5.5 0 0 1 .277-.853l.586-.085l.262-.531A.5.5 0 0 1 7 8.699Z" clip-rule="evenodd"/></svg>
               <span class="2xl:{collapse ? 'hidden' : ''} text-md text-white font-medium ml-3 duration-200">
                   Congress
               </span>
@@ -767,19 +765,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
           <a href={"/hedge-funds"} for="sidebar" class="block text-slate-200 hover:text-white truncate transition duration-150 {$page?.url?.pathname?.startsWith('/hedge-funds') ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
               <div class="flex items-center justify-between">
                   <div class="flex items-center">
-                    <svg class="w-7 h-7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white">
-                      <g id="SVGRepo_bgCarrier" stroke="none"></g>
-                      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                      <g id="SVGRepo_iconCarrier">
-                        <g>
-                          <path fill="none" d="M0 0h24v24H0z"></path>
-                          <path d="M20 6h3v2h-1v11h1v2H1v-2h1V8H1V6h3V4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2zm0 2H4v11h3v-7h2v7h2v-7h2v7h2v-7h2v7h3V8zM6 5v1h12V5H6z" stroke="#202020" stroke-width="1"></path>
-                        </g>
-                      </g>
-                    </svg>
-                    
-                    
-                    
+                    <svg class="w-7 h-7" viewBox="0 0 24 24" fill="#CCCCCC" xmlns="http://www.w3.org/2000/svg"><path opacity="0.97" d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.18C2 19.83 4.17 22 7.81 22H16.18C19.82 22 21.99 19.83 21.99 16.19V7.81C22 4.17 19.83 2 16.19 2ZM8.31 16.31C7.59 16.31 7 15.72 7 15C7 14.28 7.59 13.69 8.31 13.69C9.03 13.69 9.62 14.28 9.62 15C9.62 15.72 9.03 16.31 8.31 16.31ZM12 10.31C11.28 10.31 10.69 9.72 10.69 9C10.69 8.28 11.28 7.69 12 7.69C12.72 7.69 13.31 8.28 13.31 9C13.31 9.72 12.72 10.31 12 10.31ZM15.69 16.31C14.97 16.31 14.38 15.72 14.38 15C14.38 14.28 14.97 13.69 15.69 13.69C16.41 13.69 17 14.28 17 15C17 15.72 16.41 16.31 15.69 16.31Z" fill="currentColor"></path></svg>
                       <span class="2xl:{collapse ? 'hidden' : ''} text-md font-medium ml-3 duration-200">
                           Hedge Funds
                       </span>
@@ -794,7 +780,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
         <a href={'/market-news'} for="sidebar" class="block text-slate-200 hover:text-white truncate transition duration-150 {['/market-news','/market-news/crypto','/market-news/general']?.includes($page.url.pathname) ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                  <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="white" d="M5 6.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5M10.5 9a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm-.5 3.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5M5.5 9a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm.5 3v-2h2v2zM2 5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1a2 2 0 0 1 2 2v5.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 2 13.5zm13 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v8.5A1.5 1.5 0 0 0 4.5 15h11a1.5 1.5 0 0 0 1.5-1.5V8a1 1 0 0 0-1-1v6.5a.5.5 0 0 1-1 0z"/></svg>
+                  <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#CCCCCC" fill-rule="evenodd" d="M18 4v3h3a1 1 0 0 1 1 1v10a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1m2 14a1 1 0 1 1-2 0V9h2zM6 8a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1m2 4a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1" clip-rule="evenodd"/></svg>
                     <span class="2xl:{collapse ? 'hidden' : ''} text-md font-medium ml-3 duration-200">
                         News
                     </span>
@@ -810,7 +796,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
           <a href={"/community"} for="sidebar" class="block text-slate-200 hover:text-white truncate transition duration-150 {$page.url.pathname=== '/community' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
               <div class="flex items-center justify-between">
                   <div class="flex items-center">
-                    <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="white" d="m14.878.282l.348 1.071a2.205 2.205 0 0 0 1.399 1.397l1.071.348l.021.006a.423.423 0 0 1 0 .798l-1.071.348a2.208 2.208 0 0 0-1.399 1.397l-.348 1.07a.423.423 0 0 1-.798 0l-.349-1.07a2.23 2.23 0 0 0-.532-.867a2.224 2.224 0 0 0-.866-.536l-1.071-.348a.423.423 0 0 1 0-.798l1.071-.348a2.208 2.208 0 0 0 1.377-1.397l.348-1.07a.423.423 0 0 1 .799 0m4.905 7.931l-.766-.248a1.577 1.577 0 0 1-.998-.999l-.25-.764a.302.302 0 0 0-.57 0l-.248.764a1.576 1.576 0 0 1-.984.999l-.765.248a.303.303 0 0 0 0 .57l.765.249a1.578 1.578 0 0 1 1 1.002l.248.764a.302.302 0 0 0 .57 0l.249-.764a1.576 1.576 0 0 1 .999-.999l.765-.248a.303.303 0 0 0 0-.57zM17.502 12a1.328 1.328 0 0 1-.73-.22a7.003 7.003 0 0 1-10.195 4.328l-.087-.039l-.091-.021a.502.502 0 0 0-.188.01l-3.024.754l.756-3.02l.014-.095a.5.5 0 0 0-.063-.272A7 7 0 0 1 10.088 3a1.417 1.417 0 0 1 .863-.847l.216-.07A8 8 0 0 0 2 10l.007.346l.026.382a7.95 7.95 0 0 0 .829 2.887l.063.12l-.91 3.644l-.014.083v.082a.5.5 0 0 0 .62.441l3.645-.91l.12.064a8.003 8.003 0 0 0 11.366-5.157a1.76 1.76 0 0 1-.25.018"/></svg>
+                    <svg class="w-7 h-7"  viewBox="0 0 24 24" fill="#CCCCCC" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM7 12.75H5C4.59 12.75 4.25 12.41 4.25 12C4.25 11.59 4.59 11.25 5 11.25H7C7.41 11.25 7.75 11.59 7.75 12C7.75 12.41 7.41 12.75 7 12.75ZM12 14.25C10.76 14.25 9.75 13.24 9.75 12C9.75 10.76 10.76 9.75 12 9.75C13.24 9.75 14.25 10.76 14.25 12C14.25 13.24 13.24 14.25 12 14.25ZM19 12.75H17C16.59 12.75 16.25 12.41 16.25 12C16.25 11.59 16.59 11.25 17 11.25H19C19.41 11.25 19.75 11.59 19.75 12C19.75 12.41 19.41 12.75 19 12.75Z" fill="#CCCCCC"></path></svg>
                       <span class="2xl:{collapse ? 'hidden' : ''} text-md font-medium ml-3 duration-200">
                         Community
                     </span>
@@ -824,7 +810,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
         <a href={"/leaderboard"} for="sidebar" class="block text-slate-200 hover:text-white truncate transition duration-150 {$page.url.pathname=== '/leaderboard' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                  <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M7.385 2.577h9.23v7.08q0 .537-.288.997q-.289.46-.777.754l-3.358 2.023l.739 2.377h2.877l-2.37 1.661l.931 2.916L12 18.573l-2.37 1.812l.932-2.916l-2.37-1.661h2.877l.739-2.377l-3.396-1.985q-.489-.275-.758-.754q-.27-.479-.27-1.034zm1 1v6.08q0 .29.144.53q.144.24.394.394l2.577 1.507V3.577zm7.23 0H12.5v8.511l2.577-1.507q.25-.154.394-.394q.144-.24.144-.53zM12.5 7.833"/></svg>
+                  <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#CCCCCC" d="M216 96a88 88 0 1 0-144 67.83V240a8 8 0 0 0 11.58 7.16L128 225l44.43 22.21a8.1 8.1 0 0 0 3.57.79a8 8 0 0 0 8-8v-76.17A87.85 87.85 0 0 0 216 96M56 96a72 72 0 1 1 72 72a72.08 72.08 0 0 1-72-72m16 0a56 56 0 1 1 56 56a56.06 56.06 0 0 1-56-56"/></svg>
                     <span class="2xl:{collapse ? 'hidden' : ''} text-md font-medium ml-3 duration-200">
                       Leaderboard
                   </span>
@@ -837,9 +823,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
         <a href={"/pricing"} for="sidebar" class="block text-slate-200 hover:text-white truncate transition duration-150 {$page.url.pathname=== '/pricing' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                  <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path fill="white" stroke="#202020" stroke-width="1" d="M12 4.21c1.24.51 2.65.79 4 .79c1.05 0 2.1-.16 3.08-.46C18.5 5.5 18 6.71 18 8c0 1.32.54 2.93 1.1 4.63c.4 1.2.9 2.7.9 3.37c0 1.03-3.53 3-8 3.96C7.54 19 4 17.03 4 16c0-.67.5-2.17.9-3.37C5.46 10.93 6 9.32 6 8c0-1.29-.5-2.5-1.08-3.46C5.9 4.84 6.96 5 8 5c1.35 0 2.76-.28 4-.79M20 2c-1.15.64-2.6 1-4 1s-2.86-.37-4-1c-1.14.63-2.6 1-4 1s-2.85-.36-4-1L2 4s2 2 2 4s-2 6-2 8c0 4 10 6 10 6s10-2 10-6c0-2-2-6-2-8s2-4 2-4zm-4.95 14.45l-3.08-1.86l-3.07 1.86l.82-3.5L7 10.61l3.58-.31L11.97 7l1.4 3.29l3.58.31l-2.72 2.34z"/>
-                  </svg>
+                  <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#CCCCCC" d="M17.66 11.2c-.23-.3-.51-.56-.77-.82c-.67-.6-1.43-1.03-2.07-1.66C13.33 7.26 13 4.85 13.95 3c-.95.23-1.78.75-2.49 1.32c-2.59 2.08-3.61 5.75-2.39 8.9c.04.1.08.2.08.33c0 .22-.15.42-.35.5c-.23.1-.47.04-.66-.12a.6.6 0 0 1-.14-.17c-1.13-1.43-1.31-3.48-.55-5.12C5.78 10 4.87 12.3 5 14.47c.06.5.12 1 .29 1.5c.14.6.41 1.2.71 1.73c1.08 1.73 2.95 2.97 4.96 3.22c2.14.27 4.43-.12 6.07-1.6c1.83-1.66 2.47-4.32 1.53-6.6l-.13-.26c-.21-.46-.77-1.26-.77-1.26m-3.16 6.3c-.28.24-.74.5-1.1.6c-1.12.4-2.24-.16-2.9-.82c1.19-.28 1.9-1.16 2.11-2.05c.17-.8-.15-1.46-.28-2.23c-.12-.74-.1-1.37.17-2.06c.19.38.39.76.63 1.06c.77 1 1.98 1.44 2.24 2.8c.04.14.06.28.06.43c.03.82-.33 1.72-.93 2.27"/></svg>
                   
                   <span class="2xl:{collapse ? 'hidden' : ''} text-md font-medium ml-3 duration-200">
                       Become a Pro

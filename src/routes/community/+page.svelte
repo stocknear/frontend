@@ -512,7 +512,7 @@ $: {
                                   <!--End Header-->
                                     <!--Start Content-->
                                     <div class="w-full p-4 -mt-2 text-white">
-                                      A place where degenerates with intelligence can compete with hedge funds to make money.
+                                      A community for discussion, insights, news and memes about financial markets. 
                                     </div>
                                     <!--End Content-->
 

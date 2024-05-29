@@ -12,12 +12,6 @@
   <div class="container mx-auto px-3">
     <div class="w-full flex flex-col md:flex-row py-6">
       <div class="flex-1 mb-8">
-        <a  href="/" class="flex justify-start items-center text-pink-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl">
-          <!--Icon from: http://www.potlabicons.com/ -->
-          <img src={cloudFrontUrl+"/assets/stocknear_logo.png"} class="w-10 mr-3" loading="lazy"/>
-          <span class="self-center text-xl text-white font-bold whitespace-nowrap">stocknear</span>
-        </a>
-
         <div class="flex flex-row items-center mt-4">
 
           <a href="https://www.ko-fi.com/stocknear" rel="noopener noreferrer" target="_blank" class="flex flex-row items-center">
@@ -147,7 +141,7 @@
         Made with 
         <svg class="ml-1 mr-1 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#b71c1c" d="m12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5C2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53z"/></svg>
         in Siegen
-        <span class="ml-auto">© 2024 stocknear. All Rights Reserved.</span>
+        <span class="ml-auto">© 2024 Stocknear. All Rights Reserved.</span>
       </span>
 
       
@@ -156,7 +150,7 @@
     <div class="hidden sm:flex flex-col">
       <div class="border-b border-gray-700 w-full"/>
       <span class="flex flex-row items-center mt-6 text-md text-gray-300 mb-5">
-        © 2024 stocknear. All Rights Reserved.
+        © 2024 Stocknear. All Rights Reserved.
       </span>
     </div>
 
