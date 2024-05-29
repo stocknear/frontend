@@ -201,9 +201,11 @@ $: {
 
 
                                    <!-- Start Image -->
+                                   <!--
                                 <div class="ml-2 m-auto flex justify-center items-center w-full">
                                     <img class="w-36 sm:w-44 m-auto mt-2 mb-8" src={cloudFrontUrl+"/assets/wsb_praising_logo.png"} alt="logo">
                                 </div>
+                                -->
                                   <!-- End Image -->
                                   
                                   <span class="text-slate-200 text-[1rem] sm:text-lg w-full">
@@ -212,7 +214,7 @@ $: {
                                   
                                     
                                     <!-- Start Search button -->
-                                    <!--
+                                    
                                     <div id="step-search" class="flex justify-center items-center mt-8 mb-6">
                                       <label for="searchBarModal" class="shadow-lg w-96 h-10 sm:h-12 flex flex-row items-center justify-start bg-[#202327] appearance-none py-3 cursor-pointer border border-slate-600 rounded-lg">
                                           <svg class="w-4 h-4 shrink-0 ml-3 sm:ml-5 text-white inline-block" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
@@ -223,7 +225,7 @@ $: {
                                           </span>
                                       </label>
                                      </div>
-                                     -->
+                                     
                                     
                                     
                                   <!-- End Search button -->
