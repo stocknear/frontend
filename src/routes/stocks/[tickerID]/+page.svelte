@@ -1266,7 +1266,7 @@ function changeChartType() {
                                   </div>
 
                                   {#if Enterprise}
-                                  <div class="w-full sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {enterpriseValues?.length !== 0  ? '' : 'hidden'}">
+                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {enterpriseValues?.length !== 0  ? '' : 'hidden'}">
                                     <Enterprise rawData={enterpriseValues}/>
                                   </div>
                                   {/if}

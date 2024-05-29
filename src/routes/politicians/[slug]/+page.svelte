@@ -504,7 +504,7 @@ onMount(async () => {
                     <div class="mt-4 w-full overflow-x-auto scroller">
                       
 
-                      <table class="table table-pin-cols table-sm table-compact mt-3 w-screen border">
+                      <table class="-ml-2 table table-pin-cols table-sm table-compact mt-3 w-screen">
                           <thead>
                             <tr class="">
                               <td class="text-slate-200 font-semibold text-sm text-start">Name</td>
@@ -520,7 +520,7 @@ onMount(async () => {
                             <tr on:click={() => goto(`/${item?.assetType === 'stock' ? 'stocks' : item?.assetType === 'etf' ? 'etf' : 'crypto'}/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#0F0F0F] border-b-[#0F0F0F] cursor-pointer">
                               
                               <td class="text-gray-200 pb-3 border-b border-b-[#0F0F0F]">
-                                <div class="-ml-2 flex flex-row items-center">
+                                <div class="-ml-1 flex flex-row items-center">
                                   <div class="flex flex-col">
                                     <span class="text-blue-400 text-sm">{item?.ticker?.replace('_',' ')}</span>
                                     <span class="text-white text-opacity-60 text-xs">{item?.name?.length < charNumber ? item?.name : item?.name?.slice(0,charNumber)+'...'}</span>
