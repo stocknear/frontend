@@ -294,138 +294,103 @@ function getYearFromDate(dateString) {
 
   
   
-    <section class="w-full max-w-6xl overflow-hidden m-auto min-h-screen pt-5 pb-60 sm:px-10 xl:px-0">
+<section class="w-full max-w-6xl overflow-hidden m-auto min-h-screen pt-5 pb-60">
   
-      <div class="text-sm breadcrumbs ml-4 pb-10">
-        <ul>
-          <li><a href="/" class="text-gray-300">Home</a></li> 
-          <li><a href="/hedge-funds" class="text-gray-300">Hedge Funds</a></li> 
-          <li class="text-gray-300">Company Data</li>
-        </ul>
-      </div>
-              
-              
-      <div class="w-full overflow-hidden m-auto px-3 sm:px-0">
-        
-        <div class="flex justify-center w-full m-auto overflow-hidden">
-            <div class="relative flex flex-col sm:flex-row justify-between items-start overflow-hidden w-full">
+  <div class="text-sm breadcrumbs ml-4 sm:ml-1 pb-10">
+    <ul>
+      <li><a href="/" class="text-gray-300">Home</a></li> 
+      <li><a href="/hedge-funds" class="text-gray-300">Hedge Funds</a></li> 
+      <li class="text-gray-300">Company Data</li>
+    </ul>
+  </div>
+          
+          
+  <div class="w-full overflow-hidden m-auto px-3 sm:px-0">
+    
+    <div class="flex justify-center w-full m-auto overflow-hidden">
+        <div class="relative flex flex-col sm:flex-row justify-between items-start overflow-hidden w-full">
   
               <aside class="relative fixed w-full sm:w-1/3">        
-                  <!--Start Card-->
-                  <div class="w-full bg-[#202020] border border-slate-800 rounded-lg h-auto pb-4">
-                    <div class="flex flex-col relative ">
-                      <img class="absolute w-full m-auto rounded-lg " src={cardBackground} />
-                      <div class="flex flex-col justify-center items-center rounded-2xl ">
-  
-                        <div class="mt-10 rounded-full border border-slate-600 w-24 h-24 relative hedge-fund-striped bg-[#20202E] flex items-center justify-center">
-                          <img style="clip-path: circle(50%);" class="rounded-full w-20"  src={images[rawData?.cik] ?? defaultAvatar} loading="lazy"/>
-                        </div>
-                        <span class="text-white text-md font-semibold mt-2 mb-2 w-64 text-center">
-                          {formatString($displayCompanyName)}
-                        </span>
-  
+                <!--Start Card-->
+                <div class="w-full bg-[#202020] border border-slate-800 rounded-lg h-auto pb-4">
+                  <div class="flex flex-col relative ">
+                    <img class="absolute w-full m-auto rounded-lg " src={cardBackground} />
+                    <div class="flex flex-col justify-center items-center rounded-2xl ">
+
+                      <div class="mt-10 rounded-full border border-slate-600 w-24 h-24 relative hedge-fund-striped bg-[#20202E] flex items-center justify-center">
+                        <img style="clip-path: circle(50%);" class="rounded-full w-20"  src={images[rawData?.cik] ?? defaultAvatar} loading="lazy"/>
                       </div>
+                      <span class="text-white text-md font-semibold mt-2 mb-2 w-64 text-center">
+                        {formatString($displayCompanyName)}
+                      </span>
 
-
-                      <div class="relative bottom-0 w-full px-8 mt-8">
-                        <div class="flex flex-row justify-between items-center w-full mb-6">
-                          <label class="cursor-pointer flex flex-col items-start">
-                            <span class="text-white text-[1rem] font-semibold">{abbreviateNumber(rawData.numberOfStocks)}</span>
-                            <span class="text-slate-300 font-medium text-sm"># of Holdings</span>
-                          </label>
-      
-                          <div class="flex flex-col items-end ">
-                            <span class="text-white text-[1rem] font-semibold">
-                              {rawData.turnover?.toFixed(2)}
-                            </span>
-                            <span class="text-slate-300 font-medium text-sm">Turnover</span>
-                          </div>
-                        </div>
-
-                        <div class="flex flex-row justify-between items-center w-full">
-                          <label class="cursor-pointer flex flex-col items-start">
-                              <div class="flex flex-row mt-1 text-white text-[1rem] font-semibold">
-                                  {rawData?.averageHoldingPeriod} months
-                              </div>
-                            <span class="text-slate-300 font-medium text-sm">Avg. Holding</span>
-                          </label>
-      
-                          <div class="flex flex-col items-end ">
-                            <div class="flex flex-row mt-1 text-[1rem] font-semibold">
-                              {#if rawData.winRate >=0}
-                                <span class="text-[#10DB06]">+{abbreviateNumber(rawData.winRate?.toFixed(2))}%</span>
-                              {:else}
-                                <span class="text-[#FF2F1F]">{abbreviateNumber(rawData.winRate?.toFixed(2))}% </span> 
-                              {/if}
-                            </div>
-                            <span class="text-slate-300 font-medium text-sm">Win Rate</span>
-                          </div>
-                        </div>
-                      </div>
-  
-                  </div>
-                </div>
-                  <!--End Card-->
-  
-                   <!--Start Widget-->
-                   <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center ">
-                    <div class="w-full grid grid-cols-2 gap-y-3 lg:gap-y-3 gap-x-3 ">
-                       <!--Start Total Amount Traded-->  
-                       <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] rounded-2xl h-20">
-                        <div class="flex flex-col items-start">
-                            <span class="font-medium text-gray-200 text-sm ">AUM</span>
-                            <span class="text-start text-[1rem] font-medium text-white mt-0.5">
-                              {abbreviateNumber(rawData?.marketValue,true)}
-                            </span>
-                        </div>
-                        
                     </div>
-                    <!--End Total Amount Traded-->
-                    
-                      <!--Start-->  
-                      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
-                        <div class="flex flex-col items-start">
-                            <span class="font-medium text-gray-200 text-sm sm:text-[0.85rem]">3 Year Perf.</span>
-                            <span class="text-start text-[1rem] sm:text-sm font-semibold text-white mt-0.5">
-                              {#if rawData?.performancePercentage3year >=0}
-                              <span class="text-[#10DB06]">+{abbreviateNumber(rawData?.performancePercentage3year?.toFixed(2))}%</span>
+
+
+                    <div class="relative bottom-0 w-full px-8 mt-8">
+                      <div class="flex flex-row justify-between items-center w-full mb-6">
+                        <label class="cursor-pointer flex flex-col items-start">
+                          <span class="text-white text-[1rem] font-semibold">{abbreviateNumber(rawData.numberOfStocks)}</span>
+                          <span class="text-slate-300 font-medium text-sm"># of Holdings</span>
+                        </label>
+    
+                        <div class="flex flex-col items-end ">
+                          <span class="text-white text-[1rem] font-semibold">
+                            {rawData.turnover?.toFixed(2)}
+                          </span>
+                          <span class="text-slate-300 font-medium text-sm">Turnover</span>
+                        </div>
+                      </div>
+
+                      <div class="flex flex-row justify-between items-center w-full">
+                        <label class="cursor-pointer flex flex-col items-start">
+                            <div class="flex flex-row mt-1 text-white text-[1rem] font-semibold">
+                                {rawData?.averageHoldingPeriod} months
+                            </div>
+                          <span class="text-slate-300 font-medium text-sm">Avg. Holding</span>
+                        </label>
+    
+                        <div class="flex flex-col items-end ">
+                          <div class="flex flex-row mt-1 text-[1rem] font-semibold">
+                            {#if rawData.winRate >=0}
+                              <span class="text-[#10DB06]">+{abbreviateNumber(rawData.winRate?.toFixed(2))}%</span>
                             {:else}
-                              <span class="text-[#FF2F1F]">{abbreviateNumber(rawData?.performancePercentage3year?.toFixed(2))}% </span> 
+                              <span class="text-[#FF2F1F]">{abbreviateNumber(rawData.winRate?.toFixed(2))}% </span> 
                             {/if}
-                            </span>
-                        </div>
-                        <!-- Circular Progress -->
-                          <div class="relative size-10 ml-auto">
-                            <svg class="size-full w-10 h-10" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-                              <!-- Background Circle -->
-                              <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
-                              <!-- Progress Circle inside a group with rotation -->
-                              <g class="origin-center -rotate-90 transform">
-                                <circle cx="18" cy="18" r="16" fill="none" class="stroke-current {rawData?.performancePercentage3year >=0.5 ? 'text-[#00FC50]' : 'text-[#EE5365]'} " stroke-width="3" stroke-dasharray="100" stroke-dashoffset={(100- rawData?.performancePercentage3year) >= 0 ? 100-(rawData?.performancePercentage3year)?.toFixed(2) : 0}></circle>
-                              </g>
-                            </svg>
-                            <!-- Percentage Text -->
-                            <!--
-                            <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                              <span class="text-center text-white text-sm">{rawData?.performancePercentage3year?.toFixed(2)}</span>
-                            </div>
                           </div>
-                          -->
-                        <!-- End Circular Progress -->
-              
+                          <span class="text-slate-300 font-medium text-sm">Win Rate</span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                    <!--End-->
 
+                </div>
+              </div>
+                <!--End Card-->
+
+                 <!--Start Widget-->
+                 <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center ">
+                  <div class="sm:hidden w-full grid grid-cols-2 gap-y-3 lg:gap-y-3 gap-x-3 ">
+                     <!--Start Total Amount Traded-->  
+                     <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] rounded-2xl h-20">
+                      <div class="flex flex-col items-start">
+                          <span class="font-medium text-gray-200 text-sm ">AUM</span>
+                          <span class="text-start text-[1rem] font-medium text-white mt-0.5">
+                            {abbreviateNumber(rawData?.marketValue,true)}
+                          </span>
+                      </div>
+                      
+                  </div>
+                  <!--End Total Amount Traded-->
+                  
                     <!--Start-->  
-                     <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
+                    <div class="sm:hidden flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
                       <div class="flex flex-col items-start">
-                          <span class="font-medium text-gray-200 text-sm sm:text-[0.85rem]">5 Year Perf.</span>
+                          <span class="font-medium text-gray-200 text-sm sm:text-[0.85rem]">3 Year Perf.</span>
                           <span class="text-start text-[1rem] sm:text-sm font-semibold text-white mt-0.5">
-                            {#if rawData?.performancePercentage5year >=0}
-                            <span class="text-[#10DB06]">+{abbreviateNumber(rawData?.performancePercentage5year?.toFixed(2))}%</span>
+                            {#if rawData?.performancePercentage3year >=0}
+                            <span class="text-[#10DB06]">+{abbreviateNumber(rawData?.performancePercentage3year?.toFixed(2))}%</span>
                           {:else}
-                            <span class="text-[#FF2F1F]">{abbreviateNumber(rawData?.performancePercentage5year?.toFixed(2))}% </span> 
+                            <span class="text-[#FF2F1F]">{abbreviateNumber(rawData?.performancePercentage3year?.toFixed(2))}% </span> 
                           {/if}
                           </span>
                       </div>
@@ -436,60 +401,95 @@ function getYearFromDate(dateString) {
                             <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
                             <!-- Progress Circle inside a group with rotation -->
                             <g class="origin-center -rotate-90 transform">
-                              <circle cx="18" cy="18" r="16" fill="none" class="stroke-current {rawData?.performancePercentage5year >=0.5 ? 'text-[#00FC50]' : 'text-[#EE5365]'} " stroke-width="3" stroke-dasharray="100" stroke-dashoffset={(100- rawData?.performancePercentage5year) >= 0 ? 100-(rawData?.performancePercentage5year)?.toFixed(2) : 0}></circle>
+                              <circle cx="18" cy="18" r="16" fill="none" class="stroke-current {rawData?.performancePercentage3year >=0.5 ? 'text-[#00FC50]' : 'text-[#EE5365]'} " stroke-width="3" stroke-dasharray="100" stroke-dashoffset={(100- rawData?.performancePercentage3year) >= 0 ? 100-(rawData?.performancePercentage3year)?.toFixed(2) : 0}></circle>
                             </g>
                           </svg>
                           <!-- Percentage Text -->
                           <!--
                           <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                            <span class="text-center text-white text-sm">{rawData?.performancePercentage5year?.toFixed(2)}</span>
+                            <span class="text-center text-white text-sm">{rawData?.performancePercentage3year?.toFixed(2)}</span>
                           </div>
                         </div>
                         -->
                       <!-- End Circular Progress -->
+            
                   </div>
                 </div>
                   <!--End-->
 
-
-                     <!--Start-->  
-                     <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
-                      <div class="flex flex-col items-start">
-                          <span class="font-medium text-gray-200 text-sm sm:text-[0.85rem]">Incept. Perf.</span>
-                          <span class="text-start text-[1rem] sm:text-sm font-semibold text-white mt-0.5">
-                            {#if rawData?.performanceSinceInceptionPercentage >=0}
-                            <span class="text-[#10DB06]">+{abbreviateNumber(rawData?.performanceSinceInceptionPercentage?.toFixed(2))}%</span>
-                          {:else}
-                            <span class="text-[#FF2F1F]">{abbreviateNumber(rawData?.performanceSinceInceptionPercentage?.toFixed(2))}% </span> 
-                          {/if}
-                          </span>
-                      </div>
-                      <!-- Circular Progress -->
-                        <div class="relative size-10 ml-auto">
-                          <svg class="size-full w-10 h-10" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Background Circle -->
-                            <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
-                            <!-- Progress Circle inside a group with rotation -->
-                            <g class="origin-center -rotate-90 transform">
-                              <circle cx="18" cy="18" r="16" fill="none" class="stroke-current {rawData?.performanceSinceInceptionPercentage >=0.5 ? 'text-[#00FC50]' : 'text-[#EE5365]'} " stroke-width="3" stroke-dasharray="100" stroke-dashoffset={(100- rawData?.performanceSinceInceptionPercentage) >= 0 ? 100-(rawData?.performanceSinceInceptionPercentage)?.toFixed(2) : 0}></circle>
-                            </g>
-                          </svg>
-                          <!-- Percentage Text -->
-                          <!--
-                          <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                            <span class="text-center text-white text-sm">{rawData?.performanceSinceInceptionPercentage?.toFixed(2)}</span>
-                          </div>
-                        </div>
-                        -->
-                      <!-- End Circular Progress -->
-                  </div>
-                </div>
-                  <!--End-->
-
+                  <!--Start-->  
+                   <div class="sm:hidden flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
+                    <div class="flex flex-col items-start">
+                        <span class="font-medium text-gray-200 text-sm sm:text-[0.85rem]">5 Year Perf.</span>
+                        <span class="text-start text-[1rem] sm:text-sm font-semibold text-white mt-0.5">
+                          {#if rawData?.performancePercentage5year >=0}
+                          <span class="text-[#10DB06]">+{abbreviateNumber(rawData?.performancePercentage5year?.toFixed(2))}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F]">{abbreviateNumber(rawData?.performancePercentage5year?.toFixed(2))}% </span> 
+                        {/if}
+                        </span>
                     </div>
-                  <!--End Widget-->
-  
-              </aside>
+                    <!-- Circular Progress -->
+                      <div class="relative size-10 ml-auto">
+                        <svg class="size-full w-10 h-10" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                          <!-- Background Circle -->
+                          <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
+                          <!-- Progress Circle inside a group with rotation -->
+                          <g class="origin-center -rotate-90 transform">
+                            <circle cx="18" cy="18" r="16" fill="none" class="stroke-current {rawData?.performancePercentage5year >=0.5 ? 'text-[#00FC50]' : 'text-[#EE5365]'} " stroke-width="3" stroke-dasharray="100" stroke-dashoffset={(100- rawData?.performancePercentage5year) >= 0 ? 100-(rawData?.performancePercentage5year)?.toFixed(2) : 0}></circle>
+                          </g>
+                        </svg>
+                        <!-- Percentage Text -->
+                        <!--
+                        <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
+                          <span class="text-center text-white text-sm">{rawData?.performancePercentage5year?.toFixed(2)}</span>
+                        </div>
+                      </div>
+                      -->
+                    <!-- End Circular Progress -->
+                </div>
+              </div>
+                <!--End-->
+
+
+                   <!--Start-->  
+                   <div class="sm:hidden flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
+                    <div class="flex flex-col items-start">
+                        <span class="font-medium text-gray-200 text-sm sm:text-[0.85rem]">Incept. Perf.</span>
+                        <span class="text-start text-[1rem] sm:text-sm font-semibold text-white mt-0.5">
+                          {#if rawData?.performanceSinceInceptionPercentage >=0}
+                          <span class="text-[#10DB06]">+{abbreviateNumber(rawData?.performanceSinceInceptionPercentage?.toFixed(2))}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F]">{abbreviateNumber(rawData?.performanceSinceInceptionPercentage?.toFixed(2))}% </span> 
+                        {/if}
+                        </span>
+                    </div>
+                    <!-- Circular Progress -->
+                      <div class="relative size-10 ml-auto">
+                        <svg class="size-full w-10 h-10" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                          <!-- Background Circle -->
+                          <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
+                          <!-- Progress Circle inside a group with rotation -->
+                          <g class="origin-center -rotate-90 transform">
+                            <circle cx="18" cy="18" r="16" fill="none" class="stroke-current {rawData?.performanceSinceInceptionPercentage >=0.5 ? 'text-[#00FC50]' : 'text-[#EE5365]'} " stroke-width="3" stroke-dasharray="100" stroke-dashoffset={(100- rawData?.performanceSinceInceptionPercentage) >= 0 ? 100-(rawData?.performanceSinceInceptionPercentage)?.toFixed(2) : 0}></circle>
+                          </g>
+                        </svg>
+                        <!-- Percentage Text -->
+                        <!--
+                        <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
+                          <span class="text-center text-white text-sm">{rawData?.performanceSinceInceptionPercentage?.toFixed(2)}</span>
+                        </div>
+                      </div>
+                      -->
+                    <!-- End Circular Progress -->
+                </div>
+              </div>
+                <!--End-->
+
+                  </div>
+                <!--End Widget-->
+
+            </aside>
   
   
                 <main class="w-full mt-10 sm:mt-0 sm:w-3/4 sm:ml-5">
@@ -525,13 +525,114 @@ function getYearFromDate(dateString) {
                 
               </div>
   
-  
+
                   </div>
+                  
                   {/if}
+
+
+                   <!--Start Widget-->
+                 <div class="hidden sm:flex justify-center items-center w-full mt-5 mb-10 m-auto">
+                  <div class="w-full grid grid-cols-4 gap-y-3 lg:gap-y-3 gap-x-3 ">
+                     <!--Start Total Amount Traded-->  
+                     <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] rounded-2xl h-20">
+                      <div class="flex flex-col items-start">
+                          <span class="font-medium text-gray-200 text-[1rem]">AUM</span>
+                          <span class="text-start text-[1rem] font-medium text-white mt-0.5">
+                            {abbreviateNumber(rawData?.marketValue,true)}
+                          </span>
+                      </div>
+                      
+                  </div>
+                  <!--End Total Amount Traded-->
+                  
+                    <!--Start-->  
+                    <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
+                      <div class="flex flex-col items-start">
+                          <span class="font-medium text-gray-200 text-[1rem]">3 Year Perf.</span>
+                          <span class="text-start text-[1rem] font-semibold text-white mt-0.5">
+                            {#if rawData?.performancePercentage3year >=0}
+                            <span class="text-[#10DB06]">+{abbreviateNumber(rawData?.performancePercentage3year?.toFixed(2))}%</span>
+                          {:else}
+                            <span class="text-[#FF2F1F]">{abbreviateNumber(rawData?.performancePercentage3year?.toFixed(2))}% </span> 
+                          {/if}
+                          </span>
+                      </div>
+                      <!-- Circular Progress -->
+                        <div class="relative size-10 ml-auto">
+                          <svg class="size-full w-10 h-10" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background Circle -->
+                            <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
+                            <!-- Progress Circle inside a group with rotation -->
+                            <g class="origin-center -rotate-90 transform">
+                              <circle cx="18" cy="18" r="16" fill="none" class="stroke-current {rawData?.performancePercentage3year >=0.5 ? 'text-[#00FC50]' : 'text-[#EE5365]'} " stroke-width="3" stroke-dasharray="100" stroke-dashoffset={(100- rawData?.performancePercentage3year) >= 0 ? 100-(rawData?.performancePercentage3year)?.toFixed(2) : 0}></circle>
+                            </g>
+                          </svg>
+                        </div>
+                      </div>
+                  <!--End-->
+
+                     <!--Start-->  
+                     <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
+                      <div class="flex flex-col items-start">
+                          <span class="font-medium text-gray-200 text-[1rem]">5 Year Perf.</span>
+                          <span class="text-start text-[1rem] font-semibold text-white mt-0.5">
+                            {#if rawData?.performancePercentage5year >=0}
+                            <span class="text-[#10DB06]">+{abbreviateNumber(rawData?.performancePercentage5year?.toFixed(2))}%</span>
+                          {:else}
+                            <span class="text-[#FF2F1F]">{abbreviateNumber(rawData?.performancePercentage5year?.toFixed(2))}% </span> 
+                          {/if}
+                          </span>
+                      </div>
+                      <!-- Circular Progress -->
+                        <div class="relative size-10 ml-auto">
+                          <svg class="size-full w-10 h-10" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background Circle -->
+                            <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
+                            <!-- Progress Circle inside a group with rotation -->
+                            <g class="origin-center -rotate-90 transform">
+                              <circle cx="18" cy="18" r="16" fill="none" class="stroke-current {rawData?.performancePercentage5year >=0.5 ? 'text-[#00FC50]' : 'text-[#EE5365]'} " stroke-width="3" stroke-dasharray="100" stroke-dashoffset={(100- rawData?.performancePercentage5year) >= 0 ? 100-(rawData?.performancePercentage5year)?.toFixed(2) : 0}></circle>
+                            </g>
+                          </svg>
+                  </div>
+                </div>
+                  <!--End-->
+  
+  
+                     <!--Start-->  
+                     <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
+                      <div class="flex flex-col items-start">
+                          <span class="font-medium text-gray-200 text-[1rem]">Incept. Perf.</span>
+                          <span class="text-start text-[1rem] font-semibold text-white mt-0.5">
+                            {#if rawData?.performanceSinceInceptionPercentage >=0}
+                            <span class="text-[#10DB06]">+{abbreviateNumber(rawData?.performanceSinceInceptionPercentage?.toFixed(2))}%</span>
+                          {:else}
+                            <span class="text-[#FF2F1F]">{abbreviateNumber(rawData?.performanceSinceInceptionPercentage?.toFixed(2))}% </span> 
+                          {/if}
+                          </span>
+                      </div>
+                      <!-- Circular Progress -->
+                        <div class="relative size-10 ml-auto">
+                          <svg class="size-full w-10 h-10" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background Circle -->
+                            <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
+                            <!-- Progress Circle inside a group with rotation -->
+                            <g class="origin-center -rotate-90 transform">
+                              <circle cx="18" cy="18" r="16" fill="none" class="stroke-current {rawData?.performanceSinceInceptionPercentage >=0.5 ? 'text-[#00FC50]' : 'text-[#EE5365]'} " stroke-width="3" stroke-dasharray="100" stroke-dashoffset={(100- rawData?.performanceSinceInceptionPercentage) >= 0 ? 100-(rawData?.performanceSinceInceptionPercentage)?.toFixed(2) : 0}></circle>
+                            </g>
+                          </svg>
+                  </div>
+                </div>
+                  <!--End-->
+
+
+                  </div>
+                </div>
+                
                 <div class="p-0 sm:p-10 bg-[#0F0F0F] sm:bg-[#202020] rounded-lg sm:min-h-[430px] pt-6">
                   <div class="h-auto w-full ">
                     
-                  
+                    
                       <span class="text-[#F5F5F5] font-bold text-2xl">
                         {numOfAssets} Assets
                       </span>
@@ -542,31 +643,34 @@ function getYearFromDate(dateString) {
                       </div>
                     
                     {#if rawList?.length !== 0}
-                    <div class="hidden sm:block sm:-ml-1 sm:overflow-hidden sm:overflow-y-scroll scroller w-full m-auto h-auto sm:max-h-[700px]">
+                    <div class="hidden sm:block sm:overflow-hidden sm:overflow-y-scroll scroller w-full m-auto h-auto sm:max-h-[700px]">
 
-                      <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#202020] m-auto mt-4 ">
+                      <table class="-ml-3 table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#202020] m-auto mt-4 ">
                         <!-- head -->
                         <thead>
                           <tr class="bg-[#202020]">
                             <th class="shadow-md text-start bg-[#202020] text-white text-sm font-semibold">
                               Name
                             </th>
-                            <th class="shadow-md text-end bg-[#202020] text-white text-sm font-semibold">
+                            <th class="shadow-md text-start bg-[#202020] text-white text-sm font-semibold">
                               % of Portfolio
                             </th>
                             {#if changeAssetType === 'Share'}
-                            <th class="shadow-md text-end bg-[#202020] text-white text-sm font-semibold">
+                            <th class="shadow-md text-start bg-[#202020] text-white text-sm font-semibold">
                               Change of Shares
                             </th>
+                            <th class="shadow-md text-start bg-[#202020] text-white text-sm font-semibold">
+                             Shares Owned
+                            </th>
                             {/if}
-                            <th class="shadow-md text-end bg-[#202020] text-white text-sm font-semibold">
+                            <th class="shadow-md text-start bg-[#202020] text-white text-sm font-semibold">
                               Value Owned
                             </th>
-                            <th class="shadow-md text-end bg-[#202020]  text-white text-sm font-semibold">
+                            <th class="shadow-md text-start bg-[#202020]  text-white text-sm font-semibold">
                               Avg. Buy Price
                             </th>
                             {#if changeAssetType !== 'Share'}
-                            <th class="shadow-md text-end bg-[#202020]  text-white text-sm font-semibold">
+                            <th class="shadow-md text-start bg-[#202020]  text-white text-sm font-semibold">
                               Type
                             </th>
                             {/if}
@@ -578,10 +682,7 @@ function getYearFromDate(dateString) {
       
                                 <td class="text-gray-200 pb-3 border-b border-b-[#202020]">
                                   <div class="flex flex-row items-center">
-                                    <div class="flex-shrink-0 rounded-full w-7 h-7 relative bg-[#202020] flex items-center justify-center">
-                                      <img style="clip-path: circle(50%);" class="avatar w-5 h-5" src={`https://financialmodelingprep.com/image-stock/${item?.symbol}.png`} alt="stock logo"/>
-                                    </div>
-                                    <div class="flex flex-col ml-3">
+                                    <div class="flex flex-col">
                                       <span class="text-blue-400">{item?.symbol?.replace('_',' ')}</span>
                                       <span class="text-white text-opacity-60 text-xs">{formatString(item?.securityName)}</span>
                                     </div>
@@ -589,25 +690,30 @@ function getYearFromDate(dateString) {
                                   <!--{item?.firstName} {item?.lastName}-->
                                 </td>
       
-                                  <td class="text-end text-sm text-white border-b border-b-[#202020]">
+                                  <td class="text-center text-sm font-semibold text-white border-b border-b-[#202020]">
                                       {item?.weight?.toFixed(2)}%
                                   </td>
 
                                   {#if changeAssetType === 'Share'}
-                                  <td class="text-end text-sm border-b border-b-[#202020] {item?.changeInSharesNumberPercentage > 0 ? 'text-[#00FC50]' : item?.changeInSharesNumberPercentage < 0 ? 'text-[#FC2120]' : 'text-white'}">
+                                  <td class="text-center text-sm font-semibold border-b border-b-[#202020] {item?.changeInSharesNumberPercentage > 0 ? 'text-[#00FC50]' : item?.changeInSharesNumberPercentage < 0 ? 'text-[#FC2120]' : 'text-white'}">
                                     {item?.changeInSharesNumberPercentage !== 0 ? abbreviateNumber(item?.changeInSharesNumberPercentage?.toFixed(2))+'%' : '-'}
                                   </td>
+
+                                  <td class="text-center text-sm font-semibold border-b border-b-[#202020] text-white">
+                                    {item?.sharesNumber !== 0 ? abbreviateNumber(item?.sharesNumber?.toFixed(2)) : '-'}
+                                  </td>
+
                                   {/if}
   
-                                  <td class="text-end text-sm text-white border-b border-b-[#202020]">
+                                  <td class="text-center text-sm font-semibold text-white border-b border-b-[#202020]">
                                     {abbreviateNumber(item?.marketValue,true)}
                                 </td>
   
-                                  <td class="text-end text-xs sm:text-sm text-white border-b border-b-[#202020]">
+                                  <td class="text-center text-sm font-semibold text-white border-b border-b-[#202020]">
                                       ${item?.avgPricePaid}
                                   </td>
                                   {#if changeAssetType !== 'Share'}
-                                  <td class="text-end text-xs sm:text-sm border-b border-b-[#202020] {item?.putCallShare === 'CALL' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
+                                  <td class="text-center text-sm font-semibold border-b border-b-[#202020] {item?.putCallShare === 'CALL' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
                                     {formatString(item?.putCallShare)}
                                   </td>
                                   {/if}
@@ -627,7 +733,7 @@ function getYearFromDate(dateString) {
                       <div class="mt-4 w-full overflow-x-auto scroller">
                         
   
-                        <table class="-ml-1 table table-pin-cols table-sm table-compact mt-3 w-screen">
+                        <table class="-ml-1 table table-sm table-compact mt-3 w-screen">
                           <thead>
                             <tr class="bg-[#0F0F0F]">
                               <td class="shadow-md text-start bg-[#0F0F0F] text-white text-sm font-semibold">
@@ -640,6 +746,9 @@ function getYearFromDate(dateString) {
                               <td class="shadow-md text-end bg-[#0F0F0F] text-white text-sm font-semibold">
                                 Change of Shares
                               </td>
+                              <th class="shadow-md text-end bg-[#0F0F0F] text-white text-sm font-semibold">
+                                Shares Owned
+                               </th>
                               {/if}
                               <td class="shadow-md text-end bg-[#0F0F0F] text-white text-sm font-semibold">
                                 Value Owned
@@ -670,13 +779,16 @@ function getYearFromDate(dateString) {
                                 </td>
 
 
-                                <td class="text-end text-sm font-medium text-white border-b border-b-[#0F0F0F]">
-                                  {item?.weight?.toFixed(2)}%
+                              <td class="text-end text-sm font-semibold text-white border-b border-b-[#0F0F0F]">
+                                {item?.weight?.toFixed(2)}%
                               </td>
 
                               {#if changeAssetType === 'Share'}
-                              <td class="text-end text-sm font-medium border-b border-b-[#0F0F0F] {item?.changeInSharesNumberPercentage > 0 ? 'text-[#00FC50]' : item?.changeInSharesNumberPercentage < 0 ? 'text-[#FC2120]' : 'text-white'}">
+                              <td class="text-end text-sm font-semibold border-b border-b-[#0F0F0F] {item?.changeInSharesNumberPercentage > 0 ? 'text-[#00FC50]' : item?.changeInSharesNumberPercentage < 0 ? 'text-[#FC2120]' : 'text-white'}">
                                 {item?.changeInSharesNumberPercentage !== 0 ? abbreviateNumber(item?.changeInSharesNumberPercentage?.toFixed(2))+'%' : '-'}
+                              </td>
+                              <td class="text-end text-sm font-semibold border-b border-b-[#0F0F0F] text-white">
+                                {item?.sharesNumber !== 0 ? abbreviateNumber(item?.sharesNumber?.toFixed(2)) : '-'}
                               </td>
                               {/if}
 
@@ -684,11 +796,11 @@ function getYearFromDate(dateString) {
                                 {abbreviateNumber(item?.marketValue,true)}
                             </td>
 
-                              <td class="text-end text-sm text-white font-medium border-b border-b-[#0F0F0F]">
+                              <td class="text-end text-sm text-white font-semibold border-b border-b-[#0F0F0F]">
                                   ${item?.avgPricePaid}
                               </td>
                               {#if changeAssetType !== 'Share'}
-                              <td class="text-end text-sm font-medium border-b border-b-[#0F0F0F] {item?.putCallShare === 'CALL' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
+                              <td class="text-end text-sm font-semibold border-b border-b-[#0F0F0F] {item?.putCallShare === 'CALL' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
                                 {formatString(item?.putCallShare)}
                               </td>
                               {/if}
