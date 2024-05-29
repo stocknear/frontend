@@ -194,8 +194,8 @@ $: {
 
 
                                   <div id="step-aistockfinder" class="flex flex-row justify-center items-center">
-                                    <h1 class="text-4xl sm:text-5xl text-white font-bold mb-6 w-full">
-                                      Open Source Stock Analysis Platform to beat the Hedgies
+                                    <h1 class="text-3xl sm:text-5xl text-white font-bold mb-6 w-full">
+                                      Open Source Stock Analysis Platform
                                     </h1>
                                   </div>
 
@@ -230,7 +230,7 @@ $: {
   
                                     <!-- Ticker Logos -->
                                     {#if active?.length !== 0}
-                                    <div class="w-auto m-auto flex flex-row items-center justify-center mt-6 text-lg">
+                                    <div class="w-auto m-auto flex flex-row items-center justify-center mt-6 text-[1rem] sm:text-lg">
                                       <span class="text-center text-slate-100">
                                         Trending:
                                       </span>

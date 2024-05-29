@@ -393,8 +393,8 @@ $: {
             <svg class="w-8 h-8 rotate-180 transition-transform duration-300 ease-in-out cusor-pointer text-slate-300 fill-current inline-block" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#BEC8D3" d="M764.288 214.592 512 466.88 259.712 214.592a31.936 31.936 0 0 0-45.12 45.12L466.752 512 214.528 764.224a31.936 31.936 0 1 0 45.12 45.184L512 557.184l252.288 252.288a31.936 31.936 0 0 0 45.12-45.12L557.12 512.064l252.288-252.352a31.936 31.936 0 1 0-45.12-45.184z"></path></g></svg>
             {/if}
           </label>
-          <a href="/" class="flex flex-row items-center ml-1">
-            <div class="flex justify-center items-center text-xl font-medium mr-auto ml-2">
+          <a href="/" class="flex flex-row items-center ml-2">
+            <div class="flex justify-center items-center text-lg sm:text-xl font-medium mr-auto">
                 <span class="self-center text-gray-200 font-semibold whitespace-nowrap">Stocknear</span>
             </div>
           </a>
