@@ -422,7 +422,7 @@ $: {
                                   <!-- List container -->                  
                                   <div class="flex flex-col mt-4">
                                     <!-- Item -->
-                                    <div class="border border-gray-700 sm:hover:border-gray-600 rounded-none sm:rounded-md bg-[#202020] rounded-[4px] sm:rounded-[8px]">
+                                    <div class="border-t border-b sm:border border-gray-700 sm:hover:border-gray-600 rounded-none sm:rounded-md bg-[#202020] rounded-[4px] sm:rounded-[8px]">
                                       <div class="flex h-14 justify-start items-center">                                           
                                         <div class="flex flex-row ml-3">
                                           <label on:click={() => handleCategoryOfPosts('hot')} class="flex flex-row w-fit pl-3 pr-4 pt-1 pb-1 tab mr-2 font-medium transition duration-150 ease-out hover:ease-in rounded-full hover:bg-[#333333] {sortingPosts === 'hot' ? 'bg-[#333333] text-white' : 'text-gray-300'} rounded-full cursor-pointer">

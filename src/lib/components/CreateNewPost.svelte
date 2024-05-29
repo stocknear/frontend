@@ -9,7 +9,7 @@
   <!-- List container -->                  
   <div class="flex flex-col">
       <!-- Item -->
-      <div class="border border-gray-700 sm:hover:border-gray-600 rounded-none sm:rounded-md bg-[#202020] rounded-[4px] sm:rounded-[8px]">
+      <div class="sm:border border-gray-700 sm:hover:border-gray-600 rounded-none sm:rounded-md bg-[#202020] rounded-[4px] sm:rounded-[8px]">
         <div class="flex h-14 sm:h-16 justify-start items-center">
           <div class="ml-2 sm:ml-3 avatar relative">
             <div class="w-8 sm:w-10 rounded-full">

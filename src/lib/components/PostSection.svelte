@@ -310,7 +310,7 @@ $: {
   
     </div>
    
-  <div class="w-full bg-[#202020] border sm:hover:border-slate-600 border-gray-700 rounded-none sm:rounded-lg">
+  <div class="w-full bg-[#202020] border-t border-b sm:border sm:hover:border-slate-600 border-gray-700 rounded-none sm:rounded-lg">
       <!-- List container -->
       <div class="flex flex-col">
           <!-- Item -->
