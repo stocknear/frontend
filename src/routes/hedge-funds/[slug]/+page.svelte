@@ -3,7 +3,6 @@
   import { screenWidth, numberOfUnreadNotification, displayCompanyName } from '$lib/store';
   import cardBackground from "$lib/images/bg-hedge-funds.png";
   import defaultAvatar from "$lib/images/hedge_funds/default-avatar.png";
-  import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
 
   import { abbreviateNumber, formatString } from '$lib/utils';
   import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
@@ -720,13 +719,11 @@ function getYearFromDate(dateString) {
                       </div>
                       {/if}
   
-                      
-                      <UpgradeToPro data={data} title="Get the recent Options Flow Data from Hedge Funds and major institutional traders to never miss out"/>
-
-                      
+                  
     
                   </div>
                 </div>
+
                 </main>
             </div>
         </div>
