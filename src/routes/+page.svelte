@@ -177,7 +177,7 @@ $: {
                                 <!-- Start Column -->
                                 <div >
 
-                                  
+                                <!--
                                   <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
                                     <a href="/politicians" class="text-white antialiased bg-[#202020] w-full px-3 py-1.5 rounded-xl m-auto font-medium text-sm">
                                       <svg class="w-8 h-8 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72"><path fill="#fff" d="M5 17h62v38H5z"/><path fill="#d22f27" d="M5 17h62v5H5zm0 9h62v4H5zm0 8h62v4H5z"/><path fill="#1e50a0" d="M5 17h32v21H5z"/><path fill="#d22f27" d="M5 42h62v4H5z"/><circle cx="9" cy="22" r="1.75" fill="#fff"/><circle cx="17" cy="22" r="1.75" fill="#fff"/><circle cx="25" cy="22" r="1.75" fill="#fff"/><circle cx="33" cy="22" r="1.75" fill="#fff"/><circle cx="29" cy="26" r="1.75" fill="#fff"/><circle cx="21" cy="26" r="1.75" fill="#fff"/><circle cx="13" cy="26" r="1.75" fill="#fff"/><circle cx="9" cy="30" r="1.75" fill="#fff"/><circle cx="17" cy="30" r="1.75" fill="#fff"/><circle cx="25" cy="30" r="1.75" fill="#fff"/><circle cx="33" cy="30" r="1.75" fill="#fff"/><circle cx="29" cy="34" r="1.75" fill="#fff"/><circle cx="21" cy="34" r="1.75" fill="#fff"/><circle cx="13" cy="34" r="1.75" fill="#fff"/><path fill="#d22f27" d="M5 50h62v5H5z"/><path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 17h62v38H5z"/></svg>
@@ -189,13 +189,16 @@ $: {
                                       </span>
                                     </div>
                                   </div>
+                                -->
                                   
 
 
 
-                                  <div id="step-aistockfinder" class="flex flex-row justify-center items-center">
-                                    <h1 class="text-3xl sm:text-5xl text-white font-bold mb-6 w-full">
-                                      Open Source Stock Analysis Platform
+                                  <div class="flex flex-row justify-center items-center">
+                                    <h1 class="text-start sm:text-center text-5xl sm:text-7xl text-primary/100 font-bold font-mono mb-6 w-full">
+                                      Open Source
+                                      <br>
+                                      <span class="text-3xl sm:text-4xl">Stock Analysis Platform</span>
                                     </h1>
                                   </div>
 
@@ -208,8 +211,8 @@ $: {
                                 -->
                                   <!-- End Image -->
                                   
-                                  <span class="text-slate-200 text-[1rem] sm:text-lg w-full">
-                                    Analyze 10000+ companies, exploring stock prices, options contracts, news, price predictions, charts, memes and more - all in one place!
+                                  <span class="text-start sm:text-center flex justify-center items-center text-slate-200 text-[1rem] sm:text-lg">
+                                    Analyze over 10,000 companies in one place, exploring stock prices, options contracts, news, price predictions, charts, memes, and more!
                                   </span>
                                   
                                     
