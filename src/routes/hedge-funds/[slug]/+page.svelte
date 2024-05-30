@@ -5,7 +5,6 @@
   import defaultAvatar from "$lib/images/hedge_funds/default-avatar.png";
 
   import { abbreviateNumber, formatString } from '$lib/utils';
-  import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
 
   import { Chart } from 'svelte-echarts'
   
@@ -17,14 +16,11 @@
   let rawList = []
   let displayList = [];
   let optionsData = {};
-  
+  let currentPage=1;
+  const itemsPerPage = 100;
   let numOfTrades = rawData?.numberOfStocks;
   let images = {};
-  let buySellRatio = 0
-  let totalAmountTraded = 0;
-  let politicianImage;
-  let politicianDistrict;
-  let politicianCongress;
+
   
   let numOfAssets;
   let changeAssetType = 'Share'
@@ -112,18 +108,7 @@ function formatToFY(dateString) {
   return `FY${fiscalYearString} Q${quarter}`;
 }
 
-  async function infiniteHandler({ detail: { loaded, complete } }) 
-  {
-    if (displayList?.length === rawList?.length) {
-        complete();
-      } else {
-        const nextIndex = displayList?.length;
-        const newArticles = rawList?.slice(nextIndex, nextIndex + 20);
-        displayList = [...displayList, ...newArticles];
-        loaded();
-      }
-  }
-  
+
   // Function to load images only when they are viewed
   async function loadImages() {
       const imageFiles = import.meta.glob('$lib/images/hedge_funds/*.png');
@@ -227,18 +212,33 @@ function getYearFromDate(dateString) {
   return option;
   }
   
-  onMount(async () => {
+onMount(async () => {
     isLoaded = false;
-      await loadImages();
-  
-      optionsData = await getPlotOptions();
-
-  
+    await loadImages();
+    optionsData = await getPlotOptions();
     isLoaded = true;
+});
   
-  });
-  
-  
+
+
+  function prevPage() {
+    if (currentPage > 1) {
+      currentPage -= 1;
+    }
+  }
+
+  function nextPage() {
+    if (currentPage < totalPages) {
+      currentPage += 1;
+    }
+  }
+
+//This function is needed to set currentPage to 1 again when switching from stocks to options.
+function tabFunction(state) {
+    currentPage = 1;
+    changeAssetType = state;
+}
+
   $: {
     if(changeAssetType && typeof window !== 'undefined') {
       let liste;
@@ -249,12 +249,14 @@ function getYearFromDate(dateString) {
       else {
         liste = rawList?.filter(item => item?.putCallShare !== 'Share')
       }
-      numOfAssets = new Set(liste?.map(item => item?.symbol))?.size;
+      numOfAssets = liste?.length //new Set(liste?.map(item => item?.symbol))?.size;
       rawList = liste;
-      displayList = rawList?.slice(0,20);
-     
+      displayList = rawList?.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
     }
   }
+
+  $: totalPages = Math.ceil(rawList.length / itemsPerPage);
+
     let charNumber = 40;
     $: {
       if ($screenWidth < 640)
@@ -638,8 +640,8 @@ function getYearFromDate(dateString) {
                       </span>
   
                       <div role="tablist" class="bg-[#313131] tabs tabs-boxed w-full sm:w-48 mt-4">
-                        <a on:click={() => changeAssetType = 'Share'} role="tab" class="tab text-white {changeAssetType === 'Share' ? 'bg-[#3C74D4]' : ''}">Stocks</a>
-                        <a on:click={() => changeAssetType = 'Option'} role="tab" class="tab text-white {changeAssetType !== 'Share' ? 'bg-[#3C74D4]' : ''}">Options</a>
+                        <a on:click={() =>  tabFunction('Share')} role="tab" class="tab text-white {changeAssetType === 'Share' ? 'bg-[#3C74D4]' : ''}">Stocks</a>
+                        <a on:click={() => tabFunction('Option')} role="tab" class="tab text-white {changeAssetType !== 'Share' ? 'bg-[#3C74D4]' : ''}">Options</a>
                       </div>
                     
                     {#if rawList?.length !== 0}
@@ -691,7 +693,7 @@ function getYearFromDate(dateString) {
                                 </td>
       
                                   <td class="text-center text-sm font-semibold text-white border-b border-b-[#202020]">
-                                      {item?.weight?.toFixed(2)}%
+                                      {item?.weight >= 0.01 ? item?.weight?.toFixed(2) : '< 0.01'}%
                                   </td>
 
                                   {#if changeAssetType === 'Share'}
@@ -722,6 +724,23 @@ function getYearFromDate(dateString) {
                         </tbody>
                       </table>
                     </div>
+
+                    <div class="hidden sm:flex flex-col items-center mt-10">
+                      <!-- Help text -->
+                      <span class="text-sm text-gray-200">
+                          Showing <span class="font-semibold text-white">{currentPage}</span> of <span class="font-semibold text-white">{totalPages}</span> Pages
+                      </span>
+                      <!-- Buttons -->
+                      <div class="inline-flex mt-2 xs:mt-0">
+                          <button on:click={prevPage} class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-[#313131] {currentPage === 1 ? 'opacity-60' : ''} rounded-s" disabled={currentPage === 1}>
+                              Prev
+                          </button>
+                          <button on:click={nextPage} class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-[#313131] border-0 border-s border-gray-700 {currentPage === totalPages ? 'opacity-60' : ''} rounded-e" disabled={currentPage === totalPages}>
+                              Next
+                          </button>
+                      </div>
+                    </div>
+
                     
   
                     <div class="sm:hidden flex flex-col justify-center w-full m-auto h-full overflow-hidden">
@@ -780,7 +799,7 @@ function getYearFromDate(dateString) {
 
 
                               <td class="text-end text-sm font-semibold text-white border-b border-b-[#0F0F0F]">
-                                {item?.weight?.toFixed(2)}%
+                                {item?.weight >= 0.01 ? item?.weight?.toFixed(2) : '< 0.01'}%
                               </td>
 
                               {#if changeAssetType === 'Share'}
@@ -814,12 +833,28 @@ function getYearFromDate(dateString) {
                             </tbody>
                           </table>
                         </div>
+
+                        <div class="sm:hidden flex flex-col items-center mt-10">
+                          <!-- Help text -->
+                          <span class="text-[1rem] text-gray-200">
+                              Showing <span class="font-semibold text-white">{currentPage}</span> of <span class="font-semibold text-white">{totalPages}</span> Pages
+                          </span>
+                          <!-- Buttons -->
+                          <div class="inline-flex mt-2 xs:mt-0">
+                              <button on:click={prevPage} class="flex items-center justify-center px-5 h-8 text-sm font-medium text-white bg-[#313131] {currentPage === 1 ? 'opacity-60' : ''} rounded-s" disabled={currentPage === 1}>
+                                  Prev
+                              </button>
+                              <button on:click={nextPage} class="flex items-center justify-center px-5 h-8 text-sm font-medium text-white bg-[#313131] border-0 border-s border-gray-700 {currentPage === totalPages ? 'opacity-60' : ''} rounded-e" disabled={currentPage === totalPages}>
+                                  Next
+                              </button>
+                          </div>
+                        </div>
+    
           
             
             
                   </div>
-              
-                      <InfiniteLoading on:infinite={infiniteHandler} />
+                  
   
   
                       {:else} 
