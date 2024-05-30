@@ -171,7 +171,7 @@ $: {
                           <!-- Section header -->
                           <div class="h-auto">
                             
-                            <div class="w-full sm:rounded-xl h-auto p-10 mt-3">
+                            <div class="w-full sm:rounded-xl h-auto p-5 sm:p-10 mt-3">
                               <div class="grid grid-cols-1 gap-10">
                             
                                 <!-- Start Column -->
@@ -195,7 +195,7 @@ $: {
 
 
                                   <div class="flex flex-row justify-center items-center">
-                                    <h1 class="text-start sm:text-center text-5xl sm:text-7xl text-primary/100 font-bold font-mono mb-6 w-full">
+                                    <h1 class="text-center text-5xl sm:text-7xl text-primary/100 font-bold font-mono mb-6 w-full">
                                       Open Source
                                       <br>
                                       <span class="text-3xl sm:text-4xl">AI Stock Analysis Platform</span>
@@ -211,7 +211,7 @@ $: {
                                 -->
                                   <!-- End Image -->
                                   
-                                  <span class="text-start sm:text-center flex justify-center items-center text-slate-200 text-[1rem] sm:text-lg">
+                                  <span class="text-center flex justify-center items-center text-slate-200 text-[1rem] sm:text-lg">
                                     Analyze over 10,000 companies in one place, exploring stock prices, options contracts, news, price predictions, charts, memes, and more!
                                   </span>
                                   
