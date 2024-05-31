@@ -521,7 +521,7 @@ $: {
   <!--End Navbar-->
 
 
-<div class="xl:w-full xl:max-w-[1600px] xl:m-auto {hideSidebar ? 'hidden' : ''}">
+<div class="xl:w-full xl:max-w-[1600px] xl:m-auto {hideSidebar ? 'xl:hidden' : ''}">
 <aside class:hidden={!showSidebar}
 use:clickOutside on:click_outside={handleClickOutside}
 class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w-56'} z-30 min-h-screen pt-12 sm:pt-16 border transition-transform -translate-x-full bg-[#202020] xl:bg-[#0F0F0F] translate-x-0 border-r border-slate-800 xl:border-none">
