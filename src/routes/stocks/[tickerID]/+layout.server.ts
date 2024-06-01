@@ -85,7 +85,37 @@ async function fetchPortfolio(fastifyURL, userId)
     return output
 }
 
-export const load = async ({ params, locals}) => {
+async function fetchCommunitySentiment(pb, ticker, cookies)
+{
+  let alreadyVoted;
+  const cookieVote = cookies?.get('community-sentiment-'+ticker);
+
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+
+  const startDate = today.toISOString().split('T')[0];
+  const endDate = tomorrow.toISOString().split('T')[0];
+
+  const output = await pb.collection("sentiment").getFullList({
+    filter: `ticker="${ticker}" && created >= "${startDate}" && created < "${endDate}"`
+  });
+
+  if (cookieVote) {
+    alreadyVoted = cookieVote;
+  }
+
+  if(output?.length !== 0) {
+    
+    return {'alreadyVoted': alreadyVoted, 'sentimentData': output?.at(0)}
+  }
+  else {
+    return {'alreadyVoted': alreadyVoted, 'sentimentData': {} }
+  }
+
+}
+
+export const load = async ({ params, locals, cookies}) => {
 
  
     const userRegion = locals?.region?.split("::")[0];
@@ -102,7 +132,7 @@ export const load = async ({ params, locals}) => {
     };
   
     
-
+    
 
     const promises = [
     fetchData(apiURL,'/fair-price',params.tickerID),
@@ -130,7 +160,8 @@ export const load = async ({ params, locals}) => {
     fetchData(apiURL,'/historical-price',params.tickerID),
     fetchData(apiURL,'/one-day-price',params.tickerID),
     fetchWatchlist(fastifyURL, locals?.user?.id),
-    fetchPortfolio(fastifyURL, locals?.user?.id)
+    fetchPortfolio(fastifyURL, locals?.user?.id),
+    fetchCommunitySentiment(locals?.pb, params.tickerID, cookies)
   ];
 
   const [
@@ -160,6 +191,7 @@ export const load = async ({ params, locals}) => {
     getOneDayPrice,
     getUserWatchlist,
     getUserPortfolio,
+    getCommunitySentiment,
   ] = await Promise.all(promises);
 
   /*
@@ -195,6 +227,7 @@ export const load = async ({ params, locals}) => {
     getOneDayPrice,
     getUserWatchlist,
     getUserPortfolio,
+    getCommunitySentiment,
     companyName,
   };
 

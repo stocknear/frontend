@@ -136,6 +136,7 @@ export const actions = {
 
 		redirect(302,authProviderRedirect);
 
-	}
+	},
+
 	
 };

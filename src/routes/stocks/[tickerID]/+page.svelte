@@ -8,7 +8,7 @@
   import AnalystEstimate from '$lib/components/AnalystEstimate.svelte';
   import StockKeyInformation from '$lib/components/StockKeyInformation.svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
-
+  import CommunitySentiment from '$lib/components/CommunitySentiment.svelte';
     
   const usRegion = ['cle1','iad1','pdx1','sfo1'];
   
@@ -49,6 +49,7 @@
     let trendList = [];
     let priceAnalysisDict = {};
     let fundamentalAnalysisDict = {};
+    let communitySentiment = {};
 
     //============================================//
     
@@ -653,6 +654,7 @@ function changeChartType() {
       trendList = [];
       priceAnalysisDict = {};
       fundamentalAnalysisDict = {};
+      communitySentiment = {}
       output = null;
   
   
@@ -673,7 +675,7 @@ function changeChartType() {
       enterpriseValues = data?.getEnterPriseValues;
       priceAnalysisDict = data?.getPriceAnalysis;
       fundamentalAnalysisDict = data?.getFundamentalAnalysis;
-
+      communitySentiment = data?.getCommunitySentiment;
     
       similarstock = data?.getSimilarStock;
       topETFHolder = data?.getTopETFHolder;
@@ -1197,9 +1199,13 @@ function changeChartType() {
                                     <!--End Time Interval-->
 
 
-  
-                                    {#if $screenWidth <= 1022} <!--BUG: Dont remove since when changing ETF symbol display freezes-->
-                                  <div class="w-full mt-8 m-auto sm:p-6 lg:hidden">
+                                  <div class="w-full mt-14 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                      <CommunitySentiment communitySentiment={communitySentiment}/>
+                                  </div>
+
+
+                                {#if $screenWidth <= 1022} <!--BUG: Dont remove since when changing ETF symbol display freezes-->
+                                  <div class="w-full mt-10 m-auto sm:p-6 lg:hidden">
                                     <h3 class="cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
                                       Key Information
                                     </h3>
@@ -1214,7 +1220,9 @@ function changeChartType() {
                                   {/if}
 
                                
-                                <div class="w-full mt-10 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(marketMoods)?.length !== 0 ? '' : 'hidden'}">
+                                
+
+                                <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(marketMoods)?.length !== 0 ? '' : 'hidden'}">
                                   <BullBearSay marketMoods={marketMoods}/>
                                 </div>
 
