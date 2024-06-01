@@ -198,7 +198,7 @@ $: {
                                     <h1 class="text-center text-5xl sm:text-7xl text-primary/100 font-bold font-mono mb-6 w-full">
                                       Open Source
                                       <br>
-                                      <span class="text-3xl sm:text-4xl">AI Stock Analysis Platform</span>
+                                      <span class="text-3xl sm:text-4xl">ML Stock Analysis Platform</span>
                                     </h1>
                                   </div>
 
