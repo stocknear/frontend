@@ -14,6 +14,17 @@
 
 async function updateSentiment(sentiment:string) {
     if(!alreadyVoted) {
+
+        if(sentiment === 'upvote') {
+            upvote +=1
+        }
+        else if(sentiment === 'downvote') {
+            downvote +=1
+        }
+        alreadyVoted = sentiment;
+        calculateStats()
+
+
         const postData = {
         'ticker': $stockTicker,
         'sentiment': sentiment,
@@ -29,17 +40,7 @@ async function updateSentiment(sentiment:string) {
         }); // make a POST request to the server with the FormData object
 
         const output = await response.json();
-        if(output === 'success') {
-            if(sentiment === 'upvote') {
-                upvote +=1
-            }
-            else if(sentiment === 'downvote') {
-                downvote +=1
-            }
-            alreadyVoted = sentiment;
-            calculateStats()
-        }
-        else {
+        if(output !== 'success') {
             toast.error('Something went wrong. Please try again!', {
                 style: 'border-radius: 10px; background: #383838; color: #fff;',
             });
@@ -89,7 +90,7 @@ $: {
               What do you think of {$stockTicker} today?
             </label>
             <span class="text-white text-sm sm:text-[1rem] mt-1">
-                The community is bullish about {$displayCompanyName} today.
+                The community is {upvote > downvote ? 'bullish' : upvote < downvote ? 'bearish' : 'neutral'} about {$displayCompanyName} today.
             </span>
             </div>
 
