@@ -579,7 +579,7 @@ $: {
                                   <!--End Image-->
                                     <!--Start Content-->
                                     <div class="w-full p-4 text-white">
-                                      Daily pre-market discussions, feature request, bug reports & more.
+                                      Daily discussions on our open source project.
                                     </div>
                                     <!--End Content-->
 
