@@ -2,11 +2,12 @@
 
 export let data;
 export let title;
+export let color = '#202020'
 </script>
 
 {#if data?.user?.tier !== 'Pro'}
 <div class="px-5 sm:px-0 shadow-lg">
-<div class="sm:rounded-lg bg-[#202020] pl-10 pr-10 pb-10 pt-5 w-full h-full m-auto -mt-5 relative">
+<div class="sm:rounded-lg bg-[{color}] pl-10 pr-10 pb-10 pt-5 w-full h-full m-auto -mt-5 relative">
 
 <h3 class="text-white font-bold text-xl sm:text-2xl text-center">
     Upgrade to Pro

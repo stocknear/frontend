@@ -3,6 +3,7 @@
   import { screenWidth, numberOfUnreadNotification, displayCompanyName } from '$lib/store';
   import cardBackground from "$lib/images/bg-hedge-funds.png";
   import defaultAvatar from "$lib/images/hedge_funds/default-avatar.png";
+  import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
 
   import { abbreviateNumber, formatString } from '$lib/utils';
 
@@ -11,17 +12,19 @@
   import { onMount } from 'svelte';
   
   export let data;
+
   let isLoaded = false;
   let rawData = data?.getHedgeFundsData;
   let rawList = []
   let displayList = [];
   let optionsData = {};
   let currentPage=1;
-  const itemsPerPage = 100;
+  const itemsPerPage = 50;
   let numOfTrades = rawData?.numberOfStocks;
   let images = {};
 
-  
+  let deactivateContent = data?.user?.tier === 'Pro' ? false : true;
+
   let numOfAssets;
   let changeAssetType = 'Share'
   const spyData = [{'date': '1993-03-31', 'price': 25.59}, {'date': '1993-06-30', 'price': 25.7}, {'date': '1993-09-30', 'price': 26.36}, {'date': '1993-12-31', 'price': 26.92}, {'date': '1994-03-31', 'price': 25.91}, {'date': '1994-06-30', 'price': 26.01}, {'date': '1994-09-30', 'price': 27.17}, {'date': '1994-12-31', 'price': 27.03}, {'date': '1995-03-31', 'price': 29.89}, {'date': '1995-06-30', 'price': 32.64}, {'date': '1995-09-30', 'price': 35.27}, {'date': '1995-12-31', 'price': 37.31}, {'date': '1996-03-31', 'price': 39.43}, {'date': '1996-06-30', 'price': 41.12}, {'date': '1996-09-30', 'price': 42.27}, {'date': '1996-12-31', 'price': 45.71}, {'date': '1997-03-31', 'price': 46.83}, {'date': '1997-06-30', 'price': 55.08}, {'date': '1997-09-30', 'price': 59.08}, {'date': '1997-12-31', 'price': 61.0}, {'date': '1998-03-31', 'price': 69.3}, {'date': '1998-06-30', 'price': 71.65}, {'date': '1998-09-30', 'price': 64.57}, {'date': '1998-12-31', 'price': 78.51}, {'date': '1999-03-31', 'price': 81.93}, {'date': '1999-06-30', 'price': 87.7}, {'date': '1999-09-30', 'price': 82.65}, {'date': '1999-12-31', 'price': 94.52}, {'date': '2000-03-31', 'price': 97.01}, {'date': '2000-06-30', 'price': 93.95}, {'date': '2000-09-30', 'price': 93.11}, {'date': '2000-12-31', 'price': 85.31}, {'date': '2001-03-31', 'price': 76.09}, {'date': '2001-06-30', 'price': 80.17}, {'date': '2001-09-30', 'price': 68.55}, {'date': '2001-12-31', 'price': 75.28}, {'date': '2002-03-31', 'price': 75.64}, {'date': '2002-06-30', 'price': 65.59}, {'date': '2002-09-30', 'price': 54.45}, {'date': '2002-12-31', 'price': 59.03}, {'date': '2003-03-31', 'price': 56.92}, {'date': '2003-06-30', 'price': 65.82}, {'date': '2003-09-30', 'price': 67.64}, {'date': '2003-12-31', 'price': 75.66}, {'date': '2004-03-31', 'price': 77.17}, {'date': '2004-06-30', 'price': 78.43}, {'date': '2004-09-30', 'price': 76.85}, {'date': '2004-12-31', 'price': 83.76}, {'date': '2005-03-31', 'price': 82.06}, {'date': '2005-06-30', 'price': 83.25}, {'date': '2005-09-30', 'price': 86.31}, {'date': '2005-12-31', 'price': 87.8}, {'date': '2006-03-31', 'price': 91.92}, {'date': '2006-06-30', 'price': 90.51}, {'date': '2006-09-30', 'price': 95.41}, {'date': '2006-12-31', 'price': 101.72}, {'date': '2007-03-31', 'price': 102.39}, {'date': '2007-06-30', 'price': 108.94}, {'date': '2007-09-30', 'price': 111.02}, {'date': '2007-12-31', 'price': 106.95}, {'date': '2008-03-31', 'price': 97.01}, {'date': '2008-06-30', 'price': 94.55}, {'date': '2008-09-30', 'price': 86.19}, {'date': '2008-12-31', 'price': 67.6}, {'date': '2009-03-31', 'price': 59.99}, {'date': '2009-06-30', 'price': 69.76}, {'date': '2009-09-30', 'price': 80.49}, {'date': '2009-12-31', 'price': 85.41}, {'date': '2010-03-31', 'price': 90.04}, {'date': '2010-06-30', 'price': 79.82}, {'date': '2010-09-30', 'price': 88.72}, {'date': '2010-12-31', 'price': 98.27}, {'date': '2011-03-31', 'price': 104.07}, {'date': '2011-06-30', 'price': 104.09}, {'date': '2011-09-30', 'price': 89.71}, {'date': '2011-12-31', 'price': 100.13}, {'date': '2012-03-31', 'price': 112.84}, {'date': '2012-06-30', 'price': 109.63}, {'date': '2012-09-30', 'price': 116.59}, {'date': '2012-12-31', 'price': 116.15}, {'date': '2013-03-31', 'price': 128.34}, {'date': '2013-06-30', 'price': 132.11}, {'date': '2013-09-30', 'price': 139.04}, {'date': '2013-12-31', 'price': 153.67}, {'date': '2014-03-31', 'price': 156.29}, {'date': '2014-06-30', 'price': 164.35}, {'date': '2014-09-30', 'price': 166.21}, {'date': '2014-12-31', 'price': 174.36}, {'date': '2015-03-31', 'price': 175.9}, {'date': '2015-06-30', 'price': 176.25}, {'date': '2015-09-30', 'price': 164.93}, {'date': '2015-12-31', 'price': 176.51}, {'date': '2016-03-31', 'price': 178.86}, {'date': '2016-06-30', 'price': 183.25}, {'date': '2016-09-30', 'price': 190.17}, {'date': '2016-12-31', 'price': 197.69}, {'date': '2017-03-31', 'price': 209.39}, {'date': '2017-06-30', 'price': 215.82}, {'date': '2017-09-30', 'price': 225.35}, {'date': '2017-12-31', 'price': 240.6}, {'date': '2018-03-31', 'price': 238.2}, {'date': '2018-06-30', 'price': 246.66}, {'date': '2018-09-30', 'price': 265.54}, {'date': '2018-12-31', 'price': 229.6}, {'date': '2019-03-31', 'price': 260.66}, {'date': '2019-06-30', 'price': 271.68}, {'date': '2019-09-30', 'price': 276.45}, {'date': '2019-12-31', 'price': 301.3}, {'date': '2020-03-31', 'price': 242.7}, {'date': '2020-06-30', 'price': 291.63}, {'date': '2020-09-30', 'price': 317.99}, {'date': '2020-12-31', 'price': 356.53}, {'date': '2021-03-31', 'price': 379.17}, {'date': '2021-06-30', 'price': 410.87}, {'date': '2021-09-30', 'price': 413.23}, {'date': '2021-12-31', 'price': 458.95}, {'date': '2022-03-31', 'price': 437.78}, {'date': '2022-06-30', 'price': 367.25}, {'date': '2022-09-30', 'price': 349.14}, {'date': '2022-12-31', 'price': 375.54}, {'date': '2023-03-31', 'price': 403.55}, {'date': '2023-06-30', 'price': 438.58}, {'date': '2023-09-30', 'price': 424.44}, {'date': '2023-12-31', 'price': 473.84}, {'date': '2024-03-31', 'price': 523.07}];
@@ -50,7 +53,7 @@ function addSpyPerformance(data, spyPriceData) {
   const spyPriceMap = new Map(spyPriceData.map(entry => [entry.date, entry.price]));
 
   // Convert data dates to quarter-end dates
-  const quarterData = data.map(item => ({
+  const quarterData = data?.map(item => ({
     ...item,
     date: getQuarterEndDate(item.date)
   }));
@@ -63,7 +66,7 @@ function addSpyPerformance(data, spyPriceData) {
     console.warn(`Starting price for date ${startDate} not found in spyPriceData. Setting initial spyPerformance to 0.`);
   }
 
-  return quarterData.map((item, index) => {
+  return quarterData?.map((item, index) => {
     const spyPrice = spyPriceMap.get(item.date);
 
     if (spyPrice === undefined) {
@@ -679,7 +682,7 @@ function tabFunction(state) {
                           </tr>
                         </thead>
                         <tbody class="p-0">
-                          {#each displayList as item}
+                          {#each deactivateContent ? displayList?.slice(0,5) : displayList as item}
                               <tr on:click={() => goto(`/${item?.type}/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#202020] border-b-[#202020] cursor-pointer">
       
                                 <td class="text-gray-200 pb-3 border-b border-b-[#202020]">
@@ -725,6 +728,11 @@ function tabFunction(state) {
                       </table>
                     </div>
 
+                    <div class="hidden sm:block">
+                      <UpgradeToPro data={data} color={'#313131'} title="Get the recent transactions from Hedge Funds to never miss out"/>
+                    </div>
+
+                    {#if !deactivateContent}
                     <div class="hidden sm:flex flex-col items-center mt-10">
                       <!-- Help text -->
                       <span class="text-sm text-gray-200">
@@ -740,7 +748,9 @@ function tabFunction(state) {
                           </button>
                       </div>
                     </div>
+                    {/if}
 
+                    
                     
   
                     <div class="sm:hidden flex flex-col justify-center w-full m-auto h-full overflow-hidden">
@@ -783,7 +793,7 @@ function tabFunction(state) {
                             </tr>
                           </thead>
                             <tbody>
-                              {#each displayList as item,index}
+                              {#each deactivateContent ? displayList?.slice(0,5) : displayList as item,index}
                               <!-- row -->
                               <tr on:click={() => goto(`/${item?.type}/${item?.ticker}`)} class="bg-[#0F0F0F] cursor-pointer">
                                 
@@ -834,6 +844,9 @@ function tabFunction(state) {
                           </table>
                         </div>
 
+                        <UpgradeToPro data={data} title="Get the recent transactions from Hedge Funds to never miss out"/>
+
+                        {#if !deactivateContent}
                         <div class="sm:hidden flex flex-col items-center mt-10">
                           <!-- Help text -->
                           <span class="text-[1rem] text-gray-200">
@@ -849,11 +862,13 @@ function tabFunction(state) {
                               </button>
                           </div>
                         </div>
-    
+                        {/if}
           
             
             
                   </div>
+
+                  
                   
   
   
@@ -866,10 +881,12 @@ function tabFunction(state) {
                       </div>
                       {/if}
   
-                  
     
                   </div>
+
                 </div>
+
+                
 
                 </main>
             </div>

@@ -7,8 +7,7 @@
     
     export let topETFHolder;
       
-      
-      
+    
       async function etfSelector(state)
       {
         window?.scroll({ top: 0, left: 0, behavior: 'smooth' });
@@ -30,7 +29,7 @@
               Top ETFs Holder
             </h2>
             <p class="text-white mb-5 ml-4 mr-1">
-              Gain valuable insights into ETFs with the largest allocation of <span class="text-blue-400">${$stockTicker}</span> in their portfolios.
+              ETFs with the largest estimated holdings in {$stockTicker}.
             </p>
             
           {#if topETFHolder?.length !== 0} 
