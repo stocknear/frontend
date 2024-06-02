@@ -171,7 +171,7 @@ async function getPlotOptions() {
             itemStyle: {
                     color: '#69B3A2' // Change bar color to white
               },
-            barWidth: '10%',
+            barWidth: '25%',
           },
           
         {
@@ -180,7 +180,7 @@ async function getPlotOptions() {
             itemStyle: {
                 color: '#E8864D' // Change bar color to white
             },
-            barWidth: '10%',
+            barWidth: '25%',
         },
     ]
     };
@@ -431,40 +431,56 @@ onMount(async () => {
                     {numOfAssets} Assets
                   </span>
 
-                    <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#202020] m-auto mt-4 ">
+                    <table class="-ml-2 table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#202020] m-auto mt-4 ">
                       <!-- head -->
                       <thead>
                         <tr class="bg-[#202020]">
                           <th class="shadow-md text-start bg-[#202020] text-white text-sm font-semibold">
                             Name
                           </th>
-                          <th class="shadow-md text-end bg-[#202020] text-white text-sm font-semibold">
-                            Transaction Date
+                          <th class="shadow-md text-start bg-[#202020]  text-white text-sm font-semibold">
+                            Transaction
                           </th>
                           <th class="shadow-md text-end bg-[#202020] text-white text-sm font-semibold">
-                            Disclosure Date
+                            Traded
                           </th>
-                          <th class="shadow-md text-end bg-[#202020]  text-white text-sm font-semibold">
-                            Amount
+                          <th class="shadow-md text-end bg-[#202020] text-white text-sm font-semibold">
+                            Filed
                           </th>
-                          <th class="shadow-md text-white font-semibold text-end text-sm">Type</th>
                         </tr>
                       </thead>
                       <tbody class="p-0">
                         {#each displayList as item}
                             <tr on:click={() => goto(`/${item?.assetType === 'stock' ? 'stocks' : item?.assetType === 'etf' ? 'etf' : 'crypto'}/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#202020] border-b-[#202020] cursor-pointer">
-    
+                              
                               <td class="text-gray-200 pb-3 border-b border-b-[#202020]">
                                 <div class="flex flex-row items-center">
-                                  <div class="flex-shrink-0 rounded-full w-7 h-7 relative bg-[#202020] flex items-center justify-center">
-                                    <img style="clip-path: circle(50%);" class="avatar w-5 h-5" src={`https://financialmodelingprep.com/image-stock/${item?.ticker}.png`} alt="stock logo"/>
+                                  <div class="flex-shrink-0 rounded-full w-8 h-8 relative bg-[#202020] flex items-center justify-center">
+                                    <img style="clip-path: circle(50%);" class="avatar w-7 h-7" src={`https://financialmodelingprep.com/image-stock/${item?.ticker}.png`} alt="stock logo"/>
                                   </div>
-                                  <div class="flex flex-col ml-3">
+                                  <div class="flex flex-col ml-2">
                                     <span class="text-blue-400">{item?.ticker?.replace('_',' ')}</span>
-                                    <span class="text-white text-opacity-60 text-xs">{item?.name}</span>
+                                    <span class="text-white text-opacity-80 text-xs">{item?.name?.length > 20 ? item?.name?.slice(0,20)+'...' : item?.name}</span>
                                   </div>
                                 </div>
                                 <!--{item?.firstName} {item?.lastName}-->
+                              </td>
+
+                              <td class="text-start text-xs sm:text-sm text-white border-b border-b-[#202020]">
+                                <div class="flex flex-col items-start">
+                                  <span class="font-semibold">
+                                    {#if item?.type === 'Bought'}
+                                      <span class="text-[#57D7BA]">Purchase</span>
+                                    {:else if item?.type === 'Sold'}
+                                      <span class="text-[#fe5555]">Sale</span>
+                                    {:else if item?.type === 'Exchange'}
+                                      <span class="text-[#C6A755]">Exchange</span>
+                                    {/if}
+                                  </span>
+                                  <span>
+                                    {item?.amount}
+                                  </span>
+                                </div>
                               </td>
     
                                 <td class="text-end text-sm text-white border-b border-b-[#202020]">
@@ -474,19 +490,6 @@ onMount(async () => {
                                 <td class="text-end text-sm text-white border-b border-b-[#202020]">
                                   {new Date(item?.disclosureDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                               </td>
-
-                                <td class="text-end text-xs sm:text-sm text-white border-b border-b-[#202020]">
-                                    {item?.amount}
-                                </td>
-                                <td class="text-start text-end text-sm text-white border-b border-b-[#202020]">
-                                  {#if item?.type === 'Bought'}
-                                    <span class="text-[#10DB06]">Bought</span>
-                                  {:else if item?.type === 'Sold'}
-                                    <span class="text-[#FF2F1F]">Sold</span>
-                                  {:else if item?.type === 'Exchange'}
-                                    <span class="text-[#C6A755]">Exchange</span>
-                                  {/if}
-                                </td>
                             </tr>
                           {/each}
                       </tbody>
@@ -504,51 +507,62 @@ onMount(async () => {
                     <div class="mt-4 w-full overflow-x-auto scroller">
                       
 
-                      <table class="-ml-2 table table-pin-cols table-sm table-compact mt-3 w-screen">
+                      <table class="-ml-2 table mt-3 w-screen">
                           <thead>
                             <tr class="">
-                              <td class="text-slate-200 font-semibold text-sm text-start">Name</td>
-                              <td class="bg-[#0F0F0F] font-semibold text-slate-200 text-sm text-start">Transaction Date</td>
-                              <td class="bg-[#0F0F0F] font-semibold text-slate-200 text-sm text-start">Disclosure Date</td>
-                              <td class="bg-[#0F0F0F] text-slate-200 font-semibold text-sm text-start">Amount</td>
-                              <td class="bg-[#0F0F0F] text-white font-semibold text-end text-sm">Type</td>
+                              <th class="shadow-md text-start bg-[#0F0F0F] text-white text-sm font-semibold">
+                                Name
+                              </th>
+                              <th class="shadow-md text-start bg-[#0F0F0F]  text-white text-sm font-semibold">
+                                Transaction
+                              </th>
+                              <th class="shadow-md text-end bg-[#0F0F0F] text-white text-sm font-semibold">
+                                Traded
+                              </th>
+                              <th class="shadow-md text-end bg-[#0F0F0F] text-white text-sm font-semibold">
+                                Filed
+                              </th>
                             </tr>
                           </thead>
                           <tbody>
                             {#each displayList as item,index}
                             <!-- row -->
-                            <tr on:click={() => goto(`/${item?.assetType === 'stock' ? 'stocks' : item?.assetType === 'etf' ? 'etf' : 'crypto'}/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#0F0F0F] border-b-[#0F0F0F] cursor-pointer">
+                            <tr on:click={() => goto(`/${item?.assetType === 'stock' ? 'stocks' : item?.assetType === 'etf' ? 'etf' : 'crypto'}/${item?.ticker}`)} class="w-screen [#0F0F0F] border-b-[#0F0F0F]">
                               
-                              <td class="text-gray-200 pb-3 border-b border-b-[#0F0F0F]">
-                                <div class="-ml-1 flex flex-row items-center">
+                              <td class="text-gray-200 pb-3 border-b border-b-[#0F0F0F] w-32">
+                                <div class="flex flex-row items-center">
                                   <div class="flex flex-col">
                                     <span class="text-blue-400 text-sm">{item?.ticker?.replace('_',' ')}</span>
-                                    <span class="text-white text-opacity-60 text-xs">{item?.name?.length < charNumber ? item?.name : item?.name?.slice(0,charNumber)+'...'}</span>
+                                    <span class="text-white text-opacity-80 text-xs">{item?.name?.length > 15 ? item?.name?.slice(0,15)+'...' : item?.name}</span>
                                   </div>
                                 </div>
                                 <!--{item?.firstName} {item?.lastName}-->
                               </td>
     
-                                <td class="text-end text-xs text-white border-b border-b-[#0F0F0F]">
+                              <td class="text-start text-sm text-white border-b border-b-[#0F0F0F] ">
+                                <div class="flex flex-col items-start">
+                                  <span class="font-semibold">
+                                    {#if item?.type === 'Bought'}
+                                      <span class="text-[#57D7BA]">Purchase</span>
+                                    {:else if item?.type === 'Sold'}
+                                      <span class="text-[#fe5555]">Sale</span>
+                                    {:else if item?.type === 'Exchange'}
+                                      <span class="text-[#C6A755]">Exchange</span>
+                                    {/if}
+                                  </span>
+                                  <span>
+                                    {item?.amount}
+                                  </span>
+                                </div>
+                              </td>
+    
+                                <td class="text-end text-sm text-white border-b border-b-[#0F0F0F]">
                                     {new Date(item?.transactionDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                 </td>
 
-                                <td class="text-end text-xs text-white border-b border-b-[#0F0F0F]">
+                                <td class="text-end text-sm text-white border-b border-b-[#0F0F0F]">
                                   {new Date(item?.disclosureDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
-                                </td>
-
-                                <td class="text-end text-xs text-white border-b border-b-[#0F0F0F]">
-                                    {item?.amount}
-                                </td>
-                                <td class="text-start text-end text-xs text-white border-b border-b-[#0F0F0F]">
-                                  {#if item?.type === 'Bought'}
-                                    <span class="text-[#10DB06]">Bought</span>
-                                  {:else if item?.type === 'Sold'}
-                                    <span class="text-[#FF2F1F]">Sold</span>
-                                  {:else if item?.type === 'Exchange'}
-                                    <span class="text-[#C6A755]">Exchange</span>
-                                  {/if}
-                                </td>
+                              </td>
                       
               
               

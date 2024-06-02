@@ -86,22 +86,6 @@ onMount( async() => {
 
 
 
-
-let charNumber = 30;
-
-
-
-
-$: {
-  if($screenWidth < 640)
-  {
-    charNumber = 10;
-  }
-  else {
-    charNumber =30;
-  }
-}
-
 </script>
   
   
@@ -431,7 +415,7 @@ $: {
             </td>
 
             <td class="text-white border-b border-[#0F0F0F]">
-              {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
+              {item?.name?.length > 30 ? item?.name?.slice(0,30) + "..." : item?.name}
             </td>
             
 
@@ -577,7 +561,7 @@ $: {
             </td>
             
             <td class="text-white border-b border-[#0F0F0F]">
-              {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
+              {item?.name?.length > 30 ? item?.name?.slice(0,30) + "..." : item?.name}
             </td>
     
       
