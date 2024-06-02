@@ -198,16 +198,16 @@ onMount(async() => {
     
                       {#if stockDividends?.length !== 0}
       
-                          <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-5 bg-[#0F0F0F] shadow-md rounded-xl p-2 flex justify-center items-center mb-2">
+                          <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-5 bg-[#202020] shadow-md rounded-xl p-5 flex justify-center items-center mb-2">
                               <!--Start Column Title-->
                               <div class="flex flex-col">
                                 <div class="flex flex-row items-center">
-                                  <span class="text-white font-medium text-md sm:text-lg">
+                                  <span class="text-gray-300 font-medium text-[1rem]">
                                     Dividend Yield
                                   </span>
                                 </div>
                               
-                                <span class="text-white text-[1rem]">
+                                <span class="text-white text-[1rem] font-semibold">
                                   {dividendYield !== '0.00' ? dividendYield : '0'}%
                                 </span>
                               </div>
@@ -216,11 +216,11 @@ onMount(async() => {
                               <!--Start Column Win Rate-->
                               <div class="flex flex-col">
                                 <div class="flex flex-row items-center">
-                                  <span class="text-white font-medium text-md sm:text-lg">
+                                  <span class="text-gray-300 font-medium text-[1rem] ">
                                       Annual Dividend
                                   </span>
                                 </div>
-                                <span class="text-white text-[1rem]">
+                                <span class="text-white text-[1rem] font-semibold">
                                   ${annualDividend !== '0.00' ? annualDividend : '0'}
                                 </span>
                               </div>
@@ -229,11 +229,11 @@ onMount(async() => {
                               <!--Start Column Performance-->
                               <div class="flex flex-col">
                                   <div class="flex flex-row items-center">
-                                    <span class="text-white font-medium text-md sm:text-lg">
+                                    <span class="text-gray-300 font-medium text-[1rem]">
                                     Ex-Dividend Date
                                     </span>
                                   </div>
-                                  <span class="text-white  text-[1rem]">
+                                  <span class="text-white  text-[1rem] font-semibold">
                                     {new Date(exDividendDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                   </span>
                                 </div>
@@ -242,11 +242,11 @@ onMount(async() => {
                             <!--Start Column-->
                             <div class="flex flex-col sm:mt-5">
                               <div class="flex flex-row items-center">
-                                <span class="text-white font-medium text-md sm:text-lg">
+                                <span class="text-gray-300 font-medium text-[1rem]">
                                 Payout Frequency
                                 </span>
                               </div>
-                              <span class="text-white text-[1rem]">
+                              <span class="text-white text-[1rem] font-semibold">
                                   {payoutFrequency === 4 ? 'Quartely' : payoutFrequency === 2 ? 'Half-Yearly' : payoutFrequency === 1 ? 'Annually' : 'n/a'}
                               </span>
                             </div>
@@ -255,11 +255,11 @@ onMount(async() => {
                             <!--Start Column-->
                             <div class="flex flex-col sm:mt-5">
                               <div class="flex flex-row items-center">
-                                <span class="text-white font-medium text-md sm:text-lg">
+                                <span class="text-gray-300 font-medium text-[1rem]">
                                 Payout Ratio 
                                 </span>
                               </div>
-                              <span class="text-white text-[1rem]">
+                              <span class="text-white text-[1rem] font-semibold">
                                   {payoutRatio !== '0.00' ? payoutRatio : '0'}%
                               </span>
                             </div>
@@ -268,11 +268,11 @@ onMount(async() => {
                             <!--Start Column-->
                             <div class="flex flex-col sm:mt-5">
                               <div class="flex flex-row items-center">
-                                <span class="text-white font-medium text-md sm:text-lg">
+                                <span class="text-gray-300 font-medium text-[1rem]">
                                 Dividend Growth
                                 </span>
                               </div>
-                              <span class="text-white text-[1rem]">
+                              <span class="text-white text-[1rem] font-semibold">
                                   {dividendGrowth !== 'NaN' ? dividendGrowth+'%' : '-'}
                               </span>
                             </div>
