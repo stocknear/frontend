@@ -42,18 +42,6 @@ let upvoteCounter = {};
 let downvoteCounter = {};
 let userAlreadyVoted;
 
-upvoteCounter[post.id] = post?.upvote;
-downvoteCounter[post.id] = post?.downvote;
-userAlreadyVoted = post?.expand['alreadyVoted(post)']?.some(item => item?.user === data?.user?.id);
-  
-if (userAlreadyVoted) {
-  upvoteButtonClicked[post.id] = post?.expand['alreadyVoted(post)']?.find(item => item?.user === data?.user?.id)?.type === 'upvote';
-  downvoteButtonClicked[post.id] = post?.expand['alreadyVoted(post)']?.find(item => item?.user === data?.user?.id)?.type === 'downvote';
-} else {
-  upvoteButtonClicked[post.id] = false;
-  downvoteButtonClicked[post.id] = false;
-}
-
 
 
 const handleUpvote = async (event) => {
@@ -293,6 +281,20 @@ let LoginPopup;
 
 onMount(async () => {
     
+  upvoteCounter[post.id] = post?.upvote;
+  downvoteCounter[post.id] = post?.downvote;
+  userAlreadyVoted = post?.expand['alreadyVoted(post)']?.some(item => item?.user === data?.user?.id);
+    
+  if (userAlreadyVoted) {
+    upvoteButtonClicked[post.id] = post?.expand['alreadyVoted(post)']?.find(item => item?.user === data?.user?.id)?.type === 'upvote';
+    downvoteButtonClicked[post.id] = post?.expand['alreadyVoted(post)']?.find(item => item?.user === data?.user?.id)?.type === 'downvote';
+  } else {
+    upvoteButtonClicked[post.id] = false;
+    downvoteButtonClicked[post.id] = false;
+  }
+
+
+
     if(!data?.user)
     {
       LoginPopup = (await import('$lib/components/LoginPopup.svelte')).default;

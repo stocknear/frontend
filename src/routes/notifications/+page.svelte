@@ -157,7 +157,7 @@ onMount(async () => {
                    {item?.expand?.user?.username}
                  </label>
                  <span class="text-white text-xs sm:text-sm">
-                  upvoted your post
+                  upvoted your {item?.comment ? 'comment' : 'post'}
                  </span>
                 </div>
                 <span class="text-xs sm:text-sm text-[#A6ADBB0">{formatDate(item?.created)} ago</span>

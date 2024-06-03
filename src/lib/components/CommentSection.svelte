@@ -94,9 +94,10 @@ const handleUpvote = async (event) => {
       
   const commentId = event.target.commentId.value;
   const postData = {
-                  'commentId': commentId,
-                  'userId': data?.user?.id,
-                  };
+      'postId': postId,
+      'commentId': commentId,
+      'userId': data?.user?.id,
+  };
         
   upvoteButtonClicked = !upvoteButtonClicked;
   
