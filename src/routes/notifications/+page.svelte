@@ -4,7 +4,7 @@
 	import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
 
     import { onMount } from 'svelte';
-    import {userRegion, screenWidth, numberOfUnreadNotification} from '$lib/store';
+    import {userRegion, screenWidth, numberOfUnreadNotification, scrollToComment } from '$lib/store';
 
     export let data;
     export let form;
@@ -62,6 +62,12 @@ if (notificationIdList.length !== 0)
 
 }
 
+function goToPost(item) {
+  if (item?.comment && item?.notifyType === 'vote') {
+    $scrollToComment = item?.comment;
+  }
+  goto("/community/post/"+item?.post)
+}
 
 async function infiniteHandler({ detail: { loaded, complete } }) 
 {
@@ -136,7 +142,7 @@ onMount(async () => {
          <div class="flex flex-col items-start w-full text-white">
          {#each notificationList as item}
            <!-- svelte-ignore a11y-click-events-have-key-events -->
-           <div on:click={()=> goto("/community/post/"+item?.post)} class="hover:bg-[#2B2B2B] p-3 mb-3 ml-1 text-gray-200 w-full {!item?.readed ? 'bg-[#F9AB00] bg-opacity-[0.1]' : ''} cursor-pointer">
+           <div on:click={()=> goToPost(item)} class="hover:bg-[#2B2B2B] p-3 mb-3 ml-1 text-gray-200 w-full {!item?.readed ? 'bg-[#F9AB00] bg-opacity-[0.1]' : ''} cursor-pointer">
             <div class="flex flex-row items-center w-full">
 
             <!-- svelte-ignore a11y-label-has-associated-control -->

@@ -120,7 +120,7 @@ onMount( async() => {
 
 
 
-  <div class=" m-auto flex flex-wrap flex-col justify-center items-center md:flex-row">
+  <div class=" m-auto flex flex-wrap flex-col justify-center items-center md:flex-row px-5">
     <!--Left Col-->
 
     
@@ -415,7 +415,7 @@ onMount( async() => {
             </td>
 
             <td class="text-white border-b border-[#202020]">
-              {item?.name?.length > 30 ? item?.name?.slice(0,30) + "..." : item?.name}
+              {item?.name?.length > 20 ? item?.name?.slice(0,20) + "..." : item?.name}
             </td>
             
 
@@ -561,7 +561,7 @@ onMount( async() => {
             </td>
             
             <td class="text-white border-b border-[#202020]">
-              {item?.name?.length > 30 ? item?.name?.slice(0,30) + "..." : item?.name}
+              {item?.name?.length > 20 ? item?.name?.slice(0,20) + "..." : item?.name}
             </td>
     
       

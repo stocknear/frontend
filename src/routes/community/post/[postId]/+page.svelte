@@ -9,7 +9,7 @@ import VideoPlayer from '$lib/components/VideoPlayer.svelte';
 
 
 import { onMount, onDestroy } from 'svelte';
-import {userRegion, screenWidth, postIdDeleted, setCache, getCache, tagList, numberOfUnreadNotification, commentAdded, commentUpdated, commentIdDeleted } from '$lib/store';
+import {userRegion, screenWidth, scrollToComment, postIdDeleted, setCache, getCache, tagList, numberOfUnreadNotification, commentAdded, commentUpdated, commentIdDeleted } from '$lib/store';
 import { goto, afterNavigate } from '$app/navigation';
 import { base } from '$app/paths'
 
@@ -354,9 +354,9 @@ function closePost(event) {
 
 
 onDestroy( () => {
-
     $commentAdded = '';
     $commentIdDeleted = '';
+    $scrollToComment = '';
 })
 
 

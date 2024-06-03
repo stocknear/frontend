@@ -2,9 +2,10 @@
 
   import {getImageURL, formatDate} from '$lib/utils';
   import toast from 'svelte-french-toast';
-  import { userRegion, commentAdded, commentIdDeleted, screenWidth, replyCommentClicked, editCommentClicked } from '$lib/store';
+  import { userRegion, commentAdded, commentIdDeleted, screenWidth, replyCommentClicked, editCommentClicked, scrollToComment } from '$lib/store';
   import TextEditor from '$lib/components/TextEditor.svelte';
   import { marked } from 'marked';
+  import { tick } from 'svelte';
   
   export let moderators
   export let comment;
@@ -17,6 +18,7 @@ export let downvoteButtonClicked
 export let upvoteCounter;
 export let downvoteCounter;
 export let userAlreadyVoted;
+
 
 if (userAlreadyVoted) {
   upvoteButtonClicked = comment?.expand['alreadyVoted(comment)']?.find(item => item?.user === data?.user?.id)?.type === 'upvote';
@@ -254,6 +256,18 @@ const handleDownvote = async (event) => {
   $replyCommentClicked[comment?.id] = false
   $editCommentClicked[comment?.id] = false
 
+
+  $: if ($scrollToComment?.length !== 0 && typeof window !== 'undefined') {
+    // Wait for the DOM to update
+    tick().then(() => {
+      const commentElement = document.getElementById($scrollToComment);
+      if (commentElement) {
+        commentElement.scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: "center"});
+      }
+    });
+  }
+
+
   /*
   $: {
     if($commentAdded?.length !== 0) {
@@ -309,10 +323,10 @@ const handleDownvote = async (event) => {
   
   
         </div>
-        <div class="text-md text-slate-400 mb-1 pl-7 pt-3 whitespace-pre-wrap w-11/12">
+        <div class="text-md text-slate-400 mb-1 pl-5 pt-3 whitespace-pre-wrap w-11/12 sm:w-5/6 ">
   
             
-            <div class="text-sm text-[#D7DADC] whitespace-pre-line {repeatedCharacters(comment?.comment) === true ? 'break-all' : ''}">
+            <div id={comment?.id} class="text-sm text-[#D7DADC] rounded-lg {comment?.id === $scrollToComment ? 'pt-3 pl-3 pr-3 mb-5 bg-[#31304D]' : ''} whitespace-pre-line {repeatedCharacters(comment?.comment) === true ? 'break-all' : ''}">
               {#if !$editCommentClicked[comment?.id]}
               {@html addClassesToHtml(marked(comment?.comment))}
               {:else}
