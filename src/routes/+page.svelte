@@ -397,9 +397,9 @@ onMount( async() => {
       </div>
 
       <!--Start of Mode-->
-      <table class="table table-sm table-pin-rows table-compact rounded-none sm:rounded-md bg-[#0F0F0F]">
-        <thead>
-          <tr class="shadow-md bg-[#0F0F0F]">
+      <table class="table table-sm table-pin-rows table-compact rounded-none sm:rounded-lg bg-[#202020]">
+        <thead class="rounded-lg">
+          <tr class="bg-[#313131]">
             <th class="text-white font-medium text-sm">Symbol</th>
             <th class="text-white font-medium text-sm">Name</th>
             <th class="text-white font-medium text-sm ">Market Cap</th>
@@ -407,25 +407,25 @@ onMount( async() => {
           </tr>
         </thead>
 
-        <tbody class="shadow-md">
+        <tbody>
           {#each gainerLoserTickers as item}
-          <tr on:click={() => goto("/stocks/"+item.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] border-b-[#0F0F0F] shake-ticker cursor-pointer">
-            <td class="text-blue-400 border-b border-[#0F0F0F]">
+          <tr on:click={() => goto("/stocks/"+item.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] border-b-[#202020] shake-ticker cursor-pointer">
+            <td class="text-blue-400 border-b border-[#202020]">
                 {item?.symbol}
             </td>
 
-            <td class="text-white border-b border-[#0F0F0F]">
+            <td class="text-white border-b border-[#202020]">
               {item?.name?.length > 30 ? item?.name?.slice(0,30) + "..." : item?.name}
             </td>
             
 
       
-              <td class="text-white border-b border-[#0F0F0F]">
+              <td class="text-white border-b border-[#202020]">
                 {item?.marketCap !== null ? abbreviateNumber(item?.marketCap,true) : '-'}
               </td>
 
       
-              <td class="text-white border-b border-[#0F0F0F]">
+              <td class="text-white border-b border-[#202020] font-semibold">
                 <div class="flex flex-row justify-end items-center">
       
                   <div class="flex flex-col items-center">
@@ -544,34 +544,34 @@ onMount( async() => {
           
         </div>
 
-      <table class="table table-sm table-compact table-pin-rows shadow-md rounded-none sm:rounded-md bg-[#0F0F0F]">
+      <table class="table table-sm table-compact table-pin-rows shadow-md rounded-none sm:rounded-lg bg-[#202020]">
         <thead>
-          <tr class="shadow-md bg-[#0F0F0F]">
-            <th class="text-white font-medium text-sm">Symbol</th>
-            <th class="text-white font-medium text-sm">Name</th>
-            <th class="text-white font-medium text-sm ">Volume</th>
-            <th class="text-white font-medium text-end text-sm">Today</th>
+          <tr class="bg-[#313131]">
+            <th class="text-white font-semibold text-sm">Symbol</th>
+            <th class="text-white font-semibold text-sm">Name</th>
+            <th class="text-white font-semibold text-sm ">Volume</th>
+            <th class="text-white font-semibold text-end text-sm">Today</th>
           </tr>
         </thead>
-        <tbody class="shadow-md">
+        <tbody>
           {#each active as item, index}
-          <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] border-b-[#0F0F0F] shake-ticker cursor-pointer">
-            <td class="text-blue-400 border-b border-[#0F0F0F]">
+          <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] border-b-[#202020] shake-ticker cursor-pointer">
+            <td class="text-blue-400 border-b border-[#202020]">
               {item?.symbol}
             </td>
             
-            <td class="text-white border-b border-[#0F0F0F]">
+            <td class="text-white border-b border-[#202020]">
               {item?.name?.length > 30 ? item?.name?.slice(0,30) + "..." : item?.name}
             </td>
     
       
   
-          <td class="text-white border-b border-[#0F0F0F]">
+          <td class="text-white border-b border-[#202020]">
             {item?.volume !== null ? abbreviateNumber(item?.volume) : '-'}
           </td>
 
   
-          <td class="text-white border-b border-[#0F0F0F] ">
+          <td class="text-white border-b border-[#202020] font-semibold">
             <div class="flex flex-row justify-end items-center">
   
               <div class="flex flex-col items-center">
