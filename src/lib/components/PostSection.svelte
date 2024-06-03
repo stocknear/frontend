@@ -284,7 +284,7 @@ $: {
         {/if}
       </form>
       <!--End Upvote-->
-      <label class="px-6 py-4 w-14 rounded-lg bg-[#202020] border border-gray-700 text-[1rem] text-bold text-white">
+      <label class="text-center py-4 w-14 rounded-lg bg-[#202020] border border-gray-700 text-[1rem] text-bold text-white">
           {upvoteCounter[posts?.id] - downvoteCounter[posts?.id] }
       </label>
       <!--Start Downvote-->

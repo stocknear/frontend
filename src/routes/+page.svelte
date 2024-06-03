@@ -235,9 +235,7 @@ onMount( async() => {
                                     {/if}
 
                                      
-                
-
-
+              
                                 </div>
                                 <!-- End Column -->
                             
@@ -254,7 +252,7 @@ onMount( async() => {
       
           </div>
 
-  <div class="w-full max-w-3xl m-auto mb-20 flex justify-center items-center">
+  <div class="w-full max-w-3xl m-auto mb-20 -mt-4 flex justify-center items-center">
     <a href="/community" class="px-4 py-3 text-white bg-[#202327] rounded-lg flex flex-row items-center font-medium transition duration-150 ease-in-out group">
      <span>Follow the Community </span>
       <span class="ml-1 mt-0.5 tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">

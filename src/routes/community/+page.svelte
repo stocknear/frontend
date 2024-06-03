@@ -56,7 +56,7 @@ async function infiniteHandler({ detail: { loaded, complete } })
 {
 
   // console.log("Page position:", window.pageYOffset);
-  seenPostId = posts?.map(obj => obj.id);
+  seenPostId = posts?.map(obj => obj?.id);
 
   if (!postLoading && !noPostMore) {
     postLoading = true;
@@ -244,7 +244,7 @@ onMount(async () => {
 
   else {
     // Use cached data if available
-    posts = $cachedPosts[0].posts;
+    posts = $cachedPosts?.at(0)?.posts;
     communityStats = getCache('', 'getCommunityStats');
     moderators = getCache('', 'getModerators');
     discordData = getCache('','getDiscordWidget');
@@ -269,22 +269,19 @@ onDestroy(async () => {
 
 
 
-let sortingPosts = $cachedPosts?.at(0)?.sortingPosts?.length > 0 ? $cachedPosts?.at(0)?.sortingPosts : 'new';
+let sortingPosts = $cachedPosts?.at(0)?.sortingPosts?.length > 0 ? $cachedPosts?.at(0)?.sortingPosts : 'hot';
 
 async function handleCategoryOfPosts(state) {
   loading = true;
-  posts = null;
+  posts = [];
   currentPage = 1;
   postLoading = false;
   seenPostId = [];
   noPostMore = false;
 
   sortingPosts = state;
-
+  $cachedPosts = [];
   posts = await getPost();
-
-  
-
   loading = false;
   
 }
@@ -342,6 +339,7 @@ $: {
 
   }
 }
+
 
 
 
