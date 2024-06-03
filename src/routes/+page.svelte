@@ -120,7 +120,7 @@ onMount( async() => {
 
 
 
-  <div class=" m-auto flex flex-wrap flex-col justify-center items-center md:flex-row px-5">
+  <div class=" m-auto flex flex-wrap flex-col justify-center items-center md:flex-row sm:px-5">
     <!--Left Col-->
 
     

@@ -186,11 +186,11 @@ function handleInput(event) {
     if($screenWidth >= 640)
     {
       textarea.style.height = 'auto';
-      textarea.style.height = Math.min(textarea.scrollHeight, 300) + 'px';
+      textarea.style.height = Math.min(textarea.scrollHeight, 10000) + 'px';
     }
     else {
       textarea.style.height = 'auto';
-      textarea.style.height = Math.min(textarea.scrollHeight, 60) + 'px';
+      textarea.style.height = Math.min(textarea.scrollHeight, 10000) + 'px';
     }
   }
 
@@ -229,10 +229,10 @@ function handleImageInput(event) {
   
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0">
 
-<div class="p-2 w-full max-w-xl mr-auto {commentId?.length !== 0 ? '-ml-2' : ''} ">
+<div class="p-2 w-full max-w-xl mr-auto {commentId?.length !== 0 ? '-ml-2' : ''}">
   <textarea
     on:click={() => expandField = true}
-    class="rounded-lg {expandField ? 'min-h-28 h-auto border-[#1C4090]' : 'h-12  border-gray-500'} sm:hover:border-[#1C4090] sm:hover:ring-1 transition sm:ease-out placeholder-gray-500 w-full bg-[#202020] text-white border border-1 ring-2 sm:ring-0 ring-[#1C4090]"
+    class="rounded-lg {expandField ? 'min-h-28 h-full border-[#1C4090]' : 'h-12  border-gray-500'} overflow-hidden sm:hover:border-[#1C4090] sm:hover:ring-1 transition sm:ease-out placeholder-gray-500 w-full bg-[#202020] text-white border border-1 ring-2 sm:ring-0 ring-[#1C4090]"
     placeholder={placeholder}
     value={inputValue}
     bind:this={ref}
