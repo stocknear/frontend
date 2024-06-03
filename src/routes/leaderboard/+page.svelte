@@ -137,6 +137,11 @@ async function changeLeaderboard(event)
       startDate = '2024-05-01';
       endDate = '2024-05-31'
     }
+    else if (valueDate === 'june2024')
+    {
+      startDate = '2024-06-01';
+      endDate = '2024-06-30'
+    }
 
     await getLeaderboard();
     isLoaded = true;
@@ -301,7 +306,8 @@ async function getLeaderboard() {
         <div class="relative mt-4">
           <select class="select text-white select-bordered select-sm w-48 p-0 pl-5 overflow-y-auto bg-[#2A303C]" on:change={changeLeaderboard}>
               <option disabled>View the past months of winners</option>
-              <option value="may2024" selected>{displayMonth} 2024</option>
+              <option value="june2024" selected>{displayMonth} 2024</option>
+              <option value="may2024">May 2024</option>
               <option value="april2024">April 2024</option>
               <option value="march2024">March 2024</option>
               <option value="feb2024">February 2024</option>

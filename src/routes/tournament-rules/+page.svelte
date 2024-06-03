@@ -89,25 +89,10 @@
 
 
       <span class="text-white text-md mt-10 p-3 text-center ">
-          The Top 3 participant in the <a href="/leaderboard" class="text-blue-400 hover:text-white">
+          The Top 3 participant in the <a href="/leaderboard" class="text-blue-500 hover:text-white">
               Leaderboard</a>
-               will be rewarded accordingly:
+               will be rewarded accordingly with custom badges in their profile.
       </span>
-
-      <ol class="text-white list-disc  ml-10 sm:ml-3 p-3 pb-10 sm:pb-5 sm:flex sm:justify-center sm:items-center">
-          <li class="p-1">
-              First Place: 
-              <span class="font-bold">1x 30% Discount</span>
-          </li>
-          <li class="p-1">
-              Second Place:
-              <span class="font-bold">1x 20% Discount</span>
-          </li>
-          <li class="p-1">
-              Third Place:
-              <span class="font-bold">1x 10% Discount</span>
-          </li>
-        </ol> 
   </div>
 
 
