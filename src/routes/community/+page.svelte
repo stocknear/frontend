@@ -283,7 +283,6 @@ async function handleCategoryOfPosts(state) {
   $cachedPosts = [];
   posts = await getPost();
   loading = false;
-  
 }
 
 

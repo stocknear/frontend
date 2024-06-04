@@ -357,8 +357,7 @@ async function getLeaderboard() {
         </a>
 
       {:else}
-      {#each leaderboard as item,index }
-      {#if index >= 3}
+      {#each (leaderboard?.length >=3 ? leaderboard?.slice(3,-1) : leaderboard)  as item,index }
         <div class="p-2 sm:hidden">
         <div class="shadow-lg bg-[#202020] w-full rounded-lg p-4 sm:p-3 flex flex-row items-center ">
 
@@ -420,7 +419,6 @@ async function getLeaderboard() {
 
         </div>
       </div>
-      {/if}
       {/each}
 
       <!--Desktop-->
@@ -430,16 +428,14 @@ async function getLeaderboard() {
             <tr class="">
               <th class="text-white sm:font-medium text-sm shadow-md">Rank</th>
               <th class="text-white sm:font-medium text-sm hidden sm:block text-center shadow-md">Portfolio Holds </th>
-              <th class="text-white sm:font-medium text-sm text-end shadow-md">Account Value</th>
+              <th class="text-white sm:font-medium text-sm text-end shadow-md ">Account Value</th>
             </tr>
           </thead>
         <tbody class="shadow-md">
           
-          {#if leaderboard?.length > 3}
-            {#each leaderboard as item,index}
-            {#if index >= 3}
+            {#each (leaderboard?.length >=3 ? leaderboard?.slice(3,-1) : leaderboard) as item,index}
             <tr class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] {index % 2 === 0 ? 'bg-opacity-[0.25] bg-[#323239]' : 'bg-[#0F0F0F]'} cursor-pointer">
-              <td on:click={() => goto("/community/user/"+item?.user)} class="cursor-pointer text-white">
+              <td on:click={() => goto("/community/user/"+item?.user)} class="cursor-pointer">
                 <div class="flex flex-row items-center">
                   <span class="text-white text-sm mr-3">
                       {item?.rank}
@@ -502,74 +498,7 @@ async function getLeaderboard() {
               
 
             </tr>
-            {/if}
             {/each}
-          {:else}
-          {#each leaderboard as item,index}
-          <tr class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] {index % 2 === 0 ? 'bg-opacity-[0.25] bg-[#323239]' : 'bg-[#0F0F0F]'} cursor-pointer">
-            <td on:click={() => goto("/community/user/"+item?.user)} class="cursor-pointer text-white bg-[#0F0F0F]">
-              <div class="flex flex-row items-center">
-                <span class="text-white text-sm mr-3">
-                    {item?.rank}
-                </span>
-                <div class="avatar flex-shrink-0 rounded-full w-9 h-9 relative bg-gray-800 hover:ring-[2px] hover:ring-blue-700 ease-in-out duration-300">
-                    <img style="clip-path: circle(50%);"
-                    class="rounded-full w-8 h-8 absolute inset-1/2 transform -translate-x-1/2 -translate-y-1/2" 
-                    src={item?.expand?.user?.avatar
-                        ? getImageURL(item?.expand?.user?.collectionId, item?.expand?.user?.id, item?.expand?.user?.avatar)
-                        : `https://api.dicebear.com/7.x/thumbs/svg?seed=${item?.expand?.user?.username}`} 
-                    alt="User avatar" />
-
-                </div>
-                <span class="text-white ml-2 text-xs sm:text-md bg-[#0F0F0F]">
-                  {item?.expand?.user?.username > 7 ? item?.expand?.user?.username?.slice(0,7) + "..." : item?.expand?.user?.username}
-                </span>
-              </div>
-            </td>
-
-            <td class="font-medium hidden sm:block text-center text-white bg-[#0F0F0F]">
-              {item?.holdings?.length}
-            </td>
-            
-
-
-            <td class="text-white text-md bg-[#0F0F0F]">
-              <div class="flex flex-col items-end">
-
-                ${new Intl.NumberFormat("en", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2
-              }).format(item?.accountValue)}
-
-                <div class="flex flex-row items-center mt-1">
-
-                  {#if item?.overallReturn > 0}
-                  <svg class="w-5 h-5 -mr-0.5 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
-                    <span class="text-[#10DB06] text-md">
-                      +{item?.overallReturn?.toFixed(2)}%
-                    </span>
-                  {:else if item?.overallReturn < 0}
-                    <svg class="w-5 h-5 -mr-0.5 mt-0.5 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
-                    <span class="text-[#FF2F1F] text-md">
-                      {item?.overallReturn?.toFixed(2)}%
-                    </span>
-                  {:else}
-                    <svg class="w-2.5 h-2.5 inline-block mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path fill="#fff" d="M3 19h18a1.002 1.002 0 0 0 .823-1.569l-9-13c-.373-.539-1.271-.539-1.645 0l-9 13A.999.999 0 0 0 3 19z"/></g></svg>
-                    <span class="text-white text-md">
-                      {item?.overallReturn?.toFixed(2)}%
-                    </span>
-                  {/if}
-
-                </div>
-
-              </div>
-
-
-            </td>
-
-          </tr>
-          {/each}
-          {/if}
         </tbody>
       </table>
 
