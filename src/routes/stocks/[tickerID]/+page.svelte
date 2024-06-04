@@ -742,9 +742,9 @@ function changeChartType() {
   </svelte:head>
     
   
-  <section class="bg-[#0F0F0F] min-h-screen pb-40">
+  <section class="bg-[#0F0F0F] min-h-screen pb-40 overflow-hidden">
   
-              <div class="w-full max-w-3xl m-auto ">
+              <div class="w-full max-w-3xl m-auto overflow-hidden">
   
           
                     <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
@@ -1205,7 +1205,7 @@ function changeChartType() {
 
 
                                 {#if $screenWidth <= 1022} <!--BUG: Dont remove since when changing ETF symbol display freezes-->
-                                  <div class="w-full mt-10 m-auto sm:p-6 lg:hidden">
+                                  <div class="w-full mt-10 m-auto sm:p-6 lg:hidden ">
                                     <h3 class="cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
                                       Key Information
                                     </h3>
