@@ -678,8 +678,8 @@ onDestroy(async () => {
 
               
 
-              <div class=" w-full {$screenWidth < 640 ? 'overflow-auto scrollbar no-scrollbar' : ''} " >
-                <ul class="w-full  font-medium flex flex-row items-center bg-[#0F0F0F] overflow-x-scroll space-x-5 rtl:space-x-reverse py-2">
+              <div class="w-full" >
+                <ul class="w-full  font-medium flex flex-row items-center bg-[#0F0F0F] space-x-5 rtl:space-x-reverse py-2">
                   <li class="cursor-pointer flex flex-col items-center">
                     <label on:click={() => changeTab('post')} class="cursor-pointer px-3 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {showTab === 'post' ? 'text-white ' : 'bg-[#0F0F0F]'}" >
                       Posts

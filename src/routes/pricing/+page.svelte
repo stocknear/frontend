@@ -387,7 +387,7 @@ async function purchasePlan() {
                         </div>
                     </details>
 
-
+                    <hr class="border-gray-800"/>
                     <details class="collapse collapse-arrow bg-[#131313]">
                         <summary class="collapse-title text-lg font-semibold">What is your refund policy?</summary>
                         <div class="collapse-content"> 
@@ -404,7 +404,6 @@ async function purchasePlan() {
                         <div class="collapse-content"> 
                           <p>
                             You can send an email directly to <a href={`mailto:${emailAddress}`} class="text-blue-400 underline">{emailAddress}</a>.
-                            You can also join us in <a href={discordURL} rel="noopener noreferrer" target="_blank" class="text-blue-400 underline">Discord</a> and chat with me (Creator) directly.
                           </p>
                         </div>
                     </details>

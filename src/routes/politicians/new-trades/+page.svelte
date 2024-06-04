@@ -594,7 +594,7 @@
                       </div>
   
                       {:else}
-                      <div class="w-full m-auto rounded-none sm:rounded-lg mb-4 overflow-x-scroll">
+                      <div class="w-full m-auto rounded-none sm:rounded-lg mb-4 overflow-x-scroll sm:overflow-hidden">
                         <table class="table table-sm sm:table-md table-pin-cols table-compact rounded-none sm:rounded-md w-full bg-[#0F0F0F] border-bg-[#0F0F0F] m-auto">
                           <thead>
                             <tr class="bg-[#0F0F0F] border-b border-blue-400">
