@@ -301,70 +301,91 @@ onMount(async () => {
               </div>
   
                         <!-- Sidebar -->
-              <aside class="hidden lg:inline-block h-sh lg:w-1/2 lg:pr-2 xl:pr-0">
-                <div class="lg:pl-5 z-20 h-full">
-              
-                      <!-- Sidebar content -->
-  
-                        <!--Start User Profile -->
-                        <div class="space-y-6 ml-4">  
-                        <div class="rounded-xl bg-[#202020] h-48 w-full border border-gray-700">
-                          <!--Start Header-->
-                          <div class="w-full p-3 mt-5 ml-2">
-                            <svg style="clip-path: circle(50%);" class="flex-shrink-0 w-8 h-8 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><g fill="white"><path d="M32 20a8 8 0 1 1-16 0a8 8 0 0 1 16 0"/><path fill-rule="evenodd" d="M23.184 43.984C12.517 43.556 4 34.772 4 24C4 12.954 12.954 4 24 4s20 8.954 20 20s-8.954 20-20 20h-.274q-.272 0-.542-.016M11.166 36.62a3.028 3.028 0 0 1 2.523-4.005c7.796-.863 12.874-.785 20.632.018a2.99 2.99 0 0 1 2.498 4.002A17.94 17.94 0 0 0 42 24c0-9.941-8.059-18-18-18S6 14.059 6 24c0 4.916 1.971 9.373 5.166 12.621" clip-rule="evenodd"/></g></svg>
-                              <span class="text-white text-md ml-0.5 ">User Profile</span>
-                          </div>
-                          <!--End Header-->
-                          <!--Start Content-->
-                          <div class="w-full p-2 flex-1 flex flex-wrap">
-  
-                            <table class="table table-compact bg-[#202020] text-start flex justify-start items-center w-full px-3 m-auto">
-                              <tbody class="bg-[#202020]">
-                                <!-- row 1 -->
-                                <tr class="text-gray-300">
-                                  <td class="bg-[#202020] border-b border-[#202020]">Karma: {userData?.karma}</td>
-                                  <td class="bg-[#202020 border-b border-[#202020]">Posts: {userStats?.numberOfPosts}</td>
-                                </tr>
-                                <!-- row 2 -->
-                                <tr class="text-gray-300">
-                                  <td class="bg-[#202020]">Comments: {userStats?.numberOfComments}</td>
-                                  <td class="bg-[#202020]"></td>
-                                </tr>
-                              </tbody>
-                            </table>
-                        </div>
-                      <!--End User Profile -->
-  
-                      <div class="flex flex-col items-start mt-6 ml-2">
-                        <div class="flex flex-row gap-x-3">
-                          <a href="/about" class="text-sm text-gray-400 hover:text-gray-300 hover:underline">
-                            About
-                          </a>
-                          <a href="/terms-of-use" class="text-sm text-gray-400 hover:text-gray-300 hover:underline">
-                            Terms
-                          </a>
-                          <a href="/privacy-policy" class="text-sm text-gray-400 hover:text-gray-300 hover:underline">
-                            Privacy
-                          </a>
-                          <a href="/contact" class="text-sm text-gray-400 hover:text-gray-300 hover:underline">
-                            Contact
-                          </a>
-                          <a href="/imprint" class="text-sm text-gray-400 hover:text-gray-300 hover:underline">
-                            Imprint
-                          </a>
-                  
-                        </div>
-  
-                        <span class="text-sm text-gray-400  mt-1.5">
-                          © 2024 stocknear
-                        </span>
-  
-                      </div>
-                      
-  
-                      </div>
-                  </div>
-              </aside>
+                        <aside class="hidden lg:inline-block h-sh lg:w-1/2 lg:pr-2 xl:pr-0">
+                          <div class="lg:pl-5 z-20 h-full">
+                        
+                                <!-- Sidebar content -->
+            
+                                  <!--Start User Profile -->
+                                  <div class="space-y-6 ml-4">  
+                                  <div class="rounded-xl bg-[#202020] h-48 w-full border border-gray-700 font-mono">
+                                    <!--Start Header-->
+                                    <div class="ml-2 w-full p-3">
+                                        <span class="text-white text-lg font-medium ml-0.5">User Profile</span>
+                                    </div>
+                                    <hr class="border-b border-gray-700"/>
+                                    <!--End Header-->
+                                    <!--Start Content-->
+                                    <div class="w-full p-2">
+            
+                                      <table class="font-semibold table table-compact bg-[#202020] text-start flex justify-start items-center w-full px-3 m-auto">
+                                        <tbody class="bg-[#202020]">
+                                          <!-- row 1 -->
+                                          <tr class="text-gray-300">
+                                            <td class="bg-[#202020] border-b border-[#202020]">Karma: {userData?.karma}</td>
+                                            <td class="bg-[#202020 border-b border-[#202020]">Posts: {userStats?.numberOfPosts}</td>
+                                          </tr>
+                                          <!-- row 2 -->
+                                          <tr class="text-gray-300">
+                                            <td class="bg-[#202020]">Comments: {userStats?.numberOfComments}</td>
+                                            <td class="bg-[#202020]"></td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                  </div>
+                                <!--End User Profile -->
+            
+                                {#if userData?.tier === 'Pro'}
+                                <!--Start Badge-->
+                                  <div class="rounded-xl bg-[#202020] h-48 w-full border border-gray-700 mt-14">
+                                    <!--Start Header-->
+                                    <div class="ml-2 w-full p-3">
+                                        <span class="text-white text-lg font-medium ml-0.5 ">Badge</span>
+                                    </div>
+                                    <hr class="border-b border-gray-700"/>
+                                    <!--End Header-->
+                                    <!--Start Content-->
+                                    <div class="w-full p-2 flex flex-col items-start">
+                                      <div class="ml-2 mt-3 rounded-full border border-gray-500 w-16 h-16 relative bg-[#20202E] flex items-center justify-center">
+                                        <svg style="clip-path: circle(50%);" class="rounded-full w-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#F9784E" d="M273.857 21.904c-24.193.012-51.198 5.552-81.1 17.467c143.7 12.608 150.35 129.263 84.032 132.814c-85.27 4.565-53.232-57.217-133.34-103.03C200.445 201.48 94.44 190.33 21.054 59.23c12.805 85.755 24.28 116.942 78.26 153.596C261.996 323.294 94.618 347.8 36.82 245.53c14.568 93.454 68.364 132.803 131.707 139.93c-42.753 24.49-99.452 32.49-143.01 25.556c51.025 42.317 131.606 40.94 193.515 8.576c-37.137 36.123-97.446 70.644-116.803 74.728H276.36C517 405.563 530.305 232.45 454.827 124.492c-2.433 26.21-10.08 49.507-25.545 70.23c-18.48-102.394-69.02-172.86-155.426-172.818zm2.82 184.666l141.384 52.155c.286-3.207.86-6.495 1.747-9.807c5.62-20.973 21.605-34.913 35.705-31.135s20.973 23.842 15.353 44.815c-5.62 20.974-21.603 34.914-35.703 31.136a18 18 0 0 1-2.113-.72l-60.58 49.394l70.637 19.584l-140.023 84.71l65.848-68.866l-31.32-7.006l-150.335 122.58l158.06-196.89l-137.39-41.137l137.006 5.654l-68.275-54.467z"/></svg>
+                                      </div>
+                                      <span class="ml-7 mt-2 text-white font-mono font-medium">Pro</span>
+                                    </div>
+                                    <!--End Content-->
+                                  </div>
+                                <!--End Badge-->
+                                {/if}
+            
+                                <div class="flex flex-col items-start {userData?.tier === 'Pro' ? 'mt-3' : 'mt-12'} ml-2 font-sans">
+                                  <div class="flex flex-row gap-x-3">
+                                    <a href="/about" class="text-sm text-gray-400 hover:text-gray-300 hover:underline">
+                                      About
+                                    </a>
+                                    <a href="/terms-of-use" class="text-sm text-gray-400 hover:text-gray-300 hover:underline">
+                                      Terms
+                                    </a>
+                                    <a href="/privacy-policy" class="text-sm text-gray-400 hover:text-gray-300 hover:underline">
+                                      Privacy
+                                    </a>
+                                    <a href="/contact" class="text-sm text-gray-400 hover:text-gray-300 hover:underline">
+                                      Contact
+                                    </a>
+                                    <a href="/imprint" class="text-sm text-gray-400 hover:text-gray-300 hover:underline">
+                                      Imprint
+                                    </a>
+                            
+                                  </div>
+            
+                                  <span class="text-sm text-gray-400  mt-1.5">
+                                    © 2024 stocknear
+                                  </span>
+            
+                                </div>
+                                
+            
+                                </div>
+                            </div>
+                        </aside>
   
     
           </div>
