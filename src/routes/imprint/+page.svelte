@@ -103,7 +103,7 @@
             Eingetragen im Handelsregister des Amtsgericht Siegen unter: HRB 13800
             <br>
             <br>
-            USt-IDNr (VAT ID): Wird nachgereicht
+            USt-IDNr (VAT ID): DE366905061
           </p>
 
           <p class="text-white mb-5">
