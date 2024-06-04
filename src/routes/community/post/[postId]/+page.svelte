@@ -6,10 +6,8 @@ import Downvote from '$lib/components/Downvote.svelte';
 import Upvote from '$lib/components/Upvote.svelte';
 import VideoPlayer from '$lib/components/VideoPlayer.svelte';
 
-
-
 import { onMount, onDestroy } from 'svelte';
-import {userRegion, screenWidth, scrollToComment, postIdDeleted, setCache, getCache, tagList, numberOfUnreadNotification, commentAdded, commentUpdated, commentIdDeleted } from '$lib/store';
+import {cachedPosts, userRegion, screenWidth, scrollToComment, postIdDeleted, setCache, getCache, tagList, numberOfUnreadNotification, commentAdded, commentUpdated, commentIdDeleted } from '$lib/store';
 import { goto, afterNavigate } from '$app/navigation';
 import { base } from '$app/paths'
 
@@ -32,7 +30,7 @@ userRegion.subscribe(value => {
   });
 
 
-let post = data?.getOnePost;
+let post = {'id': 'test', 'upvote': 0, 'downvote': 0};
 let isScrolled = false;
 let isLoaded = false;
   
@@ -42,6 +40,22 @@ let upvoteCounter = {};
 let downvoteCounter = {};
 let userAlreadyVoted;
 
+async function getOnePost() {
+
+  const postData = {'postId':  data?.getPostId};
+
+  const response = await fetch(fastifyURL+'/get-one-post', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(postData),
+    });
+
+  const output = await response.json()
+  return output?.items
+
+}
 
 
 const handleUpvote = async (event) => {
@@ -258,9 +272,9 @@ const getModerators = async () => {
 
 
   
-  function isModerator(userId) {
-    return moderators?.some(moderator => userId === moderator?.user);
-  }
+function isModerator(userId) {
+  return moderators?.some(moderator => userId === moderator?.user);
+}
 
 function countAllComments(comments) {
 // Helper function to recursively count comments
@@ -280,7 +294,27 @@ return countComments(comments);
 let LoginPopup;
 
 onMount(async () => {
+
+  post = $cachedPosts?.at(0)?.posts?.find(item => item?.id === data?.getPostId) ?? {};
+
+  if (Object?.keys(post)?.length !== 0) {
+      [moderators, comments] = await Promise?.all([
+        getModerators(),
+        getAllComments(),
+      ]);
+
+    } else {
+      [post, moderators, comments] = await Promise?.all([
+        getOnePost(),
+        getModerators(),
+        getAllComments(),
+      ]);
     
+    }
+
+    numberOfComments = countAllComments(comments) || 0;
+
+
   upvoteCounter[post.id] = post?.upvote;
   downvoteCounter[post.id] = post?.downvote;
   userAlreadyVoted = post?.expand['alreadyVoted(post)']?.some(item => item?.user === data?.user?.id);
@@ -300,13 +334,8 @@ onMount(async () => {
       LoginPopup = (await import('$lib/components/LoginPopup.svelte')).default;
     }
 
-    [moderators, comments] = await Promise.all([
-      getModerators(),
-      getAllComments(),
-    ]);
 
-    numberOfComments = countAllComments(comments) || 0;
-    console.log(moderators)
+  
 
 if (post?.postType === 'link') {
     const url = new URL(post.link);
@@ -319,18 +348,18 @@ if (post?.postType === 'link') {
 
 }
 
-loadTextEditor = true;
-isLoaded = true;
+  loadTextEditor = true;
+  isLoaded = true;
 
-//comments = data?.allComments?.items.reverse() || []
-//replyComments = data?.allReplyComments?.items.reverse() || []
-// Add a scroll event listener
-window.addEventListener('scroll', handleScroll);
+  //comments = data?.allComments?.items.reverse() || []
+  //replyComments = data?.allReplyComments?.items.reverse() || []
+  // Add a scroll event listener
+  window.addEventListener('scroll', handleScroll);
 
-return () => {
-// Remove the event listener when the component is unmounted
-window.removeEventListener('scroll', handleScroll);
-};
+  return () => {
+  // Remove the event listener when the component is unmounted
+  window.removeEventListener('scroll', handleScroll);
+  };
 
 });
 
@@ -350,8 +379,6 @@ function closePost(event) {
     }
 
 }
-
-
 
 onDestroy( () => {
     $commentAdded = '';
@@ -499,6 +526,7 @@ $: {
 <!--<section on:click={closePost} class="bg-[#0F0F0F] cursor-zoom-out min-h-screen">-->
 
 <!--in:pageTransitionIn={{ duration: 250, screenWidth: $screenWidth }}-->
+{#if isLoaded}
 <div class="overflow-hidden flex flex-row item-start w-full lg:mt-5 relative max-w-6xl m-auto lg:px-5 sm:pb-40">
   <!--Start Voting-->
   <div style="top: 4rem;" class="hidden lg:flex flex-col items-center relative h-fit sticky z-20 lg:mr-3 ">
@@ -897,7 +925,11 @@ $: {
 
   </div>
 </div>
-
+{:else}
+<div class="flex justify-center items-center m-auto h-full w-full max-w-6xl">
+  <div class="loader">Loading...</div>
+</div>
+{/if}
 
 <!--Start Login Modal-->
 {#if LoginPopup}

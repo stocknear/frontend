@@ -1,7 +1,38 @@
 import { error, fail, redirect } from "@sveltejs/kit";
 import { validateData } from "$lib/utils";
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
-import { oauthState, oauthVerifier, oauthProvider } from '$lib/store';
+import { userRegion, oauthState, oauthVerifier, oauthProvider } from '$lib/store';
+
+
+const usRegion = ['cle1','iad1','pdx1','sfo1'];
+let fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
+
+userRegion.subscribe(value => {
+if (usRegion.includes(value)) {
+	fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
+} else {
+	fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
+}
+});
+
+
+export const load = async ({ params }) => {
+
+	
+	const getPostId = async () => {
+
+		return params.postId;
+	};
+
+
+	return {
+		getPostId: await getPostId(),
+	};
+
+	
+};
+
+
 
 
 export const actions = {
