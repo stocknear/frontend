@@ -492,6 +492,9 @@ export function getPartyForPoliticians(name) {
     "John Larson": "Democratic",
     "Tom Malinowski": "Democratic",
     "Jeff Duncan": "Republican",
+    "Peter Visclosky": "Democratic",
+    "Adam Kinzinger": "Republican",
+    "Austin Scott": "Republican",
 };
 
 // Combine first and last name to form the key
