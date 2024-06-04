@@ -690,12 +690,13 @@ onMount( async() => {
             <div class="text-sm text-white">
               <div class="flex flex-col items-start">
                 <div class="hidden sm:flex flex-row items-center mb-3">
+                  {#if latestInfoDate(item?.date)}
+                    <label class="bg-[#2D4F8A] text-white font-medium text-xs rounded-lg px-2 py-0.5">New</label>
+                    <span class="ml-2 mr-2"> &#183;</span>
+                  {/if}
                   <span class="text-gray-300 text-xs">
                     {formatDate(item?.date)} ago
                   </span>
-                  {#if latestInfoDate(item?.date)}
-                    <label class="bg-[#313131] text-white font-medium text-xs rounded-lg px-2 py-0.5 ml-3">New</label>
-                  {/if}
                 </div>
                 <span class="text-white">{item?.text}</span>
                 <div class="flex flex-col mt-5 items-start w-full">
@@ -710,12 +711,13 @@ onMount( async() => {
                   </div>
                   
                   <div class="sm:hidden flex flex-row items-center justify-end mt-3 ml-auto">
+                    {#if latestInfoDate(item?.date)}
+                      <label class="bg-[#2D4F8A] text-white font-medium text-xs rounded-lg px-2 py-0.5">New</label>
+                      <span class="ml-2 mr-2"> &#183;</span>
+                    {/if}
                     <span class="text-gray-300 text-xs">
                       {formatDate(item?.date)} ago
                     </span>
-                    {#if latestInfoDate(item?.date)}
-                      <label class="bg-[#313131] text-white font-medium text-xs rounded-lg px-2 py-0.5 ml-3">New</label>
-                    {/if}
                   </div>
 
                 </div>
