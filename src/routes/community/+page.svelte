@@ -499,9 +499,9 @@ $: {
 
                                  <!--Start About Community -->
                                  <div class="space-y-3 mb-5">  
-                                  <div class="rounded-t-2xl bg-[#202020] h-auto sm:w-96">
+                                  <div class="rounded-t-lg bg-[#202020] h-auto sm:w-96">
                                     <!--Start Header-->
-                                    <div class="bg-[#202020] w-full p-3 rounded-t-2xl">
+                                    <div class="bg-[#202020] w-full p-3 rounded-t-lg">
                                       <span class="text-white text-xl ml-1 font-semibold">
                                         About Community
                                       </span>
@@ -548,7 +548,7 @@ $: {
                                     <div class="mt-4 border-t border-slate-700 w-11/12 m-auto" />
 
                                     <div class="flex justify-center items-center mb-8 pt-5">
-                                      <a href="/community/create-post" class="rounded-full cursor-pointer w-11/12 py-2 h-full mt-2 text-md text-center font-semibold text-white m-auto hover:bg-[#3C74D4] bg-[#3C74D4] bg-opacity-[0.6] mb-6 duration-150">
+                                      <a href="/community/create-post" class="rounded-lg cursor-pointer w-11/12 py-2 h-full mt-2 text-md text-center font-semibold text-white m-auto hover:bg-[#3C74D4] bg-[#3C74D4] bg-opacity-[0.6] mb-6 duration-150">
                                         Create Post
                                       </a>
                                     </div>
@@ -562,7 +562,7 @@ $: {
                               <!--Start Discord -->
                               {#if discordData?.length !== 0}
                                 <div class="space-y-3 mb-5">  
-                                  <div class="rounded-t-2xl bg-[#202020] h-auto sm:w-96">
+                                  <div class="bg-[#202020] h-auto sm:w-96 rounded-lg">
 
                                   <!--Start Image-->
                                   <div class="flex flex-row items-center w-full p-3">
@@ -626,7 +626,7 @@ $: {
                                     <div class="mt-4 border-t border-slate-700 w-11/12 m-auto" />
 
                                     <div class="flex justify-center items-center mb-8 pt-5">
-                                      <a href={discordURL} rel="noopener noreferrer" target="_blank" class="rounded-full cursor-pointer w-11/12 py-2 h-full mt-2 text-md text-center font-semibold text-white m-auto hover:bg-[#3C74D4] bg-[#3C74D4] bg-opacity-[0.6] mb-6 duration-150">
+                                      <a href={discordURL} rel="noopener noreferrer" target="_blank" class="rounded-lg cursor-pointer w-11/12 py-2 h-full mt-2 text-md text-center font-semibold text-white m-auto hover:bg-[#3C74D4] bg-[#3C74D4] bg-opacity-[0.6] mb-6 duration-150">
                                         Join us
                                       </a>
                                     </div>
@@ -643,7 +643,7 @@ $: {
                               <div class="space-y-3 mt-5 pb-3">  
                                 <div class="rounded-2xl bg-[#202020] h-96 sm:w-96">
                                   Start Header
-                                  <div class="bg-[#202020] border-b border-slate-700 w-full p-3 rounded-t-2xl ">
+                                  <div class="bg-[#202020] border-b border-slate-700 w-full p-3 rounded-t-lg ">
                                     <span class="text-white text-xl ml-1 font-semibold">
                                       Ticker Mentions
                                     </span>
@@ -708,9 +708,9 @@ $: {
 
                                <!--Community Rules-->
                                <div class="space-y-3 mt-5 fixed sticky" style="top: 5rem;">  
-                                <div class="rounded-t-2xl bg-[#202020]  sm:w-96 rounded-2xl">
+                                <div class="bg-[#202020] sm:w-96 rounded-lg">
                                   <!--Start Header-->
-                                  <div class="bg-[#202020] border-b border-slate-700 w-full p-3 rounded-t-2xl">
+                                  <div class="bg-[#202020] border-b border-slate-700 w-full pl-6 pr-6 pt-6 pb-4 rounded-t-lg">
                                     <span class="text-white text-xl ml-1 font-semibold">
                                       Community Rules
                                     </span>
@@ -718,8 +718,8 @@ $: {
                                 <!--End Header-->
 
                                   <!--Start Content-->
-                                  <div class="w-full p-4 text-gray-300">
-                                    <ol class="list-disc pl-4 ">
+                                  <div class="w-full pl-7 text-gray-300">
+                                    <ol class="list-decimal pl-4 pr-4 pb-5 pt-4">
                                       <li class="text-[1rem] mb-3">
                                         Avoid Purely Policital Discussion
                                       </li>
