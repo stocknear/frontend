@@ -385,10 +385,10 @@ onMount( async() => {
     <!--End Portfolio Tournament-->
           
 
-  <div class="flex flex-wrap justify-between items-start w-full m-auto pb-14 sm:pb-20 sm:mt-10">
+  <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-10 w-full m-auto pb-14 sm:pb-20 sm:mt-10">
 
   
-    <div class="hidden sm:block w-full sm:w-1/2">
+    <div class="hidden sm:block w-full">
       
       <!--Start Top Winners/Losers-->
       <div id="step-top-winners" class="flex justify-between items-center">
@@ -538,8 +538,8 @@ onMount( async() => {
 
     <!--End Top Winners/Losers-->
 
-    <div class="hidden sm:block w-full  sm:w-1/2 mt-10 sm:mt-0">
-      <div class="ml-0 sm:ml-10">
+    <div class="hidden sm:block w-full mt-10 lg:mt-0">
+      <div>
         <div id="step-most-active" class="flex justify-between items-center">
           
           <h2 class="text-white text-xl sm:text-2xl font-bold text-start mb-2 ml-2 sm:ml-0">
