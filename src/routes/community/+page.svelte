@@ -163,7 +163,7 @@ async function getPost() {
  
   let postData;
 
-  if ($cachedPosts?.length === 0)
+  if (Object?.keys($cachedPosts)?.length === 0)
   {
     postData = {
       //userId: data?.user.id,
@@ -176,8 +176,8 @@ async function getPost() {
   {
     postData = {
       //userId: data?.user.id,
-      startPage: $cachedPosts[0].currentPage,
-      seenPostId: $cachedPosts[0].seenPostId.length === 0 ? [] :  $cachedPosts[0].seenPostId,
+      startPage: $cachedPosts?.currentPage,
+      seenPostId: $cachedPosts?.seenPostId.length === 0 ? [] :  $cachedPosts?.seenPostId,
       sortingPosts: sortingPosts,
     };
   }
@@ -227,9 +227,9 @@ let LoginPopup;
 let BottomNavigation;
 
 onMount(async () => {
-  if ($cachedPosts?.length === 0) {
+  if (Object?.keys($cachedPosts)?.length === 0) {
     // Only make API requests if cached posts are not available
-    [communityStats, moderators, posts, discordData] = await Promise.all([
+    [communityStats, moderators, posts, discordData] = await Promise?.all([
       getCommunityStats(),
       getModerators(),
       getPost(),
@@ -244,7 +244,7 @@ onMount(async () => {
 
   else {
     // Use cached data if available
-    posts = $cachedPosts?.at(0)?.posts;
+    posts = $cachedPosts?.posts;
     communityStats = getCache('', 'getCommunityStats');
     moderators = getCache('', 'getModerators');
     discordData = getCache('','getDiscordWidget');
@@ -269,7 +269,7 @@ onDestroy(async () => {
 
 
 
-let sortingPosts = $cachedPosts?.at(0)?.sortingPosts?.length > 0 ? $cachedPosts?.at(0)?.sortingPosts : 'hot';
+let sortingPosts = $cachedPosts?.sortingPosts?.length > 0 ? $cachedPosts?.sortingPosts : 'hot';
 
 async function handleCategoryOfPosts(state) {
   loading = true;
@@ -280,7 +280,7 @@ async function handleCategoryOfPosts(state) {
   noPostMore = false;
 
   sortingPosts = state;
-  $cachedPosts = [];
+  $cachedPosts = {};
   posts = await getPost();
   loading = false;
 }
@@ -319,7 +319,7 @@ $: {
 $: {
   if(posts)
   {
-    $cachedPosts = [{"sortingPosts": sortingPosts,'currentPage': currentPage, 'seenPostId': seenPostId, 'posts': posts}];
+    $cachedPosts = {"sortingPosts": sortingPosts,'currentPage': currentPage, 'seenPostId': seenPostId, 'posts': posts};
   }
 }
 
