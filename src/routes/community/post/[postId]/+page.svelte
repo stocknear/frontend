@@ -830,7 +830,7 @@
                                           
                                           
                                           {#if numberOfComments === 0}
-                                          <p class="text-slate-100 pl-5 sm:pl-2 pr-2 text-sm sm:text-md pt-5 pb-20">
+                                          <p class="text-center sm:text-start text-slate-100 sm:pl-2 pr-2 text-sm sm:text-md pb-20">
                                               No comments available yet. Be the first and open the discussion! 🚀
                                           </p>
                                           {/if}
