@@ -43,10 +43,10 @@ export const config = {
     addClassToTag('a', 'text-blue-400 hover:text-white underline');
 
     // Add classes to ordered lists
-    addClassToTag('ol', 'list-decimal ml-10 text-sm');
+    addClassToTag('ol', 'list-decimal ml-4 text-sm');
 
     // Add classes to unordered lists
-    addClassToTag('ul', 'list-disc ml-10 text-sm -mt-5');
+    addClassToTag('ul', 'list-disc ml-4 text-sm -mt-5');
 
     // Add classes to blockquotes and their paragraphs
     function addClassToBlockquote() {

@@ -422,7 +422,7 @@ $: {
               <div >
               <div class="relative mt-2">
                 <a href={"/community/post/"+posts?.id}>
-                {#if posts.postType === 'text'}
+                {#if posts?.postType === 'text'}
                   <!--Start PostType Text-->
                   <div class="flex flex-wrap md:flex-row">
                     <div class="cursor-pointer flex items-start">
@@ -434,12 +434,10 @@ $: {
                         </div>
 
                         
-                        <div class="break-normal ml-3 mt-5 pr-6 sm:pr-0">
-                          {@html posts?.description?.length > 182 ? posts?.description.slice(0, 182) + "..." : posts?.description}
+                        <div class="p-3 text-sm sm:text-[1rem] whitespace-pre-line break-normal text-[#D7DADC]">
+                          {@html posts?.description?.length > 400 ? posts?.description.slice(0, 400) + "..." : posts?.description}
                         </div>
                               
-      
-                          
                         </div>
                     </div>
                   </div>
