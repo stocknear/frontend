@@ -516,13 +516,13 @@ $: {
                       <div class="ml-3 pr-7 flex flex-wrap sm:hover:text-[#0099FF] text-[1.1rem] sm:text-xl font-medium text-white mb-5 relative">
                         {posts?.title}
                       </div>
-                      
-                      {#if !isVideoClicked[posts.id] }
+                      <!--
+                      {#if !isVideoClicked[posts?.id] }
 
                       <div class="overflow-hidden bg-cover bg-no-repeat relative w-screen sm:w-full h-36 sm:h-[250px]">
                         <label on:click={clickVideo} class="cursor-pointer transition duration-200 opacity-70 hover:opacity-90">
                           <div class="relative transition duration-500 ease-in-out hover:scale-105">
-                            <img src="{getImageURL(posts.collectionId, posts.id, posts.thumbnail)}" alt="image" class="m-auto w-full h-full object-cover" loading="lazy"/>
+                            <img src="{getImageURL(posts?.collectionId, posts?.id, posts?.thumbnail)}" alt="image" class="m-auto w-full h-full object-cover" loading="lazy"/>
                             <svg class="w-20 h-20 absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                               <path fill="none" d="M11 23a1 1 0 0 1-1-1V10a1 1 0 0 1 1.447-.894l12 6a1 1 0 0 1 0 1.788l-12 6A1.001 1.001 0 0 1 11 23Z"/>
                               <path fill="#D6D6DC" d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm7.447 14.895l-12 6A1 1 0 0 1 10 22V10a1 1 0 0 1 1.447-.894l12 6a1 1 0 0 1 0 1.788Z"/>
@@ -530,21 +530,16 @@ $: {
                           </div>
                         </label>
                       </div>
-                      
-                      
-                    
-                      
-                        {:else}
+                    -->
                         <iframe
                         id="videoPlayer"
-                        class="w-full h-56 sm:h-[500px]"
+                        class="w-full min-h-56 sm:min-h-96 sm:h-full max-h-[500px]"
                         src={`https://www.youtube.com/embed/${videoId[posts.id]}`}
                         frameborder="0"
                         allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen
                         autoplay
                       ></iframe>
-                        {/if}
                     </div>
                                       
                     {/if}

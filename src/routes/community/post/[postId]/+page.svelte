@@ -690,6 +690,10 @@
                                           {/if}
   
                                       {:else}
+                                      <h1 class="text-xl sm:text-2xl pl-3 pr-3 font-semibold mt-4 text-[#D7DADC] cursor-auto">
+                                        {post?.title}
+                                      </h1>
+                                      
                                       <div class="mt-10 m-auto flex justify-center items-center">
                                               <iframe
                                               class="w-full h-48 sm:h-[500px]"
