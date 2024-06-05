@@ -84,18 +84,15 @@ export const createPostImageSchema = z.object({
     .trim(),
   tagTopic: z.string(),
   tagline: z.string(),
-  atLeastOneTag: z
-    .string({ required_error: 'At least 1 tag is required' })
-    .min(1, { message: 'At least 1 tag is required' }),
-
+  atLeastOneTag: z.string({ required_error: 'At least 1 tag is required' }).min(1, { message: 'At least 1 tag is required' }),
   thumbnail: z
     .instanceof(File)
     .superRefine((val, ctx) => {
       if (val) {
-        if (val.size > 10242880) {
+        if (val.size > 5121440) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: 'File must be less than 10MB',
+            message: 'File must be less than 5MB',
           });
         }
 
@@ -107,12 +104,11 @@ export const createPostImageSchema = z.object({
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message:
-              'Unsupported file type. Supported formats: jpeg, jpg, png, webp, svg, gif',
+              'Unsupported file type. Supported formats: jpeg, jpg, png, webp, svg',
           });
         }
       }
     }),
-
   postType: z.string({ required_error: 'PostType is required.' }),
   user: z.string({ required_error: 'User is required.' }),
 });

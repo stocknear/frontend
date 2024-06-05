@@ -336,7 +336,7 @@
   
   let previousPage : string = base || '/community/';
   afterNavigate(({from}) => {
-          previousPage = from?.url.pathname || '/community/'
+          previousPage = from?.url.pathname?.startsWith('/community/create-post') ? '/community' :  ( from?.url.pathname || '/community')
   
           }) 
   

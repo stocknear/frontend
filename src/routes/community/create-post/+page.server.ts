@@ -83,15 +83,16 @@ export const load = async ({ locals}) => {
 export const actions = {
 
 	createPostText: async ({ request, locals }) => {
+
+		let newPost = '';
 		const body = await request.formData();
-		const thumb = body.get('thumbnail');
 		body.delete('thumbnail');
 		body.append('user', locals?.user?.id);
 
 		let {formData, errors} = await validateData( body, createPostTextSchema);
 
 		formData.description = addClassesToHtml(marked(formData?.description))
-		console.log(formData)
+		
 
 		formData.tagTopic = JSON.parse(formData.tagTopic)[0]
 		formData.upvote = 1
@@ -114,7 +115,7 @@ export const actions = {
 
 		try {
 
-			let newPost = await locals.pb.collection('posts').create(serialize(formData));
+			newPost = await locals.pb.collection('posts').create(serialize(formData));
 			
 
 			// add the tagTopic manually because serialize does not work on arrays
@@ -126,23 +127,31 @@ export const actions = {
 			//FormData for alreadyVoted
 			
 			let formDataAlreadyVoted = new FormData();
-			formDataAlreadyVoted.append('post', newPost.id);
-			formDataAlreadyVoted.append('user', newPost.user);
+			formDataAlreadyVoted.append('post', newPost?.id);
+			formDataAlreadyVoted.append('user', newPost?.user);
 			formDataAlreadyVoted.append('type', 'upvote');
 			//console.log(formDataAlreadyVoted)
 			await locals.pb.collection('alreadyVoted').create(formDataAlreadyVoted);
+
+
 			
 		} catch (err) {
 			console.log('Error: ', err);
 			error(err.status, err.message);
 		}
 
-		redirect(303, '/community');
+		if(newPost?.id?.length !== 0) {
+			redirect(303, '/community/post/'+newPost?.id);
+		} else {
+			redirect(303, '/community');
+		}
+		
 
 
 	},
 
 	createPostImage: async ({ request, locals }) => {
+		let newPost = '';
 		const body = await request.formData();
 		const thumb = body.get('thumbnail');
 
@@ -150,8 +159,7 @@ export const actions = {
 			body.delete('thumbnail');
 		}
 
-		body.append('user', locals?.user?.id);
-		
+		body.append('user', locals?.user?.id);		
 
 		let {formData, errors} = await validateData( body, createPostImageSchema);
 		
@@ -204,7 +212,6 @@ export const actions = {
 				type: image.type,
 				lastModified: image.lastModified,
 			  });
-
 	
 
 			} catch (err) {
@@ -218,7 +225,7 @@ export const actions = {
 		
 		try {
 			
-			let newPost = await locals.pb.collection('posts').create(serialize(formData));
+			newPost = await locals.pb.collection('posts').create(serialize(formData));
 			
 			
 			// add the tagTopic manually because serialize does not work on arrays
@@ -242,12 +249,19 @@ export const actions = {
 			error(err.status, err.message);
 		}
 
-		redirect(303, '/community');
+		
+		if(newPost?.id?.length !== 0) {
+			redirect(303, '/community/post/'+newPost?.id);
+		} else {
+			redirect(303, '/community');
+		}
+
 
 	},
 
 
 	createPostLink: async ({ request, locals }) => {
+		let newPost = '';
 		const body = await request.formData();
 		const url = body.get('link')
 		let image;
@@ -295,7 +309,7 @@ export const actions = {
 
 		catch(e)
 		{
-			//console.log(e)
+			console.log(e)
 		}
 		
 		
@@ -344,7 +358,7 @@ export const actions = {
 		})
 
 		try {
-			let newPost = await locals.pb.collection('posts').create(serialize(formData));
+			newPost = await locals.pb.collection('posts').create(serialize(formData));
 			
 
 			// add the tagTopic manually because serialize does not work on arrays
@@ -367,7 +381,11 @@ export const actions = {
 			error(err.status, err.message);
 		}
 
-		redirect(303, '/community');
+		if(newPost?.id?.length !== 0) {
+			redirect(303, '/community/post/'+newPost?.id);
+		} else {
+			redirect(303, '/community');
+		}
 
 	},
 

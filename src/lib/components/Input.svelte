@@ -31,7 +31,6 @@
 			if (['.mp4', '.webm'].some(format => files[0]?.name?.includes(format)) )
 			{
 				videoInput = URL.createObjectURL(files[0]);
-				console.log(videoInput)
 			}
 			else {
 
@@ -127,10 +126,11 @@ function handleDrop(e) {
 
 
 const handleCancel= () => {
-inputValue = '';
-showVideo = false;
+	inputValue = '';
+	showVideo = false;
 }
-	let isHovering = false;
+
+let isHovering = false;
 
 
 $: {
@@ -175,10 +175,10 @@ $: {
 				<span class="mt-2 mb-4 text-gray-200">Drop here to upload</span>
 			{/if}
 			<span class="text-xs sm:text-sm text-gray-400 m-auto mb-5 ">
-				We support jpg/jpeg, png, webp, mp4 and gif.
+				We support jpg/jpeg, png, webp and mp4.
 			</span>
 			<span class="text-xs sm:text-sm text-gray-400 m-auto mb-5 ">
-				File must be smaller than 10MB.
+				File must be smaller than 5MB.
 			</span>
 			<label for={id} class="cursor-pointer rounded-full bg-blue-700 text-sm text-white font-bold w-auto p-3">
 				Choose File
@@ -193,7 +193,7 @@ $: {
 					{id}
 					name={id}
 					value={inputValue}
-					accept="image/gif"
+					accept="image"
 					on:change={showPreview}
 					on:input={handleInput}
 					autocomplete="off"
