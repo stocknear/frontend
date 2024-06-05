@@ -400,7 +400,7 @@ const handleDownvote = async (event) => {
             {/if}
   
             {#if data?.user?.id === comment?.expand?.user?.id || data?.user?.id === moderators?.at(0).user}  
-              <label for={deleteCommentId} class="cursor-pointer text-[12.5px] font-bold text-[#8C8C8C]">
+              <label for={'delete'+deleteCommentId} class="cursor-pointer text-[12.5px] font-bold text-[#8C8C8C]">
                 Delete
               </label>
             {/if}
@@ -448,11 +448,11 @@ const handleDownvote = async (event) => {
   
   
   <!--Start Delete Modal-->
-  <input type="checkbox" id={deleteCommentId} class="modal-toggle" />
+  <input type="checkbox" id={'delete'+deleteCommentId} class="modal-toggle" />
   
-  <dialog id={deleteCommentId} class="modal modal-bottom sm:modal-middle border border-slate-800">
+  <dialog id={'delete'+deleteCommentId} class="modal modal-bottom sm:modal-middle border border-slate-800">
   
-    <label for={deleteCommentId}  class="cursor-pointer modal-backdrop  bg-[#fff] bg-opacity-[0.05]"></label>
+    <label for={'delete'+deleteCommentId}  class="cursor-pointer modal-backdrop  bg-[#fff] bg-opacity-[0.05]"></label>
   
     <div class="modal-box bg-[#202020] p-5 border border-slate-600 shadow-none" >
   
@@ -461,10 +461,10 @@ const handleDownvote = async (event) => {
           </h3>
   
           <div class="modal-action pb-4">
-            <label for={deleteCommentId} class="cursor-pointer text-sm px-3 py-3 rounded-lg m-auto text-white mr-5 bg-[#646464]">
+            <label for={'delete'+deleteCommentId} class="cursor-pointer text-sm px-3 py-3 rounded-lg m-auto text-white mr-5 bg-[#646464]">
               No, cancel
             </label>
-            <label on:click={handleDeleteComment} for={deleteCommentId} class="cursor-pointer text-sm px-3 py-3 rounded-lg m-auto text-white mr-5 bg-blue-700">
+            <label on:click={handleDeleteComment} for={'delete'+deleteCommentId} class="cursor-pointer text-sm px-3 py-3 rounded-lg m-auto text-white mr-5 bg-blue-700">
               Yes, I'm sure
             </label>
               
