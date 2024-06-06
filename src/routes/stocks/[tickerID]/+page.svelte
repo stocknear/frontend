@@ -33,7 +33,6 @@
     let stockDeck = data?.getStockDeck ?? [];
     let analystEstimateList = data?.getAnalystEstimate ?? []
     let fairPrice = data?.getFairPrice ?? [];
-    let shareholderList = data?.getShareHolders ?? [];
     let revenueSegmentation = data?.getRevenueSegmentation ?? [];
     let correlationList = data?.getCorrelation?.correlation ?? [];
     let modelStats = data?.getTradingSignals ?? {};
@@ -67,13 +66,11 @@
   let TARating;
   let RevenueSegmentation;
   let StockSplits;
-  let ShareHolders;
   let DCF;
   let Correlation;
   let OptionsData;
   let WIIM;
   let SentimentAnalysis;
-  let PriceAnalysis;
   let FundamentalAnalysis;
   let VaR;
 
@@ -91,17 +88,13 @@
     */
     WIIM = (await import('$lib/components/WIIM.svelte')).default;
     SentimentAnalysis = (await import('$lib/components/SentimentAnalysis.svelte')).default;
-    //PriceAnalysis = (await import('$lib/components/PriceAnalysis.svelte')).default;
     FundamentalAnalysis = (await import('$lib/components/FundamentalAnalysis.svelte')).default;
     VaR = (await import('$lib/components/VaR.svelte')).default;
     
     TARating = (await import('$lib/components/TARating.svelte')).default;
     RevenueSegmentation = (await import('$lib/components/RevenueSegmentation.svelte')).default;
     StockSplits = (await import('$lib/components/StockSplits.svelte')).default;
-    ShareHolders = (await import('$lib/components/ShareHolders.svelte')).default;
     DCF = (await import('$lib/components/DCF.svelte')).default;
-    //PricePredictionCard = (await import('$lib/components/PricePredictionCard.svelte')).default;
-    //TradingModel = (await import('$lib/components/TradingModel.svelte')).default;
     Correlation = (await import('$lib/components/Correlation.svelte')).default;
     OptionsData = (await import('$lib/components/OptionsData.svelte')).default;
 
@@ -652,7 +645,6 @@ function changeChartType() {
       pricePrediction = data?.getPricePrediction;
       modelStats = data?.getTradingSignals;
       stockDeck = data?.getStockDeck;
-      shareholderList = data?.getShareHolders;
       revenueSegmentation = data?.getRevenueSegmentation;
       correlationList = data?.getCorrelation?.correlation;
       analystEstimateList = data?.getAnalystEstimate;
@@ -1295,13 +1287,13 @@ function changeChartType() {
 
                                   
                                    <!--Start Shareholders-->
-                                    <div class="w-full sm:pl-6 sm:pb-6 sm:pt-6 m-auto mb-5 {shareholderList?.length !== 0 ? '' : 'hidden'}">
-                                      {#if ShareHolders}
-                                        <ShareHolders
-                                        shareholderList = {shareholderList}
-                                        />        
-                                      {/if}
-                                    </div>  
+                                   <Lazy>
+                                    <div class="w-full sm:pl-6 sm:pb-6 sm:pt-6 m-auto mb-5">
+                                    {#await import('$lib/components/ShareHolders.svelte') then {default: Comp}}
+                                      <svelte:component this={Comp} />
+                                    {/await}
+                                    </div>
+                                    </Lazy>
                                    <!--End Shareholders-->
 
 

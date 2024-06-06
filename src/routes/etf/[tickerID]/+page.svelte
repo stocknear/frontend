@@ -713,7 +713,6 @@
         taRating = data?.getStockTARating;
         varDict = data?.getVaR;
   
-        //shareholderList = data?.getShareHolders;
         //stockDeck = data?.getStockDeckData;
         
     
