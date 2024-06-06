@@ -278,37 +278,42 @@ async function purchasePlan() {
                     <li class="flex items-center space-x-3 ">
                         <!-- Icon -->
                         <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
-                        <span class="text-white text-sm font-medium">Unlimited Stock Screener Strategy</span>
+                        <span class="text-white text-[1rem] font-semibold">Unlimited Stock Screener Strategy</span>
                     </li>
                     <li class="flex items-center space-x-3 ">
                         <!-- Icon -->
                         <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
-                        <span class="text-white text-sm font-medium">Unlimited Financial history</span>
+                        <span class="text-white text-[1rem] font-semibold">Unlimited Financial history</span>
                     </li>
                     <li class="flex items-center space-x-3 ">
                         <!-- Icon -->
                         <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
-                        <span class="text-white text-sm font-medium">Unlimited Hedge Funds Portfolio</span>
+                        <span class="text-white text-[1rem] font-semibold">Unlimited Hedge Funds Portfolio</span>
                     </li>
                     <li class="flex items-center space-x-3 ">
                         <!-- Icon -->
                         <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
-                        <span class="text-white text-sm font-medium">Unlimited Wall Street Analysts Ratings</span>
+                        <span class="text-white text-[1rem] font-semibold">Unlimited Wall Street Analysts Ratings</span>
                     </li>
                     <li class="flex items-center space-x-3 ">
                         <!-- Icon -->
                         <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
-                        <span class="text-white text-sm font-medium">Unlimited Watchlist Strategy</span>
+                        <span class="text-white text-[1rem] font-semibold">Unlimited Watchlist Strategy</span>
                     </li>
                     <li class="flex items-center space-x-3 ">
                         <!-- Icon -->
                         <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
-                        <span class="text-white text-sm font-medium">Unlimited Price Alerts</span>
+                        <span class="text-white text-[1rem] font-semibold">Unlimited Price Alerts</span>
                     </li>
                     <li class="flex items-center space-x-3 ">
                         <!-- Icon -->
                         <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
-                        <span class="text-white text-sm font-medium">Unlimited Options Data</span>
+                        <span class="text-white text-[1rem] font-semibold">Unlimited Options Data</span>
+                    </li>
+                    <li class="flex items-center space-x-3 ">
+                        <!-- Icon -->
+                        <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
+                        <span class="text-white text-[1rem] font-semibold">{mode ? '1 Month Free Trial' : '1 Week Free Trial'}  </span>
                     </li>
                 </ol>
                 <div class="divider"></div>
@@ -366,26 +371,27 @@ async function purchasePlan() {
                 <div class="bg-[#141414] bg-opacity-80 text-white rounded-2xl">
                 <div class="p-4" style="margin-bottom: -20px">
                     <!--Row Starts-->
-                    <!--
-                    <div tabindex="0" class="collapse collapse-arrow">
-                        <div class="collapse-title text-lg">
-                            Will I get charged during the free trial?
-                        </div>
-                        <div class="collapse-content">
-                            <label  class="text-md text-[#A6ADBB]">
-                               No, after your 7-day trial, your subscription will begin and you'll be charged. You have full control to cancel your subscription anytime through your account settings.
-                            </label>
-                        </div>
-                    </div>
-                    <hr class="border-gray-800"/>
-                    -->
                     
+                    <details class="collapse collapse-arrow bg-[#131313]">
+                        <summary class="collapse-title text-lg font-semibold">How does the free trial work?</summary>
+                        <div class="collapse-content"> 
+                          <p>
+                            You will receive a 7-day free trial when signing up for a monthly subscription and a 30-day free trial if you sign up for an annual plan. 
+                            After your trial ends, you will be charged the amount listed at sign up. You can always cancel before then.
+                          </p>
+                        </div>
+                    </details>
+
+                    <hr class="border-gray-800"/>
+                
+                    <!--    
                     <details class="collapse collapse-arrow bg-[#131313]">
                         <summary class="collapse-title text-lg font-semibold">Is there a free trial?</summary>
                         <div class="collapse-content"> 
                           <p>While we don't offer a free trial, we provide a 30-day grace period from the date of your first payment. If you're unsatisfied, you can request a full refund within this period.</p>
                         </div>
                     </details>
+                    -->
 
                     <hr class="border-gray-800"/>
                     <details class="collapse collapse-arrow bg-[#131313]">
