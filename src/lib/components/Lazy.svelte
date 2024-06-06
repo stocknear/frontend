@@ -19,5 +19,5 @@
 {#if show}
 	<slot />
 {:else}
-	<div bind:this={el}/> 
+	<div bind:this={el}/>
 {/if}

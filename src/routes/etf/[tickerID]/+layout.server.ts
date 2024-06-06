@@ -116,7 +116,6 @@ const promises = [
     fetchData(apiURL,'/wiim',params.tickerID),
     fetchData(apiURL,'/sentiment-analysis',params.tickerID),
     fetchData(apiURL,'/trend-analysis',params.tickerID),
-    fetchData(apiURL,'/price-analysis',params.tickerID),
     fetchData(apiURL,'/value-at-risk',params.tickerID),
     fetchWatchlist(fastifyURL, locals?.user?.id),
     fetchPortfolio(fastifyURL, locals?.user?.id)
@@ -135,7 +134,6 @@ const promises = [
     getWhyPriceMoved,
     getSentimentAnalysis,
     getTrendAnalysis,
-    getPriceAnalysis,
     getVaR,
     getUserWatchlist,
     getUserPortfolio,
@@ -160,7 +158,6 @@ const promises = [
     getWhyPriceMoved,
     getSentimentAnalysis,
     getTrendAnalysis,
-    getPriceAnalysis,
     getVaR,
     getUserWatchlist,
     getUserPortfolio,

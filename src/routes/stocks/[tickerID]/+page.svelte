@@ -9,6 +9,7 @@
   import StockKeyInformation from '$lib/components/StockKeyInformation.svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
   import CommunitySentiment from '$lib/components/CommunitySentiment.svelte';
+  import Lazy from '$lib/components/Lazy.svelte';
     
   const usRegion = ['cle1','iad1','pdx1','sfo1'];
   
@@ -47,7 +48,6 @@
     let enterpriseValues = [];
     let sentimentList = []
     let trendList = [];
-    let priceAnalysisDict = {};
     let fundamentalAnalysisDict = {};
     let communitySentiment = {};
 
@@ -96,7 +96,7 @@
     WIIM = (await import('$lib/components/WIIM.svelte')).default;
     SentimentAnalysis = (await import('$lib/components/SentimentAnalysis.svelte')).default;
     TrendAnalysis = (await import('$lib/components/TrendAnalysis.svelte')).default;
-    PriceAnalysis = (await import('$lib/components/PriceAnalysis.svelte')).default;
+    //PriceAnalysis = (await import('$lib/components/PriceAnalysis.svelte')).default;
     FundamentalAnalysis = (await import('$lib/components/FundamentalAnalysis.svelte')).default;
     VaR = (await import('$lib/components/VaR.svelte')).default;
     Enterprise = (await import('$lib/components/Enterprise.svelte')).default;
@@ -652,7 +652,6 @@ function changeChartType() {
       enterpriseValues = []
       sentimentList = [];
       trendList = [];
-      priceAnalysisDict = {};
       fundamentalAnalysisDict = {};
       communitySentiment = {}
       output = null;
@@ -673,7 +672,6 @@ function changeChartType() {
       trendList = data?.getTrendAnalysis;
       varDict = data?.getVaR;
       enterpriseValues = data?.getEnterPriseValues;
-      priceAnalysisDict = data?.getPriceAnalysis;
       fundamentalAnalysisDict = data?.getFundamentalAnalysis;
       communitySentiment = data?.getCommunitySentiment;
     
@@ -1234,11 +1232,14 @@ function changeChartType() {
 
 
 
-                                {#if PriceAnalysis}
-                                <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(priceAnalysisDict)?.length !== 0  ? '' : 'hidden'}">
-                                  <PriceAnalysis data={data} priceAnalysisDict={priceAnalysisDict}/>
+                                <Lazy>
+                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                  {#await import('$lib/components/PriceAnalysis.svelte') then {default: Comp}}
+                                    <svelte:component this={Comp} data={data} />
+                                  {/await}
                                 </div>
-                                {/if}
+                                </Lazy>
+
 
                                 {#if TrendAnalysis}
                                   <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {trendList?.length !== 0  ? '' : 'hidden'}">

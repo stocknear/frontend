@@ -1,13 +1,27 @@
 
 <script lang ='ts'>
-    import { displayCompanyName, stockTicker, etfTicker, cryptoTicker, assetType, screenWidth} from '$lib/store';
-    import InfoModal from '$lib/components/InfoModal.svelte';
-    import { Chart } from 'svelte-echarts'
+  import { displayCompanyName, stockTicker, etfTicker, cryptoTicker, assetType, screenWidth, userRegion, getCache, setCache} from '$lib/store';
+  import InfoModal from '$lib/components/InfoModal.svelte';
+  import { Chart } from 'svelte-echarts'
+
+  let isLoaded = false;
+  const usRegion = ['cle1','iad1','pdx1','sfo1'];
+
+  let apiURL;
+
+  userRegion.subscribe(value => {
+
+    if (usRegion.includes(value)) {
+      apiURL = import.meta.env.VITE_USEAST_API_URL;
+    } else {
+      apiURL = import.meta.env.VITE_EU_API_URL;
+    }
+  });
 
     import Lazy from 'svelte-lazy';
 
 
-    export let priceAnalysisDict;
+    let priceAnalysisDict = {};
     export let data;
 
     const modalContent = `
@@ -36,7 +50,6 @@ function getPlotOptions() {
     const predictionDate = priceAnalysisDict?.predictionDate;
     const upperBand = priceAnalysisDict?.upperBand;
     const lowerBand = priceAnalysisDict?.lowerBand?.map(value => value < 0 ? 0 : value);
-    console.log(lowerBand)
     const historicalPrice = priceAnalysisDict?.historicalPrice;
     //const meanPredictionPrice = priceAnalysisDict?.meanResult;
 
@@ -121,24 +134,55 @@ function getPlotOptions() {
 
 return option;
 }
-   
+
+
+const getPriceAnalysis = async (ticker) => {
+    // Get cached data for the specific tickerID
+    const cachedData = getCache(ticker, 'getPriceAnalysis');
+    if (cachedData) {
+      priceAnalysisDict = cachedData;
+    } else {
+
+      const postData = {'ticker': ticker};
+      // make the POST request to the endpoint
+      const response = await fetch(apiURL + '/price-analysis', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData)
+      });
+
+      priceAnalysisDict = await response.json();
+
+      // Cache the data for this specific tickerID with a specific name 'getPriceAnalysis'
+      setCache(ticker, priceAnalysisDict, 'getPriceAnalysis');
+    }
+};
+
+
+
 $: {
-  if(($assetType === 'stock' ? $stockTicker : $assetType === 'etf' ? $etfTicker : $cryptoTicker) && typeof window !== 'undefined' && Object?.keys(priceAnalysisDict)?.length !== 0) {
+  if(($assetType === 'stock' ? $stockTicker : $assetType === 'etf' ? $etfTicker : $cryptoTicker) && typeof window !== 'undefined') {
+    isLoaded = false;
     lastPrice = data?.getStockQuote?.price ?? "n/a";
-    oneYearPricePrediction = priceAnalysisDict?.meanResult?.slice(-1)?.at(0);
+    const ticker = $assetType === 'stock' ? $stockTicker : $assetType === 'etf' ? $etfTicker : $cryptoTicker;
 
-    mape = priceAnalysisDict?.mape;
-    r2Score = priceAnalysisDict?.r2Score;
-    priceSentiment = lastPrice < oneYearPricePrediction ? 'Bullish' : 'Bearish';
-    optionsData = getPlotOptions()
-
-    /*
-    const sample = trendList?.filter(item => item?.label === displayData)?.at(0);
-    priceSentiment = sample?.sentiment;
-    r2Score = sample?.r2Score;
-    mape = sample?.mape;
-    */
-    
+    const asyncFunctions = [
+      getPriceAnalysis(ticker)
+      ];
+      Promise.all(asyncFunctions)
+          .then((results) => {
+            oneYearPricePrediction = priceAnalysisDict?.meanResult?.slice(-1)?.at(0);          
+            mape = priceAnalysisDict?.mape;
+            r2Score = priceAnalysisDict?.r2Score;
+            priceSentiment = lastPrice < oneYearPricePrediction ? 'Bullish' : 'Bearish';
+            optionsData = getPlotOptions()
+          })
+          .catch((error) => {
+            console.error('An error occurred:', error);
+          });
+    isLoaded = true;
   }
 }
 
@@ -160,13 +204,15 @@ $: {
                 />
             </div>
     
+           
+            {#if isLoaded}
+
             {#if Object?.keys(priceAnalysisDict)?.length !== 0}
             <div class="w-full flex flex-col items-start">
                 <div class="text-white text-sm sm:text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
                     Our model predicts future prices by analyzing trends, seasonal variations, and holiday impacts. Here are the stats of the model for {$displayCompanyName} to ensure transparency and reliability.
                 </div>
             </div>
-           
 
             <div class="w-full mt-5 mb-5 flex justify-start items-center">
                 <div class="w-full grid grid-cols-2 lg:grid-cols-3 gap-y-3 gap-x-3 ">
@@ -263,6 +309,16 @@ $: {
                 <svg class="w-10 sm:w-12 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#334155" d="M18.68 12.32a4.49 4.49 0 0 0-6.36.01a4.49 4.49 0 0 0 0 6.36a4.508 4.508 0 0 0 5.57.63L21 22.39L22.39 21l-3.09-3.11c1.13-1.77.87-4.09-.62-5.57m-1.41 4.95c-.98.98-2.56.97-3.54 0c-.97-.98-.97-2.56.01-3.54c.97-.97 2.55-.97 3.53 0c.97.98.97 2.56 0 3.54M10.9 20.1a6.527 6.527 0 0 1-1.48-2.32C6.27 17.25 4 15.76 4 14v3c0 2.21 3.58 4 8 4c-.4-.26-.77-.56-1.1-.9M4 9v3c0 1.68 2.07 3.12 5 3.7v-.2c0-.93.2-1.85.58-2.69C6.34 12.3 4 10.79 4 9m8-6C7.58 3 4 4.79 4 7c0 2 3 3.68 6.85 4h.05c1.2-1.26 2.86-2 4.6-2c.91 0 1.81.19 2.64.56A3.215 3.215 0 0 0 20 7c0-2.21-3.58-4-8-4Z"/></svg>
             </h2>
             
+            {/if}
+
+            {:else}
+            <div class="flex justify-center items-center h-80">
+              <div class="relative">
+                <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <span class="loading loading-spinner loading-md"></span>
+                </label>
+              </div>
+            </div>  
             {/if}
     
         </main>
