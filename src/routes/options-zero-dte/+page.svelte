@@ -490,7 +490,7 @@ const debouncedHandleInput = debounce(handleInput, 200);
             <input 
             id="modal-search"
               type="search" 
-              class="ml-2 text-sm sm:text-[1rem] placeholder-gray-400 border-transparent focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1 bg-inherit"
+              class="sm:ml-2 text-sm sm:text-[1rem] placeholder-gray-400 border-transparent focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1 bg-inherit"
               placeholder="Find by Symbol"
               bind:value={filterQuery}
               on:input={debouncedHandleInput}

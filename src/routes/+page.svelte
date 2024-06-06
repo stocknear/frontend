@@ -5,6 +5,9 @@
   import { abbreviateNumber, formatDate } from '$lib/utils';
   import StockSlider from '$lib/components/StockSlider.svelte';
   import InfoModal from '$lib/components/InfoModal.svelte';
+  import nancyPelosiProfile from '$lib/images/senator/Nancy_Pelosi.png';
+  import warrenBuffetProfile from '$lib/images/hedge_funds/0001067983.png';
+  import michaelBurryProfile from '$lib/images/hedge_funds/0001649339.png';
 
   import { screenWidth, numberOfUnreadNotification} from '$lib/store';
 
@@ -234,6 +237,42 @@ onMount( async() => {
                                     </div>
                                     {/if}
 
+                                    <div class="w-full max-w-64 sm:max-w-3xl m-auto grid grid-cols-1 md:grid-cols-3 gap-y-3 sm:gap-x-5 mt-10 flex justify-center items-center">
+                                      <a href="/politicians/61b59ab669" class="px-4 py-3 text-white bg-[#202327] rounded-lg flex flex-row items-center font-medium transition duration-150 ease-in-out group">
+                                        <div class="flex flex-row items-center">
+                                          <div class="shadow-lg rounded-full border border-slate-600 w-10 h-10 relative democratic-striped bg-[#295AC7] flex items-center justify-center">
+                                            <img style="clip-path: circle(50%);" class="rounded-full w-8" src={nancyPelosiProfile} loading="lazy"/>
+                                          </div>
+                                          <div class="flex flex-col items-start ml-2">
+                                            <span class="text-sm text-start">Track Nancy Pelosi</span>
+                                            <span class="text-xs text-gray-400">Dem &#183; House</span>
+                                          </div>
+                                        </div>
+                                      </a>
+                                      <a href="/hedge-funds/0001067983" class="px-4 py-3 text-white bg-[#202327] rounded-lg flex flex-row items-center font-medium transition duration-150 ease-in-out group">
+                                        <div class="flex flex-row items-center">
+                                          <div class="shadow-lg rounded-full border border-slate-600 w-10 h-10 relative hedge-fund-striped bg-[#20202E] flex items-center justify-center">
+                                            <img style="clip-path: circle(50%);" class="rounded-full w-8" src={warrenBuffetProfile} loading="lazy"/>
+                                          </div>
+                                          <div class="flex flex-col items-start ml-2">
+                                            <span class="text-sm text-start">Track Warren Buffet</span>
+                                            <span class="text-xs text-gray-400">Berkshire Hathaway</span>
+                                          </div>
+                                        </div>
+                                      </a>
+                                      <a href="/hedge-funds/0001649339" class="px-4 py-3 text-white bg-[#202327] rounded-lg flex flex-row items-center font-medium transition duration-150 ease-in-out group">
+                                        <div class="flex flex-row items-center">
+                                          <div class="shadow-lg rounded-full border border-slate-600 w-10 h-10 relative hedge-fund-striped bg-[#20202E] flex items-center justify-center">
+                                            <img style="clip-path: circle(50%);" class="rounded-full w-8" src={michaelBurryProfile} loading="lazy"/>
+                                          </div>
+                                          <div class="flex flex-col items-start ml-2">
+                                            <span class="text-sm text-start">Track Michael Burry</span>
+                                            <span class="text-xs text-gray-400">Scion Asset Management</span>
+                                          </div>
+                                        </div>
+                                      </a>
+                                    </div>
+
                                      
               
                                 </div>
@@ -254,7 +293,8 @@ onMount( async() => {
 
   <div class="w-full max-w-3xl m-auto mb-20 -mt-4 flex justify-center items-center">
     <a href="/community" class="px-4 py-3 text-white bg-[#202327] rounded-lg flex flex-row items-center font-medium transition duration-150 ease-in-out group">
-     <span>Follow the Community </span>
+      <svg class="w-6 h-6 mr-2"  viewBox="0 0 24 24" fill="#CCCCCC" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM7 12.75H5C4.59 12.75 4.25 12.41 4.25 12C4.25 11.59 4.59 11.25 5 11.25H7C7.41 11.25 7.75 11.59 7.75 12C7.75 12.41 7.41 12.75 7 12.75ZM12 14.25C10.76 14.25 9.75 13.24 9.75 12C9.75 10.76 10.76 9.75 12 9.75C13.24 9.75 14.25 10.76 14.25 12C14.25 13.24 13.24 14.25 12 14.25ZM19 12.75H17C16.59 12.75 16.25 12.41 16.25 12C16.25 11.59 16.59 11.25 17 11.25H19C19.41 11.25 19.75 11.59 19.75 12C19.75 12.41 19.41 12.75 19 12.75Z" fill="#CCCCCC"></path></svg>
+      <span>Follow the Community </span>
       <span class="ml-1 mt-0.5 tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">
         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="rotate(90 12 12)"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="white" d="M13.06 3.283a1.5 1.5 0 0 0-2.12 0L5.281 8.939a1.5 1.5 0 0 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0V7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.283Z"/></g></g></svg>
     </span>
@@ -790,5 +830,27 @@ onMount( async() => {
   color: transparent; /* Make the text transparent */
   -webkit-text-stroke: 1px #CBD5E1; /* Add a black stroke outline with a thickness of 2px */
 }
+
+
+.democratic-striped {
+    background-image: repeating-linear-gradient(
+        -45deg,
+        #295AC7,
+        #295AC7 10px,
+        #164D9D 10px,
+        #164D9D 20px
+    );
+}
+
+.hedge-fund-striped {
+    background-image: repeating-linear-gradient(
+        -45deg,
+        #A77120,
+        #A77120 10px,
+        #90621C 10px,
+        #90621C 20px
+    );
+}
+
 
 </style>
