@@ -66,7 +66,6 @@
   let TARating;
   let RevenueSegmentation;
   let StockSplits;
-  let DCF;
   let Correlation;
   let OptionsData;
   let WIIM;
@@ -94,7 +93,6 @@
     TARating = (await import('$lib/components/TARating.svelte')).default;
     RevenueSegmentation = (await import('$lib/components/RevenueSegmentation.svelte')).default;
     StockSplits = (await import('$lib/components/StockSplits.svelte')).default;
-    DCF = (await import('$lib/components/DCF.svelte')).default;
     Correlation = (await import('$lib/components/Correlation.svelte')).default;
     OptionsData = (await import('$lib/components/OptionsData.svelte')).default;
 
@@ -1341,14 +1339,13 @@ function changeChartType() {
                   
                                   <!--Start DCF -->
                                   <div class="w-full pt-10 sm:pl-6 sm:pb-6 sm:pt-6 m-auto {fairPrice !== null && fairPrice > 0 ? '' : 'hidden'}">
-                                    {#if DCF}
-                                    <div class="w-full m-auto rounded-2xl mb-5">
-                                      <DCF
-                                      fairPrice = {fairPrice}
-                                      currentPrice = {currentPrice}
-                                      />
-                                    </div>
-                                    {/if}
+                                    <Lazy>
+                                      <div class="w-full m-auto rounded-2xl mb-5">
+                                      {#await import('$lib/components/DCF.svelte') then {default: Comp}}
+                                        <svelte:component this={Comp}  fairPrice = {fairPrice} currentPrice = {currentPrice}/>
+                                      {/await}
+                                      </div>
+                                      </Lazy>
                                   </div>
                                   <!--End DCF-->
   
