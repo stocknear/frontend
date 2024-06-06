@@ -201,37 +201,42 @@ function calculateStats(optionList) {
     displayPutVolume = putVolumeSum;
 }
     
+
 function handleInput(event) {
     filterQuery = event.target.value;
     let newData = [];
     setTimeout(() => {
         if (filterQuery?.length !== 0) {
             newData = [...rawData?.filter(item => item?.ticker === filterQuery?.toUpperCase())];
-
             if (newData?.length !== 0) {
-              //rawData = newData;
-              //optionList = [...rawData?.slice(0,20)];
-              notFound = false;
-              optionList = [...newData];
-            
-            }
-            else {
+                rawData = newData;
+                optionList = rawData?.slice(0, 20);
+                notFound = false;
+                console.log('test');
+            } else {
                 notFound = true;
-              rawData = data?.getOptionsZeroDTE;
-              optionList = rawData?.slice(0,20);
-                
+                rawData = data?.getOptionsZeroDTE;
+                optionList = rawData?.slice(0, 20);
             }
         } else {
             notFound = false;
             rawData = data?.getOptionsZeroDTE;
-            optionList = rawData?.slice(0,20);
+            optionList = rawData?.slice(0, 20);
         }
-
-    }, 500);
-
+    }, 200);
 }
 
-  
+function debounce(fn, delay) {
+    let timeoutId;
+    return function(...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            fn.apply(this, args);
+        }, delay);
+    };
+}
+
+const debouncedHandleInput = debounce(handleInput, 200);
     
 </script>
            
@@ -476,27 +481,33 @@ function handleInput(event) {
     
 
     {#if rawData?.length !== 0}
-    <!--Start Filter-->
-    <label for="modal-search" class="sr-only">Filter</label>
-    <label class="flex justify-end items-center">
-        <div class="flex flex-col items-center">
-        <input 
-        id="modal-search"
-        type="search" 
-        class="input input-bordered bg-[#0F0F0F] focus:ring-transparent w-24 sm:w-28 h-9 text-sm" 
-        placeholder="Filter..."
-        bind:value={filterQuery}
-        on:input={handleInput}
-        autocomplete="off"
-        />
-        {#if notFound === true}
-        <span class="label-text text-error text-[0.65rem] mt-1">
-            No Results Found
-        </span>
-        {/if}
+          <!--Start Filter-->
+          <div class="w-full pb-3 mt-10 sm:mt-0">
+            <div class="relative right-0 bg-[#0F0F0F]">
+              <ul class="relative grid grid-cols-2 sm:grid-cols-4 gap-y-3 gap-x-3 flex flex-wrap p-1 list-none rounded-[3px]">
+                <li class="pl-3 py-1.5 flex-auto text-center bg-[#2E3238] rounded-[3px]">
+          <label class="flex flex-row items-center">
+            <input 
+            id="modal-search"
+              type="search" 
+              class="ml-2 text-sm sm:text-[1rem] placeholder-gray-400 border-transparent focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1 bg-inherit"
+              placeholder="Find by Symbol"
+              bind:value={filterQuery}
+              on:input={debouncedHandleInput}
+              autocomplete="off"
+            />
+            <svg class="ml-auto h-7 w-7 sm:h-8 sm:w-8 inline-block mr-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#fff" d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37"/></svg>
+          </label>
+          {#if notFound === true}
+          <span class="label-text text-error text-[0.65rem] mt-1">
+              No Results Found
+          </span>
+          {/if}
+          </li>
+          </ul>
         </div>
-    </label>
-    <!--End Filter-->
+      </div>
+          <!--End Filter-->
 
 
     
