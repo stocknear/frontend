@@ -45,7 +45,6 @@
     let marketMoods = {}
     let taRating = {};
     let varDict = {};
-    let enterpriseValues = [];
     let sentimentList = []
     let fundamentalAnalysisDict = {};
     let communitySentiment = {};
@@ -82,7 +81,6 @@
 
   //let AnalystEstimate;
 
-  let Enterprise;
 
 
   onMount(async() => {
@@ -96,7 +94,6 @@
     //PriceAnalysis = (await import('$lib/components/PriceAnalysis.svelte')).default;
     FundamentalAnalysis = (await import('$lib/components/FundamentalAnalysis.svelte')).default;
     VaR = (await import('$lib/components/VaR.svelte')).default;
-    Enterprise = (await import('$lib/components/Enterprise.svelte')).default;
     
     TARating = (await import('$lib/components/TARating.svelte')).default;
     RevenueSegmentation = (await import('$lib/components/RevenueSegmentation.svelte')).default;
@@ -354,7 +351,6 @@ $: {
 
 
     oneDayPrice = output?.map(item => ({ time: Date.parse(item?.time), open: item?.open !== null ? item?.open : NaN, high: item?.high !== null ? item?.high : NaN, low: item?.low !== null ? item?.low : NaN, close: item?.close !== null ? item?.close : NaN}));
-    console.log(oneDayPrice)
     oneWeekPrice = pastPriceList['1W']?.map(({ time, open,high,low,close }) => ({ time: Date.parse(time), open,high,low,close }));
     oneMonthPrice = pastPriceList['1M']?.map(({ time, open,high,low,close }) => ({ time: Date.parse(time), open,high,low,close }));
     sixMonthPrice = pastPriceList['6M']?.map(({ time, open,high,low,close }) => ({ time: Date.parse(time), open,high,low,close }));
@@ -646,7 +642,6 @@ function changeChartType() {
       marketMoods = {};
       taRating = {};
       varDict={}
-      enterpriseValues = []
       sentimentList = [];
       fundamentalAnalysisDict = {};
       communitySentiment = {}
@@ -666,7 +661,6 @@ function changeChartType() {
       taRating = data?.getStockTARating;
       sentimentList = data?.getSentimentAnalysis;
       varDict = data?.getVaR;
-      enterpriseValues = data?.getEnterPriseValues;
       fundamentalAnalysisDict = data?.getFundamentalAnalysis;
       communitySentiment = data?.getCommunitySentiment;
     
@@ -1270,11 +1264,14 @@ function changeChartType() {
   
                                   </div>
 
-                                  {#if Enterprise}
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {enterpriseValues?.length !== 0  ? '' : 'hidden'}">
-                                    <Enterprise rawData={enterpriseValues}/>
+    
+                                  <Lazy>
+                                    <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                    {#await import('$lib/components/Enterprise.svelte') then {default: Comp}}
+                                      <svelte:component this={Comp} data={data} />
+                                    {/await}
                                   </div>
-                                  {/if}
+                                  </Lazy>
                                 
                                   {#if OptionsData}
                                     <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(optionsDict)?.length !== 0 ? '' : 'hidden'}">

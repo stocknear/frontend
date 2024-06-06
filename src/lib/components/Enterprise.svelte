@@ -1,14 +1,27 @@
 
 <script lang ='ts'>
-    import { displayCompanyName, stockTicker, screenWidth} from '$lib/store';
+    import { displayCompanyName, stockTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
     import { Chart } from 'svelte-echarts'
     import { abbreviateNumber } from "$lib/utils";
 
     import Lazy from 'svelte-lazy';
+    let isLoaded = false;
+    const usRegion = ['cle1','iad1','pdx1','sfo1'];
+
+    let apiURL;
+
+    userRegion.subscribe(value => {
+
+        if (usRegion.includes(value)) {
+        apiURL = import.meta.env.VITE_USEAST_API_URL;
+        } else {
+        apiURL = import.meta.env.VITE_EU_API_URL;
+        }
+    });
 
 
-    export let rawData = [];
+    let rawData = [];
     let optionsData;
 
 
@@ -114,19 +127,47 @@ function getPlotOptions() {
 
 return option;
 }
-   
+
+const getEnterPriseValues = async (ticker) => {
+    // Get cached data for the specific tickerID
+    const cachedData = getCache(ticker, 'getEnterPriseValues');
+    if (cachedData) {
+      rawData = cachedData;
+    } else {
+
+      const postData = {'ticker': ticker};
+      // make the POST request to the endpoint
+      const response = await fetch(apiURL + '/enterprise-values', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData)
+      });
+
+      rawData = await response.json();
+
+      // Cache the data for this specific tickerID with a specific name 'getEnterPriseValues'
+      setCache(ticker, rawData, 'getEnterPriseValues');
+    }
+};
+
+
 $: {
-  if($stockTicker && typeof window !== 'undefined' && rawData?.length !== 0) {
+  if($stockTicker && typeof window !== 'undefined') {
+    isLoaded=false;
+    const asyncFunctions = [
+      getEnterPriseValues($stockTicker)
+      ];
+      Promise.all(asyncFunctions)
+          .then((results) => {
+            optionsData = getPlotOptions()
+          })
+          .catch((error) => {
+            console.error('An error occurred:', error);
+          });
+    isLoaded = true;
 
-    optionsData = getPlotOptions()
-
-    // Calculate total number of contracts
-    /*
-    avgTotalValue = Math.floor((rawData?.reduce((sum, item) => sum + item?.totalValue, 0))/rawData?.length);
-    const { year:yearWithMaxLobbying, totalValue: maxLobbying } = rawData?.reduce((max, item) => item?.totalValue > max?.totalValue ? item : max, rawData?.at(0));
-    displayYear = yearWithMaxLobbying;
-    displayMaxLobbying = maxLobbying
-    */
   }
 }
 
