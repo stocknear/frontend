@@ -694,14 +694,14 @@
                                         {post?.title}
                                       </h1>
                                       
-                                      <div class="mt-10 m-auto flex justify-center items-center">
-                                              <iframe
-                                              class="w-full h-48 sm:h-[500px]"
-                                              src={`https://www.youtube.com/embed/${videoId}`}
-                                              frameborder="0"
-                                              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                              allowfullscreen
-                                              ></iframe>
+                                      <div class="mt-10 m-auto flex justify-center items-center mb-10">
+                                          <iframe
+                                          class="w-full min-h-56 sm:min-h-96 sm:h-full max-h-[500px] sm:rounded-xl sm:shadow-sm sm:shadow-[#313131]"
+                                          src={`https://www.youtube.com/embed/${videoId}`}
+                                          frameborder="0"
+                                          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                          allowfullscreen
+                                          ></iframe>
                                       </div>
                                       {/if}
   
