@@ -34,7 +34,6 @@
     let taRating = {};
     let varDict = {};
     let sentimentList = []
-    let trendList = [];
 
     //============================================//
     
@@ -53,7 +52,6 @@
   
   let TARating;
   let SentimentAnalysis;
-  let TrendAnalysis;
   let VaR;
   //let StockKeyInformation;
 
@@ -64,7 +62,6 @@
 
 onMount(async() => {  
     SentimentAnalysis = (await import('$lib/components/SentimentAnalysis.svelte')).default;
-    TrendAnalysis = (await import('$lib/components/TrendAnalysis.svelte')).default;
     VaR = (await import('$lib/components/VaR.svelte')).default;
 
     TARating = (await import('$lib/components/TARating.svelte')).default;
@@ -590,7 +587,6 @@ function changeChartType() {
       taRating = {};
       varDict={}
       sentimentList = [];
-      trendList = [];
       output = null;
   
   
@@ -598,7 +594,6 @@ function changeChartType() {
       previousClose = data?.getStockQuote?.previousClose;
       taRating = data?.getStockTARating;
       sentimentList = data?.getSentimentAnalysis;
-      trendList = data?.getTrendAnalysis;
       varDict = data?.getVaR;
 
       const asyncFunctions = [];
@@ -1119,11 +1114,13 @@ afterUpdate(async () => {
                                 </div>
                                 </Lazy>
 
-                                {#if TrendAnalysis}
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {trendList?.length !== 0  ? '' : 'hidden'}">
-                                    <TrendAnalysis data={data} trendList={trendList}/>
-                                  </div>
-                                {/if}
+                                <Lazy>
+                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                  {#await import('$lib/components/TrendAnalysis.svelte') then {default: Comp}}
+                                    <svelte:component this={Comp} data={data} />
+                                  {/await}
+                                </div>
+                                </Lazy>
 
                                 {#if SentimentAnalysis}
                                   <div class="w-full mt-10 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {sentimentList?.length !== 0  ? '' : 'hidden'}">

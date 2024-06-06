@@ -47,7 +47,6 @@
     let varDict = {};
     let enterpriseValues = [];
     let sentimentList = []
-    let trendList = [];
     let fundamentalAnalysisDict = {};
     let communitySentiment = {};
 
@@ -75,7 +74,6 @@
   let OptionsData;
   let WIIM;
   let SentimentAnalysis;
-  let TrendAnalysis;
   let PriceAnalysis;
   let FundamentalAnalysis;
   let VaR;
@@ -95,7 +93,6 @@
     */
     WIIM = (await import('$lib/components/WIIM.svelte')).default;
     SentimentAnalysis = (await import('$lib/components/SentimentAnalysis.svelte')).default;
-    TrendAnalysis = (await import('$lib/components/TrendAnalysis.svelte')).default;
     //PriceAnalysis = (await import('$lib/components/PriceAnalysis.svelte')).default;
     FundamentalAnalysis = (await import('$lib/components/FundamentalAnalysis.svelte')).default;
     VaR = (await import('$lib/components/VaR.svelte')).default;
@@ -651,7 +648,6 @@ function changeChartType() {
       varDict={}
       enterpriseValues = []
       sentimentList = [];
-      trendList = [];
       fundamentalAnalysisDict = {};
       communitySentiment = {}
       output = null;
@@ -669,7 +665,6 @@ function changeChartType() {
       marketMoods = data?.getBullBearSay;
       taRating = data?.getStockTARating;
       sentimentList = data?.getSentimentAnalysis;
-      trendList = data?.getTrendAnalysis;
       varDict = data?.getVaR;
       enterpriseValues = data?.getEnterPriseValues;
       fundamentalAnalysisDict = data?.getFundamentalAnalysis;
@@ -1240,12 +1235,13 @@ function changeChartType() {
                                 </div>
                                 </Lazy>
 
-
-                                {#if TrendAnalysis}
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {trendList?.length !== 0  ? '' : 'hidden'}">
-                                    <TrendAnalysis data={data} trendList={trendList}/>
-                                  </div>
-                                {/if}
+                                <Lazy>
+                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                  {#await import('$lib/components/TrendAnalysis.svelte') then {default: Comp}}
+                                    <svelte:component this={Comp} data={data} />
+                                  {/await}
+                                </div>
+                                </Lazy>
 
                                 {#if FundamentalAnalysis}
                                   <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(fundamentalAnalysisDict)?.length !== 0  ? '' : 'hidden'}">

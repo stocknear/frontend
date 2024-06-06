@@ -1,23 +1,37 @@
 
 <script lang ='ts'>
-    import { displayCompanyName, stockTicker, etfTicker, cryptoTicker, assetType} from '$lib/store';
+    import { displayCompanyName, stockTicker, etfTicker, cryptoTicker, assetType, userRegion, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
     //import Chart from '$lib/components/Chart.svelte';
     //import Lazy from 'svelte-lazy';
 
-    export let trendList;
-    export let data;
+  let trendList = [];
+  let isLoaded = false;
+  const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
-    let deactivateContent = data?.user?.tier === 'Pro' ? false : true;
+  let apiURL;
+
+  userRegion.subscribe(value => {
+
+    if (usRegion.includes(value)) {
+      apiURL = import.meta.env.VITE_USEAST_API_URL;
+    } else {
+      apiURL = import.meta.env.VITE_EU_API_URL;
+    }
+  });
+
+  export let data;
+
+  let deactivateContent = data?.user?.tier === 'Pro' ? false : true;
 
 
-    //let showMore = false;
-    //let oneMonthResult;
-    let accuracy;
-    let precision;
-    let flowSentiment = 'n/a';
-    let displayData = 'threeMonth';
-    let lastPrice = 'n/a';
+  //let showMore = false;
+  //let oneMonthResult;
+  let accuracy;
+  let precision;
+  let flowSentiment = 'n/a';
+  let displayData = 'threeMonth';
+  let lastPrice = 'n/a';
 
 
 function changeStatement(event)
@@ -25,15 +39,52 @@ function changeStatement(event)
   displayData = event.target.value;
 }
 
+const getTrendAnalysis = async (ticker) => {
+    // Get cached data for the specific tickerID
+    const cachedData = getCache(ticker, 'getTrendAnalysis');
+    if (cachedData) {
+      trendList = cachedData;
+    } else {
+
+      const postData = {'ticker': ticker};
+      // make the POST request to the endpoint
+      const response = await fetch(apiURL + '/trend-analysis', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData)
+      });
+
+      trendList = await response.json();
+
+      // Cache the data for this specific tickerID with a specific name 'getTrendAnalysis'
+      setCache(ticker, trendList, 'getTrendAnalysis');
+    }
+};
+
+
 
 $: {
-  if(($assetType === 'stock' ? $stockTicker : $assetType === 'etf' ? $etfTicker : $cryptoTicker) && typeof window !== 'undefined' && trendList?.length !== 0) {
-    lastPrice = data?.getStockQuote?.price ?? "n/a";
-    const sample = trendList?.filter(item => item?.label === displayData)?.at(0);
-    flowSentiment = sample?.sentiment;
-    accuracy = sample?.accuracy;
-    precision = sample?.precision;
-    
+  if(($assetType === 'stock' ? $stockTicker : $assetType === 'etf' ? $etfTicker : $cryptoTicker) && typeof window !== 'undefined') {
+    isLoaded = false;
+    const ticker = $assetType === 'stock' ? $stockTicker : $assetType === 'etf' ? $etfTicker : $cryptoTicker;
+
+    const asyncFunctions = [
+      getTrendAnalysis(ticker)
+      ];
+      Promise.all(asyncFunctions)
+          .then((results) => {
+            lastPrice = data?.getStockQuote?.price ?? "n/a";
+            const sample = trendList?.filter(item => item?.label === displayData)?.at(0);
+            flowSentiment = sample?.sentiment;
+            accuracy = sample?.accuracy;
+            precision = sample?.precision;
+          })
+          .catch((error) => {
+            console.error('An error occurred:', error);
+          });
+    isLoaded = true;
   }
 }
 
@@ -54,7 +105,8 @@ $: {
                   id={"trendAnalysisInfo"}
                 />
             </div>
-    
+            
+            {#if isLoaded}
             {#if trendList?.length !== 0}
             <div class="w-full flex flex-col items-start">
                 <div class="text-white text-sm sm:text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
@@ -167,6 +219,16 @@ $: {
             </h2>
             
             {/if}
+
+          {:else}
+          <div class="flex justify-center items-center h-80">
+            <div class="relative">
+              <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <span class="loading loading-spinner loading-md"></span>
+              </label>
+            </div>
+          </div>  
+          {/if}
     
         </main>
     </section>
