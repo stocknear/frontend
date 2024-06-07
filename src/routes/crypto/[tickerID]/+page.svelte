@@ -33,7 +33,6 @@
     let previousClose = data?.getStockQuote?.previousClose;
     let taRating = {};
     let varDict = {};
-    let sentimentList = []
 
     //============================================//
     
@@ -51,7 +50,6 @@
   
   
   let TARating;
-  let SentimentAnalysis;
   let VaR;
   //let StockKeyInformation;
 
@@ -61,7 +59,6 @@
 
 
 onMount(async() => {  
-    SentimentAnalysis = (await import('$lib/components/SentimentAnalysis.svelte')).default;
     VaR = (await import('$lib/components/VaR.svelte')).default;
 
     TARating = (await import('$lib/components/TARating.svelte')).default;
@@ -586,14 +583,12 @@ function changeChartType() {
       pastPriceList = [];
       taRating = {};
       varDict={}
-      sentimentList = [];
       output = null;
   
   
       cryptoProfile = data?.getCryptoProfile;
       previousClose = data?.getStockQuote?.previousClose;
       taRating = data?.getStockTARating;
-      sentimentList = data?.getSentimentAnalysis;
       varDict = data?.getVaR;
 
       const asyncFunctions = [];
@@ -1122,12 +1117,13 @@ afterUpdate(async () => {
                                 </div>
                                 </Lazy>
 
-                                {#if SentimentAnalysis}
-                                  <div class="w-full mt-10 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {sentimentList?.length !== 0  ? '' : 'hidden'}">
-                                    <SentimentAnalysis data={data} sentimentList={sentimentList}/>
-                                  </div>
-                                {/if}
-
+                                <Lazy>
+                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                  {#await import('$lib/components/SentimentAnalysis.svelte') then {default: Comp}}
+                                    <svelte:component this={Comp} data={data} />
+                                  {/await}
+                                </div>
+                                </Lazy>
                                 {#if VaR}
                                 <div class="w-full sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(varDict)?.length !== 0  ? '' : 'hidden'}">
                                   <VaR data={data} varDict={varDict}/>

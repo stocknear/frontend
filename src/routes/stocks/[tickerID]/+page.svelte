@@ -41,7 +41,6 @@
     let marketMoods = {}
     let taRating = {};
     let varDict = {};
-    let sentimentList = []
     let fundamentalAnalysisDict = {};
     let communitySentiment = {};
 
@@ -65,7 +64,6 @@
   let Correlation;
   let OptionsData;
   let WIIM;
-  let SentimentAnalysis;
   let FundamentalAnalysis;
   let VaR;
 
@@ -81,7 +79,6 @@
     }
     */
     WIIM = (await import('$lib/components/WIIM.svelte')).default;
-    SentimentAnalysis = (await import('$lib/components/SentimentAnalysis.svelte')).default;
     FundamentalAnalysis = (await import('$lib/components/FundamentalAnalysis.svelte')).default;
     VaR = (await import('$lib/components/VaR.svelte')).default;
     
@@ -627,7 +624,6 @@ function changeChartType() {
       marketMoods = {};
       taRating = {};
       varDict={}
-      sentimentList = [];
       fundamentalAnalysisDict = {};
       communitySentiment = {}
       output = null;
@@ -641,7 +637,6 @@ function changeChartType() {
       previousClose = data?.getStockQuote?.previousClose;
       marketMoods = data?.getBullBearSay;
       taRating = data?.getStockTARating;
-      sentimentList = data?.getSentimentAnalysis;
       varDict = data?.getVaR;
       fundamentalAnalysisDict = data?.getFundamentalAnalysis;
       communitySentiment = data?.getCommunitySentiment;
@@ -1225,11 +1220,13 @@ function changeChartType() {
                                   </div>
                                 {/if}
 
-                                {#if SentimentAnalysis}
-                                  <div class="w-full mt-10 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {sentimentList?.length !== 0  ? '' : 'hidden'}">
-                                    <SentimentAnalysis data={data} sentimentList={sentimentList}/>
-                                  </div>
-                                {/if}
+                                <Lazy>
+                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                  {#await import('$lib/components/SentimentAnalysis.svelte') then {default: Comp}}
+                                    <svelte:component this={Comp} data={data} />
+                                  {/await}
+                                </div>
+                                </Lazy>
 
                                 {#if VaR}
                                 <div class="w-full sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(varDict)?.length !== 0  ? '' : 'hidden'}">

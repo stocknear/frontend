@@ -64,7 +64,6 @@
     let SectorSegmentation;
     let OptionsData;
     let WIIM;
-    let SentimentAnalysis;
     let VaR;
     //let ETFKeyInformation;
     
@@ -72,7 +71,6 @@
   onMount(async() => {  
 
     WIIM = (await import('$lib/components/WIIM.svelte')).default;
-    SentimentAnalysis = (await import('$lib/components/SentimentAnalysis.svelte')).default;
     VaR = (await import('$lib/components/VaR.svelte')).default;
     OptionsData = (await import('$lib/components/OptionsData.svelte')).default;
     TARating = (await import('$lib/components/TARating.svelte')).default;
@@ -1296,11 +1294,13 @@
                                 </div>
                                 </Lazy>
 
-                                  {#if SentimentAnalysis}
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {data?.getSentimentAnalysis?.length !== 0  ? '' : 'hidden'}">
-                                    <SentimentAnalysis data={data} sentimentList={data?.getSentimentAnalysis}/>
+                                  <Lazy>
+                                    <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                    {#await import('$lib/components/SentimentAnalysis.svelte') then {default: Comp}}
+                                      <svelte:component this={Comp} data={data} />
+                                    {/await}
                                   </div>
-                                  {/if}
+                                  </Lazy>
 
                                   {#if VaR}
                                   <div class="w-full sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(varDict)?.length !== 0  ? '' : 'hidden'}">
