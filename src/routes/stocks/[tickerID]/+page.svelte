@@ -33,7 +33,6 @@
     let stockDeck = data?.getStockDeck ?? [];
     let analystEstimateList = data?.getAnalystEstimate ?? []
     let fairPrice = data?.getFairPrice ?? [];
-    let revenueSegmentation = data?.getRevenueSegmentation ?? [];
     let correlationList = data?.getCorrelation?.correlation ?? [];
     let modelStats = data?.getTradingSignals ?? {};
     let prePostData = {};
@@ -64,7 +63,6 @@
   
   
   let TARating;
-  let RevenueSegmentation;
   let StockSplits;
   let Correlation;
   let OptionsData;
@@ -91,7 +89,6 @@
     VaR = (await import('$lib/components/VaR.svelte')).default;
     
     TARating = (await import('$lib/components/TARating.svelte')).default;
-    RevenueSegmentation = (await import('$lib/components/RevenueSegmentation.svelte')).default;
     StockSplits = (await import('$lib/components/StockSplits.svelte')).default;
     Correlation = (await import('$lib/components/Correlation.svelte')).default;
     OptionsData = (await import('$lib/components/OptionsData.svelte')).default;
@@ -643,7 +640,6 @@ function changeChartType() {
       pricePrediction = data?.getPricePrediction;
       modelStats = data?.getTradingSignals;
       stockDeck = data?.getStockDeck;
-      revenueSegmentation = data?.getRevenueSegmentation;
       correlationList = data?.getCorrelation?.correlation;
       analystEstimateList = data?.getAnalystEstimate;
       previousClose = data?.getStockQuote?.previousClose;
@@ -1272,13 +1268,13 @@ function changeChartType() {
 
 
                                  <!--Start RevenueSegmentation-->
-                                  <div class="w-full pt-10 sm:pl-6 sm:pb-6 sm:pt-6 m-auto {revenueSegmentation?.at(0)?.length !== 0 ? '' : 'hidden'}">
-                                    {#if RevenueSegmentation}
-                                      <RevenueSegmentation
-                                      revenueSegmentation = {revenueSegmentation}
-                                      />
-                                    {/if}
-                                  </div>
+                                  <Lazy>
+                                    <div class="w-full pt-10 sm:pl-6 sm:pb-6 sm:pt-6 m-auto">
+                                    {#await import('$lib/components/RevenueSegmentation.svelte') then {default: Comp}}
+                                      <svelte:component this={Comp} />
+                                    {/await}
+                                    </div>
+                                    </Lazy>
                                <!--End RevenueSegmentation-->
                                   
                           

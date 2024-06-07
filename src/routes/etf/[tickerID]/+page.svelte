@@ -1312,8 +1312,17 @@
                                       <div class="w-full mt-10 sm:mt-0 m-auto sm:p-6 {Object?.keys(optionsDict)?.length !== 0 ? '' : 'hidden'}">
                                         <OptionsData data={data} optionsDict={optionsDict}/>
                                       </div>
-                                    {/if}
-                                    
+                                  {/if}
+                                  
+                                  <!--Start Shareholders-->
+                                  <Lazy>
+                                    <div class="w-full sm:pl-6 sm:pb-6 sm:pt-6 m-auto mb-5">
+                                    {#await import('$lib/components/ShareHolders.svelte') then {default: Comp}}
+                                      <svelte:component this={Comp} />
+                                    {/await}
+                                    </div>
+                                    </Lazy>
+                                    <!--End Shareholders-->
   
                                     <!--End Price Prediction Model-->
     
