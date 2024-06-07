@@ -5,7 +5,6 @@
   import { TrackingModeExitMode } from 'lightweight-charts';
   import {screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
-  import AnalystEstimate from '$lib/components/AnalystEstimate.svelte';
   import StockKeyInformation from '$lib/components/StockKeyInformation.svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
   import CommunitySentiment from '$lib/components/CommunitySentiment.svelte';
@@ -31,7 +30,6 @@
   
     let pricePrediction = data?.getPricePrediction ?? [];
     let stockDeck = data?.getStockDeck ?? [];
-    let analystEstimateList = data?.getAnalystEstimate ?? []
     let fairPrice = data?.getFairPrice ?? [];
     let correlationList = data?.getCorrelation?.correlation ?? [];
     let modelStats = data?.getTradingSignals ?? {};
@@ -73,7 +71,6 @@
 
   //let StockKeyInformation;
 
-  //let AnalystEstimate;
 
 
 
@@ -641,7 +638,6 @@ function changeChartType() {
       modelStats = data?.getTradingSignals;
       stockDeck = data?.getStockDeck;
       correlationList = data?.getCorrelation?.correlation;
-      analystEstimateList = data?.getAnalystEstimate;
       previousClose = data?.getStockQuote?.previousClose;
       marketMoods = data?.getBullBearSay;
       taRating = data?.getStockTARating;
@@ -1241,14 +1237,15 @@ function changeChartType() {
                                 </div>
                                 {/if}
                                 
-                                
-                                  <div class="w-full  m-auto sm:pl-6 sm:pb-6 sm:pt-6 {analystEstimateList?.length !== 0 ? '' : 'hidden'}">
-  
-                                    {#if AnalystEstimate}
-                                    <AnalystEstimate data={data} analystEstimateList={analystEstimateList}/>
-                                    {/if}
-  
+                              
+
+                                <Lazy>
+                                  <div class="w-full m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                  {#await import('$lib/components/AnalystEstimate.svelte') then {default: Comp}}
+                                    <svelte:component this={Comp} data={data}/>
+                                  {/await}
                                   </div>
+                                </Lazy>
 
     
                                   <Lazy>
