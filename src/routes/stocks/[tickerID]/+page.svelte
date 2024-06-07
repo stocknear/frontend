@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
   import { TrackingModeExitMode } from 'lightweight-charts';
-  import {screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
+  import {screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
   import StockKeyInformation from '$lib/components/StockKeyInformation.svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
@@ -41,7 +41,6 @@
     let marketMoods = {}
     let taRating = {};
     let varDict = {};
-    let fundamentalAnalysisDict = {};
     let communitySentiment = {};
 
     //============================================//
@@ -64,7 +63,6 @@
   let Correlation;
   let OptionsData;
   let WIIM;
-  let FundamentalAnalysis;
   let VaR;
 
   //let StockKeyInformation;
@@ -79,7 +77,6 @@
     }
     */
     WIIM = (await import('$lib/components/WIIM.svelte')).default;
-    FundamentalAnalysis = (await import('$lib/components/FundamentalAnalysis.svelte')).default;
     VaR = (await import('$lib/components/VaR.svelte')).default;
     
     TARating = (await import('$lib/components/TARating.svelte')).default;
@@ -624,7 +621,6 @@ function changeChartType() {
       marketMoods = {};
       taRating = {};
       varDict={}
-      fundamentalAnalysisDict = {};
       communitySentiment = {}
       output = null;
   
@@ -638,7 +634,6 @@ function changeChartType() {
       marketMoods = data?.getBullBearSay;
       taRating = data?.getStockTARating;
       varDict = data?.getVaR;
-      fundamentalAnalysisDict = data?.getFundamentalAnalysis;
       communitySentiment = data?.getCommunitySentiment;
     
       similarstock = data?.getSimilarStock;
@@ -1214,11 +1209,13 @@ function changeChartType() {
                                 </div>
                                 </Lazy>
 
-                                {#if FundamentalAnalysis}
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(fundamentalAnalysisDict)?.length !== 0  ? '' : 'hidden'}">
-                                    <FundamentalAnalysis data={data} fundamentalAnalysisDict={fundamentalAnalysisDict}/>
-                                  </div>
-                                {/if}
+                                <Lazy>
+                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$fundamentalAnalysisComponent ? 'hidden' : ''}">
+                                  {#await import('$lib/components/FundamentalAnalysis.svelte') then {default: Comp}}
+                                    <svelte:component this={Comp} data={data} />
+                                  {/await}
+                                </div>
+                                </Lazy>
 
                                 <Lazy>
                                   <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">

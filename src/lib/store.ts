@@ -58,6 +58,7 @@ export const loginData = writable(({}));
 export const replyCommentClicked = writable(({}));
 export const editCommentClicked = writable(({}));
 
+export const fundamentalAnalysisComponent = writable(<boolean>(false));
 
 
 export const strategyId = writable(<string> (""));
