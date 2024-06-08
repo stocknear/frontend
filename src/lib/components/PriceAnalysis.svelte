@@ -1,6 +1,6 @@
 
 <script lang ='ts'>
-  import { displayCompanyName, stockTicker, etfTicker, cryptoTicker, assetType, screenWidth, userRegion, getCache, setCache} from '$lib/store';
+  import { priceAnalysisComponent, displayCompanyName, stockTicker, etfTicker, cryptoTicker, assetType, screenWidth, userRegion, getCache, setCache} from '$lib/store';
   import InfoModal from '$lib/components/InfoModal.svelte';
   import { Chart } from 'svelte-echarts'
 
@@ -158,6 +158,13 @@ const getPriceAnalysis = async (ticker) => {
       // Cache the data for this specific tickerID with a specific name 'getPriceAnalysis'
       setCache(ticker, priceAnalysisDict, 'getPriceAnalysis');
     }
+
+  if(Object?.keys(priceAnalysisDict)?.length !== 0) {
+    $priceAnalysisComponent = true;
+  }
+  else {
+    $priceAnalysisComponent = false;
+  }
 };
 
 

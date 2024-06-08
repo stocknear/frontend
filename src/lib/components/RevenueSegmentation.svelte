@@ -1,5 +1,5 @@
 <script lang='ts'>
-    import { stockTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
+    import { revenueSegmentationComponent, stockTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
     import { abbreviateNumber, formatString } from '$lib/utils';
     import Sankey from '$lib/components/Sankey.svelte';
     import { LayerCake, Svg } from 'layercake';
@@ -130,7 +130,15 @@
             
             geographicList = [...geographicList];
 
+    if(Object?.keys(data)?.length !== 0  && totalProductRevenue !== 0) {
+        $revenueSegmentationComponent = true;
     }
+    else {
+        $revenueSegmentationComponent = false;
+    }
+
+
+}
     
     
     
@@ -156,6 +164,7 @@ const getRevenueSegmentation = async (ticker) => {
       // Cache the data for this specific tickerID with a specific name 'getRevenueSegmentation'
       setCache(ticker, revenueSegmentation, 'getRevenueSegmentation');
     }
+
 };
     
         
@@ -312,13 +321,7 @@ $: {
                             </label>
                             {/if}
                             
-        
-        
-                            {:else} 
-                            <h2 class="mt-10 justify-center items-center text-3xl font-bold text-slate-700 mb-5 m-auto">
-                                No data available
-                                <svg class="w-10 sm:w-12 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#334155" d="M18.68 12.32a4.49 4.49 0 0 0-6.36.01a4.49 4.49 0 0 0 0 6.36a4.508 4.508 0 0 0 5.57.63L21 22.39L22.39 21l-3.09-3.11c1.13-1.77.87-4.09-.62-5.57m-1.41 4.95c-.98.98-2.56.97-3.54 0c-.97-.98-.97-2.56.01-3.54c.97-.97 2.55-.97 3.53 0c.97.98.97 2.56 0 3.54M10.9 20.1a6.527 6.527 0 0 1-1.48-2.32C6.27 17.25 4 15.76 4 14v3c0 2.21 3.58 4 8 4c-.4-.26-.77-.56-1.1-.9M4 9v3c0 1.68 2.07 3.12 5 3.7v-.2c0-.93.2-1.85.58-2.69C6.34 12.3 4 10.79 4 9m8-6C7.58 3 4 4.79 4 7c0 2 3 3.68 6.85 4h.05c1.2-1.26 2.86-2 4.6-2c.91 0 1.81.19 2.64.56A3.215 3.215 0 0 0 20 7c0-2.21-3.58-4-8-4Z"/></svg>
-                            </h2>
+    
                             {/if}
 
                     {:else}

@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
   import { TrackingModeExitMode } from 'lightweight-charts';
-  import {screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
+  import {screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
   import StockKeyInformation from '$lib/components/StockKeyInformation.svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
@@ -1194,7 +1194,7 @@ function changeChartType() {
 
 
                                 <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$priceAnalysisComponent ? 'hidden' : ''}">
                                   {#await import('$lib/components/PriceAnalysis.svelte') then {default: Comp}}
                                     <svelte:component this={Comp} data={data} />
                                   {/await}
@@ -1202,7 +1202,7 @@ function changeChartType() {
                                 </Lazy>
 
                                 <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$trendAnalysisComponent ? 'hidden' : ''}">
                                   {#await import('$lib/components/TrendAnalysis.svelte') then {default: Comp}}
                                     <svelte:component this={Comp} data={data} />
                                   {/await}
@@ -1260,7 +1260,7 @@ function changeChartType() {
 
                                  <!--Start RevenueSegmentation-->
                                   <Lazy>
-                                    <div class="w-full pt-10 sm:pl-6 sm:pb-6 sm:pt-6 m-auto">
+                                    <div class="w-full pt-10 sm:pl-6 sm:pb-6 sm:pt-6 m-auto {!$revenueSegmentationComponent ? 'hidden' : ''}">
                                     {#await import('$lib/components/RevenueSegmentation.svelte') then {default: Comp}}
                                       <svelte:component this={Comp} />
                                     {/await}
