@@ -205,7 +205,7 @@ onMount( async() => {
                                     
                                     <!-- Start Search button -->
                                     
-                                    <div id="step-search" class="flex justify-center items-center mt-8 mb-6">
+                                    <div id="step-search" class="flex justify-center items-center mt-8 mb-6 m-auto w-full max-w-64 sm:max-w-3xl">
                                       <label for="searchBarModal" class="shadow-lg w-96 h-10 sm:h-12 flex flex-row items-center justify-start bg-[#202327] appearance-none py-3 cursor-pointer border border-slate-600 rounded-lg">
                                           <svg class="w-4 h-4 shrink-0 ml-3 sm:ml-5 text-white inline-block" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5zm8.707 12.293a.999.999 0 11-1.414 1.414L11.9 13.314a8.019 8.019 0 001.414-1.414l2.393 2.393z" fill="currentColor"></path>
