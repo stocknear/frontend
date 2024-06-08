@@ -1,4 +1,17 @@
+import { userRegion, getCache, setCache } from '$lib/store';
+
 const usRegion = ['cle1','iad1','pdx1','sfo1'];
+
+let apiURL = import.meta.env.VITE_EU_API_URL; // Set a default API URL
+
+userRegion.subscribe(value => {
+
+  if (usRegion.includes(value)) {
+    apiURL = import.meta.env.VITE_USEAST_API_URL;
+  } else {
+    apiURL = import.meta.env.VITE_EU_API_URL;
+  }
+});
 
 
 
@@ -25,26 +38,19 @@ const transactionTypeMap = {
   '': 'n/a'
 };
 
-export const load = async ({ params, locals }) => {
-
-  const userRegion = locals.region?.split("::")[0];
-
-    let apiURL;
-
-    if (usRegion?.includes(userRegion)) {
-        apiURL = import.meta.env.VITE_USEAST_API_URL;
-    } else {
-        apiURL = import.meta.env.VITE_EU_API_URL;
-    };
-
+export const load = async ({ params }) => {
 
   const getInsiderTrading = async () => {
     let output;
 
-    // Get cached data for the specific tickerID
-      const postData = {
-        ticker: params.tickerID
-      };
+
+      const cachedData = getCache(params.tickerID, 'getInsiderTrading');
+      if (cachedData) {
+        output = cachedData;
+      } else {
+        const postData = {
+          ticker: params.tickerID
+        };
 
       // make the POST request to the endpoint
       const response = await fetch(apiURL + '/insider-trading', {
@@ -63,7 +69,10 @@ export const load = async ({ params, locals }) => {
           ? transactionTypeMap[item?.transactionType](item)
           : transactionTypeMap[item?.transactionType] || 'n/a'
       }));
-  
+      
+      setCache(params.tickerID, output, 'getInsiderTrading');
+    
+    }
 
     return output;
   };
@@ -71,10 +80,20 @@ export const load = async ({ params, locals }) => {
 
   const getInsiderTradingStatistics = async () => {
 
-    // Get cached data for the specific tickerID
-      const postData = {
-        ticker: params.tickerID
-      };
+    let sums = {
+      totalBought: 0,
+      totalSold: 0,
+      purchases: 0,
+      sales: 0
+    };
+
+    const cachedData = getCache(params.tickerID, 'getInsiderTradingStatistics');
+      if (cachedData) {
+        sums = cachedData;
+      } else {
+        const postData = {
+          ticker: params.tickerID
+        };
 
       // make the POST request to the endpoint
       const response = await fetch(apiURL + '/insider-trading-statistics', {
@@ -85,15 +104,7 @@ export const load = async ({ params, locals }) => {
         body: JSON.stringify(postData)
       });
 
-      const output = await response.json();
-
-      // Initialize a new object to store the sums
-      let sums = {
-        totalBought: 0,
-        totalSold: 0,
-        purchases: 0,
-        sales: 0
-      };
+      const output = await response?.json();
 
       // Iterate through the list and accumulate the values
       output?.forEach(item => {
@@ -102,9 +113,10 @@ export const load = async ({ params, locals }) => {
         sums.purchases += item.purchases;
         sums.sales += item.sales;
       });
+      
+      setCache(params.tickerID, sums, 'getInsiderTradingStatistics');
 
-      console.log(sums)
-        
+    }
 
     return sums;
   };
