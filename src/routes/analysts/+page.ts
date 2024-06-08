@@ -16,35 +16,35 @@ userRegion.subscribe(value => {
 
 
 
-export const load = async () => {
-  const getStockList = async () => {
+export const load = async ( { parent  } ) => {
+
+  const getTopAnalyst = async () => {
+    const data = await parent()
     let output;
-    // Get cached data for the specific tickerID
-    const cachedData = getCache('', 'getStockList');
+
+    const cachedData = getCache('', 'getTopAnalyst');
     if (cachedData) {
       output = cachedData;
     } else {
-      
 
-      // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/all-stock-tickers', {
+      const response = await fetch(apiURL + '/top-analysts', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      output = await response.json();
-
-      // Cache the data for this specific tickerID with a specific name 'getStockList'
-      setCache('', output, 'getStockList');
+      output = await response?.json();
+       setCache('', output, 'getTopAnalyst');
     }
+    
+    output = data?.user?.tier !== 'Pro' ? output?.reverse()?.slice(0,6) : output;
 
     return output;
   };
 
   // Make sure to return a promise
   return {
-    getStockList: await getStockList()
+    getTopAnalyst: await getTopAnalyst()
   };
 };
