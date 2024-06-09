@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
     import { TrackingModeExitMode } from 'lightweight-charts';
-    import {assetType, screenWidth, globalForm, userRegion, numberOfUnreadNotification, displayCompanyName, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, etfTicker, isOpen,  isBeforeMarketOpen, isWeekend} from '$lib/store';
+    import {trendAnalysisComponent, priceAnalysisComponent, assetType, screenWidth, globalForm, userRegion, numberOfUnreadNotification, displayCompanyName, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, etfTicker, isOpen,  isBeforeMarketOpen, isWeekend} from '$lib/store';
     import { onDestroy, onMount } from 'svelte';    
     import ETFKeyInformation from '$lib/components/ETFKeyInformation.svelte';
     import Lazy from '$lib/components/Lazy.svelte';
@@ -1279,7 +1279,7 @@
 
                                   
                                 <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$priceAnalysisComponent ? 'hidden' : ''}">
                                   {#await import('$lib/components/PriceAnalysis.svelte') then {default: Comp}}
                                     <svelte:component this={Comp} data={data} />
                                   {/await}
@@ -1287,7 +1287,7 @@
                                 </Lazy>
                                   
                                 <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$trendAnalysisComponent ? 'hidden' : ''}">
                                   {#await import('$lib/components/TrendAnalysis.svelte') then {default: Comp}}
                                     <svelte:component this={Comp} data={data} />
                                   {/await}
@@ -1314,15 +1314,7 @@
                                       </div>
                                   {/if}
                                   
-                                  <!--Start Shareholders-->
-                                  <Lazy>
-                                    <div class="w-full sm:pl-6 sm:pb-6 sm:pt-6 m-auto mb-5">
-                                    {#await import('$lib/components/ShareHolders.svelte') then {default: Comp}}
-                                      <svelte:component this={Comp} />
-                                    {/await}
-                                    </div>
-                                    </Lazy>
-                                    <!--End Shareholders-->
+                
   
                                     <!--End Price Prediction Model-->
     

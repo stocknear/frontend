@@ -1,7 +1,7 @@
 <script lang='ts'>
 
 import { Chart } from 'svelte-echarts'
-import { screenWidth, stockTicker, etfTicker, cryptoTicker, assetType, userRegion, getCache, setCache} from '$lib/store';
+import { screenWidth, stockTicker, userRegion, getCache, setCache} from '$lib/store';
 import { formatString } from '$lib/utils';
 import { goto } from '$app/navigation';
 import { abbreviateNumber } from '$lib/utils';
@@ -111,10 +111,9 @@ $: {
 
         isLoaded = false;
         showFullStats = false;
-        const ticker = $stockTicker;
 
         const asyncFunctions = [
-        getShareholders(ticker)
+        getShareholders($stockTicker)
         ];
         Promise.all(asyncFunctions)
             .then((results) => {
