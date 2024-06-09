@@ -61,7 +61,7 @@ async function fetchPortfolio(fastifyURL, userId)
     return output
 }
 
-export const load = async ({ params, locals}) => {
+export const load = async ({ params, locals, setHeaders}) => {
 
  
     const userRegion = locals.region?.split("::")[0];
@@ -102,11 +102,11 @@ export const load = async ({ params, locals}) => {
     getUserPortfolio,
   ] = await Promise.all(promises);
 
-  /*
+
   setHeaders({
-    'cache-control': 'public, max-age=500'
+    'cache-control': 'public, max-age=300'
     });
-    */
+    
 
   return {
     getCryptoProfile,

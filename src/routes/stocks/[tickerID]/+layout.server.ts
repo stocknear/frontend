@@ -115,7 +115,7 @@ async function fetchCommunitySentiment(pb, ticker, cookies)
 
 }
 
-export const load = async ({ params, locals, cookies}) => {
+export const load = async ({ params, locals, cookies, setHeaders}) => {
 
  
     const userRegion = locals?.region?.split("::")[0];
@@ -174,17 +174,15 @@ export const load = async ({ params, locals, cookies}) => {
     getCommunitySentiment,
   ] = await Promise.all(promises);
 
-  /*
+
   setHeaders({
-    'cache-control': 'public, max-age=500'
+    'cache-control': 'public, max-age=300' //Cache data for 5 min
     });
-    */
+    
 
   return {
     getFairPrice,
     getSimilarStock,
-    //getPricePrediction,
-    //getTradingSignals,
     getStockDeck,
     getCorrelation,
     getAnalystRating,
