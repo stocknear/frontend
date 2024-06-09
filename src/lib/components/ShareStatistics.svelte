@@ -21,10 +21,8 @@
     });
 
 
-    let rawData = [];
+    let rawData = {};
     let optionsData;
-    let lastOutstandingShares = 0;
-    let lastFloatShares = 0;
 
 
 function normalizer(value) {
@@ -47,7 +45,7 @@ function getPlotOptions() {
     let floatShares = [];
     let outstandingShares = [];
     // Iterate over the data and extract required information
-    rawData?.forEach(item => {
+    rawData?.historicalShares?.forEach(item => {
     dates?.push(item?.date);
 
     floatShares?.push(item?.floatShares);
@@ -55,8 +53,6 @@ function getPlotOptions() {
 
     });
 
-    lastOutstandingShares = outstandingShares?.slice(-1)?.at(0);
-    lastFloatShares = floatShares?.slice(-1)?.at(0);
 
     const {unit, denominator } = normalizer(Math.max(...floatShares) ?? 0)
 
@@ -157,7 +153,7 @@ $: {
     
     
     
-    <section class="overflow-hidden text-white h-full pb-8 sm:pb-2">
+    <section class="overflow-hidden text-white h-full pb-8">
         <main class="overflow-hidden ">
                         
             <div class="flex flex-row items-center">
@@ -173,12 +169,12 @@ $: {
 
             {#if isLoaded}
     
-            {#if rawData?.length !== 0}
+            {#if Object?.keys(rawData)?.length !== 0}
             <div class="p-3 sm:p-0 mt-2 pb-8 sm:pb-2 rounded-lg bg-[#202020] sm:bg-[#0F0F0F]">
                     
                 <div class="w-full flex flex-col items-start">
                     <div class="text-white text-sm sm:text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
-                        {$displayCompanyName}'s' has <strong>{abbreviateNumber(lastOutstandingShares)}</strong> shares outstanding with <strong>{abbreviateNumber(lastFloatShares)}</strong> of those shares currently floating.
+                        {$displayCompanyName}'s' has <span class="font-semibold">{abbreviateNumber(rawData?.latestOutstandingShares)}</span> shares outstanding with <span class="font-semibold">{abbreviateNumber(rawData?.latestFloatShares)}</span> of those shares currently floating.
                     </div>
                 </div>
             
@@ -189,24 +185,79 @@ $: {
                     </div>
                 </Lazy>
                 
-                <div class="flex flex-row items-center justify-between mx-auto mt-5 w-full sm:w-11/12">
-                    <div class="mt-3.5 sm:mt-0 flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
+                <div class="flex flex-row items-center justify-between mx-auto mt-8 w-full sm:w-11/12">
+                    <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                     <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
                     <div class="w-3 h-3 bg-[#5470C6] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
-                    <span class="mt-2 sm:mt-0 text-white text-center sm:text-start text-xs sm:text-md inline-block">
+                    <span class="mt-2 sm:mt-0 text-white text-center sm:text-start text-sm sm:font-semibold inline-block">
                         Floating Shares
                     </span>
                 </div>
                     <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                         <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
                         <div class="w-3 h-3 bg-[#C12F23] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
-                        <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md sm:font-medium inline-block">
+                        <span class="mt-2 sm:mt-0 text-white text-sm sm:font-semibold inline-block">
                         Outstanding Shares
                         </span>
                     </div>
             
                 </div>
             </div>
+
+            <h2 class="mt-10 mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-2xl font-bold mb-3">
+              Short Selling Information
+            </h2>
+            <span class="text-white">
+              The latest short interest is <span class="font-semibold"> {abbreviateNumber(rawData?.sharesShort)}</span>, so <span class="font-semibold">{rawData?.shortOutStandingPercent}%</span> of the outstanding shares have been sold short.
+            </span>
+
+            <div class="flex justify-start items-center w-full m-auto mt-6 ">
+              <table class="w-full" data-test="statistics-table">
+                <tbody>
+                    <tr class="border-y border-gray-800 odd:bg-[#202020]">
+                        <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
+                            <span>Short Interest</span>
+                        </td>
+                        <td class="px-[5px] py-1.5 text-right font-semibold xs:px-2.5 xs:py-2">
+                            {abbreviateNumber(rawData?.sharesShort)}
+                        </td>
+                    </tr>
+                    <tr class="border-y border-gray-800 odd:bg-[#202020]">
+                        <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
+                            <span>Short Previous Month</span>
+                        </td>
+                        <td class="px-[5px] py-1.5 text-right font-semibold xs:px-2.5 xs:py-2">
+                          {abbreviateNumber(rawData?.sharesShortPriorMonth)}
+                        </td>
+                    </tr>
+                    <tr class="border-y border-gray-800 odd:bg-[#202020]">
+                        <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
+                            <span>Short % of Shares Out</span>
+                        </td>
+                        <td class="px-[5px] py-1.5 text-right font-semibold xs:px-2.5 xs:py-2">
+                            {rawData?.shortOutStandingPercent}%
+                        </td>
+                    </tr>
+                    <tr class="border-y border-gray-800 odd:bg-[#202020]">
+                        <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
+                            <span>Short % of Float</span>
+                        </td>
+                        <td class="px-[5px] py-1.5 text-right font-semibold xs:px-2.5 xs:py-2">
+                          {rawData?.shortFloatPercent}%
+                        </td>
+                    </tr>
+                    <tr class="border-y border-gray-800 odd:bg-[#202020]">
+                        <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
+                            <span>Short Ratio (days to cover)</span>
+                        </td>
+                        <td class="px-[5px] py-1.5 text-right font-semibold xs:px-2.5 xs:py-2">
+                            {rawData?.shortRatio}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
             
             {/if}
 
