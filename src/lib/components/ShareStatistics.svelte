@@ -23,6 +23,8 @@
 
     let rawData = [];
     let optionsData;
+    let lastOutstandingShares = 0;
+    let lastFloatShares = 0;
 
 
 function normalizer(value) {
@@ -42,26 +44,21 @@ function normalizer(value) {
 }
 function getPlotOptions() {
     let dates = [];
-    let enterpriseValue = [];
-    let numberOfShares = [];
-    let marketCapitalization = [];
-    let addTotalDebt = [];
-    let cashEquivalent = [];
+    let floatShares = [];
+    let outstandingShares = [];
     // Iterate over the data and extract required information
     rawData?.forEach(item => {
-    // Extract year and convert it to fiscal year format
-    const fiscalYear = item?.date;
-    dates?.push(fiscalYear);
+    dates?.push(item?.date);
 
-    // Extract totalValue
-    enterpriseValue?.push(item?.enterpriseValue);
-    marketCapitalization?.push(item?.marketCapitalization);
-    addTotalDebt?.push(item?.addTotalDebt);
-    cashEquivalent?.push(item?.minusCashAndCashEquivalents)
+    floatShares?.push(item?.floatShares);
+    outstandingShares?.push(item?.outstandingShares);
 
     });
 
-    const {unit, denominator } = normalizer(Math.max(...enterpriseValue) ?? 0)
+    lastOutstandingShares = outstandingShares?.slice(-1)?.at(0);
+    lastFloatShares = floatShares?.slice(-1)?.at(0);
+
+    const {unit, denominator } = normalizer(Math.max(...floatShares) ?? 0)
 
 
     const option = {
@@ -94,32 +91,18 @@ function getPlotOptions() {
         ],
     series: [
         {
-            data: cashEquivalent,
-            type: 'bar',
-            itemStyle: {
-                color: '#fff' // Change bar color to white
-            }
-        },
-        {
-            data: addTotalDebt,
-            type: 'bar',
-            itemStyle: {
-                color: '#FF2F1F' // Change bar color to white
-            }
-        },
-        {
-            data: marketCapitalization,
+            data: floatShares,
             type: 'bar',
             itemStyle: {
                 color: '#5470C6' // Change bar color to white
             }
         },
         {
-            data: enterpriseValue,
+            data: outstandingShares,
             type: 'bar',
             itemStyle: {
-                    color: '#F8901E' // Change bar color to white
-                }
+                color: '#C12F23' // Change bar color to white
+            }
         },
     ]
     };
@@ -128,16 +111,16 @@ function getPlotOptions() {
 return option;
 }
 
-const getEnterPriseValues = async (ticker) => {
+const getShareStatistics = async (ticker) => {
     // Get cached data for the specific tickerID
-    const cachedData = getCache(ticker, 'getEnterPriseValues');
+    const cachedData = getCache(ticker, 'getShareStatistics');
     if (cachedData) {
       rawData = cachedData;
     } else {
 
       const postData = {'ticker': ticker};
       // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/enterprise-values', {
+      const response = await fetch(apiURL + '/share-statistics', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -147,8 +130,8 @@ const getEnterPriseValues = async (ticker) => {
 
       rawData = await response.json();
 
-      // Cache the data for this specific tickerID with a specific name 'getEnterPriseValues'
-      setCache(ticker, rawData, 'getEnterPriseValues');
+      // Cache the data for this specific tickerID with a specific name 'getShareStatistics'
+      setCache(ticker, rawData, 'getShareStatistics');
     }
 };
 
@@ -157,7 +140,7 @@ $: {
   if($stockTicker && typeof window !== 'undefined') {
     isLoaded=false;
     const asyncFunctions = [
-      getEnterPriseValues($stockTicker)
+      getShareStatistics($stockTicker)
       ];
       Promise.all(asyncFunctions)
           .then((results) => {
@@ -167,7 +150,6 @@ $: {
             console.error('An error occurred:', error);
           });
     isLoaded = true;
-
   }
 }
 
@@ -179,29 +161,27 @@ $: {
         <main class="overflow-hidden ">
                         
             <div class="flex flex-row items-center">
-                <label for="enterpriseValueInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
-                    Enterprise Value
+                <label for="shareStatisticsInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
+                    Share Statistics
                 </label>
                 <InfoModal
-                  title={"Enterprise Value"}
-                  content={"Enterprise value (EV) is a comprehensive measure of a company's total value in the stock market, considering market capitalization, debt, cash, and minority interests. It helps in M&A analysis, comparative analysis, valuation metrics, and capital structure assessment, aiding investors, analysts, and companies in financial decision-making."}
-                  id={"enterpriseValueInfo"}
+                  title={"Share Statistics"}
+                  content={"Shares outstanding refer to a company's stock currently held by all its shareholders. Floating shares refer to the number of a company's shares that are actively traded and available for public trading on the stock market."}
+                  id={"shareStatisticsInfo"}
                 />
             </div>
-            
+
             {#if isLoaded}
+    
             {#if rawData?.length !== 0}
             <div class="p-3 sm:p-0 mt-2 pb-8 sm:pb-2 rounded-lg bg-[#202020] sm:bg-[#0F0F0F]">
                     
                 <div class="w-full flex flex-col items-start">
                     <div class="text-white text-sm sm:text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
-                        {$displayCompanyName}'s' enterprise value provides a comprehensive snapshot of its total worth, crucial for assessing its financial health and making informed investment decisions.
+                        {$displayCompanyName}'s' has <strong>{abbreviateNumber(lastOutstandingShares)}</strong> shares outstanding with <strong>{abbreviateNumber(lastFloatShares)}</strong> of those shares currently floating.
                     </div>
                 </div>
             
-                <a href="{'/stocks/'+$stockTicker+'/stats/income'}" class="text-blue-400 hover:text-white flex justify-end mt-3 text-sm sm:text-[1rem]">
-                    Full report
-                </a>
 
                 <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
                     <div class="app w-full h-[300px] ">
@@ -212,36 +192,22 @@ $: {
                 <div class="flex flex-row items-center justify-between mx-auto mt-5 w-full sm:w-11/12">
                     <div class="mt-3.5 sm:mt-0 flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                     <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
-                    <div class="w-3 h-3 bg-[#F8901E] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                    <div class="w-3 h-3 bg-[#5470C6] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
                     <span class="mt-2 sm:mt-0 text-white text-center sm:text-start text-xs sm:text-md inline-block">
-                        Enterprise Value
+                        Floating Shares
                     </span>
                 </div>
                     <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                         <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
-                        <div class="w-3 h-3 bg-[#5470C6] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                        <div class="w-3 h-3 bg-[#C12F23] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
                         <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md sm:font-medium inline-block">
-                        Mkt Cap
+                        Outstanding Shares
                         </span>
                     </div>
-                    <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
-                    <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
-                    <div class="w-3 h-3 bg-[#FF2F1F] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
-                    <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md inline-block">
-                        Debt
-                    </span>
-                </div>
-                <div class="mt-3.5 sm:mt-0 flex flex-col sm:flex-row items-center sm:items-center ml-3 sm:ml-0 w-1/2 justify-center">
-                    <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
-                    <div class="w-3 h-3 bg-[#fff] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
-                    <span class="mt-2 sm:mt-0 text-white text-center sm:text-start text-xs sm:text-md inline-block">
-                        Cash Equivalents
-                    </span>
-                </div>
             
                 </div>
             </div>
-
+            
             {/if}
 
             {:else}

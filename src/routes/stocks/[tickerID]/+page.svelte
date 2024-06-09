@@ -1269,6 +1269,14 @@ function changeChartType() {
                                <!--End RevenueSegmentation-->
                                   
                           
+                                  
+                                <Lazy>
+                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                  {#await import('$lib/components/ShareStatistics.svelte') then {default: Comp}}
+                                    <svelte:component this={Comp} />
+                                  {/await}
+                                </div>
+                                </Lazy>
 
                                   
                                    <!--Start Shareholders-->

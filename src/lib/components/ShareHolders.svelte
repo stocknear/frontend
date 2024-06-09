@@ -184,16 +184,16 @@ $: {
                         <div class="flex flex-col items-center  sm:pt-0 m-auto">
 
                             <div class="flex flex-row items-center mr-auto mb-5">
-                                <div class="h-full bg-gray-800 transform -translate-x-1/2 " aria-hidden="true"></div>
-                                <div class="w-4 h-4 bg-[#F8901E] border-4 box-content border-gray-900 rounded-full transform -translate-x-1/2" aria-hidden="true"></div>
+                                <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
+                                <div class="w-4 h-4 bg-[#F8901E] border-4 box-content border-[#202020] rounded-full transform -translate-x-1/2" aria-hidden="true"></div>
                                 <span class="text-white text-sm sm:text-[1rem] font-medium inline-block">
                                     Others: {otherOwner >= 99.99 ? 99.99 : otherOwner?.toFixed(2)}%
                                 </span>
                             </div>
         
                             <div class="flex flex-row items-center mr-auto">
-                                <div class="h-full bg-gray-800 transform -translate-x-1/2 " aria-hidden="true"></div>
-                                <div class="w-4 h-4 bg-[#5470C6] border-4 box-content border-gray-900 rounded-full transform -translate-x-1/2" aria-hidden="true"></div>
+                                <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
+                                <div class="w-4 h-4 bg-[#5470C6] border-4 box-content border-[#202020] rounded-full transform -translate-x-1/2" aria-hidden="true"></div>
                                 <span class="text-white text-sm sm:text-[1rem] font-medium inline-block">
                                     Institutions: {institutionalOwner <= 0.01 ? "< 0.01%" : institutionalOwner?.toFixed(2)+'%'}
                                 </span>
