@@ -4,7 +4,6 @@
   import Searchbar from '$lib/components/Searchbar.svelte';
   
   import AddPortfolio from '$lib/components/AddPortfolio.svelte';
-  import Markethour from '$lib/components/Markethour.svelte';
   
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
@@ -303,9 +302,6 @@ if (usRegion.includes(value)) {
   
         {:else}
           
-        <div class="ml-auto w-fit mb-5 mr-4 sm:mr-0">
-          <Markethour />
-        </div>   
 
         <div class="bg-[#202020] border-t border-b sm:border border-slate-800 pt-5 pb-5 mt-5 sm:rounded-2xl">
          
