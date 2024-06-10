@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
   import { TrackingModeExitMode } from 'lightweight-charts';
-  import {screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
+  import {screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
   import StockKeyInformation from '$lib/components/StockKeyInformation.svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
@@ -1281,7 +1281,7 @@ function changeChartType() {
                                   
                                    <!--Start Shareholders-->
                                    <Lazy>
-                                    <div class="w-full sm:pl-6 sm:pb-6 sm:pt-6 m-auto mb-5">
+                                    <div class="w-full sm:pl-6 sm:pb-6 sm:pt-6 m-auto mb-5 {!$shareholderComponent ? 'hidden' : ''}">
                                     {#await import('$lib/components/ShareHolders.svelte') then {default: Comp}}
                                       <svelte:component this={Comp} />
                                     {/await}

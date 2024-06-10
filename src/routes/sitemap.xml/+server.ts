@@ -18,6 +18,7 @@ export const config = {
 
 const pages = [
     {title: "/"},
+    {title: "/most-shorted-stocks"},
     {title: "/stocks"},
     {title: "/etf"},
     {title: "/crypto"},

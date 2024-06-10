@@ -204,6 +204,7 @@ $: {
                 </div>
             </div>
 
+            {#if rawData?.sharesShort !== 0}
             <h2 class="mt-10 mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-2xl font-bold mb-3">
               Short Selling Information
             </h2>
@@ -257,6 +258,7 @@ $: {
                 </tbody>
             </table>
             </div>
+            {/if}
 
             
             {/if}

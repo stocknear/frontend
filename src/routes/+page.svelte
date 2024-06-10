@@ -164,11 +164,11 @@ onMount( async() => {
                                 <!-- Start Column -->
                                 <div >
 
-                                <!--
+                                
                                   <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
-                                    <a href="/politicians" class="text-white antialiased bg-[#202020] w-full px-3 py-1.5 rounded-xl m-auto font-medium text-sm">
-                                      <svg class="w-8 h-8 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72"><path fill="#fff" d="M5 17h62v38H5z"/><path fill="#d22f27" d="M5 17h62v5H5zm0 9h62v4H5zm0 8h62v4H5z"/><path fill="#1e50a0" d="M5 17h32v21H5z"/><path fill="#d22f27" d="M5 42h62v4H5z"/><circle cx="9" cy="22" r="1.75" fill="#fff"/><circle cx="17" cy="22" r="1.75" fill="#fff"/><circle cx="25" cy="22" r="1.75" fill="#fff"/><circle cx="33" cy="22" r="1.75" fill="#fff"/><circle cx="29" cy="26" r="1.75" fill="#fff"/><circle cx="21" cy="26" r="1.75" fill="#fff"/><circle cx="13" cy="26" r="1.75" fill="#fff"/><circle cx="9" cy="30" r="1.75" fill="#fff"/><circle cx="17" cy="30" r="1.75" fill="#fff"/><circle cx="25" cy="30" r="1.75" fill="#fff"/><circle cx="33" cy="30" r="1.75" fill="#fff"/><circle cx="29" cy="34" r="1.75" fill="#fff"/><circle cx="21" cy="34" r="1.75" fill="#fff"/><circle cx="13" cy="34" r="1.75" fill="#fff"/><path fill="#d22f27" d="M5 50h62v5H5z"/><path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 17h62v38H5z"/></svg>
-                                      Analyze Congressional Trading using our latest Database.
+                                    <a href="/most-shorted-stocks" class="text-white antialiased bg-[#202020] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
+                                      <svg class="w-6 h-6 inline-block mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><path fill="#ffe36c" d="m81.13 29.99l-18.34.18l15.68-8.55l-3.71-13.24l10.41 7.9l10.47-8.01l-2.75 10.78l17.26 1.98l-17.96 7l-7.16 12.5z"/><path fill="#ff8f00" d="m92.27 13.37l-.76 2.96l-1.13 4.45l4.56.52l6.94.79l-9.76 3.81l-1.32.51l-.7 1.23l-4.68 8.17l-1.92-5.2l-.98-2.65l-2.82.04l-8.91.09l7.24-3.95l2.8-1.53l-.86-3.07l-1.67-5.96l4.44 3.37l2.43 1.84l2.42-1.85zm-7.11.39L72.49 4.15c-.41-.31-.98.08-.84.57l4.46 15.91l-19.44 10.6c-.49.27-.3 1.01.26 1L79.74 32l4.5 12.17c.16.43.74.47.97.08l8.37-14.62l22.82-8.9c.52-.2.42-.97-.13-1.03L95.4 17.32l3.22-12.65c.13-.49-.44-.87-.84-.56z"/><path fill="#4d4d4d" d="M94.59 44.29c-1.27-.18-7.6 6.13-12.17 2.17l-.01.01a43.674 43.674 0 0 0-8.72-5.51c-21.75-10.37-47.8-1.15-58.18 20.61c-10.37 21.75-1.15 47.8 20.61 58.18c21.75 10.37 47.8 1.15 58.18-20.61c3.37-7.06 4.67-14.57 4.14-21.85c-.04-.51-.13-1.64.12-2.48c1.71-5.74 7.93-8.6 7.8-8.87c-.13-.28-10.49-21.47-11.77-21.65"/><ellipse cx="100.46" cy="55.12" fill="#757575" rx="5.83" ry="12.33" transform="rotate(-29.923 100.447 55.121)"/><ellipse cx="102.35" cy="55.1" fill="#212121" rx="2.29" ry="3.52" transform="rotate(-30 102.345 55.102)"/><path fill="#757575" d="M53.9 52.57c2.74 7.78-1.27 12.42-6.46 15.39c-2.48 1.42-5.36 2.04-7.87 3.41c-4.88 2.66-7.84 7.79-12.09 11.36c-1.06.89-2.27 1.71-3.65 1.86c-1.84.2-3.64-.88-4.74-2.37c-1.09-1.5-5.56-15.72 10.76-30.27c7.29-6.5 21.05-7.91 24.05.62" opacity="0.9"/><linearGradient id="notoBomb0" x1="42.079" x2="83.812" y1="34.552" y2="48.063" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff9c4" stop-opacity="0.1"/><stop offset=".002" stop-color="#fff9c4" stop-opacity="0.101"/><stop offset=".378" stop-color="#fffca6" stop-opacity="0.263"/><stop offset=".701" stop-color="#fffe94" stop-opacity="0.401"/><stop offset=".93" stop-color="#ffff8d" stop-opacity="0.5"/></linearGradient><path fill="url(#notoBomb0)" d="M41.86 38.72c3.69.12 11.23.17 20.77 3.92c3.21 1.26 5.92 3.02 8.83 4.82c2.35 1.45 5.02 2.66 7.77 2.4c.97-.09 2.04-.47 2.42-1.37c.23-.56.21-1.13.01-1.69c-.24-.66-1.06-1.58-2.32-2.61a44.392 44.392 0 0 0-5.64-3.23c-10.36-4.94-21.69-5.43-31.84-2.24"/><linearGradient id="notoBomb1" x1="102.029" x2="91.139" y1="57.302" y2="42.935" gradientUnits="userSpaceOnUse"><stop offset=".11" stop-color="#fff9c4" stop-opacity="0"/><stop offset="1" stop-color="#ffff8d"/></linearGradient><path fill="url(#notoBomb1)" d="M102.13 47.64c-.05-.05-.1-.11-.15-.16c-.01-.01-.01-.02-.02-.02c-.23-.23-.46-.45-.69-.67c-.03-.03-.07-.06-.1-.1c-2.53-2.29-5.12-3.26-6.86-2.27c-2.79 1.6-2.3 7.69 1.1 13.59a25.56 25.56 0 0 0 2.37 3.43c-.1-.29-3.84-11.52-1.51-14.53c1.99-2.54 5.51.43 5.86.73"/><path fill="#212121" d="M88.16 74.53c-2.42-1.59-4.79-3.75-6.26-9.18c-.19-.69-.83-4.12 1.02-4.67c1.6-.48 2.79 2.15 4.17 4.46c1.5 2.53 3.93 4.72 6.54 6.15c.76.41 4.29 2 1.97 4.22c-1.53 1.45-6.02-.04-7.44-.98"/><path fill="#c69461" d="M100.85 53.44c.1-.04 10.25-4.65 9.37-11.34c-.58-4.42-2.3-6.62-11.4-8.78c-8.9-2.11-13.25-6.24-13.43-6.42c-.89-.86-.92-2.29-.05-3.19c.86-.89 2.28-.92 3.18-.06c.07.06 3.77 3.48 11.35 5.28c8.82 2.09 13.79 4.72 14.83 12.57c1.16 8.78-8.52 14.25-11.29 15.7c-1.72.91-3.7-3.26-2.56-3.76"/><path fill="#f6bc41" d="M88.5 23.66c-.89-.86-2.32-.83-3.18.06c-.86.9-.84 2.32.05 3.19c.13.13 2.5 2.37 7.25 4.39l.95-1.66l3.66-1.43c-5.81-1.86-8.67-4.5-8.73-4.55"/></svg>
+                                      <span>Find the Most Shorted Stocks</span>
                                     </a>
                                     <div class="absolute top-[-2.0rem] -right-5 sm:-right-10 rotate-[7deg]">
                                       <span class="bg-[#EF4444] text-white text-sm sm:text-[0.9rem] rounded-xl font-medium sm:me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
@@ -176,10 +176,8 @@ onMount( async() => {
                                       </span>
                                     </div>
                                   </div>
-                                -->
-                                  
-
-
+                                
+                                
 
                                   <div class="flex flex-row justify-center items-center">
                                     <h1 class="text-center text-5xl sm:text-7xl text-primary/100 font-bold font-mono mb-6 w-full">
@@ -237,6 +235,7 @@ onMount( async() => {
                                     </div>
                                     {/if}
 
+                                    <!--
                                     <div class="w-full max-w-64 sm:max-w-3xl m-auto grid grid-cols-1 md:grid-cols-3 gap-y-3 sm:gap-x-5 mt-10 flex justify-center items-center">
                                       <a href="/politicians/61b59ab669" class="px-4 py-3 text-white bg-[#202327] rounded-lg flex flex-row items-center font-medium transition duration-150 ease-in-out group">
                                         <div class="flex flex-row items-center">
@@ -272,6 +271,7 @@ onMount( async() => {
                                         </div>
                                       </a>
                                     </div>
+                                    -->
 
                                      
               

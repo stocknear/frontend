@@ -1,13 +1,13 @@
 import { userRegion, getCache, setCache } from '$lib/store';
+
+
 const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-
 
 let apiURL;
 
 userRegion.subscribe(value => {
 
-  if (usRegion?.includes(value)) {
+  if (usRegion.includes(value)) {
     apiURL = import.meta.env.VITE_USEAST_API_URL;
   } else {
     apiURL = import.meta.env.VITE_EU_API_URL;
@@ -15,17 +15,15 @@ userRegion.subscribe(value => {
 });
 
 
-
-export const load = async ({locals}) => {
+export const load = async ({parent}) => {
   const getTopAnalystStocks = async () => {
-    let apiURL;
+    let output;
+    const data = await parent();
 
-    if (usRegion?.includes(userRegion)) {
-        apiURL = import.meta.env.VITE_USEAST_API_URL;
+    const cachedData = getCache('', 'getTopAnalystStocks');
+    if (cachedData) {
+      output = cachedData;
     } else {
-        apiURL = import.meta.env.VITE_EU_API_URL;
-    };
-
     // make the POST request to the endpoint
     const response = await fetch(apiURL + '/top-analysts-stocks', {
       method: 'GET',
@@ -34,10 +32,13 @@ export const load = async ({locals}) => {
       },
     });
 
-    let output = await response.json();
+    output = await response.json();
 
-    output = locals?.user?.tier !== 'Pro' ? output?.reverse()?.slice(0,6) : output;
+    setCache('', output, 'getTopAnalystStocksg');
 
+    }
+
+    output = data?.user?.tier !== 'Pro' ? output?.reverse()?.slice(0,6) : output;
     return output;
   };
 
