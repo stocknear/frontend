@@ -650,7 +650,7 @@ function tabFunction(state) {
                     {#if rawList?.length !== 0}
                     <div class="hidden sm:block sm:overflow-hidden sm:overflow-y-scroll scroller w-full m-auto h-auto sm:max-h-[700px]">
 
-                      <table class="-ml-3 table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#202020] m-auto mt-4 ">
+                      <table class="-ml-3 table table-sm table-compact table-pin-rows table-pin-cols rounded-none sm:rounded-md w-full bg-[#202020] m-auto mt-5 ">
                         <!-- head -->
                         <thead>
                           <tr class="bg-[#202020]">
