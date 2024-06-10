@@ -100,7 +100,7 @@
 
           
           <div class="text-white text-lg mt-3 text-center pl-10 pr-10">
-            Stocknear has no ads, third-party affiliate marketing, or tracking. Your attention and data are never monetized. If you're skeptical, that's okay—soon, we'll open source our entire codebase, both frontend and backend, for you to review.
+            Stocknear has no ads, third-party affiliate marketing, or tracking. Your attention and data are never monetized. If you're skeptical, that's okay—soon, just look at our code <a href="https://github.com/stocknear" rel="noopener noreferrer" target="_blank" class="text-blue-400 sm:hover:text-white sm:hover:underline" >here</a>. 
           </div>
       </div>
       <!--End Section-->
