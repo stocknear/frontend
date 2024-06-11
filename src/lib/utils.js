@@ -49,22 +49,38 @@ export const validateData = async (formData, schema) => {
 }
 
 
-export function sumQuarterlyResultsByYear(quarterlyResults) {
+export function sumQuarterlyResultsByYear(quarterlyResults, namingList) {
   const yearlySummaries = {};
   const quarterCounts = {};
-  
-  // Define a Set of keys to exclude
+  //FMP sucks since these keys are up to date only by the last quarter value
+  const lastQuarterKeys = new Set([namingList]); // Keys that need last quarter values
+
+  // Define a Set of keys to exclude from summing
+  //FMP sucks since these keys are up to date for every quarter hence no summation required
   const excludeKeys = new Set(['weightedAverageShsOut', 'weightedAverageShsOutDil']);
-  
+
+  // Function to get the quarter number from the period string
+  function getQuarterNumber(period) {
+    switch (period) {
+      case 'Q1': return 1;
+      case 'Q2': return 2;
+      case 'Q3': return 3;
+      case 'Q4': return 4;
+      default: return 0;
+    }
+  }
+
   // Iterate over each quarterly result
   quarterlyResults?.forEach(quarter => {
-    // Extract year from the date
-    const year = new Date(quarter?.calendarYear)?.getFullYear();
-    
+    // Extract year and quarter from the data
+    const year = quarter?.calendarYear;
+    const quarterNum = getQuarterNumber(quarter?.period);
+
     // Initialize the year in summaries and quarter counts if not already present
     if (!yearlySummaries[year]) {
       yearlySummaries[year] = {
         calendarYear: `${year}`, // Use end of the year date
+        lastQuarterProcessed: 0 // Keep track of the last quarter processed
       };
       quarterCounts[year] = 0;
     }
@@ -72,12 +88,20 @@ export function sumQuarterlyResultsByYear(quarterlyResults) {
     // Increment the quarter count for the year
     quarterCounts[year]++;
     
+    // Update last quarter processed if current quarter is greater
+    if (quarterNum > yearlySummaries[year].lastQuarterProcessed) {
+      yearlySummaries[year].lastQuarterProcessed = quarterNum;
+    }
+    
     // Sum up the numeric fields for the year, excluding specific keys
     Object?.keys(quarter)?.forEach(key => {
-      if (typeof quarter[key] === 'number' && !excludeKeys.has(key)) {
+      if (typeof quarter[key] === 'number' && !excludeKeys?.has(key) && !lastQuarterKeys.has(key)) {
         yearlySummaries[year][key] = (yearlySummaries[year][key] || 0) + quarter[key];
       } else if (excludeKeys.has(key)) {
         // Directly copy the last quarter value for these keys
+        yearlySummaries[year][key] = quarter[key];
+      } else if (lastQuarterKeys.has(key) && quarterNum === 4) {
+        // Update only if it's the last quarter of the year
         yearlySummaries[year][key] = quarter[key];
       }
     });
@@ -92,6 +116,8 @@ export function sumQuarterlyResultsByYear(quarterlyResults) {
   
   return annualResults;
 }
+
+
 
 
 

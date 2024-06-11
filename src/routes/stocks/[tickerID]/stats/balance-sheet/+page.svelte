@@ -185,7 +185,8 @@
         }
     ];
     
-  
+let namingList = statementConfig?.map(config => config?.propertyName) || [];
+
         
     function toggleMode()
     {
@@ -375,7 +376,8 @@ $: {
     if (timeFrame || displayStatement || filterRule)
     {   
         if (filterRule === 'annual') {
-            fullStatement = sumQuarterlyResultsByYear(data?.getBalanceSheetStatement)
+            
+            fullStatement = sumQuarterlyResultsByYear(data?.getBalanceSheetStatement, namingList)
         }
         else {
             fullStatement = data?.getBalanceSheetStatement;

@@ -117,7 +117,8 @@ const statementConfig = [
 ];
 
 
-    
+let namingList = statementConfig?.map(config => config?.propertyName) || [];
+
 function toggleMode()
 {
     mode = !mode;
@@ -312,7 +313,7 @@ $: {
     if (timeFrame || displayStatement || filterRule)
     {   
         if (filterRule === 'annual') {
-            fullStatement = sumQuarterlyResultsByYear(data?.getRatiosStatement)
+            fullStatement = sumQuarterlyResultsByYear(data?.getRatiosStatement, namingList)
         }
         else {
             fullStatement = data?.getRatiosStatement;
