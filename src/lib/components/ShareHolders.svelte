@@ -235,25 +235,25 @@ $: {
                       <tbody>
                         {#each (showFullStats ? shareholderList?.slice(0,10) : shareholderList?.slice(0,3)) as item,index}
                         {#if item?.investorName?.length > 0}
-                        <tr on:click={() => goto('/hedge-funds/'+item?.cik)} class="{index === 2 && !showFullStats && shareholderList?.length > 3 ? 'opacity-[0.5]' : '' } sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#0F0F0F] border-b-[#0F0F0F] cursor-pointer">
+                        <tr on:click={() => goto('/hedge-funds/'+item?.cik)} class="border-y border-gray-800 odd:bg-[#202020] {index === 2 && !showFullStats && shareholderList?.length > 3 ? 'opacity-[0.5]' : '' } sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#0F0F0F] border-b-[#0F0F0F] cursor-pointer">
                          
-                            <td class="text-white font-medium  border-b border-[#0F0F0F]">
+                            <td class="text-white font-medium">
                              {item?.investorName?.length > charNumber ? formatString(item?.investorName?.slice(0,charNumber)) + "..." : formatString(item?.investorName)}
                             </td>
                         
-                            <td class="text-white text-center font-medium  border-b border-[#0F0F0F]">
+                            <td class="text-white text-center font-medium">
                                 {item?.ownership <= 0.01 ? "< 0.01%" : item?.ownership?.toFixed(2)+'%'}
                             </td>
 
-                            <td class="text-white text-end hidden sm:table-cell font-medium  border-b border-[#0F0F0F]">
+                            <td class="text-white text-end hidden sm:table-cell font-medium">
                                 {item?.sharesNumber !== null ? abbreviateNumber(item?.sharesNumber) : '-'}
                             </td>
                         
-                            <td class="text-white text-end hidden sm:table-cell font-medium  border-b border-[#0F0F0F] ">
+                            <td class="text-white text-end hidden sm:table-cell font-medium ">
                                 {item?.marketValue !== null ? "$" + abbreviateNumber(item?.marketValue) : '-'}
                             </td>
                             
-                            <td class="text-white text-end font-medium  border-b border-[#0F0F0F]">
+                            <td class="text-white text-end font-medium">
                                 {item?.weight <= 0.01 ? "< 0.01%" : item?.weight?.toFixed(2)+'%'}
                             </td>
                         

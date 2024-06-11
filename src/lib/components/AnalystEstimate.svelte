@@ -292,9 +292,9 @@ $: {
                     <table class="table table-sm shaodow table-pin-cols table-compact rounded-none sm:rounded-md w-full bg-[#0F0F0F] border-bg-[#0F0F0F]">
                         <thead class="">
                         <tr class="">
-                            <th class="bg-[#0F0F0F] border-b border-[#000] shadow-md text-white font-medium text-sm text-start">Year</th>
+                            <th class="bg-[#0F0F0F] border-b border-[#000] text-white font-semibold text-sm text-start">Year</th>
                             {#each ($screenWidth >= 640 ? xData?.slice(-6) : xData) as item}
-                            <td class="z-20 bg-[#0F0F0F] border-b border-[#000] shadow-md text-white font-medium text-sm text-center bg-[#0F0F0F]">{'FY'+item}</td>
+                            <td class="z-20 bg-[#0F0F0F] border-b border-[#000] text-white font-semibold text-sm text-center bg-[#0F0F0F]">{'FY'+item}</td>
                             {/each}
 
                         </tr>
@@ -314,11 +314,11 @@ $: {
                             </tr>
 
                             <tr class="bg-[#0F0F0F] border-b-[#0F0F0F]">
-                                <th class="text-white text-start font-medium  bg-[#0F0F0F] border-b border-[#0F0F0F]">
+                                <th class="bg-[#202020] text-white text-start font-medium  bg-[#0F0F0F] border-b border-[#0F0F0F]">
                                     Actual
                                 </th>
                                 {#each ($screenWidth >= 640 ? tableDataActual?.slice(-6) : tableDataActual) as item}
-                                    <td class="text-white text-center font-medium  border-b border-[#0F0F0F]">
+                                    <td class="text-white text-center font-medium bg-[#202020]">
                                         {(item?.val === '0.00' || item?.val === null) ? '-' : item?.val}
                                     </td>
                                 {/each}
