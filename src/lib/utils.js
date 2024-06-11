@@ -49,6 +49,51 @@ export const validateData = async (formData, schema) => {
 }
 
 
+export function sumQuarterlyResultsByYear(quarterlyResults) {
+  const yearlySummaries = {};
+  const quarterCounts = {};
+  
+  // Define a Set of keys to exclude
+  const excludeKeys = new Set(['weightedAverageShsOut', 'weightedAverageShsOutDil']);
+  
+  // Iterate over each quarterly result
+  quarterlyResults?.forEach(quarter => {
+    // Extract year from the date
+    const year = new Date(quarter?.calendarYear)?.getFullYear();
+    
+    // Initialize the year in summaries and quarter counts if not already present
+    if (!yearlySummaries[year]) {
+      yearlySummaries[year] = {
+        calendarYear: `${year}`, // Use end of the year date
+      };
+      quarterCounts[year] = 0;
+    }
+    
+    // Increment the quarter count for the year
+    quarterCounts[year]++;
+    
+    // Sum up the numeric fields for the year, excluding specific keys
+    Object?.keys(quarter)?.forEach(key => {
+      if (typeof quarter[key] === 'number' && !excludeKeys.has(key)) {
+        yearlySummaries[year][key] = (yearlySummaries[year][key] || 0) + quarter[key];
+      } else if (excludeKeys.has(key)) {
+        // Directly copy the last quarter value for these keys
+        yearlySummaries[year][key] = quarter[key];
+      }
+    });
+  });
+  
+  // Filter out years with less than 4 quarters
+  const validYears = Object.keys(quarterCounts).filter(year => quarterCounts[year] === 4);
+  const annualResults = validYears.map(year => yearlySummaries[year]);
+  
+  // Sort the results by year in descending order
+  annualResults.sort((a, b) => b?.calendarYear?.localeCompare(a?.calendarYear));
+  
+  return annualResults;
+}
+
+
 
 export const sortPostsByDate = (posts) => {
 	return posts.sort(function(a, b) {

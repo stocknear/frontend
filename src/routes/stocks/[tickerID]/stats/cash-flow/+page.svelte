@@ -3,7 +3,7 @@ import Chart from '$lib/components/Chart.svelte'
 import { page } from '$app/stores';
 import {numberOfUnreadNotification,displayCompanyName, stockTicker} from '$lib/store';
 //import {Katex} from '$lib/components';
-import { abbreviateNumber } from '$lib/utils';
+import { abbreviateNumber, sumQuarterlyResultsByYear } from '$lib/utils';
 import * as XLSX from 'xlsx';
 
 export let data;
@@ -363,35 +363,6 @@ $: {
 
 
 
-// Function to sum up quarterly results by year
-function sumQuarterlyResultsByYear(quarterlyResults) {
-  const yearlySummaries = {};
-
-  // Iterate over each quarterly result
-  quarterlyResults?.forEach(quarter => {
-    // Extract year from the date
-    const year = new Date(quarter?.date)?.getFullYear();
-
-    // If the year doesn't exist in the summary, initialize it
-    if (!yearlySummaries[year]) {
-      yearlySummaries[year] = {
-        calendarYear: `${year}`, // Use end of the year date
-      };
-    }
-
-    // Sum up the numeric fields for the year
-    Object?.keys(quarter)?.forEach(key => {
-      if (typeof quarter[key] === 'number') {
-        yearlySummaries[year][key] = (yearlySummaries[year][key] || 0) + quarter[key];
-      }
-    });
-  });
-
-  // Convert yearly summaries object to an array
-  const annualResults = Object?.values(yearlySummaries)?.sort((a, b) => b?.calendarYear?.localeCompare(a?.calendarYear));
-
-  return annualResults;
-}
 
 </script>
                 
