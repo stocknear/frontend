@@ -1,18 +1,5 @@
 // lib/workers/test.ts
 
-async function loadTwitchStatus(fastifyURL:string,) {
-  // make the GET request to the endpoint
-  const response = await fetch(fastifyURL+'/get-twitch-status', {
-    method: 'GET',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-  });
-
-  const output = (await response.json())?.items;
-  return output;
-}
-
 async function loadSearchData(apiURL:string) {
     try {
 
@@ -58,17 +45,16 @@ async function loadNotifications(fastifyURL:string, userId:string) {
     //console.log(ticker, apiURL);
     try {
     
-        const [searchBarData, notificationList, twitchStatus] = await Promise.all([
+        const [searchBarData, notificationList] = await Promise.all([
             loadSearchData(apiURL),
             loadNotifications(fastifyURL, userId),
-            loadTwitchStatus(fastifyURL),
           ]);
 
     const unreadNotificationList = notificationList?.filter(item => item?.readed === false);
     const hasUnreadElement = notificationList?.some(item => item?.readed === false);
     const numberOfUnreadNotification = notificationList?.filter(item => item?.readed === false)?.length;
 
-    const output = {searchBarData, notificationList, hasUnreadElement, numberOfUnreadNotification, unreadNotificationList, twitchStatus}
+    const output = {searchBarData, notificationList, hasUnreadElement, numberOfUnreadNotification, unreadNotificationList}
     
     postMessage({ message: 'success', output});
     } catch(e) {
