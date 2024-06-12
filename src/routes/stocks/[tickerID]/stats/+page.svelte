@@ -110,7 +110,6 @@ yearHigh = stockQuote?.yearHigh?.toFixed(2);
 
 alpha = quantStats[$stockTicker?.toUpperCase()]?.Alpha;
 
-console.log(quantStats)
 /*
 updateDayRange()
 updateYearRange()
@@ -165,12 +164,12 @@ updateYearRange()
                 <table class="table table-sm table-pin-rows table-compact pb-2 text-start flex justify-start items-center w-full px-3 m-auto ">
                     <tbody class="shadow-md">
                     <!-- row 1 -->
-                    <tr class="text-white">
+                    <tr class="text-white ">
                       {#if $screenWidth <= 550}
-                      <td class="text-start bg-[#0F0F0F] border-b border-[#0F0F0F] text-white font-medium">
+                      <td class="text-start text-white font-medium">
                         1-Day Range
                       </td>
-                      <td class="bg-[#0F0F0F] border-b border-[#0F0F0F]">
+                      <td class="bg-[#0F0F0F]">
                         <div class="flex flex-col items-start">
                           <div class="flex justify-between w-full mb-1.5">
                             <span class="text-start">{dayLow}</span>
@@ -182,17 +181,17 @@ updateYearRange()
                         </div>
                       </td>
                       {:else}
-                      <td class="text-start bg-[#0F0F0F] text-white font-medium border-b border-[#0F0F0F]">
+                      <td class="text-start text-white font-medium">
                         1-Day Range
                       </td>
-                      <td class="bg-[#0F0F0F] border-b border-[#0F0F0F]">
+                      <td class="bg-[#0F0F0F]">
                         {dayLow}
                       </td>
-                      <td class="bg-[#0F0F0F] border-b border-[#0F0F0F]">
+                      <td class="bg-[#0F0F0F]">
                         <!--<span class="text-center flex justify-center items-center ">158.8</span>-->
                         <progress class="progress [&::-webkit-progress-value]:bg-blue-600 [&::-moz-progress-bar]:bg-blue-600 bg-white w-[200px] sm:w-full h-[4px]" min={dayLow} value={currentPrice} max={dayHigh} />
                       </td>
-                      <td class="bg-[#0F0F0F] border-b border-[#0F0F0F] ">
+                      <td class="bg-[#0F0F0F] ">
                         {dayHigh}
                       </td>
                       {/if}
@@ -200,7 +199,7 @@ updateYearRange()
                     <!--2 row -->
                     <tr class="text-white bg-[#0F0F0F]">
                       {#if $screenWidth < 640}
-                      <td class="text-start bg-[#0F0F0F] text-white font-medium">
+                      <td class="text-start text-white font-medium">
                         1-Year Range
                       </td>
                       <td class="bg-[#0F0F0F]">
@@ -215,7 +214,7 @@ updateYearRange()
                         </div>
                       </td>
                       {:else}
-                      <td class="text-start bg-[#0F0F0F] text-white font-medium">
+                      <td class="text-start text-white font-medium">
                         1-Year Range
                       </td>
                       <td class="bg-[#0F0F0F]">
@@ -244,46 +243,38 @@ updateYearRange()
                 <table class="table table-sm table-compact text-start flex justify-start items-center w-full px-3 m-auto">
                   <tbody class="shadow-md">
                     <!-- row 1 -->
-                    <tr class="text-white">
-                      <td class="text-start border-b border-[#0F0F0F] bg-[#0F0F0F] text-white font-medium">Market Cap</td>
-                      <td class="bg-[#0F0F0F] border-b border-[#0F0F0F]"> ${marketCap}</td>
-                      <td class="text-start border-b border-[#0F0F0F] bg-[#0F0F0F] text-white font-medium">Volume</td>
-                      <td class="bg-[#0F0F0F] border-b border-[#0F0F0F]">{volume}</td>
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start text-white ">Mkt Cap</td>
+                      <td class="text-end"> ${marketCap}</td>
+                      <td class="text-end text-white ">Volume</td>
+                      <td class="text-end">{volume}</td>
                     </tr>
                     <!-- row 2 -->
-                    <tr class="text-white ">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium">Price</td>
-                      <td class="bg-[#0F0F0F] border-b border-[#0F0F0F]" >${currentPrice}</td>
-                      <td class="text-start bg-[#0F0F0F] border-b border-[#0F0F0F] text-white font-medium">Prev. Close</td>
-                      <td class="bg-[#0F0F0F] border-b border-[#0F0F0F]">${previousClose}</td>
+                    <tr class="text-white odd:bg-[#202020] ">
+                      <td class="text-start">Price</td>
+                      <td class="text-end" >${currentPrice}</td>
+                      <td class="text-end text-white ">Prev. Close</td>
+                      <td class="text-end">${previousClose}</td>
                     </tr>
                     <!-- row 3 -->
                     
-                    <tr class="text-white">
-                      <td class="text-start border-b border-[#0F0F0F] bg-[#0F0F0F] text-white font-medium">Alpha</td>
-                      <td class="bg-[#0F0F0F] border-b border-[#0F0F0F]">
-                        {#if typeof alpha !== 'undefined'}
-                          {alpha}
-                        {:else}
-                        -
-                        {/if}
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start text-white ">Alpha</td>
+                      <td class="text-end">
+                        {typeof alpha !== 'undefined' ? alpha : '-'}
                       </td>
-                      <td class="text-start bg-[#0F0F0F] border-b border-[#0F0F0F] text-white font-medium">Beta</td>
-                      <td class="bg-[#0F0F0F] border-b border-[#0F0F0F]">
-                        {#if typeof beta !== 'undefined' && !isNaN(beta)}
-                          {beta?.toFixed(2)}
-                        {:else}
-                        -
-                        {/if}
+                      <td class="text-end text-white">Beta</td>
+                      <td class="text-end">
+                        {typeof beta !== 'undefined' && !isNaN(beta) ? beta?.toFixed(2) : '-'}
                       </td>
                     </tr>
                     
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white font-medium">EPS</td>
-                      <td class="bg-[#0F0F0F]">{eps}</td>
-                      <td class="text-start bg-[#0F0F0F] text-white font-medium">PE</td>
-                      <td class="bg-[#0F0F0F]">{pe}</td>
+                    <tr class="text-white font-semibold">
+                      <td class="text-start">EPS</td>
+                      <td class="text-sm text-end">{eps}</td>
+                      <td class="text-end">PE</td>
+                      <td class="text-sm text-end">{pe}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -298,30 +289,30 @@ updateYearRange()
               </h3>
               <table class="table table-sm table-pin-rows table-compact text-start w-full flex justify-start items-center m-auto">
                 <thead>
-                  <tr class="bg-[#0F0F0F] border-slate-800 rounded shadow-md">
-                    <th class="text-start bg-[#0F0F0F] text-white text-sm font-medium w-36 sm:w-56">Started</th>
-                    <th class="bg-[#0F0F0F] text-white text-sm font-medium text-end">Recovered</th>
-                    <th class="bg-[#0F0F0F] text-white text-sm text-end font-medium">Drawdown</th>
-                    <th class="bg-[#0F0F0F] text-white text-sm font-medium text-end ">Days</th>
+                  <tr class="bg-[#0F0F0F] border-slate-800 rounded text-white font-semibold">
+                    <th class="text-start text-sm w-36 sm:w-56">Started</th>
+                    <th class="text-sm text-end">Recovered</th>
+                    <th class="text-sm text-end">Drawdown</th>
+                    <th class="text-sm text-end ">Days</th>
                   </tr>
                 </thead>
                 <tbody class="shadow-md">
                   {#each quantStats[$stockTicker?.toUpperCase()]['Worst 10 Drawdowns'] as item}
-                    <tr class="text-white">
-                      <td class="text-start border-b border-[#0F0F0F] text-xs sm:text-sm bg-[#0F0F0F] text-white w-36 sm:w-56">
+                    <tr class="text-white border-y border-gray-800 odd:bg-[#202020]">
+                      <td class="text-start text-sm text-white w-36 sm:w-56">
                         {new Date(item['Started']).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                       </td>
-                      <td class="border-b border-[#0F0F0F] text-xs sm:text-sm bg-[#0F0F0F] text-white text-end">
+                      <td class="text-sm  text-white text-end">
                         {#if ongoingDD(item['Recovered']) === true}
                         continuing
                         {:else}
                         {new Date(item['Recovered']).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                         {/if}
                       </td>
-                      <td class="text-start border-b border-[#0F0F0F] bg-[#0F0F0F] text-white text-end">
+                      <td class="text-start font-semibold text-white text-end">
                         {item['Drawdown']?.toFixed(2)}%
                       </td> 
-                      <td class="text-end border-b border-[#0F0F0F] bg-[#0F0F0F] text-white">
+                      <td class="text-end font-semibold text-white">
                         {item['Days']}
                       </td>
                     </tr>
@@ -339,7 +330,7 @@ updateYearRange()
                 Comparison of company stats against the S&P500 Index.                                  
               </p>
 
-              <span class="ml-2 text-start italic text-xs sm:text-sm text-gray-300 mb-2 sm:mb-5">
+              <span class="ml-2 text-start italic text-sm text-gray-300 mb-2 sm:mb-5">
                 Time Period between {new Date(quantStats[$stockTicker?.toUpperCase()]["Start Period"]).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })} 
                 - 
                 {new Date(quantStats[$stockTicker?.toUpperCase()]["End Period"]).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
@@ -348,659 +339,800 @@ updateYearRange()
 
               <ReturnCard quantData={quantStats} />
               
-              <div class="ml-2 grid grid-cols-3 gap-10 text-lg font-medium sm:font-medium text-sm sm:text-[1rem]">
-                <span class="text-white ml-1 sm:ml-3 font-bold">
-                  Metric
-                </span>
-                <span class="text-white ml-auto">
-                  {$stockTicker}
-                </span>
-                <span class="text-white text-end mr-3">
-                  S&P500
-                </span>
-              </div>
-
-
 
 
               <div class="flex flex-col justify-center items-center w-full m-auto">
                 <table class="table table-sm table-pin-rows table-compact text-start w-full flex justify-start items-center w-full m-auto">
+                  <thead>
+                    <tr class="bg-[#0F0F0F] text-white text-sm font-medium">
+                      <th class="text-start">
+                        Metric
+                      </th>
+                      <th class="text-end bg-[#0F0F0F]">
+                        {$stockTicker}
+                      </th>
+                      <th class="text-end">
+                        S&P500
+                      </th>
+                    </tr>
+                  </thead>
                   <tbody class="shadow-md">
-                    <tr class="text-white ">
-                      <td class="text-start bg-[#0F0F0F] border-b border-[#0F0F0F] text-white font-medium w-36 sm:w-56">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start text-white  w-36 sm:w-56">
                         Cumulative Return
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Cumulative Return %"]}%
+                      <td class="text-white text-end text-sm">
+                      {#if quantStats[$stockTicker?.toUpperCase()]["Cumulative Return %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Cumulative Return %"]}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Cumulative Return %"]}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Cumulative Return %"]} %
+                      <td class="text-white text-end text-sm">
+                      {#if quantStats['SPY']["Cumulative Return %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Cumulative Return %"]}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["Cumulative Return %"]}% </span> 
+                      {/if}
                       </td>
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white font-medium">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start">
                         Compound Annual Growth Rate (CAGR)
                       </td>
-                      <td class="bg-[#0F0F0F] text-white text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["CAGR %"]}%
+                      <td class="text-end text-sm">
+                      {#if quantStats[$stockTicker?.toUpperCase()]["CAGR %"] >=0}
+                        <span class="text-[#10DB06]">+{quantStats[$stockTicker?.toUpperCase()]["CAGR %"]}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F]">{quantStats[$stockTicker?.toUpperCase()]["CAGR %"]}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["CAGR %"]}%
+                      <td class="text-end text-sm">
+                      {#if quantStats['SPY']["CAGR %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["CAGR %"]}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["CAGR %"]}% </span> 
+                      {/if}
                       </td>
                     </tr>
-                  </tbody>
-                </table>
 
-                
-                <table class="table table-sm table-compact table-pin-rows w-full mt-4 flex justify-start items-center w-full px-3 m-auto">
-                  <tbody class="shadow-md" >
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] border-b border-[#0F0F0F] text-white font-medium w-36 sm:w-56">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start   w-36 sm:w-56">
                         Sharpe
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Sharpe"]?.toFixed(2)}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Sharpe"]?.toFixed(2)}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] border-b border-[#0F0F0F] text-white font-medium ">
+                    <tr class="text-white odd:bg-[#202020] ">
+                      <td class="text-start  ">
                         Sortino
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium text-end text-xs sm:text-sm">
+                      <td class=" text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Sortino"]?.toFixed(2)}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium text-end text-xs sm:text-sm">
+                      <td class=" text-end text-sm">
                         {quantStats['SPY']["Sortino"]?.toFixed(2)}
                       </td>  
                     </tr>
-                      
-                  </tbody>
-                </table>
-
-
-                <table class="table table-sm table-compact table-pin-rows w-full mt-4 flex justify-start items-center w-full px-3 m-auto">
-                  <tbody class="shadow-md">
                     
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] border-b border-[#0F0F0F] text-white font-medium w-36 sm:w-56">
-                        Max Drawdown
-                      </td>
-                      <td class="text-start bg-[#0F0F0F] border-b border-[#0F0F0F] text-white text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Max Drawdown"]}%
-                      </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Max Drawdown"]}%
-                      </td>  
-                    </tr>
+                      <tr class="text-white odd:bg-[#202020] font-semibold">
+                        <td class="text-start text-white  w-36 sm:w-56">
+                          Max Drawdown
+                        </td>
+                        <td class="text-start text-white text-end text-sm">
+                        {#if quantStats[$stockTicker?.toUpperCase()]["Max Drawdown"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Max Drawdown"]}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Max Drawdown"]}% </span> 
+                        {/if}
+                        </td>
+                        <td class=" text-end text-sm">
+                          {#if quantStats['SPY']["Max Drawdown"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Max Drawdown"]}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["Max Drawdown"]}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#202020] font-semibold">
+                        <td class="text-start   ">
+                          Longest Drawdown Days
+                        </td>
+                        <td class=" text-end text-sm">
+                          {quantStats[$stockTicker?.toUpperCase()]["Longest DD Days"]}
+                        </td>
+                        <td class=" text-end text-sm">
+                          {quantStats['SPY']["Longest DD Days"]}
+                        </td>  
+                      </tr>
+                    
+  
+                      <tr class="text-white odd:bg-[#202020] font-semibold">
+                        <td class="text-start   w-36 sm:w-56">
+                          Volatility (ann.)
+                        </td>
+                        <td class=" text-end text-sm">
+                          {quantStats[$stockTicker?.toUpperCase()]["Volatility (ann.) %"]}%
+                        </td>
+                        <td class=" text-end text-sm">
+                          {quantStats['SPY']["Volatility (ann.) %"]}%
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#202020] font-semibold">
+                        <td class="text-start   w-36 sm:w-56">
+                          Correlation
+                        </td>
+                        <td class=" text-end text-sm">
+                          {quantStats[$stockTicker?.toUpperCase()]["Correlation"]}%
+                        </td>
+                        <td class=" text-end text-sm">
+                          {quantStats['SPY']["Correlation"]}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#202020] font-semibold">
+                        <td class="text-start text-white ">
+                          R^2
+                        </td>
+                        <td class=" text-end text-sm">
+                          {quantStats[$stockTicker?.toUpperCase()]["R^2"]}
+                        </td>
+                        <td class="text-end text-sm">
+                          {quantStats['SPY']["R^2"]}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#202020] font-semibold">
+                        <td class="text-start text-white  ">
+                          Calmar
+                        </td>
+                        <td class=" text-end text-sm">
+                          {quantStats[$stockTicker?.toUpperCase()]["Calmar"]}
+                        </td>
+                        <td class=" text-end text-sm">
+                          {quantStats['SPY']["Calmar"]}
+                        </td>  
+                      </tr>
+  
+  
+                      <tr class="text-white odd:bg-[#202020] font-semibold">
+                        <td class="text-start text-white  ">
+                          Skew
+                        </td>
+                        <td class="text-end text-sm">
+                          {quantStats[$stockTicker?.toUpperCase()]["Skew"]?.toFixed(2)}
+                        </td>
+                        <td class="text-end text-sm">
+                          {quantStats['SPY']["Skew"]?.toFixed(2)}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#202020] font-semibold">
+                        <td class="text-start text-white  ">
+                          Kurtosis
+                        </td>
+                        <td class="text-end text-sm">
+                          {quantStats[$stockTicker?.toUpperCase()]["Kurtosis"]?.toFixed(2)}
+                        </td>
+                        <td class="text-end text-sm">
+                          {quantStats['SPY']["Kurtosis"]?.toFixed(2)}
+                        </td>  
+                      </tr>
+                        
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
-                        Longest Drawdown Days
-                      </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Longest DD Days"]}
-                      </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Longest DD Days"]}
-                      </td>  
-                    </tr>
-                  
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium w-36 sm:w-56">
-                        Volatility (ann.)
-                      </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Volatility (ann.) %"]}%
-                      </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Volatility (ann.) %"]}%
-                      </td>  
-                    </tr>
-
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium w-36 sm:w-56">
-                        Correlation
-                      </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Correlation"]}%
-                      </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Correlation"]}
-                      </td>  
-                    </tr>
-
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white font-medium border-b border-[#0F0F0F]">
-                        R^2
-                      </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["R^2"]}
-                      </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["R^2"]}
-                      </td>  
-                    </tr>
-
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white font-medium border-b border-[#0F0F0F]">
-                        Calmar
-                      </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Calmar"]}
-                      </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Calmar"]}
-                      </td>  
-                    </tr>
-
-
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white font-medium border-b border-[#0F0F0F]">
-                        Skew
-                      </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Skew"]?.toFixed(2)}
-                      </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Skew"]?.toFixed(2)}
-                      </td>  
-                    </tr>
-
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white font-medium border-b border-[#0F0F0F]">
-                        Kurtosis
-                      </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Kurtosis"]?.toFixed(2)}
-                      </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Kurtosis"]?.toFixed(2)}
-                      </td>  
-                    </tr>
-                      
-                  </tbody>
-                </table>
-
-
-                <table class="table table-sm table-pin-rows table-compact mt-4 text-start w-full flex justify-start items-center w-full px-3 m-auto">
-                  <tbody class="shadow-md">
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium w-36 sm:w-56">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  w-36 sm:w-56">
                         Expected Daily
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Expected Daily %"]}%
+                      <td class="text-end text-sm">
+                        {#if quantStats[$stockTicker?.toUpperCase()]["Expected Daily %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Expected Daily %"]}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Expected Daily %"]}% </span> 
+                        {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Expected Daily %"]}%
+                      <td class="text-end text-sm">
+                        {#if quantStats['SPY']["Expected Daily %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Expected Daily %"]}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["Expected Daily %"]}% </span> 
+                        {/if}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white font-medium border-b border-[#0F0F0F]">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start text-white ">
                         Expected Monthly
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Expected Monthly %"]}%
+                      <td class="text-end text-sm">
+                        {#if quantStats[$stockTicker?.toUpperCase()]["Expected Monthly %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Expected Monthly %"]}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Expected Monthly %"]}% </span> 
+                        {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Expected Monthly %"]}%
+                      <td class="text-end text-sm">
+                        {#if quantStats['SPY']["Expected Monthly %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Expected Monthly %"]}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["Expected Monthly %"]}% </span> 
+                        {/if}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white font-medium border-b border-[#0F0F0F]">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start text-white ">
                         Expected Yearly
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Expected Yearly %"]}%
+                      <td class="text-end text-sm">
+                        {#if quantStats[$stockTicker?.toUpperCase()]["Expected Yearly %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Expected Yearly %"]}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Expected Yearly %"]}% </span> 
+                        {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Expected Yearly %"]}%
+                      <td class="text-end text-sm">
+                        {#if quantStats['SPY']["Expected Yearly %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Expected Yearly %"]}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["Expected Yearly %"]}% </span> 
+                      {/if}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white font-medium border-b border-[#0F0F0F]">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start text-white ">
                         Kelly Criterion
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Kelly Criterion %"]}%
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Kelly Criterion %"]}%
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white font-medium border-b border-[#0F0F0F]">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start text-white ">
                         Risk of Ruin
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Risk of Ruin %"]}%
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Risk of Ruin %"]}%
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Daily Value-at-Risk
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Daily Value-at-Risk %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                        {#if quantStats[$stockTicker?.toUpperCase()]["Daily Value-at-Risk %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Daily Value-at-Risk %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Daily Value-at-Risk %"]?.toFixed(2)}% </span> 
+                        {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Daily Value-at-Risk %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats['SPY']["Daily Value-at-Risk %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Daily Value-at-Risk %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["Daily Value-at-Risk %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white font-medium border-b border-[#0F0F0F]">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start text-white ">
                         Expected Shortfall (cVaR)
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Expected Shortfall (cVaR) %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats[$stockTicker?.toUpperCase()]["Expected Shortfall (cVaR) %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Expected Shortfall (cVaR) %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Expected Shortfall (cVaR) %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Expected Shortfall (cVaR) %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats['SPY']["Expected Shortfall (cVaR) %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Expected Shortfall (cVaR) %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["Expected Shortfall (cVaR) %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>  
                     </tr>
                       
-                  </tbody>
-                </table>
 
-
-                <table class="table table-sm table-pin-rows table-compact text-start mt-4 w-full flex justify-start items-center w-full px-3 m-auto">
-                  <tbody class="shadow-md">
-                      <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white font-medium border-b border-[#0F0F0F] w-36 sm:w-56">
+                      <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start text-white  w-36 sm:w-56">
                         Max Consecutive Wins
                       </td>
-                      <td class="bg-[#0F0F0F] text-white text-start border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-start text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Max Consecutive Wins"]}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Max Consecutive Wins"]}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white font-medium border-b border-[#0F0F0F] w-36 sm:w-56">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start text-white  w-36 sm:w-56">
                         Max Consecutive Losses
                       </td>
-                      <td class="bg-[#0F0F0F] text-white text-start border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-start text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Max Consecutive Losses"]}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Max Consecutive Losses"]}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium w-36 sm:w-56">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  w-36 sm:w-56">
                         Gain/Pain Ratio
                       </td>
-                      <td class="bg-[#0F0F0F] text-white text-start border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-start text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Gain/Pain Ratio"]?.toFixed(2)}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Gain/Pain Ratio"]?.toFixed(2)}
                       </td>  
                     </tr>
                     
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Gain/Pain (1M)
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Gain/Pain (1M)"]?.toFixed(2)}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Gain/Pain (1M)"]?.toFixed(2)}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Payoff Ratio
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Payoff Ratio"]?.toFixed(2)}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Payoff Ratio"]?.toFixed(2)}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Profit Factor
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Profit Factor"]?.toFixed(2)}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Profit Factor"]?.toFixed(2)}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Outlier Win Ratio
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Outlier Win Ratio"]?.toFixed(2)}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Outlier Win Ratio"]?.toFixed(2)}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Outlier Loss Ratio
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Outlier Loss Ratio"]?.toFixed(2)}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Outlier Loss Ratio"]?.toFixed(2)}
                       </td>  
                     </tr>
                       
-                  </tbody>
-                </table>
-
-
-                <table class="table table-sm table-pin-rows table-compact text-start mt-4 w-full flex justify-start items-center w-full px-3 m-auto">    
-                  <tbody class="shadow-md">
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium w-36 sm:w-56">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  w-36 sm:w-56">
                         MTD
                       </td>
-                      <td class="bg-[#0F0F0F] text-white text-start border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["MTD %"]?.toFixed(2)}%
+                      <td class="text-start text-end text-sm">
+                      {#if quantStats[$stockTicker?.toUpperCase()]["MTD %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["MTD %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["MTD %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["MTD %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats['SPY']["MTD %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["MTD %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["MTD %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         3M
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["3M %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                        {#if quantStats[$stockTicker?.toUpperCase()]["3M %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["3M %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["3M %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["3M %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats['SPY']["3M %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["3M %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["3M %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         6M
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["6M %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats[$stockTicker?.toUpperCase()]["6M %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["6M %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["6M %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["6M %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                        {#if quantStats['SPY']["6M %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["6M %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["6M %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         YTD
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["YTD %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats[$stockTicker?.toUpperCase()]["YTD %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["YTD %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["YTD %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["YTD %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats['SPY']["YTD %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["YTD %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["YTD %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         1Y
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["1Y %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats[$stockTicker?.toUpperCase()]["1Y %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["1Y %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["1Y %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["1Y %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats['SPY']["1Y %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["1Y %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["1Y %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         3Y (ann.)
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["3Y (ann.) %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats[$stockTicker?.toUpperCase()]["3Y (ann.) %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["3Y (ann.) %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["3Y (ann.) %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["3Y (ann.) %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats['SPY']["3Y (ann.) %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["3Y (ann.) %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["3Y (ann.) %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>  
                     </tr>
 
-                  </tbody>
-                </table>
-
-
-                <table class="table table-sm table-pin-rows table-compact text-start mt-4 w-full flex justify-start items-center w-full px-3 m-auto">  
-                  <tbody class="shadow-md">
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium w-36 sm:w-56">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  w-36 sm:w-56">
                         Best Day
                       </td>
-                      <td class="bg-[#0F0F0F] text-white text-start border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Best Day %"]?.toFixed(2)}%
+                      <td class="text-start text-end text-sm">
+                      {#if quantStats[$stockTicker?.toUpperCase()]["Best Day %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Best Day %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Best Day %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Best Day %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats['SPY']["Best Day %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Best Day %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["Best Day %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Worst Day
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Worst Day %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats[$stockTicker?.toUpperCase()]["Worst Day %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Worst Day %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Worst Day %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Worst Day %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats['SPY']["Worst Day %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Worst Day %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["Worst Day %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Best Month
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Best Month %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                        {#if quantStats[$stockTicker?.toUpperCase()]["Worst Day %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Worst Day %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Worst Day %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Best Month %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                        {#if quantStats['SPY']["Worst Day %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Worst Day %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["Worst Day %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Worst Month
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Worst Month %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                        {#if quantStats[$stockTicker?.toUpperCase()]["Worst Month %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Worst Month %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Worst Month %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Worst Month %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                        {#if quantStats['SPY']["Worst Month %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Worst Month %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["Worst Month %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Best Year
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Best Year %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats[$stockTicker?.toUpperCase()]["Best Year %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Best Year %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Best Year %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Best Year %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats['SPY']["Best Year %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Best Year %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["Best Year %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Worst Year
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Worst Year %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats[$stockTicker?.toUpperCase()]["Worst Year %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Worst Year %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Worst Year %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Worst Year %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                        {#if quantStats['SPY']["Worst Year %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Worst Year %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["Worst Year %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>  
                     </tr>
                       
-                  </tbody>
-                </table>
-
-
-                <table class="table table-sm table-pin-rows table-compact mt-4 w-full flex justify-start items-center w-full px-3 m-auto">
-                  <tbody class="shadow-md">
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium w-36 sm:w-56">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  w-36 sm:w-56">
                         Avg. Drawdown
                       </td>
-                      <td class="bg-[#0F0F0F] text-white text-start border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Avg. Drawdown"]?.toFixed(2)}%
+                      <td class="text-start text-end text-sm">
+                      {#if quantStats[$stockTicker?.toUpperCase()]["Avg. Drawdown"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Avg. Drawdown"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Avg. Drawdown"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Avg. Drawdown"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats['SPY']["Avg. Drawdown"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Avg. Drawdown"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["Avg. Drawdown"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Avg. Drawdown Days
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Avg. Drawdown Days"]}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Avg. Drawdown Days"]}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Recovery Factor
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Recovery Factor"]?.toFixed(2)}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Recovery Factor"]?.toFixed(2)}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Ulcer Index
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Ulcer Index"]?.toFixed(2)}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Ulcer Index"]?.toFixed(2)}
                       </td>  
                     </tr>
                       
-                  </tbody>
-                </table>
 
-                <table class="table table-sm table-pin-rows table-compact text-start w-full mt-4 flex justify-start items-center w-full px-3 m-auto">
-                  <tbody class="shadow-md">
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium w-36 sm:w-56">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  w-36 sm:w-56">
                         Avg. Up Month
                       </td>
-                      <td class="bg-[#0F0F0F] text-white text-start border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Avg. Up Month %"]?.toFixed(2)}%
+                      <td class="text-start text-end text-sm">
+                      {#if quantStats[$stockTicker?.toUpperCase()]["Avg. Up Month %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Avg. Up Month %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Avg. Up Month %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Avg. Up Month %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats['SPY']["Avg. Up Month %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Avg. Up Month %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["Avg. Up Month %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Avg. Down Month
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats[$stockTicker?.toUpperCase()]["Avg. Down Month %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats[$stockTicker?.toUpperCase()]["Avg. Down Month %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Avg. Down Month %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Avg. Down Month %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
-                        {quantStats['SPY']["Avg. Down Month %"]?.toFixed(2)}%
+                      <td class="text-end text-sm">
+                      {#if quantStats['SPY']["Avg. Down Month %"] >=0}
+                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Avg. Down Month %"]?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["Avg. Down Month %"]?.toFixed(2)}% </span> 
+                      {/if}
                       </td>  
                     </tr>
 
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Win Days
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Win Days %"]?.toFixed(2)}%
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Win Days %"]?.toFixed(2)}%
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Win Month
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Win Month %"]?.toFixed(2)}%
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Win Month %"]?.toFixed(2)}%
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Win Quarter
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Win Quarter %"]?.toFixed(2)}%
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Win Quarter %"]?.toFixed(2)}%
                       </td>  
                     </tr>
 
-                    <tr class="text-white">
-                      <td class="text-start bg-[#0F0F0F] text-white border-b border-[#0F0F0F] font-medium ">
+                    <tr class="text-white odd:bg-[#202020] font-semibold">
+                      <td class="text-start  ">
                         Win Year
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats[$stockTicker?.toUpperCase()]["Win Year %"]?.toFixed(2)}%
                       </td>
-                      <td class="bg-[#0F0F0F] text-white border-b border-[#0F0F0F] text-end text-xs sm:text-sm">
+                      <td class="text-end text-sm">
                         {quantStats['SPY']["Win Year %"]?.toFixed(2)}%
                       </td>  
                     </tr>
@@ -1013,7 +1145,7 @@ updateYearRange()
             
               {:else}
 
-              <h1 class="m-auto mt-10 text-slate-400 text-2xl font-medium">
+              <h1 class="m-auto mt-10 text-slate-400 text-2xl ">
                 <svg class="w-10 sm:w-12 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#334155" d="M18.68 12.32a4.49 4.49 0 0 0-6.36.01a4.49 4.49 0 0 0 0 6.36a4.508 4.508 0 0 0 5.57.63L21 22.39L22.39 21l-3.09-3.11c1.13-1.77.87-4.09-.62-5.57m-1.41 4.95c-.98.98-2.56.97-3.54 0c-.97-.98-.97-2.56.01-3.54c.97-.97 2.55-.97 3.53 0c.97.98.97 2.56 0 3.54M10.9 20.1a6.527 6.527 0 0 1-1.48-2.32C6.27 17.25 4 15.76 4 14v3c0 2.21 3.58 4 8 4c-.4-.26-.77-.56-1.1-.9M4 9v3c0 1.68 2.07 3.12 5 3.7v-.2c0-.93.2-1.85.58-2.69C6.34 12.3 4 10.79 4 9m8-6C7.58 3 4 4.79 4 7c0 2 3 3.68 6.85 4h.05c1.2-1.26 2.86-2 4.6-2c.91 0 1.81.19 2.64.56A3.215 3.215 0 0 0 20 7c0-2.21-3.58-4-8-4Z"/></svg>
               </h1>
               {/if}
