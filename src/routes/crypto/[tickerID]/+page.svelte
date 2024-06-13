@@ -3,8 +3,8 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
   import { TrackingModeExitMode } from 'lightweight-charts';
-  import {screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, cryptoTicker} from '$lib/store';
-  import { onDestroy, onMount, afterUpdate } from 'svelte';
+  import {setCache, getCache, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, cryptoTicker} from '$lib/store';
+  import { onDestroy, onMount } from 'svelte';
   import CryptoKeyInformation from '$lib/components/CryptoKeyInformation.svelte';
   import Lazy from '$lib/components/Lazy.svelte';
 
@@ -24,10 +24,8 @@
     export let data;
     export let form;
   
-    let isLoaded = false;
     let displayChartType = 'line';
   
-    let pricePrediction = data?.getPricePrediction ?? [];
     let cryptoProfile = data?.getStockDeck ?? [];
 
     let previousClose = data?.getStockQuote?.previousClose;
@@ -188,6 +186,7 @@ $: {
           break;
         case '1W':
           displayData = '1W';
+          await historicalPrice('one-week');
           if(oneWeekPrice?.length !== 0)
           {
             displayLastLogicalRangeValue = oneWeekPrice?.at(0)?.close;
@@ -204,6 +203,7 @@ $: {
           break;
         case '1M':
           displayData = '1M';
+          await historicalPrice('one-month');
           if(oneMonthPrice?.length !== 0)
           {
             displayLastLogicalRangeValue = oneMonthPrice?.at(0)?.close;
@@ -219,6 +219,7 @@ $: {
   
         case '6M':
           displayData = '6M';
+          await historicalPrice('six-months');
           if(sixMonthPrice?.length !== 0)
           {
             displayLastLogicalRangeValue = sixMonthPrice?.at(0)?.close;
@@ -233,6 +234,7 @@ $: {
           break;
         case '1Y':
           displayData = '1Y';
+          await historicalPrice('one-year');
           if(oneYearPrice?.length !== 0)
           {
             displayLastLogicalRangeValue = oneYearPrice?.at(0)?.close;
@@ -246,6 +248,7 @@ $: {
           break;
         case 'MAX':
           displayData = 'MAX';
+          await historicalPrice('max');
           if(threeYearPrice?.length !== 0)
           {
             displayLastLogicalRangeValue = threeYearPrice?.at(0)?.close;
@@ -289,11 +292,89 @@ $: {
   
   let oneYearPrice = [];
   let threeYearPrice = [];
-  let pastPriceList = [];
   
   
   
+  async function historicalPrice(timePeriod:string) {
   
+  const cachedData = getCache($cryptoTicker, 'historicalPrice'+timePeriod);
+    if (cachedData) {
+      switch (timePeriod) {
+          case 'one-week':
+              oneWeekPrice = cachedData
+              break;
+          case 'one-month':
+              oneMonthPrice = cachedData
+              break;
+          case 'six-months':
+              sixMonthPrice = cachedData
+              break;
+          case 'one-year':
+              oneYearPrice = cachedData
+              break;
+          case 'max':
+              threeYearPrice = cachedData
+              break;
+          default:
+              console.log(`Unsupported time period: ${timePeriod}`);
+      }
+  } else {
+    output = null;
+
+      const postData = {
+        ticker: $cryptoTicker,
+        timePeriod: timePeriod,
+      };
+
+      const response = await fetch(apiURL+'/historical-price', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData)
+      });
+
+      output = await response?.json() ?? [];
+
+      const mapData = (data) => data?.map(({ time, open, high, low, close }) => ({ 
+          time: Date.parse(time), 
+          open, 
+          high, 
+          low, 
+          close 
+      }));
+
+    const mappedData = mapData(output);
+    try {
+        switch (timePeriod) {
+            case 'one-week':
+                oneWeekPrice = mappedData
+                break;
+            case 'one-month':
+                oneMonthPrice = mappedData
+                break;
+            case 'six-months':
+                sixMonthPrice = mappedData
+                break;
+            case 'one-year':
+                oneYearPrice = mappedData
+                break;
+            case 'max':
+                threeYearPrice = mappedData
+                break;
+            default:
+                console.log(`Unsupported time period: ${timePeriod}`);
+        }
+        setCache($cryptoTicker, mappedData, 'historicalPrice'+timePeriod);
+
+    } catch (e) {
+        console.log(e);
+    }
+
+  }  
+}
+
+
   async function initializePrice() {
   
     output = null;
@@ -304,19 +385,9 @@ $: {
     try {
 
     output = [...data?.getOneDayPrice] ?? [];
-    oneDayPrice = data?.getOneDayPrice;
-    pastPriceList = data?.getHistoricalPrice;
-
     oneDayPrice = output?.map(item => ({ time: Date.parse(item?.time), open: item?.open !== null ? item?.open : NaN, high: item?.high !== null ? item?.high : NaN, low: item?.low !== null ? item?.low : NaN, close: item?.close !== null ? item?.close : NaN}));
       
-    oneWeekPrice = pastPriceList['1W']?.map(({ time, open,high,low,close }) => ({ time: Date.parse(time), open,high,low,close }));
-    oneMonthPrice = pastPriceList['1M']?.map(({ time, open,high,low,close }) => ({ time: Date.parse(time), open,high,low,close }));
-    oneMonthPrice = Object?.values(oneMonthPrice?.reduce((acc, cur) => Object?.assign(acc, {[cur?.time]: cur}), {}));
-
-    sixMonthPrice = pastPriceList['6M']?.map(({ time, open,high,low,close }) => ({ time: Date.parse(time), open,high,low,close }));
-    oneYearPrice = pastPriceList['1Y']?.map(({ time, open,high,low,close }) => ({ time: Date.parse(time), open,high,low,close }));
-    threeYearPrice = pastPriceList['MAX']?.map(({ time, open,high,low,close }) => ({ time: Date.parse(time), open,high,low,close }));
-    
+  
       displayData = oneDayPrice?.length  === 0 && sixMonthPrice?.length !== 0 ? '6M' : '1D';
         //lastValue = oneDayPrice[oneDayPrice?.length - 1]?.value;
         if (displayData === '1D')
@@ -573,14 +644,12 @@ function changeChartType() {
     if ($cryptoTicker  && typeof window !== 'undefined') // add a check to see if running on client-side
     {
       $realtimePrice = null;
-      isLoaded = false;
       dowloadData = false;
       oneDayPrice = [];
       oneWeekPrice = [];
       oneMonthPrice = [];
       oneYearPrice = [];
       threeYearPrice = [];
-      pastPriceList = [];
       taRating = {};
       varDict={}
       output = null;
@@ -593,18 +662,15 @@ function changeChartType() {
 
       const asyncFunctions = [];
 
-
   
       Promise.all(asyncFunctions)
           .then((results) => {
             initializePrice()
-            isLoaded = true;
           })
           .catch((error) => {
             console.error('An error occurred:', error);
           });
 
-      isLoaded = true;
 
     }
 
@@ -773,7 +839,7 @@ afterUpdate(async () => {
                                   <!--End Ticker Section-->
                                 <!-- Start Graph -->
   
-                                {#if output !== null && pastPriceList?.length !== 0}
+                                {#if output !== null}
                                   <div class ="w-full sm:pl-7 ml-auto max-w-3xl mb-10">
                                     {#if displayData === '1D' && oneDayPrice?.length === 0}
                                     <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">

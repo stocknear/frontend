@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
   import { TrackingModeExitMode } from 'lightweight-charts';
-  import {screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
+  import {getCache, setCache, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
   import StockKeyInformation from '$lib/components/StockKeyInformation.svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
@@ -25,14 +25,11 @@
     export let data;
     export let form;
   
-    let isLoaded = false;
     let displayChartType = 'line';
   
-    let pricePrediction = data?.getPricePrediction ?? [];
     let stockDeck = data?.getStockDeck ?? [];
     let fairPrice = data?.getFairPrice ?? [];
     let correlationList = data?.getCorrelation?.correlation ?? [];
-    let modelStats = data?.getTradingSignals ?? {};
     let prePostData = {};
     let similarstock = [];
     let topETFHolder = [];
@@ -176,122 +173,125 @@ $: {
   
   
   
-    let displayData;
-    let colorChange;
-    let topColorChange;
-    let bottomColorChange;
-  
-    let lastValue;
-    async function changeData(state) {
-  
-      switch (state) {
-        case '1D':
-          displayData = '1D';
-          if(oneDayPrice?.length !== 0)
-          {
-            displayLastLogicalRangeValue = oneDayPrice?.at(0)?.close; //previousClose
-            const length = oneDayPrice?.length;
-            for (let i = length - 1; i >= 0; i--) {
-              if (!isNaN(oneDayPrice[i]?.close)) {
-                lastValue = oneDayPrice[i]?.close;
-                break;
-              }
+let displayData;
+let colorChange;
+let topColorChange;
+let bottomColorChange;
+
+let lastValue;
+async function changeData(state) {
+
+    switch (state) {
+      case '1D':
+        displayData = '1D';
+        if(oneDayPrice?.length !== 0)
+        {
+          displayLastLogicalRangeValue = oneDayPrice?.at(0)?.close; //previousClose
+          const length = oneDayPrice?.length;
+          for (let i = length - 1; i >= 0; i--) {
+            if (!isNaN(oneDayPrice[i]?.close)) {
+              lastValue = oneDayPrice[i]?.close;
+              break;
             }
-  
           }
-          else {
-            displayLastLogicalRangeValue = null;
-            lastValue = null;
-  
-          }
-  
-         
-          break;
-        case '1W':
-          displayData = '1W';
-          if(oneWeekPrice?.length !== 0)
-          {
-            displayLastLogicalRangeValue = oneWeekPrice?.at(0)?.close;
-            lastValue = oneWeekPrice?.slice(-1)?.at(0)?.close;
-  
-          }
-          else {
-            displayLastLogicalRangeValue = null;
-            lastValue = null;
-  
-          }
-          
-  
-          break;
-        case '1M':
-          displayData = '1M';
-          if(oneMonthPrice?.length !== 0)
-          {
-            displayLastLogicalRangeValue = oneMonthPrice?.at(0)?.close;
-            lastValue = oneMonthPrice.slice(-1)?.at(0)?.close;
-  
-          }
-          else {
-            displayLastLogicalRangeValue = null;
-            lastValue = null;
-  
-          }
-          break;
-  
-        case '6M':
-          displayData = '6M';
-          if(sixMonthPrice?.length !== 0)
-          {
-            displayLastLogicalRangeValue = sixMonthPrice?.at(0)?.close;
-            lastValue = sixMonthPrice?.slice(-1)?.at(0)?.close;
-  
-          }
-          else {
-            displayLastLogicalRangeValue = null;
-            lastValue = null;
-  
-          }
-          break;
-        case '1Y':
-          displayData = '1Y';
-          if(oneYearPrice?.length !== 0)
-          {
-            displayLastLogicalRangeValue = oneYearPrice?.at(0)?.close;
-            lastValue = oneYearPrice.slice(-1)?.at(0)?.close;
-          }
-          else {
-            displayLastLogicalRangeValue = null;
-            lastValue = null;
-          }
-          
-          break;
-        case 'MAX':
-          displayData = 'MAX';
-          if(threeYearPrice?.length !== 0)
-          {
-            displayLastLogicalRangeValue = threeYearPrice?.at(0)?.close;
-            lastValue = threeYearPrice.slice(-1)?.at(0)?.close;
-  
-          }
-          else {
-            displayLastLogicalRangeValue = null;
-            lastValue = null;
-  
-          }
-         
-          break;
-        default:
-          return;
-      }
-      colorChange = lastValue < displayLastLogicalRangeValue ? "#FF2F1F" : "#10DB06";
-      topColorChange = lastValue < displayLastLogicalRangeValue ? "rgb(255, 47, 31, 0.2)" : "rgb(16, 219, 6, 0.2)";
-      bottomColorChange = lastValue < displayLastLogicalRangeValue ? "rgb(255, 47, 31, 0.001)" : "rgb(16, 219, 6, 0.001)";
-      
-      fitContentChart();
-      
-  
-      //trackButtonClick('Time Period: '+ state)
+
+        }
+        else {
+          displayLastLogicalRangeValue = null;
+          lastValue = null;
+
+        }
+        break;
+      case '1W':
+        displayData = '1W';
+        await historicalPrice('one-week')
+        if(oneWeekPrice?.length !== 0)
+        { 
+          displayLastLogicalRangeValue = oneWeekPrice?.at(0)?.close;
+          lastValue = oneWeekPrice?.slice(-1)?.at(0)?.close;
+
+        }
+        else {
+          displayLastLogicalRangeValue = null;
+          lastValue = null;
+
+        }
+        
+
+        break;
+      case '1M':
+        displayData = '1M';
+        await historicalPrice('one-month')
+        if(oneMonthPrice?.length !== 0)
+        {
+          displayLastLogicalRangeValue = oneMonthPrice?.at(0)?.close;
+          lastValue = oneMonthPrice.slice(-1)?.at(0)?.close;
+
+        }
+        else {
+          displayLastLogicalRangeValue = null;
+          lastValue = null;
+
+        }
+        break;
+
+      case '6M':
+        displayData = '6M';
+        await historicalPrice('six-months')
+        if(sixMonthPrice?.length !== 0)
+        {
+          displayLastLogicalRangeValue = sixMonthPrice?.at(0)?.close;
+          lastValue = sixMonthPrice?.slice(-1)?.at(0)?.close;
+
+        }
+        else {
+          displayLastLogicalRangeValue = null;
+          lastValue = null;
+
+        }
+        break;
+      case '1Y':
+        displayData = '1Y';
+        await historicalPrice('one-year')
+        if(oneYearPrice?.length !== 0)
+        {
+          displayLastLogicalRangeValue = oneYearPrice?.at(0)?.close;
+          lastValue = oneYearPrice.slice(-1)?.at(0)?.close;
+        }
+        else {
+          displayLastLogicalRangeValue = null;
+          lastValue = null;
+        }
+        
+        break;
+      case 'MAX':
+        displayData = 'MAX';
+        await historicalPrice('max')
+        if(threeYearPrice?.length !== 0)
+        {
+          displayLastLogicalRangeValue = threeYearPrice?.at(0)?.close;
+          lastValue = threeYearPrice.slice(-1)?.at(0)?.close;
+
+        }
+        else {
+          displayLastLogicalRangeValue = null;
+          lastValue = null;
+
+        }
+        
+        break;
+      default:
+        return;
     }
+    colorChange = lastValue < displayLastLogicalRangeValue ? "#FF2F1F" : "#10DB06";
+    topColorChange = lastValue < displayLastLogicalRangeValue ? "rgb(255, 47, 31, 0.2)" : "rgb(16, 219, 6, 0.2)";
+    bottomColorChange = lastValue < displayLastLogicalRangeValue ? "rgb(255, 47, 31, 0.001)" : "rgb(16, 219, 6, 0.001)";
+    
+    fitContentChart();
+    
+
+    //trackButtonClick('Time Period: '+ state)
+  }
   
     
   
@@ -310,10 +310,88 @@ $: {
   
   let oneYearPrice = [];
   let threeYearPrice = [];
-  let pastPriceList = [];
   
   
   
+async function historicalPrice(timePeriod:string) {
+  
+  const cachedData = getCache($stockTicker, 'historicalPrice'+timePeriod);
+    if (cachedData) {
+      switch (timePeriod) {
+          case 'one-week':
+              oneWeekPrice = cachedData
+              break;
+          case 'one-month':
+              oneMonthPrice = cachedData
+              break;
+          case 'six-months':
+              sixMonthPrice = cachedData
+              break;
+          case 'one-year':
+              oneYearPrice = cachedData
+              break;
+          case 'max':
+              threeYearPrice = cachedData
+              break;
+          default:
+              console.log(`Unsupported time period: ${timePeriod}`);
+      }
+  } else {
+    output = null;
+
+      const postData = {
+        ticker: $stockTicker,
+        timePeriod: timePeriod,
+      };
+
+      const response = await fetch(apiURL+'/historical-price', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData)
+      });
+
+      output = await response?.json() ?? [];
+
+      const mapData = (data) => data?.map(({ time, open, high, low, close }) => ({ 
+          time: Date.parse(time), 
+          open, 
+          high, 
+          low, 
+          close 
+      }));
+
+    const mappedData = mapData(output);
+    try {
+        switch (timePeriod) {
+            case 'one-week':
+                oneWeekPrice = mappedData
+                break;
+            case 'one-month':
+                oneMonthPrice = mappedData
+                break;
+            case 'six-months':
+                sixMonthPrice = mappedData
+                break;
+            case 'one-year':
+                oneYearPrice = mappedData
+                break;
+            case 'max':
+                threeYearPrice = mappedData
+                break;
+            default:
+                console.log(`Unsupported time period: ${timePeriod}`);
+        }
+        setCache($stockTicker, mappedData, 'historicalPrice'+timePeriod);
+
+    } catch (e) {
+        console.log(e);
+    }
+
+  }  
+}
+
   
   async function initializePrice() {
   
@@ -325,17 +403,10 @@ $: {
     try {
 
     output = [...data?.getOneDayPrice] ?? [];
-    oneDayPrice = data?.getOneDayPrice;
-    pastPriceList = data?.getHistoricalPrice;
 
 
     oneDayPrice = output?.map(item => ({ time: Date.parse(item?.time), open: item?.open !== null ? item?.open : NaN, high: item?.high !== null ? item?.high : NaN, low: item?.low !== null ? item?.low : NaN, close: item?.close !== null ? item?.close : NaN}));
-    oneWeekPrice = pastPriceList['1W']?.map(({ time, open,high,low,close }) => ({ time: Date.parse(time), open,high,low,close }));
-    oneMonthPrice = pastPriceList['1M']?.map(({ time, open,high,low,close }) => ({ time: Date.parse(time), open,high,low,close }));
-    sixMonthPrice = pastPriceList['6M']?.map(({ time, open,high,low,close }) => ({ time: Date.parse(time), open,high,low,close }));
-    oneYearPrice = pastPriceList['1Y']?.map(({ time, open,high,low,close }) => ({ time: Date.parse(time), open,high,low,close }));
-    threeYearPrice = pastPriceList['MAX']?.map(({ time, open,high,low,close }) => ({ time: Date.parse(time), open,high,low,close }));
-    
+
       displayData = oneDayPrice?.length  === 0 && sixMonthPrice?.length !== 0 ? '6M' : '1D';
         //lastValue = oneDayPrice[oneDayPrice?.length - 1]?.value;
         if (displayData === '1D')
@@ -609,13 +680,11 @@ function changeChartType() {
     if ($stockTicker  && typeof window !== 'undefined') // add a check to see if running on client-side
     {
   
-      isLoaded = false;
       oneDayPrice = [];
       oneWeekPrice = [];
       oneMonthPrice = [];
       oneYearPrice = [];
       threeYearPrice = [];
-      pastPriceList = [];
       optionsDict = {};
       prePostData = {};
       marketMoods = {};
@@ -626,8 +695,6 @@ function changeChartType() {
   
   
       fairPrice = data?.getFairPrice;
-      pricePrediction = data?.getPricePrediction;
-      modelStats = data?.getTradingSignals;
       stockDeck = data?.getStockDeck;
       correlationList = data?.getCorrelation?.correlation;
       previousClose = data?.getStockQuote?.previousClose;
@@ -652,7 +719,6 @@ function changeChartType() {
       Promise.all(asyncFunctions)
           .then((results) => {
             initializePrice()
-            isLoaded = true;
           })
           .catch((error) => {
             console.error('An error occurred:', error);
@@ -847,7 +913,7 @@ function changeChartType() {
                                   <!--End Ticker Section-->
                                 <!-- Start Graph -->
   
-                                {#if output !== null && pastPriceList?.length !== 0}
+                                {#if output !== null}
                                   <div class ="w-full sm:pl-7 ml-auto max-w-3xl mb-10">
                                     {#if displayData === '1D' && oneDayPrice?.length === 0}
                                     <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
@@ -1293,36 +1359,6 @@ function changeChartType() {
                                     </Lazy>
                                    <!--End Shareholders-->
 
-
-  
-                                   <!--Start Price Prediction Model-->
-                                   <!--
-                                   <div class="w-full m-auto pt-10 sm:pl-6 sm:pb-6 sm:pt-6">
-                                    {#if PricePredictionCard}
-                                    <PricePredictionCard 
-                                      pricePrediction={pricePrediction}
-                                      pastPriceList={pastPriceList}
-                                      lastPrice={data?.getStockQuote?.previousClose}
-                                      assetType = 'stock'
-                                      />
-                                    {/if}
-                                    </div>
-                                    -->
-                                  <!--End Price Prediction Model-->
-
-
-  
-  
-                                   <!--Start Trading Model-->
-                                   <!--
-                                   <div class="w-full pt-10 m-auto sm:pl-6 sm:pb-6 sm:pt-6 mb-0 {Object?.keys(modelStats)?.length !== 0 ? '' : 'hidden'}">
-                                      
-                                    {#if TradingModel }
-                                       <TradingModel modelStats={modelStats}/>
-                                    {/if}
-                                   </div>
-                                   -->
-                                  <!--End Trading Model-->
   
                                  
                               

@@ -232,12 +232,16 @@ function handleKeyDown(event) {
 
 
 
-const handleControlF = (event) => {
+const handleControlF = async (event) => {
+  
     if (event.ctrlKey && event.key === 'k') {
       // Ctrl+F is pressed, open the modal
       const keyboardSearch = document.getElementById('searchBarModal');
       keyboardSearch?.dispatchEvent(new MouseEvent('click'))
       event.preventDefault()
+
+      await loadSearchData();
+
 
     }
   };
