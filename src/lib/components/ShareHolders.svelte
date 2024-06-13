@@ -45,6 +45,7 @@ const plotPieChart = () => {
 
 
     const options = {
+        animation: $screenWidth < 640 ? false: true,
         grid: {
         left: '0%',
         right: '0%',

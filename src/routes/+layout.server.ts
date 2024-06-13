@@ -1,3 +1,4 @@
+
 export const load = ({ locals, cookies }) => {
 
   const consent = cookies?.get('cookie-consent')

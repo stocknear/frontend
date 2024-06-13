@@ -47,14 +47,15 @@
     
 
 function getPlotOptions() {
-    const predictionDate = priceAnalysisDict?.predictionDate;
-    const upperBand = priceAnalysisDict?.upperBand;
-    const lowerBand = priceAnalysisDict?.lowerBand?.map(value => value < 0 ? 0 : value);
-    const historicalPrice = priceAnalysisDict?.historicalPrice;
-    //const meanPredictionPrice = priceAnalysisDict?.meanResult;
+  const predictionDate = priceAnalysisDict?.predictionDate;
+  const upperBand = priceAnalysisDict?.upperBand;
+  const lowerBand = priceAnalysisDict?.lowerBand?.map(value => value < 0 ? 0 : value);
+  const historicalPrice = priceAnalysisDict?.historicalPrice;
+  //const meanPredictionPrice = priceAnalysisDict?.meanResult;
 
-    const option = {
+  const option = {
   silent: true,
+  animation: $screenWidth < 640 ? false: true,
   grid: {
     left: $screenWidth < 640 ? '0%' : '2%',
     right: $screenWidth < 640 ? '5%' : '2%',
