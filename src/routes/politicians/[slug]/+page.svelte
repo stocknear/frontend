@@ -5,7 +5,6 @@
   import democraticBackground from "$lib/images/bg-democratic.png";
   import otherBackground from "$lib/images/bg-other.png";
   import { getPartyForPoliticians, abbreviateNumber } from '$lib/utils';
-  import defaultAvatar from '$lib/images/senator/default-avatar.png';
   import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
   import { Chart } from 'svelte-echarts'
   
@@ -13,22 +12,21 @@
   
   export let data;
   let isLoaded = false;
-  let rawData = data?.getPolitician;
+  let rawData = data?.getPolitician?.output;
   let displayList = [];
   let optionsData = {};
   
   let name = rawData?.at(0)?.representative ?? 'n/a';
   let numOfTrades = rawData?.length;
   let lastTradedDate = rawData?.at(0)?.transactionDate;
-  let politicianParty = 'n/a';
-  let images = {};
   let buySellRatio = 0
   let totalAmountTraded = 0;
-  let politicianImage;
-  let politicianDistrict;
-  let politicianCongress;
+  let politicianImage =  data?.getPolitician?.politicianImage;
+  let politicianDistrict = data?.getPolitician?.politicianDistrict;
+  let politicianCongress =  data?.getPolitician?.politicianCongress;
   let numOfAssets = new Set(rawData?.map(item => item?.ticker))?.size;
-  
+  let politicianParty = data?.getPolitician?.politicianParty;
+
   
   function getYearFromDate(dateString) {
     return new Date(dateString).getFullYear();
@@ -73,23 +71,6 @@
         loaded();
       }
   }
-  
-  // Function to load images only when they are viewed
-  async function loadImages() {
-      const imageFiles = import.meta.glob('$lib/images/senator/*.png');
-      const imagesPromises = [];
-  
-      for (const [path, resolver] of Object?.entries(imageFiles)) {
-        const imageNameMatch = path.match(/\/([^/]+)\.png$/);
-        if (imageNameMatch && imageNameMatch[1] !== 'default-avatar') {
-          imagesPromises?.push(resolver()?.then(module => {
-            images[imageNameMatch[1]] = module.default;
-          }));
-        }
-      }
-  
-      await Promise?.all(imagesPromises);
-    }
   
   
   function normalizer(value) {
@@ -191,41 +172,18 @@
   
   onMount(async () => {
     isLoaded = false;
-      await loadImages();
-  
-      if (rawData && rawData.length > 0) {
-      let firstItem = rawData[0];
-      let representative = firstItem?.representative || '';
-  
-      representative = representative?.replace('Jr', '')
-          ?.replace(/Dr./g, '')
-          ?.replace(/Dr_/g, '');
-  
-      const fullName = representative?.replace(/(\s(?:Dr\s)?\w(?:\.|(?=\s)))?\s/g, '_')?.trim();
-      firstItem.image = images[fullName] || defaultAvatar;
-      firstItem.representative = fullName?.replace(/_/g, ' ');
-  
-      const party = getPartyForPoliticians(firstItem?.representative);
-      firstItem.party = party;
-  
-      politicianImage = firstItem?.image;
-      politicianParty = firstItem?.party;
-      politicianDistrict = firstItem?.district;
-      politicianCongress = firstItem?.congress;
-  
-      optionsData = await getPlotOptions();
-  
-      const typeCounts = rawData?.reduce((counts, item) => {
-      counts[item?.type] = (counts[item?.type ] || 0) + 1;
-      return counts;
-  }, {});
-  
+    optionsData = await getPlotOptions();
+     
+    const typeCounts = rawData?.reduce((counts, item) => {
+          counts[item?.type] = (counts[item?.type ] || 0) + 1;
+          return counts;
+      }, {});
+      
       buySellRatio = typeCounts['Bought'] > 0 && typeCounts['Sold'] === undefined ? 1 : typeCounts['Bought'] === undefined ? 0 : typeCounts["Bought"]/typeCounts["Sold"];
   
     displayList = rawData?.slice(0,20) ?? [];
-  
-  }
-  
+      
+
     isLoaded = true;
   
   });
