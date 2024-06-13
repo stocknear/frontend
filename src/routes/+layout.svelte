@@ -191,28 +191,29 @@ let syncWorker: Worker | undefined = undefined;
 // Handling messages from the worker
 const handleMessage = (event) => {
     const output = event.data?.output;
-    $searchBarData = output?.searchBarData;
     notificationList = output?.notificationList
     hasUnreadElement = output?.hasUnreadElement;
-    const unreadNotificationList = output?.unreadNotificationList;
+    //const unreadNotificationList = output?.unreadNotificationList;
     $numberOfUnreadNotification = output?.numberOfUnreadNotification;
     //pushNotification()
 
 };
 
+/*
 const handleTwitchMessage = (event) => {
     const output = event.data?.output;
    $twitchStatus = output?.twitchStatus;
 };
+*/
 
 
 const loadWorker = async () => {
 
   if ('serviceWorker' in navigator) {
-  const SyncWorker = await import('$lib/workers/searchNotificationWorker?worker');
+  const SyncWorker = await import('$lib/workers/notificationWorker?worker');
   syncWorker = new SyncWorker.default();
 
-  syncWorker.postMessage({ message: {'apiURL': apiURL, 'fastifyURL': fastifyURL, 'userId': data?.user?.id }});
+  syncWorker.postMessage({ message: {'fastifyURL': fastifyURL, 'userId': data?.user?.id }});
   syncWorker.onmessage = handleMessage;
   } else {
     // Fallback logic here
@@ -225,23 +226,8 @@ const loadWorker = async () => {
 async function fallbackWorker() {
   // Implement fallback logic here, e.g., using timers or other techniques
   console.log('Fallback worker activated');
-  try {
-
-  const response = await fetch(apiURL + '/searchbar-data', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-  $searchBarData  = await response.json();
-  } catch (error) {
-  // Set worker status to idle and send error message
-  $searchBarData = [];
-  }
 
   const postData = {'userId': data?.user?.id};
-
     const response = await fetch(fastifyURL+'/get-notifications', {
         method: 'POST',
         headers: {
@@ -251,9 +237,8 @@ async function fallbackWorker() {
     });
 
     notificationList  = (await response.json())?.items;
-    hasUnreadElement = notificationList?.some(item => item?.readed === false);
-    $numberOfUnreadNotification = notificationList?.filter(item => item?.readed === false)?.length;
-
+    hasUnreadElement = notificationList?.length !== 0 ? true : false;
+    $numberOfUnreadNotification = notificationList?.length
 
 }
 

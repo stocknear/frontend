@@ -26,6 +26,29 @@
   let inputElement;
   
   
+  async function loadSearchData() {
+    
+    if($searchBarData?.length !== 0)
+    {
+      return
+    }
+    else {
+  
+       // make the GET request to the endpoint
+       const response = await fetch(apiURL+'/searchbar-data', {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      });
+  
+      $searchBarData = await response.json();
+    }
+     
+  
+  }
+  
+
   function popularTicker(state, assetType) {
     searchOpen = false;
 
@@ -294,7 +317,7 @@ $: {
 
 
 
-<label for="searchBarModal"
+<label on:click={loadSearchData} for="searchBarModal"
 class="cursor-pointer w-8 h-8  flex items-center justify-center bg-[#3C74D4] rounded-full">
 <span class="sr-only">Search</span>
     <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
@@ -497,7 +520,11 @@ class="cursor-pointer w-8 h-8  flex items-center justify-center bg-[#3C74D4] rou
     </div>
     {:else}
     <div class="flex justify-center items-center m-auto mt-4 py-20">
-      <span class="loading loading-lg loading-spinner text-success"></span>
+      <div class="relative">
+        <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <span class="loading loading-spinner loading-md"></span>
+        </label>
+    </div>  
     </div>
     {/if}
         
