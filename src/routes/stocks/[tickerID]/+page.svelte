@@ -1100,7 +1100,11 @@ function changeChartType() {
                                   {:else}
                                   <!-- else output not loaded yet-->
                                     <div class="flex justify-center w-full sm:w-[650px] h-80 sm:w-[600px] items-center">
-                                      <span class="loading loading-spinner loading-lg text-success"></span>
+                                        <div class="relative">
+                                          <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                            <span class="loading loading-spinner loading-md"></span>
+                                          </label>
+                                      </div>  
                                     </div>
                                   {/if}
                                   
