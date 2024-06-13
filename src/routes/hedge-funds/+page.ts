@@ -34,15 +34,17 @@ export const load = async () => {
       } else {
         
         output = (await import('$lib/hedge-funds/all-hedge-funds.json'))?.default;
-  
+        
+        await loadImages();
+        output?.forEach(item => {  
+          item.image = images[item?.cik] || defaultAvatar;
+          });
+          
         // Cache the data for this specific tickerID with a specific name 'getHedgeFunds'
         setCache('getHedgeFunds', output, 'getHedgeFunds');
       }
 
-      await loadImages();
-      output?.forEach(item => {  
-        item.image = images[item?.cik] || defaultAvatar;
-        });
+  
     
   
       return output;

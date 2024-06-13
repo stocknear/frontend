@@ -1,11 +1,9 @@
 <script lang='ts'>
   import cardBackground from "$lib/images/bg-hedge-funds.png";
-  import defaultAvatar from "$lib/images/hedge_funds/default-avatar.png";
 
   import { screenWidth, numberOfUnreadNotification } from '$lib/store';
   import { abbreviateNumber } from '$lib/utils';
   import { onMount } from 'svelte';
-  import { compareTwoStrings } from 'string-similarity';
     //  import * as XLSX from 'xlsx';
 
   export let data;

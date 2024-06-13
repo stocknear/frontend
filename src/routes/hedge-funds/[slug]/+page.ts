@@ -42,14 +42,16 @@ export const load = async ({ params }) => {
         output = await response.json();
 
         // Cache the data for this specific tickerID with a specific name 'getHedgeFundsData'
+        try {
+          output.holdings = output?.holdings?.filter(item => item?.sharesNumber !== 0 && item?.symbol !== null); //item?.symbol !== null
+        } catch(e) {
+          console.log(e)
+        }
+        
         setCache(params.slug, output, 'getHedgeFundsData');
       }
       
-    try {
-      output.holdings = output?.holdings?.filter(item => item?.sharesNumber !== 0 && item?.symbol !== null); //item?.symbol !== null
-    } catch(e) {
-      console.log(e)
-    }
+
   
     displayCompanyName.update(value => output?.name ?? params.slug)
     return output;

@@ -57,30 +57,34 @@ export const load = async () => {
       output = await response.json();
 
       // Cache the data for this specific tickerID with a specific name 'getAllPolitician'
+
+      await loadImages();
+      output?.forEach(item => {
+        let representative = item?.representative || '';
+    
+        representative = representative?.replace('Jr', '')
+            .replace(/Dr./g, '')
+            .replace(/Dr_/g, '')
+    
+        const fullName = representative?.replace(/(\s(?:Dr\s)?\w(?:\.|(?=\s)))?\s/g, '_').trim();
+        item.image = images[fullName] || defaultAvatar;
+        item.representative = fullName?.replace(/_/g, ' ');
+        });
+    
+        output = output?.map(item => {
+            const party = getPartyForPoliticians(item?.representative);
+            return {
+                ...item,
+                party: party
+            };
+      });
+
+      
       setCache('', output, 'getAllPolitician');
     }
 
 
-    await loadImages();
-    output?.forEach(item => {
-      let representative = item?.representative || '';
   
-      representative = representative?.replace('Jr', '')
-          .replace(/Dr./g, '')
-          .replace(/Dr_/g, '')
-  
-      const fullName = representative?.replace(/(\s(?:Dr\s)?\w(?:\.|(?=\s)))?\s/g, '_').trim();
-      item.image = images[fullName] || defaultAvatar;
-      item.representative = fullName?.replace(/_/g, ' ');
-      });
-  
-      output = output?.map(item => {
-          const party = getPartyForPoliticians(item?.representative);
-          return {
-              ...item,
-              party: party
-          };
-    });
 
 
     return output;
