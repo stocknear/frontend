@@ -423,62 +423,63 @@ $: {
 
     
 
-                    <div class="flex flex-row items-center w-full justify-end sm:justify-center">
-
                 
-                        <label class="hidden sm:inline-flex mt-2 sm:mt-0 cursor-pointer relative mr-auto">
-                            <input on:click={toggleMode} type="checkbox" checked={mode} value={mode} class="sr-only peer">
-                            <div class="w-11 h-6 bg-gray-400 rounded-full peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1563F9]"></div>
-                            {#if mode}
-                            <span class="ml-2 text-sm font-medium text-white">
-                                Cool Mode
-                            </span>
-                            {:else}
-                            <span class="ml-2 text-sm font-medium text-white">
-                                Boring Mode
-                            </span>
-                            {/if}
-                        </label>
+                        <div class="mb-2 flex flex-row items-center w-full justify-end sm:justify-center">
     
-    
-                        <label for="timeFrameModal" class="cursor-pointer bg-[#202020] sm:hover:bg-[#313131] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
-                            <div class="flex flex-row items-center">
-                                <span class="m-auto mr-0.5 text-white text-sm">{timeFrame}</span>
-                                <svg class="inline-block w-4 h-4 ml-1 mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><g transform="rotate(180 512 512)">                                        <path fill="#fff" d="m488.832 344.32l-339.84 356.672a32 32 0 0 0 0 44.16l.384.384a29.44 29.44 0 0 0 42.688 0l320-335.872l319.872 335.872a29.44 29.44 0 0 0 42.688 0l.384-.384a32 32 0 0 0 0-44.16L535.168 344.32a32 32 0 0 0-46.336 0z"/></g></svg>
-                            </div>
-                        </label>
-
-
-
-                        <label for="exportDataModal" class="ml-3 mr-2 sm:mr-0 cursor-pointer bg-[#202020] sm:hover:bg-[#313131] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
-                            <div class="flex flex-row items-center">
-                                <span class="m-auto mr-0.5 text-white text-sm">Export</span>
-                                <svg class="inline-block w-4 h-4 ml-1 mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><g transform="rotate(180 512 512)">                                        <path fill="#fff" d="m488.832 344.32l-339.84 356.672a32 32 0 0 0 0 44.16l.384.384a29.44 29.44 0 0 0 42.688 0l320-335.872l319.872 335.872a29.44 29.44 0 0 0 42.688 0l.384-.384a32 32 0 0 0 0-44.16L535.168 344.32a32 32 0 0 0-46.336 0z"/></g></svg>
-                            </div>
-                        </label>
-
-                    </div>
-
-                    <ul class="text-[0.8rem] font-medium text-center w-56 pt-3 sm:w-56 mb-5 flex justify-center sm:justify-end items-center ml-auto">
-                        <li class="w-full">
-                            <label on:click={() => filterRule = 'annual'} class="cursor-pointer rounded-l-lg inline-block w-full py-2.5 text-white {filterRule === 'annual' ? 'bg-[#3C74D4]' : 'bg-[#2A303C]'} font-semibold border-r border-gray-600" aria-current="page">
-                              Annual
+                    
+                            <label class="inline-flex mt-2 sm:mt-0 cursor-pointer relative mr-auto">
+                                <input on:click={toggleMode} type="checkbox" checked={mode} value={mode} class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-400 rounded-full peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1563F9]"></div>
+                                {#if mode}
+                                <span class="ml-2 text-sm font-medium text-white">
+                                    Cool Mode
+                                </span>
+                                {:else}
+                                <span class="ml-2 text-sm font-medium text-white">
+                                    Boring Mode
+                                </span>
+                                {/if}
                             </label>
-                        </li>
-                        <li class="w-full">
-                          {#if data?.user?.tier === 'Pro'}
-                            <label on:click={() => filterRule = 'quartely'} class="cursor-pointer inline-block w-full py-2.5 {filterRule === 'quartely' ? 'bg-[#3C74D4]' : 'bg-[#2A303C]'} font-semibold text-white rounded-r-lg">
-                              Quartely
+        
+        
+                            <label for="timeFrameModal" class="cursor-pointer bg-[#202020] sm:hover:bg-[#313131] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
+                                <div class="flex flex-row items-center">
+                                    <span class="m-auto mr-0.5 text-white text-sm">{timeFrame}</span>
+                                    <svg class="inline-block w-4 h-4 ml-1 mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><g transform="rotate(180 512 512)">                                        <path fill="#fff" d="m488.832 344.32l-339.84 356.672a32 32 0 0 0 0 44.16l.384.384a29.44 29.44 0 0 0 42.688 0l320-335.872l319.872 335.872a29.44 29.44 0 0 0 42.688 0l.384-.384a32 32 0 0 0 0-44.16L535.168 344.32a32 32 0 0 0-46.336 0z"/></g></svg>
+                                </div>
                             </label>
-                          {:else}
-                          <a href="/pricing" class="flex flex-row items-center m-auto justify-center cursor-pointer inline-block w-full py-2.5 bg-[#2A303C] font-semibold text-white rounded-r-lg">
-                            <span class="">Quarterly</span>
-                            <svg class="ml-1 -mt-0.5 w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#A3A3A3" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/></svg>
-                          </a>
-                          {/if}
 
-                        </li>
-                      </ul>
+
+ 
+                            <label for="exportDataModal" class="ml-3 mr-2 sm:mr-0 cursor-pointer bg-[#202020] sm:hover:bg-[#313131] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
+                                <div class="flex flex-row items-center">
+                                    <span class="m-auto mr-0.5 text-white text-sm">Export</span>
+                                    <svg class="inline-block w-4 h-4 ml-1 mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><g transform="rotate(180 512 512)">                                        <path fill="#fff" d="m488.832 344.32l-339.84 356.672a32 32 0 0 0 0 44.16l.384.384a29.44 29.44 0 0 0 42.688 0l320-335.872l319.872 335.872a29.44 29.44 0 0 0 42.688 0l.384-.384a32 32 0 0 0 0-44.16L535.168 344.32a32 32 0 0 0-46.336 0z"/></g></svg>
+                                </div>
+                            </label>
+
+                        </div>
+
+                        <ul class="text-[0.8rem] font-medium text-center w-56 pt-3 sm:w-56 mb-5 flex justify-center sm:justify-end items-center ml-auto">
+                            <li class="w-full">
+                                <label on:click={() => filterRule = 'annual'} class="cursor-pointer rounded-l-lg inline-block w-full py-2.5 text-white {filterRule === 'annual' ? 'bg-[#3C74D4]' : 'bg-[#2A303C]'} font-semibold border-r border-gray-600" aria-current="page">
+                                  Annual
+                                </label>
+                            </li>
+                            <li class="w-full">
+                              {#if data?.user?.tier === 'Pro'}
+                                <label on:click={() => filterRule = 'quartely'} class="cursor-pointer inline-block w-full py-2.5 {filterRule === 'quartely' ? 'bg-[#3C74D4]' : 'bg-[#2A303C]'} font-semibold text-white rounded-r-lg">
+                                  Quartely
+                                </label>
+                              {:else}
+                              <a href="/pricing" class="flex flex-row items-center m-auto justify-center cursor-pointer inline-block w-full py-2.5 bg-[#2A303C] font-semibold text-white rounded-r-lg">
+                                <span class="">Quarterly</span>
+                                <svg class="ml-1 -mt-0.5 w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#A3A3A3" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/></svg>
+                              </a>
+                              {/if}
+
+                            </li>
+                          </ul>
                             
 
 
