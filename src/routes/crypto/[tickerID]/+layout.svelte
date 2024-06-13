@@ -1,6 +1,6 @@
 <script lang='ts'>
 
-  import {userRegion, globalForm, screenWidth, openPriceAlert, currentPortfolioPrice, realtimePrice, isCrosshairMoveActive, currentPrice, priceIncrease, displayCompanyName, traded, cryptoTicker, assetType} from '$lib/store';
+  import {searchBarData, userRegion, globalForm, screenWidth, openPriceAlert, currentPortfolioPrice, realtimePrice, isCrosshairMoveActive, currentPrice, priceIncrease, displayCompanyName, traded, cryptoTicker, assetType} from '$lib/store';
 
   import { onMount, onDestroy, afterUpdate} from "svelte";
   import { goto } from '$app/navigation';
@@ -19,16 +19,41 @@
 const usRegion = ['cle1','iad1','pdx1','sfo1'];
 let fastifyURL;
 let wsURL;
+let apiURL;
 
 userRegion?.subscribe(value => {
 if (usRegion?.includes(value)) {
+  apiURL = import.meta.env.VITE_USEAST_API_URL;
   fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
   wsURL = import.meta.env.VITE_USEAST_WS_URL;
 } else {
+  apiURL = import.meta.env.VITE_EU_API_URL;
   fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
   wsURL = import.meta.env.VITE_EU_WS_URL;
 }
 });
+
+async function loadSearchData() {
+    
+    if($searchBarData?.length !== 0)
+    {
+      return
+    }
+    else {
+  
+       // make the GET request to the endpoint
+       const response = await fetch(apiURL+'/searchbar-data', {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      });
+  
+      $searchBarData = await response.json();
+    }
+     
+  
+  }
 
 
 
@@ -475,7 +500,7 @@ $: {
                     </div>
                     
                       <!--Start Search Button-->
-                      <label class="ml-auto mr-4" for="searchBarModal">
+                      <label on:click={loadSearchData} class="ml-auto mr-4" for="searchBarModal">
                         <svg class="w-6 h-6 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m21 21l-4.343-4.343m0 0A8 8 0 1 0 5.343 5.343a8 8 0 0 0 11.314 11.314"/></svg>
                       </label>
                         <!--End Search Button-->
