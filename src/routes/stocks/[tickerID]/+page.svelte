@@ -1270,7 +1270,7 @@ function changeChartType() {
                                   {/await}
                                 </div>
                                 </Lazy>
-
+                                
                                 <Lazy>
                                   <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$trendAnalysisComponent ? 'hidden' : ''}">
                                   {#await import('$lib/components/TrendAnalysis.svelte') then {default: Comp}}

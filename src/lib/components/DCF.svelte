@@ -36,6 +36,7 @@
             bottom: '0%',
             containLabel: true,
         },
+        animation: $screenWidth < 640 ? false: true,
         silent: true,
         xAxis: {
             type: 'value',
