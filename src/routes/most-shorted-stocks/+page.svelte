@@ -4,7 +4,8 @@
   import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
 	import { abbreviateNumber } from '$lib/utils.js';
   import { onMount } from 'svelte';
-  
+  import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
+
   
     export let data;
     let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
@@ -96,7 +97,7 @@
                     <div>
                       <div class="flex flex-row justify-center items-center">
                         <h1 class="text-3xl sm:text-4xl text-white text-center font-bold mb-5">
-                           Most Shorted Stocks
+                           Shorted Stocks
                         </h1>
                       </div>
             
@@ -171,7 +172,7 @@
                         <tbody>
                           {#each shortedList as item, index}
   
-                          <tr on:click={() => goto(`/stocks/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] {index % 2 === 0 ? 'bg-[#202020]' : 'bg-[#0F0F0F]'}  border-b-[#0F0F0F] cursor-pointer">
+                          <tr on:click={() => goto(`/stocks/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] {index+1 === shortedList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''} cursor-pointer">
                             <td class="text-white text-sm font-medium text-white text-end">
                               {index+1}
                             </td>
@@ -213,7 +214,7 @@
                       </table>
                   </div>
                     <InfiniteLoading on:infinite={infiniteHandler} />
-
+                    <UpgradeToPro data={data} title="Get the most shorted stocks on the market to never miss out the next short squeeze"/>
   
                 </div>
 

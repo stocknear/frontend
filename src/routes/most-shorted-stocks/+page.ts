@@ -34,6 +34,8 @@ export const load = async ({parent}) => {
 
     output = await response.json();
 
+    output = data?.user?.tier !== 'Pro' ? output?.slice(0,6) : output;
+
     setCache('', output, 'getMostShortedStocks');
 
     }

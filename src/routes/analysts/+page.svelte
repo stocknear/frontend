@@ -166,7 +166,7 @@ $: {
                       <tbody>
                         {#each analytRatingList as item, index}
 
-                        <tr on:click={() => goto(`/analysts/${item?.analystId}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] {index % 2 === 0 ? 'bg-opacity-[0.25] bg-[#323239]' : 'bg-[#0F0F0F]'} {index+1 === rawData?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''} border-b-[#0F0F0F] cursor-pointer">
+                        <tr on:click={() => goto(`/analysts/${item?.analystId}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] {index+1 === rawData?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''} cursor-pointer">
                           <td class="text-white text-[1rem] font-medium text-white text-end">
                             {item?.rank}
                           </td>
@@ -202,13 +202,13 @@ $: {
                           </td>
                         
 
-                          <td class="text-end text-sm font-medium text-white">
+                          <td class="text-end text-sm font-semibold text-white">
                             {#if Number(item?.successRate) >= 0}
                             <span class="text-[#37C97D]">{Number(item?.successRate)?.toFixed(2)}%</span>
                             {/if}
                           </td>
 
-                            <td class="text-end text-sm font-medium text-white">
+                            <td class="text-end text-sm font-semibold text-white">
                               {#if Number(item?.avgReturn) >= 0}
                                 <span class="text-[#37C97D]">{Number(item?.avgReturn)?.toFixed(2)}%</span>
                               {:else}
@@ -216,7 +216,7 @@ $: {
                               {/if}
                             </td>
 
-                            <td class="text-end font-medium text-white text-sm">
+                            <td class="text-end font-semibold text-white text-sm">
                               {item?.totalRatings}
                             </td>
 
