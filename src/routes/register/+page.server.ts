@@ -1,7 +1,6 @@
 import { error, fail, redirect } from '@sveltejs/kit';
 import { registerUserSchema } from '$lib/schemas';
 import { validateData } from '$lib/utils';
-import { oauthState, oauthVerifier, oauthProvider } from '$lib/store';
 
 
 
@@ -104,9 +103,6 @@ export const actions = {
 			maxAge: 60
 	  	});
 		
-		oauthState.update( value => state);
-        oauthVerifier.update( value => verifier);
-		oauthProvider.update( value => providerSelected);
 
 
 		redirect(302,authProviderRedirect);

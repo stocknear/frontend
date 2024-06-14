@@ -95,9 +95,6 @@ export const actions = {
 			maxAge: 60
 	  	});
 		
-		oauthState.update( value => state);
-        oauthVerifier.update( value => verifier);
-		oauthProvider.update( value => providerSelected);
 
 
 		redirect(302,authProviderRedirect);
