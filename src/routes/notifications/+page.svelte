@@ -4,7 +4,7 @@
 	import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
 
     import { onMount } from 'svelte';
-    import {userRegion, screenWidth, numberOfUnreadNotification, scrollToComment } from '$lib/store';
+    import {userRegion, numberOfUnreadNotification, scrollToComment } from '$lib/store';
 
     export let data;
     export let form;
@@ -120,7 +120,7 @@ onMount(async () => {
       
   
   
-    <div class="w-full max-w-3xl m-auto min-h-screen bg-[#202020] sm:rounded-lg border border-gray-700 overflow-hidden sm:overflow-y-scroll scroller sm:max-h-[1100px] pt-5 sm:pb-10 sm:pt-10 sm:mt-3 mb-8">
+    <div class="w-full max-w-3xl m-auto min-h-screen bg-[#202020] sm:rounded-lg sm:border sm:border-gray-700 overflow-hidden sm:overflow-y-scroll scroller sm:max-h-[1100px] pt-5 sm:pb-10 sm:pt-10 sm:mt-3 sm:mb-8">
                     
         <h1 class="pl-5 text-2xl text-white font-semibold mt-2 sm:mt-0">
             Notifications

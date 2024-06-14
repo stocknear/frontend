@@ -21,53 +21,57 @@ export const config = {
   }
 
   function addClassesToHtml(htmlString) {
-    // Helper function to add a class to a specific tag
+	// Helper function to add a class to a specific tag
 	function addClassToTag(tag, className) {
-        // Add class if the tag doesn't already have a class attribute
-        const regex = new RegExp(`<${tag}(?![^>]*\\bclass=)([^>]*)>`, 'g');
-        htmlString = htmlString.replace(regex, `<${tag} class="${className}"$1>`);
-
-        // Append the new class to tags that already have a class attribute, ensuring no duplicates
-        const regexWithClass = new RegExp(`(<${tag}[^>]*\\bclass=["'][^"']*)(?!.*\\b${className}\\b)([^"']*)["']`, 'g');
-        htmlString = removeDuplicateClasses(htmlString.replace(regexWithClass, `$1 ${className}$2"`));
-    }
-    // Add classes to headings
-    addClassToTag('h1', 'text-2xl');
-    addClassToTag('h2', 'text-xl');
-    addClassToTag('h3', 'text-xl');
-    addClassToTag('h4', 'text-md');
-    addClassToTag('h5', 'text-sm');
-    addClassToTag('h6', 'text-xs');
-
-    // Add classes to anchor tags
-    addClassToTag('a', 'text-blue-400 hover:text-white underline');
-
-    // Add classes to ordered lists
-    addClassToTag('ol', 'list-decimal ml-5 text-sm');
-
-    // Add classes to unordered lists
-    addClassToTag('ul', 'list-disc ml-5 text-sm -mt-5');
-
-    // Add classes to blockquotes and their paragraphs
-    function addClassToBlockquote() {
-        // Add class to blockquote
-        htmlString = htmlString.replace(
-            '<blockquote',
-            '<blockquote class="p-4 my-4 border-s-4 border-gray-400 bg-[#313131]"'
-        );
-
-         // Add class to p inside blockquote
-		 htmlString = htmlString.replace(
-            /<blockquote([^>]*)>\s*<p/g,
-            `<blockquote$1>\n<p class="text-sm italic font-medium leading-relaxed text-white"`
-        );
-    }
-
-    addClassToBlockquote();
-
-    return htmlString;
-}
-
+		// Add class if the tag doesn't already have a class attribute
+		const regex = new RegExp(`<${tag}(?![^>]*\\bclass=)([^>]*)>`, 'g');
+		htmlString = htmlString.replace(regex, `<${tag} class="${className}"$1>`);
+  
+		// Append the new class to tags that already have a class attribute, ensuring no duplicates
+		const regexWithClass = new RegExp(`(<${tag}[^>]*\\bclass=["'][^"']*)(?!.*\\b${className}\\b)([^"']*)["']`, 'g');
+		htmlString = htmlString.replace(regexWithClass, `$1 ${className}$2"`);
+	}
+  
+	// Add classes to headings
+	addClassToTag('h1', 'text-lg');
+	addClassToTag('h2', 'text-lg');
+	addClassToTag('h3', 'text-lg');
+	addClassToTag('h4', 'text-lg');
+	addClassToTag('h5', 'text-lg');
+	addClassToTag('h6', 'text-lg');
+  
+	// Add classes to anchor tags
+	addClassToTag('a', 'text-blue-400 hover:text-white underline');
+  
+	// Add classes to ordered lists
+	addClassToTag('ol', 'list-decimal ml-10 text-sm');
+  
+	// Add classes to unordered lists
+	addClassToTag('ul', 'list-disc ml-10 text-sm -mt-5');
+  
+	// Add classes to blockquotes and their paragraphs
+	function addClassToBlockquote() {
+		// Add class to blockquote
+		htmlString = htmlString.replace(
+			/<blockquote/g,
+			'<blockquote class="pl-4 pr-4 rounded-lg bg-[#323232]"'
+		);
+  
+		// Add class to p inside blockquote
+		htmlString = htmlString.replace(
+			/<blockquote([^>]*)>\s*<p/g,
+			`<blockquote$1>\n<p class="text-sm font-medium leading-relaxed text-white"`
+		);
+	}
+  
+	addClassToBlockquote();
+  
+	// Remove duplicate classes after all modifications
+	htmlString = removeDuplicateClasses(htmlString);
+  
+	return htmlString;
+  }
+  
 
 export const load = async ({ locals}) => {
 
