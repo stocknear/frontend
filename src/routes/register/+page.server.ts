@@ -96,6 +96,13 @@ export const actions = {
 			path: '/',
 			maxAge: 60*60
 		});
+
+		cookies.set('path', "/", {httpOnly: true,
+			sameSite: 'lax',
+			secure: true,
+			path: '/',
+			maxAge: 60
+	  	});
 		
 		oauthState.update( value => state);
         oauthVerifier.update( value => verifier);

@@ -71,9 +71,13 @@ export const GET = async ({locals,  url, cookies}) => {
 
     }
 
-    const path = cookies?.get('path');
-    redirect(301, path?.length !== 0 ? path : "/");
+    try {
+        const path = cookies?.get('path');
+        redirect(301, path?.length !== 0 ? path : "/");
+    } catch(e) {
+        redirect(301,"/");
 
+    }
     //Login user automatically
 
     //const avatarUrl = newUser['meta']['avatarUrl'];
