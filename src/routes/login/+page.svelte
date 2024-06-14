@@ -132,10 +132,10 @@
 							<a href="/reset-password" class="text-sm font-medium text-[#FB6A67] hover:cursor-pointer hover:underline">Forgot Password?</a>
 						</div>
 
-						<div class="w-3/4 sm:w-1/2 max-w-lg pt-5 m-auto pb-5">
-							<button type="submit" class="py-3 bg-blue-700 text-white hover:bg-blue-600 w-full rounded-full m-auto font-bold text-md">
-								Login
-							</button>
+						<div class="w-full max-w-lg pt-5 m-auto pb-5">
+							<button type="submit" class="btn bg-[#27272A] border border-gray-600 sm:hover:bg-[#313131] text-white btn-md w-full rounded-lg m-auto text-white font-semibold text-[1rem]">
+                                Login
+                            </button>
 						</div>
 
 
