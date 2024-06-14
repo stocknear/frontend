@@ -567,6 +567,9 @@ export function getPartyForPoliticians(name) {
     "Adam Kinzinger": "Republican",
     "Austin Scott": "Republican",
     "Abigail Spanberger": "Democratic",
+    "Roger Williams": "Republican",
+    "Earl Leroy Carter": "Republican",
+    "Daniel Webster": "Republican",
 };
 
 // Combine first and last name to form the key
