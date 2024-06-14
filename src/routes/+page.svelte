@@ -456,35 +456,35 @@ onMount( async() => {
       </div>
 
       <!--Start of Mode-->
-      <table class="table table-sm table-pin-rows table-compact rounded-none sm:rounded-lg bg-[#202020]">
+      <table class="table table-sm table-pin-rows table-compact rounded-none sm:rounded-lg">
         <thead class="rounded-lg">
-          <tr class="bg-[#313131]">
-            <th class="text-white font-medium text-sm">Symbol</th>
-            <th class="text-white font-medium text-sm">Name</th>
-            <th class="text-white font-medium text-sm ">Market Cap</th>
-            <th class="text-white font-medium text-end text-sm">Today</th>
+          <tr class="bg-[#0F0F0F]">
+            <th class="text-white font-semibold text-sm">Symbol</th>
+            <th class="text-white font-semibold text-sm">Name</th>
+            <th class="text-white font-semibold text-sm ">Market Cap</th>
+            <th class="text-white font-semibold text-end text-sm">Today</th>
           </tr>
         </thead>
 
         <tbody>
           {#each gainerLoserTickers as item}
-          <tr on:click={() => goto("/stocks/"+item.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] border-b-[#202020] shake-ticker cursor-pointer">
-            <td class="text-blue-400 border-b border-[#202020]">
+          <tr on:click={() => goto("/stocks/"+item.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] shake-ticker cursor-pointer">
+            <td class="text-blue-400">
                 {item?.symbol}
             </td>
 
-            <td class="text-white border-b border-[#202020]">
+            <td class="text-white">
               {item?.name?.length > 20 ? item?.name?.slice(0,20) + "..." : item?.name}
             </td>
             
 
       
-              <td class="text-white border-b border-[#202020]">
+              <td class="text-white">
                 {item?.marketCap !== null ? abbreviateNumber(item?.marketCap,true) : '-'}
               </td>
 
       
-              <td class="text-white border-b border-[#202020] font-semibold">
+              <td class="text-white font-semibold">
                 <div class="flex flex-row justify-end items-center">
       
                   <div class="flex flex-col items-center">
@@ -603,9 +603,9 @@ onMount( async() => {
           
         </div>
 
-      <table class="table table-sm table-compact table-pin-rows shadow-md rounded-none sm:rounded-lg bg-[#202020]">
+      <table class="table table-sm table-compact table-pin-rows shadow-md rounded-none sm:rounded-lg bg-[#0F0F0F]">
         <thead>
-          <tr class="bg-[#313131]">
+          <tr class="bg-[#0F0F0F]">
             <th class="text-white font-semibold text-sm">Symbol</th>
             <th class="text-white font-semibold text-sm">Name</th>
             <th class="text-white font-semibold text-sm ">Volume</th>
@@ -614,23 +614,23 @@ onMount( async() => {
         </thead>
         <tbody>
           {#each active as item, index}
-          <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] border-b-[#202020] shake-ticker cursor-pointer">
-            <td class="text-blue-400 border-b border-[#202020]">
+          <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] shake-ticker cursor-pointer">
+            <td class="text-blue-400 ">
               {item?.symbol}
             </td>
             
-            <td class="text-white border-b border-[#202020]">
+            <td class="text-white ">
               {item?.name?.length > 20 ? item?.name?.slice(0,20) + "..." : item?.name}
             </td>
     
       
   
-          <td class="text-white border-b border-[#202020]">
+          <td class="text-white ">
             {item?.volume !== null ? abbreviateNumber(item?.volume) : '-'}
           </td>
 
   
-          <td class="text-white border-b border-[#202020] font-semibold">
+          <td class="text-white  font-semibold">
             <div class="flex flex-row justify-end items-center">
   
               <div class="flex flex-col items-center">

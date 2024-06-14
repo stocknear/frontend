@@ -424,7 +424,7 @@ $: {
                 <a href={"/community/post/"+posts?.id}>
                 {#if posts?.postType === 'text'}
                   <!--Start PostType Text-->
-                  <div class="flex flex-wrap md:flex-row">
+                  <div class="flex flex-wrap md:flex-row container">
                     <div class="cursor-pointer flex items-start">
                         <div class="flex-grow w-full sm:w-3/4 max-w-2xl break-all">
   
@@ -434,8 +434,8 @@ $: {
                         </div>
 
                         
-                        <div class="p-3 text-sm sm:text-[1rem] whitespace-pre-line break-normal text-[#D7DADC]">
-                          {@html posts?.description?.length > 400 ? posts?.description.slice(0, 400) + "..." : posts?.description}
+                        <div class="{posts?.description?.length > 400 ? 'darken-overlay' : ''} p-3 text-sm sm:text-[1rem] whitespace-pre-line break-normal text-[#D7DADC]">
+                          {@html posts?.description}
                         </div>
                               
                         </div>
@@ -677,3 +677,21 @@ $: {
     </dialog>
     <!--End Delete Modal-->
   
+    <style>
+      .container {
+        position: relative; /* Ensure relative positioning for the gradient overlay */
+        overflow: hidden; /* To ensure the gradient does not overflow */
+        max-height: 330px; /* Limit the container's height */
+      }
+    
+      .darken-overlay::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50px; /* Adjust as needed for the gradient effect */
+        background: linear-gradient(0deg, rgb(32, 32, 32, 1), rgb(32, 32, 32, 0)); /* Smooth gradient transition */
+        pointer-events: none; /* Ensure it doesn't interfere with text interaction */
+      }
+    </style>
