@@ -63,6 +63,7 @@ export const priceAnalysisComponent = writable(<boolean>(false));
 export const revenueSegmentationComponent = writable(<boolean>(false));
 export const trendAnalysisComponent = writable(<boolean>(false));
 export const shareholderComponent = writable(<boolean>(false));
+export const retailVolumeComponent = writable(<boolean>(false));
 
 
 export const strategyId = writable(<string> (""));
