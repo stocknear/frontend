@@ -58,6 +58,7 @@ export const actions = {
         const redirectURL = `${url.origin}/oauth`;
 		
 		const targetItem = authMethods.authProviders?.findIndex(item => item?.name === providerSelected );
+	
 		//console.log("==================")
 		//console.log(authMethods.authProviders)
 		//console.log('target item is: ', targetItem)
