@@ -121,9 +121,53 @@ export const load = async ({ params }) => {
     return sums;
   };
 
+
+async function historicalPrice() {
+    let output;
+
+    const cachedData = getCache(params.tickerID, 'historicalPrice'+'max');
+      if (cachedData) {
+        output = cachedData;
+    } else {
+        const postData = {
+          ticker: params.tickerID,
+          timePeriod: 'max',
+        };
+  
+        const response = await fetch(apiURL+'/historical-price', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(postData)
+        });
+  
+        output = await response?.json() ?? [];
+
+        /*
+        const mapData = (data) => data?.map(({ time, open, high, low, close }) => ({ 
+            time: Date.parse(time), 
+            open, 
+            high, 
+            low, 
+            close 
+        }));
+        */
+  
+        setCache(params.tickerID, output, 'historicalPrice'+'max');
+      
+    }
+
+    return output; 
+    
+  }
+
+  
+
   // Make sure to return a promise
   return {
     getInsiderTrading: await getInsiderTrading(),
-    getInsiderTradingStatistics: await getInsiderTradingStatistics()
+    getInsiderTradingStatistics: await getInsiderTradingStatistics(),
+    getHistoricalPrice: await historicalPrice()
   };
 };

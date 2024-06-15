@@ -251,7 +251,7 @@ const handleMessage = async (event) => {
 const loadWorker = async () => {
   const SyncWorker = await import('./workers/insiderWorker?worker');
   syncWorker = new SyncWorker.default();
-  syncWorker.postMessage({ message: data?.getInsiderTrading, historicalPrice: data?.getHistoricalPrice?.MAX});
+  syncWorker.postMessage({ message: data?.getInsiderTrading, historicalPrice: data?.getHistoricalPrice});
   syncWorker.onmessage = handleMessage;
 
 
