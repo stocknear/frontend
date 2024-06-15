@@ -117,6 +117,7 @@ const handleMessage = async (event) => {
 
 
       options =  {
+        silent: true,
       grid: {
         left: '0%',
         right: '0%',

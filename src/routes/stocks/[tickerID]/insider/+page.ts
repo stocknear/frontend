@@ -125,7 +125,7 @@ export const load = async ({ params }) => {
 async function historicalPrice() {
     let output;
 
-    const cachedData = getCache(params.tickerID, 'historicalPrice'+'max');
+    const cachedData = getCache(params.tickerID, 'historicalPrice'+'insider');
       if (cachedData) {
         output = cachedData;
     } else {
@@ -144,8 +144,10 @@ async function historicalPrice() {
   
         output = await response?.json() ?? [];
 
-        /*
-        const mapData = (data) => data?.map(({ time, open, high, low, close }) => ({ 
+        //Adding this would create a bug hence I cant use the historicalPrice endpoint such as in +page.svelte but rather need to call
+        // it again without modification.
+      /*
+        output= (data) => data?.map(({ time, open, high, low, close }) => ({ 
             time: Date.parse(time), 
             open, 
             high, 
@@ -153,8 +155,9 @@ async function historicalPrice() {
             close 
         }));
         */
+        
   
-        setCache(params.tickerID, output, 'historicalPrice'+'max');
+        setCache(params.tickerID, output, 'historicalPrice'+'insider');
       
     }
 
