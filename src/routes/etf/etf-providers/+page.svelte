@@ -61,17 +61,17 @@ let etfProviderList = data?.getAllETFProviders;
                 <table class="table rounded-none sm:rounded-md w-full border-bg-[#0F0F0F] m-auto mt-4 ">
                     <thead>
                       <tr class="border border-slate-800">
-                        <th class="text-slate-200 font-bold text-[0.95rem]">Provider Name</th>
-                        <th class="text-slate-200 font-bold text-center text-[0.95rem]">Total Assets</th>
-                        <th class="text-slate-200 font-bold text-[0.95rem] text-end">Funds</th>
-                        <th class="text-slate-200 font-bold hidden sm:table-cell text-[0.95rem] text-end">Avg. Cost</th>
-                        <th class="text-slate-200 font-bold hidden sm:table-cell text-[0.95rem] text-end">Avg. Holdings</th>
+                        <th class="text-slate-200 font-semibold text-[0.95rem]">Provider Name</th>
+                        <th class="text-slate-200 font-semibold text-center text-[0.95rem]">Total Assets</th>
+                        <th class="text-slate-200 font-semibold text-[0.95rem] text-end">Funds</th>
+                        <th class="text-slate-200 font-semibold hidden sm:table-cell text-[0.95rem] text-end">Avg. Cost</th>
+                        <th class="text-slate-200 font-semibold hidden sm:table-cell text-[0.95rem] text-end">Avg. Holdings</th>
                       </tr>
                     </thead>
                     <tbody>
                       {#each etfProviderList as item,index}
                       <!-- row -->
-                      <tr on:click={() => goto("/etf/etf-providers/"+item?.etfProvider)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] {index % 2 === 0 ? 'bg-opacity-[0.25] bg-[#323239]' : 'bg-[#0F0F0F]'} border-b-[#0F0F0F] shake-ticker cursor-pointer">
+                      <tr on:click={() => goto("/etf/etf-providers/"+item?.etfProvider)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] border-b-[#0F0F0F] shake-ticker cursor-pointer">
                         
 
                         <td class="text-blue-400 font-medium border-b-[#0F0F0F]">

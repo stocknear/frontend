@@ -107,7 +107,7 @@
 
 
 
-<div class="w-full max-w-4xl m-auto mb-10 bg-[#0F0F0F] pl-3 pr-3 overflow-hidden">
+<div class="w-full max-w-4xl m-auto mb-10 bg-[#0F0F0F] overflow-hidden">
 
 
     <!--Start Top Winners/Losers-->

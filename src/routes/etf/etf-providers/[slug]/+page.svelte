@@ -87,7 +87,7 @@
             </div>
             {/if}
 
-            <div class="stats stats-horizontal bg-[#202020] shadow w-full rounded-lg">
+            <div class="stats stats-horizontal bg-[#202020] shadow w-full rounded-none sm:rounded-lg overflow-hidden">
       
                 <div class="stat">
                   <div class="stat-title text-white text-sm sm:text-lg font-semibold">Listed Funds</div>
@@ -111,7 +111,7 @@
               <!-- Page wrapper -->
               <div class="flex justify-center w-full max-w-5xl m-auto h-full overflow-hidden">  
                   <!-- Content area -->
-                  <div class="relative flex flex-col flex-1 overflow-hidden">
+                  <div class="relative flex flex-col flex-1 overflow-hidden pt-5">
           
                     <table class="table table-sm sm:table-md table-compact rounded-none sm:rounded-md w-full border-bg-[#0F0F0F] m-auto mt-4 ">
                         <thead>
@@ -126,7 +126,7 @@
                         <tbody>
                           {#each etfProviderData as item,index}
                           <!-- row -->
-                          <tr on:click={() => goto("/etf/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] {index % 2 === 0 ? 'bg-opacity-[0.25] bg-[#323239]' : 'bg-[#0F0F0F]'} border-b-[#0F0F0F] shake-ticker cursor-pointer">
+                          <tr on:click={() => goto("/etf/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] border-b-[#0F0F0F] shake-ticker cursor-pointer">
                             
                             <td class="hidden sm:table-cell text-blue-400 font-medium  border-b-[#0F0F0F]">
                               {item?.symbol}
