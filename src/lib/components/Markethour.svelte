@@ -132,8 +132,7 @@
     Monday through Friday.
     <br>
     <br>
-    Even the stock market needs a break sometimes! 
-    Here are the special holidays when the stock market decides to take a day off.
+    The market is closed on the following holidays:
     </p>
 
     <table class="table table-sm table-compact bg-[#202020] w-full mt-5 mb-10 text-white">
@@ -141,7 +140,7 @@
       <thead>
         <tr class="border-b border-slate-700">
           <th class="bg-[#202020] text-white text-sm font-semibold">
-              Special Holiday
+            Exchange holidays
           </th>
           <th class="bg-[#202020] text-white text-sm font-semibold">
             Date

@@ -94,7 +94,7 @@ $: {
           <div class="flex flex-row pt-1 pb-2">
               {#if earningDate}
               <div class="badge badge-error gap-2 mt-2 font-medium text-sm text-white">
-                Earning Call - {earningDate}
+                Earnings Call - {earningDate}
               </div>
               {/if}
           </div>
