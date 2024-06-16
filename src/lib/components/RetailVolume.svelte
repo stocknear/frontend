@@ -195,10 +195,10 @@ $: {
                         
             <div class="flex flex-row items-center">
                 <label for="retailTraderTrackerInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
-                    Retail Volume Tracker
+                    Retail Investor Volume
                 </label>
                 <InfoModal
-                  title={"Retail Volume Tracker"}
+                  title={"Retail Investor Volume"}
                   content={"Understand retail investor activity: The green bar shows the daily volume trend, indicating if it was more bullish (above the axis) or bearish (below the axis). The white line represents the daily volume of retail investors."}
                   id={"retailTraderTrackerInfo"}
                 />
@@ -211,7 +211,7 @@ $: {
                     
                 <div class="w-full flex flex-col items-start">
                     <div class="text-white text-sm sm:text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
-                        In the past six months, the {$displayCompanyName} had an average retail volume of <span class="font-semibold">{abbreviateNumber(avgVolume,true)}</span>, with a prevailing
+                        In the past six months, the {$displayCompanyName} had an average retail investor volume of <span class="font-semibold">{abbreviateNumber(avgVolume,true)}</span>, with a prevailing
                         {#if avgSentiment === 'Bullish' }
                         <span class="text-[#10DB06]">
                           <svg class="w-6 h-6 sm:w-7 sm:h-7 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="#10db06" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"><path d="m3 17l6-6l4 4l8-8"/><path d="M17 7h4v4"/></g></svg>
