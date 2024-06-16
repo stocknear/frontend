@@ -1,5 +1,5 @@
 <script lang='ts'>
-import {numberOfUnreadNotification, displayCompanyName, stockTicker} from '$lib/store';
+import {numberOfUnreadNotification, displayCompanyName, cryptoTicker} from '$lib/store';
 import { formatDate } from '$lib/utils';
 
 export let data;
@@ -46,21 +46,21 @@ function loadMoreData() {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
   <title>
-    {$numberOfUnreadNotification > 0 ? `(${$numberOfUnreadNotification})` : ''} {$displayCompanyName} ({$stockTicker}) latest Stock Market News and Breaking Stories · stocknear
+    {$numberOfUnreadNotification > 0 ? `(${$numberOfUnreadNotification})` : ''} {$displayCompanyName} ({$cryptoTicker}) latest Stock Market News and Breaking Stories · stocknear
   </title>
-  <meta name="description" content={`Get the latest stock market news and breaking stories of ${$displayCompanyName} (${$stockTicker}).`} />
+  <meta name="description" content={`Get the latest stock market news and breaking stories of ${$displayCompanyName} (${$cryptoTicker}).`} />
   
   <!-- Other meta tags -->
-  <meta property="og:title" content={`${$displayCompanyName} (${$stockTicker}) latest Stock Market News and Breaking Stories · stocknear`}/>
-  <meta property="og:description" content={`Get the latest stock market news and breaking stories of ${$displayCompanyName} (${$stockTicker}).`} />
+  <meta property="og:title" content={`${$displayCompanyName} (${$cryptoTicker}) latest Stock Market News and Breaking Stories · stocknear`}/>
+  <meta property="og:description" content={`Get the latest stock market news and breaking stories of ${$displayCompanyName} (${$cryptoTicker}).`} />
   <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
   <!-- Twitter specific meta tags -->
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content={`${$displayCompanyName} (${$stockTicker}) latest Stock Market News and Breaking Stories · stocknear`}/>
-  <meta name="twitter:description" content={`Get the latest stock market news and breaking stories of ${$displayCompanyName} (${$stockTicker}).`} />
+  <meta name="twitter:title" content={`${$displayCompanyName} (${$cryptoTicker}) latest Stock Market News and Breaking Stories · stocknear`}/>
+  <meta name="twitter:description" content={`Get the latest stock market news and breaking stories of ${$displayCompanyName} (${$cryptoTicker}).`} />
   <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 
@@ -92,7 +92,7 @@ function loadMoreData() {
                                             allowfullscreen
                                         ></iframe>
                                     {:else}
-                                        <a href={item?.url} target="_blank">
+                                        <a href={item?.url} rel="noopener noreferrer" target="_blank">
                                         <div class="flex-shrink-0 m-auto ">
                                             <img src={item?.image} class=" w-full rounded-lg" alt="news image" loading="lazy">
                                         </div>
@@ -103,12 +103,13 @@ function loadMoreData() {
                                           {item?.site} · {formatDate(item?.publishedDate)} ago
                                         </h3>
                                         
-                                        <a href={item?.url} target="_blank" class="text-lg font-bold text-white">
+                                        <a href={item?.url} rel="noopener noreferrer" target="_blank" class="text-lg font-bold text-white">
                                           {item?.title}
+                                        
+                                          <p class="text-white text-sm mt-2 font-normal">
+                                            {item?.text}
+                                          </p>
                                         </a>
-                                        <p class="text-white text-sm mt-2">
-                                          {item?.text}
-                                        </p>
                                     </div>
                                 </div>
                           

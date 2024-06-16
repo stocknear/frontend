@@ -105,7 +105,7 @@
                                               allowfullscreen
                                           ></iframe>
                                       {:else}
-                                          <a href={item.url} target="_blank">
+                                          <a href={item.url} rel="noopener noreferrer" target="_blank">
                                           <div class="flex-shrink-0 m-auto ">
                                               <img src={item.image} class=" w-full rounded-lg" alt="news image" loading="lazy">
                                           </div>
@@ -116,12 +116,13 @@
                                             {item?.site} · {formatDate(item?.publishedDate)} ago
                                           </h3>
                                           
-                                          <a href={item.url} target="_blank" class="text-lg font-bold text-white">
+                                          <a href={item.url} rel="noopener noreferrer" target="_blank" class="text-lg font-bold text-white">
                                             {item?.title}
-                                          </a>
-                                          <p class="text-white text-sm mt-2">
+                                          
+                                          <p class="text-white text-sm mt-2 font-normal">
                                             {item?.text}
                                           </p>
+                                          </a>
                                       </div>
                                   </div>
                             
