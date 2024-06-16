@@ -3,7 +3,7 @@
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
   import { abbreviateNumber, formatDate } from '$lib/utils';
-  import StockSlider from '$lib/components/StockSlider.svelte';
+  //import StockSlider from '$lib/components/StockSlider.svelte';
   import InfoModal from '$lib/components/InfoModal.svelte';
   import nancyPelosiProfile from '$lib/images/senator/Nancy_Pelosi.png';
   import warrenBuffetProfile from '$lib/images/hedge_funds/0001067983.png';
@@ -26,7 +26,7 @@
   let gainer = rawData?.gainers['1D']?.slice(0,5);
   let loser = rawData?.losers['1D']?.slice(0,5);
   let active = rawData?.active['1D']?.slice(0,5);
-  let sliderList = rawData?.active['1D'];
+  //let sliderList = rawData?.active['1D'];
 
   let gainerLoserTickers = [];
   let showLoser = false;
@@ -132,9 +132,11 @@ onMount( async() => {
     <div class="flex flex-col w-full max-w-6xl justify-center items-center">
       <div class="text-center mb-10 w-full">                
         <!---Start-Autocomplete-Searchbar-->
+        <!--
         {#if sliderList?.length !== 0}
         <StockSlider sliderList={sliderList}/>
         {/if}
+        -->
 
         {#if Feedback}
           <Feedback data={data} />
