@@ -303,7 +303,7 @@ $: {
                                                         {(item?.value/totalGeographicRevenue * 100)?.toFixed(2)}%
                                                     </span>
                                                 </div>
-                                                <progress class="progress [&::-webkit-progress-value]:bg-[#10DB06] [&::-moz-progress-bar]:bg-[#10DB06]" value={item?.value/totalGeographicRevenue *100} max="100"></progress>
+                                                <progress class="progress bg-[#3B3D3F] [&::-webkit-progress-value]:bg-[#10DB06] [&::-moz-progress-bar]:bg-[#10DB06]" value={item?.value/totalGeographicRevenue *100} max="100"></progress>
                                             </div>
 
                                         </div>

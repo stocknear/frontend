@@ -164,7 +164,7 @@ async function handleInput(event) {
                             <input 
                             id="modal-search"
                             type="search" 
-                            class="ml-2 text-[1rem] placeholder-gray-400 border-transparent focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1 bg-inherit"
+                            class="text-white ml-2 text-[1rem] placeholder-gray-400 border-transparent focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1 bg-inherit"
                             placeholder="Find by name"
                             bind:value={filterQuery}
                             on:input={handleInput}

@@ -98,9 +98,9 @@
           </span>
           </div>
           {#if item?.value >= 0}
-          <progress class="progress [&::-webkit-progress-value]:bg-[#10DB06] [&::-moz-progress-bar]:bg-[#10DB06]"  value={(item?.value)} max="1"></progress>
+          <progress class="progress bg-[#3B3D3F] [&::-webkit-progress-value]:bg-[#10DB06] [&::-moz-progress-bar]:bg-[#10DB06]"  value={(item?.value)} max="1"></progress>
           {:else}
-          <progress class="progress [&::-webkit-progress-value]:bg-[#C7271A] [&::-moz-progress-bar]:bg-[#C7271A]"  value={-(item?.value)} min="1"></progress>
+          <progress class="progress bg-[#3B3D3F] [&::-webkit-progress-value]:bg-[#C7271A] [&::-moz-progress-bar]:bg-[#C7271A]"  value={-(item?.value)} min="1"></progress>
 
           {/if}
         </div>

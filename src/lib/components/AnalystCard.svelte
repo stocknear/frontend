@@ -119,7 +119,7 @@ if ($stockTicker && typeof window !== 'undefined' && typeof analystRating !== 'u
                     {buyCount}%
                   </span>
                 </div>
-                <progress class="progress w-11/12 [&::-webkit-progress-value]:bg-[#10DB06] [&::-moz-progress-bar]:bg-[#10DB06]" value={buyCount} max="100"></progress>
+                <progress class="progress bg-[#3B3D3F] w-11/12 [&::-webkit-progress-value]:bg-[#10DB06] [&::-moz-progress-bar]:bg-[#10DB06]" value={buyCount} max="100"></progress>
               </div>
               
               <div class="flex flex-col items-center w-full">
@@ -131,7 +131,7 @@ if ($stockTicker && typeof window !== 'undefined' && typeof analystRating !== 'u
                     {holdCount}%
                   </span>
                 </div>
-                <progress class="progress w-11/12 [&::-webkit-progress-value]:bg-[#fff] [&::-moz-progress-bar]:bg-[#fff]" value={holdCount} max="100"></progress>
+                <progress class="progress bg-[#3B3D3F] w-11/12 [&::-webkit-progress-value]:bg-[#fff] [&::-moz-progress-bar]:bg-[#fff]" value={holdCount} max="100"></progress>
               </div>
             
               <div class="flex flex-col items-center w-full">
@@ -143,7 +143,7 @@ if ($stockTicker && typeof window !== 'undefined' && typeof analystRating !== 'u
                     {sellCount}%
                   </span>
                 </div>
-                <progress class="progress w-11/12 [&::-webkit-progress-value]:bg-[#FF2F1F] [&::-moz-progress-bar]:bg-[#FF2F1F]" value={sellCount} max="100"></progress>
+                <progress class="progress bg-[#3B3D3F] w-11/12 [&::-webkit-progress-value]:bg-[#FF2F1F] [&::-moz-progress-bar]:bg-[#FF2F1F]" value={sellCount} max="100"></progress>
               </div>
 
               
