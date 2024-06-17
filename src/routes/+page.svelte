@@ -10,9 +10,19 @@
   //import michaelBurryProfile from '$lib/images/hedge_funds/0001649339.png';
   import analystAvatar from '$lib/images/hedge_funds/default-avatar.png';
 
-  import { screenWidth, numberOfUnreadNotification} from '$lib/store';
+  import { userRegion, searchBarData, numberOfUnreadNotification} from '$lib/store';
 
 
+  const usRegion = ['cle1','iad1','pdx1','sfo1'];
+  let apiURL;
+
+  userRegion.subscribe(value => {
+    if (usRegion.includes(value)) {
+      apiURL = import.meta.env.VITE_USEAST_API_URL;
+    } else {
+      apiURL = import.meta.env.VITE_EU_API_URL;
+    }
+  });
 
   export let data;
 
@@ -88,6 +98,29 @@ onMount( async() => {
     Feedback = (await import('$lib/components/Feedback.svelte')).default   
 })
 
+
+async function loadSearchData() {
+    
+    if($searchBarData?.length !== 0)
+    {
+      return
+    }
+    else {
+  
+       // make the GET request to the endpoint
+       const response = await fetch(apiURL+'/searchbar-data', {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      });
+  
+      $searchBarData = await response.json();
+    }
+     
+  
+  }
+  
 
 
 </script>
@@ -173,7 +206,7 @@ onMount( async() => {
                                       <svg  class="w-6 h-6 inline-block mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#fff" d="m14.369 4.398l-3.485 6.035l1.732 1l3.485-6.035c4.169 2.772 6.305 7.08 4.56 10.102c-1.86 3.222-7.19 3.355-11.91.63C4.028 13.402 1.48 8.721 3.34 5.5c1.745-3.023 6.543-3.327 11.028-1.102m1.515-2.625l1.732 1l-1.5 2.598l-1.732-1zM6.732 20H17v2H5.018a1 1 0 0 1-1.015-.922a1 1 0 0 1 .131-.578l2.25-3.897l1.732 1z"/></svg>
                                       <span class="font-semibold">Retail Investor Trader Tracker</span>
                                     </a>
-                                    <div class="absolute top-[-2.0rem] -right-5 sm:-right-10 rotate-[7deg]">
+                                    <div class="absolute top-[-1.2rem] -right-5 sm:-right-8 rotate-[7deg]">
                                       <span class="bg-[#EF4444] text-white text-sm sm:text-[0.9rem] rounded-xl font-medium sm:me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
                                         New
                                       </span>
@@ -207,8 +240,8 @@ onMount( async() => {
                                     
                                     <!-- Start Search button -->
                                     
-                                    <div id="step-search" class="flex justify-center items-center mt-8 mb-6 m-auto w-full max-w-64 sm:max-w-3xl">
-                                      <label for="searchBarModal" class="shadow-lg w-96 h-10 sm:h-12 flex flex-row items-center justify-start bg-[#202327] appearance-none py-3 cursor-pointer border border-slate-600 rounded-lg">
+                                    <div class="flex justify-center items-center mt-8 mb-6 m-auto w-full max-w-64 sm:max-w-3xl">
+                                      <label on:click={loadSearchData} for="searchBarModal" class="shadow-lg w-96 h-10 sm:h-12 flex flex-row items-center justify-start bg-[#202327] appearance-none py-3 cursor-pointer border border-slate-600 rounded-lg">
                                           <svg class="w-4 h-4 shrink-0 ml-3 sm:ml-5 text-white inline-block" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5zm8.707 12.293a.999.999 0 11-1.414 1.414L11.9 13.314a8.019 8.019 0 001.414-1.414l2.393 2.393z" fill="currentColor"></path>
                                           </svg>
