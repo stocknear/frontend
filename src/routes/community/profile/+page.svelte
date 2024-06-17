@@ -66,6 +66,8 @@
 
 
 
+
+
 const submitCancellation = () => {
   return async ({ result, update}) => {
       switch (result.type) {
@@ -928,7 +930,7 @@ onDestroy(async () => {
                                     Cancel Subscription
                                   </label>
                                   {#if subscriptionData?.product_name?.includes('Monthly')}
-                                  <label for="changeSubscriptionModal" class="sm:ml-3 cursor-pointer text-black bg-[#0DDE00] text-sm sm:text-[1rem] px-4 py-2 rounded-lg mt-5">
+                                  <label on:click={() => handleChangePlan(subscriptionData?.card_brand)} for={subscriptionData?.card_brand !== null && subscriptionData?.card_brand?.length !== 0 ? 'changeSubscriptionModal' : 'errorSubscriptionModal'} class="sm:ml-3 {subscriptionData?.card_brand !== null && subscriptionData?.card_brand?.length !== 0 ? 'cursor-pointer' : 'cursor-not-allowed'} {subscriptionData?.card_brand !== null && subscriptionData?.card_brand?.length !== 0 ? 'bg-[#0DDE00] text-black' : 'bg-gray-600 opacity-[0.8] text-white'} text-sm sm:text-[1rem] px-4 py-2 rounded-lg mt-5">
                                     Change to Annual Plan
                                   </label>
                                   {/if}
@@ -1132,5 +1134,33 @@ onDestroy(async () => {
     {/if}
     
   </form>
+</dialog>
+<!-- End Cancel Subscription Modal -->
+
+
+<!-- Start Cancel Subscription Modal -->
+<input type="checkbox" id="errorSubscriptionModal" class="modal-toggle" />
+
+<dialog id="errorSubscriptionModal" class="modal modal-bottom sm:modal-middle">
+
+
+  <label for="errorSubscriptionModal"  class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
+  
+
+  <!-- Desktop modal content -->
+  <div class="modal-box w-full bg-[#202020] flex flex-col items-center">
+    <div class="mx-auto mb-8 h-1.5 w-20 flex-shrink-0 rounded-full bg-[#404040]" />
+    <div class="text-white mb-5 text-center">
+      <h3 class="font-bold text-2xl mb-5">Paypal not supported</h3>
+      <span class="text-white text-[1rem] font-normal">
+        Apologies, our payment provider currently only supports credit cards for changing plans from monthly to annual. We are working to expand this to other payment methods.
+      </span>
+    </div>
+
+    <button class="cursor-pointer px-7 py-2 mb-5 rounded-full bg-[#0DDE00]  text-center text-black text-[1rem] font-normal">
+      OK
+    </button>
+    
+  </div>
 </dialog>
 <!-- End Cancel Subscription Modal -->

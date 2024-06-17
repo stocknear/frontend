@@ -404,7 +404,9 @@ async function purchasePlan() {
                     <details class="collapse collapse-arrow bg-[#131313]">
                         <summary class="collapse-title text-lg font-semibold">Can I change plans?</summary>
                         <div class="collapse-content"> 
-                          <p>If you have a monthly subscription, you can upgrade to the Annual Plan in your account settings.</p>
+                            <p>If you have a monthly subscription, you can upgrade to the Annual Plan in your account settings.</p>
+                            <p>However, our payment provider currently supports only credit cards for upgrading from monthly to annual. We are working to expand this to other payment methods.</p>
+                            <p>If you paid via PayPal and want to switch to the Annual Plan, please wait until your current subscription ends and then purchase the Annual Plan.</p>
                         </div>
                     </details>
 
