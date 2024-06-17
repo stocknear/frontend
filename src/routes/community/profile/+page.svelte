@@ -15,7 +15,6 @@
   import { pb } from '$lib/pocketbase';
   import { z } from 'zod';
   import { updatePersonalDataSchema, updatePasswordSchema} from '$lib/schemas';
-  import communityBanner from '$lib/images/community_banner.jpg';
   import { enhance } from '$app/forms';
 
   export let data;
@@ -147,19 +146,46 @@ setTimeout(() => {
 
 
 
-async function handleReactivateSubscription() {
+const submitChangePlan = () => {
+  return async ({ result, update}) => {
+      switch (result.type) {
+          case 'success':
+            toast.success('Changing to Annual Plan successfully!', {
+                  style: 'border-radius: 200px; background: #333; color: #fff;'});
+              await update();
+              break;
+          case 'redirect':
+              toast.success('Changing to Annual Plan successfully!', {
+                  style: 'border-radius: 200px; background: #333; color: #fff;'});
+              await update();
+              break;
+          case 'failure':
+              toast.error('Something went wrong.', {
+              style: 'border-radius: 200px; background: #333; color: #fff;'});
+              await update();
+              break;
+          case 'error':
+              toast.error(result.error.message, {
+              style: 'border-radius: 200px; background: #333; color: #fff;'});
+              break;
+          default:
+              await update();
+      }
+
+setTimeout(() => {
+    if (result.type === 'redirect') {
+      const anchor = document.createElement('a');
+      anchor.href = '/community/profile';
+      anchor.dataset.sveltekitReload = true;
+      document.body.appendChild(anchor);
+      anchor.dispatchEvent(new MouseEvent('click'));
+    }
+  }, 5000);
   
-  // make the POST request to the endpoint
-  const response = await fetch('/api/reactivate-subscription', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-  const output = await response.json();
-
+  }
 }
+
+
 
 
 async function updateAvatar(event)
@@ -446,7 +472,7 @@ async function getPost() {
 
 
 
-let showTab = 'post';
+let showTab = 'subscription';
 
 let settingsTab = 'personalData';
 
@@ -897,9 +923,18 @@ onDestroy(async () => {
                                 </div>
                                 
                                 {#if subscriptionData?.status_formatted === 'Active' || subscriptionData?.status_formatted === 'On Trial'}
-                                <label for="cancelSubscriptionModal" class="cursor-pointer text-white bg-[#FF3131] hover:bg-red-600 bg-opacity-[0.5]  text-sm sm:text-[1rem] px-4 py-2 rounded-lg mt-5">
-                                  Cancel Subscription
-                                </label>
+                                <div class="flex flex-col items-start sm:flex-row sm:items-center">
+                                  <label for="cancelSubscriptionModal" class="cursor-pointer text-white bg-[#FF3131] sm:hover:bg-red-600 bg-opacity-[0.5]  text-sm sm:text-[1rem] px-4 py-2 rounded-lg mt-5">
+                                    Cancel Subscription
+                                  </label>
+                                  {#if subscriptionData?.product_name?.includes('Monthly')}
+                                  <label for="changeSubscriptionModal" class="sm:ml-3 cursor-pointer text-black bg-[#0DDE00] text-sm sm:text-[1rem] px-4 py-2 rounded-lg mt-5">
+                                    Change to Annual Plan
+                                  </label>
+                                  {/if}
+                                </div>
+                               
+
                                 {:else if subscriptionData?.status_formatted === 'Cancelled'}
                                 <label for="reactivateSubscriptionModal" class="cursor-pointer text-white bg-[#75D377] bg-opacity-[0.5]  text-sm sm:text-[1rem] px-4 py-2 rounded-lg mt-5">
                                   Reactivate Subscription
@@ -1061,3 +1096,41 @@ onDestroy(async () => {
 </dialog>
 <!-- End Reactivate Subscription Modal -->
 
+
+
+
+<!-- Start Cancel Subscription Modal -->
+<input type="checkbox" id="changeSubscriptionModal" class="modal-toggle" />
+
+<dialog id="changeSubscriptionModal" class="modal modal-bottom sm:modal-middle">
+
+
+  <label for="changeSubscriptionModal"  class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
+  
+
+  <!-- Desktop modal content -->
+  <form method="POST" action="?/changeSubscription" use:enhance={submitChangePlan}  class="modal-box w-full bg-[#202020] flex flex-col items-center">
+    <div class="mx-auto mb-8 h-1.5 w-20 flex-shrink-0 rounded-full bg-[#404040]" />
+    <div class="text-white mb-5 text-center">
+      <h3 class="font-bold text-2xl mb-5">Are you sure?</h3>
+      <span class="text-white text-[1rem] font-normal">
+        You're account will transfer from from monthly plan to annual plan. 
+      </span>
+    </div>
+
+    <button on:click={() => isClicked = !isClicked} class="{!isClicked ? '' : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded-full bg-[#0DDE00]  text-center text-black text-[1rem] font-normal">
+      Change to Annual Plan
+      <input class="hidden" name='subscriptionId' value={subscriptionData?.first_subscription_item?.subscription_id}/>
+    </button>
+    {#if isClicked === true}
+    <label class="cursor-pointer px-7 py-2 mb-5 rounded-full bg-[#0DDE00] text-center text-black text-[1rem] font-normal">
+      <div class="flex flex-row m-auto">
+        <span class="loading loading-infinity"></span>
+        <span class="text-black ml-2">Proceeding</span>
+      </div>
+    </label>
+    {/if}
+    
+  </form>
+</dialog>
+<!-- End Cancel Subscription Modal -->

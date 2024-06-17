@@ -33,8 +33,6 @@ export const actions = {
 
 		const apiKey = import.meta.env.VITE_LEMON_SQUEEZY_API_KEY;
 		const subscriptionId = formData?.get('subscriptionId');
-
-
 		
 		try {
 			const url = `https://api.lemonsqueezy.com/v1/subscriptions/${subscriptionId}`;
@@ -49,8 +47,6 @@ export const actions = {
 				headers: headers
 			});
 
-					
-			
 		} catch (err) {
 			console.log("Error: ", err);
 			error(err.status, err.message);
@@ -95,6 +91,50 @@ export const actions = {
 
 					
 			
+		} catch (err) {
+			console.log("Error: ", err);
+			error(err.status, err.message);
+		}
+
+
+		redirect(302, '/community/profile');
+	
+	},
+
+	changeSubscription: async ({ request, locals }) => {
+		const formData = await request?.formData();
+
+		const apiKey = import.meta.env.VITE_LEMON_SQUEEZY_API_KEY;
+		const subscriptionId = formData?.get('subscriptionId');
+		
+		try {
+			const url = `https://api.lemonsqueezy.com/v1/subscriptions/${subscriptionId}`;
+			const headers = {
+				'Accept': 'application/vnd.api+json',
+				'Content-Type': 'application/vnd.api+json',
+				'Authorization': `Bearer ${apiKey}`
+			};
+			
+			// Create the data payload
+			const payload = {
+				data: {
+				type: "subscriptions",
+				id: subscriptionId,
+				attributes: {
+					variant_id: import.meta.env.VITE_LEMON_SQUEEZY_ANNUAL_VARIANT_ID // Change from monthly to annually plan
+				}
+				}
+			};
+
+			const response = await fetch(url, {
+				method: 'PATCH',
+				headers: headers,
+				body: JSON.stringify(payload)
+			});
+
+			console.log(await response.json())
+
+
 		} catch (err) {
 			console.log("Error: ", err);
 			error(err.status, err.message);
