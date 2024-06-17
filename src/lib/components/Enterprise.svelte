@@ -3,9 +3,11 @@
     import { displayCompanyName, stockTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
     import { Chart } from 'svelte-echarts'
-    import { abbreviateNumber } from "$lib/utils";
 
     import Lazy from 'svelte-lazy';
+
+    export let data;
+    
     let isLoaded = false;
     const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
@@ -190,6 +192,7 @@ $: {
                 />
             </div>
             
+            {#if data?.user?.tier === 'Pro'}
             {#if isLoaded}
             {#if rawData?.length !== 0}
             <div class="p-3 sm:p-0 mt-2 pb-8 sm:pb-2 rounded-lg bg-[#202020] sm:bg-[#0F0F0F]">
@@ -253,6 +256,13 @@ $: {
                 </label>
                 </div>
             </div>  
+            {/if}
+
+            {:else}
+            <div class="shadow-lg shadow-bg-[#000] bg-[#202020] sm:bg-opacity-[0.5] text-sm sm:text-[1rem] rounded-md w-full p-4 min-h-24 mt-4 text-white m-auto flex justify-center items-center text-center font-semibold">
+                <svg class="mr-1.5 w-5 h-5 inline-block"xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#A3A3A3" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/></svg>
+                Unlock content with <a class="inline-block ml-2 text-blue-400 hover:sm:text-white" href="/pricing">Pro Subscription</a>
+              </div>
             {/if}
     
         </main>
