@@ -1252,7 +1252,7 @@ function changeChartType() {
                                 
 
                                 <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(marketMoods)?.length !== 0 ? '' : 'hidden'}">
-                                  <BullBearSay marketMoods={marketMoods}/>
+                                  <BullBearSay data={data} marketMoods={marketMoods}/>
                                 </div>
 
                                 {#if WIIM}
