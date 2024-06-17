@@ -143,7 +143,7 @@ $: {
                <tr class="text-white border-b border-[#202020]" style="font-size: 0.75rem">
                 <td class="text-start bg-[#000] lg:bg-[#202020] text-white font-medium">Mkt Cap</td>
                 <td class="bg-[#000] lg:bg-[#202020]">{marketCap}</td>
-                <td class="text-start bg-[#000] lg:bg-[#202020] text-white font-medium">Volume</td>
+                <td class="text-start bg-[#000] lg:bg-[#202020] text-white font-medium">Avg. Volume</td>
                 <td class="bg-[#000] lg:bg-[#202020]">{avgVolume}</td>
               </tr>
             </tbody>

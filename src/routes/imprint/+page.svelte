@@ -86,6 +86,9 @@
 
     <div class="card w-full bg-[#0F0F0F] border-t rounded-none sm:rounded-xl sm:border border-slate-700 m-auto ">
       <div class="card-body">
+        <p class="text-white italic mb-2">
+          According to § 5 Telemediengesetz (TMG) ‍
+        </p>
 
           <p class="text-white mb-5">
             Stocknear GmbH
@@ -97,13 +100,12 @@
             Email: <a href={`mailto:${emailAddress}`} class="text-blue-400 hover:text-white hover:underline">{emailAddress}</a>.
             <br>
             <br>
-            Die GmbH wird vertreten durch den Geschäftsführer: Dr. Muslem Rahimi
+            Managing Director (<span class="italic">Geschäftsführer</span>): Muslem Rahimi
             <br>
             <br>
-            Eingetragen im Handelsregister des Amtsgericht Siegen unter: HRB 13800
+            Registered in the commercial register at the local court at Siegen under:  HRB 13800
             <br>
-            <br>
-            USt-IDNr (VAT ID): DE366905061
+            VAT ID: DE366905061
           </p>
 
           <p class="text-white mb-5">
