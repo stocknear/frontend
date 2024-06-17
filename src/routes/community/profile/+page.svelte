@@ -930,7 +930,7 @@ onDestroy(async () => {
                                     Cancel Subscription
                                   </label>
                                   {#if subscriptionData?.product_name?.includes('Monthly')}
-                                  <label on:click={() => handleChangePlan(subscriptionData?.card_brand)} for={subscriptionData?.card_brand !== null && subscriptionData?.card_brand?.length !== 0 ? 'changeSubscriptionModal' : 'errorSubscriptionModal'} class="sm:ml-3 {subscriptionData?.card_brand !== null && subscriptionData?.card_brand?.length !== 0 ? 'cursor-pointer' : 'cursor-not-allowed'} {subscriptionData?.card_brand !== null && subscriptionData?.card_brand?.length !== 0 ? 'bg-[#0DDE00] text-black' : 'bg-gray-600 opacity-[0.8] text-white'} text-sm sm:text-[1rem] px-4 py-2 rounded-lg mt-5">
+                                  <label for={subscriptionData?.card_brand !== null && subscriptionData?.card_brand?.length !== 0 ? 'changeSubscriptionModal' : 'errorSubscriptionModal'} class="sm:ml-3 {subscriptionData?.card_brand !== null && subscriptionData?.card_brand?.length !== 0 ? 'cursor-pointer' : 'cursor-not-allowed'} {subscriptionData?.card_brand !== null && subscriptionData?.card_brand?.length !== 0 ? 'bg-[#0DDE00] text-black' : 'bg-gray-600 opacity-[0.8] text-white'} text-sm sm:text-[1rem] px-4 py-2 rounded-lg mt-5">
                                     Change to Annual Plan
                                   </label>
                                   {/if}
