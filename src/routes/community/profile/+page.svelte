@@ -1157,9 +1157,9 @@ onDestroy(async () => {
       </span>
     </div>
 
-    <button class="cursor-pointer px-7 py-2 mb-5 rounded-full bg-[#0DDE00]  text-center text-black text-[1rem] font-normal">
+    <label for="errorSubscriptionModal" class="cursor-pointer px-7 py-2 mb-5 rounded-full bg-[#0DDE00]  text-center text-black text-[1rem] font-normal">
       OK
-    </button>
+    </label>
     
   </div>
 </dialog>
