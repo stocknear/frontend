@@ -81,10 +81,10 @@ $: {
           <label class="relative inline-flex cursor-pointer items-center">
             <input type="checkbox" on:click={handleMode} checked={mode === 'bullish' ? false : true} class="peer sr-only" />
             <div
-              class="peer flex h-8 items-center gap-4 rounded-full px-5 bg-[#313131] after:absolute after:left-1 after: after:h-6 after:w-[85px] after:rounded-full {mode === 'bullish' ? 'after:bg-green-600' : 'after:bg-red-600'} after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-focus:outline-none text-sm font-semibold text-white"
+              class="peer flex h-8 items-center rounded-full px-5 bg-[#313131] after:absolute after:left-1 after: after:h-6 after:w-[85px] after:rounded-full {mode === 'bullish' ? 'after:bg-green-600' : 'after:bg-red-600'} after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-focus:outline-none text-sm font-semibold text-white"
               >
               <span class="mr-2 z-10">Bull Case</span>
-              <span class="z-10">Bear Case</span>
+              <span class="z-10 ml-4">Bear Case</span>
             </div>
           </label>
 
