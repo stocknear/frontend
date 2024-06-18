@@ -1,7 +1,7 @@
 <script lang='ts'>
   
   import { onMount,onDestroy } from 'svelte';
-  import { screenWidth, userRegion, discordMembers, twitchStatus, setCache, getCache, cachedPosts, currentPagePosition, numberOfUnreadNotification, postIdDeleted } from '$lib/store';
+  import { userRegion, discordMembers, setCache, getCache, cachedPosts, currentPagePosition, numberOfUnreadNotification, postIdDeleted } from '$lib/store';
 
   import { afterNavigate } from '$app/navigation';
   import { base } from '$app/paths'
@@ -10,7 +10,6 @@
   import SkeletonLoading from '$lib/components/SkeletonLoading.svelte';
 	import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
   import communityBanner from '$lib/images/community_banner.jpg';
-  import { abbreviateNumber } from '$lib/utils';
   export let data;
   export let form;
 
@@ -386,7 +385,7 @@ $: {
         <main class="m-auto w-full max-w-3xl lg:max-w-6xl">
 
           <!--Start Header-->
-          <div class="w-full max-w-6xl sm:rounded-2xl m-auto h-44 sm:h-60 bg-[#202020] bg-cover bg-center bg-no-repeat" style="background-image: url('{communityBanner}');" />
+          <div class="w-full max-w-6xl sm:rounded-2xl m-auto h-44 sm:h-60 shadow-sm shadow-black bg-center bg-cover bg-no-repeat" style="background-image: url('{communityBanner}');" />
           <!--End Header-->
 
 

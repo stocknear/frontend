@@ -222,7 +222,7 @@ async function loadSearchData() {
 
                                   <div class="flex flex-row justify-center items-center">
                                     
-                                    <h1 class="text-center text-4xl sm:text-4xl text-white font-bold mb-6 w-full">
+                                    <h1 class="text-center text-4xl sm:text-5xl text-white font-bold mb-6 w-full">
                                       Your
                                       <span class="text-[#9DED1E] italic">All-in-One</span>
                                       Solution for

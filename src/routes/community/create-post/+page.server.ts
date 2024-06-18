@@ -208,7 +208,7 @@ export const actions = {
 					fit: sharp.fit.inside,
 					withoutEnlargement: true,
 				  })
-				  .jpeg({ quality: 50 })
+				  .jpeg({ quality: 80 })
 				  .toBuffer();
 			  }
 		  

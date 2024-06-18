@@ -11,6 +11,7 @@
     let isLoaded = false;
     const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
+    let historyData = [];
     let apiURL;
 
     userRegion.subscribe(value => {
@@ -49,7 +50,7 @@ function getPlotOptions() {
     let tradingList = [];
     let sentimentList = [];
     // Iterate over the data and extract required information
-    rawData?.forEach(item => {
+    historyData?.forEach(item => {
 
     dates?.push(item?.date);
     tradingList?.push(item?.traded);
@@ -164,6 +165,7 @@ const getRetailVolume = async (ticker) => {
     const cachedData = getCache(ticker, 'getRetailVolume');
     if (cachedData) {
       rawData = cachedData;
+      historyData = rawData?.history;
     } else {
 
       const postData = {'ticker': ticker};
@@ -177,11 +179,11 @@ const getRetailVolume = async (ticker) => {
       });
 
       rawData = await response.json();
-
+      historyData = rawData?.history;
       // Cache the data for this specific tickerID with a specific name 'getRetailVolume'
       setCache(ticker, rawData, 'getRetailVolume');
     }
-    if(rawData?.length !== 0) {
+    if(Object?.keys(rawData)?.length !== 0) {
       $retailVolumeComponent = true;
     } else {
       $retailVolumeComponent = false;
@@ -216,11 +218,11 @@ $: {
                         
             <div class="flex flex-row items-center">
                 <label for="retailTraderTrackerInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
-                    Retail Investor Volume
+                    Retail Trader Volume
                 </label>
                 <InfoModal
-                  title={"Retail Investor Volume"}
-                  content={"Gain insights into retail investor activity with the following visualization: The green bar illustrates the daily volume trend, signifying a bullish sentiment if it ranges from 0 to 100, or bearish if it spans from -100 to just below 0. The white line depicts the daily trading volume of retail investors."}
+                  title={"Retail Trader Volume"}
+                  content={"Gain insights into Retail Trader activity with the following visualization: The green bar illustrates the daily volume trend, signifying a bullish sentiment if it ranges from 0 to 100, or bearish if it spans from -100 to just below 0. The white line depicts the daily trading volume of retail investors."}
                   id={"retailTraderTrackerInfo"}
                 />
             </div>
@@ -228,7 +230,7 @@ $: {
             {#if data?.user?.tier === 'Pro'}
             {#if isLoaded}
     
-            {#if rawData?.length !== 0}
+            {#if Object?.keys(rawData)?.length !== 0}
 
             <div class="w-full flex flex-col items-start">
               <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">
@@ -268,6 +270,9 @@ $: {
             <h2 class="mt-10 mr-1 flex flex-row items-center text-white text-xl sm:text-2xl font-bold mb-3">
                 Latest Information
             </h2>
+              <span class="text-white">
+                On {new Date(rawData?.lastDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}, retail traders accounted for <span class="font-semibold">{rawData?.retailStrength}%</span> of the trading volume.
+              </span>
               <div class="flex justify-start items-center w-full m-auto mt-6 ">
                 <table class="w-full" data-test="statistics-table">
                   <tbody>
@@ -276,7 +281,7 @@ $: {
                               <span>Date</span>
                           </td>
                           <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                            {new Date(rawData?.slice(-1)?.at(0)?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                            {new Date(rawData?.lastDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                           </td>
                       </tr>
                       <tr class="border-y border-gray-800 odd:bg-[#202020]">
@@ -284,15 +289,15 @@ $: {
                               <span>Volume</span>
                           </td>
                           <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                            {abbreviateNumber(rawData?.slice(-1)?.at(0)?.traded,true)}
+                            {abbreviateNumber(rawData?.lastTrade,true)}
                           </td>
                       </tr>
                       <tr class="border-y border-gray-800 odd:bg-[#202020]">
                           <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                               <span>Retail Sentiment</span>
                           </td>
-                          <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2 { rawData?.slice(-1)?.at(0)?.sentiment > 0 ? 'text-[#10DB06]' : 'text-[#E57C34]'} ">
-                              {rawData?.slice(-1)?.at(0)?.sentiment > 0 ? rawData?.slice(-1)?.at(0)?.sentimentt+' '+'(Bullish)' : rawData?.slice(-1)?.at(0)?.sentiment+' '+'(Bearish)'}
+                          <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2 { rawData?.lastSentiment >= 0 ? 'text-[#10DB06]' : 'text-[#E57C34]'} ">
+                              {rawData?.lastSentiment >=0 ? rawData?.lastSentiment+' '+'(Bullish)' : rawData?.lastSentiment +' '+'(Bearish)'}
                           </td>
                       </tr>
                   </tbody>
