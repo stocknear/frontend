@@ -280,7 +280,7 @@ const debouncedHandleInput = debounce(handleInput, 200);
         <div>
         <div class="flex flex-row justify-center items-center">
             <h1 class="text-3xl sm:text-4xl text-white text-center font-bold mb-5">
-            0DTE to Wendy's
+            0DTE Options Flow
             </h1>
         </div>
 
@@ -536,13 +536,13 @@ const debouncedHandleInput = debounce(handleInput, 200);
                 <tbody>
                 {#each optionList as item,index}
                 <!-- row -->
-                <tr on:click={() => assetSelector(item?.ticker, item?.assetType)} class="w-full bg-[#0F0F0F] border-b-[#0F0F0F] cursor-pointer {index+1 === optionList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
+                <tr on:click={() => assetSelector(item?.ticker, item?.assetType)} class="w-full odd:bg-[#202020] cursor-pointer {index+1 === optionList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                     
                     <td class="text-white pb-3 text-xs sm:text-sm text-start">
                     {item?.time}
                     </td>
 
-                    <th class="bg-[#0F0F0F] text-blue-400 text-start font-normal">
+                    <th class="{index % 2 ? 'bg-[#0F0F0F]' : 'bg-[#202020]'} text-blue-400 text-start font-normal">
                     {item?.ticker}
                     </th>
 
@@ -550,8 +550,8 @@ const debouncedHandleInput = debounce(handleInput, 200);
                     {item?.strike_price}
                 </td>
 
-                <td class="{item?.sentiment === 'Bullish' ? 'text-[#00FC50]' : item?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'} text-start">
-                    {item?.sentiment}
+                <td class="{item?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-start">
+                  {item?.put_call}
                 </td>
 
                 <td class="{item?.sentiment === 'Bullish' ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-start">
