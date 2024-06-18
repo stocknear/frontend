@@ -1,6 +1,6 @@
 <script lang='ts'>
   import { goto } from '$app/navigation';
-  import { userRegion, numberOfUnreadNotification, etfTicker, stockTicker, isOpen } from '$lib/store';
+  import { screenWidth, userRegion, numberOfUnreadNotification, etfTicker, stockTicker, isOpen } from '$lib/store';
   import notifySound from '$lib/audio/options-flow-reader.mp3';
   import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
   import { abbreviateNumber } from '$lib/utils.js';
@@ -26,7 +26,9 @@
   
   let optionList = []
   let rawData = [];
-  
+  let filterList = [];
+  let changeRuleFilter = false;
+
   let flowSentiment;
   let putCallRatio;
   let displayCallVolume;
@@ -61,7 +63,6 @@
       }
      
   }
-  
   
   
   async function websocketRealtimeData() {
@@ -314,7 +315,6 @@ function calculateStats(optionList) {
                 rawData = newData;
                 optionList = rawData?.slice(0, 20);
                 notFound = false;
-                console.log('test');
             } else {
                 notFound = true;
                 rawData = data?.getOptionsFlowFeed;
@@ -339,7 +339,69 @@ function debounce(fn, delay) {
 }
 
 const debouncedHandleInput = debounce(handleInput, 200);
-  </script>
+
+
+async function handleFilter(newFilter) {
+    //e.preventDefault();
+  
+    const filterSet = new Set(filterList);
+  
+    // Check if the new filter already exists in the list
+    if (filterSet?.has(newFilter)) {
+      // If it exists, remove it from the list
+      filterSet?.delete(newFilter);
+    } else {
+      // If it doesn't exist, add it to the list
+      filterSet?.add(newFilter);
+  
+    }
+    filterList = Array?.from(filterSet);
+    //console.log(filterList)
+  
+  }
+  
+  
+  
+// Function to filter elements with date_expiration within a given number of days
+const filterExpiringSoon = (data, days) => {
+  const currentDate = new Date(); // Get today's date
+  return data.filter(item => {
+    const expirationDate = new Date(item?.date_expiration);
+    const timeDiff = expirationDate - currentDate; // Time difference in milliseconds
+    const daysDiff = timeDiff / (1000 * 60 * 60 * 24); // Convert to days
+    return daysDiff <= days && daysDiff >= 0; // Ensure it's within the specified number of days and not in the past
+  });
+};
+
+$: {
+    if(filterList)
+    {
+      console.log('triggered')
+      if(filterList?.length !== 0)
+      {
+        const newData = filterExpiringSoon(rawData, Math.max(...filterList));
+        if (newData?.length !== 0) {
+            rawData = newData;
+            optionList = rawData?.slice(0, 20);
+            notFound = false;
+        } else {
+            notFound = true;
+            rawData = data?.getOptionsFlowFeed;
+            optionList = [];
+        }
+        
+      }
+      else {
+        rawData = data?.getOptionsFlowFeed;
+        optionList = rawData?.slice(0,20);
+
+      }
+      calculateStats(rawData);
+
+   }
+  }
+
+</script>
          
     
   
@@ -482,7 +544,7 @@ const debouncedHandleInput = debounce(handleInput, 200);
           <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center">
             <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-y-3 gap-x-3 ">
               <!--Start Flow Sentiment-->  
-              <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
+              <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
                   <div class="flex flex-col items-start">
                       <span class="font-medium text-gray-200 text-sm ">Flow Sentiment</span>
                       <span class="text-start text-[1rem] font-medium {flowSentiment === 'Bullish' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">{flowSentiment}</span>
@@ -491,7 +553,7 @@ const debouncedHandleInput = debounce(handleInput, 200);
               </div>
               <!--End Flow Sentiment-->
                <!--Start Put/Call-->  
-               <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
+               <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
                 <div class="flex flex-col items-start">
                     <span class="font-medium text-gray-200 text-sm ">Put/Call</span>
                     <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -518,7 +580,7 @@ const debouncedHandleInput = debounce(handleInput, 200);
             </div>
             <!--End Put/Call-->
              <!--Start Call Flow-->  
-             <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
+             <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
                   <span class="font-medium text-gray-200 text-sm ">Call Flow</span>
                   <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -547,7 +609,7 @@ const debouncedHandleInput = debounce(handleInput, 200);
             </div>
             <!--End Call Flow-->
             <!--Start Put Flow-->  
-            <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
+            <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
                   <span class="font-medium text-gray-200 text-sm ">Put Flow</span>
                   <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -578,7 +640,7 @@ const debouncedHandleInput = debounce(handleInput, 200);
   
             {#if showMore}
              <!--Start Most Traded-->  
-             <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
+             <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
                   <span class="font-medium text-gray-200 text-sm ">Most Traded Option</span>
                   <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
@@ -595,7 +657,7 @@ const debouncedHandleInput = debounce(handleInput, 200);
             <!--End Most Traded-->
   
              <!--Start Highest Premium-->  
-             <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
+             <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
                   <span class="font-medium text-gray-200 text-sm ">Highest Premium</span>
                   <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
@@ -612,7 +674,7 @@ const debouncedHandleInput = debounce(handleInput, 200);
             <!--End Highest Premium-->
   
             <!--Start Highest Volume-->  
-            <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
+            <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
                   <span class="font-medium text-gray-200 text-sm ">Highest Volume</span>
                   <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
@@ -629,7 +691,7 @@ const debouncedHandleInput = debounce(handleInput, 200);
             <!--End Highest Volume-->
   
              <!--Start Highest Open Interest-->  
-             <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
+             <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
                   <span class="font-medium text-gray-200 text-sm ">Highest Open Interest</span>
                   <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
@@ -659,28 +721,40 @@ const debouncedHandleInput = debounce(handleInput, 200);
           <!--End Expand-->
   
           <!--Start Filter-->
-          <div class="w-full pb-3 mt-10 sm:mt-0">
+          <div class="w-full pb-3 mt-10 sm:mt-5">
             <div class="relative right-0 bg-[#0F0F0F]">
               <ul class="relative grid grid-cols-2 sm:grid-cols-4 gap-y-3 gap-x-3 flex flex-wrap p-1 list-none rounded-[3px]">
-                <li class="pl-3 py-1.5 flex-auto text-center bg-[#2E3238] rounded-[3px]">
-          <label class="flex flex-row items-center">
-            <input 
-            id="modal-search"
-              type="search" 
-              class="text-white sm:ml-2 text-sm sm:text-[1rem] placeholder-gray-400 border-transparent focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1 bg-inherit"
-              placeholder="Find by Symbol"
-              bind:value={filterQuery}
-              on:input={debouncedHandleInput}
-              autocomplete="off"
-            />
-            <svg class="ml-auto h-7 w-7 sm:h-8 sm:w-8 inline-block mr-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#fff" d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37"/></svg>
-          </label>
-          {#if notFound === true}
-          <span class="label-text text-error text-[0.65rem] mt-1">
-              No Results Found
-          </span>
-          {/if}
-          </li>
+                <li class="relative pl-3 py-1.5 flex-auto text-center bg-[#2E3238] rounded-[3px]">
+                  <label class="flex flex-row items-center">
+                    <input 
+                    id="modal-search"
+                      type="search" 
+                      class="text-white sm:ml-2 text-sm sm:text-[1rem] placeholder-gray-400 border-transparent focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1 bg-inherit"
+                      placeholder="Find by Symbol"
+                      bind:value={filterQuery}
+                      on:input={debouncedHandleInput}
+                      autocomplete="off"
+                    />
+                    <svg class="ml-auto h-7 w-7 sm:h-8 sm:w-8 inline-block mr-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#fff" d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37"/></svg>
+                  </label>
+                  {#if notFound === true}
+                  <span class="absolute left-1 -bottom-6 label-text text-error text-[0.65rem] mt-2">
+                      No Results Found
+                  </span>
+                  {/if}
+                  </li>
+                
+                
+              <li class="pl-3 py-1.5 flex-auto text-center bg-[#2E3238] rounded-[3px]">
+                <label for="filterList" class="flex flex-row items-center cursor-pointer">
+                  <span class=" text-sm sm:text-[1rem] text-gray-400 ml-2 text-start w-full px-0 py-1 bg-inherit">
+                    Filter
+                  </span>
+                  <svg class="ml-auto mr-5 h-5 w-5 inline-block transform transition-transform mr-2 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="#fff" d="m488.832 344.32l-339.84 356.672a32 32 0 0 0 0 44.16l.384.384a29.44 29.44 0 0 0 42.688 0l320-335.872l319.872 335.872a29.44 29.44 0 0 0 42.688 0l.384-.384a32 32 0 0 0 0-44.16L535.168 344.32a32 32 0 0 0-46.336 0z"/></svg>
+                </label>
+              </li>
+
+
           </ul>
         </div>
       </div>
@@ -803,3 +877,83 @@ const debouncedHandleInput = debounce(handleInput, 200);
       
     
       
+
+
+
+      <!--Start View All List-->
+<input type="checkbox" id="filterList" class="modal-toggle" />
+    
+<dialog id="filterList" class="modal modal-bottom sm:modal-middle ">
+
+
+  <label id="filterList" for="filterList" class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
+  
+  
+  <div class="modal-box w-full bg-[#202020] sm:border sm:border-slate-800 overflow-y-scroll rounded-md">
+
+
+    <div class="relative z-50 mx-2 max-h-[80vh] rounded bg-default opacity-100 bp:mx-3 sm:mx-4 w-full max-w-[1024px]" aria-modal="true">
+      <label for="filterList" class="cursor-pointer absolute right-0 top-0 m-2 sm:right-1 sm:top-1" aria-label="Close">
+        <svg class="w-6 h-6 text-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="max-width:40px">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </label>
+    
+      <div class="border-default p-3 xs:p-4 xl:w-[1024px]">
+        <h3 class="mb-1 text-lg xs:mb-2 text-white font-semibold">
+          Filter Expiration Dates up to 
+        </h3>
+      </div> 
+    
+      <div class="h-[35vh] sm:h-[10vh] overflow-auto overscroll-contain px-3 pb-4 xs:h-[60vh] xs:px-4 lg:max-h-[600px] mt-5">
+        <div>
+          <div class="flex flex-wrap">
+            <div class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1">
+              <input on:click={() => handleFilter(7)} id="oneWeek" type="checkbox" class="cursor-pointer h-[18px] w-[18px] rounded-sm ring-offset-0 bg-gray-600 lg:h-4 lg:w-4">
+              <div class="-mt-0.5">
+                <label for="oneWeek" class="cursor-pointer text-white lg:text-sm">1 Week</label>  
+              </div>
+            </div>
+            <div class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1">
+              <input on:click={() => handleFilter(30)} id="oneMonth" type="checkbox" class="cursor-pointer h-[18px] w-[18px] rounded-sm ring-offset-0 bg-gray-600 lg:h-4 lg:w-4">
+              <div class="-mt-0.5">
+                <label for="oneMonth" class="cursor-pointer text-white lg:text-sm">1 Month</label>
+              </div>
+            </div>
+           <div class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1">
+              <input on:click={() => handleFilter(90)} id="threeMonths" type="checkbox" class="cursor-pointer h-[18px] w-[18px] rounded-sm ring-offset-0 bg-gray-600 lg:h-4 lg:w-4">
+              <div class="-mt-0.5">
+                <label for="threeMonths" class="cursor-pointer text-white lg:text-sm">3 Months</label>
+              </div>
+            </div>
+
+            <div class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1">
+              <input on:click={() => handleFilter(180)} id="sixMonths" type="checkbox" class="cursor-pointer h-[18px] w-[18px] rounded-sm ring-offset-0 bg-gray-600 lg:h-4 lg:w-4">
+              <div class="-mt-0.5">
+                <label for="sixMonths" class="cursor-pointer text-white lg:text-sm">6 Months</label>
+              </div>
+            </div>
+
+            <div class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1">
+              <input on:click={() => handleFilter(365)} id="oneYear" type="checkbox" class="cursor-pointer h-[18px] w-[18px] rounded-sm ring-offset-0 bg-gray-600 lg:h-4 lg:w-4">
+              <div class="-mt-0.5">
+                <label for="oneYear" class="cursor-pointer text-white lg:text-sm">1 Year</label>
+              </div>
+            </div>
+
+            <div on:click={() => handleFilter(1095)} class="flex w-full items-center space-x-1.5 py-1.5 md:w-1/2 lg:w-1/3 lg:py-1">
+              <input id="threeYears" type="checkbox" class="cursor-pointer h-[18px] w-[18px] rounded-sm ring-offset-0 bg-gray-600 lg:h-4 lg:w-4">
+              <div class="-mt-0.5">
+                <label for="threeYears" class="cursor-pointer text-white lg:text-sm">3 Years</label>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+        
+      </div>
+  </dialog>

@@ -239,7 +239,7 @@ onMount(async () => {
                         </li>
                       
                       <li class="pl-3 py-1.5 flex-auto text-center bg-[#2E3238] rounded-[3px]">
-                        <label for="filterList" class="flex flex-row items-center">
+                        <label for="filterList" class="flex flex-row items-center cursor-pointer">
                           <span class="text-[0.75rem] sm:text-[1rem] text-gray-400 ml-2 text-start w-full px-0 py-1 bg-inherit">
                             Filter
                           </span>
@@ -382,37 +382,8 @@ onMount(async () => {
           </div>
           <!--End Political Party-->
       
-          <!--Start Transaction Type-->
-          <div class="grid grid-cols-2 w-full ml-auto mt-4">
-            <div class="mb-4 mr-auto">
-              <h2 class="text-xl sm:text-2xl text-white font-bold mb-3">Transaction Type</h2>
-              <ul class="space-y-1">
-                <li class="mb-2 cursor-pointer">
-                  <label on:click|stopPropagation={(event) => handleFilter(event,'Bought')} class="cursor-pointer flex w-full items-center space-x-2 py-2 md:w-1/2 lg:w-1/3 lg:space-x-1.5 lg:py-[5px]">
-                    <input checked={filterList?.includes('Bought')} type="checkbox" class="cursor-pointer bg-[#2E3238] h-[18px] w-[18px] rounded-sm ring-offset-0 dark:bg-dark-600 lg:h-4 lg:w-4" />
-                    <label class="text-white text-md cursor-pointer">Bought</label>
-                  </label>
-                </li>
-              </ul>
-            </div>
-              <!-- Column 2 -->
-              <div class="mt-11">
-                <ul class="space-y-1">
-                  <li class="mb-2 cursor-pointer">
-                    <label on:click|stopPropagation={(event) => handleFilter(event,'Sold')} class="cursor-pointer flex w-full items-center space-x-2 py-2 md:w-1/2 lg:w-1/3 lg:space-x-1.5 lg:py-[5px]">
-                      <input checked={filterList?.includes('Sold')} type="checkbox" class="cursor-pointer bg-[#2E3238] h-[18px] w-[18px] rounded-sm ring-offset-0 dark:bg-dark-600 lg:h-4 lg:w-4" />
-                      <label class="text-white text-md cursor-pointer">Sold</label>
-                    </label>
-                  </li>
-                  <!-- ...other list items -->
-                </ul>
-              </div>
-          </div>
       
-          <!--End Transaction Type-->
-      
-    
-      
+  
       
           </div>
          
