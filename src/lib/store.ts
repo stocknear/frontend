@@ -82,6 +82,7 @@ export const switchWatchList = writable(<boolean>(false));
 
 export const cachedPosts = writable(<Array<any>> {});
 export const currentPagePosition = writable(<Number> (0));
+export const postVote = writable(<Array<any>> {});
 
 export const similarTickerClicked = writable(<boolean>(false));
 

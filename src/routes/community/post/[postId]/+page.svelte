@@ -9,7 +9,7 @@
   
   
   import { onMount, onDestroy } from 'svelte';
-  import {userRegion, screenWidth, scrollToComment, postIdDeleted, setCache, getCache, tagList, numberOfUnreadNotification, commentAdded, commentUpdated, commentIdDeleted } from '$lib/store';
+  import {userRegion, cachedPosts, postVote, screenWidth, scrollToComment, postIdDeleted, setCache, getCache, tagList, numberOfUnreadNotification, commentAdded, commentUpdated, commentIdDeleted } from '$lib/store';
   import { goto, afterNavigate } from '$app/navigation';
   import { base } from '$app/paths'
   
@@ -68,6 +68,9 @@
       } else {
         upvoteCounter[postId]--;
       }
+
+    $postVote = {'id': postId, 'upvote': upvoteCounter[postId], 'downvote': downvoteCounter[postId], 'upvoteClicked': upvoteButtonClicked[postId], 'downvoteClicked': downvoteButtonClicked[postId]};
+
     const response = await fetch(fastifyURL+'/upvote', {
       method: 'POST',
       headers: {
@@ -102,7 +105,8 @@
         downvoteCounter[postId]--;
       }
     
-  
+    $postVote = {'id': postId, 'upvote': upvoteCounter[postId], 'downvote': downvoteCounter[postId], 'upvoteClicked': upvoteButtonClicked[postId], 'downvoteClicked': downvoteButtonClicked[postId]};
+
     const response = await fetch(fastifyURL+'/downvote', {
       method: 'POST',
       headers: {
@@ -148,7 +152,7 @@
     
   const handleReport = async () => {
   
-      dropdownOpen = !dropdownOpen;
+    dropdownOpen = !dropdownOpen;
     toast.success('Post has been reported. Thank you!', {
       style: 'border-radius: 200px; background: #333; color: #fff;'
       });
@@ -356,8 +360,41 @@
       $commentAdded = '';
       $commentIdDeleted = '';
       $scrollToComment = '';
+      $postVote = {};
   })
   
+
+// Function to update the vote when posts are cached
+function updateVote(postVote) {
+  const { id, upvote, downvote, upvoteClicked, downvoteClicked } = postVote;
+  console.log(postVote)
+  // Find the post by ID
+  const item = $cachedPosts?.posts?.find(post => post?.id === id);
+  console.log(item)
+  if (item) {
+      item.upvote = upvote;
+      item.downvote = downvote;
+
+     // Check if expand['alreadyVoted(item)'] exists
+    if (!item.expand['alreadyVoted(item)']) {
+      // Create the structure if it does not exist
+      item.expand['alreadyVoted(post)'] = [
+        {
+          type: upvoteClicked ? 'upvote' : downvoteClicked ? 'downvote' : 'neutral',
+          user: data?.user?.id
+        }
+      ];
+    } else {
+      // Update the existing type based on the click flags
+      item.expand['alreadyVoted(post)'][0].type = upvoteClicked ? 'upvote' : downvoteClicked ? 'downvote' : 'neutral';
+    }
+
+  } else {
+    console.log("Post not found.");
+  }
+}
+
+
   
   function addCommentToParent(comments, newComment) {
     // Helper function to handle the recursion
@@ -466,7 +503,17 @@
   }
   
   
-  
+  $: {
+  if($postVote && Object?.keys($postVote).length !== 0)
+  {
+    //Update in realtime the already downloaded posts list when user votes in cached posts
+    updateVote($postVote)
+    //console.log(posts?.at(0))
+    $postVote = {};
+  }
+
+}
+
   </script>
   
   
@@ -480,7 +527,6 @@
     <!-- Other meta tags -->
     <meta property="og:title" content="{post.title} · stocknear"/>
     <meta property="og:description" content="Your daily dose of stock market funny memes, GIFs, videos and weird news stories. We deliver hundreds of new stock market memes daily.">
-    <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
     <meta property="og:type" content="website"/>
     <!-- Add more Open Graph meta tags as needed -->
   
@@ -488,7 +534,6 @@
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:title" content="{post.title} · stocknear"/>
     <meta name="twitter:description" content="Your daily dose of stock market funny memes, GIFs, videos and weird news stories. We deliver hundreds of new stock market memes daily.">
-    <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
     <!-- Add more Twitter meta tags as needed -->
   </svelte:head>
       
@@ -523,7 +568,7 @@
       </form>
       <!--End Upvote-->
       <label class="px-6 py-4 w-14 rounded-lg bg-[#202020] text-[1rem] text-bold text-white">
-          {upvoteCounter[post?.id] - downvoteCounter[post?.id] }
+          {typeof upvoteCounter[post?.id] === 'number' || typeof downvoteCounter[post?.id] === 'number' ? (upvoteCounter[post?.id] - downvoteCounter[post?.id]) : '-' }
       </label>
       <!--Start Downvote-->
       <form on:submit={handleDownvote}>

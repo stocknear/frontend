@@ -6,7 +6,7 @@
   import Downvote from '$lib/components/Downvote.svelte';
   import Upvote from '$lib/components/Upvote.svelte';
 
-  import {userRegion, tagList, postIdDeleted} from '$lib/store';
+  import {userRegion, postVote, tagList, postIdDeleted} from '$lib/store';
   import toast from 'svelte-french-toast';
 
   
@@ -144,6 +144,9 @@ const handleUpvote = async (event) => {
     } else {
       upvoteCounter[postId]--;
     }
+  
+  $postVote = {'id': postId, 'upvote': upvoteCounter[postId], 'downvote': downvoteCounter[postId], 'upvoteClicked': upvoteButtonClicked[postId], 'downvoteClicked': downvoteButtonClicked[postId]};
+
   const response = await fetch(fastifyURL+'/upvote', {
     method: 'POST',
     headers: {
@@ -178,6 +181,7 @@ const handleDownvote = async (event) => {
       downvoteCounter[postId]--;
     }
   
+    $postVote = {'id': postId, 'upvote': upvoteCounter[postId], 'downvote': downvoteCounter[postId], 'upvoteClicked': upvoteButtonClicked[postId], 'downvoteClicked': downvoteButtonClicked[postId]};
 
   const response = await fetch(fastifyURL+'/downvote', {
     method: 'POST',

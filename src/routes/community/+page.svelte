@@ -1,7 +1,7 @@
 <script lang='ts'>
   
   import { onMount,onDestroy } from 'svelte';
-  import { userRegion, discordMembers, setCache, getCache, cachedPosts, currentPagePosition, numberOfUnreadNotification, postIdDeleted } from '$lib/store';
+  import { userRegion, postVote, discordMembers, setCache, getCache, cachedPosts, currentPagePosition, numberOfUnreadNotification, postIdDeleted } from '$lib/store';
 
   import { afterNavigate } from '$app/navigation';
   import { base } from '$app/paths'
@@ -236,7 +236,6 @@ onMount(async () => {
       //getTickerMentioning(),
     ]);
 
-
       window.scrollTo(0, 0);
       loading = false;
   }
@@ -263,6 +262,7 @@ onMount(async () => {
 
 onDestroy(async () => {
     $postIdDeleted ='';
+    $postVote = {};
   });
 
 
@@ -304,6 +304,36 @@ afterNavigate(({from}) => {
 
 }) 
 
+// Function to update the vote
+function updateVote(posts, postVote) {
+  const { id, upvote, downvote, upvoteClicked, downvoteClicked } = postVote;
+  
+  // Find the post by ID
+  const post = posts?.find(post => post?.id === id);
+  
+  if (post) {
+      post.upvote = upvote;
+      post.downvote = downvote;
+
+     // Check if expand['alreadyVoted(post)'] exists
+    if (!post.expand['alreadyVoted(post)']) {
+      // Create the structure if it does not exist
+      post.expand['alreadyVoted(post)'] = [
+        {
+          type: upvoteClicked ? 'upvote' : downvoteClicked ? 'downvote' : 'neutral',
+          user: data?.user?.id
+        }
+      ];
+    } else {
+      // Update the existing type based on the click flags
+      post.expand['alreadyVoted(post)'][0].type = upvoteClicked ? 'upvote' : downvoteClicked ? 'downvote' : 'neutral';
+    }
+
+  } else {
+    console.log("Post not found.");
+  }
+  return posts
+}
 
 $: {
   if($postIdDeleted.length !== 0)
@@ -316,8 +346,23 @@ $: {
 
 
 $: {
+  if($postVote && Object?.keys($postVote).length !== 0)
+  {
+    //Update in realtime the already downloaded posts list when user votes
+    posts = updateVote(posts, $postVote)
+    //console.log(posts?.at(0))
+    $postVote = {};
+
+  }
+
+}
+
+
+
+$: {
   if(posts)
   {
+    console.log('caching saved')
     $cachedPosts = {"sortingPosts": sortingPosts,'currentPage': currentPage, 'seenPostId': seenPostId, 'posts': posts};
   }
 }
@@ -337,7 +382,6 @@ $: {
 
   }
 }
-
 
 
 
