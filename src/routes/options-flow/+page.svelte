@@ -27,7 +27,6 @@
   let optionList = []
   let rawData = [];
   let filterList = [];
-  let changeRuleFilter = false;
 
   let flowSentiment;
   let putCallRatio;
@@ -41,7 +40,7 @@
   let highestOpenInterestTicker;
   
   let audio;
-  let muted = true;
+  let muted = false;
   let socket;
   let filterQuery = '';
   let previousCallVolume = 0; //This is needed to play the sound only if it changes.
@@ -78,27 +77,46 @@
       try {
           rawData = [...JSON?.parse(newData)];
           
+
+          // Variables to track filter status
+          let queryFilteredData = rawData;
+          let listFilteredData = rawData;
+
+          // Apply filterQuery if it exists
           if (filterQuery?.length !== 0) {
-              const newData = [...rawData?.filter(item => item?.ticker === filterQuery?.toUpperCase())];
-              if (newData?.length !== 0) {
+              queryFilteredData = rawData.filter(item => item?.ticker === filterQuery?.toUpperCase());
+          }
+
+          // Apply filterList if it exists
+          if (filterList?.length !== 0) {
+              listFilteredData = filterExpiringSoon(rawData, Math.max(...filterList));
+          }
+
+          // Determine the final filtered data based on both filters
+          if (filterQuery?.length !== 0 && filterList?.length !== 0) {
+              rawData = queryFilteredData.filter(item => listFilteredData.includes(item));
+          } else if (filterQuery?.length !== 0) {
+              rawData = queryFilteredData;
+          } else if (filterList?.length !== 0) {
+              rawData = listFilteredData;
+          }
+
+          // Update optionList and notFound status
+          if (rawData?.length !== 0) {
               notFound = false;
-              rawData = [...newData]
-              optionList = rawData?.slice(0,20); //newData?.slice(0,20) //[...newData];
-              }
-              else {
-                  optionList = rawData?.slice(0,20);
-                  notFound = true;
-                  
-              }
+              optionList = rawData?.slice(0, 20);
           } else {
-              notFound = false;
-              optionList = rawData?.slice(0,20);
+              notFound = true;
+              rawData = data?.getOptionsFlowFeed ?? [];
+              optionList = [];
           }
-  
+
           calculateStats(rawData);
-          if(previousCallVolume !== displayCallVolume && !muted) {
-          audio?.play()
+          if (previousCallVolume !== displayCallVolume && !muted) {
+              audio?.play();
           }
+
+         
       }
       catch(e) {
           console.log(e)
@@ -373,8 +391,9 @@ const filterExpiringSoon = (data, days) => {
   });
 };
 
+
 $: {
-    if(filterList)
+    if(filterList && typeof window !== 'undefined' && mode === false)
     {
       console.log('triggered')
       if(filterList?.length !== 0)
@@ -889,7 +908,7 @@ $: {
   <label id="filterList" for="filterList" class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
   
   
-  <div class="modal-box w-full bg-[#202020] sm:border sm:border-slate-800 overflow-y-scroll rounded-md">
+  <div class="modal-box w-full bg-[#202020] sm:border sm:border-slate-800 overflow-hidden rounded-md">
 
 
     <div class="relative z-50 mx-2 max-h-[80vh] rounded bg-default opacity-100 bp:mx-3 sm:mx-4 w-full max-w-[1024px]" aria-modal="true">

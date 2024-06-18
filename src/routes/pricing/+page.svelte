@@ -127,7 +127,7 @@ async function purchasePlan() {
                     <span class="text-sm font-medium text-white text-opacity-[0.6]">
                         Pay Yearly
                     </span>
-                    <span class="text-[#10DB06] text-sm font-bold text-opacity-[0.8]">
+                    <span class="text-[#9DED1E] text-sm font-semibold">
                         Save up 25%
                     </span>
                 </div>
@@ -232,7 +232,7 @@ async function purchasePlan() {
                 <div class="{!mode ? 'hidden' : ''} ribbon ribbon-top-right"><span class="text-white">Discount</span></div>
 
                 <div class="absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-2xl flex flex-row items-center bg-red-600 p-2">
-                    <svg class="w-6 h-6 mr-2" fill="#D6D6DC" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" stroke="#E02424"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>star-solid</title> <g id="Layer_2" data-name="Layer 2"> <g id="invisible_box" data-name="invisible box"> <rect width="48" height="48" fill="none"></rect> </g> <g id="icons_Q2" data-name="icons Q2"> <path d="M24,3a2.1,2.1,0,0,0-1.8,1.1L16.5,15.7,3.7,17.5A2.1,2.1,0,0,0,2.6,21l9.2,8.9L9.7,42.7A2,2,0,0,0,11.6,45l1-.2,11.4-6,11.4,6,1,.2a2,2,0,0,0,1.9-2.3L36.2,29.9,45.4,21a2.1,2.1,0,0,0-1.1-3.5L31.5,15.7,25.8,4.1A2.1,2.1,0,0,0,24,3Z"></path> </g> </g> </g></svg>
+                    <svg class="w-6 h-6 mr-2" fill="#D6D6DC" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" stroke=""><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>star-solid</title> <g id="Layer_2" data-name="Layer 2"> <g id="invisible_box" data-name="invisible box"> <rect width="48" height="48" fill="none"></rect> </g> <g id="icons_Q2" data-name="icons Q2"> <path d="M24,3a2.1,2.1,0,0,0-1.8,1.1L16.5,15.7,3.7,17.5A2.1,2.1,0,0,0,2.6,21l9.2,8.9L9.7,42.7A2,2,0,0,0,11.6,45l1-.2,11.4-6,11.4,6,1,.2a2,2,0,0,0,1.9-2.3L36.2,29.9,45.4,21a2.1,2.1,0,0,0-1.1-3.5L31.5,15.7,25.8,4.1A2.1,2.1,0,0,0,24,3Z"></path> </g> </g> </g></svg>
                     <span class="text-white text-md font-medium">
                         Best Value
                     </span>
@@ -530,13 +530,13 @@ font-size: 0.97rem;
   --border-angle: 0turn;
   --border-radius: 30px; /* Added border radius */
   
-  background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 20%, #08f, #f03);
+  background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 10%, #000, #9DED1E);
   background-size: calc(100% - (var(--border-size) * 2)) calc(100% - (var(--border-size) * 2)), cover;
   background-position: center center;
   background-repeat: no-repeat;
   border-radius: var(--border-radius); /* Added border radius */
   
-  animation: bg-spin 5s linear infinite;
+  animation: bg-spin 4s linear infinite;
 }
 
 @keyframes bg-spin {
@@ -562,7 +562,7 @@ font-size: 0.97rem;
     .light-box-2 {
         --border-size: 1px;
         --border-angle: 0turn;
-        background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 20%, #08f, #f03);
+        background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 10%, #000, #9DED1E);
         background-position: center center;
         background-repeat: no-repeat;
     }
@@ -571,7 +571,7 @@ font-size: 0.97rem;
     .light-box-3 {
         --border-size: 1px;
         --border-angle: 0turn;
-        background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 20%, #08f, #f03);
+        background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 10%, #000, #9DED1E);
         background-position: center center;
         background-repeat: no-repeat;
     }
