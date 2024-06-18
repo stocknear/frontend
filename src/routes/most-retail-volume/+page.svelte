@@ -80,7 +80,7 @@
     <div class="text-sm breadcrumbs ml-4">
       <ul>
         <li><a href="/" class="text-gray-300">Home</a></li>
-        <li class="text-gray-300">Most Retail Investor Volume</li>
+        <li class="text-gray-300">Retail Trader Volume</li>
       </ul>
     </div>
             
@@ -97,12 +97,12 @@
                     <div>
                       <div class="flex flex-row justify-center items-center">
                         <h1 class="text-3xl sm:text-4xl text-white text-center font-bold mb-5">
-                          Retail Volume
+                          Retail Trader Volume
                         </h1>
                       </div>
             
                       <span class="text-white text-md font-medium text-center flex justify-center items-center ">
-                        Find out the Top 100 stocks where retail investors are investing the most daily.
+                        Find out the Top 100 stocks where retail traders are investing the most daily.
                       </span>
             
         

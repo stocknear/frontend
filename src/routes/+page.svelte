@@ -203,11 +203,10 @@ async function loadSearchData() {
                                   
                                   <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
                                     <a href="/most-retail-volume" class="text-white antialiased bg-[#202020] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
-                                      <svg  class="w-6 h-6 inline-block mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#fff" d="m14.369 4.398l-3.485 6.035l1.732 1l3.485-6.035c4.169 2.772 6.305 7.08 4.56 10.102c-1.86 3.222-7.19 3.355-11.91.63C4.028 13.402 1.48 8.721 3.34 5.5c1.745-3.023 6.543-3.327 11.028-1.102m1.515-2.625l1.732 1l-1.5 2.598l-1.732-1zM6.732 20H17v2H5.018a1 1 0 0 1-1.015-.922a1 1 0 0 1 .131-.578l2.25-3.897l1.732 1z"/></svg>
-                                      <span class="font-semibold">Retail Investor Trader Tracker</span>
+                                      <span class="font-semibold">Insights Into All "HOT" Retail Trader Stocks Within A Blink Of An Eye</span>
                                     </a>
                                     <div class="absolute top-[-1.2rem] -right-5 sm:-right-8 rotate-[7deg]">
-                                      <span class="bg-[#EF4444] text-white text-sm sm:text-[0.9rem] rounded-xl font-medium sm:me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                                      <span class="bg-[#9DED1E] text-black text-sm sm:text-[0.9rem] rounded-xl font-semibold sm:me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
                                         New
                                       </span>
                                     </div>
@@ -217,10 +216,11 @@ async function loadSearchData() {
                                 
 
                                   <div class="flex flex-row justify-center items-center">
-                                    <h1 class="text-center text-5xl sm:text-7xl text-primary/100 font-bold font-mono mb-6 w-full">
-                                      Open Source
-                                      <br>
-                                      <span class="text-3xl sm:text-4xl">Stock Analysis Platform</span>
+                                    <h1 class="text-center text-4xl sm:text-4xl text-white font-bold mb-6 w-full">
+                                      We bridge the gap between
+                                      <span class="text-[#9DED1E] italic">Wall Street</span>
+                                      and
+                                      <span class="text-[#9DED1E] italic">Retail Traders</span>
                                     </h1>
                                   </div>
 
@@ -234,7 +234,7 @@ async function loadSearchData() {
                                   <!-- End Image -->
                                   
                                   <span class="text-center flex justify-center items-center text-slate-200 text-[1rem] sm:text-lg">
-                                    Analyze over 10,000 companies in one place, exploring stock prices, options contracts, news, price predictions, charts, memes, and more!
+                                    Analyze over 10,000 companies in one place, exploring stock prices, options contracts, news, price predictions, charts, discussions, and more!
                                   </span>
                                   
                                     
@@ -257,7 +257,7 @@ async function loadSearchData() {
   
                                     <!-- Ticker Logos -->
                                     {#if active?.length !== 0}
-                                    <div class="w-auto m-auto flex flex-row items-center justify-center mt-6 text-[1rem] sm:text-lg">
+                                    <div class="w-auto m-auto flex flex-row items-center justify-center mt-6 text-lg sm:text-xl">
                                       <span class="text-center text-slate-100">
                                         Trending:
                                       </span>
@@ -273,7 +273,13 @@ async function loadSearchData() {
                                     {/if}
 
                                     
-                                    <div class="w-full max-w-64 sm:max-w-3xl m-auto grid grid-cols-1 md:grid-cols-3 gap-y-3 sm:gap-x-5 mt-10 flex justify-center items-center">
+                                    
+                                    <div class="text-white text-center text-[1rem] sm:text-lg mt-8 mb-4 font-semiboldk">
+                                      Track the investment portfolios of prominent Wall Street figures.
+                                    </div>
+
+                                    <div class="w-full max-w-64 sm:max-w-3xl m-auto grid grid-cols-1 md:grid-cols-3 gap-y-3 sm:gap-x-5 flex justify-center items-center">
+                                      
                                       <a href="/politicians/61b59ab669" class="px-4 py-3 text-white bg-[#202327] rounded-lg flex flex-row items-center font-medium transition duration-150 ease-in-out group">
                                         <div class="flex flex-row items-center">
                                           <div class="shadow-lg rounded-full border border-slate-600 w-10 h-10 relative democratic-striped bg-[#295AC7] flex items-center justify-center">
