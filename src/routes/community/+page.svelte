@@ -318,12 +318,13 @@ function updateVote(posts, postVote) {
      // Check if expand['alreadyVoted(post)'] exists
     if (!post.expand['alreadyVoted(post)']) {
       // Create the structure if it does not exist
-      post.expand['alreadyVoted(post)'] = [
+      post['expand']['alreadyVoted(post)'] = [
         {
           type: upvoteClicked ? 'upvote' : downvoteClicked ? 'downvote' : 'neutral',
           user: data?.user?.id
         }
       ];
+
     } else {
       // Update the existing type based on the click flags
       post.expand['alreadyVoted(post)'][0].type = upvoteClicked ? 'upvote' : downvoteClicked ? 'downvote' : 'neutral';
@@ -362,7 +363,6 @@ $: {
 $: {
   if(posts)
   {
-    console.log('caching saved')
     $cachedPosts = {"sortingPosts": sortingPosts,'currentPage': currentPage, 'seenPostId': seenPostId, 'posts': posts};
   }
 }

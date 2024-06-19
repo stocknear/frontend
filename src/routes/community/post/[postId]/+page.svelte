@@ -378,7 +378,7 @@ function updateVote(postVote) {
      // Check if expand['alreadyVoted(item)'] exists
     if (!item.expand['alreadyVoted(item)']) {
       // Create the structure if it does not exist
-      item.expand['alreadyVoted(post)'] = [
+      item['expand']['alreadyVoted(post)'] = [
         {
           type: upvoteClicked ? 'upvote' : downvoteClicked ? 'downvote' : 'neutral',
           user: data?.user?.id
