@@ -167,13 +167,10 @@
                               Daily Traded
                             </th>
                             <th class="text-end bg-[#0F0F0F] text-white text-sm font-semibold">
+                              Volume % of Retail Traders
+                            </th>
+                            <th class="text-end bg-[#0F0F0F] text-white text-sm font-semibold">
                               Sentiment
-                            </th>
-                            <th class="text-end bg-[#0F0F0F] text-white text-sm font-semibold">
-                              Market Cap
-                            </th>
-                            <th class="text-end bg-[#0F0F0F] text-white text-sm font-semibold">
-                              Profits
                             </th>
                           </tr>
                         </thead>
@@ -202,18 +199,15 @@
                             <td class="text-center text-sm font-medium text-white">
                                 {abbreviateNumber(item?.traded,true)}
                             </td>
+      
+                            <td class="text-end text-sm font-medium text-white">
+                              {item?.retailStrength}%
+                            </td>
 
                             <td class="text-end text-sm font-medium {item?.sentiment > 0 ? 'text-[#10DB06]' : 'text-[#E57C34]'}">
-                                {item?.sentiment > 0 ? 'Bullish' : 'Bearish'}
-                            </td>
-                            
-                            <td class="text-end text-sm font-medium text-white">
-                              {abbreviateNumber(item?.marketCap,true)}
-                            </td>
+                              {item?.sentiment > 0 ? 'Bullish' : 'Bearish'}
+                          </td>
 
-                            <td class="text-end text-sm font-medium text-[#C6A755]">
-                              {abbreviateNumber(item?.netIncome,true)}
-                            </td>
 
 
                           </tr>

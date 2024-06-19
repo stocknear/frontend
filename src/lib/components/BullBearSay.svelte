@@ -73,28 +73,28 @@ $: {
       </div>
 
     {#if data?.user?.tier === 'Pro'}
-     <!--Start Header-->
-     <div role="tablist" class="-mt-2 w-11/12 sm:w-56">
+   <!--Start Header-->
+   <div role="tablist" class="-mt-2 w-11/12 sm:w-56">
 
-      <div class="flex flex-col items-center w-full">
-        <div class="tabs flex flex-row justify-start items-center w-full">
-          <label class="relative inline-flex cursor-pointer items-center">
-            <input type="checkbox" on:click={handleMode} checked={mode === 'bullish' ? false : true} class="peer sr-only" />
-            <div
-              class="peer flex h-8 items-center rounded-full px-5 bg-[#313131] after:absolute after:left-1 after: after:h-6 after:w-[85px] after:rounded-full {mode === 'bullish' ? 'after:bg-green-600' : 'after:bg-red-600'} after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-focus:outline-none text-sm font-semibold text-white"
-              >
-              <span class="mr-2 z-10">Bull Case</span>
-              <span class="z-10 ml-4">Bear Case</span>
-            </div>
-          </label>
+    <div class="flex flex-col items-center w-full">
+      <div class="tabs flex flex-row justify-start items-center w-full">
+        <label class="relative inline-flex cursor-pointer items-center">
+          <input type="checkbox" on:click={handleMode} checked={mode === 'bullish' ? false : true} class="peer sr-only" />
+          <div
+            class="peer flex h-8 items-center gap-4 rounded-full px-5 bg-[#313131] after:absolute after:left-1 after: after:h-6 after:w-[85px] after:rounded-full {mode === 'bullish' ? 'after:bg-green-600' : 'after:bg-red-600'} after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-focus:outline-none text-sm font-semibold text-white"
+            >
+            <span class="mr-2 z-10">Bull Case</span>
+            <span class="z-10">Bear Case</span>
+          </div>
+        </label>
 
-      
-        </div>
+    
       </div>
-
     </div>
 
-    <!--End Header-->
+  </div>
+
+  <!--End Header-->
     <span class="text-gray-200 text-xs sm:text-[0.85rem] italic mt-6 sm:ml-auto">
       Updated {rawData?.date}
     </span>
