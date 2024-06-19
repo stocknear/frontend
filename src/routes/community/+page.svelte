@@ -310,25 +310,32 @@ function updateVote(posts, postVote) {
   
   // Find the post by ID
   const post = posts?.find(post => post?.id === id);
-  
+
   if (post) {
       post.upvote = upvote;
       post.downvote = downvote;
+    // Check if expand['alreadyVoted(post)'] exists
+  if (post?.expand['alreadyVoted(post)'] && post?.expand['alreadyVoted(post)']?.length > 0) {
+    // Find the vote entry for the current user, if it exists
+    const userVote = post?.expand['alreadyVoted(post)']?.find(vote => vote.user === data?.user?.id);
 
-     // Check if expand['alreadyVoted(post)'] exists
-    if (!post.expand['alreadyVoted(post)']) {
-      // Create the structure if it does not exist
-      post['expand']['alreadyVoted(post)'] = [
-        {
-          type: upvoteClicked ? 'upvote' : downvoteClicked ? 'downvote' : 'neutral',
-          user: data?.user?.id
-        }
-      ];
-
+    if (userVote) {
+      // Update the existing vote for the user
+      userVote.type = upvoteClicked ? 'upvote' : downvoteClicked ? 'downvote' : 'neutral';
     } else {
-      // Update the existing type based on the click flags
-      post.expand['alreadyVoted(post)'][0].type = upvoteClicked ? 'upvote' : downvoteClicked ? 'downvote' : 'neutral';
+      // If no vote entry for the user, add a new one
+      post.expand['alreadyVoted(post)']?.push({
+        type: upvoteClicked ? 'upvote' : downvoteClicked ? 'downvote' : 'neutral',
+        user: data?.user?.id
+      });
     }
+  } else {
+    // Create the structure if it does not exist
+    post.expand['alreadyVoted(post)'] = [{
+      type: upvoteClicked ? 'upvote' : downvoteClicked ? 'downvote' : 'neutral',
+      user: data?.user?.id
+    }];
+  }
 
   } else {
     console.log("Post not found.");
@@ -347,7 +354,7 @@ $: {
 
 
 $: {
-  if($postVote && Object?.keys($postVote).length !== 0)
+  if($postVote && Object?.keys($postVote).length !== 0 && data?.user?.id)
   {
     //Update in realtime the already downloaded posts list when user votes
     posts = updateVote(posts, $postVote)

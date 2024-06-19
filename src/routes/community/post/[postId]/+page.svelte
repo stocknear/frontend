@@ -364,37 +364,46 @@
   })
   
 
-// Function to update the vote when posts are cached
+
+
+// Function to update the vote
 function updateVote(postVote) {
   const { id, upvote, downvote, upvoteClicked, downvoteClicked } = postVote;
-  console.log(postVote)
+  
   // Find the post by ID
   const item = $cachedPosts?.posts?.find(post => post?.id === id);
-  console.log(item)
+
   if (item) {
       item.upvote = upvote;
       item.downvote = downvote;
+    // Check if expand['alreadyVoted(post)'] exists
+  if (item?.expand['alreadyVoted(post)'] && item?.expand['alreadyVoted(post)']?.length > 0) {
+    // Find the vote entry for the current user, if it exists
+    const userVote = item?.expand['alreadyVoted(post)']?.find(vote => vote.user === data?.user?.id);
 
-     // Check if expand['alreadyVoted(item)'] exists
-    if (!item.expand['alreadyVoted(item)']) {
-      // Create the structure if it does not exist
-      item['expand']['alreadyVoted(post)'] = [
-        {
-          type: upvoteClicked ? 'upvote' : downvoteClicked ? 'downvote' : 'neutral',
-          user: data?.user?.id
-        }
-      ];
+    if (userVote) {
+      // Update the existing vote for the user
+      userVote.type = upvoteClicked ? 'upvote' : downvoteClicked ? 'downvote' : 'neutral';
     } else {
-      // Update the existing type based on the click flags
-      item.expand['alreadyVoted(post)'][0].type = upvoteClicked ? 'upvote' : downvoteClicked ? 'downvote' : 'neutral';
+      // If no vote entry for the user, add a new one
+      item?.expand['alreadyVoted(post)']?.push({
+        type: upvoteClicked ? 'upvote' : downvoteClicked ? 'downvote' : 'neutral',
+        user: data?.user?.id
+      });
     }
+  } else {
+    // Create the structure if it does not exist
+    item.expand['alreadyVoted(post)'] = [{
+      type: upvoteClicked ? 'upvote' : downvoteClicked ? 'downvote' : 'neutral',
+      user: data?.user?.id
+    }];
+  }
 
   } else {
     console.log("Post not found.");
   }
+  console.log(item)
 }
-
-
   
   function addCommentToParent(comments, newComment) {
     // Helper function to handle the recursion
