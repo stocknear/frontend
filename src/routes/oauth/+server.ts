@@ -1,5 +1,4 @@
 import { redirect } from '@sveltejs/kit';
-import { oauthState, oauthVerifier, oauthProvider } from '$lib/store';
 
 
 export const config = {
@@ -54,15 +53,13 @@ export const GET = async ({locals,  url, cookies}) => {
         
 
         //oauthUsername = generateUsername(newUser['meta']['name'].split(' ').join('')).toLowerCase();
-        
+        /*
         await locals.pb?.collection('users').update(
             newUser['record']['id'], {
-                'Tier' : 'Free'
+                'freeTrial' : true
             });
-        
-        oauthState.update( value => '');
-        oauthVerifier.update( value => '');
-        oauthProvider.update( value => '');
+        */
+
         
 
     } catch (err) {

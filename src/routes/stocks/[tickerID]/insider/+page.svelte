@@ -395,7 +395,7 @@ onMount(async() => {
                       <div class="w-full grid grid-cols-2 lg:grid-cols-3 gap-y-3 lg:gap-y-3 gap-x-3 ">
       
                         <!--Start Put/Call-->  
-                        <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] shadow-lg rounded-2xl h-20">
+                        <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] shadow-lg rounded-md h-20">
                           <div class="flex flex-col items-start">
                               <span class="font-medium text-gray-200 text-xs sm:text-sm">Buy/Sell</span>
                               <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -422,7 +422,7 @@ onMount(async() => {
                       </div>
                       <!--End Put/Call-->
                       <!--Start Call Flow-->  
-                      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] shadow-lg rounded-2xl h-20">
+                      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] shadow-lg rounded-md h-20">
                         <div class="flex flex-col items-start">
                             <span class="font-medium text-gray-200 text-xs sm:text-sm">Bought Shares</span>
                             <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -451,7 +451,7 @@ onMount(async() => {
                       </div>
                       <!--End Call Flow-->
                       <!--Start Put Flow-->  
-                      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] shadow-lg rounded-2xl h-20">
+                      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] shadow-lg rounded-md h-20">
                         <div class="flex flex-col items-start">
                             <span class="font-medium text-gray-200 text-xs sm:text-sm">Sold Shares</span>
                             <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -508,8 +508,8 @@ onMount(async() => {
                               </tr>
                             </thead>
                             <tbody>
-                              {#each (data?.user?.tier === 'Pro' ? insiderTradingList : insiderTradingList?.slice(0,20)) as item}
-                              <tr class="text-gray-200 bg-[#0F0F0F]">
+                              {#each (data?.user?.tier === 'Pro' ? insiderTradingList : insiderTradingList?.slice(0,3)) as item, index}
+                              <tr class="text-gray-200 bg-[#0F0F0F] {index+1 === insiderTradingList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
       
                                 <td class="text-gray-200 border-b border-[#0F0F0F]">
                                   <div class="flex flex-col">

@@ -7,7 +7,7 @@
     
     //export let quantData;
     export let fairPrice;
-    
+    export let data;
     
     let lastPrice:Number;
     
@@ -207,22 +207,21 @@
     
     
     
-    <section class="bg-[#0F0F0F] overflow-hidden text-white h-full sm:mb-0 ">
-        <div class="flex justify-center w-fit m-auto h-full overflow-hidden">
-            <div class="relative flex justify-center items-center overflow-hidden">
-                <main>
-                    <div class="flex flex-row items-center">
-                        <label for="dcfInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
-                          Discounted Cashflow Model
-                        </label>
-                        <InfoModal
-                          title={"Discounted Cashflow Model"}
-                          content={contentModal}
-                          id={"dcfInfo"}
-                        />
-                    </div>
+    <section class="overflow-hidden text-white h-full pb-8">
+        <main class="overflow-hidden ">
+        <div class="flex flex-row items-center">
+            <label for="dcfInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
+                Discounted Cashflow Model
+            </label>
+            <InfoModal
+                title={"Discounted Cashflow Model"}
+                content={contentModal}
+                id={"dcfInfo"}
+            />
+        </div>
 
-                    <div class="w-fit sm:w-full sm:max-w-2xl text-[1rem]">
+                    {#if data?.user?.tier === 'Pro'}
+
                     {#if fairPrice !== null}
                     <div class="p-3 sm:p-0 mt-2 pb-8 sm:pb-2 rounded-lg bg-[#202020] sm:bg-[#0F0F0F]">
 
@@ -295,12 +294,19 @@
                     <svg class="w-10 sm:w-12 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#334155" d="M18.68 12.32a4.49 4.49 0 0 0-6.36.01a4.49 4.49 0 0 0 0 6.36a4.508 4.508 0 0 0 5.57.63L21 22.39L22.39 21l-3.09-3.11c1.13-1.77.87-4.09-.62-5.57m-1.41 4.95c-.98.98-2.56.97-3.54 0c-.97-.98-.97-2.56.01-3.54c.97-.97 2.55-.97 3.53 0c.97.98.97 2.56 0 3.54M10.9 20.1a6.527 6.527 0 0 1-1.48-2.32C6.27 17.25 4 15.76 4 14v3c0 2.21 3.58 4 8 4c-.4-.26-.77-.56-1.1-.9M4 9v3c0 1.68 2.07 3.12 5 3.7v-.2c0-.93.2-1.85.58-2.69C6.34 12.3 4 10.79 4 9m8-6C7.58 3 4 4.79 4 7c0 2 3 3.68 6.85 4h.05c1.2-1.26 2.86-2 4.6-2c.91 0 1.81.19 2.64.56A3.215 3.215 0 0 0 20 7c0-2.21-3.58-4-8-4Z"/></svg>
                   </h2>
                 {/if}
+
+
+
+            {:else}
+            <div class="shadow-lg shadow-bg-[#000] bg-[#202020] sm:bg-opacity-[0.5] text-sm sm:text-[1rem] rounded-md w-full p-4 min-h-24 mt-4 text-white m-auto flex justify-center items-center text-center font-semibold">
+                <svg class="mr-1.5 w-5 h-5 inline-block"xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#A3A3A3" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/></svg>
+                Unlock content with <a class="inline-block ml-2 text-blue-400 hover:sm:text-white" href="/pricing">Pro Subscription</a>
                 </div>
-            </main>
-            </div>
-            </div>
+            {/if}
+    
+        </main>
     </section>
-        
+    
     
     
 

@@ -91,7 +91,6 @@ function latestInfoDate(inputDate) {
 <!-- Other meta tags -->
 <meta property="og:title" content={`${$displayCompanyName} (${$stockTicker}) Analyst Ratings · stocknear`}/>
 <meta property="og:description" content={`A list of analyst ratings for Advanced Micro Devices (AMD) stock. See upgrades, downgrades, price targets and more from top Wall Street stock analysts.`} />
-<meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <meta property="og:type" content="website"/>
 <!-- Add more Open Graph meta tags as needed -->
 
@@ -99,7 +98,6 @@ function latestInfoDate(inputDate) {
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content={`${$displayCompanyName} (${$stockTicker}) Analyst Ratings · stocknear`}/>
 <meta name="twitter:description" content={`A list of analyst ratings for Advanced Micro Devices (AMD) stock. See upgrades, downgrades, price targets and more from top Wall Street stock analysts.`} />
-<meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -262,8 +260,8 @@ function latestInfoDate(inputDate) {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {#each (data?.user?.tier === 'Pro' ? historyList : historyList?.slice(0,5)) as item,index}
-                                  <tr on:click={() => goto(`/analysts/${item?.analystId}`)} class="cursor-pointer {latestInfoDate(item?.date) ? 'bg-[#F9AB00] bg-opacity-[0.1]' : 'bg-[#0F0F0F]'} border-b-[#0F0F0F] {index+1 === historyList?.slice(0,5)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
+                                  {#each (data?.user?.tier === 'Pro' ? historyList : historyList?.slice(0,3)) as item,index}
+                                  <tr on:click={() => goto(`/analysts/${item?.analystId}`)} class="cursor-pointer {latestInfoDate(item?.date) ? 'bg-[#F9AB00] bg-opacity-[0.1]' : 'bg-[#0F0F0F]'} border-b-[#0F0F0F] {index+1 === historyList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                                     <td class="text-sm text-start">
                                       <div class="flex flex-col items-start">
                                         <span class="text-blue-400 font-medium">{item?.analyst_name} </span>

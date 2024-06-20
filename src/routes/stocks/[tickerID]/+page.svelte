@@ -1332,7 +1332,7 @@ function changeChartType() {
                                   <Lazy>
                                     <div class="w-full pt-10 sm:pl-6 sm:pb-6 sm:pt-6 m-auto {!$revenueSegmentationComponent ? 'hidden' : ''}">
                                     {#await import('$lib/components/RevenueSegmentation.svelte') then {default: Comp}}
-                                      <svelte:component this={Comp} />
+                                      <svelte:component this={Comp} userTier={data?.user?.tier}/>
                                     {/await}
                                     </div>
                                     </Lazy>
@@ -1370,7 +1370,7 @@ function changeChartType() {
                                    <Lazy>
                                     <div class="w-full sm:pl-6 sm:pb-6 sm:pt-6 m-auto mb-5 {!$shareholderComponent ? 'hidden' : ''}">
                                     {#await import('$lib/components/ShareHolders.svelte') then {default: Comp}}
-                                      <svelte:component this={Comp} />
+                                      <svelte:component this={Comp} data={data}/>
                                     {/await}
                                     </div>
                                     </Lazy>
@@ -1394,7 +1394,7 @@ function changeChartType() {
                                     <Lazy>
                                       <div class="w-full m-auto rounded-2xl mb-5">
                                       {#await import('$lib/components/DCF.svelte') then {default: Comp}}
-                                        <svelte:component this={Comp}  fairPrice = {fairPrice} currentPrice = {currentPrice}/>
+                                        <svelte:component this={Comp} data = {data} fairPrice = {fairPrice} currentPrice = {currentPrice}/>
                                       {/await}
                                       </div>
                                       </Lazy>

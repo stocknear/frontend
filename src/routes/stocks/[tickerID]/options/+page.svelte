@@ -248,7 +248,6 @@ $: {
 <!-- Other meta tags -->
 <meta property="og:title" content={`${$displayCompanyName} (${$stockTicker}) Options Activity · stocknear`}/>
 <meta property="og:description" content={`Detailed informaton of unusual options activity for ${$displayCompanyName} (${$stockTicker}).`} />
-<meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <meta property="og:type" content="website"/>
 <!-- Add more Open Graph meta tags as needed -->
 
@@ -256,7 +255,6 @@ $: {
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content={`${$displayCompanyName} (${$stockTicker}) Options Activity · stocknear`}/>
 <meta name="twitter:description" content={`Detailed informaton of unusual options activity for ${$displayCompanyName} (${$stockTicker}).`} />
-<meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -387,7 +385,7 @@ $: {
                             <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center">
                               <div class="w-full grid grid-cols-2 lg:grid-cols-3 gap-y-3 lg:gap-y-3 gap-x-3 ">
                                 <!--Start Flow Sentiment-->  
-                                <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
+                                <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
                                     <div class="flex flex-col items-start">
                                         <span class="font-medium text-gray-200 text-sm ">Flow Sentiment</span>
                                         <span class="text-start text-[1rem] font-medium {flowSentiment === 'Bullish' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">{flowSentiment}</span>
@@ -396,7 +394,7 @@ $: {
                                 </div>
                                 <!--End Flow Sentiment-->
                                 <!--Start Put/Call-->  
-                                <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
+                                <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
                                   <div class="flex flex-col items-start">
                                       <span class="font-medium text-gray-200 text-sm ">Put/Call</span>
                                       <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -423,7 +421,7 @@ $: {
                               </div>
                               <!--End Put/Call-->
                               <!--Start Call Flow-->  
-                              <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
+                              <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
                                 <div class="flex flex-col items-start">
                                     <span class="font-medium text-gray-200 text-sm ">Call Flow</span>
                                     <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -452,7 +450,7 @@ $: {
                               </div>
                               <!--End Call Flow-->
                               <!--Start Put Flow-->  
-                              <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
+                              <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
                                 <div class="flex flex-col items-start">
                                     <span class="font-medium text-gray-200 text-sm ">Put Flow</span>
                                     <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -510,9 +508,9 @@ $: {
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      {#each optionList as item}
+                                      {#each (data?.user?.tier === 'Pro' ? optionList : optionList?.slice(0,3)) as item, index}
                                       <!-- row -->
-                                      <tr class="bg-[#0F0F0F] border-b-[#0F0F0F]">
+                                      <tr class="bg-[#0F0F0F] border-b-[#0F0F0F] {index+1 === optionList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                                         
                                         <td class="text-white text-xs sm:text-sm text-start">
                                           {formatDate(item?.updated)}

@@ -188,8 +188,8 @@ $: {
                 Dark Pool
             </label>
             <InfoModal
-              title={"Retail Trader Volume"}
-              content={"Gain insights into Retail Trader activity with the following visualization: The green bar illustrates the daily volume trend, signifying a bullish sentiment if it ranges from 0 to 100, or bearish if it spans from -100 to just below 0. The white line depicts the daily trading volume of retail investors."}
+              title={"Dark Pool Data"}
+              content={"Dark pool data refers to information on trading activities that occur in private, non-public financial exchanges known as dark pools. These venues are used by hedge funds and major institutional traders to buy and sell large blocks of securities without exposing their orders to the public, minimizing market impact and price fluctuations. Currently, nearly 50% of all trades are executed in these dark pools, highlighting their significant role in the trading landscape."}
               id={"darkPoolInfo"}
             />
         </div>

@@ -7,6 +7,8 @@
 
     import InfoModal from '$lib/components/InfoModal.svelte';
     
+    export let userTier;
+
     let isLoaded = false;
     const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
@@ -215,23 +217,21 @@ $: {
 
             
             
-<section class="bg-[#0F0F0F] overflow-hidden w-full text-white h-full sm:mb-0">
-    <div class="flex justify-center w-full m-auto h-full overflow-hidden">
-        <div class="w-full relative flex justify-center items-center overflow-hidden">
-            <main class="w-full">
-                <div class="w-fit sm:w-full sm:max-w-2xl m-auto mt-5 sm:mt-0">
+<section class="overflow-hidden text-white h-full pb-8">
+    <main class="overflow-hidden ">
                                 
-                    <div class="flex flex-row items-center">
-                        <label for="revenueProductSegmentationInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
-                          Revenue Breakdown
-                        </label>
-                        <InfoModal
-                          title={"Revenue Breakdown"}
-                          content={"A revenue stream for a company is how they make money. It can come from selling things, providing services, or other sources. These different ways of making money add up to keep the company running and growing."}
-                          id={"revenueProductSegmentationInfo"}
-                        />
-                    </div>
+    <div class="flex flex-row items-center">
+        <label for="revenueProductSegmentationInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
+            Revenue Breakdown
+        </label>
+        <InfoModal
+            title={"Revenue Breakdown"}
+            content={"A revenue stream for a company is how they make money. It can come from selling things, providing services, or other sources. These different ways of making money add up to keep the company running and growing."}
+            id={"revenueProductSegmentationInfo"}
+        />
+    </div>
 
+        {#if userTier === 'Pro'}
                     {#if isLoaded}
                         {#if Object?.keys(data)?.length !== 0  && totalProductRevenue !== 0}
                         
@@ -321,25 +321,26 @@ $: {
                             </label>
                             {/if}
                             
+      {/if}
     
-                            {/if}
-
-                    {:else}
-                    <div class="flex justify-center items-center h-80">
-                        <div class="relative">
-                        <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                            <span class="loading loading-spinner loading-md"></span>
-                        </label>
-                        </div>
-                    </div>  
-                    {/if}
-                            
-                        </div>
-                    </main>
+                {:else}
+                <div class="flex justify-center items-center h-80">
+                    <div class="relative">
+                    <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <span class="loading loading-spinner loading-md"></span>
+                    </label>
                     </div>
-                </div>
-        </section>
-                
+                </div>  
+                {/if}
+    
+                {:else}
+                <div class="shadow-lg shadow-bg-[#000] bg-[#202020] sm:bg-opacity-[0.5] text-sm sm:text-[1rem] rounded-md w-full p-4 min-h-24 mt-4 text-white m-auto flex justify-center items-center text-center font-semibold">
+                    <svg class="mr-1.5 w-5 h-5 inline-block"xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#A3A3A3" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/></svg>
+                    Unlock content with <a class="inline-block ml-2 text-blue-400 hover:sm:text-white" href="/pricing">Pro Subscription</a>
+                  </div>
+                {/if}
+        </main>
+</section>
             
             
             
