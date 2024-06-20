@@ -117,7 +117,7 @@
 			</div>
 
 			<span class="text-gray-400 text-center">
-				Create an account to get started
+				Create an account to 7 Days of Free Trial
 			</span>	
 		
 

@@ -53,13 +53,16 @@ export const GET = async ({locals,  url, cookies}) => {
         
 
         //oauthUsername = generateUsername(newUser['meta']['name'].split(' ').join('')).toLowerCase();
-        /*
-        await locals.pb?.collection('users').update(
-            newUser['record']['id'], {
-                'freeTrial' : true
-            });
-        */
-
+        
+        // Check if user was created or existed already
+        if(newUser?.meta?.isNew === true) {
+            await locals.pb?.collection('users').update(
+                newUser['record']['id'], {
+                    'freeTrial' : true,
+                    'tier': 'Pro', //Give new users a free trial for the Pro Subscription
+                });
+        }
+        
         
 
     } catch (err) {

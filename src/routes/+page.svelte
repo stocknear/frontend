@@ -200,7 +200,7 @@ async function loadSearchData() {
                                 <!-- Start Column -->
                                 <div >
 
-                                  
+                                  {#if data?.user}
                                   <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
                                     <a href="/most-retail-volume" class="text-white antialiased bg-[#202020] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
                                       <span class="font-semibold">Insights Into All "HOT" Retail Trader Stocks Within A Blink Of An Eye</span>
@@ -211,14 +211,17 @@ async function loadSearchData() {
                                       </span>
                                     </div>
                                   </div>
+                                  {/if}
+                                  
                                   
                                 
-                                
+                                {#if !data?.user}
                                   <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
                                     <div class="border border-gray-800 text-white font-mono antialiased bg-[#0F0F0F] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
                                       Trusted & used by over 1000+ traders
                                     </div>
                                   </div>
+                                {/if}
 
                                   <div class="flex flex-row justify-center items-center">
                                     
@@ -249,18 +252,32 @@ async function loadSearchData() {
                                   
                                     
                                     <!-- Start Search button -->
-                                    <div class="flex flex-col gap-y-4 sm:flex-row sm:gap-y-0 sm:gap-x-4 justify-center items-center mt-8 mb-6 m-auto w-full max-w-64 sm:max-w-3xl">
-                                      <a href="/stocks/AAPL" class="flex flex-row items-center px-6 py-3 bg-[#9DED1E] text-black rounded-full font-medium transition duration-150 ease-in-out group">
-                                        <span>Explore Stocknear</span>
+                                     {#if !data?.user}
+                                    <div class="flex flex-col gap-y-4 justify-center items-center mt-8 mb-6 m-auto w-full max-w-3xl">
+                                      <a href="/register" class="flex flex-row items-center px-6 py-3 bg-[#9DED1E] text-black rounded-full font-medium transition duration-150 ease-in-out group">
+                                        <span>Start Free Trial</span>
                                         <span class="ml-2 mt-0.5 tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">
                                           <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="rotate(90 12 12)"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="black" d="M13.06 3.283a1.5 1.5 0 0 0-2.12 0L5.281 8.939a1.5 1.5 0 0 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0V7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.283Z"/></g></g></svg>
                                       </span>
                                       </a>
-                                      <a href="/pricing" class="w-48 flex flex-row items-center justify-center px-6 py-3 text-white rounded-full hover:sm:bg-[#202020] transition delay-50 ease-out font-medium border border-gray-500">
-                                        <span>Become a Pro</span>
-                                      </a>
+                                      <div class="flex flex-row items-center gap-x-5 justify-center m-auto mt-3 w-ful">
+                                      <span class="text-white text-xs sm:text-sm">
+                                        <svg class="w-5 h-5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="none" stroke="#9DED1E" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M416 128L192 384l-96-96"/></svg>
+                                        No credit card required
+                                      </span >
+                                      <span class="text-white text-xs sm:text-sm">
+                                        <svg class="w-5 h-5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="none" stroke="#9DED1E" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M416 128L192 384l-96-96"/></svg>
+                                        7 Days Free Trial
+                                      </span >
+                                      <span class="text-white text-xs sm:text-sm hidden sm:block">
+                                        <svg class="w-5 h-5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="none" stroke="#9DED1E" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M416 128L192 384l-96-96"/></svg>
+                                        Instant Access
+                                      </span >
                                     </div>
-                                    <!--
+
+                                    </div>
+                                    {:else}
+                                    
                                     <div class="flex justify-center items-center mt-8 mb-6 m-auto w-full max-w-64 sm:max-w-3xl">
                                       <label on:click={loadSearchData} for="searchBarModal" class="shadow-lg w-96 h-10 sm:h-12 flex flex-row items-center justify-start bg-[#202327] appearance-none py-3 cursor-pointer border border-slate-600 rounded-lg">
                                           <svg class="w-4 h-4 shrink-0 ml-3 sm:ml-5 text-white inline-block" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
@@ -271,7 +288,7 @@ async function loadSearchData() {
                                           </span>
                                       </label>
                                      </div>
-                                     -->
+                                    {/if}
                                      
                                     
                                     
@@ -295,7 +312,7 @@ async function loadSearchData() {
                                     {/if}
 
                                     
-                                    
+                                    {#if data?.user}
                                     <div class="text-white text-center text-[1rem] sm:text-lg mt-8 mb-4 font-semiboldk">
                                       Track the investment portfolios of prominent Wall Street Figures.
                                     </div>
@@ -349,6 +366,7 @@ async function loadSearchData() {
                                       </a>
                                     -->
                                     </div>
+                                    {/if}
                                     
 
                                      
