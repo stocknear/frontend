@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
   import { TrackingModeExitMode } from 'lightweight-charts';
-  import {getCache, setCache, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
+  import {getCache, setCache, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
   import CommunitySentiment from '$lib/components/CommunitySentiment.svelte';
@@ -1294,7 +1294,7 @@ function changeChartType() {
                               
 
                                 <Lazy>
-                                  <div class="w-full m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                  <div class="w-full m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$analystEstimateComponent ? 'hidden' : ''}">
                                   {#await import('$lib/components/AnalystEstimate.svelte') then {default: Comp}}
                                     <svelte:component this={Comp} data={data}/>
                                   {/await}

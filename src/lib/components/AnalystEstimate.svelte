@@ -1,5 +1,5 @@
 <script lang='ts'>
-import {stockTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
+import {analystEstimateComponent, stockTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
 import InfoModal from '$lib/components/InfoModal.svelte';
 
 import { LayerCake, Html } from 'layercake';
@@ -86,6 +86,11 @@ const getAnalystEstimate = async (ticker) => {
 
       // Cache the data for this specific tickerID with a specific name 'getAnalystEstimate'
       setCache(ticker, analystEstimateList, 'getAnalystEstimate');
+    }
+    if(analystEstimateList?.length !== 0) {
+        $analystEstimateComponent = true;
+    } else {
+        $analystEstimateComponent = false;
     }
 };
 
