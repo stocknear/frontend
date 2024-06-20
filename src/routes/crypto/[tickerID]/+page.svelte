@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
   import { TrackingModeExitMode } from 'lightweight-charts';
-  import {setCache, getCache, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, cryptoTicker} from '$lib/store';
+  import {setCache, getCache, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, priceAnalysisComponent, trendAnalysisComponent, sentimentComponent, varComponent, userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, cryptoTicker} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
   import CryptoKeyInformation from '$lib/components/CryptoKeyInformation.svelte';
   import Lazy from '$lib/components/Lazy.svelte';
@@ -30,7 +30,6 @@
 
     let previousClose = data?.getStockQuote?.previousClose;
     let taRating = {};
-    let varDict = {};
 
     //============================================//
     
@@ -48,7 +47,6 @@
   
   
   let TARating;
-  let VaR;
   //let StockKeyInformation;
 
   //let AnalystEstimate;
@@ -57,8 +55,6 @@
 
 
 onMount(async() => {  
-    VaR = (await import('$lib/components/VaR.svelte')).default;
-
     TARating = (await import('$lib/components/TARating.svelte')).default;
 
   })
@@ -651,14 +647,12 @@ function changeChartType() {
       oneYearPrice = [];
       threeYearPrice = [];
       taRating = {};
-      varDict={}
       output = null;
   
   
       cryptoProfile = data?.getCryptoProfile;
       previousClose = data?.getStockQuote?.previousClose;
       taRating = data?.getStockTARating;
-      varDict = data?.getVaR;
 
       const asyncFunctions = [];
 
@@ -1172,7 +1166,7 @@ afterUpdate(async () => {
 
                                 
                                 <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$priceAnalysisComponent ? 'hidden' : ''}">
                                   {#await import('$lib/components/PriceAnalysis.svelte') then {default: Comp}}
                                     <svelte:component this={Comp} data={data} />
                                   {/await}
@@ -1180,7 +1174,7 @@ afterUpdate(async () => {
                                 </Lazy>
 
                                 <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$trendAnalysisComponent ? 'hidden' : ''}">
                                   {#await import('$lib/components/TrendAnalysis.svelte') then {default: Comp}}
                                     <svelte:component this={Comp} data={data} />
                                   {/await}
@@ -1188,17 +1182,19 @@ afterUpdate(async () => {
                                 </Lazy>
 
                                 <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$sentimentComponent ? 'hidden' : ''}">
                                   {#await import('$lib/components/SentimentAnalysis.svelte') then {default: Comp}}
                                     <svelte:component this={Comp} data={data} />
                                   {/await}
                                 </div>
                                 </Lazy>
-                                {#if VaR}
-                                <div class="w-full sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(varDict)?.length !== 0  ? '' : 'hidden'}">
-                                  <VaR data={data} varDict={varDict}/>
+                                <Lazy>
+                                  <div class="w-full sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$varComponent ? 'hidden' : ''}">
+                                  {#await import('$lib/components/VaR.svelte') then {default: Comp}}
+                                    <svelte:component this={Comp} data={data} />
+                                  {/await}
                                 </div>
-                                {/if}
+                                </Lazy>
                                 
                     
                                  

@@ -114,7 +114,6 @@ const promises = [
     fetchData(apiURL,'/stock-rating', params.tickerID),
     fetchData(apiURL,'/options-bubble',params.tickerID),
     fetchData(apiURL,'/wiim',params.tickerID),
-    fetchData(apiURL,'/value-at-risk',params.tickerID),
     fetchData(apiURL,'/one-day-price',params.tickerID),
     fetchWatchlist(fastifyURL, locals?.user?.id),
     fetchPortfolio(fastifyURL, locals?.user?.id)
@@ -131,7 +130,6 @@ const promises = [
     getStockTARating,
     getOptionsData,
     getWhyPriceMoved,
-    getVaR,
     getOneDayPrice,
     getUserWatchlist,
     getUserPortfolio,
@@ -154,7 +152,6 @@ const promises = [
     getStockTARating,
     getOptionsData,
     getWhyPriceMoved,
-    getVaR,
     getOneDayPrice,
     getUserWatchlist,
     getUserPortfolio,

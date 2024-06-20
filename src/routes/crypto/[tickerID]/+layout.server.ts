@@ -84,7 +84,6 @@ export const load = async ({ params, locals, setHeaders}) => {
     fetchData(apiURL,'/crypto-profile',params.tickerID),
     fetchData(apiURL,'/stock-quote',params.tickerID),
     fetchData(apiURL,'/stock-rating',params.tickerID),
-    fetchData(apiURL,'/value-at-risk',params.tickerID),
     fetchData(apiURL,'/one-day-price',params.tickerID),
     fetchWatchlist(fastifyURL, locals?.user?.id),
     fetchPortfolio(fastifyURL, locals?.user?.id)
@@ -94,7 +93,6 @@ export const load = async ({ params, locals, setHeaders}) => {
     getCryptoProfile,
     getStockQuote,
     getStockTARating,
-    getVaR,
     getOneDayPrice,
     getUserWatchlist,
     getUserPortfolio,
@@ -110,7 +108,6 @@ export const load = async ({ params, locals, setHeaders}) => {
     getCryptoProfile,
     getStockQuote,
     getStockTARating,
-    getVaR,
     getOneDayPrice,
     getUserWatchlist,
     getUserPortfolio,

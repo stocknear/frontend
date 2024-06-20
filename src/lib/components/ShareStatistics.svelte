@@ -1,6 +1,6 @@
 
 <script lang ='ts'>
-    import { displayCompanyName, stockTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
+    import { shareStatisticsComponent, displayCompanyName, stockTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
     import { Chart } from 'svelte-echarts'
     import { abbreviateNumber } from "$lib/utils";
@@ -133,6 +133,11 @@ const getShareStatistics = async (ticker) => {
 
       // Cache the data for this specific tickerID with a specific name 'getShareStatistics'
       setCache(ticker, rawData, 'getShareStatistics');
+    }
+    if (Object?.keys(rawData)?.length !== 0) {
+        $shareStatisticsComponent = true;
+    } else {
+        $shareStatisticsComponent = false;
     }
 };
 

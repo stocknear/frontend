@@ -3,9 +3,8 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
   import { TrackingModeExitMode } from 'lightweight-charts';
-  import {getCache, setCache, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
+  import {getCache, setCache, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
-  import StockKeyInformation from '$lib/components/StockKeyInformation.svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
   import CommunitySentiment from '$lib/components/CommunitySentiment.svelte';
   import Lazy from '$lib/components/Lazy.svelte';
@@ -37,7 +36,6 @@
     let previousClose = data?.getStockQuote?.previousClose;
     let marketMoods = {}
     let taRating = {};
-    let varDict = {};
     let communitySentiment = {};
 
     //============================================//
@@ -60,21 +58,11 @@
   let Correlation;
   let OptionsData;
   let WIIM;
-  let VaR;
-
-  //let StockKeyInformation;
-
 
 
 
   onMount(async() => {
-    /*
-    if ($screenWidth < 640) {
-        StockKeyInformation = (await import('$lib/components/StockKeyInformation.svelte')).default;
-    }
-    */
     WIIM = (await import('$lib/components/WIIM.svelte')).default;
-    VaR = (await import('$lib/components/VaR.svelte')).default;
     
     TARating = (await import('$lib/components/TARating.svelte')).default;
     StockSplits = (await import('$lib/components/StockSplits.svelte')).default;
@@ -689,7 +677,6 @@ function changeChartType() {
       prePostData = {};
       marketMoods = {};
       taRating = {};
-      varDict={}
       communitySentiment = {}
       output = null;
   
@@ -700,7 +687,6 @@ function changeChartType() {
       previousClose = data?.getStockQuote?.previousClose;
       marketMoods = data?.getBullBearSay;
       taRating = data?.getStockTARating;
-      varDict = data?.getVaR;
       communitySentiment = data?.getCommunitySentiment;
     
       similarstock = data?.getSimilarStock;
@@ -1234,17 +1220,18 @@ function changeChartType() {
 
 
                                 {#if $screenWidth <= 1022} <!--BUG: Dont remove since when changing ETF symbol display freezes-->
-                                  <div class="w-full mt-10 m-auto sm:p-6 lg:hidden ">
+                                <div class="w-full mt-10 m-auto sm:p-6 lg:hidden ">
                                     <h3 class="cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
                                       Key Information
                                     </h3>
-                                    <StockKeyInformation 
-                                      stockDeck={stockDeck}
-                                      similarstock={similarstock}
-                                      topETFHolder={topETFHolder}
-                                      data={data}
-                                    />
-    
+                                    {#await import('$lib/components/StockKeyInformation.svelte') then {default: Comp}}
+                                      <svelte:component this={Comp}
+                                        stockDeck={stockDeck}
+                                        similarstock={similarstock}
+                                        topETFHolder={topETFHolder}
+                                        data={data} />
+                                    {/await}
+                                  
                                   </div>
                                   {/if}
 
@@ -1288,18 +1275,21 @@ function changeChartType() {
                                 </Lazy>
 
                                 <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$sentimentComponent ? 'hidden' : ''}">
                                   {#await import('$lib/components/SentimentAnalysis.svelte') then {default: Comp}}
                                     <svelte:component this={Comp} data={data} />
                                   {/await}
                                 </div>
                                 </Lazy>
 
-                                {#if VaR}
-                                <div class="w-full sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(varDict)?.length !== 0  ? '' : 'hidden'}">
-                                  <VaR data={data} varDict={varDict}/>
+
+                                <Lazy>
+                                  <div class="w-full sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$varComponent ? 'hidden' : ''}">
+                                  {#await import('$lib/components/VaR.svelte') then {default: Comp}}
+                                    <svelte:component this={Comp} data={data} />
+                                  {/await}
                                 </div>
-                                {/if}
+                                </Lazy>
                                 
                               
 
@@ -1313,7 +1303,7 @@ function changeChartType() {
 
     
                                   <Lazy>
-                                    <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                    <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$enterpriseComponent ? 'hidden' : ''}">
                                     {#await import('$lib/components/Enterprise.svelte') then {default: Comp}}
                                       <svelte:component this={Comp} data={data} />
                                     {/await}
@@ -1358,7 +1348,7 @@ function changeChartType() {
 
 
                                 <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$shareStatisticsComponent ? 'hidden' : ''}">
                                   {#await import('$lib/components/ShareStatistics.svelte') then {default: Comp}}
                                     <svelte:component this={Comp} data={data}/>
                                   {/await}

@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
     import { TrackingModeExitMode } from 'lightweight-charts';
-    import {getCache, setCache, retailVolumeComponent, trendAnalysisComponent, priceAnalysisComponent, assetType, screenWidth, globalForm, userRegion, numberOfUnreadNotification, displayCompanyName, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, etfTicker, isOpen,  isBeforeMarketOpen, isWeekend} from '$lib/store';
+    import {getCache, setCache, sentimentComponent, varComponent, retailVolumeComponent, trendAnalysisComponent, priceAnalysisComponent, assetType, screenWidth, globalForm, userRegion, numberOfUnreadNotification, displayCompanyName, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, etfTicker, isOpen,  isBeforeMarketOpen, isWeekend} from '$lib/store';
     import { onDestroy, onMount } from 'svelte';    
     import ETFKeyInformation from '$lib/components/ETFKeyInformation.svelte';
     import Lazy from '$lib/components/Lazy.svelte';
@@ -52,7 +52,6 @@
       let prePostData = {};
       let optionsDict = {};
       let taRating = {};
-      let varDict = {};
 
       let previousClose = data?.getStockQuote?.previousClose;
       //============================================//
@@ -80,14 +79,12 @@
     let SectorSegmentation;
     let OptionsData;
     let WIIM;
-    let VaR;
     //let ETFKeyInformation;
     
     
   onMount(async() => {  
 
     WIIM = (await import('$lib/components/WIIM.svelte')).default;
-    VaR = (await import('$lib/components/VaR.svelte')).default;
     OptionsData = (await import('$lib/components/OptionsData.svelte')).default;
     TARating = (await import('$lib/components/TARating.svelte')).default;
     //PricePredictionCard = (await import('$lib/components/PricePredictionCard.svelte')).default;
@@ -705,7 +702,6 @@ async function initializePrice() {
         correlationList = [];
         prePostData = {};
         taRating = {};
-        varDict = {};
         output = null;
   
         
@@ -723,7 +719,6 @@ async function initializePrice() {
         optionsDict = data?.getOptionsData;
         previousClose = data?.getStockQuote?.previousClose
         taRating = data?.getStockTARating;
-        varDict = data?.getVaR;
   
         //stockDeck = data?.getStockDeckData;
         
@@ -1290,18 +1285,21 @@ async function initializePrice() {
                                 </Lazy>
 
                                   <Lazy>
-                                    <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+                                    <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$sentimentComponent ? 'hidden' : ''}">
                                     {#await import('$lib/components/SentimentAnalysis.svelte') then {default: Comp}}
                                       <svelte:component this={Comp} data={data} />
                                     {/await}
                                   </div>
                                   </Lazy>
 
-                                  {#if VaR}
-                                  <div class="w-full sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(varDict)?.length !== 0  ? '' : 'hidden'}">
-                                    <VaR data={data} varDict={varDict}/>
+                                  <Lazy>
+                                    <div class="w-full sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$varComponent ? 'hidden' : ''}">
+                                    {#await import('$lib/components/VaR.svelte') then {default: Comp}}
+                                      <svelte:component this={Comp} data={data} />
+                                    {/await}
                                   </div>
-                                  {/if}
+                                  </Lazy>
+                                  
 
                                   {#if OptionsData}
                                       <div class="w-full mt-10 sm:mt-0 m-auto sm:p-6 {Object?.keys(optionsDict)?.length !== 0 ? '' : 'hidden'}">

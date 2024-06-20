@@ -1,6 +1,6 @@
 
 <script lang ='ts'>
-    import { displayCompanyName, stockTicker, etfTicker, cryptoTicker, assetType, userRegion, getCache, setCache} from '$lib/store';
+    import {sentimentComponent, displayCompanyName, stockTicker, etfTicker, cryptoTicker, assetType, userRegion, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
 
     let sentimentList = [];
@@ -59,6 +59,11 @@ const getSentimentAnalysis = async (ticker) => {
 
       // Cache the data for this specific tickerID with a specific name 'getSentimentAnalysis'
       setCache(ticker, sentimentList, 'getSentimentAnalysis');
+    }
+    if(sentimentList?.length !== 0) {
+        $sentimentComponent = true;
+    } else {
+        $sentimentComponent = false;
     }
 };
 

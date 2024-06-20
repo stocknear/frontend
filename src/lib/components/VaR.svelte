@@ -1,20 +1,82 @@
 
 <script lang ='ts'>
-    import { displayCompanyName, stockTicker, etfTicker, cryptoTicker, assetType} from '$lib/store';
+    import { varComponent, displayCompanyName, stockTicker, etfTicker, cryptoTicker, userRegion, assetType, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
 
-    export let varDict = {};
     export let data;
-    
+
+    let isLoaded = false;
     let rating;
     let outlook;
     let valueAtRisk;
+    let varDict = {}
+
+    const usRegion = ['cle1','iad1','pdx1','sfo1'];
+
+    let apiURL;
+
+    userRegion.subscribe(value => {
+
+    if (usRegion.includes(value)) {
+        apiURL = import.meta.env.VITE_USEAST_API_URL;
+    } else {
+        apiURL = import.meta.env.VITE_EU_API_URL;
+    }
+    });
+
+    const getVaR = async (ticker) => {
+    // Get cached data for the specific tickerID
+    const cachedData = getCache(ticker, 'getVaR');
+    if (cachedData) {
+      varDict = cachedData;
+    } else {
+
+      const postData = {'ticker': ticker};
+      // make the POST request to the endpoint
+      const response = await fetch(apiURL + '/value-at-risk', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData)
+      });
+
+      varDict = await response.json();
+
+      // Cache the data for this specific tickerID with a specific name 'getVaR'
+      setCache(ticker, varDict, 'getVaR');
+    }
+
+    if(Object?.keys(varDict)?.length !== 0) {
+    $varComponent = true;
+    }
+    else {
+      $varComponent = false;
+    }
+
+};
+
+
+
 
     $: {
-    if($assetType === 'stock' ? $stockTicker : $assetType === 'etf' ? $etfTicker : $cryptoTicker && typeof window !== 'undefined' && Object?.keys(varDict)?.length !== 0) {
-        rating = varDict?.rating;
-        outlook = varDict?.outlook;
-        valueAtRisk = varDict?.var;
+    if($assetType === 'stock' ? $stockTicker : $assetType === 'etf' ? $etfTicker : $cryptoTicker && typeof window !== 'undefined') {
+        isLoaded = false;
+        const ticker = $assetType === 'stock' ? $stockTicker : $assetType === 'etf' ? $etfTicker : $cryptoTicker;
+        
+        const asyncFunctions = [
+        getVaR(ticker)
+        ];
+        Promise.all(asyncFunctions)
+            .then((results) => {
+                rating = varDict?.rating;
+                outlook = varDict?.outlook;
+                valueAtRisk = varDict?.var;
+            })
+            .catch((error) => {
+                console.error('An error occurred:', error);
+            });
+        isLoaded = true;
     }
 }
 
