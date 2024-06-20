@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
   import { TrackingModeExitMode } from 'lightweight-charts';
-  import {getCache, setCache, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
+  import {getCache, setCache, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
   import StockKeyInformation from '$lib/components/StockKeyInformation.svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
@@ -1338,7 +1338,16 @@ function changeChartType() {
                                     </Lazy>
                                <!--End RevenueSegmentation-->
                                   
-                          
+                                    
+                               <Lazy>
+                                <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$darkPoolComponent ? 'hidden' : ''}">
+                                {#await import('$lib/components/DarkPool.svelte') then {default: Comp}}
+                                  <svelte:component this={Comp} data={data} />
+                                {/await}
+                              </div>
+                              </Lazy>
+
+
                                <Lazy>
                                 <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$retailVolumeComponent ? 'hidden' : ''}">
                                 {#await import('$lib/components/RetailVolume.svelte') then {default: Comp}}

@@ -72,9 +72,9 @@ function getPlotOptions() {
     silent: true,
     animation: $screenWidth < 640 ? false: true,
     grid: {
-        left: $screenWidth < 640 ? '0%' : '2%',
-        right: $screenWidth < 640 ? '0%' : '2%',
-        bottom: $screenWidth < 640 ? '0%' : '2%',
+        left: '2%',
+        right: '2%',
+        bottom: '0%',
         containLabel: true
     },
     xAxis: {
@@ -255,7 +255,7 @@ $: {
               </div>
             </div>
 
-            <div class="p-3 sm:p-0 pb-8 sm:pb-2 rounded-lg bg-[#202020] sm:bg-[#0F0F0F]">
+            <div class="pb-8 sm:pb-2 rounded-lg bg-[#0F0F0F]">
                     
               
                 <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
@@ -339,7 +339,7 @@ $: {
 
     @media (max-width: 640px) {
     .app {
-        height: 230px;
+        height: 210px;
     }
     }
 
