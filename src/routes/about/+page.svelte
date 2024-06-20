@@ -52,8 +52,8 @@
     
     <!--Start Mission-->
     <div class="bg-[#0F0F0F] w-full hover:border-slate-500 border-slate-600 h-auto sm:p-10 mt-3">
-      <div class="text-white text-4xl sm:text-5xl text-center p-3 sm:mt-5">
-          <span class="font-bold">
+      <div class="text-[#9DED1E] text-4xl sm:text-5xl text-center p-3 sm:mt-5">
+          <span class="font-bold italic">
             A stock analysis platform by the users, for the users.
           </span>
       </div>
@@ -92,15 +92,15 @@
 
         <!-- Start Section-->
         <div class="bg-[#0F0F0F] w-full hover:border-slate-500 border-slate-600 h-auto pl-1 pr-1 sm:pl-0 sm:pr-0 pb-10 mb-8">
-          <div class="text-white text-4xl sm:text-5xl text-center p-3 mt-10 sm:mt-5">
-              <span class="font-bold ">
+          <div class="text-4xl sm:text-5xl text-[#9DED1E] text-center p-3 mt-10 sm:mt-5">
+              <span class="font-bold italic">
                 No ads. No tracking.
               </span>
           </div>
 
           
           <div class="text-white text-lg mt-3 text-center pl-10 pr-10">
-            Stocknear has no ads, third-party affiliate marketing, or tracking. Your attention and data are never monetized. If you're skeptical, that's okay—soon, just look at our code <a href="https://github.com/stocknear" rel="noopener noreferrer" target="_blank" class="text-blue-400 sm:hover:text-white sm:hover:underline" >here</a>. 
+            Stocknear has no ads, third-party affiliate marketing, or tracking. Your attention and data are never monetized. If you're skeptical, just look at our code <a href="https://github.com/stocknear" rel="noopener noreferrer" target="_blank" class="text-blue-400 sm:hover:text-white sm:hover:underline" >here</a>. 
           </div>
       </div>
       <!--End Section-->
@@ -108,28 +108,28 @@
 
        <!-- Start Section-->
        <div class="bg-[#0F0F0F] w-full hover:border-slate-500 border-slate-600 h-auto pb-10 mb-8">
-        <div class="text-white text-4xl sm:text-5xl text-center p-3 mt-10 sm:mt-5">
-            <span class="font-bold ">
+        <div class="text-4xl sm:text-5xl text-[#9DED1E] text-center p-3 mt-10 sm:mt-5">
+            <span class="font-bold italic">
               No Dark Patterns
             </span>
         </div>
 
         
         <div class="text-white text-lg mt-3 text-center pl-10 pr-10">
-          On Stocknear, there are no intrusive pop-ups asking you to sign up unless necessary. You don't need an account to view pages, we don't manipulate you into using our platform more than you want to. If you wish to cancel your subscription, there's no survey to fill out; you can cancel it in just 2 seconds.
+          On Stocknear, there are no intrusive pop-ups asking you to sign up unless necessary.
+          For instance, you want access all features of the platform. We don't manipulate you into using our platform more than you want to. If you wish to cancel your subscription, there's no survey to fill out; you can cancel it in just 2 seconds.
         </div>
     </div>
     <!--End Section-->
 
     <!--Start Why we need this -->
     <div class="bg-[#0F0F0F] w-full bg-[#0F0F0F]  sm:border-t hover:border-slate-500 border-slate-600 h-auto sm:p-10 mt-3 mb-8">
-      <div class="text-4xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 text-center p-3 mt-10 sm:mt-5">
+      <div class="text-4xl sm:text-5xl font-bold text-[#9DED1E] text-center p-3 mt-10 sm:mt-5 italic">
             What we offer
       </div>
 
       <div class="text-white text-lg mt-3 text-center pl-3 pr-3 sm:pl-10 sm:pr-10">
-          We support small investors, like yourself, to conduct due diligence through an extensive array of data sources. These include fundamental data such as income statements, balance sheets, and cashflow ratios, along with insights from US Senate trading data, dividends, hedge fund portfolios, latest news, earnings transcripts, statistical models for future prices, and more to be added in the future. Take control of your investments, make informed decisions, and execute profitable trades by leveraging our comprehensive data presented with the best UI.
-
+        We provide retail traders with high-quality, accurate data that is only available to hedge funds and institutional investors. By bridging the gap between <span class="text-[#9DED1E] font-semibold italic">Wall Street</span> and <span class="text-[#9DED1E] font-semibold italic">Retail Traders</span>, we enhance your stock analysis with a wide range of data sources. Take control of your investments, make informed decisions, and execute profitable trades using our comprehensive data presented in an intuitive UI.
            <!-- Start Image -->
            <div class="m-auto flex justify-center mt-5">
             <div class="relative">
@@ -160,15 +160,15 @@
 
      <!--Start Why we need this -->
      <div class="bg-[#0F0F0F] w-full bg-[#0F0F0F]  sm:border-t hover:border-slate-500 border-slate-600 h-auto sm:p-10 mt-3 mb-20 sm:mb-8">
-      <div class="text-4xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 text-center p-3 mt-10 sm:mt-5">
-          <span class="font-bold ">
+      <div class="text-4xl sm:text-5xl font-bold text-[#9DED1E] text-center p-3 mt-10 sm:mt-5">
+          <span class="font-bold italic">
             Why choose us
           </span>
       </div>
 
       <div class="-mt-10 sm:mt-0 text-white text-lg text-center pl-3 pr-3 sm:pl-10 sm:pr-10">
         <br class="mb-8 sm:mb-5">
-          You don't have to. There are tons of other website that provide similar services and that's ok.
+          You don't have to. There are tons of other website that provide similar services but not an <span class="font-semibold text-[#9DED1E] italic">all-in-one</span> solution like ours.
           <br>
           <br>
 
@@ -209,7 +209,7 @@
 
      <!--Start Team -->
      <div class="bg-[#0F0F0F] w-full bg-[#0F0F0F]  sm:border-t hover:border-slate-500 border-slate-600 h-auto sm:p-10 mt-3">
-      <div class="text-4xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 text-center p-3 mt-10 sm:mt-5">
+      <div class="text-4xl sm:text-5xl font-bold text-[#9DED1E] italic text-center p-3 mt-10 sm:mt-5">
         Team
       </div>
 
