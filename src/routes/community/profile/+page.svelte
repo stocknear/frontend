@@ -7,7 +7,7 @@
 
   import { onMount, onDestroy } from 'svelte';
   import {getImageURL } from '$lib/utils';
-  import {screenWidth, userRegion, setCache, getCache, newAvatar, clientSideCache, numberOfUnreadNotification, postIdDeleted } from '$lib/store';
+  import {userRegion, setCache, getCache, newAvatar, numberOfUnreadNotification, postIdDeleted } from '$lib/store';
 
   import toast from 'svelte-french-toast';
 	import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
@@ -499,6 +499,18 @@ const changeTab = (state) => {
   }
 };
 
+// Function to add days to a given date
+function addDays(days) {
+  // Original date from the data object
+  const createdDate = new Date(data?.user?.created);
+
+  const result = new Date(createdDate);
+  result.setDate(result.getDate() + days);
+  return result;
+}
+
+
+const trialEndDate = addDays(7);
 
 onMount(async () => {
 
@@ -548,7 +560,6 @@ onDestroy(async () => {
   <!-- Other meta tags -->
   <meta property="og:title" content="{data?.user?.username} · stocknear"/>
   <meta property="og:description" content="Explore {data?.user?.username}'s latest posts, comments, and notebooks on stocknear. Discover new insights and connect with other users in the stocknear community.">
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -556,7 +567,6 @@ onDestroy(async () => {
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="{data?.user?.username} · stocknear"/>
   <meta name="twitter:description" content="Explore {data?.user?.username}'s latest posts, comments, and notebooks on stocknear. Discover new insights and connect with other users in the stocknear community.">
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 </svelte:head>
 
@@ -887,12 +897,16 @@ onDestroy(async () => {
                                   <div class="ml-2 flex flex-row items-center">
                                 
                                     <span class="relative flex h-2 w-2 ">
-                                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full {subscriptionData?.status_formatted === 'Active' || subscriptionData?.status_formatted === 'Paid' || subscriptionData?.status_formatted === 'On Trial' ? 'bg-[#10DB06]' : 'bg-[#FF3131]'} opacity-75"></span>
-                                      <span class="relative inline-flex rounded-full h-2 w-2 {subscriptionData?.status_formatted === 'Active' || subscriptionData?.status_formatted === 'Paid' || subscriptionData?.status_formatted === 'On Trial' ? 'bg-[#10DB06]' : 'bg-[#FF3131]'}"></span>
+                                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full {subscriptionData?.status_formatted === 'Active' || subscriptionData?.status_formatted === 'Paid' || subscriptionData?.status_formatted === 'On Trial' || data?.user?.freeTrial === true ? 'bg-[#10DB06]' : 'bg-[#FF3131]'} opacity-75"></span>
+                                      <span class="relative inline-flex rounded-full h-2 w-2 {subscriptionData?.status_formatted === 'Active' || subscriptionData?.status_formatted === 'Paid' || subscriptionData?.status_formatted === 'On Trial' || data?.user?.freeTrial === true ? 'bg-[#10DB06]' : 'bg-[#FF3131]'}"></span>
                                     </span>
 
                                     <span class="ml-2 text-[1rem] text-slate-200 font-medium">
+                                      {#if data?.user?.freeTrial === true}
+                                      Active
+                                      {:else}
                                       {subscriptionData?.status_formatted ?? 'Inactive'}
+                                      {/if}
                                     </span>  
                                   </div>
 
@@ -905,6 +919,8 @@ onDestroy(async () => {
                                 <span class="text-white text-sm font-medium pr-5">
                                   Your trial will end on {new Date(subscriptionData?.trial_ends_at)?.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}.
                                 </span>
+                                {:else if data?.user?.freeTrial === true}
+                                Your trial will end on {trialEndDate?.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}.
                                 {:else if subscriptionData?.status_formatted === 'Cancelled'}
                                 <span class="text-white text-sm font-medium">
                                   Your subscription will remain active until {new Date(subscriptionData?.ends_at)?.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
@@ -917,7 +933,7 @@ onDestroy(async () => {
                                     Current Plan:
                                   </span>
                                   <span class="text-[1rem]">
-                                    {['Active', 'Paid', 'On Trial', 'Cancelled']?.includes(subscriptionData?.status_formatted) ? subscriptionData?.product_name : 'Free Subscription'}
+                                    {['Active', 'Paid', 'On Trial', 'Cancelled']?.includes(subscriptionData?.status_formatted) ? subscriptionData?.product_name : data?.user?.freeTrial === true ? 'Free Trial Subscription' : 'Free Subscription'}
                                   </span>
                                   <span class="text-sm text-white {subscriptionData?.status_formatted !== 'Active' ? 'hidden' : ''}">
                                     {subscriptionData?.product_name?.includes('Monthly') ? '$9.99 billed every month' : '$90 billed every year'}
@@ -945,6 +961,7 @@ onDestroy(async () => {
                                 <span class="text-white mt-5">
                                   Please wait a moment; you will be updated to Pro in a second.
                                 </span>
+                                {:else if data?.user?.freeTrial}
                                 {:else}
                                 <a href="/pricing" class="text-blue-400 mt-5">
                                   Get Full Access with Pro Subscription.

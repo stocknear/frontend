@@ -72,9 +72,10 @@ function getPlotOptions() {
     silent: true,
     animation: $screenWidth < 640 ? false: true,
     grid: {
-        left: '2%',
-        right: '2%',
+        left: '0%',
+        right: '0%',
         bottom: '0%',
+        top: '5%',
         containLabel: true
     },
     xAxis: {
@@ -234,7 +235,7 @@ $: {
 
             <div class="w-full flex flex-col items-start">
               <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">
-                  In the past six months, the {$displayCompanyName} had an average retail investor volume of <span class="font-semibold">{abbreviateNumber(avgVolume,true)}</span>, with a prevailing
+                  In the past six months, the {$displayCompanyName} had an average retail investor volume of <span class="font-semibold">{avgVolume > 100e3 ? abbreviateNumber(avgVolume,true) : '< $100K'}</span>, with a prevailing
                   {#if avgSentiment === 'Bullish' }
                   <span class="text-[#10DB06]">
                     <svg class="w-6 h-6 sm:w-7 sm:h-7 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="#10db06" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"><path d="m3 17l6-6l4 4l8-8"/><path d="M17 7h4v4"/></g></svg>
@@ -259,7 +260,7 @@ $: {
                     
               
                 <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
-                    <div class="app w-full h-[300px] ">
+                    <div class="app w-full h-[300px] mt-5">
                         <Chart options={optionsData} class="chart" />
                     </div>
                 </Lazy>
@@ -271,7 +272,7 @@ $: {
                 Latest Information
             </h2>
               <span class="text-white">
-                On {new Date(rawData?.lastDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}, retail traders accounted for <span class="font-semibold">{rawData?.retailStrength}%</span> of the trading volume.
+                On {new Date(rawData?.lastDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}, retail traders accounted for <span class="font-semibold">{rawData?.retailStrength > 0.01 ? rawData?.retailStrength : '< 0.01'}%</span> of the trading volume.
               </span>
               <div class="flex justify-start items-center w-full m-auto mt-6 ">
                 <table class="w-full" data-test="statistics-table">
@@ -289,7 +290,7 @@ $: {
                               <span>Volume</span>
                           </td>
                           <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                            {abbreviateNumber(rawData?.lastTrade,true)}
+                            {rawData?.lastTrade > 100e3 ? abbreviateNumber(rawData?.lastTrade,true) : '< $100K'}
                           </td>
                       </tr>
                       <tr class="border-y border-gray-800 odd:bg-[#202020]">

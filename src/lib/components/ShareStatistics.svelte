@@ -64,9 +64,10 @@ function getPlotOptions() {
     silent: true,
     animation: $screenWidth < 640 ? false: true,
     grid: {
-        left: $screenWidth < 640 ? '0%' : '2%',
-        right: $screenWidth < 640 ? '5%' : '2%',
+        left: $screenWidth < 640 ? '1%' : '2%',
+        right: $screenWidth < 640 ? '0%' : '2%',
         bottom: $screenWidth < 640 ? '0%' : '2%',
+        top: '5%',
         containLabel: true
     },
     xAxis: {
@@ -175,7 +176,7 @@ $: {
             {#if isLoaded}
     
             {#if Object?.keys(rawData)?.length !== 0}
-            <div class="p-3 sm:p-0 mt-2 pb-8 sm:pb-2 rounded-lg bg-[#202020] sm:bg-[#0F0F0F]">
+            <div class="mt-2 pb-4 bg-[#0F0F0F]">
                     
                 <div class="w-full flex flex-col items-start">
                     <div class="text-white text-sm sm:text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
@@ -185,7 +186,7 @@ $: {
             
 
                 <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
-                    <div class="app w-full h-[300px] ">
+                    <div class="app w-full h-[300px] mt-6">
                         <Chart options={optionsData} class="chart" />
                     </div>
                 </Lazy>

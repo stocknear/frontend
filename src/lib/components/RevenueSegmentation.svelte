@@ -235,7 +235,7 @@ $: {
                     {#if isLoaded}
                         {#if Object?.keys(data)?.length !== 0  && totalProductRevenue !== 0}
                         
-                            <div class="p-3 sm:p-0 mt-2 pb-8 sm:pb-2 rounded-lg bg-[#202020] sm:bg-[#0F0F0F]">
+                            <div class="mt-2 pb-4">
                                 <div class="text-white  text-md mt-3 w-full mb-5">
                                     Based on the latest earnings report
                                     the main contributors of revenue are:

@@ -208,7 +208,7 @@ $: {
             </div>
         </div>
 
-        <div class="pb-2 sm:pb-2 rounded-lg bg-[#0F0F0F]">
+        <div class="pb-2 rounded-lg bg-[#0F0F0F]">
                 
           
             <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
