@@ -219,10 +219,10 @@ $: {
                         
             <div class="flex flex-row items-center">
                 <label for="retailTraderTrackerInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
-                    Retail Trader Volume
+                    Retail Trader Activity
                 </label>
                 <InfoModal
-                  title={"Retail Trader Volume"}
+                  title={"Retail Trader Activity"}
                   content={"Gain insights into Retail Trader activity with the following visualization: The green bar illustrates the daily volume trend, signifying a bullish sentiment if it ranges from 0 to 100, or bearish if it spans from -100 to just below 0. The white line depicts the daily trading volume of retail investors."}
                   id={"retailTraderTrackerInfo"}
                 />

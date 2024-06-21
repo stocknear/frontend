@@ -87,7 +87,7 @@
       <div class="card w-full bg-[#0F0F0F] border-t sm:border rounded-none sm:rounded-xl border-slate-700 m-auto ">
         <div class="card-body">
 
-            <p class="text-gray-400 italic mb-2 text-sm">Last updated: 22.06.2023</p>
+            <p class="text-gray-400 italic mb-2 text-sm">Last updated: 21.06.2024</p>
             
             <p class="text-gray-300 mb-5">
                 Please carefully read the terms and conditions before using this website.

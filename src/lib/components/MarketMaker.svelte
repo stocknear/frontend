@@ -1,5 +1,5 @@
 <script lang ='ts'>
-    import { darkPoolComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
+    import { marketMakerComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
     import { Chart } from 'svelte-echarts'
     import { abbreviateNumber } from "$lib/utils";
@@ -23,7 +23,9 @@
 
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    let rawData = [];
+    let rawData = {};
+    let historyData = [];
+    let topMarketMakers = [];
     let optionsData;
     let avgVolume;
     let avgShortVolume;
@@ -47,25 +49,20 @@ function normalizer(value) {
 
 function getPlotOptions() {
     let dates = [];
-    let totalVolumeList = [];
-    let shortVolumeList = [];
+    let tradeCountList = [];
+    let shareQuantityList = [];
+    let notionalSumList = [];
     // Iterate over the data and extract required information
-    rawData?.forEach(item => {
+    historyData?.forEach(item => {
 
     dates?.push(item?.date);
-    totalVolumeList?.push(item?.totalVolume);
-    shortVolumeList?.push(item?.shortVolume)
-
+    tradeCountList?.push(item?.totalWeeklyTradeCount);
+    shareQuantityList?.push(item?.totalWeeklyShareQuantity)
+    notionalSumList?.push(item?.totalNotionalSum)
     });
 
-    // Compute the average of item?.traded
-    const totalTraded = totalVolumeList?.reduce((acc, traded) => acc + traded, 0);
-    avgVolume = totalTraded / totalVolumeList?.length;
-
-    const totalShort = shortVolumeList?.reduce((acc, sentiment) => acc + sentiment, 0);
-    avgShortVolume = totalShort / shortVolumeList?.length;
-
-    const {unit, denominator } = normalizer(Math.max(...totalVolumeList) ?? 0)
+    console.log(tradeCountList)
+    const {unit, denominator } = normalizer(Math.max(...notionalSumList) ?? 0)
 
     const option = {
     silent: true,
@@ -102,10 +99,27 @@ function getPlotOptions() {
             }
         },
     },
+    {
+      type: 'value',
+      splitLine: {
+            show: false, // Disable x-axis grid lines
+      },
+      name: 'Sentiment',
+      position: 'right',
+      axisLabel: {
+          formatter: function (value, index) {
+            if (index % 2 === 0) {
+              return value.toFixed(2); // Format the sentiment value
+            } else {
+                  return ''; // Hide this tick
+              }
+          }
+      }
+    }
     ],
     series: [
         {
-            data: totalVolumeList,
+            data: notionalSumList,
             type: 'line',
             itemStyle: {
                 color: '#fff' // Change bar color to white
@@ -113,9 +127,19 @@ function getPlotOptions() {
             showSymbol: false
         },
         {
+            data: tradeCountList,
+            type: 'bar',
+            yAxisIndex: 1,
+            itemStyle: {
+                color: '#9DED1E' // Change bar color to white
+            },
+            showSymbol: false
+        },
+        {
 
-            data: shortVolumeList,
-            type: 'line',
+            data: shareQuantityList,
+            type: 'bar',
+            yAxisIndex: 1,
             itemStyle: {
                 color: '#536FC5' // Change bar color to white
             },
@@ -128,16 +152,16 @@ function getPlotOptions() {
 return option;
 }
 
-const getDarkPool = async (ticker) => {
+const getMarketMaker = async (ticker) => {
     // Get cached data for the specific tickerID
-    const cachedData = getCache(ticker, 'getDarkPool');
+    const cachedData = getCache(ticker, 'getMarketMaker');
     if (cachedData) {
       rawData = cachedData;
     } else {
 
       const postData = {'ticker': ticker};
       // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/dark-pool', {
+      const response = await fetch(apiURL + '/market-maker', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -146,13 +170,14 @@ const getDarkPool = async (ticker) => {
       });
 
       rawData = await response.json();
-      // Cache the data for this specific tickerID with a specific name 'getDarkPool'
-      setCache(ticker, rawData, 'getDarkPool');
+      // Cache the data for this specific tickerID with a specific name 'getMarketMaker'
+      setCache(ticker, rawData, 'getMarketMaker');
     }
-    if(rawData?.length !== 0) {
-      $darkPoolComponent = true;
+    
+    if(Object?.keys(rawData)?.length !== 0) {
+      $marketMakerComponent = true;
     } else {
-      $darkPoolComponent = false;
+      $marketMakerComponent = false;
     }
 };
 
@@ -162,16 +187,19 @@ $: {
     isLoaded=false;
     const ticker = $assetType === 'stock' ? $stockTicker :$etfTicker
     const asyncFunctions = [
-      getDarkPool(ticker)
+      getMarketMaker(ticker)
       ];
       Promise.all(asyncFunctions)
           .then((results) => {
+            topMarketMakers = rawData?.topMarketMakers ?? [];
+            historyData = rawData?.history;
             optionsData = getPlotOptions()
           })
           .catch((error) => {
             console.error('An error occurred:', error);
           });
     isLoaded = true;
+
   }
 }
 
@@ -184,27 +212,27 @@ $: {
     <main class="overflow-hidden ">
                     
         <div class="flex flex-row items-center">
-            <label for="darkPoolInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
-                Dark Pool Activity
+            <label for="marketMakerInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
+                Market Maker Activity
             </label>
             <InfoModal
-              title={"Dark Pool Data"}
-              content={"Dark pool data refers to information on trading activities that occur in private, non-public financial exchanges known as dark pools. These venues are used by hedge funds and major institutional traders to buy and sell large blocks of securities without exposing their orders to the public, minimizing market impact and price fluctuations. Currently, nearly 50% of all trades are executed in these dark pools, highlighting their significant role in the trading landscape."}
-              id={"darkPoolInfo"}
+              title={"Market Maker Activity"}
+              content={"Market makers provide liquidity by quoting buy and sell prices, stabilizing markets. For retail traders, understanding this helps navigate tight spreads, execute trades effectively, and gauge market sentiment."}
+              id={"marketMakerInfo"}
             />
         </div>
 
         {#if data?.user?.tier === 'Pro'}
         {#if isLoaded}
 
-        {#if rawData?.length !== 0}
+        {#if historyData?.length !== 0}
 
         <div class="w-full flex flex-col items-start">
             <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">
                 Over the past 12 months, {$displayCompanyName} has experienced an average dark pool trading volume of
-                <span class="font-semibold">{abbreviateNumber(avgVolume)}</span> shares.
-                Out of this total, an average of <span class="font-semibold">{abbreviateNumber(avgShortVolume)}</span> shares,
-                constituting approximately <span class="font-semibold">{((avgShortVolume/avgVolume)*100)?.toFixed(2)}%</span>, were short volume.
+                <span class="font-semibold">12</span> shares.
+                Out of this total, an average of <span class="font-semibold">12</span> shares,
+                constituting approximately <span class="font-semibold">12%</span>, were short volume.
             </div>
         </div>
 
@@ -243,7 +271,7 @@ $: {
             Latest Information
         </h2>
 
-
+        <!--
           <div class="flex justify-start items-center w-full m-auto ">
             <table class="w-full" data-test="statistics-table">
               <tbody>
@@ -274,6 +302,7 @@ $: {
               </tbody>
           </table>
           </div>
+          -->
         
         {/if}
 
