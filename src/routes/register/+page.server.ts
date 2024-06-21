@@ -3,6 +3,15 @@ import { registerUserSchema } from '$lib/schemas';
 import { validateData } from '$lib/utils';
 
 
+async function checkDisposableEmail(email:string) {
+
+}const url = `https://disposable.debounce.io/?email=${encodeURIComponent(email)}`;
+	const response = await fetch(url, {
+		method: 'GET',
+		headers: {
+		'Content-Type': 'application/json',
+		},
+	});
 
 export const actions = {
 	register: async ({ locals, request }) => {
@@ -14,7 +23,8 @@ export const actions = {
 				errors: errors.fieldErrors
 			});
 		}
-
+		console.log(formData)
+		//await checkDisposableEmail()
 		//let username = generateUsername(formData.name.split(' ').join('')).toLowerCase();
 
 		try {
