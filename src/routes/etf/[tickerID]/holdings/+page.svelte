@@ -76,7 +76,6 @@ $: {
   <!-- Other meta tags -->
   <meta property="og:title" content={`${$displayCompanyName} (${$etfTicker}) Holdings List · stocknear`}/>
   <meta property="og:description" content={`Get the Holdings List of ${$displayCompanyName} (${$etfTicker}).`} />
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -84,7 +83,6 @@ $: {
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content={`${$displayCompanyName} (${$etfTicker}) Holdings List · stocknear`}/>
   <meta name="twitter:description" content={`Get the Holdings List of ${$displayCompanyName} (${$etfTicker}).`} />
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -135,10 +133,10 @@ $: {
                             </tr>
                           </thead>
                           <tbody>
-                            {#each holdings as item,index}
+                            {#each (data?.user?.tier === 'Pro' ? holdings : holdings?.slice(0,3)) as item,index}
                         <!-- row -->
                         {#if item?.asset !== null}
-                        <tr on:click={() => stockSelector(item?.asset)} class="w-full sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#0F0F0F] border-b-[#0F0F0F] shake-ticker {item?.asset?.length !== 0 ? 'cursor-pointer' : ''}">
+                        <tr on:click={() => stockSelector(item?.asset)} class="w-full sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] {index+1 === holdings?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''} {item?.asset?.length !== 0 ? 'cursor-pointer' : ''}">
                           
                           <td class="text-gray-200 border-b border-[#0F0F0F]">
                             {index+1}

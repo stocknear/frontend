@@ -128,7 +128,7 @@ $: {
             <div class="w-full mt-5 mb-5 flex justify-start items-center">
                 <div class="w-full grid grid-cols-2 lg:grid-cols-3 gap-y-3 gap-x-3 ">
                   <!--Start Flow Sentiment-->  
-                  <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#202020] shadow-lg rounded-2xl h-20">
+                  <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#202020] shadow-lg rounded-lg h-20">
                       <div class="flex flex-col items-start">
                           <span class="font-medium text-gray-200 text-sm">Trend Sentiment</span>
                           <span class="text-start text-[1rem] font-medium {flowSentiment === 'Bullish' ? 'text-[#10DB06]' : 'text-[#FC2120]'}">{flowSentiment}</span>
@@ -137,7 +137,7 @@ $: {
                   
                   <!--End Flow Sentiment-->
                    <!--Start Put/Call-->  
-                   <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#202020] shadow-lg rounded-2xl h-20">
+                   <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#202020] shadow-lg rounded-lg h-20">
                     <div class="flex flex-col items-start">
                         <span class="font-medium text-gray-200 text-sm ">Accuracy</span>
                         <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -165,7 +165,7 @@ $: {
                    <!--End Put/Call-->
 
                    <!--Start Precision-->  
-                   <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#202020] shadow-lg rounded-2xl h-20">
+                   <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#202020] shadow-lg rounded-lg h-20">
                     <div class="flex flex-col items-start">
                         <span class="font-medium text-gray-200 text-sm ">Precision</span>
                         <span class="text-start text-sm sm:text-[1rem] font-medium text-white">

@@ -59,7 +59,7 @@ function selectSortingMethod(state:string) {
     const options = {
       grid: {
           left: '0%',
-          right: '0%',
+          right: '2%',
           top: '10%',
           bottom: '20%',
           containLabel: true,
@@ -285,7 +285,6 @@ optionsGrowth = plotGrowth();
 <!-- Other meta tags -->
 <meta property="og:title" content={`${$displayCompanyName} (${$stockTicker}) Number of Employees · stocknear`}/>
 <meta property="og:description" content={`Detailed historical employees number for ${$displayCompanyName} (${$stockTicker}). See many years of change, growth and the impact.`} />
-<meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <meta property="og:type" content="website"/>
 <!-- Add more Open Graph meta tags as needed -->
 
@@ -293,7 +292,6 @@ optionsGrowth = plotGrowth();
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content={`${$displayCompanyName} (${$stockTicker}) Number of Employees · stocknear`}/>
 <meta name="twitter:description" content={`Detailed historical employees number for ${$displayCompanyName} (${$stockTicker}). See many years of change, growth and the impact.`} />
-<meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -338,50 +336,69 @@ optionsGrowth = plotGrowth();
   
                       </div>
 
-              
-                      <div class="no-scrollbar stats stats-horizontal bg-[#0F0F0F] shadow-md w-full rounded-lg">
-
-                        <div class="stat">
-                          <div class="stat-title text-sm font-medium text-white">Total Employees</div>
-                          <div class="stat-value text-white text-[1rem] font-medium">{abbreviateNumber(employees)}</div>
-                        </div>
+                      
+                      <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-5 bg-[#202020] shadow-md rounded-xl p-5 flex justify-center items-center mb-2">
+                        <!--Start Column Title-->
+                        <div class="flex flex-col">
+                          <div class="flex flex-row items-center">
+                            <span class="text-gray-300 font-medium text-[1rem]">
+                              Total Employees
+                            </span>
+                          </div>
                         
-                        <div class="stat">
-                          <div class="stat-title text-white text-sm font-medium">Change (1Y)</div>
-                          <div class="stat-value text-white text-[1rem] font-medium">
+                          <span class="text-white text-[1rem] font-semibold">
+                            {abbreviateNumber(employees)}
+                          </span>
+                        </div>
+                        <!--End Column Title-->
+                  
+                        <!--Start Column Win Rate-->
+                        <div class="flex flex-col">
+                          <div class="flex flex-row items-center">
+                            <span class="text-gray-300 font-medium text-[1rem] ">
+                                Change (1Y)
+                            </span>
+                          </div>
+                          <span class="text-white text-[1rem] font-semibold">
                             {#if dateDistance}
                             n/a
                             {:else}
                               {abbreviateNumber(changeRate)}
                             {/if}
-                          </div>
+                          </span>
                         </div>
-                        
-                        <div class="stat">
-                          <div class="stat-title text-white text-sm font-medium">Growth (1Y)</div>
-                          <div class="stat-value text-lg font-medium">
-                            {#if growthRate >= 0}
-                                  <span class="text-white text-md font-medium">
-                                    <svg class="w-5 h-5 inline-block -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
-                                      <span class="text-[#10DB06] text-[1rem]">+{growthRate}%</span>
-                                  </span>
-                                  {:else if growthRate < 0}
-                                  <div class="text-white text-md font-medium">
-                                      <svg class="w-5 h-5 rotate-180 inline-block -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
-                                      <span class="text-[#FF2F1F] text-[1rem]">{growthRate}%</span>
-                                  </div>
-                                  {:else}
-                                    <span class="text-white m-auto">
-                                      n/a
-                                    </span>
-                                  {/if}
+                        <!--End Column Win Rate-->
+                  
+                        <!--Start Column Performance-->
+                        <div class="flex flex-col">
+                            <div class="flex flex-row items-center">
+                              <span class="text-gray-300 font-medium text-[1rem]">
+                              Growth (1Y)
+                              </span>
+                            </div>
+                            <span class="text-white  text-[1rem] font-semibold">
+                              {#if growthRate >= 0}
+                              <span class="text-white text-md font-medium">
+                                <svg class="w-5 h-5 inline-block -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
+                                  <span class="text-[#10DB06] text-[1rem]">+{growthRate}%</span>
+                              </span>
+                              {:else if growthRate < 0}
+                              <div class="text-white text-md font-medium">
+                                  <svg class="w-5 h-5 rotate-180 inline-block -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
+                                  <span class="text-[#FF2F1F] text-[1rem]">{growthRate}%</span>
+                              </div>
+                              {:else}
+                                <span class="text-white m-auto">
+                                  n/a
+                                </span>
+                              {/if}
+                            </span>
                           </div>
-                        </div>
-                        
+                    <!--End Column-->
+                    </div>
+
                          
       
-                          </div>
-
                       
       
                       <div class="flex flex-row items-center w-full mt-10 mb-8">
@@ -431,36 +448,36 @@ optionsGrowth = plotGrowth();
                           {/if}
                           
                           <div class="flex justify-start items-center w-full m-auto pr-1 pl-1 p-3">
-                              <table class="table table-sm table-compact table-pin-rows flex justify-start items-center w-full px-3 m-auto">
+                              <table class="table table-sm table-compact flex justify-start items-center w-full px-3 m-auto">
                               <thead>
                                   <tr>
-                                  <th class="text-start shadow-md border-b border-[#0F0F0F] bg-[#0F0F0F] text-white text-sm font-medium">
+                                  <th class="text-start border-b border-[#0F0F0F] bg-[#0F0F0F] text-white text-sm font-semibiold">
                                       Date
                                   </th>
-                                  <th class="text-end shadow-md border-b border-[#0F0F0F] bg-[#0F0F0F] text-white text-sm font-medium">
+                                  <th class="text-end border-b border-[#0F0F0F] bg-[#0F0F0F] text-white text-sm font-semibiold">
                                       Employees
                                   </th>
-                                  <th class="text-end shadow-md border-b border-[#0F0F0F] bg-[#0F0F0F] hidden sm:table-cell text-white text-sm font-medium">
+                                  <th class="text-end border-b border-[#0F0F0F] bg-[#0F0F0F] hidden sm:table-cell text-white text-sm font-semibiold">
                                       Change
                                   </th>
-                                  <th class="text-end shadow-md border-b border-[#0F0F0F] bg-[#0F0F0F] text-white text-sm font-medium">
+                                  <th class="text-end border-b border-[#0F0F0F] bg-[#0F0F0F] text-white text-sm font-semibiold">
                                       Growth
                                   </th>
                                 </tr>
                               </thead>
-                              <tbody class="shadow-md">
+                              <tbody class="">
                                 {#each historyList as item, index}
-                                <tr class="text-gray-200 ">
-                                  <td class="text-start bg-[#0F0F0F] border-b border-[#0F0F0F]  text-xs sm:text-sm text-white">
+                                <tr class="text-gray-200 odd:bg-[#202020]">
+                                  <td class="text-start border-b border-[#0F0F0F] text-xs sm:text-sm text-white">
                                     {new Date(item?.filingDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                   </td>
-                                  <td class="text-end border-b border-[#0F0F0F] bg-[#0F0F0F] text-xs sm:text-sm text-white">
+                                  <td class="text-end border-b border-[#0F0F0F] text-xs sm:text-sm text-white">
                                     {new Intl.NumberFormat("en").format(item?.employeeCount)}
                                   </td>
-                                  <td class="text-end border-b border-[#0F0F0F] bg-[#0F0F0F] text-xs sm:text-sm hidden sm:table-cell text-white">
+                                  <td class="text-end border-b border-[#0F0F0F] text-xs sm:text-sm hidden sm:table-cell text-white">
                                     {abbreviateNumber(item?.employeeCount-historyList[index+1]?.employeeCount)}
                                   </td>
-                                  <td class="text-end border-b border-[#0F0F0F] bg-[#0F0F0F] text-xs sm:text-sm text-white text-end">
+                                  <td class="text-end border-b border-[#0F0F0F] text-xs sm:text-sm text-white text-end">
                                     {#if index+1-historyList?.length == 0}
                                     0.00%
                                     {:else}

@@ -389,7 +389,7 @@ $: {
                             <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center">
                               <div class="w-full grid grid-cols-2 lg:grid-cols-3 gap-y-3 lg:gap-y-3 gap-x-3 ">
                                 <!--Start Flow Sentiment-->  
-                                <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
+                                <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
                                     <div class="flex flex-col items-start">
                                         <span class="font-medium text-gray-200 text-sm ">Flow Sentiment</span>
                                         <span class="text-start text-[1rem] font-medium {flowSentiment === 'Bullish' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">{flowSentiment}</span>
@@ -398,7 +398,7 @@ $: {
                                 </div>
                                 <!--End Flow Sentiment-->
                                 <!--Start Put/Call-->  
-                                <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
+                                <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
                                   <div class="flex flex-col items-start">
                                       <span class="font-medium text-gray-200 text-sm ">Put/Call</span>
                                       <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -425,7 +425,7 @@ $: {
                               </div>
                               <!--End Put/Call-->
                               <!--Start Call Flow-->  
-                              <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
+                              <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
                                 <div class="flex flex-col items-start">
                                     <span class="font-medium text-gray-200 text-sm ">Call Flow</span>
                                     <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -454,7 +454,7 @@ $: {
                               </div>
                               <!--End Call Flow-->
                               <!--Start Put Flow-->  
-                              <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
+                              <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
                                 <div class="flex flex-col items-start">
                                     <span class="font-medium text-gray-200 text-sm ">Put Flow</span>
                                     <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -514,7 +514,7 @@ $: {
                                     <tbody>
                                       {#each optionList as item}
                                       <!-- row -->
-                                      <tr class="bg-[#0F0F0F] border-b-[#0F0F0F]">
+                                      <tr class="bg-[#0F0F0F] border-b-[#0F0F0F] ">
                                         
                                         <td class="text-white text-xs sm:text-sm text-start">
                                           {formatDate(item?.updated)}

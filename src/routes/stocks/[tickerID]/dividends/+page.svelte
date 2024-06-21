@@ -280,29 +280,28 @@ onMount(async() => {
       
                           </div>
       
-                        <div class="flex flex-row items-center w-full mt-14 mb-8">
-      
-                          <h3 class="text-xl text-white font-medium ">
-                            Dividends History
-                          </h3>
-      
-      
-                          <label class="{stockDividends?.length === 0 ? 'hidden' : ''} inline-flex cursor-pointer relative ml-auto">
-                            <input on:click={toggleMode} type="checkbox" value={mode} class="sr-only peer">
-                            <div class="w-11 h-6 bg-gray-400 rounded-full peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1563F9]"></div>
-                            {#if mode}
-                            <span class="ml-2 text-sm font-medium text-gray-300">
-                                Cool Mode
-                            </span>
-                            {:else}
-                            <span class="ml-2 text-sm font-medium text-gray-500">
-                                Boring Mode
-                            </span>
-                            {/if}
-                          </label>
-      
-                        </div>
-                        
+                          <div class="flex flex-col sm:flex-row items-start sm:items-center w-full mt-14 mb-8">
+        
+                            <h3 class="text-xl text-white font-semibold ">
+                              Dividends History
+                            </h3>
+        
+        
+                            <label class="{stockDividends?.length === 0 ? 'hidden' : ''} inline-flex cursor-pointer relative ml-auto mt-5 sm:mt-0">
+                              <input on:click={toggleMode} type="checkbox" value={mode} class="sr-only peer">
+                              <div class="w-11 h-6 bg-gray-400 rounded-full peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1563F9]"></div>
+                              {#if mode}
+                              <span class="ml-2 text-sm font-medium text-gray-300">
+                                  Cool Mode
+                              </span>
+                              {:else}
+                              <span class="ml-2 text-sm font-medium text-gray-500">
+                                  Boring Mode
+                              </span>
+                              {/if}
+                            </label>
+        
+                          </div>
       
                         {#if stockDividends?.length !== 0}
       
@@ -321,36 +320,36 @@ onMount(async() => {
                           {:else}
                           
                             <div class="flex justify-start items-center w-full m-auto shadow-md rounded-none sm:rounded-lg mb-4">
-                              <table class="table table-sm table-pin-rows shadow-md table-compact flex justify-start items-center w-full m-auto">
+                              <table class="table table-sm table-compact flex justify-start items-center w-full m-auto">
                                 <thead>
                                   <tr class="bg-[#0F0F0F] border-b-slate-600 shadow-md">
-                                    <th class="text-start bg-[#0F0F0F] border-b border-[#0F0F0F] text-white text-sm font-medium">
+                                    <th class="text-start bg-[#0F0F0F] border-b border-[#0F0F0F] text-white text-sm font-semibold">
                                       Ex-Divid. Date
                                     </th>
-                                    <th class="text-end bg-[#0F0F0F] border-b border-[#0F0F0F] text-white text-sm font-medium">
+                                    <th class="text-end bg-[#0F0F0F] border-b border-[#0F0F0F] text-white text-sm font-semibold">
                                       Cash Amount
                                     </th>
-                                    <th class="text-end bg-[#0F0F0F] border-b border-[#0F0F0F] hidden sm:table-cell text-white text-sm font-medium">
+                                    <th class="text-end bg-[#0F0F0F] border-b border-[#0F0F0F] hidden sm:table-cell text-white text-sm font-semibold">
                                       Record Date
                                     </th>
-                                    <th class="text-end bg-[#0F0F0F] border-b border-[#0F0F0F] text-white text-sm font-medium">
+                                    <th class="text-end bg-[#0F0F0F] border-b border-[#0F0F0F] text-white text-sm font-semibold">
                                       Pay Date
                                     </th>
                                   </tr>
                                 </thead>
                                 <tbody class="shadow-md">
                                   {#each stockDividends as item}
-                                  <tr class="text-gray-200 ">
-                                    <td class="text-start bg-[#0F0F0F] text-xs sm:text-sm text-white font-medium border-b border-[#0F0F0F]">
+                                  <tr class="text-gray-200 odd:bg-[#202020]">
+                                    <td class="text-start text-xs sm:text-sm text-white font-medium border-b border-[#0F0F0F]">
                                       {new Date(item?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                     </td>
-                                    <td class="text-end bg-[#0F0F0F] text-xs sm:text-sm text-white border-b border-[#0F0F0F]">
+                                    <td class="text-end text-xs sm:text-sm text-white border-b border-[#0F0F0F]">
                                       ${item?.adjDividend?.toFixed(2)}
                                     </td>
-                                    <td class="text-end bg-[#0F0F0F] text-xs sm:text-sm hidden sm:table-cell text-white border-b border-[#0F0F0F]">
+                                    <td class="text-end text-xs sm:text-sm hidden sm:table-cell text-white border-b border-[#0F0F0F]">
                                       {item?.recordDate?.length !== 0 ? new Date(item?.recordDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' }) : 'n/a'}
                                     </td>
-                                    <td class="text-end bg-[#0F0F0F] text-xs sm:text-sm text-white border-b border-[#0F0F0F]">
+                                    <td class="text-end text-xs sm:text-sm text-white border-b border-[#0F0F0F]">
                                       {item?.paymentDate?.length !== 0 ? new Date(item?.paymentDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' }) : 'n/a'}
                                     </td>
                                   </tr>
