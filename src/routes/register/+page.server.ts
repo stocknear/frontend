@@ -3,28 +3,37 @@ import { registerUserSchema } from '$lib/schemas';
 import { validateData } from '$lib/utils';
 
 
-async function checkDisposableEmail(email:string) {
-
-}const url = `https://disposable.debounce.io/?email=${encodeURIComponent(email)}`;
+async function checkDisposableEmail(email) {
+const url = `https://disposable.debounce.io/?email=${encodeURIComponent(email)}`;
 	const response = await fetch(url, {
 		method: 'GET',
 		headers: {
 		'Content-Type': 'application/json',
 		},
 	});
+	const output = (await response.json())?.disposable ?? false;
+	return output
+}
 
 export const actions = {
 	register: async ({ locals, request }) => {
-		const { formData, errors } = await validateData(await request.formData(), registerUserSchema);
 
+
+		const { formData, errors } = await validateData(await request.formData(), registerUserSchema);
 		if (errors) {
+			console.log(errors.fieldErrors)
 			return fail(400, {
 				data: formData,
 				errors: errors.fieldErrors
 			});
 		}
-		console.log(formData)
-		//await checkDisposableEmail()
+		const isEmailDisposable = await checkDisposableEmail(formData?.email);
+
+		if(isEmailDisposable === "true") {
+			error(400, 'Disposable Email Addresses not allowed!');
+		}
+
+
 		//let username = generateUsername(formData.name.split(' ').join('')).toLowerCase();
 
 		try {
