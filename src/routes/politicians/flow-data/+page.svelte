@@ -618,9 +618,9 @@
                           </thead>
                           <tbody>
                             {#each displayList as item, index}
-                            <tr on:click={() => goto(`/politicians/${item?.id}`)} class="cursor-pointer text-gray-200 bg-[#0F0F0F] border-b-[#0F0F0F] {index+1 === rawData?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
+                            <tr on:click={() => goto(`/politicians/${item?.id}`)} class="cursor-pointer text-gray-200 odd:bg-[#202020] border-b-[#0F0F0F] {index+1 === rawData?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                             
-                              <th class="bg-[#0F0F0F] text-gray-200 ">
+                              <th class="{index % 2 ? 'bg-[#0F0F0F]' : 'bg-[#202020]'} text-gray-200 ">
                                 <div class="flex flex-row items-center">
                                   <div class="flex-shrink-0 rounded-full border border-slate-700 w-9 h-9 relative {item?.party === 'Republican' ? 'bg-[#98272B]' : item?.party === 'Democratic' ? 'bg-[#295AC7]' : 'bg-[#4E2153]'} flex items-center justify-center">
                                     <img style="clip-path: circle(50%);" class="rounded-full w-7" src={item?.image} loading="lazy"/>

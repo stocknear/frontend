@@ -30,7 +30,6 @@
   <!-- Other meta tags -->
   <meta property="og:title" content="About · stocknear"/>
   <meta property="og:description" content="Welcome to Stocknear — a site that aims to be the internet's best source of free stock data and information for small investors.">
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -38,7 +37,6 @@
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="About · stocknear"/>
   <meta name="twitter:description" content="Welcome to Stocknear — a site that aims to be the internet's best source of free stock data and information for small investors.">
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 </svelte:head>
     
@@ -52,8 +50,8 @@
     
     <!--Start Mission-->
     <div class="bg-[#0F0F0F] w-full hover:border-slate-500 border-slate-600 h-auto sm:p-10 mt-3">
-      <div class="text-[#9DED1E] text-4xl sm:text-5xl text-center p-3 sm:mt-5">
-          <span class="font-bold italic">
+      <div class="text-white  text-4xl sm:text-5xl text-center p-3 sm:mt-5">
+          <span class="font-bold">
             A stock analysis platform by the users, for the users.
           </span>
       </div>
@@ -92,8 +90,8 @@
 
         <!-- Start Section-->
         <div class="bg-[#0F0F0F] w-full hover:border-slate-500 border-slate-600 h-auto pl-1 pr-1 sm:pl-0 sm:pr-0 pb-10 mb-8">
-          <div class="text-4xl sm:text-5xl text-[#9DED1E] text-center p-3 mt-10 sm:mt-5">
-              <span class="font-bold italic">
+          <div class="text-4xl sm:text-5xl text-white text-center p-3 mt-10 sm:mt-5">
+              <span class="font-bold">
                 No ads. No tracking.
               </span>
           </div>
@@ -108,8 +106,8 @@
 
        <!-- Start Section-->
        <div class="bg-[#0F0F0F] w-full hover:border-slate-500 border-slate-600 h-auto pb-10 mb-8">
-        <div class="text-4xl sm:text-5xl text-[#9DED1E] text-center p-3 mt-10 sm:mt-5">
-            <span class="font-bold italic">
+        <div class="text-4xl sm:text-5xl text-white text-center p-3 mt-10 sm:mt-5">
+            <span class="font-bold">
               No Dark Patterns
             </span>
         </div>
@@ -124,7 +122,7 @@
 
     <!--Start Why we need this -->
     <div class="bg-[#0F0F0F] w-full bg-[#0F0F0F]  sm:border-t hover:border-slate-500 border-slate-600 h-auto sm:p-10 mt-3 mb-8">
-      <div class="text-4xl sm:text-5xl font-bold text-[#9DED1E] text-center p-3 mt-10 sm:mt-5 italic">
+      <div class="text-4xl sm:text-5xl font-bold text-white text-center p-3 mt-10 sm:mt-5">
             What we offer
       </div>
 
@@ -160,8 +158,8 @@
 
      <!--Start Why we need this -->
      <div class="bg-[#0F0F0F] w-full bg-[#0F0F0F]  sm:border-t hover:border-slate-500 border-slate-600 h-auto sm:p-10 mt-3 mb-20 sm:mb-8">
-      <div class="text-4xl sm:text-5xl font-bold text-[#9DED1E] text-center p-3 mt-10 sm:mt-5">
-          <span class="font-bold italic">
+      <div class="text-4xl sm:text-5xl font-bold text-white text-center p-3 mt-10 sm:mt-5">
+          <span class="font-bold">
             Why choose us
           </span>
       </div>
@@ -209,7 +207,7 @@
 
      <!--Start Team -->
      <div class="bg-[#0F0F0F] w-full bg-[#0F0F0F]  sm:border-t hover:border-slate-500 border-slate-600 h-auto sm:p-10 mt-3">
-      <div class="text-4xl sm:text-5xl font-bold text-[#9DED1E] italic text-center p-3 mt-10 sm:mt-5">
+      <div class="text-4xl sm:text-5xl font-bold text-white text-center p-3 mt-10 sm:mt-5">
         Team
       </div>
 

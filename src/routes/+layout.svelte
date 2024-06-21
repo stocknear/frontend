@@ -737,9 +737,9 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
         {#if politicianGuide}
         <ul class="mt-2">
           <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  {$page.url.pathname=== '/options-zero-dte' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
-            <a href={"/politicians/new-trades"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
+            <a href={"/politicians/flow-data"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                 <span class="text-sm font-medium text-white ">
-                    New Trades
+                    Flow Data
                 </span>
             </a>
         </li>

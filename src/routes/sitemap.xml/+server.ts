@@ -90,7 +90,7 @@ const pages = [
     {title: "/contact"},
     {title: "/blog"},
     {title: "/politicians"},
-    {title: "/politicians/new-trades"},
+    {title: "/politicians/flow-data"},
     {title: "/analysts"},
     {title: "/analysts/top-stocks"},
     
