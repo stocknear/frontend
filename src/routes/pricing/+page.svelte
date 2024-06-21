@@ -128,7 +128,7 @@ async function purchasePlan() {
                         Pay Yearly
                     </span>
                     <span class="text-[#9DED1E] text-sm font-semibold">
-                        Save up 25%
+                        Save up 16%
                     </span>
                 </div>
               
@@ -250,7 +250,7 @@ async function purchasePlan() {
                 <div class="flex flex-col  mb-6 items-center">
 
                     <div class="flex flex-row items-center">
-                        <span class="mr-2 text-4xl font-bold">{mode ? '$90' : '$9.99'}</span>
+                        <span class="mr-2 text-4xl font-bold">{mode ? '$499' : '$49.99'}</span>
                         <span class="text-white text-xl">{mode ? '/year' : '/month'}</span>
                     </div>
 

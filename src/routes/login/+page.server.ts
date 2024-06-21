@@ -1,7 +1,6 @@
 import { error, fail, redirect } from "@sveltejs/kit";
 import { validateData } from "$lib/utils";
 import { loginUserSchema } from "$lib/schemas";
-import { oauthState, oauthVerifier, oauthProvider} from '$lib/store';
 
   
 export const actions = {

@@ -936,7 +936,7 @@ onDestroy(async () => {
                                     {['Active', 'Paid', 'On Trial', 'Cancelled']?.includes(subscriptionData?.status_formatted) ? subscriptionData?.product_name : data?.user?.freeTrial === true ? 'Free Trial Subscription' : 'Free Subscription'}
                                   </span>
                                   <span class="text-sm text-white {subscriptionData?.status_formatted !== 'Active' ? 'hidden' : ''}">
-                                    {subscriptionData?.product_name?.includes('Monthly') ? '$9.99 billed every month' : '$90 billed every year'}
+                                    {subscriptionData?.product_name?.includes('Monthly') ? '$49.99 billed every month' : '$499 billed every year'}
                                   </span>
                                 </div>
                                 
