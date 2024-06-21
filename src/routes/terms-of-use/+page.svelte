@@ -165,7 +165,10 @@
                 <br>
                 <br>
                 You may be held accountable for damages (including costs and attorneys' fees) for misrepresentation or bad-faith claims on the infringement of any Content found on and/or through Service on your copyright. 
-            </p>
+                <br>
+                <br>
+                On this website we use some images on this website from <a href="https://de.freepik.com/" class="text-blue-400 sm:hover:text-white">FreePik</a>.
+              </p>
 
 
             <h3 class="text-2xl font-medium text-white text-start underline">
