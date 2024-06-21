@@ -2,7 +2,7 @@
     import { marketMakerComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
     import { Chart } from 'svelte-echarts'
-    import { abbreviateNumber } from "$lib/utils";
+    import { abbreviateNumber, formatString } from "$lib/utils";
 
     import Lazy from 'svelte-lazy';
     export let data;
@@ -27,8 +27,25 @@
     let historyData = [];
     let topMarketMakers = [];
     let optionsData;
-    let avgVolume;
-    let avgShortVolume;
+    let avgTradeCount;
+    let avgShareQuantity;
+    let avgNotionalSum;
+    let showFullStats = false;
+
+function formatDateRange(lastDateStr) {
+    // Convert lastDateStr to Date object
+    const lastDate = new Date(lastDateStr);
+
+    // Get today's date for the first date (assuming today is the last date in your original logic)
+    const firstDate = new Date(lastDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+    // Format first and last dates
+    const firstDateFormatted = firstDate.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', day: '2-digit' });
+    const lastDateFormatted = lastDate.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', day: '2-digit' });
+
+    // Construct and return the formatted date range string
+    return `${firstDateFormatted} - ${lastDateFormatted}`;
+}
 
 function normalizer(value) {
   if (Math?.abs(value) >= 1e18) {
@@ -61,8 +78,20 @@ function getPlotOptions() {
     notionalSumList?.push(item?.totalNotionalSum)
     });
 
-    console.log(tradeCountList)
+    
+    // Compute the average of item?.traded
+    const totalTraded = tradeCountList?.reduce((acc, traded) => acc + traded, 0);
+    avgTradeCount = totalTraded / tradeCountList?.length;
+
+    const totalShare = shareQuantityList?.reduce((acc, item) => acc + item, 0);
+    avgShareQuantity = totalShare / shareQuantityList?.length;
+
+    const totalSum = notionalSumList?.reduce((acc, sentiment) => acc + sentiment, 0);
+    avgNotionalSum = totalSum / notionalSumList?.length;
+
+
     const {unit, denominator } = normalizer(Math.max(...notionalSumList) ?? 0)
+    const { unit: shareUnit, denominator: shareDenominator } = normalizer(Math.max(...shareQuantityList) ?? 0);
 
     const option = {
     silent: true,
@@ -74,11 +103,11 @@ function getPlotOptions() {
         top: '5%',
         containLabel: true
     },
-    xAxis: {
+    xAxis:
+    {
         type: 'category',
         boundaryGap: false,
         data: dates,
-       
     },
     yAxis: [
     { 
@@ -92,7 +121,7 @@ function getPlotOptions() {
                 // Display every second tick
                 if (index % 2 === 0) {
                     value = Math.max(value, 0);
-                    return (value / denominator)?.toFixed(1) + unit; // Format value in millions
+                    return '$'+(value / denominator)?.toFixed(1) + unit; // Format value in millions
                 } else {
                     return ''; // Hide this tick
                 }
@@ -104,12 +133,11 @@ function getPlotOptions() {
       splitLine: {
             show: false, // Disable x-axis grid lines
       },
-      name: 'Sentiment',
       position: 'right',
       axisLabel: {
           formatter: function (value, index) {
             if (index % 2 === 0) {
-              return value.toFixed(2); // Format the sentiment value
+              return (value / shareDenominator)?.toFixed(1) + shareUnit; // Format value in millions
             } else {
                   return ''; // Hide this tick
               }
@@ -127,22 +155,13 @@ function getPlotOptions() {
             showSymbol: false
         },
         {
-            data: tradeCountList,
-            type: 'bar',
-            yAxisIndex: 1,
-            itemStyle: {
-                color: '#9DED1E' // Change bar color to white
-            },
-            showSymbol: false
-        },
-        {
-
             data: shareQuantityList,
             type: 'bar',
             yAxisIndex: 1,
             itemStyle: {
                 color: '#536FC5' // Change bar color to white
             },
+            barWidth: "40%",
             showSymbol: false
         },
     ]
@@ -185,6 +204,7 @@ const getMarketMaker = async (ticker) => {
 $: {
   if($assetType === 'stock' ? $stockTicker :$etfTicker && typeof window !== 'undefined') {
     isLoaded=false;
+    showFullStats = false;
     const ticker = $assetType === 'stock' ? $stockTicker :$etfTicker
     const asyncFunctions = [
       getMarketMaker(ticker)
@@ -202,6 +222,20 @@ $: {
 
   }
 }
+
+let charNumber = 20;
+
+$: {
+  if($screenWidth < 640)
+  {
+    charNumber = 20;
+  }
+  else {
+    charNumber =40;
+  }
+}
+    
+
 
 </script>
     
@@ -229,10 +263,11 @@ $: {
 
         <div class="w-full flex flex-col items-start">
             <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">
-                Over the past 12 months, {$displayCompanyName} has experienced an average dark pool trading volume of
-                <span class="font-semibold">12</span> shares.
-                Out of this total, an average of <span class="font-semibold">12</span> shares,
-                constituting approximately <span class="font-semibold">12%</span>, were short volume.
+                Over the past year, {$displayCompanyName} has seen a weekly average of
+                <span class="font-semibold">{abbreviateNumber(avgTradeCount)}</span> trades, involving an average of
+                <span class="font-semibold">{abbreviateNumber(avgShareQuantity)}</span> shares bought and sold.
+                This activity sums up to an average total notional value of
+                <span class="font-semibold">{abbreviateNumber(avgNotionalSum,true)}</span>.
             </div>
         </div>
 
@@ -252,26 +287,25 @@ $: {
             <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
             <div class="w-3 h-3 bg-[#fff] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
             <span class="mt-2 sm:mt-0 text-white text-center sm:text-start text-xs sm:text-md inline-block">
-                Total Volume
+                Notional Sum
             </span>
         </div>
             <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                 <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
                 <div class="w-3 h-3 bg-[#536FC5] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
                 <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md sm:font-medium inline-block">
-                Short Volume
+                    Share Quantity
                 </span>
             </div>
 
         </div>
 
 
-
         <h2 class="mt-10 mr-1 flex flex-row items-center text-white text-xl sm:text-2xl font-bold mb-3">
             Latest Information
         </h2>
 
-        <!--
+
           <div class="flex justify-start items-center w-full m-auto ">
             <table class="w-full" data-test="statistics-table">
               <tbody>
@@ -280,29 +314,84 @@ $: {
                           <span>Date</span>
                       </td>
                       <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                        {new Date(rawData?.slice(-1)?.at(0)?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                        {formatDateRange(historyData?.slice(-1)?.at(0)?.date)}
                       </td>
                   </tr>
                   <tr class="border-y border-gray-800 odd:bg-[#202020]">
                       <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
-                          <span>Total Volume</span>
+                          <span>Total Notional Sum</span>
                       </td>
                       <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                        {abbreviateNumber(rawData?.slice(-1)?.at(0)?.totalVolume)}
+                        ${abbreviateNumber(historyData?.slice(-1)?.at(0)?.totalNotionalSum)}
                       </td>
                   </tr>
                   <tr class="border-y border-gray-800 odd:bg-[#202020]">
                       <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
-                          <span>Short % of Volume</span>
+                          <span>Total Trade Count</span>
                       </td>
                       <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                        {rawData?.slice(-1)?.at(0)?.shortPercent}%
+                        {abbreviateNumber(historyData?.slice(-1)?.at(0)?.totalWeeklyTradeCount)}
                       </td>
                   </tr>
+                  <tr class="border-y border-gray-800 odd:bg-[#202020]">
+                    <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
+                        <span>Total Share Quantity</span>
+                    </td>
+                    <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
+                      {abbreviateNumber(historyData?.slice(-1)?.at(0)?.totalWeeklyShareQuantity)}
+                    </td>
+                </tr>
               </tbody>
           </table>
           </div>
-          -->
+
+
+        <h3 class="mt-10 mr-1 flex flex-row items-center text-white text-xl sm:text-2xl font-bold mb-3">
+            Top 10 Market Makers Activity
+        </h3>
+        These market makers represent the highest average trading activity for {$displayCompanyName} over the past 12 months, calculated on a weekly basis.
+    
+          <div class="flex justify-start items-center w-full m-auto mt-6 overflow-x-scroll no-scrollbar">
+            <table class="table table-sm table-compact w-full">
+              <thead>
+                <tr class="border-b border-blue-400">
+                  <th class="text-white shadow-md font-semibold text-sm text-start bg-[#0F0F0F]">Name</th>
+                  <th class="text-white shadow-md font-semibold text-sm text-end bg-[#0F0F0F]">Trade Count</th>
+                  <th class="text-white shadow-md font-semibold text-sm text-end bg-[#0F0F0F]">Share Quantity</th>
+                  <th class="text-white shadow-md font-semibold text-sm text-end bg-[#0F0F0F]">Notional Sum</th>
+                </tr>
+              </thead>
+              <tbody>
+                {#each (showFullStats ? topMarketMakers?.slice(0,10) : topMarketMakers?.slice(0,3)) as item,index}
+                <tr class="border-y border-gray-800 odd:bg-[#202020] {index === 2 && !showFullStats && topMarketMakers?.length > 3 ? 'opacity-[0.5]' : '' } sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#0F0F0F] border-b-[#0F0F0F]">
+                 
+                    <td class="text-white font-medium">
+                     {item?.name?.length > charNumber ? formatString(item?.name?.slice(0,charNumber)) + "..." : formatString(item?.name)}
+                    </td>
+                
+                    <td class="text-white text-end font-medium">
+                        {abbreviateNumber(item?.avgWeeklyTradeCount)}
+                    </td>
+
+                    <td class="text-white text-end font-medium">
+                        {abbreviateNumber(item?.avgWeeklyShareQuantity)}
+                    </td>
+                
+                    <td class="text-white text-end font-medium ">
+                        {abbreviateNumber(item?.avgNotionalSum, true)}
+                    </td>
+                </tr>
+                {/each}
+              </tbody>
+            </table>
+
+    
+          </div>
+
+          <label on:click={() => showFullStats = !showFullStats} class="cursor-pointer flex justify-center items-center mt-5">
+            <svg class="w-10 h-10 transform {showFullStats ? 'rotate-180' : ''} " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#2A323C" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm0 13.5L7.5 11l1.42-1.41L12 12.67l3.08-3.08L16.5 11L12 15.5z"/></svg>
+        </label>
+
         
         {/if}
 
