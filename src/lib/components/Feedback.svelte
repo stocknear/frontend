@@ -94,7 +94,7 @@
   
   
   
-  <div class="fixed z-40 bottom-8 sm:bottom-10 right-8 sm:right-16">
+  <div class="fixed z-[100] bottom-8 sm:bottom-10 right-8 sm:right-16">
       <label for="feedbackInfo" class="inline-flex items-center justify-center w-12 h-12 sm:w-full sm:h-10 font-medium bg-gray-700 sm:bg-[#FFEDE5] ml-1 mr-0 sm:mr-2 rounded-full cursor-pointer">
         <svg xmlns="http://www.w3.org/2000/svg" class="sm:hidden sm:ml-4 w-6 h-6 text-white inline-block" viewBox="0 0 256 256"><path fill="white" d="M140 180a12 12 0 1 1-12-12a12 12 0 0 1 12 12M128 72c-22.06 0-40 16.15-40 36v4a8 8 0 0 0 16 0v-4c0-11 10.77-20 24-20s24 9 24 20s-10.77 20-24 20a8 8 0 0 0-8 8v8a8 8 0 0 0 16 0v-.72c18.24-3.35 32-17.9 32-35.28c0-19.85-17.94-36-40-36m104 56A104 104 0 1 1 128 24a104.11 104.11 0 0 1 104 104m-16 0a88 88 0 1 0-88 88a88.1 88.1 0 0 0 88-88"/></svg>
         <span class="text-black hidden sm:block text-md px-3">
