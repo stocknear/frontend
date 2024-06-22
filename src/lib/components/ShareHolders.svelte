@@ -279,12 +279,12 @@ $: {
                           <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
                           <!-- Progress Circle inside a group with rotation -->
                           <g class="origin-center -rotate-90 transform">
-                            <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#00FC50]" stroke-width="3" stroke-dasharray="100" stroke-dashoffset={100-callPercentage?.toFixed(2)}></circle>
+                            <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#00FC50]" stroke-width="3" stroke-dasharray="100" stroke-dashoffset={100-callPercentage}></circle>
                           </g>
                         </svg>
                         <!-- Percentage Text -->
                         <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                          <span class="text-center text-white text-sm">{callPercentage?.toFixed(1)}%</span>
+                          <span class="text-center text-white text-sm">{callPercentage?.toFixed(0)}%</span>
                         </div>
                       </div>
                       <!-- End Circular Progress -->
@@ -309,12 +309,12 @@ $: {
                             <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
                             <!-- Progress Circle inside a group with rotation -->
                             <g class="origin-center -rotate-90 transform">
-                              <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#EE5365]" stroke-width="3" stroke-dasharray="100" stroke-dashoffset={100-putPercentage?.toFixed(2)}></circle>
+                              <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#EE5365]" stroke-width="3" stroke-dasharray="100" stroke-dashoffset={100-putPercentage}></circle>
                             </g>
                           </svg>
                           <!-- Percentage Text -->
                           <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                            <span class="text-center text-white text-sm">{putPercentage?.toFixed(1)}%</span>
+                            <span class="text-center text-white text-sm">{putPercentage?.toFixed(0)}%</span>
                           </div>
                         </div>
                         <!-- End Circular Progress -->
