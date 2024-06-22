@@ -474,6 +474,7 @@ const loadWorker = async () => {
         {#each (filterList?.length === 0 ? weekday : weekdayFiltered) as day,index}
                   {#if index === selectedWeekday}
                     {#if day?.length !== 0}
+                    <div class="w-full overflow-x-scroll no-scrollbar">  
                       <table class="hidden sm:inline-table table-sm table-compact rounded-none sm:rounded-md w-full border-bg-[#0F0F0F] m-auto mt-4 ">
                           <thead>
                             <tr>
@@ -481,16 +482,16 @@ const loadWorker = async () => {
 
                               <th class="text-start text-white font-semibold text-sm"></th>
                               <th class="text-start text-white font-semibold text-sm">Event</th>
-                              <th class="text-start text-white font-semibold hidden sm:table-cell text-sm">Previous</th>
-                              <th class="text-start text-white font-semibold hidden sm:table-cell text-sm">Estimated</th>
-                              <th class="text-end text-white font-semibold hidden sm:table-cell text-sm">Actual</th>
+                              <th class="text-end text-white font-semibold text-sm">Previous</th>
+                              <th class="text-end text-white font-semibold text-sm">Estimated</th>
+                              <th class="text-end text-white font-semibold text-sm">Actual</th>
                               <th class="text-white font-semibold text-sm text-end">Impact</th>
                             </tr>
                           </thead>
                           <tbody>
                             {#each day as item}
                             <!-- row -->
-                            <tr class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#0F0F0F] border-b-[#0F0F0F]">
+                            <tr class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020]">
                               
                             <td class="text-white text-sm border-b-[#0F0F0F]">
                                 <label class="p-1.5 rounded-lg">
@@ -500,30 +501,30 @@ const loadWorker = async () => {
         
                             <td class="flex flex-row items-center">
                               {#if item?.country === 'EU'}
-                              <svg style="clip-path: circle(50%);" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><mask id="circleFlagsEu0"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#circleFlagsEu0)"><path fill="#0052b4" d="M0 0h512v512H0z"/><path fill="#ffda44" d="m256 100.2l8.3 25.5H291l-21.7 15.7l8.3 25.6l-21.7-15.8l-21.7 15.8l8.3-25.6l-21.7-15.7h26.8zm-110.2 45.6l24 12.2l18.9-19l-4.2 26.5l23.9 12.2l-26.5 4.2l-4.2 26.5l-12.2-24l-26.5 4.3l19-19zM100.2 256l25.5-8.3V221l15.7 21.7l25.6-8.3l-15.8 21.7l15.8 21.7l-25.6-8.3l-15.7 21.7v-26.8zm45.6 110.2l12.2-24l-19-18.9l26.5 4.2l12.2-23.9l4.2 26.5l26.5 4.2l-24 12.2l4.3 26.5l-19-19zM256 411.8l-8.3-25.5H221l21.7-15.7l-8.3-25.6l21.7 15.8l21.7-15.8l-8.3 25.6l21.7 15.7h-26.8zm110.2-45.6l-24-12.2l-18.9 19l4.2-26.5l-23.9-12.2l26.5-4.2l4.2-26.5l12.2 24l26.5-4.3l-19 19zM411.8 256l-25.5 8.3V291l-15.7-21.7l-25.6 8.3l15.8-21.7l-15.8-21.7l25.6 8.3l15.7-21.7v26.8zm-45.6-110.2l-12.2 24l19 18.9l-26.5-4.2l-12.2 23.9l-4.2-26.5l-26.5-4.2l24-12.2l-4.3-26.5l19 19z"/></g></svg>
+                              <svg style="clip-path: circle(50%);" class="w-4 h-4 sm:w-6 sm:h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><mask id="circleFlagsEu0"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#circleFlagsEu0)"><path fill="#0052b4" d="M0 0h512v512H0z"/><path fill="#ffda44" d="m256 100.2l8.3 25.5H291l-21.7 15.7l8.3 25.6l-21.7-15.8l-21.7 15.8l8.3-25.6l-21.7-15.7h26.8zm-110.2 45.6l24 12.2l18.9-19l-4.2 26.5l23.9 12.2l-26.5 4.2l-4.2 26.5l-12.2-24l-26.5 4.3l19-19zM100.2 256l25.5-8.3V221l15.7 21.7l25.6-8.3l-15.8 21.7l15.8 21.7l-25.6-8.3l-15.7 21.7v-26.8zm45.6 110.2l12.2-24l-19-18.9l26.5 4.2l12.2-23.9l4.2 26.5l26.5 4.2l-24 12.2l4.3 26.5l-19-19zM256 411.8l-8.3-25.5H221l21.7-15.7l-8.3-25.6l21.7 15.8l21.7-15.8l-8.3 25.6l21.7 15.7h-26.8zm110.2-45.6l-24-12.2l-18.9 19l4.2-26.5l-23.9-12.2l26.5-4.2l4.2-26.5l12.2 24l26.5-4.3l-19 19zM411.8 256l-25.5 8.3V291l-15.7-21.7l-25.6 8.3l15.8-21.7l-15.8-21.7l25.6 8.3l15.7-21.7v26.8zm-45.6-110.2l-12.2 24l19 18.9l-26.5-4.2l-12.2 23.9l-4.2-26.5l-26.5-4.2l24-12.2l-4.3-26.5l19 19z"/></g></svg>
                               {:else if item?.country === 'UK'}
-                              <svg style="clip-path: circle(50%);" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><mask id="circleFlagsUk0"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#circleFlagsUk0)"><path fill="#eee" d="m0 0l8 22l-8 23v23l32 54l-32 54v32l32 48l-32 48v32l32 54l-32 54v68l22-8l23 8h23l54-32l54 32h32l48-32l48 32h32l54-32l54 32h68l-8-22l8-23v-23l-32-54l32-54v-32l-32-48l32-48v-32l-32-54l32-54V0l-22 8l-23-8h-23l-54 32l-54-32h-32l-48 32l-48-32h-32l-54 32L68 0z"/><path fill="#0052b4" d="M336 0v108L444 0Zm176 68L404 176h108zM0 176h108L0 68ZM68 0l108 108V0Zm108 512V404L68 512ZM0 444l108-108H0Zm512-108H404l108 108Zm-68 176L336 404v108z"/><path fill="#d80027" d="M0 0v45l131 131h45zm208 0v208H0v96h208v208h96V304h208v-96H304V0zm259 0L336 131v45L512 0zM176 336L0 512h45l131-131zm160 0l176 176v-45L381 336z"/></g></svg>
+                              <svg style="clip-path: circle(50%);" class="w-4 h-4 sm:w-6 sm:h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><mask id="circleFlagsUk0"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#circleFlagsUk0)"><path fill="#eee" d="m0 0l8 22l-8 23v23l32 54l-32 54v32l32 48l-32 48v32l32 54l-32 54v68l22-8l23 8h23l54-32l54 32h32l48-32l48 32h32l54-32l54 32h68l-8-22l8-23v-23l-32-54l32-54v-32l-32-48l32-48v-32l-32-54l32-54V0l-22 8l-23-8h-23l-54 32l-54-32h-32l-48 32l-48-32h-32l-54 32L68 0z"/><path fill="#0052b4" d="M336 0v108L444 0Zm176 68L404 176h108zM0 176h108L0 68ZM68 0l108 108V0Zm108 512V404L68 512ZM0 444l108-108H0Zm512-108H404l108 108Zm-68 176L336 404v108z"/><path fill="#d80027" d="M0 0v45l131 131h45zm208 0v208H0v96h208v208h96V304h208v-96H304V0zm259 0L336 131v45L512 0zM176 336L0 512h45l131-131zm160 0l176 176v-45L381 336z"/></g></svg>
                               {:else}
-                                <img style="clip-path: circle(50%);" class="w-6 h-6" src={`https://hatscripts.github.io/circle-flags/flags/${item?.countryCode}.svg`} />
+                                <img style="clip-path: circle(50%);" class="w-4 h-4 sm:w-6 sm:h-6" src={`https://hatscripts.github.io/circle-flags/flags/${item?.countryCode}.svg`} />
                               {/if}
                               <span class="text-white ml-2 text-sm">
                                 {item?.country}
                               </span>
                             </td>
 
-                            <td class="text-white border-b-[#0F0F0F]">
-                              <span class="text-white font-medium ">{item?.event}</span>
+                            <td class="text-start text-white border-b-[#0F0F0F]">
+                              <span class="text-white font-medium ">{item?.event?.length > 15 ? item?.event?.slice(0,15) + '...' : item?.event}</span>
                             </td>
     
-                          <td class="text-white font-medium hidden sm:table-cell border-b-[#0F0F0F]">
+                          <td class="text-white font-medium border-b-[#0F0F0F] text-end">
                             {item?.previous !== null ? item?.previous : '-'}
                           </td>
           
-                          <td class="text-white font-medium hidden sm:table-cell border-b-[#0F0F0F]">
+                          <td class="text-white font-medium border-b-[#0F0F0F] text-end">
                             {item?.estimate !== null ? item?.estimate : '-'}
                           </td>
 
-                          <td class="text-end text-white font-medium text-center hidden sm:table-cell border-b-[#0F0F0F]">
+                          <td class="text-end text-white font-medium text-center border-b-[#0F0F0F] text-end">
                             {item?.actual !== null ? item?.actual : '-'}
                           </td>
           
@@ -537,14 +538,15 @@ const loadWorker = async () => {
         
                             {/each}
                           </tbody>
-                        </table>
+                      </table>
+                    </div>
 
 
                         <div class="relative p-2 sm:hidden pt-5 ">
                           {#each day as item}
                             <div class="bg-[#202020] rounded-lg border border-slate-800 h-auto pl-2 pr-2 pt-4 pb-3 mb-7">
                                 <div class="flex flex-row items-center">
-                                  <div class="rounded-full w-10 h-10 relative bg-[#101112] flex items-center justify-center">
+                                  <div class="hidden rounded-full w-10 h-10 relative bg-[#101112] flex items-center justify-center">
                                     {#if item?.country === 'EU'}
                                     <svg style="clip-path: circle(50%);" class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><mask id="circleFlagsEu0"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#circleFlagsEu0)"><path fill="#0052b4" d="M0 0h512v512H0z"/><path fill="#ffda44" d="m256 100.2l8.3 25.5H291l-21.7 15.7l8.3 25.6l-21.7-15.8l-21.7 15.8l8.3-25.6l-21.7-15.7h26.8zm-110.2 45.6l24 12.2l18.9-19l-4.2 26.5l23.9 12.2l-26.5 4.2l-4.2 26.5l-12.2-24l-26.5 4.3l19-19zM100.2 256l25.5-8.3V221l15.7 21.7l25.6-8.3l-15.8 21.7l15.8 21.7l-25.6-8.3l-15.7 21.7v-26.8zm45.6 110.2l12.2-24l-19-18.9l26.5 4.2l12.2-23.9l4.2 26.5l26.5 4.2l-24 12.2l4.3 26.5l-19-19zM256 411.8l-8.3-25.5H221l21.7-15.7l-8.3-25.6l21.7 15.8l21.7-15.8l-8.3 25.6l21.7 15.7h-26.8zm110.2-45.6l-24-12.2l-18.9 19l4.2-26.5l-23.9-12.2l26.5-4.2l4.2-26.5l12.2 24l26.5-4.3l-19 19zM411.8 256l-25.5 8.3V291l-15.7-21.7l-25.6 8.3l15.8-21.7l-15.8-21.7l25.6 8.3l15.7-21.7v26.8zm-45.6-110.2l-12.2 24l19 18.9l-26.5-4.2l-12.2 23.9l-4.2-26.5l-26.5-4.2l24-12.2l-4.3-26.5l19 19z"/></g></svg>
                                     {:else if item?.country === 'UK'}
