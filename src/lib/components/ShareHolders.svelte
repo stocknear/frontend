@@ -1,7 +1,7 @@
 <script lang='ts'>
 
 import { Chart } from 'svelte-echarts'
-import { shareholderComponent, screenWidth, stockTicker, userRegion, getCache, setCache} from '$lib/store';
+import { shareholderComponent, screenWidth, stockTicker, userRegion, getCache, setCache, displayCompanyName} from '$lib/store';
 import { formatString } from '$lib/utils';
 import { goto } from '$app/navigation';
 import { abbreviateNumber } from '$lib/utils';
@@ -10,6 +10,14 @@ import Lazy from 'svelte-lazy';
 
 let isLoaded = false;
 const usRegion = ['cle1','iad1','pdx1','sfo1'];
+
+
+let callPercentage; 
+let putPercentage;
+let totalCalls;
+let totalPuts;
+let latestPutCallRatio;
+let putCallRatio;
 
 export let data;
 
@@ -24,6 +32,7 @@ if (usRegion.includes(value)) {
 }
 });
 
+let rawData = {};
 let shareholderList = []
 let optionsPieChart;
 let institutionalOwner = 0;
@@ -39,8 +48,7 @@ const plotPieChart = () => {
     shareholderList = shareholderList?.filter(item => item?.ownership <= 100);
     topHolders = 0;
     otherOwner = 0;
-    institutionalOwner = 0;
-    institutionalOwner = shareholderList?.reduce((total, shareholder) => total + shareholder.ownership, 0);
+    institutionalOwner = rawData?.ownershipPercent;
 
     otherOwner = institutionalOwner === 0 ? 0 : (100-institutionalOwner);
     topHolders = shareholderList?.slice(0,10)?.reduce((total, shareholder) => total + shareholder.ownership, 0);
@@ -87,7 +95,7 @@ const getShareholders = async (ticker) => {
     // Get cached data for the specific tickerID
     const cachedData = getCache(ticker, 'getShareholders');
     if (cachedData) {
-      shareholderList = cachedData;
+      rawData = cachedData;
     } else {
 
       const postData = {'ticker': ticker};
@@ -100,13 +108,13 @@ const getShareholders = async (ticker) => {
         body: JSON.stringify(postData)
       });
 
-      shareholderList = await response.json();
+      rawData = await response.json();
 
       // Cache the data for this specific tickerID with a specific name 'getShareholders'
-      setCache(ticker, shareholderList, 'getShareholders');
+      setCache(ticker, rawData, 'getShareholders');
     }
 
-    if(shareholderList?.length !== 0) {
+    if(Object?.keys(rawData)?.length !== 0) {
         $shareholderComponent = true
     }
     else {
@@ -127,7 +135,14 @@ $: {
         ];
         Promise.all(asyncFunctions)
             .then((results) => {
-             optionsPieChart = plotPieChart()
+                shareholderList = rawData?.shareholders
+                totalCalls = rawData?.totalCalls
+                totalPuts = rawData?.totalPuts;
+                callPercentage = 100*totalCalls/(totalCalls+totalPuts);
+                putPercentage = (100- callPercentage)
+                putCallRatio = rawData?.putCallRatio;
+
+                optionsPieChart = plotPieChart()
             })
             .catch((error) => {
                 console.error('An error occurred:', error);
@@ -174,15 +189,13 @@ $: {
                 {#if shareholderList?.length !== 0}
                 <div class="p-3 sm:p-0 mt-2 pb-8 sm:pb-2 rounded-lg bg-[#202020] sm:bg-[#0F0F0F]">
                     <div class="text-white text-md mt-3">
-                        Who owns the most stocks of the company?
-                        We can break it down into two categories.
+                        As of {new Date(rawData?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })},
+                        <span class="font-semibold">{rawData?.investorsHolding}</span> Hedge Funds hold a total of <span class="font-semibold">{abbreviateNumber(rawData?.numberOf13Fshares)}</span> {$displayCompanyName} shares, with a combined investment of <span class="font-semibold">{abbreviateNumber(rawData?.totalInvested, true)}</span>.
                     </div>
-
 
               
 
                     <div class="flex flex-row items-center sm:-mt-5">
-                        
                         <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
                             <div class="app w-56">
                                 <Chart options={optionsPieChart} class="chart w-full" />
@@ -210,13 +223,117 @@ $: {
                     </div>
                 </div>
 
+                
                 <h1 class="text-white font-semibold text-xl sm:text-2xl mb-3 mt-5 sm:-mt-5">
-                    Top Shareholders
+                    Options Activity
                 </h1>
+
+                <div class="mt-3 text-white text-md">
+                    Hedge Funds are holding {callPercentage > 55 ? 'more Calls Contracts as Puts Contracts, indicating a bullish sentiment.' : callPercentage < 45 ? 'more Puts Contracts as Calls Contracts, indicating a bearish sentiment.' : 'Calls/Puts contracts nearly balanced, indicating a neutral sentiment.'}
+                </div>
+
+                <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center">
+                    <div class="w-full grid grid-cols-2 lg:grid-cols-3 gap-y-3 lg:gap-y-3 gap-x-3 ">
+                      <!--Start Put/Call-->  
+                      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
+                        <div class="flex flex-col items-start">
+                            <span class="font-medium text-gray-200 text-sm ">Put/Call</span>
+                            <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
+                              {putCallRatio?.toFixed(3)}
+                            </span>
+                        </div>
+                        <!-- Circular Progress -->
+                          <div class="relative size-14 ml-auto">
+                            <svg class="size-full w-14 h-14" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                              <!-- Background Circle -->
+                              <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
+                              <!-- Progress Circle inside a group with rotation -->
+                              <g class="origin-center -rotate-90 transform">
+                                <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-blue-500" stroke-width="3" stroke-dasharray="100" stroke-dashoffset={putCallRatio >=1 ? 0 : 100-(putCallRatio*100)?.toFixed(2)}></circle>
+                              </g>
+                            </svg>
+                            <!-- Percentage Text -->
+                            <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
+                              <span class="text-center text-white text-sm">{putCallRatio?.toFixed(2)}</span>
+                            </div>
+                          </div>
+                        <!-- End Circular Progress -->
+              
+                    </div>
+                    <!--End Put/Call-->
+                    <!--Start Call Flow-->  
+                    <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
+                      <div class="flex flex-col items-start">
+                          <span class="font-medium text-gray-200 text-sm ">Call Flow</span>
+                          <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
+                            {new Intl.NumberFormat("en", {
+                              minimumFractionDigits: 0,
+                              maximumFractionDigits: 0
+                          }).format(rawData?.totalCalls)}
+                          </span>
+                      </div>
+                      <!-- Circular Progress -->
+                      <div class="relative size-14 ml-auto">
+                        <svg class="size-full w-14 h-14" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                          <!-- Background Circle -->
+                          <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
+                          <!-- Progress Circle inside a group with rotation -->
+                          <g class="origin-center -rotate-90 transform">
+                            <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#00FC50]" stroke-width="3" stroke-dasharray="100" stroke-dashoffset={100-callPercentage?.toFixed(2)}></circle>
+                          </g>
+                        </svg>
+                        <!-- Percentage Text -->
+                        <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
+                          <span class="text-center text-white text-sm">{callPercentage?.toFixed(1)}%</span>
+                        </div>
+                      </div>
+                      <!-- End Circular Progress -->
+                    </div>
+                    <!--End Call Flow-->
+
+                      <!--Start Put Flow-->  
+                      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
+                        <div class="flex flex-col items-start">
+                            <span class="font-medium text-gray-200 text-sm ">Put Flow</span>
+                            <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
+                              {new Intl.NumberFormat("en", {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0
+                            }).format(rawData?.totalPuts)}
+                            </span>
+                        </div>
+                        <!-- Circular Progress -->
+                        <div class="relative size-14 ml-auto">
+                          <svg class="size-full w-14 h-14" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background Circle -->
+                            <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
+                            <!-- Progress Circle inside a group with rotation -->
+                            <g class="origin-center -rotate-90 transform">
+                              <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#EE5365]" stroke-width="3" stroke-dasharray="100" stroke-dashoffset={100-putPercentage?.toFixed(2)}></circle>
+                            </g>
+                          </svg>
+                          <!-- Percentage Text -->
+                          <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
+                            <span class="text-center text-white text-sm">{putPercentage?.toFixed(1)}%</span>
+                          </div>
+                        </div>
+                        <!-- End Circular Progress -->
+                      </div>
+                      <!--End Put Flow-->
+              
+              
+                      </div>
+                </div>
+
+
+
+                <h3 class="text-white font-semibold text-xl sm:text-2xl mb-3 mt-5">
+                    Top Shareholders
+                </h3>
 
                 {#if topHolders !== 0}
                 <span class="text-white text-md">
-                    The top 10 shareholders own {topHolders <= 0.01 ? "< 0.01%" : topHolders?.toFixed(2)+'%'}
+                    The top 10 shareholders own <span class="font-semibold">{topHolders <= 0.01 ? "< 0.01%" : topHolders?.toFixed(2)+'%'}</span>
                     of the company.
                 </span>
                 {/if}
