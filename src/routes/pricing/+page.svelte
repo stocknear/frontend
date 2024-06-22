@@ -105,8 +105,8 @@ async function purchasePlan() {
             <h1 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">
                 Flexible plans and features
             </h1>
-            <div class="w-full flex justify-center items-center h-16 bg-[#202020] rounded-2xl">
-                <p class="font-medium font-serif text-center w-3/4 sm:w-full text-white text-lg sm:text-xl italic">
+            <div class="w-full flex justify-center items-center h-16 bg-[#202020] rounded-lg">
+                <p class="font-medium font-serif text-center w-3/4 sm:w-full text-white text-[1rem] sm:text-xl italic">
                     Simple pricing. No hidden fees. Cancel anytime.
                 </p>
             </div>
@@ -143,7 +143,7 @@ async function purchasePlan() {
 
         <div class="flex flex-col sm:flex-row items-center gap-10 sm:gap-5 w-full mt-10 sm:mt-20">
             <!-- Pricing Card -->
-            <div class="order-last sm:order-1 flex flex-col p-6 lg:p-8 mx-auto w-full text-center text-white bg-[#202020] rounded-[30px]">
+            <div class="order-last sm:order-1 flex flex-col p-6 lg:p-8 mx-auto w-full text-center text-white bg-[#202020] rounded-lg">
 
 
                 <div class="flex flex-row items-center justify-start items-center mt-2">
@@ -345,104 +345,294 @@ async function purchasePlan() {
 
 
 
+        <!--Feature Table-->
+        <section>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 mt-10">
+                <div class="py-12 md:py-20">
 
+                    <!-- Section header -->
+                    <div class="mx-auto text-center pb-12 md:pb-20">
+                        <h2 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60">Compare plans by features</h2>
+                    </div>
 
+                    <!-- Tables -->
+                    <div class="space-y-4 mb-12">
+                        <!-- Table (Tidy Essential) -->
+                        <div class="overflow-x-auto" data-aos="fade-up">
+                            <table class="table-auto w-full border-b border-slate-400">
+                                <!-- Table header -->
+                                <thead>
+                                    <tr class="text-base sm:text-lg text-white">
+                                        <th class="text-xl md:text-2xl whitespace-nowrap font-bold text-left pr-2 py-4 min-w-[10rem] md:min-w-[24rem]">Plan</th>
+                                        <th class="text-bold text-center px-2 py-4">Free</th>
+                                        <th class="text-bold text-center px-2 py-4">Pro</th>
+                                    </tr>
+                                </thead>
+                                <!-- Table body -->
+                                <tbody>
+                                    <!-- Row -->
+                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                        <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
+                                            <div class="flex items-center justify-between max-w-xs">
+                                                <div>Unusual Options Activity</div>
+                                            </div>
+                                        </td>
+                                        <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-4 h-4 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#dd2e44" d="M21.533 18.002L33.768 5.768a2.5 2.5 0 0 0-3.535-3.535L17.998 14.467L5.764 2.233a2.498 2.498 0 0 0-3.535 0a2.498 2.498 0 0 0 0 3.535l12.234 12.234L2.201 30.265a2.498 2.498 0 0 0 1.768 4.267c.64 0 1.28-.244 1.768-.732l12.262-12.263l12.234 12.234a2.493 2.493 0 0 0 1.768.732a2.5 2.5 0 0 0 1.768-4.267z"/></svg>
+                                        </td>
+                                        <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-5 h-5 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
+                                        </td>
+                                    </tr>
+                                    <!-- Row -->
+                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                        <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
+                                            <div class="flex items-center justify-between max-w-xs">
+                                                <div>Retail Trader Activity</div>
+                                            </div>
+                                        </td>
+                                        <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-4 h-4 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#dd2e44" d="M21.533 18.002L33.768 5.768a2.5 2.5 0 0 0-3.535-3.535L17.998 14.467L5.764 2.233a2.498 2.498 0 0 0-3.535 0a2.498 2.498 0 0 0 0 3.535l12.234 12.234L2.201 30.265a2.498 2.498 0 0 0 1.768 4.267c.64 0 1.28-.244 1.768-.732l12.262-12.263l12.234 12.234a2.493 2.493 0 0 0 1.768.732a2.5 2.5 0 0 0 1.768-4.267z"/></svg>
+                                        </td>
+                                        <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-5 h-5 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
+                                        </td>
+                                    </tr>
+                                    <!-- Row -->
+                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                        <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
+                                            <div class="flex items-center justify-between max-w-xs">
+                                                <div>Dark Pool Data</div>
+                                            </div>
+                                        </td>
+                                        <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-4 h-4 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#dd2e44" d="M21.533 18.002L33.768 5.768a2.5 2.5 0 0 0-3.535-3.535L17.998 14.467L5.764 2.233a2.498 2.498 0 0 0-3.535 0a2.498 2.498 0 0 0 0 3.535l12.234 12.234L2.201 30.265a2.498 2.498 0 0 0 1.768 4.267c.64 0 1.28-.244 1.768-.732l12.262-12.263l12.234 12.234a2.493 2.493 0 0 0 1.768.732a2.5 2.5 0 0 0 1.768-4.267z"/></svg>
+                                        </td>
+                                        <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-5 h-5 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
+                                        </td>
+                                    </tr>
+                                    <!-- Row -->
+                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                        <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
+                                            <div class="flex items-center justify-between max-w-xs">
+                                                <div>AI Predictions</div>
+                                            </div>
+                                        </td>
+                                        <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-4 h-4 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#dd2e44" d="M21.533 18.002L33.768 5.768a2.5 2.5 0 0 0-3.535-3.535L17.998 14.467L5.764 2.233a2.498 2.498 0 0 0-3.535 0a2.498 2.498 0 0 0 0 3.535l12.234 12.234L2.201 30.265a2.498 2.498 0 0 0 1.768 4.267c.64 0 1.28-.244 1.768-.732l12.262-12.263l12.234 12.234a2.493 2.493 0 0 0 1.768.732a2.5 2.5 0 0 0 1.768-4.267z"/></svg>
+                                        </td>
+                                        <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-5 h-5 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
+                                        </td>
+                                    </tr>
+                                    <!-- Row -->
+                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                        <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
+                                            <div class="flex items-center justify-between max-w-xs">
+                                                <div>Wallstreet Analyst Database</div>
+                                            </div>
+                                        </td>
+                                         <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-5 h-5 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="orange" d="M12 17q.425 0 .713-.288T13 16q0-.425-.288-.713T12 15q-.425 0-.713.288T11 16q0 .425.288.713T12 17Zm-1-4h2V7h-2v6Zm1 9q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Z"/></svg>
+                                        </td>
+                                        <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-5 h-5 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
+                                        </td>
+                                    </tr>
+                                     <!-- Row -->
+                                     <tr class="border-t first:border-t-2 border-slate-400">
+                                        <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
+                                            <div class="flex items-center justify-between max-w-xs">
+                                                <div>Hedge Fund Database</div>
+                                            </div>
+                                        </td>
+                                        <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-5 h-5 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="orange" d="M12 17q.425 0 .713-.288T13 16q0-.425-.288-.713T12 15q-.425 0-.713.288T11 16q0 .425.288.713T12 17Zm-1-4h2V7h-2v6Zm1 9q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Z"/></svg>
+                                        </td>
+                                        <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-5 h-5 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
+                                        </td>
+                                    </tr>
+                                    <!-- Row -->
+                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                        <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
+                                            <div class="flex items-center justify-between max-w-xs">
+                                                <div>Congress Database</div>
+                                            </div>
+                                        </td>
+                                         <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-5 h-5 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="orange" d="M12 17q.425 0 .713-.288T13 16q0-.425-.288-.713T12 15q-.425 0-.713.288T11 16q0 .425.288.713T12 17Zm-1-4h2V7h-2v6Zm1 9q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Z"/></svg>
+                                        </td>
+                                        <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-5 h-5 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
+                                        </td>
+                                    </tr>
+                                    <!-- Row -->
+                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                        <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
+                                            <div class="flex items-center justify-between max-w-xs">
+                                                <div>Financial History</div>
+                                            </div>
+                                        </td>
+                                         <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-5 h-5 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="orange" d="M12 17q.425 0 .713-.288T13 16q0-.425-.288-.713T12 15q-.425 0-.713.288T11 16q0 .425.288.713T12 17Zm-1-4h2V7h-2v6Zm1 9q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Z"/></svg>
+                                        </td>
+                                        <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-5 h-5 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
+                                        </td>
+                                    </tr>
+                                    <!-- Row -->
+                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                        <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
+                                            <div class="flex items-center justify-between max-w-xs">
+                                                <div>Watchlist</div>
+                                            </div>
+                                        </td>
+                                         <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-5 h-5 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="orange" d="M12 17q.425 0 .713-.288T13 16q0-.425-.288-.713T12 15q-.425 0-.713.288T11 16q0 .425.288.713T12 17Zm-1-4h2V7h-2v6Zm1 9q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Z"/></svg>
+                                        </td>
+                                        <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-5 h-5 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
+                                        </td>
+                                    </tr>
+                                    <!-- Row -->
+                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                        <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
+                                            <div class="flex items-center justify-between max-w-xs">
+                                                <div class="flex items-center space-x-2">
+                                                    <div>Future feature updates</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                         <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-5 h-5 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="orange" d="M12 17q.425 0 .713-.288T13 16q0-.425-.288-.713T12 15q-.425 0-.713.288T11 16q0 .425.288.713T12 17Zm-1-4h2V7h-2v6Zm1 9q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Z"/></svg>
+                                        </td>
+                                        <td class="text-sm px-2 py-4 text-center font-medium">
+                                            <svg class="flex-shrink-0 w-5 h-5 inline-flex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#0F0F0F" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+    
+                    </div>
+
+                    <!-- CTA -->
+                     {#if data?.user?.tier !== 'Pro'}
+                    <div class="text-center">
+                        <label for={!data?.user ? 'userLogin' : ''} on:click={purchasePlan} class="w-56 btn text-white bg-blue-700 hover:bg-blue-600 transition duration-150 ease-in-out group">
+                            Subscribe to Pro
+                             <span class="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">
+                                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="rotate(90 12 12)"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="white" d="M13.06 3.283a1.5 1.5 0 0 0-2.12 0L5.281 8.939a1.5 1.5 0 0 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0V7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.283Z"/></g></g></svg>
+                             </span>
+                         </label>
+                    </div>
+                    {/if}
+
+                </div>
+            </div>
+        </section>
+       <!--Feature Table -->
 
         <!--Start FAQ-->
-        <div class="mt-16 mb-10 m-auto overflow-hidden">
+        <section class="bg-[#0F0F0F]">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
+                <div class="py-12 md:py-20">
 
-            <div class="m-auto">
-                <div class="mt-10 mb-5 m-auto">
-                    <h2 class="text-4xl w-full font-bold bg-clip-text text-center text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">
-                        Still have questions ?
-                    </h2>
-                <h3 class="text-lg m-auto font-bold bg-clip-text text-center text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">
-                    We have (almost) all the answers
-                </h3>
-                </div>  
-            
-            
-    
-            <!--Start-Table-Content-->
-            <div  class="mt-10 ">
-                <div class="bg-[#141414] bg-opacity-80 text-white rounded-2xl">
-                <div class="p-4" style="margin-bottom: -20px">
-                    <!--Row Starts-->
+                    <!-- Section header -->
+                    <div class="max-w-3xl mx-auto text-center pb-12 md:pb-20">
+                        <h2 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60">Frequently Asked Questions</h2>
+                    </div>
+
+                    <!-- Faqs -->
+                    <ul class="mx-auto divide-y divide-slate-400">
+                        <li>
+                            <details class="collapse collapse-arrow">
+                                <summary class="collapse-title text-white font-semibold text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5">What are the advantages of Stocknear Service?</summary>
+                                <div class="collapse-content"> 
+                                    <p class="text-sm sm:text-[1rem] pb-5 text-gray-200 overflow-hidden transition-all duration-300 ease-in-out">
+                                        Stocknear Service provides simplified, actionable trading data and an extensive tool suite for every trader, featuring exclusive, high-quality Wall Street data at an unmatched price. We also offer proprietary AI models for accurate forecasting and timely alerts, all within a single, unified platform.
+                                    </p>
+                                </div>
+                            </details>
+                          
+                        </li>
+                        <li>
+                            <details class="collapse collapse-arrow">
+                                <summary class="collapse-title text-white font-semibold text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5">
+                                    Can I change plans at any time?
+                                </summary>
+                                <div class="collapse-content"> 
+                                    <p class="text-sm sm:text-[1rem] pb-5 text-gray-200 overflow-hidden transition-all duration-300 ease-in-out">
+                                        If you have a monthly subscription, you can upgrade to the Annual Plan in your account settings.
+                                        However, our payment provider currently supports only credit cards for upgrading from monthly to annual. We are working to expand this to other payment methods.
+                                        If you paid via PayPal and want to switch to the Annual Plan, please wait until your current subscription ends and then purchase the Annual Plan.
+                                    </p>
+                                </div>
+                            </details>
+                          
+                        </li>
+                        <li>
+                            <details class="collapse collapse-arrow">
+                                <summary class="collapse-title text-white font-semibold text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5">
+                                    Are there any commissions in addition to the subscription plans?
+                                </summary>
+                                <div class="collapse-content"> 
+                                    <p class="text-sm sm:text-[1rem] pb-5 text-gray-200 overflow-hidden transition-all duration-300 ease-in-out">
+                                        No, we do not charge any additional commissions or hidden fees beyond our subscription plans.
+                                    </p>
+                                </div>
+                            </details>
+                          
+                        </li>
+                        <li>
+                            <details class="collapse collapse-arrow">
+                                <summary class="collapse-title text-white font-semibold text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5">
+                                    Can I request a refund?
+                                </summary>
+                                <div class="collapse-content "> 
+                                    <p class="text-sm sm:text-[1rem] pb-5 text-gray-200 overflow-hidden transition-all duration-300 ease-in-out">
+                                        We offer a 30 day money back guarantee, no questions asked. Just send an email to <a href={`mailto:${emailAddress}`} class="text-blue-400 underline">{emailAddress}</a> and you will get a full refund.
+                                    </p>
+                                </div>
+                            </details>
+                          
+                        </li>
+
+                        <li>
+                            <details class="collapse collapse-arrow">
+                                <summary class="collapse-title text-white font-semibold text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5">
+                                    What are my payment options?
+                                </summary>
+                                <div class="collapse-content"> 
+                                    <p class="text-sm sm:text-[1rem] pb-5 text-gray-200 overflow-hidden transition-all duration-300 ease-in-out">
+                                        Currently we accept credit card only.
+                                    </p>
+                                </div>
+                            </details>
+                          
+                        </li>
+
+                        <li>
+                            <details class="collapse collapse-arrow">
+                                <summary class="collapse-title text-white font-semibold text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5">
+                                    Can I cancel at any time?
+                                </summary>
+                                <div class="collapse-content"> 
+                                    <p class="text-sm sm:text-[1rem] pb-5 text-gray-200 overflow-hidden transition-all duration-300 ease-in-out">
+                                        Of course. There is a "Cancel Subscription" button in your account area that you get access to after signing up. You can also send us a message and we will cancel for you.
+                                    </p>
+                                </div>
+                            </details>
+                        </li>                  
+                    </ul>
                     
-                    <!--
-                    <details class="collapse collapse-arrow bg-[#131313]">
-                        <summary class="collapse-title text-lg font-semibold">How does the free trial work?</summary>
-                        <div class="collapse-content"> 
-                          <p>
-                            You will receive a 7-day free trial when signing up for a monthly subscription and a 30-day free trial if you sign up for an annual plan. 
-                            After your trial ends, you will be charged the amount listed at sign up. You can always cancel before then.
-                          </p>
-                        </div>
-                    </details>
-
-                    <hr class="border-gray-800"/>
-                    -->
-
-                
-                    <!--    
-                    <details class="collapse collapse-arrow bg-[#131313]">
-                        <summary class="collapse-title text-lg font-semibold">Is there a free trial?</summary>
-                        <div class="collapse-content"> 
-                          <p>While we don't offer a free trial, we provide a 30-day grace period from the date of your first payment. If you're unsatisfied, you can request a full refund within this period.</p>
-                        </div>
-                    </details>
-                    -->
-
-                    <details class="collapse collapse-arrow bg-[#131313]">
-                        <summary class="collapse-title text-lg font-semibold">What is your refund policy?</summary>
-                        <div class="collapse-content"> 
-                          <p>We offer a 30 day money back guarantee, no questions asked. Just send an email to <a href={`mailto:${emailAddress}`} class="text-blue-400 underline">{emailAddress}</a> and you will get a full refund.</p>
-                        </div>
-                    </details>
-
-                    <hr class="border-gray-800"/>
-                    <details class="collapse collapse-arrow bg-[#131313]">
-                        <summary class="collapse-title text-lg font-semibold">Can I change plans?</summary>
-                        <div class="collapse-content"> 
-                            <p>If you have a monthly subscription, you can upgrade to the Annual Plan in your account settings.</p>
-                            <p>However, our payment provider currently supports only credit cards for upgrading from monthly to annual. We are working to expand this to other payment methods.</p>
-                            <p>If you paid via PayPal and want to switch to the Annual Plan, please wait until your current subscription ends and then purchase the Annual Plan.</p>
-                        </div>
-                    </details>
-
-
-                    <hr class="border-gray-800"/>
-                    <!--row 2 -->
-                    <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-                    <details class="collapse collapse-arrow bg-[#131313]">
-                        <summary class="collapse-title text-lg font-semibold">How to get support?</summary>
-                        <div class="collapse-content"> 
-                          <p>
-                            You can send an email directly to <a href={`mailto:${emailAddress}`} class="text-blue-400 underline">{emailAddress}</a>.
-                          </p>
-                        </div>
-                    </details>
-
-
-                    <hr class="border-gray-800"/>
-
-                    <details class="collapse collapse-arrow bg-[#131313]">
-                        <summary class="collapse-title text-lg font-semibold">Can I cancel at any time?</summary>
-                        <div class="collapse-content"> 
-                          <p>
-                            Of course. There is a "Cancel Subscription" button in your account area that you get access to after signing up. You can also send us a message and we will cancel for you.
-                          </p>
-                        </div>
-                    </details>
-                    <hr class="border-gray-800"/>
-        
-                    <!--Row Ends-->
-                </div>
                 </div>
             </div>
+        </section>
 
-            </div>
-        </div>
         <!--End FAQ-->
 
     
@@ -528,7 +718,7 @@ font-size: 0.97rem;
 .light-box-1 {
   --border-size: 1px;
   --border-angle: 0turn;
-  --border-radius: 30px; /* Added border radius */
+  --border-radius: 15px; /* Added border radius */
   
   background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 10%, #000, #9DED1E);
   background-size: calc(100% - (var(--border-size) * 2)) calc(100% - (var(--border-size) * 2)), cover;
