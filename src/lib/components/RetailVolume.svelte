@@ -267,6 +267,9 @@ $: {
             
             </div>
 
+            <div class="text-white mt-6">
+              The line chart shows dollar volume, while the bar chart indicates sentiment from -100 to 100, with negative values for more selling and positive values for more buying.
+            </div>
 
             <h2 class="mt-10 mr-1 flex flex-row items-center text-white text-xl sm:text-2xl font-bold mb-3">
                 Latest Information

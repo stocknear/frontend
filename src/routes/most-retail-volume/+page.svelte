@@ -60,7 +60,6 @@
   <!-- Other meta tags -->
   <meta property="og:title" content={`Most Retail Investor Volume · stocknear`}/>
   <meta property="og:description" content={`On a daily basis we update the retail investor volume to see where most money flows into.`} />
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
   
@@ -68,7 +67,6 @@
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content={`Most Retail Investor Volume · stocknear`}/>
   <meta name="twitter:description" content={`On a daily basis we update the retail investor volume to see where most money flows into.`} />
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
   
   </svelte:head>
@@ -97,7 +95,7 @@
                     <div>
                       <div class="flex flex-row justify-center items-center">
                         <h1 class="text-3xl sm:text-4xl text-white text-center font-bold mb-5">
-                          Retail Trader Volume
+                          Retail Trader Activity
                         </h1>
                       </div>
             
