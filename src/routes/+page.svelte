@@ -207,7 +207,7 @@ async function loadSearchData() {
                                       <span class="font-semibold">Insights Into All "HOT" Retail Trader Stocks Within A Blink Of An Eye</span>
                                     </a>
                                     <div class="absolute top-[-1.2rem] -right-5 sm:-right-8 rotate-[7deg]">
-                                      <span class="bg-[#9DED1E] text-black text-sm sm:text-[0.9rem] rounded-xl font-semibold sm:me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                                      <span class="bg-[#FBCE3C] text-black text-sm sm:text-[0.9rem] rounded-xl font-semibold sm:me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
                                         New
                                       </span>
                                     </div>
@@ -228,9 +228,9 @@ async function loadSearchData() {
                                     
                                     <h1 class="text-center text-4xl sm:text-5xl text-white font-bold mb-6 w-full">
                                       Your
-                                      <span class="text-[#9DED1E] italic">All-in-One</span>
+                                      <span class="text-[#FBCE3C] italic">All-in-One</span>
                                       Solution for
-                                      <span class="text-[#9DED1E] italic">Stock Analysis</span>
+                                      <span class="text-[#FBCE3C] italic">Stock Analysis</span>
                                     </h1>
                                   </div>
 
@@ -245,9 +245,9 @@ async function loadSearchData() {
                                   
                                   <span class="text-center flex-1 justify-center items-center text-white text-[1rem] sm:text-lg">
                                     We provide high quality 
-                                    <span style="font-weight: 520;" class="text-[#9DED1E] italic">Wallstreet Data</span>
+                                    <span style="font-weight: 520;" class="text-[#FBCE3C] italic">Wallstreet Data</span>
                                      to 
-                                     <span style="font-weight: 520;" class="text-[#9DED1E] italic">Retail Traders</span>.
+                                     <span style="font-weight: 520;" class="text-[#FBCE3C] italic">Retail Traders</span>.
                                      
                                   </span>
                                   
@@ -255,7 +255,7 @@ async function loadSearchData() {
                                     <!-- Start Search button -->
                                      {#if !data?.user}
                                     <div class="flex flex-col gap-y-4 justify-center items-center mt-8 mb-6 m-auto w-full max-w-3xl">
-                                      <a href="/register" style="font-weight: 600" class="flex flex-row items-center px-6 py-3 bg-[#9DED1E] text-black text-[1rem] sm:text-lg rounded-full transition duration-150 ease-in-out group">
+                                      <a href="/register" style="font-weight: 600" class="flex flex-row items-center px-6 py-3 bg-[#FBCE3C] text-black text-[1rem] sm:text-lg rounded-full transition duration-150 ease-in-out group">
                                         <span>Try FREE for 7 days</span>
                                         <span class="ml-2 mt-0.5 tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">
                                           <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="rotate(90 12 12)"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="black" d="M13.06 3.283a1.5 1.5 0 0 0-2.12 0L5.281 8.939a1.5 1.5 0 0 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0V7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.283Z"/></g></g></svg>
@@ -263,11 +263,11 @@ async function loadSearchData() {
                                       </a>
                                       <div class="flex flex-row items-center gap-x-5 justify-center m-auto mt-3 w-ful">
                                       <span class="text-white text-sm sm:text-lg">
-                                        <svg class="w-5 h-5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="none" stroke="#9DED1E" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M416 128L192 384l-96-96"/></svg>
+                                        <svg class="w-5 h-5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="none" stroke="#FBCE3C" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M416 128L192 384l-96-96"/></svg>
                                         No credit card required
                                       </span >
                                       <span class="text-white text-sm sm:text-lg">
-                                        <svg class="w-5 h-5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="none" stroke="#9DED1E" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M416 128L192 384l-96-96"/></svg>
+                                        <svg class="w-5 h-5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="none" stroke="#FBCE3C" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M416 128L192 384l-96-96"/></svg>
                                         Instant Access
                                       </span >
                                     </div>
@@ -892,7 +892,7 @@ async function loadSearchData() {
           <div class="m-auto sm:mx-8 text-center sm:text-start">
           <h2 class="mb-4 text-4xl tracking-tight font-extrabold leading-tight text-white">Start your free trial today</h2>
           <p class="mb-8 font-light text-white md:text-lg">Try Stocknear Platform for 7 days. No credit card required.</p>
-          <a href="/register" style="font-weight: 600" class="w-fit flex flex-row items-center m-auto px-6 py-3 bg-[#9DED1E] text-black text-[1rem] sm:text-lg rounded-full transition duration-150 ease-in-out group">
+          <a href="/register" style="font-weight: 600" class="w-fit flex flex-row items-center m-auto px-6 py-3 bg-[#FBCE3C] text-black text-[1rem] sm:text-lg rounded-full transition duration-150 ease-in-out group">
             <span>Free trial for 7 days</span>
             <span class="ml-2 mt-0.5 tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">
               <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="rotate(90 12 12)"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="black" d="M13.06 3.283a1.5 1.5 0 0 0-2.12 0L5.281 8.939a1.5 1.5 0 0 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0V7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.283Z"/></g></g></svg>

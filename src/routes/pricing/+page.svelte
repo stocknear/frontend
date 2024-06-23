@@ -127,7 +127,7 @@ async function purchasePlan() {
                     <span class="text-sm font-medium text-white text-opacity-[0.6]">
                         Pay Yearly
                     </span>
-                    <span class="text-[#9DED1E] text-sm font-semibold">
+                    <span class="text-[#FBCE3C] text-sm font-semibold">
                         Save up 16%
                     </span>
                 </div>
@@ -720,7 +720,7 @@ font-size: 0.97rem;
   --border-angle: 0turn;
   --border-radius: 15px; /* Added border radius */
   
-  background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 10%, #000, #9DED1E);
+  background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 10%, #000, #FBCE3C);
   background-size: calc(100% - (var(--border-size) * 2)) calc(100% - (var(--border-size) * 2)), cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -752,7 +752,7 @@ font-size: 0.97rem;
     .light-box-2 {
         --border-size: 1px;
         --border-angle: 0turn;
-        background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 10%, #000, #9DED1E);
+        background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 10%, #000, #FBCE3C);
         background-position: center center;
         background-repeat: no-repeat;
     }
@@ -761,7 +761,7 @@ font-size: 0.97rem;
     .light-box-3 {
         --border-size: 1px;
         --border-angle: 0turn;
-        background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 10%, #000, #9DED1E);
+        background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 10%, #000, #FBCE3C);
         background-position: center center;
         background-repeat: no-repeat;
     }

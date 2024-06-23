@@ -127,7 +127,7 @@
       </div>
 
       <div class="text-white text-lg mt-3 text-center pl-3 pr-3 sm:pl-10 sm:pr-10">
-        We provide retail traders with high-quality, accurate data that is only available to hedge funds and institutional investors. By bridging the gap between <span class="text-[#9DED1E] font-semibold italic">Wall Street</span> and <span class="text-[#9DED1E] font-semibold italic">Retail Traders</span>, we enhance your stock analysis with a wide range of data sources. Take control of your investments, make informed decisions, and execute profitable trades using our comprehensive data presented in an intuitive UI.
+        We provide retail traders with high-quality, accurate data that is only available to hedge funds and institutional investors. By bridging the gap between <span class="text-[#FBCE3C] font-semibold italic">Wall Street</span> and <span class="text-[#FBCE3C] font-semibold italic">Retail Traders</span>, we enhance your stock analysis with a wide range of data sources. Take control of your investments, make informed decisions, and execute profitable trades using our comprehensive data presented in an intuitive UI.
            <!-- Start Image -->
            <div class="m-auto flex justify-center mt-5">
             <div class="relative">
@@ -166,7 +166,7 @@
 
       <div class="-mt-10 sm:mt-0 text-white text-lg text-center pl-3 pr-3 sm:pl-10 sm:pr-10">
         <br class="mb-8 sm:mb-5">
-          You don't have to. There are tons of other website that provide similar services but not an <span class="font-semibold text-[#9DED1E] italic">all-in-one</span> solution like ours.
+          You don't have to. There are tons of other website that provide similar services but not an <span class="font-semibold text-[#FBCE3C] italic">all-in-one</span> solution like ours.
           <br>
           <br>
 
