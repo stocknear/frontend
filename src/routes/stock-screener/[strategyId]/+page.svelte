@@ -29,7 +29,16 @@
 
   const title = data?.getStrategy?.title;
 
-  const stockScreenerData = data?.getStockScreenerData?.filter(item => item?.ratingRecommendation !== null);
+  let stockScreenerData = data?.getStockScreenerData?.filter(item => {
+  const ratingRecommendationExists = item?.ratingRecommendation !== null;
+  const trendAnalysisAccuracyExists = item?.trendAnalysis?.accuracy !== null;
+  const fundamentalAnalysisAccuracyExists = item?.fundamentalAnalysis?.accuracy !== null;
+
+  
+  // Return true only if both conditions are satisfied
+  return ratingRecommendationExists && trendAnalysisAccuracyExists && fundamentalAnalysisAccuracyExists;
+});
+
 
 
   let filteredData = [];
@@ -82,6 +91,8 @@
     esgScore:  (ruleOfList?.find(item => item.name === "esgScore") || { condition: 'above' }).condition,
     marketCap:  (ruleOfList?.find(item => item.name === "marketCap") || { condition: 'above' }).condition,
     var: (ruleOfList?.find(item => item.name === "var") || { condition: 'above' }).condition,
+    trendAnalysis: (ruleOfList?.find(item => item.name === "trendAnalysis") || { condition: 'above' }).condition,
+    fundamentalAnalysis: (ruleOfList?.find(item => item.name === "fundamentalAnalysis") || { condition: 'above' }).condition,
   };
 
   let ruleTrend = {
@@ -137,6 +148,8 @@
     { rule: 'growthEBITDA', label: 'EBITDA Growth [%]', category: 'fund'},
     { rule: 'esgScore', label: 'ESG Score', category: 'fund' },
     { rule: 'var', label: 'Value at Risk (VaR)', category: 'fund' },
+    { rule: 'trendAnalysis', label: 'AI Trend Analysis (Bullish)', category: 'ai' },
+    { rule: 'fundamentalAnalysis', label: 'AI Fundamental Analysis (Bullish)', category: 'ai' },
     { rule: 'ratingRecommendation', label: 'Analyst Rating', category: 'fund'}
   ];
 
@@ -216,7 +229,8 @@
       let valueChange3Y = (ruleOfList?.find(item => item.name === "change3Y") || { value: 0 }).value;
       let valueAvgVolume = (ruleOfList?.find(item => item.name === "avgVolume") || { value: 10 }).value;
       let valueVaR = (ruleOfList?.find(item => item.name === "var") || { value: -10 }).value;
-
+      let valueTrendAnalysis = (ruleOfList?.find(item => item.name === "trendAnalysis") || { value: 50 }).value;
+      let valueFundamentalAnalysis = (ruleOfList?.find(item => item.name === "fundamentalAnalysis") || { value: 50 }).value;
 
     
       const ratingRecommendations = [
@@ -290,6 +304,8 @@ const valueMappings = {
   change3Y: valueChange3Y,
   avgVolume: valueAvgVolume,
   var: valueVaR,
+  trendAnalysis: valueTrendAnalysis,
+  fundamentalAnalysis: valueFundamentalAnalysis,
 };
     
 const conditions = {
@@ -339,6 +355,8 @@ const conditions = {
   change3Y: ruleCondition.change3Y,
   avgVolume: ruleCondition.avgVolume,
   var: ruleCondition.var,
+  trendAnalysis: ruleCondition.trendAnalysis,
+  fundamentalAnalysis: ruleCondition.fundamentalAnalysis,
 };    
 
 
@@ -676,6 +694,12 @@ $: {
         case 'var':
           ruleToUpdate.value = valueVaR;
           break;
+        case 'trendAnalysis':
+          ruleToUpdate.value = valueTrendAnalysis;
+          break;
+        case 'fundamentalAnalysis':
+          ruleToUpdate.value = valueFundamentalAnalysis;
+          break;
         default:
           // Handle any case not explicitly mentioned
           break;
@@ -721,6 +745,25 @@ function filterStockScreenerData() {
           return false;
         }
       }
+      
+      else if (rule.name === 'trendAnalysis') {
+        if (rule.condition === "above"  &&  item[rule.name]?.accuracy <= rule.value ) {
+          return false;
+        }
+      else if (rule.condition === "below" && item[rule.name]?.accuracy > rule.value ) {
+          return false;
+        }
+      }
+
+      else if (rule.name === 'fundamentalAnalysis') {
+        if (rule.condition === "above"  &&  item[rule.name]?.accuracy <= rule.value ) {
+          return false;
+        }
+      else if (rule.condition === "below" && item[rule.name]?.accuracy > rule.value ) {
+          return false;
+        }
+      }
+      
     
       else {
         if (rule.condition === "above"  && item[rule.name] !== null && item[rule.name] <= rule.value) {
@@ -785,7 +828,6 @@ $: {
   <!-- Other meta tags -->
   <meta property="og:title" content={`Stock Screener · stocknear`}/>
   <meta property="og:description" content={`Build your Stock Screener to find profitable stocks.`} />
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -793,7 +835,6 @@ $: {
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content={`Stock Screener · stocknear`}/>
   <meta name="twitter:description" content={`Build your Stock Screener to find profitable stocks.`} />
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -854,7 +895,54 @@ $: {
   
                 <!--Start Adding Rules-->
                 <div class="flex flex-col space-y-2 pt-6 pb-6 justify-center items-center m-auto w-5/6 sm:w-full max-w-md">
-                
+                  
+
+              <!--Start AI Trend Analysis Rule-->
+               {#if ruleName === 'trendAnalysis'}
+       
+               <div class="w-full max-w-xl text-white font-medium text-[1rem] flex flex-row justify-center items-center">
+                 AI Trend Analysis (Bullish) {ruleCondition[ruleName]} {valueTrendAnalysis}%
+  
+                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#0F0F0F] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
+                   <span class="label-text text-white">Below</span> 
+                 </label>
+                 <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#0F0F0F] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
+                   <span class="label-text text-white">Above</span> 
+                 </label>
+               </div>
+
+               <div class="w-full pt-5">
+                <input type="range" min="0" max="100" step="1" bind:value={valueTrendAnalysis} class="range range-secondary" />
+              </div>
+          
+               {/if}
+               <!--End AI Trend Analysis Rule-->
+
+                <!--Start AI Fundamental Analysis Rule-->
+                {#if ruleName === 'fundamentalAnalysis'}
+       
+                <div class="w-full max-w-xl text-white font-medium text-[1rem] flex flex-row justify-center items-center">
+                  AI Fund. Analysis (Bullish) {ruleCondition[ruleName]} {valueFundamentalAnalysis}%
+   
+                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
+                    <input type="radio" class="radio checked:bg-purple-600 bg-[#0F0F0F] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
+                    <span class="label-text text-white">Below</span> 
+                  </label>
+                  <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                    <input type="radio" class="radio checked:bg-purple-600 bg-[#0F0F0F] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
+                    <span class="label-text text-white">Above</span> 
+                  </label>
+                </div>
+ 
+                <div class="w-full pt-5">
+                 <input type="range" min="0" max="100" step="1" bind:value={valueFundamentalAnalysis} class="range range-secondary" />
+               </div>
+           
+                {/if}
+                <!--End AI Trend Analysis Rule-->
+
                   <!--Start Revenue Rule-->
               {#if ruleName === 'revenue'}
       
@@ -2065,11 +2153,11 @@ $: {
                       </thead>
                       <tbody>
                         {#each displayResults as item}
-                        <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#0F0F0F] border-b-[#0F0F0F] shake-ticker cursor-pointer">
+                        <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#0F0F0F] border-b-[#0F0F0F] odd:bg-[#202020] cursor-pointer">
                           <td class="border-b-[#0F0F0F]">
                             <div class="flex flex-col items-start">
                               <span class="text-blue-400">{item?.symbol}</span>
-                              <span class="text-white text-xs">{item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}</span>
+                              <span class="text-white text-xs sm:hidden">{item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}</span>
                             </div>
                             
                           </td>

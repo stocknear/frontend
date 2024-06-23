@@ -242,6 +242,9 @@ export const formatRuleValue = (rule) => {
     else if (['ratingRecommendation'].includes(rule.name)) {
       return rule.value === 2 ? 'Buy' : rule.value === 1 ? 'Hold' : 'Sell';
     } 
+    else if (['trendAnalysis','fundamentalAnalysis'].includes(rule.name)) {
+      return `${rule.condition} ${rule.value}% Accuracy`;
+    } 
     else {
         return `${rule.condition} ${rule.value}${rule.name.includes('Growth') ? ' %' : ''}`;
     }
