@@ -1,4 +1,18 @@
+import { userRegion, getCache, setCache } from '$lib/store';
+
 const usRegion = ['cle1','iad1','pdx1','sfo1'];
+
+let apiURL = import.meta.env.VITE_EU_API_URL; // Set a default API URL
+
+userRegion.subscribe(value => {
+
+  if (usRegion.includes(value)) {
+    apiURL = import.meta.env.VITE_USEAST_API_URL;
+  } else {
+    apiURL = import.meta.env.VITE_EU_API_URL;
+  }
+});
+
 
 
 function daysLeft(targetDate) {
@@ -13,19 +27,16 @@ function daysLeft(targetDate) {
 }
 
 
-export const load = async ({ params, locals }) => {
+export const load = async ({ params }) => {
 
-  const userRegion = locals.region?.split("::")[0];
-
-    let apiURL;
-
-    if (usRegion?.includes(userRegion)) {
-        apiURL = import.meta.env.VITE_USEAST_API_URL;
-    } else {
-        apiURL = import.meta.env.VITE_EU_API_URL;
-    };
-
+ 
   const getOptionsPlotData = async () => {
+    let res;
+
+    const cachedData = getCache(params.tickerID, 'getOptionsPlotData');
+    if (cachedData) {
+      res = cachedData;
+    } else {
 
     // make the POST request to the endpoint
     const postData = {
@@ -71,13 +82,23 @@ export const load = async ({ params, locals }) => {
     const callOpenInterestList = output?.map(item => item?.CALL?.open_interest);
     const putOpenInterestList = output?.map(item => item?.PUT?.open_interest);
 
+    res = {plot: output, 'dateList': dateList, 'callOpenInterestList': callOpenInterestList, 'putOpenInterestList': putOpenInterestList, 'callVolumeList': callVolumeList, 'putVolumeList': putVolumeList, 'putCallRatio': putCallRatio, 'putCallOpenInterestRatio': putCallOpenInterestRatio,'totalVolume': totalVolume, 'totalOpenInterest': totalOpenInterest };
+    setCache(params.tickerID, res, 'getOptionsPlotData');
 
-    return {plot: output, 'dateList': dateList, 'callOpenInterestList': callOpenInterestList, 'putOpenInterestList': putOpenInterestList, 'callVolumeList': callVolumeList, 'putVolumeList': putVolumeList, 'putCallRatio': putCallRatio, 'putCallOpenInterestRatio': putCallOpenInterestRatio,'totalVolume': totalVolume, 'totalOpenInterest': totalOpenInterest };
+    }
+
+    return res;
 
   };
 
   const getOptionsFlowData = async () => {
   
+    let output;
+    const cachedData = getCache(params.tickerID, 'getOptionsFlowData');
+    if (cachedData) {
+      output = cachedData;
+    } else {
+
     const postData = {
       ticker: params.tickerID
     };
@@ -91,11 +112,14 @@ export const load = async ({ params, locals }) => {
         body: JSON.stringify(postData)
       });
 
-    const output = await response.json();
+    output = await response.json();
 
     output?.forEach(item => {
       item.dte = daysLeft(item?.date_expiration);
     });
+  
+    setCache(params.tickerID, output, 'getOptionsFlowData');
+    }
 
     return output;
   };
@@ -105,4 +129,5 @@ export const load = async ({ params, locals }) => {
     getOptionsPlotData: await getOptionsPlotData(),
     getOptionsFlowData: await getOptionsFlowData()
   };
+
 };

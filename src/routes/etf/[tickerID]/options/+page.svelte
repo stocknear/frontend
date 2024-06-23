@@ -9,12 +9,13 @@ import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
 
 export let data;
 
+const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 let optionsPlotData = data?.getOptionsPlotData?.plot;
 let displayData = 'volume';
 let options;
 let rawData = data?.getOptionsFlowData
-let optionList = rawData?.slice(0,15);
+let optionList = rawData?.slice(0,30);
 let flowSentiment = 'n/a';
 let callPercentage; 
 let putPercentage;
@@ -23,7 +24,6 @@ let displayPutVolume;
 let latestPutCallRatio;
 
 const totalPutCallRatio = data?.getOptionsPlotData?.putCallRatio;
-const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 
 const totalVolume = data?.getOptionsPlotData?.totalVolume;
@@ -47,27 +47,41 @@ const putOpenInterestList = data?.getOptionsPlotData?.putOpenInterestList;
 
 
 
-function formatDate(timestamp) {
+function formatTime(timestamp) {
   // Convert timestamp to milliseconds
   var date = new Date(timestamp * 1000);
 
-  // Get month, day, hours, minutes, and seconds
-  var month = date.getMonth() + 1; // Month starts from 0
-  var day = date.getDate();
+  // hours, minutes, and seconds
   var hours = date.getHours();
   var minutes = date.getMinutes();
   var seconds = date.getSeconds();
 
-  // Add leading zeros if necessary
-  month = (month < 10 ? "0" : "") + month;
-  day = (day < 10 ? "0" : "") + day;
   hours = (hours < 10 ? "0" : "") + hours;
   minutes = (minutes < 10 ? "0" : "") + minutes;
   seconds = (seconds < 10 ? "0" : "") + seconds;
 
   // Format the date string
-  var formattedDate = month + "/" + day + " " + hours + ":" + minutes + ":" + seconds;
+  var formattedDate = hours + ":" + minutes + ":" + seconds 
   //var formattedDate = hours + ":" + minutes + ":" + seconds;
+
+  return formattedDate;
+}
+
+function formatDate(timestamp) {
+  // Convert timestamp to milliseconds and create a Date object
+  var date = new Date(timestamp * 1000);
+
+  // Get month, day, and year
+  var month = date.getMonth() + 1; // Month starts from 0
+  var day = date.getDate();
+  var year = date.getFullYear();
+
+  // Add leading zeros if necessary
+  month = (month < 10 ? "0" : "") + month;
+  day = (day < 10 ? "0" : "") + day;
+
+  // Format the date string in mm/dd/YYYY
+  var formattedDate = month + "/" + day + "/" + year;
 
   return formattedDate;
 }
@@ -127,7 +141,6 @@ function plotData(callData, putData) {
         }
     ],
         series: [
-
             {
             name: 'Call',
             type: 'bar',
@@ -137,9 +150,8 @@ function plotData(callData, putData) {
             },
             data: callData,
             itemStyle: {
-                color: '#0FB307'
+                color: '#00FC50'
                 },
-            barWidth: '30%'
             },
             {
             name: 'Put',
@@ -150,10 +162,9 @@ function plotData(callData, putData) {
             },
             data: putData,
             itemStyle: {
-                color: '#FF2F1F' //'#7A1C16'
+                color: '#EE5365' //'#7A1C16'
                 },
             },
-          
         ]
     };
     return options;
@@ -250,7 +261,6 @@ $: {
 <!-- Other meta tags -->
 <meta property="og:title" content={`${$displayCompanyName} (${$etfTicker}) Options Activity · stocknear`}/>
 <meta property="og:description" content={`Detailed informaton of unusual options activity for ${$displayCompanyName} (${$etfTicker}).`} />
-<meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <meta property="og:type" content="website"/>
 <!-- Add more Open Graph meta tags as needed -->
 
@@ -258,7 +268,6 @@ $: {
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content={`${$displayCompanyName} (${$etfTicker}) Options Activity · stocknear`}/>
 <meta name="twitter:description" content={`Detailed informaton of unusual options activity for ${$displayCompanyName} (${$etfTicker}).`} />
-<meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -389,7 +398,7 @@ $: {
                             <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center">
                               <div class="w-full grid grid-cols-2 lg:grid-cols-3 gap-y-3 lg:gap-y-3 gap-x-3 ">
                                 <!--Start Flow Sentiment-->  
-                                <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+                                <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
                                     <div class="flex flex-col items-start">
                                         <span class="font-medium text-gray-200 text-sm ">Flow Sentiment</span>
                                         <span class="text-start text-[1rem] font-medium {flowSentiment === 'Bullish' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">{flowSentiment}</span>
@@ -398,7 +407,7 @@ $: {
                                 </div>
                                 <!--End Flow Sentiment-->
                                 <!--Start Put/Call-->  
-                                <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+                                <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
                                   <div class="flex flex-col items-start">
                                       <span class="font-medium text-gray-200 text-sm ">Put/Call</span>
                                       <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -425,7 +434,7 @@ $: {
                               </div>
                               <!--End Put/Call-->
                               <!--Start Call Flow-->  
-                              <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+                              <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
                                 <div class="flex flex-col items-start">
                                     <span class="font-medium text-gray-200 text-sm ">Call Flow</span>
                                     <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -454,7 +463,7 @@ $: {
                               </div>
                               <!--End Call Flow-->
                               <!--Start Put Flow-->  
-                              <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+                              <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
                                 <div class="flex flex-col items-start">
                                     <span class="font-medium text-gray-200 text-sm ">Put Flow</span>
                                     <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -499,6 +508,7 @@ $: {
                                     <thead>
                                       <tr class="">
                                         <td class="text-slate-200 font-semibold text-sm text-start">Time</td>
+                                        <td class="text-slate-200 font-semibold text-sm text-start">Date</td>
                                         <td class="text-slate-200 font-semibold text-sm text-end">Expiry</td>
                                         <td class="text-slate-200 font-semibold text-sm text-end">Strike</td>
                                         <td class="text-slate-200 font-semibold text-sm text-end">C/P</td>
@@ -512,10 +522,14 @@ $: {
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      {#each optionList as item}
+                                      {#each (data?.user?.tier === 'Pro' ? optionList : optionList?.slice(0,3)) as item, index}
                                       <!-- row -->
-                                      <tr class="bg-[#0F0F0F] border-b-[#0F0F0F] ">
+                                      <tr class="odd:bg-[#202020] border-b-[#0F0F0F] {index+1 === optionList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                                         
+                                        <td class="text-white text-xs sm:text-sm text-start">
+                                          {formatTime(item?.updated)}
+                                        </td>
+
                                         <td class="text-white text-xs sm:text-sm text-start">
                                           {formatDate(item?.updated)}
                                         </td>

@@ -15,7 +15,7 @@ let optionsPlotData = data?.getOptionsPlotData?.plot;
 let displayData = 'volume';
 let options;
 let rawData = data?.getOptionsFlowData
-let optionList = rawData?.slice(0,15);
+let optionList = rawData?.slice(0,30);
 let flowSentiment = 'n/a';
 let callPercentage; 
 let putPercentage;
@@ -47,27 +47,41 @@ const putOpenInterestList = data?.getOptionsPlotData?.putOpenInterestList;
 
 
 
-function formatDate(timestamp) {
+function formatTime(timestamp) {
   // Convert timestamp to milliseconds
   var date = new Date(timestamp * 1000);
 
-  // Get month, day, hours, minutes, and seconds
-  var month = date.getMonth() + 1; // Month starts from 0
-  var day = date.getDate();
+  // hours, minutes, and seconds
   var hours = date.getHours();
   var minutes = date.getMinutes();
   var seconds = date.getSeconds();
 
-  // Add leading zeros if necessary
-  month = (month < 10 ? "0" : "") + month;
-  day = (day < 10 ? "0" : "") + day;
   hours = (hours < 10 ? "0" : "") + hours;
   minutes = (minutes < 10 ? "0" : "") + minutes;
   seconds = (seconds < 10 ? "0" : "") + seconds;
 
   // Format the date string
-  var formattedDate = month + "/" + day + " " + hours + ":" + minutes + ":" + seconds;
+  var formattedDate = hours + ":" + minutes + ":" + seconds 
   //var formattedDate = hours + ":" + minutes + ":" + seconds;
+
+  return formattedDate;
+}
+
+function formatDate(timestamp) {
+  // Convert timestamp to milliseconds and create a Date object
+  var date = new Date(timestamp * 1000);
+
+  // Get month, day, and year
+  var month = date.getMonth() + 1; // Month starts from 0
+  var day = date.getDate();
+  var year = date.getFullYear();
+
+  // Add leading zeros if necessary
+  month = (month < 10 ? "0" : "") + month;
+  day = (day < 10 ? "0" : "") + day;
+
+  // Format the date string in mm/dd/YYYY
+  var formattedDate = month + "/" + day + "/" + year;
 
   return formattedDate;
 }
@@ -136,9 +150,8 @@ function plotData(callData, putData) {
             },
             data: callData,
             itemStyle: {
-                color: '#0FB307'
+                color: '#00FC50'
                 },
-            barWidth: '30%',
             },
             {
             name: 'Put',
@@ -149,7 +162,7 @@ function plotData(callData, putData) {
             },
             data: putData,
             itemStyle: {
-                color: '#FF2F1F' //'#7A1C16'
+                color: '#EE5365' //'#7A1C16'
                 },
             },
         ]
@@ -495,6 +508,7 @@ $: {
                                     <thead>
                                       <tr class="">
                                         <td class="text-slate-200 font-semibold text-sm text-start">Time</td>
+                                        <td class="text-slate-200 font-semibold text-sm text-start">Date</td>
                                         <td class="text-slate-200 font-semibold text-sm text-end">Expiry</td>
                                         <td class="text-slate-200 font-semibold text-sm text-end">Strike</td>
                                         <td class="text-slate-200 font-semibold text-sm text-end">C/P</td>
@@ -510,8 +524,12 @@ $: {
                                     <tbody>
                                       {#each (data?.user?.tier === 'Pro' ? optionList : optionList?.slice(0,3)) as item, index}
                                       <!-- row -->
-                                      <tr class="bg-[#0F0F0F] border-b-[#0F0F0F] {index+1 === optionList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
+                                      <tr class="odd:bg-[#202020] border-b-[#0F0F0F] {index+1 === optionList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                                         
+                                        <td class="text-white text-xs sm:text-sm text-start">
+                                          {formatTime(item?.updated)}
+                                        </td>
+
                                         <td class="text-white text-xs sm:text-sm text-start">
                                           {formatDate(item?.updated)}
                                         </td>
