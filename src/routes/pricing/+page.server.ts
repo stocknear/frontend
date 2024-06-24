@@ -3,7 +3,7 @@ import { validateData } from "$lib/utils";
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 
 
-
+/*
 export const load = ({ cookies }) => {
 
 	const subscribeToPro = cookies?.get('pricing-model')
@@ -13,7 +13,9 @@ export const load = ({ cookies }) => {
 	};
   };
 
-  
+*/
+
+
 export const actions = {
 	
     login: async ({ request, locals }) => {
