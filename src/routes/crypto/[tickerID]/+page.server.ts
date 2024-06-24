@@ -126,7 +126,7 @@ export const actions = {
 			maxAge: 60*60
 		});
 
-		cookies.set('path', "/stocks/"+params.tickerID, {httpOnly: true,
+		cookies.set('path', "/crypto/"+params.tickerID, {httpOnly: true,
 			sameSite: 'lax',
 			secure: true,
 			path: '/',

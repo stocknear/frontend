@@ -1,76 +1,67 @@
-import { showCookieConsent, userRegion, getCache, setCache } from '$lib/store';
+import {getCache, setCache } from '$lib/store';
+import { redirect } from '@sveltejs/kit';
 
 
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
+export const load = async ({parent}) => {
 
-let apiURL;
+  const data = await parent();
 
-userRegion.subscribe(value => {
-
-  if (usRegion.includes(value)) {
-    apiURL = import.meta.env.VITE_USEAST_API_URL;
-  } else {
-    apiURL = import.meta.env.VITE_EU_API_URL;
-  }
-});
+  if (data?.user) {
+		redirect(303, '/home');
+	}
 
 
-export const load = async () => {
-
-
-  const getDailyGainerLoserActive = async () => {
+  const getFrontendStars = async () => {
     let output;
 
     // Get cached data for the specific tickerID
-    const cachedData = getCache('', 'getDailyGainerLoserActive');
+    const cachedData = getCache('', 'getFrontendStars');
     if (cachedData) {
       output = cachedData;
     } else {
 
       // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/market-movers', {
+      const response = await fetch('https://api.github.com/repos/stocknear/frontend', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      output = await response.json();
-
-      setCache('', output, 'getDailyGainerLoserActive');
+      output = (await response.json())['stargazers_count'];
+      setCache('', output, 'getFrontendStars');
     }
-
     return output;
   };
 
-  const getRssFeedWIIM = async () => {
+  const getBackendStars = async () => {
     let output;
 
     // Get cached data for the specific tickerID
-    const cachedData = getCache('', 'getRssFeedWIIM');
+    const cachedData = getCache('', 'getBackendStars');
     if (cachedData) {
       output = cachedData;
     } else {
 
       // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/rss-feed-wiim', {
+      const response = await fetch('https://api.github.com/repos/stocknear/backend', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      output = await response.json();
-
-      setCache('', output, 'getRssFeedWIIM');
+      output = (await response.json())['stargazers_count'];
+      setCache('', output, 'getBackendStars');
     }
-
     return output;
   };
+
+
 
   // Make sure to return a promise
   return {
-    getDailyGainerLoserActive: await getDailyGainerLoserActive(),
-    getRssFeedWIIM: await getRssFeedWIIM(),
+    getFrontendStars: await getFrontendStars(),
+    getBackendStars: await getBackendStars(),
   };
 };

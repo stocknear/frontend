@@ -2,6 +2,18 @@ import { error, fail, redirect } from "@sveltejs/kit";
 import { validateData } from "$lib/utils";
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 
+
+
+export const load = ({ cookies }) => {
+
+	const subscribeToPro = cookies?.get('pricing-model')
+  
+	return {
+		subscribeToPro: subscribeToPro ?? undefined,
+	};
+  };
+
+  
 export const actions = {
 	
     login: async ({ request, locals }) => {
@@ -131,8 +143,8 @@ export const actions = {
 			path: '/',
 			maxAge: 60
 	  	});
-		
 
+	
 
 		redirect(302,authProviderRedirect);
 
