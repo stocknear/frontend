@@ -100,13 +100,13 @@
                                   </div>
 
                                   
-                                  <span class="text-center flex-1 justify-center items-center text-white text-lg sm:text-xl">
+                                  <div class="w-5/6 m-auto sm:w-full text-center flex-1 justify-center items-center text-white text-lg sm:text-xl">
                                     We provide high quality 
                                     <span style="font-weight: 520;" class="text-[#FBCE3C] italic">Wallstreet Data</span>
                                      to 
                                      <span style="font-weight: 520;" class="text-[#FBCE3C] italic">Retail Traders</span>.
                                      
-                                  </span>
+                                  </div>
                                   
                                     
              
@@ -137,7 +137,7 @@
                                 <!-- End Column -->
 
 
-                                <h1 class="text-white w-5/6 sm:w-full m-auto text-3xl sm:text-4xl font-bold mt-10">
+                                <h1 class="text-white w-5/6 sm:w-full m-auto text-3xl sm:text-4xl font-bold sm:mt-10">
                                   Explore High Quality Datasets
                                 </h1>
                                 <div class="overlay m-auto flex justify-center items-center w-fit sm:w-[820px] h-full animate-fade-in-once">
@@ -223,7 +223,7 @@
   
                                 </div>
                                 
-                                <h2 class="text-white text-3xl sm:text-4xl font-bold mt-20 w-5/6 sm:w-1/2 text-center m-auto">
+                                <h2 class="text-white text-3xl sm:text-4xl font-bold mt-10 w-5/6 sm:w-1/2 text-center m-auto">
                                   AI-Powered Algorithms to assist you in any way
                                 </h2>
 
@@ -241,7 +241,7 @@
                                                   <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" d="M6.15.555a.389.389 0 0 0-.399 0a.26.26 0 0 0-.06.34c1.227 2.123 1.486 5.016-.19 6.611a5.505 5.505 0 0 1-1.495-1.994a3.88 3.88 0 0 0-1.995 3.49a4.688 4.688 0 0 0 4.987 4.488c3.211 0 4.877-1.994 4.986-4.488C12.114 6.01 9.99 2.33 6.15.555"/></svg>
                                                 </div>
                                                   <h4 class="text-xl text-white font-semibold mb-2">Market Trends</h4>
-                                                  <p class="text-lg text-gray-400 text-center">
+                                                  <p class="text-[1rem] sm:text-lg text-white text-center">
                                                     We are analyzing and predicting the trends for each company for the forthcoming months.
                                                   </p>
                                               </div>
@@ -252,7 +252,7 @@
                                                   <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#fff" d="m24 20l-1.41 1.41L26.17 25H10a4 4 0 0 1 0-8h12a6 6 0 0 0 0-12H5.83l3.58-3.59L8 0L2 6l6 6l1.41-1.41L5.83 7H22a4 4 0 0 1 0 8H10a6 6 0 0 0 0 12h16.17l-3.58 3.59L24 32l6-6Z"/></svg>
                                                 </div>
                                                   <h4 class="text-xl text-white font-semibold mb-2">Price Movements</h4>
-                                                  <p class="text-lg text-gray-400 text-center">
+                                                  <p class="text-[1rem] sm:text-lg text-white text-center">
                                                     We are predicting the price movements of each company to empower you with confidence in your investment strategy.
                                                   </p>
                                               </div>
@@ -263,7 +263,7 @@
                                                   <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" color="#F9784E"><path d="M18 15V9c0-2.828 0-4.243-.879-5.121C16.243 3 14.828 3 12 3H8c-2.828 0-4.243 0-5.121.879C2 4.757 2 6.172 2 9v6c0 2.828 0 4.243.879 5.121C3.757 21 5.172 21 8 21h12M6 8h8m-8 4h8m-8 4h4"/><path d="M18 8h1c1.414 0 2.121 0 2.56.44c.44.439.44 1.146.44 2.56v8a2 2 0 1 1-4 0z"/></g></svg>
                                                 </div>
                                                   <h4 class="text-xl text-white font-semibold mb-2">News Sentiments</h4>
-                                                  <p class="text-lg text-gray-400 text-center">
+                                                  <p class="text-[1rem] sm:text-lg text-white text-center">
                                                     We are processing millions of news articles to evaluate what the market thinks about each company.
                                                   </p>
                                               </div>
@@ -298,7 +298,7 @@
                                                   <svg style="clip-path: circle(50%);" class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#fff" d="m7.288 23.292l7.997-7.997l1.414 1.414l-7.997 7.997z"/><path fill="#fff" d="M17 30a1 1 0 0 1-.37-.07a1 1 0 0 1-.62-.79l-1-7l2-.28l.75 5.27L21 24.52V17a1 1 0 0 1 .29-.71l4.07-4.07A8.94 8.94 0 0 0 28 5.86V4h-1.86a8.94 8.94 0 0 0-6.36 2.64l-4.07 4.07A1 1 0 0 1 15 11H7.48l-2.61 3.26l5.27.75l-.28 2l-7-1a1 1 0 0 1-.79-.62a1 1 0 0 1 .15-1l4-5A1 1 0 0 1 7 9h7.59l3.77-3.78A10.92 10.92 0 0 1 26.14 2H28a2 2 0 0 1 2 2v1.86a10.92 10.92 0 0 1-3.22 7.78L23 17.41V25a1 1 0 0 1-.38.78l-5 4A1 1 0 0 1 17 30"/></svg>
                                                 </div>
                                                   <h4 class="text-xl text-white font-semibold mb-2">Track institutional activity</h4>
-                                                  <p class="text-lg text-gray-400 text-center">
+                                                  <p class="text-[1rem] sm:text-lg text-white text-center">
                                                     Gain insights into the latest moves smart money traders and hedge funds are doing. 
                                                   </p>
                                               </div>
@@ -309,7 +309,7 @@
                                                   <svg style="clip-path: circle(50%);" class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#fff" d="M184 184a32 32 0 0 1-32 32c-13.7 0-26.95-8.93-31.5-21.22a8 8 0 0 1 15-5.56C137.74 195.27 145 200 152 200a16 16 0 0 0 0-32H40a8 8 0 0 1 0-16h112a32 32 0 0 1 32 32m-64-80a32 32 0 0 0 0-64c-13.7 0-26.95 8.93-31.5 21.22a8 8 0 0 0 15 5.56C105.74 60.73 113 56 120 56a16 16 0 0 1 0 32H24a8 8 0 0 0 0 16Zm88-32c-13.7 0-26.95 8.93-31.5 21.22a8 8 0 0 0 15 5.56C193.74 92.73 201 88 208 88a16 16 0 0 1 0 32H32a8 8 0 0 0 0 16h176a32 32 0 0 0 0-64"/></svg>
                                                 </div>
                                                   <h4 class="text-xl text-white font-semibold mb-2">Fast, reliable market data</h4>
-                                                  <p class="text-lg text-gray-400 text-center">
+                                                  <p class="text-[1rem] sm:text-lg text-white text-center">
                                                     Get the latest options flow data delivered to you quickly and accurately.
                                                   </p>
                                               </div>
@@ -320,7 +320,7 @@
                                                   <svg style="clip-path: circle(50%);" class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048"><path fill="#fff" d="M1536 0q27 0 50 10t40 27t28 41t10 50v1792q0 27-10 50t-27 40t-41 28t-50 10H512q-27 0-50-10t-40-27t-28-41t-10-50V128q0-27 10-50t27-40t41-28t50-10zm0 128H512v1792h1024zM896 1664h256v128H896z"/></svg>
                                                 </div>
                                                   <h4 class="text-xl text-white font-semibold mb-2">Best User Experience</h4>
-                                                  <p class="text-lg text-gray-400 text-center">
+                                                  <p class="text-[1rem] sm:text-lg text-white text-center">
                                                     Enjoy an intuitive interface that makes finding the information you need effortless.
                                                   </p>
                                               </div>
@@ -344,15 +344,15 @@
                                   <div class="m-auto flex-shrink-0 flex justify-center items-center">
                                     <svg class="w-8 h-8 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#000" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
                                   
-                                    <span class="text-[1rem] sm:text-lg ml-2 font-semibold">
+                                    <span class="text-[1rem] ml-2 font-semibold">
                                       stocknear
                                       {frontendStars+backendStars}
                                     </span>
-                                    <svg class="ml-2 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#000" d="m18.7 4.627l2.247 4.31a2.27 2.27 0 0 0 1.686 1.189l4.746.65c2.538.35 3.522 3.479 1.645 5.219l-3.25 2.999a2.225 2.225 0 0 0-.683 2.04l.793 4.398c.441 2.45-2.108 4.36-4.345 3.24l-4.536-2.25a2.282 2.282 0 0 0-2.006 0l-4.536 2.25c-2.238 1.11-4.786-.79-4.345-3.24l.793-4.399c.14-.75-.12-1.52-.682-2.04l-3.251-2.998c-1.877-1.73-.893-4.87 1.645-5.22l4.746-.65a2.23 2.23 0 0 0 1.686-1.189l2.248-4.309c1.144-2.17 4.264-2.17 5.398 0"/></svg>
+                                    <svg class="ml-1 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#000" d="m18.7 4.627l2.247 4.31a2.27 2.27 0 0 0 1.686 1.189l4.746.65c2.538.35 3.522 3.479 1.645 5.219l-3.25 2.999a2.225 2.225 0 0 0-.683 2.04l.793 4.398c.441 2.45-2.108 4.36-4.345 3.24l-4.536-2.25a2.282 2.282 0 0 0-2.006 0l-4.536 2.25c-2.238 1.11-4.786-.79-4.345-3.24l.793-4.399c.14-.75-.12-1.52-.682-2.04l-3.251-2.998c-1.877-1.73-.893-4.87 1.645-5.22l4.746-.65a2.23 2.23 0 0 0 1.686-1.189l2.248-4.309c1.144-2.17 4.264-2.17 5.398 0"/></svg>
                                   </div>
                                 </a>
 
-                                <span class="text-white text-sm sm:text-lgs font-semibold -mt-5">
+                                <span class="text-white text-sm sm:text-lgs font-semibold font-mono -mt-5">
                                   Leave a star to support us
                                 </span>
 
