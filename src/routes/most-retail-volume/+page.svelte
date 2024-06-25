@@ -165,7 +165,7 @@
                               Daily Traded
                             </th>
                             <th class="text-end bg-[#0F0F0F] text-white text-sm font-semibold">
-                              Volume % of Retail Traders
+                              Volume in %
                             </th>
                             <th class="text-end bg-[#0F0F0F] text-white text-sm font-semibold">
                               Sentiment
