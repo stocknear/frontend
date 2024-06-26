@@ -22,6 +22,7 @@
     });
 
     let rawData = [];
+    let displayList = []
     let trialId;
     let trialTitle;
     let trialStart;
@@ -164,6 +165,7 @@ const getClinicalTrial = async (ticker) => {
     const cachedData = getCache(ticker, 'getClinicalTrial');
     if (cachedData) {
       rawData = cachedData;
+      displayList = cachedData;
     } else {
 
       const postData = {'ticker': ticker};
@@ -177,6 +179,7 @@ const getClinicalTrial = async (ticker) => {
       });
 
       rawData = await response.json();
+      displayList = rawData;
       // Cache the data for this specific tickerID with a specific name 'getClinicalTrial'
       setCache(ticker, rawData, 'getClinicalTrial');
     }
@@ -201,6 +204,7 @@ $: {
             numOfCompleted = rawData?.filter(item => item['Study Status'] === 'COMPLETED')?.length;
             numOfTerminated = rawData?.filter(item => item['Study Status'] === 'TERMINATED')?.length;
             numOfResults =  rawData?.filter(item => item['Study Results'] === 'YES')?.length;
+
             optionsData = getPlotOptions()
           })
           .catch((error) => {
@@ -284,21 +288,26 @@ $: {
           <table class="table table-sm table-compact table-pin-rows table-pin-cols w-full">
             <thead>
               <tr class="border-b border-blue-400">
-                <th class="text-white shadow-md font-semibold text-sm text-start bg-[#0F0F0F]">Title</th>
-                <th class="text-white shadow-md font-semibold text-sm text-end bg-[#0F0F0F]">Stage</th>
+                <th class="text-white shadow-md font-semibold text-sm text-start bg-[#0F0F0F]">Drug</th>
+                <th class="text-white shadow-md font-semibold text-sm text-start bg-[#0F0F0F]">Date</th>
+                <th class="text-white shadow-md font-semibold text-sm text-center bg-[#0F0F0F]">Stage</th>
                 <th class="text-white shadow-md font-semibold text-sm text-end bg-[#0F0F0F]">Phase Status</th>
                 <th class="text-white shadow-md font-semibold text-sm text-end bg-[#0F0F0F]">Result</th>
               </tr>
             </thead>
             <tbody>
-              {#each rawData as item,index}
+              {#each displayList as item,index}
               <tr on:click={() => handleViewData(item)} class="border-y border-gray-800 odd:bg-[#202020] sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#0F0F0F] border-b-[#0F0F0F] cursor-pointer">
                
                   <td class="text-white font-medium">
-                   {item["Study Title"]?.length > charNumber ? formatString(item["Study Title"]?.slice(0,charNumber)) + "..." : formatString(item["Study Title"])}
+                   {item["Interventions"]?.length === 0 ? '-' : item["Interventions"]?.length > charNumber ? formatString(item["Interventions"]?.slice(0,charNumber)) + "..." : formatString(item["Interventions"])}
                   </td>
+
+                  <td class="text-white font-medium w-full text-start">
+                    {new Date(item["Start Date"])?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                   </td>
               
-                  <td class="text-white text-end font-medium">
+                  <td class="text-white text-center font-medium">
                     {formatString(item['Study Status'])}
                   </td>
 
