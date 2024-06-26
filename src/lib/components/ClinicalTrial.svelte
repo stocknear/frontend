@@ -197,7 +197,7 @@ $: {
       ];
       Promise.all(asyncFunctions)
           .then((results) => {
-            numOfActive = rawData?.filter(item => item['Study Status'] === 'ACTIVE_NOT_RECRUITING')?.length;
+            numOfActive = rawData?.filter(item => item['Study Status'] === 'Active')?.length;
             numOfCompleted = rawData?.filter(item => item['Study Status'] === 'COMPLETED')?.length;
             numOfTerminated = rawData?.filter(item => item['Study Status'] === 'TERMINATED')?.length;
             numOfResults =  rawData?.filter(item => item['Study Results'] === 'YES')?.length;
