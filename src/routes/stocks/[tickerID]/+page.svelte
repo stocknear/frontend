@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
   import { TrackingModeExitMode } from 'lightweight-charts';
-  import {getCache, setCache, marketMakerComponent, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
+  import {getCache, setCache, optionComponent, marketMakerComponent, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
   import CommunitySentiment from '$lib/components/CommunitySentiment.svelte';
@@ -32,7 +32,6 @@
     let prePostData = {};
     let similarstock = [];
     let topETFHolder = [];
-    let optionsDict = data?.getOptionsData ?? {};
     let previousClose = data?.getStockQuote?.previousClose;
     let marketMoods = {}
     let taRating = {};
@@ -56,7 +55,6 @@
   let TARating;
   let StockSplits;
   let Correlation;
-  let OptionsData;
   let WIIM;
 
 
@@ -67,7 +65,6 @@
     TARating = (await import('$lib/components/TARating.svelte')).default;
     StockSplits = (await import('$lib/components/StockSplits.svelte')).default;
     Correlation = (await import('$lib/components/Correlation.svelte')).default;
-    OptionsData = (await import('$lib/components/OptionsData.svelte')).default;
 
   })
   
@@ -673,7 +670,6 @@ function changeChartType() {
       oneMonthPrice = [];
       oneYearPrice = [];
       threeYearPrice = [];
-      optionsDict = {};
       prePostData = {};
       marketMoods = {};
       taRating = {};
@@ -691,7 +687,6 @@ function changeChartType() {
     
       similarstock = data?.getSimilarStock;
       topETFHolder = data?.getTopETFHolder;
-      optionsDict = data?.getOptionsData;
       //previousClose = stockDeck?.at(0)?.previousClose;
     
       
@@ -1309,14 +1304,17 @@ function changeChartType() {
                                     {/await}
                                   </div>
                                   </Lazy>
-                                
-                                  {#if OptionsData}
-                                    <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(optionsDict)?.length !== 0 ? '' : 'hidden'}">
-                                      <OptionsData data={data} optionsDict={optionsDict}/>
-                                    </div>
-                                  {/if}
-                                
 
+                                  <Lazy>
+                                    <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$optionComponent ? 'hidden' : ''}">
+                                    {#await import('$lib/components/OptionsData.svelte') then {default: Comp}}
+                                      <svelte:component this={Comp} data={data} />
+                                    {/await}
+                                  </div>
+                                  </Lazy>
+                                
+                                
+                                
 
                                  <!--Start RevenueSegmentation-->
                                   <Lazy>

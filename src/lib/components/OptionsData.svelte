@@ -1,15 +1,27 @@
 <script lang='ts'>
-  import { assetType, stockTicker, etfTicker, displayCompanyName} from "$lib/store";
-  import { abbreviateNumber } from "$lib/utils";
-  import InfoModal from '$lib/components/InfoModal.svelte';
-  import { LayerCake, Html } from 'layercake';
-  import Circle from '$lib/components/Circle/Circle.html.svelte';
+import { optionComponent, assetType, stockTicker, etfTicker, displayCompanyName, userRegion, getCache, setCache} from "$lib/store";
+import { abbreviateNumber } from "$lib/utils";
+import InfoModal from '$lib/components/InfoModal.svelte';
+import { LayerCake, Html } from 'layercake';
+import Circle from '$lib/components/Circle/Circle.html.svelte';
 
-  export let optionsDict = {};
-  export let data;
+export let data;
+const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
-  let deactivateContent = data?.user?.tier === 'Pro' ? false : true;
+let apiURL;
 
+userRegion.subscribe(value => {
+
+  if (usRegion.includes(value)) {
+    apiURL = import.meta.env.VITE_USEAST_API_URL;
+  } else {
+    apiURL = import.meta.env.VITE_EU_API_URL;
+  }
+});
+
+  let optionsDict = {};
+  
+  let isLoaded = false;
 
 function changeStatement(event)
 {
@@ -34,10 +46,42 @@ function allValuesZero(obj) {
 let checkIfNotZero:boolean;
 
 
-$: {
-  if (displayTimePeriod && Object?.keys(optionsDict)?.length !== 0)
-  {
-    checkIfNotZero = false;
+
+const getOptionsBubble = async (ticker) => {
+    // Get cached data for the specific tickerID
+    const cachedData = getCache(ticker, 'getOptionsBubble');
+    if (cachedData) {
+      optionsDict = cachedData;
+    } else {
+
+      const postData = {'ticker': ticker};
+      // make the POST request to the endpoint
+      const response = await fetch(apiURL + '/options-bubble', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData)
+      });
+
+      optionsDict = await response.json();
+
+      // Cache the data for this specific tickerID with a specific name 'getOptionsBubble'
+      setCache(ticker, optionsDict, 'getOptionsBubble');
+    }
+
+    if(Object?.keys(optionsDict)?.length !== 0) {
+    $optionComponent = true;
+    }
+    else {
+      $optionComponent = false;
+    }
+
+};
+
+
+function prepareData() {
+  checkIfNotZero = false;
     rawData = [];
     try {
       dataset = optionsDict[displayTimePeriod]
@@ -58,8 +102,37 @@ $: {
     rawData.push({ 'contract': 'puts', value: putProportion });
     signal = callProportion >= putProportion ? 'Bullish' : 'Bearish';
     checkIfNotZero = allValuesZero(dataset);
+
+}
+
+
+$: {
+  if(($assetType === 'stock' ? $stockTicker : $etfTicker) && typeof window !== 'undefined') {
+    isLoaded = false;
+    
+    const ticker = $assetType === 'stock' ? $stockTicker : $etfTicker;
+
+    const asyncFunctions = [
+      getOptionsBubble(ticker)
+      ];
+      Promise.all(asyncFunctions)
+          .then((results) => {
+            prepareData()
+          })
+          .catch((error) => {
+            console.error('An error occurred:', error);
+          });
+    isLoaded = true;
   }
 }
+
+$: {
+  if (displayTimePeriod && Object?.keys(optionsDict)?.length !== 0 && isLoaded === true)
+  {
+    prepareData()
+  }
+}
+
 
 </script>
     
@@ -82,15 +155,15 @@ $: {
               </div>
 
               {#if data?.user?.tier === 'Pro'}
-
+              {#if isLoaded}
               <div class="flex flex-row items-end justify-between">
                   <select class="mt-5 sm:mb-0 ml-1 w-36 select select-bordered select-sm p-0 pl-5  bg-[#2A303C]" on:change={changeStatement}>
                       <option disabled>Choose a time period</option>
-                      <option disabled={deactivateContent} value="oneDay">
-                        {!deactivateContent ? 'Last 24h' : 'Last 24h (Pro Only)'} 
+                      <option value="oneDay">
+                        Last 24h
                       </option>
-                      <option disabled={deactivateContent} value="oneWeek">
-                        {!deactivateContent ? 'Last Week' : 'Last Week (Pro Only)'} 
+                      <option value="oneWeek">
+                        Last Week
                       </option>
                       <option value="oneMonth" selected>
                         Last Month
@@ -169,7 +242,16 @@ $: {
                 </div>
               </div>
               {/if}
-
+            
+            {:else}
+            <div class="flex justify-center items-center h-80">
+              <div class="relative">
+                <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <span class="loading loading-spinner loading-md"></span>
+                </label>
+              </div>
+            </div>  
+            {/if}
             {:else}
             <div class="shadow-lg shadow-bg-[#000] bg-[#202020] sm:bg-opacity-[0.5] text-sm sm:text-[1rem] rounded-md w-full p-4 min-h-24 mt-4 text-white m-auto flex justify-center items-center text-center font-semibold">
                 <svg class="mr-1.5 w-5 h-5 inline-block"xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#A3A3A3" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/></svg>

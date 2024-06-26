@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
     import { TrackingModeExitMode } from 'lightweight-charts';
-    import {getCache, setCache, sentimentComponent, varComponent, retailVolumeComponent, trendAnalysisComponent, priceAnalysisComponent, assetType, screenWidth, globalForm, userRegion, numberOfUnreadNotification, displayCompanyName, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, etfTicker, isOpen,  isBeforeMarketOpen, isWeekend} from '$lib/store';
+    import {getCache, setCache, optionComponent, sentimentComponent, varComponent, retailVolumeComponent, trendAnalysisComponent, priceAnalysisComponent, assetType, screenWidth, globalForm, userRegion, numberOfUnreadNotification, displayCompanyName, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, etfTicker, isOpen,  isBeforeMarketOpen, isWeekend} from '$lib/store';
     import { onDestroy, onMount } from 'svelte';    
     import ETFKeyInformation from '$lib/components/ETFKeyInformation.svelte';
     import Lazy from '$lib/components/Lazy.svelte';
@@ -50,7 +50,6 @@
       let dividendList = [];
       let similarTicker = []
       let prePostData = {};
-      let optionsDict = {};
       let taRating = {};
 
       let previousClose = data?.getStockQuote?.previousClose;
@@ -77,7 +76,6 @@
     let Correlation;
     let CountrySegmentation;
     let SectorSegmentation;
-    let OptionsData;
     let WIIM;
     //let ETFKeyInformation;
     
@@ -85,19 +83,10 @@
   onMount(async() => {  
 
     WIIM = (await import('$lib/components/WIIM.svelte')).default;
-    OptionsData = (await import('$lib/components/OptionsData.svelte')).default;
-    TARating = (await import('$lib/components/TARating.svelte')).default;
-    //PricePredictionCard = (await import('$lib/components/PricePredictionCard.svelte')).default;
-    //TradingModel = (await import('$lib/components/TradingModel.svelte')).default;    
+    TARating = (await import('$lib/components/TARating.svelte')).default; 
     Correlation = (await import('$lib/components/Correlation.svelte')).default;
     CountrySegmentation = (await import('$lib/components/CountrySegmentation.svelte')).default;
     SectorSegmentation = (await import('$lib/components/SectorSegmentation.svelte')).default;
-      //ShareHolders = (await import('$lib/components/ShareHolders.svelte')).default;
-      /*
-      if ($screenWidth < 640) {
-        ETFKeyInformation = (await import('$lib/components/ETFKeyInformation.svelte')).default;
-      }
-      */
   })
   
     
@@ -716,7 +705,6 @@ async function initializePrice() {
         topHoldingList = data?.getETFHoldings;
         dividendList = data?.getStockDividend;
         similarTicker = data?.getSimilarETFs;
-        optionsDict = data?.getOptionsData;
         previousClose = data?.getStockQuote?.previousClose
         taRating = data?.getStockTARating;
   
@@ -1300,12 +1288,13 @@ async function initializePrice() {
                                   </div>
                                   </Lazy>
                                   
-
-                                  {#if OptionsData}
-                                      <div class="w-full mt-10 sm:mt-0 m-auto sm:p-6 {Object?.keys(optionsDict)?.length !== 0 ? '' : 'hidden'}">
-                                        <OptionsData data={data} optionsDict={optionsDict}/>
-                                      </div>
-                                  {/if}
+                                  <Lazy>
+                                    <div class="w-full mt-10 sm:mt-0 m-auto sm:p-6 {!$optionComponent ? 'hidden' : ''}">
+                                    {#await import('$lib/components/OptionsData.svelte') then {default: Comp}}
+                                      <svelte:component this={Comp} data={data} />
+                                    {/await}
+                                  </div>
+                                  </Lazy>
                                   
                 
   
