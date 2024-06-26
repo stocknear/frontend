@@ -180,9 +180,8 @@ const updateComment = async (event) => {
 
 function handleInput(event) {
     inputValue = event.target.value;
-
+  /*
     const textarea = event.target;
-    
     if($screenWidth >= 640)
     {
       textarea.style.height = 'auto';
@@ -192,6 +191,8 @@ function handleInput(event) {
       textarea.style.height = 'auto';
       textarea.style.height = Math.min(textarea.scrollHeight, 10000) + 'px';
     }
+    */
+
   }
 
 function handleCancel() {
@@ -212,6 +213,14 @@ function handleCancel() {
 
 }
 
+ // Function to adjust textarea height
+ function adjustHeight() {
+    if (ref) {
+      ref.style.height = 'auto';
+      ref.style.height = Math.min(ref.scrollHeight, 10000) + 'px';
+    }
+  }
+
 function handleImageInput(event) {
     imageInput = event.target.files;
     //console.log(imageInput)
@@ -222,6 +231,7 @@ function handleImageInput(event) {
   $: {
     if (expandField === true && typeof window !== 'undefined') {
       ref?.focus()
+      adjustHeight();
     }
   }
 
@@ -232,7 +242,7 @@ function handleImageInput(event) {
 <div class="p-2 w-full max-w-xl mr-auto overflow-y-scroll {commentId?.length !== 0 ? '-ml-2' : ''}">
   <textarea
     on:click={() => expandField = true}
-    class="rounded-lg text-sm  {expandField ? 'min-h-28 h-full border-[#1C4090]' : 'h-12  border-gray-500'} overflow-hidden sm:hover:border-[#1C4090] sm:hover:ring-1 transition sm:ease-out placeholder-gray-500 w-full bg-[#202020] text-white border border-1 ring-2 sm:ring-0 ring-[#1C4090]"
+    class="rounded-lg text-sm  {expandField ? 'min-h-24 h-auto border-[#1C4090]' : 'h-12  border-gray-500'} overflow-hidden sm:hover:border-[#1C4090] sm:hover:ring-1 transition sm:ease-out placeholder-gray-500 w-full bg-[#202020] text-white border border-1 ring-2 sm:ring-0 ring-[#1C4090]"
     placeholder={placeholder}
     value={inputValue}
     bind:this={ref}
