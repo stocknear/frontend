@@ -573,6 +573,7 @@ export function getPartyForPoliticians(name) {
     "Roger Williams": "Republican",
     "Earl Leroy Carter": "Republican",
     "Daniel Webster": "Republican",
+    "Nicole Malliotakis": "Republican",
 };
 
 // Combine first and last name to form the key
