@@ -300,9 +300,11 @@ $: {
                           <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                               <span>Retail Sentiment</span>
                           </td>
-                          <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2 { rawData?.lastSentiment >= 0 ? 'text-[#10DB06]' : 'text-[#E57C34]'} ">
-                              {rawData?.lastSentiment >=0 ? rawData?.lastSentiment+' '+'(Bullish)' : rawData?.lastSentiment +' '+'(Bearish)'}
+                          <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2 {rawData?.lastSentiment > 0 ? 'text-[#10DB06]' : rawData?.lastSentiment < 0 ? 'text-[#E57C34]' : 'text-[#C6A755]'} ">
+                              {rawData?.lastSentiment >0 ? rawData?.lastSentiment+' '+'(Bullish)' : rawData?.lastSentiment < 0 ? rawData?.lastSentiment +' '+'(Bearish)' : rawData?.lastSentiment +' '+'(Mixed)'}
                           </td>
+                          
+
                       </tr>
                   </tbody>
               </table>

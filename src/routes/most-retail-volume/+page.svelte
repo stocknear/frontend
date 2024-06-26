@@ -202,8 +202,8 @@
                               {item?.retailStrength}%
                             </td>
 
-                            <td class="text-end text-sm font-medium {item?.sentiment > 0 ? 'text-[#10DB06]' : 'text-[#E57C34]'}">
-                              {item?.sentiment > 0 ? 'Bullish' : 'Bearish'}
+                            <td class="text-end text-sm font-medium {item?.sentiment > 0 ? 'text-[#10DB06]' : item?.sentiment < 0 ? 'text-[#E57C34]' : 'text-[#C6A755]'}">
+                              {item?.sentiment > 0 ? 'Bullish' : item?.sentiment < 0 ? 'Bearish' : 'Mixed'}
                           </td>
 
 
