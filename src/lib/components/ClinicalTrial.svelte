@@ -48,8 +48,8 @@
 
 function handleViewData(trialData) {
   trialId = trialData['NCT Number']
-  trialStart = new Date(trialData['Start Date'])?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' });
-  trialEnd = trialData['Completion Date'] !== null ? new Date(trialData['Completion Date'])?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' }) : '-';
+  trialStart = trialData['Start Date'] === null ? 'n/a' : new Date(trialData['Start Date'])?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' });
+  trialEnd = trialData['Completion Date'] === null ? 'n/a' : new Date(trialData['Completion Date'])?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' });
   trialTitle = trialData["Study Title"];
   trialSummary = trialData['Brief Summary'];
   trialAge = trialData['Age'];
@@ -304,7 +304,7 @@ $: {
                   </td>
 
                   <td class="text-white font-medium w-full text-start">
-                    {new Date(item["Start Date"])?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                    {item['Start Date'] === null ? 'n/a' : new Date(item["Start Date"])?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                    </td>
               
                   <td class="text-white text-center font-medium">
