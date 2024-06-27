@@ -556,10 +556,18 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
               </a>
             </li>
 
-            <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0  hover:bg-[#272727] rounded-md {$page.url.pathname=== '/analysts/top-stocks' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
-              <a href={"/most-shorted-stocks"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
+            <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0  hover:bg-[#272727] rounded-md {$page.url.pathname=== '/most-shorted-stocks' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+              <a href={"/most-shorted-stocks"} class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                 <span class="text-sm font-medium text-white ">
-                    Most Shorted Stocks
+                    Shorted Stocks
+                </span>
+              </a>
+            </li>
+
+            <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0  hover:bg-[#272727] rounded-md {$page.url.pathname=== '/most-retail-volume' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+              <a href={"/most-retail-volume"} class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
+                <span class="text-sm font-medium text-white ">
+                    Retail Trader Tracker
                 </span>
               </a>
             </li>
@@ -652,26 +660,33 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
         <ul class="mt-2">
 
           <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  {$page.url.pathname=== '/dividends-calendar' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
-            <a href={"/dividends-calendar"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
+            <a href={"/dividends-calendar"} class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                 <span class="text-sm font-medium text-white ">
                     Dividends Calendar
                 </span>
             </a>
         </li>
         <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  {$page.url.pathname=== '/earnings-calendar' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
-            <a href={"/earnings-calendar"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
+            <a href={"/earnings-calendar"} class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                 <span class="text-sm font-medium text-white ">
                     Earnings Calendar
                 </span>
             </a>
         </li>
         <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  { $page.url.pathname?.includes('/ipos')? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
-          <a href={"/ipos/2024"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
+          <a href={"/ipos/2024"} class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
               <span class="text-sm font-medium text-white ">
                   IPO Calendar
               </span>
           </a>
       </li>
+      <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  { $page.url.pathname?.includes('/fda-calendar')? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+        <a href={"/fda-calendar"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
+            <span class="text-sm font-medium text-white ">
+                FDA Calendar
+            </span>
+        </a>
+    </li>
         <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  {$page.url.pathname=== '/economic-calendar' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
           <a href={"/economic-calendar"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
               <span class="text-sm font-medium text-white ">

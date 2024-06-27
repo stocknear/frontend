@@ -201,8 +201,8 @@ async function loadSearchData() {
                                 <div >
 
                                   <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
-                                    <a href="/most-retail-volume" class="text-white antialiased bg-[#202020] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
-                                      <span class="font-semibold">Insights Into All "HOT" Retail Trader Stocks Within A Blink Of An Eye</span>
+                                    <a href="/fda-calendar" class="text-white antialiased bg-[#202020] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
+                                      <span class="font-semibold">Stay Ahead of Biotech <span class="font-bold">Surges</span> with the FDA Calendar</span>
                                     </a>
                                     <div class="absolute top-[-1.2rem] -right-5 sm:-right-8 rotate-[7deg]">
                                       <span class="bg-[#FBCE3C] text-black text-sm sm:text-[0.9rem] rounded-xl font-semibold sm:me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
