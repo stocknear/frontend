@@ -93,13 +93,14 @@
                                   <div class="flex flex-row justify-center items-center w-full sm:w-3/4 m-auto">
                                     
                                     <h1 class="text-center text-4xl sm:text-6xl text-white font-bold mb-6 w-full">
-                                      Look Where Others Don't
+                                      Stock Analysis for Data
+                                      <span class="text-[#FBCE3C] italic">Freaks</span>
                                     </h1>
                                   </div>
 
                                   
                                   <div class="w-5/6 m-auto sm:w-full text-center flex-1 justify-center items-center text-white text-lg sm:text-xl">
-                                    Track the forces driving the stock markets with our actionable and easy-to-understand data.
+                                    Track the forces driving the stock market with our actionable and easy-to-understand data.
                                   </div>
                                   
                                     

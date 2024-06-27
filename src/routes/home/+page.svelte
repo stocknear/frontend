@@ -217,10 +217,8 @@ async function loadSearchData() {
                                   <div class="flex flex-row justify-center items-center">
                                     
                                     <h1 class="text-center text-4xl sm:text-5xl text-white font-bold mb-6 w-full">
-                                      Your
-                                      <span class="text-[#FBCE3C] italic">All-in-One</span>
-                                      Solution for
-                                      <span class="text-[#FBCE3C] italic">Stock Analysis</span>
+                                      Stock Analysis for Data
+                                      <span class="text-[#FBCE3C] italic">Freaks</span>
                                     </h1>
                                   </div>
 
@@ -234,11 +232,7 @@ async function loadSearchData() {
                                   <!-- End Image -->
                                   
                                   <span class="text-center flex-1 justify-center items-center text-white text-[1rem] sm:text-lg">
-                                    We provide high quality 
-                                    <span style="font-weight: 520;" class="text-[#FBCE3C] italic">Wallstreet Data</span>
-                                     to 
-                                     <span style="font-weight: 520;" class="text-[#FBCE3C] italic">Retail Traders</span>.
-                                     
+                                    Track the forces driving the stock market with our actionable and easy-to-understand data.
                                   </span>
                                   
                                     
