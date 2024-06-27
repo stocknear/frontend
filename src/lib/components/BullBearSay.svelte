@@ -74,24 +74,21 @@ $: {
 
     {#if data?.user?.tier === 'Pro'}
    <!--Start Header-->
-   <div role="tablist" class="-mt-2 w-11/12 sm:w-56">
-
-    <div class="flex flex-col items-center w-full">
-      <div class="tabs flex flex-row justify-start items-center w-full">
-        <label class="relative inline-flex cursor-pointer items-center">
-          <input type="checkbox" on:click={handleMode} checked={mode === 'bullish' ? false : true} class="peer sr-only" />
-          <div
-            class="peer flex h-8 items-center gap-4 rounded-full px-5 bg-[#313131] after:absolute after:left-1 after: after:h-6 after:w-[85px] after:rounded-full {mode === 'bullish' ? 'after:bg-green-600' : 'after:bg-red-600'} after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-focus:outline-none text-sm font-semibold text-white"
-            >
-            <span class="mr-2 z-10">Bull Case</span>
-            <span class="z-10">Bear Case</span>
-          </div>
-        </label>
-
-    
-      </div>
+  <div class="w-56 sm:w-56 -mt-2">
+    <div class="relative right-0 bg-[#313131] rounded-full sm:rounded-lg">
+      <ul class="relative flex flex-wrap p-1 list-none rounded-lg">
+        <li class="flex-auto text-center text-sm {mode === 'bullish' ? 'bg-[#057A55]  rounded-full sm:rounded-lg' : ''}">
+          <label on:click={handleMode} class="cursor-pointer border flex items-center justify-center w-full px-0 py-1 mb-0 border-0  rounded-full sm:rounded-lg bg-inherit">
+            <span class="ml-1 text-white font-semibold">Bull Case</span>
+          </label>
+        </li>
+        <li class="flex-auto text-center text-sm {mode === 'bearish' ? 'bg-[#E02424]  rounded-full sm:rounded-lg' : ''}">
+          <label on:click={handleMode} class="cursor-pointer flex items-center justify-center w-full px-0 py-1 mb-0 border-0  rounded-full sm:rounded-lg bg-inherit">
+            <span class="ml-1 text-white font-semibold">Bear Case</span>
+          </label>
+        </li>
+      </ul>
     </div>
-
   </div>
 
   <!--End Header-->
