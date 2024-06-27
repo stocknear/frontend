@@ -234,7 +234,7 @@
                         </table>
                     </div>
                       <InfiniteLoading on:infinite={infiniteHandler} />
-                      <UpgradeToPro data={data} title="Get the top 100 stocks that retail investors put their money on the market to never miss out the next hype"/>
+                      <UpgradeToPro data={data} title="Get the latest FDA Approval to never miss out the next big surge of Biotech companies"/>
     
                   </div>
   
