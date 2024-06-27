@@ -93,19 +93,13 @@
                                   <div class="flex flex-row justify-center items-center w-full sm:w-3/4 m-auto">
                                     
                                     <h1 class="text-center text-4xl sm:text-6xl text-white font-bold mb-6 w-full">
-                                      Your
-                                      <span class="text-[#FBCE3C] italic">modern</span>
-                                      Stock Analysis Platform
+                                      Look Where Others Don't
                                     </h1>
                                   </div>
 
                                   
                                   <div class="w-5/6 m-auto sm:w-full text-center flex-1 justify-center items-center text-white text-lg sm:text-xl">
-                                    We provide high quality 
-                                    <span style="font-weight: 520;" class="text-[#FBCE3C] italic">Wallstreet Data</span>
-                                     to 
-                                     <span style="font-weight: 520;" class="text-[#FBCE3C] italic">Retail Traders</span>.
-                                     
+                                    Track the forces driving the stock markets with our actionable and easy-to-understand data.
                                   </div>
                                   
                                     
@@ -140,12 +134,12 @@
                                 <h1 class="text-white w-5/6 sm:w-full m-auto text-3xl sm:text-4xl font-bold sm:mt-10">
                                   Explore High Quality Datasets
                                 </h1>
-                                <div class="overlay m-auto flex justify-center items-center w-fit sm:w-[820px] h-full animate-fade-in-once">
+                                <div class="overlay m-auto flex justify-center items-center w-fit sm:w-[820px] h-full">
                                   <img class="w-full" src={cloudFrontUrl+"/assets/showcase-stock.png"} loading = 'lazy' alt="logo">
                                 </div>
 
 
-                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-4 w-full animate-fade-in-once">
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-4 w-full">
 
                                   <div class="card bg-[#121016] w-96 shadow-xl rounded-none sm:rounded-lg">
                                     <div class="card-body">
@@ -275,10 +269,10 @@
                               </section>
             
                               
-                                <h2 class="text-white text-3xl sm:text-4xl font-bold mt-20">
-                                  Realtime Options Flow
+                                <h2 class="text-white text-3xl sm:text-4xl text-center m-auto font-bold mt-20 w-5/6 sm:w-1/2">
+                                  Realtime Options Flow from Hedge Funds & Major Institutions
                                 </h2>
-                                <div class="overlay m-auto flex justify-center items-center w-fit sm:w-[820px] h-full animate-fade-in-once">
+                                <div class="overlay m-auto flex justify-center items-center w-fit sm:w-[820px] h-full">
                                   <img class="w-full" src={cloudFrontUrl+"/assets/showcase-options-flow.png"} loading = 'lazy' alt="logo">
                                 </div>
                             
