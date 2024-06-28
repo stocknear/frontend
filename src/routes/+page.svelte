@@ -1,8 +1,6 @@
-<script lang='ts'>
-
-  
+<script lang='ts'>  
   import { userRegion, numberOfUnreadNotification} from '$lib/store';
-
+  import Discount from '$lib/components/Discount.svelte';
 
   const usRegion = ['cle1','iad1','pdx1','sfo1'];
   let apiURL;
@@ -21,8 +19,6 @@
 
   const frontendStars = data?.getFrontendStars;
   const backendStars = data?.getBackendStars;
-
-
 
 </script>
   
@@ -124,15 +120,19 @@
                                     </div>
 
                                     </div>
-                  
+                                    
 
+                                    <Discount />
+
+                                  </div>
                                      
               
                                 </div>
                                 <!-- End Column -->
 
+                            
 
-                                <h1 class="text-white w-5/6 sm:w-full m-auto text-3xl sm:text-4xl font-bold sm:mt-10">
+                                <h1 class="text-white w-5/6 sm:w-full m-auto text-3xl sm:text-4xl font-bold mt-10">
                                   Explore High Quality Datasets
                                 </h1>
                                 <div class="overlay m-auto flex justify-center items-center w-fit sm:w-[820px] h-full">
