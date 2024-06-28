@@ -88,7 +88,7 @@
 
                                   <div class="flex flex-row justify-center items-center w-full sm:w-3/4 m-auto">
                                     
-                                    <h1 class="text-center text-4xl sm:text-6xl text-white font-bold mb-6 w-full">
+                                    <h1 class="text-center text-4xl sm:text-6xl text-white font-bold mb-6 w-80 sm:w-full">
                                       Stock Analysis for Data
                                       <span class="text-[#FBCE3C] italic">Freaks</span>
                                     </h1>
