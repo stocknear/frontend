@@ -44,11 +44,11 @@ clearInterval(interval);
 
 
 
-<div class="lg:max-w-md w-full bg-[#3244ff] p-4 rounded-none sm:rounded-lg shadow-md m-auto">
+<div class="lg:max-w-xl w-full bg-[#3244ff] p-4 rounded-none sm:rounded-lg shadow-md m-auto">
     <div class="container bg-[#3244ff] p-4 mt-4">
-      <h2 class="text-2xl font-bold text-white">75% OFF Your Annual Subscription!</h2>
+      <h2 class="text-2xl font-bold text-white text-center">75% OFF Your Annual Subscription!</h2>
     </div>
-    <div class="container ">
+    <div class="container text-center">
       <p class="text-white font-bold text-xl">
         Use Promo Code: <span class="font-extrabold text-[#FFF374]">SUMMER75</span>
       </p>

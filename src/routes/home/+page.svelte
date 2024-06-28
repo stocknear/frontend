@@ -139,7 +139,6 @@ async function loadSearchData() {
   <!-- Other meta tags -->
   <meta property="og:title" content="Free Stock Analysis Information for Small Investors · stocknear"/>
   <meta property="og:description" content="Stocknear has everything you need to analyze stocks with help of AI, including detailed financial data, statistics, news and charts."/>
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -147,7 +146,6 @@ async function loadSearchData() {
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Free Stock Analysis Information for Small Investors · stocknear"/>
   <meta name="twitter:description" content="Stocknear has everything you need to analyze stocks with help of AI, including detailed financial data, statistics, news and charts."/>
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 </svelte:head>
 
@@ -200,6 +198,18 @@ async function loadSearchData() {
                                 <!-- Start Column -->
                                 <div >
 
+                                  {#if (data?.user?.tier === 'Pro' && data?.user?.freeTrial === true) || (data?.user?.tier !== 'Pro' && data?.user?.freeTrial === false) }
+                                  <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
+                                    <a href="/pricing" class="text-white antialiased bg-[#202020] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
+                                      <span class="font-semibold uppercase">75% Off Annual Subscription – Summer Special!</span>
+                                    </a>
+                                    <div class="absolute top-[-1.2rem] -right-5 sm:-right-8 rotate-[7deg]">
+                                      <span class="bg-[#FBCE3C] text-black text-sm sm:text-[0.9rem] rounded-xl font-semibold sm:me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                                        Discount
+                                      </span>
+                                    </div>
+                                  </div>
+                                  {:else}
                                   <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
                                     <a href="/fda-calendar" class="text-white antialiased bg-[#202020] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
                                       <span class="font-semibold">Stay Ahead of Biotech <span class="font-bold">Surges</span> with the FDA Calendar</span>
@@ -210,6 +220,7 @@ async function loadSearchData() {
                                       </span>
                                     </div>
                                   </div>
+                                  {/if}
                                   
                                   
           

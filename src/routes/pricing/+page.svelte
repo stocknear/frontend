@@ -1,6 +1,7 @@
 <script>
 import { numberOfUnreadNotification, globalForm } from '$lib/store';
 import { openLemonSqueezyUrl } from '$lib/lemonsqueezy';
+import Discount from '$lib/components/Discount.svelte';
 import { onMount } from 'svelte';
 
 //import proTierLogo from "$lib/images/pro_tier_logo.png";
@@ -146,6 +147,8 @@ async function purchasePlan() {
          
         </div>
 
+
+        <Discount/>
 
 
 
