@@ -51,7 +51,7 @@
         <p class="uppercase text-slate-100 md:mb-6">Services</p>
         <ul class="list-reset mb-6">
           <li class="mt-2 inline-block mr-2 md:block md:mr-0" >
-            <a href="/pricing" class="no-underline hover:underline text-gray-300  hover:text-blue-400">Become a Pro</a>
+            <a href="/pricing" class="no-underline hover:underline text-gray-300  hover:text-blue-400">Pricing</a>
           </li>
           <li class="mt-2 inline-block mr-2 md:block md:mr-0" >
             <a href="https://stocknear.lemonsqueezy.com/affiliates" rel="noopener noreferrer" target="_blank" class="no-underline hover:underline text-gray-300  hover:text-blue-400">Affiliate Program</a>
