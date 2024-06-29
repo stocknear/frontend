@@ -258,9 +258,20 @@ async function purchasePlan() {
                 <div class="flex flex-col  mb-6 items-center">
 
                     <div class="flex flex-row items-center">
-                        <span class="mr-2 text-4xl font-bold">{mode ? '$499' : '$49.99'}</span>
-                        <span class="text-white text-xl">{mode ? '/year' : '/month'}</span>
+                        <span class="mr-2 text-4xl font-bold {mode === true ? 'line-through' : ''}">{mode ? '$499' : '$49.99'}</span>
+                        <span class="text-white text-xl {mode === true ? 'line-through' : ''}">{mode ? '/year' : '/month'}</span>
                     </div>
+                    {#if mode === true}
+                    <div class="flex flex-col items-center">
+                        <div class="flex flex-row items-center">
+                            <span class="mr-2 text-[#FFF374] text-3xl font-bold">$124.75</span>
+                            <span class="text-[#FFF374] text-xl">/year</span>
+                        </div>
+                        <span class="text-white font-bold text-xl mt-3">
+                            Promo Code: SUMMER75
+                        </span>
+                    </div>
+                    {/if}
 
                     <!--
                     <div class="flex items-center mt-2 text-[1rem] text-center">

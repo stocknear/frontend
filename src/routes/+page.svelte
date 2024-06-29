@@ -81,7 +81,7 @@
 
                             
                                   <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
-                                    <div class="border border-gray-800 text-white font-mono antialiased bg-[#000] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
+                                    <div class="border border-gray-800 text-white antialiased bg-[#000] w-full px-4 py-2 rounded-xl m-auto font-semibold text-sm flex items-center">
                                       Trusted & used by over 1000+ traders
                                     </div>
                                   </div>
