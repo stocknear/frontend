@@ -28,6 +28,8 @@ const updateTime = () => {
 };
 
 
+updateTime()
+
 onMount(async () => {
 
 const interval = setInterval(updateTime, 1000);
