@@ -261,7 +261,7 @@ function latestInfoDate(inputDate) {
                                 </thead>
                                 <tbody>
                                   {#each (data?.user?.tier === 'Pro' ? historyList : historyList?.slice(0,3)) as item,index}
-                                  <tr on:click={() => goto(`/analysts/${item?.analystId}`)} class="cursor-pointer odd:bg-[#202020] {latestInfoDate(item?.date) ? 'bg-[#F9AB00] bg-opacity-[0.1]' : 'bg-[#0F0F0F]'} border-b-[#0F0F0F]  {index+1 === historyList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
+                                  <tr on:click={() => goto(`/analysts/${item?.analystId}`)} class="cursor-pointer {latestInfoDate(item?.date) ? 'bg-[#F9AB00] bg-opacity-[0.1]' : 'odd:bg-[#202020]'} border-b-[#0F0F0F]  {index+1 === historyList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                                     <td class="text-sm text-start">
                                       <div class="flex flex-col items-start">
                                         <span class="text-blue-400 font-medium">{item?.analyst_name} </span>
