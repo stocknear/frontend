@@ -9,7 +9,7 @@ import { onMount } from 'svelte';
 export let data;
 let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
 
-let mode = false;
+let mode = true;
 const emailAddress = 'support@stocknear.com';
 
 function toggleMode()

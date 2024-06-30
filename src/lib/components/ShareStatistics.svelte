@@ -84,7 +84,7 @@ function getPlotOptions() {
             color: '#6E7079', // Change label color to white
             formatter: function (value) {
                 value = Math.max(value, 0);
-                return '$'+(value / denominator)?.toFixed(1) + unit; // Format value in millions
+                return (value / denominator)?.toFixed(1) + unit; // Format value in millions
                 },
             },
         },
