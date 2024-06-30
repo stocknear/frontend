@@ -258,13 +258,13 @@ function findLowestAndHighestPrice(data, lastDateStr) {
     <main class="overflow-hidden ">
                     
         <div class="flex flex-row items-center">
-            <label for="marketMakerInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
+            <label for="failToDeliverInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
                 Fail to Deliver
             </label>
             <InfoModal
-              title={"Market Maker Activity"}
-              content={"Market makers provide liquidity by quoting buy and sell prices, stabilizing markets. For retail traders, understanding this helps navigate tight spreads, execute trades effectively, and gauge market sentiment."}
-              id={"marketMakerInfo"}
+              title={"Fail to Deliver"}
+              content={"Failure to deliver in the stock market occurs when a seller does not deliver securities to the buyer within the settlement period. Naked shorts contribute to this by selling shares not owned or borrowed, potentially distorting market dynamics and regulations."}
+              id={"failToDeliverInfo"}
             />
         </div>
   
