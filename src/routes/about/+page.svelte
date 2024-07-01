@@ -114,8 +114,7 @@
 
         
         <div class="text-white text-lg mt-3 text-center pl-10 pr-10">
-          On Stocknear, there are no intrusive pop-ups asking you to sign up unless necessary.
-          For instance, you want access all features of the platform. We don't manipulate you into using our platform more than you want to. If you wish to cancel your subscription, there's no survey to fill out; you can cancel it in just 2 seconds.
+          On Stocknear, you won't encounter intrusive pop-ups prompting you to sign up unless it's essential for accessing all platform features. We don't manipulate you into using our platform more than you want to. If you wish to cancel your subscription, there's no survey to fill out; you can cancel it in just 2 seconds.
         </div>
     </div>
     <!--End Section-->
@@ -166,7 +165,8 @@
 
       <div class="-mt-10 sm:mt-0 text-white text-lg text-center pl-3 pr-3 sm:pl-10 sm:pr-10">
         <br class="mb-8 sm:mb-5">
-          You don't have to. There are tons of other website that provide similar services but not an <span class="font-semibold text-[#FBCE3C] italic">all-in-one</span> solution like ours.
+        We love data and want to understand what drives the stock market. 
+        We collaborate with top data vendors to provide clear and actionable insights, giving you a competitive advantage over other traders.
           <br>
           <br>
 
