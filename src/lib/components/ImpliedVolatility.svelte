@@ -1,5 +1,5 @@
 <script lang ='ts'>
-    import { borrowedShareComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
+    import { impliedVolatilityComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
     import { Chart } from 'svelte-echarts'
     import { abbreviateNumber, formatString } from "$lib/utils";
@@ -25,9 +25,12 @@
     let rawData = [];
     let optionsData;
     let avgFee;
-    let lowestFee;
-    let highestFee;
-    let monthlyAvailableShares;
+    let lowestIV;
+    let highestIV;
+    let lowestRV;
+    let highestRV;
+    let ivRank;
+
     let totalAvailableShares;
   
     function formatDateRange(lastDateStr) {
@@ -45,7 +48,7 @@
     return `${firstDateFormatted} - ${lastDateFormatted}`;
 }
 
-function findLowestAndHighestFee(data, lastDateStr) {
+function findLowestAndhighestIV(data, lastDateStr) {
     // Convert lastDateStr to Date object
     const lastDate = new Date(lastDateStr);
   
@@ -59,14 +62,16 @@ function findLowestAndHighestFee(data, lastDateStr) {
     });
     	
     // Extract prices from filtered data
-    let fees = filteredData?.map(item => parseFloat(item?.fee));
-    monthlyAvailableShares = filteredData?.reduce((accumulator, currentItem) => {
-        return accumulator + currentItem?.available;
-    }, 0);
+    let impliedVol = filteredData?.map(item => parseFloat(item?.iv60));
+    let realizedVol = filteredData?.map(item => parseFloat(item['60dorhv']));
+
 
     // Find the lowest and highest prices
-    lowestFee = Math.min(...fees)?.toFixed(1);
-    highestFee = Math.max(...fees)?.toFixed(1);
+    lowestIV = Math.min(...impliedVol)?.toFixed(0);
+    highestIV = Math.max(...impliedVol)?.toFixed(0);
+
+    lowestRV = Math.min(...realizedVol)?.toFixed(0);
+    highestRV = Math.max(...realizedVol)?.toFixed(0);
 }
 
   
@@ -89,36 +94,48 @@ function findLowestAndHighestFee(data, lastDateStr) {
   
   function getPlotOptions() {
     let dates = [];
-    let availableList = [];
-    let feeList = [];
+    let priceList = [];
+    let iv60List = [];
+    let realizedVolatility = [];
+
     // Iterate over the data and extract required information
     rawData?.forEach(item => {
   
     dates?.push(item?.date);
-    availableList?.push(item?.available);
-    feeList?.push(item?.fee)
+    priceList?.push(item?.stockpx);
+    iv60List?.push(item?.iv60)
+    realizedVolatility?.push(item['60dorhv'])
+
     });
     
     // Find the lowest and highest prices
-    findLowestAndHighestFee(rawData, rawData?.slice(-1)?.at(0)?.date)
+    findLowestAndhighestIV(rawData, rawData?.slice(-1)?.at(0)?.date)
+
+   // Calculate IV Rank
+    const lowestIV = Math.min(...iv60List); // Find the lowest IV in the past
+    const highestIV = Math.max(...iv60List); // Find the highest IV in the past
+    ivRank = ((iv60List?.slice(-1) - lowestIV) / (highestIV - lowestIV) * 100).toFixed(2); // Compute IV Rank
 
     // Compute the average of item?.traded
-    const totalNumber = feeList?.reduce((acc, item) => acc + item, 0);
-    avgFee = (totalNumber / feeList?.length)?.toFixed(1);
-    totalAvailableShares = availableList?.reduce((accumulator, sum) => {
+    const totalNumber = iv60List?.reduce((acc, item) => acc + item, 0);
+    avgFee = (totalNumber / iv60List?.length)?.toFixed(1);
+    totalAvailableShares = priceList?.reduce((accumulator, sum) => {
         return accumulator + sum;
     }, 0);
 
-    const {unit, denominator } = normalizer(Math.max(...availableList) ?? 0)
   
     const option = {
     silent: true,
+    tooltip: {
+        trigger: 'axis',
+        hideDelay: 100, // Set the delay in milliseconds
+    },
     animation: $screenWidth < 640 ? false: true,
     grid: {
-        left: '2%',
-        right: '2%',
-        bottom: '2%',
-        top: '5%',
+        left: '0%',
+        right: '0%',
+        bottom: '0%',
+        top: '10%',
         containLabel: true
     },
     xAxis:
@@ -139,7 +156,7 @@ function findLowestAndHighestFee(data, lastDateStr) {
                 // Display every second tick
                 if (index % 2 === 0) {
                     value = Math.max(value, 0);
-                    return (value / denominator)?.toFixed(0) + unit; // Format value in millions
+                    return '$'+value;
                 } else {
                     return ''; // Hide this tick
                 }
@@ -164,23 +181,40 @@ function findLowestAndHighestFee(data, lastDateStr) {
     },
     ],
     series: [
-        {
-            data: availableList,
+        {   
+            name: 'Close Price',
+            data: priceList,
             type: 'line',
             itemStyle: {
-                color: '#fff' // Change bar color to white
+                color: '#fff'
             },
             showSymbol: false
         },
         {
-            data: feeList,
+            name: 'IV',
+            data: iv60List,
             type: 'line',
             areaStyle: {opacity: 0.3},
+            stack: 'ImpliedVolatility',
             yAxisIndex: 1,
             itemStyle: {
-                color: '#FF9E21' // Change bar color to white
+                color: '#F03500'
             },
-            showSymbol: false
+            showSymbol: false,
+
+        },
+        {   
+            name: 'RV',
+            data: realizedVolatility,
+            type: 'line',
+            areaStyle: {opacity: 0.3},
+            stack: 'ImpliedVolatility',
+            yAxisIndex: 1,
+            itemStyle: {
+                color: '#00BBFF'
+            },
+            showSymbol: false,
+           
         },
     ]
     };
@@ -189,16 +223,16 @@ function findLowestAndHighestFee(data, lastDateStr) {
   return option;
   }
   
-  const getBorrowedShare = async (ticker) => {
+  const getImpliedVolatility = async (ticker) => {
     // Get cached data for the specific tickerID
-    const cachedData = getCache(ticker, 'getBorrowedShare');
+    const cachedData = getCache(ticker, 'getImpliedVolatility');
     if (cachedData) {
       rawData = cachedData;
     } else {
   
       const postData = {'ticker': ticker};
       // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/borrowed-share', {
+      const response = await fetch(apiURL + '/implied-volatility', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -206,25 +240,26 @@ function findLowestAndHighestFee(data, lastDateStr) {
         body: JSON.stringify(postData)
       });
   
-      rawData = (await response.json())?.slice(-100);
-      // Cache the data for this specific tickerID with a specific name 'getBorrowedShare'
-      setCache(ticker, rawData, 'getBorrowedShare');
+      rawData = (await response.json());
+      // Cache the data for this specific tickerID with a specific name 'getImpliedVolatility'
+      setCache(ticker, rawData, 'getImpliedVolatility');
     }
     
     if(rawData?.length !== 0) {
-      $borrowedShareComponent = true;
+      $impliedVolatilityComponent = true;
     } else {
-      $borrowedShareComponent = false;
+      $impliedVolatilityComponent = false;
     }
   };
   
   
+
   $: {
   if($assetType === 'stock' ? $stockTicker :$etfTicker && typeof window !== 'undefined') {
     isLoaded=false;
     const ticker = $assetType === 'stock' ? $stockTicker :$etfTicker
     const asyncFunctions = [
-      getBorrowedShare(ticker)
+      getImpliedVolatility(ticker)
       ];
       Promise.all(asyncFunctions)
           .then((results) => {
@@ -260,13 +295,13 @@ function findLowestAndHighestFee(data, lastDateStr) {
     <main class="overflow-hidden ">
                     
         <div class="flex flex-row items-center">
-            <label for="borrowedShareInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
-                Borrowed Share
+            <label for="impliedVolatilityInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
+                Implied Volatility
             </label>
             <InfoModal
-              title={"Borrowed Share Statistics"}
-              content={"At Interactive Brokers, borrowed shares refer to shares lent by other investors for short selling. Borrowers pay a fee to lenders, aiming to profit from declining stock prices. Lenders earn interest on their lent shares, enhancing returns while still owning the stock."}
-              id={"borrowedShareInfo"}
+              title={"Implied Volatility"}
+              content={"An implied volatility of XY% means the market expects significant price fluctuations for the stock, with an annualized potential range of ±XY% from its current price. This indicates high uncertainty and risk, leading to more expensive options but doesn't predict price direction."}
+              id={"impliedVolatilityInfo"}
             />
         </div>
   
@@ -277,7 +312,7 @@ function findLowestAndHighestFee(data, lastDateStr) {
   
         <div class="w-full flex flex-col items-start">
             <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">
-                Over the past six months, Interactive Brokers had {abbreviateNumber(totalAvailableShares)} shares available for borrowing, with an average fee of {avgFee}%.
+                Based on the past 12 months of historical data, {$displayCompanyName} has an IV Rank of <span class="font-semibold">{ivRank}%</span>, with the current implied volatility standing at <span class="font-semibold">{rawData?.slice(-1)?.at(0)?.iv60}%</span>.
             </div>
         </div>
   
@@ -297,14 +332,22 @@ function findLowestAndHighestFee(data, lastDateStr) {
             <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
             <div class="w-3 h-3 bg-[#fff] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
             <span class="mt-2 sm:mt-0 text-white text-center sm:text-start text-xs sm:text-md inline-block">
-                Available Shares
+                Close Price
             </span>
         </div>
             <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                 <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
-                <div class="w-3 h-3 bg-[#FF9E21] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                <div class="w-3 h-3 bg-[#F03500] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
                 <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md sm:font-medium inline-block">
-                    Fee
+                    Implied Volatility
+                </span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
+                <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
+                <div class="w-3 h-3 bg-[#00BBFF] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md sm:font-medium inline-block">
+                    Realized Volatility
                 </span>
             </div>
   
@@ -329,18 +372,18 @@ function findLowestAndHighestFee(data, lastDateStr) {
                   </tr>
                   <tr class="border-y border-gray-800 odd:bg-[#202020]">
                       <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
-                          <span>Fee Range</span>
+                          <span>IV Range</span>
                       </td>
                       <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                        {lowestFee+'%'+'-'+highestFee+'%'}
+                        {lowestIV+'%'+'-'+highestIV+'%'}
                       </td>
                   </tr>
                   <tr class="border-y border-gray-800 odd:bg-[#202020]">
                       <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
-                          <span>Total Available Shares</span>
+                          <span>RV Range</span>
                       </td>
                       <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                        {abbreviateNumber(monthlyAvailableShares)}
+                        {lowestRV+'%'+'-'+highestRV+'%'}
                       </td>
                   </tr>
               </tbody>

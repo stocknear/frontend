@@ -156,12 +156,12 @@ function getPlotOptions() {
       },
       {
           data: shareQuantityList,
-          type: 'bar',
+          type: 'line',
+          areaStyle: {opacity: 0.3},
           yAxisIndex: 1,
           itemStyle: {
-              color: '#536FC5' // Change bar color to white
+              color: '#00BBFF' // Change bar color to white
           },
-          barWidth: "40%",
           showSymbol: false
       },
   ]
@@ -292,7 +292,7 @@ else {
       </div>
           <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
               <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
-              <div class="w-3 h-3 bg-[#536FC5] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+              <div class="w-3 h-3 bg-[#00BBFF] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
               <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md sm:font-medium inline-block">
                   Share Quantity
               </span>

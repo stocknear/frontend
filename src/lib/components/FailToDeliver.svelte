@@ -171,12 +171,12 @@ function findLowestAndHighestPrice(data, lastDateStr) {
         },
         {
             data: failToDeliverList,
-            type: 'bar',
+            type: 'line',
+            areaStyle: {opacity: 0.3},
             yAxisIndex: 1,
             itemStyle: {
                 color: '#FF9E21' // Change bar color to white
             },
-            barWidth: "40%",
             showSymbol: false
         },
     ]

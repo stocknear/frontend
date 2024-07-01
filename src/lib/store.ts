@@ -75,6 +75,7 @@ export const optionComponent = writable(<boolean>(false));
 export const clinicalTrialComponent = writable(<boolean>(false));
 export const failToDeliverComponent= writable(<boolean>(false));
 export const borrowedShareComponent= writable(<boolean>(false));
+export const impliedVolatilityComponent= writable(<boolean>(false));
 
 
 export const strategyId = writable(<string> (""));

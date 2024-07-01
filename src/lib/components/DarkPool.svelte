@@ -116,6 +116,7 @@ function getPlotOptions() {
 
             data: shortVolumeList,
             type: 'line',
+            areaStyle: {opacity: 0.3},
             itemStyle: {
                 color: '#536FC5' // Change bar color to white
             },
