@@ -1,5 +1,5 @@
 <script lang ='ts'>
-    import { failToDeliverComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
+    import { borrowedShareComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
     import { Chart } from 'svelte-echarts'
     import { abbreviateNumber, formatString } from "$lib/utils";
@@ -24,10 +24,11 @@
   
     let rawData = [];
     let optionsData;
-    let avgFailToDeliver;
-    let lowestPrice;
-    let highestPrice;
-    let totalFailToDeliver;
+    let avgFee;
+    let lowestFee;
+    let highestFee;
+    let monthlyAvailableShares;
+    let totalAvailableShares;
   
     function formatDateRange(lastDateStr) {
     // Convert lastDateStr to Date object
@@ -44,7 +45,7 @@
     return `${firstDateFormatted} - ${lastDateFormatted}`;
 }
 
-function findLowestAndHighestPrice(data, lastDateStr) {
+function findLowestAndHighestFee(data, lastDateStr) {
     // Convert lastDateStr to Date object
     const lastDate = new Date(lastDateStr);
   
@@ -58,14 +59,14 @@ function findLowestAndHighestPrice(data, lastDateStr) {
     });
     	
     // Extract prices from filtered data
-    let prices = filteredData?.map(item => parseFloat(item.price));
-    totalFailToDeliver = filteredData?.reduce((accumulator, currentItem) => {
-        return accumulator + currentItem?.failToDeliver;
+    let fees = filteredData?.map(item => parseFloat(item?.fee));
+    monthlyAvailableShares = filteredData?.reduce((accumulator, currentItem) => {
+        return accumulator + currentItem?.available;
     }, 0);
 
     // Find the lowest and highest prices
-    lowestPrice = Math.min(...prices);
-    highestPrice = Math.max(...prices);
+    lowestFee = Math.min(...fees)?.toFixed(1);
+    highestFee = Math.max(...fees)?.toFixed(1);
 }
 
   
@@ -88,25 +89,27 @@ function findLowestAndHighestPrice(data, lastDateStr) {
   
   function getPlotOptions() {
     let dates = [];
-    let priceList = [];
-    let failToDeliverList = [];
+    let availableList = [];
+    let feeList = [];
     // Iterate over the data and extract required information
     rawData?.forEach(item => {
   
     dates?.push(item?.date);
-    priceList?.push(item?.price);
-    failToDeliverList?.push(item?.failToDeliver)
+    availableList?.push(item?.available);
+    feeList?.push(item?.fee)
     });
     
     // Find the lowest and highest prices
-    findLowestAndHighestPrice(rawData, rawData?.slice(-1)?.at(0)?.date)
+    findLowestAndHighestFee(rawData, rawData?.slice(-1)?.at(0)?.date)
 
     // Compute the average of item?.traded
-    const totalNumber = failToDeliverList?.reduce((acc, item) => acc + item, 0);
-    avgFailToDeliver = totalNumber / failToDeliverList?.length;
+    const totalNumber = feeList?.reduce((acc, item) => acc + item, 0);
+    avgFee = (totalNumber / feeList?.length)?.toFixed(1);
+    totalAvailableShares = availableList?.reduce((accumulator, sum) => {
+        return accumulator + sum;
+    }, 0);
 
-
-    const {unit, denominator } = normalizer(Math.max(...failToDeliverList) ?? 0)
+    const {unit, denominator } = normalizer(Math.max(...availableList) ?? 0)
   
     const option = {
     silent: true,
@@ -125,27 +128,11 @@ function findLowestAndHighestPrice(data, lastDateStr) {
         data: dates,
     },
     yAxis: [
-    {
-      type: 'value',
-      splitLine: {
-            show: false, // Disable x-axis grid lines
-      },
-      axisLabel: {
-          formatter: function (value, index) {
-            if (index % 2 === 0) {
-              return '$'+value?.toFixed(1)
-            } else {
-                  return ''; // Hide this tick
-              }
-          }
-      }
-    },
     { 
         type: 'value',
         splitLine: {
             show: false, // Disable x-axis grid lines
         },
-        position: 'right',
         axisLabel: {
             color: '#6E7079', // Change label color to white
             formatter: function (value, index) {
@@ -159,10 +146,26 @@ function findLowestAndHighestPrice(data, lastDateStr) {
             }
         },
     },
+    {
+      type: 'value',
+      splitLine: {
+            show: false, // Disable x-axis grid lines
+      },
+      position: 'right',
+      axisLabel: {
+          formatter: function (value, index) {
+            if (index % 2 === 0) {
+              return value?.toFixed(1)+'%'
+            } else {
+                  return ''; // Hide this tick
+              }
+          }
+      }
+    },
     ],
     series: [
         {
-            data: priceList,
+            data: availableList,
             type: 'line',
             itemStyle: {
                 color: '#fff' // Change bar color to white
@@ -170,13 +173,12 @@ function findLowestAndHighestPrice(data, lastDateStr) {
             showSymbol: false
         },
         {
-            data: failToDeliverList,
-            type: 'bar',
+            data: feeList,
+            type: 'line',
             yAxisIndex: 1,
             itemStyle: {
                 color: '#FF9E21' // Change bar color to white
             },
-            barWidth: "40%",
             showSymbol: false
         },
     ]
@@ -186,16 +188,16 @@ function findLowestAndHighestPrice(data, lastDateStr) {
   return option;
   }
   
-  const getFailToDeliver = async (ticker) => {
+  const getBorrowedShare = async (ticker) => {
     // Get cached data for the specific tickerID
-    const cachedData = getCache(ticker, 'getFailToDeliver');
+    const cachedData = getCache(ticker, 'getBorrowedShare');
     if (cachedData) {
       rawData = cachedData;
     } else {
   
       const postData = {'ticker': ticker};
       // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/fail-to-deliver', {
+      const response = await fetch(apiURL + '/borrowed-share', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -203,15 +205,15 @@ function findLowestAndHighestPrice(data, lastDateStr) {
         body: JSON.stringify(postData)
       });
   
-      rawData = await response.json();
-      // Cache the data for this specific tickerID with a specific name 'getFailToDeliver'
-      setCache(ticker, rawData, 'getFailToDeliver');
+      rawData = (await response.json())?.slice(-100);
+      // Cache the data for this specific tickerID with a specific name 'getBorrowedShare'
+      setCache(ticker, rawData, 'getBorrowedShare');
     }
     
     if(rawData?.length !== 0) {
-      $failToDeliverComponent = true;
+      $borrowedShareComponent = true;
     } else {
-      $failToDeliverComponent = false;
+      $borrowedShareComponent = false;
     }
   };
   
@@ -221,7 +223,7 @@ function findLowestAndHighestPrice(data, lastDateStr) {
     isLoaded=false;
     const ticker = $assetType === 'stock' ? $stockTicker :$etfTicker
     const asyncFunctions = [
-      getFailToDeliver(ticker)
+      getBorrowedShare(ticker)
       ];
       Promise.all(asyncFunctions)
           .then((results) => {
@@ -253,18 +255,17 @@ function findLowestAndHighestPrice(data, lastDateStr) {
     
     
     
-    
   <section class="overflow-hidden text-white h-full pb-8">
     <main class="overflow-hidden ">
                     
         <div class="flex flex-row items-center">
-            <label for="failToDeliverInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
-                Fail to Deliver
+            <label for="borrowedShareInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
+                Borrowed Share
             </label>
             <InfoModal
-              title={"Fail to Deliver"}
-              content={"Failure to deliver in the stock market occurs when a seller does not deliver securities to the buyer within the settlement period. Naked shorts contribute to this by selling shares not owned or borrowed, potentially distorting market dynamics and regulations."}
-              id={"failToDeliverInfo"}
+              title={"Borrowed Share Statistics"}
+              content={"At Interactive Brokers, borrowed shares refer to shares lent by other investors for short selling. Borrowers pay a fee to lenders, aiming to profit from declining stock prices. Lenders earn interest on their lent shares, enhancing returns while still owning the stock."}
+              id={"borrowedShareInfo"}
             />
         </div>
   
@@ -275,8 +276,7 @@ function findLowestAndHighestPrice(data, lastDateStr) {
   
         <div class="w-full flex flex-col items-start">
             <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">
-                Over the past year, {$displayCompanyName} has seen a monthly average of
-                <span class="font-semibold">{abbreviateNumber(avgFailToDeliver)}</span> fail to deliver shares.
+                Over the past six months, Interactive Brokers had {abbreviateNumber(totalAvailableShares)} shares available for borrowing, with an average fee of {avgFee}%.
             </div>
         </div>
   
@@ -296,14 +296,14 @@ function findLowestAndHighestPrice(data, lastDateStr) {
             <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
             <div class="w-3 h-3 bg-[#fff] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
             <span class="mt-2 sm:mt-0 text-white text-center sm:text-start text-xs sm:text-md inline-block">
-                Price
+                Available Shares
             </span>
         </div>
             <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                 <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
                 <div class="w-3 h-3 bg-[#FF9E21] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
                 <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md sm:font-medium inline-block">
-                    Share Quantity
+                    Fee
                 </span>
             </div>
   
@@ -328,18 +328,18 @@ function findLowestAndHighestPrice(data, lastDateStr) {
                   </tr>
                   <tr class="border-y border-gray-800 odd:bg-[#202020]">
                       <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
-                          <span>Price Range</span>
+                          <span>Fee Range</span>
                       </td>
                       <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                        {'$'+lowestPrice+'-'+'$'+highestPrice}
+                        {lowestFee+'%'+'-'+highestFee+'%'}
                       </td>
                   </tr>
                   <tr class="border-y border-gray-800 odd:bg-[#202020]">
                       <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
-                          <span>Total failed deliveries</span>
+                          <span>Total Available Shares</span>
                       </td>
                       <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                        {abbreviateNumber(totalFailToDeliver)}
+                        {abbreviateNumber(monthlyAvailableShares)}
                       </td>
                   </tr>
               </tbody>
