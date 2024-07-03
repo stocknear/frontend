@@ -24,55 +24,7 @@
   
     let rawData = [];
     let optionsData;
-    let avgFee;
-    let lowestIV;
-    let highestIV;
-    let lowestRV;
-    let highestRV;
-    let ivRank;
-
-    let totalAvailableShares;
-  
-    function formatDateRange(lastDateStr) {
-    // Convert lastDateStr to Date object
-    const lastDate = new Date(lastDateStr);
-  
-    // Set the first date to the beginning of the month of lastDate
-    const firstDate = new Date(lastDate.getFullYear(), lastDate.getMonth(), 1);
-  
-    // Format first and last dates
-    const firstDateFormatted = firstDate.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', day: '2-digit' });
-    const lastDateFormatted = lastDate.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', day: '2-digit' });
-  
-    // Construct and return the formatted date range string
-    return `${firstDateFormatted} - ${lastDateFormatted}`;
-}
-
-function findLowestAndhighestIV(data, lastDateStr) {
-    // Convert lastDateStr to Date object
-    const lastDate = new Date(lastDateStr);
-  
-    // Set the first date to the beginning of the month of lastDate
-    const firstDate = new Date(lastDate.getFullYear(), lastDate.getMonth(), 1);
-  
-    // Filter data to include only prices within the specified month period
-    const filteredData = data.filter(item => {
-        const currentDate = new Date(item?.date);
-        return currentDate >= firstDate && currentDate <= lastDate;
-    });
-    	
-    // Extract prices from filtered data
-    let impliedVol = filteredData?.map(item => parseFloat(item?.netCall));
-    let realizedVol = filteredData?.map(item => parseFloat(item?.netPut));
-
-
-    // Find the lowest and highest prices
-    lowestIV = Math.min(...impliedVol)?.toFixed(0);
-    highestIV = Math.max(...impliedVol)?.toFixed(0);
-
-    lowestRV = Math.min(...realizedVol)?.toFixed(0);
-    highestRV = Math.max(...realizedVol)?.toFixed(0);
-}
+    let sentiment;
 
   
   function normalizer(value) {
@@ -86,6 +38,8 @@ function findLowestAndhighestIV(data, lastDateStr) {
     return { unit: 'M', denominator: 1e6 };
   } else if (Math?.abs(value) >= 1e5) {
     return { unit: 'K', denominator: 1e5 };
+  } else if (Math?.abs(value) >= 1e4) {
+        return { unit: 'K', denominator: 1e4 };
   } else {
     return { unit: '', denominator: 1 };
   }
@@ -97,7 +51,6 @@ function findLowestAndhighestIV(data, lastDateStr) {
     let priceList = [];
     let netCallList = [];
     let netPutList = [];
-    let volumeList = [];
 
     // Iterate over the data and extract required information
     rawData?.forEach(item => {
@@ -106,25 +59,11 @@ function findLowestAndhighestIV(data, lastDateStr) {
     priceList?.push(item?.price);
     netCallList?.push(item?.netCall)
     netPutList?.push(item?.netPut)
-    volumeList?.push(item?.volume)
-
+   
     });
     
-    // Find the lowest and highest prices
-    findLowestAndhighestIV(rawData, rawData?.slice(-1)?.at(0)?.date)
-
-   // Calculate IV Rank
-    const lowestIV = Math.min(...netCallList); // Find the lowest IV in the past
-    const highestIV = Math.max(...netCallList); // Find the highest IV in the past
-    ivRank = ((netCallList?.slice(-1) - lowestIV) / (highestIV - lowestIV) * 100).toFixed(2); // Compute IV Rank
-
-    // Compute the average of item?.traded
-    const totalNumber = netCallList?.reduce((acc, item) => acc + item, 0);
-    avgFee = (totalNumber / netCallList?.length)?.toFixed(1);
-    totalAvailableShares = priceList?.reduce((accumulator, sum) => {
-        return accumulator + sum;
-    }, 0);
-
+    sentiment = netCallList?.slice(-1)?.at(0) > netPutList?.slice(-1)?.at(0) ? 'bullish' : 'bearish';
+    
     const {unit, denominator } = normalizer(Math.max(...netCallList) ?? 0)
 
     const option = {
@@ -194,29 +133,29 @@ function findLowestAndhighestIV(data, lastDateStr) {
             },
             showSymbol: false,    
         },
-        {
-            name: 'Net Call',
-            data: netCallList,
-            type: 'line',
-            areaStyle: {opacity: 0.3},
-            stack: 'NetFlow',
-            itemStyle: {
-                color: '#10DB06'
-            },
-            showSymbol: false,
-
-        },
         {   
             name: 'Net Put',
             data: netPutList,
             type: 'line',
-            areaStyle: {opacity: 0.3},
+            areaStyle: {opacity: 0.5},
             stack: 'NetFlow',
             itemStyle: {
                 color: '#FF2F1F'
             },
             showSymbol: false,
            
+        },
+        {
+            name: 'Net Call',
+            data: netCallList,
+            type: 'line',
+            areaStyle: {opacity: 0.5},
+            stack: 'NetFlow',
+            itemStyle: {
+                color: '#10DB06'
+            },
+            showSymbol: false,
+
         },
     ]
     };
@@ -265,7 +204,7 @@ function findLowestAndhighestIV(data, lastDateStr) {
       ];
       Promise.all(asyncFunctions)
           .then((results) => {
-            optionsData = getPlotOptions()
+            optionsData = getPlotOptions();
           })
           .catch((error) => {
             console.error('An error occurred:', error);
@@ -314,7 +253,7 @@ function findLowestAndhighestIV(data, lastDateStr) {
   
         <div class="w-full flex flex-col items-start">
             <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">
-                Analysis of the 20-day moving average of the options net flow demonstrates a bearish trend, characterized by the Net Put Flow exceeding the Net Call Flow.
+                Analysis of the 20-day moving average of the options net flow demonstrates a {sentiment} trend, characterized by the {sentiment === 'bullish' ? 'Net Call Flow exceeding the Net Put Flow' : 'Net Put Flow exceeding the Net Call Flow'} .
             </div>
         </div>
   
