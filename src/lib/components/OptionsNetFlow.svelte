@@ -1,5 +1,5 @@
 <script lang ='ts'>
-    import { impliedVolatilityComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
+    import { optionsNetFlowComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
     import { Chart } from 'svelte-echarts'
     import { abbreviateNumber, formatString } from "$lib/utils";
@@ -62,8 +62,8 @@ function findLowestAndhighestIV(data, lastDateStr) {
     });
     	
     // Extract prices from filtered data
-    let impliedVol = filteredData?.map(item => parseFloat(item?.iv60));
-    let realizedVol = filteredData?.map(item => parseFloat(item['60dorhv']));
+    let impliedVol = filteredData?.map(item => parseFloat(item?.netCall));
+    let realizedVol = filteredData?.map(item => parseFloat(item?.netPut));
 
 
     // Find the lowest and highest prices
@@ -95,16 +95,18 @@ function findLowestAndhighestIV(data, lastDateStr) {
   function getPlotOptions() {
     let dates = [];
     let priceList = [];
-    let iv60List = [];
-    let realizedVolatility = [];
+    let netCallList = [];
+    let netPutList = [];
+    let volumeList = [];
 
     // Iterate over the data and extract required information
     rawData?.forEach(item => {
   
     dates?.push(item?.date);
-    priceList?.push(item?.stockpx);
-    iv60List?.push(item?.iv60)
-    realizedVolatility?.push(item['60dorhv'])
+    priceList?.push(item?.price);
+    netCallList?.push(item?.netCall)
+    netPutList?.push(item?.netPut)
+    volumeList?.push(item?.volume)
 
     });
     
@@ -112,18 +114,19 @@ function findLowestAndhighestIV(data, lastDateStr) {
     findLowestAndhighestIV(rawData, rawData?.slice(-1)?.at(0)?.date)
 
    // Calculate IV Rank
-    const lowestIV = Math.min(...iv60List); // Find the lowest IV in the past
-    const highestIV = Math.max(...iv60List); // Find the highest IV in the past
-    ivRank = ((iv60List?.slice(-1) - lowestIV) / (highestIV - lowestIV) * 100).toFixed(2); // Compute IV Rank
+    const lowestIV = Math.min(...netCallList); // Find the lowest IV in the past
+    const highestIV = Math.max(...netCallList); // Find the highest IV in the past
+    ivRank = ((netCallList?.slice(-1) - lowestIV) / (highestIV - lowestIV) * 100).toFixed(2); // Compute IV Rank
 
     // Compute the average of item?.traded
-    const totalNumber = iv60List?.reduce((acc, item) => acc + item, 0);
-    avgFee = (totalNumber / iv60List?.length)?.toFixed(1);
+    const totalNumber = netCallList?.reduce((acc, item) => acc + item, 0);
+    avgFee = (totalNumber / netCallList?.length)?.toFixed(1);
     totalAvailableShares = priceList?.reduce((accumulator, sum) => {
         return accumulator + sum;
     }, 0);
 
-  
+    const {unit, denominator } = normalizer(Math.max(...netCallList) ?? 0)
+
     const option = {
     silent: true,
     tooltip: {
@@ -132,8 +135,8 @@ function findLowestAndhighestIV(data, lastDateStr) {
     },
     animation: $screenWidth < 640 ? false: true,
     grid: {
-        left: '0%',
-        right: '0%',
+        left: '2%',
+        right: '4%',
         bottom: '0%',
         top: '10%',
         containLabel: true
@@ -155,8 +158,8 @@ function findLowestAndhighestIV(data, lastDateStr) {
             formatter: function (value, index) {
                 // Display every second tick
                 if (index % 2 === 0) {
-                    value = Math.max(value, 0);
-                    return '$'+value;
+                    //value = Math.max(value, 0);
+                    return '$'+(value / denominator)?.toFixed(0) + unit; // Format value in millions
                 } else {
                     return ''; // Hide this tick
                 }
@@ -172,7 +175,7 @@ function findLowestAndhighestIV(data, lastDateStr) {
       axisLabel: {
           formatter: function (value, index) {
             if (index % 2 === 0) {
-              return value?.toFixed(1)+'%'
+              return '$'+value?.toFixed(1)
             } else {
                   return ''; // Hide this tick
               }
@@ -181,37 +184,36 @@ function findLowestAndhighestIV(data, lastDateStr) {
     },
     ],
     series: [
-        {   
+        {
             name: 'Price',
             data: priceList,
             type: 'line',
+            yAxisIndex: 1,
             itemStyle: {
                 color: '#fff'
             },
-            showSymbol: false
+            showSymbol: false,    
         },
         {
-            name: 'IV',
-            data: iv60List,
+            name: 'Net Call',
+            data: netCallList,
             type: 'line',
             areaStyle: {opacity: 0.3},
-            stack: 'ImpliedVolatility',
-            yAxisIndex: 1,
+            stack: 'NetFlow',
             itemStyle: {
-                color: '#F03500'
+                color: '#10DB06'
             },
             showSymbol: false,
 
         },
         {   
-            name: 'RV',
-            data: realizedVolatility,
+            name: 'Net Put',
+            data: netPutList,
             type: 'line',
             areaStyle: {opacity: 0.3},
-            stack: 'ImpliedVolatility',
-            yAxisIndex: 1,
+            stack: 'NetFlow',
             itemStyle: {
-                color: '#00BBFF'
+                color: '#FF2F1F'
             },
             showSymbol: false,
            
@@ -223,16 +225,16 @@ function findLowestAndhighestIV(data, lastDateStr) {
   return option;
   }
   
-  const getImpliedVolatility = async (ticker) => {
+  const getOptionsNetFlow = async (ticker) => {
     // Get cached data for the specific tickerID
-    const cachedData = getCache(ticker, 'getImpliedVolatility');
+    const cachedData = getCache(ticker, 'getOptionsNetFlow');
     if (cachedData) {
       rawData = cachedData;
     } else {
   
       const postData = {'ticker': ticker};
       // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/implied-volatility', {
+      const response = await fetch(apiURL + '/options-net-flow-ticker', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -241,14 +243,14 @@ function findLowestAndhighestIV(data, lastDateStr) {
       });
   
       rawData = (await response.json());
-      // Cache the data for this specific tickerID with a specific name 'getImpliedVolatility'
-      setCache(ticker, rawData, 'getImpliedVolatility');
+      // Cache the data for this specific tickerID with a specific name 'getOptionsNetFlow'
+      setCache(ticker, rawData, 'getOptionsNetFlow');
     }
     
     if(rawData?.length !== 0) {
-      $impliedVolatilityComponent = true;
+      $optionsNetFlowComponent = true;
     } else {
-      $impliedVolatilityComponent = false;
+      $optionsNetFlowComponent = false;
     }
   };
   
@@ -259,7 +261,7 @@ function findLowestAndhighestIV(data, lastDateStr) {
     isLoaded=false;
     const ticker = $assetType === 'stock' ? $stockTicker :$etfTicker
     const asyncFunctions = [
-      getImpliedVolatility(ticker)
+      getOptionsNetFlow(ticker)
       ];
       Promise.all(asyncFunctions)
           .then((results) => {
@@ -295,13 +297,13 @@ function findLowestAndhighestIV(data, lastDateStr) {
     <main class="overflow-hidden ">
                     
         <div class="flex flex-row items-center">
-            <label for="impliedVolatilityInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
-                Implied Volatility
+            <label for="optionsNetFlowInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
+                Options Net Flow
             </label>
             <InfoModal
-              title={"Implied Volatility"}
-              content={"An implied volatility of XY% means the market expects significant price fluctuations for the stock, with an annualized potential range of ±XY% from its current price. This indicates high uncertainty and risk, leading to more expensive options but doesn't predict price direction."}
-              id={"impliedVolatilityInfo"}
+              title={"Options Net Flow"}
+              content={"An Options Net Flow of XY% means the market expects significant price fluctuations for the stock, with an annualized potential range of ±XY% from its current price. This indicates high uncertainty and risk, leading to more expensive options but doesn't predict price direction."}
+              id={"optionsNetFlowInfo"}
             />
         </div>
   
@@ -312,7 +314,7 @@ function findLowestAndhighestIV(data, lastDateStr) {
   
         <div class="w-full flex flex-col items-start">
             <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">
-                Based on the past 12 months of historical data, {$displayCompanyName} has an IV Rank of <span class="font-semibold">{ivRank}%</span>, with the current implied volatility standing at <span class="font-semibold">{rawData?.slice(-1)?.at(0)?.iv60}%</span>.
+                Analysis of the 20-day moving average of the options net flow demonstrates a bearish trend, characterized by the Net Put Flow exceeding the Net Call Flow.
             </div>
         </div>
   
@@ -328,69 +330,34 @@ function findLowestAndhighestIV(data, lastDateStr) {
         </div>
   
         <div class="flex flex-row items-center justify-between mx-auto mt-5 w-full sm:w-11/12">
+            
             <div class="mt-3.5 sm:mt-0 flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
-            <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
-            <div class="w-3 h-3 bg-[#fff] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
-            <span class="mt-2 sm:mt-0 text-white text-center sm:text-start text-xs sm:text-md inline-block">
-                Price
-            </span>
-        </div>
-            <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                 <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
-                <div class="w-3 h-3 bg-[#F03500] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
-                <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md sm:font-medium inline-block">
-                    Implied Volatility
+                <div class="w-3 h-3 bg-[#fff] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                <span class="mt-2 sm:mt-0 text-white text-center sm:text-start text-xs sm:text-md inline-block">
+                    Price
                 </span>
             </div>
 
             <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                 <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
-                <div class="w-3 h-3 bg-[#00BBFF] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                <div class="w-3 h-3 bg-[#10DB06] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
                 <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md sm:font-medium inline-block">
-                    Realized Volatility
+                    Net Call 
+                </span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
+                <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
+                <div class="w-3 h-3 bg-[#FF2F1F] border-4 box-content border-[#202020] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md sm:font-medium inline-block">
+                    Net Put
                 </span>
             </div>
   
         </div>
   
-  
-        <h2 class="mt-10 mr-1 flex flex-row items-center text-white text-xl sm:text-2xl font-bold mb-3">
-            Latest Information
-        </h2>
-  
-  
-          <div class="flex justify-start items-center w-full m-auto ">
-            <table class="w-full" data-test="statistics-table">
-              <tbody>
-                  <tr class="border-y border-gray-800 odd:bg-[#202020]">
-                      <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
-                          <span>Date</span>
-                      </td>
-                      <td class="px-[5px] py-1.5 text-right text-sm sm:text-[1rem] font-medium xs:px-2.5 xs:py-2">
-                        {formatDateRange(rawData?.slice(-1)?.at(0)?.date)}
-                      </td>
-                  </tr>
-                  <tr class="border-y border-gray-800 odd:bg-[#202020]">
-                      <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
-                          <span>IV Range</span>
-                      </td>
-                      <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                        {lowestIV+'%'+'-'+highestIV+'%'}
-                      </td>
-                  </tr>
-                  <tr class="border-y border-gray-800 odd:bg-[#202020]">
-                      <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
-                          <span>RV Range</span>
-                      </td>
-                      <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                        {lowestRV+'%'+'-'+highestRV+'%'}
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
-          </div>
-  
-  
+
         
         {/if}
   
