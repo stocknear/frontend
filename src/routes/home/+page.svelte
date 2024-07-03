@@ -198,6 +198,7 @@ async function loadSearchData() {
                                 <!-- Start Column -->
                                 <div >
 
+                                  <!--
                                   {#if (data?.user?.tier === 'Pro' && data?.user?.freeTrial === true) || (data?.user?.tier !== 'Pro' && data?.user?.freeTrial === false) }
                                   <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
                                     <a href="/pricing" class="text-white antialiased bg-[#202020] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
@@ -210,6 +211,7 @@ async function loadSearchData() {
                                     </div>
                                   </div>
                                   {:else}
+                                -->
                                   <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
                                     <a href="/fda-calendar" class="text-white antialiased bg-[#202020] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
                                       <span class="font-semibold">Stay Ahead of Biotech <span class="font-bold">Surges</span> with the FDA Calendar</span>
@@ -220,7 +222,7 @@ async function loadSearchData() {
                                       </span>
                                     </div>
                                   </div>
-                                  {/if}
+                                  
                                   
                                   
           

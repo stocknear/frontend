@@ -1,7 +1,7 @@
 <script>
 import { numberOfUnreadNotification, globalForm } from '$lib/store';
 import { openLemonSqueezyUrl } from '$lib/lemonsqueezy';
-import Discount from '$lib/components/Discount.svelte';
+//import Discount from '$lib/components/Discount.svelte';
 import { onMount } from 'svelte';
 
 //import proTierLogo from "$lib/images/pro_tier_logo.png";
@@ -148,7 +148,7 @@ async function purchasePlan() {
         </div>
 
 
-        <Discount/>
+        <!--<Discount/>-->
 
 
 
@@ -258,9 +258,10 @@ async function purchasePlan() {
                 <div class="flex flex-col  mb-6 items-center">
 
                     <div class="flex flex-row items-center">
-                        <span class="mr-2 text-4xl font-bold line-through">{mode ? '$499' : '$49.99'}</span>
-                        <span class="text-white text-xl line-through">{mode ? '/year' : '/month'}</span>
+                        <span class="mr-2 text-4xl font-bold">{mode ? '$499' : '$49.99'}</span>
+                        <span class="text-white text-xl">{mode ? '/year' : '/month'}</span>
                     </div>
+                    <!--
                     <div class="flex flex-col items-center">
                         <div class="flex flex-row items-center">
                             <span class="mr-2 text-[#FFF374] text-3xl font-bold">{mode ? '$124.75' : '$12.50'}</span>
@@ -270,6 +271,7 @@ async function purchasePlan() {
                             Promo Code: SUMMER75
                         </span>
                     </div>
+                    -->
 
                     <!--
                     <div class="flex items-center mt-2 text-[1rem] text-center">

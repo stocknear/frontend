@@ -1,6 +1,6 @@
 <script lang='ts'>  
   import { userRegion, numberOfUnreadNotification} from '$lib/store';
-  import Discount from '$lib/components/Discount.svelte';
+  //import Discount from '$lib/components/Discount.svelte';
 
   const usRegion = ['cle1','iad1','pdx1','sfo1'];
   let apiURL;
@@ -122,7 +122,7 @@
                                     </div>
                                     
 
-                                    <Discount />
+                                    <!--<Discount />-->
 
                                   </div>
                                      
