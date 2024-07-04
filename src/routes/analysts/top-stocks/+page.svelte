@@ -2,7 +2,7 @@
   import { goto } from '$app/navigation';
   import { numberOfUnreadNotification, screenWidth } from '$lib/store';
   import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
-	import { abbreviateNumber } from '$lib/utils.js';
+	import { abbreviateNumber } from '$lib/utils';
   import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
   
   

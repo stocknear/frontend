@@ -3,7 +3,7 @@
   import { screenWidth, userRegion, numberOfUnreadNotification, etfTicker, stockTicker, isOpen } from '$lib/store';
   import notifySound from '$lib/audio/options-flow-reader.mp3';
   import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
-  import { abbreviateNumber } from '$lib/utils.js';
+  import { abbreviateNumber } from '$lib/utils';
   import { onMount, onDestroy } from 'svelte';
   import toast from 'svelte-french-toast';
 
