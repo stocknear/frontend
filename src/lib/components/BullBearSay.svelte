@@ -1,6 +1,7 @@
 <script lang='ts'>
 import { stockTicker, displayCompanyName } from "$lib/store";
 import InfoModal from '$lib/components/InfoModal.svelte';
+import { Motion, AnimateSharedLayout } from "svelte-motion";
 
 export let data;
 export let marketMoods = {};
@@ -36,6 +37,16 @@ function handleMode() {
     changeMode(mode)
   }
 }
+
+const tabs = [
+    {
+      title: "Bull Case",
+    },
+    {
+      title: "Bear Case",
+    },
+  ];
+  let activeIdx = 0;
 
 $: {
     if($stockTicker && typeof window !== 'undefined') {
@@ -74,22 +85,39 @@ $: {
 
     {#if data?.user?.tier === 'Pro'}
    <!--Start Header-->
-  <div class="w-56 sm:w-56 -mt-2">
-    <div class="relative right-0 bg-[#313131] rounded-full sm:rounded-lg">
-      <ul class="relative flex flex-wrap p-1 list-none rounded-lg">
-        <li class="flex-auto text-center text-sm {mode === 'bullish' ? 'bg-[#057A55]  rounded-full sm:rounded-lg' : ''}">
-          <label on:click={handleMode} class="cursor-pointer border flex items-center justify-center w-full px-0 py-1 mb-0 border-0  rounded-full sm:rounded-lg bg-inherit">
-            <span class="ml-1 text-white font-semibold">Bull Case</span>
-          </label>
-        </li>
-        <li class="flex-auto text-center text-sm {mode === 'bearish' ? 'bg-[#E02424]  rounded-full sm:rounded-lg' : ''}">
-          <label on:click={handleMode} class="cursor-pointer flex items-center justify-center w-full px-0 py-1 mb-0 border-0  rounded-full sm:rounded-lg bg-inherit">
-            <span class="ml-1 text-white font-semibold">Bear Case</span>
-          </label>
-        </li>
-      </ul>
-    </div>
+   <div class="bg-[#313131] w-fit relative flex flex-wrap items-center justify-center rounded-full sm:rounded-lg p-1 -mt-2">
+    <AnimateSharedLayout>
+      {#each tabs as item, i}
+        <button
+          on:click={handleMode}
+          class="group relative z-[1] rounded-full px-6 py-1 {activeIdx === i
+            ? 'z-0'
+            : ''} "
+          on:click={() => {
+            activeIdx = i;
+          }}
+        >
+          {#if activeIdx === i}
+            <Motion
+              layoutId="clicked-btn"
+              transition={{ duration: 0.2 }}
+              let:motion
+            >
+              <div
+                use:motion
+                class="absolute inset-0 rounded-full sm:rounded-lg  {activeIdx === 0 ? 'bg-[#057A55]' : 'bg-[#E02424]'}"
+              ></div>
+            </Motion>
+          {/if}
+          <span
+            class="relative text-sm block font-medium duration-200 text-white">
+            {item.title}
+          </span>
+        </button>
+      {/each}
+    </AnimateSharedLayout>
   </div>
+  
 
   <!--End Header-->
     <span class="text-gray-200 text-xs sm:text-[0.85rem] italic mt-6 sm:ml-auto">
