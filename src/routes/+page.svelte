@@ -152,9 +152,19 @@
                                 <h1 class="text-white w-5/6 sm:w-full m-auto text-3xl sm:text-4xl font-bold mt-14 mb-5">
                                   Explore High Quality Datasets
                                 </h1>
-                                <div class="overlay m-auto flex justify-center items-center w-fit sm:w-[820px] h-full">
-                                  <img class="w-full" src={cloudFrontUrl+"/assets/showcase-stock.png"} loading = 'lazy' alt="logo">
+                               
+                                <div class="relative mb-4">
+                                  <div class="absolute top-0 flex w-full justify-center">
+                                    <div
+                                      class="h-[1px] animate-border-width rounded-full bg-gradient-to-r from-[rgba(251,206,60,0)] via-white to-[rgba(188,126,254,0)] transition-all duration-1000"
+                                    />
+                                  </div>
+                                  <div class="overlay m-auto flex justify-center items-center w-fit sm:w-[820px] h-full">
+                                    <img class="w-full" src={cloudFrontUrl+"/assets/showcase-stock.png"} loading = 'lazy' alt="logo">
+                                  </div>
                                 </div>
+
+                                
 
 
                                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-4 w-full">
@@ -290,8 +300,16 @@
                                 <h2 class="text-white text-3xl sm:text-4xl text-center m-auto font-bold mt-20 w-11/12 sm:w-1/2 mb-10">
                                   Realtime Options Flow from Hedge Funds & Major Institutions
                                 </h2>
-                                <div class="overlay m-auto flex justify-center items-center w-fit sm:w-[820px] h-full">
-                                  <img class="w-full" src={cloudFrontUrl+"/assets/showcase-options-flow.png"} loading = 'lazy' alt="logo">
+                                    
+                                <div class="relative">
+                                  <div class="absolute -top-4 flex w-full justify-center">
+                                    <div
+                                      class="h-[1px] animate-border-width rounded-full bg-gradient-to-r from-[rgba(251,206,60,0)] via-white to-[rgba(188,126,254,0)] transition-all duration-1000"
+                                    />
+                                  </div>
+                                  <div class="overlay m-auto flex justify-center items-center w-fit sm:w-[820px] h-full">
+                                    <img class="w-full" src={cloudFrontUrl+"/assets/showcase-options-flow.png"} loading = 'lazy' alt="logo">
+                                  </div>
                                 </div>
                             
                               
