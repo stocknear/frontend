@@ -102,12 +102,29 @@
                                     
              
                                     <div class="flex flex-col gap-y-4 justify-center items-center mt-8 mb-6 m-auto w-full max-w-3xl">
-                                      <a href="/register" class="flex flex-row items-center px-6 py-3 bg-[#FBCE3C] text-black text-[1rem] sm:text-lg rounded-lg shadow-lg font-semibold transition duration-150 ease-in-out group">
-                                        <span>Start free 7 days trial</span>
-                                        <span class="ml-2 mt-0.5 tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">
-                                          <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="rotate(90 12 12)"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="black" d="M13.06 3.283a1.5 1.5 0 0 0-2.12 0L5.281 8.939a1.5 1.5 0 0 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0V7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.283Z"/></g></g></svg>
-                                      </span>
+
+
+                                      <a href='/register'
+                                        class="animate-shine transition-colors group relative grid overflow-hidden rounded-xl px-6 py-3 shadow-[0_1000px_0_0_hsl(0_0%_20%)_inset] transition-colors"
+                                      >
+                                        <span>
+                                          <span
+                                            class="spark mask-gradient animate-flip before:animate-kitrotate absolute inset-0 h-[100%] w-[100%] overflow-hidden rounded-xl [mask:linear-gradient(white,_transparent_50%)] before:absolute before:aspect-square before:w-[200%] before:rotate-[-90deg] before:bg-[conic-gradient(from_0deg,transparent_0_340deg,white_360deg)] before:content-[''] before:[inset:0_auto_auto_50%] before:[translate:-50%_-15%]"
+                                          />
+                                        </span>
+                                        <span
+                                          class="backdrop absolute inset-px rounded-[11px] bg-neutral-900 transition-colors duration-200 group-hover:bg-neutral-900"
+                                        />
+                                        <span class="z-10 text-neutral-200 text-[1rem] sm:text-lg font-semibold">
+                                          <slot>Start free 7 days trial  <span class="ml-2 mt-0.5 tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">
+                                        </span></slot>
+                                        <svg class="w-4 h-4 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="rotate(90 12 12)"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="#fff" d="M13.06 3.283a1.5 1.5 0 0 0-2.12 0L5.281 8.939a1.5 1.5 0 0 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0V7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.283Z"/></g></g></svg>
+
+                                        </span>
+                                        
                                       </a>
+
+
                                       <div class="flex flex-row items-center gap-x-5 justify-center m-auto mt-3 w-ful">
                                       <span class="text-white text-sm sm:text-lg">
                                         <svg class="w-6 h-6 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="none" stroke="#FBCE3C" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M416 128L192 384l-96-96"/></svg>
@@ -335,21 +352,25 @@
                                   Stocknear is committed to open source & transparency. You can also run it locally or self-hosted.
                                 </div>
 
-                                <a href="https://github.com/stocknear" rel="noopener noreferrer" target="_blank" class="w-fit sm:w-54 m-auto flex flex-row items-center px-6 sm:px-3 py-2 bg-white/80 text-black text-[1rem] sm:text-lg rounded-lg shadow-lg font-semibold mb-6">
-                                  <div class="m-auto flex-shrink-0 flex justify-center items-center">
-                                    <svg class="w-8 h-8 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#000" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
-                                  
-                                    <span class="text-[1rem] ml-2 font-semibold">
-                                      stocknear
-                                      {frontendStars+backendStars}
-                                    </span>
-                                    <svg class="ml-1 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#000" d="m18.7 4.627l2.247 4.31a2.27 2.27 0 0 0 1.686 1.189l4.746.65c2.538.35 3.522 3.479 1.645 5.219l-3.25 2.999a2.225 2.225 0 0 0-.683 2.04l.793 4.398c.441 2.45-2.108 4.36-4.345 3.24l-4.536-2.25a2.282 2.282 0 0 0-2.006 0l-4.536 2.25c-2.238 1.11-4.786-.79-4.345-3.24l.793-4.399c.14-.75-.12-1.52-.682-2.04l-3.251-2.998c-1.877-1.73-.893-4.87 1.645-5.22l4.746-.65a2.23 2.23 0 0 0 1.686-1.189l2.248-4.309c1.144-2.17 4.264-2.17 5.398 0"/></svg>
-                                  </div>
+                                <a href="https://github.com/stocknear" rel="noopener noreferrer" target="_blank"
+                                  class="w-fit sm:w-54 inline-flex animate-shine items-center justify-center rounded-xl text-sm border border-neutral-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-4 py-2 font-medium text-neutral-400 transition-colors"
+                                >
+                                <div class="m-auto flex-shrink-0 flex justify-center items-center">
+                                  <svg class="w-8 h-8 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#fff" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
+                                
+                                  <span class="text-[1rem] ml-2 font-semibold">
+                                    stocknear
+                                    {frontendStars+backendStars}
+                                  </span>
+                                  <svg class="ml-1 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#fff" d="m18.7 4.627l2.247 4.31a2.27 2.27 0 0 0 1.686 1.189l4.746.65c2.538.35 3.522 3.479 1.645 5.219l-3.25 2.999a2.225 2.225 0 0 0-.683 2.04l.793 4.398c.441 2.45-2.108 4.36-4.345 3.24l-4.536-2.25a2.282 2.282 0 0 0-2.006 0l-4.536 2.25c-2.238 1.11-4.786-.79-4.345-3.24l.793-4.399c.14-.75-.12-1.52-.682-2.04l-3.251-2.998c-1.877-1.73-.893-4.87 1.645-5.22l4.746-.65a2.23 2.23 0 0 0 1.686-1.189l2.248-4.309c1.144-2.17 4.264-2.17 5.398 0"/></svg>
+                                </div>
                                 </a>
 
-                                <span class="text-white text-sm sm:text-lgs font-semibold font-mono -mt-5">
+
+   
+                                <div class="text-white text-sm sm:text-lgs font-semibold font-mono mt-5">
                                   Leave a star to support us
-                                </span>
+                                </div>
 
                                 </div>
 
@@ -397,12 +418,25 @@
               <div class="m-auto sm:mx-8 text-center sm:text-start">
               <h2 class="mb-4 text-4xl tracking-tight font-bold leading-tight text-white">Start your free trial today</h2>
               <p class="mb-8 font-light font-medium text-white md:text-[1rem]">Try Stocknear Platform for 7 days. No credit card required.</p>
-              <a href="/register" class="w-fit flex flex-row items-center m-auto px-6 py-3 bg-[#FBCE3C] shadow-lg font-semibold text-black text-[1rem] sm:text-lg rounded-lg transition duration-150 ease-in-out group">
-                <span>Free trial for 7 days</span>
-                <span class="ml-2 mt-0.5 tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">
-                  <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="rotate(90 12 12)"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="black" d="M13.06 3.283a1.5 1.5 0 0 0-2.12 0L5.281 8.939a1.5 1.5 0 0 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0V7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.283Z"/></g></g></svg>
+              
+              <a href='/register'
+              class="animate-shine w-fit m-auto group relative grid overflow-hidden rounded-xl px-6 py-3 shadow-[0_1000px_0_0_hsl(0_0%_20%)_inset] transition-colors"
+            >
+              <span>
+                <span
+                  class="spark mask-gradient animate-flip before:animate-kitrotate absolute inset-0 h-[100%] w-[100%] overflow-hidden rounded-xl [mask:linear-gradient(white,_transparent_50%)] before:absolute before:aspect-square before:w-[200%] before:rotate-[-90deg] before:bg-[conic-gradient(from_0deg,transparent_0_340deg,white_360deg)] before:content-[''] before:[inset:0_auto_auto_50%] before:[translate:-50%_-15%]"
+                />
               </span>
-              </a>
+              <span
+                class="backdrop absolute inset-px rounded-[11px] bg-neutral-900 transition-colors duration-200 group-hover:bg-neutral-900"
+              />
+              <span class="z-10 text-neutral-200 text-[1rem] sm:text-lg font-semibold">
+                <slot>Free trial for 7 days</slot>
+              </span>
+              
+            </a>
+
+
             </div>
               <!--<img class="w-72 sm:w-[450px] -my-8 mt-8 sm:mt-0 sm:-my-16" src={test} alt="logo">-->
             </div>
