@@ -38,6 +38,8 @@
     return { unit: 'T', denominator: 1e12 };
   } else if (Math?.abs(value) >= 1e9) {
     return { unit: 'B', denominator: 1e9 };
+  } else if (Math?.abs(value) >= 1e8) {
+    return { unit: 'B', denominator: 1e9 };
   } else if (Math?.abs(value) >= 1e6) {
     return { unit: 'M', denominator: 1e6 };
   } else if (Math?.abs(value) >= 1e5) {
@@ -86,8 +88,8 @@
     },
     animation: $screenWidth < 640 ? false: true,
     grid: {
-        left: '2%',
-        right: '4%',
+        left:'2%',
+        right:  $screenWidth < 640 ? '0%' : '2%',
         bottom: '0%',
         top: '10%',
         containLabel: true
@@ -115,12 +117,13 @@
         },
         {
             type: 'value',
+            show: false,
             splitLine: {
                     show: false, // Disable x-axis grid lines
             },
             position: 'right',
             
-            },
+          },
         ],
     series: [
         {
