@@ -1,5 +1,7 @@
 <script lang='ts'>  
   import { userRegion, numberOfUnreadNotification} from '$lib/store';
+  import DotPattern from '$lib/components/DotPattern.svelte';
+  
   //import Discount from '$lib/components/Discount.svelte';
 
   const usRegion = ['cle1','iad1','pdx1','sfo1'];
@@ -46,6 +48,15 @@
   <!-- Add more Twitter meta tags as needed -->
 </svelte:head>
 
+
+<DotPattern
+width={20}
+height={20}
+cx={10}
+cy={10}
+cr={1}
+class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] "
+/>
 
 
 <div class="w-full max-w-screen overflow-hidden m-auto min-h-screen bg-[#000]">
@@ -460,7 +471,6 @@
             </div>
       </div>
     </section>
-
 
 
 

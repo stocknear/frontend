@@ -6,6 +6,12 @@ import { cubicOut, cubicInOut } from 'svelte/easing';
 let pbCloudImage = import.meta.env.VITE_IMAGE_POCKETBASE_URL; // Set a default API URL
 
 
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+ 
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 export const serializeNonPOJOs = (obj) => {
 	return structuredClone(obj);
