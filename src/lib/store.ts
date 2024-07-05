@@ -77,6 +77,10 @@ export const failToDeliverComponent= writable(<boolean>(false));
 export const borrowedShareComponent= writable(<boolean>(false));
 export const impliedVolatilityComponent= writable(<boolean>(false));
 export const optionsNetFlowComponent= writable(<boolean>(false));
+export const governmentContractComponent= writable(<boolean>(false));
+
+
+
 
 export const strategyId = writable(<string> (""));
 export const articleId = writable(<string> (""));
