@@ -136,11 +136,18 @@ $: {
         Promise.all(asyncFunctions)
             .then((results) => {
                 shareholderList = rawData?.shareholders
-                totalCalls = rawData?.totalCalls
-                totalPuts = rawData?.totalPuts;
-                callPercentage = 100*totalCalls/(totalCalls+totalPuts);
-                putPercentage = (100- callPercentage)
-                putCallRatio = rawData?.putCallRatio;
+                totalCalls = rawData?.totalCalls ?? 0
+                totalPuts = rawData?.totalPuts ?? 0;
+                if(totalCalls+totalPuts !== 0) {
+                  callPercentage = 100*totalCalls/(totalCalls+totalPuts);
+                  putPercentage = (100- callPercentage)
+                  putCallRatio = rawData?.putCallRatio;
+                } else {
+                  callPercentage = 0;
+                  putPercentage = 0;
+                  putCallRatio = 0;
+                }
+               
 
                 optionsPieChart = plotPieChart()
             })
@@ -279,7 +286,7 @@ $: {
                           <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
                           <!-- Progress Circle inside a group with rotation -->
                           <g class="origin-center -rotate-90 transform">
-                            <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#00FC50]" stroke-width="3" stroke-dasharray="100" stroke-dashoffset={100-callPercentage}></circle>
+                            <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#00FC50]" stroke-width="3" stroke-dasharray="100" stroke-dashoffset={callPercentage >=1 ? 0 : 100-(callPercentage)?.toFixed(2)}></circle>
                           </g>
                         </svg>
                         <!-- Percentage Text -->
