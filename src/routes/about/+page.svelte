@@ -98,8 +98,8 @@
 
           
           <div class="text-white text-lg mt-3 text-center pl-10 pr-10">
-            Stocknear does not use third-party ads, affiliate marketing, or tracking. We only utilize Meta Pixel to improve our ad campaigns. Your attention and data are never monetized on our platform.
-            If you're skeptical, just look at our code <a href="https://github.com/stocknear" rel="noopener noreferrer" target="_blank" class="text-blue-400 sm:hover:text-white sm:hover:underline" >here</a>. 
+            Stocknear has no ads or affiliate marketing, or tracking. 
+            Your attention and data are never monetized. If you're skeptical, just look at our code <a href="https://github.com/stocknear" rel="noopener noreferrer" target="_blank" class="text-blue-400 sm:hover:text-white sm:hover:underline" >here</a>. 
           </div>
       </div>
       <!--End Section-->
