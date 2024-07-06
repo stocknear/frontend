@@ -382,7 +382,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                               </h2>
 
                               <section class="relative flex items-center justify-center">
-                                <div class="absolute top-0 max-w-4xl m-auto px-4 sm:px-6">
+                                <div class="absolute top-0 max-w-6xl m-auto px-4 sm:px-6">
                                     <div class="pt-8 pb-12 md:pb-20">
                                 
                                       <Marquee />
