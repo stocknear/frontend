@@ -1,7 +1,8 @@
 <script lang='ts'>  
   import { userRegion, numberOfUnreadNotification} from '$lib/store';
   import DotPattern from '$lib/components/DotPattern.svelte';
-  
+  import Marquee from '$lib/components/Marquee.svelte';
+
   //import Discount from '$lib/components/Discount.svelte';
 
   const usRegion = ['cle1','iad1','pdx1','sfo1'];
@@ -57,6 +58,7 @@ cy={10}
 cr={1}
 class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] "
 />
+
 
 
 <div class="w-full max-w-screen overflow-hidden m-auto min-h-screen bg-[#000]">
@@ -256,7 +258,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
   
                                 </div>
                                 
-                                <h2 class="text-white text-3xl sm:text-4xl font-bold mt-10 w-5/6 sm:w-1/2 text-center m-auto">
+                                <h2 class="text-white text-3xl sm:text-4xl font-bold mt-16 w-5/6 sm:w-1/2 text-center m-auto">
                                   AI-Powered Algorithms to assist you in any way
                                 </h2>
 
@@ -306,6 +308,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                       </div>
                                   </div>
                               </section>
+
             
                               
                                 <h2 class="text-white text-3xl sm:text-4xl text-center m-auto font-bold mt-20 w-11/12 sm:w-1/2 mb-10">
@@ -373,7 +376,25 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                               </section>
             
 
-                                <h1 class="text-white w-5/6 sm:w-full m-auto text-3xl sm:text-4xl font-bold mt-10 mb-4">
+
+                              <h2 class="text-white text-3xl sm:text-4xl font-bold mt-16 w-11/12 sm:w-1/2 text-center m-auto">
+                                Loved by our Users ❤
+                              </h2>
+
+                              <section class="relative flex items-center justify-center">
+                                <div class="absolute top-0 max-w-4xl m-auto px-4 sm:px-6">
+                                    <div class="pt-8 pb-12 md:pb-20">
+                                
+                                      <Marquee />
+
+                                    </div>
+                                </div>
+                            </section>
+
+
+
+
+                                <h1 class="text-white w-5/6 sm:w-full m-auto text-3xl sm:text-4xl font-bold pt-96 mt-10 mb-4">
                                   Proudly Open Source
                                 </h1>
 

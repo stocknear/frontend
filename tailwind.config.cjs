@@ -12,8 +12,9 @@ module.exports = {
 				  32: '1/32',
 			  },
 			  animation: {
-				  'fade-in-once': 'fadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards',
-				  "flip": "flip 6s infinite steps(2, end)",
+				marquee: "marquee var(--duration) linear infinite",
+				'fade-in-once': 'fadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards',
+				'flip': "flip 6s infinite steps(2, end)",
 	            "kitrotate": "kitrotate 3s linear infinite both",
 	            shine: "shine 4s linear infinite",
 	            slide: "slide 40s linear infinite",
@@ -31,6 +32,10 @@ module.exports = {
 				'pulse-slow': 'pulse 6s infinite cubic-bezier(0.4, 0, 0.6, 1)',
 			  },
 			  keyframes: {
+				marquee: {
+					from: { transform: "translateX(0)" },
+					to: { transform: "translateX(calc(-100% - var(--gap)))" },
+				  },
 				  fadeIn: {
 					  '0%': {
 						opacity: '0',
