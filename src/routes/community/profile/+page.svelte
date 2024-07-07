@@ -618,7 +618,7 @@ onDestroy(async () => {
                     <img style="clip-path: circle(50%);" class="w-24 bg-slate-300 border border-slate-400 rounded-full inline-block "
                     src={data?.user?.avatar
                         ? getImageURL(data?.user?.collectionId, data?.user?.id, data?.user?.avatar)
-                        : `https://api.dicebear.com/7.x/thumbs/svg?scale=200`} 
+                        : `https://avatar.vercel.sh/${data?.user?.username}`} 
                         alt="User avatar"
                         id="avatar-preview"
                       />

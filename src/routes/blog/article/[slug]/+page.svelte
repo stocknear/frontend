@@ -68,7 +68,7 @@ const article = data?.getArticle;
                                           class="rounded-full w-10 h-10 mr-2"
                                           src={article?.expand?.user?.avatar
                                             ? getImageURL(article?.expand?.user?.collectionId, article?.expand?.user?.id, article?.expand?.user?.avatar)
-                                            : `https://api.dicebear.com/7.x/thumbs/svg?seed=${article?.expand?.user?.username}`} 
+                                            : `https://avatar.vercel.sh/${article?.expand?.user?.username}`} 
                                             alt="User avatar" loading='lazy'/>
                                             <div class="flex flex-col items-start">
                                                 <span class="text-white text-sm">

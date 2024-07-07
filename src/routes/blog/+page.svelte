@@ -182,7 +182,7 @@ let allBlogPosts = data?.getAllBlogPost;
                                   class="rounded-full w-10 h-10 mr-2"
                                   src={item?.expand?.user?.avatar
                                     ? getImageURL(item?.expand?.user?.collectionId, item?.expand?.user?.id, item?.expand?.user?.avatar)
-                                    : `https://api.dicebear.com/7.x/thumbs/svg?seed=${item?.expand?.user?.username}`} 
+                                    : `https://avatar.vercel.sh/${item?.expand?.user?.username}`} 
                                 alt="User avatar" loading='lazy'/>
 
                                 {item?.expand?.user?.username} &centerdot; {new Date(item?.created)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}

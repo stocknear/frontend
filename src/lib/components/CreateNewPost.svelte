@@ -15,7 +15,7 @@
             <div class="w-8 sm:w-10 rounded-full">
               <img src={data?.avatar
                 ? getImageURL(data?.collectionId, data?.id, data?.avatar)
-                : `https://api.dicebear.com/7.x/thumbs/svg?seed=${data?.user?.username}`} />
+                : `https://avatar.vercel.sh/${data?.user?.username}`} />
             </div>
             <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 bg-green-400 border border-2 border-slate-800 rounded-full absolute bottom-0 right-0"></div>
           </div>

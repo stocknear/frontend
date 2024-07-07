@@ -422,7 +422,7 @@ $: {
 
             src={data?.user?.avatar
               ? getImageURL(data?.user.collectionId, data?.user.id, data?.user.avatar)
-              : `https://api.dicebear.com/7.x/thumbs/svg?seed=${data?.user?.username}`}
+              : `https://avatar.vercel.sh/${data?.user?.username}`}
               />
           </div>
         </label>
@@ -431,7 +431,7 @@ $: {
             <img style="clip-path: circle(50%);" class="flex-shrink-0 bg-slate-300 rounded-full inline-block "
             src={data?.user?.avatar
               ? getImageURL(data?.user.collectionId, data?.user.id, data?.user.avatar)
-              : `https://api.dicebear.com/7.x/thumbs/svg?seed=${data?.user?.username}`}
+              : `https://avatar.vercel.sh/${data?.user?.username}`}
               />
         </label>
         

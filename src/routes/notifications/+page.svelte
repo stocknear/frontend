@@ -150,7 +150,7 @@ onMount(async () => {
               <img style="clip-path: circle(50%);" class="flex-shrink-0 w-8 h-8 sm:w-11 sm:h-11 rounded-full inline-block" 
                 src={item?.expand?.user?.avatar
                     ? getImageURL(item?.expand?.user?.collectionId, item?.expand?.user?.id, item?.expand?.user?.avatar)
-                    : `https://api.dicebear.com/7.x/thumbs/svg?seed=${item?.expand?.user?.username}`} 
+                    : `https://avatar.vercel.sh/${item?.expand?.user?.username}`} 
                 alt="User avatar"
               />
               </label>

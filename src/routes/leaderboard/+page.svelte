@@ -371,7 +371,7 @@ async function getLeaderboard() {
               class="rounded-full w-10 h-10 absolute inset-1/2 transform -translate-x-1/2 -translate-y-1/2" 
               src={item?.expand?.user?.avatar
                   ? getImageURL(item?.expand?.user?.collectionId, item?.expand?.user?.id, item?.expand?.user?.avatar)
-                  : `https://api.dicebear.com/7.x/thumbs/svg?seed=${item?.expand?.user?.username}`} 
+                  : `https://avatar.vercel.sh/${item?.expand?.user?.username}`} 
               alt="User avatar" />
             </div>
 
@@ -445,7 +445,7 @@ async function getLeaderboard() {
                       class="rounded-full w-8 h-8 absolute inset-1/2 transform -translate-x-1/2 -translate-y-1/2" 
                       src={item?.expand?.user?.avatar
                           ? getImageURL(item?.expand?.user?.collectionId, item?.expand?.user?.id, item?.expand?.user?.avatar)
-                          : `https://api.dicebear.com/7.x/thumbs/svg?seed=${item?.expand?.user?.username}`} 
+                          : `https://avatar.vercel.sh/${item?.expand?.user?.username}`} 
                       alt="User avatar" />
 
                   </div>

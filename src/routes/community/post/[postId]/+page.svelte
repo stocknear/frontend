@@ -648,7 +648,7 @@ function updateVote(postVote) {
                                             <img class="flex-shrink-0 inline-block bg-slate-300 rounded-full" 
                                             src={post?.expand?.user?.avatar
                                                 ? getImageURL(post?.expand?.user?.collectionId, post?.expand?.user?.id, post?.expand?.user?.avatar)
-                                                : `https://api.dicebear.com/7.x/thumbs/svg?seed=${post?.expand?.user?.username}`} 
+                                                : `https://avatar.vercel.sh/${post?.expand?.user?.username}`} 
                                             alt="User avatar" />
                                           </label>
                                           <span class="text-white ml-2 inline-block text-sm">

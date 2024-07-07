@@ -32,7 +32,7 @@
                 class="rounded-full {rank === 1 ? 'w-16 h-16 sm:w-20 sm:h-20' : rank === 2 ? 'w-14 h-14 sm:w-16 sm:h-16' : 'w-11 h-11 sm:w-12 sm:h-12'}  absolute inset-1/2 transform -translate-x-1/2 -translate-y-1/2" 
                 src={data?.expand?.user?.avatar
                     ? getImageURL(data?.expand?.user?.collectionId, data?.expand?.user?.id, data?.expand?.user?.avatar)
-                    : `https://api.dicebear.com/7.x/thumbs/svg?seed=${data?.expand?.user?.username}`} 
+                    : `https://avatar.vercel.sh/${data?.expand?.user?.username}`} 
                 alt="User avatar" loading="lazy"/>
                 
           </div>

@@ -298,7 +298,7 @@ const handleDownvote = async (event) => {
                 <img class="flex-shrink-0 inline-block bg-slate-300 rounded-full" 
                 src={comment?.expand?.user?.avatar
                     ? getImageURL(comment?.expand?.user?.collectionId, comment?.expand?.user?.id, comment?.expand?.user?.avatar)
-                    : `https://api.dicebear.com/7.x/thumbs/svg?seed=${comment?.expand?.user?.username}`} 
+                    : `https://avatar.vercel.sh/${comment?.expand?.user?.username}`} 
                 alt="User avatar" />
               </label>
               <span class="text-white ml-2 inline-block text-xs sm:text-sm">
