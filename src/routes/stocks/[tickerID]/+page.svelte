@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
   import { TrackingModeExitMode } from 'lightweight-charts';
-  import {getCache, setCache, governmentContractComponent, optionsNetFlowComponent, impliedVolatilityComponent, borrowedShareComponent, clinicalTrialComponent, optionComponent, failToDeliverComponent, marketMakerComponent, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
+  import {getCache, setCache, analystInsightComponent, governmentContractComponent, optionsNetFlowComponent, impliedVolatilityComponent, borrowedShareComponent, clinicalTrialComponent, optionComponent, failToDeliverComponent, marketMakerComponent, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
   import CommunitySentiment from '$lib/components/CommunitySentiment.svelte';
@@ -1243,6 +1243,14 @@ function changeChartType() {
                                 </div>
                                 {/if}
 
+
+                                <Lazy>
+                                  <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pt-6 {!$analystInsightComponent ? 'hidden' : ''}">
+                                  {#await import('$lib/components/AnalystInsight.svelte') then {default: Comp}}
+                                    <svelte:component this={Comp} data={data} />
+                                  {/await}
+                                </div>
+                                </Lazy>
 
                                 <Lazy>
                                   <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$clinicalTrialComponent ? 'hidden' : ''}">
