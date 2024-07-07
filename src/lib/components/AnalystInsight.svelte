@@ -1,7 +1,6 @@
 <script lang ='ts'>
-    import { analystInsightComponent, displayCompanyName, stockTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
+    import { analystInsightComponent, stockTicker, userRegion, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
-    import { abbreviateNumber, formatString } from "$lib/utils";
   
     export let data;
   
@@ -91,20 +90,6 @@ function latestInfoDate(inputDate) {
   }
   
   
-  let charNumber = 20;
-  
-  $: {
-  if($screenWidth < 640)
-  {
-    charNumber = 20;
-  }
-  else {
-    charNumber =40;
-  }
-  }
-    
-  
-  
   </script>
     
     
@@ -114,7 +99,8 @@ function latestInfoDate(inputDate) {
                     
         <div class="flex flex-row items-center">
             <label for="analystInsightInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
-                AI Analyst Insight
+              <svg class="w-6 h-6 inline-block mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#FAC109" d="m17 1.208l1.32 2.473L20.792 5L18.32 6.319L17 8.792l-1.318-2.473l-2.473-1.32l2.473-1.318zM8 4.333l2.667 5l5 2.667l-5 2.667l-2.666 5l-2.667-5l-5-2.667l5-2.667zm11.667 12l-1.666-3.125l-1.667 3.125L13.209 18l3.125 1.667l1.667 3.125l1.666-3.125L22.792 18z"/></svg>  
+              AI Analyst Insight
             </label>
             <InfoModal
               title={"AI Analyst Insight"}
@@ -155,15 +141,15 @@ function latestInfoDate(inputDate) {
                                 <div class="flex flex-col items-start"> 
 
                                     <div class="flex flex-row items-start w-full pt-2">
-                                        <span class="text-white text-sm pl-2 italic">Last Report from {rawData.date}</span>
+                                        <span class="text-white text-[0.915rem] pl-2 italic">Last Report from {rawData.date}</span>
                                         {#if latestInfoDate(rawData.date)}
                                             <label class="bg-[#2D4F8A] text-white font-medium text-xs rounded-lg px-2 py-0.5 ml-3">New</label>
                                         {/if}
                                     </div>
 
                                     <div class="flex flex-col w-full pt-3 pl-2 pr-2 sm:pr-4">
-                                        <span class="text-white text-sm ">
-                                            {rawData?.insight }
+                                        <span class="text-white text-[0.915rem] ">
+                                            {rawData?.insight}
                                         </span>
                                     </div>
                 
