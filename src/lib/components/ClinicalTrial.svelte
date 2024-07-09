@@ -289,9 +289,8 @@ $: {
             <thead>
               <tr class="border-b border-blue-400">
                 <th class="text-white shadow-md font-semibold text-sm text-start bg-[#0F0F0F]">Drug</th>
-                <th class="text-white shadow-md font-semibold text-sm text-start bg-[#0F0F0F]">Date</th>
-                <th class="text-white shadow-md font-semibold text-sm text-center bg-[#0F0F0F]">Stage</th>
-                <th class="text-white shadow-md font-semibold text-sm text-end bg-[#0F0F0F]">Phase Status</th>
+                <th class="text-white shadow-md font-semibold text-sm text-start bg-[#0F0F0F]">Stage</th>
+                <th class="text-white shadow-md font-semibold text-sm text-center bg-[#0F0F0F]">Phase Status</th>
                 <th class="text-white shadow-md font-semibold text-sm text-end bg-[#0F0F0F]">Result</th>
               </tr>
             </thead>
@@ -302,16 +301,17 @@ $: {
                   <td class="text-white font-medium">
                    {item["Interventions"]?.length === 0 ? '-' : item["Interventions"]?.length > charNumber ? formatString(item["Interventions"]?.slice(0,charNumber)) + "..." : formatString(item["Interventions"])}
                   </td>
-
+                  <!--
                   <td class="text-white font-medium w-full text-start">
                     {item['Start Date'] === null ? 'n/a' : new Date(item["Start Date"])?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                    </td>
+                  -->
               
-                  <td class="text-white text-center font-medium">
+                  <td class="text-white text-start font-medium">
                     {formatString(item['Study Status'])}
                   </td>
 
-                  <td class="text-white text-end font-medium">
+                  <td class="text-white text-center font-medium">
                     {item['Phases'] !== 'NA' ? formatString(item["Phases"])?.replace('Phase','') : '-'}
                   </td>
               

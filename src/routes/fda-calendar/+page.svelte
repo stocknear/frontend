@@ -156,10 +156,11 @@
                               <th class="text-start bg-[#0F0F0F] text-white text-sm font-semibold">
                                 Name
                               </th>
+                                
+                              <th class="text-start bg-[#0F0F0F] text-white text-sm font-semibold">
+                                Source
+                              </th>
                                 -->
-                                <th class="text-start bg-[#0F0F0F] text-white text-sm font-semibold">
-                                    Source
-                                   </th>
                               <th class="text-start bg-[#0F0F0F] text-white text-sm font-semibold">
                                 Drug
                               </th>
@@ -194,12 +195,11 @@
                               <td class="hidden sm:table-cell text-white text-sm text-white text-start">
                                   {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
                               </td>
-                              -->
-
+                            
                               <td class="text-start text-sm font-medium text-white">
                                 {item?.sourceType?.length !== 0 ? item?.sourceType : 'n/a'}
-                            </td>
-                            
+                              </td>
+                               -->
     
                               <td class="text-start text-sm font-medium text-white">
                                   {item?.drugName}
