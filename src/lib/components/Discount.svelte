@@ -3,7 +3,7 @@
 import { onMount } from 'svelte';
 
 
-let targetDate = new Date("2024-07-03");
+let targetDate = new Date("2024-07-14");
 
 let days = '-';
 let hours = '-';
@@ -48,11 +48,11 @@ clearInterval(interval);
 
 <div class="lg:max-w-xl w-full bg-[#3244ff] p-4 rounded-none sm:rounded-lg shadow-md m-auto">
     <div class="container bg-[#3244ff] p-4 mt-4">
-      <h2 class="text-2xl font-bold text-white text-center">75% OFF Your Subscription!</h2>
+      <h2 class="text-2xl font-bold text-white text-center">50% OFF Your Subscription!</h2>
     </div>
     <div class="container text-center">
       <p class="text-white font-bold text-xl">
-        Use Promo Code: <span class="font-extrabold text-[#FFF374]">SUMMER75</span>
+        Use Promo Code: <span class="font-extrabold text-[#FFF374]">SUMMER50</span>
       </p>
       <div class="grid grid-flow-col gap-5 text-[#FFF374] font-bold text-center m-auto auto-cols-max justify-center mt-6">
         <div class="flex flex-col text-xs">

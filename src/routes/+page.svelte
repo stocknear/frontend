@@ -2,7 +2,7 @@
   import DotPattern from '$lib/components/DotPattern.svelte';
   import Marquee from '$lib/components/Marquee.svelte';
 
-  //import Discount from '$lib/components/Discount.svelte';
+  import Discount from '$lib/components/Discount.svelte';
 
   export let data;
 
@@ -140,7 +140,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                     </div>
                                     
 
-                                    <!--<Discount />-->
+                                    <Discount />
 
                                   </div>
                                      
