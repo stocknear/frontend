@@ -2,7 +2,7 @@
   import { marketMakerComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
   import InfoModal from '$lib/components/InfoModal.svelte';
   import { Chart } from 'svelte-echarts'
-  import { abbreviateNumber, formatString } from "$lib/utils";
+  import { abbreviateNumber, formatString, formatDateRange } from "$lib/utils";
 
   import Lazy from 'svelte-lazy';
   export let data;
@@ -32,20 +32,6 @@
   let avgNotionalSum;
   let showFullStats = false;
 
-function formatDateRange(lastDateStr) {
-  // Convert lastDateStr to Date object
-  const lastDate = new Date(lastDateStr);
-
-  // Get today's date for the first date (assuming today is the last date in your original logic)
-  const firstDate = new Date(lastDate.getTime() - 7 * 24 * 60 * 60 * 1000);
-
-  // Format first and last dates
-  const firstDateFormatted = firstDate.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', day: '2-digit' });
-  const lastDateFormatted = lastDate.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', day: '2-digit' });
-
-  // Construct and return the formatted date range string
-  return `${firstDateFormatted} - ${lastDateFormatted}`;
-}
 
 function normalizer(value) {
 if (Math?.abs(value) >= 1e18) {

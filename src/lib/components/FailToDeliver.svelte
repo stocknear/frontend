@@ -2,7 +2,7 @@
     import { failToDeliverComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
     import { Chart } from 'svelte-echarts'
-    import { abbreviateNumber, formatString } from "$lib/utils";
+    import { abbreviateNumber, formatDateRange } from "$lib/utils";
   
     import Lazy from 'svelte-lazy';
     export let data;
@@ -29,20 +29,7 @@
     let highestPrice;
     let totalFailToDeliver;
   
-    function formatDateRange(lastDateStr) {
-    // Convert lastDateStr to Date object
-    const lastDate = new Date(lastDateStr);
-  
-    // Set the first date to the beginning of the month of lastDate
-    const firstDate = new Date(lastDate.getFullYear(), lastDate.getMonth(), 1);
-  
-    // Format first and last dates
-    const firstDateFormatted = firstDate.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', day: '2-digit' });
-    const lastDateFormatted = lastDate.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', day: '2-digit' });
-  
-    // Construct and return the formatted date range string
-    return `${firstDateFormatted} - ${lastDateFormatted}`;
-}
+
 
 function findLowestAndHighestPrice(data, lastDateStr) {
     // Convert lastDateStr to Date object

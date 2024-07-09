@@ -3,7 +3,7 @@
     import { retailVolumeComponent,displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
     import { Chart } from 'svelte-echarts'
-    import { abbreviateNumber } from "$lib/utils";
+    import { abbreviateNumber, formatDateRange } from "$lib/utils";
 
     import Lazy from 'svelte-lazy';
     export let data;
@@ -29,6 +29,37 @@
     let optionsData;
     let avgVolume;
     let avgSentiment;
+    let monthlyVolume;
+    let lowestSentiment;
+    let highestSentiment;
+
+
+  function findMonthlyValue(data, lastDateStr) {
+    // Convert lastDateStr to Date object
+    const lastDate = new Date(lastDateStr);
+    // Set the first date to the beginning of the month of lastDate
+    const firstDate = new Date(lastDate.getFullYear(), lastDate.getMonth(), 1);
+    // Filter data to include only prices within the specified month period
+    const filteredData = data?.filter(item => {
+        const currentDate = new Date(item?.date);
+        return currentDate >= firstDate && currentDate <= lastDate;
+    });
+    
+  
+    // Extract prices from filtered data
+    monthlyVolume = filteredData?.reduce((accumulator, currentItem) => {
+        return accumulator + currentItem?.traded;
+    }, 0);
+
+    monthlyVolume = monthlyVolume > 100e3 ? abbreviateNumber(monthlyVolume,true) : '< $100K'
+
+     // Extract prices from filtered data
+     let sentiment = filteredData?.map(item => parseFloat(item?.sentiment));
+    // Find the lowest and highest prices
+    lowestSentiment = Math.min(...sentiment)?.toFixed(0);
+    highestSentiment = Math.max(...sentiment)?.toFixed(0);
+}
+
 
 function normalizer(value) {
   if (Math?.abs(value) >= 1e18) {
@@ -57,6 +88,9 @@ function getPlotOptions() {
     sentimentList?.push(item?.sentiment)
 
     });
+
+    findMonthlyValue(historyData, rawData?.lastDate)
+
 
     // Compute the average of item?.traded
     const totalTraded = tradingList?.reduce((acc, traded) => acc + traded, 0);
@@ -285,23 +319,23 @@ $: {
                               <span>Date</span>
                           </td>
                           <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                            {new Date(rawData?.lastDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                            {formatDateRange(rawData?.lastDate)}
                           </td>
                       </tr>
                       <tr class="border-y border-gray-800 odd:bg-[#202020]">
                           <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
-                              <span>Volume</span>
+                              <span>Volume in $</span>
                           </td>
                           <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                            {rawData?.lastTrade > 100e3 ? abbreviateNumber(rawData?.lastTrade,true) : '< $100K'}
+                            {monthlyVolume}
                           </td>
                       </tr>
                       <tr class="border-y border-gray-800 odd:bg-[#202020]">
                           <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
-                              <span>Retail Sentiment</span>
+                              <span>Retail Sentiment Range</span>
                           </td>
-                          <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2 {rawData?.lastSentiment > 0 ? 'text-[#10DB06]' : rawData?.lastSentiment < 0 ? 'text-[#E57C34]' : 'text-[#C6A755]'} ">
-                              {rawData?.lastSentiment >0 ? rawData?.lastSentiment+' '+'(Bullish)' : rawData?.lastSentiment < 0 ? rawData?.lastSentiment +' '+'(Bearish)' : rawData?.lastSentiment +' '+'(Mixed)'}
+                          <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
+                            {lowestSentiment+'-'+highestSentiment}
                           </td>
                           
 
