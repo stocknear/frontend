@@ -27,6 +27,8 @@
     let optionsData;
     let avgVolume;
     let avgShortVolume;
+    let monthlyVolume;
+    let monthlyShort;
 
 function normalizer(value) {
   if (Math?.abs(value) >= 1e18) {
@@ -44,6 +46,49 @@ function normalizer(value) {
   }
 }
 
+function formatDateRange(lastDateStr) {
+    // Convert lastDateStr to Date object
+    const lastDate = new Date(lastDateStr);
+  
+    // Set the first date to the beginning of the month of lastDate
+    const firstDate = new Date(lastDate.getFullYear(), lastDate.getMonth(), 1);
+  
+    // Format first and last dates
+    const firstDateFormatted = firstDate.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', day: '2-digit' });
+    const lastDateFormatted = lastDate.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', day: '2-digit' });
+
+
+    
+    // Construct and return the formatted date range string
+    return `${firstDateFormatted} - ${lastDateFormatted}`;
+}
+
+
+function findMonthlyValue(data, lastDateStr) {
+    // Convert lastDateStr to Date object
+    const lastDate = new Date(lastDateStr);
+  
+    // Set the first date to the beginning of the month of lastDate
+    const firstDate = new Date(lastDate.getFullYear(), lastDate.getMonth(), 1);
+  
+    // Filter data to include only prices within the specified month period
+    const filteredData = data.filter(item => {
+        const currentDate = new Date(item?.date);
+        return currentDate >= firstDate && currentDate <= lastDate;
+    });
+    	
+    // Extract prices from filtered data
+    monthlyVolume = abbreviateNumber(filteredData?.reduce((accumulator, currentItem) => {
+        return accumulator + currentItem?.totalVolume;
+    }, 0));
+
+
+    monthlyShort = filteredData?.reduce((accumulator, currentItem) => {
+        return accumulator + currentItem?.shortPercent;
+    }, 0)?.toFixed(2);
+
+}
+
 
 function getPlotOptions() {
     let dates = [];
@@ -58,6 +103,8 @@ function getPlotOptions() {
 
     });
 
+    findMonthlyValue(rawData, rawData?.slice(-1)?.at(0)?.date)
+
     // Compute the average of item?.traded
     const totalTraded = totalVolumeList?.reduce((acc, traded) => acc + traded, 0);
     avgVolume = totalTraded / totalVolumeList?.length;
@@ -69,6 +116,16 @@ function getPlotOptions() {
 
     const option = {
     silent: true,
+    tooltip: {
+        trigger: 'axis',
+        hideDelay: 100, // Set the delay in milliseconds
+        backgroundColor: '#202327',
+        axisPointer: {
+          lineStyle: {
+            color: ''
+        },
+    },
+    },
     animation: $screenWidth < 640 ? false: true,
     grid: {
         left: '2%',
@@ -108,7 +165,7 @@ function getPlotOptions() {
             data: totalVolumeList,
             type: 'line',
             itemStyle: {
-                color: '#fff' // Change bar color to white
+                color: '#fff', // Change bar color to white
             },
             showSymbol: false
         },
@@ -253,15 +310,15 @@ $: {
                           <span>Date</span>
                       </td>
                       <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                        {new Date(rawData?.slice(-1)?.at(0)?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                        { formatDateRange(rawData?.slice(-1)?.at(0)?.date)}
                       </td>
                   </tr>
                   <tr class="border-y border-gray-800 odd:bg-[#202020]">
                       <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
-                          <span>Total Volume</span>
+                          <span>Volume</span>
                       </td>
                       <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                        {abbreviateNumber(rawData?.slice(-1)?.at(0)?.totalVolume)}
+                        {monthlyVolume}
                       </td>
                   </tr>
                   <tr class="border-y border-gray-800 odd:bg-[#202020]">
@@ -269,7 +326,7 @@ $: {
                           <span>Short % of Volume</span>
                       </td>
                       <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                        {rawData?.slice(-1)?.at(0)?.shortPercent}%
+                        {monthlyShort}%
                       </td>
                   </tr>
               </tbody>
