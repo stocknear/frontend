@@ -12,8 +12,8 @@
   let notDestroyed = true;
   
   let charNumber = 20;
-  let displayQuarter = '4';
-  let displayYear = '2023';
+  let displayQuarter = '1';
+  let displayYear = '2024';
   let quarter = displayQuarter;
   let year = displayYear;
   let isLoaded = true;
@@ -204,7 +204,7 @@
                                             <svg class="w-6 h-6 sm:w-7 sm:h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#202020" d="M12 14q-1.25 0-2.125-.875T9 11V5q0-1.25.875-2.125T12 2q1.25 0 2.125.875T15 5v6q0 1.25-.875 2.125T12 14m-1 7v-3.075q-2.6-.35-4.3-2.325T5 11h2q0 2.075 1.463 3.538T12 16q2.075 0 3.538-1.463T17 11h2q0 2.625-1.7 4.6T13 17.925V21z"/></svg>
                                           </div>
                                       </div>
-                                      <div class="flex flex-col w-full leading-1.5 p-4 bg-[#202020] rounded-s-xl rounded-es-xl">
+                                      <div class="flex flex-col w-full leading-1.5 p-4 bg-blue-700 rounded-l-xl rounded-tr-xl">
                                          <p class="text-sm font-normal py-2.5 text-gray-200">
                                           {item?.description}
                                          </p>
@@ -214,7 +214,7 @@
                           
                               {:else}
   
-                              <div class="flex flex-col items-start gap-2.5 mt-5">
+                              <div class="flex flex-col items-start gap-2.5 mt-8">
                                   <div class="flex flex-row items-center ">
                                       <div class="avatar rounded-full w-8 h-8 sm:w-10 sm:h-10 relative bg-red-600 bg-opacity-[0.6] flex items-center justify-center text-white text-sm sm:text-base">
                                           <span class="absolute inset-0 flex items-center justify-center">
@@ -227,7 +227,7 @@
                                           </span>
                                       </div>
                                   </div>
-                                  <div class="flex flex-col w-full leading-1.5 p-4 bg-[#202020] rounded-e-xl rounded-es-xl">
+                                  <div class="flex flex-col w-full leading-1.5 p-4 bg-slate-800 rounded-r-xl rounded-tl-xl">
                                      <p class="text-sm font-normal py-2.5 text-gray-200">
                                       {item?.description}
                                      </p>
@@ -417,16 +417,16 @@
           <div class="flex flex-col items-center w-full max-w-3xl bg-[#202020]">
     
     
-            <label for="yearModal" on:click={() => year='2023'} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
+            <label for="yearModal" on:click={() => year='2024'} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
     
                 <div class="flex flex-row items-center w-full bg-[#303030] p-3 rounded-lg {year === '1' ? 'ring-2 ring-[#04E000]' : ''}">
                   
                   <span class="ml-1 text-white font-medium mr-auto">
-                    2023
+                    2024
                   </span>
     
                   <div class="rounded-full w-8 h-8 relative border border-[#737373]">
-                    {#if year === '2023'}
+                    {#if year === '2024'}
                       <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#0F0F0F000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
                     {/if}
                   </div>
@@ -436,9 +436,27 @@
             </label>
     
     
-            <label for="yearModal" on:click={() => year='2022'} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
+            <label for="yearModal" on:click={() => year='2023'} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
     
               <div class="flex flex-row items-center w-full bg-[#303030] p-3 rounded-lg {year === '2' ? 'ring-2 ring-[#04E000]' : ''}">
+                
+                <span class="ml-1 text-white font-medium mr-auto">
+                  2023
+                </span>
+  
+                <div class="rounded-full w-8 h-8 relative border border-[#737373]">
+                  {#if year === '2023'}
+                    <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#0F0F0F000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
+                  {/if}
+                </div>
+  
+              </div>
+             
+          </label>
+  
+          <label for="yearModal" on:click={() => year='2022'} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
+    
+              <div class="flex flex-row items-center w-full bg-[#303030] p-3 rounded-lg {year === '3' ? 'ring-2 ring-[#04E000]' : ''}">
                 
                 <span class="ml-1 text-white font-medium mr-auto">
                   2022
@@ -456,7 +474,7 @@
   
           <label for="yearModal" on:click={() => year='2021'} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
     
-              <div class="flex flex-row items-center w-full bg-[#303030] p-3 rounded-lg {year === '3' ? 'ring-2 ring-[#04E000]' : ''}">
+              <div class="flex flex-row items-center w-full bg-[#303030] p-3 rounded-lg {year === '4' ? 'ring-2 ring-[#04E000]' : ''}">
                 
                 <span class="ml-1 text-white font-medium mr-auto">
                   2021
@@ -464,24 +482,6 @@
   
                 <div class="rounded-full w-8 h-8 relative border border-[#737373]">
                   {#if year === '2021'}
-                    <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#0F0F0F000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
-                  {/if}
-                </div>
-  
-              </div>
-             
-          </label>
-  
-          <label for="yearModal" on:click={() => year='2020'} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
-    
-              <div class="flex flex-row items-center w-full bg-[#303030] p-3 rounded-lg {year === '4' ? 'ring-2 ring-[#04E000]' : ''}">
-                
-                <span class="ml-1 text-white font-medium mr-auto">
-                  2020
-                </span>
-  
-                <div class="rounded-full w-8 h-8 relative border border-[#737373]">
-                  {#if year === '2020'}
                     <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#0F0F0F000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
                   {/if}
                 </div>

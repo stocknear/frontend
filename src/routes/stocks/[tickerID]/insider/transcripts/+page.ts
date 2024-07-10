@@ -21,14 +21,14 @@ export const load = async ({ params }) => {
     let output;
 
     // Get cached data for the specific tickerID
-    const cachedData = getCache(`${params.tickerID}-Q-3-2023`, 'getTranscripts');
+    const cachedData = getCache(`${params.tickerID}-Q-1-2024`, 'getTranscripts');
     if (cachedData) {
       output = cachedData;
     } else {
       const postData = {
         ticker: params.tickerID,
-        quarter: '3',
-        year: '2023'
+        quarter: '1',
+        year: '2024'
       };
 
       // make the POST request to the endpoint
@@ -43,7 +43,7 @@ export const load = async ({ params }) => {
       output = await response.json();
 
       // Cache the data for this specific tickerID with a specific name 'getTranscripts'
-      setCache(`${params.tickerID}-Q-3-2023`, output, 'getTranscripts');
+      setCache(`${params.tickerID}-Q-1-2024`, output, 'getTranscripts');
     }
 
     return output;
