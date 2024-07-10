@@ -4,6 +4,7 @@
   import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
   import { onMount } from 'svelte';
   import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
+  import { abbreviateNumber } from '$lib/utils.js';
 
   
     export let data;
@@ -335,6 +336,9 @@ function getLastDate(dateString) {
                             <th class="text-end bg-[#0F0F0F] text-white text-sm font-semibold">
                              Price
                             </th>
+                            <th class="text-end bg-[#0F0F0F] text-white text-sm font-semibold">
+                              Amount
+                             </th>
                           </tr>
                         </thead>
                         <tbody>
@@ -372,7 +376,11 @@ function getLastDate(dateString) {
 
                             <td class="text-end text-sm font-medium text-white">
                               ${item?.price}
-                          </td>
+                            </td>
+                            
+                            <td class="text-end text-sm font-medium text-white">
+                              ${abbreviateNumber(item?.price*item?.volume)}
+                            </td>
 
                           </tr>
                         {/each}
