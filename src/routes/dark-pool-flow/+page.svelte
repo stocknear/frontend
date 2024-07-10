@@ -22,7 +22,7 @@ function getLastDate(dateString) {
 
   // Check if it is open
   if ($isOpen) {
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return date?.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   } else {
     const dayOfWeek = date.getDay(); // 0 (Sunday) to 6 (Saturday)
 

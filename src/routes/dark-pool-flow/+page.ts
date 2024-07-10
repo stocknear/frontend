@@ -35,6 +35,8 @@ userRegion.subscribe(value => {
 
 
 export const load = async ({parent}) => {
+
+  checkMarketHour()
   const getDarkPoolFlow = async () => {
     let output;
     const data = await parent();
