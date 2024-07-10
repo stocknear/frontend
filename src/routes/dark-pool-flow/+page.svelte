@@ -16,6 +16,7 @@
     let mostFrequentTicker;
     let highestVolumeTicker;
     let highestSizeTicker;
+    let highestAmountTicker;
     let displayDate;
 
 function getLastDate(dateString) {
@@ -117,6 +118,22 @@ function getLastDate(dateString) {
     return { ticker: maxSizeTicker, size: maxSize };
   }
 
+  function findHighestAmount(data) {
+    let maxAmount = -1;
+    let maxAmountTicker = null;
+  
+    // Iterate through the data and find the ticker with the highest cost basis
+    data?.forEach(item => {
+      if ((item?.volume*item?.price) > maxAmount) {
+        maxAmount = item?.volume*item?.price;
+        maxAmountTicker = item?.symbol;
+      }
+    });
+
+  
+    return { ticker: maxAmountTicker, amount: maxAmount };
+  }
+
   async function infiniteHandler({ detail: { loaded, complete } }) 
   {
   if (displayList?.length === rawData?.length) {
@@ -137,6 +154,7 @@ function getLastDate(dateString) {
     mostFrequentTicker = findMostFrequentTicker(rawData);
     highestVolumeTicker = findHighestVolume(rawData);
     highestSizeTicker = findHighestSize(rawData);
+    highestAmountTicker = findHighestAmount(rawData);
     isLoaded = true;
   })
   
@@ -309,6 +327,20 @@ function getLastDate(dateString) {
                     </div>
                   </div>
                   <!--End Highest Size-->
+
+                    <!--Start Amount-->  
+                    <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+                      <div class="flex flex-col items-start">
+                          <span class="font-medium text-gray-200 text-sm ">Highest Amount</span>
+                          <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
+                            <a href={"/stocks/"+highestAmountTicker?.ticker} class="text-blue-400 ">
+                              {highestAmountTicker?.ticker}
+                            </a>
+                            {abbreviateNumber(highestAmountTicker?.amount, true)}
+                          </span>
+                      </div>
+                    </div>
+                    <!--End Amount-->
         
         
                   </div>
@@ -377,7 +409,7 @@ function getLastDate(dateString) {
                             <td class="text-end text-sm font-medium text-white">
                               ${item?.price}
                             </td>
-                            
+
                             <td class="text-end text-sm font-medium text-white">
                               ${abbreviateNumber(item?.price*item?.volume)}
                             </td>
