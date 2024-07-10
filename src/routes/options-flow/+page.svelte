@@ -395,7 +395,6 @@ const filterExpiringSoon = (data, days) => {
 $: {
     if(filterList && typeof window !== 'undefined' && mode === false)
     {
-      console.log('triggered')
       if(filterList?.length !== 0)
       {
         const newData = filterExpiringSoon(rawData, Math.max(...filterList));

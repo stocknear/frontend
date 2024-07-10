@@ -754,14 +754,14 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
         {#if politicianGuide}
         <ul class="mt-2">
           <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  {$page.url.pathname=== '/options-zero-dte' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
-            <a href={"/politicians/flow-data"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
+            <a href={"/politicians/flow-data"} class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                 <span class="text-sm font-medium text-white ">
                     Flow Data
                 </span>
             </a>
         </li>
           <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  {$page.url.pathname=== '/options-flow' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
-            <a href={"/politicians"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
+            <a href={"/politicians"} class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                 <span class="text-sm font-medium text-white ">
                     Politicians
                 </span>
@@ -772,7 +772,20 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
       </li>
 
       <li on:click={() => showSidebar = !showSidebar} class="px-1 rounded-sm mb-2 last:mb-0">
-          <a href={"/hedge-funds"} for="sidebar" class="block text-slate-200 hover:text-white truncate transition duration-150 {$page?.url?.pathname?.startsWith('/hedge-funds') ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+        <a href="/dark-pool-flow" class="block text-slate-200 hover:text-white truncate transition duration-150 {$page?.url?.pathname?.startsWith('/dark-pool-flow') ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#CCCCCC" d="M224 16c-6.7 0-10.8-2.8-15.5-6.1C201.9 5.4 194 0 176 0c-30.5 0-52 43.7-66 89.4c-47.3 8.7-78 22.8-78 38.6c0 14.3 25 27.1 64.6 35.9c-.4 4-.6 8-.6 12.1c0 17 3.3 33.2 9.3 48H45.4C38 224 32 230 32 237.4c0 1.7.3 3.4 1 5l38.8 96.9C28.2 371.8 0 423.8 0 482.3C0 498.7 13.3 512 29.7 512h388.6c16.4 0 29.7-13.3 29.7-29.7c0-58.5-28.2-110.4-71.7-143l38.7-96.9c.6-1.6 1-3.3 1-5c0-7.4-6-13.4-13.4-13.4h-59.9c6-14.8 9.3-31 9.3-48c0-4.1-.2-8.1-.6-12.1C391 155.1 416 142.3 416 128c0-15.8-30.7-29.9-78-38.6C324 43.7 302.5 0 272 0c-18 0-25.9 5.4-32.5 9.9c-4.8 3.3-8.8 6.1-15.5 6.1m56 208h-12.4c-16.5 0-31.1-10.6-36.3-26.2c-2.3-7-12.2-7-14.5 0c-5.2 15.6-19.9 26.2-36.3 26.2H168c-22.1 0-40-17.9-40-40v-14.4c28.2 4.1 61 6.4 96 6.4s67.8-2.3 96-6.4V184c0 22.1-17.9 40-40 40m-88 96l16 32l-32 128l-48-192zm128-32l-48 192l-32-128l16-32z"/></svg>
+                    <span class="2xl:{collapse ? 'hidden' : ''} text-md font-medium ml-3 duration-200">
+                        Dark Pool
+                    </span>
+                </div>
+            </div>
+        </a>
+    </li>
+
+      <li on:click={() => showSidebar = !showSidebar} class="px-1 rounded-sm mb-2 last:mb-0">
+          <a href={"/hedge-funds"} class="block text-slate-200 hover:text-white truncate transition duration-150 {$page?.url?.pathname?.startsWith('/hedge-funds') ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
               <div class="flex items-center justify-between">
                   <div class="flex items-center">
                     <svg class="w-7 h-7" viewBox="0 0 24 24" fill="#CCCCCC" xmlns="http://www.w3.org/2000/svg"><path opacity="0.97" d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.18C2 19.83 4.17 22 7.81 22H16.18C19.82 22 21.99 19.83 21.99 16.19V7.81C22 4.17 19.83 2 16.19 2ZM8.31 16.31C7.59 16.31 7 15.72 7 15C7 14.28 7.59 13.69 8.31 13.69C9.03 13.69 9.62 14.28 9.62 15C9.62 15.72 9.03 16.31 8.31 16.31ZM12 10.31C11.28 10.31 10.69 9.72 10.69 9C10.69 8.28 11.28 7.69 12 7.69C12.72 7.69 13.31 8.28 13.31 9C13.31 9.72 12.72 10.31 12 10.31ZM15.69 16.31C14.97 16.31 14.38 15.72 14.38 15C14.38 14.28 14.97 13.69 15.69 13.69C16.41 13.69 17 14.28 17 15C17 15.72 16.41 16.31 15.69 16.31Z" fill="currentColor"></path></svg>
@@ -787,7 +800,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
 
 
       <li on:click={() => showSidebar = !showSidebar} class="px-1 rounded-sm mb-2 last:mb-0">
-        <a href={'/market-news'} for="sidebar" class="block text-slate-200 hover:text-white truncate transition duration-150 {['/market-news','/market-news/crypto','/market-news/general']?.includes($page.url.pathname) ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+        <a href={'/market-news'} class="block text-slate-200 hover:text-white truncate transition duration-150 {['/market-news','/market-news/crypto','/market-news/general']?.includes($page.url.pathname) ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                   <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#CCCCCC" fill-rule="evenodd" d="M18 4v3h3a1 1 0 0 1 1 1v10a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1m2 14a1 1 0 1 1-2 0V9h2zM6 8a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1m2 4a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1" clip-rule="evenodd"/></svg>
