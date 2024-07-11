@@ -361,9 +361,9 @@ $: {
   <!--<ViewTransition />-->
 
   <!--Start Navbar-->
-  <div id="navbar" class="navbar {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} border-b border-[#0F0F0F] w-screen fixed top-0 e z-40 bg-[#202020]">
+  <div id="navbar" class="navbar {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} border-b border-[#0F0F0F] w-screen sticky top-0 z-40  bg-[#202020]">
 
-  <div class="w-full max-w-[1600px] m-auto">
+  <div class="w-full max-w-[1600px] m-auto ">
     <div class="flex flex-row items-center w-full xl:px-2">
       
         <div class="flex flex-row items-center cursor-pointer">
@@ -994,7 +994,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
 
     {/key}
     -->
-    <slot />
+      <slot />
     
     {#if !hideFooter}
     <Footer/>
