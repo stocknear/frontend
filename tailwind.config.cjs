@@ -13,7 +13,7 @@ module.exports = {
 			  },
 			  animation: {
 				marquee: "marquee var(--duration) linear infinite",
-				'fade-in-once': 'fadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards',
+				'fade-in-once': 'fadeIn 0.9s ease-in-out forwards',
 				'flip': "flip 6s infinite steps(2, end)",
 	            "kitrotate": "kitrotate 3s linear infinite both",
 	            shine: "shine 4s linear infinite",
@@ -39,7 +39,7 @@ module.exports = {
 				  fadeIn: {
 					  '0%': {
 						opacity: '0',
-						transform: 'translateY(5px) scale(0.98)',
+						transform: 'translateY(25px) scale(0.98)',
 					  },
 					  '100%': {
 						opacity: '1',

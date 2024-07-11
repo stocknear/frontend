@@ -356,14 +356,14 @@ $: {
 <svelte:window bind:innerWidth/>
 
     
-<div class="app">
+<div class="app {$page?.url?.pathname === '/' ? 'bg-[#000]' : ''}">
 
   <!--<ViewTransition />-->
 
   <!--Start Navbar-->
   {#if !data?.user}
   <header
-    class="sticky {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} inset-x-0 top-0 z-30 mx-auto w-full max-w-screen-md border border-[#202020] bg-[#313131] py-3 shadow backdrop-blur-lg md:top-3 md:rounded-3xl lg:max-w-screen-lg">
+    class="sticky {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} inset-x-0 top-0 z-30 mx-auto w-full max-w-screen-md border border-[#202020] py-3 sm:py-4 shadow-lg sm:backdrop-blur-sm bg-[#202020] sm:bg-opacity-80 md:top-3 md:rounded-2xl lg:max-w-screen-lg">
     <div class="px-4">
         <div class="flex items-center justify-between">
             <div class="flex shrink-0">
@@ -377,25 +377,25 @@ $: {
             </div>
             <div class="hidden md:flex md:items-center md:justify-center md:gap-5">
               <a aria-current="page"
-                    class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white transition-all duration-200 hover:bg-[#313131]"
+                    class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white transition-all duration-200 hover:bg-purple-600"
                     href="/">Home</a>
                 <a aria-current="page"
-                    class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white transition-all duration-200 hover:bg-[#313131]"
+                    class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white transition-all duration-200 hover:bg-purple-600"
                     href="/about">About Us</a>
-                <a class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white transition-all duration-200 hover:bg-[#313131]"
+                <a class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white transition-all duration-200 hover:bg-purple-600"
                     href="/pricing">Pricing</a>
             </div>
             <div class="flex items-center justify-end gap-3">
-                <a class="items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-gray-50 sm:inline-flex"
+                <a class="items-center justify-center rounded-xl bg-gray-200 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-white sm:inline-flex"
                     href="/register">Start Trial</a>
-                <a class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                <a class="inline-flex items-center justify-center rounded-xl bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
                     href="/login">Login</a>
             </div>
         </div>
     </div>
 </header>
   {:else }
-  <div id="navbar" class="navbar {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} border-b border-[#0F0F0F] w-screen sticky top-0 z-40 bg-[#313131]">
+  <div id="navbar" class="navbar {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} border-b border-[#0F0F0F] w-screen sticky top-0 z-40 bg-[#202020]">
 
   <div class="w-full max-w-[1600px] m-auto ">
     <div class="flex flex-row items-center w-full xl:px-2">
