@@ -48,6 +48,7 @@
   let isLoaded = false;
   let mode = $isOpen === true ? true : false;
   let showMore = false;
+  let newIncomingData = false;
   
   let optionSymbol;
   let optionDescription;
@@ -111,11 +112,15 @@ function handleViewData(optionData) {
   
   
   socket.addEventListener('message', (event) => {
-      const newData = event.data;
       previousCallVolume = displayCallVolume ?? 0;
       if(mode === true) {
       try {
-          rawData = [...JSON?.parse(newData)];
+          const newData = JSON.parse(event.data);
+          if(rawData?.length !== newData?.length) {
+            newIncomingData = true;
+          }
+
+          rawData = [...newData];
           
 
           // Variables to track filter status
@@ -142,11 +147,16 @@ function handleViewData(optionData) {
           }
 
           // Update optionList and notFound status
-          if (rawData?.length !== 0) {
+          if (rawData?.length !== 0 && newIncomingData === true) {
               notFound = false;
+              newIncomingData = false;
               optionList = rawData?.slice(0, 20);
+          } else if (!newIncomingData) {
+              notFound = false;
+              newIncomingData = false;
           } else {
               notFound = true;
+              newIncomingData = false;
               rawData = data?.getOptionsFlowFeed ?? [];
               optionList = [];
           }

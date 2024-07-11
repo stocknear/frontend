@@ -47,40 +47,22 @@ const putOpenInterestList = data?.getOptionsPlotData?.putOpenInterestList;
 
 
 
-function formatTime(timestamp) {
-  // Convert timestamp to milliseconds
-  var date = new Date(timestamp * 1000);
-
-  // hours, minutes, and seconds
-  var hours = date.getHours();
-  var minutes = date.getMinutes();
-  var seconds = date.getSeconds();
-
-  hours = (hours < 10 ? "0" : "") + hours;
-  minutes = (minutes < 10 ? "0" : "") + minutes;
-  seconds = (seconds < 10 ? "0" : "") + seconds;
-
-  // Format the date string
-  var formattedDate = hours + ":" + minutes + ":" + seconds 
-  //var formattedDate = hours + ":" + minutes + ":" + seconds;
-
-  return formattedDate;
-}
-
-function formatDate(timestamp) {
-  // Convert timestamp to milliseconds and create a Date object
-  var date = new Date(timestamp * 1000);
+function formatDate(dateStr) {
+  // Parse the input date string (YYYY-mm-dd)
+  var date = new Date(dateStr);
 
   // Get month, day, and year
   var month = date.getMonth() + 1; // Month starts from 0
   var day = date.getDate();
   var year = date.getFullYear();
 
+  // Extract the last two digits of the year
+  var shortYear = year.toString().slice(-2);
+
   // Add leading zeros if necessary
   month = (month < 10 ? "0" : "") + month;
   day = (day < 10 ? "0" : "") + day;
 
-  // Format the date string in mm/dd/YYYY
   var formattedDate = month + "/" + day + "/" + year;
 
   return formattedDate;
@@ -527,11 +509,11 @@ $: {
                                       <tr class="odd:bg-[#202020] border-b-[#0F0F0F] {index+1 === optionList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                                         
                                         <td class="text-white text-xs sm:text-sm text-start">
-                                          {formatTime(item?.updated)}
+                                          {item?.time}
                                         </td>
 
                                         <td class="text-white text-xs sm:text-sm text-start">
-                                          {formatDate(item?.updated)}
+                                          {formatDate(item?.date)}
                                         </td>
 
                                         <td class="text-white text-end">
