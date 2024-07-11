@@ -5,6 +5,7 @@
 
 
 
+
 .table {
   @apply rounded-box text-left text-sm rtl:text-right;
   :where(th, td) {
@@ -73,7 +74,7 @@
         50% { transform: rotate(0deg); }
         75% { transform: rotate(-10deg); }
         100% { transform: rotate(0deg); }
-    }    
+    }
 
 }
 

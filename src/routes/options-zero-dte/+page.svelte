@@ -32,12 +32,19 @@
     let displayPutVolume;
     let callPercentage;
     let putPercentage;
+    let mostFrequentTicker;
+    let highestVolumeTicker;
+    let highestPremiumTicker;
+    let highestOpenInterestTicker;
+
+
     let audio;
     let muted = true;
     let socket;
     let filterQuery = '';
     let previousCallVolume = 0; //This is needed to play the sound only if it changes.
     let notFound = false;
+    let showMore = false;
 
     let isLoaded = false;
     let mode = $isOpen === true ? true : false;
@@ -199,8 +206,87 @@ function calculateStats(optionList) {
 
     displayCallVolume = callVolumeSum;
     displayPutVolume = putVolumeSum;
+
+    mostFrequentTicker = findMostFrequentTicker(rawData);
+    highestVolumeTicker = findHighestVolume(rawData);
+    highestPremiumTicker = findHighestCostBasis(rawData);
+    highestOpenInterestTicker = findHighestOpenInterest(rawData);
 }
     
+
+function findMostFrequentTicker(data) {
+    const tickerCountMap = new Map();
+    // Iterate through the data and update the count for each ticker
+    data?.forEach(item => {
+      const ticker = item?.ticker;
+      if (tickerCountMap?.has(ticker)) {
+        tickerCountMap?.set(ticker, tickerCountMap?.get(ticker) + 1);
+      } else {
+        tickerCountMap?.set(ticker, 1);
+      }
+    });
+  
+    let maxTicker;
+    let maxCount = -1;
+  
+    // Find the ticker with the highest count
+    tickerCountMap?.forEach((count, ticker) => {
+      if (count > maxCount) {
+        maxCount = count;
+        maxTicker = ticker;
+      }
+    });
+  
+    return { ticker: maxTicker, count: maxCount };
+  }
+  
+  function findHighestVolume(data) {
+    let maxVolume = -1;
+    let maxVolumeTicker = null;
+  
+    // Iterate through the data and find the ticker with the highest volume
+    data?.forEach(item => {
+      const volume = parseInt(item?.volume); // Assuming volume is a string, parse it to an integer
+      if (volume > maxVolume) {
+        maxVolume = volume;
+        maxVolumeTicker = item?.ticker;
+      }
+    });
+  
+    return { ticker: maxVolumeTicker, volume: maxVolume };
+  }
+  
+  function findHighestCostBasis(data) {
+    let maxCostBasis = -1;
+    let maxCostBasisTicker = null;
+  
+    // Iterate through the data and find the ticker with the highest cost basis
+    data?.forEach(item => {
+      if (item?.cost_basis > maxCostBasis) {
+        maxCostBasis = item?.cost_basis;
+        maxCostBasisTicker = item?.ticker;
+      }
+    });
+  
+    return { ticker: maxCostBasisTicker, costBasis: maxCostBasis };
+  }
+  
+  function findHighestOpenInterest(data) {
+    let maxOpenInterest = -1;
+    let maxOpenInterestTicker = null;
+  
+    // Iterate through the data and find the ticker with the highest open interest
+    data?.forEach(item => {
+      const openInterest = parseInt(item?.open_interest); // Assuming open interest is a string, parse it to an integer
+      if (openInterest > maxOpenInterest) {
+        maxOpenInterest = openInterest;
+        maxOpenInterestTicker = item?.ticker;
+      }
+    });
+  
+    return { ticker: maxOpenInterestTicker, openInterest: maxOpenInterest };
+  }
+  
 
 function handleInput(event) {
     filterQuery = event.target.value;
@@ -256,7 +342,6 @@ const debouncedHandleInput = debounce(handleInput, 200);
 <!-- Other meta tags -->
 <meta property="og:title" content={`Options 0DTE Flow Feed · stocknear`}/>
 <meta property="og:description" content={`Explore unusual options from big institutional traders and hedge funds.`} />
-<meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <meta property="og:type" content="website"/>
 <!-- Add more Open Graph meta tags as needed -->
 
@@ -264,7 +349,6 @@ const debouncedHandleInput = debounce(handleInput, 200);
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content={`Options 0DTE Flow Feed · stocknear`}/>
 <meta name="twitter:description" content={`Explore unusual options from big institutional traders and hedge funds.`} />
-<meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -378,7 +462,7 @@ const debouncedHandleInput = debounce(handleInput, 200);
     {#if isLoaded }
 
     <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center">
-        <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-y-3 lg:gap-y-0 gap-x-3 ">
+        <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-y-3 gap-x-3 ">
         <!--Start Flow Sentiment-->  
         <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-2xl h-20">
             <div class="flex flex-col items-start">
@@ -475,9 +559,88 @@ const debouncedHandleInput = debounce(handleInput, 200);
       </div>
       <!--End Put Flow-->
 
+      {#if showMore}
+      <!--Start Most Traded-->  
+      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+       <div class="flex flex-col items-start">
+           <span class="font-medium text-gray-200 text-sm ">Most Traded Option</span>
+           <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
+             <span class="text-blue-400 ">
+               {mostFrequentTicker?.ticker}
+             </span>
+             {new Intl.NumberFormat("en", {
+               minimumFractionDigits: 0,
+               maximumFractionDigits: 0
+           }).format(mostFrequentTicker?.count)}
+           </span>
+       </div>
+     </div>
+     <!--End Most Traded-->
+
+      <!--Start Highest Premium-->  
+      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+       <div class="flex flex-col items-start">
+           <span class="font-medium text-gray-200 text-sm ">Highest Premium</span>
+           <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
+             <span class="text-blue-400 ">
+               {highestPremiumTicker?.ticker}
+             </span>
+             ${new Intl.NumberFormat("en", {
+               minimumFractionDigits: 0,
+               maximumFractionDigits: 0
+           }).format(highestPremiumTicker?.costBasis)}
+           </span>
+       </div>
+     </div>
+     <!--End Highest Premium-->
+
+     <!--Start Highest Volume-->  
+     <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+       <div class="flex flex-col items-start">
+           <span class="font-medium text-gray-200 text-sm ">Highest Volume</span>
+           <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
+             <span class="text-blue-400 ">
+               {highestVolumeTicker?.ticker}
+             </span>
+             {new Intl.NumberFormat("en", {
+               minimumFractionDigits: 0,
+               maximumFractionDigits: 0
+           }).format(highestVolumeTicker?.volume)}
+           </span>
+       </div>
+     </div>
+     <!--End Highest Volume-->
+
+      <!--Start Highest Open Interest-->  
+      <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+       <div class="flex flex-col items-start">
+           <span class="font-medium text-gray-200 text-sm ">Highest Open Interest</span>
+           <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
+             <span class="text-blue-400 ">
+               {highestOpenInterestTicker?.ticker}
+             </span>
+             {new Intl.NumberFormat("en", {
+               minimumFractionDigits: 0,
+               maximumFractionDigits: 0
+           }).format(highestOpenInterestTicker?.openInterest)}
+           </span>
+       </div>
+     </div>
+     <!--End Highest Open Interest-->
+
+      {/if}
 
         </div>
     </div>
+
+
+     <!--Start Expand-->
+     <label on:click={() => showMore=!showMore} class="cursor-pointer w-full flex justify-center items-center -mt-5 transition duration-150 ease-in-out group">
+      <div class="tracking-normal group-hover:translate-y-0.5 transition-transform duration-150 ease-in-out">
+        <svg class="w-10 h-10 {showMore ? 'rotate-180' : ''}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M12 14.373q-.162 0-.298-.053q-.137-.053-.267-.183L7.046 9.748q-.14-.14-.15-.344q-.01-.204.15-.364t.354-.16t.354.16L12 13.287l4.246-4.247q.14-.14.344-.15q.204-.01.364.15t.16.354q0 .194-.16.354l-4.389 4.389q-.13.13-.267.183q-.136.053-.298.053"/></svg>
+      </div>
+    </label>
+    <!--End Expand-->
     
 
     {#if rawData?.length !== 0}

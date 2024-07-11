@@ -1,6 +1,6 @@
 <script lang='ts'>
   import { goto } from '$app/navigation';
-  import { screenWidth, userRegion, numberOfUnreadNotification, etfTicker, stockTicker, isOpen } from '$lib/store';
+  import { userRegion, numberOfUnreadNotification, etfTicker, stockTicker, isOpen } from '$lib/store';
   import notifySound from '$lib/audio/options-flow-reader.mp3';
   import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
   import { abbreviateNumber } from '$lib/utils';
@@ -437,7 +437,6 @@ $: {
   <!-- Other meta tags -->
   <meta property="og:title" content={`Options Flow Feed · stocknear`}/>
   <meta property="og:description" content={`Explore unusual options from big institutional traders and hedge funds.`} />
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
   
@@ -445,7 +444,6 @@ $: {
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content={`Options Flow Feed · stocknear`}/>
   <meta name="twitter:description" content={`Explore unusual options from big institutional traders and hedge funds.`} />
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
   
   </svelte:head>
@@ -785,7 +783,7 @@ $: {
       
         
               <!-- Content area -->
-              <div class="mt-4 w-full overflow-x-auto">     
+              <div class="mt-4 w-full overflow-x-auto">
                 <table class="table table-pin-cols table-sm table-compact">
                     <thead>
                       <tr class="">
