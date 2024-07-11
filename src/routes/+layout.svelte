@@ -361,7 +361,7 @@ $: {
   <!--<ViewTransition />-->
 
   <!--Start Navbar-->
-  <div id="navbar" class="navbar {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} border-b border-[#0F0F0F] w-screen sticky top-0 z-40 bg-[#202020]">
+  <div id="navbar" class="navbar {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} border-b border-[#0F0F0F] w-screen fixed top-0 e z-40 bg-[#202020]">
 
   <div class="w-full max-w-[1600px] m-auto">
     <div class="flex flex-row items-center w-full xl:px-2">
