@@ -52,7 +52,6 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
 <div class="w-full max-w-screen overflow-hidden m-auto min-h-screen bg-[#000]">
 
 
-
   <div class="m-auto flex flex-wrap flex-col justify-center items-center md:flex-row ">
     <!--Left Col-->
 
@@ -80,24 +79,18 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                 <!-- Start Column -->
                                 <div >
 
-                            
-                                  <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
-                                    <div class="border border-gray-800 text-white antialiased bg-[#000] w-full px-4 py-2 rounded-xl m-auto font-semibold text-sm flex items-center">
-                                      Trusted & used by over 1000+ traders
-                                    </div>
-                                  </div>
+  
 
                                   <div class="flex flex-row justify-center items-center w-full sm:w-3/4 m-auto">
                                     
-                                    <h1 class="text-center text-4xl sm:text-6xl text-white font-bold mb-6 w-80 sm:w-full">
-                                      Stock Analysis for Data
-                                      <span class="text-[#FBCE3C] italic">Freaks</span>
+                                    <h1 class="text-center text-5xl sm:text-7xl bg-gradient-to-r from-[#E8BB28] to-purple-500 bg-clip-text text-transparent font-bold mb-6 w-80 sm:w-full">
+                                      A modern stock analysis platform
                                     </h1>
                                   </div>
 
                                   
-                                  <div class="w-5/6 m-auto sm:w-full text-center flex-1 justify-center items-center text-white text-lg sm:text-xl">
-                                    Track the forces driving the stock market with our actionable and easy-to-understand data.
+                                  <div class="w-5/6 sm:w-3/4 m-auto text-center flex-1 justify-center items-center text-white text-lg sm:text-2xl">
+                                    Uncover what drives the stock market with our clear, actionable data.
                                   </div>
                                   
                                     
@@ -114,7 +107,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                           />
                                         </span>
                                         <span
-                                          class="backdrop absolute inset-px rounded-[11px] bg-[#FBCE3C] transition-colors duration-200 group-hover:bg-[#fac109]"
+                                          class="backdrop absolute inset-px rounded-[11px] bg-[#E8BB28] transition-colors duration-200 group-hover:bg-[#fac109]"
                                         />
                                         <span class="z-10 text-black text-[1rem] sm:text-lg font-semibold">
                                           <slot>Start free 7 days trial  <span class="ml-2 mt-0.5 tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">
@@ -136,6 +129,22 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                         Instant Access
                                       </span >
                                     </div>
+
+                                    <div class="flex flex-col items-center justify-center mt-2 sm:mt-4">
+                                      <div class="flex items-center">
+                                        <svg class="w-5 h-5 sm:w-6 sm:h-6 ms-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#FAC109" d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"/></svg>
+                                        <svg class="w-5 h-5 sm:w-6 sm:h-6 ms-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#FAC109" d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"/></svg>
+                                        <svg class="w-5 h-5 sm:w-6 sm:h-6 ms-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#FAC109" d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"/></svg>
+                                        <svg class="w-5 h-5 sm:w-6 sm:h-6 ms-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#FAC109" d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"/></svg>
+                                        <svg class="w-5 h-5 sm:w-6 sm:h-6 ms-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#FAC109" d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"/></svg>
+                                      </div>
+                                      <span class="text-sm font-semibold text-white mt-1.5">
+                                        Used by over 1,000+ traders
+                                      </span>
+                                    </div>
+
+
+
 
                                     </div>
                                     
@@ -168,9 +177,9 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                 
 
 
-                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-4 w-full">
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-4 w-full m-auto">
 
-                                  <div class="card bg-[#121016] w-96 shadow-xl rounded-none sm:rounded-lg">
+                                  <div class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg">
                                     <div class="card-body">
                                       <h2 class="card-title text-white text-2xl font-bold">
                                         <svg class="w-9 h-9 inline-block mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15"><path fill="none" stroke="#fff" stroke-linejoin="round" d="M.5 3.498L7.5.5l7 2.998m-14 0l7 2.998m-7-2.998V3.5m14-.002l-7 2.998m7-2.998V11.5l-7 3m7-11.002L7.5 6.5v8m0-8.004V14.5m0-8.004L.5 3.5m7 11l-7-3v-8"/></svg>
@@ -182,7 +191,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                     </div>
                                   </div>
   
-                                  <div class="card bg-[#121016] w-96 shadow-xl rounded-none sm:rounded-lg">
+                                  <div class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg">
                                     <div class="card-body">
                                       <h2 class="card-title text-white text-2xl font-bold">
                                         <svg class="w-10 h-10 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 16V8c0-.943 0-1.414-.293-1.707S12.943 6 12 6s-1.414 0-1.707.293S10 7.057 10 8v8c0 .943 0 1.414.293 1.707S11.057 18 12 18s1.414 0 1.707-.293S14 16.943 14 16m7-7V7c0-.943 0-1.414-.293-1.707S19.943 5 19 5s-1.414 0-1.707.293S17 6.057 17 7v2c0 .943 0 1.414.293 1.707S18.057 11 19 11s1.414 0 1.707-.293S21 9.943 21 9M7 14v-2c0-.943 0-1.414-.293-1.707S5.943 10 5 10s-1.414 0-1.707.293S3 11.057 3 12v2c0 .943 0 1.414.293 1.707S4.057 16 5 16s1.414 0 1.707-.293S7 14.943 7 14m5 7v-3m7-5v-2m-7-5V3m7 2V3M5 18v-2m0-6V8" color="#F9784E"/></svg>
@@ -194,10 +203,10 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                     </div>
                                   </div>
   
-                                  <div class="card bg-[#121016] w-96 shadow-xl rounded-none sm:rounded-lg">
+                                  <div class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg">
                                     <div class="card-body">
                                       <h2 class="card-title text-white text-2xl font-bold">
-                                        <svg class="w-10 h-10 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#fff" d="M4 7a1 1 0 0 0 0 2h2.22l2.624 10.5c.223.89 1.02 1.5 1.937 1.5h12.47c.903 0 1.67-.6 1.907-1.47L27.75 10h-2.094l-2.406 9H10.78L8.157 8.5A1.984 1.984 0 0 0 6.22 7zm18 14c-1.645 0-3 1.355-3 3s1.355 3 3 3s3-1.355 3-3s-1.355-3-3-3m-9 0c-1.645 0-3 1.355-3 3s1.355 3 3 3s3-1.355 3-3s-1.355-3-3-3m3-14v5h-3l4 4l4-4h-3V7zm-3 16c.564 0 1 .436 1 1c0 .564-.436 1-1 1c-.564 0-1-.436-1-1c0-.564.436-1 1-1m9 0c.564 0 1 .436 1 1c0 .564-.436 1-1 1c-.564 0-1-.436-1-1c0-.564.436-1 1-1"/></svg>
+                                        <svg class="w-10 h-10 inline-block " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#fff" d="M4 7a1 1 0 0 0 0 2h2.22l2.624 10.5c.223.89 1.02 1.5 1.937 1.5h12.47c.903 0 1.67-.6 1.907-1.47L27.75 10h-2.094l-2.406 9H10.78L8.157 8.5A1.984 1.984 0 0 0 6.22 7zm18 14c-1.645 0-3 1.355-3 3s1.355 3 3 3s3-1.355 3-3s-1.355-3-3-3m-9 0c-1.645 0-3 1.355-3 3s1.355 3 3 3s3-1.355 3-3s-1.355-3-3-3m3-14v5h-3l4 4l4-4h-3V7zm-3 16c.564 0 1 .436 1 1c0 .564-.436 1-1 1c-.564 0-1-.436-1-1c0-.564.436-1 1-1m9 0c.564 0 1 .436 1 1c0 .564-.436 1-1 1c-.564 0-1-.436-1-1c0-.564.436-1 1-1"/></svg>
                                         Retail Trader Tracker
                                       </h2>
                                       <span class="text-start text-white">
@@ -206,7 +215,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                     </div>
                                   </div>
   
-                                  <div class="card bg-[#121016] w-96 shadow-xl rounded-none sm:rounded-lg">
+                                  <div class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg">
                                     <div class="card-body">
                                       <h2 class="card-title text-white text-2xl font-bold text-start">
                                         <svg class="w-9 h-9 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#fff" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128m95.8 32.6L272 480l-32-136l32-56h-96l32 56l-32 136l-47.8-191.4C56.9 292 0 350.3 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8"/></svg>
@@ -218,7 +227,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                     </div>
                                   </div>
   
-                                  <div class="card bg-[#121016] w-96 shadow-xl rounded-none sm:rounded-lg">
+                                  <div class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg">
                                     <div class="card-body">
                                       <h2 class="card-title text-white text-2xl font-bold text-start">
                                         <svg class="w-10 h-10 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#fff" d="M247.002 32v47.725a56.5 56.5 0 0 1 17.996 0V32zM256 96.998c-11.5 0-23.002 5.001-23.002 15.002v10.1c7.37-2 15.05-3.098 23.002-3.098c7.953 0 15.632 1.098 23.002 3.098V112c0-10-11.502-15.002-23.002-15.002m0 40c-28.25 0-53.982 17.938-72.867 42.488c-16.345 21.249-26.934 47.277-29.496 67.516h204.726c-2.562-20.239-13.15-46.267-29.496-67.516c-18.885-24.55-44.617-42.488-72.867-42.488m-80 78.004h32v17.996h-32zm64 0h32v17.996h-32zm64 0h32v17.996h-32zm-170.29 49.996l-7.53 16.004h259.64l-7.53-16.004zm1.292 34v28.004h17.996v-28.004zm56 0v28.004h17.996v-28.004zm56 0v28.004h17.996v-28.004zm56 0v28.004h17.996v-28.004zm56 0v28.004h17.996v-28.004zm-270.004 46v16.004h334.004v-16.004zm14.004 34v60.004h17.996v-60.004zm48 0v60.004h17.996v-60.004zm48 0v60.004h17.996v-60.004zm48 0v60.004h17.996v-60.004zm48 0v60.004h17.996v-60.004zm48 0v60.004h17.996v-60.004zm48 0v60.004h17.996v-60.004zm-350.004 78v30.004h430.004v-30.004z"/></svg>
@@ -230,7 +239,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                     </div>
                                   </div>
   
-                                  <div class="card bg-[#121016] w-96 shadow-xl rounded-none sm:rounded-lg">
+                                  <div class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg">
                                     <div class="card-body">
                                       <h2 class="card-title text-white text-2xl font-bold text-start">
                                         <svg class="w-10 h-10 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="#fff" d="M9.228 2.183a1.33 1.33 0 0 1 1.543 0l5.852 4.152c.727.516.363 1.662-.528 1.664H3.907c-.894 0-1.26-1.147-.53-1.664zM10 5.874a.833.833 0 1 0 0-1.667a.833.833 0 0 0 0 1.667M4.5 9v4h2V9zM3 16.166c0-1.197.97-2.167 2.166-2.167h9.667A2.17 2.17 0 0 1 17 16.166v.333a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5zm12.5-7.167v4h-2V9zm-3 0v4h-2V9zm-3 0v4h-2V9z"/></svg>
@@ -260,8 +269,8 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                               <!-- 1st item -->
                                               <div class="relative flex flex-col items-center">
                                                   
-                                                <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center border border-gray-300">
-                                                  <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" d="M6.15.555a.389.389 0 0 0-.399 0a.26.26 0 0 0-.06.34c1.227 2.123 1.486 5.016-.19 6.611a5.505 5.505 0 0 1-1.495-1.994a3.88 3.88 0 0 0-1.995 3.49a4.688 4.688 0 0 0 4.987 4.488c3.211 0 4.877-1.994 4.986-4.488C12.114 6.01 9.99 2.33 6.15.555"/></svg>
+                                                <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center bg-gradient-to-r from-purple-800 to-purple-500">
+                                                  <svg class="w-7 h-7 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" d="M6.15.555a.389.389 0 0 0-.399 0a.26.26 0 0 0-.06.34c1.227 2.123 1.486 5.016-.19 6.611a5.505 5.505 0 0 1-1.495-1.994a3.88 3.88 0 0 0-1.995 3.49a4.688 4.688 0 0 0 4.987 4.488c3.211 0 4.877-1.994 4.986-4.488C12.114 6.01 9.99 2.33 6.15.555"/></svg>
                                                 </div>
                                                   <h4 class="text-xl text-white font-semibold mb-2">Market Trends</h4>
                                                   <p class="text-[1rem] sm:text-lg text-white text-center">
@@ -271,7 +280,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                   
                                               <!-- 2nd item -->
                                               <div class="relative flex flex-col items-center">
-                                                <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center border border-gray-300">
+                                                <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center bg-gradient-to-r from-purple-800 to-purple-500">
                                                   <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#fff" d="m24 20l-1.41 1.41L26.17 25H10a4 4 0 0 1 0-8h12a6 6 0 0 0 0-12H5.83l3.58-3.59L8 0L2 6l6 6l1.41-1.41L5.83 7H22a4 4 0 0 1 0 8H10a6 6 0 0 0 0 12h16.17l-3.58 3.59L24 32l6-6Z"/></svg>
                                                 </div>
                                                   <h4 class="text-xl text-white font-semibold mb-2">Price Movements</h4>
@@ -282,7 +291,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                   
                                               <!-- 3rd item -->
                                               <div class="relative flex flex-col items-center" data-aos-delay="400">
-                                                <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center border border-gray-300">
+                                                <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center bg-gradient-to-r from-purple-800 to-purple-500">
                                                   <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" color="#F9784E"><path d="M18 15V9c0-2.828 0-4.243-.879-5.121C16.243 3 14.828 3 12 3H8c-2.828 0-4.243 0-5.121.879C2 4.757 2 6.172 2 9v6c0 2.828 0 4.243.879 5.121C3.757 21 5.172 21 8 21h12M6 8h8m-8 4h8m-8 4h4"/><path d="M18 8h1c1.414 0 2.121 0 2.56.44c.44.439.44 1.146.44 2.56v8a2 2 0 1 1-4 0z"/></g></svg>
                                                 </div>
                                                   <h4 class="text-xl text-white font-semibold mb-2">News Sentiments</h4>
@@ -326,7 +335,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                               <!-- 1st item -->
                                               <div class="relative flex flex-col items-center">
                                                   
-                                                <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center border border-gray-300">
+                                                <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center bg-gradient-to-r from-purple-800 to-purple-500">
                                                   <svg style="clip-path: circle(50%);" class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#fff" d="m7.288 23.292l7.997-7.997l1.414 1.414l-7.997 7.997z"/><path fill="#fff" d="M17 30a1 1 0 0 1-.37-.07a1 1 0 0 1-.62-.79l-1-7l2-.28l.75 5.27L21 24.52V17a1 1 0 0 1 .29-.71l4.07-4.07A8.94 8.94 0 0 0 28 5.86V4h-1.86a8.94 8.94 0 0 0-6.36 2.64l-4.07 4.07A1 1 0 0 1 15 11H7.48l-2.61 3.26l5.27.75l-.28 2l-7-1a1 1 0 0 1-.79-.62a1 1 0 0 1 .15-1l4-5A1 1 0 0 1 7 9h7.59l3.77-3.78A10.92 10.92 0 0 1 26.14 2H28a2 2 0 0 1 2 2v1.86a10.92 10.92 0 0 1-3.22 7.78L23 17.41V25a1 1 0 0 1-.38.78l-5 4A1 1 0 0 1 17 30"/></svg>
                                                 </div>
                                                   <h4 class="text-xl text-white font-semibold mb-2">Track institutional activity</h4>
@@ -337,7 +346,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                   
                                               <!-- 2nd item -->
                                               <div class="relative flex flex-col items-center">
-                                                <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center border border-gray-300">
+                                                <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center bg-gradient-to-r from-purple-800 to-purple-500">
                                                   <svg style="clip-path: circle(50%);" class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#fff" d="M184 184a32 32 0 0 1-32 32c-13.7 0-26.95-8.93-31.5-21.22a8 8 0 0 1 15-5.56C137.74 195.27 145 200 152 200a16 16 0 0 0 0-32H40a8 8 0 0 1 0-16h112a32 32 0 0 1 32 32m-64-80a32 32 0 0 0 0-64c-13.7 0-26.95 8.93-31.5 21.22a8 8 0 0 0 15 5.56C105.74 60.73 113 56 120 56a16 16 0 0 1 0 32H24a8 8 0 0 0 0 16Zm88-32c-13.7 0-26.95 8.93-31.5 21.22a8 8 0 0 0 15 5.56C193.74 92.73 201 88 208 88a16 16 0 0 1 0 32H32a8 8 0 0 0 0 16h176a32 32 0 0 0 0-64"/></svg>
                                                 </div>
                                                   <h4 class="text-xl text-white font-semibold mb-2">Fast, reliable market data</h4>
@@ -348,7 +357,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                   
                                               <!-- 3rd item -->
                                               <div class="relative flex flex-col items-center" data-aos-delay="400">
-                                                <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center border border-gray-300">
+                                                <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center bg-gradient-to-r from-purple-800 to-purple-500">
                                                   <svg style="clip-path: circle(50%);" class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048"><path fill="#fff" d="M1536 0q27 0 50 10t40 27t28 41t10 50v1792q0 27-10 50t-27 40t-41 28t-50 10H512q-27 0-50-10t-40-27t-28-41t-10-50V128q0-27 10-50t27-40t41-28t50-10zm0 128H512v1792h1024zM896 1664h256v128H896z"/></svg>
                                                 </div>
                                                   <h4 class="text-xl text-white font-semibold mb-2">Best User Experience</h4>
@@ -512,5 +521,16 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
       width: 100%;
       background-image: linear-gradient(0deg, rgba(0, 0, 0, 1), transparent 90%);
     }
+
+    .bg-radial-gradient {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: radial-gradient(circle at top, rgba(255, 165, 0, 1) 0%, rgba(255, 165, 0, 0.7) 30%, rgba(128, 0, 128, 0.7) 70%, rgba(128, 0, 128, 1) 100%);
+    filter: blur(200px);
+}
+
+
+
       
   </style>

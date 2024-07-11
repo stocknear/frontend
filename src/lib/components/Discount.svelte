@@ -46,8 +46,8 @@ clearInterval(interval);
 
 
 
-<div class="lg:max-w-xl w-full bg-[#3244ff] p-4 rounded-none sm:rounded-lg shadow-md m-auto">
-    <div class="container bg-[#3244ff] p-4 mt-4">
+<div class="lg:max-w-xl w-full bg-gradient-to-r from-purple-900 to-purple-500 p-4 rounded-none sm:rounded-lg shadow-md m-auto">
+    <div class="container bg-gradient-to-r from-purple-900 to-purple-500 p-4 mt-4">
       <h2 class="text-2xl font-bold text-white text-center">50% OFF Your Subscription!</h2>
     </div>
     <div class="container text-center">

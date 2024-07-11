@@ -8,6 +8,8 @@
     import Lazy from 'svelte-lazy';
     export let data;
 
+
+
     let isLoaded = false;
     const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
