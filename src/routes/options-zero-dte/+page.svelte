@@ -1,6 +1,6 @@
 <script lang='ts'>
     import { goto } from '$app/navigation';
-    import { userRegion, numberOfUnreadNotification, etfTicker, stockTicker, isOpen } from '$lib/store';
+    import { screenWidth, userRegion, numberOfUnreadNotification, etfTicker, stockTicker, isOpen } from '$lib/store';
     import notifySound from '$lib/audio/options-flow-reader.mp3';
     import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
     import { abbreviateNumber } from '$lib/utils';
@@ -37,6 +37,23 @@
     let highestPremiumTicker;
     let highestOpenInterestTicker;
 
+  let optionSymbol;
+  let optionDescription;
+  let optionPremium;
+  let optionExpiry;
+  let optionContract;
+  let optionType;
+  let optionStrike;
+  let optionVolume;
+  let optionSpot;
+
+  let optionOpenInterest;
+  let optionSentiment;
+  let optionPrice;
+  let optionTradeCount;
+  let optionExecutionEstimate;
+  let optionExchange;
+
 
     let audio;
     let muted = true;
@@ -53,7 +70,30 @@ function toggleMode()
 {   
     mode = !mode;
 }
-    
+
+
+function handleViewData(optionData) {
+  //optionStart = optionData['Start Date'] === null ? 'n/a' : new Date(optionData['Start Date'])?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' });
+  optionSymbol = optionData?.option_symbol;
+  optionDescription = optionData?.description;
+  optionPremium = abbreviateNumber(optionData?.cost_basis,true);
+  optionExpiry = reformatDate(optionData?.date_expiration);
+  optionContract = optionData?.put_call;
+  optionType = optionData?.type;
+  optionStrike = optionData?.strike_price;
+  optionVolume = new Intl.NumberFormat("en", {minimumFractionDigits: 0, maximumFractionDigits: 0}).format(optionData?.volume);
+  optionSpot = optionData?.underlying_price;
+  optionOpenInterest = new Intl.NumberFormat("en", {minimumFractionDigits: 0, maximumFractionDigits: 0}).format(optionData?.open_interest);
+  optionSentiment = optionData?.sentiment;
+  optionPrice = optionData?.price;
+  optionTradeCount = optionData?.tradeCount;
+  optionExecutionEstimate = optionData?.executionEstimate;
+  optionExchange = optionData?.exchange;
+
+  const openPopup = $screenWidth < 640 ? document.getElementById("optionDetailsMobileModal") : document.getElementById("optionDetailsDesktopModal");
+  openPopup?.dispatchEvent(new MouseEvent('click'))
+
+}
     
 async function websocketRealtimeData() {
 
@@ -154,7 +194,11 @@ async function handleScroll() {
     }
 }
 
-      
+
+function reformatDate(dateString) {
+      return dateString.substring(5, 7) + '/' + dateString.substring(8) + '/' + dateString.substring(2, 4);
+  }
+  
 async function assetSelector(symbol, assetType)
 {    
     if(assetType === 'etf')
@@ -699,15 +743,15 @@ const debouncedHandleInput = debounce(handleInput, 200);
                 <tbody>
                 {#each optionList as item,index}
                 <!-- row -->
-                <tr on:click={() => assetSelector(item?.ticker, item?.assetType)} class="w-full odd:bg-[#202020] cursor-pointer {index+1 === optionList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
+                <tr on:click={() => handleViewData(item)} class="w-full odd:bg-[#202020] cursor-pointer {index+1 === optionList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                     
-                    <td class="text-white pb-3 text-xs sm:text-sm text-start">
-                    {item?.time}
-                    </td>
+                <td class="text-white pb-3 text-xs sm:text-sm text-start">
+                  {item?.time}
+                </td>
 
-                    <th class="{index % 2 ? 'bg-[#0F0F0F]' : 'bg-[#202020]'} text-blue-400 text-start font-normal">
-                    {item?.ticker}
-                    </th>
+                <th on:click|stopPropagation={() => assetSelector(item?.ticker, item?.assetType)} class="{index % 2 ? 'bg-[#0F0F0F]' : 'bg-[#202020]'} text-blue-400 text-start font-normal">
+                  {item?.ticker}
+                </th>
 
                 <td class="text-white text-start">
                     {item?.strike_price}
@@ -780,13 +824,183 @@ const debouncedHandleInput = debounce(handleInput, 200);
     {/if}
 
     {:else}
-    <div class="flex justify-center items-center m-auto w-full max-w-6xl">
-        <div class="loader">Loading...</div>
-    </div>
+    <div class="flex justify-center items-center h-80">
+      <div class="relative">
+      <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <span class="loading loading-spinner loading-md"></span>
+      </label>
+      </div>
+  </div>
 
     {/if}
 </div>        
 
 </section>
 
+
+
+
+
+
+
+
+<!--Start Options Detail Desktop Modal-->
+
+
+<!-- Put this part before </body> tag -->
+<input type="checkbox" id="optionDetailsDesktopModal" class="modal-toggle" />
+
+<label for="optionDetailsDesktopModal" class="hidden sm:modal modal-bottom sm:modal-middle cursor-pointer">
+
+  <label for="optionDetailsDesktopModal"  class="cursor-pointer modal-backdrop"></label>
+
+
+
+  <!-- svelte-ignore a11y-label-has-associated-control -->
+  <label class="modal-box w-full relative bg-[#202020] h-auto max-h-[900px] overflow-y-scroll">
+    <label for="optionDetailsDesktopModal" class="cursor-pointer absolute right-5 top-2 bg-[#202020] text-2xl text-white">
+      ✕
+    </label>
+
+    <p class="text-gray-200 mt-10">
+      <span class="text-white text-xl font-semibold">Order Details:</span>
+      <br>
+      {optionSymbol}
+
+    </p>
+    <p class="py-4 text-gray-200 bg-[#202020] w-full">
+      <span class="font-semibold text-white">Description:</span>
+      <br>
+      {optionDescription}
+    </p>
+
+    <table class="table table-sm table-compact bg-[#202020] w-full mt-5 mb-10 text-white">
+      <tbody>
+        <!-- row 1 -->
+        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+          <td class="font-semibold">Premium</td>
+          <td class="">{optionPremium}</td>
+          <td class="font-semibold">C/P</td>
+          <td class="">{optionContract}</td>
+        </tr>
+        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+          <td class="font-semibold">Expiry</td>
+          <td class="">{optionExpiry}</td>
+          <td class="font-semibold">Type</td>
+          <td class="">{optionType}</td>
+        </tr>
+        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+          <td class="font-semibold">Strike</td>
+          <td class="">${optionStrike}</td>
+          <td class="font-semibold">Volume</td>
+          <td class="">{optionVolume}</td>
+        </tr>
+        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+          <td class="font-semibold">Spot</td>
+          <td class="">${optionSpot}</td>
+          <td class="font-semibold">Open Interest</td>
+          <td class="">{optionOpenInterest}</td>
+        </tr>
+        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+          <td class="font-semibold">Price</td>
+          <td class="">${optionPrice}</td>
+          <td class="font-semibold">Sentiment</td>
+          <td class="">{optionSentiment}</td>
+        </tr>
+        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+          <td class="font-semibold">Execution Estimate</td>
+          <td class="">{optionExecutionEstimate}</td>
+          <td class="font-semibold"></td>
+          <td class=""></td>
+        </tr>
+      </tbody>
+    </table>
+
+
+  </label>
+</label>
+
+
+<!--End Options Detial Desktop Modal-->
+
+  <!--Start Options Detail Modal-->
+<div class="sm:hidden drawer drawer-end z-40 overflow-hidden w-screen">
+  <input id="optionDetailsMobileModal" type="checkbox" class="drawer-toggle"/>
+  <div class="drawer-side overflow-hidden">
+  
+      
+    <div class="bg-[#000] min-h-screen w-screen pb-20 overflow-hidden">
+
+        <label for="optionDetailsMobileModal" class="absolute left-6 top-6">
+          <svg class="w-6 h-6 inline-block mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#fff" d="M9.125 21.1L.7 12.7q-.15-.15-.213-.325T.425 12q0-.2.063-.375T.7 11.3l8.425-8.425q.35-.35.875-.35t.9.375q.375.375.375.875t-.375.875L3.55 12l7.35 7.35q.35.35.35.863t-.375.887q-.375.375-.875.375t-.875-.375Z"/></svg>
+        </label>
+
+  
+  <div class="w-full overflow-hidden overflow-y-scroll p-2">
+
+    <p class="text-xl font-semibold text-white mt-16 p-3">
+      <span class="text-xl font-semibold">Order Details:</span>
+      <br>
+      {optionSymbol}
+    </p>
+    <p class="py-4 text-gray-200 w-full p-3">
+      <span class="font-semibold text-white">Description:</span>
+      {optionDescription}
+    </p>
+
+    <table class="table table-sm table-compact w-full mt-5 mb-10 text-white">
+      <tbody>
+        <!-- row 1 -->
+        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+          <td class="font-semibold">Premium</td>
+          <td class="">{optionPremium}</td>
+          <td class="font-semibold">C/P</td>
+          <td class="">{optionContract}</td>
+        </tr>
+        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+          <td class="font-semibold">Expiry</td>
+          <td class="">{optionExpiry}</td>
+          <td class="font-semibold">Type</td>
+          <td class="">{optionType}</td>
+        </tr>
+        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+          <td class="font-semibold">Strike</td>
+          <td class="">${optionStrike}</td>
+          <td class="font-semibold">Volume</td>
+          <td class="">{optionVolume}</td>
+        </tr>
+        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+          <td class="font-semibold">Spot</td>
+          <td class="">${optionSpot}</td>
+          <td class="font-semibold">Open Interest</td>
+          <td class="">{optionOpenInterest}</td>
+        </tr>
+        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+          <td class="font-semibold">Price</td>
+          <td class="">${optionPrice}</td>
+          <td class="font-semibold">Sentiment</td>
+          <td class="">{optionSentiment}</td>
+        </tr>
+        <tr class="odd:bg-[#202020]">
+          <td class="font-semibold">Trade Count</td>
+          <td class="">{optionTradeCount}</td>
+          <td class="font-semibold">Exchange</td>
+          <td class="">{optionExchange}</td>
+        </tr>
+        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+          <td class="font-semibold">Execution Est.</td>
+          <td class="">{optionExecutionEstimate}</td>
+          <td class="font-semibold"></td>
+          <td class=""></td>
+        </tr>
+      </tbody>
+    </table>
+
+        
+  </div>
+
+</div>
+</div>
+</div>
+<!--End Options Detail Modal-->
 

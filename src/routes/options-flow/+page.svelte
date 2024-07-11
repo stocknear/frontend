@@ -933,9 +933,13 @@ $: {
 
   
           {:else}
-          <div class="flex justify-center items-center m-auto w-full max-w-6xl">
-              <div class="loader">Loading...</div>
-          </div>
+          <div class="flex justify-center items-center h-80">
+            <div class="relative">
+            <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <span class="loading loading-spinner loading-md"></span>
+            </label>
+            </div>
+        </div>
   
           {/if}
       </div>        
@@ -1093,10 +1097,10 @@ $: {
           <td class="">{optionSentiment}</td>
         </tr>
         <tr class="border-b border-slate-700 odd:bg-[#202020]">
-          <td class="font-semibold">Trade Count</td>
-          <td class="">{optionTradeCount}</td>
-          <td class="font-semibold">Exchange</td>
-          <td class="">{optionExchange}</td>
+          <td class="font-semibold">Execution Estimate</td>
+          <td class="">{optionExecutionEstimate}</td>
+          <td class="font-semibold"></td>
+          <td class=""></td>
         </tr>
       </tbody>
     </table>
@@ -1171,6 +1175,12 @@ $: {
           <td class="">{optionTradeCount}</td>
           <td class="font-semibold">Exchange</td>
           <td class="">{optionExchange}</td>
+        </tr>
+        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+          <td class="font-semibold">Execution Est.</td>
+          <td class="">{optionExecutionEstimate}</td>
+          <td class="font-semibold"></td>
+          <td class=""></td>
         </tr>
       </tbody>
     </table>

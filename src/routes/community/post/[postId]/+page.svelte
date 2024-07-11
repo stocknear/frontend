@@ -856,9 +856,13 @@ function updateVote(postVote) {
   
       
                                       {#if !loadTextEditor}
-                                      <div class="flex  items-center m-auto relative -top-7 h-[50px] w-[100px]">
-                                          <div class="loader">Loading...</div>
+                                      <div class="flex justify-center items-center h-80">
+                                        <div class="relative">
+                                        <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                            <span class="loading loading-spinner loading-md"></span>
+                                        </label>
                                         </div>
+                                    </div>
                                       {:else}
                                           <!-- Start-Comment form -->
                                           <div class="w-full max-w-6xl mt-5">

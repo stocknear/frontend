@@ -508,9 +508,13 @@ onMount(async () => {
     
       {/if}
     {:else}
-      <div class="flex justify-center items-center m-auto h-full w-full max-w-6xl">
-        <div class="loader">Loading...</div>
+    <div class="flex justify-center items-center h-80">
+      <div class="relative">
+      <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <span class="loading loading-spinner loading-md"></span>
+      </label>
       </div>
+  </div>
     {/if}
 
     <div class="{!data?.user ? 'hidden' : ''} sm:hidden fixed z-50 w-full h-16 max-w-3xl -right-5 bottom-5">

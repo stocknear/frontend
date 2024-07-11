@@ -11,7 +11,7 @@
   import Footer from '$lib/components/Footer.svelte';
   import Searchbar from '$lib/components/Searchbar.svelte';
   import NotificationBell from '$lib/components/NotificationBell.svelte';
-  import PullToRefresh from '$lib/components/PullToRefresh.svelte';
+  //import PullToRefresh from '$lib/components/PullToRefresh.svelte';
 
   //import DiscountBanner from '$lib/components/DiscountBanner.svelte';
   
@@ -981,9 +981,11 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
   <Cookie />
   {/if}
 
+  <!--
   {#if $screenWidth < 640}
     <PullToRefresh />
   {/if}
+  -->
 
     <!--
     {#key data?.currentPath}
