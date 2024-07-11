@@ -376,6 +376,9 @@ $: {
                 </a>
             </div>
             <div class="hidden md:flex md:items-center md:justify-center md:gap-5">
+              <a aria-current="page"
+                    class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white transition-all duration-200 hover:bg-[#313131]"
+                    href="/">Home</a>
                 <a aria-current="page"
                     class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white transition-all duration-200 hover:bg-[#313131]"
                     href="/about">About Us</a>
