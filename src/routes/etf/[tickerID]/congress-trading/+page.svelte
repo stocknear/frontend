@@ -164,7 +164,6 @@ isLoaded = true;
   <!-- Other meta tags -->
   <meta property="og:title" content={`${$displayCompanyName} (${$etfTicker}) US Congress & Senate Trading · stocknear`}/>
   <meta property="og:description" content={`Get the latest US congress & senate trading of ${$displayCompanyName} (${$etfTicker}) from democrates and republicans.`} />
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -172,7 +171,6 @@ isLoaded = true;
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content={`${$displayCompanyName} (${$etfTicker}) US Congress & Senate Trading · stocknear`}/>
   <meta name="twitter:description" content={`Get the latest US congress & senate trading of ${$displayCompanyName} (${$etfTicker}) from democrates and republicans.`} />
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -297,7 +295,7 @@ isLoaded = true;
                           </thead>
                           <tbody>
                             {#each senateTradingList as item}
-                            <tr on:click={() => goto(`/politicians/${item?.id}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#0F0F0F] border-b-[#0F0F0F] cursor-pointer">
+                            <tr on:click={() => goto(`/politicians/${item?.id}`)} class="odd:bg-[#202020] sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#0F0F0F] border-b-[#0F0F0F] cursor-pointer">
     
                               <td class="text-gray-200 pb-3 border-b border-b-[#0F0F0F]">
                                 <div class="flex flex-row items-center">

@@ -510,7 +510,7 @@ $: {
                           {#if $currentPortfolioPrice !== null && $currentPortfolioPrice !== 0}
                             {$stockTicker?.includes('.DE') || $stockTicker?.includes('.F') ? `${$currentPortfolioPrice}€` : ` $${$currentPortfolioPrice}`}
                           {:else}
-                          ---
+                           {data?.getStockQuote?.price}
                           {/if}
                         </span>
                     </div>

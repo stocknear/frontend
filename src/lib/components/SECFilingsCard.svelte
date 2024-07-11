@@ -1,6 +1,7 @@
 <script lang="ts">
 import {userRegion, secFilingsClicked, stockTicker, clientSideCache, } from '$lib/store';
 import { afterUpdate } from 'svelte';
+import { Motion, AnimateSharedLayout } from "svelte-motion";
 
 import { fade } from 'svelte/transition';
   
@@ -25,18 +26,19 @@ let accordionOpen = {};
 let newData;
 let isLoaded = false;
 
-function changeSECType(changeType) {
-    switch (changeType) {
-        case '8K':
-            secType = changeType;
+function changeSECType(index) {
+    activeIdx = index;
+    switch (activeIdx) {
+        case 0:
+            secType = '8K';
             prepareData(secFilingsList?.eightK);
             break;
-        case '10K':
-            secType = changeType;
+        case 1:
+            secType = '10K';
             prepareData(secFilingsList?.tenK);
             break;
-        case '10Q':
-            secType = changeType;
+        case 2:
+            secType = '10Q';
             prepareData(secFilingsList?.tenQ);
             break;
         // Default case in case changeType doesn't match any of the specified cases
@@ -114,19 +116,45 @@ async function fetchData() {
 };
 
 
+const tabs = [
+    {
+      title: "8-K",
+    },
+    {
+      title: "10-K",
+    },
+    {
+      title: "10-Q"
+    }
+  ];
+let activeIdx = 0;
 
 
-afterUpdate(async() => {
+$: {
+
   if($stockTicker && typeof window !== 'undefined' && $secFilingsClicked === true) {
+    isLoaded = false;
     $secFilingsClicked = false;
-    await fetchData()
+    activeIdx = 0;
     secType = '8K';
     accordionOpen = {}
-    prepareData(secFilingsList?.eightK);
-      isLoaded = true;
+
+    const asyncFunctions = [
+      fetchData()
+      ];
+      Promise.all(asyncFunctions)
+          .then((results) => {
+            prepareData(secFilingsList?.eightK);
+          })
+          .catch((error) => {
+            console.error('An error occurred:', error);
+          });
+
+    isLoaded = true;
     
     }
-})
+
+}
 
 </script>
 
@@ -144,23 +172,51 @@ afterUpdate(async() => {
 
       <div class="w-11/12 mt-5">
         <div class="relative right-0 bg-[#27272A] rounded-lg">
-          <ul class="relative flex flex-wrap p-1 list-none rounded-lg">
-            <li class="z-30 flex-auto text-center {secType === '8K' ? 'bg-[#00C806] rounded-lg' : ''}">
-              <label on:click={() => changeSECType('8K')} class="border z-30 flex items-center justify-center w-full px-0 py-1 mb-0 border-0 rounded-lg bg-inherit">
-                <span class="ml-1 {secType === '8K' ? 'text-black' : 'text-white'} font-medium">8-K</span>
-              </label>
-            </li>
-            <li class="z-30 flex-auto text-center {secType === '10K' ? 'bg-[#0FC008] rounded-lg' : ''}">
-              <label on:click={() => changeSECType('10K')} class="z-30 flex items-center justify-center w-full px-0 py-1 mb-0 border-0 rounded-lg bg-inherit">
-                <span class="ml-1 {secType === '10K' ? 'text-black' : 'text-white'} font-medium">10-K</span>
-              </label>
-            </li>
-            <li class="z-30 flex-auto text-center {secType === '10Q' ? 'bg-[#0FC008] rounded-lg' : ''}">
-              <label on:click={() => changeSECType('10Q')} class="z-30 flex items-center justify-center w-full px-0 py-1 mb-0 border-0 rounded-lg bg-inherit">
-                <span class="ml-1 {secType === '10Q' ? 'text-black' : 'text-white'} font-medium">10-Q</span>
-              </label>
-            </li>
-          </ul>
+
+          <div class="relative flex flex-row items-center p-1 list-none rounded-lg">
+            <AnimateSharedLayout>
+              {#each tabs as item, i}
+                <button
+                  on:click={() => changeSECType(i)}
+                  class="group relative z-[1] rounded-lg px-6 py-1 border z-30 flex items-center justify-center w-full px-0 py-1 mb-0 border-0 bg-inherit {activeIdx === i
+                    ? 'z-0'
+                    : ''} "
+                  >
+                  {#if activeIdx === i}
+                    <Motion
+                      layoutId="clicked-btn"
+                      transition={{ duration: 0.2 }}
+                      let:motion
+                    >
+                      <div
+                        use:motion
+                        class="absolute inset-0 rounded-lg sm:rounded-lg {[0,1,2]?.includes(activeIdx) ? 'bg-[#00C806]' : 'bg-[#E02424]'}"
+                      ></div>
+                    </Motion>
+                  {/if}
+                  
+                  {#if item?.title === '8-K'}
+                  <span
+                    class="relative block font-medium duration-200 {secType === '8K' ? 'text-black' : 'text-white'}">
+                    {item.title}
+                  </span>
+                  {:else if item?.title === '10-K'}
+                  <span
+                    class="relative block font-medium duration-200 {secType === '10K' ? 'text-black' : 'text-white'}">
+                    {item.title}
+                  </span>
+                  {:else}
+                  <span
+                    class="relative block font-medium duration-200 {secType === '10Q' ? 'text-black' : 'text-white'}">
+                    {item.title}
+                  </span>
+                  {/if}
+
+                </button>
+              {/each}
+            </AnimateSharedLayout>
+          </div>
+
         </div>
       </div>
     </div>
