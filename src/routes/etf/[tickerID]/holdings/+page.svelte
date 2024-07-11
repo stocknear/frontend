@@ -127,8 +127,8 @@ $: {
                             <tr class="">
                               <td class="text-white border-b border-[#0F0F0F] bg-[#0F0F0F] font-semibold text-sm">No.</td>
                               <td class="text-white border-b border-[#0F0F0F] bg-[#0F0F0F] font-semibold text-sm">Symbol</td>
-                              <td class="text-white border-b border-[#0F0F0F] bg-[#0F0F0F] font-semibold text-sm">Name</td>
-                              <td class="text-white border-b border-[#0F0F0F] bg-[#0F0F0F] font-semibold text-end hidden sm:table-cell text-sm ">Shares</td>
+                              <td class="text-white border-b border-[#0F0F0F] bg-[#0F0F0F] font-semibold text-sm hidden sm:table-cell">Name</td>
+                              <td class="text-white border-b border-[#0F0F0F] bg-[#0F0F0F] font-semibold text-end text-sm ">Shares</td>
                               <td class="text-white border-b border-[#0F0F0F] bg-[#0F0F0F] font-semibold text-end text-sm">% Weight</td>
                             </tr>
                           </thead>
@@ -142,17 +142,22 @@ $: {
                             {index+1}
                           </td>
 
-                          <td class="text-blue-400 font-normal  border-b border-[#0F0F0F]">
-                            {item?.asset}
+                          <td class="font-normal  border-b border-[#0F0F0F]">
+                            <div class="flex flex-col items-start">
+                              <span class="text-blue-400">{item?.asset}</span>
+                              <span class="sm:hidden text-white">
+                                {item?.name?.length > charNumber ? formatString(item?.name?.slice(0,charNumber)) + "..." : formatString(item?.name)}
+                              </span>
+                            </div>
                           </td>
                           
-                          <td class="text-gray-200 border-b border-[#0F0F0F] w-fit ">
+                          <td class="text-gray-200 border-b border-[#0F0F0F] w-fit hidden sm:table-cell">
                             {item?.name?.length > charNumber ? formatString(item?.name?.slice(0,charNumber)) + "..." : formatString(item?.name)}
                           </td>
             
           
               
-                        <td class="text-gray-200 border-b border-[#0F0F0F] text-end hidden sm:table-cell">
+                        <td class="text-gray-200 border-b border-[#0F0F0F] text-end ">
                           <span class="text-white font-medium text-md ">
                                   {new Intl.NumberFormat("en", {
                                       minimumFractionDigits: 0,
