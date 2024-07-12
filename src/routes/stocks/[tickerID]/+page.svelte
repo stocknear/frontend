@@ -135,8 +135,9 @@ $: {
     if ($stockTicker  && typeof window !== 'undefined') // add a check to see if running on client-side
     {
       
-      if ($realtimePrice !== null)
+      if ($realtimePrice !== null && $realtimePrice !== 0)
       {
+        $realtimePrice = $realtimePrice !== 0 ? $realtimePrice : data?.getStockQuote?.price;
         $currentPortfolioPrice = $realtimePrice;
   
       }
@@ -770,7 +771,7 @@ function changeChartType() {
                                           {#if $isCrosshairMoveActive }
                                           {$stockTicker?.includes('.DE') || $stockTicker?.includes('.PA') || $stockTicker?.includes('.F') ? `${displayLegend?.close}€` : ` $${displayLegend?.close}`}
                                           {:else if !$isCrosshairMoveActive && $realtimePrice !== null}
-                                          {$stockTicker?.includes('.DE') || $stockTicker?.includes('.PA') || $stockTicker?.includes('.F') ? `${$realtimePrice}€` : ` $${$realtimePrice}`}
+                                          {$stockTicker?.includes('.DE') || $stockTicker?.includes('.PA') || $stockTicker?.includes('.F') ? `${$currentPortfolioPrice}€` : ` $${$currentPortfolioPrice}`}
                                           {:else}
                                           {$stockTicker?.includes('.DE') || $stockTicker?.includes('.PA') || $stockTicker?.includes('.F') ? `${displayLegend?.close}€` : ` $${displayLegend?.close}`}
                                           

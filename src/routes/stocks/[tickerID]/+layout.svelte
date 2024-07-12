@@ -267,7 +267,6 @@ async function websocketRealtimeData() {
         $realtimePrice = typeof JSON.parse(data)?.bp !== 'undefined' ? JSON.parse(data)?.bp : null;
         //console.log('Received message:', $realtimePrice);
 
-
         if ($realtimePrice > previousRealtimePrice) {
           $priceIncrease = true;
           previousRealtimePrice = $realtimePrice;
