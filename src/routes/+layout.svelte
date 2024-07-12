@@ -395,9 +395,9 @@ $: {
     </div>
 </header>
   {:else }
-  <div id="navbar" class="navbar {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} border-b border-[#0F0F0F] w-screen sticky top-0 z-40 bg-[#202020]">
+  <div id="navbar" class="navbar {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} border-b border-[#0F0F0F] w-screen shadow-lg sticky top-0 z-40 bg-[#2B2B2B]">
 
-  <div class="w-full max-w-[1600px] m-auto ">
+  <div class="w-full m-auto ">
     <div class="flex flex-row items-center w-full xl:px-2">
       
         <div class="flex flex-row items-center cursor-pointer">
@@ -543,15 +543,15 @@ $: {
   <!--End Navbar-->
 
 
-<div class="xl:w-full xl:max-w-[1600px] xl:m-auto {!data?.user ? 'hidden' : ''} {hideSidebar ? 'xl:hidden' : ''}">
+<div class="w-full {!data?.user ? 'hidden' : ''} {hideSidebar ? 'xl:hidden' : ''}">
 <aside class:hidden={!showSidebar}
 use:clickOutside on:click_outside={handleClickOutside}
-class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w-56'} z-30 min-h-screen pt-12 sm:pt-16 border transition-transform -translate-x-full bg-[#202020] xl:bg-[#0F0F0F] translate-x-0 border-r border-slate-800 xl:border-none">
-  <div class="pb-4 overflow-y-auto scroller bg-[#202020] xl:bg-[#0F0F0F] h-screen">
-    <ul class="mt-1 bg-[#202020] xl:bg-[#0F0F0F] menu pt-5 pb-20">
+class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w-56'} z-30 min-h-screen pt-12 sm:pt-16 border transition-transform -translate-x-full bg-[#2B2B2B] translate-x-0 border-r border-slate-800 xl:border-none">
+  <div class="pb-4 overflow-y-auto scroller bg-[#2B2B2B]  h-screen">
+    <ul class="mt-1 bg-[#2B2B2B]  menu pt-5 pb-20">
 
-      <li on:click={() => showSidebar = !showSidebar} class="px-1 rounded-sm mb-2 last:mb-0">
-        <a href="/" for="sidebar" class="block text-slate-200 hover:text-white truncate transition duration-150 {$page.url.pathname=== '/' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+      <li on:click={() => showSidebar = !showSidebar} class="px-1 rounded-sm mb-2 last:mb-0 ">
+        <a href="/" for="sidebar" class="block text-slate-200 hover:text-white sm:hover:bg-purple-700 truncate transition duration-150 {$page.url.pathname=== '/' ? 'text-white bg-[#2B2B2B] rounded-md ' : ''}">
           <div class="flex items-center justify-between">
             <div class="flex items-center">
               <svg class="w-7 h-7" viewBox="0 0 24 24" fill="#CCCCCC" xmlns="http://www.w3.org/2000/svg"><path d="M20.8593 8.36985L13.9293 2.82985C12.8593 1.96985 11.1293 1.96985 10.0693 2.81985L3.13929 8.36985C2.35929 8.98985 1.85929 10.2998 2.02929 11.2798L3.35929 19.2398C3.59929 20.6598 4.95929 21.8098 6.39929 21.8098H17.5993C19.0293 21.8098 20.3993 20.6498 20.6393 19.2398L21.9693 11.2798C22.1293 10.2998 21.6293 8.98985 20.8593 8.36985ZM11.9993 15.4998C10.6193 15.4998 9.49929 14.3798 9.49929 12.9998C9.49929 11.6198 10.6193 10.4998 11.9993 10.4998C13.3793 10.4998 14.4993 11.6198 14.4993 12.9998C14.4993 14.3798 13.3793 15.4998 11.9993 15.4998Z" fill="#CCCCCC"></path></svg>
@@ -564,7 +564,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
     </li>
 
       <!-- Stock Guide-->
-      <li  class="px-1 rounded-sm mb-2 last:mb-0">
+      <li  class="px-1 rounded-sm mb-2 last:mb-0 ">
           <summary on:click={handleStockGuide}>
             <div class="flex flex-row items-center">
               <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#CCCCCC" d="M16 19v-4.808h3V19zm-5.5 0V5h3v14zM5 19V9.808h3V19z"/></svg>
@@ -578,14 +578,14 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
           {#if stockGuide}
           <ul class="mt-2">
 
-            <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0  hover:bg-[#272727] rounded-md {$page.url.pathname=== '/analysts' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+            <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0  sm:hover:bg-purple-700 rounded-md {$page.url.pathname=== '/analysts' ? 'text-white bg-purple-700 rounded-md ' : ''}">
               <a href={"/analysts"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                 <span class="text-sm font-medium text-white ">
                     Top Analysts
                 </span>
               </a>
             </li>
-            <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0  hover:bg-[#272727] rounded-md {$page.url.pathname=== '/analysts/top-stocks' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+            <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0  sm:hover:bg-purple-700 rounded-md {$page.url.pathname=== '/analysts/top-stocks' ? 'text-white bg-purple-700 rounded-md ' : ''}">
               <a href={"/analysts/top-stocks"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                 <span class="text-sm font-medium text-white ">
                     Top Analyst Stocks
@@ -593,7 +593,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
               </a>
             </li>
 
-            <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0  hover:bg-[#272727] rounded-md {$page.url.pathname=== '/most-shorted-stocks' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+            <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0  sm:hover:bg-purple-700 rounded-md {$page.url.pathname=== '/most-shorted-stocks' ? 'text-white bg-purple-700 rounded-md ' : ''}">
               <a href={"/most-shorted-stocks"} class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                 <span class="text-sm font-medium text-white ">
                     Shorted Stocks
@@ -601,7 +601,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
               </a>
             </li>
 
-            <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0  hover:bg-[#272727] rounded-md {$page.url.pathname=== '/most-retail-volume' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+            <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0  sm:hover:bg-purple-700 rounded-md {$page.url.pathname=== '/most-retail-volume' ? 'text-white bg-purple-700 rounded-md ' : ''}">
               <a href={"/most-retail-volume"} class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                 <span class="text-sm font-medium text-white ">
                     Retail Trader Tracker
@@ -609,7 +609,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
               </a>
             </li>
             
-            <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  {$page.url.pathname=== '/stock-screener' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+            <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 sm:hover:bg-purple-700 rounded-md  {$page.url.pathname=== '/stock-screener' ? 'text-white bg-purple-700 rounded-md ' : ''}">
                 <a href={"/stock-screener"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                     <span class="text-sm font-medium text-white">
                         Stock Screener
@@ -617,7 +617,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
                 </a>
             </li>
 
-            <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0  hover:bg-[#272727] rounded-md {$page.url.pathname=== '/market-mover' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+            <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0  sm:hover:bg-purple-700 rounded-md {$page.url.pathname=== '/market-mover' ? 'text-white bg-purple-700 rounded-md ' : ''}">
               <a href={"/market-mover"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                 <span class="text-sm font-medium text-white ">
                     Market Mover
@@ -625,7 +625,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
               </a>
             </li>
 
-            <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0  hover:bg-[#272727] rounded-md {$page.url.pathname=== '/heatmaps' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+            <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0  sm:hover:bg-purple-700 rounded-md {$page.url.pathname=== '/heatmaps' ? 'text-white bg-purple-700 rounded-md ' : ''}">
               <label for="sidebar" on:click={() => goto("/heatmaps")} class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                     <span class="text-sm font-medium text-white ">
                         Heatmaps
@@ -633,7 +633,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
                   </label>
           </li>
 
-              <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0  hover:bg-[#272727] rounded-md {$page.url.pathname=== '/list' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+              <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0  sm:hover:bg-purple-700 rounded-md {$page.url.pathname=== '/list' ? 'text-white bg-purple-700 rounded-md ' : ''}">
                   <a href={"/list"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                     <span class="text-sm font-medium text-white ">
                         Stock Lists
@@ -647,7 +647,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
 
 
       <!-- ETF Guide-->
-      <li  class="px-1 rounded-sm mb-2 last:mb-0">
+      <li  class="px-1 rounded-sm mb-2 last:mb-0 ">
         <summary on:click={handleETFGuide}>
           <div class="flex items-center">
             <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#CCCCCC" d="M20.894 13.553a1 1 0 0 1-.447 1.341l-8 4a1 1 0 0 1-.894 0l-8-4a1 1 0 0 1 .894-1.788L12 16.88l7.554-3.775a1 1 0 0 1 1.341.447M12.008 5q.056 0 .111.007l.111.02l.086.024l.012.006l.012.002l.029.014l.05.019l.016.009l.012.005l8 4a1 1 0 0 1 0 1.788l-8 4a1 1 0 0 1-.894 0l-8-4a1 1 0 0 1 0-1.788l8-4l.011-.005l.018-.01l.078-.032l.011-.002l.013-.006l.086-.024l.11-.02l.056-.005z"/></svg>
@@ -661,7 +661,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
         {#if etfGuide}
         <ul class="mt-2">
 
-          <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  {$page.url.pathname=== '/stock-screener' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+          <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 sm:hover:bg-purple-700 rounded-md  {$page.url.pathname=== '/stock-screener' ? 'text-white bg-purple-700 rounded-md ' : ''}">
               <a href={"/etf/new-launches"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                   <span class="text-sm font-medium text-white">
                       New Launches
@@ -669,7 +669,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
               </a>
           </li>
 
-          <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  {$page.url.pathname=== '/dividends-calendar' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+          <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 sm:hover:bg-purple-700 rounded-md  {$page.url.pathname=== '/dividends-calendar' ? 'text-white bg-purple-700 rounded-md ' : ''}">
               <a href={"/etf/etf-providers"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                   <span class="text-sm font-medium text-white ">
                       ETF Providers
@@ -682,7 +682,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
 
 
        <!-- Options Guide-->
-       <li  class="px-1 rounded-sm mb-2 last:mb-0">
+       <li  class="px-1 rounded-sm mb-2 last:mb-0 ">
         <summary on:click={handleCalendarGuide}>
           <div class="flex items-center">
             <svg class="w-7 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#CCCCCC" d="M128 0c17.7 0 32 14.3 32 32v32h128V32c0-17.7 14.3-32 32-32s32 14.3 32 32v32h48c26.5 0 48 21.5 48 48v48H0v-48c0-26.5 21.5-48 48-48h48V32c0-17.7 14.3-32 32-32M0 192h448v272c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48zm64 80v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16m128 0v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16m144-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM64 400v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16m144-16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm112 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16"/></svg>
@@ -696,35 +696,35 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
         {#if calendarGuide}
         <ul class="mt-2">
 
-          <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  {$page.url.pathname=== '/dividends-calendar' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+          <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 sm:hover:bg-purple-700 rounded-md  {$page.url.pathname=== '/dividends-calendar' ? 'text-white bg-purple-700 rounded-md ' : ''}">
             <a href={"/dividends-calendar"} class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                 <span class="text-sm font-medium text-white ">
                     Dividends Calendar
                 </span>
             </a>
         </li>
-        <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  {$page.url.pathname=== '/earnings-calendar' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+        <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 sm:hover:bg-purple-700 rounded-md  {$page.url.pathname=== '/earnings-calendar' ? 'text-white bg-purple-700 rounded-md ' : ''}">
             <a href={"/earnings-calendar"} class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                 <span class="text-sm font-medium text-white ">
                     Earnings Calendar
                 </span>
             </a>
         </li>
-        <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  { $page.url.pathname?.includes('/ipos')? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+        <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 sm:hover:bg-purple-700 rounded-md  { $page.url.pathname?.includes('/ipos')? 'text-white bg-purple-700 rounded-md ' : ''}">
           <a href={"/ipos/2024"} class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
               <span class="text-sm font-medium text-white ">
                   IPO Calendar
               </span>
           </a>
       </li>
-      <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  { $page.url.pathname?.includes('/fda-calendar')? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+      <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 sm:hover:bg-purple-700 rounded-md  { $page.url.pathname?.includes('/fda-calendar')? 'text-white bg-purple-700 rounded-md ' : ''}">
         <a href={"/fda-calendar"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
             <span class="text-sm font-medium text-white ">
                 FDA Calendar
             </span>
         </a>
     </li>
-        <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  {$page.url.pathname=== '/economic-calendar' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+        <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 sm:hover:bg-purple-700 rounded-md  {$page.url.pathname=== '/economic-calendar' ? 'text-white bg-purple-700 rounded-md ' : ''}">
           <a href={"/economic-calendar"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
               <span class="text-sm font-medium text-white ">
                   Economic Calendar
@@ -732,7 +732,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
           </a>
       </li>
 
-        <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  {$page.url.pathname=== '/stock-splits-calendar' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+        <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 sm:hover:bg-purple-700 rounded-md  {$page.url.pathname=== '/stock-splits-calendar' ? 'text-white bg-purple-700 rounded-md ' : ''}">
           <a href={"/stock-splits-calendar"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
               <span class="text-sm font-medium text-white ">
                   Stock Splits Calendar
@@ -743,7 +743,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
         {/if}
       </li>
 
-      <li  class="px-1 rounded-sm mb-2 last:mb-0">
+      <li  class="px-1 rounded-sm mb-2 last:mb-0 ">
         <summary on:click={handleOptionsGuide}>
           <div class="flex items-center">
             <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#CCCCCC"><g fill="none"><path d="M24 0v24H0V0zM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z"/><path fill="white" d="M18.147 6.733a10.578 10.578 0 0 0-5.244.528l-.346.132a13.606 13.606 0 0 1-7.16.84c-1.038-.16-2.12-.418-3.068-.891a1.5 1.5 0 0 1 1.202-2.745l.132.058c.682.32 1.45.499 2.19.613c1.344.206 3.183.22 5.244-.529l.346-.132a13.606 13.606 0 0 1 7.16-.84c1.038.16 2.119.419 3.066.89a1.514 1.514 0 0 1 .672 2.014c-.369.738-1.122.907-2.005.674l-2.19-.612Zm0 6a10.578 10.578 0 0 0-5.244.528l-.346.132a13.606 13.606 0 0 1-7.16.84c-1.038-.16-2.12-.418-3.068-.891a1.5 1.5 0 0 1 1.202-2.745l.132.058c.682.32 1.45.499 2.19.613c1.344.206 3.183.22 5.244-.529l.346-.132a13.606 13.606 0 0 1 7.16-.84c1.038.16 2.119.419 3.066.89a1.514 1.514 0 0 1 .672 2.014c-.369.739-1.122.907-2.005.674l-2.19-.612Zm-5.954 6.8l.364-.14a10.607 10.607 0 0 1 5.59-.66l2.19.612c.882.233 1.635.065 2.005-.674a1.514 1.514 0 0 0-.673-2.013c-.947-.472-2.028-.73-3.066-.89a13.583 13.583 0 0 0-6.797.7l-.363.14c-2.202.88-4.172.878-5.59.66c-.634-.098-1.29-.243-1.893-.484l-.297-.13a1.5 1.5 0 0 0-1.334 2.688c.947.473 2.03.731 3.068.89c1.752.27 4.143.28 6.796-.7Z"/></g></svg>
@@ -757,14 +757,14 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
         {#if optionsGuide}
         <ul class="mt-2">
 
-          <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  {$page.url.pathname=== '/options-flow' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+          <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 sm:hover:bg-purple-700 rounded-md  {$page.url.pathname=== '/options-flow' ? 'text-white bg-purple-700 rounded-md ' : ''}">
             <a href={"/options-flow"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                 <span class="text-sm font-medium text-white ">
                     Flow Data
                 </span>
             </a>
         </li>
-        <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  {$page.url.pathname=== '/options-zero-dte' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+        <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 sm:hover:bg-purple-700 rounded-md  {$page.url.pathname=== '/options-zero-dte' ? 'text-white bg-purple-700 rounded-md ' : ''}">
             <a href={"/options-zero-dte"} for="sidebar" class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                 <span class="text-sm font-medium text-white ">
                     0DTE Flow
@@ -775,7 +775,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
         {/if}
       </li>
   
-      <li  class="px-1 rounded-sm mb-2 last:mb-0">
+      <li  class="px-1 rounded-sm mb-2 last:mb-0 ">
         <summary on:click={handlePoliticianGuide}>
           <div class="flex items-center">
             <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><path fill="#CCCCCC" fill-rule="evenodd" d="M7 3.36A1.68 1.68 0 1 0 7 0a1.68 1.68 0 0 0 0 3.36M4.359 5.788a2.801 2.801 0 0 1 5.282 0H4.36ZM1.894 7.035a.75.75 0 0 0 .065 1.497h.891l.36 4.9a.5.5 0 0 0 .498.463h6.584a.5.5 0 0 0 .498-.464l.36-4.899h.891a.75.75 0 0 0 .065-1.497a.632.632 0 0 1-.065.003H1.96a.633.633 0 0 1-.065-.003ZM7 8.7a.5.5 0 0 1 .448.279l.262.53l.586.086a.5.5 0 0 1 .277.853l-.424.413l.1.583a.5.5 0 0 1-.725.527L7 11.695l-.524.275a.5.5 0 0 1-.725-.527l.1-.583l-.424-.413a.5.5 0 0 1 .277-.853l.586-.085l.262-.531A.5.5 0 0 1 7 8.699Z" clip-rule="evenodd"/></svg>
@@ -788,14 +788,14 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
         </summary>
         {#if politicianGuide}
         <ul class="mt-2">
-          <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  {$page.url.pathname=== '/options-zero-dte' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+          <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 sm:hover:bg-purple-700 rounded-md  {$page.url.pathname=== '/options-zero-dte' ? 'text-white bg-purple-700 rounded-md ' : ''}">
             <a href={"/politicians/flow-data"} class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                 <span class="text-sm font-medium text-white ">
                     Flow Data
                 </span>
             </a>
         </li>
-          <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 hover:bg-[#272727] rounded-md  {$page.url.pathname=== '/options-flow' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+          <li on:click={() => showSidebar = !showSidebar} class="mb-1 last:mb-0 sm:hover:bg-purple-700 rounded-md  {$page.url.pathname=== '/options-flow' ? 'text-white bg-purple-700 rounded-md ' : ''}">
             <a href={"/politicians"} class="block text-slate-400 hover:text-slate-200 transition duration-150 truncate">
                 <span class="text-sm font-medium text-white ">
                     Politicians
@@ -806,8 +806,8 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
         {/if}
       </li>
 
-      <li on:click={() => showSidebar = !showSidebar} class="px-1 rounded-sm mb-2 last:mb-0">
-        <a href="/dark-pool-flow" class="block text-slate-200 hover:text-white truncate transition duration-150 {$page?.url?.pathname?.startsWith('/dark-pool-flow') ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+      <li on:click={() => showSidebar = !showSidebar} class="px-1 rounded-sm mb-2 last:mb-0 ">
+        <a href="/dark-pool-flow" class="block text-slate-200 hover:text-white sm:hover:bg-purple-700 truncate transition duration-150 {$page?.url?.pathname?.startsWith('/dark-pool-flow') ? 'text-white bg-purple-700 rounded-md ' : ''}">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                   <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#CCCCCC" d="M224 16c-6.7 0-10.8-2.8-15.5-6.1C201.9 5.4 194 0 176 0c-30.5 0-52 43.7-66 89.4c-47.3 8.7-78 22.8-78 38.6c0 14.3 25 27.1 64.6 35.9c-.4 4-.6 8-.6 12.1c0 17 3.3 33.2 9.3 48H45.4C38 224 32 230 32 237.4c0 1.7.3 3.4 1 5l38.8 96.9C28.2 371.8 0 423.8 0 482.3C0 498.7 13.3 512 29.7 512h388.6c16.4 0 29.7-13.3 29.7-29.7c0-58.5-28.2-110.4-71.7-143l38.7-96.9c.6-1.6 1-3.3 1-5c0-7.4-6-13.4-13.4-13.4h-59.9c6-14.8 9.3-31 9.3-48c0-4.1-.2-8.1-.6-12.1C391 155.1 416 142.3 416 128c0-15.8-30.7-29.9-78-38.6C324 43.7 302.5 0 272 0c-18 0-25.9 5.4-32.5 9.9c-4.8 3.3-8.8 6.1-15.5 6.1m56 208h-12.4c-16.5 0-31.1-10.6-36.3-26.2c-2.3-7-12.2-7-14.5 0c-5.2 15.6-19.9 26.2-36.3 26.2H168c-22.1 0-40-17.9-40-40v-14.4c28.2 4.1 61 6.4 96 6.4s67.8-2.3 96-6.4V184c0 22.1-17.9 40-40 40m-88 96l16 32l-32 128l-48-192zm128-32l-48 192l-32-128l16-32z"/></svg>
@@ -819,8 +819,8 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
         </a>
     </li>
 
-      <li on:click={() => showSidebar = !showSidebar} class="px-1 rounded-sm mb-2 last:mb-0">
-          <a href={"/hedge-funds"} class="block text-slate-200 hover:text-white truncate transition duration-150 {$page?.url?.pathname?.startsWith('/hedge-funds') ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+      <li on:click={() => showSidebar = !showSidebar} class="px-1 rounded-sm mb-2 last:mb-0 ">
+          <a href={"/hedge-funds"} class="block text-slate-200 hover:text-white sm:hover:bg-purple-700 truncate transition duration-150 {$page?.url?.pathname?.startsWith('/hedge-funds') ? 'text-white bg-purple-700 rounded-md ' : ''}">
               <div class="flex items-center justify-between">
                   <div class="flex items-center">
                     <svg class="w-7 h-7" viewBox="0 0 24 24" fill="#CCCCCC" xmlns="http://www.w3.org/2000/svg"><path opacity="0.97" d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.18C2 19.83 4.17 22 7.81 22H16.18C19.82 22 21.99 19.83 21.99 16.19V7.81C22 4.17 19.83 2 16.19 2ZM8.31 16.31C7.59 16.31 7 15.72 7 15C7 14.28 7.59 13.69 8.31 13.69C9.03 13.69 9.62 14.28 9.62 15C9.62 15.72 9.03 16.31 8.31 16.31ZM12 10.31C11.28 10.31 10.69 9.72 10.69 9C10.69 8.28 11.28 7.69 12 7.69C12.72 7.69 13.31 8.28 13.31 9C13.31 9.72 12.72 10.31 12 10.31ZM15.69 16.31C14.97 16.31 14.38 15.72 14.38 15C14.38 14.28 14.97 13.69 15.69 13.69C16.41 13.69 17 14.28 17 15C17 15.72 16.41 16.31 15.69 16.31Z" fill="currentColor"></path></svg>
@@ -834,8 +834,8 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
 
 
 
-      <li on:click={() => showSidebar = !showSidebar} class="px-1 rounded-sm mb-2 last:mb-0">
-        <a href={'/market-news'} class="block text-slate-200 hover:text-white truncate transition duration-150 {['/market-news','/market-news/crypto','/market-news/general']?.includes($page.url.pathname) ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+      <li on:click={() => showSidebar = !showSidebar} class="px-1 rounded-sm mb-2 last:mb-0 ">
+        <a href={'/market-news'} class="block text-slate-200 hover:text-white sm:hover:bg-purple-700 truncate transition duration-150 {['/market-news','/market-news/crypto','/market-news/general']?.includes($page.url.pathname) ? 'text-white bg-purple-700 rounded-md ' : ''}">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                   <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#CCCCCC" fill-rule="evenodd" d="M18 4v3h3a1 1 0 0 1 1 1v10a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1m2 14a1 1 0 1 1-2 0V9h2zM6 8a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1m2 4a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1" clip-rule="evenodd"/></svg>
@@ -850,8 +850,8 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
 
   
       <!-- Community -->
-      <li on:click={() => showSidebar = !showSidebar} class="px-1 rounded-sm mb-2 last:mb-0" >
-          <a href={"/community"} for="sidebar" class="block text-slate-200 hover:text-white truncate transition duration-150 {$page.url.pathname=== '/community' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+      <li on:click={() => showSidebar = !showSidebar} class="px-1 rounded-sm mb-2 last:mb-0 " >
+          <a href={"/community"} for="sidebar" class="block text-slate-200 hover:text-white sm:hover:bg-purple-700 truncate transition duration-150 {$page.url.pathname=== '/community' ? 'text-white bg-purple-700 rounded-md ' : ''}">
               <div class="flex items-center justify-between">
                   <div class="flex items-center">
                     <svg class="w-7 h-7"  viewBox="0 0 24 24" fill="#CCCCCC" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM7 12.75H5C4.59 12.75 4.25 12.41 4.25 12C4.25 11.59 4.59 11.25 5 11.25H7C7.41 11.25 7.75 11.59 7.75 12C7.75 12.41 7.41 12.75 7 12.75ZM12 14.25C10.76 14.25 9.75 13.24 9.75 12C9.75 10.76 10.76 9.75 12 9.75C13.24 9.75 14.25 10.76 14.25 12C14.25 13.24 13.24 14.25 12 14.25ZM19 12.75H17C16.59 12.75 16.25 12.41 16.25 12C16.25 11.59 16.59 11.25 17 11.25H19C19.41 11.25 19.75 11.59 19.75 12C19.75 12.41 19.41 12.75 19 12.75Z" fill="#CCCCCC"></path></svg>
@@ -864,8 +864,8 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
       </li>
 
 
-      <li on:click={() => showSidebar = !showSidebar} class="px-1 rounded-sm mb-2 last:mb-0" >
-        <a href={"/leaderboard"} for="sidebar" class="block text-slate-200 hover:text-white truncate transition duration-150 {$page.url.pathname=== '/leaderboard' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+      <li on:click={() => showSidebar = !showSidebar} class="px-1 rounded-sm mb-2 last:mb-0 " >
+        <a href={"/leaderboard"} for="sidebar" class="block text-slate-200 hover:text-white sm:hover:bg-purple-700 truncate transition duration-150 {$page.url.pathname=== '/leaderboard' ? 'text-white bg-purple-700 rounded-md ' : ''}">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                   <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#CCCCCC" d="M216 96a88 88 0 1 0-144 67.83V240a8 8 0 0 0 11.58 7.16L128 225l44.43 22.21a8.1 8.1 0 0 0 3.57.79a8 8 0 0 0 8-8v-76.17A87.85 87.85 0 0 0 216 96M56 96a72 72 0 1 1 72 72a72.08 72.08 0 0 1-72-72m16 0a56 56 0 1 1 56 56a56.06 56.06 0 0 1-56-56"/></svg>
@@ -878,7 +878,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
       </li>
 
       <li on:click={() => showSidebar = !showSidebar} class="{data?.user?.tier === 'Pro' ? 'hidden' : ''} px-1 rounded-sm pb-40 sm:pb-6 last:mb-0" >
-        <a href={"/pricing"} for="sidebar" class="block text-slate-200 hover:text-white truncate transition duration-150 {$page.url.pathname=== '/pricing' ? 'text-white bg-[#272727] xl:bg-[#0F0F0F] rounded-md ' : ''}">
+        <a href={"/pricing"} for="sidebar" class="block text-slate-200 hover:text-white sm:hover:bg-purple-700 truncate transition duration-150 {$page.url.pathname=== '/pricing' ? 'text-white bg-purple-700 rounded-md ' : ''}">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                   <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#CCCCCC" d="M17.66 11.2c-.23-.3-.51-.56-.77-.82c-.67-.6-1.43-1.03-2.07-1.66C13.33 7.26 13 4.85 13.95 3c-.95.23-1.78.75-2.49 1.32c-2.59 2.08-3.61 5.75-2.39 8.9c.04.1.08.2.08.33c0 .22-.15.42-.35.5c-.23.1-.47.04-.66-.12a.6.6 0 0 1-.14-.17c-1.13-1.43-1.31-3.48-.55-5.12C5.78 10 4.87 12.3 5 14.47c.06.5.12 1 .29 1.5c.14.6.41 1.2.71 1.73c1.08 1.73 2.95 2.97 4.96 3.22c2.14.27 4.43-.12 6.07-1.6c1.83-1.66 2.47-4.32 1.53-6.6l-.13-.26c-.21-.46-.77-1.26-.77-1.26m-3.16 6.3c-.28.24-.74.5-1.1.6c-1.12.4-2.24-.16-2.9-.82c1.19-.28 1.9-1.16 2.11-2.05c.17-.8-.15-1.46-.28-2.23c-.12-.74-.1-1.37.17-2.06c.19.38.39.76.63 1.06c.77 1 1.98 1.44 2.24 2.8c.04.14.06.28.06.43c.03.82-.33 1.72-.93 2.27"/></svg>
@@ -894,7 +894,7 @@ class="fixed 2xl:block top-0 left-0 xl:left-auto w-56 sm:{collapse ? 'w-20' : 'w
 
     <!--
       <li on:click={handleCollapse} class="hidden 2xl:block px-1 pb-20 rounded-sm" >
-        <label for="sidebar" class="block text-slate-200 hover:text-white truncate transition duration-150">
+        <label for="sidebar" class="block text-slate-200 hover:text-white sm:hover:bg-purple-700 truncate transition duration-150">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                   <svg class="w-7 h-7 {collapse ? 'rotate-180' : ''}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="m4.836 12l6.207 6.207l1.414-1.414L7.664 12l4.793-4.793l-1.414-1.414zm5.65 0l6.207 6.207l1.414-1.414L13.314 12l4.793-4.793l-1.414-1.414z"/></svg>

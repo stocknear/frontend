@@ -19,7 +19,7 @@ const intersectOptions = { callback, threshold, rootMargin }
 function callback(entry: IntersectionObserverEntry) {
   if (entry.intersectionRatio > threshold) {
     entry.target.classList.remove('invisible')
-    entry.target.classList.add('animate-fade-in-once')
+    entry.target.classList.add('fade-down')
   }
 }
 
@@ -49,6 +49,7 @@ function callback(entry: IntersectionObserverEntry) {
   <meta name="twitter:title" content="Stock Analysis Information for Small Investors · stocknear"/>
   <meta name="twitter:description" content="Stocknear has everything you need to analyze stocks with help of AI, including detailed financial data, statistics, news and charts."/>
   <!-- Add more Twitter meta tags as needed -->
+
 </svelte:head>
 
 
@@ -95,8 +96,8 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
   
 
                                   <div class="flex flex-row justify-center items-center w-full sm:w-3/4 m-auto">
-                                    
-                                    <h1 class="text-center text-5xl sm:text-7xl bg-gradient-to-r from-[#E8BB28] to-purple-500 bg-clip-text text-transparent font-bold mb-6 w-80 sm:w-full">
+                                                                        
+                                    <h1 class="fade-down text-center text-5xl sm:text-7xl bg-gradient-to-r from-[#E8BB28] to-purple-500 bg-clip-text text-transparent font-bold mb-6 w-80 sm:w-full">
                                       A modern stock analysis platform
                                     </h1>
                                   </div>
@@ -172,11 +173,11 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
 
             
 
-                                <h1 use:intersect={intersectOptions} class="invisible text-white w-5/6 sm:w-full m-auto text-3xl sm:text-4xl font-bold mt-14 mb-5">
+                                <h1 class="text-white w-5/6 sm:w-full m-auto text-3xl sm:text-4xl font-bold mt-14 mb-5">
                                   Explore High Quality Datasets
                                 </h1>
                                
-                                <div use:intersect={intersectOptions} class="invisible relative mb-4">
+                                <div class="relative mb-4">
                                   <div class="absolute top-0 flex w-full justify-center">
                                     <div
                                       class="h-[1px] animate-border-width rounded-full bg-gradient-to-r from-[rgba(251,206,60,0)] via-white to-[rgba(188,126,254,0)] transition-all duration-1000"
@@ -388,11 +389,11 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
             
 
 
-                              <h2 class="text-white text-3xl sm:text-4xl font-bold mt-16 w-11/12 sm:w-1/2 text-center m-auto">
+                              <h2 use:intersect={intersectOptions} class="invisible text-white text-3xl sm:text-4xl font-bold mt-16 w-11/12 sm:w-1/2 text-center m-auto">
                                 Loved by our Users ❤
                               </h2>
 
-                              <section class="relative flex items-center justify-center">
+                              <section use:intersect={intersectOptions} class="invisible relative flex items-center justify-center">
                                 <div class="absolute top-0 max-w-6xl m-auto px-4 sm:px-6">
                                     <div class="pt-8 pb-12 md:pb-20">
                                 
@@ -544,6 +545,20 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
 }
 
 
+.fade-down {
+    -webkit-transform: translate3d(0, -25px, 0);
+    transform: translate3d(0, -25px, 0);
+    opacity: 0;
+    animation: fadeDown 0.6s ease-out forwards;
+}
+
+@keyframes fadeDown {
+    to {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+}
 
 
   </style>
