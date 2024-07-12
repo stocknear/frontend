@@ -160,7 +160,7 @@
 					/>
 	
 					<div class="w-full max-w-lg pt-5 m-auto pb-5">
-						<button type="submit" class="btn bg-[#27272A] border border-gray-600 sm:hover:bg-[#313131] text-white btn-md w-full rounded-lg m-auto text-white font-semibold text-[1rem]">
+						<button type="submit" class="btn bg-purple-600 border border-gray-600 sm:hover:bg-purple-700 transition duration-100 text-white btn-md w-full rounded-lg m-auto text-white font-semibold text-[1rem]">
 							Register
 						</button>
 					</div>

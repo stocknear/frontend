@@ -281,7 +281,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                           <div class="max-w-sm mx-auto grid gap-8 md:grid-cols-3 lg:gap-16 items-start md:max-w-none">
                   
                                               <!-- 1st item -->
-                                              <div class="relative flex flex-col items-center">
+                                              <div use:intersect={intersectOptions} class="relative flex flex-col items-center invisible">
                                                   
                                                 <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center bg-gradient-to-r from-purple-800 to-purple-500">
                                                   <svg class="w-7 h-7 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" d="M6.15.555a.389.389 0 0 0-.399 0a.26.26 0 0 0-.06.34c1.227 2.123 1.486 5.016-.19 6.611a5.505 5.505 0 0 1-1.495-1.994a3.88 3.88 0 0 0-1.995 3.49a4.688 4.688 0 0 0 4.987 4.488c3.211 0 4.877-1.994 4.986-4.488C12.114 6.01 9.99 2.33 6.15.555"/></svg>
@@ -293,7 +293,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                               </div>
                   
                                               <!-- 2nd item -->
-                                              <div class="relative flex flex-col items-center">
+                                              <div use:intersect={intersectOptions} class="relative flex flex-col items-center invisible">
                                                 <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center bg-gradient-to-r from-purple-800 to-purple-500">
                                                   <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#fff" d="m24 20l-1.41 1.41L26.17 25H10a4 4 0 0 1 0-8h12a6 6 0 0 0 0-12H5.83l3.58-3.59L8 0L2 6l6 6l1.41-1.41L5.83 7H22a4 4 0 0 1 0 8H10a6 6 0 0 0 0 12h16.17l-3.58 3.59L24 32l6-6Z"/></svg>
                                                 </div>
@@ -304,7 +304,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                               </div>
                   
                                               <!-- 3rd item -->
-                                              <div class="relative flex flex-col items-center" data-aos-delay="400">
+                                              <div use:intersect={intersectOptions} class="relative flex flex-col items-center invisible">
                                                 <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center bg-gradient-to-r from-purple-800 to-purple-500">
                                                   <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" color="#F9784E"><path d="M18 15V9c0-2.828 0-4.243-.879-5.121C16.243 3 14.828 3 12 3H8c-2.828 0-4.243 0-5.121.879C2 4.757 2 6.172 2 9v6c0 2.828 0 4.243.879 5.121C3.757 21 5.172 21 8 21h12M6 8h8m-8 4h8m-8 4h4"/><path d="M18 8h1c1.414 0 2.121 0 2.56.44c.44.439.44 1.146.44 2.56v8a2 2 0 1 1-4 0z"/></g></svg>
                                                 </div>
@@ -347,7 +347,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                           <div class="max-w-sm mx-auto grid gap-8 md:grid-cols-3 lg:gap-16 items-start md:max-w-none">
                   
                                               <!-- 1st item -->
-                                              <div class="relative flex flex-col items-center">
+                                              <div use:intersect={intersectOptions} class="relative flex flex-col items-center invisible">
                                                   
                                                 <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center bg-gradient-to-r from-purple-800 to-purple-500">
                                                   <svg style="clip-path: circle(50%);" class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#fff" d="m7.288 23.292l7.997-7.997l1.414 1.414l-7.997 7.997z"/><path fill="#fff" d="M17 30a1 1 0 0 1-.37-.07a1 1 0 0 1-.62-.79l-1-7l2-.28l.75 5.27L21 24.52V17a1 1 0 0 1 .29-.71l4.07-4.07A8.94 8.94 0 0 0 28 5.86V4h-1.86a8.94 8.94 0 0 0-6.36 2.64l-4.07 4.07A1 1 0 0 1 15 11H7.48l-2.61 3.26l5.27.75l-.28 2l-7-1a1 1 0 0 1-.79-.62a1 1 0 0 1 .15-1l4-5A1 1 0 0 1 7 9h7.59l3.77-3.78A10.92 10.92 0 0 1 26.14 2H28a2 2 0 0 1 2 2v1.86a10.92 10.92 0 0 1-3.22 7.78L23 17.41V25a1 1 0 0 1-.38.78l-5 4A1 1 0 0 1 17 30"/></svg>
@@ -359,7 +359,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                               </div>
                   
                                               <!-- 2nd item -->
-                                              <div class="relative flex flex-col items-center">
+                                              <div use:intersect={intersectOptions} class="relative flex flex-col items-center invisible">
                                                 <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center bg-gradient-to-r from-purple-800 to-purple-500">
                                                   <svg style="clip-path: circle(50%);" class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#fff" d="M184 184a32 32 0 0 1-32 32c-13.7 0-26.95-8.93-31.5-21.22a8 8 0 0 1 15-5.56C137.74 195.27 145 200 152 200a16 16 0 0 0 0-32H40a8 8 0 0 1 0-16h112a32 32 0 0 1 32 32m-64-80a32 32 0 0 0 0-64c-13.7 0-26.95 8.93-31.5 21.22a8 8 0 0 0 15 5.56C105.74 60.73 113 56 120 56a16 16 0 0 1 0 32H24a8 8 0 0 0 0 16Zm88-32c-13.7 0-26.95 8.93-31.5 21.22a8 8 0 0 0 15 5.56C193.74 92.73 201 88 208 88a16 16 0 0 1 0 32H32a8 8 0 0 0 0 16h176a32 32 0 0 0 0-64"/></svg>
                                                 </div>
@@ -370,7 +370,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                               </div>
                   
                                               <!-- 3rd item -->
-                                              <div class="relative flex flex-col items-center" data-aos-delay="400">
+                                              <div use:intersect={intersectOptions} class="relative flex flex-col items-center invisible" data-aos-delay="400">
                                                 <div class="mb-4 rounded-full flex-shrink-0 w-16 h-16 relative flex items-center justify-center bg-gradient-to-r from-purple-800 to-purple-500">
                                                   <svg style="clip-path: circle(50%);" class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048"><path fill="#fff" d="M1536 0q27 0 50 10t40 27t28 41t10 50v1792q0 27-10 50t-27 40t-41 28t-50 10H512q-27 0-50-10t-40-27t-28-41t-10-50V128q0-27 10-50t27-40t41-28t50-10zm0 128H512v1792h1024zM896 1664h256v128H896z"/></svg>
                                                 </div>

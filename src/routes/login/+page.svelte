@@ -86,7 +86,6 @@
   <!-- Other meta tags -->
   <meta property="og:title" content="Sign In · stocknear"/>
   <meta property="og:description" content="Sign In to to improve your stock analysis for free">
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -94,7 +93,6 @@
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Sign In · stocknear"/>
   <meta name="twitter:description" content="Sign In to to improve your stock analysis for free">
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 </svelte:head>
 	
@@ -134,11 +132,11 @@
                             errors={form?.errors?.password} 
                         />
 						<div class="w-full max-w-lg">
-							<a href="/reset-password" class="text-sm font-medium text-[#FB6A67] hover:cursor-pointer hover:underline">Forgot Password?</a>
+							<a href="/reset-password" class="text-sm font-medium text-[#FAC109] hover:cursor-pointer hover:underline">Forgot Password?</a>
 						</div>
 
 						<div class="w-full max-w-lg pt-5 m-auto pb-5">
-							<button type="submit" class="btn bg-[#27272A] border border-gray-600 sm:hover:bg-[#313131] text-white btn-md w-full rounded-lg m-auto text-white font-semibold text-[1rem]">
+							<button type="submit" class="btn bg-purple-600 border border-gray-600 sm:hover:bg-purple-700 transition duration-100 text-white btn-md w-full rounded-lg m-auto text-white font-semibold text-[1rem]">
                                 Login
                             </button>
 						</div>
