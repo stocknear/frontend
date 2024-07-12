@@ -509,7 +509,7 @@ onMount(async() => {
                             </thead>
                             <tbody>
                               {#each (data?.user?.tier === 'Pro' ? insiderTradingList : insiderTradingList?.slice(0,3)) as item, index}
-                              <tr class="text-gray-200 bg-[#0F0F0F] {index+1 === insiderTradingList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
+                              <tr class="text-gray-200 odd:bg-[#202020] {index+1 === insiderTradingList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
       
                                 <td class="text-gray-200 border-b border-[#0F0F0F]">
                                   <div class="flex flex-col">
@@ -532,7 +532,7 @@ onMount(async() => {
                                     {#if item?.transactionType === 'Bought'}
                                       <span class="text-[#10DB06]">Bought</span>
                                     {:else if item?.transactionType === 'Grant'}
-                                      <span class="text-[#8f95a1]">Grant</span>
+                                      <span class="text-white">Grant</span>
                                     {:else if item?.transactionType === 'Sold'}
                                       <span class="text-[#FF2F1F]">Sold</span>
                                     {:else if item?.transactionType === 'Exercise'}

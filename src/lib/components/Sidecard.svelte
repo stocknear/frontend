@@ -18,7 +18,6 @@ export let analystRating
 
 
   
-
 <TickerInfoCard stockDeck={stockDeck}  />
 
 
@@ -30,4 +29,3 @@ export let analystRating
 <SimilarTickerCard similarstock={similarstock}/>
 
 <TopETFTickerHolder topETFHolder={topETFHolder}/>
-

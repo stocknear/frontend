@@ -200,11 +200,9 @@ $: {
     
 
 
-<section class="bg-[#0F0F0F] overflow-hidden text-white h-full sm:mb-0">
-    <div class="flex justify-center w-fit m-auto h-full overflow-hidden">
-        <div class="relative flex justify-center items-center overflow-hidden">
-            <main>
-                <div class="w-fit sm:w-full sm:max-w-2xl m-auto mt-5 sm:mt-0">
+<section class="overflow-hidden text-white h-full pb-8 sm:pb-2">
+    <main class="overflow-hidden ">
+                <div class="w-fit sm:w-full  m-auto mt-5 sm:mt-0">
                     
                 <div class="flex flex-row items-center">
                     <label for="predictiveFundamentalsInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
@@ -243,7 +241,7 @@ $: {
                     </select>
                 
 
-                <div class="flex flex-row items-center ml-2 sm:ml-0 justify-start w-[90vw] sm:w-[560px] h-[220px] sm:h-[250px] sm:pl-3 sm:pr-3 pt-4 pb-5 mt-5 sm:mt-10">
+                <div class="flex flex-row items-center ml-2 sm:ml-0 justify-start w-[90vw] sm:w-full h-[220px] sm:h-[250px] sm:pl-3 sm:pr-3 pt-4 pb-5 mt-5 sm:mt-10">
 
 
                     <div class="chart-container h-[250px]">
@@ -295,7 +293,7 @@ $: {
 
                 
                 
-                <div class="no-scrollbar flex justify-start items-center w-screen sm:w-full mt-6 m-auto rounded-none sm:rounded-lg overflow-hidden overflow-x-scroll pr-10">
+                <div class="no-scrollbar flex justify-start items-center w-screen sm:w-full mt-6 m-auto rounded-none sm:rounded-lg overflow-hidden overflow-x-scroll">
                     <table class="table table-sm shaodow table-pin-cols table-compact rounded-none sm:rounded-md w-full bg-[#0F0F0F] border-bg-[#0F0F0F]">
                         <thead class="">
                         <tr class="">
@@ -361,9 +359,8 @@ $: {
             {/if}
 
             </div>
+
         </main>
-        </div>
-        </div>
 </section>
         
     

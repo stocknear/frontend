@@ -158,7 +158,7 @@ function findLowestAndhighestIV(data, lastDateStr) {
       axisLabel: {
           formatter: function (value, index) {
             if (index % 2 === 0) {
-              return value?.toFixed(1)+'%'
+              return value?.toFixed(0)+'%'
             } else {
                   return ''; // Hide this tick
               }

@@ -493,7 +493,7 @@ $: {
                                         <table class="table w-full">
                                             <thead>
                                                 <tr class="text-white ">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white text-sm sm:text-[1rem] font-bold pr-10">Year</td>
+                                                    <td class="text-start border-r border-[#191E24] text-sm sm:text-[1rem] font-bold pr-10">Year</td>
                                                     {#each ratios as item}
                                                     {#if filterRule === 'annual'}
                                                         <td class="bg-[#0F0F0F] font-semibold pr-5 sm:pr-14 text-sm">
@@ -511,116 +511,116 @@ $: {
                                     
                                                 
                                                 <!-- row -->
-                                                <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">PE Ratio</td>
+                                                <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24] text-xs sm:text-sm">PE Ratio</td>
                                                     {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm"> {item?.priceEarningsRatio?.toFixed(2)}</td>
+                                                    <td class="text-xs sm:text-sm"> {item?.priceEarningsRatio?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">PS Ratio</td>
+                                                <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">PS Ratio</td>
                                                     {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm"> {item?.priceToSalesRatio?.toFixed(2)}</td>
-                                                    {/each}
-                                                </tr>
-                                                    <!-- row -->
-                                                    <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">PB Ratio</td>
-                                                    {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm"> {item?.priceToBookRatio?.toFixed(2)}</td>
-                                                    {/each}
-                                                </tr>
-                                                <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">P/FCF Ratio</td>
-                                                    {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm"> {item?.priceToFreeCashFlowsRatio?.toFixed(2)}</td>
-                                                    {/each}
-                                                </tr>
-                                                <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">P/OCF Ratio</td>
-                                                    {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm"> {item?.priceToOperatingCashFlowsRatio?.toFixed(2)}</td>
-                                                    {/each}
-                                                </tr>
-                                                <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">OCF/S Ratio</td>
-                                                    {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm"> {item?.operatingCashFlowSalesRatio !== null ? item?.operatingCashFlowSalesRatio?.toFixed(2) : '-'}</td>
-                                                    {/each}
-                                                </tr>
-                                                <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">Debt / Equity Ratio</td>
-                                                    {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm"> {item?.debtEquityRatio?.toFixed(2)}</td>
+                                                    <td class="text-xs sm:text-sm"> {item?.priceToSalesRatio?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
                                                     <!-- row -->
-                                                <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">Quick Ratio</td>
+                                                    <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">PB Ratio</td>
                                                     {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm"> {item?.quickRatio?.toFixed(2)}</td>
+                                                    <td class="text-xs sm:text-sm"> {item?.priceToBookRatio?.toFixed(2)}</td>
+                                                    {/each}
+                                                </tr>
+                                                <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">P/FCF Ratio</td>
+                                                    {#each ratios as item}
+                                                    <td class="text-xs sm:text-sm"> {item?.priceToFreeCashFlowsRatio?.toFixed(2)}</td>
+                                                    {/each}
+                                                </tr>
+                                                <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">P/OCF Ratio</td>
+                                                    {#each ratios as item}
+                                                    <td class="text-xs sm:text-sm"> {item?.priceToOperatingCashFlowsRatio?.toFixed(2)}</td>
+                                                    {/each}
+                                                </tr>
+                                                <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">OCF/S Ratio</td>
+                                                    {#each ratios as item}
+                                                    <td class="text-xs sm:text-sm"> {item?.operatingCashFlowSalesRatio !== null ? item?.operatingCashFlowSalesRatio?.toFixed(2) : '-'}</td>
+                                                    {/each}
+                                                </tr>
+                                                <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Debt / Equity Ratio</td>
+                                                    {#each ratios as item}
+                                                    <td class="text-xs sm:text-sm"> {item?.debtEquityRatio?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
                                                     <!-- row -->
-                                                <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">Current Ratio</td>
+                                                <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Quick Ratio</td>
                                                     {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm"> {item?.currentRatio?.toFixed(2)}</td>
-                                                    {/each}
-                                                </tr>
-                                                <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">Asset Turnover</td>
-                                                    {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm"> {item?.assetTurnover?.toFixed(2)}</td>
-                                                    {/each}
-                                                </tr>
-                                                <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">Interest Coverage</td>
-                                                    {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm"> {item?.interestCoverage?.toFixed(2)}</td>
+                                                    <td class="text-xs sm:text-sm"> {item?.quickRatio?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
                                                     <!-- row -->
-                                                <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">Return on Equity (ROE)</td>
+                                                <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Current Ratio</td>
                                                     {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm"> {(item?.returnOnEquity*100)?.toFixed(2)}%</td>
+                                                    <td class="text-xs sm:text-sm"> {item?.currentRatio?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">Return on Assets (ROA)</td>
+                                                <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Asset Turnover</td>
                                                     {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm">{(item?.returnOnAssets*100)?.toFixed(2)}%</td>
+                                                    <td class="text-xs sm:text-sm"> {item?.assetTurnover?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">Return on Capital (ROIC)</td>
+                                                <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Interest Coverage</td>
                                                     {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm"> {(item?.returnOnCapitalEmployed*100)?.toFixed(2)}%</td>
+                                                    <td class="text-xs sm:text-sm"> {item?.interestCoverage?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">Dividend Yield</td>
+                                                    <!-- row -->
+                                                <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Return on Equity (ROE)</td>
                                                     {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm"> {(item?.dividendYield*100)?.toFixed(2)}%</td>
+                                                    <td class="text-xs sm:text-sm"> {(item?.returnOnEquity*100)?.toFixed(2)}%</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">Payout Ratio</td>
+                                                <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Return on Assets (ROA)</td>
                                                     {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm"> {(item?.payoutRatio*100)?.toFixed(2)}%</td>
+                                                    <td class="text-xs sm:text-sm">{(item?.returnOnAssets*100)?.toFixed(2)}%</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">Gross Profit Margin</td>
+                                                <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Return on Capital (ROIC)</td>
                                                     {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm"> {(item?.grossProfitMargin*100)?.toFixed(2)}%</td>
+                                                    <td class="text-xs sm:text-sm"> {(item?.returnOnCapitalEmployed*100)?.toFixed(2)}%</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white">
-                                                    <td class="text-start border-r border-[#191E24] bg-[#0F0F0F] text-white  text-xs sm:text-sm">Net Profit Margin</td>
+                                                <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Dividend Yield</td>
                                                     {#each ratios as item}
-                                                    <td class="bg-[#0F0F0F]  text-xs sm:text-sm"> {(item?.netProfitMargin*100)?.toFixed(2)}%</td>
+                                                    <td class="text-xs sm:text-sm"> {(item?.dividendYield*100)?.toFixed(2)}%</td>
+                                                    {/each}
+                                                </tr>
+                                                <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Payout Ratio</td>
+                                                    {#each ratios as item}
+                                                    <td class="text-xs sm:text-sm"> {(item?.payoutRatio*100)?.toFixed(2)}%</td>
+                                                    {/each}
+                                                </tr>
+                                                <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Gross Profit Margin</td>
+                                                    {#each ratios as item}
+                                                    <td class="text-xs sm:text-sm"> {(item?.grossProfitMargin*100)?.toFixed(2)}%</td>
+                                                    {/each}
+                                                </tr>
+                                                <tr class="text-white odd:bg-[#202020]">
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Net Profit Margin</td>
+                                                    {#each ratios as item}
+                                                    <td class="text-xs sm:text-sm"> {(item?.netProfitMargin*100)?.toFixed(2)}%</td>
                                                     {/each}
                                                 </tr>
                                            </tbody>

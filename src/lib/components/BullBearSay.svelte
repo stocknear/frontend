@@ -18,24 +18,15 @@ function splitIntoParagraphs(text) {
 
 let paragraphs = splitIntoParagraphs(rawData?.bullSays);
 
-function changeMode(state:string) {
-    mode = state;
-    if(mode === 'bullish') {
+
+function handleMode(i) {
+  activeIdx = i;
+  if(activeIdx === 0) {
         paragraphs = splitIntoParagraphs(rawData?.bullSays);
     }
-    else if (mode === 'bearish') {
+    else if (activeIdx === 1) {
         paragraphs = splitIntoParagraphs(rawData?.bearSays);
     }
-}
-
-function handleMode() {
-  if(mode === 'bullish') {
-    mode = 'bearish'
-    changeMode(mode)
-  } else {
-    mode = 'bullish';
-    changeMode(mode)
-  }
 }
 
 const tabs = [
@@ -46,6 +37,7 @@ const tabs = [
       title: "Bear Case",
     },
   ];
+
   let activeIdx = 0;
 
 $: {
@@ -89,13 +81,10 @@ $: {
     <AnimateSharedLayout>
       {#each tabs as item, i}
         <button
-          on:click={handleMode}
+          on:click={() => handleMode(i)}
           class="group relative z-[1] rounded-full px-6 py-1 {activeIdx === i
             ? 'z-0'
             : ''} "
-          on:click={() => {
-            activeIdx = i;
-          }}
         >
           {#if activeIdx === i}
             <Motion
@@ -120,13 +109,13 @@ $: {
   
 
   <!--End Header-->
-    <span class="text-gray-200 text-xs sm:text-[0.85rem] italic mt-6 sm:ml-auto">
+    <span class="text-gray-200 text-xs sm:text-[0.915rem] italic mt-6 sm:ml-auto">
       Updated {rawData?.date}
     </span>
     <div class="flex mt-5 h-auto">
     
-      <div class="{mode === 'bullish' ? 'bg-[#10DB06]' : 'bg-[#FF2F1F]'} w-3.5 rounded-l-xl" />
-      <span class="text-gray-100 ml-3 text-sm ">
+      <div class="{activeIdx === 0 ? 'bg-[#10DB06]' : 'bg-[#FF2F1F]'} w-3.5 rounded-l-xl" />
+      <span class="text-gray-100 ml-3 text-[0.915rem] ">
         {#if showFullText}
         {#each (showFullText ? paragraphs : paragraphs?.slice(0,1)) as paragraph, index}
         <p class="{index !== 0 ? 'mt-1' : ''} pr-1">{paragraph} {paragraphs?.length <= index+1 ? '' : '.'}</p>

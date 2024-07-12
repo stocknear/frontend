@@ -571,11 +571,11 @@ $: {
           <!--End Mobile Navbar-->
          
       
-          <div class="w-full xl:w-fit max-w-3xl sm:max-w-6xl m-auto px-3 sm:px-6">      
+          <div class="w-full xl:w-fit max-w-3xl sm:max-w-6xl m-auto px-3">      
                     
                         <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
                             <!-- Main content -->
-                            <div class="pb-12 md:pb-20 w-full max-w-3xl lg:max-w-2xl">
+                            <div class="pb-12 md:pb-20 w-full max-w-5xl lg:max-w-3xl">
                                 <div class="md:pr-6 lg:pr-10">
                                  
                 
