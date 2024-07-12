@@ -172,11 +172,11 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
 
             
 
-                                <h1 class="text-white w-5/6 sm:w-full m-auto text-3xl sm:text-4xl font-bold mt-14 mb-5">
+                                <h1 use:intersect={intersectOptions} class="invisible text-white w-5/6 sm:w-full m-auto text-3xl sm:text-4xl font-bold mt-14 mb-5">
                                   Explore High Quality Datasets
                                 </h1>
                                
-                                <div class="relative mb-4">
+                                <div use:intersect={intersectOptions} class="invisible relative mb-4">
                                   <div class="absolute top-0 flex w-full justify-center">
                                     <div
                                       class="h-[1px] animate-border-width rounded-full bg-gradient-to-r from-[rgba(251,206,60,0)] via-white to-[rgba(188,126,254,0)] transition-all duration-1000"
@@ -269,7 +269,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
 
                                 
                                 
-                                <h2 class="text-white text-3xl sm:text-4xl font-bold mt-16 w-5/6 sm:w-1/2 text-center m-auto">
+                                <h2 use:intersect={intersectOptions} class="invisible text-white text-3xl sm:text-4xl font-bold mt-16 w-5/6 sm:w-1/2 text-center m-auto">
                                   AI-Powered Algorithms to assist you in any way
                                 </h2>
 
@@ -322,11 +322,11 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
 
             
                               
-                                <h2 class="text-white text-3xl sm:text-4xl text-center m-auto font-bold mt-20 w-11/12 sm:w-1/2 mb-10">
+                                <h2 use:intersect={intersectOptions} class="invisible text-white text-3xl sm:text-4xl text-center m-auto font-bold mt-20 w-11/12 sm:w-1/2 mb-10">
                                   Realtime Options Flow from Hedge Funds & Major Institutions
                                 </h2>
                                     
-                                <div class="relative">
+                                <div use:intersect={intersectOptions} class="invisible relative">
                                   <div class="absolute -top-4 flex w-full justify-center">
                                     <div
                                       class="h-[1px] animate-border-width rounded-full bg-gradient-to-r from-[rgba(251,206,60,0)] via-white to-[rgba(188,126,254,0)] transition-all duration-1000"
