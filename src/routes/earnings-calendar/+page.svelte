@@ -195,8 +195,6 @@ $: {
     
       }
 
-      console.log(earningsCalendar)
-
   }
 }
 

@@ -12,8 +12,17 @@ const config = {
     target: 'esnext',
     // Enable minification and other optimizations for production builds
     minify: true,
-    // Enable code splitting to reduce initial loading time
-    chunkSizeWarningLimit: 1500, // Adjust as per your project size
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+        },
+      },
+      // Enable tree shaking
+      treeshake: true,
+    },
   },
 
   optimizeDeps: {
