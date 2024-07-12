@@ -1,8 +1,9 @@
 <script lang='ts'>
   //import ProgressBar from 'progressbar.js';
-  import {currentPortfolioPrice, stockTicker, screenWidth} from '$lib/store';
+  import {stockTicker, screenWidth} from '$lib/store';
   import { abbreviateNumber } from '$lib/utils';
   
+  export let lastPrice;
   export let analystRating = {};
   
 
@@ -26,9 +27,9 @@ if ($stockTicker && typeof window !== 'undefined' && typeof analystRating !== 'u
     sellCount = (analystRating?.Sell/numOfAnalyst * 100)?.toFixed(2);
     priceTarget = analystRating?.priceTarget
     consensusRating = analystRating?.consensusRating;
-
+    console.log(lastPrice)
     try {
-        changesPercentage = ((priceTarget/$currentPortfolioPrice -1)*100)?.toFixed(2) ?? 0;
+        changesPercentage = ((priceTarget/lastPrice -1)*100)?.toFixed(2) ?? 0;
       } catch(e) {
         changesPercentage = 0;
       }

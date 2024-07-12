@@ -62,7 +62,6 @@ async function loadSearchData() {
 
     
     let isScrolled = false;
-    let logoUrl;
       
     let userWatchList = data?.getUserWatchlist ?? [];
     let isTickerIncluded; 
@@ -390,7 +389,6 @@ $: {
   {
     
     stockDeck = data?.getStockDeck;
-    logoUrl = stockDeck[0]?.image;
     similarstock = data?.getSimilarStock;
     topETFHolder = data?.getTopETFHolder;
     $currentPortfolioPrice = data?.getStockQuote?.price;
@@ -758,8 +756,8 @@ $: {
                       
                               <!--Start Company Info -->
                               <Sidecard
-                                logoUrl = {logoUrl}
                                 stockDeck = {stockDeck}
+                                lastPrice = {data?.getStockQuote?.price}
                                 analystRating ={data?.getAnalystRating}
                                 similarstock = {similarstock}
                                 topETFHolder = {topETFHolder}

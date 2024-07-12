@@ -2,7 +2,7 @@
     import Chart from '$lib/components/Chart.svelte'
     import {numberOfUnreadNotification,displayCompanyName, stockTicker} from '$lib/store';
     import { abbreviateNumber, sumQuarterlyResultsByYear } from '$lib/utils';
-    import * as XLSX from 'xlsx';
+    //import * as XLSX from 'xlsx';
     
     export let data;
     
@@ -270,7 +270,7 @@ function normalizer(value) {
     return options;
     }
     
-    
+/*
 const exportData = (format = 'csv') => {
     const data = fullStatement;
     if (!data || data.length === 0) {
@@ -315,7 +315,7 @@ const exportData = (format = 'csv') => {
         XLSX.writeFile(workbook, `${$stockTicker.toLowerCase()}-income-statement.xlsx`);
     }
 };
-
+*/
     
     
     fullStatement = data?.getIncomeStatement;
@@ -441,13 +441,14 @@ const exportData = (format = 'csv') => {
                             </label>
 
 
- 
+                            <!--
                             <label for="exportDataModal" class="ml-3 mr-2 sm:mr-0 cursor-pointer bg-[#202020] sm:hover:bg-[#313131] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
                                 <div class="flex flex-row items-center">
                                     <span class="m-auto mr-0.5 text-white text-sm">Export</span>
                                     <svg class="inline-block w-4 h-4 ml-1 mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><g transform="rotate(180 512 512)">                                        <path fill="#fff" d="m488.832 344.32l-339.84 356.672a32 32 0 0 0 0 44.16l.384.384a29.44 29.44 0 0 0 42.688 0l320-335.872l319.872 335.872a29.44 29.44 0 0 0 42.688 0l.384-.384a32 32 0 0 0 0-44.16L535.168 344.32a32 32 0 0 0-46.336 0z"/></g></svg>
                                 </div>
                             </label>
+                            -->
 
                         </div>
 
@@ -754,6 +755,7 @@ const exportData = (format = 'csv') => {
 
 
   <!--Start Export -->
+  <!--
   <input type="checkbox" id="exportDataModal" class="modal-toggle" />
       
   <dialog id="exportDataModal" class="modal modal-bottom sm:modal-middle ">
@@ -810,6 +812,7 @@ const exportData = (format = 'csv') => {
           
         </div>
     </dialog>
+    -->
   <!--End Export-->
 
 

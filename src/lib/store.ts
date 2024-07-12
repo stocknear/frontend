@@ -1,5 +1,4 @@
 import { writable } from 'svelte/store';
-import { write } from 'xlsx';
 
 // Function to set cache data for a specific tickerID
 export const setCache = (key, data, name) => {

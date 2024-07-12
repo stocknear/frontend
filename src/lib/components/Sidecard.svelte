@@ -7,8 +7,8 @@ import SimilarTickerCard from '$lib/components/SimilarTickerCard.svelte';
 import TopETFTickerHolder from '$lib/components/TopETFTickerHolder.svelte';
 
 
-export let logoUrl;
 export let stockDeck;
+export let lastPrice;
 export let similarstock;
 export let topETFHolder;
 export let analystRating
@@ -19,10 +19,10 @@ export let analystRating
 
   
 
-<TickerInfoCard logoUrl={logoUrl} stockDeck={stockDeck}  />
+<TickerInfoCard stockDeck={stockDeck}  />
 
 
-<AnalystCard analystRating={analystRating} />
+<AnalystCard lastPrice={lastPrice} analystRating={analystRating} />
 
 
 <ESGCard stockDeck={stockDeck} />
