@@ -586,19 +586,20 @@ $: {
             <!--End Mobile Navbar-->
            
         
-            <div class="w-full xl:w-fit max-w-3xl sm:max-w-6xl m-auto px-3 sm:px-6">      
-                      
-                          <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
-                              <!-- Main content -->
-                              <div class="pb-12 md:pb-20 w-full max-w-3xl lg:max-w-2xl">
-                                  <div class="md:pr-6 lg:pr-10">
+            <div class="w-full xl:w-fit max-w-3xl sm:max-w-6xl m-auto px-3">      
+                    
+              <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
+                  <!-- Main content -->
+                  <div class="pb-12 md:pb-20 w-full max-w-5xl lg:max-w-3xl">
+                      <div class="md:pr-6 lg:pr-10">
+                                   
                                    
                   
                                       <!-----Start-Header-CandleChart-Indicators------>
-        
                                       <div class="m-auto pl-0 sm:pl-4 max-w-3xl overflow-hidden mb-5 md:mt-10">
-        
+      
                                         <div class="hidden sm:flex flex-row w-full justify-between items-center pb-10">
+  
                                             <Markethour />
   
                                             <!--Start Watchlist-->
@@ -713,7 +714,7 @@ $: {
                                         
                                         <!--<div class="w-full max-w-3xl sm:max-w-2xl m-auto pt-2 pb-5 sm:pl-3 sticky z-20 bg-[#0F0F0F]"  style="top: {$screenWidth < 520 && $isScrollingUp ? '4rem' : '0rem'};">-->
                                           <div class="sm:ml-4 w-screen sm:w-full {$screenWidth < 640 ? 'overflow-auto scrollbar no-scrollbar' : ''} mb-2" >
-                                            <ul class="pr-4 sm:pr-0 w-screen font-medium flex flex-row items-center bg-[#0F0F0F] overflow-x-scroll space-x-3 rtl:space-x-reverse py-2">
+                                            <ul class="pr-4 sm:pr-0 w-screen font-medium flex flex-row items-center bg-[#0F0F0F]  space-x-3 rtl:space-x-reverse py-2">
                                               <li class="cursor-pointer flex flex-col items-center">
                                                 <a href={`/etf/${$etfTicker}`} id="item1" on:click={() => (changeSection('overview','item1'))} class="px-2 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'overview' ? 'text-white ' : 'bg-[#0F0F0F]'}" >
                                                   Overview
@@ -750,7 +751,7 @@ $: {
                                                 </a>
                                                 <div class="{displaySection === 'congress-trading' ? 'bg-[#75D377]' : 'bg-[#0F0F0F]'} mt-1 h-[3px] rounded-full w-[3rem]" />
                                               </li>
-                                              <li class="cursor-pointer flex flex-col items-center">
+                                              <li class="cursor-pointer flex flex-col items-center pr-6">
                                                 <a href={`/etf/${$etfTicker}/news`} id="item7" on:click={() => (changeSection('news','item7'))} class="px-2 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'news' ? 'text-white ' : 'bg-[#0F0F0F]'}" >
                                                   News
                                                 </a>

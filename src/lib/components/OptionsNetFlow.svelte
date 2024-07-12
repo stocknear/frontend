@@ -74,8 +74,8 @@
     },
     animation: $screenWidth < 640 ? false: true,
     grid: {
-        left: '2%',
-        right: '4%',
+        left: '1%',
+        right: $screenWidth < 640 ? '2%' : '0%',
         bottom: '0%',
         top: '10%',
         containLabel: true

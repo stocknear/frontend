@@ -53,10 +53,14 @@
     }
 
     .no-scrollbar {
-      -ms-overflow-style: none; /* IE and Edge */
-      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+      overflow: -moz-scrollbars-none; /* Legacy support for older Firefox versions */
     }
-
+    
+    .no-scrollbar::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, and other WebKit-based browsers */
+    }
 
 
     .shake-ticker:hover img {

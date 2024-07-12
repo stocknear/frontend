@@ -756,7 +756,6 @@ async function initializePrice() {
 <!-- Other meta tags -->
 <meta property="og:title" content={`${$displayCompanyName} (${$etfTicker}) Stock Price, Quote & News · stocknear`}/>
 <meta property="og:description" content={`Get a real-time ${$displayCompanyName} (${$etfTicker}) stock price quote with breaking news, financials, statistics, charts and more.`} />
-<meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <meta property="og:type" content="website"/>
 <!-- Add more Open Graph meta tags as needed -->
 
@@ -764,19 +763,20 @@ async function initializePrice() {
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content={`${$displayCompanyName} (${$etfTicker}) Stock Price, Quote & News · stocknear`}/>
 <meta name="twitter:description" content={`Get a real-time ${$displayCompanyName} (${$etfTicker}) stock price quote with breaking news, financials, statistics, charts and more.`} />
-<meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
 
   
-    
-    <section class="bg-[#0F0F0F] min-h-screen pb-40">
-      <div class="w-full xl:w-fit max-w-4xl m-auto ">
-            <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
-                <!-- Main content -->
-                <div class="md:grow pb-12 md:pb-20 w-full max-w-2xl sm:pr-6">
-                  <div class="xl:pr-10">
+<section class="bg-[#0F0F0F] min-h-screen pb-40">
+  
+  <div class="w-full max-w-4xl m-auto ">
+
+
+        <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
+            <!-- Main content -->
+            <div class="pb-12 md:pb-20 w-full max-w-3xl sm:pr-6 xl:pr-0">
+              <div class="xl:pr-10">
     
         
                                     <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -914,7 +914,7 @@ async function initializePrice() {
                                   <!-- Start Graph -->
     
                                   {#if output !== null}
-                                    <div class ="w-full max-w-[540px] md:max-w-[620px] lg:max-w-[570px] xl:max-w-[540px] ml-auto mb-4">
+                                  <div class ="w-full sm:pl-7 ml-auto max-w-3xl mb-10">
                                       {#if displayData === '1D' && oneDayPrice?.length === 0}
                                       <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
                                         No data available
