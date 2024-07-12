@@ -487,7 +487,7 @@ async function loadSearchData() {
                 {item?.symbol}
               </span>
               <div class="rounded-full w-7 h-7 relative bg-[#0F0F0F] flex items-center justify-center">
-                <img style="clip-path: circle(50%);" class="w-5 h-5" src={`https://financialmodelingprep.com/image-stock/${item?.symbol}.png`} alt="stock logo"/>
+                <img style="clip-path: circle(50%);" class="w-5 h-5" src={`https://financialmodelingprep.com/image-stock/${item?.symbol}.png`} alt="stock logo" loading='lazy'/>
               </div>
             </div>
 
