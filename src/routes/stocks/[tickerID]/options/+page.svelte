@@ -68,6 +68,21 @@ function formatDate(dateStr) {
   return formattedDate;
 }
 
+function formatTime(timeString) {
+  // Split the time string into components
+  const [hours, minutes, seconds] = timeString.split(':').map(Number);
+
+  // Determine AM or PM
+  const period = hours >= 12 ? 'PM' : 'AM';
+
+  // Convert hours from 24-hour to 12-hour format
+  const formattedHours = hours % 12 || 12; // Converts 0 to 12 for midnight
+
+  // Format the time string
+  const formattedTimeString = `${formattedHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${period}`;
+
+  return formattedTimeString;
+}
 
 function changeStatement(event)
 {
@@ -509,7 +524,7 @@ $: {
                                       <tr class="odd:bg-[#202020] border-b-[#0F0F0F] {index+1 === optionList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                                         
                                         <td class="text-white text-xs sm:text-sm text-start">
-                                          {item?.time}
+                                          {formatTime(item?.time)}
                                         </td>
 
                                         <td class="text-white text-xs sm:text-sm text-start">

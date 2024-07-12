@@ -47,25 +47,22 @@ const putOpenInterestList = data?.getOptionsPlotData?.putOpenInterestList;
 
 
 
-function formatTime(timestamp) {
-  // Convert timestamp to milliseconds
-  var date = new Date(timestamp * 1000);
+function formatTime(timeString) {
+  // Split the time string into components
+  const [hours, minutes, seconds] = timeString.split(':').map(Number);
 
-  // hours, minutes, and seconds
-  var hours = date.getHours();
-  var minutes = date.getMinutes();
-  var seconds = date.getSeconds();
+  // Determine AM or PM
+  const period = hours >= 12 ? 'PM' : 'AM';
 
-  hours = (hours < 10 ? "0" : "") + hours;
-  minutes = (minutes < 10 ? "0" : "") + minutes;
-  seconds = (seconds < 10 ? "0" : "") + seconds;
+  // Convert hours from 24-hour to 12-hour format
+  const formattedHours = hours % 12 || 12; // Converts 0 to 12 for midnight
 
-  // Format the date string
-  var formattedDate = hours + ":" + minutes + ":" + seconds 
-  //var formattedDate = hours + ":" + minutes + ":" + seconds;
+  // Format the time string
+  const formattedTimeString = `${formattedHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${period}`;
 
-  return formattedDate;
+  return formattedTimeString;
 }
+
 
 function formatDate(dateStr) {
   // Parse the input date string (YYYY-mm-dd)
@@ -530,7 +527,7 @@ $: {
                                       <tr class="odd:bg-[#202020] border-b-[#0F0F0F] {index+1 === optionList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                                         
                                         <td class="text-white text-xs sm:text-sm text-start">
-                                          {item?.time}
+                                          {formatTime(item?.time)}
                                         </td>
 
                                         <td class="text-white text-xs sm:text-sm text-start">
