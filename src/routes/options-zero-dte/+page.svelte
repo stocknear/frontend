@@ -72,6 +72,23 @@ function toggleMode()
 }
 
 
+function formatTime(timeString) {
+  // Split the time string into components
+  const [hours, minutes, seconds] = timeString.split(':').map(Number);
+
+  // Determine AM or PM
+  const period = hours >= 12 ? 'PM' : 'AM';
+
+  // Convert hours from 24-hour to 12-hour format
+  const formattedHours = hours % 12 || 12; // Converts 0 to 12 for midnight
+
+  // Format the time string
+  const formattedTimeString = `${formattedHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${period}`;
+
+  return formattedTimeString;
+}
+
+
 function handleViewData(optionData) {
   //optionStart = optionData['Start Date'] === null ? 'n/a' : new Date(optionData['Start Date'])?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' });
   optionSymbol = optionData?.option_symbol;
@@ -453,8 +470,8 @@ const debouncedHandleInput = debounce(handleInput, 200);
 <div class="w-full m-auto mb-10 bg-[#0F0F0F] pl-3 pr-3">
     <div class="flex flex-col sm:flex-row items-center w-full">
         {#if !$isOpen}
-        <span class="text-white text-sm italic mt-5 text-center sm:text-start w-full ml-2 mb-5">
-            Live flow of {new Date(optionList?.at(0)?.date ?? null)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+        <span class="text-white text-sm sm:text-md italic mt-5 text-center sm:text-start w-full ml-2 mb-5">
+            Live flow of {new Date(optionList?.at(0)?.date ?? null)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })} (NYSE Time)
         </span>
         {/if}
 
@@ -745,9 +762,9 @@ const debouncedHandleInput = debounce(handleInput, 200);
                 <!-- row -->
                 <tr on:click={() => handleViewData(item)} class="w-full odd:bg-[#202020] cursor-pointer {index+1 === optionList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                     
-                <td class="text-white pb-3 text-xs sm:text-sm text-start">
-                  {item?.time}
-                </td>
+                  <td class="text-white pb-3 text-xs sm:text-sm text-start">
+                    {formatTime(item?.time)}
+                  </td>
 
                 <th on:click|stopPropagation={() => assetSelector(item?.ticker, item?.assetType)} class="{index % 2 ? 'bg-[#0F0F0F]' : 'bg-[#202020]'} text-blue-400 text-start font-normal">
                   {item?.ticker}

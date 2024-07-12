@@ -30,8 +30,7 @@ function getLastDate(dateString) {
 
     // Check if it is a weekday (Monday to Friday)
     if (dayOfWeek >= 1 && dayOfWeek <= 5) {
-      // Subtract one day
-      date.setDate(date.getDate() - 1);
+      date.setDate(date.getDate());
     } else {
       // Find the last weekday of the week
       // If it's Saturday, go back to Friday
@@ -46,19 +45,28 @@ function getLastDate(dateString) {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   }
 }
-  function formatTime(dateString) {
-    // Parse the date string to a Date object
+function formatTime(dateString) {
+  // Parse the date string to a Date object
   const date = new Date(dateString);
 
   // Extract hours, minutes, and seconds
-  const hours = String(date.getUTCHours()).padStart(2, '0');
+  let hours = date.getUTCHours();
   const minutes = String(date.getUTCMinutes()).padStart(2, '0');
   const seconds = String(date.getUTCSeconds()).padStart(2, '0');
 
-  // Format time as hh:mm:ss
-  return `${hours}:${minutes}:${seconds}`;
+  // Determine AM/PM
+  const ampm = hours >= 12 ? 'PM' : 'AM';
 
-  }
+  // Convert hours from 24-hour to 12-hour format
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+
+  // Format hours
+  const formattedHours = String(hours).padStart(2, '0');
+
+  // Format time as hh:mm:ss AM/PM
+  return `${formattedHours}:${minutes}:${seconds} ${ampm}`;
+}
 
   function findMostFrequentTicker(data) {
     const tickerCountMap = new Map();
@@ -267,7 +275,7 @@ function getLastDate(dateString) {
                   </span>
 
                   <span class="text-white text-sm sm:text-[1rem] italic mt-2 text-center sm:text-start w-full ml-2 mb-5">
-                    Live Flow of {displayDate}
+                    Live Flow of {displayDate} (NYSE Time)
                   </span>
 
                 </div>
