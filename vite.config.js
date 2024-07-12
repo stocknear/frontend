@@ -1,30 +1,31 @@
 import { sveltekit } from '@sveltejs/kit/vite';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 /** @type {import('vite').UserConfig} */
 const config = {
-  plugins: [sveltekit()],
+  plugins: [
+    sveltekit(),
+    visualizer({ open: true }) // Plugin to visualize the bundle
+  ],
   server: {
     cors: true,
   },
-
   build: {
-    // Target ESNext for better compatibility with modern browsers
     target: 'esnext',
-    // Enable minification and other optimizations for production builds
     minify: true,
+    chunkSizeWarningLimit: 500, // Lower this to ensure chunks are appropriately sized
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
+        manualChunks(id) {
           if (id.includes('node_modules')) {
-            return 'vendor';
+            return id.toString().split('node_modules/')[1].split('/')[0].toString();
           }
-        },
-      },
+        }
+      }
     },
+    brotliSize: true, // Enable Brotli compression
   },
-
   optimizeDeps: {
-    // Exclude unnecessary dependencies to reduce bundle size and potential compatibility issues
     exclude: [
       'pocketbase',
     ],
