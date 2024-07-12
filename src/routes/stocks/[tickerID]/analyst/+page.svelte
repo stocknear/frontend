@@ -216,7 +216,7 @@ function latestInfoDate(inputDate) {
 
 
                         <div class="mt-5 text-white p-3 sm:p-5 mb-5 rounded-lg sm:flex sm:flex-row sm:items-center border border-slate-800 text-sm sm:text-[1rem]">
-                          <svg class="w-6 h-6 flex-shrink-0 inline-block sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill='#60a5fa' d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
+                          <svg class="w-6 h-6 flex-shrink-0 inline-block sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill='#a474f6' d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
                           In previous years, Wall Street analysts have given {$displayCompanyName} a total of {data?.getAnalystTickerHistory?.length} ratings.
                         </div>
 
@@ -229,13 +229,13 @@ function latestInfoDate(inputDate) {
                           />
                           <ul class="text-[0.8rem] font-medium text-center w-full pt-3 sm:w-56 mb-5 sm:ml-auto flex">
                             <li class="w-full">
-                                <label on:click={() => filterRule = 'all'} class="font-semibold cursor-pointer rounded-l-lg inline-block w-full py-2.5 text-white {filterRule === 'all' ? 'bg-[#3C74D4]' : 'bg-[#2A303C]'} border-r border-gray-600" aria-current="page">
+                                <label on:click={() => filterRule = 'all'} class="font-semibold cursor-pointer rounded-l-lg inline-block w-full py-2.5 text-white {filterRule === 'all' ? 'bg-purple-600' : 'bg-[#2A303C]'} border-r border-gray-600" aria-current="page">
                                   All Analysts
                                 </label>
                             </li>
                             <li class="w-full">
                               {#if data?.user?.tier === 'Pro'}
-                                <label on:click={() => filterRule = 'topAnalysts'} class="font-semibold cursor-pointer inline-block w-full py-2.5 {filterRule === 'topAnalysts' ? 'bg-[#3C74D4]' : 'bg-[#2A303C]'} text-white rounded-r-lg">
+                                <label on:click={() => filterRule = 'topAnalysts'} class="font-semibold cursor-pointer inline-block w-full py-2.5 {filterRule === 'topAnalysts' ? 'bg-purple-600' : 'bg-[#2A303C]'} text-white rounded-r-lg">
                                   Top Analysts
                                 </label>
                               {:else}
@@ -337,7 +337,7 @@ function latestInfoDate(inputDate) {
                     {:else}
                     <div class="flex justify-center items-center m-auto mt-10 mb-6">
                         <div class="text-gray-100 text-sm sm:text-[1rem] rounded-lg h-auto border border-slate-800 p-4">
-                        <svg class="w-5 h-5 inline-block sm:mr-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#60a5fa" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
+                        <svg class="w-5 h-5 inline-block sm:mr-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
                             Wall Street analysts have not provided any ratings for  {$displayCompanyName}
                         </div>
                     </div>

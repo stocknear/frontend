@@ -276,7 +276,7 @@ onMount(async () => {
         </span>
 
         <div class="hidden sm:flex flex-col justify-center items-center m-auto pt-10 mb-10 sm:mb-0">
-          <label for={data?.user ? "addStrategy": "userLogin"} class="flex flex-row items-center justify-center w-56 sm:w-72 hover:bg-[#3C74D4] bg-[#3C74D4] bg-opacity-[0.6] duration-150 cursor-pointer py-2.5 px-4 font-medium text-center text-white rounded-full">
+          <label for={data?.user ? "addStrategy": "userLogin"} class="flex flex-row items-center justify-center w-56 sm:w-72 hover:bg-purple-600 bg-purple-600 bg-opacity-[0.6] duration-150 cursor-pointer py-2.5 px-4 font-medium text-center text-white rounded-full">
             <svg class="w-6 h-6 inline-block " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#E2E8F0" d="M16 2A14.172 14.172 0 0 0 2 16a14.172 14.172 0 0 0 14 14a14.172 14.172 0 0 0 14-14A14.172 14.172 0 0 0 16 2Zm8 15h-7v7h-2v-7H8v-2h7V8h2v7h7Z"/><path fill="none" d="M24 17h-7v7h-2v-7H8v-2h7V8h2v7h7v2z"/></svg>
             <span class="ml-2">
               New Strategy
@@ -333,7 +333,7 @@ onMount(async () => {
         
           <div class="w-3/4 flex ml-auto flex-row justify-end items-center -mt-2">
             <div class="flex flex-col justify-center items-center mr-2">
-              <label on:click|stopPropagation={() => handleView(st?.rules,st?.title)} for="viewStrategy" class="cursor-pointer w-8 h-8 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] hover:bg-[#3C74D4] bg-[#3C74D4] bg-opacity-[0.6] duration-150 font-medium text-center text-white rounded-full">
+              <label on:click|stopPropagation={() => handleView(st?.rules,st?.title)} for="viewStrategy" class="cursor-pointer w-8 h-8 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] hover:bg-purple-600 bg-purple-600 bg-opacity-[0.6] duration-150 font-medium text-center text-white rounded-full">
                 <svg class="w-8 h-8 m-auto pt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="12" r="3" stroke="#fff" stroke-width="1"></circle> <path d="M21 12C21 12 20 4 12 4C4 4 3 12 3 12" stroke="#fff" stroke-width="1"></path> </g></svg>
               </label>
               <span class="text-white text-xs mt-1">
@@ -342,7 +342,7 @@ onMount(async () => {
             </div>
       
             <div class=" flex flex-col justify-center items-center ml-2 mr-2">
-              <label on:click|stopPropagation={() => selectStrategy(st?.id)} class="cursor-pointer w-8 h-8 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] hover:bg-[#3C74D4] bg-[#3C74D4] bg-opacity-[0.6] duration-150 font-medium text-center text-white rounded-full">
+              <label on:click|stopPropagation={() => selectStrategy(st?.id)} class="cursor-pointer w-8 h-8 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] hover:bg-purple-600 bg-purple-600 bg-opacity-[0.6] duration-150 font-medium text-center text-white rounded-full">
                 <svg class="h-6 w-6 m-auto pt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="m19.3 8.925l-4.25-4.2l1.4-1.4q.575-.575 1.413-.575t1.412.575l1.4 1.4q.575.575.6 1.388t-.55 1.387L19.3 8.925ZM17.85 10.4L7.25 21H3v-4.25l10.6-10.6l4.25 4.25Z"/></svg>
               </label>
               <span class="text-white text-xs mt-1">
@@ -351,7 +351,7 @@ onMount(async () => {
             </div>
       
             <div class=" flex flex-col justify-center items-center ml-2 mr-8">
-              <label on:click|stopPropagation={() => deleteStrategyId= st?.id} for="deleteStrategy" class="cursor-pointer w-8 h-8 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] hover:bg-[#3C74D4] bg-[#3C74D4] bg-opacity-[0.6] duration-150 font-medium text-center text-white rounded-full">
+              <label on:click|stopPropagation={() => deleteStrategyId= st?.id} for="deleteStrategy" class="cursor-pointer w-8 h-8 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] hover:bg-purple-600 bg-purple-600 bg-opacity-[0.6] duration-150 font-medium text-center text-white rounded-full">
                 <svg class="h-6 w-6 m-auto pt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="white" d="M864 256H736v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zm-200 0H360v-72h304v72z"/></svg>
               </label>
               <span class="text-white text-xs mt-1">
@@ -473,7 +473,7 @@ onMount(async () => {
 
               <div class="sm:hidden w-1/2 mt-5 m-auto flex flex-row justify-center items-center">
                 <div class="flex flex-col justify-center items-center mr-5">
-                  <label on:click|stopPropagation={() => handleView(item?.rules,item?.title)} for="viewStrategy" class="cursor-pointer w-12 h-12 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] hover:bg-[#3C74D4] bg-[#3C74D4] bg-opacity-[0.6] duration-150 font-medium text-center text-white rounded-full">
+                  <label on:click|stopPropagation={() => handleView(item?.rules,item?.title)} for="viewStrategy" class="cursor-pointer w-12 h-12 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] hover:bg-purple-600 bg-purple-600 bg-opacity-[0.6] duration-150 font-medium text-center text-white rounded-full">
                     <svg class="w-10 h-10 hover:w-11 hover:h-11 ease-in-out duration-200 m-auto pt-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="12" r="3" stroke="#fff" stroke-width="1"></circle> <path d="M21 12C21 12 20 4 12 4C4 4 3 12 3 12" stroke="#fff" stroke-width="1"></path> </g></svg>
                   </label>
                   <span class="text-white text-xs mt-1">
@@ -482,7 +482,7 @@ onMount(async () => {
                 </div>
           
                 <div class=" flex flex-col justify-center items-center ml-5 mr-5">
-                  <label on:click|stopPropagation={() => goto("/stock-screener/"+item?.id)} class="cursor-pointer w-12 h-12 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] hover:bg-[#3C74D4] bg-[#3C74D4] bg-opacity-[0.6] duration-150 font-medium text-center text-white rounded-full">
+                  <label on:click|stopPropagation={() => goto("/stock-screener/"+item?.id)} class="cursor-pointer w-12 h-12 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] hover:bg-purple-600 bg-purple-600 bg-opacity-[0.6] duration-150 font-medium text-center text-white rounded-full">
                     <svg class="h-8 w-8 hover:w-9 hover:h-9 ease-in-out duration-200 m-auto pt-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="m19.3 8.925l-4.25-4.2l1.4-1.4q.575-.575 1.413-.575t1.412.575l1.4 1.4q.575.575.6 1.388t-.55 1.387L19.3 8.925ZM17.85 10.4L7.25 21H3v-4.25l10.6-10.6l4.25 4.25Z"/></svg>
                   </label>
                   <span class="text-white text-xs mt-1">
@@ -491,7 +491,7 @@ onMount(async () => {
                 </div>
           
                 <div class=" flex flex-col justify-center items-center ml-5">
-                  <label on:click|stopPropagation={() => deleteStrategyId= item?.id} for="deleteStrategy" class="cursor-pointer w-12 h-12 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] hover:bg-[#3C74D4] bg-[#3C74D4] bg-opacity-[0.6] duration-150 font-medium text-center text-white rounded-full">
+                  <label on:click|stopPropagation={() => deleteStrategyId= item?.id} for="deleteStrategy" class="cursor-pointer w-12 h-12 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] hover:bg-purple-600 bg-purple-600 bg-opacity-[0.6] duration-150 font-medium text-center text-white rounded-full">
                     <svg class="h-8 w-8 hover:w-9 hover:h-9 ease-in-out duration-200 m-auto pt-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="white" d="M864 256H736v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zm-200 0H360v-72h304v72z"/></svg>
                   </label>
                   <span class="text-white text-xs mt-1">
@@ -520,7 +520,7 @@ onMount(async () => {
     <div class="{!data?.user ? 'hidden' : ''} sm:hidden fixed z-50 w-full h-16 max-w-3xl -right-5 bottom-5">
       <div class="h-full max-w-3xl mx-auto">        
         <div class="flex items-center justify-end mr-10">
-          <label for="addStrategy" class="inline-flex items-center justify-center w-14 h-14 font-medium bg-[#3C74D4] bg-opacity-[0.6] rounded-full cursor-pointer">
+          <label for="addStrategy" class="inline-flex items-center justify-center w-14 h-14 font-medium bg-purple-600 bg-opacity-[0.6] rounded-full cursor-pointer">
             <svg class="w-8 h-8 text-white inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z"/></svg>
           </label>
         </div>
@@ -571,7 +571,7 @@ onMount(async () => {
         />
       
 
-        <button type="submit" class="mt-10 btn bg-blue-700 hover:bg-blue-600 btn-md w-full rounded-lg m-auto text-white font-bold text-md">
+        <button type="submit" class="mt-10 btn bg-purple-600 hover:bg-purple-500 btn-md w-full rounded-lg m-auto text-white font-bold text-md">
           Create Strategy
         </button>
       
@@ -642,7 +642,7 @@ onMount(async () => {
       <div class="modal-action w-full m-auto p-5 flex flex-col sm:flex-row items-center">
          
   
-      <label for="deleteStrategy" on:click={handleDeleteStrategy} class="mt-5 btn bg-blue-700 hover:bg-blue-600 btn-md w-full rounded-lg m-auto text-white font-bold text-md">
+      <label for="deleteStrategy" on:click={handleDeleteStrategy} class="mt-5 btn bg-purple-600 hover:bg-purple-500 btn-md w-full rounded-lg m-auto text-white font-bold text-md">
           Proceed
       </label>
 

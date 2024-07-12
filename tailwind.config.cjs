@@ -13,7 +13,7 @@ module.exports = {
 			  },
 			  animation: {
 				marquee: "marquee var(--duration) linear infinite",
-				'fade-in-once': 'fadeIn 0.9s ease-in-out forwards',
+				'fade-in-once': 'fadeIn 0.5s ease-in-out forwards',
 				'flip': "flip 6s infinite steps(2, end)",
 	            "kitrotate": "kitrotate 3s linear infinite both",
 	            shine: "shine 4s linear infinite",

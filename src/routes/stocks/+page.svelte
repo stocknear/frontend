@@ -171,7 +171,7 @@ $: {
           </thead>
           <tbody>
             {#each symbolList as item,index}
-            <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] {index % 2 === 0 ? 'bg-opacity-[0.25] bg-[#323239]' : 'bg-[#0F0F0F]'} border-b-[#0F0F0F] shake-ticker cursor-pointer">
+            <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] border-b-[#0F0F0F] shake-ticker cursor-pointer">
               
               <td class="hidden sm:table-cell text-blue-400 font-medium text-sm text-start border-b-[#0F0F0F]">
                 {item?.symbol}

@@ -837,7 +837,7 @@ onDestroy(async () => {
                                   />
                                 -->
                                   <div class="w-full max-w-lg pt-3">
-                                    <button type="submit" class="btn bg-blue-700 hover:bg-blue-600 text-white w-full max-w-lg normal-case">Update your data</button>
+                                    <button type="submit" class="btn bg-purple-600 hover:bg-purple-500 text-white w-full max-w-lg normal-case">Update your data</button>
                                   </div>
                                 
                               </form>
@@ -872,7 +872,7 @@ onDestroy(async () => {
                                   />    
                                   
                                   <div class="w-full max-w-lg pt-3">
-                                    <button type="submit" class="btn bg-blue-700 text-white hover:bg-blue-600 w-full max-w-lg normal-case text-md">Update Password</button>
+                                    <button type="submit" class="btn bg-purple-600 text-white hover:bg-purple-500 w-full max-w-lg normal-case text-md">Update Password</button>
                                   </div>
                                 </form>
                               {/if}

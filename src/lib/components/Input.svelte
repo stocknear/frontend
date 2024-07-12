@@ -180,7 +180,7 @@ $: {
 			<span class="text-xs sm:text-sm text-gray-400 m-auto mb-5 ">
 				File must be smaller than 5MB.
 			</span>
-			<label for={id} class="cursor-pointer rounded-full bg-blue-700 text-sm text-white font-bold w-auto p-3">
+			<label for={id} class="cursor-pointer rounded-full bg-purple-600 text-sm text-white font-bold w-auto p-3">
 				Choose File
 			</label>
 	

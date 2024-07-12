@@ -154,7 +154,7 @@ $: {
                 <tbody>
                   {#each trendingList as item,index}
                   <!-- row -->
-                  <tr on:click={() => assetSelector(item?.symbol, item?.assetType)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] {index % 2 === 0 ? 'bg-opacity-[0.25] bg-[#323239]' : 'bg-[#0F0F0F]'} border-b-[#0F0F0F] shake-ticker cursor-pointer">
+                  <tr on:click={() => assetSelector(item?.symbol, item?.assetType)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] border-b-[#0F0F0F] shake-ticker cursor-pointer">
                     
                     <td class="text-gray-200 pb-3 text-md text-start">
                       {index+1}

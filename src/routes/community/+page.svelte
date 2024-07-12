@@ -596,7 +596,7 @@ $: {
                                     <div class="mt-4 border-t border-slate-700 w-11/12 m-auto" />
 
                                     <div class="flex justify-center items-center mb-8 pt-5">
-                                      <a href="/community/create-post" class="rounded-lg cursor-pointer w-11/12 py-2 h-full mt-2 text-md text-center font-semibold text-white m-auto hover:bg-[#3C74D4] bg-[#3C74D4] bg-opacity-[0.6] mb-6 duration-150">
+                                      <a href="/community/create-post" class="rounded-lg cursor-pointer w-11/12 py-2 h-full mt-2 text-md text-center font-semibold text-white m-auto hover:bg-purple-600 bg-purple-600 bg-opacity-[0.6] mb-6 duration-150">
                                         Create Post
                                       </a>
                                     </div>
@@ -674,7 +674,7 @@ $: {
                                     <div class="mt-4 border-t border-slate-700 w-11/12 m-auto" />
 
                                     <div class="flex justify-center items-center mb-8 pt-5">
-                                      <a href={discordURL} rel="noopener noreferrer" target="_blank" class="rounded-lg cursor-pointer w-11/12 py-2 h-full mt-2 text-md text-center font-semibold text-white m-auto hover:bg-[#3C74D4] bg-[#3C74D4] bg-opacity-[0.6] mb-6 duration-150">
+                                      <a href={discordURL} rel="noopener noreferrer" target="_blank" class="rounded-lg cursor-pointer w-11/12 py-2 h-full mt-2 text-md text-center font-semibold text-white m-auto hover:bg-purple-600 bg-purple-600 bg-opacity-[0.6] mb-6 duration-150">
                                         Join us
                                       </a>
                                     </div>

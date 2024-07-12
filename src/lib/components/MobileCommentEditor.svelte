@@ -333,7 +333,7 @@ onDestroy(() => {
       <label on:click={handleCancel} class="inline-flex justify-end items-center py-2.5 px-4 text-xs font-medium text-center text-white rounded-lg hover:bg-gray-800 cursor-pointer mr-3">
           Cancel
       </label>
-        <label on:click={createComment} class="inline-flex justify-end items-center bg-blue-700 {inputValue.length !== 0 ? 'opacity-100 cursor-pointer' : 'opacity-60'}  py-2.5 px-4 text-xs font-medium text-center text-white rounded-lg focus:ring-purple-300">
+        <label on:click={createComment} class="inline-flex justify-end items-center bg-purple-600 {inputValue.length !== 0 ? 'opacity-100 cursor-pointer' : 'opacity-60'}  py-2.5 px-4 text-xs font-medium text-center text-white rounded-lg focus:ring-purple-300">
             Post
         </label>
 

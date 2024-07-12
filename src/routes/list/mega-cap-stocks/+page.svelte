@@ -115,7 +115,7 @@
                 <tbody>
                   {#each marketCapList as item,index}
                   <!-- row -->
-                  <tr on:click={() => goto("/stocks/"+item?.symbol)}  class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] {index % 2 === 0 ? 'bg-opacity-[0.25] bg-[#323239]' : 'bg-[#0F0F0F]'} border-b-[#0F0F0F] shake-ticker cursor-pointer">
+                  <tr on:click={() => goto("/stocks/"+item?.symbol)}  class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] border-b-[#0F0F0F] shake-ticker cursor-pointer">
                   
                   
                     <td class="hidden sm:table-cell text-blue-400 font-medium  border-b-[#0F0F0F]">
@@ -150,7 +150,7 @@
                         <div class="flex flex-row justify-end items-center">
           
                           <div class="flex flex-col">
-                            <span class="text-white font-bold text-md ml-auto">${item.price?.toFixed(2)}</span>
+                            <span class="text-white font-semibold text-md ml-auto">${item.price?.toFixed(2)}</span>
                             <div class="flex flex-row mt-0.5 ml-auto">
                               {#if item.changesPercentage >=0}
                                 <svg class="w-5 h-5 -mr-0.5 -mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>

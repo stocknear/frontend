@@ -183,11 +183,11 @@
 					<div class="w-full max-w-sm sm:max-w-lg pt-5 sm:pt-3">
 
 						{#if !loading && !isClicked}
-						<button type="submit" class="btn bg-blue-700 hover:bg-blue-600 w-full max-w-lg normal-case text-lg mb-3">
+						<button type="submit" class="btn bg-purple-600 hover:bg-purple-500 w-full max-w-lg normal-case text-lg mb-3">
 							<span class="text-white">Post</span>
 						</button>
 						{:else}
-						<label class="cursor-not-allowed btn bg-blue-700  w-full max-w-lg normal-case text-lg mb-3">
+						<label class="cursor-not-allowed btn bg-purple-600  w-full max-w-lg normal-case text-lg mb-3">
 							<div class="flex flex-row m-auto">
 								<span class="loading loading-infinity"></span>
 								<span class="text-white ml-2">Loading</span>

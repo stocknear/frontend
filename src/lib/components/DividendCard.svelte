@@ -84,8 +84,8 @@
                 </table>
               </div>
 
-              <label for="dividendModal" on:click={() => goto(`/etf/${$etfTicker}/dividends`)} class="rounded-lg cursor-pointer w-11/12 md:w-3/4 lg:w-11/12 py-2 h-full mt-8 lg:mt-6 text-[1rem] text-center font-semibold text-white m-auto hover:bg-[#3C74D4] bg-[#3C74D4] bg-opacity-[0.6]">
-                Full Dividend History
+              <label for="dividendModal" on:click={() => goto(`/etf/${$etfTicker}/dividends`)} class="rounded-lg cursor-pointer w-11/12 md:w-3/4 lg:w-11/12 py-2 h-full mt-8 lg:mt-6 text-[1rem] text-center font-semibold text-white m-auto hover:bg-purple-700 bg-purple-600 transition duration-100 ease-in">
+                View Dividend History
               </label>
         
               {:else}

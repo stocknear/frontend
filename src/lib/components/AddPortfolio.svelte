@@ -212,13 +212,13 @@ else {
         on:submit={createPortfolio}
         class="w-full max-w-lg pt-5 m-auto pb-8"
         >
-        <button type="submit" class="btn bg-blue-700 hover:bg-blue-600  btn-md w-full rounded-lg m-auto text-white font-bold text-md">
+        <button type="submit" class="btn bg-purple-600 hover:bg-purple-500  btn-md w-full rounded-lg m-auto text-white font-bold text-md">
             Create Portfolio
         </button>
       </form>
       {:else}
       <div class="w-full max-w-lg pt-5 m-auto pb-8">
-        <label class="opacity-[0.4] cursor-not-allowed btn bg-blue-700  btn-md w-full rounded-lg m-auto text-white font-bold text-md">
+        <label class="opacity-[0.4] cursor-not-allowed btn bg-purple-600  btn-md w-full rounded-lg m-auto text-white font-bold text-md">
           {#if !isClicked} 
             Create Portfolio
           {:else}
@@ -354,13 +354,13 @@ else {
         on:submit={createPortfolio}
         class="w-full max-w-lg m-auto pb-8 mt-10"
         >
-        <button type="submit" class="btn bg-blue-700 hover:bg-blue-600  btn-md w-full rounded-lg m-auto text-white font-bold text-md">
+        <button type="submit" class="btn bg-purple-600 hover:bg-purple-500  btn-md w-full rounded-lg m-auto text-white font-bold text-md">
             Create Portfolio
         </button>
       </form>
       {:else}
       <div class="w-full max-w-lg m-auto pb-8 mt-10">
-        <label class="opacity-[0.4] cursor-not-allowed btn bg-blue-700  btn-md w-full rounded-lg m-auto text-white font-bold text-md">
+        <label class="opacity-[0.4] cursor-not-allowed btn bg-purple-600  btn-md w-full rounded-lg m-auto text-white font-bold text-md">
           {#if !isClicked} 
             Create Portfolio
           {:else}

@@ -464,7 +464,7 @@ const handleDownvote = async (event) => {
             <label for={'delete'+deleteCommentId} class="cursor-pointer text-sm px-3 py-3 rounded-lg m-auto text-white mr-5 bg-[#646464]">
               No, cancel
             </label>
-            <label on:click={handleDeleteComment} for={'delete'+deleteCommentId} class="cursor-pointer text-sm px-3 py-3 rounded-lg m-auto text-white mr-5 bg-blue-700">
+            <label on:click={handleDeleteComment} for={'delete'+deleteCommentId} class="cursor-pointer text-sm px-3 py-3 rounded-lg m-auto text-white mr-5 bg-purple-600">
               Yes, I'm sure
             </label>
               

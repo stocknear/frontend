@@ -523,7 +523,7 @@ $: {
       </div>
 
           <div class="m-auto ml-2 mr-4 hidden">
-            <label on:click={() => goto('/community/create-post')} class="shadow-lg inline-flex items-center justify-center w-full sm:h-10 font-medium bg-[#3C74D4] duration-150 ml-1 mr-0 sm:mr-2 rounded-full cursor-pointer">
+            <label on:click={() => goto('/community/create-post')} class="shadow-lg inline-flex items-center justify-center w-full sm:h-10 font-medium bg-purple-600 duration-150 ml-1 mr-0 sm:mr-2 rounded-full cursor-pointer">
               <svg class="ml-4 w-4 h-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="white" d="m362.7 19.3l-48.4 48.4l130 130l48.4-48.4c25-25 25-65.5 0-90.5l-39.4-39.5c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2c-2.5 8.5-.2 17.6 6 23.8s15.3 8.5 23.7 6.1L151 475.7c14.1-4.2 27-11.8 37.4-22.2l233.3-233.2l-130-130z"/></svg>
               <span class="text-white text-md pl-2 pr-4">
                 Post

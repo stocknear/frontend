@@ -880,7 +880,7 @@ function updateVote(postVote) {
                                               
                                               {:else}
                                               <div class="text-sm sm:text-md text-white bg-[#4B5563] bg-opacity-[0.2] w-full sm:w-fit flex items-center justify-start sm:justify-center pl-2 sm:pl-5 pr-0 sm:pr-5 h-16 rounded-none sm:rounded-lg">
-                                                  <svg class="w-5 h-5 inline-block flex-shrink-0 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#60a5fa" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
+                                                  <svg class="w-5 h-5 inline-block flex-shrink-0 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
                                                   Please <label for="userLogin" class="text-blue-400 hover:text-white ml-1 mr-1 font-medium underline">sign up</label> 
                                                   to be able to comment on topics
                                               </div>
