@@ -20,8 +20,6 @@ const config = {
           }
         },
       },
-      // Enable tree shaking
-      treeshake: true,
     },
   },
 
