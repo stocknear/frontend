@@ -377,18 +377,18 @@ $: {
             </div>
             <div class="hidden md:flex md:items-center md:justify-center md:gap-5">
               <a aria-current="page"
-                    class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white transition-all duration-200 hover:bg-purple-600"
+                    class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white hover:text-yellow-200 transition-all duration-200 hover:bg-purple-600"
                     href="/">Home</a>
                 <a aria-current="page"
-                    class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white transition-all duration-200 hover:bg-purple-600"
+                    class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white hover:text-yellow-200 transition-all duration-200 hover:bg-purple-600"
                     href="/about">About Us</a>
-                <a class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white transition-all duration-200 hover:bg-purple-600"
+                <a class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white hover:text-yellow-200 transition-all duration-200 hover:bg-purple-600"
                     href="/pricing">Pricing</a>
             </div>
             <div class="flex items-center justify-end gap-3">
                 <a class="items-center justify-center rounded-xl bg-gray-200 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-white sm:inline-flex"
                     href="/register">Start Trial</a>
-                <a class="inline-flex items-center justify-center rounded-xl bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
+                <a class="inline-flex items-center justify-center rounded-xl bg-purple-600 px-3 py-2 text-sm font-semibold text-yellow-200 shadow-sm transition-all duration-150 hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
                     href="/login">Login</a>
             </div>
         </div>
