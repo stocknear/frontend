@@ -718,12 +718,12 @@ afterUpdate(async () => {
   
   <section class="bg-[#0F0F0F] min-h-screen pb-40">
   
-              <div class="w-full max-w-3xl m-auto ">
+              <div class="w-full max-w-4xl m-auto ">
   
           
                     <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
                         <!-- Main content -->
-                        <div class="pb-12 md:pb-20 w-full max-w-2xl sm:pr-6 xl:pr-0">
+                        <div class="pb-12 md:pb-20 w-full max-w-3xl sm:pr-6 xl:pr-0">
                           <div class="xl:pr-10">
   
       

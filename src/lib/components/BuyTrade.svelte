@@ -185,7 +185,7 @@
             <div class= "flex flex-col">
                 <div class="text-white text-md flex flex-col flex-shrink-0">
                     <div class="rounded-full w-10 h-10 relative bg-[#202020] mb-2">
-                        <img class="rounded-full w-6 h-6 absolute inset-1/2 transform -translate-x-1/2 -translate-y-1/2" src={`https://financialmodelingprep.com/image-stock/${$assetType === 'stock' ? $stockTicker : $etfTicker}.png`} loading="lazy"/>
+                        <img class="rounded-full w-6 h-6 absolute inset-1/2 transform -translate-x-1/2 -translate-y-1/2" src={`https://financialmodelingprep.com/image-stock/${$assetType === 'stock' ? $stockTicker : $assetType === 'etf' ? $etfTicker : $cryptoTicker}.png`} loading="lazy"/>
                     </div>
                     <span class="mb-1">
                         {$displayCompanyName?.length > 35 ? $displayCompanyName?.slice(0, 35) + "..." : $displayCompanyName}

@@ -297,7 +297,7 @@ isLoaded = true;
                           </thead>
                           <tbody>
                             {#each senateTradingList as item}
-                            <tr on:click={() => goto(`/politicians/${item?.id}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#0F0F0F] border-b-[#0F0F0F] cursor-pointer">
+                            <tr on:click={() => goto(`/politicians/${item?.id}`)} class="odd:bg-[#202020] sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#0F0F0F] border-b-[#0F0F0F] cursor-pointer">
     
                               <td class="text-gray-200 pb-3 border-b border-b-[#0F0F0F]">
                                 <div class="flex flex-row items-center">
