@@ -407,13 +407,17 @@ function calculateStats(optionList) {
   
   function handleInput(event) {
     filterQuery = event.target.value;
+    console.log(filterQuery)
     let newData = [];
     setTimeout(() => {
         if (filterQuery?.length !== 0) {
             newData = [...rawData?.filter(item => item?.ticker === filterQuery?.toUpperCase())];
             if (newData?.length !== 0) {
                 rawData = newData;
-                optionList = rawData?.slice(0, 100);
+
+                optionList = [...rawData?.slice(0, 100)];
+
+
                 notFound = false;
             } else {
                 notFound = true;
@@ -491,9 +495,9 @@ $: {
         }
         
       }
-      else {
+      else if (filterQuery?.length === 0) {
         rawData = data?.getOptionsFlowFeed;
-        optionList = rawData?.slice(0,20);
+        optionList = rawData?.slice(0,100);
 
       }
       calculateStats(rawData);
@@ -534,33 +538,28 @@ $: {
   <section class="w-full max-w-screen sm:max-w-screen-2xl flex justify-center items-center m-auto pt-5 bg-[#0F0F0F] ">
       
   
-  
       <div class="w-full m-auto mb-10 pl-3 pr-3">
-          <div class="flex flex-col sm:flex-row items-center w-full">
-            {#if !$isOpen}
-              <span class="text-white text-sm sm:text-md italic mt-5 text-center sm:text-start w-full ml-2 mb-5">
-                Live flow of {new Date(optionList?.at(0)?.date ?? null)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })} (NYSE Time)
-              </span>
-            {/if}
+
+        {#if !$isOpen}
+          <div class="text-white text-sm sm:text-md italic text-center sm:text-start w-full ml-2 mb-3">
+            Live flow of {new Date(optionList?.at(0)?.date ?? null)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })} (NYSE Time)
+          </div>
+        {/if}
+
+          <div class="flex flex-col sm:flex-row items-center w-full bg-[#262626] rounded-lg px-3">
+          
   
-        
-  
-              <div class="flex flex-row items-center justify-center sm:justify-end mt-6 pb-5 w-full">
-  
-                <label on:click={() => muted = !muted} class="flex flex-col items-center mr-6 cursor-pointer">
-                  {#if !muted}
-                  <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="#20C997" d="M9 2.5a.5.5 0 0 0-.849-.358l-2.927 2.85H3.5a1.5 1.5 0 0 0-1.5 1.5v2.99a1.5 1.5 0 0 0 1.5 1.5h1.723l2.927 2.875A.5.5 0 0 0 9 13.5zm1.111 2.689a.5.5 0 0 1 .703-.08l.002.001l.002.002l.005.004l.015.013l.046.04c.036.034.085.08.142.142c.113.123.26.302.405.54c.291.48.573 1.193.573 2.148c0 .954-.282 1.668-.573 2.148a3.394 3.394 0 0 1-.405.541a2.495 2.495 0 0 1-.202.196l-.008.007h-.001s-.447.243-.703-.078a.5.5 0 0 1 .075-.7l.002-.002l-.001.001l.002-.001h-.001l.018-.016c.018-.017.048-.045.085-.085a2.4 2.4 0 0 0 .284-.382c.21-.345.428-.882.428-1.63c0-.747-.218-1.283-.428-1.627a2.382 2.382 0 0 0-.368-.465a.5.5 0 0 1-.096-.717m1.702-2.08a.5.5 0 1 0-.623.782l.011.01l.052.045c.047.042.116.107.201.195c.17.177.4.443.63.794c.46.701.92 1.733.92 3.069a5.522 5.522 0 0 1-.92 3.065c-.23.35-.46.614-.63.79a3.922 3.922 0 0 1-.252.24l-.011.01h-.001a.5.5 0 0 0 .623.782l.033-.027l.075-.065c.063-.057.15-.138.253-.245a6.44 6.44 0 0 0 .746-.936a6.522 6.522 0 0 0 1.083-3.614a6.542 6.542 0 0 0-1.083-3.618a6.517 6.517 0 0 0-.745-.938a4.935 4.935 0 0 0-.328-.311l-.023-.019l-.007-.006l-.002-.002zM10.19 5.89l-.002-.001Z"/></svg>
-                  <span class="text-[#20C997] text-xs">
-                    Sounds on
-                  </span>
-                  {:else}
-                  <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#EE5365" d="M3.28 2.22a.75.75 0 1 0-1.06 1.06L6.438 7.5H4.25A2.25 2.25 0 0 0 2 9.749v4.497a2.25 2.25 0 0 0 2.25 2.25h3.68a.75.75 0 0 1 .498.19l4.491 3.994c.806.716 2.081.144 2.081-.934V16.06l5.72 5.72a.75.75 0 0 0 1.06-1.061zm13.861 11.74l1.138 1.137A6.974 6.974 0 0 0 19 12a6.973 6.973 0 0 0-.84-3.328a.75.75 0 0 0-1.32.714c.42.777.66 1.666.66 2.614c0 .691-.127 1.351-.359 1.96m2.247 2.246l1.093 1.094A9.956 9.956 0 0 0 22 12a9.959 9.959 0 0 0-1.96-5.946a.75.75 0 0 0-1.205.892A8.459 8.459 0 0 1 20.5 12a8.458 8.458 0 0 1-1.112 4.206M9.52 6.338l5.48 5.48V4.25c0-1.079-1.274-1.65-2.08-.934z"/></svg>
-                    <span class="text-[#EE5365] text-xs">
-                      Sounds off
-                  </span>
+              <div class="flex flex-row items-center justify-center sm:justify-start mt-6 pb-5">
+                <label data-tip="Audio Preference" on:click={() => muted = !muted} class="xl:tooltip xl:tooltip-bottom flex flex-col items-center mr-6 cursor-pointer">
+                  <div class="rounded-full w-10 h-10 relative bg-[#000] flex items-center justify-center">
+                    {#if !muted}
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="#fff" d="M9 2.5a.5.5 0 0 0-.849-.358l-2.927 2.85H3.5a1.5 1.5 0 0 0-1.5 1.5v2.99a1.5 1.5 0 0 0 1.5 1.5h1.723l2.927 2.875A.5.5 0 0 0 9 13.5zm1.111 2.689a.5.5 0 0 1 .703-.08l.002.001l.002.002l.005.004l.015.013l.046.04c.036.034.085.08.142.142c.113.123.26.302.405.54c.291.48.573 1.193.573 2.148c0 .954-.282 1.668-.573 2.148a3.394 3.394 0 0 1-.405.541a2.495 2.495 0 0 1-.202.196l-.008.007h-.001s-.447.243-.703-.078a.5.5 0 0 1 .075-.7l.002-.002l-.001.001l.002-.001h-.001l.018-.016c.018-.017.048-.045.085-.085a2.4 2.4 0 0 0 .284-.382c.21-.345.428-.882.428-1.63c0-.747-.218-1.283-.428-1.627a2.382 2.382 0 0 0-.368-.465a.5.5 0 0 1-.096-.717m1.702-2.08a.5.5 0 1 0-.623.782l.011.01l.052.045c.047.042.116.107.201.195c.17.177.4.443.63.794c.46.701.92 1.733.92 3.069a5.522 5.522 0 0 1-.92 3.065c-.23.35-.46.614-.63.79a3.922 3.922 0 0 1-.252.24l-.011.01h-.001a.5.5 0 0 0 .623.782l.033-.027l.075-.065c.063-.057.15-.138.253-.245a6.44 6.44 0 0 0 .746-.936a6.522 6.522 0 0 0 1.083-3.614a6.542 6.542 0 0 0-1.083-3.618a6.517 6.517 0 0 0-.745-.938a4.935 4.935 0 0 0-.328-.311l-.023-.019l-.007-.006l-.002-.002zM10.19 5.89l-.002-.001Z"/></svg>
+                    {:else}
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#fff" d="M3.28 2.22a.75.75 0 1 0-1.06 1.06L6.438 7.5H4.25A2.25 2.25 0 0 0 2 9.749v4.497a2.25 2.25 0 0 0 2.25 2.25h3.68a.75.75 0 0 1 .498.19l4.491 3.994c.806.716 2.081.144 2.081-.934V16.06l5.72 5.72a.75.75 0 0 0 1.06-1.061zm13.861 11.74l1.138 1.137A6.974 6.974 0 0 0 19 12a6.973 6.973 0 0 0-.84-3.328a.75.75 0 0 0-1.32.714c.42.777.66 1.666.66 2.614c0 .691-.127 1.351-.359 1.96m2.247 2.246l1.093 1.094A9.956 9.956 0 0 0 22 12a9.959 9.959 0 0 0-1.96-5.946a.75.75 0 0 0-1.205.892A8.459 8.459 0 0 1 20.5 12a8.458 8.458 0 0 1-1.112 4.206M9.52 6.338l5.48 5.48V4.25c0-1.079-1.274-1.65-2.08-.934z"/></svg>
                     {/if}
+                  </div>
                 </label>
-  
+                
   
               <span class="text-xs sm:text-sm {!mode ? 'text-white' : 'text-gray-400'} mr-3">
                   Paused
@@ -578,18 +577,55 @@ $: {
                   </span>
               </div>
   
-    
-  
             
           </div>
+
+          <!--Start Filter-->
+          <div class="sm:ml-auto w-full sm:w-fit">
+            <div class="relative flex flex-col sm:flex-row items-center">
+                <div class="relative w-full sm:w-fit pl-3 py-2 sm:py-1.5 sm:mr-5 mb-4 sm:mb-0 flex-auto text-center bg-[#313131] rounded-lg border border-gray-600">
+                  <label class="flex flex-row items-center ">
+                    <input 
+                    id="modal-search"
+                      type="search" 
+                      class="text-white sm:ml-2 text-[1rem] placeholder-gray-300 border-transparent focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1 bg-inherit"
+                      placeholder="Find by Symbol"
+                      bind:value={filterQuery}
+                      on:input={debouncedHandleInput}
+                      autocomplete="off"
+                    />
+                    <svg class="ml-auto h-7 w-7 sm:h-8 sm:w-8 inline-block mr-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#fff" d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37"/></svg>
+                  </label>
+                  {#if notFound === true}
+                  <span class="absolute left-1 -bottom-6 label-text text-error text-[0.65rem] mt-2">
+                      No Results Found
+                  </span>
+                  {/if}
+                </div>
+                
+                
+              <div class="py-2 sm:py-1.5 mb-5 sm:mb-0 flex-auto text-center bg-[#000] rounded-lg w-full sm:w-fit">
+                <label for="filterList" class="sm:flex sm:flex-row justify-center items-center cursor-pointer px-5">
+                  <svg class="h-6 w-6 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M32 144h448M112 256h288M208 368h96"/></svg>
+                  <span class="m-auto text-[1rem] text-white ml-2 px-0 py-1 bg-inherit">
+                    Filters
+                  </span>
+                </label>
+              </div>
+
+
+        </div>
+      </div>
+          <!--End Filter-->
               
-          </div>
+      </div>
   
           
     
 
   
           {#if isLoaded }
+
   
           <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center">
             <div class="w-full grid grid-cols-1 lg:grid-cols-4 gap-y-3 gap-x-3 ">
@@ -1136,3 +1172,5 @@ $: {
 </div>
 </div>
 <!--End Options Detail Modal-->
+
+
