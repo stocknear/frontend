@@ -9,9 +9,7 @@
 
   
   export let data;
-  
-  let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
-  
+    
   
   const usRegion = ['cle1','iad1','pdx1','sfo1'];
   let wsURL;
@@ -165,7 +163,7 @@ function handleViewData(optionData) {
           if (rawData?.length !== 0 && newIncomingData === true) {
               notFound = false;
               newIncomingData = false;
-              optionList = rawData?.slice(0, 20);
+              optionList = rawData?.slice(0, 50);
           } else if (!newIncomingData) {
               notFound = false;
               newIncomingData = false;
@@ -202,31 +200,47 @@ function handleViewData(optionData) {
   }
   
   
-  
+  let scrollContainer;
+
+
   onMount(async () => {
-  
-    audio = new Audio(notifySound)
+    audio = new Audio(notifySound);
     rawData = data?.getOptionsFlowFeed;
-    optionList = rawData?.slice(0,20);
+    optionList = rawData?.slice(0, 100);
     calculateStats(rawData);
     isLoaded = true;
-  
-    if ($isOpen) //&& currentDateTime > startTime && currentDateTime < endTime
-    {
-      await websocketRealtimeData()
+
+    if ($isOpen) {
+      await websocketRealtimeData();
     }
-  
-    if(data?.user?.tier === 'Pro') {
-      window.addEventListener('scroll', handleScroll);
-      return () => {
-          window.removeEventListener('scroll', handleScroll);
+
+    if (data?.user?.tier === 'Pro') {
+      const attachScrollListener = () => {
+        if (scrollContainer) {
+          scrollContainer.addEventListener('scroll', handleScroll);
+          return true;
+        }
+        return false;
       };
+
+      if (!attachScrollListener()) {
+        const observer = new MutationObserver(() => {
+          if (attachScrollListener()) {
+            observer.disconnect();
+          }
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
     }
+  });
   
-  
-  })
-  
-  onDestroy(async() => {
+onDestroy(async() => {
+
+    if (scrollContainer && data?.user?.tier === 'Pro') {
+      scrollContainer.removeEventListener('scroll', handleScroll);
+    };
+
     if (typeof window !== 'undefined') 
     {
       socket?.close()
@@ -239,14 +253,16 @@ function handleViewData(optionData) {
   })
   
   async function handleScroll() {
-      const scrollThreshold = document.body.offsetHeight * 0.8; // 80% of the website height
-      const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
-      if (isBottom && optionList?.length !== rawData?.length) {
-          const nextIndex = optionList?.length;
-          const filteredNewResults = rawData?.slice(nextIndex, nextIndex + 25);
-          optionList = [...optionList, ...filteredNewResults];
-      }
+    if (!scrollContainer) return;
+    const scrollThreshold = scrollContainer.scrollHeight * 0.8; // 80% of the div height
+    const isBottom = scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollThreshold;
+    if (isBottom && optionList?.length !== rawData?.length) {
+      const nextIndex = optionList?.length;
+      const filteredNewResults = rawData?.slice(nextIndex, nextIndex + 25);
+      optionList = [...optionList, ...filteredNewResults];
+    }
   }
+
     
     async function assetSelector(symbol, assetType)
       {    
@@ -397,17 +413,17 @@ function calculateStats(optionList) {
             newData = [...rawData?.filter(item => item?.ticker === filterQuery?.toUpperCase())];
             if (newData?.length !== 0) {
                 rawData = newData;
-                optionList = rawData?.slice(0, 20);
+                optionList = rawData?.slice(0, 100);
                 notFound = false;
             } else {
                 notFound = true;
                 rawData = data?.getOptionsFlowFeed;
-                optionList = rawData?.slice(0, 20);
+                optionList = rawData?.slice(0, 100);
             }
         } else {
             notFound = false;
             rawData = data?.getOptionsFlowFeed;
-            optionList = rawData?.slice(0, 20);
+            optionList = rawData?.slice(0, 100);
         }
     }, 200);
 }
@@ -466,7 +482,7 @@ $: {
         const newData = filterExpiringSoon(rawData, Math.max(...filterList));
         if (newData?.length !== 0) {
             rawData = newData;
-            optionList = rawData?.slice(0, 20);
+            optionList = rawData?.slice(0, 50);
             notFound = false;
         } else {
             notFound = true;
@@ -514,60 +530,12 @@ $: {
   
   </svelte:head>
     
-  <section class="w-full max-w-5xl overflow-hidden m-auto min-h-screen pt-5 pb-40 bg-[#0F0F0F]">
+<body class="sm:fixed h-screen m-auto w-full max-w-screen">
+  <section class="w-full max-w-screen sm:max-w-screen-2xl flex justify-center items-center m-auto pt-5 bg-[#0F0F0F] ">
       
   
   
-     <div class="w-full max-w-5xl m-auto sm:bg-[#202020] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
-                      <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
-                    
-                        <!-- Start Column -->
-                        <div>
-                          <div class="flex flex-row justify-center items-center">
-                            <h1 class="text-3xl sm:text-4xl text-white text-center font-bold mb-5">
-                              Options Flow
-                            </h1>
-                          </div>
-                
-                          <span class="text-white text-md font-medium text-center flex justify-center items-center ">
-                              The most recent unusual options activity from large institutional traders and hedge funds.
-                          </span>
-                
-            
-                
-                        </div>
-                        <!-- End Column -->
-                    
-                        <!-- Start Column -->
-                        <div class="hidden sm:block relative m-auto mb-5 mt-5 sm:mb-0 sm:mt-0">
-                          <svg class="w-40 -my-5" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                              <filter id="glow">
-                                <feGaussianBlur stdDeviation="5" result="glow"/>
-                                <feMerge>
-                                  <feMergeNode in="glow"/>
-                                  <feMergeNode in="SourceGraphic"/>
-                                </feMerge>
-                              </filter>
-                            </defs>
-                            <path fill="#1E40AF" d="M57.6,-58.7C72.7,-42.6,81.5,-21.3,82,0.5C82.5,22.3,74.7,44.6,59.7,60.1C44.6,75.6,22.3,84.3,0,84.3C-22.3,84.2,-44.6,75.5,-61.1,60.1C-77.6,44.6,-88.3,22.3,-87.6,0.7C-86.9,-20.8,-74.7,-41.6,-58.2,-57.7C-41.6,-73.8,-20.8,-85.2,0.2,-85.4C21.3,-85.6,42.6,-74.7,57.6,-58.7Z" transform="translate(100 100)" filter="url(#glow)" />
-                          </svg>
-                          
-                          
-                          <div class="z-1 absolute top-1 right-10">
-                            <img class="w-24 h-fit mr-1" src={cloudFrontUrl+'/assets/options_logo.png'} alt="logo" loading="lazy">
-                          </div>
-                        </div>
-                        <!-- End Column -->
-                      </div>
-                
-                     
-            
-                    </div>
-                    
-  
-  
-      <div class="w-full m-auto mb-10 bg-[#0F0F0F] pl-3 pr-3">
+      <div class="w-full m-auto mb-10 pl-3 pr-3">
           <div class="flex flex-col sm:flex-row items-center w-full">
             {#if !$isOpen}
               <span class="text-white text-sm sm:text-md italic mt-5 text-center sm:text-start w-full ml-2 mb-5">
@@ -624,21 +592,21 @@ $: {
           {#if isLoaded }
   
           <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center">
-            <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-y-3 gap-x-3 ">
+            <div class="w-full grid grid-cols-1 lg:grid-cols-4 gap-y-3 gap-x-3 ">
               <!--Start Flow Sentiment-->  
-              <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+              <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
                   <div class="flex flex-col items-start">
-                      <span class="font-medium text-gray-200 text-sm ">Flow Sentiment</span>
-                      <span class="text-start text-[1rem] font-medium {flowSentiment === 'Bullish' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">{flowSentiment}</span>
+                      <span class="font-semibold text-gray-200 text-sm ">Flow Sentiment</span>
+                      <span class="text-start text-xl font-semibold {flowSentiment === 'Bullish' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">{flowSentiment}</span>
                   </div>
                   
               </div>
               <!--End Flow Sentiment-->
                <!--Start Put/Call-->  
-               <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+               <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
                 <div class="flex flex-col items-start">
-                    <span class="font-medium text-gray-200 text-sm ">Put/Call</span>
-                    <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
+                    <span class="font-semibold text-gray-200 text-sm ">Put/Call</span>
+                    <span class="text-start text-lg font-semibold text-white">
                       {putCallRatio?.toFixed(3)}
                     </span>
                 </div>
@@ -662,10 +630,10 @@ $: {
             </div>
             <!--End Put/Call-->
              <!--Start Call Flow-->  
-             <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+             <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-medium text-gray-200 text-sm ">Call Flow</span>
-                  <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
+                  <span class="font-semibold text-gray-200 text-sm ">Call Flow</span>
+                  <span class="text-start text-lg font-semibold text-white">
                     {new Intl.NumberFormat("en", {
                       minimumFractionDigits: 0,
                       maximumFractionDigits: 0
@@ -691,10 +659,10 @@ $: {
             </div>
             <!--End Call Flow-->
             <!--Start Put Flow-->  
-            <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+            <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-medium text-gray-200 text-sm ">Put Flow</span>
-                  <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
+                  <span class="font-semibold text-gray-200 text-sm ">Put Flow</span>
+                  <span class="text-start text-lg font-semibold text-white">
                     {new Intl.NumberFormat("en", {
                       minimumFractionDigits: 0,
                       maximumFractionDigits: 0
@@ -722,10 +690,10 @@ $: {
   
             {#if showMore}
              <!--Start Most Traded-->  
-             <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+             <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-medium text-gray-200 text-sm ">Most Traded Option</span>
-                  <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
+                  <span class="font-semibold text-gray-200 text-sm ">Most Traded Option</span>
+                  <span class="text-start text-lg font-semibold text-white mt-0.5">
                     <span class="text-blue-400 ">
                       {mostFrequentTicker?.ticker}
                     </span>
@@ -739,10 +707,10 @@ $: {
             <!--End Most Traded-->
   
              <!--Start Highest Premium-->  
-             <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+             <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-medium text-gray-200 text-sm ">Highest Premium</span>
-                  <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
+                  <span class="font-semibold text-gray-200 text-sm ">Highest Premium</span>
+                  <span class="text-start text-lg font-semibold text-white mt-0.5">
                     <span class="text-blue-400 ">
                       {highestPremiumTicker?.ticker}
                     </span>
@@ -756,10 +724,10 @@ $: {
             <!--End Highest Premium-->
   
             <!--Start Highest Volume-->  
-            <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+            <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-medium text-gray-200 text-sm ">Highest Volume</span>
-                  <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
+                  <span class="font-semibold text-gray-200 text-sm ">Highest Volume</span>
+                  <span class="text-start text-lg font-semibold text-white mt-0.5">
                     <span class="text-blue-400 ">
                       {highestVolumeTicker?.ticker}
                     </span>
@@ -775,8 +743,8 @@ $: {
              <!--Start Highest Open Interest-->  
              <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-medium text-gray-200 text-sm ">Highest Open Interest</span>
-                  <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
+                  <span class="font-semibold text-gray-200 text-sm ">Highest Open Interest</span>
+                  <span class="text-start text-lg font-semibold text-white mt-0.5">
                     <span class="text-blue-400 ">
                       {highestOpenInterestTicker?.ticker}
                     </span>
@@ -802,69 +770,30 @@ $: {
           </label>
           <!--End Expand-->
   
-          <!--Start Filter-->
-          <div class="w-full pb-3 mt-10 sm:mt-5">
-            <div class="relative right-0 bg-[#0F0F0F]">
-              <ul class="relative grid grid-cols-2 sm:grid-cols-4 gap-y-3 gap-x-3 flex flex-wrap p-1 list-none rounded-[3px]">
-                <li class="relative pl-3 py-1.5 flex-auto text-center bg-[#2E3238] rounded-[3px]">
-                  <label class="flex flex-row items-center">
-                    <input 
-                    id="modal-search"
-                      type="search" 
-                      class="text-white sm:ml-2 text-sm sm:text-[1rem] placeholder-gray-400 border-transparent focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1 bg-inherit"
-                      placeholder="Find by Symbol"
-                      bind:value={filterQuery}
-                      on:input={debouncedHandleInput}
-                      autocomplete="off"
-                    />
-                    <svg class="ml-auto h-7 w-7 sm:h-8 sm:w-8 inline-block mr-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#fff" d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37"/></svg>
-                  </label>
-                  {#if notFound === true}
-                  <span class="absolute left-1 -bottom-6 label-text text-error text-[0.65rem] mt-2">
-                      No Results Found
-                  </span>
-                  {/if}
-                  </li>
-                
-                
-              <li class="pl-3 py-1.5 flex-auto text-center bg-[#2E3238] rounded-[3px]">
-                <label for="filterList" class="flex flex-row items-center cursor-pointer">
-                  <span class=" text-sm sm:text-[1rem] text-gray-400 ml-2 text-start w-full px-0 py-1 bg-inherit">
-                    Filter
-                  </span>
-                  <svg class="ml-auto mr-5 h-5 w-5 inline-block transform transition-transform mr-2 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="#fff" d="m488.832 344.32l-339.84 356.672a32 32 0 0 0 0 44.16l.384.384a29.44 29.44 0 0 0 42.688 0l320-335.872l319.872 335.872a29.44 29.44 0 0 0 42.688 0l.384-.384a32 32 0 0 0 0-44.16L535.168 344.32a32 32 0 0 0-46.336 0z"/></svg>
-                </label>
-              </li>
-
-
-          </ul>
-        </div>
-      </div>
-          <!--End Filter-->
-  
+        
   
   
           <!-- Page wrapper -->
-          <div class="flex justify-center w-full max-w-5xl m-auto h-full overflow-hidden mt-3">
+          <div class="flex justify-center w-full m-auto h-full overflow-hidden">
       
         
               <!-- Content area -->
-              <div class="mt-4 w-full overflow-x-auto">
-                <table class="table table-pin-cols table-sm table-compact">
+              <div bind:this={scrollContainer} class="mt-4 w-full overflow-x-auto overflow-y-auto h-[900px] rounded-lg">
+                <table class="table table-pin-cols table-pin-rows table-sm table-compact">
                     <thead>
                       <tr class="">
-                        <td class="text-slate-200 font-semibold text-sm text-start">Time</td>
-                        <th class="bg-[#0F0F0F] font-semibold text-slate-200 text-sm text-start">Symbol</th>
-                        <td class="text-slate-200 font-semibold text-sm text-start">Expiry</td>
-                        <td class="text-slate-200 font-semibold text-sm text-start">Strike</td>
-                        <td class="text-slate-200 font-semibold text-sm text-start">C/P</td>
-                        <td class="text-slate-200 font-semibold text-sm text-start">Sent.</td>
-                        <td class="text-slate-200 font-semibold text-sm text-start">Spot</td>
-                        <td class="text-slate-200 font-semibold text-sm text-start">Price</td>
-                        <td class="text-slate-200 font-semibold text-sm text-start">Prem.</td>
-                        <td class="text-slate-200 font-semibold text-sm text-start">Type</td>
-                        <td class="text-slate-200 font-semibold text-sm text-end">Vol.</td>
-                        <td class="text-slate-200 font-semibold text-sm text-end">OI</td>
+                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Time</td>
+                        <th class="bg-[#161618] font-bold text-slate-300 text-xs text-start uppercase">Symbol</th>
+                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Expiry</td>
+                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Strike</td>
+                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">C/P</td>
+                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Sent.</td>
+                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Spot</td>
+                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Price</td>
+                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Prem.</td>
+                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Type</td>
+                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-end uppercase">Vol</td>
+                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-end uppercase">OI</td>
                       </tr>
                     </thead>
                     <tbody>
@@ -904,7 +833,7 @@ $: {
                         {item?.price}
                       </td>
                       
-                      <td class="text-sm text-start font-medium {item?.put_call === 'Puts' ? 'text-[#CB281C]' : 'text-[#0FB307]'} ">
+                      <td class="text-sm text-start font-semibold {item?.put_call === 'Puts' ? 'text-[#CB281C]' : 'text-[#0FB307]'} ">
                         {abbreviateNumber(item?.cost_basis)}
                       </td>
   
@@ -959,9 +888,9 @@ $: {
           {/if}
       </div>        
       
-      </section>
+  </section>
       
-    
+</body>
       
 
 
