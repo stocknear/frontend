@@ -183,7 +183,15 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                       class="h-[1px] animate-border-width rounded-full bg-gradient-to-r from-[rgba(251,206,60,0)] via-white to-[rgba(188,126,254,0)] transition-all duration-1000"
                                     />
                                   </div>
-                                  <div class="overlay m-auto flex justify-center items-center w-fit sm:w-[820px] h-full">
+
+                                  <div class="absolute flex items-center justify-center -top-[-140px] sm:top-[270px] -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none w-96 sm:w-[900px] aspect-square">
+                                    <div class="absolute inset-0 translate-z-0 bg-gradient-to-t from-[#E8BB28] to-purple-600 rounded-full blur-[1600px] opacity-[0.15]"></div>
+                                    <div class="absolute w-64 h-64 translate-z-0 bg-gradient-to-t from-[#E8BB28] to-purple-900 rounded-full blur-[800px] "></div>
+                                  </div>
+                                  
+
+
+                                  <div class="overlay m-auto flex justify-center z-20 items-center w-fit sm:w-[820px] h-full">
                                     <img class="w-full" src={cloudFrontUrl+"/assets/showcase-stock.png"} loading = 'lazy' alt="logo">
                                   </div>
                                 </div>
@@ -321,23 +329,36 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                   </div>
                               </section>
 
-            
+                              
+
+
                               
                                 <h2 use:intersect={intersectOptions} class="invisible text-white text-3xl sm:text-4xl text-center m-auto font-bold mt-20 w-11/12 sm:w-1/2 mb-10">
                                   Realtime Options Flow from Hedge Funds & Major Institutions
                                 </h2>
                                     
-                                <div use:intersect={intersectOptions} class="invisible relative">
-                                  <div class="absolute -top-4 flex w-full justify-center">
+
+                                <div use:intersect={intersectOptions} class="invisible relative mb-4">
+                                  <div class="absolute top-0 flex w-full justify-center">
                                     <div
                                       class="h-[1px] animate-border-width rounded-full bg-gradient-to-r from-[rgba(251,206,60,0)] via-white to-[rgba(188,126,254,0)] transition-all duration-1000"
                                     />
                                   </div>
+  
+                                  <div class="absolute flex items-center justify-center -top-[-140px] sm:top-[270px] -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none w-96 sm:w-[900px] aspect-square">
+                                    <div class="absolute inset-0 translate-z-0 bg-gradient-to-t from-[#E8BB28] to-purple-600 rounded-full blur-[1600px] opacity-[0.15]"></div>
+                                    <div class="absolute w-64 h-64 translate-z-0 bg-gradient-to-t from-[#E8BB28] to-purple-900 rounded-full blur-[800px] "></div>
+                                  </div>
+                                  
+                                  
+  
+  
                                   <div class="overlay m-auto flex justify-center items-center w-fit sm:w-[820px] h-full">
                                     <img class="w-full" src={cloudFrontUrl+"/assets/showcase-options-flow.png"} loading = 'lazy' alt="logo">
                                   </div>
                                 </div>
-                            
+                                
+
                               
                                 
                                 <section>
@@ -518,23 +539,23 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
 
 .overlay {
   position: relative;
+}
 
-    }
-    
-    .overlay img {
-      width: 100%;
-      height: auto;
-    }
-    
-    .overlay::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      background-image: linear-gradient(0deg, rgba(0, 0, 0, 1), transparent 90%);
-    }
+.overlay img {
+  width: 100%;
+  height: auto;
+}
+
+.overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0) 50%);
+  pointer-events: none; /* Ensure the overlay doesn't interfere with interaction */
+}
 
     .bg-radial-gradient {
     top: 0;

@@ -48,10 +48,13 @@
       </div>
       
       <div class="flex-1 mb-2 sm:mb-0">
-        <p class="uppercase text-slate-100 md:mb-6">Services</p>
+        <p class="uppercase text-slate-100 md:mb-6">Products</p>
         <ul class="list-reset mb-6">
           <li class="mt-2 inline-block mr-2 md:block md:mr-0" >
             <a href="/pricing" class="no-underline hover:underline text-gray-300  hover:text-yellow-400">Pricing</a>
+          </li>
+          <li class="mt-2 inline-block mr-2 md:block md:mr-0" >
+            <a href="/changelog" class="no-underline hover:underline text-gray-300  hover:text-yellow-400">Changelog</a>
           </li>
           <li class="mt-2 inline-block mr-2 md:block md:mr-0" >
             <a href="https://stocknear.lemonsqueezy.com/affiliates" rel="noopener noreferrer" target="_blank" class="no-underline hover:underline text-gray-300  hover:text-yellow-400">Affiliate Program</a>
