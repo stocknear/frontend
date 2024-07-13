@@ -2,7 +2,7 @@
   import DotPattern from '$lib/components/DotPattern.svelte';
   import Marquee from '$lib/components/Marquee.svelte';
 
-  import Discount from '$lib/components/Discount.svelte';
+  //import Discount from '$lib/components/Discount.svelte';
   import { intersect } from 'svelte-intersection-observer-action';
 
   export let data;
@@ -34,12 +34,12 @@ function callback(entry: IntersectionObserverEntry) {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
   <title>
-    Stock Analysis Platform for Data Lovers · stocknear
+    Modern Stock Analysis Platform · stocknear
   </title>
 
   <meta name="description" content="Stocknear has everything you need to analyze stocks with help of AI, including detailed financial data, statistics, news and charts.">
   <!-- Other meta tags -->
-  <meta property="og:title" content="Stock Analysis Platform for Data Lovers · stocknear"/>
+  <meta property="og:title" content="Modern Stock Analysis Platform · stocknear"/>
   <meta property="og:description" content="Stocknear has everything you need to analyze stocks with help of AI, including detailed financial data, statistics, news and charts."/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
@@ -163,7 +163,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                     </div>
                                     
 
-                                    <Discount />
+                                    <!--<Discount />-->
 
                                   </div>
                                      
