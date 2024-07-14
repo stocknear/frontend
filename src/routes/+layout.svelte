@@ -53,6 +53,7 @@
   import Box from "lucide-svelte/icons/box";
   import Boxes from "lucide-svelte/icons/boxes";
   import Newspaper from "lucide-svelte/icons/newspaper";
+  import MessageCircle from "lucide-svelte/icons/message-circle";
 
 
   export let data;
@@ -398,13 +399,13 @@ $: {
     <nav class="flex flex-col items-center mr-auto gap-y-4 sm:py-5 w-full">
       <a
         href="/"
-        class="mr-14 mb-5 group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+        class="mr-12 mb-5 group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
       >
       <img class="avatar w-9 sm:w-10 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
         <span class="text-white text-xl">Stocknear</span>
       </a>
       
-      <a href="/" class="flex flex-row items-center ml-4 mr-auto">
+      <a href="/" class="flex flex-row items-center ml-5 mr-auto">
         <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
           <Home class="h-5.5 w-5.5" />  
         </div>
@@ -412,7 +413,7 @@ $: {
         </a>
 
 
-        <div class="flex flex-row items-center ml-4 mr-auto mt-2 w-3/4">
+        <div class="flex flex-row items-center ml-5 mr-auto mt-3 w-3/4">
 
           <Accordion.Root class="w-fit">
 
@@ -437,7 +438,7 @@ $: {
                   
         </div>
        
-        <div class="flex flex-row items-center ml-4 mr-auto mt-2 w-3/4">
+        <div class="flex flex-row items-center ml-5 mr-auto mt-3 w-3/4">
 
           <Accordion.Root class="w-fit">
 
@@ -462,7 +463,7 @@ $: {
                   
         </div>
 
-        <div class="flex flex-row items-center ml-4 mr-auto mt-2 w-3/4">
+        <div class="flex flex-row items-center ml-5 mr-auto mt-3 w-3/4">
 
           <Accordion.Root class="w-fit">
 
@@ -487,7 +488,7 @@ $: {
                   
         </div>
 
-        <div class="flex flex-row items-center ml-4 mr-auto mt-2 w-3/4">
+        <div class="flex flex-row items-center ml-5 mr-auto mt-3 w-3/4">
 
           <Accordion.Root class="w-fit">
 
@@ -511,7 +512,7 @@ $: {
         </div>
 
 
-        <div class="flex flex-row items-center ml-4 mr-auto mt-2 w-3/4">
+        <div class="flex flex-row items-center ml-5 mr-auto mt-3 w-3/4">
 
           <Accordion.Root class="w-fit">
 
@@ -536,7 +537,7 @@ $: {
                   
         </div>
 
-        <a href="/dark-pool-flow" class="flex flex-row items-center ml-4 mt-2 mr-auto">
+        <a href="/dark-pool-flow" class="flex flex-row items-center ml-5 mt-3 mr-auto">
           <div
             class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
           >
@@ -546,7 +547,7 @@ $: {
           <span class="ml-3 text-white">Dark Pool</span>
         </a>
 
-        <a href="/hedge-funds" class="flex flex-row items-center ml-4 mt-2 mr-auto">
+        <a href="/hedge-funds" class="flex flex-row items-center ml-5 mt-3 mr-auto">
           <div
             class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
           >
@@ -556,7 +557,7 @@ $: {
           <span class="ml-3 text-white">Hedge Funds</span>
         </a>
 
-        <a href="/market-news" class="flex flex-row items-center ml-4 mt-2 mr-auto">
+        <a href="/market-news" class="flex flex-row items-center ml-5 mt-3 mr-auto">
           <div
             class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
           >
@@ -565,14 +566,22 @@ $: {
           </div>
           <span class="ml-3 text-white">Newspaper</span>
         </a>
+
+        <a href="/community" class="flex flex-row items-center ml-5 mt-3 mr-auto">
+          <div
+            class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
+          >
+            <MessageCircle class="h-5.5 w-5.5" />
+            
+          </div>
+          <span class="ml-3 text-white">Community</span>
+        </a>
             
     </nav>
    
   </aside>
   <div class="flex flex-col sm:pl-14">
-    <header
-      class="navbar {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} sticky top-0 z-40 bg-[#141417] flex h-14 items-center gap-4 sm:border-b sm:border-gray-800 px-4 sm:h-auto sm:px-6"
-    >
+    <header class="navbar {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} sticky top-0 z-40 bg-[#141417] flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6">
       <Sheet.Root>
         <Sheet.Trigger asChild let:builder>
           <Button builders={[builder]} size="icon" class="sm:hidden bg-[#141417] border-none">
@@ -583,37 +592,92 @@ $: {
         <Sheet.Content side="left" class="sm:max-w-xs bg-[#141417]">
           <nav class="grid gap-6 text-lg font-medium bg-[#141417]">
             <a
-            href="##"
-            class="flex items-center gap-4 px-2.5 text-white"
+            href="/"
+            class="flex items-center gap-4 px-0.5 text-white"
           >
           <img class="avatar w-9 sm:w-10 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
             Stocknear
           </a>
-          <a
-            href="##"
-            class="flex items-center gap-4 px-2.5 text-white"
-          >
-            <Home class="h-5.5 w-5.5" />
-            Dashboard
-          </a>
-          <a
-            href="##"
-            class="flex items-center gap-4 px-2.5 text-white"
-          >
-            <ShoppingCart class="h-5.5 w-5.5" />
-            Orders
-          </a>
-          <a href="##" class="flex items-center gap-4 px-2.5 text-white">
-            <Package class="h-5.5 w-5.5" />
-            Products
-          </a>
-          <a
-            href="##"
-            class="flex items-center gap-4 px-2.5 text-white"
-          >
-            <UsersRound class="h-5.5 w-5.5" />
-            Customers
-          </a>
+
+          <Sheet.Close asChild let:builder>
+            <Button builders={[builder]} type="submit" class="bg-[#141417] -ml-4 mr-auto">
+              <a href="/" class="flex flex-row items-center mr-auto mt-5">
+                <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
+                  <Home class="h-5.5 w-5.5" />  
+                </div>
+                <span class="ml-1.5 text-white text-[1rem]">Home</span>
+              </a>
+            </Button>
+          </Sheet.Close>
+          
+          
+          <div class="flex flex-row items-center mr-auto">
+
+            <Accordion.Root class="w-fit">
+  
+              <Accordion.Item value="item-1">
+  
+                <Accordion.Trigger class="w-fit">
+                  <Stock class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
+                  <span class="text-white mr-auto">Stocks</span>
+                </Accordion.Trigger>
+                <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
+                  <Sheet.Close asChild let:builder>
+                    <div class="flex flex-col items-start">
+                      <Button builders={[builder]} type="submit" class="bg-[#141417]">
+                        <a href="/etf/new-launches" class="text-[1rem] text-white ml-4 mt-2">Top Analyst</a>
+                      </Button>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417]">
+                        <a href="/etf/etf-providers" class="text-[1rem] text-white ml-4 mt-4">Top Analyst Stocks</a>
+                      </Button>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417]">
+                        <a href="/etf/etf-providers" class="text-[1rem] text-white ml-4 mt-4">Shorted Stocks</a>
+                      </Button>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417]">
+                        <a href="/etf/etf-providers" class="text-[1rem] text-white ml-4 mt-4">Retail Trader Tracker</a>
+                      </Button>
+                    </div>
+
+                  </Sheet.Close>
+                  
+                </Accordion.Content
+                >
+              </Accordion.Item>
+            </Accordion.Root>
+                    
+          </div>
+
+          <div class="flex flex-row items-center mr-auto  w-3/4">
+
+            <Accordion.Root class="w-fit">
+  
+              <Accordion.Item value="item-1">
+  
+                <Accordion.Trigger class="">
+                  <Layers class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
+                  <span class="text-white mr-auto">ETFs</span>
+                </Accordion.Trigger>
+                <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
+
+                  <Sheet.Close asChild let:builder>
+                    <div class="flex flex-col items-start">
+                      <Button builders={[builder]} type="submit" class="bg-[#141417]">
+                        <a href="/etf/new-launches" class="text-[1rem] text-white ml-4 mt-2">New Launches</a>
+                      </Button>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417]">
+                        <a href="/etf/etf-providers" class="text-[1rem] text-white ml-4 mt-4">ETF Providers</a>
+                      </Button>
+                    </div>
+
+                  </Sheet.Close>
+
+                  
+                </Accordion.Content
+                >
+              </Accordion.Item>
+            </Accordion.Root>
+                    
+          </div>
          
 
           </nav>
@@ -647,12 +711,30 @@ $: {
           </Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content align="end">
-          <DropdownMenu.Label>My Account</DropdownMenu.Label>
+          <DropdownMenu.Item>
+            <a href="/community/profile">
+              My Account
+            </a>
+          </DropdownMenu.Item>
           <DropdownMenu.Separator />
-          <DropdownMenu.Item>Settings</DropdownMenu.Item>
-          <DropdownMenu.Item>Support</DropdownMenu.Item>
+          <DropdownMenu.Item>
+            <a href="/watchlist">
+              Watchlist
+            </a>
+          </DropdownMenu.Item>
+          <DropdownMenu.Item>
+            <a href="/price-alert">
+             Price Alert
+            </a>
+          </DropdownMenu.Item>
           <DropdownMenu.Separator />
-          <DropdownMenu.Item>Logout</DropdownMenu.Item>
+          <DropdownMenu.Item>
+            <form class="cursor-pointer" action="/logout" method="POST">
+              <button type="submit" class="w-full text-start">
+                  <span class="text-start">Logout</span>
+              </button>
+            </form>
+          </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Root>
     </header>
