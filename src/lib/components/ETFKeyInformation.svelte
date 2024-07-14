@@ -119,7 +119,7 @@
           </label>
 
             <!--Start Header-->
-              <div class="bg-[#202020] w-full p-1 flex flex-col items-center pb-5 h-auto rounded-b-[30px]">
+              <div class="bg-[#09090B] w-full p-1 flex flex-col items-center pb-5 h-auto rounded-b-[30px]">
                 <h2 class="text-center m-auto text-[1.1rem] font-medium text-white mt-5">
                   Top Holdings
                 </h2>

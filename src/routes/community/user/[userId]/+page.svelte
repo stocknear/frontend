@@ -249,7 +249,7 @@ onMount(async () => {
 
 
 
-  <body class="bg-[#0F0F0F] text-slate-200 overflow-hidden mt-10 sm:mt-5">
+  <body class="bg-[#09090B] text-slate-200 overflow-hidden mt-10 sm:mt-5">
 
     <!-- Page wrapper -->
     <div class="flex flex-col min-h-screen overflow-hidden">
@@ -266,7 +266,7 @@ onMount(async () => {
   
               <div class="w-full flex flex-row">
               <!--Start Profile Pic-->
-              <div class="flex items-center justify-start mb-5 w-screen sm:w-full bg-[#202020] h-48 sm:rounded-xl border border-gray-700 sm:hover:border-gray-600">
+              <div class="flex items-center justify-start mb-5 w-screen sm:w-full bg-[#09090B] h-48 sm:rounded-xl border border-gray-700 sm:hover:border-gray-600">
                   <label class="ml-5 avatar w-20 h-20 sm:w-24 sm:h-24 rounded-full hover:cursor-pointer">
                       <img style="clip-path: circle(50%);" class="w-24 bg-slate-300 border border-slate-400 rounded-full inline-block "
                       src={userData?.avatar
@@ -308,7 +308,7 @@ onMount(async () => {
             
                                   <!--Start User Profile -->
                                   <div class="space-y-6 ml-4">  
-                                  <div class="rounded-xl bg-[#202020] h-48 w-full border border-gray-700 font-mono">
+                                  <div class="rounded-xl bg-[#09090B] h-48 w-full border border-gray-700 font-mono">
                                     <!--Start Header-->
                                     <div class="ml-2 w-full p-3">
                                         <span class="text-white text-lg font-medium ml-0.5">User Profile</span>
@@ -318,17 +318,17 @@ onMount(async () => {
                                     <!--Start Content-->
                                     <div class="w-full p-2">
             
-                                      <table class="font-semibold table table-compact bg-[#202020] text-start flex justify-start items-center w-full px-3 m-auto">
-                                        <tbody class="bg-[#202020]">
+                                      <table class="font-semibold table table-compact bg-[#09090B] text-start flex justify-start items-center w-full px-3 m-auto">
+                                        <tbody class="bg-[#09090B]">
                                           <!-- row 1 -->
                                           <tr class="text-gray-300">
-                                            <td class="bg-[#202020] border-b border-[#202020]">Karma: {userData?.karma}</td>
-                                            <td class="bg-[#202020 border-b border-[#202020]">Posts: {userStats?.numberOfPosts}</td>
+                                            <td class="bg-[#09090B] border-b border-[#27272A]">Karma: {userData?.karma}</td>
+                                            <td class="bg-[#27272A border-b border-[#27272A]">Posts: {userStats?.numberOfPosts}</td>
                                           </tr>
                                           <!-- row 2 -->
                                           <tr class="text-gray-300">
-                                            <td class="bg-[#202020]">Comments: {userStats?.numberOfComments}</td>
-                                            <td class="bg-[#202020]"></td>
+                                            <td class="bg-[#09090B]">Comments: {userStats?.numberOfComments}</td>
+                                            <td class="bg-[#09090B]"></td>
                                           </tr>
                                         </tbody>
                                       </table>
@@ -337,7 +337,7 @@ onMount(async () => {
             
                                 {#if userData?.tier === 'Pro'}
                                 <!--Start Badge-->
-                                  <div class="rounded-xl bg-[#202020] h-48 w-full border border-gray-700 mt-14">
+                                  <div class="rounded-xl bg-[#09090B] h-48 w-full border border-gray-700 mt-14">
                                     <!--Start Header-->
                                     <div class="ml-2 w-full p-3">
                                         <span class="text-white text-lg font-medium ml-0.5 ">Badge</span>
@@ -395,12 +395,12 @@ onMount(async () => {
                 
   
                 <div class=" w-full " >
-                  <ul class="w-full  font-medium flex flex-row items-center bg-[#0F0F0F] space-x-5 rtl:space-x-reverse py-2">
+                  <ul class="w-full  font-medium flex flex-row items-center bg-[#09090B] space-x-5 rtl:space-x-reverse py-2">
                     <li class="cursor-pointer flex flex-col items-center">
-                      <label class="cursor-pointer px-3 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {showTab === 'post' ? 'text-white ' : 'bg-[#0F0F0F]'}" >
+                      <label class="cursor-pointer px-3 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {showTab === 'post' ? 'text-white ' : 'bg-[#09090B]'}" >
                         Posts
                       </label>
-                      <div class="{showTab === 'post' ? 'bg-[#75D377]' : 'bg-[#0F0F0F]'} mt-1 h-[3px] rounded-full w-[2.6rem]" />
+                      <div class="{showTab === 'post' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[2.6rem]" />
                     </li>
                   </ul>
                 </div>
@@ -456,9 +456,9 @@ onMount(async () => {
   
                               <!--Start User Profile -->
                               <div class="space-y-6">  
-                              <div class="shadow-lg rounded-md bg-[#202020] h-auto w-full md:w-80 border border-gray-700">
+                              <div class="shadow-lg rounded-md bg-[#09090B] h-auto w-full md:w-80 border border-gray-700">
                                 <!--Start Header-->
-                                <div class="bg-[#202020] w-full p-3 ">
+                                <div class="bg-[#09090B] w-full p-3 ">
                                   <svg style="clip-path: circle(50%);" class="flex-shrink-0 w-10 h-10 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><g fill="white"><path d="M32 20a8 8 0 1 1-16 0a8 8 0 0 1 16 0"/><path fill-rule="evenodd" d="M23.184 43.984C12.517 43.556 4 34.772 4 24C4 12.954 12.954 4 24 4s20 8.954 20 20s-8.954 20-20 20h-.274q-.272 0-.542-.016M11.166 36.62a3.028 3.028 0 0 1 2.523-4.005c7.796-.863 12.874-.785 20.632.018a2.99 2.99 0 0 1 2.498 4.002A17.94 17.94 0 0 0 42 24c0-9.941-8.059-18-18-18S6 14.059 6 24c0 4.916 1.971 9.373 5.166 12.621" clip-rule="evenodd"/></g></svg>
                                     <span class="text-white text-md ml-0.5 ">User Profile</span>
                                 </div>
@@ -466,17 +466,17 @@ onMount(async () => {
                                 <!--Start Content-->
                                 <div class="w-full p-2 flex-1 flex flex-wrap">
   
-                                  <table class="table table-compact bg-[#202020] text-start flex justify-start items-center w-full px-3 m-auto">
-                                    <tbody class="bg-[#202020]">
+                                  <table class="table table-compact bg-[#09090B] text-start flex justify-start items-center w-full px-3 m-auto">
+                                    <tbody class="bg-[#09090B]">
                                       <!-- row 1 -->
                                       <tr class="text-gray-300">
-                                        <td class="bg-[#202020] border-b border-[#202020]">Karma: {userData?.karma}</td>
-                                        <td class="bg-[#202020 border-b border-[#202020]">Posts: {userStats?.numberOfPosts}</td>
+                                        <td class="bg-[#09090B] border-b border-[#27272A]">Karma: {userData?.karma}</td>
+                                        <td class="bg-[#27272A border-b border-[#27272A]">Posts: {userStats?.numberOfPosts}</td>
                                       </tr>
                                       <!-- row 2 -->
                                       <tr class="text-gray-300">
-                                        <td class="bg-[#202020]">Comments: {userStats?.numberOfComments}</td>
-                                        <td class="bg-[#202020]"></td>
+                                        <td class="bg-[#09090B]">Comments: {userStats?.numberOfComments}</td>
+                                        <td class="bg-[#09090B]"></td>
                                       </tr>
                                     </tbody>
                                   </table>

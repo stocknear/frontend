@@ -364,7 +364,7 @@ $: {
 </svelte:head>
 
                 
-<section class="bg-[#0F0F0F] overflow-hidden text-white h-full pb-40 sm:mb-0">
+<section class="bg-[#09090B] overflow-hidden text-white h-full pb-40 sm:mb-0">
     <div class="flex justify-center w-full m-auto h-full overflow-hidden">
         <div class="relative flex justify-center items-center overflow-hidden">
             <main>
@@ -415,7 +415,7 @@ $: {
                             </label>
         
         
-                            <label for="timeFrameModal" class="cursor-pointer bg-[#202020] sm:hover:bg-[#313131] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
+                            <label for="timeFrameModal" class="cursor-pointer bg-[#09090B] sm:hover:bg-[#313131] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
                                 <div class="flex flex-row items-center">
                                     <span class="m-auto mr-0.5 text-white text-sm">{timeFrame}</span>
                                     <svg class="inline-block w-4 h-4 ml-1 mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><g transform="rotate(180 512 512)">                                        <path fill="#fff" d="m488.832 344.32l-339.84 356.672a32 32 0 0 0 0 44.16l.384.384a29.44 29.44 0 0 0 42.688 0l320-335.872l319.872 335.872a29.44 29.44 0 0 0 42.688 0l.384-.384a32 32 0 0 0 0-44.16L535.168 344.32a32 32 0 0 0-46.336 0z"/></g></svg>
@@ -424,7 +424,7 @@ $: {
 
 
                             <!--
-                            <label for="exportDataModal" class="ml-3 mr-2 sm:mr-0 cursor-pointer bg-[#202020] sm:hover:bg-[#313131] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
+                            <label for="exportDataModal" class="ml-3 mr-2 sm:mr-0 cursor-pointer bg-[#09090B] sm:hover:bg-[#313131] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
                                 <div class="flex flex-row items-center">
                                     <span class="m-auto mr-0.5 text-white text-sm">Export</span>
                                     <svg class="inline-block w-4 h-4 ml-1 mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><g transform="rotate(180 512 512)">                                        <path fill="#fff" d="m488.832 344.32l-339.84 356.672a32 32 0 0 0 0 44.16l.384.384a29.44 29.44 0 0 0 42.688 0l320-335.872l319.872 335.872a29.44 29.44 0 0 0 42.688 0l.384-.384a32 32 0 0 0 0-44.16L535.168 344.32a32 32 0 0 0-46.336 0z"/></g></svg>
@@ -496,11 +496,11 @@ $: {
                                                     <td class="text-start border-r border-[#191E24] text-sm sm:text-[1rem] font-bold pr-10">Year</td>
                                                     {#each ratios as item}
                                                     {#if filterRule === 'annual'}
-                                                        <td class="bg-[#0F0F0F] font-semibold pr-5 sm:pr-14 text-sm">
+                                                        <td class="bg-[#09090B] font-semibold pr-5 sm:pr-14 text-sm">
                                                             {'FY'+item?.calendarYear?.slice(-2)}
                                                         </td>
                                                     {:else}
-                                                        <td class="bg-[#0F0F0F] font-semibold pr-5 sm:pr-14 text-sm">
+                                                        <td class="bg-[#09090B] font-semibold pr-5 sm:pr-14 text-sm">
                                                             {'FY'+item?.calendarYear?.slice(-2)+' '+item?.period}
                                                         </td>
                                                     {/if}
@@ -511,113 +511,113 @@ $: {
                                     
                                                 
                                                 <!-- row -->
-                                                <tr class="text-white odd:bg-[#202020]">
+                                                <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24] text-xs sm:text-sm">PE Ratio</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {item?.priceEarningsRatio?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white odd:bg-[#202020]">
+                                                <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">PS Ratio</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {item?.priceToSalesRatio?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
                                                     <!-- row -->
-                                                    <tr class="text-white odd:bg-[#202020]">
+                                                    <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">PB Ratio</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {item?.priceToBookRatio?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white odd:bg-[#202020]">
+                                                <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">P/FCF Ratio</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {item?.priceToFreeCashFlowsRatio?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white odd:bg-[#202020]">
+                                                <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">P/OCF Ratio</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {item?.priceToOperatingCashFlowsRatio?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white odd:bg-[#202020]">
+                                                <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">OCF/S Ratio</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {item?.operatingCashFlowSalesRatio !== null ? item?.operatingCashFlowSalesRatio?.toFixed(2) : '-'}</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white odd:bg-[#202020]">
+                                                <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Debt / Equity Ratio</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {item?.debtEquityRatio?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
                                                     <!-- row -->
-                                                <tr class="text-white odd:bg-[#202020]">
+                                                <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Quick Ratio</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {item?.quickRatio?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
                                                     <!-- row -->
-                                                <tr class="text-white odd:bg-[#202020]">
+                                                <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Current Ratio</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {item?.currentRatio?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white odd:bg-[#202020]">
+                                                <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Asset Turnover</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {item?.assetTurnover?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white odd:bg-[#202020]">
+                                                <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Interest Coverage</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {item?.interestCoverage?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
                                                     <!-- row -->
-                                                <tr class="text-white odd:bg-[#202020]">
+                                                <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Return on Equity (ROE)</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {(item?.returnOnEquity*100)?.toFixed(2)}%</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white odd:bg-[#202020]">
+                                                <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Return on Assets (ROA)</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm">{(item?.returnOnAssets*100)?.toFixed(2)}%</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white odd:bg-[#202020]">
+                                                <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Return on Capital (ROIC)</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {(item?.returnOnCapitalEmployed*100)?.toFixed(2)}%</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white odd:bg-[#202020]">
+                                                <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Dividend Yield</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {(item?.dividendYield*100)?.toFixed(2)}%</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white odd:bg-[#202020]">
+                                                <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Payout Ratio</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {(item?.payoutRatio*100)?.toFixed(2)}%</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white odd:bg-[#202020]">
+                                                <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Gross Profit Margin</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {(item?.grossProfitMargin*100)?.toFixed(2)}%</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white odd:bg-[#202020]">
+                                                <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Net Profit Margin</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {(item?.netProfitMargin*100)?.toFixed(2)}%</td>
@@ -645,14 +645,14 @@ $: {
   <dialog id="timeFrameModal" class="modal modal-bottom sm:modal-middle ">
   
   
-    <label id="timeFrameModal" for="timeFrameModal"  class="cursor-pointer modal-backdrop bg-[#0F0F0F] bg-opacity-[0.5]"></label>
+    <label id="timeFrameModal" for="timeFrameModal"  class="cursor-pointer modal-backdrop bg-[#09090B] bg-opacity-[0.5]"></label>
     
     
-    <div class="modal-box w-full bg-[#202020] sm:border sm:border-slate-800">
+    <div class="modal-box w-full bg-[#09090B] sm:border sm:border-slate-800">
   
   
   
-    <label for="timeFrameModal" class="cursor-pointer absolute right-5 top-2 bg-[#202020] text-[1.8rem] text-white">
+    <label for="timeFrameModal" class="cursor-pointer absolute right-5 top-2 bg-[#09090B] text-[1.8rem] text-white">
       ✕
     </label>
   
@@ -663,7 +663,7 @@ $: {
         </h3>
           
   
-        <div class="flex flex-col items-center w-full Max-w-3xl bg-[#202020]">
+        <div class="flex flex-col items-center w-full Max-w-3xl bg-[#09090B]">
   
   
           <label for="timeFrameModal" on:click={() => timeFrame= '5Y'} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
@@ -676,7 +676,7 @@ $: {
   
                 <div class="rounded-full w-8 h-8 relative border border-[#737373]">
                   {#if timeFrame === '5Y'}
-                    <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#0F0F0F000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
+                    <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#09090B000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
                   {/if}
                 </div>
   
@@ -695,7 +695,7 @@ $: {
 
               <div class="rounded-full w-8 h-8 relative border border-[#737373]">
                 {#if timeFrame === '10Y'}
-                  <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#0F0F0F000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
+                  <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#09090B000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
                 {/if}
               </div>
 
@@ -713,7 +713,7 @@ $: {
 
               <div class="rounded-full w-8 h-8 relative border border-[#737373]">
                 {#if timeFrame === 'Max'}
-                  <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#0F0F0F000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
+                  <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#09090B000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
                 {/if}
               </div>
 
@@ -744,14 +744,14 @@ $: {
   <dialog id="exportDataModal" class="modal modal-bottom sm:modal-middle ">
   
   
-    <label id="exportDataModal" for="exportDataModal"  class="cursor-pointer modal-backdrop bg-[#0F0F0F] bg-opacity-[0.5]"></label>
+    <label id="exportDataModal" for="exportDataModal"  class="cursor-pointer modal-backdrop bg-[#09090B] bg-opacity-[0.5]"></label>
     
     
-    <div class="modal-box w-full bg-[#202020] sm:border sm:border-slate-800">
+    <div class="modal-box w-full bg-[#09090B] sm:border sm:border-slate-800">
   
   
   
-    <label for="exportDataModal" class="cursor-pointer absolute right-5 top-2 bg-[#202020] text-[1.8rem] text-white">
+    <label for="exportDataModal" class="cursor-pointer absolute right-5 top-2 bg-[#09090B] text-[1.8rem] text-white">
       ✕
     </label>
   
@@ -762,7 +762,7 @@ $: {
         </h3>
           
   
-        <div class="flex flex-col items-center w-full Max-w-3xl bg-[#202020]">
+        <div class="flex flex-col items-center w-full Max-w-3xl bg-[#09090B]">
   
   
           <label for="exportDataModal" on:click={() => exportData('excel')} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">

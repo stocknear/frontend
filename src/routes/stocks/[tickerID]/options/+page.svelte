@@ -271,7 +271,7 @@ $: {
 
 
               
-    <section class="bg-[#0F0F0F] overflow-hidden text-white h-full mb-40 sm:mb-0 w-full">
+    <section class="bg-[#09090B] overflow-hidden text-white h-full mb-40 sm:mb-0 w-full">
         <div class="flex justify-center m-auto h-full overflow-hidden w-full">
             <div class="relative flex justify-center items-center overflow-hidden w-full">
                   <div class="sm:p-7 w-full m-auto mt-2 sm:mt-0">
@@ -296,7 +296,7 @@ $: {
                 
                     {#if optionsPlotData?.length !== 0}
 
-                    <div class="stats stats-horizontal bg-[#202020] w-full rounded-lg">
+                    <div class="stats stats-horizontal bg-[#09090B] w-full rounded-lg">
             
                       <div class="grid grid-cols-2">
           
@@ -377,7 +377,7 @@ $: {
                             </div>
                         
                             
-                            <div class="app w-full bg-[#0F0F0F] bg-opacity-1 rounded-xl">
+                            <div class="app w-full bg-[#09090B] bg-opacity-1 rounded-xl">
                                 <Chart options={options} class="chart" />
                             </div>
                             
@@ -501,7 +501,7 @@ $: {
                             <div class="flex justify-start items-center m-auto overflow-x-auto">
                                 
                                 
-                                <table class="table table-pin-cols table-sm table-compact rounded-none sm:rounded-md w-full border-bg-[#0F0F0F] m-auto mt-4 overflow-x-auto">
+                                <table class="table table-pin-cols table-sm table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 overflow-x-auto">
                                     <thead>
                                       <tr class="">
                                         <td class="text-slate-200 font-semibold text-sm text-start">Time</td>
@@ -521,7 +521,7 @@ $: {
                                     <tbody>
                                       {#each (data?.user?.tier === 'Pro' ? optionList : optionList?.slice(0,3)) as item, index}
                                       <!-- row -->
-                                      <tr class="odd:bg-[#202020] border-b-[#0F0F0F] {index+1 === optionList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
+                                      <tr class="odd:bg-[#27272A] border-b-[#09090B] {index+1 === optionList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                                         
                                         <td class="text-white text-xs sm:text-sm text-start">
                                           {formatTime(item?.time)}

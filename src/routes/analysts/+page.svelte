@@ -82,7 +82,7 @@ $: {
         <div class="relative flex justify-center items-center overflow-hidden w-full">
             <main class="w-full">
              
-              <div class="w-full max-w-4xl m-auto sm:bg-[#202020] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+              <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
               
                   <!-- Start Column -->
@@ -135,24 +135,24 @@ $: {
               <div class="w-screen sm:w-full m-auto mt-16">
                   
                   <div class="w-screen sm:w-full m-auto rounded-none sm:rounded-lg mb-4 overflow-x-scroll sm:overflow-hidden">
-                    <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#0F0F0F] border-bg-[#0F0F0F] m-auto">
+                    <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                       <thead>
-                        <tr class="bg-[#0F0F0F] border-b border-blue-400">
-                          <th class="text-end bg-[#0F0F0F] text-white text-[1rem] font-medium">
+                        <tr class="bg-[#09090B] border-b border-blue-400">
+                          <th class="text-end bg-[#09090B] text-white text-[1rem] font-medium">
                             #
                           </th>
-                          <th class="text-start bg-[#0F0F0F] text-white text-[1rem] font-medium">
+                          <th class="text-start bg-[#09090B] text-white text-[1rem] font-medium">
                             Analyst
                           </th>
 
-                          <th class="text-end bg-[#0F0F0F] text-white text-[1rem] font-medium">
+                          <th class="text-end bg-[#09090B] text-white text-[1rem] font-medium">
                             Main Sector
                           </th>
 
-                          <th class="text-end bg-[#0F0F0F] text-white text-[1rem] font-medium">
+                          <th class="text-end bg-[#09090B] text-white text-[1rem] font-medium">
                             Success Rate
                           </th>
-                          <th class="text-end bg-[#0F0F0F] text-white text-[1rem] font-medium">
+                          <th class="text-end bg-[#09090B] text-white text-[1rem] font-medium">
                             Average Return
                           </th>
                           <th class="text-white font-medium text-end text-[1rem]">
@@ -166,7 +166,7 @@ $: {
                       <tbody>
                         {#each analytRatingList as item, index}
 
-                        <tr on:click={() => goto(`/analysts/${item?.analystId}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] {index+1 === rawData?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''} cursor-pointer">
+                        <tr on:click={() => goto(`/analysts/${item?.analystId}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] {index+1 === rawData?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''} cursor-pointer">
                           <td class="text-white text-[1rem] font-medium text-white text-end">
                             {item?.rank}
                           </td>

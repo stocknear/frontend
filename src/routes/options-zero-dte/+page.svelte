@@ -414,11 +414,11 @@ const debouncedHandleInput = debounce(handleInput, 200);
 
 </svelte:head>
 
-<section class="w-full max-w-5xl overflow-hidden m-auto min-h-screen pt-5 pb-40 bg-[#0F0F0F]">
+<section class="w-full max-w-5xl overflow-hidden m-auto min-h-screen pt-5 pb-40 bg-[#09090B]">
 
 
 
-<div class="w-full max-w-5xl m-auto sm:bg-[#202020] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+<div class="w-full max-w-5xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
     
         <!-- Start Column -->
@@ -467,7 +467,7 @@ const debouncedHandleInput = debounce(handleInput, 200);
                 
 
 
-<div class="w-full m-auto mb-10 bg-[#0F0F0F] pl-3 pr-3">
+<div class="w-full m-auto mb-10 bg-[#09090B] pl-3 pr-3">
     <div class="flex flex-col sm:flex-row items-center w-full">
         {#if !$isOpen}
         <span class="text-white text-sm sm:text-md italic mt-5 text-center sm:text-start w-full ml-2 mb-5">
@@ -707,7 +707,7 @@ const debouncedHandleInput = debounce(handleInput, 200);
     {#if rawData?.length !== 0}
           <!--Start Filter-->
           <div class="w-full pb-3 mt-10 sm:mt-0">
-            <div class="relative right-0 bg-[#0F0F0F]">
+            <div class="relative right-0 bg-[#09090B]">
               <ul class="relative grid grid-cols-2 sm:grid-cols-4 gap-y-3 gap-x-3 flex flex-wrap p-1 list-none rounded-[3px]">
                 <li class="pl-3 py-1.5 flex-auto text-center bg-[#2E3238] rounded-[3px]">
           <label class="flex flex-row items-center">
@@ -745,7 +745,7 @@ const debouncedHandleInput = debounce(handleInput, 200);
                 <thead>
                 <tr class="">
                     <td class="text-slate-200 font-semibold text-sm text-start">Time</td>
-                    <th class="bg-[#0F0F0F] text-slate-200 font-semibold text-sm text-start">Symbol</th>
+                    <th class="bg-[#09090B] text-slate-200 font-semibold text-sm text-start">Symbol</th>
                     <td class="text-slate-200 font-semibold text-sm text-start">Strike</td>
                     <td class="text-slate-200 font-semibold text-sm text-start">C/P</td>
                     <td class="text-slate-200 font-semibold text-sm text-start">Sent.</td>
@@ -760,13 +760,13 @@ const debouncedHandleInput = debounce(handleInput, 200);
                 <tbody>
                 {#each optionList as item,index}
                 <!-- row -->
-                <tr on:click={() => handleViewData(item)} class="w-full odd:bg-[#202020] cursor-pointer {index+1 === optionList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
+                <tr on:click={() => handleViewData(item)} class="w-full odd:bg-[#27272A] cursor-pointer {index+1 === optionList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                     
                   <td class="text-white pb-3 text-xs sm:text-sm text-start">
                     {formatTime(item?.time)}
                   </td>
 
-                <th on:click|stopPropagation={() => assetSelector(item?.ticker, item?.assetType)} class="{index % 2 ? 'bg-[#0F0F0F]' : 'bg-[#202020]'} text-blue-400 text-start font-normal">
+                <th on:click|stopPropagation={() => assetSelector(item?.ticker, item?.assetType)} class="{index % 2 ? 'bg-[#09090B]' : 'bg-[#09090B]'} text-blue-400 text-start font-normal">
                   {item?.ticker}
                 </th>
 
@@ -834,7 +834,7 @@ const debouncedHandleInput = debounce(handleInput, 200);
     <UpgradeToPro data={data} title="Get the recent Options Flow Data from Hedge Funds and major institutional traders to never miss out"/>
 
     {:else}
-    <div class="mt-10 w-full text-center justify-center max-w-96 sm:flex sm:flex-row sm:items-center m-auto text-gray-100 bg-[#202020] sm:rounded-lg h-auto p-5 mb-4">
+    <div class="mt-10 w-full text-center justify-center max-w-96 sm:flex sm:flex-row sm:items-center m-auto text-gray-100 bg-[#09090B] sm:rounded-lg h-auto p-5 mb-4">
         <svg class="w-5 h-5 inline-block sm:mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
         No 0DTE Contracts filed yet!
       </div>
@@ -843,7 +843,7 @@ const debouncedHandleInput = debounce(handleInput, 200);
     {:else}
     <div class="flex justify-center items-center h-80">
       <div class="relative">
-      <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <span class="loading loading-spinner loading-md"></span>
       </label>
       </div>
@@ -874,8 +874,8 @@ const debouncedHandleInput = debounce(handleInput, 200);
 
 
   <!-- svelte-ignore a11y-label-has-associated-control -->
-  <label class="modal-box w-full relative bg-[#202020] h-auto max-h-[900px] overflow-y-scroll">
-    <label for="optionDetailsDesktopModal" class="cursor-pointer absolute right-5 top-2 bg-[#202020] text-2xl text-white">
+  <label class="modal-box w-full relative bg-[#09090B] h-auto max-h-[900px] overflow-y-scroll">
+    <label for="optionDetailsDesktopModal" class="cursor-pointer absolute right-5 top-2 bg-[#09090B] text-2xl text-white">
       ✕
     </label>
 
@@ -885,46 +885,46 @@ const debouncedHandleInput = debounce(handleInput, 200);
       {optionSymbol}
 
     </p>
-    <p class="py-4 text-gray-200 bg-[#202020] w-full">
+    <p class="py-4 text-gray-200 bg-[#09090B] w-full">
       <span class="font-semibold text-white">Description:</span>
       <br>
       {optionDescription}
     </p>
 
-    <table class="table table-sm table-compact bg-[#202020] w-full mt-5 mb-10 text-white">
+    <table class="table table-sm table-compact bg-[#09090B] w-full mt-5 mb-10 text-white">
       <tbody>
         <!-- row 1 -->
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Premium</td>
           <td class="">{optionPremium}</td>
           <td class="font-semibold">C/P</td>
           <td class="">{optionContract}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Expiry</td>
           <td class="">{optionExpiry}</td>
           <td class="font-semibold">Type</td>
           <td class="">{optionType}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Strike</td>
           <td class="">${optionStrike}</td>
           <td class="font-semibold">Volume</td>
           <td class="">{optionVolume}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Spot</td>
           <td class="">${optionSpot}</td>
           <td class="font-semibold">Open Interest</td>
           <td class="">{optionOpenInterest}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Price</td>
           <td class="">${optionPrice}</td>
           <td class="font-semibold">Sentiment</td>
           <td class="">{optionSentiment}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Execution Estimate</td>
           <td class="">{optionExecutionEstimate}</td>
           <td class="font-semibold"></td>
@@ -968,43 +968,43 @@ const debouncedHandleInput = debounce(handleInput, 200);
     <table class="table table-sm table-compact w-full mt-5 mb-10 text-white">
       <tbody>
         <!-- row 1 -->
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Premium</td>
           <td class="">{optionPremium}</td>
           <td class="font-semibold">C/P</td>
           <td class="">{optionContract}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Expiry</td>
           <td class="">{optionExpiry}</td>
           <td class="font-semibold">Type</td>
           <td class="">{optionType}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Strike</td>
           <td class="">${optionStrike}</td>
           <td class="font-semibold">Volume</td>
           <td class="">{optionVolume}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Spot</td>
           <td class="">${optionSpot}</td>
           <td class="font-semibold">Open Interest</td>
           <td class="">{optionOpenInterest}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Price</td>
           <td class="">${optionPrice}</td>
           <td class="font-semibold">Sentiment</td>
           <td class="">{optionSentiment}</td>
         </tr>
-        <tr class="odd:bg-[#202020]">
+        <tr class="odd:bg-[#27272A]">
           <td class="font-semibold">Trade Count</td>
           <td class="">{optionTradeCount}</td>
           <td class="font-semibold">Exchange</td>
           <td class="">{optionExchange}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Execution Est.</td>
           <td class="">{optionExecutionEstimate}</td>
           <td class="font-semibold"></td>

@@ -74,7 +74,7 @@ $: {
             </div>
           -->
 
-          <div class="w-full max-w-4xl m-auto sm:bg-[#202020] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+          <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
           
               <!-- Start Column -->
@@ -130,7 +130,7 @@ $: {
         
     
         
-        <div class="w-full max-w-4xl mt-10 m-auto mb-10 bg-[#0F0F0F] pl-3 pr-3 overflow-hidden">
+        <div class="w-full max-w-4xl mt-10 m-auto mb-10 bg-[#09090B] pl-3 pr-3 overflow-hidden">
         
         
             <!--Start Top Winners/Losers-->
@@ -145,7 +145,7 @@ $: {
               <div class="border-b mt-2 border-blue-400 w-full mb-4" />
     
               <div class="w-screen sm:w-full overflow-x-scroll">
-              <table class="mt-5 table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#0F0F0F] border-bg-[#0F0F0F] m-auto overflow-x-scroll">
+              <table class="mt-5 table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto overflow-x-scroll">
                 <thead>
                   <tr>
                     <th class="text-white font-semibold hidden sm:table-cell text-sm text-start">Symbol</th>
@@ -157,13 +157,13 @@ $: {
                 </thead>
                 <tbody>
                   {#each symbolList as item,index}
-                  <tr on:click={() => goto("/crypto/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] border-b-[#0F0F0F] shake-ticker cursor-pointer">
+                  <tr on:click={() => goto("/crypto/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
                     
-                    <td class="hidden sm:table-cell text-blue-400 font-medium text-sm text-start border-b-[#0F0F0F]">
+                    <td class="hidden sm:table-cell text-blue-400 font-medium text-sm text-start border-b-[#09090B]">
                       {item?.symbol}
                     </td>
       
-                    <td class="text-gray-200 border-b-[#0F0F0F]">
+                    <td class="text-gray-200 border-b-[#09090B]">
                       <span class="hidden sm:block text-white">{item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}</span>
                       <div class="sm:hidden flex flex-row">
                         <div class="flex flex-col">
@@ -174,16 +174,16 @@ $: {
                     </td>
                   
                   
-                    <td class="text-white text-end border-b-[#0F0F0F]">
+                    <td class="text-white text-end border-b-[#09090B]">
                       {item?.marketCap !== null ? abbreviateNumber(item?.marketCap,true) : '-'}
                     </td>
                     
       
-                  <td class="text-white border-b-[#0F0F0F] text-end">
+                  <td class="text-white border-b-[#09090B] text-end">
                     {item?.circulatingSupply !== null ? abbreviateNumber(item?.circulatingSupply,true) : '-'}
                   </td>
 
-                  <td class="text-white border-b-[#0F0F0F] text-end">
+                  <td class="text-white border-b-[#09090B] text-end">
                     {item?.maxSupply !== 'Uncapped' ? abbreviateNumber(item?.maxSupply,true) : 'Uncapped'}
                   </td>
           

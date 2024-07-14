@@ -454,7 +454,7 @@ const handleDownvote = async (event) => {
   
     <label for={'delete'+deleteCommentId}  class="cursor-pointer modal-backdrop  bg-[#fff] bg-opacity-[0.05]"></label>
   
-    <div class="modal-box bg-[#202020] p-5 border border-slate-600 shadow-none" >
+    <div class="modal-box bg-[#09090B] p-5 border border-slate-600 shadow-none" >
   
           <h3 class="font-bold text-md sm:text-lg sm:mb-10 text-white mt-5">
             Are you sure you want to delete the comment?

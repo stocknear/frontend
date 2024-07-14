@@ -151,7 +151,7 @@ async function loadSearchData() {
 
 
 
-<div class="w-full max-w-6xl overflow-hidden m-auto min-h-screen bg-[#0F0F0F]">
+<div class="w-full max-w-6xl overflow-hidden m-auto min-h-screen bg-[#09090B]">
 
 
 
@@ -180,8 +180,7 @@ async function loadSearchData() {
               <Snow />
             </div>
             -->
-
-            
+        
             
               <div class="w-full max-w-5xl m-auto flex justify-center overflow-hidden">
                   <div class="py-7">
@@ -201,7 +200,7 @@ async function loadSearchData() {
                                   
                                   {#if (data?.user?.tier === 'Pro' && data?.user?.freeTrial === true) || (data?.user?.tier !== 'Pro' && data?.user?.freeTrial === false) }
                                   <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
-                                    <a href="/pricing" class="text-white antialiased bg-[#202020] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
+                                    <a href="/pricing" class="text-white antialiased bg-[#09090B] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
                                       <span class="font-semibold uppercase">SAVE 50% Off Subscription – Summer Special!</span>
                                     </a>
                                     <div class="absolute top-[-1.2rem] -right-5 sm:-right-8 rotate-[7deg]">
@@ -213,7 +212,7 @@ async function loadSearchData() {
                                   {:else}
                                 
                                   <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
-                                    <a href="/dark-pool-flow" class="text-white antialiased bg-[#202020] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
+                                    <a href="/dark-pool-flow" class="text-white antialiased bg-[#09090B] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
                                       <span class="font-semibold">Realtime Dark Pool Trades from Hedge Funds</span>
                                     </a>
                                     <div class="absolute top-[-1.2rem] -right-5 sm:-right-8 rotate-[7deg]">
@@ -282,7 +281,8 @@ async function loadSearchData() {
                                     </div>
                                     {/if}
 
-                                    
+                                  
+                                  
                                     {#if data?.user}
                                     <div class="text-white text-center text-[1rem] sm:text-lg mt-8 mb-4 font-medium">
                                       Track the investment portfolios of prominent Wall Street Figures.
@@ -378,7 +378,7 @@ async function loadSearchData() {
       <!--Start of Mode-->
       <table class="table table-sm table-pin-rows table-compact rounded-none sm:rounded-lg">
         <thead class="rounded-lg">
-          <tr class="bg-[#0F0F0F]">
+          <tr class="bg-[#09090B]">
             <th class="text-white font-semibold text-sm">Symbol</th>
             <th class="text-white font-semibold text-sm">Name</th>
             <th class="text-white font-semibold text-sm ">Market Cap</th>
@@ -388,7 +388,7 @@ async function loadSearchData() {
 
         <tbody>
           {#each gainerLoserTickers as item}
-          <tr on:click={() => goto("/stocks/"+item.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] shake-ticker cursor-pointer">
+          <tr on:click={() => goto("/stocks/"+item.symbol)} class="odd:bg-[#27272A] cursor-pointer">
             <td class="text-blue-400">
                 {item?.symbol}
             </td>
@@ -456,19 +456,19 @@ async function loadSearchData() {
       </div>
 
       <div class="w-full flex flex-row items-center mb-5 ml-3 overflow-hidden">
-        <label on:click={() => scrollToItem('gainer')} class="flex flex-row items-center {trendingText === 'gainer' ? 'bg-[#333333]' : 'bg-[#202020]'} rounded-xl py-1">
+        <label on:click={() => scrollToItem('gainer')} class="flex flex-row items-center {trendingText === 'gainer' ? 'bg-[#333333]' : 'bg-[#09090B]'} rounded-xl py-1">
           <svg class="ml-2 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="white" d="m1 7.4l.7.7l6-6l6 6l.7-.7L8.1 1h-.7L1 7.4zm0 6l.7.7l6-6l6 6l.7-.7L8.1 7h-.7L1 13.4z"/></svg>
           <span class="text-white text-sm font-medium ml-2 mr-4">
             Gainers
           </span>
         </label>
-        <label on:click={() => scrollToItem('loser')} class="flex flex-row items-center {trendingText === 'loser' ? 'bg-[#333333]' : 'bg-[#202020]'} rounded-xl py-1 ml-4">
+        <label on:click={() => scrollToItem('loser')} class="flex flex-row items-center {trendingText === 'loser' ? 'bg-[#333333]' : 'bg-[#09090B]'} rounded-xl py-1 ml-4">
           <svg class="ml-2 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="white" d="M240 136v64a8 8 0 0 1-8 8h-64a8 8 0 0 1 0-16h44.69L136 115.31l-34.34 34.35a8 8 0 0 1-11.32 0l-72-72a8 8 0 0 1 11.32-11.32L96 132.69l34.34-34.35a8 8 0 0 1 11.32 0L224 180.69V136a8 8 0 0 1 16 0Z"/></svg>
           <span class="text-white text-sm font-medium ml-2 mr-4">
             Losers
           </span>
         </label>
-        <label on:click={() => scrollToItem('active')} class="flex flex-row items-center {trendingText === 'active' ? 'bg-[#333333]' : 'bg-[#202020]'} rounded-xl py-1 ml-4">
+        <label on:click={() => scrollToItem('active')} class="flex flex-row items-center {trendingText === 'active' ? 'bg-[#333333]' : 'bg-[#09090B]'} rounded-xl py-1 ml-4">
           <svg class="ml-2 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="white" d="M253.78 17.188c-130.728 0-236.905 106.177-236.905 236.906C16.875 384.824 123.052 491 253.78 491c130.73 0 236.907-106.18 236.907-236.906c0-130.73-106.177-236.906-236.906-236.906zm0 18.687c120.63 0 218.22 97.59 218.22 218.22c0 120.626-97.59 218.218-218.22 218.218c-120.628 0-218.218-97.59-218.218-218.22s97.59-218.218 218.22-218.218zm101.19 46.313l-76.41 132.875c15.916 9.635 25.177 26.33 26.125 43.78h148.407c1.644-70.01-33.49-138.867-98.125-176.656zm-205.126 2.468c-27.1 16.725-50.68 40.147-67.72 69.656c-19.01 32.928-26.926 69.12-26 104.532H196a54.04 54.04 0 0 1 7.188-24.438c5.21-9.024 12.64-16 21.218-20.625L149.844 84.657zm100.594 141.156a36.723 36.723 0 0 0-2.594.094c-11.446.793-22.288 7.084-28.5 17.844c-9.94 17.216-4.09 38.967 13.125 48.906c17.213 9.94 38.935 4.12 48.874-13.094c9.94-17.215 4.12-38.967-13.094-48.906c-5.648-3.26-11.768-4.824-17.813-4.844zm28.218 82.375c-16.127 9.75-36.864 10.846-54.406 1.25l-68.03 117.22c29.454 16.785 61.044 25.177 92.75 26c34.567.898 68.72-7.786 99.124-24.032l-69.438-120.438z"/></svg>
           <span class="text-white text-sm font-medium ml-2 mr-4">
             Most Active
@@ -478,7 +478,7 @@ async function loadSearchData() {
 
       <div class="w-screen no-scrollbar grid grid-cols-5 gap-x-44 overflow-hidden overflow-x-scroll pl-5 pr-10">
         {#each (trendingText === 'gainer' ? gainer : trendingText === 'loser' ? loser : active) as item,index}
-          <a href={"/stocks/"+item?.symbol} class="bg-[#202020] rounded-lg  h-[90px] w-36 relative">
+          <a href={"/stocks/"+item?.symbol} class="bg-[#09090B] rounded-lg  h-[90px] w-36 relative">
             <span class="stroke-text absolute right-32 bottom-0">
               {index+1}
             </span>
@@ -486,7 +486,7 @@ async function loadSearchData() {
               <span class="text-slate-200 text-sm font-medium mr-2">
                 {item?.symbol}
               </span>
-              <div class="rounded-full w-7 h-7 relative bg-[#0F0F0F] flex items-center justify-center">
+              <div class="rounded-full w-7 h-7 relative bg-[#09090B] flex items-center justify-center">
                 <img style="clip-path: circle(50%);" class="w-5 h-5" src={`https://financialmodelingprep.com/image-stock/${item?.symbol}.png`} alt="stock logo" loading='lazy'/>
               </div>
             </div>
@@ -523,9 +523,9 @@ async function loadSearchData() {
           
         </div>
 
-      <table class="table table-sm table-compact table-pin-rows shadow-md rounded-none sm:rounded-lg bg-[#0F0F0F]">
+      <table class="table table-sm table-compact table-pin-rows shadow-md rounded-none sm:rounded-lg bg-[#09090B]">
         <thead>
-          <tr class="bg-[#0F0F0F]">
+          <tr class="bg-[#09090B]">
             <th class="text-white font-semibold text-sm">Symbol</th>
             <th class="text-white font-semibold text-sm">Name</th>
             <th class="text-white font-semibold text-sm ">Volume</th>
@@ -534,7 +534,7 @@ async function loadSearchData() {
         </thead>
         <tbody>
           {#each active as item, index}
-          <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] shake-ticker cursor-pointer">
+          <tr on:click={() => goto("/stocks/"+item?.symbol)} class="odd:bg-[#27272A] cursor-pointer">
             <td class="text-blue-400 ">
               {item?.symbol}
             </td>
@@ -589,7 +589,7 @@ async function loadSearchData() {
         Latest Market Momentum
       </h2>
           {#each rssFeedWIIM?.slice(0,5) as item}
-          <div class="shadow-md bg-[#202020] p-6 mb-4 rounded-lg text-start">
+          <div class="shadow-md bg-[#27272A] p-6 mb-4 rounded-lg text-start">
             <div class="text-sm text-white">
               <div class="flex flex-col items-start">
                 <div class="hidden sm:flex flex-row items-center mb-3">

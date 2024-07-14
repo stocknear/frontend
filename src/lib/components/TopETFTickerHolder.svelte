@@ -22,7 +22,7 @@
       
       <div class="space-y-3 sm:pt-5 hidden lg:block lg:{topETFHolder?.length !== 0 ? '' : 'hidden'}">  
       
-      <div class="sm:rounded-2xl shadow-lg bg-[#000] sm:bg-[#202020] sm:border sm:border-slate-800 h-auto {$screenWidth < 640 ? 'w-screen pt-16' : ''} md:w-96">
+      <div class="sm:rounded-2xl shadow-lg bg-[#000] sm:bg-[#09090B] sm:border sm:border-slate-800 h-auto {$screenWidth < 640 ? 'w-screen pt-16' : ''} md:w-96">
       
         <div class="w-auto lg:w-full p-1 flex flex-col m-auto pb-14 sm:pb-10 px-2 sm:px-0">
             <h2 class="text-start text-2xl font-semibold text-white p-3 mt-3 ml-1">
@@ -40,14 +40,14 @@
             <table class="table table-sm table-compact text-start flex justify-start items-center w-full px-3 m-auto">
               <thead>
                 <tr class="border-b border-blue-400">
-                  <th class="text-white font-semibold text-sm text-start bg-[#000] sm:bg-[#202020] border-b border-blue-400">Company Name</th>
-                  <th class="text-white font-semibold text-sm text-center bg-[#000] sm:bg-[#202020] border-b border-blue-400">Total Assets</th>
-                  <th class="text-white font-semibold text-sm text-end bg-[#000] sm:bg-[#202020] border-b border-blue-400">% of Fund</th>
+                  <th class="text-white font-semibold text-sm text-start bg-[#000] sm:bg-[#09090B] border-b border-blue-400">Company Name</th>
+                  <th class="text-white font-semibold text-sm text-center bg-[#000] sm:bg-[#09090B] border-b border-blue-400">Total Assets</th>
+                  <th class="text-white font-semibold text-sm text-end bg-[#000] sm:bg-[#09090B] border-b border-blue-400">% of Fund</th>
                 </tr>
               </thead>
               <tbody>
                 {#each topETFHolder as item, index}
-                <tr on:click={() => etfSelector(item?.symbol)} class="text-white cursor-pointer sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#000] sm:bg-[#202020] border-b border-[#000] sm:border-[#202020]">
+                <tr on:click={() => etfSelector(item?.symbol)} class="text-white cursor-pointer sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#000] sm:bg-[#09090B] border-b border-[#000] sm:border-[#27272A]">
                   {#if index <=6}
                  
                     <td class="text-gray-200">

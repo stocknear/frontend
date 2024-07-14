@@ -300,7 +300,7 @@ onMount(async() => {
   
     
           
-    <section class="bg-[#0F0F0F] overflow-hidden text-white h-full mb-40 sm:mb-0">
+    <section class="bg-[#09090B] overflow-hidden text-white h-full mb-40 sm:mb-0">
         <div class="flex justify-center w-fit m-auto h-full overflow-hidden">
             <div class="relative flex justify-center items-center overflow-hidden">
                   <div class="sm:p-7 sm:w-full sm:max-w-3xl m-auto mt-5 sm:mt-0">
@@ -489,19 +489,19 @@ onMount(async() => {
 
 
                       <div class="hidden sm:flex justify-start items-center w-full m-auto rounded-none sm:rounded-lg mb-4">
-                          <table class="table table-sm table-pin-rows table-compact rounded-none sm:rounded-md w-full bg-[#0F0F0F] border-bg-[#0F0F0F] m-auto">
+                          <table class="table table-sm table-pin-rows table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                             <thead>
-                              <tr class="bg-[#0F0F0F] shadow-md">
-                                <th class="text-start bg-[#0F0F0F] text-white text-sm sm:font-medium">
+                              <tr class="bg-[#09090B] shadow-md">
+                                <th class="text-start bg-[#09090B] text-white text-sm sm:font-medium">
                                   Person
                                 </th>
-                                <th class="text-end bg-[#0F0F0F] hidden sm:table-cell text-white text-sm sm:font-medium">
+                                <th class="text-end bg-[#09090B] hidden sm:table-cell text-white text-sm sm:font-medium">
                                   Transaction Date
                                 </th>
-                                <th class="text-end bg-[#0F0F0F]  text-white text-sm sm:font-medium">
+                                <th class="text-end bg-[#09090B]  text-white text-sm sm:font-medium">
                                   Shares
                                 </th>
-                                <th class="text-end bg-[#0F0F0F]  text-white text-sm sm:font-medium">
+                                <th class="text-end bg-[#09090B]  text-white text-sm sm:font-medium">
                                   Price
                                 </th>
                                 <th class="text-white sm:font-semibold text-end text-sm">Type</th>
@@ -509,26 +509,26 @@ onMount(async() => {
                             </thead>
                             <tbody>
                               {#each (data?.user?.tier === 'Pro' ? insiderTradingList : insiderTradingList?.slice(0,3)) as item, index}
-                              <tr class="text-gray-200 odd:bg-[#202020] {index+1 === insiderTradingList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
+                              <tr class="text-gray-200 odd:bg-[#27272A] {index+1 === insiderTradingList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
       
-                                <td class="text-gray-200 border-b border-[#0F0F0F]">
+                                <td class="text-gray-200 border-b border-[#09090B]">
                                   <div class="flex flex-col">
                                     <span class="text-white">{formatString(item?.reportingName)?.replace('/de/','')}</span>
                                     <span class="text-white text-xs">{extractOfficeInfo(item?.typeOfOwner)}</span>
                                   </div>
                                 </td>
       
-                                  <td class="text-end hidden sm:table-cell text-xs sm:text-sm text-white border-b border-[#0F0F0F]">
+                                  <td class="text-end hidden sm:table-cell text-xs sm:text-sm text-white border-b border-[#09090B]">
                                       {new Date(item?.transactionDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                   </td>
 
-                                  <td class="text-end text-xs sm:text-sm text-white border-b border-[#0F0F0F]">
+                                  <td class="text-end text-xs sm:text-sm text-white border-b border-[#09090B]">
                                       {abbreviateNumber(item?.securitiesTransacted)}
                                   </td>
-                                  <td class="text-end text-xs sm:text-sm text-white border-b border-[#0F0F0F]">
+                                  <td class="text-end text-xs sm:text-sm text-white border-b border-[#09090B]">
                                     ${item?.price?.toFixed(2)}
                                   </td>
-                                  <td class="font-medium text-end sm:text-sm text-white border-b border-[#0F0F0F]">
+                                  <td class="font-medium text-end sm:text-sm text-white border-b border-[#09090B]">
                                     {#if item?.transactionType === 'Bought'}
                                       <span class="text-[#10DB06]">Bought</span>
                                     {:else if item?.transactionType === 'Grant'}
@@ -549,7 +549,7 @@ onMount(async() => {
 
                       <div class="relative sm:hidden w-full">
                         {#each insiderTradingList as item}
-                          <div class="bg-[#202020] border border-slate-800 shadow-lg rounded-lg h-auto pb-4 pl-2 pr-4 pt-4 mb-7">
+                          <div class="bg-[#09090B] border border-slate-800 shadow-lg rounded-lg h-auto pb-4 pl-2 pr-4 pt-4 mb-7">
                               <div class="flex flex-row items-center">
                                 <label class="flex flex-col ml-2 w-40">
                                   <span class="text-white fónt-medium">Name</span>
@@ -640,7 +640,7 @@ onMount(async() => {
                   {:else}
                   <div class="flex justify-center items-center h-80">
                     <div class="relative">
-                    <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                         <span class="loading loading-spinner loading-md"></span>
                     </label>
                     </div>

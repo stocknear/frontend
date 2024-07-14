@@ -57,7 +57,7 @@
                                 <!--Start Item-->
                                 <div class="flex flex-row items-center ml-5 w-full mb-6">
                         
-                                    <div class="w-full rounded-lg bg-[#202020] shadow-lg h-16 pl-3 ml-6 sm:ml-3 pt-2">
+                                    <div class="w-full rounded-lg bg-[#27272A] shadow-lg h-16 pl-3 ml-6 sm:ml-3 pt-2">
                                         <div class="flex flex-row items-center">  
                                             <div class="flex flex-col">
                                                 <span class="text-slate-400 font-medium text-sm sm:text-md mb-2 mr-auto">

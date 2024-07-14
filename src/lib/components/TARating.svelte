@@ -111,14 +111,14 @@ $: {
           <!-- head -->
           <thead>
             <tr>
-              <th class="text-white text-sm font-medium bg-[#0F0F0F] font-semibold">Name</th>
-              <th class="text-white text-sm font-medium bg-[#0F0F0F] font-semibold text-end">Value</th>
-              <th class="text-white text-sm font-medium bg-[#0F0F0F] font-semibold text-end">Signal</th>
+              <th class="text-white text-sm font-medium bg-[#09090B] font-semibold">Name</th>
+              <th class="text-white text-sm font-medium bg-[#09090B] font-semibold text-end">Value</th>
+              <th class="text-white text-sm font-medium bg-[#09090B] font-semibold text-end">Signal</th>
             </tr>
           </thead>
           <tbody>
             {#each (showFullStats ? signalList : signalList?.slice(0, 3)) as item,index}
-            <tr class="border-y border-gray-800 odd:bg-[#202020] {index === 2 && !showFullStats && signalList?.length > 2 ? 'opacity-[0.3]' : '' }">
+            <tr class="border-y border-gray-800 odd:bg-[#27272A] {index === 2 && !showFullStats && signalList?.length > 2 ? 'opacity-[0.3]' : '' }">
               <td class="text-white text-sm w-1/2 sm:w-full">
                 {item?.name}
               </td>

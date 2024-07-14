@@ -62,13 +62,13 @@
   <div class="flex flex-col justify-center items-center p-3 sm:p-0">
   
     
-    <div class="mt-0 sm:mt-5 mb-2 w-full sm:flex sm:flex-row sm:items-center m-auto text-gray-100 font-medium bg-[#202020] sm:rounded-lg h-auto p-5">
+    <div class="mt-0 sm:mt-5 mb-2 w-full sm:flex sm:flex-row sm:items-center m-auto text-gray-100 font-medium bg-[#09090B] sm:rounded-lg h-auto p-5">
       <svg class="w-5 h-5 inline-block sm:mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
       All {rawData?.length} IPOs on the US stock market in between 2019 - 2024.
     </div>
   
       {#if $screenWidth > 640}
-      <table class="mt-5 table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#0F0F0F] border-bg-[#0F0F0F] m-auto overflow-hidden">
+      <table class="mt-5 table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto overflow-hidden">
         <thead>
           <tr>
             <th class="text-white font-medium text-[0.95rem] text-start">IPO Date</th>
@@ -81,19 +81,19 @@
         </thead>
         <tbody>
           {#each ipoList as item,index}
-          <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] border-b-[#0F0F0F] shake-ticker cursor-pointer">
+          <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
             
   
-            <td class="text-white text-sm text-start border-b-[#0F0F0F]">
+            <td class="text-white text-sm text-start border-b-[#09090B]">
               {new Date(item?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
             </td>
   
   
-            <td class="hidden sm:table-cell text-blue-400 text-sm text-start border-b-[#0F0F0F]">
+            <td class="hidden sm:table-cell text-blue-400 text-sm text-start border-b-[#09090B]">
               {item?.symbol}
             </td>
   
-            <td class="text-gray-200 border-b-[#0F0F0F]">
+            <td class="text-gray-200 border-b-[#09090B]">
               <span class="hidden sm:block text-white">{item?.name?.length > charNumber ? formatString(item?.name?.slice(0,charNumber)) + "..." : formatString(item?.name)}</span>
               <div class="sm:hidden flex flex-row">
                 <div class="flex flex-col">
@@ -104,17 +104,17 @@
             </td>
           
           
-            <td class="text-white border-b-[#0F0F0F] text-end">
+            <td class="text-white border-b-[#09090B] text-end">
               {item?.ipoPrice !== null ? '$'+item?.ipoPrice : '-'}
             </td>
   
-          <td class="text-white border-b-[#0F0F0F] text-end">
+          <td class="text-white border-b-[#09090B] text-end">
             {item?.currentPrice !== null ? '$'+item?.currentPrice : '-'}
           </td>
   
       
   
-          <td class="text-white border-b-[#0F0F0F] text-end flex flex-row items-center justify-end">
+          <td class="text-white border-b-[#09090B] text-end flex flex-row items-center justify-end">
             {#if item?.return >=0 && item?.return !== null}
               <svg class="w-5 h-5 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
               <span class="inline-block text-[#10DB06] text-md">{abbreviateNumber(item?.return)}%</span>
@@ -145,7 +145,7 @@
   
       <div class="relative sm:hidden pt-3 w-full">
         {#each ipoList as item}
-          <div class="bg-[#202020] rounded-lg border border-slate-800 shadow-lg h-auto pb-3 pl-2 pr-2 pt-4 mb-7">
+          <div class="bg-[#09090B] rounded-lg border border-slate-800 shadow-lg h-auto pb-3 pl-2 pr-2 pt-4 mb-7">
               <div class="flex flex-row items-center">
                 <label on:click={() => goto("/stocks/"+item?.symbol)} class="cursor-pointer flex flex-col ml-3 w-40">
                   <span class="text-blue-400">{item?.symbol}</span>
@@ -227,7 +227,7 @@
     {:else}
     <div class="flex justify-center items-center h-80">
       <div class="relative">
-      <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <span class="loading loading-spinner loading-md"></span>
       </label>
       </div>

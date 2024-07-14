@@ -170,7 +170,7 @@ function sectorSelector(sector) {
                     </div>
 
                     <div class="p-2 sm:p-0">
-                      <div class="stats stats-horizontal bg-[#202020] rounded-lg shadow w-full rounded-none sm:rounded-lg mt-12 mb-5">
+                      <div class="stats stats-horizontal bg-[#09090B] rounded-lg shadow w-full rounded-none sm:rounded-lg mt-12 mb-5">
               
                           <div class="grid grid-cols-2 sm:grid-cols-4 ">
                                     
@@ -230,17 +230,17 @@ function sectorSelector(sector) {
                     <div class="w-screen sm:w-full m-auto mt-10">
                   
                       <div class="w-screen sm:w-full m-auto rounded-none sm:rounded-lg mb-4 overflow-x-scroll">
-                        <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#0F0F0F] border-bg-[#0F0F0F] m-auto">
+                        <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                           <thead>
-                            <tr class="bg-[#0F0F0F] border-b border-blue-400">
-                              <th class="text-start bg-[#0F0F0F] text-gray-200 text-sm sm:text-[1rem] font-semibold">
+                            <tr class="bg-[#09090B] border-b border-blue-400">
+                              <th class="text-start bg-[#09090B] text-gray-200 text-sm sm:text-[1rem] font-semibold">
                                 Stock
                               </th>
-                              <th class="text-start bg-[#0F0F0F] text-white text-sm sm:text-[1rem] font-semibold">
+                              <th class="text-start bg-[#09090B] text-white text-sm sm:text-[1rem] font-semibold">
                                 Action
                               </th>
     
-                              <th class="text-end hidden sm:table-cell bg-[#0F0F0F] text-white text-sm sm:text-[1rem] font-semibold">
+                              <th class="text-end hidden sm:table-cell bg-[#09090B] text-white text-sm sm:text-[1rem] font-semibold">
                                 Price Target
                               </th>
                               <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">
@@ -251,7 +251,7 @@ function sectorSelector(sector) {
                           <tbody>
                             {#each ratingsList as item, index}
     
-                            <tr on:click={() => goto(`/stocks/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] cursor-pointer">
+                            <tr on:click={() => goto(`/stocks/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] cursor-pointer">
     
                               <td class="text-sm text-start">
                                 <div class="flex flex-col items-start w-20 sm:w-fit">

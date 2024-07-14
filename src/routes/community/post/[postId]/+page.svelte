@@ -549,7 +549,7 @@ function updateVote(postVote) {
     
   
   
-  <!--<section on:click={closePost} class="bg-[#0F0F0F] cursor-zoom-out min-h-screen">-->
+  <!--<section on:click={closePost} class="bg-[#09090B] cursor-zoom-out min-h-screen">-->
   
   <!--in:pageTransitionIn={{ duration: 250, screenWidth: $screenWidth }}-->
   <div class="overflow-hidden flex flex-row item-start w-full lg:mt-5 relative max-w-6xl m-auto lg:px-5 sm:pb-40">
@@ -576,7 +576,7 @@ function updateVote(postVote) {
         {/if}
       </form>
       <!--End Upvote-->
-      <label class="px-6 py-4 w-14 rounded-lg bg-[#202020] text-[1rem] text-bold text-white">
+      <label class="px-6 py-4 w-14 rounded-lg bg-[#09090B] text-[1rem] text-bold text-white">
           {typeof upvoteCounter[post?.id] === 'number' || typeof downvoteCounter[post?.id] === 'number' ? (upvoteCounter[post?.id] - downvoteCounter[post?.id]) : '-' }
       </label>
       <!--Start Downvote-->
@@ -604,10 +604,10 @@ function updateVote(postVote) {
    <!--End Voting-->
   
   
-  <div class="w-full bg-[#202020] max-w-5xl m-auto border sm:hover:border-slate-800 border-slate-800 rounded-none sm:rounded-xl ">
+  <div class="w-full bg-[#09090B] max-w-5xl m-auto border sm:hover:border-slate-800 border-slate-800 rounded-none sm:rounded-xl ">
       
   <!-- Start Header -->
-  <div style="top: 0.8rem;" class="sm:rounded-xl absolute h-12 sticky z-20 bg-[#202020] w-full {isScrolled && $screenWidth < 640 ? 'border-b border-gray-700 ease-in' : 'ease-out'}">
+  <div style="top: 0.8rem;" class="sm:rounded-xl absolute h-12 sticky z-20 bg-[#09090B] w-full {isScrolled && $screenWidth < 640 ? 'border-b border-gray-700 ease-in' : 'ease-out'}">
       <div class="flex flex-row items-center justify-between w-full pt-3">
           <a href={previousPage} class="absolute left-2 sm:left-4 sm:top-4">
               <svg class="w-5 h-5 inline-block sm:mr-1 sm:-mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
@@ -858,7 +858,7 @@ function updateVote(postVote) {
                                       {#if !loadTextEditor}
                                       <div class="flex justify-center items-center h-80">
                                         <div class="relative">
-                                        <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                        <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                                             <span class="loading loading-spinner loading-md"></span>
                                         </label>
                                         </div>
@@ -979,7 +979,7 @@ function updateVote(postVote) {
   <label for="deletePostModal"  class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
   
   
-  <div class="modal-box w-full bg-[#202020] sm:border sm:border-slate-600 overflow-hidden">
+  <div class="modal-box w-full bg-[#09090B] sm:border sm:border-slate-600 overflow-hidden">
   
       <h3 class="font-bold text-xl mb-5 pt-5 text-white m-auto w-3/4 text-center">
       Are you sure you want to delete the post?

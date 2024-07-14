@@ -57,7 +57,7 @@ const article = data?.getArticle;
                             <div class="md:grow pt-6 pb-12 w-full sm:mr-4 rounded-2xl sm:rounded-none">
                                 <div class="sm:pr-5">
                                    <!--Start Title-->
-                                   <h1 class="text-white font-bold text-3xl bg-[#111011] sm:bg-[#0F0F0F] p-6 sm:p-3 rounded-t-xl -mt-36 sm:mt-0 bg-opacity-[0.9]">
+                                   <h1 class="text-white font-bold text-3xl bg-[#111011] sm:bg-[#09090B] p-6 sm:p-3 rounded-t-xl -mt-36 sm:mt-0 bg-opacity-[0.9]">
                                     {@html article?.title}
                                     </h1>
                                    <!--End Title-->
@@ -244,7 +244,7 @@ const article = data?.getArticle;
     
       
     .grid-background {
-        background: linear-gradient(to bottom, #202020, #111011);
+        background: linear-gradient(to bottom, #27272A, #111011);
         width: 24rem;
         position: relative;
     }

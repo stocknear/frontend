@@ -87,7 +87,7 @@ $: {
     
     
     
-    <section class="bg-[#0F0F0F] overflow-hidden text-white h-full sm:mb-0 w-full">
+    <section class="bg-[#09090B] overflow-hidden text-white h-full sm:mb-0 w-full">
         <div class="flex justify-center w-full m-auto h-full overflow-hidden">
             <div class="relative flex justify-center items-center overflow-hidden w-full">
                     <div class="w-fit sm:w-full sm:max-w-2xl m-auto mt-5 sm:mt-0">
@@ -116,7 +116,7 @@ $: {
                             <!--Start Progress-->
                             {#each (showFullStats ? sectorList : sectorList?.slice(0,3)) as item,index}
 
-                                <div on:click= {() => sectorSelector(item?.industry)} class="shadow-lg bg-[#202020] w-full rounded-lg p-4 mb-5  flex flex-row items-center {index === 0 ? 'mt-4' : ''} {index === 2 && !showFullStats && sectorList?.length > 3 ? 'opacity-[0.5]' : '' }">
+                                <div on:click= {() => sectorSelector(item?.industry)} class="shadow-lg bg-[#09090B] w-full rounded-lg p-4 mb-5  flex flex-row items-center {index === 0 ? 'mt-4' : ''} {index === 2 && !showFullStats && sectorList?.length > 3 ? 'opacity-[0.5]' : '' }">
 
                                     <div class="flex flex-col -mt-2 w-full">
                                         <div class="flex flex-row items-center w-full">

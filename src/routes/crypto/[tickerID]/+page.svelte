@@ -567,17 +567,17 @@ $: {
     height: height,
     layout: {
       background: {
-        color: '#0F0F0F',
+        color: '#09090B',
       },
     
     },
     grid: {
       vertLines: {
-        color: '#0F0F0F',
+        color: '#09090B',
         visible: false,
       },
       horzLines: {
-        color: '#0F0F0F',
+        color: '#09090B',
         visible: false,
       },
     },
@@ -716,7 +716,7 @@ afterUpdate(async () => {
   </svelte:head>
     
   
-  <section class="bg-[#0F0F0F] min-h-screen pb-40">
+  <section class="bg-[#09090B] min-h-screen pb-40">
   
               <div class="w-full max-w-4xl m-auto ">
   
@@ -779,47 +779,47 @@ afterUpdate(async () => {
                                    <!--Start Time Interval-->
                                    <div class="hidden sm:flex flex-row items-center pl-1 sm:pl-6 w-full mt-4">
                                     <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => changeData('1D')} class="text-sm font-medium text-gray-400 {displayData === '1D' ? 'text-white ' : 'bg-[#0F0F0F]'}">
+                                    <button on:click={() => changeData('1D')} class="text-sm font-medium text-gray-400 {displayData === '1D' ? 'text-white ' : 'bg-[#09090B]'}">
                                         1D
                                     </button>
-                                    <div class="{displayData === '1D' ? `bg-[${colorChange}]` : 'bg-[#0F0F0F]'} mt-1 h-[3px] w-[1.5rem] rounded-full" />
+                                    <div class="{displayData === '1D' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem] rounded-full" />
                                     </div>
                                     <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => (changeData('1W'))} class="w-full text-sm font-medium text-gray-400 {displayData === '1W' ? 'text-white ' : 'bg-[#0F0F0F]'}">
+                                    <button on:click={() => (changeData('1W'))} class="w-full text-sm font-medium text-gray-400 {displayData === '1W' ? 'text-white ' : 'bg-[#09090B]'}">
                                         1W
                                     </button>
-                                    <div class="{displayData === '1W' ? `bg-[${colorChange}]` : 'bg-[#0F0F0F]'} mt-1 h-[3px] w-[1.5rem]" />
+                                    <div class="{displayData === '1W' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
                                     </div>
                                     <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => (changeData('1M'))} class="text-sm font-medium text-gray-400 {displayData === '1M' ? 'text-white ' : 'bg-[#0F0F0F]'}">
+                                    <button on:click={() => (changeData('1M'))} class="text-sm font-medium text-gray-400 {displayData === '1M' ? 'text-white ' : 'bg-[#09090B]'}">
                                         1M
                                     </button>
-                                    <div class="{displayData === '1M' ? `bg-[${colorChange}]` : 'bg-[#0F0F0F]'} mt-1 h-[3px] w-[1.5rem]" />
+                                    <div class="{displayData === '1M' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
                                     </div>
                                     <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => changeData('6M')} class="text-sm font-medium text-gray-400 {displayData === '6M' ? 'text-white ' : 'bg-[#0F0F0F]'}">
+                                    <button on:click={() => changeData('6M')} class="text-sm font-medium text-gray-400 {displayData === '6M' ? 'text-white ' : 'bg-[#09090B]'}">
                                         6M
                                     </button>
-                                    <div class="{displayData === '6M' ? `bg-[${colorChange}]` : 'bg-[#0F0F0F]'} mt-1 h-[3px] w-[1.5rem]" />
+                                    <div class="{displayData === '6M' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
                                     </div>
                                   <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => changeData('1Y')} class="text-sm font-medium text-gray-400 {displayData === '1Y' ? 'text-white ' : 'bg-[#0F0F0F]'}">
+                                    <button on:click={() => changeData('1Y')} class="text-sm font-medium text-gray-400 {displayData === '1Y' ? 'text-white ' : 'bg-[#09090B]'}">
                                         1Y
                                     </button>
-                                    <div class="{displayData === '1Y' ? `bg-[${colorChange}]` : 'bg-[#0F0F0F]'} mt-1 h-[3px] w-[1.5rem]" />
+                                    <div class="{displayData === '1Y' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
                                   </div>
                                   
                                   <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => changeData('MAX')} class="text-sm font-medium text-gray-400 {displayData === 'MAX' ? 'text-white ' : 'bg-[#0F0F0F]'}">
+                                    <button on:click={() => changeData('MAX')} class="text-sm font-medium text-gray-400 {displayData === 'MAX' ? 'text-white ' : 'bg-[#09090B]'}">
                                         MAX
                                     </button>
-                                    <div class="{displayData === 'MAX' ? `bg-[${colorChange}]` : 'bg-[#0F0F0F]'} mt-1 h-[3px] w-[1.5rem]" />
+                                    <div class="{displayData === 'MAX' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
                                   
                                   </div>
 
 
   
-                                  <label on:click={changeChartType} class="ml-auto -mt-3 block cursor-pointer bg-[#202020] sm:hover:bg-[#202020] duratiion-100 transition ease-in-out px-3 py-1 rounded-lg shadow-sm">
+                                  <label on:click={changeChartType} class="ml-auto -mt-3 block cursor-pointer bg-[#09090B] sm:hover:bg-[#09090B] duratiion-100 transition ease-in-out px-3 py-1 rounded-lg shadow-sm">
                                     {#if displayChartType === 'line'}
                                       <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M7 20v-2H5V6h2V4h2v2h2v12H9v2zm8 0v-5h-2V8h2V4h2v4h2v7h-2v5z"/></svg>
                                       {:else}
@@ -1087,7 +1087,7 @@ afterUpdate(async () => {
                                   <!-- else output not loaded yet-->
                                       <div class="flex justify-center w-full sm:w-[650px] h-80 sm:w-[600px] items-center">
                                         <div class="relative">
-                                          <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                          <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                                             <span class="loading loading-spinner loading-md"></span>
                                           </label>
                                       </div>  
@@ -1099,41 +1099,41 @@ afterUpdate(async () => {
                                     <!--Start Time Interval-->
                                     <div class="pl-1 w-screen sm:hidden flex flex-row items-center">
                                     <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => changeData('1D')} class="text-sm font-medium text-gray-400 {displayData === '1D' ? 'text-white ' : 'bg-[#0F0F0F]'}">
+                                    <button on:click={() => changeData('1D')} class="text-sm font-medium text-gray-400 {displayData === '1D' ? 'text-white ' : 'bg-[#09090B]'}">
                                         1D
                                     </button>
-                                    <div class="{displayData === '1D' ? `bg-[${colorChange}]` : 'bg-[#0F0F0F]'} mt-1 h-[3px] w-[1.5rem] rounded-full" />
+                                    <div class="{displayData === '1D' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem] rounded-full" />
                                     </div>
                                     <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => (changeData('1W'))} class="w-full text-sm font-medium text-gray-400 {displayData === '1W' ? 'text-white ' : 'bg-[#0F0F0F]'}">
+                                    <button on:click={() => (changeData('1W'))} class="w-full text-sm font-medium text-gray-400 {displayData === '1W' ? 'text-white ' : 'bg-[#09090B]'}">
                                         1W
                                     </button>
-                                    <div class="{displayData === '1W' ? `bg-[${colorChange}]` : 'bg-[#0F0F0F]'} mt-1 h-[3px] w-[1.5rem]" />
+                                    <div class="{displayData === '1W' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
                                     </div>
                                     <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => (changeData('1M'))} class="text-sm font-medium text-gray-400 {displayData === '1M' ? 'text-white ' : 'bg-[#0F0F0F]'}">
+                                    <button on:click={() => (changeData('1M'))} class="text-sm font-medium text-gray-400 {displayData === '1M' ? 'text-white ' : 'bg-[#09090B]'}">
                                         1M
                                     </button>
-                                    <div class="{displayData === '1M' ? `bg-[${colorChange}]` : 'bg-[#0F0F0F]'} mt-1 h-[3px] w-[1.5rem]" />
+                                    <div class="{displayData === '1M' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
                                     </div>
                                     <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => changeData('6M')} class="text-sm font-medium text-gray-400 {displayData === '6M' ? 'text-white ' : 'bg-[#0F0F0F]'}">
+                                    <button on:click={() => changeData('6M')} class="text-sm font-medium text-gray-400 {displayData === '6M' ? 'text-white ' : 'bg-[#09090B]'}">
                                         6M
                                     </button>
-                                    <div class="{displayData === '6M' ? `bg-[${colorChange}]` : 'bg-[#0F0F0F]'} mt-1 h-[3px] w-[1.5rem]" />
+                                    <div class="{displayData === '6M' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
                                     </div>
                                   <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => changeData('1Y')} class="text-sm font-medium text-gray-400 {displayData === '1Y' ? 'text-white ' : 'bg-[#0F0F0F]'}">
+                                    <button on:click={() => changeData('1Y')} class="text-sm font-medium text-gray-400 {displayData === '1Y' ? 'text-white ' : 'bg-[#09090B]'}">
                                         1Y
                                     </button>
-                                    <div class="{displayData === '1Y' ? `bg-[${colorChange}]` : 'bg-[#0F0F0F]'} mt-1 h-[3px] w-[1.5rem]" />
+                                    <div class="{displayData === '1Y' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
                                   </div>
                                   
                                   <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => changeData('MAX')} class="text-sm font-medium text-gray-400 {displayData === 'MAX' ? 'text-white ' : 'bg-[#0F0F0F]'}">
+                                    <button on:click={() => changeData('MAX')} class="text-sm font-medium text-gray-400 {displayData === 'MAX' ? 'text-white ' : 'bg-[#09090B]'}">
                                         MAX
                                     </button>
-                                    <div class="{displayData === 'MAX' ? `bg-[${colorChange}]` : 'bg-[#0F0F0F]'} mt-1 h-[3px] w-[1.5rem]" />
+                                    <div class="{displayData === 'MAX' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
                                   </div>
 
                                   <label on:click={changeChartType} class="ml-auto mr-5 -mt-1 sm:hidden border border-slate-800 px-2.5 py-1 rounded-xl">
@@ -1255,7 +1255,7 @@ afterUpdate(async () => {
   
   
   :root {
-    --date-picker-background: #0F0F0F;
+    --date-picker-background: #09090B;
     --date-picker-foreground: #f7f7f7;
   }
   

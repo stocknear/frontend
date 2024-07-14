@@ -48,7 +48,7 @@ $: {
             
             
             
-<section class="bg-[#0F0F0F] overflow-hidden text-white h-full sm:mb-0">
+<section class="bg-[#09090B] overflow-hidden text-white h-full sm:mb-0">
     <div class="flex justify-center m-auto h-full overflow-hidden">
         <div class="relative flex justify-center items-center overflow-hidden w-full">
                 <div class="w-full max-w-2xl">
@@ -75,9 +75,9 @@ $: {
                                     <!--Start Progress-->
                                     {#each (showFullStats ? geographicList : geographicList?.slice(0,3)) as item,index}
 
-                                        <div class="shadow-lg bg-[#202020] w-full rounded-lg p-4 sm:p-3 mb-5  flex flex-row items-center {index === 0 ? 'mt-4' : ''} {index === 2 && !showFullStats && geographicList?.length > 2 ? 'opacity-[0.3]' : '' }">
+                                        <div class="shadow-lg bg-[#09090B] w-full rounded-lg p-4 sm:p-3 mb-5  flex flex-row items-center {index === 0 ? 'mt-4' : ''} {index === 2 && !showFullStats && geographicList?.length > 2 ? 'opacity-[0.3]' : '' }">
 
-                                            <div class="flex-shrink-0 mr-3 rounded-full w-10 h-10 relative bg-[#0F0F0F]">
+                                            <div class="flex-shrink-0 mr-3 rounded-full w-10 h-10 relative bg-[#09090B]">
                                                 <img
                                                 class="flex-shrink-0 rounded-full w-7 h-7 absolute inset-1/2 transform -translate-x-1/2 -translate-y-1/2" 
                                                 src={`https://hatscripts.github.io/circle-flags/flags/${item?.code}.svg`} 

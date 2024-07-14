@@ -91,7 +91,7 @@ $: {
                   
 
           
-<section class="bg-[#0F0F0F] overflow-hidden text-white h-full mb-40 sm:mb-0 w-full">
+<section class="bg-[#09090B] overflow-hidden text-white h-full mb-40 sm:mb-0 w-full">
   <div class="flex justify-center m-auto h-full overflow-hidden w-full">
       <div class="relative flex justify-center items-center overflow-hidden w-full">
             <div class="sm:p-7 w-full m-auto mt-2 sm:mt-0">
@@ -122,27 +122,27 @@ $: {
                     <div class="flex justify-start items-center m-auto overflow-x-auto">
                                   
                                   
-                      <table class="table table-pin-cols table-sm table-compact rounded-none sm:rounded-md w-full border-bg-[#0F0F0F] m-auto mt-4 overflow-x-auto">
+                      <table class="table table-pin-cols table-sm table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 overflow-x-auto">
                           <thead>
                             <tr class="">
-                              <td class="text-white border-b border-[#0F0F0F] bg-[#0F0F0F] font-semibold text-sm">No.</td>
-                              <td class="text-white border-b border-[#0F0F0F] bg-[#0F0F0F] font-semibold text-sm">Symbol</td>
-                              <td class="text-white border-b border-[#0F0F0F] bg-[#0F0F0F] font-semibold text-sm hidden sm:table-cell">Name</td>
-                              <td class="text-white border-b border-[#0F0F0F] bg-[#0F0F0F] font-semibold text-end text-sm ">Shares</td>
-                              <td class="text-white border-b border-[#0F0F0F] bg-[#0F0F0F] font-semibold text-end text-sm">% Weight</td>
+                              <td class="text-white border-b border-[#09090B] bg-[#09090B] font-semibold text-sm">No.</td>
+                              <td class="text-white border-b border-[#09090B] bg-[#09090B] font-semibold text-sm">Symbol</td>
+                              <td class="text-white border-b border-[#09090B] bg-[#09090B] font-semibold text-sm hidden sm:table-cell">Name</td>
+                              <td class="text-white border-b border-[#09090B] bg-[#09090B] font-semibold text-end text-sm ">Shares</td>
+                              <td class="text-white border-b border-[#09090B] bg-[#09090B] font-semibold text-end text-sm">% Weight</td>
                             </tr>
                           </thead>
                           <tbody>
                             {#each (data?.user?.tier === 'Pro' ? holdings : holdings?.slice(0,3)) as item,index}
                         <!-- row -->
                         {#if item?.asset !== null}
-                        <tr on:click={() => stockSelector(item?.asset)} class="w-full sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] {index+1 === holdings?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''} {item?.asset?.length !== 0 ? 'cursor-pointer' : ''}">
+                        <tr on:click={() => stockSelector(item?.asset)} class="w-full sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] {index+1 === holdings?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''} {item?.asset?.length !== 0 ? 'cursor-pointer' : ''}">
                           
-                          <td class="text-gray-200 border-b border-[#0F0F0F]">
+                          <td class="text-gray-200 border-b border-[#09090B]">
                             {index+1}
                           </td>
 
-                          <td class="font-normal  border-b border-[#0F0F0F]">
+                          <td class="font-normal  border-b border-[#09090B]">
                             <div class="flex flex-col items-start">
                               <span class="text-blue-400">{item?.asset}</span>
                               <span class="sm:hidden text-white">
@@ -151,13 +151,13 @@ $: {
                             </div>
                           </td>
                           
-                          <td class="text-gray-200 border-b border-[#0F0F0F] w-fit hidden sm:table-cell">
+                          <td class="text-gray-200 border-b border-[#09090B] w-fit hidden sm:table-cell">
                             {item?.name?.length > charNumber ? formatString(item?.name?.slice(0,charNumber)) + "..." : formatString(item?.name)}
                           </td>
             
           
               
-                        <td class="text-gray-200 border-b border-[#0F0F0F] text-end ">
+                        <td class="text-gray-200 border-b border-[#09090B] text-end ">
                           <span class="text-white font-medium text-md ">
                                   {new Intl.NumberFormat("en", {
                                       minimumFractionDigits: 0,
@@ -167,7 +167,7 @@ $: {
                         </td>
           
             
-                        <td class="text-gray-200 border-b border-[#0F0F0F] text-end">
+                        <td class="text-gray-200 border-b border-[#09090B] text-end">
                                   <span class="text-white font-medium text-md ">{item?.weightPercentage?.toFixed(2)}%</span>
                         </td>
             

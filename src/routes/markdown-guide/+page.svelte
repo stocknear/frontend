@@ -44,7 +44,7 @@
         We use <a href="https://en.wikipedia.org/wiki/Markdown" rel="noopener noreferrer" target="_blank" class="text-blue-400 sm:hover:text-white">Markdown</a> to format posts and comments on Stocknear. We support CommonMark and Github Flavored Markdown (with the exception of image tags and raw HTML).
     </span>
 
-    <div class="w-full m-auto mt-10 bg-[#202020] rounded-lg">
+    <div class="w-full m-auto mt-10 bg-[#09090B] rounded-lg">
     <table class="table table-sm table-compact h-full w-full text-white">
         <tbody class="">
             <tr>

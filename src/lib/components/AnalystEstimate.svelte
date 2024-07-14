@@ -294,36 +294,36 @@ $: {
                 
                 
                 <div class="no-scrollbar flex justify-start items-center w-screen sm:w-full mt-6 m-auto rounded-none sm:rounded-lg overflow-hidden overflow-x-scroll">
-                    <table class="table table-sm shaodow table-pin-cols table-compact rounded-none sm:rounded-md w-full bg-[#0F0F0F] border-bg-[#0F0F0F]">
+                    <table class="table table-sm shaodow table-pin-cols table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B]">
                         <thead class="">
                         <tr class="">
-                            <th class="bg-[#0F0F0F] border-b border-[#000] text-white font-semibold text-sm text-start">Year</th>
+                            <th class="bg-[#09090B] border-b border-[#000] text-white font-semibold text-sm text-start">Year</th>
                             {#each ($screenWidth >= 640 ? xData?.slice(-6) : xData) as item}
-                            <td class="z-20 bg-[#0F0F0F] border-b border-[#000] text-white font-semibold text-sm text-center bg-[#0F0F0F]">{'FY'+item}</td>
+                            <td class="z-20 bg-[#09090B] border-b border-[#000] text-white font-semibold text-sm text-center bg-[#09090B]">{'FY'+item}</td>
                             {/each}
 
                         </tr>
                         </thead>
                         <tbody class="shadow-md">
 
-                            <tr class="bg-[#0F0F0F] border-b-[#0F0F0F]">
-                                <th class="text-white text-start font-medium bg-[#0F0F0F] border-b border-[#0F0F0F]">
+                            <tr class="bg-[#09090B] border-b-[#09090B]">
+                                <th class="text-white text-start font-medium bg-[#09090B] border-b border-[#09090B]">
                                     Forecast
                                 </th>
                                 {#each ($screenWidth >= 640 ? tableDataForecast?.slice(-6) : tableDataForecast) as item}
-                                    <td class="text-white text-center font-medium  border-b border-[#0F0F0F]">
+                                    <td class="text-white text-center font-medium  border-b border-[#09090B]">
                                         {(item?.val === '0.00' || item?.val === null) ? '-' : item?.val}
                                     </td>
                                 {/each}
                            
                             </tr>
 
-                            <tr class="bg-[#0F0F0F] border-b-[#0F0F0F]">
-                                <th class="bg-[#202020] text-white text-start font-medium  bg-[#0F0F0F] border-b border-[#0F0F0F]">
+                            <tr class="bg-[#09090B] border-b-[#09090B]">
+                                <th class="bg-[#09090B] text-white text-start font-medium  bg-[#09090B] border-b border-[#09090B]">
                                     Actual
                                 </th>
                                 {#each ($screenWidth >= 640 ? tableDataActual?.slice(-6) : tableDataActual) as item}
-                                    <td class="text-white text-center font-medium bg-[#202020]">
+                                    <td class="text-white text-center font-medium bg-[#09090B]">
                                         {(item?.val === '0.00' || item?.val === null) ? '-' : item?.val}
                                     </td>
                                 {/each}
@@ -344,7 +344,7 @@ $: {
                 {:else}
                 <div class="flex justify-center items-center h-80">
                     <div class="relative">
-                    <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                         <span class="loading loading-spinner loading-md"></span>
                     </label>
                     </div>
@@ -352,7 +352,7 @@ $: {
                 {/if}
 
                 {:else}
-            <div class="shadow-lg shadow-bg-[#000] bg-[#202020] sm:bg-opacity-[0.5] text-sm sm:text-[1rem] rounded-md w-full p-4 min-h-24 mt-4 text-white m-auto flex justify-center items-center text-center font-semibold">
+            <div class="shadow-lg shadow-bg-[#000] bg-[#09090B] sm:bg-opacity-[0.5] text-sm sm:text-[1rem] rounded-md w-full p-4 min-h-24 mt-4 text-white m-auto flex justify-center items-center text-center font-semibold">
                 <svg class="mr-1.5 w-5 h-5 inline-block"xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#A3A3A3" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/></svg>
                 Unlock content with <a class="inline-block ml-2 text-blue-400 hover:sm:text-white" href="/pricing">Pro Subscription</a>
               </div>

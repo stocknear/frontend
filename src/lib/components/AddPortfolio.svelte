@@ -107,7 +107,7 @@ else {
   <label for="addPortfolio"  class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
   
   
-  <div class="modal-box w-full bg-[#202020] overflow-hidden" >
+  <div class="modal-box w-full bg-[#09090B] overflow-hidden" >
 
 
     <div class="flex flex-col w-full mt-10 sm:mt-0">
@@ -263,7 +263,7 @@ else {
         Terms and Conditions of Participation
       </div>
 
-      <div class="text-white text-sm border bg-[#202020]  border-gray-800 p-3 rounded-lg overflow-y-scroll h-56">
+      <div class="text-white text-sm border bg-[#09090B]  border-gray-800 p-3 rounded-lg overflow-y-scroll h-56">
         
         <ol class="text-white list-decimal ml-3 p-2">
           <li class="p-1">The organizer of the Prize competition is stocknear.</li>

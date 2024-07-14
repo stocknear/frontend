@@ -69,7 +69,7 @@ function loadMoreData() {
 
 
 
-<section class="w-auto max-w-3xl bg-[#0F0F0F] overflow-hidden text-black h-full mb-40">
+<section class="w-auto max-w-3xl bg-[#09090B] overflow-hidden text-black h-full mb-40">
     <div class="m-auto h-full overflow-hidden ">
             <main class="">
                 <div class="sm:p-7 m-auto mt-2 sm:mt-0">
@@ -82,7 +82,7 @@ function loadMoreData() {
                           {#if newsList.length !== 0}
                           <div class="grid grid-cols-1 gap-2 pb-5">
                           {#each newsList as item}
-                                <div class="flex flex-col bg-[#0F0F0F] rounded-lg m-auto">
+                                <div class="flex flex-col bg-[#09090B] rounded-lg m-auto">
                                     {#if videoId = checkIfYoutubeVideo(item.url)}
                                         <iframe
                                             class="w-full h-96 rounded-lg"
@@ -125,7 +125,7 @@ function loadMoreData() {
 
 
                           {:else}
-                          <div class="w-screen max-w-xl sm:flex sm:flex-row sm:items-center justify-center m-auto text-gray-100 font-medium bg-[#202020] sm:rounded-lg h-auto p-5 mb-4">
+                          <div class="w-screen max-w-xl sm:flex sm:flex-row sm:items-center justify-center m-auto text-gray-100 font-medium bg-[#09090B] sm:rounded-lg h-auto p-5 mb-4">
                             <svg class="w-5 h-5 inline-block sm:mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>      
                             No news article published yet!
                           </div>

@@ -7,7 +7,7 @@
 
 
 .table {
-  @apply rounded-box text-left text-sm rtl:text-right;
+  @apply text-left text-sm rtl:text-right;
   :where(th, td) {
     @apply px-4 py-3 align-middle;
   }
@@ -41,7 +41,7 @@
   }
 
   :where(thead, tfoot) {
-    @apply text-base-content/60 whitespace-nowrap text-xs;
+    @apply whitespace-nowrap text-xs;
   }
 }
 

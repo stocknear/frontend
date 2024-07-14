@@ -456,7 +456,7 @@ class="cursor-pointer w-8 h-8  flex items-center justify-center bg-purple-600 ro
             {#if !showSuggestions }
               {#each popularList as item}
                 <li>
-                  <a href={`/${item?.type === 'ETF' ? 'etf' : item?.type === 'Crypto' ? 'crypto' : 'stocks'}/${item?.symbol}`} on:click={() => popularTicker(item?.symbol, item?.assetType) } class="mb-2 {item?.symbol === focusedSuggestion ? 'shake-ticker cursor-pointer flex justify-start items-center p-2 text-white bg-[#404040] bg-opacity-[0.25] rounded group' : 'shake-ticker cursor-pointer bg-[#202020] rounded-lg flex justify-start items-center p-2 text-white  group'} w-full">
+                  <a href={`/${item?.type === 'ETF' ? 'etf' : item?.type === 'Crypto' ? 'crypto' : 'stocks'}/${item?.symbol}`} on:click={() => popularTicker(item?.symbol, item?.assetType) } class="mb-2 {item?.symbol === focusedSuggestion ? 'shake-ticker cursor-pointer flex justify-start items-center p-2 text-white bg-[#404040] bg-opacity-[0.25] rounded group' : 'shake-ticker cursor-pointer bg-[#09090B] rounded-lg flex justify-start items-center p-2 text-white  group'} w-full">
                     <div class="flex flex-row items-center w-full">
                       <div class="rounded-full w-10 h-10 relative bg-[#000] flex items-center justify-center">
                         <img style="clip-path: circle(50%);" class="w-6 h-6" src={`https://financialmodelingprep.com/image-stock/${item?.symbol}.png`} loading="lazy" />
@@ -489,7 +489,7 @@ class="cursor-pointer w-8 h-8  flex items-center justify-center bg-purple-600 ro
                 <li>
                   <!-- svelte-ignore a11y-click-events-have-key-events -->
                   <!-- svelte-ignore a11y-label-has-associated-control -->
-                  <label data-sveltekit-preload-data="false" on:click={() => (searchBarTicker(item?.symbol, item?.type))} class="mb-2 {item?.symbol === focusedSuggestion ? 'shake-ticker cursor-pointer flex justify-start items-center p-2 text-white bg-[#404040] bg-opacity-[0.25] rounded group' : 'cursor-pointer mb-2 bg-[#202020] rounded-lg flex justify-start items-center p-2 text-white group'}">
+                  <label data-sveltekit-preload-data="false" on:click={() => (searchBarTicker(item?.symbol, item?.type))} class="mb-2 {item?.symbol === focusedSuggestion ? 'shake-ticker cursor-pointer flex justify-start items-center p-2 text-white bg-[#404040] bg-opacity-[0.25] rounded group' : 'cursor-pointer mb-2 bg-[#09090B] rounded-lg flex justify-start items-center p-2 text-white group'}">
                     <div class="flex flex-row items-center w-full">
 
                       <div class="flex flex-col">
@@ -525,7 +525,7 @@ class="cursor-pointer w-8 h-8  flex items-center justify-center bg-purple-600 ro
     {:else}
     <div class="flex justify-center items-center m-auto mt-4 py-20">
       <div class="relative">
-        <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <span class="loading loading-spinner loading-md"></span>
         </label>
     </div>  
@@ -599,7 +599,7 @@ class="cursor-pointer w-8 h-8  flex items-center justify-center bg-purple-600 ro
           {#if !showSuggestions }
             {#each popularList as item}
               <li>
-                <a  href={`/${item?.type === 'ETF' ? 'etf' : item?.type === 'Crypto' ? 'crypto' : 'stocks'}/${item?.symbol}`}  on:click={() => popularTicker(item?.symbol, item?.type) } class="mb-2 {item?.symbol === focusedSuggestion ? 'shake-ticker cursor-pointer flex justify-start items-center p-2 text-white bg-[#404040] bg-opacity-[0.25] rounded group' : 'cursor-pointer bg-[#202020] bg-opacity-[0.4] rounded-lg flex justify-start items-center p-2 text-white group'} w-full">
+                <a  href={`/${item?.type === 'ETF' ? 'etf' : item?.type === 'Crypto' ? 'crypto' : 'stocks'}/${item?.symbol}`}  on:click={() => popularTicker(item?.symbol, item?.type) } class="mb-2 {item?.symbol === focusedSuggestion ? 'shake-ticker cursor-pointer flex justify-start items-center p-2 text-white bg-[#404040] bg-opacity-[0.25] rounded group' : 'cursor-pointer bg-[#09090B] bg-opacity-[0.4] rounded-lg flex justify-start items-center p-2 text-white group'} w-full">
                   <div class="flex flex-row items-center w-full">
                     <div class="rounded-full w-10 h-10 relative bg-[#000] flex items-center justify-center">
                       <img style="clip-path: circle(50%);" class="w-6 h-6" src={`https://financialmodelingprep.com/image-stock/${item?.symbol}.png`} loading="lazy" />
@@ -630,7 +630,7 @@ class="cursor-pointer w-8 h-8  flex items-center justify-center bg-purple-600 ro
               <li>
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <!-- svelte-ignore a11y-label-has-associated-control -->
-                <label data-sveltekit-preload-data="false" on:click={() => (searchBarTicker(item?.symbol, item?.type))} class="mb-2 {item?.symbol === focusedSuggestion ? 'shake-ticker cursor-pointer flex justify-start items-center p-2 text-white bg-[#404040] bg-opacity-[0.25] rounded group' : 'cursor-pointer mb-2 bg-[#202020] bg-opacity-[0.4] rounded-lg flex justify-start items-center p-2 text-white group'}">
+                <label data-sveltekit-preload-data="false" on:click={() => (searchBarTicker(item?.symbol, item?.type))} class="mb-2 {item?.symbol === focusedSuggestion ? 'shake-ticker cursor-pointer flex justify-start items-center p-2 text-white bg-[#404040] bg-opacity-[0.25] rounded group' : 'cursor-pointer mb-2 bg-[#09090B] bg-opacity-[0.4] rounded-lg flex justify-start items-center p-2 text-white group'}">
                   <div class="flex flex-row items-center w-full">
 
                     <div class="flex flex-col ml-1">

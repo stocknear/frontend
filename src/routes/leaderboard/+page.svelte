@@ -222,7 +222,7 @@ async function getLeaderboard() {
       </div>
     -->
 
-      <div class="w-full max-w-4xl m-auto sm:bg-[#202020]  sm:rounded-xl h-auto p-10 mt-3">
+      <div class="w-full max-w-4xl m-auto sm:bg-[#09090B]  sm:rounded-xl h-auto p-10 mt-3">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
       
           <!-- Start Column -->
@@ -359,14 +359,14 @@ async function getLeaderboard() {
       {:else}
       {#each (leaderboard?.length >=3 ? leaderboard?.slice(3,-1) : leaderboard)  as item,index }
         <div class="p-2 sm:hidden">
-        <div class="shadow-lg bg-[#202020] w-full rounded-lg p-4 sm:p-3 flex flex-row items-center ">
+        <div class="shadow-lg bg-[#09090B] w-full rounded-lg p-4 sm:p-3 flex flex-row items-center ">
 
           <div class="flex flex-row items-center">   
             <span class="text-white text-sm mr-3">
               {item?.rank}
             </span>
 
-            <div class="flex-shrink-0 mr-3 rounded-full w-12 h-12 relative bg-[#0F0F0F]">
+            <div class="flex-shrink-0 mr-3 rounded-full w-12 h-12 relative bg-[#09090B]">
               <img style="clip-path: circle(50%);"
               class="rounded-full w-10 h-10 absolute inset-1/2 transform -translate-x-1/2 -translate-y-1/2" 
               src={item?.expand?.user?.avatar
@@ -423,7 +423,7 @@ async function getLeaderboard() {
 
       <!--Desktop-->
 
-      <table class="hidden sm:table table-sm table-compact shadow-md rounded-none sm:rounded-md w-full bg-[#0F0F0F] border-bg-[#0F0F0F] m-auto mt-4 mb-10">
+      <table class="hidden sm:table table-sm table-compact shadow-md rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto mt-4 mb-10">
         <thead>
             <tr class="">
               <th class="text-white sm:font-medium text-sm shadow-md">Rank</th>
@@ -434,7 +434,7 @@ async function getLeaderboard() {
         <tbody class="shadow-md">
           
             {#each (leaderboard?.length >=3 ? leaderboard?.slice(3,-1) : leaderboard) as item,index}
-            <tr class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] cursor-pointer">
+            <tr class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] cursor-pointer">
               <td on:click={() => goto("/community/user/"+item?.user)} class="cursor-pointer">
                 <div class="flex flex-row items-center">
                   <span class="text-white text-sm mr-3">
@@ -510,7 +510,7 @@ async function getLeaderboard() {
       {:else}
       <div class="flex justify-center items-center h-80">
         <div class="relative">
-        <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <span class="loading loading-spinner loading-md"></span>
         </label>
         </div>

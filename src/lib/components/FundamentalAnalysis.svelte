@@ -115,7 +115,7 @@ $: {
             <div class="w-full mt-5 mb-5 flex justify-start items-center">
                 <div class="w-full grid grid-cols-2 lg:grid-cols-3 gap-y-3 gap-x-3 ">
                   <!--Start Flow Sentiment-->  
-                  <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#202020] shadow-lg rounded-2xl h-20">
+                  <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#09090B] shadow-lg rounded-2xl h-20">
                       <div class="flex flex-col items-start">
                           <span class="font-medium text-gray-200 text-sm">Quarter Sentiment</span>
                           {#if !deactivateContent}
@@ -131,7 +131,7 @@ $: {
                   
                   <!--End Flow Sentiment-->
                    <!--Start Put/Call-->  
-                   <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#202020] shadow-lg rounded-2xl h-20">
+                   <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#09090B] shadow-lg rounded-2xl h-20">
                     <div class="flex flex-col items-start">
                         <span class="font-medium text-gray-200 text-sm ">Accuracy</span>
                         <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -159,7 +159,7 @@ $: {
                    <!--End Put/Call-->
 
                    <!--Start Precision-->  
-                   <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#202020] shadow-lg rounded-2xl h-20">
+                   <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#09090B] shadow-lg rounded-2xl h-20">
                     <div class="flex flex-col items-start">
                         <span class="font-medium text-gray-200 text-sm ">Precision</span>
                         <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -221,7 +221,7 @@ $: {
             {:else}
             <div class="flex justify-center items-center h-80">
               <div class="relative">
-                <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <span class="loading loading-spinner loading-md"></span>
                 </label>
               </div>
@@ -229,7 +229,7 @@ $: {
             {/if}
 
             {:else}
-            <div class="shadow-lg shadow-bg-[#000] bg-[#202020] sm:bg-opacity-[0.5] text-sm sm:text-[1rem] rounded-md w-full p-4 min-h-24 mt-4 text-white m-auto flex justify-center items-center text-center font-semibold">
+            <div class="shadow-lg shadow-bg-[#000] bg-[#09090B] sm:bg-opacity-[0.5] text-sm sm:text-[1rem] rounded-md w-full p-4 min-h-24 mt-4 text-white m-auto flex justify-center items-center text-center font-semibold">
                 <svg class="mr-1.5 w-5 h-5 inline-block"xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#A3A3A3" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/></svg>
                 Unlock content with <a class="inline-block ml-2 text-blue-400 hover:sm:text-white" href="/pricing">Pro Subscription</a>
               </div>

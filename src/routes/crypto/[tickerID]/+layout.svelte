@@ -467,7 +467,7 @@ $: {
 
 </script>
 
-<body class="bg-[#0F0F0F] pb-40">    
+<body class="bg-[#09090B] pb-40">    
         <!-- Page wrapper -->
         <div class="flex flex-col min-h-screen overflow-hidden m-auto w-full mt-5 supports-[overflow:clip]:overflow-clip pb-40">
             <main class="grow">
@@ -476,7 +476,7 @@ $: {
                         <div class="sm:flex sm:justify-start w-full">
     
            <!--Start Mobile Navbar-->
-           <div class="navbar w-screen sticky top-0 z-30 bg-[#0F0F0F] sm:hidden ">
+           <div class="navbar w-screen sticky top-0 z-30 bg-[#09090B] sm:hidden ">
       
             <div class="{isScrolled ? 'border-b border-slate-800 ease-in' : 'ease-out'} m-auto w-full">
       
@@ -577,7 +577,7 @@ $: {
                                           {#if data?.user}
                                           <div class="flex flex-col ml-auto mr-2">
                                             {#if userWatchList?.length !== 0}
-                                            <div class="flex-shrink-0 rounded-full hover:bg-white hover:bg-opacity-[0.02] transition ease-out w-12 h-12 relative bg-[#0F0F0F] flex items-center justify-center">
+                                            <div class="flex-shrink-0 rounded-full hover:bg-white hover:bg-opacity-[0.02] transition ease-out w-12 h-12 relative bg-[#09090B] flex items-center justify-center">
                                               <label for="addWatchListModal" class="cursor-pointer flex-shrink-0">
                                                 {#if isTickerIncluded}
                                                   <svg class="w-7 h-7 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="white" d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>
@@ -588,7 +588,7 @@ $: {
                                             </div>
       
                                             {:else if userWatchList?.length === 0}
-                                            <div class="flex-shrink-0 rounded-full hover:bg-white hover:bg-opacity-[0.02] transition ease-out w-12 h-12 relative bg-[#0F0F0F] flex items-center justify-center">
+                                            <div class="flex-shrink-0 rounded-full hover:bg-white hover:bg-opacity-[0.02] transition ease-out w-12 h-12 relative bg-[#09090B] flex items-center justify-center">
                                               <label on:click={() => toggleUserWatchlist('firstList')} class="cursor-pointer flex-shrink-0">
                                                 {#if isTickerIncluded}
                                                 <svg class="w-7 h-7 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="white" d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>
@@ -601,7 +601,7 @@ $: {
                                             {/if}
                                           </div>
                                           {:else}
-                                          <div class="flex-shrink-0 ml-auto mr-2 rounded-full hover:bg-white hover:bg-opacity-[0.02] transition ease-out w-12 h-12 relative bg-[#0F0F0F] flex items-center justify-center">
+                                          <div class="flex-shrink-0 ml-auto mr-2 rounded-full hover:bg-white hover:bg-opacity-[0.02] transition ease-out w-12 h-12 relative bg-[#09090B] flex items-center justify-center">
                                             <label for="userLogin" class="cursor-pointer flex-shrink-0 text-white">
                                               <svg class="w-7 h-7 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="white" d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256l4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73l3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356l-.83 4.73zm4.905-2.767l-3.686 1.894l.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575l-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957l-3.686-1.894a.503.503 0 0 0-.461 0z"/></svg>
                                             </label>
@@ -611,7 +611,7 @@ $: {
 
                                         <!--Start Price Alert -->
                                         
-                                        <div class="flex-shrink-0 rounded-full hover:bg-white hover:bg-opacity-[0.02] transition ease-out w-12 h-12 relative bg-[#0F0F0F] flex items-center justify-center">
+                                        <div class="flex-shrink-0 rounded-full hover:bg-white hover:bg-opacity-[0.02] transition ease-out w-12 h-12 relative bg-[#09090B] flex items-center justify-center">
                                           <label on:click={() => $openPriceAlert = true} for={data?.user ? 'priceAlertModal' : 'userLogin'} class="cursor-pointer flex-shrink-0 text-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 inline-block" viewBox="0 0 24 24"><g fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M3 5.231L6.15 3M21 5.231L17.85 3"/><circle cx="12" cy="13" r="8"/><path d="M9.5 13h5M12 10.5v5"/></g></svg>
                                           </label>
@@ -647,14 +647,14 @@ $: {
                                         <div class="hidden sm:flex ml-auto">
                                         {#if holdingShares !== 0 && data?.user}
                                         
-                                        <label for="{!data?.user  ? 'userLogin' : userPortfolio?.length !== 0 ? 'typeOfTrade' : ''}" class="py-2 px-3 text-sm sm:text-[1rem] cursor-pointer mr-1 flex flex-row ease-in-out duration-100 rounded-full shadow-lg bg-[#202020] hover:bg-[#2A303C] border border-slate-800 normal-case cursor-pointer items-center">
+                                        <label for="{!data?.user  ? 'userLogin' : userPortfolio?.length !== 0 ? 'typeOfTrade' : ''}" class="py-2 px-3 text-sm sm:text-[1rem] cursor-pointer mr-1 flex flex-row ease-in-out duration-100 rounded-full shadow-lg bg-[#09090B] hover:bg-[#2A303C] border border-slate-800 normal-case cursor-pointer items-center">
                                           <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="white" d="M8 2.5a.5.5 0 0 0-1 0V7H2.5a.5.5 0 0 0 0 1H7v4.5a.5.5 0 0 0 1 0V8h4.5a.5.5 0 0 0 0-1H8z"/></svg>
                                           <span class="text-white font-medium">
                                             Portfolio
                                           </span>
                                         </label>
                                         {:else}
-                                        <label for="{!data?.user  ? 'userLogin' : userPortfolio?.length === 0 ? 'addPortfolio' : 'buyTradeModal'}" class="py-2 px-3 text-sm sm:text-[1rem] cursor-pointer mr-1 flex flex-row ease-in-out duration-100 rounded-full shadow-lg bg-[#202020] hover:bg-[#2A303C] border border-slate-800 normal-case  cursor-pointer items-center">
+                                        <label for="{!data?.user  ? 'userLogin' : userPortfolio?.length === 0 ? 'addPortfolio' : 'buyTradeModal'}" class="py-2 px-3 text-sm sm:text-[1rem] cursor-pointer mr-1 flex flex-row ease-in-out duration-100 rounded-full shadow-lg bg-[#09090B] hover:bg-[#2A303C] border border-slate-800 normal-case  cursor-pointer items-center">
                                           <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="white" d="M8 2.5a.5.5 0 0 0-1 0V7H2.5a.5.5 0 0 0 0 1H7v4.5a.5.5 0 0 0 1 0V8h4.5a.5.5 0 0 0 0-1H8z"/></svg>
                                           <span class="text-white font-medium">
                                             Portfolio
@@ -676,30 +676,30 @@ $: {
       
                                       <!--Start Ticker Section-->
                                       
-                                      <!--<div class="w-full max-w-3xl sm:max-w-2xl m-auto pt-2 pb-5 sm:pl-3 sticky z-20 bg-[#0F0F0F]"  style="top: {$screenWidth < 520 && $isScrollingUp ? '4rem' : '0rem'};">-->
+                                      <!--<div class="w-full max-w-3xl sm:max-w-2xl m-auto pt-2 pb-5 sm:pl-3 sticky z-20 bg-[#09090B]"  style="top: {$screenWidth < 520 && $isScrollingUp ? '4rem' : '0rem'};">-->
                                         <div class="-ml-2 sm:ml-4 w-screen sm:w-full {$screenWidth < 640 ? 'overflow-auto scrollbar no-scrollbar' : ''} mb-2" >
-                                          <ul class="pr-4 sm:pr-0 w-screen font-medium flex flex-row items-center bg-[#0F0F0F] overflow-x-scroll space-x-3 rtl:space-x-reverse py-2">
+                                          <ul class="pr-4 sm:pr-0 w-screen font-medium flex flex-row items-center bg-[#09090B] overflow-x-scroll space-x-3 rtl:space-x-reverse py-2">
                                             <li class="cursor-pointer flex flex-col items-center">
-                                              <a href={`/crypto/${$cryptoTicker}`} id="item1" on:click={() => (changeSection('overview','item1'))} class="px-3 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'overview' ? 'text-white ' : 'bg-[#0F0F0F]'}" >
+                                              <a href={`/crypto/${$cryptoTicker}`} id="item1" on:click={() => (changeSection('overview','item1'))} class="px-3 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'overview' ? 'text-white ' : 'bg-[#09090B]'}" >
                                                 Overview
                                               </a>
-                                              <div class="{displaySection === 'overview' ? 'bg-[#75D377]' : 'bg-[#0F0F0F]'} mt-1 h-[3px] rounded-full w-[3.5rem]" />
+                                              <div class="{displaySection === 'overview' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[3.5rem]" />
                                             </li>
                                             <li class="cursor-pointer flex flex-col items-center">
-                                              <a href={`/crypto/${$cryptoTicker}/stats`} id="item2" on:click={() => (changeSection('stats','item2'))} class="px-3 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'stats' ? 'text-white ' : 'bg-[#0F0F0F]'}" >Stats</a>
-                                              <div class="{displaySection === 'stats' ? 'bg-[#75D377]' : 'bg-[#0F0F0F]'} mt-1 h-[3px] rounded-full w-[2rem]" />
+                                              <a href={`/crypto/${$cryptoTicker}/stats`} id="item2" on:click={() => (changeSection('stats','item2'))} class="px-3 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'stats' ? 'text-white ' : 'bg-[#09090B]'}" >Stats</a>
+                                              <div class="{displaySection === 'stats' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[2rem]" />
                                             </li>
                                             <li class="cursor-pointer flex flex-col items-center">
-                                              <a href={`/crypto/${$cryptoTicker}/congress-trading`} id="item7" on:click={() => (changeSection('congress-trading','item7'))} class="px-3 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'congress-trading' ? 'text-white ' : 'bg-[#0F0F0F]'}" >
+                                              <a href={`/crypto/${$cryptoTicker}/congress-trading`} id="item7" on:click={() => (changeSection('congress-trading','item7'))} class="px-3 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'congress-trading' ? 'text-white ' : 'bg-[#09090B]'}" >
                                                 Insider
                                               </a>
-                                              <div class="{displaySection === 'congress-trading' ? 'bg-[#75D377]' : 'bg-[#0F0F0F]'} mt-1 h-[3px] rounded-full w-[2.5rem]" />
+                                              <div class="{displaySection === 'congress-trading' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[2.5rem]" />
                                             </li>
                                             <li class="cursor-pointer flex flex-col items-center">
-                                              <a href={`/crypto/${$cryptoTicker}/news`} id="item7" on:click={() => (changeSection('news','item7'))} class="px-3 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'news' ? 'text-white ' : 'bg-[#0F0F0F]'}" >
+                                              <a href={`/crypto/${$cryptoTicker}/news`} id="item7" on:click={() => (changeSection('news','item7'))} class="px-3 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'news' ? 'text-white ' : 'bg-[#09090B]'}" >
                                                 News
                                               </a>
-                                              <div class="{displaySection === 'news' ? 'bg-[#75D377]' : 'bg-[#0F0F0F]'} mt-1 h-[3px] rounded-full w-[2rem]" />
+                                              <div class="{displaySection === 'news' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[2rem]" />
                                             </li>
                                           </ul>
                                         </div>
@@ -744,12 +744,12 @@ $: {
                           <div class="h-full mx-auto">        
                             <div class="flex items-center justify-end">
                               {#if holdingShares !== 0 && data?.user}
-                              <label for="{!data?.user  ? 'userLogin' : userPortfolio?.length !== 0 ? 'typeOfTrade' : ''}" class="inline-flex items-center justify-center w-32 h-11 border border-[#000] ring-[#000] bg-[#0DDE00] text-[0.95rem] font-medium rounded-full text-[#0F0F0F]">
+                              <label for="{!data?.user  ? 'userLogin' : userPortfolio?.length !== 0 ? 'typeOfTrade' : ''}" class="inline-flex items-center justify-center w-32 h-11 border border-[#000] ring-[#000] bg-[#0DDE00] text-[0.95rem] font-medium rounded-full text-[#09090B]">
                                 Invest
                               </label>
                               {:else}
                               <label for="{!data?.user  ? 'userLogin' : userPortfolio?.length === 0 ? 'addPortfolio' : 'buyTradeModal'}"
-                              class="inline-flex items-center justify-center w-32 h-11 border border-[#000] ring-[#000] bg-[#0DDE00] text-[0.95rem] font-medium rounded-full text-[#0F0F0F]">
+                              class="inline-flex items-center justify-center w-32 h-11 border border-[#000] ring-[#000] bg-[#0DDE00] text-[0.95rem] font-medium rounded-full text-[#09090B]">
                                 Invest
                               </label>
                               {/if}
@@ -898,14 +898,14 @@ $: {
   <dialog id="addWatchListModal" class="modal modal-bottom sm:modal-middle ">
   
   
-    <label id="addWatchListModal" for="addWatchListModal"  class="cursor-pointer modal-backdrop bg-[#0F0F0F] bg-opacity-[0.5]"></label>
+    <label id="addWatchListModal" for="addWatchListModal"  class="cursor-pointer modal-backdrop bg-[#09090B] bg-opacity-[0.5]"></label>
     
     
-    <div class="modal-box w-full bg-[#202020] sm:border sm:border-slate-800">
+    <div class="modal-box w-full bg-[#09090B] sm:border sm:border-slate-800">
   
   
   
-    <label for="addWatchListModal" class="cursor-pointer absolute right-5 top-2 bg-[#202020] text-[1.8rem] text-white">
+    <label for="addWatchListModal" class="cursor-pointer absolute right-5 top-2 bg-[#09090B] text-[1.8rem] text-white">
       ✕
     </label>
   
@@ -914,7 +914,7 @@ $: {
           Add to Watchlist
         </h3>
   
-        <div class="flex flex-col items-center w-full max-w-3xl bg-[#202020]">
+        <div class="flex flex-col items-center w-full max-w-3xl bg-[#09090B]">
   
           {#each userWatchList as item}
             <label on:click|stopPropagation={() => toggleUserWatchlist(item?.id)} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
@@ -933,7 +933,7 @@ $: {
   
                   <div class="rounded-full w-8 h-8 relative border border-[#737373]">
                     {#if item?.ticker?.includes($cryptoTicker)}
-                      <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#0F0F0F000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
+                      <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#09090B000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
                     {/if}
                   </div>
   
@@ -990,7 +990,7 @@ $: {
 ::-webkit-scrollbar {
     height: 7px;
     width: 10px;
-    background: #0F0F0F;
+    background: #09090B;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -1000,7 +1000,7 @@ $: {
 }
 
 ::-webkit-scrollbar-corner {
-    background: #0F0F0F;
+    background: #09090B;
 }
 
 

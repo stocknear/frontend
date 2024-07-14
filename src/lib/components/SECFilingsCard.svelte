@@ -171,7 +171,7 @@ $: {
 
 
       <div class="w-11/12 mt-5">
-        <div class="relative right-0 bg-[#27272A] rounded-lg">
+        <div class="relative right-0 bg-[#09090B] rounded-lg">
 
           <div class="relative flex flex-row items-center p-1 list-none rounded-lg">
             <AnimateSharedLayout>
@@ -226,7 +226,7 @@ $: {
       <div class="mt-5 w-full">
 
         {#each displayList as item}
-          <div class="flex flex-col justify-center m-auto items-start rounded-md bg-[#202020] shadow-lg h-auto w-11/12 mb-3" transition:fade={{ delay: 0, duration: 80 }} in={accordionOpen[item?.year]}>
+          <div class="flex flex-col justify-center m-auto items-start rounded-md bg-[#09090B] shadow-lg h-auto w-11/12 mb-3" transition:fade={{ delay: 0, duration: 80 }} in={accordionOpen[item?.year]}>
             
           
             <div class="flex flex-row items-center w-full p-3">
@@ -285,7 +285,7 @@ $: {
     {:else}
       <div class="flex justify-center items-center h-80">
         <div class="relative">
-          <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <span class="loading loading-spinner loading-md"></span>
           </label>
         </div>

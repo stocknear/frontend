@@ -6,7 +6,7 @@
     <!-- List container -->                  
     <div class="flex flex-col">
         <!-- Item -->
-        <div class="border border-slate-800 rounded-md bg-[#202020]">
+        <div class="border border-slate-800 rounded-md bg-[#09090B]">
           <div class="flex h-auto justify-between items-center">
             
 

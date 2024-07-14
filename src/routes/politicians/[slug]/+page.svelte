@@ -249,7 +249,7 @@
   
               <aside class="relative fixed w-full sm:w-1/3">        
                   <!--Start Card-->
-                  <div class="w-full bg-[#202020] border border-slate-800 rounded-lg h-auto pb-4">
+                  <div class="w-full bg-[#09090B] border border-slate-800 rounded-lg h-auto pb-4">
                     <div class="flex flex-col relative ">
                       {#if politicianParty === 'Republican'}
                       <img class="absolute  w-full m-auto rounded-lg " src={republicanBackground} />
@@ -347,7 +347,7 @@
                 <main class="w-full mt-10 sm:mt-0 sm:w-3/4 sm:ml-5">
                 
                   {#if isLoaded && Object?.keys(optionsData)?.length !== 0}
-                  <div class="p-0 sm:p-10 bg-[#0F0F0F] sm:bg-[#202020] rounded-lg sm:min-h-[330px] mb-10 sm:mb-6">
+                  <div class="p-0 sm:p-10 bg-[#09090B] sm:bg-[#09090B] rounded-lg sm:min-h-[330px] mb-10 sm:mb-6">
   
                     <div class="flex flex-row justify-center sm:justify-start items-center">
                       <svg class="w-7 h-7 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="#849AAE" d="M576 0c17.7 0 32 14.3 32 32v448c0 17.7-14.3 32-32 32s-32-14.3-32-32V32c0-17.7 14.3-32 32-32M448 96c17.7 0 32 14.3 32 32v352c0 17.7-14.3 32-32 32s-32-14.3-32-32V128c0-17.7 14.3-32 32-32m-96 128v256c0 17.7-14.3 32-32 32s-32-14.3-32-32V224c0-17.7 14.3-32 32-32s32 14.3 32 32m-160 64c17.7 0 32 14.3 32 32v160c0 17.7-14.3 32-32 32s-32-14.3-32-32V320c0-17.7 14.3-32 32-32M96 416v64c0 17.7-14.3 32-32 32s-32-14.3-32-32v-64c0-17.7 14.3-32 32-32s32 14.3 32 32"/></svg>
@@ -379,7 +379,7 @@
   
                   </div>
                   {/if}
-                <div class="p-0 sm:p-10 bg-[#0F0F0F] sm:bg-[#202020] rounded-lg sm:min-h-[330px]">
+                <div class="p-0 sm:p-10 bg-[#09090B] sm:bg-[#09090B] rounded-lg sm:min-h-[330px]">
                   <div class="w-full m-auto h-auto sm:max-h-[500px] sm:overflow-y-scroll scroller">
   
   
@@ -389,31 +389,31 @@
                       {numOfAssets} Assets
                     </span>
   
-                      <table class="-ml-2 table table-sm table-compact table-pin-rows table-pin-cols rounded-none sm:rounded-md w-full bg-[#202020] m-auto mt-5 ">
+                      <table class="-ml-2 table table-sm table-compact table-pin-rows table-pin-cols rounded-none sm:rounded-md w-full bg-[#09090B] m-auto mt-5 ">
                         <!-- head -->
                         <thead>
-                          <tr class="bg-[#202020]">
-                            <th class="shadow-md text-start bg-[#202020] text-white text-sm font-semibold">
+                          <tr class="bg-[#09090B]">
+                            <th class="shadow-md text-start bg-[#09090B] text-white text-sm font-semibold">
                               Name
                             </th>
-                            <th class="shadow-md text-start bg-[#202020]  text-white text-sm font-semibold">
+                            <th class="shadow-md text-start bg-[#09090B]  text-white text-sm font-semibold">
                               Transaction
                             </th>
-                            <th class="shadow-md text-end bg-[#202020] text-white text-sm font-semibold">
+                            <th class="shadow-md text-end bg-[#09090B] text-white text-sm font-semibold">
                               Traded
                             </th>
-                            <th class="shadow-md text-end bg-[#202020] text-white text-sm font-semibold">
+                            <th class="shadow-md text-end bg-[#09090B] text-white text-sm font-semibold">
                               Filed
                             </th>
                           </tr>
                         </thead>
                         <tbody class="p-0">
                           {#each displayList as item}
-                              <tr on:click={() => goto(`/${item?.assetType === 'stock' ? 'stocks' : item?.assetType === 'etf' ? 'etf' : 'crypto'}/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#202020] border-b-[#202020] cursor-pointer">
+                              <tr on:click={() => goto(`/${item?.assetType === 'stock' ? 'stocks' : item?.assetType === 'etf' ? 'etf' : 'crypto'}/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#09090B] border-b-[#27272A] cursor-pointer">
                                 
-                                <td class="text-gray-200 pb-3 border-b border-b-[#202020]">
+                                <td class="text-gray-200 pb-3 border-b border-b-[#27272A]">
                                   <div class="flex flex-row items-center">
-                                    <div class="flex-shrink-0 rounded-full w-8 h-8 relative bg-[#202020] flex items-center justify-center">
+                                    <div class="flex-shrink-0 rounded-full w-8 h-8 relative bg-[#09090B] flex items-center justify-center">
                                       <img style="clip-path: circle(50%);" class="avatar w-7 h-7" src={`https://financialmodelingprep.com/image-stock/${item?.ticker}.png`} alt="stock logo"/>
                                     </div>
                                     <div class="flex flex-col ml-2">
@@ -424,7 +424,7 @@
                                   <!--{item?.firstName} {item?.lastName}-->
                                 </td>
   
-                                <td class="text-start text-xs sm:text-sm text-white border-b border-b-[#202020]">
+                                <td class="text-start text-xs sm:text-sm text-white border-b border-b-[#27272A]">
                                   <div class="flex flex-col items-start">
                                     <span class="font-semibold">
                                       {#if item?.type === 'Bought'}
@@ -441,11 +441,11 @@
                                   </div>
                                 </td>
       
-                                  <td class="text-end text-sm text-white border-b border-b-[#202020]">
+                                  <td class="text-end text-sm text-white border-b border-b-[#27272A]">
                                       {new Date(item?.transactionDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                   </td>
   
-                                  <td class="text-end text-sm text-white border-b border-b-[#202020]">
+                                  <td class="text-end text-sm text-white border-b border-b-[#27272A]">
                                     {new Date(item?.disclosureDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                 </td>
                               </tr>
@@ -468,16 +468,16 @@
                         <table class="-ml-2 table mt-3 w-screen">
                             <thead>
                               <tr class="">
-                                <th class="shadow-md text-start bg-[#0F0F0F] text-white text-sm font-semibold">
+                                <th class="shadow-md text-start bg-[#09090B] text-white text-sm font-semibold">
                                   Name
                                 </th>
-                                <th class="shadow-md text-start bg-[#0F0F0F]  text-white text-sm font-semibold">
+                                <th class="shadow-md text-start bg-[#09090B]  text-white text-sm font-semibold">
                                   Transaction
                                 </th>
-                                <th class="shadow-md text-end bg-[#0F0F0F] text-white text-sm font-semibold">
+                                <th class="shadow-md text-end bg-[#09090B] text-white text-sm font-semibold">
                                   Traded
                                 </th>
-                                <th class="shadow-md text-end bg-[#0F0F0F] text-white text-sm font-semibold">
+                                <th class="shadow-md text-end bg-[#09090B] text-white text-sm font-semibold">
                                   Filed
                                 </th>
                               </tr>
@@ -485,9 +485,9 @@
                             <tbody>
                               {#each displayList as item,index}
                               <!-- row -->
-                              <tr on:click={() => goto(`/${item?.assetType === 'stock' ? 'stocks' : item?.assetType === 'etf' ? 'etf' : 'crypto'}/${item?.ticker}`)} class="w-screen [#0F0F0F] border-b-[#0F0F0F]">
+                              <tr on:click={() => goto(`/${item?.assetType === 'stock' ? 'stocks' : item?.assetType === 'etf' ? 'etf' : 'crypto'}/${item?.ticker}`)} class="w-screen [#09090B] border-b-[#09090B]">
                                 
-                                <td class="text-gray-200 pb-3 border-b border-b-[#0F0F0F] w-32">
+                                <td class="text-gray-200 pb-3 border-b border-b-[#09090B] w-32">
                                   <div class="flex flex-row items-center">
                                     <div class="flex flex-col">
                                       <span class="text-blue-400 text-sm">{item?.ticker?.replace('_',' ')}</span>
@@ -497,7 +497,7 @@
                                   <!--{item?.firstName} {item?.lastName}-->
                                 </td>
       
-                                <td class="text-start text-sm text-white border-b border-b-[#0F0F0F] ">
+                                <td class="text-start text-sm text-white border-b border-b-[#09090B] ">
                                   <div class="flex flex-col items-start">
                                     <span class="font-semibold">
                                       {#if item?.type === 'Bought'}
@@ -514,11 +514,11 @@
                                   </div>
                                 </td>
       
-                                  <td class="text-end text-sm text-white border-b border-b-[#0F0F0F]">
+                                  <td class="text-end text-sm text-white border-b border-b-[#09090B]">
                                       {new Date(item?.transactionDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                   </td>
   
-                                  <td class="text-end text-sm text-white border-b border-b-[#0F0F0F]">
+                                  <td class="text-end text-sm text-white border-b border-b-[#09090B]">
                                     {new Date(item?.disclosureDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                 </td>
                         

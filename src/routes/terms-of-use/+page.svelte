@@ -39,7 +39,7 @@
     </div>
     -->
   
-    <div  class="w-full m-auto sm:bg-[#202020] sm:rounded-xl h-auto p-10 mt-3 mb-10">
+    <div  class="w-full m-auto sm:bg-[#09090B] sm:rounded-xl h-auto p-10 mt-3 mb-10">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
     
         <!-- Start Column -->
@@ -84,7 +84,7 @@
 
 
 
-      <div class="card w-full bg-[#0F0F0F] border-t sm:border rounded-none sm:rounded-xl border-slate-700 m-auto ">
+      <div class="card w-full bg-[#09090B] border-t sm:border rounded-none sm:rounded-xl border-slate-700 m-auto ">
         <div class="card-body">
 
             <p class="text-gray-400 italic mb-2 text-sm">Last updated: 21.06.2024</p>

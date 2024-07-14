@@ -41,7 +41,7 @@ let etfProviderList = data?.getAllETFProviders;
     <section class="w-full max-w-4xl overflow-hidden m-auto">
             
           
-        <div class="w-full max-w-4xl sm:flex sm:flex-row sm:items-center m-auto text-gray-100 bg-[#202020] sm:rounded-lg h-auto p-5 mb-4">
+        <div class="w-full max-w-4xl sm:flex sm:flex-row sm:items-center m-auto text-gray-100 bg-[#09090B] sm:rounded-lg h-auto p-5 mb-4">
           <svg class="w-5 h-5 inline-block flex-shrink-0 mr-0.5 sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
           
           Every Exchange-Traded Fund (ETF) is managed by a specific company. Below is a list of companies offering actively traded ETFs on the U.S. stock market.
@@ -58,7 +58,7 @@ let etfProviderList = data?.getAllETFProviders;
       
     
            
-                <table class="table rounded-none sm:rounded-md w-full border-bg-[#0F0F0F] m-auto mt-4 ">
+                <table class="table rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 ">
                     <thead>
                       <tr class="border border-slate-800">
                         <th class="text-slate-200 font-semibold text-[0.95rem]">Provider Name</th>
@@ -71,27 +71,27 @@ let etfProviderList = data?.getAllETFProviders;
                     <tbody>
                       {#each etfProviderList as item,index}
                       <!-- row -->
-                      <tr on:click={() => goto("/etf/etf-providers/"+item?.etfProvider)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] border-b-[#0F0F0F] shake-ticker cursor-pointer">
+                      <tr on:click={() => goto("/etf/etf-providers/"+item?.etfProvider)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
                         
 
-                        <td class="text-blue-400 font-medium border-b-[#0F0F0F]">
+                        <td class="text-blue-400 font-medium border-b-[#09090B]">
                             {formatETFName(item?.etfProvider)}
                         </td>
     
-                        <td class="text-white font-medium  border-b-[#0F0F0F] text-end sm:text-center">
+                        <td class="text-white font-medium  border-b-[#09090B] text-end sm:text-center">
                             {abbreviateNumber(item?.totalAssets, true)}
                         </td>
       
-                        <td class="text-white font-medium text-end border-b-[#0F0F0F]">
+                        <td class="text-white font-medium text-end border-b-[#09090B]">
                             {item?.funds}
                         </td>
                 
       
-                        <td class="text-white font-medium text-end hidden sm:table-cell border-b-[#0F0F0F]">
+                        <td class="text-white font-medium text-end hidden sm:table-cell border-b-[#09090B]">
                             {item?.avgExpenseRatio}%
                         </td>
 
-                        <td class="text-white font-medium text-end hidden sm:table-cell border-b-[#0F0F0F]">
+                        <td class="text-white font-medium text-end hidden sm:table-cell border-b-[#09090B]">
                             {item?.avgHoldings}
                         </td>
       

@@ -49,7 +49,7 @@
   <div class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-10 mb-40">
     
     <!--Start Mission-->
-    <div class="bg-[#0F0F0F] w-full hover:border-slate-500 border-slate-600 h-auto sm:p-10 mt-3">
+    <div class="bg-[#09090B] w-full hover:border-slate-500 border-slate-600 h-auto sm:p-10 mt-3">
       <div class="text-white  text-4xl sm:text-5xl text-center p-3 sm:mt-5">
           <span class="font-bold">
             A stock analysis platform by the users, for the users.
@@ -89,7 +89,7 @@
 
 
         <!-- Start Section-->
-        <div class="bg-[#0F0F0F] w-full hover:border-slate-500 border-slate-600 h-auto pl-1 pr-1 sm:pl-0 sm:pr-0 pb-10 mb-8">
+        <div class="bg-[#09090B] w-full hover:border-slate-500 border-slate-600 h-auto pl-1 pr-1 sm:pl-0 sm:pr-0 pb-10 mb-8">
           <div class="text-4xl sm:text-5xl text-white text-center p-3 mt-10 sm:mt-5">
               <span class="font-bold">
                 No ads. No tracking.
@@ -106,7 +106,7 @@
 
 
        <!-- Start Section-->
-       <div class="bg-[#0F0F0F] w-full hover:border-slate-500 border-slate-600 h-auto pb-10 mb-8">
+       <div class="bg-[#09090B] w-full hover:border-slate-500 border-slate-600 h-auto pb-10 mb-8">
         <div class="text-4xl sm:text-5xl text-white text-center p-3 mt-10 sm:mt-5">
             <span class="font-bold">
               No Dark Patterns
@@ -121,7 +121,7 @@
     <!--End Section-->
 
     <!--Start Why we need this -->
-    <div class="bg-[#0F0F0F] w-full bg-[#0F0F0F]  sm:border-t hover:border-slate-500 border-slate-600 h-auto sm:p-10 mt-3 mb-8">
+    <div class="bg-[#09090B] w-full bg-[#09090B]  sm:border-t hover:border-slate-500 border-slate-600 h-auto sm:p-10 mt-3 mb-8">
       <div class="text-4xl sm:text-5xl font-bold text-white text-center p-3 mt-10 sm:mt-5">
             What we offer
       </div>
@@ -157,7 +157,7 @@
 
 
      <!--Start Why we need this -->
-     <div class="bg-[#0F0F0F] w-full bg-[#0F0F0F]  sm:border-t hover:border-slate-500 border-slate-600 h-auto sm:p-10 mt-3 mb-20 sm:mb-8">
+     <div class="bg-[#09090B] w-full bg-[#09090B]  sm:border-t hover:border-slate-500 border-slate-600 h-auto sm:p-10 mt-3 mb-20 sm:mb-8">
       <div class="text-4xl sm:text-5xl font-bold text-white text-center p-3 mt-10 sm:mt-5">
           <span class="font-bold">
             Why choose us
@@ -207,7 +207,7 @@
 
 
      <!--Start Team -->
-     <div class="bg-[#0F0F0F] w-full bg-[#0F0F0F]  sm:border-t hover:border-slate-500 border-slate-600 h-auto sm:p-10 mt-3">
+     <div class="bg-[#09090B] w-full bg-[#09090B]  sm:border-t hover:border-slate-500 border-slate-600 h-auto sm:p-10 mt-3">
       <div class="text-4xl sm:text-5xl font-bold text-white text-center p-3 mt-10 sm:mt-5">
         Team
       </div>

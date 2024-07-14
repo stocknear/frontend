@@ -82,7 +82,7 @@
   
   
   
-  <section class="w-auto max-w-3xl bg-[#0F0F0F] overflow-hidden text-black h-full mb-40">
+  <section class="w-auto max-w-3xl bg-[#09090B] overflow-hidden text-black h-full mb-40">
       <div class="m-auto h-full overflow-hidden">
               <main>
                   <div class="sm:p-7 m-auto mt-5 sm:mt-0">
@@ -95,7 +95,7 @@
                         <div class="grid grid-cols-1 gap-2">
                             {#if newsList.length !== 0}
                             {#each newsList as item}
-                                  <div class="flex flex-col bg-[#0F0F0F] rounded-lg m-auto">
+                                  <div class="flex flex-col bg-[#09090B] rounded-lg m-auto">
                                       {#if videoId = checkIfYoutubeVideo(item.url)}
                                           <iframe
                                               class="w-full h-96 rounded-lg"

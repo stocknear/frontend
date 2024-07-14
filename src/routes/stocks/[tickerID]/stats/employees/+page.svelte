@@ -298,7 +298,7 @@ optionsGrowth = plotGrowth();
 
 
             
-  <section class="bg-[#0F0F0F] overflow-hidden text-white h-full mb-40 sm:mb-0">
+  <section class="bg-[#09090B] overflow-hidden text-white h-full mb-40 sm:mb-0">
       <div class="flex justify-center m-auto h-full overflow-hidden">
           <div class="relative flex justify-center items-center overflow-hidden">
                 <div class="sm:p-7 w-full sm:max-w-3xl m-auto mt-2 sm:mt-0">
@@ -337,7 +337,7 @@ optionsGrowth = plotGrowth();
                       </div>
 
                       
-                      <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-5 bg-[#202020] shadow-md rounded-xl p-5 flex justify-center items-center mb-2">
+                      <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-5 bg-[#09090B] shadow-md rounded-xl p-5 flex justify-center items-center mb-2">
                         <!--Start Column Title-->
                         <div class="flex flex-col">
                           <div class="flex flex-row items-center">
@@ -410,7 +410,7 @@ optionsGrowth = plotGrowth();
       
                           <div class="{employeeHistory?.length === 0 ? 'hidden' : ''} flex justify-end ml-auto items-center mr-2">
 
-                                  <label for="sortByModal" class="cursor-pointer bg-[#202020] sm:hover:bg-[#313131] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
+                                  <label for="sortByModal" class="cursor-pointer bg-[#09090B] sm:hover:bg-[#313131] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
                                       <div class="flex flex-row">
                                           <span class="text-sm  m-auto font-medium text-white">
                                           {sortBy}
@@ -451,33 +451,33 @@ optionsGrowth = plotGrowth();
                               <table class="table table-sm table-compact flex justify-start items-center w-full px-3 m-auto">
                               <thead>
                                   <tr>
-                                  <th class="text-start border-b border-[#0F0F0F] bg-[#0F0F0F] text-white text-sm font-semibiold">
+                                  <th class="text-start border-b border-[#09090B] bg-[#09090B] text-white text-sm font-semibiold">
                                       Date
                                   </th>
-                                  <th class="text-end border-b border-[#0F0F0F] bg-[#0F0F0F] text-white text-sm font-semibiold">
+                                  <th class="text-end border-b border-[#09090B] bg-[#09090B] text-white text-sm font-semibiold">
                                       Employees
                                   </th>
-                                  <th class="text-end border-b border-[#0F0F0F] bg-[#0F0F0F] hidden sm:table-cell text-white text-sm font-semibiold">
+                                  <th class="text-end border-b border-[#09090B] bg-[#09090B] hidden sm:table-cell text-white text-sm font-semibiold">
                                       Change
                                   </th>
-                                  <th class="text-end border-b border-[#0F0F0F] bg-[#0F0F0F] text-white text-sm font-semibiold">
+                                  <th class="text-end border-b border-[#09090B] bg-[#09090B] text-white text-sm font-semibiold">
                                       Growth
                                   </th>
                                 </tr>
                               </thead>
                               <tbody class="">
                                 {#each historyList as item, index}
-                                <tr class="text-gray-200 odd:bg-[#202020]">
-                                  <td class="text-start border-b border-[#0F0F0F] text-xs sm:text-sm text-white">
+                                <tr class="text-gray-200 odd:bg-[#27272A]">
+                                  <td class="text-start border-b border-[#09090B] text-xs sm:text-sm text-white">
                                     {new Date(item?.filingDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                   </td>
-                                  <td class="text-end border-b border-[#0F0F0F] text-xs sm:text-sm text-white">
+                                  <td class="text-end border-b border-[#09090B] text-xs sm:text-sm text-white">
                                     {new Intl.NumberFormat("en").format(item?.employeeCount)}
                                   </td>
-                                  <td class="text-end border-b border-[#0F0F0F] text-xs sm:text-sm hidden sm:table-cell text-white">
+                                  <td class="text-end border-b border-[#09090B] text-xs sm:text-sm hidden sm:table-cell text-white">
                                     {abbreviateNumber(item?.employeeCount-historyList[index+1]?.employeeCount)}
                                   </td>
-                                  <td class="text-end border-b border-[#0F0F0F] text-xs sm:text-sm text-white text-end">
+                                  <td class="text-end border-b border-[#09090B] text-xs sm:text-sm text-white text-end">
                                     {#if index+1-historyList?.length == 0}
                                     0.00%
                                     {:else}
@@ -532,14 +532,14 @@ optionsGrowth = plotGrowth();
 <dialog id="sortByModal" class="modal modal-bottom sm:modal-middle ">
 
 
-  <label id="sortByModal" for="sortByModal"  class="cursor-pointer modal-backdrop bg-[#0F0F0F] bg-opacity-[0.5]"></label>
+  <label id="sortByModal" for="sortByModal"  class="cursor-pointer modal-backdrop bg-[#09090B] bg-opacity-[0.5]"></label>
   
   
-  <div class="modal-box w-full bg-[#202020] sm:border sm:border-slate-800">
+  <div class="modal-box w-full bg-[#09090B] sm:border sm:border-slate-800">
 
 
 
-  <label for="sortByModal" class="cursor-pointer absolute right-5 top-2 bg-[#202020] text-[1.8rem] text-white">
+  <label for="sortByModal" class="cursor-pointer absolute right-5 top-2 bg-[#09090B] text-[1.8rem] text-white">
     ✕
   </label>
 
@@ -550,7 +550,7 @@ optionsGrowth = plotGrowth();
       </h3>
         
 
-      <div class="flex flex-col items-center w-full max-w-3xl bg-[#202020]">
+      <div class="flex flex-col items-center w-full max-w-3xl bg-[#09090B]">
         
 
 
@@ -564,7 +564,7 @@ optionsGrowth = plotGrowth();
 
             <div class="rounded-full w-8 h-8 relative border border-[#737373]">
               {#if sortBy === 'Total'}
-              <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#0F0F0F000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
+              <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#09090B000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
               {/if}
             </div>
 
@@ -583,7 +583,7 @@ optionsGrowth = plotGrowth();
 
               <div class="rounded-full w-8 h-8 relative border border-[#737373]">
                 {#if sortBy === 'Change'}
-                  <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#0F0F0F000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
+                  <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#09090B000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
                 {/if}
               </div>
 
@@ -602,7 +602,7 @@ optionsGrowth = plotGrowth();
             </span>
             <div class="rounded-full w-8 h-8 relative border border-[#737373]">
               {#if sortBy === 'Growth'}
-                <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#0F0F0F000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
+                <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#09090B000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
               {/if}
             </div>
           </div>

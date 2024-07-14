@@ -264,7 +264,7 @@ $: {
       </div>
     -->
 
-        <div class="w-full max-w-4xl m-auto sm:bg-[#202020] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+        <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
         
             <!-- Start Column -->
@@ -355,7 +355,7 @@ $: {
               {#each weekday as day,index}
                 {#if index === selectedWeekday}
                   {#if day?.length !== 0}
-                    <table class="hidden sm:inline-table table table-sm table-compact rounded-none sm:rounded-md w-full border-[#0F0F0F] m-auto mt-4 ">
+                    <table class="hidden sm:inline-table table table-sm table-compact rounded-none sm:rounded-md w-full border-[#09090B] m-auto mt-4 ">
                         <thead>
                           <tr>
                             <th class="text-white font-medium text-sm">Symbol</th>
@@ -370,30 +370,30 @@ $: {
                         <tbody>
                           {#each day as item, index}
                           <!-- row -->
-                          <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] border-b-[#0F0F0F] cursor-pointer">
+                          <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] cursor-pointer">
                             
-                            <td class="text-blue-400 border-b-[#0F0F0F]">
+                            <td class="text-blue-400 border-b-[#09090B]">
                               {item?.symbol}
                             </td>
 
-                            <td class="text-white border-b-[#0F0F0F]">
+                            <td class="text-white border-b-[#09090B]">
                               {item?.name.length > 20 ? item?.name.slice(0,20) + "..." : item?.name}
                             </td>
   
         
-                              <td class="text-white hidden sm:table-cell border-b-[#0F0F0F]">
+                              <td class="text-white hidden sm:table-cell border-b-[#09090B]">
                                 {item?.marketCap !== null ? abbreviateNumber(item?.marketCap,true) : '-'}
                               </td>
 
-                              <td class="text-white hidden sm:table-cell border-b-[#0F0F0F]">
+                              <td class="text-white hidden sm:table-cell border-b-[#09090B]">
                                 {item?.revenue !== null ? abbreviateNumber(item?.revenue,true) : '-'}
                               </td>
               
-                              <td class="text-center text-white hidden sm:table-cell border-b-[#0F0F0F]">
+                              <td class="text-center text-white hidden sm:table-cell border-b-[#09090B]">
                                 {item?.date !== null ? new Date(item?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' }) : '-'}
                               </td>
 
-                              <td class="text-white border-b-[#0F0F0F] text-center">
+                              <td class="text-white border-b-[#09090B] text-center">
                                 <span class="text-sm">
                                   {item?.adjDividend !== null ? item?.adjDividend?.toLocaleString(undefined, {
                                       style: 'currency',
@@ -404,7 +404,7 @@ $: {
                                   </span>
                                 </td>
               
-                              <td class="text-white text-sm text-end mr-1 border-b-[#0F0F0F]">
+                              <td class="text-white text-sm text-end mr-1 border-b-[#09090B]">
                                 {item?.paymentDate !== null ? new Date(item?.paymentDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' }) : '-'}
                               </td>
                             </tr>
@@ -414,7 +414,7 @@ $: {
 
                       <div class="relative p-2 sm:hidden pt-5">
                       {#each day as item}
-                        <div class="bg-[#202020] rounded-lg border border-slate-800 shadow-lg h-auto pb-3 pl-2 pr-2 pt-4 mb-7">
+                        <div class="bg-[#09090B] rounded-lg border border-slate-800 shadow-lg h-auto pb-3 pl-2 pr-2 pt-4 mb-7">
                             <div class="flex flex-row items-center">
                               <!--
                               <div class="rounded-full w-10 h-10 relative bg-[#101112] flex items-center justify-center">

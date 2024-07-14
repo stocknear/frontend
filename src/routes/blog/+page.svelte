@@ -93,7 +93,7 @@ let allBlogPosts = data?.getAllBlogPost;
       </ul>
   </div>
 
-    <div class="w-full max-w-4xl m-auto sm:bg-[#202020] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+    <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 ">
     
         <!-- Start Column -->
@@ -154,7 +154,7 @@ let allBlogPosts = data?.getAllBlogPost;
             <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-5">
                 {#if allBlogPosts?.length !== 0}
                 {#each allBlogPosts as item}
-                    <div class="flex flex-col w-full min-h-fit mb-5 mt-5 bg-[#fff] bg-opacity-[0.01] sm:bg-opacity-[1.0] sm:bg-[#0F0F0F] border border-slate-700 rounded-xl m-auto">
+                    <div class="flex flex-col w-full min-h-fit mb-5 mt-5 bg-[#fff] bg-opacity-[0.01] sm:bg-opacity-[1.0] sm:bg-[#09090B] border border-slate-700 rounded-xl m-auto">
                         
                         <label on:click={() => blogSelector(item?.id)} class="cursor-pointer">
                             <div class="flex-shrink-0 m-auto">

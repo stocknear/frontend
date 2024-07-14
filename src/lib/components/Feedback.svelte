@@ -128,7 +128,7 @@
   
       <div class="p-2 mt-5 w-full ">
           <textarea
-            class="textarea textarea-bordered  placeholder-gray-300 w-full bg-[#202020] text-white border border-gray-600"
+            class="textarea textarea-bordered  placeholder-gray-300 w-full bg-[#09090B] text-white border border-gray-600"
             placeholder="Your feedback..."
             value={inputValue}
             on:input={handleInput}
@@ -199,7 +199,7 @@
         
             <div class="pl-7 pr-7 w-full ">
                 <textarea
-                  class="textarea textarea-bordered h-24 placeholder-gray-300 w-full bg-[#202020] text-white border border-gray-600"
+                  class="textarea textarea-bordered h-24 placeholder-gray-300 w-full bg-[#09090B] text-white border border-gray-600"
                   placeholder="Your feedback..."
                   value={inputValue}
                   on:input={handleInput}

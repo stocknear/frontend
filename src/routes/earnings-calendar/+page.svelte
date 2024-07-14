@@ -264,7 +264,7 @@ $: {
     </div>
     -->
 
-    <div class="w-full max-w-4xl m-auto sm:bg-[#202020] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+    <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
     
         <!-- Start Column -->
@@ -354,7 +354,7 @@ $: {
           {#each weekday as day,index}
             {#if index === selectedWeekday}
               {#if day?.length !== 0}
-                <table class="hidden sm:inline-table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#0F0F0F] border-bg-[#0F0F0F] m-auto mt-4 ">
+                <table class="hidden sm:inline-table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto mt-4 ">
                     <thead>
                       <tr>
                         <th class="text-start text-slate-200 font-bold text-sm">Symbol</th>
@@ -368,30 +368,30 @@ $: {
                     <tbody>
                       {#each day as item, index}
                       <!-- row -->
-                      <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] border-b-[#0F0F0F] cursor-pointer">
+                      <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] cursor-pointer">
                         
-                        <td class="text-blue-400 border-b-[#0F0F0F] text-start">
+                        <td class="text-blue-400 border-b-[#09090B] text-start">
                           {item?.symbol}
                         </td>
 
-                        <td class="text-gray-200 border-b-[#0F0F0F]">
+                        <td class="text-gray-200 border-b-[#09090B]">
                           {item?.name.length > 20 ? item?.name?.slice(0,20) + "..." : item?.name}
                         </td>
 
-                    <td class="text-white border-b-[#0F0F0F] text-center">
+                    <td class="text-white border-b-[#09090B] text-center">
                       {item?.marketCap !== null ? '$' + abbreviateNumber(item?.marketCap) : '-'}
                     </td>
 
-                    <td class="text-white hidden sm:table-cell text-center border-b-[#0F0F0F]">
+                    <td class="text-white hidden sm:table-cell text-center border-b-[#09090B]">
                       {item?.revenueEstimated !== null ? '$' + abbreviateNumber(item?.revenueEstimated) : '-'}
                     </td>
 
-                    <td class="text-white hidden sm:table-cell text-center  border-b-[#0F0F0F]">
+                    <td class="text-white hidden sm:table-cell text-center  border-b-[#09090B]">
                       {item?.epsEstimated !== null ? item?.epsEstimated : '-'}
                     </td>
 
 
-                    <td class="text-white border-b-[#0F0F0F] text-end">
+                    <td class="text-white border-b-[#09090B] text-end">
                       {#if item?.time === 'amc'}
                       <svg class="w-4 h-4 inline-block mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#70A1EF" d="M232.13 143.64a6 6 0 0 0-6-1.49a90.07 90.07 0 0 1-112.27-112.3a6 6 0 0 0-7.49-7.48a102.88 102.88 0 0 0-51.89 36.31a102 102 0 0 0 142.84 142.84a102.88 102.88 0 0 0 36.31-51.89a6 6 0 0 0-1.5-5.99m-42 48.29a90 90 0 0 1-126-126a90.9 90.9 0 0 1 35.52-28.27a102.06 102.06 0 0 0 118.69 118.69a90.9 90.9 0 0 1-28.24 35.58Z"/></svg>
                       <span class="text-sm">After Close</span>
@@ -415,7 +415,7 @@ $: {
 
                   <div class="relative p-2 sm:hidden pt-5">
                     {#each day as item}
-                    <div class="bg-[#202020] rounded-lg border border-slate-800 shadow-lg h-auto pb-5 pl-2 pr-2 pt-4 mb-7">
+                    <div class="bg-[#09090B] rounded-lg border border-slate-800 shadow-lg h-auto pb-5 pl-2 pr-2 pt-4 mb-7">
                           <div class="flex flex-row items-center">
                             <!--
                             <div class="rounded-full w-10 h-10 relative bg-[#101112] flex items-center justify-center">

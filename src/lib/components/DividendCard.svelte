@@ -36,7 +36,7 @@
           
           <div class="space-y-3 lg:pt-5 lg:{dividendList?.length !== 0 ? '' : 'hidden'}">  
           
-          <div class="lg:rounded-2xl shadow-lg bg-[#000] lg:bg-[#202020] lg:border lg:border-slate-800 h-auto {$screenWidth <= 800 ? 'w-screen pt-16' : ''} lg:w-96">
+          <div class="lg:rounded-2xl shadow-lg bg-[#000] lg:bg-[#09090B] lg:border lg:border-slate-800 h-auto {$screenWidth <= 800 ? 'w-screen pt-16' : ''} lg:w-96">
           
             <div class="w-auto lg:w-full p-1 flex-1 flex flex-wrap pb-5">
               <div class="flex flex-row items-center w-full ml-2 pb-2 p-3">
@@ -56,15 +56,15 @@
                 <table class="table lg:table-sm table-compact mt-3 text-start flex justify-start items-center w-full px-3 m-auto">
                   <thead>
                     <tr class="border-b border-blue-400">
-                      <th class="text-white font-semibold text-sm text-start bg-[#000] lg:bg-[#202020] border-b border-blue-400">Ex-Dividend</th>
-                      <th class="text-white font-semibold text-sm text-end bg-[#000] lg:bg-[#202020] border-b border-blue-400">Payment Date</th>
-                      <th class="text-white font-semibold text-sm text-end bg-[#000] lg:bg-[#202020] border-b border-blue-400">Amount</th>
+                      <th class="text-white font-semibold text-sm text-start bg-[#000] lg:bg-[#09090B] border-b border-blue-400">Ex-Dividend</th>
+                      <th class="text-white font-semibold text-sm text-end bg-[#000] lg:bg-[#09090B] border-b border-blue-400">Payment Date</th>
+                      <th class="text-white font-semibold text-sm text-end bg-[#000] lg:bg-[#09090B] border-b border-blue-400">Amount</th>
                     </tr>
                   </thead>
 
                   <tbody>
                     {#each dividendHistoryList?.slice(0,5) as item}
-                    <tr class="text-white bg-[#000] lg:bg-[#202020] border-b border-[#000] lg:border-[#202020]">
+                    <tr class="text-white bg-[#000] lg:bg-[#09090B] border-b border-[#000] lg:border-[#27272A]">
                         <td class="text-start text-sm text-white font-medium">
                             {new Date(item?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                         </td>

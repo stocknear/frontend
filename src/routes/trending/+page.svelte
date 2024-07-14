@@ -87,7 +87,7 @@ $: {
     </div>
     -->
     
-    <div class="w-full max-w-4xl m-auto sm:bg-[#202020] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+    <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
     
         <!-- Start Column -->
@@ -139,7 +139,7 @@ $: {
     
           <!-- Content area -->
           <div class="w-screen sm:w-full relative flex flex-col flex-1 overflow-hidden overflow-x-auto">     
-            <table class="table table-sm sm:table-md table-compact rounded-none sm:rounded-md w-full border-bg-[#0F0F0F] m-auto mt-4 overflow-x-auto">
+            <table class="table table-sm sm:table-md table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 overflow-x-auto">
                 <thead>
                   <tr>
                     <td class="text-slate-200 font-medium text-sm text-start">No.</td>
@@ -154,7 +154,7 @@ $: {
                 <tbody>
                   {#each trendingList as item,index}
                   <!-- row -->
-                  <tr on:click={() => assetSelector(item?.symbol, item?.assetType)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] border-b-[#0F0F0F] shake-ticker cursor-pointer">
+                  <tr on:click={() => assetSelector(item?.symbol, item?.assetType)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
                     
                     <td class="text-gray-200 pb-3 text-md text-start">
                       {index+1}

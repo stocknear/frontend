@@ -116,18 +116,18 @@ onMount(async () => {
 </svelte:head>
     
       
-  <section class="w-full max-w-5xl overflow-hidden m-auto min-h-screen sm:pt-5 sm:pb-40 bg-[#0F0F0F]">
+  <section class="w-full max-w-5xl overflow-hidden m-auto min-h-screen sm:pt-5 sm:pb-40 bg-[#09090B]">
       
   
   
-    <div class="w-full max-w-3xl m-auto min-h-screen bg-[#202020] sm:rounded-lg sm:border sm:border-gray-700 overflow-hidden sm:overflow-y-scroll scroller sm:max-h-[1100px] pt-5 sm:pb-10 sm:pt-10 sm:mt-3 sm:mb-8">
+    <div class="w-full max-w-3xl m-auto min-h-screen bg-[#09090B] sm:rounded-lg sm:border sm:border-gray-700 overflow-hidden sm:overflow-y-scroll scroller sm:max-h-[1100px] pt-5 sm:pb-10 sm:pt-10 sm:mt-3 sm:mb-8">
                     
         <h1 class="pl-5 text-2xl text-white font-semibold mt-2 sm:mt-0">
             Notifications
         </h1>
  
  
-     <div class="w-full m-auto mb-10 bg-[#202020] mt-10">
+     <div class="w-full m-auto mb-10 bg-[#09090B] mt-10">
          <div class="flex flex-col sm:flex-row items-center w-full">
 
         
@@ -235,7 +235,7 @@ onMount(async () => {
          {:else}
          <div class="flex justify-center items-center h-80">
           <div class="relative">
-          <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <span class="loading loading-spinner loading-md"></span>
           </label>
           </div>

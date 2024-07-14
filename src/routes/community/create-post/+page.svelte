@@ -89,14 +89,14 @@
 					<h3 class="text-3xl font-bold mb-3 text-white">Create a Post</h3>
 					<!--<p class="mt-2 text-lg">We'll need the title, tagline, url, and description</p>-->
 					
-					<div class="w-full max-w-3xl sm:max-w-2xl pt-10 flex justify-center items-center m-auto pb-5 bg-[#0F0F0F]"  style="top: 4rem;">
+					<div class="w-full max-w-3xl sm:max-w-2xl pt-10 flex justify-center items-center m-auto pb-5 bg-[#09090B]"  style="top: 4rem;">
 						<!--<svg class="w-4 h-4 sm:w-6 sm:h-6 inline-block mr-0 sm:mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2.66992 7.16979V5.34979C2.66992 4.19979 3.59992 3.27979 4.73992 3.27979H19.2599C20.4099 3.27979 21.3299 4.20979 21.3299 5.34979V7.16979" stroke="#A6ADBB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path opacity="0.4" d="M12 20.7199V4.10986" stroke="#A6ADBB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M8.06055 20.7202H15.9405" stroke="#A6ADBB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>-->
 					   
 						<div class="flex flex-col items-center mr-5 sm:mr-10">
 						  <label class="tab font-semibold hover:text-gray-300 {postType === 'text' ? 'text-gray-200' : 'text-[#9A9996]'}" on:click={() => changePostType('text')}>
 							  <span class="text-lg sm:text-xl">Text</span>
 							</label> 
-							<div class="{postType === 'text' ? 'bg-[#75D377]' : 'bg-[#0F0F0F]'} h-1 w-[5rem]" />
+							<div class="{postType === 'text' ? 'bg-[#75D377]' : 'bg-[#09090B]'} h-1 w-[5rem]" />
 					   </div>
 					
   
@@ -105,14 +105,14 @@
 						  <label class="tab font-semibold hover:text-gray-200 {postType === 'image' ? 'text-gray-200' : 'text-[#9A9996]'}" on:click={() => changePostType('image')}>
 							  <span class="text-lg sm:text-xl">Image/Video</span>
 						  </label> 
-						  <div class="{postType === 'image' ? 'bg-[#75D377]' : 'bg-[#0F0F0F]'} h-1 w-[8rem] sm:w-[6rem]" />
+						  <div class="{postType === 'image' ? 'bg-[#75D377]' : 'bg-[#09090B]'} h-1 w-[8rem] sm:w-[6rem]" />
 					   </div> 
 					  <!--<svg class="w-5 h-5 sm:w-6 sm:h-6 inline-block" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="{ postType === 'link' ? 'white' : '#A6ADBB'}"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.975 14.51a1.05 1.05 0 0 0 0-1.485 2.95 2.95 0 0 1 0-4.172l3.536-3.535a2.95 2.95 0 1 1 4.172 4.172l-1.093 1.092a1.05 1.05 0 0 0 1.485 1.485l1.093-1.092a5.05 5.05 0 0 0-7.142-7.142L9.49 7.368a5.05 5.05 0 0 0 0 7.142c.41.41 1.075.41 1.485 0zm2.05-5.02a1.05 1.05 0 0 0 0 1.485 2.95 2.95 0 0 1 0 4.172l-3.5 3.5a2.95 2.95 0 1 1-4.171-4.172l1.025-1.025a1.05 1.05 0 0 0-1.485-1.485L3.87 12.99a5.05 5.05 0 0 0 7.142 7.142l3.5-3.5a5.05 5.05 0 0 0 0-7.142 1.05 1.05 0 0 0-1.485 0z" fill="{ postType === 'link' ? 'white' : '#A6ADBB'}"></path></g></svg>-->
 					  <div class="flex flex-col items-center">
 						  <label class="tab font-semibold hover:text-gray-200 {postType === 'link' ? 'text-gray-200' : 'text-[#9A9996]'}" on:click={() => changePostType('link')}>
 							  <span class="text-lg sm:text-xl">Link</span>
 							</label> 
-						  <div class="{postType === 'link' ? 'bg-[#75D377]' : 'bg-[#0F0F0F]'} h-1 w-[2.5rem]" />
+						  <div class="{postType === 'link' ? 'bg-[#75D377]' : 'bg-[#09090B]'} h-1 w-[2.5rem]" />
 					   </div>   
 					</div>
 	

@@ -194,7 +194,7 @@ $: {
             {#if data?.user?.tier === 'Pro'}
                 {#if isLoaded}
                 {#if shareholderList?.length !== 0}
-                <div class="p-3 sm:p-0 mt-2 pb-8 sm:pb-2 rounded-lg bg-[#202020] sm:bg-[#0F0F0F]">
+                <div class="p-3 sm:p-0 mt-2 pb-8 sm:pb-2 rounded-lg bg-[#09090B] sm:bg-[#09090B]">
                     <div class="text-white text-md mt-3">
                         As of {new Date(rawData?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })},
                         <span class="font-semibold">{rawData?.investorsHolding}</span> Hedge Funds hold a total of <span class="font-semibold">{abbreviateNumber(rawData?.numberOf13Fshares)}</span> {$displayCompanyName} shares, with a combined investment of <span class="font-semibold">{abbreviateNumber(rawData?.totalInvested, true)}</span>.
@@ -213,7 +213,7 @@ $: {
 
                             <div class="flex flex-row items-center mr-auto mb-5">
                                 <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
-                                <div class="w-4 h-4 bg-[#F8901E] border-4 box-content border-[#202020] rounded-full transform -translate-x-1/2" aria-hidden="true"></div>
+                                <div class="w-4 h-4 bg-[#F8901E] border-4 box-content border-[#27272A] rounded-full transform -translate-x-1/2" aria-hidden="true"></div>
                                 <span class="text-white text-sm sm:text-[1rem] font-medium inline-block">
                                     Others: {otherOwner >= 99.99 ? 99.99 : otherOwner?.toFixed(2)}%
                                 </span>
@@ -221,7 +221,7 @@ $: {
         
                             <div class="flex flex-row items-center mr-auto">
                                 <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
-                                <div class="w-4 h-4 bg-[#5470C6] border-4 box-content border-[#202020] rounded-full transform -translate-x-1/2" aria-hidden="true"></div>
+                                <div class="w-4 h-4 bg-[#5470C6] border-4 box-content border-[#27272A] rounded-full transform -translate-x-1/2" aria-hidden="true"></div>
                                 <span class="text-white text-sm sm:text-[1rem] font-medium inline-block">
                                     Institutions: {institutionalOwner <= 0.01 ? "< 0.01%" : institutionalOwner?.toFixed(2)+'%'}
                                 </span>
@@ -242,7 +242,7 @@ $: {
                 <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center">
                     <div class="w-full grid grid-cols-2 lg:grid-cols-3 gap-y-3 lg:gap-y-3 gap-x-3 ">
                       <!--Start Put/Call-->  
-                      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
+                      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#27272A] shadow-lg rounded-md h-20">
                         <div class="flex flex-col items-start">
                             <span class="font-medium text-gray-200 text-sm ">Put/Call</span>
                             <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -269,7 +269,7 @@ $: {
                     </div>
                     <!--End Put/Call-->
                     <!--Start Call Flow-->  
-                    <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
+                    <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#27272A] shadow-lg rounded-md h-20">
                       <div class="flex flex-col items-start">
                           <span class="font-medium text-gray-200 text-sm ">Call Flow</span>
                           <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -299,7 +299,7 @@ $: {
                     <!--End Call Flow-->
 
                       <!--Start Put Flow-->  
-                      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
+                      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#27272A] shadow-lg rounded-md h-20">
                         <div class="flex flex-col items-start">
                             <span class="font-medium text-gray-200 text-sm ">Put Flow</span>
                             <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -350,17 +350,17 @@ $: {
                     <table class="table table-sm table-compact w-full">
                       <thead>
                         <tr class="border-b border-blue-400">
-                          <th class="text-white shadow-md font-semibold text-sm text-start bg-[#0F0F0F]">Institute</th>
-                          <th class="text-white shadow-md font-semibold text-sm text-start bg-[#0F0F0F]">Ownership</th>
-                          <th class="text-white shadow-md font-semibold text-sm text-end hidden sm:table-cell bg-[#0F0F0F]">Shares</th>
-                          <th class="text-white shadow-md font-semibold text-sm text-end hidden sm:table-cell bg-[#0F0F0F]">Market Value</th>
-                          <th class="text-white shadow-md font-semibold text-sm text-end  bg-[#0F0F0F]">Portfolio</th>
+                          <th class="text-white shadow-md font-semibold text-sm text-start bg-[#09090B]">Institute</th>
+                          <th class="text-white shadow-md font-semibold text-sm text-start bg-[#09090B]">Ownership</th>
+                          <th class="text-white shadow-md font-semibold text-sm text-end hidden sm:table-cell bg-[#09090B]">Shares</th>
+                          <th class="text-white shadow-md font-semibold text-sm text-end hidden sm:table-cell bg-[#09090B]">Market Value</th>
+                          <th class="text-white shadow-md font-semibold text-sm text-end  bg-[#09090B]">Portfolio</th>
                         </tr>
                       </thead>
                       <tbody>
                         {#each (showFullStats ? shareholderList?.slice(0,10) : shareholderList?.slice(0,3)) as item,index}
                         {#if item?.investorName?.length > 0}
-                        <tr on:click={() => goto('/hedge-funds/'+item?.cik)} class="border-y border-gray-800 odd:bg-[#202020] {index === 2 && !showFullStats && shareholderList?.length > 3 ? 'opacity-[0.5]' : '' } sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#0F0F0F] border-b-[#0F0F0F] cursor-pointer">
+                        <tr on:click={() => goto('/hedge-funds/'+item?.cik)} class="border-y border-gray-800 odd:bg-[#27272A] {index === 2 && !showFullStats && shareholderList?.length > 3 ? 'opacity-[0.5]' : '' } sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#09090B] border-b-[#09090B] cursor-pointer">
                          
                             <td class="text-white font-medium">
                              {item?.investorName?.length > charNumber ? formatString(item?.investorName?.slice(0,charNumber)) + "..." : formatString(item?.investorName)}
@@ -403,7 +403,7 @@ $: {
                 {:else}
                 <div class="flex justify-center items-center h-80">
                     <div class="relative">
-                    <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                         <span class="loading loading-spinner loading-md"></span>
                     </label>
                     </div>
@@ -411,7 +411,7 @@ $: {
                 {/if}
     
                 {:else}
-                <div class="shadow-lg shadow-bg-[#000] bg-[#202020] sm:bg-opacity-[0.5] text-sm sm:text-[1rem] rounded-md w-full p-4 min-h-24 mt-4 text-white m-auto flex justify-center items-center text-center font-semibold">
+                <div class="shadow-lg shadow-bg-[#000] bg-[#09090B] sm:bg-opacity-[0.5] text-sm sm:text-[1rem] rounded-md w-full p-4 min-h-24 mt-4 text-white m-auto flex justify-center items-center text-center font-semibold">
                     <svg class="mr-1.5 w-5 h-5 inline-block"xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#A3A3A3" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/></svg>
                     Unlock content with <a class="inline-block ml-2 text-blue-400 hover:sm:text-white" href="/pricing">Pro Subscription</a>
                   </div>

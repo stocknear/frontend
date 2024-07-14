@@ -157,7 +157,7 @@ onMount(async() => {
   
 
           
-    <section class="bg-[#0F0F0F] overflow-hidden text-white h-full mb-40 sm:mb-0">
+    <section class="bg-[#09090B] overflow-hidden text-white h-full mb-40 sm:mb-0">
         <div class="flex justify-center m-auto h-full overflow-hidden">
             <div class="relative flex justify-center items-center overflow-hidden">
                   <div class="sm:p-7 w-full m-auto mt-2 sm:mt-0">
@@ -198,7 +198,7 @@ onMount(async() => {
     
                       {#if stockDividends?.length !== 0}
       
-                          <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-5 bg-[#202020] shadow-md rounded-xl p-5 flex justify-center items-center mb-2">
+                          <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-5 bg-[#09090B] shadow-md rounded-xl p-5 flex justify-center items-center mb-2">
                               <!--Start Column Title-->
                               <div class="flex flex-col">
                                 <div class="flex flex-row items-center">
@@ -322,34 +322,34 @@ onMount(async() => {
                             <div class="flex justify-start items-center w-full m-auto shadow-md rounded-none sm:rounded-lg mb-4">
                               <table class="table table-sm table-compact flex justify-start items-center w-full m-auto">
                                 <thead>
-                                  <tr class="bg-[#0F0F0F] border-b-slate-600 shadow-md">
-                                    <th class="text-start bg-[#0F0F0F] border-b border-[#0F0F0F] text-white text-sm font-semibold">
+                                  <tr class="bg-[#09090B] border-b-slate-600 shadow-md">
+                                    <th class="text-start bg-[#09090B] border-b border-[#09090B] text-white text-sm font-semibold">
                                       Ex-Divid. Date
                                     </th>
-                                    <th class="text-end bg-[#0F0F0F] border-b border-[#0F0F0F] text-white text-sm font-semibold">
+                                    <th class="text-end bg-[#09090B] border-b border-[#09090B] text-white text-sm font-semibold">
                                       Cash Amount
                                     </th>
-                                    <th class="text-end bg-[#0F0F0F] border-b border-[#0F0F0F] hidden sm:table-cell text-white text-sm font-semibold">
+                                    <th class="text-end bg-[#09090B] border-b border-[#09090B] hidden sm:table-cell text-white text-sm font-semibold">
                                       Record Date
                                     </th>
-                                    <th class="text-end bg-[#0F0F0F] border-b border-[#0F0F0F] text-white text-sm font-semibold">
+                                    <th class="text-end bg-[#09090B] border-b border-[#09090B] text-white text-sm font-semibold">
                                       Pay Date
                                     </th>
                                   </tr>
                                 </thead>
                                 <tbody class="shadow-md">
                                   {#each stockDividends as item}
-                                  <tr class="text-gray-200 odd:bg-[#202020]">
-                                    <td class="text-start text-xs sm:text-sm text-white font-medium border-b border-[#0F0F0F]">
+                                  <tr class="text-gray-200 odd:bg-[#27272A]">
+                                    <td class="text-start text-xs sm:text-sm text-white font-medium border-b border-[#09090B]">
                                       {new Date(item?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                     </td>
-                                    <td class="text-end text-xs sm:text-sm text-white border-b border-[#0F0F0F]">
+                                    <td class="text-end text-xs sm:text-sm text-white border-b border-[#09090B]">
                                       ${item?.adjDividend?.toFixed(2)}
                                     </td>
-                                    <td class="text-end text-xs sm:text-sm hidden sm:table-cell text-white border-b border-[#0F0F0F]">
+                                    <td class="text-end text-xs sm:text-sm hidden sm:table-cell text-white border-b border-[#09090B]">
                                       {item?.recordDate?.length !== 0 ? new Date(item?.recordDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' }) : 'n/a'}
                                     </td>
-                                    <td class="text-end text-xs sm:text-sm text-white border-b border-[#0F0F0F]">
+                                    <td class="text-end text-xs sm:text-sm text-white border-b border-[#09090B]">
                                       {item?.paymentDate?.length !== 0 ? new Date(item?.paymentDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' }) : 'n/a'}
                                     </td>
                                   </tr>

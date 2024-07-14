@@ -46,7 +46,7 @@
       </div>
     -->
 
-    <div class="w-full max-w-4xl m-auto sm:bg-[#202020] sm:rounded-xl h-auto p-10 mt-3">
+    <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto p-10 mt-3">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
     
         <!-- Start Column -->
@@ -92,7 +92,7 @@
     
     
         
-    <div class="bg-[#0F0F0F] sm:mt-10 sm:rounded-xl border-t sm:border hover:border-slate-700 border-slate-800 pb-10">
+    <div class="bg-[#09090B] sm:mt-10 sm:rounded-xl border-t sm:border hover:border-slate-700 border-slate-800 pb-10">
       
         <div class="text-white w-5/6 sm:w-full m-auto sm:m-0 text-center sm:text-start font-bold text-2xl flex justify-center sm:justify-start items-center pt-10 sm:ml-10">
             Stay informed in just 2 minutes per day

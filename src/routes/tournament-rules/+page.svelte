@@ -36,7 +36,7 @@
 <div class="w-full max-w-4xl overflow-hidden m-auto mt-10 min-h-screen pt-10 mb-40">
   
 
-  <div class="w-full sm:rounded-xl bg-[#202020] h-auto sm:p-10 mt-3">
+  <div class="w-full sm:rounded-xl bg-[#09090B] h-auto sm:p-10 mt-3">
     <div class="text-white text-4xl sm:text-5xl text-center p-3 mt-10 sm:mt-5">
         <h1 class="font-bold ">Announcement and Rules</h1>
     </div>
@@ -73,7 +73,7 @@
   </div>
 
   
-  <div class="flex flex-col bg-[#202020] w-full sm:rounded-xl h-auto sm:p-10 mt-10">
+  <div class="flex flex-col bg-[#09090B] w-full sm:rounded-xl h-auto sm:p-10 mt-10">
 
       <h2 class="text-white text-4xl sm:text-5xl text-center font-medium mt-10 sm:mt-5">
           Winning Prizes
@@ -96,7 +96,7 @@
   </div>
 
 
-  <div class="flex flex-col bg-[#202020] w-full sm:rounded-xl h-auto sm:p-10 mt-10">
+  <div class="flex flex-col bg-[#09090B] w-full sm:rounded-xl h-auto sm:p-10 mt-10">
 
       <h3 class="text-white text-4xl sm:text-5xl font-medium text-center m-auto mt-10 sm:mt-5">
           Rules
@@ -137,7 +137,7 @@
 
 
 
-<div class="bg-[#202020] w-full sm:rounded-xl h-auto sm:p-10 mt-10">
+<div class="bg-[#09090B] w-full sm:rounded-xl h-auto sm:p-10 mt-10">
   <h4 class="text-white text-4xl text-center font-medium mb-3 mt-10 sm:mt-3 p-3">
       Terms and Conditions of Participation
   </h4>

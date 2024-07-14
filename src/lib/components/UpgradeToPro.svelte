@@ -2,7 +2,7 @@
 
 export let data;
 export let title;
-export let color = '#202020'
+export let color = '#27272A'
 </script>
 
 {#if data?.user?.tier !== 'Pro'}

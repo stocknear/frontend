@@ -278,7 +278,7 @@
   -->
 
       
-          <div class="w-full max-w-4xl m-auto sm:bg-[#202020] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pt-10 sm:pb-10 sm:mt-3 mb-8">
+          <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pt-10 sm:pb-10 sm:mt-3 mb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
           
               <!-- Start Column -->
@@ -368,7 +368,7 @@
                 {#each weekday as day,index}
                   {#if index === selectedWeekday}
                     {#if day?.length !== 0}
-                      <table class="hidden sm:inline-table table-sm table-compact rounded-none sm:rounded-md w-full border-bg-[#0F0F0F] m-auto mt-4 ">
+                      <table class="hidden sm:inline-table table-sm table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 ">
                           <thead>
                             <tr>
                               <th class="text-slate-200 font-medium text-sm text-start">Symbol</th>
@@ -381,25 +381,25 @@
                           <tbody>
                             {#each day as item}
                             <!-- row -->
-                            <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#0F0F0F] border-b-[#0F0F0F] shake-ticker cursor-pointer">
+                            <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#09090B] border-b-[#09090B] shake-ticker cursor-pointer">
                               
-                              <td class="text-blue-400 border-b-[#0F0F0F]">
+                              <td class="text-blue-400 border-b-[#09090B]">
                                 {item?.symbol}
                               </td>
 
-                              <td class="text-white border-b-[#0F0F0F]">
+                              <td class="text-white border-b-[#09090B]">
                                   {item?.name?.length > 40 ? item?.name?.slice(0,40) + "..." : item?.name}
                               </td>
           
-                            <td class="text-white font-medium hidden sm:table-cell border-b-[#0F0F0F]">
+                            <td class="text-white font-medium hidden sm:table-cell border-b-[#09090B]">
                                 {item?.eps !== null ? item?.eps : '-'}
                             </td>
 
-                            <td class="text-white font-medium border-b-[#0F0F0F]">
+                            <td class="text-white font-medium border-b-[#09090B]">
                                 {item?.marketCap !== null ? '$' + abbreviateNumber(item?.marketCap) : '-'}
                             </td>
 
-                            <td class="text-white font-medium text-sm text-end mr-1 border-b-[#0F0F0F]">
+                            <td class="text-white font-medium text-sm text-end mr-1 border-b-[#09090B]">
                                 <span class="">From {item?.denominator} to {item?.numerator}</span>
                             </td>
               
@@ -416,7 +416,7 @@
 
                         <div class="relative p-2 sm:hidden pt-5">
                           {#each day as item}
-                            <div class="bg-[#202020] rounded-lg border border-slate-800 h-auto pb-3 pl-2 pr-2 pt-4 mb-7">
+                            <div class="bg-[#09090B] rounded-lg border border-slate-800 h-auto pb-3 pl-2 pr-2 pt-4 mb-7">
                                 <div class="flex flex-row items-center">
                                   <div class="rounded-full w-10 h-10 relative bg-[#101112] flex items-center justify-center">
                                     <img style="clip-path: circle(50%);" class="w-6 h-6" src={`https://financialmodelingprep.com/image-stock/${item?.symbol}.png`} loading="lazy"/>

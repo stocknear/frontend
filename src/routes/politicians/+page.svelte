@@ -221,7 +221,7 @@ onMount(async () => {
   
   
                 <div class="w-full pb-3">
-                  <div class="relative right-0 bg-[#0F0F0F]">
+                  <div class="relative right-0 bg-[#09090B]">
                     <ul class="relative grid grid-cols-1 sm:grid-cols-4 gap-y-3 gap-x-3 flex flex-wrap p-1 list-none rounded-[3px]">
                       <li class="pl-3 py-1.5 flex-auto text-center bg-[#2E3238] rounded-[3px]">
                         <label class="flex flex-row items-center">
@@ -256,7 +256,7 @@ onMount(async () => {
                 <div class="w-full m-auto mt-4">
                       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
                             {#each displayList as item}
-                              <a href={`/politicians/${item?.id}`} class="w-full cursor-pointer bg-[#202020] sm:hover:bg-[#000] transition-colors ease-in-out border sm:hover:border-[#000] {item?.party ==='Republican' ? 'sm:hover:shadow-[#80000D]' : item?.party === 'Democratic' ? 'sm:hover:shadow-[#1358C3]' : 'sm:hover:shadow-[#636465]'} border-slate-800 shadow-md rounded-lg h-auto pb-4 pt-4 mb-7">
+                              <a href={`/politicians/${item?.id}`} class="w-full cursor-pointer bg-[#09090B] sm:hover:bg-[#000] transition-colors ease-in-out border sm:hover:border-[#000] {item?.party ==='Republican' ? 'sm:hover:shadow-[#80000D]' : item?.party === 'Democratic' ? 'sm:hover:shadow-[#1358C3]' : 'sm:hover:shadow-[#636465]'} border-slate-800 shadow-md rounded-lg h-auto pb-4 pt-4 mb-7">
                                 <div class="flex flex-col relative">
                                   {#if item?.party === 'Republican'}
                                   <img class="absolute -mt-4 w-full m-auto rounded-lg" src={republicanBackground} />
@@ -314,7 +314,7 @@ onMount(async () => {
       {:else}
       <div class="flex justify-center items-center h-80">
         <div class="relative">
-        <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <span class="loading loading-spinner loading-md"></span>
         </label>
         </div>
@@ -342,10 +342,10 @@ onMount(async () => {
     <label id="filterList" for="filterList" class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
     
     
-    <div class="modal-box w-full bg-[#202020] sm:border sm:border-slate-800 max-h-[600px] overflow-y-scroll">
+    <div class="modal-box w-full bg-[#09090B] sm:border sm:border-slate-800 max-h-[600px] overflow-y-scroll">
   
   
-    <label for="filterList" class="cursor-pointer absolute right-5 top-2 bg-[#202020] text-[1.8rem] text-white">
+    <label for="filterList" class="cursor-pointer absolute right-5 top-2 bg-[#09090B] text-[1.8rem] text-white">
       ✕
     </label>
   

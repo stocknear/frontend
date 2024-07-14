@@ -167,7 +167,7 @@ if (usRegion.includes(value)) {
       
       
   
-    <div class="w-full max-w-4xl m-auto sm:bg-[#202020] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+    <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
     
         <!-- Start Column -->
@@ -219,7 +219,7 @@ if (usRegion.includes(value)) {
       
         {#if portfolio.length === 0}
   
-          <div class="bg-[#202020] pt-5 pb-5 mt-5 sm:rounded-2xl border-t border-b sm:border border-slate-800">
+          <div class="bg-[#09090B] pt-5 pb-5 mt-5 sm:rounded-2xl border-t border-b sm:border border-slate-800">
          
   
             <div class="flex flex-row ">
@@ -303,7 +303,7 @@ if (usRegion.includes(value)) {
         {:else}
           
 
-        <div class="bg-[#202020] border-t border-b sm:border border-slate-800 pt-5 pb-5 mt-5 sm:rounded-2xl">
+        <div class="bg-[#09090B] border-t border-b sm:border border-slate-800 pt-5 pb-5 mt-5 sm:rounded-2xl">
          
           
           <div class="flex flex-row items-center">
@@ -397,7 +397,7 @@ if (usRegion.includes(value)) {
                   Alpha
                 </span>
                 <label for="alphaInfo" class="cursor-pointer">
-                  <svg class="w-5 h-5 inline-block ml-1 mb-1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#202020000"> <g id="SVGRepo_bgCarrier" stroke-width="0"></g> <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g> <g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="info-circle"> <g> <circle cx="12" cy="12" data-name="--Circle" fill="none" id="_--Circle" r="10" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle> <line fill="none" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="12" y2="16"></line> <line fill="none" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="8" y2="8"></line> </g> </g> </g> </g> </svg>
+                  <svg class="w-5 h-5 inline-block ml-1 mb-1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#27272A000"> <g id="SVGRepo_bgCarrier" stroke-width="0"></g> <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g> <g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="info-circle"> <g> <circle cx="12" cy="12" data-name="--Circle" fill="none" id="_--Circle" r="10" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle> <line fill="none" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="12" y2="16"></line> <line fill="none" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="8" y2="8"></line> </g> </g> </g> </g> </svg>
                 </label>
               </div>
               <span class="text-white text-sm">
@@ -411,7 +411,7 @@ if (usRegion.includes(value)) {
                   Beta
                 </span>
                 <label for="betaInfo" class="cursor-pointer">
-                  <svg class="w-5 h-5 inline-block ml-1 mb-1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#202020000"> <g id="SVGRepo_bgCarrier" stroke-width="0"></g> <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g> <g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="info-circle"> <g> <circle cx="12" cy="12" data-name="--Circle" fill="none" id="_--Circle" r="10" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle> <line fill="none" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="12" y2="16"></line> <line fill="none" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="8" y2="8"></line> </g> </g> </g> </g> </svg>
+                  <svg class="w-5 h-5 inline-block ml-1 mb-1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#27272A000"> <g id="SVGRepo_bgCarrier" stroke-width="0"></g> <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g> <g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="info-circle"> <g> <circle cx="12" cy="12" data-name="--Circle" fill="none" id="_--Circle" r="10" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle> <line fill="none" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="12" y2="16"></line> <line fill="none" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="8" y2="8"></line> </g> </g> </g> </g> </svg>
                 </label>
               </div>
               <span class="text-white text-sm">
@@ -425,7 +425,7 @@ if (usRegion.includes(value)) {
                   Max Drawdown
                 </span>
                 <label for="maxDrawdownInfo" class="cursor-pointer">
-                  <svg class="w-5 h-5 inline-block ml-1 mb-1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#202020000"> <g id="SVGRepo_bgCarrier" stroke-width="0"></g> <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g> <g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="info-circle"> <g> <circle cx="12" cy="12" data-name="--Circle" fill="none" id="_--Circle" r="10" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle> <line fill="none" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="12" y2="16"></line> <line fill="none" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="8" y2="8"></line> </g> </g> </g> </g> </svg>
+                  <svg class="w-5 h-5 inline-block ml-1 mb-1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#27272A000"> <g id="SVGRepo_bgCarrier" stroke-width="0"></g> <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g> <g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="info-circle"> <g> <circle cx="12" cy="12" data-name="--Circle" fill="none" id="_--Circle" r="10" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle> <line fill="none" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="12" y2="16"></line> <line fill="none" stroke="#3276C3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="8" y2="8"></line> </g> </g> </g> </g> </svg>
                 </label>
               </div>
               {#if portfolio[0]?.metrics['maxDrawdown'] < 0}
@@ -452,7 +452,7 @@ if (usRegion.includes(value)) {
       {#if portfolio?.length !== 0}
 
 
-      <div class="bg-[#202020] pt-5 pb-5 mt-10 sm:rounded-2xl">
+      <div class="bg-[#09090B] pt-5 pb-5 mt-10 sm:rounded-2xl">
         <div class="flex flex-row justify-between items-center">
           <div class="text-slate-300 font-bold text-lg pl-5">
             Holdings
@@ -481,8 +481,8 @@ if (usRegion.includes(value)) {
   
           <tbody class="">
             {#each holdingsList as item, index}
-            <tr on:click={() => goto(`/${item?.assetType === 'etf' ? 'etf' : 'stocks'}/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] {index % 2 === 0 ? 'bg-opacity-[0.25] bg-[#323239]' : 'bg-[#202020]'} border-b-[#0F0F0F] cursor-pointer">
-            <td class="text-white border-b border-[#202020]">
+            <tr on:click={() => goto(`/${item?.assetType === 'etf' ? 'etf' : 'stocks'}/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] {index % 2 === 0 ? 'bg-opacity-[0.25] bg-[#323239]' : 'bg-[#09090B]'} border-b-[#09090B] cursor-pointer">
+            <td class="text-white border-b border-[#27272A]">
               <div class="flex flex-row">
                 <div class="flex flex-col text-sm">
                   <span class="text-blue-400">{item?.symbol}</span>
@@ -502,7 +502,7 @@ if (usRegion.includes(value)) {
               </div>
             </td>
   
-            <td class="text-white border-b border-[#202020]">
+            <td class="text-white border-b border-[#27272A]">
               <div class="flex flex-row justify-end items-center">
                 <div class="flex flex-col mt-3">
                   <span class="text-white text-md ml-auto">${item?.currentPrice?.toFixed(2)}</span>
@@ -537,7 +537,7 @@ if (usRegion.includes(value)) {
         {/if}  
       </div>
   
-      <div class="bg-[#202020] pt-5 pb-5 mt-10 sm:rounded-2xl {!showTradingHistory ? 'shadow-md' : ''}">
+      <div class="bg-[#09090B] pt-5 pb-5 mt-10 sm:rounded-2xl {!showTradingHistory ? 'shadow-md' : ''}">
         <div on:click={() => showTradingHistory = !showTradingHistory}  class="cursor-pointer flex flex-row items-center justify-between">
           <div class="text-slate-300 font-bold text-lg pl-5 w-full">
             Trading History
@@ -563,8 +563,8 @@ if (usRegion.includes(value)) {
           <table class="table table-sm table-compact w-full m-auto mt-4">
             <tbody class="">
               {#each tradingHistoryList as item, index}
-              <tr class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] {index % 2 === 0 ? 'bg-opacity-[0.25] bg-[#323239]' : 'bg-[#202020]'} border-b-[#0F0F0F] cursor-pointer">
-              <td class="text-white border-b border-[#202020]">
+              <tr class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] {index % 2 === 0 ? 'bg-opacity-[0.25] bg-[#323239]' : 'bg-[#09090B]'} border-b-[#09090B] cursor-pointer">
+              <td class="text-white border-b border-[#27272A]">
                 <div class="flex flex-row items-center">
                   <div class="flex flex-col">
                     <span class="text-blue-400">{item?.symbol}</span>
@@ -603,7 +603,7 @@ if (usRegion.includes(value)) {
     {:else}
     <div class="flex justify-center items-center h-80">
       <div class="relative">
-      <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <span class="loading loading-spinner loading-md"></span>
       </label>
       </div>
@@ -632,7 +632,7 @@ if (usRegion.includes(value)) {
     <label id="accountValueInfo" for="accountValueInfo"  class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
     
     
-    <div class="modal-box w-full bg-[#202020]">
+    <div class="modal-box w-full bg-[#09090B]">
   
   
   
@@ -659,7 +659,7 @@ if (usRegion.includes(value)) {
     <label id="availableCashInfo" for="availableCashInfo"  class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
     
     
-    <div class="modal-box w-full bg-[#202020]">
+    <div class="modal-box w-full bg-[#09090B]">
   
   
       <div class="text-white mb-5">
@@ -686,7 +686,7 @@ if (usRegion.includes(value)) {
     <label id="overallReturnInfo" for="overallReturnInfo"  class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
     
     
-    <div class="modal-box w-full bg-[#202020]">
+    <div class="modal-box w-full bg-[#09090B]">
   
   
       <div class="text-white mb-5">
@@ -712,7 +712,7 @@ if (usRegion.includes(value)) {
     <label id="alphaInfo" for="alphaInfo"  class="cursor-pointer modal-backdrop"></label>
     
     
-    <div class="modal-box w-full bg-[#202020] ">
+    <div class="modal-box w-full bg-[#09090B] ">
   
   
   
@@ -746,7 +746,7 @@ if (usRegion.includes(value)) {
     <label id="betaInfo" for="betaInfo"  class="cursor-pointer modal-backdrop"></label>
     
     
-    <div class="modal-box w-full bg-[#202020] ">
+    <div class="modal-box w-full bg-[#09090B] ">
   
   
   
@@ -783,7 +783,7 @@ if (usRegion.includes(value)) {
     <label id="maxDrawdownInfo" for="maxDrawdownInfo"  class="cursor-pointer modal-backdrop bg-[#fff] bg-opacity-[0.08]"></label>
     
     
-    <div class="modal-box w-full bg-[#202020] border border-slate-800">
+    <div class="modal-box w-full bg-[#09090B] border border-slate-800">
   
   
   
@@ -820,7 +820,7 @@ if (usRegion.includes(value)) {
      <label id="holdingsCategoryInfo" for="holdingsCategoryInfo"  class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
      
      
-     <div class="modal-box w-full bg-[#202020] sm:border sm:border-slate-800">
+     <div class="modal-box w-full bg-[#09090B] sm:border sm:border-slate-800">
    
    
    
@@ -830,7 +830,7 @@ if (usRegion.includes(value)) {
          </h3>
    
    
-         <div class="flex flex-col items-center w-full max-w-3xl bg-[#202020]">
+         <div class="flex flex-col items-center w-full max-w-3xl bg-[#09090B]">
    
    
            <label for="holdingsCategoryInfo" on:click={() => handleChange('Change in %')} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
@@ -843,7 +843,7 @@ if (usRegion.includes(value)) {
    
                  <div class="rounded-full w-8 h-8 relative border border-[#737373]">
                    {#if displayChange === 'Change in %'}
-                     <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#202020000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
+                     <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#27272A000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
                    {/if}
                  </div>
    
@@ -862,7 +862,7 @@ if (usRegion.includes(value)) {
    
                <div class="rounded-full w-8 h-8 relative border border-[#737373]">
                  {#if displayChange === 'Change in $'}
-                 <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#202020000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
+                 <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#27272A000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
                  {/if}
                </div>
    

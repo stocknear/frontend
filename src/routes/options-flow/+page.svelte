@@ -535,7 +535,7 @@ $: {
   </svelte:head>
     
 <body class="sm:fixed h-screen m-auto w-full max-w-screen">
-  <section class="w-full max-w-screen sm:max-w-screen-2xl flex justify-center items-center m-auto pt-5 bg-[#0F0F0F] ">
+  <section class="w-full max-w-screen sm:max-w-6xl flex justify-center items-center m-auto pt-5 bg-[#09090B] ">
       
   
       <div class="w-full m-auto mb-10 pl-3 pr-3">
@@ -835,13 +835,13 @@ $: {
                     <tbody>
                       {#each optionList as item,index}
                       <!-- row -->
-                      <tr on:click={() => handleViewData(item)} class="w-full odd:bg-[#202020] cursor-pointer {index+1 === optionList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
+                      <tr on:click={() => handleViewData(item)} class="w-full odd:bg-[#27272A] cursor-pointer {index+1 === optionList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                         
                         <td class="text-white pb-3 text-xs sm:text-sm text-start">
                           {formatTime(item?.time)}
                         </td>
     
-                        <th on:click|stopPropagation={() => assetSelector(item?.ticker, item?.assetType)} class="{index % 2 ? 'bg-[#0F0F0F]' : 'bg-[#202020]'} text-blue-400 text-start font-normal">
+                        <th on:click|stopPropagation={() => assetSelector(item?.ticker, item?.assetType)} class="{index % 2 ? 'bg-[#09090B]' : 'bg-[#09090B]'} text-blue-400 text-start font-normal">
                           {item?.ticker}
                         </th>
   
@@ -915,7 +915,7 @@ $: {
           {:else}
           <div class="flex justify-center items-center h-80">
             <div class="relative">
-            <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <span class="loading loading-spinner loading-md"></span>
             </label>
             </div>
@@ -940,7 +940,7 @@ $: {
   <label id="filterList" for="filterList" class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
   
   
-  <div class="modal-box w-full bg-[#202020] sm:border sm:border-slate-800 overflow-hidden rounded-md">
+  <div class="modal-box w-full bg-[#09090B] sm:border sm:border-slate-800 overflow-hidden rounded-md">
 
 
     <div class="relative z-50 mx-2 max-h-[80vh] rounded bg-default opacity-100 bp:mx-3 sm:mx-4 w-full max-w-[1024px]" aria-modal="true">
@@ -1026,8 +1026,8 @@ $: {
 
 
   <!-- svelte-ignore a11y-label-has-associated-control -->
-  <label class="modal-box w-full relative bg-[#202020] h-auto max-h-[900px] overflow-y-scroll">
-    <label for="optionDetailsDesktopModal" class="cursor-pointer absolute right-5 top-2 bg-[#202020] text-2xl text-white">
+  <label class="modal-box w-full relative bg-[#09090B] h-auto max-h-[900px] overflow-y-scroll">
+    <label for="optionDetailsDesktopModal" class="cursor-pointer absolute right-5 top-2 bg-[#09090B] text-2xl text-white">
       ✕
     </label>
 
@@ -1037,46 +1037,46 @@ $: {
       {optionSymbol}
 
     </p>
-    <p class="py-4 text-gray-200 bg-[#202020] w-full">
+    <p class="py-4 text-gray-200 bg-[#09090B] w-full">
       <span class="font-semibold text-white">Description:</span>
       <br>
       {optionDescription}
     </p>
 
-    <table class="table table-sm table-compact bg-[#202020] w-full mt-5 mb-10 text-white">
+    <table class="table table-sm table-compact bg-[#09090B] w-full mt-5 mb-10 text-white">
       <tbody>
         <!-- row 1 -->
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Premium</td>
           <td class="">{optionPremium}</td>
           <td class="font-semibold">C/P</td>
           <td class="">{optionContract}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Expiry</td>
           <td class="">{optionExpiry}</td>
           <td class="font-semibold">Type</td>
           <td class="">{optionType}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Strike</td>
           <td class="">${optionStrike}</td>
           <td class="font-semibold">Volume</td>
           <td class="">{optionVolume}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Spot</td>
           <td class="">${optionSpot}</td>
           <td class="font-semibold">Open Interest</td>
           <td class="">{optionOpenInterest}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Price</td>
           <td class="">${optionPrice}</td>
           <td class="font-semibold">Sentiment</td>
           <td class="">{optionSentiment}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Execution Estimate</td>
           <td class="">{optionExecutionEstimate}</td>
           <td class="font-semibold"></td>
@@ -1120,43 +1120,43 @@ $: {
     <table class="table table-sm table-compact w-full mt-5 mb-10 text-white">
       <tbody>
         <!-- row 1 -->
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Premium</td>
           <td class="">{optionPremium}</td>
           <td class="font-semibold">C/P</td>
           <td class="">{optionContract}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Expiry</td>
           <td class="">{optionExpiry}</td>
           <td class="font-semibold">Type</td>
           <td class="">{optionType}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Strike</td>
           <td class="">${optionStrike}</td>
           <td class="font-semibold">Volume</td>
           <td class="">{optionVolume}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Spot</td>
           <td class="">${optionSpot}</td>
           <td class="font-semibold">Open Interest</td>
           <td class="">{optionOpenInterest}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Price</td>
           <td class="">${optionPrice}</td>
           <td class="font-semibold">Sentiment</td>
           <td class="">{optionSentiment}</td>
         </tr>
-        <tr class="odd:bg-[#202020]">
+        <tr class="odd:bg-[#27272A]">
           <td class="font-semibold">Trade Count</td>
           <td class="">{optionTradeCount}</td>
           <td class="font-semibold">Exchange</td>
           <td class="">{optionExchange}</td>
         </tr>
-        <tr class="border-b border-slate-700 odd:bg-[#202020]">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Execution Est.</td>
           <td class="">{optionExecutionEstimate}</td>
           <td class="font-semibold"></td>

@@ -292,7 +292,7 @@ $: {
               </div>
             </div>
 
-            <div class="pb-8 sm:pb-2 rounded-lg bg-[#0F0F0F]">
+            <div class="pb-8 sm:pb-2 rounded-lg bg-[#09090B]">
                     
               
                 <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
@@ -316,7 +316,7 @@ $: {
               <div class="flex justify-start items-center w-full m-auto mt-6 ">
                 <table class="w-full" data-test="statistics-table">
                   <tbody>
-                      <tr class="border-y border-gray-800 odd:bg-[#202020]">
+                      <tr class="border-y border-gray-800 odd:bg-[#27272A]">
                           <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                               <span>Date</span>
                           </td>
@@ -324,7 +324,7 @@ $: {
                             {formatDateRange(rawData?.lastDate)}
                           </td>
                       </tr>
-                      <tr class="border-y border-gray-800 odd:bg-[#202020]">
+                      <tr class="border-y border-gray-800 odd:bg-[#27272A]">
                           <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                               <span>Volume in $</span>
                           </td>
@@ -332,7 +332,7 @@ $: {
                             {monthlyVolume}
                           </td>
                       </tr>
-                      <tr class="border-y border-gray-800 odd:bg-[#202020]">
+                      <tr class="border-y border-gray-800 odd:bg-[#27272A]">
                           <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                               <span>Retail Sentiment Range</span>
                           </td>
@@ -351,7 +351,7 @@ $: {
             {:else}
             <div class="flex justify-center items-center h-80">
                 <div class="relative">
-                <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <span class="loading loading-spinner loading-md"></span>
                 </label>
                 </div>
@@ -359,7 +359,7 @@ $: {
             {/if}
 
             {:else}
-            <div class="shadow-lg shadow-bg-[#000] bg-[#202020] sm:bg-opacity-[0.5] text-sm sm:text-[1rem] rounded-md w-full p-4 min-h-24 mt-4 text-white m-auto flex justify-center items-center text-center font-semibold">
+            <div class="shadow-lg shadow-bg-[#000] bg-[#09090B] sm:bg-opacity-[0.5] text-sm sm:text-[1rem] rounded-md w-full p-4 min-h-24 mt-4 text-white m-auto flex justify-center items-center text-center font-semibold">
                 <svg class="mr-1.5 w-5 h-5 inline-block"xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#A3A3A3" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/></svg>
                 Unlock content with <a class="inline-block ml-2 text-blue-400 hover:sm:text-white" href="/pricing">Pro Subscription</a>
               </div>

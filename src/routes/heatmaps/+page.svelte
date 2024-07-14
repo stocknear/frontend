@@ -309,7 +309,7 @@ $: {
     
     <section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-60">
     
-          <div class="w-full max-w-4xl m-auto sm:bg-[#202020] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+          <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
           
               <!-- Start Column -->
@@ -373,7 +373,7 @@ $: {
     
                     
 
-                  <div class="w-full max-w-4xl sm:flex sm:flex-row sm:items-center m-auto text-gray-100 bg-[#202020] sm:rounded-lg h-auto p-5 mb-4 ">
+                  <div class="w-full max-w-4xl sm:flex sm:flex-row sm:items-center m-auto text-gray-100 bg-[#09090B] sm:rounded-lg h-auto p-5 mb-4 ">
                       <svg class="w-5 h-5 inline-block sm:mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
                       <span>
                           Today, <label on:click={() => sectorSelector(lowestSumCategory)} class="cursor-pointer text-blue-400 sm:hover:text-white">{lowestSumCategory}</label> took the lead as the {displayIndex} largest loser, marking a total return of <span class="text-white font-medium">{lowestSum?.toFixed(2)}%</span>, 
@@ -383,7 +383,7 @@ $: {
 
 
                   <div class="w-full pt-3">
-                    <div class="relative right-0 bg-[#0F0F0F]">
+                    <div class="relative right-0 bg-[#09090B]">
                       <ul class="relative w-fit flex flex-wrap px-2 list-none rounded-[3px]">
                         <li class="px-3 py-1.5 flex-auto text-center bg-[#2E3238] rounded-[3px]">
                           <label for="indexModal" class="cursor-pointer border flex items-center justify-center w-full px-0 py-1 mb-0 border-0 rounded-[3px] bg-inherit">
@@ -431,7 +431,7 @@ $: {
         {:else}
         <div class="flex justify-center items-center h-80">
           <div class="relative">
-          <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <span class="loading loading-spinner loading-md"></span>
           </label>
           </div>
@@ -457,11 +457,11 @@ $: {
 <label id="indexModal" for="indexModal"  class="cursor-pointer modal-backdrop bg-[#fff] bg-opacity-[0.02] sm:bg-[#000] sm:bg-opacity-[0.5]"></label>
 
 
-<div class="modal-box w-full bg-[#000] sm:bg-[#202020] sm:border sm:border-slate-800">
+<div class="modal-box w-full bg-[#000] sm:bg-[#09090B] sm:border sm:border-slate-800">
 
 
 
-<label for="indexModal" class="cursor-pointer absolute right-5 top-2 bg-[#000] sm:bg-[#202020] text-[1.8rem] text-white">
+<label for="indexModal" class="cursor-pointer absolute right-5 top-2 bg-[#000] sm:bg-[#09090B] text-[1.8rem] text-white">
     ✕
 </label>
 
@@ -472,12 +472,12 @@ $: {
     </h3>
         
 
-    <div class="flex flex-col items-center w-full max-w-3xl bg-[#000] sm:bg-[#202020]">
+    <div class="flex flex-col items-center w-full max-w-3xl bg-[#000] sm:bg-[#09090B]">
 
 
         <label for="indexModal" on:click={() => changeIndex('S&P500')} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
 
-            <div class="flex flex-row items-center w-full bg-[#202020] bg-opacity-[0.7] sm:bg-opacity-[1.0] sm:bg-[#303030] p-3 rounded-lg {displayIndex === 'S&P500' ? 'ring-2 ring-[#04E000]' : ''}">
+            <div class="flex flex-row items-center w-full bg-[#09090B] bg-opacity-[0.7] sm:bg-opacity-[1.0] sm:bg-[#303030] p-3 rounded-lg {displayIndex === 'S&P500' ? 'ring-2 ring-[#04E000]' : ''}">
             
             <span class="ml-1 text-white font-medium mr-auto">
                 S&P500
@@ -490,7 +490,7 @@ $: {
 
         <label for="indexModal" on:click={() => changeIndex('Dow Jones')} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
 
-        <div class="flex flex-row items-center w-full bg-[#202020] bg-opacity-[0.7] sm:bg-opacity-[1.0] sm:bg-[#303030] p-3 rounded-lg {displayIndex === 'Dow Jones' ? 'ring-2 ring-[#04E000]' : ''}">
+        <div class="flex flex-row items-center w-full bg-[#09090B] bg-opacity-[0.7] sm:bg-opacity-[1.0] sm:bg-[#303030] p-3 rounded-lg {displayIndex === 'Dow Jones' ? 'ring-2 ring-[#04E000]' : ''}">
             
             <span class="ml-1 text-white font-medium mr-auto">
             Dow Jones
@@ -502,7 +502,7 @@ $: {
 
     <label for="indexModal" on:click={() => changeIndex('Nasdaq')} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
 
-        <div class="flex flex-row items-center w-full bg-[#202020] bg-opacity-[0.7] sm:bg-opacity-[1.0] sm:bg-[#303030] p-3 rounded-lg {displayIndex === 'Nasdaq' ? 'ring-2 ring-[#04E000]' : ''}">
+        <div class="flex flex-row items-center w-full bg-[#09090B] bg-opacity-[0.7] sm:bg-opacity-[1.0] sm:bg-[#303030] p-3 rounded-lg {displayIndex === 'Nasdaq' ? 'ring-2 ring-[#04E000]' : ''}">
             
             <span class="ml-1 text-white font-medium mr-auto">
             Nasdaq
@@ -533,11 +533,11 @@ $: {
         <label id="exportDataModal" for="exportDataModal"  class="cursor-pointer modal-backdrop bg-[#fff] bg-opacity-[0.02] sm:bg-[#000] sm:bg-opacity-[0.5]"></label>
         
         
-        <div class="modal-box w-full bg-[#000] sm:bg-[#202020] sm:border sm:border-slate-800">
+        <div class="modal-box w-full bg-[#000] sm:bg-[#09090B] sm:border sm:border-slate-800">
       
       
       
-        <label for="exportDataModal" class="cursor-pointer absolute right-5 top-2 bg-[#000] sm:bg-[#202020] text-[1.8rem] text-white">
+        <label for="exportDataModal" class="cursor-pointer absolute right-5 top-2 bg-[#000] sm:bg-[#09090B] text-[1.8rem] text-white">
           ✕
         </label>
       
@@ -548,12 +548,12 @@ $: {
             </h3>
               
       
-            <div class="flex flex-col items-center w-full max-w-3xl bg-[#000] sm:bg-[#202020]">
+            <div class="flex flex-col items-center w-full max-w-3xl bg-[#000] sm:bg-[#09090B]">
       
       
               <label for="exportDataModal" on:click={() => exportTreemap()} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
       
-                  <div class="flex flex-row items-center w-full bg-[#202020] bg-opacity-[0.7] sm:bg-opacity-[1.0] sm:bg-[#303030] p-3 rounded-lg ring-2 ring-[#04E000]">
+                  <div class="flex flex-row items-center w-full bg-[#09090B] bg-opacity-[0.7] sm:bg-opacity-[1.0] sm:bg-[#303030] p-3 rounded-lg ring-2 ring-[#04E000]">
                     
                     <span class="ml-1 text-white font-medium mr-auto">
                       Save as PNG
@@ -566,7 +566,7 @@ $: {
       
               <label for="exportDataModal" class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
       
-                <div class="flex flex-row items-center w-full bg-[#202020] bg-opacity-[0.7] sm:bg-opacity-[1.0] sm:bg-[#303030] p-3 rounded-lg ring-2 ring-[#04E000]">
+                <div class="flex flex-row items-center w-full bg-[#09090B] bg-opacity-[0.7] sm:bg-opacity-[1.0] sm:bg-[#303030] p-3 rounded-lg ring-2 ring-[#04E000]">
                   
                   <span class="ml-1 text-white font-medium mr-auto">
                     Save as JPG

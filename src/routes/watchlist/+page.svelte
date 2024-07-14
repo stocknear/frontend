@@ -381,7 +381,7 @@ onDestroy( () => {
 <div class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-40">
     
      
-  <div  class="w-full m-auto sm:bg-[#202020] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+  <div  class="w-full m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
   
       <!-- Start Column -->
@@ -439,7 +439,7 @@ onDestroy( () => {
       <div class="flex flex-row items-center w-full">
 
         <div class="flex flex-row items-center justify-between w-full">
-          <label for="allList" class="ml-2 cursor-pointer w-auto px-4 bg-[#202020] sm:hover:bg-[#202020] duratiion-100 transition ease-in-out flex justify-center items-center py-3 rounded-lg shadow-lg">
+          <label for="allList" class="ml-2 cursor-pointer w-auto px-4 bg-[#09090B] sm:hover:bg-[#09090B] duratiion-100 transition ease-in-out flex justify-center items-center py-3 rounded-lg shadow-lg">
             <span class="text-white text-md">
               {displayWatchList?.title?.length > 10 ? displayWatchList?.title?.slice(0,10) + '...' : displayWatchList?.title}
             </span>
@@ -464,7 +464,7 @@ onDestroy( () => {
         </div>
       
 
-          <label for="addWatchList" class="{$screenWidth < 640 || !data?.user ? 'hidden' : ''} cursor-pointer w-48 md:w-44 bg-[#202020] sm:hover:bg-[#202020] duratiion-100 transition ease-in-out flex justify-center items-center py-3 rounded-lg shadow-lg mr-2">
+          <label for="addWatchList" class="{$screenWidth < 640 || !data?.user ? 'hidden' : ''} cursor-pointer w-48 md:w-44 bg-[#09090B] sm:hover:bg-[#09090B] duratiion-100 transition ease-in-out flex justify-center items-center py-3 rounded-lg shadow-lg mr-2">
             <svg class="w-5 h-5 inline-block " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#fff" d="M16 2A14.172 14.172 0 0 0 2 16a14.172 14.172 0 0 0 14 14a14.172 14.172 0 0 0 14-14A14.172 14.172 0 0 0 16 2Zm8 15h-7v7h-2v-7H8v-2h7V8h2v7h7Z"/><path fill="none" d="M24 17h-7v7h-2v-7H8v-2h7V8h2v7h7v2z"/></svg>
             <span class="ml-1 text-white text-sm">New Watchlist</span>
           </label>
@@ -473,7 +473,7 @@ onDestroy( () => {
       </div>
       {:else}
       <div class ="w-full m-auto flex justify-center items-center">
-        <label for="addWatchList" class="{$screenWidth < 640 || !data?.user ? 'hidden' : ''} light-box cursor-pointer w-48 md:w-44 bg-[#202020] sm:hover:bg-[#202020] duratiion-100 transition ease-in-out flex justify-center items-center py-3 rounded-lg shadow-lg">
+        <label for="addWatchList" class="{$screenWidth < 640 || !data?.user ? 'hidden' : ''} light-box cursor-pointer w-48 md:w-44 bg-[#09090B] sm:hover:bg-[#09090B] duratiion-100 transition ease-in-out flex justify-center items-center py-3 rounded-lg shadow-lg">
           <svg class="w-6 h-6 inline-block " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#fff" d="M16 2A14.172 14.172 0 0 0 2 16a14.172 14.172 0 0 0 14 14a14.172 14.172 0 0 0 14-14A14.172 14.172 0 0 0 16 2Zm8 15h-7v7h-2v-7H8v-2h7V8h2v7h7Z"/><path fill="none" d="M24 17h-7v7h-2v-7H8v-2h7V8h2v7h7v2z"/></svg>
           <span class="ml-2 text-white text-md">New Watchlist</span>
         </label>
@@ -510,7 +510,7 @@ onDestroy( () => {
     {:else}
     <div class="flex justify-center items-center h-80">
       <div class="relative">
-      <label class="bg-[#202020] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <span class="loading loading-spinner loading-md"></span>
       </label>
       </div>
@@ -534,7 +534,7 @@ onDestroy( () => {
       <div class="{!data?.user ? 'hidden' : ''} sm:hidden fixed w-full h-16 max-w-3xl -right-5 bottom-3">
         <div class="h-full max-w-3xl mx-auto">        
           <div class="flex items-center justify-end mr-10">
-            <label class="inline-flex items-center justify-center w-14 h-14 border border-[#000] ring-[#000] bg-[#0DDE00] text-[0.95rem] font-bold rounded-full text-[#0F0F0F]">
+            <label class="inline-flex items-center justify-center w-14 h-14 border border-[#000] ring-[#000] bg-[#0DDE00] text-[0.95rem] font-bold rounded-full text-[#09090B]">
               <svg class="w-8 h-8 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="black" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z"/></svg>
             </label>
           </div>
@@ -548,10 +548,10 @@ onDestroy( () => {
     <Drawer.Overlay class="fixed inset-0 bg-black/40" />
     
     <!-- Mobile modal content -->
-    <Drawer.Content class="fixed bottom-0 left-0 right-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] bg-[#202020]">
+    <Drawer.Content class="fixed bottom-0 left-0 right-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] bg-[#09090B]">
         <!-- Modal content -->
         <form on:submit={createWatchList}
-        class="space-y-2 pt-5 pb-5 flex-1 rounded-t-[10px] bg-[#202020] p-4"
+        class="space-y-2 pt-5 pb-5 flex-1 rounded-t-[10px] bg-[#09090B] p-4"
         >
         <div class="mx-auto mb-8 h-1.5 w-20 flex-shrink-0 rounded-full bg-[#404040]" />
         <div class="flex flex-col items-center m-auto text-center mb-10">
@@ -635,7 +635,7 @@ onDestroy( () => {
     <label for="settingsWatchListModal"  class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
     
     
-    <div class="modal-box w-full bg-[#202020] pb-5">
+    <div class="modal-box w-full bg-[#09090B] pb-5">
 
       <div class="flex flex-row items-center mb-8">
         <h3 class="text-white text-2xl font-bold">
@@ -691,7 +691,7 @@ onDestroy( () => {
     <label for="editNameWatchList"  class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
     
     
-    <div class="modal-box w-full bg-[#202020] sm:border sm:border-slate-600 " >
+    <div class="modal-box w-full bg-[#09090B] sm:border sm:border-slate-600 " >
 
     <div class="flex flex-row items-center">
         <h3 class="text-white text-2xl font-bold">
@@ -739,7 +739,7 @@ onDestroy( () => {
   <label for="deleteWatchList"  class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
   
   
-  <div class="modal-box w-full bg-[#202020] sm:border sm:border-slate-600 overflow-hidden">
+  <div class="modal-box w-full bg-[#09090B] sm:border sm:border-slate-600 overflow-hidden">
 
     <h3 class="font-bold text-xl mb-5 pt-5 text-white m-auto w-3/4 text-center">
       Are you sure you want to delete the watchlist?
@@ -774,19 +774,19 @@ onDestroy( () => {
   <label id="allList" for="allList"  class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
   
   
-  <div class="modal-box w-full bg-[#202020] sm:border sm:border-slate-800">
+  <div class="modal-box w-full bg-[#09090B] sm:border sm:border-slate-800">
 
     <h3 class="text-white text-2xl font-bold">
       Watchlists
     </h3>
 
-  <label for="allList" class="cursor-pointer absolute right-5 top-5 bg-[#202020] text-[1.8rem] text-white">
+  <label for="allList" class="cursor-pointer absolute right-5 top-5 bg-[#09090B] text-[1.8rem] text-white">
     <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"/></svg>
   </label>
 
     <div class="text-white mt-10">
 
-      <div class="flex flex-col items-center w-full max-w-3xl bg-[#202020]">
+      <div class="flex flex-col items-center w-full max-w-3xl bg-[#09090B]">
 
         {#each allList as item}
           <label for="allList" on:click={() => changeWatchList(item)} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">

@@ -242,7 +242,7 @@ function handleImageInput(event) {
 <div class="p-2 w-full max-w-xl mr-auto overflow-y-scroll {commentId?.length !== 0 ? '-ml-2' : ''}">
   <textarea
     on:click={() => expandField = true}
-    class="rounded-lg text-sm  {expandField ? 'min-h-24 h-auto border-[#1C4090]' : 'h-12  border-gray-500'} overflow-hidden sm:hover:border-[#1C4090] sm:hover:ring-1 transition sm:ease-out placeholder-gray-500 w-full bg-[#202020] text-white border border-1 ring-2 sm:ring-0 ring-[#1C4090]"
+    class="rounded-lg text-sm  {expandField ? 'min-h-24 h-auto border-[#1C4090]' : 'h-12  border-gray-500'} overflow-hidden sm:hover:border-[#1C4090] sm:hover:ring-1 transition sm:ease-out placeholder-gray-500 w-full bg-[#09090B] text-white border border-1 ring-2 sm:ring-0 ring-[#1C4090]"
     placeholder={placeholder}
     value={inputValue}
     bind:this={ref}
@@ -301,7 +301,7 @@ function handleImageInput(event) {
 <!--
 {:else}
 
-<section class="border-1 border-t border-slate-800 {imageInput?.length !== 0 ? 'min-h-44' : expandField ? 'min-h-40' : 'min-h-24'} rounded-none fixed z-20 w-full -translate-x-1/2 bg-[#202020] bottom-0 left-1/2">
+<section class="border-1 border-t border-slate-800 {imageInput?.length !== 0 ? 'min-h-44' : expandField ? 'min-h-40' : 'min-h-24'} rounded-none fixed z-20 w-full -translate-x-1/2 bg-[#09090B] bottom-0 left-1/2">
 <div class="w-full m-auto rounded-none mt-5">
   <textarea
     on:click={() => expandField = true}

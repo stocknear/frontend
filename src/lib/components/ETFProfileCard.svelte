@@ -56,10 +56,10 @@ let showFullText = false;
   </script>
   
   <div class="sm:space-y-3">  
-    <div class="lg:rounded-2xl shadow-lg sm:border sm:border-slate-800 bg-[#000] lg:bg-[#202020] h-auto h-auto w-screen pt-16 sm:w-full lg:w-96 lg:pt-0">
+    <div class="lg:rounded-2xl shadow-lg sm:border sm:border-slate-800 bg-[#000] lg:bg-[#09090B] h-auto h-auto w-screen pt-16 sm:w-full lg:w-96 lg:pt-0">
 
          <!--Start Header-->
-         <div class="lg:rounded-t-2xl w-full h-[130px] bg-[#0F0F0F] p-3 flex flex-col bg-cover bg-center bg-no-repeat" style="background-image: url('{defaultImage}');">
+         <div class="lg:rounded-t-2xl w-full h-[130px] bg-[#09090B] p-3 flex flex-col bg-cover bg-center bg-no-repeat" style="background-image: url('{defaultImage}');">
 
             <div class="flex flex-row pt-1 pb-2">
                 <div class="badge badge-error gap-2 mt-2 font-medium text-sm text-white">
@@ -95,32 +95,32 @@ let showFullText = false;
             <table class="table table-md table-compact">
               <tbody>
                 <!-- row 1 -->
-                <tr class="text-white border-b border-[#202020]" style="font-size: 0.8rem">
-                  <td class="text-start lg:border-b lg:border-[#202020] bg-[#000] lg:bg-[#202020] text-white font-medium">Name</td>
-                  <td class="bg-[#000] lg:border-b lg:border-[#202020] lg:bg-[#202020]">{$displayCompanyName?.length > 30 ? $displayCompanyName?.slice(0,30) + '...' : $displayCompanyName}</td>
-                  <td class="text-start lg:border-b lg:border-[#202020] bg-[#000] lg:bg-[#202020] text-white font-medium">Ticker</td>
-                  <td class="bg-[#000] lg:border-b lg:border-[#202020] lg:bg-[#202020]">{$etfTicker}</td>
+                <tr class="text-white border-b border-[#27272A]" style="font-size: 0.8rem">
+                  <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-medium">Name</td>
+                  <td class="bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B]">{$displayCompanyName?.length > 30 ? $displayCompanyName?.slice(0,30) + '...' : $displayCompanyName}</td>
+                  <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-medium">Ticker</td>
+                  <td class="bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B]">{$etfTicker}</td>
                 </tr>
                  <!-- row 3 -->
-                 <tr class="text-white border-b border-[#202020]" style="font-size: 0.8rem">
-                  <td class="text-start lg:border-b lg:border-[#202020] bg-[#000] lg:bg-[#202020] text-white font-medium">Provider</td>
-                  <td on:click={() => goto(`/etf/etf-providers/${provider}`)} class="text-blue-400 lg:border-b lg:border-[#202020] lg:hover:text-white cursor-pointer bg-[#000] lg:bg-[#202020]">{formatETFName(provider)}</td>
-                  <td class="text-start lg:border-b lg:border-[#202020] bg-[#000] lg:bg-[#202020] text-white font-medium">Country</td>
-                  <td class="bg-[#000] lg:border-b lg:border-[#202020] lg:bg-[#202020]">{country?.length !== 0 ? country : '-'}</td>
+                 <tr class="text-white border-b border-[#27272A]" style="font-size: 0.8rem">
+                  <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-medium">Provider</td>
+                  <td on:click={() => goto(`/etf/etf-providers/${provider}`)} class="text-blue-400 lg:border-b lg:border-[#27272A] lg:hover:text-white cursor-pointer bg-[#000] lg:bg-[#09090B]">{formatETFName(provider)}</td>
+                  <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-medium">Country</td>
+                  <td class="bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B]">{country?.length !== 0 ? country : '-'}</td>
                 </tr>
                 <!-- row 2 -->
-                <tr class="text-white border-b border-[#202020]" style="font-size: 0.8rem">
-                  <td class="text-start lg:border-b lg:border-[#202020] bg-[#000] lg:bg-[#202020] text-white font-medium">Value</td>
-                  <td class="bg-[#000] lg:border-b lg:border-[#202020] lg:bg-[#202020] whitespace-normal">{abbreviateNumber(aum,true)}</td>
-                  <td class="text-start lg:border-b lg:border-[#202020] bg-[#000] lg:bg-[#202020] text-white font-medium">Volume</td>
-                  <td class="bg-[#000] lg:border-b lg:border-[#202020] lg:bg-[#202020] whitespace-normal">{abbreviateNumber(avgVolume)}</td>
+                <tr class="text-white border-b border-[#27272A]" style="font-size: 0.8rem">
+                  <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-medium">Value</td>
+                  <td class="bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-normal">{abbreviateNumber(aum,true)}</td>
+                  <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-medium">Volume</td>
+                  <td class="bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-normal">{abbreviateNumber(avgVolume)}</td>
                 </tr>
                 <!-- row 3 -->
-                <tr class="text-white border-b border-[#202020]" style="font-size: 0.8rem">
-                  <td class="text-start bg-[#000] lg:bg-[#202020] text-white font-medium">Holdings</td>
-                  <td class="bg-[#000] lg:bg-[#202020]">{holdingsCount} Assets</td>
-                  <td class="text-start bg-[#000] lg:bg-[#202020] text-white font-medium">Inception</td>
-                  <td class="bg-[#000] lg:bg-[#202020]">{inceptionDate}</td>
+                <tr class="text-white border-b border-[#27272A]" style="font-size: 0.8rem">
+                  <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-medium">Holdings</td>
+                  <td class="bg-[#000] lg:bg-[#09090B]">{holdingsCount} Assets</td>
+                  <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-medium">Inception</td>
+                  <td class="bg-[#000] lg:bg-[#09090B]">{inceptionDate}</td>
                 </tr>
               </tbody>
             </table>

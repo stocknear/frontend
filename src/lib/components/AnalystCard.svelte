@@ -45,7 +45,7 @@ if ($stockTicker && typeof window !== 'undefined' && typeof analystRating !== 'u
   
   <!--Start Analyst Card -->
   <div class="space-y-3 sm:pt-5 hidden sm:block sm:{Object?.keys(analystRating)?.length !== 0 ? '' : 'hidden'}">  
-    <div class="rounded-2xl shadow-lg bg-[#000] sm:bg-[#202020] sm:border sm:border-slate-800 h-auto {$screenWidth < 640 ? 'w-screen pt-16' : ''} md:w-96 -mx-1 sm:mx-0">
+    <div class="rounded-2xl shadow-lg bg-[#000] sm:bg-[#09090B] sm:border sm:border-slate-800 h-auto {$screenWidth < 640 ? 'w-screen pt-16' : ''} md:w-96 -mx-1 sm:mx-0">
      
       <!--Start Content-->
       <div class="w-auto lg:w-full p-1 flex flex-col m-auto pb-14 sm:pb-10 px-2 sm:px-0">
@@ -173,7 +173,7 @@ if ($stockTicker && typeof window !== 'undefined' && typeof analystRating !== 'u
   <div class="bg-[#000] h-auto w-screen">
   
    <!--Start Header-->
-   <div class="bg-[#202020] w-full  p-1 flex flex-col items-center pb-5 h-auto rounded-b-[30px]">
+   <div class="bg-[#09090B] w-full  p-1 flex flex-col items-center pb-5 h-auto rounded-b-[30px]">
     <h2 class="text-center m-auto text-[1.1rem] font-medium text-white mt-5">
       Analyst Rating
     </h2>
@@ -247,7 +247,7 @@ if ($stockTicker && typeof window !== 'undefined' && typeof analystRating !== 'u
     <div class="mt-5 flex flex-col m-auto items-center rounded-lg w-full mb-16 p-3">
 
 
-      <div class="shadow-lg bg-[#202020] w-full rounded-lg p-4 mb-5  flex flex-row items-center">
+      <div class="shadow-lg bg-[#09090B] w-full rounded-lg p-4 mb-5  flex flex-row items-center">
         <div class="flex flex-col -mt-2 w-full">
             <div class="flex flex-row items-center w-full">
                 <span class="text-white text-md font-medium text-start mb-2 mr-auto mt-2">
@@ -261,7 +261,7 @@ if ($stockTicker && typeof window !== 'undefined' && typeof analystRating !== 'u
         </div>
       </div>
 
-      <div class="shadow-lg bg-[#202020] w-full rounded-lg p-4 mb-5  flex flex-row items-center">
+      <div class="shadow-lg bg-[#09090B] w-full rounded-lg p-4 mb-5  flex flex-row items-center">
         <div class="flex flex-col -mt-2 w-full">
             <div class="flex flex-row items-center w-full">
                 <span class="text-white text-md font-medium text-start mb-2 mr-auto mt-2">
@@ -275,7 +275,7 @@ if ($stockTicker && typeof window !== 'undefined' && typeof analystRating !== 'u
         </div>
       </div>
 
-      <div class="shadow-lg bg-[#202020] w-full rounded-lg p-4 mb-5  flex flex-row items-center">
+      <div class="shadow-lg bg-[#09090B] w-full rounded-lg p-4 mb-5  flex flex-row items-center">
         <div class="flex flex-col -mt-2 w-full">
             <div class="flex flex-row items-center w-full">
                 <span class="text-white text-md font-medium text-start mb-2 mr-auto mt-2">

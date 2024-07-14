@@ -3,8 +3,8 @@
     "short_name": "stocknear",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#202020",
-    "theme_color": "#202020",
+    "background_color": "#27272A",
+    "theme_color": "#27272A",
     "description": "Stock Analysis Platform to beat the Hedgies",
     "icons": [
         {

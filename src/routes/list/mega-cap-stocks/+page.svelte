@@ -46,7 +46,7 @@
           
         
         
-    <div class="w-full max-w-4xl m-auto text-gray-100 bg-[#202020] sm:rounded-lg h-auto p-5 mb-4">
+    <div class="w-full max-w-4xl m-auto text-gray-100 bg-[#09090B] sm:rounded-lg h-auto p-5 mb-4">
       Mega-cap stocks have a market capitalizations ranging above $200 billion USD, while additional categories include 
       <a href="/list/large-cap-stocks" class="text-blue-400 hover:text-white">
           Large-Cap
@@ -65,7 +65,7 @@
       </a>.
   </div>
   
-      <div class="stats stats-horizontal no-scrollbar bg-[#202020] w-full rounded-lg text-white">
+      <div class="stats stats-horizontal no-scrollbar bg-[#09090B] w-full rounded-lg text-white">
     
           <div class="stat">
             <div class="stat-title text-sm sm:text-lg font-semibold text-white">Total Stocks</div>
@@ -101,7 +101,7 @@
     
   
          
-              <table class="table table-sm sm:table-md table-compact rounded-none sm:rounded-md w-full border-bg-[#0F0F0F] m-auto mt-4 ">
+              <table class="table table-sm sm:table-md table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 ">
                 <thead>
                   <tr class="border border-slate-800">
                     <th class="text-slate-200 hidden sm:table-cell sm:font-bold text-[0.95rem]">Symbol</th>
@@ -115,15 +115,15 @@
                 <tbody>
                   {#each marketCapList as item,index}
                   <!-- row -->
-                  <tr on:click={() => goto("/stocks/"+item?.symbol)}  class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#202020] border-b-[#0F0F0F] shake-ticker cursor-pointer">
+                  <tr on:click={() => goto("/stocks/"+item?.symbol)}  class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
                   
                   
-                    <td class="hidden sm:table-cell text-blue-400 font-medium  border-b-[#0F0F0F]">
+                    <td class="hidden sm:table-cell text-blue-400 font-medium  border-b-[#09090B]">
                       {item?.symbol}
                     </td>
   
   
-                    <td class="text-gray-200 border-b-[#0F0F0F]">
+                    <td class="text-gray-200 border-b-[#09090B]">
                       <span class="hidden sm:inline-block text-white font-medium">{item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}</span>
                       <div class="sm:hidden flex flex-row">
                         <div class="flex flex-col">
@@ -133,20 +133,20 @@
                       </div>
                     </td>
   
-                    <td class="text-white font-medium text-end border-b-[#0F0F0F]">
+                    <td class="text-white font-medium text-end border-b-[#09090B]">
                         {abbreviateNumber(item?.marketCap,true)}
                     </td>
   
-                    <td class="text-white font-medium text-center hidden sm:table-cell border-b-[#0F0F0F]">
+                    <td class="text-white font-medium text-center hidden sm:table-cell border-b-[#09090B]">
                         {item?.revenue !== null ? abbreviateNumber(item?.revenue,true) : '-'}
                     </td>
   
-                    <td class="text-white font-medium text-center hidden sm:table-cell border-b-[#0F0F0F]">
+                    <td class="text-white font-medium text-center hidden sm:table-cell border-b-[#09090B]">
                       {item?.netIncome !== null ? abbreviateNumber(item?.netIncome,true) : '-'}
                   </td>
             
   
-                    <td class="text-gray-200 border-b-[#0F0F0F]">
+                    <td class="text-gray-200 border-b-[#09090B]">
                         <div class="flex flex-row justify-end items-center">
           
                           <div class="flex flex-col">
