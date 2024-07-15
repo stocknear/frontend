@@ -47,7 +47,7 @@
   let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
 
 
-  const trialLeftDays = addDays(data, 7, '');
+  const trialLeftDays = Math?.floor(addDays(data, 7, ''));
 
 async function pushNotification() {
   Notification?.requestPermission()?.then(perm => {
