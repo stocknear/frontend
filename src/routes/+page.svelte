@@ -19,7 +19,7 @@ const intersectOptions = { callback, threshold, rootMargin }
 function callback(entry: IntersectionObserverEntry) {
   if (entry.intersectionRatio > threshold) {
     entry.target.classList.remove('invisible')
-    entry.target.classList.add('fade-down')
+    entry.target.classList.add('animate-fade-in-once')
   }
 }
 
