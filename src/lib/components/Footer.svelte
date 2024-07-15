@@ -8,7 +8,7 @@
 
 
  <!--Footer-->
- <footer class="bg-[#09090B] border-t border-slate-800 z-20 sm:z-50 relative bottom-0 left-0 w-full">
+ <footer class="bg-[#09090B] border-t border-slate-800 z-20 sm:z-50 relative bottom-0 w-full sm:px-10 m-auto">
   <div class="container mx-auto px-3">
       
     <div class="w-full flex flex-col md:flex-row py-6">
@@ -41,7 +41,7 @@
           </span>
           <span class="relative flex h-3 w-3 ml-2">
             <span class="absolute inline-flex h-full w-full rounded-full"></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-purple-600"></span>
           </span>
         </a>
 

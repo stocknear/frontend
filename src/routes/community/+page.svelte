@@ -467,15 +467,15 @@ $: {
                                   <!-- List container -->                  
                                   <div class="flex flex-col mt-4">
                                     <!-- Item -->
-                                    <div class="border-t border-b sm:border border-gray-700 sm:hover:border-gray-600 rounded-none sm:rounded-md bg-[#27272A] rounded-[4px] sm:rounded-[8px]">
+                                    <div class="border-t border-b sm:border border-gray-700 sm:hover:border-gray-600 rounded-none sm:rounded-md bg-[#09090B] rounded-[4px] sm:rounded-[8px]">
                                       <div class="flex h-14 justify-start items-center">                                           
                                         <div class="flex flex-row ml-3">
-                                          <label on:click={() => handleCategoryOfPosts('hot')} class="flex flex-row w-fit pl-3 pr-4 pt-1 pb-1 tab mr-2 font-medium transition duration-150 ease-out hover:ease-in rounded-full hover:bg-[#141417] {sortingPosts === 'hot' ? 'bg-[#141417] text-white' : 'text-gray-300'} rounded-full cursor-pointer">
+                                          <label on:click={() => handleCategoryOfPosts('hot')} class="flex flex-row w-fit pl-3 pr-4 pt-1 pb-1 tab mr-2 font-medium transition duration-150 ease-out hover:ease-in rounded-full hover:bg-[#323232] {sortingPosts === 'hot' ? 'bg-[#323232] text-white' : 'text-gray-300'} rounded-full cursor-pointer">
                                             <svg class="w-5 h-5 sm:w-6 sm:h-6 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="{sortingPosts === 'hot' ? 'red' : '#737487'}" d="M17.66 11.2c-.23-.3-.51-.56-.77-.82c-.67-.6-1.43-1.03-2.07-1.66C13.33 7.26 13 4.85 13.95 3c-.95.23-1.78.75-2.49 1.32c-2.59 2.08-3.61 5.75-2.39 8.9c.04.1.08.2.08.33c0 .22-.15.42-.35.5c-.23.1-.47.04-.66-.12a.58.58 0 0 1-.14-.17c-1.13-1.43-1.31-3.48-.55-5.12C5.78 10 4.87 12.3 5 14.47c.06.5.12 1 .29 1.5c.14.6.41 1.2.71 1.73c1.08 1.73 2.95 2.97 4.96 3.22c2.14.27 4.43-.12 6.07-1.6c1.83-1.66 2.47-4.32 1.53-6.6l-.13-.26c-.21-.46-.77-1.26-.77-1.26m-3.16 6.3c-.28.24-.74.5-1.1.6c-1.12.4-2.24-.16-2.9-.82c1.19-.28 1.9-1.16 2.11-2.05c.17-.8-.15-1.46-.28-2.23c-.12-.74-.1-1.37.17-2.06c.19.38.39.76.63 1.06c.77 1 1.98 1.44 2.24 2.8c.04.14.06.28.06.43c.03.82-.33 1.72-.93 2.27Z"/></svg>
                                             <p class="ml-1 font-bold text-sm sm:text-[1rem]">Hot</p>
                                           </label>
         
-                                          <label on:click={() => handleCategoryOfPosts('new')} class="flex flex-row w-fit ml-3 pl-3 pr-4 pt-1 pb-1 tab mr-2 font-medium transition duration-150 ease-out hover:ease-in rounded-full hover:bg-[#141417] {sortingPosts === 'new' ? 'bg-[#141417] text-white' : 'text-gray-300'} rounded-full cursor-pointer">
+                                          <label on:click={() => handleCategoryOfPosts('new')} class="flex flex-row w-fit ml-3 pl-3 pr-4 pt-1 pb-1 tab mr-2 font-medium transition duration-150 ease-out hover:ease-in rounded-full hover:bg-[#323232] {sortingPosts === 'new' ? 'bg-[#323232] text-white' : 'text-gray-300'} rounded-full cursor-pointer">
                                             <svg class="w-5 h-5 sm:w-6 sm:h-6 inline-block" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.3895 5.21125L16.7995 8.03125C16.9895 8.42125 17.4995 8.79125 17.9295 8.87125L20.4795 9.29125C22.1095 9.56125 22.4895 10.7413 21.3195 11.9213L19.3295 13.9113C18.9995 14.2413 18.8095 14.8913 18.9195 15.3613L19.4895 17.8213C19.9395 19.7613 18.8995 20.5213 17.1895 19.5013L14.7995 18.0813C14.3695 17.8213 13.6495 17.8213 13.2195 18.0813L10.8295 19.5013C9.11945 20.5113 8.07945 19.7613 8.52945 17.8213L9.09945 15.3613C9.18945 14.8813 8.99945 14.2313 8.66945 13.9013L6.67945 11.9113C5.50945 10.7413 5.88945 9.56125 7.51945 9.28125L10.0695 8.86125C10.4995 8.79125 11.0095 8.41125 11.1995 8.02125L12.6095 5.20125C13.3795 3.68125 14.6195 3.68125 15.3895 5.21125Z" fill={sortingPosts === 'new' ? '#D6B329' : '#737487'}></path> <path d="M8 5.75H2C1.59 5.75 1.25 5.41 1.25 5C1.25 4.59 1.59 4.25 2 4.25H8C8.41 4.25 8.75 4.59 8.75 5C8.75 5.41 8.41 5.75 8 5.75Z" fill={sortingPosts === 'new' ? '#D6B329' : '#737487'}></path> <path d="M5 19.75H2C1.59 19.75 1.25 19.41 1.25 19C1.25 18.59 1.59 18.25 2 18.25H5C5.41 18.25 5.75 18.59 5.75 19C5.75 19.41 5.41 19.75 5 19.75Z" fill={sortingPosts === 'new' ? '#D6B329' : '#737487'}></path> <path d="M3 12.75H2C1.59 12.75 1.25 12.41 1.25 12C1.25 11.59 1.59 11.25 2 11.25H3C3.41 11.25 3.75 11.59 3.75 12C3.75 12.41 3.41 12.75 3 12.75Z" fill={sortingPosts === 'new' ? '#D6B329' : '#737487'}></path> </g></svg>
                                             <p class="ml-1 font-bold text-sm sm:text-[1rem]">New</p>
                                           </label>
@@ -547,9 +547,9 @@ $: {
 
                                  <!--Start About Community -->
                                  <div class="space-y-3 mb-5">  
-                                  <div class="rounded-t-lg bg-[#27272A] h-auto sm:w-96">
+                                  <div class="rounded-t-lg bg-[#09090B] border border-gray-800 h-auto sm:w-96">
                                     <!--Start Header-->
-                                    <div class="bg-[#27272A] w-full p-3 rounded-t-lg">
+                                    <div class="bg-[#09090B] w-full p-3 rounded-t-lg">
                                       <span class="text-white text-xl ml-1 font-semibold">
                                         About Community
                                       </span>
@@ -610,7 +610,7 @@ $: {
                               <!--Start Discord -->
                               {#if discordData?.length !== 0}
                                 <div class="space-y-3 mb-5">  
-                                  <div class="bg-[#27272A] h-auto sm:w-96 rounded-lg">
+                                  <div class="bg-[#09090B] border border-gray-800 h-auto sm:w-96 rounded-lg">
 
                                   <!--Start Image-->
                                   <div class="flex flex-row items-center w-full p-3">
@@ -756,9 +756,9 @@ $: {
 
                                <!--Community Rules-->
                                <div class="space-y-3 mt-5 fixed sticky" style="top: 5rem;">  
-                                <div class="bg-[#27272A] sm:w-96 rounded-lg">
+                                <div class="bg-[#09090B] border border-gray-800 sm:w-96 rounded-lg">
                                   <!--Start Header-->
-                                  <div class="bg-[#27272A] border-b border-slate-700 w-full pl-6 pr-6 pt-6 pb-4 rounded-t-lg">
+                                  <div class="bg-[#09090B] border-b border-slate-700 w-full pl-6 pr-6 pt-6 pb-4 rounded-t-lg">
                                     <span class="text-white text-xl ml-1 font-semibold">
                                       Community Rules
                                     </span>

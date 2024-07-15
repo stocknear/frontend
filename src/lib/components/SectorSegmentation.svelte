@@ -116,7 +116,7 @@ $: {
                             <!--Start Progress-->
                             {#each (showFullStats ? sectorList : sectorList?.slice(0,3)) as item,index}
 
-                                <div on:click= {() => sectorSelector(item?.industry)} class="shadow-lg bg-[#09090B] w-full rounded-lg p-4 mb-5  flex flex-row items-center {index === 0 ? 'mt-4' : ''} {index === 2 && !showFullStats && sectorList?.length > 3 ? 'opacity-[0.5]' : '' }">
+                                <div on:click= {() => sectorSelector(item?.industry)} class="shadow-lg bg-[#27272A] w-full rounded-lg p-4 mb-5  flex flex-row items-center {index === 0 ? 'mt-4' : ''} {index === 2 && !showFullStats && sectorList?.length > 3 ? 'opacity-[0.5]' : '' }">
 
                                     <div class="flex flex-col -mt-2 w-full">
                                         <div class="flex flex-row items-center w-full">

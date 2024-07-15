@@ -359,7 +359,6 @@ onDestroy( () => {
   <!-- Other meta tags -->
   <meta property="og:title" content="Stock Watchlist · stocknear"/>
   <meta property="og:description" content="A stock watchlist tracker tool. Add stocks and ETFs to keep track of their performance.">
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -367,7 +366,6 @@ onDestroy( () => {
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Stock Watchlist · stocknear"/>
   <meta name="twitter:description" content="A stock watchlist tracker tool. Add stocks and ETFs to keep track of their performance.">
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 </svelte:head>
     
@@ -381,7 +379,7 @@ onDestroy( () => {
 <div class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-40">
     
      
-  <div  class="w-full m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+  <div  class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
   
       <!-- Start Column -->
@@ -439,7 +437,7 @@ onDestroy( () => {
       <div class="flex flex-row items-center w-full">
 
         <div class="flex flex-row items-center justify-between w-full">
-          <label for="allList" class="ml-2 cursor-pointer w-auto px-4 bg-[#09090B] sm:hover:bg-[#09090B] duratiion-100 transition ease-in-out flex justify-center items-center py-3 rounded-lg shadow-lg">
+          <label for="allList" class="ml-2 cursor-pointer w-auto px-4 bg-[#27272A] sm:hover:bg-[#27272A] duratiion-100 transition ease-in-out flex justify-center items-center py-3 rounded-lg shadow-lg">
             <span class="text-white text-md">
               {displayWatchList?.title?.length > 10 ? displayWatchList?.title?.slice(0,10) + '...' : displayWatchList?.title}
             </span>
@@ -464,7 +462,7 @@ onDestroy( () => {
         </div>
       
 
-          <label for="addWatchList" class="{$screenWidth < 640 || !data?.user ? 'hidden' : ''} cursor-pointer w-48 md:w-44 bg-[#09090B] sm:hover:bg-[#09090B] duratiion-100 transition ease-in-out flex justify-center items-center py-3 rounded-lg shadow-lg mr-2">
+          <label for="addWatchList" class="{$screenWidth < 640 || !data?.user ? 'hidden' : ''} cursor-pointer w-48 md:w-44 bg-[#27272A] sm:hover:bg-[#27272A] duratiion-100 transition ease-in-out flex justify-center items-center py-3 rounded-lg shadow-lg mr-2">
             <svg class="w-5 h-5 inline-block " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#fff" d="M16 2A14.172 14.172 0 0 0 2 16a14.172 14.172 0 0 0 14 14a14.172 14.172 0 0 0 14-14A14.172 14.172 0 0 0 16 2Zm8 15h-7v7h-2v-7H8v-2h7V8h2v7h7Z"/><path fill="none" d="M24 17h-7v7h-2v-7H8v-2h7V8h2v7h7v2z"/></svg>
             <span class="ml-1 text-white text-sm">New Watchlist</span>
           </label>
@@ -473,7 +471,7 @@ onDestroy( () => {
       </div>
       {:else}
       <div class ="w-full m-auto flex justify-center items-center">
-        <label for="addWatchList" class="{$screenWidth < 640 || !data?.user ? 'hidden' : ''} light-box cursor-pointer w-48 md:w-44 bg-[#09090B] sm:hover:bg-[#09090B] duratiion-100 transition ease-in-out flex justify-center items-center py-3 rounded-lg shadow-lg">
+        <label for="addWatchList" class="{$screenWidth < 640 || !data?.user ? 'hidden' : ''} light-box cursor-pointer w-48 md:w-44 bg-[#27272A] sm:hover:bg-[#27272A] duratiion-100 transition ease-in-out flex justify-center items-center py-3 rounded-lg shadow-lg">
           <svg class="w-6 h-6 inline-block " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#fff" d="M16 2A14.172 14.172 0 0 0 2 16a14.172 14.172 0 0 0 14 14a14.172 14.172 0 0 0 14-14A14.172 14.172 0 0 0 16 2Zm8 15h-7v7h-2v-7H8v-2h7V8h2v7h7Z"/><path fill="none" d="M24 17h-7v7h-2v-7H8v-2h7V8h2v7h7v2z"/></svg>
           <span class="ml-2 text-white text-md">New Watchlist</span>
         </label>

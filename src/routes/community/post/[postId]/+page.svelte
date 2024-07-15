@@ -576,7 +576,7 @@ function updateVote(postVote) {
         {/if}
       </form>
       <!--End Upvote-->
-      <label class="px-6 py-4 w-14 rounded-lg bg-[#09090B] text-[1rem] text-bold text-white">
+      <label class="px-6 py-4 w-14 rounded-lg bg-[#27272A] text-[1rem] text-bold text-white">
           {typeof upvoteCounter[post?.id] === 'number' || typeof downvoteCounter[post?.id] === 'number' ? (upvoteCounter[post?.id] - downvoteCounter[post?.id]) : '-' }
       </label>
       <!--Start Downvote-->

@@ -322,7 +322,7 @@ $: {
 
 
 <label on:click={loadSearchData} for="searchBarModal"
-class="cursor-pointer w-8 h-8  flex items-center justify-center bg-purple-600 rounded-full">
+class="cursor-pointer w-8 h-8 flex-shrink-0 flex items-center justify-center bg-purple-600 rounded-full">
 <span class="sr-only">Search</span>
     <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
         <path class="fill-current text-white" d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z" />
@@ -412,7 +412,7 @@ class="cursor-pointer w-8 h-8  flex items-center justify-center bg-purple-600 ro
   
   
   
-  <div class="modal-box overflow-hidden rounded-xl bg-[#09090B] sm:my-8 sm:m-auto sm:h-auto w-full sm:w-1/2 md:w-3/4 lg:w-1/2 2xl:w-1/3 " >
+  <div class="modal-box overflow-hidden rounded-xl bg-[#09090B] border border-gray-800 sm:my-8 sm:m-auto sm:h-auto w-full sm:w-1/2 md:w-3/4 lg:w-1/2 2xl:w-1/3 " >
 
      
       <!-- Search layout -->
@@ -421,7 +421,7 @@ class="cursor-pointer w-8 h-8  flex items-center justify-center bg-purple-600 ro
             <label for="modal-search" class="sr-only">Search</label>
             <input 
             id="modal-search" 
-            class="rounded-lg w-full text-white bg-[#09090B] border border-slate-800 focus:ring-transparent placeholder-gray-200 py-3 pl-10 pr-4" 
+            class="rounded-lg w-full text-white bg-[#09090B] border border-gray-800 focus:ring-transparent placeholder-gray-200 py-3 pl-10 pr-4" 
             type="search" 
             placeholder="Search Anything…" 
             bind:value={searchQuery}
@@ -448,14 +448,14 @@ class="cursor-pointer w-8 h-8  flex items-center justify-center bg-purple-600 ro
         <p class="text-xs font-semibold text-[#FB6A67] px-2 mb-4">Oh snapp, ticker does not exist in our database</p>
         {/if}
         {#if !showSuggestions}
-        <div class="text-start text-sm font-semibold text-slate-400 mb-2">
+        <div class="text-start text-sm font-semibold text-white mb-2">
           Popular
         </div>
         {/if}  
         <ul class="text-sm" >
             {#if !showSuggestions }
               {#each popularList as item}
-                <li>
+                <li class="border-b border-gray-800">
                   <a href={`/${item?.type === 'ETF' ? 'etf' : item?.type === 'Crypto' ? 'crypto' : 'stocks'}/${item?.symbol}`} on:click={() => popularTicker(item?.symbol, item?.assetType) } class="mb-2 {item?.symbol === focusedSuggestion ? 'shake-ticker cursor-pointer flex justify-start items-center p-2 text-white bg-[#404040] bg-opacity-[0.25] rounded group' : 'shake-ticker cursor-pointer bg-[#09090B] rounded-lg flex justify-start items-center p-2 text-white  group'} w-full">
                     <div class="flex flex-row items-center w-full">
                       <div class="rounded-full w-10 h-10 relative bg-[#000] flex items-center justify-center">
@@ -482,11 +482,11 @@ class="cursor-pointer w-8 h-8  flex items-center justify-center bg-purple-600 ro
               
              
             {:else if showSuggestions && searchResults?.length > 0}
-            <div class="text-start text-sm font-semibold text-slate-400 mb-2">
+            <div class="text-start text-sm font-semibold text-white mb-2">
               Suggestions
             </div>
               {#each searchResults as item}
-                <li>
+                <li class="border-b border-gray-800">
                   <!-- svelte-ignore a11y-click-events-have-key-events -->
                   <!-- svelte-ignore a11y-label-has-associated-control -->
                   <label data-sveltekit-preload-data="false" on:click={() => (searchBarTicker(item?.symbol, item?.type))} class="mb-2 {item?.symbol === focusedSuggestion ? 'shake-ticker cursor-pointer flex justify-start items-center p-2 text-white bg-[#404040] bg-opacity-[0.25] rounded group' : 'cursor-pointer mb-2 bg-[#09090B] rounded-lg flex justify-start items-center p-2 text-white group'}">
@@ -591,14 +591,14 @@ class="cursor-pointer w-8 h-8  flex items-center justify-center bg-purple-600 ro
       <p class="text-xs font-semibold text-[#FB6A67] px-2 mb-4">Oh snapp, ticker does not exist in our database</p>
       {/if}
       {#if !showSuggestions}
-      <div class="text-start text-sm font-semibold text-slate-400 mb-2">
+      <div class="text-start text-sm font-semibold text-white mb-2">
         Popular
       </div>
       {/if}  
       <ul class="text-sm" >
           {#if !showSuggestions }
             {#each popularList as item}
-              <li>
+              <li class="border-b border-gray-800">
                 <a  href={`/${item?.type === 'ETF' ? 'etf' : item?.type === 'Crypto' ? 'crypto' : 'stocks'}/${item?.symbol}`}  on:click={() => popularTicker(item?.symbol, item?.type) } class="mb-2 {item?.symbol === focusedSuggestion ? 'shake-ticker cursor-pointer flex justify-start items-center p-2 text-white bg-[#404040] bg-opacity-[0.25] rounded group' : 'cursor-pointer bg-[#09090B] bg-opacity-[0.4] rounded-lg flex justify-start items-center p-2 text-white group'} w-full">
                   <div class="flex flex-row items-center w-full">
                     <div class="rounded-full w-10 h-10 relative bg-[#000] flex items-center justify-center">
@@ -623,11 +623,11 @@ class="cursor-pointer w-8 h-8  flex items-center justify-center bg-purple-600 ro
             
            
           {:else if showSuggestions && searchResults?.length > 0}
-          <div class="text-start text-sm font-semibold text-slate-400 mb-2">
+          <div class="text-start text-sm font-semibold text-white mb-2">
             Suggestions
           </div>
             {#each searchResults as item}
-              <li>
+              <li class="border-b border-gray-800">
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <!-- svelte-ignore a11y-label-has-associated-control -->
                 <label data-sveltekit-preload-data="false" on:click={() => (searchBarTicker(item?.symbol, item?.type))} class="mb-2 {item?.symbol === focusedSuggestion ? 'shake-ticker cursor-pointer flex justify-start items-center p-2 text-white bg-[#404040] bg-opacity-[0.25] rounded group' : 'cursor-pointer mb-2 bg-[#09090B] bg-opacity-[0.4] rounded-lg flex justify-start items-center p-2 text-white group'}">

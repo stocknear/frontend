@@ -14,14 +14,12 @@
 
   <!-- Other meta tags -->
   <meta property="og:title" content="Terms of Use · stocknear"/>
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
   <!-- Twitter specific meta tags -->
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Terms of Use · stocknear"/>
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 </svelte:head>
 	    
@@ -39,7 +37,7 @@
     </div>
     -->
   
-    <div  class="w-full m-auto sm:bg-[#09090B] sm:rounded-xl h-auto p-10 mt-3 mb-10">
+    <div  class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto p-10 mt-3 mb-10">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
     
         <!-- Start Column -->

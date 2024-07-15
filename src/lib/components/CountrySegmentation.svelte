@@ -75,7 +75,7 @@ $: {
                                     <!--Start Progress-->
                                     {#each (showFullStats ? geographicList : geographicList?.slice(0,3)) as item,index}
 
-                                        <div class="shadow-lg bg-[#09090B] w-full rounded-lg p-4 sm:p-3 mb-5  flex flex-row items-center {index === 0 ? 'mt-4' : ''} {index === 2 && !showFullStats && geographicList?.length > 2 ? 'opacity-[0.3]' : '' }">
+                                        <div class="shadow-lg bg-[#27272A] w-full rounded-lg p-4 sm:p-3 mb-5  flex flex-row items-center {index === 0 ? 'mt-4' : ''} {index === 2 && !showFullStats && geographicList?.length > 2 ? 'opacity-[0.3]' : '' }">
 
                                             <div class="flex-shrink-0 mr-3 rounded-full w-10 h-10 relative bg-[#09090B]">
                                                 <img

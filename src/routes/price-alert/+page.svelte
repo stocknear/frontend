@@ -194,7 +194,6 @@ $: {
     <!-- Other meta tags -->
     <meta property="og:title" content="Price Alert · stocknear"/>
     <meta property="og:description" content="Set a price alert and get instant notification.">
-    <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
     <meta property="og:type" content="website"/>
     <!-- Add more Open Graph meta tags as needed -->
 
@@ -202,7 +201,6 @@ $: {
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:title" content="Price Alert · stocknear"/>
     <meta name="twitter:description" content="Set a price alert and get instant notification.">
-    <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
     <!-- Add more Twitter meta tags as needed -->
 </svelte:head>
         
@@ -216,7 +214,7 @@ $: {
     <div class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-40">
         
          
-      <div  class="w-full m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+      <div  class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
       
           <!-- Start Column -->
@@ -295,14 +293,14 @@ $: {
 
             <div class="flex flex-row justify-end items-center pr-4 sm:pr-0 pb-2">
                 {#if editMode}
-                <label on:click={handleDelete} class="cursor-pointer bg-[#09090B] sm:hover:bg-[#09090B] duratiion-100 transition ease-in-out px-4 py-2 rounded-lg shadow-lg mr-3">
+                <label on:click={handleDelete} class="cursor-pointer bg-[#27272A] sm:hover:bg-[#27272A] duratiion-100 transition ease-in-out px-4 py-2 rounded-lg shadow-lg mr-3">
                     <svg class="inline-block w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M10 5h4a2 2 0 1 0-4 0M8.5 5a3.5 3.5 0 1 1 7 0h5.75a.75.75 0 0 1 0 1.5h-1.32l-1.17 12.111A3.75 3.75 0 0 1 15.026 22H8.974a3.75 3.75 0 0 1-3.733-3.389L4.07 6.5H2.75a.75.75 0 0 1 0-1.5zm2 4.75a.75.75 0 0 0-1.5 0v7.5a.75.75 0 0 0 1.5 0zM14.25 9a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-1.5 0v-7.5a.75.75 0 0 1 .75-.75m-7.516 9.467a2.25 2.25 0 0 0 2.24 2.033h6.052a2.25 2.25 0 0 0 2.24-2.033L18.424 6.5H5.576z"/></svg>
                     <span class="ml-1 text-white text-sm">
                         {numberOfChecked}
                     </span>
                 </label>
                 {/if}
-                <label on:click={() => editMode = !editMode} class="cursor-pointer bg-[#09090B] sm:hover:bg-[#09090B] duratiion-100 transition ease-in-out px-4 py-2 rounded-lg shadow-lg">
+                <label on:click={() => editMode = !editMode} class="cursor-pointer bg-[#27272A] sm:hover:bg-[#27272A] duratiion-100 transition ease-in-out px-4 py-2 rounded-lg shadow-lg">
                     <svg class="inline-block w-5 h-5" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 1024 1024"><path fill="white" d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z"/><path fill="white" d="m469.952 554.24l52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z"/></svg>
                     {#if !editMode}
                     <span class="ml-1 text-white text-sm">
