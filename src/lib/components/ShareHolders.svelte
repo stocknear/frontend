@@ -349,7 +349,7 @@ $: {
                 <div class="flex justify-start items-center w-full m-auto mt-6 ">
                     <table class="table table-sm table-compact w-full">
                       <thead>
-                        <tr class="border-b border-blue-400">
+                        <tr>
                           <th class="text-white shadow-md font-semibold text-sm text-start bg-[#09090B]">Institute</th>
                           <th class="text-white shadow-md font-semibold text-sm text-start bg-[#09090B]">Ownership</th>
                           <th class="text-white shadow-md font-semibold text-sm text-end hidden sm:table-cell bg-[#09090B]">Shares</th>
