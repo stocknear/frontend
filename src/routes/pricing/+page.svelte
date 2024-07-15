@@ -110,7 +110,7 @@ async function purchasePlan() {
         <div class="mx-auto text-center mb-8 ">
             
             
-            <h1 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">
+            <h1 class="text-4xl font-bold bg-gradient-to-r from-[#E8BB28] to-purple-500 bg-clip-text text-transparent pb-4">
                 Flexible plans and features
             </h1>
             <div class="w-full flex justify-center items-center h-16 bg-[#09090B] rounded-lg">
