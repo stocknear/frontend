@@ -431,13 +431,13 @@ $: {
 {:else }
 
 <div class="flex min-h-screen w-full flex-col bg-[#09090B]">
-  <aside class="fixed overflow-y-scroll inset-y-0 left-0 z-50 hidden w-56 flex-col 2xl:border-r 2xl:border-gray-800 bg-[#141417] 2xl:flex">
+  <aside class="fixed overflow-y-scroll inset-y-0 left-0 z-50 hidden w-72 flex-col 2xl:border-r 2xl:border-gray-800 bg-[#141417] 2xl:flex">
     <nav class="flex flex-col items-center mr-auto gap-y-4 2xl:py-5 w-full">
       <a
         href="/"
-        class="mr-12 mb-5 group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+        class="-ml-3 mb-5 flex justify-end items-center h-9 w-9 shrink-0 gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-10 md:w-10 md:text-base"
       >
-      <img class="avatar w-9 2xl:w-10 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
+      <img class="avatar w-9 2xl:w-12 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
         <span class="text-white text-xl">Stocknear</span>
       </a>
       
@@ -632,7 +632,7 @@ $: {
           </Card.Description>
         </Card.Header>
         <Card.Content class="p-2 pt-0 md:p-4 md:pt-0">
-          <a href="/pricing" class="px-12 rounded-lg text-sm py-1.5 m-auto text-center w-full bg-white text-black font-semibold hover:bg-white/80">
+          <a href="/pricing" class="flex justify-center items-center text-center rounded-lg text-sm py-2 m-auto text-center w-full bg-white text-black font-semibold hover:bg-white/80">
             Upgrade
           </a>
         </Card.Content>
@@ -925,7 +925,7 @@ $: {
                   Unlock all features of the platform and level up your trading.
                 </Card.Description>
               </Card.Header>
-              <Card.Content class="p-4">
+              <Card.Content class="p-4 pt-0">
                 <Sheet.Close asChild let:builder>
                   <Button on:click={() => goto('/pricing')} builders={[builder]} type="submit" size="sm" class="w-full bg-white hover:bg-white/80">
                     <span class="flex flex-row items-center text-black font-semibold text-center">
