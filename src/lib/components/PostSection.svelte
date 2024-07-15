@@ -288,7 +288,7 @@ $: {
         {/if}
       </form>
       <!--End Upvote-->
-      <label class="text-center py-4 w-14 rounded-lg bg-[#09090B] border border-gray-700 text-[1rem] text-bold text-white">
+      <label class="text-center py-4 w-14 rounded-lg bg-[#27272A] border border-gray-700 text-[1rem] text-bold text-white">
           {upvoteCounter[posts?.id] - downvoteCounter[posts?.id] }
       </label>
       <!--Start Downvote-->
@@ -314,7 +314,7 @@ $: {
   
     </div>
    
-  <div class="w-full bg-[#09090B] border-t border-b sm:border sm:hover:border-slate-600 border-gray-700 rounded-none sm:rounded-lg">
+  <div class="w-full bg-[#27272A] border-t border-b sm:border sm:hover:border-slate-600 border-gray-700 rounded-none sm:rounded-lg">
       <!-- List container -->
       <div class="flex flex-col">
           <!-- Item -->
@@ -660,7 +660,7 @@ $: {
   
     <label for={deletePostId}  class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
     
-    <div class="modal-box bg-[#09090B] p-10" >
+    <div class="modal-box bg-[#27272A] p-10" >
   
   
           <h3 class="font-bold text-md sm:text-lg sm:mb-10">
@@ -695,7 +695,7 @@ $: {
         left: 0;
         right: 0;
         height: 50px; /* Adjust as needed for the gradient effect */
-        background: linear-gradient(0deg, rgb(32, 32, 32, 1), rgb(32, 32, 32, 0)); /* Smooth gradient transition */
+        background: linear-gradient(0deg, rgb(39, 39, 42, 1), rgb(39, 39, 42, 0)); /* Smooth gradient transition */
         pointer-events: none; /* Ensure it doesn't interfere with text interaction */
       }
     </style>

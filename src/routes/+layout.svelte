@@ -395,13 +395,13 @@ $: {
 
 
 <div class="flex min-h-screen w-full flex-col bg-[#09090B]">
-  <aside class="fixed inset-y-0 left-0 z-50 hidden w-56 flex-col sm:border-r sm:border-gray-800 bg-[#141417] sm:flex">
-    <nav class="flex flex-col items-center mr-auto gap-y-4 sm:py-5 w-full">
+  <aside class="fixed inset-y-0 left-0 z-50 hidden w-56 flex-col 2xl:border-r 2xl:border-gray-800 bg-[#141417] 2xl:flex">
+    <nav class="flex flex-col items-center mr-auto gap-y-4 2xl:py-5 w-full">
       <a
         href="/"
         class="mr-12 mb-5 group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
       >
-      <img class="avatar w-9 sm:w-10 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
+      <img class="avatar w-9 2xl:w-10 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
         <span class="text-white text-xl">Stocknear</span>
       </a>
       
@@ -580,12 +580,12 @@ $: {
     </nav>
    
   </aside>
-  <div class="flex flex-col sm:pl-14">
+  <div class="flex flex-col">
     <header class="navbar {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} sticky top-0 z-40 bg-[#141417] flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6">
       <Sheet.Root>
         <Sheet.Trigger asChild let:builder>
-          <Button builders={[builder]} size="icon" class="sm:hidden bg-[#141417] border-none">
-            <Menu class="h-5.5 w-5.5" />
+          <Button builders={[builder]} size="icon" class="sm:xl bg-[#141417] text-white sm:hover:bg-white sm:hover:text-black border-none">
+            <Menu class="h-5.5 w-5.5 sm:w-7 sm:h-7" />
             <span class="sr-only">Toggle Menu</span>
           </Button>
         </Sheet.Trigger>
@@ -600,8 +600,8 @@ $: {
           </a>
 
           <Sheet.Close asChild let:builder>
-            <Button builders={[builder]} type="submit" class="bg-[#141417] -ml-4 mr-auto">
-              <a href="/" class="flex flex-row items-center mr-auto mt-5">
+            <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 mr-auto">
+              <a href="/" class="flex flex-row items-center mr-auto mt-5 ">
                 <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
                   <Home class="h-5.5 w-5.5" />  
                 </div>
@@ -683,14 +683,21 @@ $: {
           </nav>
         </Sheet.Content>
       </Sheet.Root>
-     
-      <div class="relative ml-auto flex-1 md:grow-0">
+      
+      <a href="/" class="-ml-2 flex w-9 flex-shrink-0">
+        <img class="avatar w-9 2xl:w-10 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
+        <span class="text-white hidden sm:block font-semibold ml-2 text-lg">Stocknear</span>
+      </a>
+
+      <div class="relative m-auto flex-1 md:grow-0">
+        
         <Search class="absolute left-2.5 top-2.5 h-4 w-4 text-white" />
         <Input
           type="search"
           placeholder="Search..."
-          class="w-full rounded-lg bg-[#202327] border-none pl-8 md:w-[200px] lg:w-[336px]"
-        />
+          class="w-full rounded-lg bg-[#202327] placeholder-gray-400 border-none pl-8 md:w-[300px] lg:w-[700px] border-transparent focus:border-transparent focus:ring-0 "
+          autocomplete="off"
+          />
       </div>
       <DropdownMenu.Root >
         <DropdownMenu.Trigger asChild let:builder>
@@ -743,9 +750,21 @@ $: {
     >
       <slot />
 
+
+      {#if !hideFooter}
+      <Footer/>
+      {/if}
     </main>
   </div>
 </div>
 
 
 
+<style>
+  .scroller {
+    scrollbar-width: thin;
+  }
+  
+  
+  
+  </style>

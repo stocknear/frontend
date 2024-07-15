@@ -841,7 +841,7 @@ $: {
                           {formatTime(item?.time)}
                         </td>
     
-                        <th on:click|stopPropagation={() => assetSelector(item?.ticker, item?.assetType)} class="{index % 2 ? 'bg-[#09090B]' : 'bg-[#09090B]'} text-blue-400 text-start font-normal">
+                        <th on:click|stopPropagation={() => assetSelector(item?.ticker, item?.assetType)} class="{index % 2 ? 'bg-[#09090B]' : 'bg-[#27272A]'} text-blue-400 text-start font-normal">
                           {item?.ticker}
                         </th>
   

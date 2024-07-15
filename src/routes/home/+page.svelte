@@ -200,7 +200,7 @@ async function loadSearchData() {
                                   
                                   {#if (data?.user?.tier === 'Pro' && data?.user?.freeTrial === true) || (data?.user?.tier !== 'Pro' && data?.user?.freeTrial === false) }
                                   <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
-                                    <a href="/pricing" class="text-white antialiased bg-[#09090B] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
+                                    <a href="/pricing" class="text-white antialiased bg-[#27272A] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
                                       <span class="font-semibold uppercase">SAVE 50% Off Subscription – Summer Special!</span>
                                     </a>
                                     <div class="absolute top-[-1.2rem] -right-5 sm:-right-8 rotate-[7deg]">
@@ -212,7 +212,7 @@ async function loadSearchData() {
                                   {:else}
                                 
                                   <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
-                                    <a href="/dark-pool-flow" class="text-white antialiased bg-[#09090B] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
+                                    <a href="/dark-pool-flow" class="text-white antialiased bg-[#27272A] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
                                       <span class="font-semibold">Realtime Dark Pool Trades from Hedge Funds</span>
                                     </a>
                                     <div class="absolute top-[-1.2rem] -right-5 sm:-right-8 rotate-[7deg]">
