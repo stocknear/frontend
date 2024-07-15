@@ -234,7 +234,7 @@ async function purchasePlan() {
             
 
             <!-- Pricing Card -->
-            <div class="sm:order-2 light-box-1 box sm:-mt-10 flex flex-col p-6 lg:p-8 mx-auto ring-[1px] ring-[#FF2F1F] w-full text-center text-white bg-[#09090B]">
+            <div class="sm:order-2 light-box-1 box sm:-mt-10 flex flex-col p-6 lg:p-8 mx-auto ring-[1px] ring-[#FF2F1F] w-full text-center text-white bg-gradient-to-r from-orange-600 to-purple-800">
                 <div class="{!mode ? 'hidden' : ''} ribbon ribbon-top-right"><span class="text-white">Discount</span></div>
 
                 <div class="absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-2xl flex flex-row items-center bg-red-600 p-2">

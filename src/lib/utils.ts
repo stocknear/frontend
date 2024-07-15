@@ -370,6 +370,23 @@ export function formatETFName(inputString) {
 }
 
 
+// Function to add days to a given date
+export function addDays(data, days, state) {
+  let result;
+  const createdDate = new Date(data?.user?.created);
+
+  result = new Date(createdDate);
+  result.setDate(result.getDate() + days);
+
+  if(state === 'date') {
+    return result;
+  } else {
+    const differenceInTime = result - createdDate;
+    const differenceInDays = differenceInTime / (1000 * 60 * 60 * 24);
+    return Math.abs(differenceInDays);
+  }
+}
+
 export function pageTransitionIn(node, { duration, screenWidth }) {
   if (screenWidth >= 640)
   {

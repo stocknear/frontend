@@ -6,7 +6,7 @@
   import { serialize } from 'object-to-formdata';
 
   import { onMount, onDestroy } from 'svelte';
-  import {getImageURL } from '$lib/utils';
+  import {getImageURL, addDays } from '$lib/utils';
   import {userRegion, setCache, getCache, newAvatar, numberOfUnreadNotification, postIdDeleted } from '$lib/store';
 
   import toast from 'svelte-french-toast';
@@ -499,18 +499,8 @@ const changeTab = (state) => {
   }
 };
 
-// Function to add days to a given date
-function addDays(days) {
-  // Original date from the data object
-  const createdDate = new Date(data?.user?.created);
 
-  const result = new Date(createdDate);
-  result.setDate(result.getDate() + days);
-  return result;
-}
-
-
-const trialEndDate = addDays(7);
+const trialEndDate = addDays(data, 7, 'date');
 
 onMount(async () => {
 

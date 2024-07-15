@@ -9,7 +9,7 @@
 </script>
 
 <div
-	class={cn("rounded-lg border border-gray-800 bg-purple-900 text-white shadow-sm", className)}
+	class={cn("rounded-lg border border-gray-800 bg-gradient-to-l from-purple-600 to-purple-800 text-white shadow-sm", className)}
 	{...$$restProps}
 >
 	<slot />

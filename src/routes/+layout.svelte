@@ -3,7 +3,7 @@
   import "../app.pcss";
   
   import { Toaster } from 'svelte-french-toast';
-  import {getImageURL} from '$lib/utils';
+  import {getImageURL, addDays} from '$lib/utils';
 
   import NProgress from 'nprogress';
   import 'nprogress/nprogress.css';
@@ -47,6 +47,7 @@
   let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
 
 
+  const trialLeftDays = addDays(data, 7, '');
 
 async function pushNotification() {
   Notification?.requestPermission()?.then(perm => {
@@ -435,7 +436,7 @@ $: {
     <nav class="flex flex-col items-center mr-auto gap-y-4 2xl:py-5 w-full">
       <a
         href="/"
-        class="-ml-3 mb-5 flex justify-end items-center h-9 w-9 shrink-0 gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-10 md:w-10 md:text-base"
+        class="-ml-3 mb-5 flex justify-end items-center h-9 w-9 shrink-0 gap-2 rounded-full text-lg font-semibold text-primary-foreground md:h-10 md:w-10 md:text-base"
       >
       <img class="avatar w-9 2xl:w-12 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
         <span class="text-white text-xl">Stocknear</span>
@@ -461,14 +462,14 @@ $: {
               </Accordion.Trigger>
               <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                 <div class="flex flex-col items-start">
-                  <a href="/analysts" class="text-white ml-4 mt-4">Top Analyst</a>
-                  <a href="/analysts/top-stocks" class="text-white ml-4 mt-4">Top Analyst Stocks</a>
-                  <a href="/most-shorted-stocks" class="text-white ml-4 mt-4">Shorted Stocks</a>
-                  <a href="/most-retail-volume" class="text-white ml-4 mt-4">Retail Trader Tracker</a>
-                  <a href="/stock-screener" class="text-white ml-4 mt-4">Stock Screener</a>
-                  <a href="/market-mover" class="text-white ml-4 mt-4">Market Mover</a>
-                  <a href="/heatmaps" class="text-white ml-4 mt-4">Heatmaps</a>
-                  <a href="/list" class="text-white ml-4 mt-4">Stock Lists</a>
+                  <a href="/analysts" class="text-[1rem] text-white ml-4 mt-4">Top Analyst</a>
+                  <a href="/analysts/top-stocks" class="text-[1rem] text-white ml-4 mt-4">Top Analyst Stocks</a>
+                  <a href="/most-shorted-stocks" class="text-[1rem] text-white ml-4 mt-4">Shorted Stocks</a>
+                  <a href="/most-retail-volume" class="text-[1rem] text-white ml-4 mt-4">Retail Trader Tracker</a>
+                  <a href="/stock-screener" class="text-[1rem] text-white ml-4 mt-4">Stock Screener</a>
+                  <a href="/market-mover" class="text-[1rem] text-white ml-4 mt-4">Market Mover</a>
+                  <a href="/heatmaps" class="text-[1rem] text-white ml-4 mt-4">Heatmaps</a>
+                  <a href="/list" class="text-[1rem] text-white ml-4 mt-4">Stock Lists</a>
 
                 </div>
                 
@@ -491,8 +492,8 @@ $: {
               </Accordion.Trigger>
               <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                 <div class="flex flex-col items-start">
-                  <a href="/etf/new-launches" class="text-white ml-4 mt-4">New Launches</a>
-                  <a href="/etf/etf-providers" class="text-white ml-4 mt-4">ETF Providers</a>
+                  <a href="/etf/new-launches" class="text-[1rem] text-white ml-4 mt-4">New Launches</a>
+                  <a href="/etf/etf-providers" class="text-[1rem] text-white ml-4 mt-4">ETF Providers</a>
                 </div>
                 
               </Accordion.Content
@@ -514,12 +515,12 @@ $: {
               </Accordion.Trigger>
               <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                 <div class="flex flex-col items-start">
-                  <a href="/dividends-calendar" class="text-white ml-4 mt-4">Dividends Calendar</a>
-                  <a href="/earnings-calendar" class="text-white ml-4 mt-4">Earnings Calendar</a>
-                  <a href="/ipos/2024" class="text-white ml-4 mt-4">IPO Calendar</a>
-                  <a href="/fda-calendar" class="text-white ml-4 mt-4">FDA Calendar</a>
-                  <a href="/economic-calendar" class="text-white ml-4 mt-4">Economic Calendar</a>
-                  <a href="/stock-splits-calendar" class="text-white ml-4 mt-4">Stock Splits Calendar</a>
+                  <a href="/dividends-calendar" class="text-[1rem] text-white ml-4 mt-4">Dividends Calendar</a>
+                  <a href="/earnings-calendar" class="text-[1rem] text-white ml-4 mt-4">Earnings Calendar</a>
+                  <a href="/ipos/2024" class="text-[1rem] text-white ml-4 mt-4">IPO Calendar</a>
+                  <a href="/fda-calendar" class="text-[1rem] text-white ml-4 mt-4">FDA Calendar</a>
+                  <a href="/economic-calendar" class="text-[1rem] text-white ml-4 mt-4">Economic Calendar</a>
+                  <a href="/stock-splits-calendar" class="text-[1rem] text-white ml-4 mt-4">Stock Splits Calendar</a>
                 </div>
                 
               </Accordion.Content
@@ -541,8 +542,8 @@ $: {
               </Accordion.Trigger>
               <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                 <div class="flex flex-col items-start">
-                  <a href="/options-flow" class="text-white ml-4 mt-4">Options Flow</a>
-                  <a href="options-zero-dte" class="text-white ml-4 mt-4">0DTE Flow</a>
+                  <a href="/options-flow" class="text-[1rem] text-white ml-4 mt-4">Options Flow</a>
+                  <a href="options-zero-dte" class="text-[1rem] text-white ml-4 mt-4">0DTE Flow</a>
                 </div>
                 
               </Accordion.Content
@@ -566,8 +567,8 @@ $: {
               <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                 <div class="flex flex-col items-start">
                   <div class="flex flex-col items-start">
-                    <a href="/politicians/flow-data" class="text-white ml-4 mt-4">Congress Flow</a>
-                    <a href="/politicians" class="text-white ml-4 mt-4">All Politicians</a>
+                    <a href="/politicians/flow-data" class="text-[1rem] text-white ml-4 mt-4">Congress Flow</a>
+                    <a href="/politicians" class="text-[1rem] text-white ml-4 mt-4">All Politicians</a>
                   </div>
                 </div>
                 
@@ -628,7 +629,13 @@ $: {
         <Card.Header class="p-2 pt-0 md:p-4">
           <Card.Title>Upgrade to Pro</Card.Title>
           <Card.Description>
-            Unlock all features of the platform and level up your trading.
+            {#if data?.user?.freeTrial === true}
+              You have only
+              <span class="font-bold text-[#FBCE3C]">{trialLeftDays} days</span>
+              left on your free trial. Upgrade now for unlimited access to all features!
+            {:else}
+              Unlock all features of the platform and level up your trading.
+            {/if}
           </Card.Description>
         </Card.Header>
         <Card.Content class="p-2 pt-0 md:p-4 md:pt-0">
@@ -645,7 +652,7 @@ $: {
     <header class="navbar {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} sticky top-0 z-40 bg-[#141417] flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6">
       <Sheet.Root>
         <Sheet.Trigger asChild let:builder>
-          <Button builders={[builder]} size="icon" class="sm:xl bg-[#141417] text-white sm:hover:bg-white sm:hover:text-black border-none">
+          <Button builders={[builder]} size="icon" class="sm:xl bg-[#141417] hover:bg-[#141417] text-white sm:hover:bg-white sm:hover:text-black border-none">
             <Menu class="h-5.5 w-5.5 sm:w-7 sm:h-7" />
             <span class="sr-only">Toggle Menu</span>
           </Button>
@@ -916,13 +923,19 @@ $: {
           </nav>
 
           {#if data?.user?.tier === 'Free' || data?.user?.freeTrial === true}
-          <div class="p-6 left-0 bottom-5 m-auto absolute">
+          <div class="pt-10 w-full left-0 bottom-5 m-auto absolute sticky">
             <Card.Root
             >
               <Card.Header class="p-4">
                 <Card.Title>Upgrade to Pro</Card.Title>
                 <Card.Description>
-                  Unlock all features of the platform and level up your trading.
+                  {#if data?.user?.freeTrial === true}
+                    You have only
+                    <span class="font-bold text-[#FBCE3C]">{trialLeftDays} days</span>
+                    left on your free trial. Upgrade now for unlimited access to all features!
+                  {:else}
+                    Unlock all features of the platform and level up your trading.
+                  {/if}
                 </Card.Description>
               </Card.Header>
               <Card.Content class="p-4 pt-0">
