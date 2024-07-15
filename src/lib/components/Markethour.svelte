@@ -8,7 +8,7 @@
 <div class="flex flex-row items-center">
 <label for="{$screenWidth > 640 ? 'marketHour' : ''}" class="cursor-pointer">
   {#if $isOpen}
-  <div class="sm:border sm:border-slate-800 bg-[#09090B] sm:hover:bg-[#333333] sm:ease-in-out sm:duration-100 rounded-2xl pl-3 pr-3 pt-1 pb-1 flex flex-row items-center">
+  <div class="sm:border sm:border-slate-800 bg-[#141417B] sm:hover:bg-[#333333] sm:ease-in-out sm:duration-100 rounded-2xl pl-3 pr-3 pt-1 pb-1 flex flex-row items-center">
     <span class="text-xs py-0.5 text-slate-200 font-semibold">
       Market Open
     </span>
@@ -19,7 +19,7 @@
 
   </div>
   {:else}
-  <div class="sm:border sm:border-slate-800 bg-[#09090B] sm:hover:bg-[#333333] sm:ease-in-out sm:duration-100 rounded-2xl pl-3 pr-3 pt-1 pb-1 flex flex-row items-center">
+  <div class="sm:border sm:border-slate-800 bg-[#141417] sm:hover:bg-[#333333] sm:ease-in-out sm:duration-100 rounded-2xl pl-3 pr-3 pt-1 pb-1 flex flex-row items-center">
     <span class="text-xs py-0.5 text-slate-200 font-semibold">
       Market Closed
     </span>
@@ -113,7 +113,7 @@
 
 
   <!-- svelte-ignore a11y-label-has-associated-control -->
-  <label class="modal-box w-full relative bg-[#09090B] h-auto">
+  <label class="modal-box w-full relative bg-[#09090B] border border-gray-800 h-auto">
     <label for="marketHour" class="cursor-pointer absolute right-5 top-2 bg-[#09090B] text-2xl text-white">
       ✕
     </label>
@@ -138,7 +138,7 @@
     <table class="table table-sm table-compact bg-[#09090B] w-full mt-5 mb-10 text-white">
       <!-- head -->
       <thead>
-        <tr class="border-b border-slate-700">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <th class="bg-[#09090B] text-white text-sm font-semibold">
             Exchange holidays
           </th>
@@ -149,48 +149,48 @@
       </thead>
       <tbody>
         <!-- row 1 -->
-        <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold "> New Years Day</td>
-          <td class="bg-[#09090B] ">01.01.2024</td>
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
+          <td class="font-semibold "> New Years Day</td>
+          <td class="">01.01.2024</td>
         </tr>
         <!-- row 2 -->
-        <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Martin Luther King, Jr. Day</td>
-          <td class="bg-[#09090B] ">15.01.2024</td>
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
+          <td class="font-semibold ">Martin Luther King, Jr. Day</td>
+          <td class="">15.01.2024</td>
         </tr>
-        <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Washington's Birthday</td>
-          <td class="bg-[#09090B] ">19.02.2024</td>
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
+          <td class="font-semibold ">Washington's Birthday</td>
+          <td class="">19.02.2024</td>
         </tr>
-        <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
+          <td class="font-semibold ">
             Good Friday
             </td>
           <td class="bg-[#09090B]">29.03.2024</td>
         </tr>
-        <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Memorial Day</td>
-          <td class="bg-[#09090B] ">27.05.2024</td>
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
+          <td class="font-semibold ">Memorial Day</td>
+          <td class="">27.05.2024</td>
         </tr>
-        <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Juneteenth National Independence Day</td>
-          <td class="bg-[#09090B] ">19.06.2024</td>
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
+          <td class="font-semibold ">Juneteenth National Independence Day</td>
+          <td class="">19.06.2024</td>
         </tr>
-        <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Independence Day</td>
-          <td class="bg-[#09090B] ">04.07.2024</td>
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
+          <td class="font-semibold ">Independence Day</td>
+          <td class="">04.07.2024</td>
         </tr>
-        <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Labor Day</td>
-          <td class="bg-[#09090B] ">02.09.2024</td>
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
+          <td class="font-semibold ">Labor Day</td>
+          <td class="">02.09.2024</td>
         </tr>
-        <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Thanksgiving Day</td>
-          <td class="bg-[#09090B] ">28.11.2024</td>
+        <tr class="border-b border-slate-700 odd:bg-[#27272A]">
+          <td class="font-semibold ">Thanksgiving Day</td>
+          <td class="">28.11.2024</td>
         </tr>
-        <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Christmas</td>
-          <td class="bg-[#09090B] ">25.12.2024</td>
+        <tr class="odd:bg-[#27272A]">
+          <td class="font-semibold ">Christmas</td>
+          <td class="">25.12.2024</td>
         </tr>
       </tbody>
     </table>
