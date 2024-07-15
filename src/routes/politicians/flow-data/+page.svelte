@@ -501,7 +501,7 @@
                     {#if displayStructure === 'Card'}
                       <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-5">
                             {#each displayList as item}
-                              <label on:click={() => goto(`/politicians/${item?.id}`)} class="w-full cursor-pointer bg-[#09090B] sm:hover:bg-[#000] transition-colors ease-in-out border sm:hover:border-[#000] {item?.party ==='Republican' ? 'sm:hover:shadow-[#80000D]' : 'sm:hover:shadow-[#1358C3]' } border-slate-800 shadow-md rounded-lg h-auto pb-4 pt-4 mb-7">
+                              <label on:click={() => goto(`/politicians/${item?.id}`)} class="w-full cursor-pointer bg-[#141417] sm:hover:bg-[#000] transition-colors ease-in-out border sm:hover:border-[#000] {item?.party ==='Republican' ? 'sm:hover:shadow-[#80000D]' : 'sm:hover:shadow-[#1358C3]' } border-gray-800 shadow-md rounded-lg h-auto pb-4 pt-4 mb-7">
                                 <div class="flex flex-col relative">
                                   {#if item?.party === 'Republican'}
                                   <img class="absolute -mt-4 w-full m-auto rounded-lg" src={republicanBackground} />

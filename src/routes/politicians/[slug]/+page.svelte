@@ -249,7 +249,7 @@
   
               <aside class="relative fixed w-full sm:w-1/3">        
                   <!--Start Card-->
-                  <div class="w-full bg-[#09090B] border border-slate-800 rounded-lg h-auto pb-4">
+                  <div class="w-full bg-[#141417] border border-gray-800 rounded-lg h-auto pb-4">
                     <div class="flex flex-col relative ">
                       {#if politicianParty === 'Republican'}
                       <img class="absolute  w-full m-auto rounded-lg " src={republicanBackground} />

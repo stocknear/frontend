@@ -117,7 +117,6 @@ async function handleInput(event) {
     <!-- Other meta tags -->
     <meta property="og:title" content="All listed Hedge Funds · stocknear"/>
     <meta property="og:description" content="Find all listed Hedge Funds based on the US Market.">
-    <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
     <meta property="og:type" content="website"/>
     <!-- Add more Open Graph meta tags as needed -->
   
@@ -125,7 +124,6 @@ async function handleInput(event) {
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:title" content="All listed Hedge Funds · stocknear"/>
     <meta name="twitter:description" content="Find all listed Hedge Funds based on the US Market.">
-    <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
     <!-- Add more Twitter meta tags as needed -->
   </svelte:head>
 
@@ -183,7 +181,7 @@ async function handleInput(event) {
                 <div class="w-full m-auto mt-4">
                       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
                             {#each displayList as item}
-                              <a href={`/hedge-funds/${item?.cik}`} class="w-full cursor-pointer bg-[#09090B] sm:hover:bg-[#000] transition-colors ease-in-out border sm:hover:border-[#000] sm:hover:shadow-[#8C5F1B] border-slate-800 shadow-md rounded-lg h-auto pb-4 pt-4 mb-7">
+                              <a href={`/hedge-funds/${item?.cik}`} class="w-full cursor-pointer bg-[#141417] sm:hover:bg-[#000] transition-colors ease-in-out border sm:hover:border-[#000] sm:hover:shadow-[#8C5F1B] border-gray-800 shadow-md rounded-lg h-auto pb-4 pt-4 mb-7">
                                 <div class="flex flex-col relative">
                                   <img class="absolute -mt-4 w-full m-auto rounded-lg" src={cardBackground} />
                                   <div class="flex flex-col justify-center items-center rounded-2xl ">
