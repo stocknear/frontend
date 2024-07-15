@@ -66,7 +66,7 @@ function findLowestAndHighestPrice(data, lastDateStr) {
   } else if (Math?.abs(value) >= 1e6) {
     return { unit: 'M', denominator: 1e6 };
   } else if (Math?.abs(value) >= 1e5) {
-    return { unit: 'K', denominator: 1e5 };
+    return { unit: 'K', denominator: 1e3 };
   } else {
     return { unit: '', denominator: 1 };
   }
@@ -94,9 +94,13 @@ function findLowestAndHighestPrice(data, lastDateStr) {
 
 
     const {unit, denominator } = normalizer(Math.max(...failToDeliverList) ?? 0)
-  
+
     const option = {
     silent: true,
+    tooltip: {
+        trigger: 'axis',
+        hideDelay: 100, // Set the delay in milliseconds
+    },
     animation: $screenWidth < 640 ? false: true,
     grid: {
         left: '2%',
