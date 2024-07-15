@@ -16,35 +16,20 @@
 
   //import DiscountBanner from '$lib/components/DiscountBanner.svelte';
   
-  import { beforeNavigate, afterNavigate, goto } from '$app/navigation';
+  import { beforeNavigate, afterNavigate } from '$app/navigation';
   import { onMount } from 'svelte';
-  import { showCookieConsent,  newAvatar, userRegion, screenWidth, stockTicker, etfTicker, searchBarData, loginData, numberOfUnreadNotification, cachedPosts, currentPagePosition, clientSideCache, twitchStatus } from '$lib/store';
+  import { showCookieConsent,  newAvatar, userRegion, screenWidth, stockTicker, etfTicker, loginData, numberOfUnreadNotification, cachedPosts, currentPagePosition, clientSideCache, twitchStatus } from '$lib/store';
 
   import { Button } from "$lib/components/shadcn/button/index.ts";
   import * as Card from "$lib/components/shadcn/card/index.ts";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.ts";
-  import { Input } from "$lib/components/shadcn/input/index.ts";
+  //import { Input } from "$lib/components/shadcn/input/index.ts";
   import * as Sheet from "$lib/components/shadcn/sheet/index.ts";
-  import * as Tooltip from "$lib/components/shadcn/tooltip/index.js";
   import * as Accordion from "$lib/components/shadcn/accordion/index.js";
 
-  import ChevronLeft from "lucide-svelte/icons/chevron-left";
-  import ChevronRight from "lucide-svelte/icons/chevron-right";
-  import Copy from "lucide-svelte/icons/copy";
-  import CreditCard from "lucide-svelte/icons/credit-card";
-  import File from "lucide-svelte/icons/file";
+
   import Home from "lucide-svelte/icons/house";
-  import LineChart from "lucide-svelte/icons/line-chart";
-  import ListFilter from "lucide-svelte/icons/list-filter";
-  import EllipsisVertical from "lucide-svelte/icons/ellipsis-vertical";
-  import Package from "lucide-svelte/icons/package";
-  import Package2 from "lucide-svelte/icons/package-2";
   import Menu from "lucide-svelte/icons/menu";
-  import Search from "lucide-svelte/icons/search";
-  import Settings from "lucide-svelte/icons/settings";
-  import ShoppingCart from "lucide-svelte/icons/shopping-cart";
-  import Truck from "lucide-svelte/icons/truck";
-  import UsersRound from "lucide-svelte/icons/users-round";
   import Stock from "lucide-svelte/icons/candlestick-chart";
   import Calendar from "lucide-svelte/icons/calendar";
   import Option from "lucide-svelte/icons/waves";
@@ -475,10 +460,15 @@ $: {
               </Accordion.Trigger>
               <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                 <div class="flex flex-col items-start">
-                  <a href="#" class="text-white ml-4 mt-2">Top Analyst</a>
-                  <a href="#" class="text-white ml-4 mt-2">Top Analyst Stocks</a>
-                  <a href="#" class="text-white ml-4 mt-2">Shorted Stocks</a>
-                  <a href="#" class="text-white ml-4 mt-2">Retail Trader Tracker</a>
+                  <a href="/analysts" class="text-white ml-4 mt-4">Top Analyst</a>
+                  <a href="/analysts/top-stocks" class="text-white ml-4 mt-4">Top Analyst Stocks</a>
+                  <a href="/most-shorted-stocks" class="text-white ml-4 mt-4">Shorted Stocks</a>
+                  <a href="/most-retail-volume" class="text-white ml-4 mt-4">Retail Trader Tracker</a>
+                  <a href="/stock-screener" class="text-white ml-4 mt-4">Stock Screener</a>
+                  <a href="/market-mover" class="text-white ml-4 mt-4">Market Mover</a>
+                  <a href="/heatmaps" class="text-white ml-4 mt-4">Heatmaps</a>
+                  <a href="/list" class="text-white ml-4 mt-4">Stock Lists</a>
+
                 </div>
                 
               </Accordion.Content
@@ -500,10 +490,8 @@ $: {
               </Accordion.Trigger>
               <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                 <div class="flex flex-col items-start">
-                  <a href="#" class="text-white ml-4 mt-2">Top Analyst</a>
-                  <a href="#" class="text-white ml-4 mt-2">Top Analyst Stocks</a>
-                  <a href="#" class="text-white ml-4 mt-2">Shorted Stocks</a>
-                  <a href="#" class="text-white ml-4 mt-2">Retail Trader Tracker</a>
+                  <a href="/etf/new-launches" class="text-white ml-4 mt-4">New Launches</a>
+                  <a href="/etf/etf-providers" class="text-white ml-4 mt-4">ETF Providers</a>
                 </div>
                 
               </Accordion.Content
@@ -525,10 +513,12 @@ $: {
               </Accordion.Trigger>
               <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                 <div class="flex flex-col items-start">
-                  <a href="#" class="text-white ml-4 mt-4">Top Analyst</a>
-                  <a href="#" class="text-white ml-4 mt-4">Top Analyst Stocks</a>
-                  <a href="#" class="text-white ml-4 mt-4">Shorted Stocks</a>
-                  <a href="#" class="text-white ml-4 mt-4">Retail Trader Tracker</a>
+                  <a href="/dividends-calendar" class="text-white ml-4 mt-4">Dividends Calendar</a>
+                  <a href="/earnings-calendar" class="text-white ml-4 mt-4">Earnings Calendar</a>
+                  <a href="/ipos/2024" class="text-white ml-4 mt-4">IPO Calendar</a>
+                  <a href="/fda-calendar" class="text-white ml-4 mt-4">FDA Calendar</a>
+                  <a href="/economic-calendar" class="text-white ml-4 mt-4">Economic Calendar</a>
+                  <a href="/stock-splits-calendar" class="text-white ml-4 mt-4">Stock Splits Calendar</a>
                 </div>
                 
               </Accordion.Content
@@ -550,8 +540,8 @@ $: {
               </Accordion.Trigger>
               <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                 <div class="flex flex-col items-start">
-                  <a href="#" class="text-white ml-4 mt-2">Options Flow</a>
-                  <a href="#" class="text-white ml-4 mt-4">0DTE Flow</a>
+                  <a href="/options-flow" class="text-white ml-4 mt-4">Options Flow</a>
+                  <a href="options-zero-dte" class="text-white ml-4 mt-4">0DTE Flow</a>
                 </div>
                 
               </Accordion.Content
@@ -574,10 +564,10 @@ $: {
               </Accordion.Trigger>
               <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                 <div class="flex flex-col items-start">
-                  <a href="#" class="text-white ml-4 mt-4">Top Analyst</a>
-                  <a href="#" class="text-white ml-4 mt-4">Top Analyst Stocks</a>
-                  <a href="#" class="text-white ml-4 mt-4">Shorted Stocks</a>
-                  <a href="#" class="text-white ml-4 mt-4">Retail Trader Tracker</a>
+                  <div class="flex flex-col items-start">
+                    <a href="/politicians/flow-data" class="text-white ml-4 mt-4">Congress Flow</a>
+                    <a href="/politicians" class="text-white ml-4 mt-4">All Politicians</a>
+                  </div>
                 </div>
                 
               </Accordion.Content
@@ -614,7 +604,7 @@ $: {
             <Newspaper class="h-5.5 w-5.5" />
             
           </div>
-          <span class="ml-3 text-white">Newspaper</span>
+          <span class="ml-3 text-white">News</span>
         </a>
 
         <a href="/community" class="flex flex-row items-center ml-5 mt-3 mr-auto">
@@ -628,7 +618,27 @@ $: {
         </a>
             
     </nav>
-   
+    {#if data?.user?.tier === 'Free' || data?.user?.freeTrial === true}
+    <div class="mt-auto p-4 ">
+      <Card.Root
+        data-x-chunk-name="dashboard-02-chunk-0"
+        data-x-chunk-description="A card with a call to action"
+      >
+        <Card.Header class="p-2 pt-0 md:p-4">
+          <Card.Title>Upgrade to Pro</Card.Title>
+          <Card.Description>
+            Unlock all features of the platform and level up your trading.
+          </Card.Description>
+        </Card.Header>
+        <Card.Content class="p-2 pt-0 md:p-4 md:pt-0">
+          <a href="/pricing" class="px-12 rounded-lg text-sm py-1.5 m-auto text-center w-full bg-white text-black font-semibold hover:bg-white/80">
+            Upgrade
+          </a>
+        </Card.Content>
+      </Card.Root>
+    </div>
+    {/if}
+
   </aside>
   <div class="flex flex-col">
     <header class="navbar {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} sticky top-0 z-40 bg-[#141417] flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6">
@@ -674,17 +684,29 @@ $: {
                 <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                   <Sheet.Close asChild let:builder>
                     <div class="flex flex-col items-start">
-                      <Button builders={[builder]} type="submit" class="bg-[#141417]">
-                        <a href="/etf/new-launches" class="text-[1rem] text-white ml-4 mt-2">Top Analyst</a>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                        <a href="/analysts" class="text-[1rem] text-white ml-4 mt-2">Top Analyst</a>
                       </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417]">
-                        <a href="/etf/etf-providers" class="text-[1rem] text-white ml-4 mt-4">Top Analyst Stocks</a>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                        <a href="/analysts/top-stocks" class="text-[1rem] text-white ml-4 mt-4">Top Analyst Stocks</a>
                       </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417]">
-                        <a href="/etf/etf-providers" class="text-[1rem] text-white ml-4 mt-4">Shorted Stocks</a>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                        <a href="/most-shorted-stocks" class="text-[1rem] text-white ml-4 mt-4">Shorted Stocks</a>
                       </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417]">
-                        <a href="/etf/etf-providers" class="text-[1rem] text-white ml-4 mt-4">Retail Trader Tracker</a>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                        <a href="/most-retail-volume" class="text-[1rem] text-white ml-4 mt-4">Retail Trader Tracker</a>
+                      </Button>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                        <a href="/stock-screener" class="text-[1rem] text-white ml-4 mt-4">Stock Screener</a>
+                      </Button>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                        <a href="/market-mover" class="text-[1rem] text-white ml-4 mt-4">Market Mover</a>
+                      </Button>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                        <a href="/heatmaps" class="text-[1rem] text-white ml-4 mt-4">Heatmaps</a>
+                      </Button>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                        <a href="/list" class="text-[1rem] text-white ml-4 mt-4">Stock Lists</a>
                       </Button>
                     </div>
 
@@ -711,10 +733,10 @@ $: {
 
                   <Sheet.Close asChild let:builder>
                     <div class="flex flex-col items-start">
-                      <Button builders={[builder]} type="submit" class="bg-[#141417]">
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
                         <a href="/etf/new-launches" class="text-[1rem] text-white ml-4 mt-2">New Launches</a>
                       </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417]">
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
                         <a href="/etf/etf-providers" class="text-[1rem] text-white ml-4 mt-4">ETF Providers</a>
                       </Button>
                     </div>
@@ -728,6 +750,52 @@ $: {
             </Accordion.Root>
                     
           </div>
+
+          <div class="flex flex-row items-center mr-auto  w-3/4">
+
+            <Accordion.Root class="w-fit">
+  
+              <Accordion.Item value="item-1">
+  
+                <Accordion.Trigger class="">
+                  <Calendar class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
+                  <span class="text-white mr-auto">Calendar</span>
+                </Accordion.Trigger>
+                <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
+
+                  <Sheet.Close asChild let:builder>
+                    <div class="flex flex-col items-start">
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                        <a href="/dividends-calendar" class="text-[1rem] text-white ml-4 mt-2">Dividends Calendar</a>
+                      </Button>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                        <a href="/earnings-calendar" class="text-[1rem] text-white ml-4 mt-4">Earnings Calendar</a>
+                      </Button>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                        <a href="/ipos/2024" class="text-[1rem] text-white ml-4 mt-4">IPO Calendar</a>
+                      </Button>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                        <a href="/fda-calendar" class="text-[1rem] text-white ml-4 mt-4">FDA Calendar</a>
+                      </Button>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                        <a href="/economic-calendar" class="text-[1rem] text-white ml-4 mt-4">Economic Calendar</a>
+                      </Button>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                        <a href="/stock-splits-calendar" class="text-[1rem] text-white ml-4 mt-4">Stock Splits Calendar</a>
+                      </Button>
+                    </div>
+
+                  </Sheet.Close>
+
+                  
+                </Accordion.Content
+                >
+              </Accordion.Item>
+            </Accordion.Root>
+                    
+          </div>
+
+
          
 
           </nav>
@@ -736,7 +804,7 @@ $: {
       
       <a href="/" class="-ml-2 flex w-9 flex-shrink-0">
         <img class="avatar w-9 2xl:w-10 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
-        <span class="text-white hidden sm:block font-semibold ml-2 text-lg">Stocknear</span>
+        <span class="text-white font-semibold ml-2 text-lg">Stocknear</span>
       </a>
 
       

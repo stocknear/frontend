@@ -296,7 +296,7 @@
                    <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center ">
                     <div class="w-full grid grid-cols-2 gap-y-3 lg:gap-y-3 gap-x-3 ">
                        <!--Start Total Amount Traded-->  
-                       <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] rounded-2xl h-20">
+                       <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#27272A] rounded-2xl h-20">
                         <div class="flex flex-col items-start">
                             <span class="font-medium text-gray-200 text-sm ">Total Amount</span>
                             <span class="text-start text-[1rem] font-medium text-white mt-0.5">
@@ -310,7 +310,7 @@
                     </div>
                     <!--End Total Amount Traded-->
                       <!--Start Buy/Sell-->  
-                      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
+                      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#27272A] rounded-2xl h-20">
                         <div class="flex flex-col items-start">
                             <span class="font-medium text-gray-200 text-sm sm:text-[1rem] ">Buy/Sell</span>
                             <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
@@ -409,12 +409,12 @@
                         </thead>
                         <tbody class="p-0">
                           {#each displayList as item}
-                              <tr on:click={() => goto(`/${item?.assetType === 'stock' ? 'stocks' : item?.assetType === 'etf' ? 'etf' : 'crypto'}/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#09090B] border-b-[#27272A] cursor-pointer">
+                              <tr on:click={() => goto(`/${item?.assetType === 'stock' ? 'stocks' : item?.assetType === 'etf' ? 'etf' : 'crypto'}/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#27272A] cursor-pointer">
                                 
                                 <td class="text-gray-200 pb-3 border-b border-b-[#27272A]">
                                   <div class="flex flex-row items-center">
                                     <div class="flex-shrink-0 rounded-full w-8 h-8 relative bg-[#09090B] flex items-center justify-center">
-                                      <img style="clip-path: circle(50%);" class="avatar w-7 h-7" src={`https://financialmodelingprep.com/image-stock/${item?.ticker}.png`} alt="stock logo"/>
+                                      <img style="clip-path: circle(50%);" class="avatar w-5 h-5" src={`https://financialmodelingprep.com/image-stock/${item?.ticker}.png`} alt="stock logo"/>
                                     </div>
                                     <div class="flex flex-col ml-2">
                                       <span class="text-blue-400">{item?.ticker?.replace('_',' ')}</span>

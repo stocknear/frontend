@@ -166,7 +166,7 @@ $: {
     <label for="priceAlertModal"  class="cursor-pointer modal-backdrop bg-[#fff] bg-opacity-[0.02]"></label>
     
     
-        <div class="modal-box rounded-none w-full bg-[#000] h-[450px]" >
+        <div class="modal-box rounded-none w-full bg-[#000] border border-gray-800 h-[450px]" >
     
         <!--Start Trade Modal-->
         <label for="priceAlertModal" class="cursor-pointer absolute right-5 top-5 bg-[#000] text-[1.8rem] text-white">

@@ -251,7 +251,6 @@
 <!-- Other meta tags -->
 <meta property="og:title" content={`Stock Splits Calendar · stocknear`}/>
 <meta property="og:description" content={`A list of upcoming stock splits on the US stock market, with dates, times and market cap.`} />
-<meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <meta property="og:type" content="website"/>
 <!-- Add more Open Graph meta tags as needed -->
 
@@ -259,7 +258,6 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content={`Stock Splits Calendar · stocknear`}/>
 <meta name="twitter:description" content={`A list of upcoming stock splits on the US stock market, with dates, times and market cap.`} />
-<meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -278,7 +276,7 @@
   -->
 
       
-          <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pt-10 sm:pb-10 sm:mt-3 mb-8">
+          <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pt-10 sm:pb-10 sm:mt-3 mb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
           
               <!-- Start Column -->
@@ -381,7 +379,7 @@
                           <tbody>
                             {#each day as item}
                             <!-- row -->
-                            <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#09090B] border-b-[#09090B] shake-ticker cursor-pointer">
+                            <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
                               
                               <td class="text-blue-400 border-b-[#09090B]">
                                 {item?.symbol}

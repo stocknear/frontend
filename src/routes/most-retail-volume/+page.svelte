@@ -88,7 +88,7 @@
           <div class="relative flex justify-center items-center overflow-hidden w-full">
               <main class="w-full">
                
-                <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+                <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
                 
                     <!-- Start Column -->
@@ -137,7 +137,7 @@
 
                 {#if isLoaded}
 
-                <div class="w-full max-w-4xl text-center sm:text-start sm:flex sm:flex-row sm:items-center m-auto text-gray-100 bg-[#09090B]  sm:rounded-lg h-auto p-5 ">
+                <div class="w-full max-w-4xl text-center sm:text-start sm:flex sm:flex-row sm:items-center m-auto text-gray-100 border border-gray-800 sm:rounded-lg h-auto p-5 ">
                   <svg class="w-5 h-5 inline-block sm:mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
                     We update on a daily basis where retail investor are trading the most to never miss out the next hype. 
                     Daily sentiments can either be bullish (strong buying of retail investors) or bearish (more selling) for each stock.
@@ -149,7 +149,7 @@
                     <div class="w-screen sm:w-full m-auto rounded-none sm:rounded-lg mb-4 overflow-x-scroll sm:overflow-hidden">
                       <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                         <thead>
-                          <tr class="bg-[#09090B] border-b border-blue-400">
+                          <tr class="bg-[#09090B]">
                             <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
                               #
                             </th>

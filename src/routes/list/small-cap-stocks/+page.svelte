@@ -65,7 +65,7 @@
       </a>.
   </div>
   
-      <div class="stats stats-horizontal no-scrollbar bg-[#09090B] w-full rounded-lg text-white">
+      <div class="stats stats-horizontal no-scrollbar bg-[#27272A] w-full rounded-lg text-white">
         
         <div class="stat">
           <div class="stat-title text-sm sm:text-lg font-semibold text-white">Total Stocks</div>

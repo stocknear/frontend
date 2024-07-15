@@ -4,7 +4,6 @@
 import Chart from '$lib/components/Chart.svelte'
 
 import { screenWidth, numberOfUnreadNotification } from '$lib/store';
-import { fly } from 'svelte/transition';
 import { goto } from '$app/navigation';
 //import * as echarts from 'echarts';
 
@@ -292,7 +291,6 @@ $: {
     <!-- Other meta tags -->
     <meta property="og:title" content="Market Heatmaps · stocknear"/>
     <meta property="og:description" content="Stock Heatmaps of S&P500, Nasdaq and Dow Jones to see percentage changes of the return for different time periods">
-    <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
     <meta property="og:type" content="website"/>
     <!-- Add more Open Graph meta tags as needed -->
 
@@ -300,7 +298,6 @@ $: {
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:title" content="Market Heatmaps · stocknear"/>
     <meta name="twitter:description" content="Stock Heatmaps of S&P500, Nasdaq and Dow Jones to see percentage changes of the return for different time periods">
-    <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
     <!-- Add more Twitter meta tags as needed -->
 </svelte:head>
     
@@ -309,7 +306,7 @@ $: {
     
     <section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-60">
     
-          <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+          <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
           
               <!-- Start Column -->
@@ -363,7 +360,7 @@ $: {
       {#if isLoaded}
     
                 
-        <section in:fly={{ x: -10, duration: 150, delay:150 }} out:fly={{ x: 5, duration: 150 }} class="w-full max-w-4xl overflow-hidden m-auto">
+        <section class="w-full max-w-4xl overflow-hidden m-auto">
           
 
 
@@ -373,7 +370,7 @@ $: {
     
                     
 
-                  <div class="w-full max-w-4xl sm:flex sm:flex-row sm:items-center m-auto text-gray-100 bg-[#09090B] sm:rounded-lg h-auto p-5 mb-4 ">
+                  <div class="w-full max-w-4xl sm:flex sm:flex-row sm:items-center m-auto text-gray-100 border border-gray-800 sm:rounded-lg h-auto p-5 mb-4 ">
                       <svg class="w-5 h-5 inline-block sm:mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
                       <span>
                           Today, <label on:click={() => sectorSelector(lowestSumCategory)} class="cursor-pointer text-blue-400 sm:hover:text-white">{lowestSumCategory}</label> took the lead as the {displayIndex} largest loser, marking a total return of <span class="text-white font-medium">{lowestSum?.toFixed(2)}%</span>, 

@@ -235,7 +235,6 @@ onMount(async () => {
     <!-- Other meta tags -->
     <meta property="og:title" content="Free Stock Screener - Search, Filter and Analyze Stocks · stocknear"/>
     <meta property="og:description" content="A free stock screener to search, filter and analyze stocks with different indicators and metrics.">
-    <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
     <meta property="og:type" content="website"/>
     <!-- Add more Open Graph meta tags as needed -->
   
@@ -243,7 +242,6 @@ onMount(async () => {
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:title" content="Free Stock Screener - Search, Filter and Analyze Stocks · stocknear"/>
     <meta name="twitter:description" content="A free stock screener to search, filter and analyze stocks with different indicators and metrics.">
-    <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
     <!-- Add more Twitter meta tags as needed -->
 </svelte:head>
       
@@ -260,7 +258,7 @@ onMount(async () => {
     </ul>
   </div>
       
-  <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+  <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
   
       <!-- Start Column -->
@@ -324,7 +322,7 @@ onMount(async () => {
     
       <div class="hidden sm:block">
       {#each strategyList as st, index}
-      <div class=" sm:rounded-xl shadow-lg bg-[#09090B] pt-5 pb-5 sm:pb-0 mt-5">
+      <div class=" sm:rounded-xl border border-gray-800 pt-5 pb-5 sm:pb-0 mt-5">
         
         <div class="flex flex-row {$screenWidth >= 640 ? '-mb-4' : ''} ">
           <div class="text-white font-bold text-lg pl-5">
@@ -549,7 +547,7 @@ onMount(async () => {
     <label for="addStrategy"  class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
     
     
-    <div class="modal-box w-full bg-[#09090B]" >
+    <div class="modal-box w-full bg-[#09090B] border border-gray-800" >
   
         <h1 class="text-white text-2xl font-bold">
           New Strategy
@@ -633,7 +631,7 @@ onMount(async () => {
     <label for="deleteStrategy"  class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
     
     
-    <div class="modal-box w-full bg-[#09090B] overflow-hidden ">
+    <div class="modal-box w-full bg-[#09090B] border border-gray-800 overflow-hidden ">
   
       <h3 class="font-bold text-md sm:text-lg flex justify-center items-center mt-10 text-white">
         Are you sure you want to delete the strategy?
@@ -667,7 +665,7 @@ onMount(async () => {
     <label for="viewStrategy"  class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
     
     
-    <div class="modal-box w-full bg-[#09090B] border border-slate-600 overflow-y-scroll overflow-hidden {$screenWidth < 640 ? 'min-h-screen' : 'h-[800px]'}">
+    <div class="modal-box w-full bg-[#09090B] border border-gray-800 overflow-y-scroll overflow-hidden {$screenWidth < 640 ? 'min-h-screen' : 'h-[800px]'}">
   
   
       <!--Start Rule Preview-->

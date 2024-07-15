@@ -634,7 +634,7 @@ function tabFunction(state) {
                   </div>
                 </div>
                 
-                <div class="p-0 sm:p-10 bg-[#09090B] sm:bg-[#09090B] rounded-lg sm:min-h-[430px] pt-6">
+                <div class="p-0 sm:p-10 bg-[#09090B] sm:bg-[#09090B] border border-gray-800 rounded-lg sm:min-h-[430px] pt-6">
                   <div class="h-auto w-full ">
                     
                     
@@ -650,7 +650,7 @@ function tabFunction(state) {
                     {#if rawList?.length !== 0}
                     <div class="hidden sm:block sm:overflow-hidden sm:overflow-y-scroll scroller w-full m-auto h-auto sm:max-h-[700px]">
 
-                      <table class="-ml-3 table table-sm table-compact table-pin-rows table-pin-cols rounded-none sm:rounded-md w-full bg-[#09090B] m-auto mt-5 ">
+                      <table class=" table table-sm table-compact table-pin-rows table-pin-cols rounded-none sm:rounded-md w-full bg-[#09090B] m-auto mt-5 ">
                         <!-- head -->
                         <thead>
                           <tr class="bg-[#09090B]">
@@ -671,11 +671,11 @@ function tabFunction(state) {
                             <th class="shadow-md text-start bg-[#09090B] text-white text-sm font-semibold">
                               Value Owned
                             </th>
-                            <th class="shadow-md text-start bg-[#09090B]  text-white text-sm font-semibold">
+                            <th class="shadow-md text-ednd bg-[#09090B]  text-white text-sm font-semibold">
                               Avg. Buy Price
                             </th>
                             {#if changeAssetType !== 'Share'}
-                            <th class="shadow-md text-start bg-[#09090B]  text-white text-sm font-semibold">
+                            <th class="shadow-md text-end bg-[#09090B]  text-white text-sm font-semibold">
                               Type
                             </th>
                             {/if}
@@ -683,7 +683,7 @@ function tabFunction(state) {
                         </thead>
                         <tbody class="p-0">
                           {#each deactivateContent ? displayList?.slice(0,5) : displayList as item}
-                              <tr on:click={() => goto(`/${item?.type}/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#09090B] border-b-[#27272A] cursor-pointer">
+                              <tr on:click={() => goto(`/${item?.type}/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#27272A] cursor-pointer">
       
                                 <td class="text-gray-200 pb-3 border-b border-b-[#27272A]">
                                   <div class="flex flex-row items-center">
@@ -714,11 +714,11 @@ function tabFunction(state) {
                                     {abbreviateNumber(item?.marketValue,true)}
                                 </td>
   
-                                  <td class="text-center text-sm font-semibold text-white border-b border-b-[#27272A]">
+                                  <td class="text-end text-sm font-semibold text-white border-b border-b-[#27272A]">
                                       ${item?.avgPricePaid}
                                   </td>
                                   {#if changeAssetType !== 'Share'}
-                                  <td class="text-center text-sm font-semibold border-b border-b-[#27272A] {item?.putCallShare === 'CALL' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
+                                  <td class="text-end text-sm font-semibold border-b border-b-[#27272A] {item?.putCallShare === 'CALL' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
                                     {formatString(item?.putCallShare)}
                                   </td>
                                   {/if}

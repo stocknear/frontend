@@ -205,7 +205,7 @@ const combinedNavigation = navigation?.concat(updatedNavigation);
 
 
 
-        <div class="hidden sm:block w-full max-w-4xl m-auto bg-[#09090B] sm:rounded-xl h-auto p-10 mt-3 mb-8">
+        <div class="hidden sm:block w-full max-w-4xl m-auto bg-[#27272A] sm:rounded-xl h-auto p-10 mt-3 mb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
         
             <!-- Start Column -->

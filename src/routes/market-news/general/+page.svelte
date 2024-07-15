@@ -82,7 +82,7 @@
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       {#if news?.length !== 0}
                       {#each news as item}
-                          <div class="flex flex-col w-full mt-5 bg-[#09090B] shadow-lg h-auto sm:h-[420px] pb-10 sm:pb-5 rounded-none sm:rounded-lg m-auto">
+                          <div class="flex flex-col w-full mt-5 bg-[#27272A] shadow-lg h-auto sm:h-[420px] pb-10 sm:pb-5 rounded-none sm:rounded-lg m-auto">
                             {#if videoId = checkIfYoutubeVideo(item.url)}
                                 <iframe
                                     class="w-full h-56 rounded-none sm:rounded-lg"

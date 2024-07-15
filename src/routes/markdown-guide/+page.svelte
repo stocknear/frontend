@@ -13,7 +13,6 @@
     <!-- Other meta tags -->
     <meta property="og:title" content="Markdown Guide · stocknear"/>
     <meta property="og:description" content="Markdown Guide to Post on Stocknear Community Page">
-    <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
     <meta property="og:type" content="website"/>
     <!-- Add more Open Graph meta tags as needed -->
   
@@ -21,7 +20,6 @@
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:title" content="Markdown Guide · stocknear"/>
     <meta name="twitter:description" content="Markdown Guide to Post on Stocknear Community Page">
-    <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
     <!-- Add more Twitter meta tags as needed -->
   </svelte:head>
   

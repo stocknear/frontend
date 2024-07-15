@@ -58,7 +58,6 @@ function checkIfYoutubeVideo(link) {
   <!-- Other meta tags -->
   <meta property="og:title" content={`Today's Crypto News and Breaking Stories · stocknear`}/>
   <meta property="og:description" content={`Get the latest crypto news and breaking stories from the world's best finance and investing websites.`} />
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
   
@@ -66,7 +65,6 @@ function checkIfYoutubeVideo(link) {
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content={`Today's Crypto News and Breaking Stories · stocknear`}/>
   <meta name="twitter:description" content={`Get the latest crypto news and breaking stories from the world's best finance and investing websites.`} />
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
   
 </svelte:head>
@@ -84,7 +82,7 @@ function checkIfYoutubeVideo(link) {
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       {#if news.length !== 0}
                       {#each news as item}
-                          <div class="flex flex-col w-full mt-5 bg-[#09090B] shadow-lg h-auto sm:h-[420px] pb-10 sm:pb-5 rounded-none sm:rounded-lg m-auto">
+                          <div class="flex flex-col w-full mt-5 bg-[#27272A] shadow-lg h-auto sm:h-[420px] pb-10 sm:pb-5 rounded-none sm:rounded-lg m-auto">
                             {#if videoId = checkIfYoutubeVideo(item.url)}
                                 <iframe
                                     class="w-full h-56 rounded-none sm:rounded-lg"

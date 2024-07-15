@@ -204,7 +204,6 @@ $: {
 <!-- Other meta tags -->
 <meta property="og:title" content={`Today's Top Stock Gainers, Losers and Most Active · stocknear`}/>
 <meta property="og:description" content={`A list of the stocks with the highest percentage gain, highest percentage loss and most active today. See stock price, volume, market cap and more.`} />
-<meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <meta property="og:type" content="website"/>
 <!-- Add more Open Graph meta tags as needed -->
 
@@ -212,7 +211,6 @@ $: {
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content={`Today's Top Stock Gainers, Losers and Most Active · stocknear`}/>
 <meta name="twitter:description" content={`A list of the stocks with the highest percentage gain, highest percentage loss and most active today. See stock price, volume, market cap and more.`} />
-<meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -231,7 +229,7 @@ $: {
 -->
 
 
-  <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto sm:p-10 mt-8 mb-4 sm:mb-8">
+  <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto sm:p-10 mt-8 mb-4 sm:mb-8">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
   
       <!-- Start Column -->
@@ -304,7 +302,6 @@ $: {
             <div class="{displaySection === 'active' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[5rem] rounded-full" />
           </button> 
         </div>
-        <div class="border-b mt-5 border-blue-400" />
 
       </div>
 

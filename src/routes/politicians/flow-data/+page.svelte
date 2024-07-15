@@ -371,7 +371,6 @@
       <!-- Other meta tags -->
       <meta property="og:title" content="Latest Congressional Trading · stocknear"/>
       <meta property="og:description" content="Find the latest congress trading and see what insiders who have access to regulations are investing.">
-      <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
       <meta property="og:type" content="website"/>
       <!-- Add more Open Graph meta tags as needed -->
   
@@ -379,7 +378,6 @@
       <meta name="twitter:card" content="summary_large_image"/>
       <meta name="twitter:title" content="Latest Congressional Trading · stocknear"/>
       <meta name="twitter:description" content="Find the latest congress trading and see what insiders who have access to regulations are investing.">
-      <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
       <!-- Add more Twitter meta tags as needed -->
   </svelte:head>
   
@@ -396,7 +394,7 @@
       </div>
     -->
   
-        <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+        <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
         
             <!-- Start Column -->
@@ -597,7 +595,7 @@
                       <div class="w-full m-auto rounded-none sm:rounded-lg mb-4 overflow-x-scroll sm:overflow-hidden">
                         <table class="table table-sm sm:table-md table-pin-cols table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                           <thead>
-                            <tr class="bg-[#09090B] border-b border-blue-400">
+                            <tr class="bg-[#09090B]">
                               <th class="bg-[#09090B] text-start bg-[#09090B] text-white text-sm font-medium sm:font-semibold">
                                 Person
                               </th>
@@ -620,7 +618,7 @@
                             {#each displayList as item, index}
                             <tr on:click={() => goto(`/politicians/${item?.id}`)} class="cursor-pointer text-gray-200 odd:bg-[#27272A] border-b-[#09090B] {index+1 === rawData?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                             
-                              <th class="{index % 2 ? 'bg-[#09090B]' : 'bg-[#09090B]'} text-gray-200 ">
+                              <th class="{index % 2 ? 'bg-[#09090B]' : 'bg-[#27272A]'} text-gray-200 ">
                                 <div class="flex flex-row items-center">
                                   <div class="flex-shrink-0 rounded-full border border-slate-700 w-9 h-9 relative {item?.party === 'Republican' ? 'bg-[#98272B]' : item?.party === 'Democratic' ? 'bg-[#295AC7]' : 'bg-[#4E2153]'} flex items-center justify-center">
                                     <img style="clip-path: circle(50%);" class="rounded-full w-7" src={item?.image} loading="lazy"/>

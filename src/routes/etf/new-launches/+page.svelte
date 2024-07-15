@@ -36,7 +36,6 @@ $: {
 <!-- Other meta tags -->
 <meta property="og:title" content={`100 Newest ETFs · stocknear`}/>
 <meta property="og:description" content={`A list of the 100 most recently launched ETFs on the US stock market, sorted by the inception date.`} />
-<meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <meta property="og:type" content="website"/>
 <!-- Add more Open Graph meta tags as needed -->
 
@@ -44,7 +43,6 @@ $: {
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content={`100 Newest ETFs · stocknear`}/>
 <meta name="twitter:description" content={`A list of the 100 most recently launched ETFs on the US stock market, sorted by the inception date.`} />
-<meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <!-- Add more Twitter meta tags as needed -->
 </svelte:head>
               
@@ -57,7 +55,7 @@ $: {
         </ul>
     </div>
 
-  <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto p-10 mt-3 sm:mb-8">
+  <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto p-10 mt-3 sm:mb-8">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
   
       <!-- Start Column -->
@@ -125,7 +123,7 @@ $: {
           </span>
       </div>
 
-      <div class="border-b mt-2 border-blue-400 w-full mb-4" />
+      <div class="border-b mt-2 border-gray-800 w-full mb-4" />
 
 
     <table class="mt-5 table table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto overflow-hidden">

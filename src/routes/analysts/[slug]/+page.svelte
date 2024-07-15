@@ -109,7 +109,6 @@ function sectorSelector(sector) {
 <!-- Other meta tags -->
 <meta property="og:title" content={`Top Wall Street Stock Analysts · stocknear`}/>
 <meta property="og:description" content={`A list of the top Wall Street stock analysts, ranked by their success rate and average return per rating.`} />
-<meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <meta property="og:type" content="website"/>
 <!-- Add more Open Graph meta tags as needed -->
 
@@ -117,7 +116,6 @@ function sectorSelector(sector) {
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content={`Top Wall Street Stock Analysts · stocknear`}/>
 <meta name="twitter:description" content={`A list of the top Wall Street stock analysts, ranked by their success rate and average return per rating.`} />
-<meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -232,7 +230,7 @@ function sectorSelector(sector) {
                       <div class="w-screen sm:w-full m-auto rounded-none sm:rounded-lg mb-4 overflow-x-scroll">
                         <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                           <thead>
-                            <tr class="bg-[#09090B] border-b border-blue-400">
+                            <tr class="bg-[#09090B]">
                               <th class="text-start bg-[#09090B] text-gray-200 text-sm sm:text-[1rem] font-semibold">
                                 Stock
                               </th>

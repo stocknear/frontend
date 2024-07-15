@@ -46,7 +46,7 @@
           
         
         
-    <div class="w-full max-w-4xl m-auto text-gray-100 bg-[#09090B] sm:rounded-lg h-auto p-5 mb-4">
+    <div class="w-full max-w-4xl m-auto text-gray-100 bg-[#27272A] sm:rounded-lg h-auto p-5 mb-4">
       Nano-cap stocks have a market capitalizations under $50 million USD, while additional categories include 
       <a href="/list/mega-cap-stocks" class="text-blue-400 hover:text-white">
           Mega-Cap
@@ -62,7 +62,7 @@
       </a>.
   </div>
   
-  <div class="stats stats-horizontal no-scrollbar bg-[#09090B] w-full rounded-lg text-white">
+  <div class="stats stats-horizontal no-scrollbar bg-[#27272A] w-full rounded-lg text-white">
     
     <div class="stat">
       <div class="stat-title text-sm sm:text-lg font-semibold text-white">Total Stocks</div>

@@ -23,7 +23,6 @@ let etfProviderList = data?.getAllETFProviders;
   <!-- Other meta tags -->
   <meta property="og:title" content={`Largest ETF Providers by Assets Under Management · stocknear`}/>
   <meta property="og:description" content={`A complete list of all the companies that provide exchange-traded funds (ETFs) that are actively traded on the U.S. stock market.`} />
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -31,7 +30,6 @@ let etfProviderList = data?.getAllETFProviders;
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content={`Largest ETF Providers by Assets Under Management · stocknear`}/>
   <meta name="twitter:description" content={`A complete list of all the companies that provide exchange-traded funds (ETFs) that are actively traded on the U.S. stock market.`} />
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -41,7 +39,7 @@ let etfProviderList = data?.getAllETFProviders;
     <section class="w-full max-w-4xl overflow-hidden m-auto">
             
           
-        <div class="w-full max-w-4xl sm:flex sm:flex-row sm:items-center m-auto text-gray-100 bg-[#09090B] sm:rounded-lg h-auto p-5 mb-4">
+        <div class="w-full max-w-4xl sm:flex sm:flex-row sm:items-center m-auto text-gray-100 border border-gray-800 sm:rounded-lg h-auto p-5 mb-4">
           <svg class="w-5 h-5 inline-block flex-shrink-0 mr-0.5 sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
           
           Every Exchange-Traded Fund (ETF) is managed by a specific company. Below is a list of companies offering actively traded ETFs on the U.S. stock market.

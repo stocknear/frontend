@@ -291,7 +291,6 @@ const loadWorker = async () => {
   <!-- Other meta tags -->
   <meta property="og:title" content={`Worldwide Economic Calendar · stocknear`}/>
   <meta property="og:description" content={`A list of upcoming economic events on the US stock market, with dates, times and estimation.`} />
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
   
@@ -299,7 +298,6 @@ const loadWorker = async () => {
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content={`Worldwide Economic Calendar · stocknear`}/>
   <meta name="twitter:description" content={`A list of upcoming economic events on the US stock market, with dates, times and estimation.`} />
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
   
   </svelte:head>
@@ -310,7 +308,7 @@ const loadWorker = async () => {
         
       
 
-          <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto sm:p-10 mt-10 sm:mt-3 mb-8">
+          <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto sm:p-10 mt-10 sm:mt-3 mb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2">
           
               <!-- Start Column -->
@@ -402,14 +400,14 @@ const loadWorker = async () => {
 
 <div class="flex flex-row items-center w-fit ml-auto mt-6 mb-2 mr-3 sm:mr-0">
 {#if filterList?.length !== 0}
-<label on:click={() => filterList = [] } class="mr-3 text-sm cursor-pointer bg-[#09090B] sm:hover:bg-[#09090B] duratiion-100 transition ease-in-out px-4 py-2 rounded-lg shadow-lg ml-auto">
+<label on:click={() => filterList = [] } class="mr-3 text-sm cursor-pointer bg-[#27272A] sm:hover:bg-[#27272A] duratiion-100 transition ease-in-out px-4 py-2 rounded-lg shadow-lg ml-auto">
   <svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-4 h-4" viewBox="0 0 21 21"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3.578 6.487A8 8 0 1 1 2.5 10.5"/><path d="M7.5 6.5h-4v-4"/></g></svg>
       Reset All
 </label>
 {/if}
 
 <div class="dropdown dropdown-end z-30">
-  <button tabindex="0" role="button" class="text-sm cursor-pointer bg-[#09090B] sm:hover:bg-[#09090B] duratiion-100 transition ease-in-out px-4 py-2 rounded-lg shadow-lg ml-auto">
+  <button tabindex="0" role="button" class="text-sm cursor-pointer text-white bg-[#27272A] sm:hover:bg-[#27272A] duration-100 transition ease-in-out px-4 py-2 rounded-lg shadow-lg ml-auto">
     Filter
     <svg class="inline-block w-2.5 h-2.5 ml-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
