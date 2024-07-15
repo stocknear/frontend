@@ -27,7 +27,6 @@
     let avgFailToDeliver;
     let lowestPrice;
     let highestPrice;
-    let totalFailToDeliver;
   
 
 
@@ -46,9 +45,6 @@ function findLowestAndHighestPrice(data, lastDateStr) {
     	
     // Extract prices from filtered data
     let prices = filteredData?.map(item => parseFloat(item.price));
-    totalFailToDeliver = filteredData?.reduce((accumulator, currentItem) => {
-        return accumulator + currentItem?.failToDeliver;
-    }, 0);
 
     // Find the lowest and highest prices
     lowestPrice = Math.min(...prices);
@@ -327,10 +323,10 @@ function findLowestAndHighestPrice(data, lastDateStr) {
                   </tr>
                   <tr class="border-y border-gray-800 odd:bg-[#27272A]">
                       <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
-                          <span>Total failed deliveries</span>
+                          <span>Lastest FTD</span>
                       </td>
                       <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                        {abbreviateNumber(totalFailToDeliver)}
+                        {abbreviateNumber(rawData?.slice(-1)?.at(0)?.failToDeliver)}
                       </td>
                   </tr>
               </tbody>
