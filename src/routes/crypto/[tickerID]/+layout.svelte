@@ -310,9 +310,11 @@ onMount(async () => {
       LoginPopup = (await import('$lib/components/LoginPopup.svelte')).default;
     }
     else {
+      /*
       AddPortfolio = (await import('$lib/components/AddPortfolio.svelte')).default;
       BuyTrade = (await import('$lib/components/BuyTrade.svelte')).default;
       SellTrade = (await import('$lib/components/SellTrade.svelte')).default;
+      */
       PriceAlert = (await import('$lib/components/PriceAlert.svelte')).default;
     }
    
@@ -644,6 +646,7 @@ $: {
     
                                         
                                         <!--Start Trade-->
+                                        <!--
                                         <div class="hidden sm:flex ml-auto">
                                         {#if holdingShares !== 0 && data?.user}
                                         
@@ -662,6 +665,7 @@ $: {
                                         </label>
                                         {/if}
                                       </div>
+                                      -->
                                       <!--End Trade-->
                      
                                       </div>
@@ -739,7 +743,7 @@ $: {
                         -->
 
 
-                      
+                      <!--
                         <div class="sm:hidden fixed z-20 bottom-8 sm:bottom-10 right-5">
                           <div class="h-full mx-auto">        
                             <div class="flex items-center justify-end">
@@ -756,6 +760,7 @@ $: {
                             </div>
                           </div>
                         </div>
+                        -->
 
                                           
 
@@ -774,7 +779,7 @@ $: {
 {/if}   
 <!--End Login Modal-->
 
-<!--Start BuyTrade Modal-->
+<!--
 {#if BuyTrade}
 <BuyTrade
   data = {data}
@@ -782,9 +787,7 @@ $: {
   availableCash = {availableCash}
 />
 {/if}
-  <!--End BuyTrade Modal-->
 
-<!--Start SellTrade Modal-->
 {#if SellTrade}
 <SellTrade 
   data = {data}
@@ -793,23 +796,17 @@ $: {
 />
 {/if}
 
-<!--End SellTrade Modal-->
+{#if AddPortfolio}
+<AddPortfolio data={data}/>
+{/if}
+-->
 
-
-<!--Start SellTrade Modal-->
 {#if PriceAlert}
 <PriceAlert 
   data = {data}
 />
 {/if}
 
-<!--End SellTrade Modal-->
-
-<!--Start Add Portfolio Modal-->
-{#if AddPortfolio}
-<AddPortfolio data={data}/>
-{/if}
-<!--End Add Portfolio Modal-->
 
 
 
