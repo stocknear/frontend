@@ -3,6 +3,8 @@
   import { userRegion, searchBarData, stockTicker, etfTicker, cryptoTicker, screenWidth} from '$lib/store';  
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
+  import Search from "lucide-svelte/icons/search";
+
 
   const usRegion = ['cle1','iad1','pdx1','sfo1'];
   let apiURL;
@@ -321,13 +323,8 @@ $: {
 
 
 
-<label on:click={loadSearchData} for="searchBarModal"
-class="cursor-pointer w-8 h-8 flex-shrink-0 flex items-center justify-center bg-purple-600 rounded-full">
-<span class="sr-only">Search</span>
-    <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-        <path class="fill-current text-white" d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z" />
-        <path class="fill-current text-white" d="M15.707 14.293L13.314 11.9a8.019 8.019 0 01-1.414 1.414l2.393 2.393a.997.997 0 001.414 0 .999.999 0 000-1.414z" />
-    </svg>
+<label on:click={loadSearchData} for="searchBarModal" class="cursor-pointer p-2 sm:hover:bg-[#27272A] text-gray-300 sm:hover:text-white flex-shrink-0 flex items-center justify-center border border-gray-800 rounded-lg">
+  <Search class="h-[20px] w-[20px]" />  
 </label>
 
 

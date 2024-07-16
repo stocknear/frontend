@@ -649,11 +649,11 @@ $: {
 
   </aside>
   <div class="flex flex-col">
-    <header class="navbar {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} sticky top-0 z-40 bg-[#141417] flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6">
+    <header class="navbar {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} sticky top-0 z-40 bg-[#09090B] border-b border-gray-800 flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6">
       <Sheet.Root>
         <Sheet.Trigger asChild let:builder>
-          <Button builders={[builder]} size="icon" class="sm:xl bg-[#141417] hover:bg-[#141417] text-white sm:hover:bg-white sm:hover:text-black border-none">
-            <Menu class="h-5.5 w-5.5 sm:w-7 sm:h-7" />
+          <Button builders={[builder]} size="icon" class="sm:xl bg-[#09090B] text-white sm:hover:bg-[#27272A] border-none">
+            <Menu class=" h-5.5 w-5.5 sm:w-7 sm:h-7" />
             <span class="sr-only">Toggle Menu</span>
           </Button>
         </Sheet.Trigger>
