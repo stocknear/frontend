@@ -38,7 +38,7 @@
   let highestOpenInterestTicker;
   
   let audio;
-  let muted = false;
+  let muted = true;
   let socket;
   let filterQuery = '';
   let previousCallVolume = 0; //This is needed to play the sound only if it changes.
@@ -380,7 +380,6 @@ function calculateStats(optionList) {
   
   function handleInput(event) {
     filterQuery = event.target.value;
-    console.log(filterQuery)
     let newData = [];
     setTimeout(() => {
         if (filterQuery?.length !== 0) {
@@ -402,6 +401,8 @@ function calculateStats(optionList) {
             rawData = data?.getOptionsZeroDTE;
             optionList = rawData?.slice(0, 100);
         }
+
+        calculateStats(rawData);
     }, 200);
 }
 
