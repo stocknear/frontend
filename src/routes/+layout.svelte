@@ -458,7 +458,7 @@ $: {
 
               <Accordion.Trigger class="">
                 <Stock class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                <span class="text-white mr-auto">Stocks</span>
+                <span class="text-white ml-1 mr-auto">Stocks</span>
               </Accordion.Trigger>
               <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                 <div class="flex flex-col items-start">
@@ -488,7 +488,7 @@ $: {
 
               <Accordion.Trigger class="">
                 <Layers class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                <span class="text-white mr-auto">ETFs</span>
+                <span class="text-white ml-1 mr-auto">ETFs</span>
               </Accordion.Trigger>
               <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                 <div class="flex flex-col items-start">
@@ -511,7 +511,7 @@ $: {
 
               <Accordion.Trigger class="">
                 <Calendar class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                <span class="text-white mr-auto">Calendar</span>
+                <span class="text-white ml-1 mr-auto">Calendar</span>
               </Accordion.Trigger>
               <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                 <div class="flex flex-col items-start">
@@ -538,7 +538,7 @@ $: {
 
               <Accordion.Trigger class="">
                 <Option class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                <span class="text-white mr-auto">Options</span>
+                <span class="text-white ml-1 mr-auto">Options</span>
               </Accordion.Trigger>
               <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                 <div class="flex flex-col items-start">
@@ -562,7 +562,7 @@ $: {
 
               <Accordion.Trigger class="">
                 <HandShake class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                <span class="text-white mr-auto">Congress</span>
+                <span class="text-white ml-1 mr-auto">Congress</span>
               </Accordion.Trigger>
               <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                 <div class="flex flex-col items-start">
@@ -673,7 +673,7 @@ $: {
                 <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
                   <Home class="h-5.5 w-5.5" />  
                 </div>
-                <span class="ml-1.5 text-white text-[1rem]">Home</span>
+                <span class="ml-3 text-white text-[1rem]">Home</span>
               </a>
             </Button>
           </Sheet.Close>
@@ -687,7 +687,7 @@ $: {
   
                 <Accordion.Trigger class="">
                   <Stock class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                  <span class="text-white mr-auto">Stocks</span>
+                  <span class="text-white ml-1 mr-auto">Stocks</span>
                 </Accordion.Trigger>
                 <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                   <Sheet.Close asChild let:builder>
@@ -735,7 +735,7 @@ $: {
   
                 <Accordion.Trigger class="">
                   <Layers class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                  <span class="text-white mr-auto">ETFs</span>
+                  <span class="text-white ml-1 mr-auto">ETFs</span>
                 </Accordion.Trigger>
                 <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
 
@@ -767,7 +767,7 @@ $: {
   
                 <Accordion.Trigger class="">
                   <Calendar class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                  <span class="text-white mr-auto">Calendar</span>
+                  <span class="text-white ml-1 mr-auto">Calendar</span>
                 </Accordion.Trigger>
                 <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
 
@@ -811,7 +811,7 @@ $: {
   
                 <Accordion.Trigger class="">
                   <Option class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                  <span class="text-white mr-auto">Options</span>
+                  <span class="text-white ml-1 mr-auto">Options</span>
                 </Accordion.Trigger>
                 <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
 
@@ -843,7 +843,7 @@ $: {
   
                 <Accordion.Trigger class="">
                   <HandShake class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                  <span class="text-white mr-auto">Congress</span>
+                  <span class="text-white ml-1 mr-auto">Congress</span>
                 </Accordion.Trigger>
                 <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
 
@@ -867,57 +867,57 @@ $: {
                     
           </div>
 
-          <div class="flex flex-row items-center w-full -mt-2">
-            <Sheet.Close asChild let:builder>
-              <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 mr-auto">
-                <a href="/dark-pool-flow" class="flex flex-row items-center mr-auto">
-                  <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
-                    <Box class="h-5.5 w-5.5" />  
+        <Sheet.Close asChild let:builder>
+          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 w-full">
+            <a href="/dark-pool-flow" class="flex flex-row items-center w-full -mt-2"> 
+                  <div class="flex flex-row items-center mr-auto">
+                    <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
+                      <Box class="h-5.5 w-5.5" />  
+                    </div>
+                    <span class="ml-3 text-white text-[1rem]">Dark Pool</span>
                   </div>
-                  <span class="ml-1.5 text-white text-[1rem]">Dark Pool</span>
-                </a>
-              </Button>
-            </Sheet.Close>    
-          </div>
+            </a>
+          </Button>
+        </Sheet.Close>    
 
-          <div class="flex flex-row items-center mr-auto -mt-2">
-            <Sheet.Close asChild let:builder>
-              <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 mr-auto">
-                <a href="/hedge-funds" class="flex flex-row items-center mr-auto">
-                  <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
-                    <Boxes class="h-5.5 w-5.5" />  
+        <Sheet.Close asChild let:builder>
+          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 w-full">
+            <a href="/hedge-funds" class="flex flex-row items-center w-full -mt-2"> 
+                  <div class="flex flex-row items-center mr-auto">
+                    <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
+                      <Boxes class="h-5.5 w-5.5" />  
+                    </div>
+                    <span class="ml-3 text-white text-[1rem]">Hedge Funds</span>
                   </div>
-                  <span class="ml-1.5 text-white text-[1rem]">Hedge Funds</span>
-                </a>
-              </Button>
-            </Sheet.Close>    
-          </div>
+            </a>
+          </Button>
+        </Sheet.Close>  
 
-          <div class="flex flex-row items-center mr-auto -mt-2">
-            <Sheet.Close asChild let:builder>
-              <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 mr-auto">
-                <a href="/market-news" class="flex flex-row items-center mr-auto">
-                  <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
-                    <Newspaper class="h-5.5 w-5.5" />  
+        <Sheet.Close asChild let:builder>
+          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 w-full">
+            <a href="/market-news" class="flex flex-row items-center w-full -mt-2"> 
+                  <div class="flex flex-row items-center mr-auto">
+                    <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
+                      <Newspaper class="h-5.5 w-5.5" />  
+                    </div>
+                    <span class="ml-3 text-white text-[1rem]">News</span>
                   </div>
-                  <span class="ml-1.5 text-white text-[1rem]">News</span>
-                </a>
-              </Button>
-            </Sheet.Close>    
-          </div>
+            </a>
+          </Button>
+        </Sheet.Close>  
 
-          <div class="flex flex-row items-center mr-auto w-full -mt-2">
-            <Sheet.Close asChild let:builder>
-              <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 mr-auto">
-                <a href="/community" class="flex flex-row items-center mr-auto">
-                  <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
-                    <MessageCircle class="h-5.5 w-5.5" />  
+        <Sheet.Close asChild let:builder>
+          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 w-full">
+            <a href="/community" class="flex flex-row items-center w-full -mt-2"> 
+                  <div class="flex flex-row items-center mr-auto">
+                    <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
+                      <MessageCircle class="h-5.5 w-5.5" />  
+                    </div>
+                    <span class="ml-3 text-white text-[1rem]">Community</span>
                   </div>
-                  <span class="ml-1.5 text-white text-[1rem]">Community</span>
-                </a>
-              </Button>
-            </Sheet.Close>    
-          </div>
+            </a>
+          </Button>
+        </Sheet.Close>  
 
 
           </nav>
