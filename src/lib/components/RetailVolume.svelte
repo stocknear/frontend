@@ -337,7 +337,7 @@ $: {
                               <span>Retail Sentiment Range</span>
                           </td>
                           <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                            {lowestSentiment+'-'+highestSentiment}
+                            Between {lowestSentiment} to {highestSentiment}
                           </td>
                           
 
