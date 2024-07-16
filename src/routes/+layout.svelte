@@ -442,7 +442,7 @@ $: {
         <span class="text-white text-xl">Stocknear</span>
       </a>
       
-      <a href="/" class="flex flex-row items-center ml-5 mr-auto">
+      <a href="/" class="flex flex-row items-center ml-9 w-full">
         <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
           <Home class="h-5.5 w-5.5" />  
         </div>
@@ -450,9 +450,9 @@ $: {
         </a>
 
 
-        <div class="flex flex-row items-center ml-5 mr-auto mt-3 w-3/4">
+        <div class="flex flex-row items-center ml-9 w-full mt-3">
 
-          <Accordion.Root class="w-fit">
+          <Accordion.Root class="w-full">
 
             <Accordion.Item value="item-1">
 
@@ -480,9 +480,9 @@ $: {
                   
         </div>
        
-        <div class="flex flex-row items-center ml-5 mr-auto mt-3 w-3/4">
+        <div class="flex flex-row items-center ml-9 w-full mt-3">
 
-          <Accordion.Root class="w-fit">
+          <Accordion.Root class="w-full">
 
             <Accordion.Item value="item-1">
 
@@ -503,9 +503,9 @@ $: {
                   
         </div>
 
-        <div class="flex flex-row items-center ml-5 mr-auto mt-3 w-3/4">
+        <div class="flex flex-row items-center ml-9 w-full mt-3">
 
-          <Accordion.Root class="w-fit">
+          <Accordion.Root class="w-full">
 
             <Accordion.Item value="item-1">
 
@@ -530,9 +530,9 @@ $: {
                   
         </div>
 
-        <div class="flex flex-row items-center ml-5 mr-auto mt-3 w-3/4">
+        <div class="flex flex-row items-center ml-9 w-full mt-3">
 
-          <Accordion.Root class="w-fit">
+          <Accordion.Root class="w-full">
 
             <Accordion.Item value="item-1">
 
@@ -554,9 +554,9 @@ $: {
         </div>
 
 
-        <div class="flex flex-row items-center ml-5 mr-auto mt-3 w-3/4">
+        <div class="flex flex-row items-center ml-9 w-full mt-3">
 
-          <Accordion.Root class="w-fit">
+          <Accordion.Root class="w-full">
 
             <Accordion.Item value="item-1">
 
@@ -579,7 +579,7 @@ $: {
                   
         </div>
 
-        <a href="/dark-pool-flow" class="flex flex-row items-center ml-5 mt-3 mr-auto">
+        <a href="/dark-pool-flow" class="flex flex-row items-center ml-9 w-full mt-3">
           <div
             class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
           >
@@ -589,7 +589,7 @@ $: {
           <span class="ml-3 text-white">Dark Pool</span>
         </a>
 
-        <a href="/hedge-funds" class="flex flex-row items-center ml-5 mt-3 mr-auto">
+        <a href="/hedge-funds" class="flex flex-row items-center ml-9 w-full mt-3">
           <div
             class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
           >
@@ -599,7 +599,7 @@ $: {
           <span class="ml-3 text-white">Hedge Funds</span>
         </a>
 
-        <a href="/market-news" class="flex flex-row items-center ml-5 mt-3 mr-auto">
+        <a href="/market-news" class="flex flex-row items-center ml-9 w-full mt-3">
           <div
             class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
           >
@@ -609,7 +609,7 @@ $: {
           <span class="ml-3 text-white">News</span>
         </a>
 
-        <a href="/community" class="flex flex-row items-center ml-5 mt-3 mr-auto">
+        <a href="/community" class="flex flex-row items-center ml-9 w-full mt-3">
           <div
             class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
           >
@@ -679,9 +679,9 @@ $: {
           </Sheet.Close>
           
           
-          <div class="flex flex-row items-center mr-auto">
+          <div class="flex flex-row items-center w-full">
 
-            <Accordion.Root class="w-fit">
+            <Accordion.Root class="w-full">
   
               <Accordion.Item value="item-1">
   
@@ -727,9 +727,9 @@ $: {
                     
           </div>
 
-          <div class="flex flex-row items-center mr-auto  w-3/4">
+          <div class="flex flex-row items-center w-full">
 
-            <Accordion.Root class="w-fit">
+            <Accordion.Root class="w-full">
   
               <Accordion.Item value="item-1">
   
@@ -759,7 +759,7 @@ $: {
                     
           </div>
 
-          <div class="flex flex-row items-center mr-auto">
+          <div class="flex flex-row items-center w-full">
 
             <Accordion.Root class="w-full">
   
@@ -803,9 +803,9 @@ $: {
                     
           </div>
 
-          <div class="flex flex-row items-center mr-auto">
+          <div class="flex flex-row items-center w-full">
 
-            <Accordion.Root class="w-fit">
+            <Accordion.Root class="w-full">
   
               <Accordion.Item value="item-1">
   
@@ -835,15 +835,15 @@ $: {
                     
           </div>
 
-          <div class="flex flex-row items-center mr-auto ">
+          <div class="flex flex-row items-center w-full">
 
-            <Accordion.Root class="w-fit">
+            <Accordion.Root class="w-full">
   
               <Accordion.Item value="item-1">
   
                 <Accordion.Trigger class="">
                   <HandShake class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                  <span class="text-white w-full mr-auto">Congress</span>
+                  <span class="text-white mr-auto">Congress</span>
                 </Accordion.Trigger>
                 <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
 
@@ -867,7 +867,7 @@ $: {
                     
           </div>
 
-          <div class="flex flex-row items-center mr-auto -mt-2">
+          <div class="flex flex-row items-center w-full -mt-2">
             <Sheet.Close asChild let:builder>
               <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 mr-auto">
                 <a href="/dark-pool-flow" class="flex flex-row items-center mr-auto">
