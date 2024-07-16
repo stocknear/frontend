@@ -201,7 +201,7 @@ function handleViewData(optionData) {
   
   
   let scrollContainer;
-
+  
 
   onMount(async () => {
     audio = new Audio(notifySound);
@@ -628,7 +628,11 @@ $: {
 
   
           <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center">
+
+            
             <div class="w-full grid grid-cols-1 lg:grid-cols-4 gap-y-3 gap-x-3 ">
+
+              
               <!--Start Flow Sentiment-->  
               <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
                   <div class="flex flex-col items-start">
@@ -909,9 +913,12 @@ $: {
       
           </div>
 
-          <UpgradeToPro data={data} title="Get the recent Options Flow Data from Hedge Funds and major institutional traders to never miss out"/>
 
+          <div class="relative bottom-[400px] w-fit m-auto flex justify-center items-center">
+            <UpgradeToPro data={data} title="Get the recent Options Flow Data from Hedge Funds and major institutional traders to never miss out"/>
+          </div>
   
+         
           {:else}
           <div class="flex justify-center items-center h-80">
             <div class="relative">
