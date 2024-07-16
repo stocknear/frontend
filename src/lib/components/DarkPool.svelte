@@ -27,7 +27,7 @@
     let avgVolume;
     let avgShortVolume;
     let monthlyVolume;
-    let monthlyShort;
+    let avgMonthlyShort;
 
 function normalizer(value) {
   if (Math?.abs(value) >= 1e18) {
@@ -65,9 +65,13 @@ function findMonthlyValue(data, lastDateStr) {
     }, 0));
 
 
-    monthlyShort = filteredData?.reduce((accumulator, currentItem) => {
-        return accumulator + currentItem?.shortPercent;
-    }, 0)?.toFixed(2);
+    const totalShortPercent = filteredData.reduce((accumulator, currentItem) => {
+        return accumulator + (currentItem?.shortPercent || 0);
+    }, 0);
+
+    avgMonthlyShort = (totalShortPercent / filteredData?.length)?.toFixed(2);
+
+
 
 }
 
@@ -297,7 +301,7 @@ $: {
                   </tr>
                   <tr class="border-y border-gray-800 odd:bg-[#27272A]">
                       <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
-                          <span>Volume</span>
+                          <span>Total Volume</span>
                       </td>
                       <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
                         {monthlyVolume}
@@ -305,10 +309,10 @@ $: {
                   </tr>
                   <tr class="border-y border-gray-800 odd:bg-[#27272A]">
                       <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
-                          <span>Short % of Volume</span>
+                          <span>Avg. Short % of Volume</span>
                       </td>
                       <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
-                        {monthlyShort}%
+                        {avgMonthlyShort}%
                       </td>
                   </tr>
               </tbody>
