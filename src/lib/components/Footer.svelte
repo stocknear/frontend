@@ -36,7 +36,7 @@
         </div>
 
         <a href="https://stats.uptimerobot.com/MP0zLix9yk" rel="noopener noreferrer" target="_blank" class="flex flex-row items-center mt-4">
-          <span class="text-white hover:text-yellow-400">
+          <span class="text-white sm:hover:text-purple-400">
             Server Status
           </span>
           <span class="relative flex h-3 w-3 ml-2">
@@ -51,13 +51,13 @@
         <p class="uppercase text-slate-100 md:mb-6">Products</p>
         <ul class="list-reset mb-6">
           <li class="mt-2 inline-block mr-2 md:block md:mr-0" >
-            <a href="/pricing" class="no-underline hover:underline text-gray-300  hover:text-yellow-400">Pricing</a>
+            <a href="/pricing" class="no-underline hover:underline text-gray-300  sm:hover:text-purple-400">Pricing</a>
           </li>
           <li class="mt-2 inline-block mr-2 md:block md:mr-0" >
-            <a href="/changelog" class="no-underline hover:underline text-gray-300  hover:text-yellow-400">Changelog</a>
+            <a href="/changelog" class="no-underline hover:underline text-gray-300  sm:hover:text-purple-400">Changelog</a>
           </li>
           <li class="mt-2 inline-block mr-2 md:block md:mr-0" >
-            <a href="https://stocknear.lemonsqueezy.com/affiliates" rel="noopener noreferrer" target="_blank" class="no-underline hover:underline text-gray-300  hover:text-yellow-400">Affiliate Program</a>
+            <a href="https://stocknear.lemonsqueezy.com/affiliates" rel="noopener noreferrer" target="_blank" class="no-underline hover:underline text-gray-300  sm:hover:text-purple-400">Affiliate Program</a>
           </li>
         </ul>
       </div>
@@ -66,13 +66,13 @@
         <p class="uppercase text-slate-100 md:mb-6">Legal</p>
         <ul class="list-reset mb-6">
           <li class="mt-2 inline-block mr-2 md:block md:mr-0" >
-            <a href="/terms-of-use" class="no-underline hover:underline text-gray-300  hover:text-yellow-400">Terms of Use</a>
+            <a href="/terms-of-use" class="no-underline hover:underline text-gray-300  sm:hover:text-purple-400">Terms of Use</a>
           </li>
           <li class="mt-2 inline-block mr-2 md:block md:mr-0" >
-            <a href="/privacy-policy" class="no-underline hover:underline text-gray-300  hover:text-yellow-400">Privacy Policy</a>
+            <a href="/privacy-policy" class="no-underline hover:underline text-gray-300  sm:hover:text-purple-400">Privacy Policy</a>
           </li>
           <li class="mt-2 inline-block mr-2 md:block md:mr-0" >
-            <a href="/imprint" class="no-underline hover:underline text-gray-300  hover:text-yellow-400">Imprint</a>
+            <a href="/imprint" class="no-underline hover:underline text-gray-300  sm:hover:text-purple-400">Imprint</a>
           </li>
         </ul>
       </div>
@@ -82,23 +82,23 @@
         <ul class="list-reset mb-6">
 
           <li class="mt-2 inline-block mr-2 md:block md:mr-0">
-            <a href="/about" class="no-underline hover:underline text-gray-300 hover:text-yellow-400">
+            <a href="/about" class="no-underline hover:underline text-gray-300 sm:hover:text-purple-400">
               About Us
             </a>
           </li>
           <li class="mt-2 inline-block mr-2 md:block md:mr-0">
-            <a href="/contact" class="no-underline hover:underline text-gray-300 hover:text-yellow-400">
+            <a href="/contact" class="no-underline hover:underline text-gray-300 sm:hover:text-purple-400">
               Contact Us
             </a>
           </li>
           <li class="mt-2 inline-block mr-2 md:block md:mr-0">
-            <a href="/blog" class="no-underline hover:underline text-gray-300 hover:text-yellow-400">
+            <a href="/blog" class="no-underline hover:underline text-gray-300 sm:hover:text-purple-400">
               Blog
             </a>
           </li>
           <!--
           <li class="mt-2 inline-block mr-2 md:block md:mr-0">
-            <a href="/newsletter" class="no-underline hover:underline text-gray-300 hover:text-yellow-400">
+            <a href="/newsletter" class="no-underline hover:underline text-gray-300 sm:hover:text-purple-400">
               Newsletter
             </a>
           </li>
