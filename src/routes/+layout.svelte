@@ -543,7 +543,7 @@ $: {
               <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                 <div class="flex flex-col items-start">
                   <a href="/options-flow" class="text-[1rem] text-white ml-4 mt-4">Options Flow</a>
-                  <a href="options-zero-dte" class="text-[1rem] text-white ml-4 mt-4">0DTE Flow</a>
+                  <a href="/options-zero-dte" class="text-[1rem] text-white ml-4 mt-4">0DTE Flow</a>
                 </div>
                 
               </Accordion.Content
