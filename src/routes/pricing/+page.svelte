@@ -1,4 +1,4 @@
-<script>
+<script lang='ts'>
 import { numberOfUnreadNotification, globalForm } from '$lib/store';
 import { openLemonSqueezyUrl } from '$lib/lemonsqueezy';
 //import Discount from '$lib/components/Discount.svelte';
@@ -45,11 +45,15 @@ onMount(async () => {
 
 
 
-async function purchasePlan() {
+async function purchasePlan(subscriptionType:string='') {
     if(data?.user) {
         let subId = '';
 
-        if(mode) {
+        if(subscriptionType === 'lifeTime') {
+            subId = import.meta.env.VITE_LEMON_SQUEEZY_LIFE_TIME_ACCESS_ID
+
+        }
+        else if(mode) {
             subId = import.meta.env.VITE_LEMON_SQUEEZY_ANNUAL_ID
         }
         else {
@@ -105,12 +109,12 @@ async function purchasePlan() {
 
 
 
-<section class="bg-[#09090B] min-h-screen mb-40 max-w-4xl w-full pt-10 pb-40 m-auto">
-    <div class="px-3 sm:px-0">
+<section class="bg-[#09090B] min-h-screen mb-40 max-w-7xl w-full pt-10 pb-40 m-auto">
+    <div class="px-3">
         <div class="mx-auto text-center mb-8 ">
             
             
-            <h1 class="text-4xl font-bold bg-gradient-to-r from-[#E8BB28] to-purple-500 bg-clip-text text-transparent pb-4">
+            <h1 class="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-[#E8BB28] to-purple-500 bg-clip-text text-transparent pb-4">
                 Flexible plans and features
             </h1>
             <div class="w-full flex justify-center items-center h-16 bg-[#09090B] rounded-lg">
@@ -232,6 +236,7 @@ async function purchasePlan() {
             </div>
             <!--End Pricing Card-->
             
+        
 
             <!-- Pricing Card -->
             <div class="sm:order-2 light-box-1 box sm:-mt-10 flex flex-col p-6 lg:p-8 mx-auto ring-[1px] ring-[#FF2F1F] w-full text-center text-white bg-gradient-to-r from-orange-600 to-purple-800">
@@ -240,7 +245,7 @@ async function purchasePlan() {
                 <div class="absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-2xl flex flex-row items-center bg-red-600 p-2">
                     <svg class="w-6 h-6 mr-2" fill="#D6D6DC" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" stroke=""><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>star-solid</title> <g id="Layer_2" data-name="Layer 2"> <g id="invisible_box" data-name="invisible box"> <rect width="48" height="48" fill="none"></rect> </g> <g id="icons_Q2" data-name="icons Q2"> <path d="M24,3a2.1,2.1,0,0,0-1.8,1.1L16.5,15.7,3.7,17.5A2.1,2.1,0,0,0,2.6,21l9.2,8.9L9.7,42.7A2,2,0,0,0,11.6,45l1-.2,11.4-6,11.4,6,1,.2a2,2,0,0,0,1.9-2.3L36.2,29.9,45.4,21a2.1,2.1,0,0,0-1.1-3.5L31.5,15.7,25.8,4.1A2.1,2.1,0,0,0,24,3Z"></path> </g> </g> </g></svg>
                     <span class="text-white text-md font-medium">
-                        Best Value
+                        Most Popular
                     </span>
                 </div>                
 
@@ -339,14 +344,14 @@ async function purchasePlan() {
                     Active Plan
                </a>
                {:else if data?.user?.tier === 'Pro' && data?.user?.freeTrial === true}
-               <label for={!data?.user ? 'userLogin' : ''} on:click={purchasePlan} class="btn text-white bg-purple-600 hover:bg-purple-500 transition duration-150 ease-in-out group">
+               <label for={!data?.user ? 'userLogin' : ''} on:click={() => purchasePlan()} class="btn text-white bg-purple-600 hover:bg-purple-500 transition duration-150 ease-in-out group">
                     Get Pro
                     <span class="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">
                         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="rotate(90 12 12)"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="white" d="M13.06 3.283a1.5 1.5 0 0 0-2.12 0L5.281 8.939a1.5 1.5 0 0 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0V7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.283Z"/></g></g></svg>
                     </span>
                 </label>
                {:else}
-                <label for={!data?.user ? 'userLogin' : ''} on:click={purchasePlan} class="btn text-white bg-purple-600 hover:bg-purple-500 transition duration-150 ease-in-out group">
+                <label for={!data?.user ? 'userLogin' : ''} on:click={() => purchasePlan()} class="btn text-white bg-purple-600 hover:bg-purple-500 transition duration-150 ease-in-out group">
                    Get Pro
                     <span class="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">
                         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="rotate(90 12 12)"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="white" d="M13.06 3.283a1.5 1.5 0 0 0-2.12 0L5.281 8.939a1.5 1.5 0 0 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0V7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.283Z"/></g></g></svg>
@@ -360,6 +365,80 @@ async function purchasePlan() {
 
                
             </div>
+            <!--End Pricing Card-->
+
+
+             <!--Start Pricing Card-->
+             <div class="h-[660px] sm:order-2 box sm:-mt-10 flex flex-col p-6 lg:p-8 mx-auto ring-[1px] ring-gray-400 rounded-lg w-full text-center text-white">
+
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-2xl flex flex-row border border-gray-300 items-center p-2">
+                    <span class="text-white text-md font-semibold px-3">
+                        Limited Offer
+                    </span>
+                </div>          
+
+                <div class="flex flex-row justify-start items-center mt-10">
+                    <img src={cloudFrontUrl+"/assets/life_time_access_logo.png"} class="mr-4 w-28 transform ease-in-out duration-300" loading="lazy" alt="life time tier" />
+                    <h2 class="text-4xl text-center font-bold text-white">
+                        Life Time
+                    </h2>
+                </div>
+                
+
+                <div class="flex flex-col mb-6 items-center">
+
+                    <div class="flex flex-row items-center">
+                        <span class="mr-2 text-4xl font-bold">$599</span>
+                    </div>
+                </div>
+
+
+                <ol class="mb-8 space-y-4 text-left mt-6">
+                    <li class="flex items-center space-x-3 ">
+                        <!-- Icon -->
+                        <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#09090B" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
+                        <span class="text-white text-[1rem] font-semibold">Everything in Pro Tier</span>
+                    </li>
+                    <li class="flex items-center space-x-3 ">
+                        <!-- Icon -->
+                        <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#09090B" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
+                        <span class="text-white text-[1rem] font-semibold">Pay Once and never again.</span>
+                    </li>
+                    <li class="flex items-center space-x-3 ">
+                        <!-- Icon -->
+                        <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#09090B" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
+                        <span class="text-white text-[1rem] font-semibold">Only 20 Slots left</span>
+                    </li>
+                </ol>
+
+                <div class="divider"></div>
+                <div class="m-auto w-full text-white font-medium text-sm mb-6">
+                    + Unlimited feature updates
+                </div>  
+
+                {#if data?.user?.tier === 'Pro' && !data?.user?.freeTrial}
+                <a class="btn text-white bg-[#fff] bg-opacity-[0.2] transition duration-150 ease-in-out group" href="#">
+                    Active Plan
+               </a>
+               {:else if data?.user?.tier === 'Pro' && data?.user?.freeTrial === true}
+
+                <label for={!data?.user ? 'userLogin' : ''} on:click={() => purchasePlan('lifeTime')} class="btn text-white bg-purple-600 hover:bg-purple-500 transition duration-150 ease-in-out group">
+                    Get Life Time Access
+                   <span class="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">
+                       <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="rotate(90 12 12)"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="white" d="M13.06 3.283a1.5 1.5 0 0 0-2.12 0L5.281 8.939a1.5 1.5 0 0 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0V7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.283Z"/></g></g></svg>
+                   </span>
+                </label>
+                {:else}
+                <label for={!data?.user ? 'userLogin' : ''} on:click={() => purchasePlan('lifeTime')} class="btn text-white bg-purple-600 hover:bg-purple-500 transition duration-150 ease-in-out group">
+                    Get Life Time Access
+                   <span class="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">
+                       <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="rotate(90 12 12)"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="white" d="M13.06 3.283a1.5 1.5 0 0 0-2.12 0L5.281 8.939a1.5 1.5 0 0 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0V7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.283Z"/></g></g></svg>
+                   </span>
+                </label>
+                {/if}
+               
+            </div>
+          
             <!--End Pricing Card-->
 
 
@@ -546,7 +625,7 @@ async function purchasePlan() {
                     <!-- CTA -->
                      {#if data?.user?.tier !== 'Pro'}
                     <div class="text-center">
-                        <label for={!data?.user ? 'userLogin' : ''} on:click={purchasePlan} class="w-56 btn text-white bg-purple-600 hover:bg-purple-500 transition duration-150 ease-in-out group">
+                        <label for={!data?.user ? 'userLogin' : ''} on:click={() => purchasePlan()} class="w-56 btn text-white bg-purple-600 hover:bg-purple-500 transition duration-150 ease-in-out group">
                             Subscribe to Pro
                              <span class="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out">
                                  <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="rotate(90 12 12)"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="white" d="M13.06 3.283a1.5 1.5 0 0 0-2.12 0L5.281 8.939a1.5 1.5 0 0 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0V7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.283Z"/></g></g></svg>
@@ -776,18 +855,14 @@ font-size: 0.97rem;
     .light-box-2 {
         --border-size: 1px;
         --border-angle: 0turn;
-        background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 10%, #000, #FBCE3C);
+        --border-radius: 15px; /* Added border radius */
+        background-image: conic-gradient(from var(--border-angle), #09090B, #09090B 50%, #09090B), conic-gradient(from var(--border-angle), transparent 10%, #fff, #fff);
+        background-size: calc(100% - (var(--border-size) * 2)) calc(100% - (var(--border-size) * 2)), cover;
         background-position: center center;
         background-repeat: no-repeat;
-    }
-    
-    
-    .light-box-3 {
-        --border-size: 1px;
-        --border-angle: 0turn;
-        background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 10%, #000, #FBCE3C);
-        background-position: center center;
-        background-repeat: no-repeat;
+        border-radius: var(--border-radius); /* Added border radius */
+
+        animation: bg-spin 30s linear infinite;
     }
     
     

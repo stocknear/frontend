@@ -30,7 +30,7 @@ export const POST = async ({ request, locals }) => {
    
     // Print out the data (replace this with your actual handling logic)
     const output = JSON.parse(body);
-    console.log('Received payment data:', output);
+    //console.log('Received payment data:', output);
     const userId = output?.meta?.custom_data?.userId;
     const status = output?.data?.attributes?.status;
     const refunded = output?.data?.attributes?.refunded;
@@ -52,10 +52,14 @@ export const POST = async ({ request, locals }) => {
         'tier': tier
       });
 
+      /*
       if(status !== 'paid') {
         const data = {'user': userId, 'data': output}
         await locals.pb.collection('payments').create(data);
       }
+      */
+      const data = {'user': userId, 'data': output}
+      await locals.pb.collection('payments').create(data);
       
     } catch(e) {
       console.log(e)

@@ -13,7 +13,7 @@ export const load = async ({ locals}) => {
 		  }))?.at(0)?.data?.data?.attributes ?? {} ;
 	
 		//console.log(output)
-		
+		  
 		return output;
 	  };
 

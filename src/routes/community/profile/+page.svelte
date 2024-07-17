@@ -923,7 +923,11 @@ onDestroy(async () => {
                                     Current Plan:
                                   </span>
                                   <span class="text-[1rem]">
+                                    {#if subscriptionData?.first_order_item?.product_name === 'Pro Subscription (Life Time Access)'}
+                                      Life Time Access
+                                    {:else}
                                     {['Active', 'Paid', 'On Trial', 'Cancelled']?.includes(subscriptionData?.status_formatted) ? subscriptionData?.product_name : data?.user?.freeTrial === true ? 'Free Trial Subscription' : 'Free Subscription'}
+                                    {/if}
                                   </span>
                                   <span class="text-sm text-white {subscriptionData?.status_formatted !== 'Active' ? 'hidden' : ''}">
                                     {subscriptionData?.product_name?.includes('Monthly') ? '$49.99 billed every month' : '$499 billed every year'}
@@ -932,11 +936,11 @@ onDestroy(async () => {
                                 
                                 {#if subscriptionData?.status_formatted === 'Active' || subscriptionData?.status_formatted === 'On Trial'}
                                 <div class="flex flex-col items-start sm:flex-row sm:items-center">
-                                  <label for="cancelSubscriptionModal" class="cursor-pointer text-white bg-[#FF3131] sm:hover:bg-red-600 bg-opacity-[0.5]  text-sm sm:text-[1rem] px-4 py-2 rounded-lg mt-5">
+                                  <label for="cancelSubscriptionModal" class="cursor-pointer text-white border border-gray-600 sm:hover:bg-[#27272A] bg-opacity-[0.5]  text-sm sm:text-[1rem] px-4 py-2 rounded-lg mt-5">
                                     Cancel Subscription
                                   </label>
                                   {#if subscriptionData?.product_name?.includes('Monthly')}
-                                  <label for={subscriptionData?.card_brand !== null && subscriptionData?.card_brand?.length !== 0 ? 'changeSubscriptionModal' : 'errorSubscriptionModal'} class="sm:ml-3 {subscriptionData?.card_brand !== null && subscriptionData?.card_brand?.length !== 0 ? 'cursor-pointer' : 'cursor-not-allowed'} {subscriptionData?.card_brand !== null && subscriptionData?.card_brand?.length !== 0 ? 'bg-[#0DDE00] text-black' : 'bg-gray-600 opacity-[0.8] text-white'} text-sm sm:text-[1rem] px-4 py-2 rounded-lg mt-5">
+                                  <label for={subscriptionData?.card_brand !== null && subscriptionData?.card_brand?.length !== 0 ? 'changeSubscriptionModal' : 'errorSubscriptionModal'} class="sm:ml-3 {subscriptionData?.card_brand !== null && subscriptionData?.card_brand?.length !== 0 ? 'cursor-pointer' : 'cursor-not-allowed'} {subscriptionData?.card_brand !== null && subscriptionData?.card_brand?.length !== 0 ? 'bg-white sm:hover:bg-white/80 text-black' : 'bg-gray-600 opacity-[0.8] text-white'} text-sm sm:text-[1rem] px-4 py-2 rounded-lg mt-5">
                                     Change to Annual Plan
                                   </label>
                                   {/if}
@@ -947,11 +951,11 @@ onDestroy(async () => {
                                 <label for="reactivateSubscriptionModal" class="cursor-pointer text-white bg-[#75D377] bg-opacity-[0.5]  text-sm sm:text-[1rem] px-4 py-2 rounded-lg mt-5">
                                   Reactivate Subscription
                                 </label>
-                                {:else if subscriptionData?.status_formatted === 'Paid'}
+                                {:else if subscriptionData?.status_formatted === 'Paid' && !subscriptionData?.first_order_item?.product_name === 'Pro Subscription (Life Time Access'}
                                 <span class="text-white mt-5">
                                   Please wait a moment; you will be updated to Pro in a second.
                                 </span>
-                                {:else if data?.user?.freeTrial}
+                                {:else if data?.user?.freeTrial || subscriptionData?.first_order_item?.product_name === 'Pro Subscription (Life Time Access)'}
                                 {:else}
                                 <a href="/pricing" class="text-blue-400 mt-5">
                                   Get Full Access with Pro Subscription.
@@ -1127,7 +1131,7 @@ onDestroy(async () => {
       </span>
     </div>
 
-    <button on:click={() => isClicked = !isClicked} class="{!isClicked ? '' : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded-full bg-[#0DDE00]  text-center text-black text-[1rem] font-normal">
+    <button on:click={() => isClicked = !isClicked} class="{!isClicked ? '' : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded-full text-center bg-[#10DB06] text-black font-semibold text-[1rem] font-normal">
       Change to Annual Plan
       <input class="hidden" name='subscriptionId' value={subscriptionData?.first_subscription_item?.subscription_id}/>
     </button>
