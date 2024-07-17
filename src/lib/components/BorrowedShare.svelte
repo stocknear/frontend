@@ -99,6 +99,10 @@ function findLowestAndHighestFee(data, lastDateStr) {
   
     const option = {
     silent: true,
+    tooltip: {
+        trigger: 'axis',
+        hideDelay: 100, // Set the delay in milliseconds
+    },
     animation: $screenWidth < 640 ? false: true,
     grid: {
         left: '2%',

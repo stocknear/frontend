@@ -66,6 +66,7 @@
     eps:  (ruleOfList?.find(item => item.name === "eps") || { condition: 'above' }).condition,
     growthEPS:  (ruleOfList?.find(item => item.name === "growthEPS") || { condition: 'above' }).condition,
     pe:  (ruleOfList?.find(item => item.name === "pe") || { condition: 'above' }).condition,
+    forwardPE:  (ruleOfList?.find(item => item.name === "forwardPE") || { condition: 'above' }).condition,
     beta:  (ruleOfList?.find(item => item.name === "beta") || { condition: 'above' }).condition,
     ebitda:  (ruleOfList?.find(item => item.name === "ebitda") || { condition: 'above' }).condition,
     growthEBITDA:  (ruleOfList?.find(item => item.name === "growthEBITDA") || { condition: 'above' }).condition,
@@ -141,6 +142,7 @@
     { rule: 'operatingIncome', label: 'Operating Income',category: 'fund' },
     { rule: 'growthOperatingIncome', label: 'Operating Income Growth [%]',category: 'fund' },
     { rule: 'pe', label: 'Price per Earnings (PE)', category: 'fund'},
+    { rule: 'forwardPE', label: 'Forward PE', category: 'fund'},
     { rule: 'priceToBookRatio', label: 'Price to Book Ratio (PB)', category: 'fund'},
     { rule: 'priceToSalesRatio', label: 'Price to Sales Ratio (PS)', category: 'fund'},
     { rule: 'beta', label: 'Beta', category: 'fund'},
@@ -206,6 +208,8 @@
       let valueEPS = (ruleOfList?.find(item => item.name === "eps") || { value: 2 }).value;
       let valueGrowthEPS = (ruleOfList?.find(item => item.name === "growthEPS") || { value: 10 }).value;
       let valuePE = (ruleOfList?.find(item => item.name === "pe") || { value: 10 }).value;
+      let valueForwardPE = (ruleOfList?.find(item => item.name === "forwardPE") || { value: 10 }).value;
+
       let valuePriceToBookRatio = (ruleOfList?.find(item => item.name === "priceToBookRatio") || { value: 5 }).value;
       let valuePriceToSalesRatio = (ruleOfList?.find(item => item.name === "priceToSalesRatio") || { value: 10 }).value;
       let valueBeta = (ruleOfList?.find(item => item.name === "beta") || { value: 1 }).value;
@@ -280,6 +284,7 @@ const valueMappings = {
   operatingIncome: valueOperatingIncome,
   growthOperatingIncome: valueGrowthOperatingIncome,
   pe: valuePE,
+  forwardPE: valueForwardPE,
   priceToBookRatio: valuePriceToBookRatio,
   priceToSalesRatio: valuePriceToSalesRatio,
   beta: valueBeta,
@@ -331,6 +336,7 @@ const conditions = {
   operatingIncome: ruleCondition.operatingIncome,
   growthOperatingIncome: ruleCondition.growthOperatingIncome,
   pe: ruleCondition.pe,
+  forwardPE: ruleCondition.forwardPE,
   priceToBookRatio: ruleCondition.priceToBookRatio,
   priceToSalesRatio: ruleCondition.priceToSalesRatio,
   beta: ruleCondition.beta,
@@ -568,6 +574,9 @@ $: {
           break;
         case 'pe':
           ruleToUpdate.value = valuePE;
+          break;
+        case 'forwardPE':
+          ruleToUpdate.value = valueForwardPE;
           break;
         case 'priceToBookRatio':
           ruleToUpdate.value = valuePriceToBookRatio;
@@ -1572,6 +1581,30 @@ $: {
        
                {/if}
                <!--End PE Rule-->
+
+                <!--Start PE Rule-->
+                {#if ruleName === 'forwardPE'}       
+                <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+                  Forward PE {ruleCondition[ruleName]} {valueForwardPE}
+        
+                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
+                    <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
+                    <span class="label-text text-white">Below</span> 
+                  </label>
+                  <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                    <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
+                    <span class="label-text text-white">Above</span> 
+                  </label>
+        
+                </div>
+     
+                  <div class="w-full pt-5">
+                    <input type="range" min="-100" max="100" step="5" bind:value={valueForwardPE} class="range range-secondary" />
+        
+                  </div>
+        
+                {/if}
+                <!--End PE Rule-->
 
                <!--Start Price to Book Ratio Rule-->
                {#if ruleName === 'priceToBookRatio'}       
