@@ -241,9 +241,9 @@ function findLowestAndhighestIV(data, lastDateStr) {
   
 
   $: {
-  if($assetType === 'stock' ? $stockTicker :$etfTicker && typeof window !== 'undefined') {
+  if($assetType === 'stock' ? $stockTicker : $etfTicker && typeof window !== 'undefined') {
     isLoaded=false;
-    const ticker = $assetType === 'stock' ? $stockTicker :$etfTicker
+    const ticker = $assetType === 'stock' ? $stockTicker : $etfTicker
     const asyncFunctions = [
       getImpliedVolatility(ticker)
       ];
