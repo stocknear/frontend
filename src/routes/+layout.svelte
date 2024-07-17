@@ -3,7 +3,7 @@
   import "../app.pcss";
   
   import { Toaster } from 'svelte-french-toast';
-  import {getImageURL, addDays} from '$lib/utils';
+  import {getImageURL } from '$lib/utils';
 
   import NProgress from 'nprogress';
   import 'nprogress/nprogress.css';
@@ -47,7 +47,8 @@
   let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
 
 
-  const trialLeftDays = Math?.floor(addDays(data, 7, ''));
+//const trialLeftDays = Math?.floor(addDays(data, 7, ''));
+
 
 async function pushNotification() {
   Notification?.requestPermission()?.then(perm => {
@@ -630,9 +631,8 @@ $: {
           <Card.Title>Upgrade to Pro</Card.Title>
           <Card.Description>
             {#if data?.user?.freeTrial === true}
-              You have only
-              <span class="font-bold text-[#FBCE3C]">{trialLeftDays} days</span>
-              left on your free trial. Upgrade now for unlimited access to all features!
+              Your free trial will be expired soon.
+              Upgrade now for unlimited access to all features!
             {:else}
               Unlock all features of the platform and level up your trading.
             {/if}
@@ -930,9 +930,8 @@ $: {
                 <Card.Title>Upgrade to Pro</Card.Title>
                 <Card.Description>
                   {#if data?.user?.freeTrial === true}
-                    You have only
-                    <span class="font-bold text-[#FBCE3C]">{trialLeftDays} days</span>
-                    left on your free trial. Upgrade now for unlimited access to all features!
+                   Your free trial will expire soon.
+                   Upgrade now for unlimited access to all features!
                   {:else}
                     Unlock all features of the platform and level up your trading.
                   {/if}

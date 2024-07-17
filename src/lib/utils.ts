@@ -382,7 +382,7 @@ export function addDays(data, days, state) {
     return result;
   } else {
     const differenceInTime = result - createdDate;
-    const differenceInDays = differenceInTime / (1000 * 60 * 60 * 24);
+    const differenceInDays = Math.round(differenceInTime / (1000 * 60 * 60 * 24));
     return Math.abs(differenceInDays);
   }
 }
