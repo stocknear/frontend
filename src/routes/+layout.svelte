@@ -821,7 +821,7 @@ $: {
                         <a href="/options-flow" class="text-[1rem] text-white ml-4 mt-2">Options Flow</a>
                       </Button>
                       <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="options-zero-dte" class="text-[1rem] text-white ml-4 mt-4">0DTE Flow</a>
+                        <a href="/options-zero-dte" class="text-[1rem] text-white ml-4 mt-4">0DTE Flow</a>
                       </Button>
                     </div>
 
