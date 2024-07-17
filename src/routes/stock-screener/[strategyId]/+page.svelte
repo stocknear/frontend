@@ -1583,7 +1583,7 @@ $: {
                <!--End PE Rule-->
 
                 <!--Start PE Rule-->
-                {#if ruleName === 'forwardPE'}       
+                {#if ruleName === 'forwardPE'}
                 <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
                   Forward PE {ruleCondition[ruleName]} {valueForwardPE}
         
