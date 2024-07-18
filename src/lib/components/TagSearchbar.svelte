@@ -334,15 +334,15 @@ $: {
       <p class="text-xs font-semibold text-[#FB6A67] px-2 mb-4">Oh snapp, ticker does not exist in our database</p>
       {/if}
       {#if !showSuggestions}
-      <div class="text-start text-sm font-semibold text-slate-400 mb-2">
+      <div class="text-start text-sm font-semibold text-white mb-2">
         Popular
       </div>
       {/if}  
       <ul class="text-sm" >
           {#if !showSuggestions }
             {#each popularList as item}
-              <li>
-                <a data-sveltekit-preload-data="false" on:click={() => popularTicker(item?.symbol) } class="mb-2 {item?.symbol === focusedSuggestion ? 'shake-ticker cursor-pointer flex justify-start items-center p-2 text-white bg-[#404040] bg-opacity-[0.25] rounded group' : 'shake-ticker cursor-pointer bg-[#09090B] rounded-lg flex justify-start items-center p-2 text-white  group'} w-full">
+              <li class="border-b border-gray-800">
+                <a data-sveltekit-preload-data="false" on:click={() => popularTicker(item?.symbol) } class="mb-2 {item?.symbol === focusedSuggestion ? 'shake-ticker cursor-pointer flex justify-start items-center p-2 text-white bg-[#404040] bg-opacity-[0.25] rounded group' : 'shake-ticker cursor-pointer bg-[#09090B] sm:hover:bg-[#17171A] rounded-lg flex justify-start items-center p-2 text-white  group'} w-full">
                   <div class="flex flex-row items-center w-full">
                     <div class="rounded-full w-10 h-10 relative bg-[#000] flex items-center justify-center">
                       <img style="clip-path: circle(50%);" class="w-6 h-6" src={`https://financialmodelingprep.com/image-stock/${item?.symbol}.png`} loading="lazy" />
@@ -368,14 +368,14 @@ $: {
             
            
           {:else if showSuggestions && searchResults?.length > 0}
-          <div class="text-start text-sm font-semibold text-slate-400 mb-2">
+          <div class="text-start text-sm font-semibold text-white mb-2">
             Suggestions
           </div>
             {#each searchResults as item}
-              <li>
+              <li class="border-b border-gray-800">
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <!-- svelte-ignore a11y-label-has-associated-control -->
-                <label data-sveltekit-preload-data="false" on:click={() => (searchBarTicker(item?.symbol, item?.type))} class="mb-2 {item?.symbol === focusedSuggestion ? 'shake-ticker cursor-pointer flex justify-start items-center p-2 text-white bg-[#404040] bg-opacity-[0.25] rounded group' : 'cursor-pointer mb-2 bg-[#09090B] rounded-lg flex justify-start items-center p-2 text-white group'}">
+                <label data-sveltekit-preload-data="false" on:click={() => (searchBarTicker(item?.symbol, item?.type))} class="mb-2 {item?.symbol === focusedSuggestion ? 'shake-ticker cursor-pointer flex justify-start items-center p-2 text-white bg-[#404040] bg-opacity-[0.25] rounded group' : 'cursor-pointer mb-2 bg-[#09090B] sm:hover:bg-[#17171A] rounded-lg flex justify-start items-center p-2 text-white group'}">
                   <div class="flex flex-row items-center w-full">
 
                     <div class="flex flex-col">
