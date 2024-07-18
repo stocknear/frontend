@@ -72,7 +72,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
     
     
     <div class="flex flex-col w-full justify-center items-center">
-      <div class="text-center mb-10 w-full">                
+      <div class="text-center w-full">                
 
         <section>
           <div class="relative w-full mx-auto overflow-hidden">
@@ -192,7 +192,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
 
 
                                   <div class="overlay m-auto flex justify-center z-20 items-center w-fit sm:w-[820px] h-full">
-                                    <img class="w-full" src={cloudFrontUrl+"/assets/showcase-stock.png"} loading = 'lazy' alt="logo">
+                                    <img class="w-full" src={cloudFrontUrl+"/assets/showcase-stock.png"} alt="logo">
                                   </div>
                                 </div>
 
