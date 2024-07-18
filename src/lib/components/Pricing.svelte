@@ -277,9 +277,9 @@ onMount(async () => {
                 </div>          
 
                 <div class="flex flex-row justify-start items-center mt-10">
-                    <img src={cloudFrontUrl+"/assets/life_time_access_logo.png"} class="mr-4 w-28 transform ease-in-out duration-300" loading="lazy" alt="life time tier" />
+                    <img src={cloudFrontUrl+"/assets/life_time_access_logo.png"} class="mr-4 w-28 transform ease-in-out duration-300" loading="lazy" alt="Lifetime tier" />
                     <h2 class="text-4xl text-center font-bold text-white">
-                        Life Time
+                        Lifetime
                     </h2>
                 </div>
                 

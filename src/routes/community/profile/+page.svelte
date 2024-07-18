@@ -923,8 +923,8 @@ onDestroy(async () => {
                                     Current Plan:
                                   </span>
                                   <span class="text-[1rem]">
-                                    {#if subscriptionData?.first_order_item?.product_name === 'Pro Subscription (Life Time Access)'}
-                                      Life Time Access
+                                    {#if subscriptionData?.first_order_item?.product_name === 'Pro Subscription (Lifetime Access)'}
+                                      Lifetime Access
                                     {:else}
                                     {['Active', 'Paid', 'On Trial', 'Cancelled']?.includes(subscriptionData?.status_formatted) ? subscriptionData?.product_name : data?.user?.freeTrial === true ? 'Free Trial Subscription' : 'Free Subscription'}
                                     {/if}
@@ -951,11 +951,11 @@ onDestroy(async () => {
                                 <label for="reactivateSubscriptionModal" class="cursor-pointer text-white bg-[#75D377] bg-opacity-[0.5]  text-sm sm:text-[1rem] px-4 py-2 rounded-lg mt-5">
                                   Reactivate Subscription
                                 </label>
-                                {:else if subscriptionData?.status_formatted === 'Paid' && !subscriptionData?.first_order_item?.product_name === 'Pro Subscription (Life Time Access'}
+                                {:else if subscriptionData?.status_formatted === 'Paid' && !subscriptionData?.first_order_item?.product_name === 'Pro Subscription (Lifetime Access'}
                                 <span class="text-white mt-5">
                                   Please wait a moment; you will be updated to Pro in a second.
                                 </span>
-                                {:else if data?.user?.freeTrial || subscriptionData?.first_order_item?.product_name === 'Pro Subscription (Life Time Access)'}
+                                {:else if data?.user?.freeTrial || subscriptionData?.first_order_item?.product_name === 'Pro Subscription (Lifetime Access)'}
                                 {:else}
                                 <a href="/pricing" class="text-blue-400 mt-5">
                                   Get Full Access with Pro Subscription.
