@@ -101,7 +101,7 @@ async function handleSellOrder()
     const response = await fetch(fastifyURL+'/sell-stock', {
         method: 'POST',
         headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
         },
         body: JSON.stringify(postData)
     });

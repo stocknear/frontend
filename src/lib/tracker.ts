@@ -26,7 +26,7 @@ export const trackPageVisit = async (path, userAgent) => {
   const response = await fetch(fastifyURL+'/mixpanel', {
       method: 'POST',
       headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
       },
       body: JSON.stringify(postData)
   });
@@ -47,7 +47,7 @@ export const trackPageDuration = async (path, userAgent, time) => {
   const response = await fetch(fastifyURL+'/mixpanel', {
       method: 'POST',
       headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
       },
       body: JSON.stringify(postData)
   });
@@ -69,7 +69,7 @@ export const trackPageError = async (path, userAgent, status, message) => {
   const response = await fetch(fastifyURL+'/mixpanel', {
       method: 'POST',
       headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
       },
       body: JSON.stringify(postData)
   });
@@ -88,7 +88,7 @@ export const trackAsset = async (symbol, assetType) => {
   const response = await fetch(fastifyURL+'/mixpanel', {
       method: 'POST',
       headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
       },
       body: JSON.stringify(postData)
   });
@@ -106,7 +106,7 @@ export const trackButtonClick = async (name) => {
   const response = await fetch(fastifyURL+'/mixpanel', {
       method: 'POST',
       headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
       },
       body: JSON.stringify(postData)
   });

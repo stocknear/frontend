@@ -82,7 +82,7 @@ async function getPriceAlert()
     const response = await fetch(fastifyURL+'/get-price-alert', {
     method: 'POST',
     headers: {
-    'Content-Type': 'application/json'
+     "Content-Type": "application/json"
     },
     body: JSON.stringify(postData)
 });
@@ -139,7 +139,7 @@ async function handleDelete() {
         const response = await fetch(fastifyURL+'/delete-price-alert', {
             method: 'POST',
             headers: {
-            'Content-Type': 'application/json'
+             "Content-Type": "application/json"
             },
             body: JSON.stringify(postData)
         });

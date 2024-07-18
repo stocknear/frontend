@@ -15,6 +15,8 @@
 
     let historyData = [];
     let apiURL;
+let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
+
 
     userRegion.subscribe(value => {
 
@@ -210,7 +212,7 @@ const getRetailVolume = async (ticker) => {
       const response = await fetch(apiURL + '/retail-volume', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json", "X-API-KEY": apiKey
         },
         body: JSON.stringify(postData)
       });

@@ -20,6 +20,8 @@ const usRegion = ['cle1','iad1','pdx1','sfo1'];
 let fastifyURL;
 let wsURL;
 let apiURL;
+let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
+
 
 userRegion?.subscribe(value => {
 if (usRegion?.includes(value)) {
@@ -45,7 +47,7 @@ async function loadSearchData() {
        const response = await fetch(apiURL+'/searchbar-data', {
       method: 'GET',
       headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json","X-API-KEY": apiKey
       },
       });
   
@@ -182,7 +184,7 @@ async function toggleUserWatchlist(watchListId: string) {
     const response = await fetch(fastifyURL + '/update-watchlist', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(postData),
     });
@@ -217,7 +219,7 @@ async function fetchPortfolio()
     const response = await fetch(fastifyURL+'/get-portfolio-data', {
       method: 'POST',
       headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
       },
       body: JSON.stringify(postData)
     });

@@ -8,7 +8,7 @@ const url = `https://disposable.debounce.io/?email=${encodeURIComponent(email)}`
 	const response = await fetch(url, {
 		method: 'GET',
 		headers: {
-		'Content-Type': 'application/json',
+		"Content-Type": "application/json"
 		},
 	});
 	const output = (await response.json())?.disposable ?? false;

@@ -101,7 +101,7 @@ const formData = new FormData(event.target); // create a FormData object from th
 const response = await fetch('/api/register', {
 method: 'POST',
 headers: {
-'Content-Type': 'application/json'
+"Content-Type": "application/json","X-API-KEY": apiKey
 },
 body: JSON.stringify(formData)
 });

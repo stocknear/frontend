@@ -77,4 +77,3 @@ function handleInput(event) {
 		{/each}
 	{/if}
 </div>
-

@@ -23,7 +23,7 @@ export const POST = async ({ request, locals }) => {
       return new Response(JSON.stringify({ error: 'Invalid signature' }), {
         status: 403,
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json","X-API-KEY": apiKey
         }
       });
     }
@@ -72,7 +72,7 @@ export const POST = async ({ request, locals }) => {
     return new Response(JSON.stringify({ message: 'Payment data received successfully' }), {
       status: 200,
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json","X-API-KEY": apiKey
       }
     });
   } catch (error) {
@@ -80,7 +80,7 @@ export const POST = async ({ request, locals }) => {
     return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json","X-API-KEY": apiKey
       }
     });
   }

@@ -24,7 +24,7 @@ export const load = async ({parent}) => {
       const response = await fetch('https://api.github.com/repos/stocknear/frontend', {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json"
         },
       });
 
@@ -47,7 +47,7 @@ export const load = async ({parent}) => {
       const response = await fetch('https://api.github.com/repos/stocknear/backend', {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json"
         },
       });
 

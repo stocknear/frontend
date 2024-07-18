@@ -3,7 +3,7 @@ async function loadTwitchStatus(fastifyURL:string,) {
     const response = await fetch(fastifyURL+'/get-twitch-status', {
       method: 'GET',
       headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json","X-API-KEY": apiKey
       },
     });
   

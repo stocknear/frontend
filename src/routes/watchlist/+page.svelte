@@ -125,7 +125,7 @@ async function createWatchList(event) {
     const response = await fetch(fastifyURL + '/create-watchlist', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(postData),
     }); // make a POST request to the server with the FormData object
@@ -191,7 +191,7 @@ async function editNameWatchList(event) {
     const response = await fetch(fastifyURL + '/edit-name-watchlist', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(postData),
     }); // make a POST request to the server with the FormData object
@@ -252,7 +252,7 @@ async function deleteWatchList(event) {
     const response = await fetch(fastifyURL + '/delete-watchlist', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(postData),
     });
@@ -299,7 +299,7 @@ async function getAllListData()
     const response = await fetch(fastifyURL+'/all-watchlists', {
     method: 'POST',
     headers: {
-    'Content-Type': 'application/json'
+    "Content-Type": "application/json"
     },
     body: JSON.stringify(postData)
 });

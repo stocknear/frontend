@@ -44,7 +44,7 @@ export const load = async ({ params }) => {
         const response = await fetch(fastifyURL+'/leaderboard', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+             "Content-Type": "application/json"
         },
         body: JSON.stringify(postData),
         });

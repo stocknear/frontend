@@ -348,7 +348,7 @@
                                 </label>
                                 <div class="flex flex-col text-white truncate m-auto p-1">
                                   <span class="font-medium text-md">{formattedWeekday[index]}</span>
-                                  <span class="text-sm m-auto pt-1 pb-1"> {day.length} Earnings</span>
+                                  <span class="text-sm m-auto pt-1 pb-1"> {day?.length > 1 ? `${day?.length} Splits` : `${day?.length} Split`}</span>
                                 </div>
                                 <label on:click={() => clickWeekday('next', index) } class="sm:hidden mr-auto">
                                   <svg class="w-8 h-8 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"/></svg>

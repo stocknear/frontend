@@ -22,8 +22,7 @@
 }
     
         
-    
-    </script>
+</script>
     
     
     

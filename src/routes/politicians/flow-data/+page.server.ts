@@ -6,6 +6,8 @@ export const load = async ({locals}) => {
 
   const userRegion = locals.region?.split("::")[0];
   let apiURL;
+let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
+
 
     if (usRegion?.includes(userRegion)) {
         apiURL = import.meta.env.VITE_USEAST_API_URL;
@@ -18,7 +20,7 @@ export const load = async ({locals}) => {
     const response = await fetch(apiURL + '/congress-rss-feed', {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json", "X-API-KEY": apiKey
       },
     });
 

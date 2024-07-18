@@ -12,6 +12,8 @@
     const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
     let apiURL;
+let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
+
 
     userRegion.subscribe(value => {
 
@@ -144,7 +146,7 @@ const getEnterPriseValues = async (ticker) => {
       const response = await fetch(apiURL + '/enterprise-values', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json", "X-API-KEY": apiKey
         },
         body: JSON.stringify(postData)
       });

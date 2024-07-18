@@ -2,6 +2,8 @@
 const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
 let companyName;
+let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
+
 
 function cleanString(input) {
     // Define a list of substrings to remove (case insensitive)
@@ -37,7 +39,7 @@ const fetchData = async (apiURL, endpoint, ticker) => {
   const response = await fetch(apiURL + endpoint, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json", "X-API-KEY": apiKey
     },
     body: JSON.stringify(postData)
   });
@@ -58,7 +60,7 @@ const fetchWatchlist = async (fastifyURL, userId) => {
     const response = await fetch(fastifyURL+'/all-watchlists', {
         method: 'POST',
         headers: {
-        'Content-Type': 'application/json'
+         "Content-Type": "application/json"
         },
         body: JSON.stringify(postData)
     });
@@ -75,7 +77,7 @@ async function fetchPortfolio(fastifyURL, userId)
     const response = await fetch(fastifyURL+'/get-portfolio-data', {
       method: 'POST',
       headers: {
-      'Content-Type': 'application/json'
+       "Content-Type": "application/json"
       },
       body: JSON.stringify(postData)
     });
@@ -90,6 +92,7 @@ export const load = async ({ params, locals, setHeaders}) => {
     const userRegion = locals.region?.split("::")[0];
 
     let apiURL;
+
     let fastifyURL;
 
     if (usRegion?.includes(userRegion)) {

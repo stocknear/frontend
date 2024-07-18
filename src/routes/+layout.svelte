@@ -93,6 +93,8 @@ async function detectSWUpdate() {
   const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
   let apiURL;
+let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
+
   let fastifyURL;
 
   userRegion.subscribe(value => {
@@ -255,7 +257,7 @@ async function fallbackWorker() {
     const response = await fetch(fastifyURL+'/get-notifications', {
         method: 'POST',
         headers: {
-        'Content-Type': 'application/json'
+    
         },
         body: JSON.stringify(postData)
     });

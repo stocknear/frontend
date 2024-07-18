@@ -17,15 +17,12 @@
   
   const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
-  let apiURL = import.meta.env.VITE_EU_API_URL; // Set a default API URL
   let fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
 
   userRegion.subscribe(value => {
     if (usRegion.includes(value)) {
-      apiURL = import.meta.env.VITE_USEAST_API_URL;
       fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
     } else {
-      apiURL = import.meta.env.VITE_EU_API_URL;
       fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
     }
   });
@@ -62,7 +59,7 @@ const getUserData = async() => {
   const response = await fetch(fastifyURL+'/get-user-data', {
       method: 'POST',
       headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json"
       },
       body: JSON.stringify(postData)
       });
@@ -114,7 +111,7 @@ const getUserStats = async () => {
     const response = await fetch(fastifyURL + '/get-user-stats', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(postData)
     });
@@ -142,7 +139,7 @@ const getModerators = async () => {
     const response = await fetch(fastifyURL + '/get-moderators', {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json"
       },
     });
 
@@ -176,7 +173,7 @@ async function getPost() {
   const response = await fetch(fastifyURL+'/get-post', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json"
     },
     body: JSON.stringify(postData),
   });

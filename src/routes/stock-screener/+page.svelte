@@ -12,6 +12,8 @@
   const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
   let apiURL;
+let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
+
   let fastifyURL;
 
   userRegion.subscribe(value => {
@@ -38,7 +40,7 @@ async function getAllStrategies()
     const response = await fetch(fastifyURL+'/all-strategies', {
     method: 'POST',
     headers: {
-    'Content-Type': 'application/json'
+     "Content-Type": "application/json"
     },
     body: JSON.stringify(postData)
   });
@@ -86,7 +88,7 @@ async function createStrategy(event)
   const response = await fetch(fastifyURL+'/create-strategy', {
     method: 'POST',
     headers: {
-    'Content-Type': 'application/json'
+     "Content-Type": "application/json"
     },
     body: JSON.stringify(postData)
   });
@@ -144,7 +146,7 @@ onMount(async () => {
     const response = await fetch(fastifyURL+'/delete-strategy', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+         "Content-Type": "application/json"
       },
       body: JSON.stringify(postData)
     });

@@ -1,5 +1,6 @@
 // lib/workers/test.ts
 
+let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
 
 async function getOneDayPrice(ticker: string, apiURL:string) {
 
@@ -10,7 +11,7 @@ async function getOneDayPrice(ticker: string, apiURL:string) {
     const response = await fetch(apiURL + '/one-day-price', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json", "X-API-KEY": apiKey
       },
       body: JSON.stringify(postData)
     });
@@ -41,7 +42,7 @@ async function getHistoricalPrice(ticker: string, apiURL:string) {
     const response = await fetch(apiURL + '/historical-price', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json", "X-API-KEY": apiKey
       },
       body: JSON.stringify(postData)
     });

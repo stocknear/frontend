@@ -34,7 +34,7 @@ async function updateSentiment(sentiment:string) {
         const response = await fetch('/api/community-sentiment', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json","X-API-KEY": apiKey
         },
         body: JSON.stringify(postData),
         }); // make a POST request to the server with the FormData object

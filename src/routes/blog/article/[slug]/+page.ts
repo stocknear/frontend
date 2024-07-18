@@ -35,7 +35,7 @@ const getDiscordWidget = async () => {
     const response = await fetch('https://discord.com/api/guilds/1165618982133436436/widget.json', {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json", "X-API-KEY": apiKey
       },
     });
 

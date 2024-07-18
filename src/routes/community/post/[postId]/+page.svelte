@@ -74,7 +74,7 @@
     const response = await fetch(fastifyURL+'/upvote', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
         },
       body: JSON.stringify(postData)
     }); // make a POST request to the server with the FormData object
@@ -110,7 +110,7 @@
     const response = await fetch(fastifyURL+'/downvote', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
         },
       body: JSON.stringify(postData)
     }); // make a POST request to the server with the FormData object
@@ -172,7 +172,7 @@
     const response = await fetch(fastifyURL+'/delete-post', {
       method: 'POST',
       headers: {
-              'Content-Type': 'application/json'
+              "Content-Type": "application/json"
       },
       body: JSON.stringify(postData)
       });
@@ -223,7 +223,7 @@
     const response = await fetch(fastifyURL+'/get-all-comments', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(postData),
         });
@@ -248,7 +248,7 @@
         const response = await fetch(fastifyURL + '/get-moderators', {
           method: 'GET',
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json"
           },
         });
   

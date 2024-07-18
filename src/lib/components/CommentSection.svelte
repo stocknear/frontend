@@ -118,7 +118,7 @@ const handleUpvote = async (event) => {
   const response = await fetch(fastifyURL+'/upvote-comment', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
       },
     body: JSON.stringify(postData)
   }); // make a POST request to the server with the FormData object
@@ -154,7 +154,7 @@ const handleDownvote = async (event) => {
   const response = await fetch(fastifyURL+'/downvote-comment', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
       },
     body: JSON.stringify(postData)
   }); // make a POST request to the server with the FormData object
@@ -204,7 +204,7 @@ const handleDownvote = async (event) => {
   const response = await fetch(fastifyURL+'/delete-comment', {
     method: 'POST',
     headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
     },
     body: JSON.stringify(postData)
   }); // make a POST request to the server with the FormData object

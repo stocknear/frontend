@@ -30,7 +30,7 @@ async function createPortfolio(event) {
   const response = await fetch(fastifyURL+'/create-portfolio', {
       method: 'POST',
       headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
       },
       body: JSON.stringify(postData)
   });
