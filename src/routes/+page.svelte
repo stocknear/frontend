@@ -1,7 +1,7 @@
 <script lang='ts'>  
   import DotPattern from '$lib/components/DotPattern.svelte';
   import Marquee from '$lib/components/Marquee.svelte';
-
+  import Pricing from '$lib/components/Pricing.svelte';
   //import Discount from '$lib/components/Discount.svelte';
   import { intersect } from 'svelte-intersection-observer-action';
 
@@ -425,8 +425,6 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                             </section>
 
 
-
-
                                 <h1 class="text-white w-5/6 sm:w-full m-auto text-3xl sm:text-4xl font-bold pt-96 mt-10 mb-4">
                                   Proudly Open Source
                                 </h1>
@@ -455,15 +453,21 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                   Leave a star to support us
                                 </div>
 
+
+                                <Pricing />
+
+
                                 </div>
 
                                
 
 
+                                
                             </div>
 
-
                       </div>
+
+                      
       
                   </div>
               </div>
