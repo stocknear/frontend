@@ -657,7 +657,7 @@ $: {
             <span class="sr-only">Toggle Menu</span>
           </Button>
         </Sheet.Trigger>
-        <Sheet.Content side="left" class="sm:max-w-xs bg-[#141417]">
+        <Sheet.Content side="left" class="sm:max-w-xs bg-[#141417] overflow-y-scroll">
           <nav class="grid gap-6 text-lg font-medium bg-[#141417]">
             <a
             href="/"
@@ -923,7 +923,7 @@ $: {
           </nav>
 
           {#if data?.user?.tier === 'Free' || data?.user?.freeTrial === true}
-          <div class="pt-10 w-full left-0 bottom-5 m-auto absolute sticky">
+          <div class="pt-10 w-full mb-5 m-auto sticky">
             <Card.Root
             >
               <Card.Header class="p-4">
