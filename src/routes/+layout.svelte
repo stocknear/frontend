@@ -581,7 +581,7 @@ $: {
           </Accordion.Root>
                   
         </div>
-
+        <!--
         <a href="/dark-pool-flow" class="flex flex-row items-center ml-9 w-full mt-3">
           <div
             class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
@@ -591,6 +591,7 @@ $: {
           </div>
           <span class="ml-3 text-white">Dark Pool</span>
         </a>
+      -->
 
         <a href="/hedge-funds" class="flex flex-row items-center ml-9 w-full mt-3">
           <div
@@ -868,7 +869,7 @@ $: {
             </Accordion.Root>
                     
           </div>
-
+        <!--
         <Sheet.Close asChild let:builder>
           <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 w-full">
             <a href="/dark-pool-flow" class="flex flex-row items-center w-full -mt-2"> 
@@ -880,7 +881,8 @@ $: {
                   </div>
             </a>
           </Button>
-        </Sheet.Close>    
+        </Sheet.Close>
+        -->
 
         <Sheet.Close asChild let:builder>
           <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 w-full">
