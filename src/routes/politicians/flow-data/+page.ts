@@ -1,7 +1,6 @@
 import { userRegion, getCache, setCache } from '$lib/store';
 import defaultAvatar from '$lib/images/senator/default-avatar.png';
 import { getPartyForPoliticians } from '$lib/utils';
-import { redirect } from '@sveltejs/kit';
 
 
 const usRegion = ['cle1','iad1','pdx1','sfo1'];
@@ -9,6 +8,15 @@ const usRegion = ['cle1','iad1','pdx1','sfo1'];
 let apiURL;
 let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
 
+
+userRegion.subscribe(value => {
+
+  if (usRegion?.includes(value)) {
+    apiURL = import.meta.env.VITE_USEAST_API_URL;
+  } else {
+    apiURL = import.meta.env.VITE_EU_API_URL;
+  }
+});
 
 
 let images = {};
@@ -30,88 +38,7 @@ async function loadImages() {
 }
 
 
-
-userRegion.subscribe(value => {
-
-  if (usRegion.includes(value)) {
-    apiURL = import.meta.env.VITE_USEAST_API_URL;
-  } else {
-    apiURL = import.meta.env.VITE_EU_API_URL;
-  }
-});
-
-
-export const load = async ({ parent}) => {
-
-  const data = await parent();
-
-  if (!data?.user) {
-		redirect(303, '/');
-	}
-
-  const getDailyGainerLoserActive = async () => {
-    let output;
-
-    // Get cached data for the specific tickerID
-    const cachedData = getCache('', 'getDailyGainerLoserActive');
-    if (cachedData) {
-      output = cachedData;
-    } else {
-
-      // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/market-movers', {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
-        },
-      });
-
-      output = await response.json();
-
-      setCache('', output, 'getDailyGainerLoserActive');
-    }
-
-    return output;
-  };
-
-  const getRssFeedWIIM = async () => {
-    let output;
-
-    // Get cached data for the specific tickerID
-    const cachedData = getCache('', 'getRssFeedWIIM');
-    if (cachedData) {
-      output = cachedData;
-    } else {
-
-      // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/rss-feed-wiim', {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
-        },
-      });
-
-      output = await response.json();
-
-      setCache('', output, 'getRssFeedWIIM');
-    }
-
-    return output;
-  };
-
-  const getOptionsFlowFeed = async () => {
-    // make the POST request to the endpoint
-    const response = await fetch(apiURL + '/options-flow-feed', {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json", "X-API-KEY": apiKey
-      },
-    });
-    const output = await response.json();
-
-    return output;
-  };
-
+export const load = async () => {
   const getPoliticianRSS = async () => {
     let output;
 
@@ -161,9 +88,6 @@ export const load = async ({ parent}) => {
 
   // Make sure to return a promise
   return {
-    getDailyGainerLoserActive: await getDailyGainerLoserActive(),
-    getRssFeedWIIM: await getRssFeedWIIM(),
-    getPoliticianRSS: await getPoliticianRSS(),
-    getOptionsFlowFeed: await getOptionsFlowFeed(),
+    getPoliticianRSS: await getPoliticianRSS()
   };
 };

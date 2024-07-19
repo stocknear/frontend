@@ -47,7 +47,7 @@
               layout: {
                   background: {
                       type: ColorType.Solid,
-                      color: '#27272A',
+                      color: '#09090B',
                   },
                   lineColor: '#2B2B43',
                   textColor: '#D9D9D9',
@@ -111,15 +111,15 @@ function etfSelector() {
     etfTicker.update(value => 'SPY');
     goto('/etf/SPY');
   }
-  else if (title === 'Nasdaq 100') {
+  else if (title === 'Nasdaq') {
     etfTicker.update(value => 'QQQ');
     goto('/etf/QQQ');
   }
-  else if (title === 'Dow Jones') {
+  else if (title === 'Dow') {
     etfTicker.update(value => 'DIA');
     goto('/etf/DIA');
   }
-  else if (title === 'Russel 2000') {
+  else if (title === 'Russel') {
     etfTicker.update(value => 'IWM');
     goto('/etf/IWM');
   }
@@ -138,15 +138,16 @@ if(chart && typeof window !== 'undefined')
 
 
 
-<label on:click={etfSelector} class="sm:hover:border-[#3C74D4] duration-200 transition ease-in-out cursor-pointer flex flex-row items-center rounded-lg shadow-lg border border-slate-800 bg-[#27272A]">
+
+<label on:click={etfSelector} class="sm:hover:border-[#3C74D4] duration-200 transition ease-in-out cursor-pointer flex flex-row items-center rounded-lg shadow-lg border border-gray-800 bg-[#09090B]">
   <div class="flex flex-col items-center lg:mr-5">
-    <span class="text-white font-bold text-xs w-20 text-center">{title}</span>
+    <span class="text-white font-semibold text-xs w-20 text-start pl-3 uppercase">{title}</span>
     <div class="flex flex-row mt-1 items-center">
       {#if changesPercentage >=0}
-        <svg class="w-5 h-5 -mr-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
+        <svg class="w-4 h-4 -mr-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
         <span class="text-[#10DB06] text-xs font-medium">+{changesPercentage?.toFixed(2)}%</span>
       {:else}
-        <svg class="w-5 h-5 -mr-0.5 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
+        <svg class="w-4 h-4 -mr-0.5 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
         <span class="text-[#FF2F1F] text-xs font-medium">{changesPercentage?.toFixed(2)}% </span> 
       {/if}
     </div>
