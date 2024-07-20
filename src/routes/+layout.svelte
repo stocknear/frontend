@@ -435,7 +435,7 @@ $: {
 {:else }
 
 <div class="flex min-h-screen w-full flex-col bg-[#09090B]">
-  <aside class="fixed overflow-y-scroll inset-y-0 left-0 z-50 hidden w-72 flex-col 2xl:border-r 2xl:border-gray-800 bg-[#141417] 2xl:flex">
+  <aside class="fixed overflow-y-scroll scroller overflow-hidden inset-y-0 left-0 z-50 hidden w-72 flex-col 2xl:border-r 2xl:border-gray-800 bg-[#141417] 2xl:flex">
     <nav class="flex flex-col items-center mr-auto gap-y-4 2xl:py-5 w-full">
       <a
         href="/"
