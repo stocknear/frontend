@@ -92,7 +92,7 @@ onMount( async() => {
                 <Activity class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
-                <a href={`/stocks/${quickInfo?.active?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-lg sm:text-xl font-semibold">{quickInfo?.active?.symbol}</a>
+                <a href={`/stocks/${quickInfo?.active?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-[1rem] sm:text-xl font-semibold">{quickInfo?.active?.symbol}</a>
                 <p class="text-start text-[1rem] sm:text-lg font-medium text-white mt-1">
                   <!--${quickInfo?.active?.price}-->
                       {#if quickInfo?.active?.changesPercentage >=0}
@@ -111,7 +111,7 @@ onMount( async() => {
                 <Crown class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
-                <a href={`/stocks/${quickInfo?.winner?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-lg sm:text-xl font-semibold">{quickInfo?.winner?.symbol}</a>
+                <a href={`/stocks/${quickInfo?.winner?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-[1rem] sm:text-xl font-semibold">{quickInfo?.winner?.symbol}</a>
                 <p class="text-start text-[1rem] sm:text-lg font-medium text-white mt-1">
                   <!--${quickInfo?.winner?.price}-->
                       {#if quickInfo?.winner?.changesPercentage >=0}
@@ -130,7 +130,7 @@ onMount( async() => {
                 <Bomb class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
-                <a href={`/stocks/${quickInfo?.loser?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-lg sm:text-xl font-semibold">{quickInfo?.loser?.symbol}</a>
+                <a href={`/stocks/${quickInfo?.loser?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-[1rem] sm:text-xl font-semibold">{quickInfo?.loser?.symbol}</a>
                 <p class="text-start text-[1rem] sm:text-lg font-medium text-white mt-1">
                   <!--${quickInfo?.loser?.price?.toFixed(2)}-->
                       {#if quickInfo?.loser?.changesPercentage >=0}
@@ -149,7 +149,7 @@ onMount( async() => {
                 <Zap class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
-                <a href={`/stocks/${quickInfo?.shorted?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-lg sm:text-xl font-semibold">{quickInfo?.shorted?.symbol}</a>
+                <a href={`/stocks/${quickInfo?.shorted?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-[1rem] sm:text-xl font-semibold">{quickInfo?.shorted?.symbol}</a>
                 <p class="text-start text-[1rem] sm:text-lg font-medium text-[#FF2F1F] mt-1">
                   Short: {quickInfo?.shorted?.shortOutStandingPercent?.toFixed(2)}%
                 </p>
@@ -262,7 +262,7 @@ onMount( async() => {
               </Card.Header>
               <Card.Content>
                 {#each data?.getDashboard?.wiimFeed as item}
-                  <div class="border border-gray-800 p-6 mb-4 rounded-lg text-start">
+                  <div class="pb-4 sm:pb-0 border-b sm:border border-gray-800 sm:p-6 mb-4 rounded-none sm:rounded-lg text-start">
                     <div class="text-sm text-white">
                       <div class="flex flex-col items-start">
                         <div class="hidden sm:flex flex-row items-center mb-3">
@@ -312,7 +312,7 @@ onMount( async() => {
                 <div class="mb-4 rounded-lg text-start">
                     {#each data?.getDashboard?.marketNews as item}
                       <div class="flex flex-col items-start pt-4 pb-4 border-t border-gray-800">
-                        <div class="hidden sm:flex flex-row items-center mb-3">
+                        <div class="flex flex-row items-center mb-3">
                           <span class="text-gray-300 text-xs">
                             {formatDate(item?.date)} ago
                           </span>
