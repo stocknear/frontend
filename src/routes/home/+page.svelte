@@ -13,70 +13,11 @@
   import Activity from "lucide-svelte/icons/activity";
   import { abbreviateNumber, formatDate, formatString } from '$lib/utils';
   
-  import { userRegion, searchBarData, numberOfUnreadNotification} from '$lib/store';
-
-
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-  let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-
-  userRegion.subscribe(value => {
-    if (usRegion.includes(value)) {
-      apiURL = import.meta.env.VITE_USEAST_API_URL;
-    } else {
-      apiURL = import.meta.env.VITE_EU_API_URL;
-    }
-  });
+  import {  numberOfUnreadNotification} from '$lib/store';
 
   export let data;
 
-  let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
-
-  const rawData = data?.getDailyGainerLoserActive;
-  const rssFeedWIIM = data?.getRssFeedWIIM;
-
-
-
-  let gainer = rawData?.gainers['1D']?.slice(0,5);
-  let loser = rawData?.losers['1D']?.slice(0,5);
-  let active = rawData?.active['1D']?.slice(0,5);
-  //let sliderList = rawData?.active['1D'];
-
-  let gainerLoserTickers = [];
-  let showLoser = false;
-  let buttonText = 'Top Winners';
-
-  let trendingText = 'gainer';
-  gainerLoserTickers = gainer;
-
-function scrollToItem(state) {
-  trendingText = state;
-  
-  const item = document?.getElementById('start-trending-slider');
-  if (item) {
-    item?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' });
-  }
-  
-}
-
-
-
-  function handleClick() {
-    showLoser = !showLoser;
-    buttonText = showLoser ? 'Top Losers' : 'Top Winners';
-    
-    if(showLoser)
-    {
-      gainerLoserTickers = loser;
-    }
-    else {
-      gainerLoserTickers = gainer;
-    }
-
-
-  }
-
+  const quickInfo = data?.getDashboard?.quickInfo;
 
 function latestInfoDate(inputDate) {
     // Convert the input date string to milliseconds since epoch
@@ -104,28 +45,6 @@ onMount( async() => {
 })
 
 
-async function loadSearchData() {
-    
-    if($searchBarData?.length !== 0)
-    {
-      return
-    }
-    else {
-  
-       // make the GET request to the endpoint
-       const response = await fetch(apiURL+'/searchbar-data', {
-      method: 'GET',
-      headers: {
-          "Content-Type": "application/json","X-API-KEY": apiKey
-      },
-      });
-  
-      $searchBarData = await response.json();
-    }
-     
-  
-  }
-  
 
 
 </script>
@@ -173,8 +92,17 @@ async function loadSearchData() {
                 <Activity class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
-                <div class="text-start text-2xl font-bold">$45,231.89</div>
-                <p class="text-start text-sm text-muted-foreground">+20.1% from last month</p>
+                <a href={`/stocks/${quickInfo?.active?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-xl font-semibold">{quickInfo?.active?.symbol}</a>
+                <p class="text-start text-lg font-medium text-white mt-1">
+                  ${quickInfo?.active?.price}
+                      {#if quickInfo?.active?.changesPercentage >=0}
+                      <svg class="w-5 h-5 -mr-0.5 -mt-0.5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
+                      <span class="text-[#10DB06] font-medium">+{quickInfo?.active?.changesPercentage?.toFixed(2)}%</span>
+                    {:else}
+                      <svg class="w-5 h-5 -mr-0.5 -mt-0.5 inline-block rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
+                      <span class="text-[#FF2F1F] font-medium">{quickInfo?.active?.changesPercentage?.toFixed(2)}% </span> 
+                    {/if}
+                </p>
               </Card.Content>
             </Card.Root>
             <Card.Root class="hidden sm:block">
@@ -183,8 +111,17 @@ async function loadSearchData() {
                 <Crown class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
-                <div class="text-start text-2xl font-bold">+2350</div>
-                <p class="text-start text-sm text-muted-foreground">+180.1% from last month</p>
+                <a href={`/stocks/${quickInfo?.winner?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-xl font-semibold">{quickInfo?.winner?.symbol}</a>
+                <p class="text-start text-lg font-medium text-white mt-1">
+                  ${quickInfo?.winner?.price}
+                      {#if quickInfo?.winner?.changesPercentage >=0}
+                      <svg class="w-5 h-5 -mr-0.5 -mt-0.5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
+                      <span class="text-[#10DB06] font-medium">+{abbreviateNumber(quickInfo?.winner?.changesPercentage?.toFixed(2))}%</span>
+                    {:else}
+                      <svg class="w-5 h-5 -mr-0.5 -mt-0.5 inline-block rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
+                      <span class="text-[#FF2F1F] font-medium">{abbreviateNumber(quickInfo?.winner?.changesPercentage?.toFixed(2))}% </span> 
+                    {/if}
+                </p>
               </Card.Content>
             </Card.Root>
             <Card.Root class="hidden sm:block">
@@ -193,8 +130,17 @@ async function loadSearchData() {
                 <Bomb class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
-                <div class="text-start text-2xl font-bold">+12,234</div>
-                <p class="text-start text-sm text-muted-foreground">+19% from last month</p>
+                <a href={`/stocks/${quickInfo?.loser?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-xl font-semibold">{quickInfo?.loser?.symbol}</a>
+                <p class="text-start text-lg font-medium text-white mt-1">
+                  ${quickInfo?.loser?.price?.toFixed(2)}
+                      {#if quickInfo?.loser?.changesPercentage >=0}
+                      <svg class="w-5 h-5 -mr-0.5 -mt-0.5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
+                      <span class="text-[#10DB06] font-medium">+{abbreviateNumber(quickInfo?.loser?.changesPercentage?.toFixed(2))}%</span>
+                    {:else}
+                      <svg class="w-5 h-5 -mr-0.5 -mt-0.5 inline-block rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
+                      <span class="text-[#FF2F1F] font-medium">{abbreviateNumber(quickInfo?.loser?.changesPercentage?.toFixed(2))}% </span> 
+                    {/if}
+                </p>
               </Card.Content>
             </Card.Root>
             <Card.Root class="hidden sm:block">
@@ -203,8 +149,10 @@ async function loadSearchData() {
                 <Zap class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
-                <div class="text-start text-2xl font-bold">+573</div>
-                <p class="text-start text-sm text-muted-foreground">+201 since last hour</p>
+                <a href={`/stocks/${quickInfo?.shorted?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-xl font-semibold">{quickInfo?.shorted?.symbol}</a>
+                <p class="text-start text-lg font-medium text-white mt-1">
+                  Short Interest: {quickInfo?.shorted?.shortOutStandingPercent?.toFixed(2)}%
+                </p>
               </Card.Content>
             </Card.Root>
           </div>
@@ -234,16 +182,13 @@ async function loadSearchData() {
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
-                    {#each data?.getOptionsFlowFeed?.slice(0,3) as item}
+                    {#each data?.getDashboard?.optionsFlow as item}
                     <Table.Row>
                       <Table.Cell>
-                        <div class="font-medium text-blue-400">{item?.ticker}</div>
-                        <div class="hidden sm:flex text-sm text-gray-300">
-                            {item?.name}
-                        </div>
+                        <a href={item?.assetType === 'stock' ? `/stocks/${item?.ticker}` : `/etf/${item?.ticker}`} class="font-medium text-blue-400">{item?.ticker}</a>
                       </Table.Cell>
                       <Table.Cell class="xl:table.-column">
-                        {abbreviateNumber(item?.cost_basis)}
+                        {abbreviateNumber(item?.cost_basis,true)}
                       </Table.Cell>
                       <Table.Cell class="xl:table.-column">
                         ${item?.strike_price}
@@ -275,7 +220,7 @@ async function loadSearchData() {
                 </Card.Title>
               </Card.Header>
               <Card.Content class="grid gap-y-4">
-                {#each data?.getPoliticianRSS?.slice(0,4) as item}
+                {#each data?.getDashboard?.congressFlow as item}
                 <div class="flex items-center gap-x-4">
                   <Avatar.Root class="h-12 w-12 border border-gray-800 flex-shrink-0 avatar {item?.party === 'Republican' ? 'bg-[#98272B]' : item?.party === 'Democratic' ? 'bg-[#295AC7]' : 'bg-[#20202E]'} sm:flex">
                     <Avatar.Image src={item?.image} alt="Avatar" />
@@ -315,7 +260,7 @@ async function loadSearchData() {
                 </div>
               </Card.Header>
               <Card.Content>
-                {#each rssFeedWIIM.slice(0,5) as item}
+                {#each data?.getDashboard?.wiimFeed as item}
                   <div class="border border-gray-800 p-6 mb-4 rounded-lg text-start">
                     <div class="text-sm text-white">
                       <div class="flex flex-col items-start">
@@ -364,18 +309,20 @@ async function loadSearchData() {
               </Card.Header>
               <Card.Content class="">
                 <div class="mb-4 rounded-lg text-start">
-                  <div class="text-sm">
-                    <div class="flex flex-col items-start">
-                      <div class="hidden sm:flex flex-row items-center mb-3">
-                
-                        <span class="text-gray-300 text-xs">
-                          17m ago
-                        </span>
+                    {#each data?.getDashboard?.marketNews as item}
+                      <div class="flex flex-col items-start pt-4 pb-4 border-t border-gray-800">
+                        <div class="hidden sm:flex flex-row items-center mb-3">
+                          <span class="text-gray-300 text-xs">
+                            {formatDate(item?.date)} ago
+                          </span>
+                        </div>
+                        <a href={item?.url} rel="noopener noreferrer" target="_blank" class="text-sm text-blue-400 sm:hover:text-white transition duration-100">
+                          {item?.text}
+                        </a>
                       </div>
-                      <span class="text-sm text-blue-400">S&P 500 Staggers To Worst Week Since April As Goldman Sachs Warns Of Cool Summe... - Forbes</span>
-                    </div>
+                    {/each}
                     
-                  </div>
+                    
                 </div>
              
               </Card.Content>

@@ -49,17 +49,17 @@ export const load = async ({ parent}) => {
 		redirect(303, '/');
 	}
 
-  const getDailyGainerLoserActive = async () => {
+
+  const getDashboard = async () => {
     let output;
 
     // Get cached data for the specific tickerID
-    const cachedData = getCache('', 'getDailyGainerLoserActive');
+    const cachedData = getCache('', 'getDashboard');
     if (cachedData) {
       output = cachedData;
     } else {
 
-      // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/market-movers', {
+      const response = await fetch(apiURL + '/dashboard-info', {
         method: 'GET',
         headers: {
           "Content-Type": "application/json", "X-API-KEY": apiKey
@@ -68,72 +68,10 @@ export const load = async ({ parent}) => {
 
       output = await response.json();
 
-      setCache('', output, 'getDailyGainerLoserActive');
-    }
-
-    return output;
-  };
-
-  const getRssFeedWIIM = async () => {
-    let output;
-
-    // Get cached data for the specific tickerID
-    const cachedData = getCache('', 'getRssFeedWIIM');
-    if (cachedData) {
-      output = cachedData;
-    } else {
-
-      // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/rss-feed-wiim', {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
-        },
-      });
-
-      output = await response.json();
-
-      setCache('', output, 'getRssFeedWIIM');
-    }
-
-    return output;
-  };
-
-  const getOptionsFlowFeed = async () => {
-    // make the POST request to the endpoint
-    const response = await fetch(apiURL + '/options-flow-feed', {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json", "X-API-KEY": apiKey
-      },
-    });
-    const output = await response.json();
-
-    return output;
-  };
-
-  const getPoliticianRSS = async () => {
-    let output;
-
-    // Get cached data for the specific tickerID
-    const cachedData = getCache('', 'getPoliticianRSS');
-    if (cachedData) {
-      output = cachedData;
-    } else {
-
-      const response = await fetch(apiURL + '/congress-rss-feed', {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
-        },
-      });
-
-      output = await response.json();
-
-      // Cache the data for this specific tickerID with a specific name 'getPoliticianRSS'
-
+      // Cache the data for this specific tickerID with a specific name 'getDashboard'
+      let congressFlow = output?.congressFlow;
       await loadImages();
-      output?.forEach(item => {
+      congressFlow?.forEach(item => {
         let representative = item?.representative || '';
     
         representative = representative?.replace('Jr', '')
@@ -145,7 +83,7 @@ export const load = async ({ parent}) => {
         item.representative = fullName?.replace(/_/g, ' ');
         });
     
-        output = output?.map(item => {
+        congressFlow = congressFlow?.map(item => {
             const party = getPartyForPoliticians(item?.representative);
             return {
                 ...item,
@@ -153,17 +91,15 @@ export const load = async ({ parent}) => {
             };
       });
 
-      
-      setCache('', output, 'getPoliticianRSS');
+      output.congressFlow = congressFlow;
+
+      setCache('', output, 'getDashboard');
     }
     return output;
   };
 
   // Make sure to return a promise
   return {
-    getDailyGainerLoserActive: await getDailyGainerLoserActive(),
-    getRssFeedWIIM: await getRssFeedWIIM(),
-    getPoliticianRSS: await getPoliticianRSS(),
-    getOptionsFlowFeed: await getOptionsFlowFeed(),
+    getDashboard: await getDashboard(),
   };
 };
