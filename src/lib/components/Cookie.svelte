@@ -9,7 +9,7 @@ async function cookieConsent(state:string) {
     const response = await fetch('/api/cookies', {
       method: 'POST',
       headers: {
-        "Content-Type": "application/json","X-API-KEY": apiKey
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(postData),
       }); // make a POST request to the server with the FormData object
