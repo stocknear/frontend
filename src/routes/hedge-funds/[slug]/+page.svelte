@@ -22,7 +22,6 @@
   let optionsData = {};
   let currentPage=1;
   const itemsPerPage = 50;
-  let numOfTrades = rawData?.numberOfStocks;
   let images = {};
 
   let deactivateContent = data?.user?.tier === 'Pro' ? false : true;
