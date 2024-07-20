@@ -85,73 +85,73 @@ onMount( async() => {
         </h1>
 
         <main class="flex flex-1 flex-col gap-4 sm:p-4 md:gap-8">
-          <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+          <div class="grid gap-4 grid-cols-2 md:gap-8 lg:grid-cols-4">
             <Card.Root>
               <Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
-                <Card.Title class="text-start text-xl font-semibold">Most Active</Card.Title>
+                <Card.Title class="text-start text-[1rem] sm:text-xl font-semibold">Most Active</Card.Title>
                 <Activity class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
-                <a href={`/stocks/${quickInfo?.active?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-xl font-semibold">{quickInfo?.active?.symbol}</a>
-                <p class="text-start text-lg font-medium text-white mt-1">
-                  ${quickInfo?.active?.price}
+                <a href={`/stocks/${quickInfo?.active?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-lg sm:text-xl font-semibold">{quickInfo?.active?.symbol}</a>
+                <p class="text-start text-[1rem] sm:text-lg font-medium text-white mt-1">
+                  <!--${quickInfo?.active?.price}-->
                       {#if quickInfo?.active?.changesPercentage >=0}
-                      <svg class="w-5 h-5 -mr-0.5 -mt-0.5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
+                      <svg class="hidden sm:inline-block w-5 h-5 -mr-0.5 -mt-0.5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
                       <span class="text-[#10DB06] font-medium">+{quickInfo?.active?.changesPercentage?.toFixed(2)}%</span>
                     {:else}
-                      <svg class="w-5 h-5 -mr-0.5 -mt-0.5 inline-block rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
+                      <svg class="hidden sm:inline-block w-5 h-5 -mr-0.5 -mt-0.5 inline-block rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
                       <span class="text-[#FF2F1F] font-medium">{quickInfo?.active?.changesPercentage?.toFixed(2)}% </span> 
                     {/if}
                 </p>
               </Card.Content>
             </Card.Root>
-            <Card.Root class="hidden sm:block">
+            <Card.Root >
               <Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
-                <Card.Title class="text-start text-xl font-semibold">Biggest Winner</Card.Title>
+                <Card.Title class="text-start text-[1rem] sm:text-xl font-semibold">Biggest Winner</Card.Title>
                 <Crown class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
-                <a href={`/stocks/${quickInfo?.winner?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-xl font-semibold">{quickInfo?.winner?.symbol}</a>
-                <p class="text-start text-lg font-medium text-white mt-1">
-                  ${quickInfo?.winner?.price}
+                <a href={`/stocks/${quickInfo?.winner?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-lg sm:text-xl font-semibold">{quickInfo?.winner?.symbol}</a>
+                <p class="text-start text-[1rem] sm:text-lg font-medium text-white mt-1">
+                  <!--${quickInfo?.winner?.price}-->
                       {#if quickInfo?.winner?.changesPercentage >=0}
-                      <svg class="w-5 h-5 -mr-0.5 -mt-0.5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
+                      <svg class="hidden sm:inline-block w-5 h-5 -mr-0.5 -mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
                       <span class="text-[#10DB06] font-medium">+{abbreviateNumber(quickInfo?.winner?.changesPercentage?.toFixed(2))}%</span>
                     {:else}
-                      <svg class="w-5 h-5 -mr-0.5 -mt-0.5 inline-block rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
+                      <svg class="hidden sm:inline-block w-5 h-5 -mr-0.5 -mt-0.5 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
                       <span class="text-[#FF2F1F] font-medium">{abbreviateNumber(quickInfo?.winner?.changesPercentage?.toFixed(2))}% </span> 
                     {/if}
                 </p>
               </Card.Content>
             </Card.Root>
-            <Card.Root class="hidden sm:block">
+            <Card.Root>
               <Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
-                <Card.Title class="text-start text-xl font-semibold">Biggest Loser</Card.Title>
+                <Card.Title class="text-start text-[1rem] sm:text-xl font-semibold">Biggest Loser</Card.Title>
                 <Bomb class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
-                <a href={`/stocks/${quickInfo?.loser?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-xl font-semibold">{quickInfo?.loser?.symbol}</a>
-                <p class="text-start text-lg font-medium text-white mt-1">
-                  ${quickInfo?.loser?.price?.toFixed(2)}
+                <a href={`/stocks/${quickInfo?.loser?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-lg sm:text-xl font-semibold">{quickInfo?.loser?.symbol}</a>
+                <p class="text-start text-[1rem] sm:text-lg font-medium text-white mt-1">
+                  <!--${quickInfo?.loser?.price?.toFixed(2)}-->
                       {#if quickInfo?.loser?.changesPercentage >=0}
-                      <svg class="w-5 h-5 -mr-0.5 -mt-0.5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
+                      <svg class="hidden sm:inline-block w-5 h-5 -mr-0.5 -mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
                       <span class="text-[#10DB06] font-medium">+{abbreviateNumber(quickInfo?.loser?.changesPercentage?.toFixed(2))}%</span>
                     {:else}
-                      <svg class="w-5 h-5 -mr-0.5 -mt-0.5 inline-block rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
+                      <svg class="hidden sm:inline-block w-5 h-5 -mr-0.5 -mt-0.5 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
                       <span class="text-[#FF2F1F] font-medium">{abbreviateNumber(quickInfo?.loser?.changesPercentage?.toFixed(2))}% </span> 
                     {/if}
                 </p>
               </Card.Content>
             </Card.Root>
-            <Card.Root class="hidden sm:block">
+            <Card.Root>
               <Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
-                <Card.Title class="text-start text-xl font-semibold">Most Shorted</Card.Title>
+                <Card.Title class="text-start text-[1rem] sm:text-xl font-semibold">Most Shorted</Card.Title>
                 <Zap class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
-                <a href={`/stocks/${quickInfo?.shorted?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-xl font-semibold">{quickInfo?.shorted?.symbol}</a>
-                <p class="text-start text-lg font-medium text-white mt-1">
-                  Short Interest: {quickInfo?.shorted?.shortOutStandingPercent?.toFixed(2)}%
+                <a href={`/stocks/${quickInfo?.shorted?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-lg sm:text-xl font-semibold">{quickInfo?.shorted?.symbol}</a>
+                <p class="text-start text-[1rem] sm:text-lg font-medium text-[#FF2F1F] mt-1">
+                  Short: {quickInfo?.shorted?.shortOutStandingPercent?.toFixed(2)}%
                 </p>
               </Card.Content>
             </Card.Root>
@@ -160,17 +160,19 @@ onMount( async() => {
           <div class="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3 text-start">
             <Card.Root class="xl:col-span-2 overflow-x-scroll">
               <Card.Header class="flex flex-row items-center">
-                <div class="text-start grid gap-2">
-                  <Card.Title class="text-2xl tex-white font-semibold">Hottest Options Contract</Card.Title>
-                  <Card.Description>Recent options transaction of Hedge Funds</Card.Description>
+                <div class="flex flex-col items-start w-full">
+                  <div class="flex flex-row w-full items-center">
+                    <Card.Title class="text-xl sm:text-2xl tex-white font-semibold">Hottest Options Contract</Card.Title>
+                    <a href="/options-flow" class="ml-auto rounded-lg text-xs px-2 sm:px-3 py-2 font-semibold bg-white text-black">
+                      View All
+                      <ArrowUpRight class="hidden h-4 w-4 shrink-0 -mt-1 ml-0.5 inline-block" />
+                    </a>
+                  </div>
+                  <Card.Description class="mt-2">Recent hedge fund options with the highest premiums.</Card.Description>
                 </div>
-                <Button href="##" class="w-24 ml-auto gap-1 font-semibold bg-white text-black">
-                  View All
-                  <ArrowUpRight class="h-4 w-4 shrink-0" />
-                </Button>
               </Card.Header>
               <Card.Content>
-                <Table.Root class="overflow-x-scroll w-full">
+                <Table.Root class="overflow-x-scroll w-full no-scrollbar">
                   <Table.Header>
                     <Table.Row>
                       <Table.Head class="text-white">Symbol</Table.Head>
@@ -213,7 +215,7 @@ onMount( async() => {
                   <span>
                     Latest Congress Trading
                   </span>
-                  <a href="/politicians/flow-data" class="ml-auto rounded-lg text-sm px-3 py-1.5 font-semibold bg-white text-black">
+                  <a href="/politicians/flow-data" class="ml-auto rounded-lg text-sm px-3 py-2 font-semibold bg-white text-black">
                     View All
                     <ArrowUpRight class="h-4 w-4 shrink-0 -mt-1 ml-0.5 inline-block" />
                   </a>
@@ -256,7 +258,6 @@ onMount( async() => {
               <Card.Header class="flex flex-row items-center">
                 <div class="text-start grid gap-2">
                   <Card.Title class="text-2xl tex-white font-semibold">Market Momentum</Card.Title>
-                  <Card.Description>Recent options transaction of Hedge Funds</Card.Description>
                 </div>
               </Card.Header>
               <Card.Content>
