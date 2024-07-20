@@ -262,7 +262,7 @@ onMount( async() => {
               </Card.Header>
               <Card.Content>
                 {#each data?.getDashboard?.wiimFeed as item}
-                  <div class="pb-4 sm:pb-0 border-b sm:border border-gray-800 sm:p-6 mb-4 rounded-none sm:rounded-lg text-start">
+                  <div class="pb-4 sm:pb-6 border-b sm:border border-gray-800 sm:p-6 mb-4 rounded-none sm:rounded-lg text-start">
                     <div class="text-sm text-white">
                       <div class="flex flex-col items-start">
                         <div class="hidden sm:flex flex-row items-center mb-3">
