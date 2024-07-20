@@ -163,9 +163,9 @@ onMount( async() => {
                 <div class="flex flex-col items-start w-full">
                   <div class="flex flex-row w-full items-center">
                     <Card.Title class="text-xl sm:text-2xl tex-white font-semibold">Hottest Options Contract</Card.Title>
-                    <a href="/options-flow" class="ml-auto rounded-lg text-xs px-2 sm:px-3 py-2 font-semibold bg-white text-black">
+                    <a href="/options-flow" class="ml-auto rounded-lg text-xs sm:text-sm px-2 sm:px-3 py-2 font-semibold bg-white text-black">
                       View All
-                      <ArrowUpRight class="hidden h-4 w-4 shrink-0 -mt-1 ml-0.5 inline-block" />
+                      <ArrowUpRight class="hidden sm:inline-block h-4 w-4 shrink-0 -mt-1 ml-0.5" />
                     </a>
                   </div>
                   <Card.Description class="mt-2">Recent hedge fund options with the highest premiums.</Card.Description>
@@ -215,9 +215,9 @@ onMount( async() => {
                   <span>
                     Latest Congress Trading
                   </span>
-                  <a href="/politicians/flow-data" class="ml-auto rounded-lg text-sm px-3 py-2 font-semibold bg-white text-black">
+                  <a href="/politicians/flow-data" class="ml-auto rounded-lg text-xs sm:text-sm px-2 sm:px-3 py-2 font-semibold bg-white text-black">
                     View All
-                    <ArrowUpRight class="h-4 w-4 shrink-0 -mt-1 ml-0.5 inline-block" />
+                    <ArrowUpRight class="hidden sm:inline-block h-4 w-4 shrink-0 -mt-1 ml-0.5" />
                   </a>
                 </Card.Title>
               </Card.Header>
@@ -233,9 +233,9 @@ onMount( async() => {
                     <p class="text-sm text-muted-foreground">{item?.party ?? 'n/a'}</p>
                   </div>
                   <div class="flex flex-col items-end justify-end text-lg ml-auto">
-                    <p class="text-sm text-white font-medium leading-none">
-                      {formatString(item?.assetDescription) ?? '-'}
-                    </p>
+                    <a href={item?.ticker?.length !== 0 ? `/stocks/${item?.ticker}` : ''} class="text-sm {item?.ticker?.length !== 0 ? 'text-blue-400' : 'text-white cursor-text'} font-medium leading-none">
+                      {item?.ticker?.length !== 0 ? item?.ticker : formatString(item?.assetDescription)?.slice(0,30) + '...'}
+                    </a>
                     
                     <p class="text-sm text-white font-medium mt-1">{item?.amount?.replace("$1,000,001 - $5,000,000","$1Mio - $5Mio")}</p>
                     <p class="text-sm text-white font-medium mt-1">
