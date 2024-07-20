@@ -92,7 +92,7 @@ onMount( async() => {
                 <Activity class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
-                <a href={`/stocks/${quickInfo?.active?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-[1rem] sm:text-xl font-semibold">{quickInfo?.active?.symbol}</a>
+                <a href={`/stocks/${quickInfo?.active?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-[1rem] sm:text-lg font-semibold">{quickInfo?.active?.symbol}</a>
                 <p class="text-start text-[1rem] sm:text-lg font-medium text-white mt-1">
                   <!--${quickInfo?.active?.price}-->
                       {#if quickInfo?.active?.changesPercentage >=0}
@@ -111,7 +111,7 @@ onMount( async() => {
                 <Crown class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
-                <a href={`/stocks/${quickInfo?.winner?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-[1rem] sm:text-xl font-semibold">{quickInfo?.winner?.symbol}</a>
+                <a href={`/stocks/${quickInfo?.winner?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-[1rem] sm:text-lg font-semibold">{quickInfo?.winner?.symbol}</a>
                 <p class="text-start text-[1rem] sm:text-lg font-medium text-white mt-1">
                   <!--${quickInfo?.winner?.price}-->
                       {#if quickInfo?.winner?.changesPercentage >=0}
@@ -130,7 +130,7 @@ onMount( async() => {
                 <Bomb class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
-                <a href={`/stocks/${quickInfo?.loser?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-[1rem] sm:text-xl font-semibold">{quickInfo?.loser?.symbol}</a>
+                <a href={`/stocks/${quickInfo?.loser?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-[1rem] sm:text-lg font-semibold">{quickInfo?.loser?.symbol}</a>
                 <p class="text-start text-[1rem] sm:text-lg font-medium text-white mt-1">
                   <!--${quickInfo?.loser?.price?.toFixed(2)}-->
                       {#if quickInfo?.loser?.changesPercentage >=0}
@@ -149,7 +149,7 @@ onMount( async() => {
                 <Zap class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
-                <a href={`/stocks/${quickInfo?.shorted?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-[1rem] sm:text-xl font-semibold">{quickInfo?.shorted?.symbol}</a>
+                <a href={`/stocks/${quickInfo?.shorted?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-[1rem] sm:text-lg font-semibold">{quickInfo?.shorted?.symbol}</a>
                 <p class="text-start text-[1rem] sm:text-lg font-medium text-[#FF2F1F] mt-1">
                   Short: {quickInfo?.shorted?.shortOutStandingPercent?.toFixed(2)}%
                 </p>
@@ -189,16 +189,16 @@ onMount( async() => {
                       <Table.Cell>
                         <a href={item?.assetType === 'stock' ? `/stocks/${item?.ticker}` : `/etf/${item?.ticker}`} class="font-medium text-blue-400">{item?.ticker}</a>
                       </Table.Cell>
-                      <Table.Cell class="xl:table.-column">
+                      <Table.Cell class="xl:table.-column {item?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
                         {abbreviateNumber(item?.cost_basis,true)}
                       </Table.Cell>
                       <Table.Cell class="xl:table.-column">
                         ${item?.strike_price}
                       </Table.Cell>
-                      <Table.Cell class="md:table.-cell xl:table.-column">
+                      <Table.Cell class="md:table.-cell xl:table.-column {item?.sentiment === 'Bullish' ? 'text-[#00FC50]' : item?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'}">
                         {item?.sentiment}
                       </Table.Cell>
-                      <Table.Cell class="md:table.-cell xl:table.-column">
+                      <Table.Cell class="md:table.-cell xl:table.-column {item?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
                         {item?.put_call}
                       </Table.Cell>
                       
