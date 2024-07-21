@@ -1,5 +1,7 @@
 <script lang ='ts'>
-    import { swapComponent, displayCompanyName, stockTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
+  import { abbreviateNumber } from "$lib/utils";
+
+    import { swapComponent, stockTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
     import { Chart } from 'svelte-echarts'
     import { Motion, AnimateSharedLayout } from "svelte-motion";
@@ -56,9 +58,10 @@ function changeTab(index) {
   
     let rawData = [];
     let optionsData;
-    let sentiment;
+    let avgNotionalAmount;
+    let avgNotionalQuantity;
 
-  
+
   function normalizer(value) {
   if (Math?.abs(value) >= 1e18) {
     return { unit: 'Q', denominator: 1e18 };
@@ -83,7 +86,7 @@ function changeTab(index) {
 
     let dates = [];
     let notionalAmount = [];
-    let notionalQuanitity = [];
+    let notionalQuantity = [];
 
     // Iterate over the data and extract required information
     rawData?.forEach(item => {
@@ -95,20 +98,27 @@ function changeTab(index) {
         dates?.push(item['Expiration Date']);
     }
     notionalAmount?.push(item['Notional amount-Leg 1']);
-    notionalQuanitity?.push(item['Total notional quantity-Leg 1']);
+    notionalQuantity?.push(item['Total notional quantity-Leg 1']);
     });
     
     dates?.sort((a, b) => {
         return new Date(a) - new Date(b);
     });
 
+    // Compute the average of item?.traded
+    const totalNotionalAmount = notionalAmount?.reduce((acc, item) => acc + item, 0);
+    avgNotionalAmount = totalNotionalAmount / notionalAmount?.length;
+
+    const totalNotionalQuantity = notionalQuantity?.reduce((acc, item) => acc + item, 0);
+    avgNotionalQuantity = totalNotionalQuantity / notionalQuantity?.length;
+
     const {unit, denominator } = normalizer(Math.max(...notionalAmount) ?? 0)
 
-    const { unit: quantityUnit, denominator: quantityDenominator } = normalizer(Math.max(...notionalQuanitity) ?? 0);
+    const { unit: quantityUnit, denominator: quantityDenominator } = normalizer(Math.max(...notionalQuantity) ?? 0);
     
     const option = {
     silent: true,
-    animation: $screenWidth < 640 ? false: true,
+    animation: false,
     grid: {
         left: '2%',
         right: $screenWidth < 640 ? '2%' : '6%',
@@ -174,7 +184,7 @@ function changeTab(index) {
             {
                 type: 'scatter',
                 symbolSize: 8,
-                data: dates?.map((date, index) => [date, notionalQuanitity[index]]),
+                data: dates?.map((date, index) => [date, notionalQuantity[index]]),
                 yAxisIndex: 1,
                 itemStyle: {
                     color: '#fff'
@@ -276,7 +286,7 @@ function changeTab(index) {
   
         <div class="w-full flex flex-col items-start">
             <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">
-                Analysis of the 20-day moving average of the options net flow demonstrates a {sentiment} trend, characterized by the {sentiment === 'bullish' ? 'Net Call Flow exceeding the Net Put Flow' : 'Net Put Flow exceeding the Net Call Flow'} .
+                The swap data from the past 100 days shows an average notional amount of {abbreviateNumber(avgNotionalAmount,true)} and an average notional quantity of {abbreviateNumber(avgNotionalQuantity)}.
             </div>
         </div>
   
@@ -287,7 +297,7 @@ function changeTab(index) {
                   {#each tabs as item, i}
                     <button
                       on:click={() => changeTab(i)}
-                      class="group relative z-[1] rounded-full px-3 sm:px-6 py-1 {activeIdx === i
+                      class="group relative z-[1] rounded-full px-3 py-1 {activeIdx === i
                         ? 'z-0'
                         : ''} "
                     >
