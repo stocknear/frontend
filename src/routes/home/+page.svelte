@@ -79,10 +79,24 @@ onMount( async() => {
     
     <div class="flex flex-col w-full max-w-7xl m-auto justify-center items-center">
       <div class="text-center mb-10 w-full px-4 sm:px-3 mt-10">                
+      
         
+        <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
+          <a href="/cramer-tracker" class="text-white antialiased bg-[#27272A] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
+            <span class="font-semibold">Realtime Jim Cramer Stock Picks Tracker</span>
+          </a>
+          <div class="absolute top-[-1.2rem] -right-5 sm:-right-8 rotate-[7deg]">
+            <span class="bg-[#FBCE3C] text-black text-sm sm:text-[0.9rem] rounded-xl font-semibold sm:me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+              New
+            </span>
+          </div>
+        </div>
+
         <h1 class="text-white text-3xl font-semibold text-start w-full pl-4 pb-4 sm:pb-2">
           Dashboard
         </h1>
+
+    
 
         <main class="flex flex-1 flex-col gap-4 sm:p-4 md:gap-8">
           <div class="grid gap-4 grid-cols-2 md:gap-8 lg:grid-cols-4">

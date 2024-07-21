@@ -87,6 +87,9 @@ export let data;
                                                 </header>
                                                     <ol class="text-white list-disc ml-5 sm:ml-3">
                                                         <li class="p-1">
+                                                            New Feature: Add Jim Cramer Tracker.
+                                                        </li>
+                                                        <li class="p-1">
                                                             New Feature: Add Swap data for stocks.
                                                         </li>
                                                         <li class="p-1">
