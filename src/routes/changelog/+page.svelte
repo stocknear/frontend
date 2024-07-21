@@ -76,7 +76,7 @@ export let data;
                                         <div class="md:flex">
                                             <div class="w-48 shrink-0">
                                                 <time class="text-sm inline-flex items-center text-white md:leading-8 before:w-1.5 before:h-1.5 before:rounded-full before:bg-purple-500 before:ring-4 before:ring-purple-500/30 mb-3">
-                                                    <span class="ml-[1.625rem] md:ml-5">July 15-19, 2024</span>
+                                                    <span class="ml-[1.625rem] md:ml-5">July 15-21, 2024</span>
                                                 </time>
                                             </div>
                                             <div class="grow ml-8 md:ml-0 pb-12 group-last-of-type:pb-0 border-b [border-image:linear-gradient(to_right,theme(colors.slate.700/.3),theme(colors.slate.700),theme(colors.slate.700/.3))1] group-last-of-type:border-none">
@@ -87,16 +87,25 @@ export let data;
                                                 </header>
                                                     <ol class="text-white list-disc ml-5 sm:ml-3">
                                                         <li class="p-1">
-                                                            Sidebar Improved.
+                                                            New Feature: Add Swap data for stocks.
                                                         </li>
                                                         <li class="p-1">
                                                             New Feature: Adding Dashboard for logged in Users.
+                                                        </li>
+                                                        <li class="p-1">
+                                                            Sidebar Improved.
                                                         </li>
                                                         <li class="p-1">
                                                             Adding Implied Volatility for ETFs.
                                                         </li>
                                                         <li class="p-1">
                                                             Enhancing UI/UX of Options 0DTE Flow for easier navigation.
+                                                        </li>
+                                                        <li class="p-1">
+                                                            Bugfixing: Display info box if share statistics component does not have historical shares.
+                                                        </li>
+                                                        <li class="p-1">
+                                                            Bugfixing: Options bubble crashes if data is empty.
                                                         </li>
                                                     </ol>
                                             </div>
