@@ -141,7 +141,6 @@ const getShareStatistics = async (ticker) => {
     } else {
         $shareStatisticsComponent = false;
     }
-    console.log(rawData)
 };
 
 
