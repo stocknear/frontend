@@ -3,7 +3,7 @@
     import { numberOfUnreadNotification, screenWidth, isOpen } from '$lib/store';
     import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
     import { onMount } from 'svelte';
-    import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
+    //import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
     import { abbreviateNumber } from '$lib/utils.js';
   
     
@@ -340,7 +340,7 @@
                         </table>
                     </div>
                       <InfiniteLoading on:infinite={infiniteHandler} />
-                      <UpgradeToPro data={data} title="Get the latest dark pool trades in realtime from Hedge Funds & Major Institutional Traders"/>
+                      <!--<UpgradeToPro data={data} title="Get the latest dark pool trades in realtime from Hedge Funds & Major Institutional Traders"/>-->
     
                   </div>
   

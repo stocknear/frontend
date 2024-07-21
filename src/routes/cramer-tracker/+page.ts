@@ -41,10 +41,7 @@ export const load = async ({parent}) => {
 
     }
 
-    output = data?.user?.tier !== 'Pro' ? output?.slice(0,6) : output;
-
-    console.log(output)
-
+    //output = data?.user?.tier !== 'Pro' ? output?.slice(0,6) : output;
 
     return output;
   };
