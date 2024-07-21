@@ -86,24 +86,27 @@ function prepareData() {
   checkIfNotZero = false;
     rawData = [];
     try {
-      dataset = optionsDict[displayTimePeriod]
+      dataset = optionsDict[displayTimePeriod];
+
+      callVolume = dataset?.callVolume
+      putVolume = dataset?.putVolume
+
+      const totalVolume = dataset?.putVolume + dataset?.callVolume;
+      const callProportion = Math.ceil((dataset?.callVolume / totalVolume) * 100);
+      const putProportion = 100- callProportion;
+
+      rawData.push({ 'contract': 'calls', value: callProportion });
+      rawData.push({ 'contract': 'puts', value: putProportion });
+      signal = callProportion >= putProportion ? 'Bullish' : 'Bearish';
+      checkIfNotZero = allValuesZero(dataset);
+
     }
     catch(e) {
       dataset = {};
     }
 
 
-    callVolume = dataset?.callVolume
-    putVolume = dataset?.putVolume
-
-    const totalVolume = dataset?.putVolume + dataset?.callVolume;
-    const callProportion = Math.ceil((dataset.callVolume / totalVolume) * 100);
-    const putProportion = 100- callProportion;
-
-    rawData.push({ 'contract': 'calls', value: callProportion });
-    rawData.push({ 'contract': 'puts', value: putProportion });
-    signal = callProportion >= putProportion ? 'Bullish' : 'Bearish';
-    checkIfNotZero = allValuesZero(dataset);
+  
 
 }
 

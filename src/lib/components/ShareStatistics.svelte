@@ -141,6 +141,7 @@ const getShareStatistics = async (ticker) => {
     } else {
         $shareStatisticsComponent = false;
     }
+    console.log(rawData)
 };
 
 
@@ -183,39 +184,48 @@ $: {
             {#if isLoaded}
     
             {#if Object?.keys(rawData)?.length !== 0}
-            <div class="mt-2 pb-4 bg-[#09090B]">
-                    
-                <div class="w-full flex flex-col items-start">
-                    <div class="text-white text-sm sm:text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
-                        {$displayCompanyName}'s' has <span class="font-semibold">{abbreviateNumber(rawData?.latestOutstandingShares)}</span> shares outstanding with <span class="font-semibold">{abbreviateNumber(rawData?.latestFloatShares)}</span> of those shares currently floating.
-                    </div>
-                </div>
-            
 
-                <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
-                    <div class="app w-full h-[300px] mt-6">
-                        <Chart options={optionsData} class="chart" />
+                {#if rawData?.historicalShares?.length !== 0}
+                <div class="mt-2 pb-4 bg-[#09090B]">
+                        
+                    <div class="w-full flex flex-col items-start">
+                        <div class="text-white text-sm sm:text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
+                            {$displayCompanyName}'s' has <span class="font-semibold">{abbreviateNumber(rawData?.latestOutstandingShares)}</span> shares outstanding with <span class="font-semibold">{abbreviateNumber(rawData?.latestFloatShares)}</span> of those shares currently floating.
+                        </div>
                     </div>
-                </Lazy>
                 
-                <div class="flex flex-row items-center justify-between mx-auto mt-8 w-full sm:w-11/12">
-                    <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
-                    <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
-                    <div class="w-3 h-3 bg-[#5470C6] border-4 box-content border-[#27272A] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
-                    <span class="mt-2 sm:mt-0 text-white text-center sm:text-start text-sm sm:font-semibold inline-block">
-                        Floating Shares
-                    </span>
-                </div>
-                    <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
+                    
+                    <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
+                        <div class="app w-full h-[300px] mt-6">
+                            <Chart options={optionsData} class="chart" />
+                        </div>
+                    </Lazy>
+                    
+                    
+                    <div class="flex flex-row items-center justify-between mx-auto mt-8 w-full sm:w-11/12">
+                        <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                         <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
-                        <div class="w-3 h-3 bg-[#C12F23] border-4 box-content border-[#27272A] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
-                        <span class="mt-2 sm:mt-0 text-white text-sm sm:font-semibold inline-block">
-                        Outstanding Shares
+                        <div class="w-3 h-3 bg-[#5470C6] border-4 box-content border-[#27272A] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                        <span class="mt-2 sm:mt-0 text-white text-center sm:text-start text-sm sm:font-semibold inline-block">
+                            Floating Shares
                         </span>
                     </div>
-            
+                        <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
+                            <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
+                            <div class="w-3 h-3 bg-[#C12F23] border-4 box-content border-[#27272A] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                            <span class="mt-2 sm:mt-0 text-white text-sm sm:font-semibold inline-block">
+                            Outstanding Shares
+                            </span>
+                        </div>
+                
+                    </div>
                 </div>
-            </div>
+                {:else}
+                <div class="mt-5 text-gray-100 text-sm sm:text-[1rem] sm:rounded-lg h-auto border border-slate-800 p-4">
+                    <svg class="w-5 h-5 inline-block mr-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
+                        Historical Shares are not available yet for {$displayCompanyName}
+                </div>
+                {/if}
 
             {#if rawData?.sharesShort !== 0}
             <h2 class="mt-10 mr-1 flex flex-row items-center text-white text-xl sm:text-2xl font-bold mb-3">
