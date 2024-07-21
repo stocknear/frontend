@@ -1,10 +1,9 @@
 <script lang='ts'>
     import { goto } from '$app/navigation';
-    import { numberOfUnreadNotification, screenWidth, isOpen } from '$lib/store';
+    import { numberOfUnreadNotification, screenWidth } from '$lib/store';
     import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
     import { onMount } from 'svelte';
     //import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
-    import { abbreviateNumber } from '$lib/utils.js';
   
     
       export let data;
@@ -13,134 +12,8 @@
       let isLoaded = false;
       let rawData = []
       let displayList =  [];
-      let mostFrequentTicker;
-      let highestVolumeTicker;
-      let highestSizeTicker;
-      let highestAmountTicker;
-      let displayDate;
-  
-  function getLastDate(dateString) {
-    const date = new Date(dateString);
-  
-    // Check if it is open
-    if ($isOpen) {
-      return date?.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    } else {
-      const dayOfWeek = date.getDay(); // 0 (Sunday) to 6 (Saturday)
-  
-      // Check if it is a weekday (Monday to Friday)
-      if (dayOfWeek >= 1 && dayOfWeek <= 5) {
-        date.setDate(date.getDate());
-      } else {
-        // Find the last weekday of the week
-        // If it's Saturday, go back to Friday
-        // If it's Sunday, go back to Friday
-        if (dayOfWeek === 6) {
-          date.setDate(date.getDate() - 1);
-        } else if (dayOfWeek === 0) {
-          date.setDate(date.getDate() - 2);
-        }
-      }
-  
-      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    }
-  }
-  function formatTime(dateString) {
-    // Parse the date string to a Date object
-    const date = new Date(dateString);
-  
-    // Extract hours, minutes, and seconds
-    let hours = date.getUTCHours();
-    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-    const seconds = String(date.getUTCSeconds()).padStart(2, '0');
-  
-    // Determine AM/PM
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-  
-    // Convert hours from 24-hour to 12-hour format
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-  
-    // Format hours
-    const formattedHours = String(hours).padStart(2, '0');
-  
-    // Format time as hh:mm:ss AM/PM
-    return `${formattedHours}:${minutes}:${seconds} ${ampm}`;
-  }
-  
-    function findMostFrequentTicker(data) {
-      const tickerCountMap = new Map();
-      // Iterate through the data and update the count for each ticker
-      data?.forEach(item => {
-        const ticker = item?.symbol;
-        if (tickerCountMap?.has(ticker)) {
-          tickerCountMap?.set(ticker, tickerCountMap?.get(ticker) + 1);
-        } else {
-          tickerCountMap?.set(ticker, 1);
-        }
-      });
-    
-      let maxTicker;
-      let maxCount = -1;
-    
-      // Find the ticker with the highest count
-      tickerCountMap?.forEach((count, ticker) => {
-        if (count > maxCount) {
-          maxCount = count;
-          maxTicker = ticker;
-        }
-      });
-    
-      return { ticker: maxTicker, count: maxCount };
-    }
-    
-  
-    function findHighestVolume(data) {
-      let maxVolume = -1;
-      let maxVolumeTicker = null;
-    
-      // Iterate through the data and find the ticker with the highest volume
-      data?.forEach(item => {
-        const volume = parseInt(item?.volume); // Assuming volume is a string, parse it to an integer
-        if (volume > maxVolume) {
-          maxVolume = volume;
-          maxVolumeTicker = item?.symbol;
-        }
-      });
-    
-      return { ticker: maxVolumeTicker, volume: maxVolume };
-    }
-  
-    function findHighestSize(data) {
-      let maxSize = -1;
-      let maxSizeTicker = null;
-    
-      // Iterate through the data and find the ticker with the highest cost basis
-      data?.forEach(item => {
-        if (item?.size > maxSize) {
-          maxSize = item?.size;
-          maxSizeTicker = item?.symbol;
-        }
-      });
-    
-      return { ticker: maxSizeTicker, size: maxSize };
-    }
-  
-    function findHighestAmount(data) {
-      let maxAmount = -1;
-      let maxAmountTicker = null;
-    
-      // Iterate through the data and find the ticker with the highest cost basis
-      data?.forEach(item => {
-        if ((item?.volume*item?.price) > maxAmount) {
-          maxAmount = item?.volume*item?.price;
-          maxAmountTicker = item?.symbol;
-        }
-      });
-  
-    
-      return { ticker: maxAmountTicker, amount: maxAmount };
-    }
+
+
   
     async function infiniteHandler({ detail: { loaded, complete } }) 
     {
@@ -158,11 +31,6 @@
     onMount(() => {
       rawData = data?.getCramerTracker ?? [];
       displayList = rawData?.slice(0,20) ?? []
-      displayDate = getLastDate(rawData?.at(0)?.date)
-      mostFrequentTicker = findMostFrequentTicker(rawData);
-      highestVolumeTicker = findHighestVolume(rawData);
-      highestSizeTicker = findHighestSize(rawData);
-      highestAmountTicker = findHighestAmount(rawData);
       isLoaded = true;
     })
     
