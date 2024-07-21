@@ -327,7 +327,7 @@
                               </td>
 
                               <td class="{item?.returnSince >= 0 ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-end">
-                                {item?.returnSince}
+                                {item?.returnSince}%
                               </td>
 
                               <td class="text-end text-sm font-medium text-white">
