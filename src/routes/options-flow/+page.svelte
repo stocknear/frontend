@@ -507,8 +507,7 @@ $: {
 
 </script>
          
-    
-  
+<svelte:options immutable={true} />
   
   <svelte:head>
   
@@ -535,16 +534,28 @@ $: {
   </svelte:head>
     
 <body class="sm:fixed h-screen m-auto w-full max-w-screen">
+
+ 
+
   <section class="w-full max-w-screen sm:max-w-6xl flex justify-center items-center m-auto pt-5 bg-[#09090B] ">
       
-  
+    
       <div class="w-full m-auto mb-10 pl-3 pr-3">
+
+        <div class="text-sm breadcrumbs mb-5">
+          <ul>
+            <li><a href="/" class="text-gray-300">Home</a></li>
+            <li class="text-gray-300">Options Flow</li>
+          </ul>
+        </div>
 
         {#if !$isOpen}
           <div class="text-white text-sm sm:text-md italic text-center sm:text-start w-full ml-2 mb-3">
             Live flow of {new Date(optionList?.at(0)?.date ?? null)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })} (NYSE Time)
           </div>
         {/if}
+
+        
 
           <div class="flex flex-col sm:flex-row items-center w-full bg-[#262626] rounded-lg px-3">
           

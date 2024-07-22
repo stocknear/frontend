@@ -1,14 +1,11 @@
 <script lang='ts'>
-  import { goto } from '$app/navigation';
   import { numberOfUnreadNotification, screenWidth, isOpen } from '$lib/store';
-  import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
   import { abbreviateNumber } from '$lib/utils.js';
-
+  import { goto } from '$app/navigation';
   
     export let data;
-    let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
 
     let isLoaded = false;
     let rawData = []
@@ -18,6 +15,11 @@
     let highestSizeTicker;
     let highestAmountTicker;
     let displayDate;
+    let scrollContainer;
+    let notFound = false;
+
+    let filterQuery = '';
+
 
 function getLastDate(dateString) {
   const date = new Date(dateString);
@@ -142,18 +144,19 @@ function formatTime(dateString) {
     return { ticker: maxAmountTicker, amount: maxAmount };
   }
 
-  async function infiniteHandler({ detail: { loaded, complete } }) 
-  {
-  if (displayList?.length === rawData?.length) {
-      complete();
-    } else {
+
+
+  async function handleScroll() {
+    if (!scrollContainer) return;
+    const scrollThreshold = scrollContainer.scrollHeight * 0.8; // 80% of the div height
+    const isBottom = scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollThreshold;
+    if (isBottom && displayList?.length !== rawData?.length) {
       const nextIndex = displayList?.length;
-      const newArticles = rawData?.slice(nextIndex, nextIndex + 5);
-      displayList = [...displayList, ...newArticles];
-      loaded();
+      const filteredNewResults = rawData?.slice(nextIndex, nextIndex + 25);
+      displayList = [...displayList, ...filteredNewResults];
     }
   }
-  
+
     
   onMount(() => {
     rawData = data?.getDarkPoolFlow ?? [];
@@ -163,9 +166,84 @@ function formatTime(dateString) {
     highestVolumeTicker = findHighestVolume(rawData);
     highestSizeTicker = findHighestSize(rawData);
     highestAmountTicker = findHighestAmount(rawData);
+
+    if (data?.user?.tier === 'Pro') {
+      const attachScrollListener = () => {
+        if (scrollContainer) {
+          scrollContainer.addEventListener('scroll', handleScroll);
+          return true;
+        }
+        return false;
+      };
+
+      if (!attachScrollListener()) {
+        const observer = new MutationObserver(() => {
+          if (attachScrollListener()) {
+            observer.disconnect();
+          }
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
+    }
+
     isLoaded = true;
   })
   
+
+onDestroy(async() => {
+
+  if (scrollContainer && data?.user?.tier === 'Pro') {
+    scrollContainer.removeEventListener('scroll', handleScroll);
+  };
+
+
+})
+
+  function handleInput(event) {
+    filterQuery = event.target.value;
+    let newData = [];
+    setTimeout(() => {
+        if (filterQuery?.length !== 0) {
+            newData = [...rawData?.filter(item => item?.symbol === filterQuery?.toUpperCase())];
+            if (newData?.length !== 0) {
+                rawData = newData;
+
+                displayList = [...rawData?.slice(0, 100)];
+
+
+                notFound = false;
+            } else {
+                notFound = true;
+                rawData = data?.getDarkPoolFlow;
+                displayList = rawData?.slice(0, 100);
+            }
+        } else {
+            notFound = false;
+            rawData = data?.getDarkPoolFlow;
+            displayList = rawData?.slice(0, 100);
+        }
+
+        mostFrequentTicker = findMostFrequentTicker(rawData);
+        highestVolumeTicker = findHighestVolume(rawData);
+        highestSizeTicker = findHighestSize(rawData);
+        highestAmountTicker = findHighestAmount(rawData);
+
+    }, 200);
+}
+
+function debounce(fn, delay) {
+    let timeoutId;
+    return function(...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            fn.apply(this, args);
+        }, delay);
+    };
+}
+
+const debouncedHandleInput = debounce(handleInput, 200);
+
   
   let charNumber = 40;
   $: {
@@ -181,6 +259,9 @@ function formatTime(dateString) {
         
   </script>
   
+
+<svelte:options immutable={true} />
+
   <svelte:head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
@@ -204,254 +285,260 @@ function formatTime(dateString) {
   </svelte:head>
   
       
-  
-  <section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-40">
-        
-    <div class="text-sm breadcrumbs ml-4">
-      <ul>
-        <li><a href="/" class="text-gray-300">Home</a></li>
-        <li class="text-gray-300">Dark Pool Flow</li>
-      </ul>
-    </div>
-            
-    <div class="w-full max-w-4xl overflow-hidden m-auto mt-5">
-      
-      <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden max-w-4xl">
-          <div class="relative flex justify-center items-center overflow-hidden w-full">
-              <main class="w-full">
-               
-                <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
-                
-                    <!-- Start Column -->
-                    <div>
-                      <div class="flex flex-row justify-center items-center">
-                        <h1 class="text-3xl sm:text-4xl text-white text-center font-bold mb-5">
-                          Dark Pool Flow
-                        </h1>
-                      </div>
-            
-                      <span class="text-white text-md font-medium text-center flex justify-center items-center ">
-                          Realtime Dark Pool Trades from Hedge Funds & Major Institutional Traders.
-                      </span>
-            
-        
-                    </div>
-                    <!-- End Column -->
-                
-                    <!-- Start Column -->
-                    <div class="hidden sm:block relative m-auto mb-5 mt-5 sm:mb-0 sm:mt-0">
-                      <svg class="w-40 -my-5" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                          <filter id="glow">
-                            <feGaussianBlur stdDeviation="5" result="glow"/>
-                            <feMerge>
-                              <feMergeNode in="glow"/>
-                              <feMergeNode in="SourceGraphic"/>
-                            </feMerge>
-                          </filter>
-                        </defs>
-                        <path fill="#1E40AF" d="M57.6,-58.7C72.7,-42.6,81.5,-21.3,82,0.5C82.5,22.3,74.7,44.6,59.7,60.1C44.6,75.6,22.3,84.3,0,84.3C-22.3,84.2,-44.6,75.5,-61.1,60.1C-77.6,44.6,-88.3,22.3,-87.6,0.7C-86.9,-20.8,-74.7,-41.6,-58.2,-57.7C-41.6,-73.8,-20.8,-85.2,0.2,-85.4C21.3,-85.6,42.6,-74.7,57.6,-58.7Z" transform="translate(100 100)" filter="url(#glow)" />
-                      </svg>
-                      
-                      
-                      <div class="z-1 absolute top-0">
-                          <img class="w-auto" src={cloudFrontUrl+'/assets/dark_pool_flow_logo.png'} alt="logo" loading="lazy">
-                        </div>
-                    </div>
-                    <!-- End Column -->
-                  </div>
-            
-                 
-            
-            
-                </div>
+  <body class="sm:fixed h-screen m-auto w-full max-w-screen">
 
-                {#if isLoaded}
-
-                <div class="flex flex-col items-start">
-                  <span class="text-white text-sm sm:text-[1rem] mt-5 text-center sm:text-start w-full ml-2">
-                    Real-time trades delayed by 15 minutes.
-                  </span>
-
-                  <span class="text-white text-sm sm:text-[1rem] italic mt-2 text-center sm:text-start w-full ml-2 mb-5">
-                    Live Flow of {displayDate} (NYSE Time)
-                  </span>
-
-                </div>
-
-
-                <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center p-3 sm:p-0">
-                  <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-y-3 gap-x-3 ">
-        
-                   <!--Start Most Traded-->  
-                   <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
-                    <div class="flex flex-col items-start">
-                        <span class="font-medium text-gray-200 text-sm ">Most Traded Option</span>
-                        <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
-                          <a href={"/stocks/"+mostFrequentTicker?.ticker} class="text-blue-400 ">
-                            {mostFrequentTicker?.ticker}
-                          </a>
-                          {new Intl.NumberFormat("en", {
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0
-                        }).format(mostFrequentTicker?.count)}
-                        </span>
-                    </div>
-                  </div>
-                  <!--End Most Traded-->
-        
-        
-                  <!--Start Highest Volume-->  
-                  <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
-                    <div class="flex flex-col items-start">
-                        <span class="font-medium text-gray-200 text-sm ">Highest Volume</span>
-                        <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
-                          <a href={"/stocks/"+highestVolumeTicker?.ticker} class="text-blue-400 ">
-                            {highestVolumeTicker?.ticker}
-                          </a>
-                          {new Intl.NumberFormat("en", {
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0
-                        }).format(highestVolumeTicker?.volume)}
-                        </span>
-                    </div>
-                  </div>
-                  <!--End Highest Volume-->
-        
-                   <!--Start Highest Size-->  
-                   <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
-                    <div class="flex flex-col items-start">
-                        <span class="font-medium text-gray-200 text-sm ">Highest Size</span>
-                        <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
-                          <a href={"/stocks/"+highestSizeTicker?.ticker} class="text-blue-400 ">
-                            {highestSizeTicker?.ticker}
-                          </a>
-                          {new Intl.NumberFormat("en", {
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0
-                        }).format(highestSizeTicker?.size)}
-                        </span>
-                    </div>
-                  </div>
-                  <!--End Highest Size-->
-
-                    <!--Start Amount-->  
-                    <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
-                      <div class="flex flex-col items-start">
-                          <span class="font-medium text-gray-200 text-sm ">Highest Amount</span>
-                          <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
-                            <a href={"/stocks/"+highestAmountTicker?.ticker} class="text-blue-400 ">
-                              {highestAmountTicker?.ticker}
-                            </a>
-                            {abbreviateNumber(highestAmountTicker?.amount, true)}
-                          </span>
-                      </div>
-                    </div>
-                    <!--End Amount-->
-        
-        
-                  </div>
-                </div>
-
-                <div class="w-screen sm:w-full m-auto mt-20 sm:mt-10">
-                    
-                  
-                    <div class="w-screen sm:w-full m-auto rounded-none sm:rounded-lg mb-4 overflow-x-scroll sm:overflow-hidden">
-                      <table class="table table-sm table-compact no-scrollbar rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
-                        <thead>
-                          <tr class="bg-[#09090B]">
-                            <th class="text-start bg-[#09090B] text-white text-sm font-semibold">
-                              Time
-                            </th>
-                            <th class="text-start bg-[#09090B] text-white text-sm font-semibold">
-                              Company
-                            </th>
-                            <th class="text-start bg-[#09090B] text-white text-sm font-semibold">
-                              Size
-                            </th>
-                            <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
-                              Volume
-                            </th>
-                            <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
-                             Price
-                            </th>
-                            <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
-                              Amount
-                             </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {#each displayList as item, index}
-  
-                          <tr on:click={() => goto(`/stocks/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] {index+1 === displayList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''} cursor-pointer">
  
+
+    <section class="w-full max-w-screen sm:max-w-6xl flex justify-center items-center m-auto pt-5 bg-[#09090B] ">
+        
+      
+        <div class="w-full m-auto mb-10 pl-3 pr-3">
   
-                            <td class="text-start text-sm font-medium text-white">
-                                {formatTime(item?.date)}
-                            </td>
+          <div class="text-sm breadcrumbs mb-5">
+            <ul>
+              <li><a href="/" class="text-gray-300">Home</a></li>
+              <li class="text-gray-300">Dark Pool Flow</li>
+            </ul>
+          </div>
+  
+  
+            <div class="flex flex-col sm:flex-row items-center w-full bg-[#262626] rounded-lg px-3">
+            
+    
+                <div class="flex flex-row items-center justify-center sm:justify-start mt-6 pb-5">
+               
+                  
+  
+    
+              
+                <div class="ml-3 flex flex-col items-start">
+                    <span class="text-xs sm:text-sm italic text-white">
+                      Live flow of {new Date(displayList?.at(0)?.date ?? null)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })} (NYSE Time)
+                    </span>
+                </div>
+    
+              
+            </div>
+  
+            <!--Start Filter-->
+            <div class="sm:ml-auto w-full sm:w-fit">
+              <div class="relative flex flex-col sm:flex-row items-center">
+                  <div class="relative w-full sm:w-fit pl-3 py-2 sm:py-1.5 sm:mr-5 mb-4 sm:mb-0 flex-auto text-center bg-[#313131] rounded-lg border border-gray-600">
+                    <label class="flex flex-row items-center ">
+                      <input 
+                      id="modal-search"
+                        type="search" 
+                        class="text-white sm:ml-2 text-[1rem] placeholder-gray-300 border-transparent focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1 bg-inherit"
+                        placeholder="Find by Symbol"
+                        bind:value={filterQuery}
+                        on:input={debouncedHandleInput}
+                        autocomplete="off"
+                      />
+                      <svg class="ml-auto h-7 w-7 sm:h-8 sm:w-8 inline-block mr-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#fff" d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37"/></svg>
+                    </label>
+                    {#if notFound === true}
+                    <span class="absolute left-1 -bottom-6 label-text text-error text-[0.65rem] mt-2">
+                        No Results Found
+                    </span>
+                    {/if}
+                  </div>
+                  
+                  
+                <div class="py-2 sm:py-1.5 mb-5 sm:mb-0 flex-auto text-center bg-[#000] rounded-lg w-full sm:w-fit">
+                  <label for="filterList" class="sm:flex sm:flex-row justify-center items-center cursor-pointer px-5">
+                    <svg class="h-6 w-6 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M32 144h448M112 256h288M208 368h96"/></svg>
+                    <span class="m-auto text-[1rem] text-white ml-2 px-0 py-1 bg-inherit">
+                      Filters
+                    </span>
+                  </label>
+                </div>
+  
+  
+          </div>
+        </div>
+            <!--End Filter-->
+                
+        </div>
+    
+            
+      
+  
+    
+            {#if isLoaded }
+  
+    
+            <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center">
+  
+              <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center p-3 sm:p-0">
+                <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-y-3 gap-x-3 ">
+      
+                 <!--Start Most Traded-->  
+                 <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+                  <div class="flex flex-col items-start">
+                      <span class="font-medium text-gray-200 text-sm ">Most Traded Option</span>
+                      <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
+                        <a href={"/stocks/"+mostFrequentTicker?.ticker} class="text-blue-400 ">
+                          {mostFrequentTicker?.ticker}
+                        </a>
+                        {new Intl.NumberFormat("en", {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 0
+                      }).format(mostFrequentTicker?.count)}
+                      </span>
+                  </div>
+                </div>
+                <!--End Most Traded-->
+      
+      
+                <!--Start Highest Volume-->  
+                <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+                  <div class="flex flex-col items-start">
+                      <span class="font-medium text-gray-200 text-sm ">Highest Volume</span>
+                      <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
+                        <a href={"/stocks/"+highestVolumeTicker?.ticker} class="text-blue-400 ">
+                          {highestVolumeTicker?.ticker}
+                        </a>
+                        {new Intl.NumberFormat("en", {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 0
+                      }).format(highestVolumeTicker?.volume)}
+                      </span>
+                  </div>
+                </div>
+                <!--End Highest Volume-->
+      
+                 <!--Start Highest Size-->  
+                 <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+                  <div class="flex flex-col items-start">
+                      <span class="font-medium text-gray-200 text-sm ">Highest Size</span>
+                      <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
+                        <a href={"/stocks/"+highestSizeTicker?.ticker} class="text-blue-400 ">
+                          {highestSizeTicker?.ticker}
+                        </a>
+                        {new Intl.NumberFormat("en", {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 0
+                      }).format(highestSizeTicker?.size)}
+                      </span>
+                  </div>
+                </div>
+                <!--End Highest Size-->
 
-                            <td class="text-sm text-start">
-                              <div class="flex flex-col items-start w-32 sm:w-fit">
-                                  <span class="text-blue-400">{item?.symbol}</span>
-                                  <span class="text-white">
-                                      {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
-                                  </span>
-                              </div>
+                  <!--Start Amount-->  
+                  <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+                    <div class="flex flex-col items-start">
+                        <span class="font-medium text-gray-200 text-sm ">Highest Amount</span>
+                        <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
+                          <a href={"/stocks/"+highestAmountTicker?.ticker} class="text-blue-400 ">
+                            {highestAmountTicker?.ticker}
+                          </a>
+                          {abbreviateNumber(highestAmountTicker?.amount, true)}
+                        </span>
+                    </div>
+                  </div>
+                  <!--End Amount-->
+      
+      
+                </div>
+              </div>
+      
+           </div>
+            
+      
+    
+          
+    
+    
+            <!-- Page wrapper -->
+            <div class="flex justify-center w-full m-auto h-full overflow-hidden">
+        
+          
+                <!-- Content area -->
+                <div bind:this={scrollContainer} class="mt-4 w-full overflow-x-auto overflow-y-auto h-[900px] rounded-lg">
+                  <table class="table table-pin-cols table-pin-rows table-sm table-compact">
+                      <thead>
+                        <tr class="">
+                          <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Time</td>
+                          <th class="bg-[#161618] font-bold text-slate-300 text-xs text-start uppercase">Company</th>
+                          <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Size</td>
+                          <td class="bg-[#161618] text-slate-300 font-bold text-xs text-end uppercase">Volume</td>
+                          <td class="bg-[#161618] text-slate-300 font-bold text-xs text-end uppercase">Price</td>
+                          <td class="bg-[#161618] text-slate-300 font-bold text-xs text-end uppercase">Amount</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {#each displayList as item,index}
+                        <!-- row -->
+                        <tr class="w-full odd:bg-[#27272A] cursor-pointer {index+1 === displayList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
+                          
+                          <td class="text-start text-sm font-medium text-white whitespace-nowrap">
+                            {formatTime(item?.date)}
                           </td>
-
+      
+                              <td  on:click|stopPropagation={() => goto(`/stocks/${item?.symbol}`)}  class="text-sm text-start whitespace-nowrap">
+                                <div class="flex flex-col items-start w-32 sm:w-fit">
+                                    <span class="text-blue-400">{item?.symbol}</span>
+                                    <span class="text-white">
+                                        {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
+                                    </span>
+                                </div>
+                            </td>
+    
                             <td class="text-start text-sm font-medium text-white">
                               {new Intl.NumberFormat("en", {
                                 minimumFractionDigits: 0,
                                 maximumFractionDigits: 0
                             }).format(item?.size)}
                           </td>
+    
+                          <td class="text-end text-sm font-medium text-white">
+                            {new Intl.NumberFormat("en", {
+                              minimumFractionDigits: 0,
+                              maximumFractionDigits: 0
+                          }).format(item?.volume)}
+                          </td>
       
-                            <td class="text-end text-sm font-medium text-white">
-                              {new Intl.NumberFormat("en", {
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 0
-                            }).format(item?.volume)}
-                            </td>
-
-                            <td class="text-end text-sm font-medium text-white">
-                              ${item?.price}
-                            </td>
-
-                            <td class="text-end text-sm font-medium text-white">
-                              ${abbreviateNumber(item?.price*item?.volume)}
-                            </td>
-
-                          </tr>
+                          <td class="text-end text-sm font-medium text-white">
+                            ${item?.price}
+                          </td>
+      
+                        <td class="text-end text-sm font-medium text-white">
+                          {abbreviateNumber(item?.price*item?.volume,true)}
+                        </td>
+        
+      
+                        </tr>
+                        
+                    
                         {/each}
-                        </tbody>
-                      </table>
-                  </div>
-                    <InfiniteLoading on:infinite={infiniteHandler} />
-                    <UpgradeToPro data={data} title="Get the latest dark pool trades in realtime from Hedge Funds & Major Institutional Traders"/>
+                      </tbody>
+                    </table>
+        
+                    <!--<InfiniteLoading on:infinite={infiniteHandler} />-->    
+      
+            </div>
+        
+            </div>
   
-                </div>
-
-                {:else}
-                <div class="flex justify-center items-center h-80">
-                  <div class="relative">
-                    <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                      <span class="loading loading-spinner loading-md"></span>
-                    </label>
-                  </div>
-                </div>  
-                {/if}
-
-              
-              </main>
+  
+            <div class="relative bottom-[400px] w-fit m-auto flex justify-center items-center">
+              <UpgradeToPro data={data} title="Get the recent Options Flow Data from Hedge Funds and major institutional traders to never miss out"/>
+            </div>
+    
+           
+            {:else}
+            <div class="flex justify-center items-center h-80">
+              <div class="relative">
+              <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <span class="loading loading-spinner loading-md"></span>
+              </label>
+              </div>
           </div>
-      </div>
-  
     
-    </div>
+            {/if}
+        </div>        
         
+    </section>
         
-    
-  </section>
-  
+  </body>
   

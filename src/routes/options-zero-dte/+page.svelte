@@ -514,6 +514,13 @@ $: {
   
       <div class="w-full m-auto mb-10 pl-3 pr-3">
 
+        <div class="text-sm breadcrumbs mb-5">
+          <ul>
+            <li><a href="/" class="text-gray-300">Home</a></li>
+            <li class="text-gray-300">Options 0DTE Flow</li>
+          </ul>
+        </div>
+
         {#if !$isOpen}
           <div class="text-white text-sm sm:text-md italic text-center sm:text-start w-full ml-2 mb-3">
             Live flow of {new Date(optionList?.at(0)?.date ?? null)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })} (NYSE Time)
