@@ -23,27 +23,14 @@
   let activeIdx = 0;
 
 
-function changeTab(index) {
+  function changeTab(index) {
     activeIdx = index;
-    switch (activeIdx) {
-        case 0:
-            optionsData = getPlotOptions('effectiveDate');
-            break;
-        case 1:
-        optionsData = getPlotOptions('expirationDate');
-            break;
-        // Default case in case changeType doesn't match any of the specified cases
-        default:
-            // Handle the default case or leave it empty if not needed
-            break;
-    }
-}
-
+    optionsData = getPlotOptions(activeIdx === 0 ? 'effectiveDate' : 'expirationDate');
+  }
 
     const usRegion = ['cle1','iad1','pdx1','sfo1'];
   
     let apiURL;
-    let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
 
   
     userRegion.subscribe(value => {
@@ -197,74 +184,48 @@ function changeTab(index) {
   return option;
   }
   
-  const getSwapData = async (ticker) => {
-    // Get cached data for the specific tickerID
+  async function getSwapData(ticker) {
     const cachedData = getCache(ticker, 'getSwapData');
     if (cachedData) {
       rawData = cachedData;
     } else {
-  
-      const postData = {'ticker': ticker};
-      // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/swap-ticker', {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
-        },
-        body: JSON.stringify(postData)
-      });
-  
-      rawData = (await response.json());
-      // Cache the data for this specific tickerID with a specific name 'getSwapData'
-      setCache(ticker, rawData, 'getSwapData');
+      try {
+        const response = await fetch(`${apiURL}/swap-ticker`, {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-KEY": import.meta.env.VITE_STOCKNEAR_API_KEY
+          },
+          body: JSON.stringify({ ticker })
+        });
+        if (!response.ok) throw new Error('API request failed');
+        rawData = await response.json();
+        setCache(ticker, rawData, 'getSwapData');
+      } catch (error) {
+        console.error('Failed to fetch swap data:', error);
+        rawData = [];
+      }
     }
-    
-    if(rawData?.length !== 0) {
-      $swapComponent = true;
-    } else {
-      $swapComponent = false;
-    }
-  };
-  
+    $swapComponent = rawData?.length !== 0;
+  }
   
 
-  $: {
-  if($stockTicker && typeof window !== 'undefined') {
-    isLoaded=false;
+  $: if ($stockTicker && typeof window !== 'undefined') {
+    isLoaded = false;
     activeIdx = 0;
-    const asyncFunctions = [
-      getSwapData($stockTicker)
-      ];
-      Promise.all(asyncFunctions)
-          .then((results) => {
-            optionsData = getPlotOptions('effectiveDate');
-          })
-          .catch((error) => {
-            console.error('An error occurred:', error);
-          });
-    isLoaded = true;
+    getSwapData($stockTicker).then(() => {
+      optionsData = getPlotOptions('effectiveDate');
+      isLoaded = true;
+    });
+  }
+
+
+  $: charNumber = $screenWidth < 640 ? 20 : 40;
   
-  }
-  }
-  
-  let charNumber = 20;
-  
-  $: {
-  if($screenWidth < 640)
-  {
-    charNumber = 20;
-  }
-  else {
-    charNumber =40;
-  }
-  }
+</script>
     
-  
-  
-  </script>
-    
-    
-    
+<svelte:options immutable />
+
   <section class="overflow-hidden text-white h-full pb-8">
     <main class="overflow-hidden ">
                     
