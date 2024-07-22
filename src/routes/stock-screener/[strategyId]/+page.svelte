@@ -479,14 +479,6 @@ onMount(async () => {
     LoginPopup = (await import('$lib/components/LoginPopup.svelte')).default;
   }
 
-    window.addEventListener('scroll', handleScroll);
-    //window.addEventListener('keydown', handleKeyDown);
-  
-    return () => {
-      // Cleanup the event listeners when the component is unmounted
-      window.removeEventListener('scroll', handleScroll);
-      //window.removeEventListener('keydown', handleKeyDown);
-    };
 });
 
 
@@ -531,8 +523,6 @@ async function handleUpdateRule(rule) {
 
 
   
-let charNumber = 20;
-
 /*
 $: {
     if (ruleOfList) {
@@ -790,19 +780,7 @@ function filterStockScreenerData() {
 
 
 
-$: {
-  if(filteredData)
-  {
-    displayResults = filteredData?.slice(0, 10);
-  }
-}
 
-$: {
-  if(ruleOfList)
-  {
-    isSaved = false;
-  }
-}
 
 $: {
   if(searchTerm)
@@ -810,15 +788,12 @@ $: {
     filteredRows = allRows?.filter((row) => row?.label?.toLowerCase()?.includes(searchTerm?.toLowerCase()));
   }
 }
-$: {
-  if($screenWidth < 640)
-  {
-    charNumber = 20;
-  }
-  else {
-    charNumber =40;
-  }
-}
+
+$: displayResults = filteredData?.slice(0, 10);
+
+$: isSaved = !ruleOfList;
+
+$: charNumber = $screenWidth < 640 ? 20 : 40;
 
 
 </script>
@@ -848,6 +823,7 @@ $: {
 
 </svelte:head>
           
+<svelte:window on:scroll={handleScroll} />
 
 
 <section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-10 pb-40">
