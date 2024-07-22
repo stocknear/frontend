@@ -232,7 +232,7 @@ let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
   
   </script>
     
-    
+<svelte:options immutable={true} />
     
   <section class="overflow-hidden text-white h-full pb-8">
     <main class="overflow-hidden ">
