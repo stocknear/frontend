@@ -5,6 +5,7 @@ import InfoModal from '$lib/components/InfoModal.svelte';
 import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
 import { goto } from '$app/navigation';
 import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
+import { Motion, AnimateSharedLayout } from "svelte-motion";
 
 export let data;
 
@@ -17,10 +18,37 @@ let numOfAnalyst = 0;
 let consensusRating = 'n/a';
 let changesPercentage = 0;  
 
-let filterRule = 'all';
+const tabs = [
+  {
+    title: "All Analysts",
+  },
+  {
+    title: "Top Analysts",
+  }
+];
 
+let activeIdx = 0;
 
+function changeTab(index) {
+  activeIdx = index;
+  
+  if(Object?.keys(analystRating)?.length !== 0) {
 
+    numOfAnalyst = analystRating?.numOfAnalyst;
+    priceTarget = analystRating?.priceTarget
+    consensusRating = analystRating?.consensusRating;
+    changesPercentage = ((priceTarget/$currentPortfolioPrice -1)*100)?.toFixed(2) ?? 0;
+
+    }
+    if (activeIdx === 1) {
+      rawData = data?.getAnalystTickerHistory?.filter(item => item?.analystScore >=4)
+      historyList = rawData?.slice(0,10)
+    }
+    else {
+      rawData = data?.getAnalystTickerHistory ?? [];
+      historyList = rawData?.slice(0,10)
+    }
+}
 
 async function infiniteHandler({ detail: { loaded, complete } }) 
 {
@@ -34,29 +62,7 @@ if (historyList?.length === rawData?.length) {
   }
 }
     
-$: {
-  if(filterRule) {
-    if(Object?.keys(analystRating)?.length !== 0) {
 
-    numOfAnalyst = analystRating?.numOfAnalyst;
-    priceTarget = analystRating?.priceTarget
-    consensusRating = analystRating?.consensusRating;
-    changesPercentage = ((priceTarget/$currentPortfolioPrice -1)*100)?.toFixed(2) ?? 0;
-
-
-    }
-    if (filterRule === 'topAnalysts') {
-      rawData = data?.getAnalystTickerHistory?.filter(item => item?.analystScore >=4)
-      historyList = rawData?.slice(0,10)
-    }
-    else {
-      rawData = data?.getAnalystTickerHistory ?? [];
-      historyList = rawData?.slice(0,10)
-    }
-
-  }
-}
-    
 
 function latestInfoDate(inputDate) {
     // Convert the input date string to milliseconds since epoch
@@ -74,6 +80,9 @@ function latestInfoDate(inputDate) {
     // Return the difference in days
     return differenceInDays <=4;
 }
+
+
+changeTab(0)
 
 </script>
     
@@ -227,36 +236,50 @@ function latestInfoDate(inputDate) {
                           content={"Filter for analysts rated 4+ stars focusing on their win rate and average return per rating. Analysts with 4+ stars typically exhibit both high accuracy and high return per rating."}
                           id={"topAnalystsInfo"}
                           />
-                          <ul class="text-[0.8rem] font-medium text-center w-full pt-3 sm:w-56 mb-5 sm:ml-auto flex">
-                            <li class="w-full">
-                                <label on:click={() => filterRule = 'all'} class="font-semibold cursor-pointer rounded-l-lg inline-block w-full py-2.5 text-white {filterRule === 'all' ? 'bg-purple-600' : 'bg-[#2A303C]'} border-r border-gray-600" aria-current="page">
-                                  All Analysts
-                                </label>
-                            </li>
-                            <li class="w-full">
-                              {#if data?.user?.tier === 'Pro'}
-                                <label on:click={() => filterRule = 'topAnalysts'} class="font-semibold cursor-pointer inline-block w-full py-2.5 {filterRule === 'topAnalysts' ? 'bg-purple-600' : 'bg-[#2A303C]'} text-white rounded-r-lg">
-                                  Top Analysts
-                                </label>
-                              {:else}
-                              <a href="/pricing" class="font-semibold flex flex-row items-center m-auto justify-center cursor-pointer inline-block w-full py-2.5 bg-[#2A303C] text-white rounded-r-lg">
-                                <span class="">Top Analysts</span>
-                                <svg class="ml-1 -mt-0.5 w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#A3A3A3" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/></svg>
-                              </a>
-                              {/if}
 
-                            </li>
-                          </ul>
+                          <div class="ml-auto">
+                          <div class="bg-[#313131] w-fit relative flex flex-wrap items-center justify-center rounded-lg p-1 mt-4">
+                            <AnimateSharedLayout>
+                              {#each tabs as item, i}
+                                <button
+                                  on:click={() => changeTab(i)}
+                                  class="group relative z-[1] rounded-full px-6 py-2 {activeIdx === i
+                                    ? 'z-0'
+                                    : ''} "
+                                >
+                                  {#if activeIdx === i}
+                                    <Motion
+                                      layoutId="clicked-btn"
+                                      transition={{ duration: 0.2 }}
+                                      let:motion
+                                    >
+                                      <div
+                                        use:motion
+                                        class="absolute inset-0 rounded-lg bg-purple-600"
+                                      ></div>
+                                    </Motion>
+                                  {/if}
+                                  <span
+                                    class="relative text-sm block font-medium duration-200 text-white">
+                                    {item.title}
+                                  </span>
+                                </button>
+                              {/each}
+                            </AnimateSharedLayout>
+                          </div>
+                        </div>
                         </div>
 
-                        <div class="w-screen -ml-3 sm:w-full sm:ml-0 flex justify-start items-center m-auto overflow-hidden">
-                            
-                            <table class="table table-sm table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4">
+                        <div class="sm:w-full m-auto mt-10 ">
+                      
+                    
+                          <div class="w-full m-auto rounded-none sm:rounded-lg mb-4 overflow-x-scroll sm:overflow-hidden">
+                            <table class="table table-sm table-compact no-scrollbar rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                                 <thead class="">
                                   <tr class="">
-                                    <td class="text-white font-bold text-sm sm:text-[1rem] text-start">Analyst</td>
-                                    <td class="text-white font-bold text-sm sm:text-[1rem] text-start">Rating</td>
-                                    <td class="text-white font-bold text-sm sm:text-[1rem] text-end">Date</td>
+                                    <td class="text-white font-semibold text-sm text-start">Analyst</td>
+                                    <td class="text-white font-semibold text-sm text-start">Rating</td>
+                                    <td class="text-white font-semibold text-sm text-end">Date</td>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -291,13 +314,13 @@ function latestInfoDate(inputDate) {
                 
                                     <td class="text-sm text-center text-white">
                                         <div class="flex flex-col items-start">
-                                            <span class="text-sm sm:text-[1rem] font-medium {['Strong Buy', 'Buy']?.includes(item?.rating_current) ? 'text-[#10DB06]' : item?.rating_current === 'Hold' ? 'text-[#FF7070]' : ['Strong Sell','Sell']?.includes(item?.rating_current) ? 'text-[#FF2F1F]' : ''}"> 
+                                            <span class="text-[1rem] font-medium {['Strong Buy', 'Buy']?.includes(item?.rating_current) ? 'text-[#10DB06]' : item?.rating_current === 'Hold' ? 'text-[#FF7070]' : ['Strong Sell','Sell']?.includes(item?.rating_current) ? 'text-[#FF2F1F]' : ''}"> 
                                                 {item?.rating_current}
                                             </span>
-                                            <span class="text-[0.8rem] font-medium text-white">{item?.action_company?.replace('Initiates Coverage On','Initiates')}</span>
+                                            <span class="font-medium text-white">{item?.action_company?.replace('Initiates Coverage On','Initiates')}</span>
                                             <div class="flex flex-row items-center text-sm">
                                                 {#if Math?.ceil(item?.adjusted_pt_prior) !== 0}
-                                                <span class="text-gray-100  font-normal">${Math?.ceil(item?.adjusted_pt_prior)}</span>
+                                                <span class="text-gray-100 font-normal">${Math?.ceil(item?.adjusted_pt_prior)}</span>
                                                 <svg class="w-3 h-3 ml-1 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 12h16m0 0l-6-6m6 6l-6 6"/></svg>
                                                 <span class="text-white font-semibold">${Math?.ceil(item?.adjusted_pt_current)}</span>
                                                 {:else if  Math?.ceil(item?.adjusted_pt_current) !== 0}
@@ -327,6 +350,7 @@ function latestInfoDate(inputDate) {
                                 
                             </table>
 
+                          </div>
                         </div>
                         {#if data?.user?.tier === 'Pro'}
                         <InfiniteLoading on:infinite={infiniteHandler} />

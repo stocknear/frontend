@@ -632,25 +632,25 @@
                               </th>
                               
   
-                              <td on:click|stopPropagation={() => assetSelector(item?.ticker, item?.assetType)} class="cursor-pointer text-start text-xs sm:text-sm text-blue-400">
+                              <td on:click|stopPropagation={() => assetSelector(item?.ticker, item?.assetType)} class="cursor-pointer text-start whitespace-nowrap text-sm text-blue-400">
                                 <div class="flex flex-col items-start">
                                   <span class="text-blue-400">{item?.ticker?.length !== 0 ? item?.ticker : '-'}</span>
                                   <span class="text-white">{item?.assetDescription.length > charNumber ? formatString(item?.assetDescription.slice(0,charNumber)) + "..." : formatString(item?.assetDescription)?.replace("- Common Stock", "")?.replace("Common Stock", "")}</span>
                                 </div>
                               </td>
   
-                                <td class="text-end text-xs sm:text-sm text-white w-32">
+                                <td class="text-end text-sm text-white whitespace-nowrap">
                                     {new Date(item?.transactionDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                 </td>
 
-                                <td class="text-end text-xs sm:text-sm text-white w-32">
+                                <td class="text-end text-sm text-white whitespace-nowrap">
                                   {new Date(item?.disclosureDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                 </td>
   
-                                <td class="text-center text-xs sm:text-sm text-white w-32">
+                                <td class="text-center text-sm text-white whitespace-nowrap">
                                     {item?.amount?.replace("$1,000,001 - $5,000,000","$1Mio - $5Mio")}
                                 </td>
-                                <td class="text-start text-xs text-end sm:text-sm text-white">
+                                <td class="text-start text-sm text-end sm:text-sm text-white">
                                   {#if item?.type === 'Bought'}
                                     <span class="text-[#10DB06]">Bought</span>
                                   {:else if item?.type === 'Sold'}

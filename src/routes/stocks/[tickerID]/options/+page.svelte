@@ -523,7 +523,7 @@ $: {
                                       <!-- row -->
                                       <tr class="odd:bg-[#27272A] border-b-[#09090B] {index+1 === optionList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                                         
-                                        <td class="text-white text-xs sm:text-sm text-start">
+                                        <td class="text-white text-xs sm:text-sm text-start whitespace-nowrap">
                                           {formatTime(item?.time)}
                                         </td>
 
@@ -531,7 +531,7 @@ $: {
                                           {formatDate(item?.date)}
                                         </td>
 
-                                        <td class="text-white text-end">
+                                        <td class="text-white text-sm text-end">
                                           {item?.dte < 0 ? 'expired' : item?.dte +'d'}
                                         </td>
                                         
