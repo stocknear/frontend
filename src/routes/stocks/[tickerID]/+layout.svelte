@@ -1,6 +1,6 @@
 <script lang='ts'>
 
-  import {searchBarData, userRegion, globalForm, screenWidth, openPriceAlert, currentPortfolioPrice, realtimePrice, isCrosshairMoveActive, currentPrice, priceIncrease, displayCompanyName, traded, stockTicker, assetType, isOpen } from '$lib/store';
+  import {searchBarData, userRegion, globalForm, screenWidth, openPriceAlert, currentPortfolioPrice, realtimePrice, isCrosshairMoveActive, currentPrice, priceIncrease, displayCompanyName, traded, stockTicker, isOpen } from '$lib/store';
 
   import { onMount, onDestroy, afterUpdate} from "svelte";
   import { goto } from '$app/navigation';
@@ -11,8 +11,7 @@
 
   export let data;
 
-  //$assetType = 'stock';
-  //$stockTicker = data?.getTicker;
+
   $realtimePrice = null;
   
 
@@ -303,10 +302,7 @@ async function websocketRealtimeData() {
 
 
 let LoginPopup;
-let BuyTrade;
-let SellTrade;
 let PriceAlert;
-let AddPortfolio;
 
     
 onMount(async () => {

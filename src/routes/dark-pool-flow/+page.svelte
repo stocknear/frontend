@@ -452,7 +452,6 @@ const debouncedHandleInput = debounce(handleInput, 200);
             <!-- Page wrapper -->
             <div class="flex justify-center w-full m-auto h-full overflow-hidden">
         
-          
                 <!-- Content area -->
                 <div bind:this={scrollContainer} class="mt-4 w-full overflow-x-auto overflow-y-auto h-[900px] rounded-lg">
                   <table class="table table-pin-cols table-pin-rows table-sm table-compact">
