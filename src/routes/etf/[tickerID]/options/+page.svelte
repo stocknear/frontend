@@ -502,9 +502,9 @@
                                   <!--Start Put/Call-->  
                                   <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
                                     <div class="flex flex-col items-start">
-                                        <span class="font-medium text-gray-200 text-[1rem] ">Ratio %</span>
+                                        <span class="font-medium text-gray-200 text-[1rem] ">OTM Ratio</span>
                                         <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
-                                          OTM / ITM 
+                                          Volume in %
                                         </span>
                                     </div>
                                     <!-- Circular Progress -->
