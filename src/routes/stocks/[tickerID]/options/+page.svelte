@@ -22,6 +22,7 @@ let putPercentage;
 let displayCallVolume;
 let displayPutVolume;
 let latestPutCallRatio;
+let displayOTMRatio;
 
 const totalPutCallRatio = data?.getOptionsPlotData?.putCallRatio;
 
@@ -88,10 +89,6 @@ function changeStatement(event)
 {
   displayData = event.target.value;
 }
-
-let tableVolume = 0;
-let tableOpenInterest = 0;
-let tableAvgDTE = 0;
 
 
 
@@ -168,40 +165,53 @@ function plotData(callData, putData) {
 }
 
 function calculateStats() {
-    const { callVolumeSum, putVolumeSum, bullishCount, bearishCount } = rawData?.reduce((acc, item) => {
-      const volume = parseInt(item?.volume);
-  
-      if (item?.put_call === "Calls") {
-        acc.callVolumeSum += volume;
-      } else if (item?.put_call === "Puts") {
-        acc.putVolumeSum += volume;
-      }
+    const currentPrice = parseFloat(data?.getStockQuote?.price);
+    
+    const { callVolumeSum, putVolumeSum, bullishCount, bearishCount, otmVolume, itmVolume } = rawData?.reduce((acc, item) => {
+        const volume = parseInt(item?.volume);
+        const strikePrice = parseFloat(item?.strike_price);
 
-      if (item?.sentiment === "Bullish") {
-        acc.bullishCount += 1;
-      } else if (item?.sentiment === "Bearish") {
-        acc.bearishCount += 1;
-      }
-  
+        if (item?.put_call === "Calls") {
+              acc.callVolumeSum += volume;
+              if (strikePrice > currentPrice) {
+                  acc.otmVolume += volume;
+              } else {
+                  acc.itmVolume += volume;
+              }
+          } else if (item?.put_call === "Puts") {
+              acc.putVolumeSum += volume;
+              if (strikePrice < currentPrice) {
+                  acc.itmVolume += volume;
+              } else {
+                  acc.otmVolume += volume;
+              }
+          }
+
+        if (item?.sentiment === "Bullish") {
+            acc.bullishCount += 1;
+        } else if (item?.sentiment === "Bearish") {
+            acc.bearishCount += 1;
+        }
+
         return acc;
-      }, { callVolumeSum: 0, putVolumeSum: 0, bullishCount: 0, bearishCount: 0 });
+    }, { callVolumeSum: 0, putVolumeSum: 0, bullishCount: 0, bearishCount: 0, otmVolume: 0, itmVolume: 0 });
 
-      if(bullishCount > bearishCount) {
-        flowSentiment = 'Bullish'
-      }
-      else if (bullishCount < bearishCount) {
-        flowSentiment = 'Bearish'
-      } else {
+    if (bullishCount > bearishCount) {
+        flowSentiment = 'Bullish';
+    } else if (bullishCount < bearishCount) {
+        flowSentiment = 'Bearish';
+    } else {
         flowSentiment = 'Neutral';
-      }
-    latestPutCallRatio = (putVolumeSum/callVolumeSum);
+    }
 
-    callPercentage = Math.floor((callVolumeSum)/(callVolumeSum+putVolumeSum)*100);
-    putPercentage = (100-callPercentage);
-
+    latestPutCallRatio = (putVolumeSum / callVolumeSum);
+    callPercentage = Math.floor((callVolumeSum) / (callVolumeSum + putVolumeSum) * 100);
+    putPercentage = (100 - callPercentage);
     displayCallVolume = callVolumeSum;
     displayPutVolume = putVolumeSum;
-
+    
+    // Calculate OTM/ITM ratio
+    displayOTMRatio = otmVolume / (itmVolume+otmVolume) ?? 0;
 }
 
 async function handleScroll() {
@@ -217,9 +227,8 @@ async function handleScroll() {
 
 
 onMount(async () => {
-  
   calculateStats();
-
+  
   if(data?.user?.tier === 'Pro') {
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -397,7 +406,7 @@ $: {
                                 <!--Start Flow Sentiment-->  
                                 <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
                                     <div class="flex flex-col items-start">
-                                        <span class="font-medium text-gray-200 text-sm ">Flow Sentiment</span>
+                                        <span class="font-medium text-gray-200 text-[1rem] ">Flow Sentiment</span>
                                         <span class="text-start text-[1rem] font-medium {flowSentiment === 'Bullish' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">{flowSentiment}</span>
                                     </div>
                                     
@@ -406,7 +415,7 @@ $: {
                                 <!--Start Put/Call-->  
                                 <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
                                   <div class="flex flex-col items-start">
-                                      <span class="font-medium text-gray-200 text-sm ">Put/Call</span>
+                                      <span class="font-medium text-gray-200 text-[1rem] ">Put/Call</span>
                                       <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
                                         {latestPutCallRatio?.toFixed(3)}
                                       </span>
@@ -433,7 +442,7 @@ $: {
                               <!--Start Call Flow-->  
                               <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
                                 <div class="flex flex-col items-start">
-                                    <span class="font-medium text-gray-200 text-sm ">Call Flow</span>
+                                    <span class="font-medium text-gray-200 text-[1rem] ">Call Flow</span>
                                     <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
                                       {new Intl.NumberFormat("en", {
                                         minimumFractionDigits: 0,
@@ -462,7 +471,7 @@ $: {
                               <!--Start Put Flow-->  
                               <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
                                 <div class="flex flex-col items-start">
-                                    <span class="font-medium text-gray-200 text-sm ">Put Flow</span>
+                                    <span class="font-medium text-gray-200 text-[1rem] ">Put Flow</span>
                                     <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
                                       {new Intl.NumberFormat("en", {
                                         minimumFractionDigits: 0,
@@ -489,6 +498,34 @@ $: {
                                 
                               </div>
                               <!--End Put Flow-->
+
+                                <!--Start Put/Call-->  
+                                <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-md h-20">
+                                  <div class="flex flex-col items-start">
+                                      <span class="font-medium text-gray-200 text-[1rem] ">Ratio %</span>
+                                      <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
+                                        OTM / ITM 
+                                      </span>
+                                  </div>
+                                  <!-- Circular Progress -->
+                                    <div class="relative size-14 ml-auto">
+                                      <svg class="size-full w-14 h-14" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Background Circle -->
+                                        <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
+                                        <!-- Progress Circle inside a group with rotation -->
+                                        <g class="origin-center -rotate-90 transform">
+                                          <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#EE5365]" stroke-width="3" stroke-dasharray="100" stroke-dashoffset={displayOTMRatio >=1 ? 0 : 100-(displayOTMRatio*100)?.toFixed(2)}></circle>
+                                        </g>
+                                      </svg>
+                                      <!-- Percentage Text -->
+                                      <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
+                                        <span class="text-center text-white text-sm">{(displayOTMRatio*100)?.toFixed(0)}%</span>
+                                      </div>
+                                    </div>
+                                  <!-- End Circular Progress -->
+                        
+                              </div>
+                              <!--End Put/Call-->
                         
                         
                                 </div>
