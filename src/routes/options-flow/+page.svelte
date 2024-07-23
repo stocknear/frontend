@@ -6,7 +6,7 @@
   import { abbreviateNumber } from '$lib/utils';
   import { onMount, onDestroy } from 'svelte';
   import toast from 'svelte-french-toast';
-
+  import VirtualList from 'svelte-tiny-virtual-list';
   
   export let data;
     
@@ -22,7 +22,6 @@
   }
   });
   
-  let optionList = []
   let rawData = [];
   let filterList = [];
 
@@ -159,11 +158,9 @@ function handleViewData(optionData) {
               rawData = listFilteredData;
           }
 
-          // Update optionList and notFound status
           if (rawData?.length !== 0 && newIncomingData === true) {
               notFound = false;
               newIncomingData = false;
-              optionList = rawData?.slice(0, 50);
           } else if (!newIncomingData) {
               notFound = false;
               newIncomingData = false;
@@ -171,7 +168,6 @@ function handleViewData(optionData) {
               notFound = true;
               newIncomingData = false;
               rawData = data?.getOptionsFlowFeed ?? [];
-              optionList = [];
           }
 
           calculateStats(rawData);
@@ -206,7 +202,6 @@ function handleViewData(optionData) {
   onMount(async () => {
     audio = new Audio(notifySound);
     rawData = data?.getOptionsFlowFeed;
-    optionList = rawData?.slice(0, 100);
     calculateStats(rawData);
     isLoaded = true;
 
@@ -214,32 +209,11 @@ function handleViewData(optionData) {
       await websocketRealtimeData();
     }
 
-    if (data?.user?.tier === 'Pro') {
-      const attachScrollListener = () => {
-        if (scrollContainer) {
-          scrollContainer.addEventListener('scroll', handleScroll);
-          return true;
-        }
-        return false;
-      };
 
-      if (!attachScrollListener()) {
-        const observer = new MutationObserver(() => {
-          if (attachScrollListener()) {
-            observer.disconnect();
-          }
-        });
-
-        observer.observe(document.body, { childList: true, subtree: true });
-      }
-    }
   });
   
 onDestroy(async() => {
 
-    if (scrollContainer && data?.user?.tier === 'Pro') {
-      scrollContainer.removeEventListener('scroll', handleScroll);
-    };
 
     if (typeof window !== 'undefined') 
     {
@@ -252,18 +226,7 @@ onDestroy(async() => {
   
   })
   
-  async function handleScroll() {
-    if (!scrollContainer) return;
-    const scrollThreshold = scrollContainer.scrollHeight * 0.8; // 80% of the div height
-    const isBottom = scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollThreshold;
-    if (isBottom && optionList?.length !== rawData?.length) {
-      const nextIndex = optionList?.length;
-      const filteredNewResults = rawData?.slice(nextIndex, nextIndex + 25);
-      optionList = [...optionList, ...filteredNewResults];
-    }
-  }
 
-    
     async function assetSelector(symbol, assetType)
       {    
 
@@ -287,8 +250,8 @@ onDestroy(async() => {
   
   
   
-function calculateStats(optionList) {
-    const { callVolumeSum, putVolumeSum, bullishCount, bearishCount } = optionList?.reduce((acc, item) => {
+function calculateStats(data) {
+    const { callVolumeSum, putVolumeSum, bullishCount, bearishCount } = data?.reduce((acc, item) => {
       const volume = parseInt(item?.volume);
   
       if (item?.put_call === "Calls") {
@@ -414,19 +377,15 @@ function handleInput(event) {
             if (newData?.length !== 0) {
                 rawData = newData;
 
-                optionList = [...rawData?.slice(0, 100)];
-
 
                 notFound = false;
             } else {
                 notFound = true;
                 rawData = data?.getOptionsFlowFeed;
-                optionList = rawData?.slice(0, 100);
             }
         } else {
             notFound = false;
             rawData = data?.getOptionsFlowFeed;
-            optionList = rawData?.slice(0, 100);
         }
 
         calculateStats(rawData);
@@ -487,23 +446,22 @@ $: {
         const newData = filterExpiringSoon(rawData, Math.max(...filterList));
         if (newData?.length !== 0) {
             rawData = newData;
-            optionList = rawData?.slice(0, 50);
             notFound = false;
         } else {
             notFound = true;
             rawData = data?.getOptionsFlowFeed;
-            optionList = [];
         }
         
       }
       else if (filterQuery?.length === 0) {
         rawData = data?.getOptionsFlowFeed;
-        optionList = rawData?.slice(0,100);
 
       }
       calculateStats(rawData);
    }
   }
+
+
 
 </script>
          
@@ -551,7 +509,7 @@ $: {
 
         {#if !$isOpen}
           <div class="text-white text-sm sm:text-md italic text-center sm:text-start w-full ml-2 mb-3">
-            Live flow of {new Date(optionList?.at(0)?.date ?? null)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })} (NYSE Time)
+            Live flow of {new Date(rawData?.at(0)?.date ?? null)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })} (NYSE Time)
           </div>
         {/if}
 
@@ -829,95 +787,92 @@ $: {
       
         
               <!-- Content area -->
-              <div bind:this={scrollContainer} class="mt-4 w-full overflow-x-auto overflow-y-auto h-[900px] rounded-lg">
-                <table class="table table-pin-cols table-pin-rows table-sm table-compact">
-                    <thead>
-                      <tr class="">
-                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Time</td>
-                        <th class="bg-[#161618] font-bold text-slate-300 text-xs text-start uppercase">Symbol</th>
-                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Expiry</td>
-                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Strike</td>
-                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">C/P</td>
-                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Sent.</td>
-                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Spot</td>
-                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Price</td>
-                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Prem.</td>
-                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Type</td>
-                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-end uppercase">Vol</td>
-                        <td class="bg-[#161618] text-slate-300 font-bold text-xs text-end uppercase">OI</td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {#each optionList as item,index}
-                      <!-- row -->
-                      <tr on:click={() => handleViewData(item)} class="w-full odd:bg-[#27272A] cursor-pointer {index+1 === optionList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
-                        
-                        <td class="text-white pb-3 text-xs sm:text-sm text-start">
-                          {formatTime(item?.time)}
-                        </td>
-    
-                        <th on:click|stopPropagation={() => assetSelector(item?.ticker, item?.assetType)} class="{index % 2 ? 'bg-[#09090B]' : 'bg-[#27272A]'} text-blue-400 text-start font-normal">
-                          {item?.ticker}
-                        </th>
-  
-                        <td class="text-white text-start">
-                          {reformatDate(item?.date_expiration)}
-                        </td>
-  
-                      <td class="text-white text-start">
-                        {item?.strike_price}
-                      </td>
-  
-                      <td class="{item?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-start">
-                        {item?.put_call}
-                      </td>
-
-                      <td class="{item?.sentiment === 'Bullish' ? 'text-[#00FC50]' : item?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'} text-start">
-                        {item?.sentiment}
-                      </td>
-    
-                        <td class="text-sm text-start text-white">
-                          {item?.underlying_price}
-                        </td>
-                      
-                      <td class="text-sm text-start text-white">
-                        {item?.price}
-                      </td>
-                      
-                      <td class="text-sm text-start font-semibold {item?.put_call === 'Puts' ? 'text-[#CB281C]' : 'text-[#0FB307]'} ">
-                        {abbreviateNumber(item?.cost_basis)}
-                      </td>
-  
-                      <td class="text-sm text-start {item?.type === 'Sweep' ? 'text-[#C6A755]' : 'text-[#976DB7]'}">
-                        {item?.type}
-                      </td>
-      
-        
-      
-                      <td class="text-white text-end">
-                          {new Intl.NumberFormat("en", {
-                              minimumFractionDigits: 0,
-                              maximumFractionDigits: 0
-                          }).format(item?.volume)}
-                      </td>
-      
-                      <td class="text-white text-end">
-                        {new Intl.NumberFormat("en", {
-                          minimumFractionDigits: 0,
-                          maximumFractionDigits: 0
-                      }).format(item?.open_interest)}
-                      </td>
-  
+              <div class="mt-4 w-full overflow-x-auto overflow-y-auto h-[900px] rounded-lg">
+                <div class="table-container">
+                <div class="table">
+                  <VirtualList
+                    width="100%"
+                    height={900}
+                    itemCount={rawData.length}
+                    itemSize={40}
+                  >
+                    <div slot="header" class="tr th sticky z-40 top-0">
+                      <div class="td bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Time</div>
+                        <td class="td bg-[#161618] font-bold text-slate-300 text-xs text-start uppercase">Symbol</td>
+                        <div class="td bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Expiry</div>
+                        <div class="td bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Strike</div>
+                        <div class="td bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">C/P</div>
+                        <div class="td bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Sent.</div>
+                        <div class="td bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Spot</div>
+                        <div class="td bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Price</div>
+                        <div class="td bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Prem.</div>
+                        <div class="td bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Type</div>
+                        <div class="td bg-[#161618] text-slate-300 font-bold text-xs text-end uppercase">Vol</div>
+                        <div class="td bg-[#161618] text-slate-300 font-bold text-xs text-end uppercase">OI</div>
+                    </div>
                 
-        
-        
-                      </tr>
-                      
-                  
-                      {/each}
-                    </tbody>
-                  </table>
-      
+                    <div on:click={() => handleViewData(rawData[index])} slot="item" let:index let:style {style} class="tr cursor-pointer">
+
+
+                      <div style="justify-content: center;" class="td text-white pb-3 text-sm text-start">
+                        {formatTime(rawData[index]?.time)}
+                      </div>
+  
+                      <div on:click|stopPropagation={() => assetSelector(rawData[index]?.ticker, rawData[index]?.assetType)} style="justify-content: center;" class="td text-sm text-blue-400 font-normal">
+                        {rawData[index]?.ticker}
+                      </div>
+
+                      <div style="justify-content: center;" class="td text-sm text-white text-start">
+                        {reformatDate(rawData[index]?.date_expiration)}
+                      </div>
+
+                    <div style="justify-content: center;" class="td text-sm text-white text-start">
+                      {rawData[index]?.strike_price}
+                    </div>
+
+                    <div style="justify-content: center;" class="td  text-sm {rawData[index]?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-start">
+                      {rawData[index]?.put_call}
+                    </div>
+
+                    <div style="justify-content: center;" class="td  text-sm {rawData[index]?.sentiment === 'Bullish' ? 'text-[#00FC50]' : rawData[index]?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'} text-start">
+                      {rawData[index]?.sentiment}
+                    </div>
+  
+                      <div style="justify-content: center;" class="td  text-sm text-start text-white">
+                        {rawData[index]?.underlying_price}
+                      </div>
+                    
+                    <div style="justify-content: center;" class="td  text-sm text-start text-white">
+                      {rawData[index]?.price}
+                    </div>
+                    
+                    <div style="justify-content: center;" class="td  text-sm text-start font-semibold {rawData[index]?.put_call === 'Puts' ? 'text-[#CB281C]' : 'text-[#0FB307]'} ">
+                      {abbreviateNumber(rawData[index]?.cost_basis)}
+                    </div>
+
+                    <div style="justify-content: center;" class="td  text-sm text-start {rawData[index]?.type === 'Sweep' ? 'text-[#C6A755]' : 'text-[#976DB7]'}">
+                      {rawData[index]?.type}
+                    </div>
+    
+                    <div style="justify-content: center;" class="td  text-sm text-white text-end">
+                        {new Intl.NumberFormat("en", {
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0
+                        }).format(rawData[index]?.volume)}
+                    </div>
+    
+                    <div style="justify-content: center;" class="td  text-sm text-white text-end">
+                      {new Intl.NumberFormat("en", {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }).format(rawData[index]?.open_interest)}
+                    </div>
+
+                    </div>
+                  </VirtualList>
+                </div>
+              </div>
+             
                   <!--<InfiniteLoading on:infinite={infiniteHandler} />-->    
     
           </div>
@@ -1044,7 +999,7 @@ $: {
 
 
   <!-- svelte-ignore a11y-label-has-associated-control -->
-  <label class="modal-box w-full relative bg-[#09090B] h-auto max-h-[900px] overflow-y-scroll">
+  <label class="modal-box w-full relative bg-[#09090B] h-auto max-h-[900px] border border-gray-800 overflow-y-scroll">
     <label for="optionDetailsDesktopModal" class="cursor-pointer absolute right-5 top-2 bg-[#09090B] text-2xl text-white">
       ✕
     </label>
@@ -1191,3 +1146,73 @@ $: {
 </div>
 <!--End Options Detail Modal-->
 
+<style>
+  .table-container {
+      width: 100%;
+      overflow-x: auto;
+  }
+
+  .table :global(.virtual-list-inner) {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    @media (max-width: 768px) {
+        .table {
+            width: 1000px;
+        }
+    }
+
+  .table .virtual-list-inner {
+      flex-flow: column nowrap;
+      font-size: .8rem;
+      line-height: 1.5;
+      flex: 1 1 auto;
+  }
+
+  .th {
+      display: none;
+      font-weight: 700;
+      background-color: #09090B;
+  }
+
+  .th > .td {
+      white-space: normal;
+      justify-content: center;
+  }
+
+  .tr {
+      width: 100%;
+      display: flex;
+      flex-flow: row nowrap;
+  }
+
+  .tr:nth-of-type(even) {
+      background-color: #27272A;
+  }
+
+  .tr:nth-of-type(odd) {
+      background-color: #09090B;
+  }
+
+  .td {
+      display: flex;
+      flex-flow: row nowrap;
+      flex-grow: 1;
+      flex-basis: 0;
+      padding: 0.5em;
+      word-break: break-word;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0px;
+      white-space: nowrap;
+      border-bottom: 1px solid #09090B;
+  }
+</style>
+
+<div class="table-container">
+  <div class="table">
+      <!-- Your table content here -->
+  </div>
+</div>

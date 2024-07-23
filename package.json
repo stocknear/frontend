@@ -95,6 +95,7 @@
     "svelte-range-slider-pips": "^2.3.1",
     "svelte-sonner": "^0.3.27",
     "svelte-tags-input": "^6.0.0",
+    "svelte-tiny-virtual-list": "^2.1.2",
     "tailwind-merge": "^2.4.0",
     "tailwind-variants": "^0.2.1",
     "tslib": "^2.6.2",
