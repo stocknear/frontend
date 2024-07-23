@@ -798,7 +798,7 @@ $: {
                   >
                     <div slot="header" class="tr th sticky z-40 top-0">
                       <div class="td bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Time</div>
-                        <td class="td bg-[#161618] font-bold text-slate-300 text-xs text-start uppercase">Symbol</td>
+                        <div class="td bg-[#161618] font-bold text-slate-300 text-xs text-start uppercase">Symbol</div>
                         <div class="td bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Expiry</div>
                         <div class="td bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">Strike</div>
                         <div class="td bg-[#161618] text-slate-300 font-bold text-xs text-start uppercase">C/P</div>
