@@ -1,0 +1,10 @@
+services:
+  app-backend:
+    image: stocknear/frontend
+    build: .
+    ports:
+      - 5173:5173
+    environment:
+      # Set both to where your Pocketbase is running.
+      - VITE_EU_POCKETBASE_URL=http://localhost:8090
+      - VITE_USEAST_POCKETBASE_URL=http://localhost:8090
