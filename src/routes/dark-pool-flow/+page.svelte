@@ -14,6 +14,7 @@
     let highestVolumeTicker;
     let highestSizeTicker;
     let highestAmountTicker;
+    let sumAmountTicker
     let displayDate;
     let scrollContainer;
     let notFound = false;
@@ -144,6 +145,17 @@ function formatTime(dateString) {
     return { ticker: maxAmountTicker, amount: maxAmount };
   }
 
+  function sumTotalAmount(data) {
+  let totalAmount = 0;
+    let ticker;
+    // Iterate through the data and sum up the cost basis for each item
+    data?.forEach(item => {
+      totalAmount += item?.volume * item?.price;
+    });
+
+    return{ ticker: data?.at(0)?.symbol, totalAmount: totalAmount };
+  }
+
 
 
   async function handleScroll() {
@@ -166,6 +178,8 @@ function formatTime(dateString) {
     highestVolumeTicker = findHighestVolume(rawData);
     highestSizeTicker = findHighestSize(rawData);
     highestAmountTicker = findHighestAmount(rawData);
+
+    sumAmountTicker = sumTotalAmount(rawData);
 
     if (data?.user?.tier === 'Pro') {
       const attachScrollListener = () => {
@@ -228,6 +242,7 @@ onDestroy(async() => {
         highestVolumeTicker = findHighestVolume(rawData);
         highestSizeTicker = findHighestSize(rawData);
         highestAmountTicker = findHighestAmount(rawData);
+        sumAmountTicker = sumTotalAmount(rawData);
 
     }, 200);
 }
@@ -375,7 +390,7 @@ const debouncedHandleInput = debounce(handleInput, 200);
                  <!--Start Most Traded-->  
                  <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] shadow-lg rounded-lg h-20">
                   <div class="flex flex-col items-start">
-                      <span class="font-medium text-gray-200 text-sm ">Most Traded Option</span>
+                      <span class="font-medium text-gray-200 text-sm ">Most Traded Symbol</span>
                       <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
                         <a href={"/stocks/"+mostFrequentTicker?.ticker} class="text-blue-400 ">
                           {mostFrequentTicker?.ticker}
@@ -433,6 +448,20 @@ const debouncedHandleInput = debounce(handleInput, 200);
                             {highestAmountTicker?.ticker}
                           </a>
                           {abbreviateNumber(highestAmountTicker?.amount, true)}
+                        </span>
+                    </div>
+                  </div>
+                  <!--End Amount-->
+
+                   <!--Start Amount-->  
+                   <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
+                    <div class="flex flex-col items-start">
+                        <span class="font-medium text-gray-200 text-sm ">Total Amount</span>
+                        <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
+                          <a href={"/stocks/"+sumAmountTicker?.ticker} class="text-blue-400 ">
+                            {sumAmountTicker?.ticker}
+                          </a>
+                          {abbreviateNumber(sumAmountTicker?.totalAmount, true)}
                         </span>
                     </div>
                   </div>

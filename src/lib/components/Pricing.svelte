@@ -272,7 +272,7 @@ onMount(async () => {
 
                 <div class="absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-2xl flex flex-row border border-gray-300 items-center p-2">
                     <span class="text-white text-md font-semibold px-3">
-                        Limited Offer
+                        2 Days Left
                     </span>
                 </div>          
 
@@ -289,6 +289,7 @@ onMount(async () => {
                     <div class="flex flex-row items-center">
                         <span class="mr-2 text-4xl font-bold">$599</span>
                     </div>
+                  
                 </div>
 
 

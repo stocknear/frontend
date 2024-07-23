@@ -80,6 +80,9 @@ onMount( async() => {
     <div class="flex flex-col w-full max-w-7xl m-auto justify-center items-center">
       <div class="text-center mb-10 w-full px-4 sm:px-3 mt-10">                
       
+        {#if Feedback}
+          <Feedback data={data} />
+        {/if}
         
         <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
           <a href="/cramer-tracker" class="text-white antialiased bg-[#27272A] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
