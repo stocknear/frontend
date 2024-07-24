@@ -21,7 +21,6 @@ export const actions = {
 
 		const { formData, errors } = await validateData(await request.formData(), registerUserSchema);
 		if (errors) {
-			console.log(errors.fieldErrors)
 			return fail(400, {
 				data: formData,
 				errors: errors.fieldErrors
@@ -65,7 +64,7 @@ export const actions = {
 			*/
 		} catch (err) {
 			console.log("Error: ", err);
-			error(err.status, err.message);
+			//error(err.status, err.message);
 		}
 
 		redirect(301, "/");

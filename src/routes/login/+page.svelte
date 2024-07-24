@@ -3,12 +3,11 @@
 	import Input from '$lib/components/Input.svelte';
 	import toast from 'svelte-french-toast';
 	//import { trackPageDuration, trackButtonClick} from '$lib/mixpanel';
-	import logo from '$lib/images/login_v2_logo.png';
 	import { numberOfUnreadNotification } from '$lib/store';
 	export let form;
 	
 	
-	
+	let isClicked = false;
 	let loading = false;
 	let oauthLoading = false;
 
@@ -32,6 +31,7 @@
 						break;
 					}
 				case 'redirect':
+					isClicked = true;
 					toast.success('Login successfully!', {
 						style: 'border-radius: 200px; background: #333; color: #fff;'});
 					await update();
@@ -136,10 +136,21 @@
 						</div>
 
 						<div class="w-full max-w-lg pt-5 m-auto pb-5">
-							<button type="submit" class="btn bg-purple-600 border border-gray-600 sm:hover:bg-purple-700 transition duration-100 text-white btn-md w-full rounded-lg m-auto text-white font-semibold text-[1rem]">
-                                Login
-                            </button>
+							
+							{#if !loading && !isClicked}
+								<button type="submit" class="btn bg-purple-600 border border-gray-600 sm:hover:bg-purple-700 transition duration-100 text-white btn-md w-full rounded-lg m-auto text-white font-semibold text-[1rem]">
+									<span class="text-white">Login</span>
+								</button>
+							{:else}
+								<label class="cursor-not-allowed btn bg-purple-600 opacity-[0.5] border border-gray-600 sm:hover:bg-purple-700 transition duration-100 text-white btn-md w-full rounded-lg m-auto text-white font-semibold text-[1rem]">
+									<div class="flex flex-row m-auto items-center">
+										<span class="loading loading-infinity"></span>
+										<span class="text-white ml-1.5">Signing Up</span>
+									</div>
+								</label>
+							{/if}
 						</div>
+						
 
 
 						<div class="divider divider-[#fff] pt-5 pb-10">
