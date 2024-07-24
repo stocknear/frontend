@@ -626,7 +626,7 @@ $: {
                       <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#3E3E3E]" stroke-width="3"></circle>
                       <!-- Progress Circle inside a group with rotation -->
                       <g class="origin-center -rotate-90 transform">
-                        <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-blue-500" stroke-width="3" stroke-dasharray="100" stroke-dashoffset={100-(putCallRatio*100)?.toFixed(2)}></circle>
+                        <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-blue-500" stroke-width="3" stroke-dasharray="100" stroke-dashoffset={putCallRatio >=1 ? 0 : 100-(putCallRatio*100)?.toFixed(2)}></circle>
                       </g>
                     </svg>
                     <!-- Percentage Text -->
