@@ -36,7 +36,6 @@
   import Option from "lucide-svelte/icons/waves";
   import HandShake from "lucide-svelte/icons/handshake";
   import Layers from "lucide-svelte/icons/layers";
-  import Box from "lucide-svelte/icons/box";
   import Boxes from "lucide-svelte/icons/boxes";
   import Newspaper from "lucide-svelte/icons/newspaper";
   import MessageCircle from "lucide-svelte/icons/message-circle";
@@ -80,30 +79,19 @@ async function detectSWUpdate() {
 
   $userRegion = data?.region?.split("::")[0];
 
-  let stockGuide = false;
-  let etfGuide = false;
-  let calendarGuide = false;
-  let optionsGuide = false;
-  let politicianGuide = false;
-
-  let showSidebar = false;
   let collapse = false;
 
 
   const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
-  let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
 
   let fastifyURL;
 
   userRegion.subscribe(value => {
 
     if (usRegion?.includes(value)) {
-      apiURL = import.meta.env.VITE_USEAST_API_URL;
       fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
     } else {
-      apiURL = import.meta.env.VITE_EU_API_URL;
       fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
     }
   });
@@ -130,7 +118,7 @@ let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
 
   $: hideFooter = $page.url.pathname.startsWith('/dark-pool-flow') || $page.url.pathname.startsWith('/options-flow') ||   $page.url.pathname.startsWith('/options-zero-dte') || $page.url.pathname.startsWith('/login') || $page.url.pathname.startsWith('/register') || $page.url.pathname.startsWith('/etf') || $page.url.pathname.startsWith('/stock-splits-calendar') || $page.url.pathname.startsWith('/dividends-calendar') || $page.url.pathname.startsWith('/earnings-calendar') || $page.url.pathname.startsWith('/market-mover') || $page.url.pathname.startsWith('/market-news') || $page.url.pathname.startsWith('/portfolio') || $page.url.pathname.startsWith('/hedge-funds') || $page.url.pathname.startsWith('/watchlist') || $page.url.pathname.startsWith('/stocks') || $page.url.pathname.startsWith('/community') || $page.url.pathname.startsWith('/stock-screener') || $page.url.pathname.startsWith('/price-alert');
 
-  $: hideSidebar = $page.url.pathname.startsWith('/contact') || $page.url.pathname.startsWith('/imprint') || $page.url.pathname.startsWith('/privacy-policy') || $page.url.pathname.startsWith('/terms-of-use') || $page.url.pathname.startsWith('/about') || $page.url.pathname.startsWith('/community/create-post') || $page.url.pathname.startsWith('/login') || $page.url.pathname.startsWith('/register')
+  //$: hideSidebar = $page.url.pathname.startsWith('/contact') || $page.url.pathname.startsWith('/imprint') || $page.url.pathname.startsWith('/privacy-policy') || $page.url.pathname.startsWith('/terms-of-use') || $page.url.pathname.startsWith('/about') || $page.url.pathname.startsWith('/community/create-post') || $page.url.pathname.startsWith('/login') || $page.url.pathname.startsWith('/register')
 
  
   let hasUnreadElement = false;
@@ -147,69 +135,7 @@ function handleCollapse() {
   }
 }
 
-function handleStockGuide() {
 
-  stockGuide = !stockGuide;
-  collapse = false;
-}
-
-function handleETFGuide() {
-
-  etfGuide = !etfGuide;
-  collapse = false;
-
-}
-
-function handleCalendarGuide() {
-calendarGuide = !calendarGuide;
-collapse = false;
-}
-
-function handleOptionsGuide() {
-optionsGuide = !optionsGuide;
-collapse = false;
-}
-
-function handlePoliticianGuide() {
-politicianGuide = !politicianGuide;
-collapse = false;
-}
-
-
-
-
-/** Dispatch event on click outside of node */
-function clickOutside(node) {
-  const handleClick = event => {
-    // Get the element that was clicked
-    const clickedElement = event.target;
-
-    // Check if the clicked element or its parent matches the ignoreSelector
-    if (clickedElement.closest('#navbar')) {
-      // If it does, do nothing (the click was inside the ignored element)
-      return;
-    }
-
-    // Original condition, plus the new check for the nav element
-    if (node && !node.contains(event.target) && !event.defaultPrevented) {
-      node.dispatchEvent(
-        new CustomEvent('click_outside', node)
-      );
-    }
-  }
-
-  document.addEventListener('click', handleClick, true);
-  
-  return {
-    destroy() {
-      document.removeEventListener('click', handleClick, true);
-    }
-  }
-}
-
-function handleClickOutside(event) {
-		showSidebar = false;
-	}
 
 
 //Define web workers:
@@ -401,18 +327,18 @@ $: {
           </div>
           <div class="hidden md:flex md:items-center md:justify-center md:gap-5">
             <a aria-current="page"
-                  class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white hover:text-yellow-200 transition-all duration-200 hover:bg-purple-600"
+                  class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white hover:text-white transition-all duration-200 hover:bg-purple-600"
                   href="/">Home</a>
               <a aria-current="page"
-                  class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white hover:text-yellow-200 transition-all duration-200 hover:bg-purple-600"
+                  class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white hover:text-white transition-all duration-200 hover:bg-purple-600"
                   href="/about">About Us</a>
-              <a class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white hover:text-yellow-200 transition-all duration-200 hover:bg-purple-600"
+              <a class="inline-block rounded-lg px-2 py-1 text-[0.90rem] font-semibold text-white hover:text-white transition-all duration-200 hover:bg-purple-600"
                   href="/pricing">Pricing</a>
           </div>
           <div class="flex items-center justify-end gap-3">
               <a class="items-center justify-center rounded-xl bg-gray-200 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-white sm:inline-flex"
                   href="/register">Start Trial</a>
-              <a class="inline-flex items-center justify-center rounded-xl bg-purple-600 px-3 py-2 text-sm font-semibold text-yellow-200 shadow-sm transition-all duration-150 hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
+              <a class="inline-flex items-center justify-center rounded-xl bg-purple-600 px-3 py-2 text-sm font-semibold text-white  shadow-sm transition-all duration-150 hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
                   href="/login">Login</a>
           </div>
       </div>
