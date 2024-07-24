@@ -81,16 +81,11 @@ export const load = async ({ params }) => {
 
   const getInsiderTradingStatistics = async () => {
 
-    let sums = {
-      totalBought: 0,
-      totalSold: 0,
-      purchases: 0,
-      sales: 0
-    };
+    let output;
 
     const cachedData = getCache(params.tickerID, 'getInsiderTradingStatistics');
       if (cachedData) {
-        sums = cachedData;
+        output = cachedData;
       } else {
         const postData = {
           ticker: params.tickerID
@@ -105,21 +100,13 @@ export const load = async ({ params }) => {
         body: JSON.stringify(postData)
       });
 
-      const output = await response?.json();
+      output = await response?.json();
 
-      // Iterate through the list and accumulate the values
-      output?.forEach(item => {
-        sums.totalBought += item.totalBought;
-        sums.totalSold += item.totalSold;
-        sums.purchases += item.purchases;
-        sums.sales += item.sales;
-      });
-      
-      setCache(params.tickerID, sums, 'getInsiderTradingStatistics');
+      setCache(params.tickerID, output, 'getInsiderTradingStatistics');
 
     }
 
-    return sums;
+    return output;
   };
 
 

@@ -13,7 +13,7 @@
   let isLoaded = false;
   let statistics = data?.getInsiderTradingStatistics ?? {};
 
-  let buySellRatio = statistics?.purchases/statistics?.sales
+  let buySellRatio = statistics?.totalBought/statistics?.totalSold
   let buyShares = statistics?.totalBought
   let soldShares = statistics?.totalSold
   let buySharesPercentage = Math.floor(buyShares/(buyShares+soldShares)*100);
@@ -25,7 +25,6 @@
   let insiderTradingList = [];
   let dataPoints = [];
   let dates = [];
-  let barChartData = [];
   let soldList = [];
   let boughtList = [];
   let grantList = [];
@@ -386,9 +385,9 @@ onMount(async() => {
 
                     {/if}
                     
-                    {#if JSON.stringify(statistics) !== JSON.stringify({ totalBought: 0, totalSold: 0, purchases: 0, sales: 0 }) }
+                    {#if Object?.keys(statistics)?.length !== 0 }
                     <h3 class="text-white text-xl font-semibold pt-5">
-                      Insider Statistics
+                      Q{statistics?.quarter} {statistics?.year} Insider Statistics
                     </h3>
                      <!--Start Widget-->
                      <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center p-1">
