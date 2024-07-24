@@ -136,36 +136,37 @@ $: {
                     <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                       <thead>
                         <tr class="bg-[#09090B]">
-                          <th class="text-end bg-[#09090B] text-white text-[1rem] font-medium">
+                          <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
                             #
                           </th>
-                          <th class="text-start bg-[#09090B] text-white text-[1rem] font-medium">
+                          <th class="text-start bg-[#09090B] text-white text-sm font-semibold">
                             Analyst
                           </th>
 
-                          <th class="text-end bg-[#09090B] text-white text-[1rem] font-medium">
-                            Main Sector
-                          </th>
-
-                          <th class="text-end bg-[#09090B] text-white text-[1rem] font-medium">
+              
+                          <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
                             Success Rate
                           </th>
-                          <th class="text-end bg-[#09090B] text-white text-[1rem] font-medium">
+                          <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
                             Average Return
                           </th>
-                          <th class="text-white font-medium text-end text-[1rem]">
+                          <th class="text-white font-semibold text-end text-sm">
                             Total Ratings
                           </th>
-                          <th class="text-white font-medium  text-end text-[1rem]">
+                          <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                            Main Sector
+                          </th>
+                          <th class="text-white font-semibold  text-end text-sm">
                             Last Rating
                           </th>
+                         
                         </tr>
                       </thead>
                       <tbody>
                         {#each analytRatingList as item, index}
 
                         <tr on:click={() => goto(`/analysts/${item?.analystId}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] {index+1 === rawData?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''} cursor-pointer">
-                          <td class="text-white text-[1rem] font-medium text-white text-end">
+                          <td class="text-white text-sm font-semibold text-white text-end">
                             {item?.rank}
                           </td>
 
@@ -195,12 +196,9 @@ $: {
                               
                           </td>
 
-                          <td class="text-white text-sm text-white text-end">
-                            {item?.mainSectors?.at(0)}
-                          </td>
-                        
-
-                          <td class="text-end text-sm font-semibold text-white">
+                       
+        
+                         <td class="text-end text-sm font-semibold text-white">
                             {#if Number(item?.successRate) >= 0}
                             <span class="text-[#37C97D]">{Number(item?.successRate)?.toFixed(2)}%</span>
                             {/if}
@@ -218,10 +216,16 @@ $: {
                               {item?.totalRatings}
                             </td>
 
-                            <td class="text-end text-sm  text-white">
+                          
+                            <td class="text-white text-sm text-white text-end">
+                              {item?.mainSectors?.at(0)}
+                            </td>
+
+                            <td class="text-end text-sm whitespace-nowrap text-white">
                               {item?.lastRating !== null ? new Date(item?.lastRating)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' }) : 'n/a'}
                             </td>
                             
+
                         </tr>
                       {/each}
                       </tbody>

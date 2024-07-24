@@ -207,9 +207,9 @@ function sectorSelector(sector) {
                             Main Sectors:
                           </span>
 
-                        <div class="mt-5 mb-3">
+                        <div class="mt-5 mb-3 flex flex-wrap gap-3 flex-row items-center">
                           {#each data?.getAnalystStats?.mainSectors as sector}
-                            <label on:click={() => sectorSelector(sector)} class="mr-2 cursor-pointer w-fit bg-[#404040] bg-opacity-[0.5] sm:hover:bg-opacity-[0.6] px-3 sm:px-4 py-2 text-sm font-medium rounded-xl sm:hover:text-white text-blue-400">
+                            <label on:click={() => sectorSelector(sector)} class="cursor-pointer w-fit bg-[#404040] bg-opacity-[0.5] sm:hover:bg-opacity-[0.6] px-3 sm:px-4 py-2 text-sm font-medium rounded-xl sm:hover:text-white text-blue-400">
                               {sector}
                             </label>
                           {/each}
@@ -231,14 +231,14 @@ function sectorSelector(sector) {
                         <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                           <thead>
                             <tr class="bg-[#09090B]">
-                              <th class="text-start bg-[#09090B] text-gray-200 text-sm sm:text-[1rem] font-semibold">
+                              <th class="text-start bg-[#09090B] text-gray-200 text-sm font-bold">
                                 Stock
                               </th>
-                              <th class="text-start bg-[#09090B] text-white text-sm sm:text-[1rem] font-semibold">
+                              <th class="text-start bg-[#09090B] text-white text-sm font-bold">
                                 Action
                               </th>
     
-                              <th class="text-end hidden sm:table-cell bg-[#09090B] text-white text-sm sm:text-[1rem] font-semibold">
+                              <th class="text-end bg-[#09090B] text-white text-sm font-bold">
                                 Price Target
                               </th>
                               <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">
@@ -247,39 +247,29 @@ function sectorSelector(sector) {
                             </tr>
                           </thead>
                           <tbody>
-                            {#each ratingsList as item, index}
+                            {#each ratingsList as item}
     
                             <tr on:click={() => goto(`/stocks/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] cursor-pointer">
     
-                              <td class="text-sm text-start">
-                                <div class="flex flex-col items-start w-20 sm:w-fit">
+                              <td class="text-sm text-start whitespace-nowrap">
+                                <div class="flex flex-col items-start ">
                                   <span class="text-blue-400 text-sm">{item?.ticker} </span>
-                                  <span class="text-white text-xs sm:text-sm">{item?.name} </span>
+                                  <span class="text-white/80 text-xs ">{item?.name} </span>
                               </div>
                                   
                               </td>
                             
     
-                              <td class="text-sm text-start">
+                              <td class="text-sm text-start whitespace-nowrap">
                                 <div class="flex flex-col sm:flex-row items-start">
-                                  <span class="hidden sm:block text-sm font-medium text-white mr-1">{item?.action_company}:</span>
-                                  <span class="text-sm font-medium {['Strong Buy', 'Buy']?.includes(item?.rating_current) ? 'text-[#10DB06]' : item?.rating_current === 'Hold' ? 'text-[#FF7070]' : ['Strong Sell','Sell']?.includes(item?.rating_current) ? 'text-[#FF2F1F]' : 'text-gray-300'}"> 
+                                  <span class="text-sm font-medium text-white mr-1">{item?.action_company}:</span>
+                                  <span class="text-xs sm:text-sm font-medium {['Strong Buy', 'Buy']?.includes(item?.rating_current) ? 'text-[#10DB06]' : item?.rating_current === 'Hold' ? 'text-[#FF7070]' : ['Strong Sell','Sell']?.includes(item?.rating_current) ? 'text-[#FF2F1F]' : 'text-gray-300'}"> 
                                     {item?.rating_current}
                                   </span>
-                                  <span class="sm:hidden text-sm font-medium text-white">{item?.action_company}</span>
-                                  <div class="sm:hidden flex flex-row items-center justify-start">
-                                      {#if Math?.ceil(item?.adjusted_pt_prior) !== 0}
-                                      <span class="text-gray-100 text-sm font-normal">${Math?.ceil(item?.adjusted_pt_prior)}</span>
-                                      <svg class="w-3 h-3 ml-1 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 12h16m0 0l-6-6m6 6l-6 6"/></svg>
-                                      <span class="text-white">${Math?.ceil(item?.adjusted_pt_current)}</span>
-                                      {:else if Math?.ceil(item?.adjusted_pt_current) !== 0}
-                                      <span class="text-white sm:font-semibold">${Math?.ceil(item?.adjusted_pt_current)}</span>
-                                      {/if}
-                                  </div>
                                 </div>
                               </td>
     
-                              <td class="text-white hidden sm:table-cell text-sm">
+                              <td class="text-white text-sm whitespace-nowrap">
                                   <div class="flex flex-row items-center justify-end">
                                       {#if Math?.ceil(item?.adjusted_pt_prior) !== 0}
                                       <span class="text-gray-100 font-normal">${Math?.ceil(item?.adjusted_pt_prior)}</span>
@@ -291,7 +281,7 @@ function sectorSelector(sector) {
                                   </div>
                             </td>
 
-                            <td class="text-white text-end sm:font-medium text-sm">
+                            <td class="text-white text-end font-medium text-sm whitespace-nowrap">
                               {new Date(item?.date).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                             </td>
                                 
