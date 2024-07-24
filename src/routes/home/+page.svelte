@@ -251,7 +251,7 @@ onMount( async() => {
                   </div>
                   <div class="flex flex-col items-end justify-end text-lg ml-auto">
                     <a href={item?.ticker?.length !== 0 ? `/stocks/${item?.ticker}` : ''} class="text-sm {item?.ticker?.length !== 0 ? 'text-blue-400' : 'text-white cursor-text'} font-medium leading-none">
-                      {item?.ticker?.length !== 0 ? item?.ticker : formatString(item?.assetDescription)?.slice(0,30) + '...'}
+                      {item?.ticker?.length !== 0 ? item?.ticker : formatString(item?.assetDescription)?.slice(0,15) + '...'}
                     </a>
                     
                     <p class="text-sm text-white font-medium mt-1">{item?.amount?.replace("$1,000,001 - $5,000,000","$1Mio - $5Mio")}</p>
