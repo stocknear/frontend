@@ -85,7 +85,7 @@
       <div class="card w-full bg-[#09090B] border-t sm:border rounded-none sm:rounded-xl border-slate-700 m-auto ">
         <div class="card-body">
 
-            <p class="text-gray-400 italic mb-2 text-sm">Last updated: 21.06.2024</p>
+            <p class="text-gray-400 italic mb-2 text-sm">Last updated: 24.07.2024</p>
             
             <p class="text-gray-300 mb-5">
                 Please carefully read the terms and conditions before using this website.
@@ -193,6 +193,20 @@
             <p class="text-gray-300 mb-5 ">
               We may at our reasonable discretion change the price of our subscription plans from time to time to reflect the effect of changes in the total costs associated with our service. Examples of costs elements that affect the price of our subscription plans include production and licensing costs, costs for the technical provision and distribution of our service, customer service and other costs of sales (e.g., billing and payment, marketing), general administration and other overhead costs (e.g., rent, interest and other financing costs, costs of personnel, service providers and services, IT systems, energy), as well as state-imposed fees, contributions, taxes and duties. Any price changes will apply no earlier than 7 days following notice to you. You can cancel your membership at any time during the notice period to avoid future charges.
             </p>
+
+            <h1 class="text-2xl font-medium text-white text-start underline">
+              Lifetime Access    
+            </h1>
+
+            <div class="text-gray-300">
+              Lifetime access refers to the right to use our Services for as long as they are provided by Stocknear.
+                <br>
+                <br>
+                Stocknear intends to provide access to its Services for the lifetime of the company. As long as Stocknear continues to operate and offer the Services, users with lifetime access will be able to use the Services.
+                <br>
+                <br>
+                While Stocknear commits to maintaining the Services for the lifetime of the company, we do not guarantee perpetuity. In the event that Stocknear ceases to operate or decides to discontinue the Services, lifetime access will terminate.
+            </div>
 
 
             <h1 class="text-2xl font-medium text-white text-start underline">
