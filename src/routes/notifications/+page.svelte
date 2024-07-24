@@ -49,7 +49,7 @@ if (notificationIdList.length !== 0)
     await fetch(fastifyURL+'/update-notifications', {
       method: 'POST',
       headers: {
-      "Content-Type": "application/json","X-API-KEY": apiKey
+      "Content-Type": "application/json"
       },
       body: JSON.stringify(postData)
 
