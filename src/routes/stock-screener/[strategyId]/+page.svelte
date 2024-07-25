@@ -426,7 +426,9 @@ async function handleRule(newRule) {
     toast.success('Rule added', {
       style: 'border-radius: 200px; background: #333; color: #fff;'
     });
+
     await updateStockScreenerData();
+    await handleSave(false);
   }
 }
 
@@ -452,16 +454,17 @@ async function updateStockScreenerData() {
 }
     
       
-function handleResetAll() {
+async function handleResetAll() {
   ruleOfList = [];
   ruleOfList = [...ruleOfList];
   ruleName = '';
   filteredData = [];
   displayResults = [];
+  await handleSave(false);
 
 }
 
-function handleDeleteRule(state) {
+async function handleDeleteRule(state) {
   for (let i = 0; i < ruleOfList.length; i++) {
     if (ruleOfList[i].name === state) {
       ruleOfList.splice(i, 1); // Remove the element at index i from the ruleOfList
@@ -480,6 +483,8 @@ function handleDeleteRule(state) {
   {
     ruleName = '';
   }
+
+  await handleSave(false);
 }
       
 
@@ -517,7 +522,7 @@ onMount(async () => {
 
 
   
-async function handleSave(state:string) {
+async function handleSave(printToast) {
   if(data?.user)
   {
     if(isSaved === false)
@@ -535,13 +540,16 @@ async function handleSave(state:string) {
       
         const output = (await response.json())?.items
       
-        if (output?.id && output?.id?.length !== 0) {
-        toast.success('Strategy saved!', {
-                style: 'border-radius: 200px; background: #333; color: #fff;'});
-        } else {
-          toast.error('Something went wrong. Please try again later!', {
-            style: 'border-radius: 200px; background: #333; color: #fff;'});
+        if (printToast === true) {
+          if (output?.id && output?.id?.length !== 0) {
+          toast.success('Strategy saved!', {
+                  style: 'border-radius: 200px; background: #333; color: #fff;'});
+          } else {
+            toast.error('Something went wrong. Please try again later!', {
+              style: 'border-radius: 200px; background: #333; color: #fff;'});
+          }
         }
+       
       isSaved = true;
     }
     else {
@@ -880,7 +888,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                 Build Strategy
 
 
-              <label for="userLogin" on:click={handleSave} class="hidden sm:inline-flex ml-5 sm:hover:bg-[#161618] bg-[#09090B] cursor-pointer font-medium text-center text-white rounded-full px-4 py-1 text-sm border border-slate-800">
+              <label for="userLogin" on:click={() => handleSave(true)} class="hidden sm:inline-flex ml-5 sm:hover:bg-purple-700 bg-purple-600 transition duration-100 cursor-pointer font-medium text-center text-white rounded-full px-4 py-1 text-sm border border-slate-800">
                 Save
               </label>
     
@@ -2128,7 +2136,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                         <div class="text-white font-bold text-xl sm:text-2xl flex justify-start items-center">
                           {ruleOfList.length} Rules Preview
                         </div>
-                        <label on:click={handleResetAll} class="ml-auto cursor-pointer hover:bg-[#fff] hover:bg-opacity-[0.03] border border-slate-800 py-2 px-3 rounded-full text-white text-sm">
+                        <label on:click={handleResetAll} class="ml-auto cursor-pointer transition duration-100 bg-purple-600 sm:hover:bg-purple-700 border border-slate-800 py-2 px-3 rounded-full text-white text-sm">
                           Reset All
                         </label>
                       </div>
@@ -2268,7 +2276,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
     
 
 <div class="sm:hidden fixed z-40 bottom-8 sm:bottom-10 right-8 sm:right-16">
-  <label on:click={handleSave} class="inline-flex items-center justify-center w-12 h-12 sm:w-full sm:h-10 font-medium bg-gray-700 sm:bg-[#FFEDE5] ml-1 mr-0 sm:mr-2 rounded-full cursor-pointer">
+  <label on:click={() => handleSave(true)} class="inline-flex items-center justify-center w-12 h-12 sm:w-full sm:h-10 font-medium bg-purple-600 ml-1 mr-0 sm:mr-2 rounded-full cursor-pointer">
     <svg class="w-6 h-6 text-white inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <path fill="white" d="M21 7v12q0 .825-.588 1.413T19 21H5q-.825 0-1.413-.588T3 19V5q0-.825.588-1.413T5 3h12l4 4Zm-9 11q1.25 0 2.125-.875T15 15q0-1.25-.875-2.125T12 12q-1.25 0-2.125.875T9 15q0 1.25.875 2.125T12 18Zm-6-8h9V6H6v4Z"/>
     </svg>
