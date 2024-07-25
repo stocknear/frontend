@@ -204,7 +204,7 @@ onMount( async() => {
                     {#each data?.getDashboard?.optionsFlow as item}
                     <Table.Row>
                       <Table.Cell>
-                        <a href={item?.assetType === 'stock' ? `/stocks/${item?.ticker}` : `/etf/${item?.ticker}`} class="font-medium text-blue-400">{item?.ticker}</a>
+                        <a href={item?.assetType === 'stock' ? `/stocks/${item?.ticker}` : `/etf/${item?.ticker}`} class="font-medium text-blue-400 sm:hover:text-white transition duration-100">{item?.ticker}</a>
                       </Table.Cell>
                       <Table.Cell class="xl:table.-column {item?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
                         {abbreviateNumber(item?.cost_basis,true)}
@@ -250,7 +250,7 @@ onMount( async() => {
                     <p class="text-sm text-muted-foreground">{item?.party ?? 'n/a'}</p>
                   </div>
                   <div class="flex flex-col items-end justify-end text-lg ml-auto">
-                    <a href={item?.ticker?.length !== 0 ? `/stocks/${item?.ticker}` : ''} class="text-sm {item?.ticker?.length !== 0 ? 'text-blue-400' : 'text-white cursor-text'} font-medium leading-none">
+                    <a href={item?.ticker?.length !== 0 ? `/stocks/${item?.ticker}` : ''} class="text-sm {item?.ticker?.length !== 0 ? 'text-blue-400 sm:hover:text-white transition duration-100' : 'text-white cursor-text'} font-medium leading-none">
                       {item?.ticker?.length !== 0 ? item?.ticker : formatString(item?.assetDescription)?.slice(0,15) + '...'}
                     </a>
                     
