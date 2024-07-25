@@ -76,7 +76,7 @@
             <th class="text-white font-medium text-sm sm:text-[0.95rem]">Name</th>
             <th class="text-white font-medium text-end text-sm sm:text-[0.95rem]l">IPO Price</th>
             <th class="text-white font-medium text-end text-sm sm:text-[0.95rem]">Current Price</th>
-            <th class="text-white font-medium text-end text-sm sm:text-[0.95rem]">Return</th>
+            <th class="text-white font-medium text-end text-sm sm:text-[0.95rem]">Return Since</th>
           </tr>
         </thead>
         <tbody>

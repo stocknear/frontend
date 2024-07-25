@@ -148,7 +148,7 @@ $: {
           <th class="text-white font-medium text-sm sm:text-[0.95rem]">Name</th>
           <th class="text-white font-medium text-end text-sm sm:text-[0.95rem]l">IPO Price</th>
           <th class="text-white font-medium text-end text-sm sm:text-[0.95rem]">Current Price</th>
-          <th class="text-white font-medium text-end text-sm sm:text-[0.95rem]">Return</th>
+          <th class="text-white font-medium text-end text-sm sm:text-[0.95rem]">Return Since</th>
         </tr>
       </thead>
       <tbody>
@@ -186,15 +186,13 @@ $: {
 
     
 
-        <td class="text-white border-b-[#09090B] text-end flex flex-row items-center justify-end">
+        <td class="text-white border-b-[#09090B] text-end flex flex-row items-center justify-end font-semibold">
           {#if item?.return >=0 && item?.return !== null}
-            <svg class="w-5 h-5 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
-            <span class="inline-block text-[#10DB06] text-md">{abbreviateNumber(item?.return)}%</span>
+            <span class="inline-block text-[#10DB06] text-sm">{abbreviateNumber(item?.return)}%</span>
           {:else if item?.return < 0 && item?.return !== null}
-            <svg class="w-5 h-5 mt-0.5 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
-            <span class="inline-block text-[#FF2F1F] text-md">{abbreviateNumber(item?.return)}% </span> 
+            <span class="inline-block text-[#FF2F1F] text-sm">{abbreviateNumber(item?.return)}% </span> 
           {:else}
-            <span class="inline-block text-white text-md">
+            <span class="inline-block text-white text-sm">
               -
             </span> 
           {/if}
@@ -257,7 +255,7 @@ $: {
               </div>
 
               <div class="flex flex-col justify-end items-end ml-auto">
-                <span class="font-medium text-slate-300 text-ends">Return</span>
+                <span class="font-medium text-slate-300 text-ends">Return Since</span>
                 <span class="text-white text-md text-end">
                   <div class="flex flex-row mt-1">
                     {#if item?.return >=0 && item?.return !== null}

@@ -70,7 +70,7 @@ onMount(async () => {
 
 
 
-        <div class="flex flex-col sm:flex-row items-center gap-10 sm:gap-5 w-full mt-10 sm:mt-20">
+        <div class="flex flex-col sm:flex-row items-center gap-10 sm:gap-5 w-full max-w-5xl m-auto mt-10 sm:mt-20">
             <!-- Pricing Card -->
             <div class="order-last sm:order-1 flex flex-col p-6 lg:p-8 mx-auto w-full text-center text-white border border-gray-800 bg-[#000000] rounded-lg">
 
@@ -268,11 +268,12 @@ onMount(async () => {
 
 
              <!--Start Pricing Card-->
+             <!--
              <div class="relative sm:h-[660px] sm:order-2 box sm:-mt-10 flex flex-col p-6 lg:p-8 mx-auto ring-[1px] ring-gray-400 rounded-lg w-full text-center text-white">
 
                 <div class="absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-2xl flex flex-row border border-gray-300 items-center p-2">
                     <span class="text-white text-md font-semibold px-3">
-                        1 Day Left
+                        Limited Offer
                     </span>
                 </div>          
 
@@ -295,17 +296,17 @@ onMount(async () => {
 
                 <ol class="mb-8 space-y-4 text-left mt-6">
                     <li class="flex items-center space-x-3 ">
-                        <!-- Icon -->
+                        
                         <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#09090B" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
                         <span class="text-white text-[1rem] font-semibold">Everything in Pro Tier.</span>
                     </li>
                     <li class="flex items-center space-x-3 ">
-                        <!-- Icon -->
+                        
                         <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#09090B" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
                         <span class="text-white text-[1rem] font-semibold">Pay Once and use forever.</span>
                     </li>
                     <li class="flex items-center space-x-3 ">
-                        <!-- Icon -->
+                        
                         <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><mask id="ipSSuccess0"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path fill="#fff" stroke="#fff" d="m24 4l5.253 3.832l6.503-.012l1.997 6.188l5.268 3.812L41 24l2.021 6.18l-5.268 3.812l-1.997 6.188l-6.503-.012L24 44l-5.253-3.832l-6.503.012l-1.997-6.188l-5.268-3.812L7 24l-2.021-6.18l5.268-3.812l1.997-6.188l6.503.012L24 4Z"/><path stroke="#09090B" d="m17 24l5 5l10-10"/></g></mask><path fill="#10db06" d="M0 0h48v48H0z" mask="url(#ipSSuccess0)"/></svg>
                         <span class="text-white text-[1rem] font-semibold">Only Limited Offer.</span>
                     </li>
@@ -324,6 +325,7 @@ onMount(async () => {
                 </label>
                
             </div>
+            -->
           
             <!--End Pricing Card-->
 
