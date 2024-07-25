@@ -1,7 +1,7 @@
 <script lang='ts'>
   import { onMount } from 'svelte';
   import { goto} from '$app/navigation';
-  import { userRegion, screenWidth, strategyId, numberOfUnreadNotification } from '$lib/store';
+  import { screenWidth, strategyId, numberOfUnreadNotification, getCache, setCache} from '$lib/store';
   import toast from 'svelte-french-toast';
   import { abbreviateNumber, formatRuleValue } from '$lib/utils';
 
@@ -11,18 +11,6 @@
   export let data;
   export let form;
   
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-  let fastifyURL;
-  userRegion.subscribe(value => {
-
-    if (usRegion.includes(value)) {
-      fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-    } else {
-      fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-    }
-  });
-
-
   $strategyId = data?.getStrategyId;
   let ruleOfList = data?.getStrategy?.rules ?? [];
 
@@ -39,6 +27,33 @@
   return ratingRecommendationExists && trendAnalysisAccuracyExists && fundamentalAnalysisAccuracyExists;
 });
 
+
+const getStockScreenerData = async (rules) => {
+  const ruleNames = rules?.map(rule => rule?.name)?.sort()?.join(',');
+  const cachedData = getCache(ruleNames, 'getStockScreenerData');
+  
+  if (cachedData) {
+    console.log('Using cached data');
+    return cachedData;
+  }
+
+  console.log('Fetching new data from API');
+  const postData = { ruleOfList: rules?.map(rule => rule.name) };
+  const response = await fetch(data?.apiURL + '/stock-screener-data', {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json", 
+      "X-API-KEY": data?.apiKey
+    },
+    body: JSON.stringify(postData)
+  });
+  const output = await response.json();
+  
+  // Cache the new data
+  setCache(ruleNames, output, 'getStockScreenerData');
+  
+  return output;
+};
 
 
   let filteredData = [];
@@ -100,7 +115,6 @@
     ratingRecommendation: 'Hold',
   };
     
-  
     
   let allRows = [
     { rule: 'avgVolume', label: 'Average Volume',category: 'fund' },
@@ -391,29 +405,49 @@ function handleAddRule() {
     
     
     
-      function handleRule(newRule) {
-        const existingRuleIndex = ruleOfList.findIndex(rule => rule.name === ruleName);
-        if (existingRuleIndex !== -1) {
-          const existingRule = ruleOfList[existingRuleIndex];
-          if (existingRule.value === newRule.value && existingRule.condition === newRule.condition) {
-            toast.error('Rule already exists!', {
-              style: 'border-radius: 200px; background: #333; color: #fff;'
-            });
-          } else {
-            ruleOfList[existingRuleIndex] = newRule;
-            toast.success('Rule updated', {
-              style: 'border-radius: 200px; background: #333; color: #fff;'
-            });
-            //ruleName = '';
-          }
-        } else {
-          ruleOfList = [...ruleOfList, newRule];
-          toast.success('Rule added', {
-            style: 'border-radius: 200px; background: #333; color: #fff;'
-          });
-          //ruleName = '';
-        }
-      }
+async function handleRule(newRule) {
+  const existingRuleIndex = ruleOfList.findIndex(rule => rule.name === ruleName);
+  if (existingRuleIndex !== -1) {
+    const existingRule = ruleOfList[existingRuleIndex];
+    if (existingRule.value === newRule.value && existingRule.condition === newRule.condition) {
+      toast.error('Rule already exists!', {
+        style: 'border-radius: 200px; background: #333; color: #fff;'
+      });
+    } else {
+      ruleOfList[existingRuleIndex] = newRule;
+      ruleOfList = [...ruleOfList]; // Trigger reactivity
+      toast.success('Rule updated', {
+        style: 'border-radius: 200px; background: #333; color: #fff;'
+      });
+      await updateStockScreenerData();
+    }
+  } else {
+    ruleOfList = [...ruleOfList, newRule];
+    toast.success('Rule added', {
+      style: 'border-radius: 200px; background: #333; color: #fff;'
+    });
+    await updateStockScreenerData();
+  }
+}
+
+async function updateStockScreenerData() {
+  try {
+    const newData = await getStockScreenerData(ruleOfList);
+    stockScreenerData = newData?.filter(item => {
+      const ratingRecommendationExists = item?.ratingRecommendation !== null;
+      const trendAnalysisAccuracyExists = item?.trendAnalysis?.accuracy !== null;
+      const fundamentalAnalysisAccuracyExists = item?.fundamentalAnalysis?.accuracy !== null;
+      return ratingRecommendationExists && trendAnalysisAccuracyExists && fundamentalAnalysisAccuracyExists;
+    });
+    filteredData = filterStockScreenerData();
+    displayResults = filteredData?.slice(0, 10);
+  } catch (error) {
+    console.error('Error fetching new stock screener data:', error);
+    toast.error('Failed to update stock data. Please try again.', {
+      style: 'border-radius: 200px; background: #333; color: #fff;'
+    });
+  }
+}
 
 }
     
@@ -490,7 +524,7 @@ async function handleSave(state:string) {
     {
         const postData = {'strategyId': $strategyId, 'rules': ruleOfList}  
                       
-        const response = await fetch(fastifyURL+'/save-strategy', {
+        const response = await fetch(data?.fastifyURL+'/save-strategy', {
           method: 'POST',
           headers: {
              "Content-Type": "application/json"

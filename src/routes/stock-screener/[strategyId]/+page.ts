@@ -50,25 +50,29 @@ export const load = async ({params}) => {
       
   const getStockScreenerData = async () => {
     let output;
-
+    const strategy = await getStrategy();
+    const ruleOfList = strategy?.rules?.map(item => item?.name) || [];
+    const ruleNames = ruleOfList.sort().join(',');
     // Get cached data for the specific tickerID
-    const cachedData = getCache('', 'getStockScreenerData');
+    const cachedData = getCache(ruleNames, 'getStockScreenerData');
     if (cachedData) {
       output = cachedData;
     } else {
-
+          
+      const postData = {'ruleOfList': ruleOfList} 
       // make the POST request to the endpoint
       const response = await fetch(apiURL + '/stock-screener-data', {
-        method: 'GET',
+        method: 'POST',
         headers: {
           "Content-Type": "application/json", "X-API-KEY": apiKey
         },
+        body: JSON.stringify(postData)
       });
 
       output = await response.json();
 
       // Cache the data for this specific tickerID with a specific name 'getStockScreenerData'
-      setCache('', output, 'getStockScreenerData');
+      setCache(ruleNames, output, 'getStockScreenerData');
     }
 
     return output;
@@ -78,6 +82,9 @@ export const load = async ({params}) => {
   return {
     getStockScreenerData: await getStockScreenerData(),
     getStrategy: await getStrategy(),
-    getStrategyId: await getStrategyId()
+    getStrategyId: await getStrategyId(),
+    apiURL,
+    fastifyURL,
+    apiKey,
   };
 };
