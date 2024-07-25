@@ -77,7 +77,7 @@ $: {
 
     {#if data?.user?.tier === 'Pro'}
    <!--Start Header-->
-   <div class="bg-[#313131] w-fit relative flex flex-wrap items-center justify-center rounded-full sm:rounded-lg p-1 -mt-2">
+   <div class="bg-[#313131] w-fit relative flex flex-wrap items-center justify-center rounded-lg p-1 -mt-2">
     <AnimateSharedLayout>
       {#each tabs as item, i}
         <button
@@ -94,7 +94,7 @@ $: {
             >
               <div
                 use:motion
-                class="absolute inset-0 rounded-full sm:rounded-lg  {activeIdx === 0 ? 'bg-[#057A55]' : 'bg-[#E02424]'}"
+                class="absolute inset-0 rounded-lg bg-purple-600"
               ></div>
             </Motion>
           {/if}
