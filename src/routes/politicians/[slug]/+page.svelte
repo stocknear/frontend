@@ -216,7 +216,6 @@
   <!-- Other meta tags -->
   <meta property="og:title" content={`Which stocks is ${name} trading? · stocknear`}/>
   <meta property="og:description" content={`A list of all trades from the US Politician ${name}.`} />
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
   
@@ -224,7 +223,6 @@
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content={`Which stocks is ${name} trading? · stocknear`}/>
   <meta name="twitter:description" content={`A list of all trades from the US Politician ${name}.`} />
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
   
   </svelte:head>
@@ -485,9 +483,9 @@
                             <tbody>
                               {#each displayList as item,index}
                               <!-- row -->
-                              <tr on:click={() => goto(`/${item?.assetType === 'stock' ? 'stocks' : item?.assetType === 'etf' ? 'etf' : 'crypto'}/${item?.ticker}`)} class="w-screen [#09090B] border-b-[#09090B]">
+                              <tr on:click={() => goto(`/${item?.assetType === 'stock' ? 'stocks' : item?.assetType === 'etf' ? 'etf' : 'crypto'}/${item?.ticker}`)} class="w-screen odd:bg-[#27272A] border-b-[#09090B]">
                                 
-                                <td class="text-gray-200 pb-3 border-b border-b-[#09090B] w-32">
+                                <td class="text-gray-200 pb-3 border-b border-b-[#09090B] whitespace-nowrap">
                                   <div class="flex flex-row items-center">
                                     <div class="flex flex-col">
                                       <span class="text-blue-400 text-sm">{item?.ticker?.replace('_',' ')}</span>
@@ -497,7 +495,7 @@
                                   <!--{item?.firstName} {item?.lastName}-->
                                 </td>
       
-                                <td class="text-start text-sm text-white border-b border-b-[#09090B] ">
+                                <td class="text-start text-sm text-white border-b border-b-[#09090B] whitespace-nowrap ">
                                   <div class="flex flex-col items-start">
                                     <span class="font-semibold">
                                       {#if item?.type === 'Bought'}
@@ -514,11 +512,11 @@
                                   </div>
                                 </td>
       
-                                  <td class="text-end text-sm text-white border-b border-b-[#09090B]">
+                                  <td class="text-end text-sm text-white border-b border-b-[#09090B] whitespace-nowrap">
                                       {new Date(item?.transactionDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                   </td>
   
-                                  <td class="text-end text-sm text-white border-b border-b-[#09090B]">
+                                  <td class="text-end text-sm text-white border-b border-b-[#09090B] whitespace-nowrap">
                                     {new Date(item?.disclosureDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                 </td>
                         
