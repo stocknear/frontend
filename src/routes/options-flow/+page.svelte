@@ -814,7 +814,7 @@ $: {
                     <div on:click={() => handleViewData(rawData[index])} slot="item" let:index let:style {style} class="tr cursor-pointer">
 
 
-                      <div style="justify-content: center;" class="td text-white pb-3 text-sm text-start">
+                      <div style="justify-content: center;" class="td text-white pb-3 text-xs sm:text-sm text-start">
                         {formatTime(rawData[index]?.time)}
                       </div>
   
@@ -1210,9 +1210,3 @@ $: {
       border-bottom: 1px solid #09090B;
   }
 </style>
-
-<div class="table-container">
-  <div class="table">
-      <!-- Your table content here -->
-  </div>
-</div>
