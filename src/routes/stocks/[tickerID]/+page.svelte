@@ -34,10 +34,11 @@ let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
     let prePostData = {};
     let similarstock = [];
     let topETFHolder = [];
-    let previousClose = data?.getStockQuote?.previousClose;
     let marketMoods = {}
     let taRating = {};
     let communitySentiment = {};
+
+    $: previousClose = data?.getStockQuote?.previousClose;
 
     //============================================//
     
@@ -683,7 +684,6 @@ function changeChartType() {
       fairPrice = data?.getFairPrice;
       stockDeck = data?.getStockDeck;
       correlationList = data?.getCorrelation?.correlation;
-      previousClose = data?.getStockQuote?.previousClose;
       marketMoods = data?.getBullBearSay;
       taRating = data?.getStockTARating;
       communitySentiment = data?.getCommunitySentiment;
@@ -691,8 +691,7 @@ function changeChartType() {
       similarstock = data?.getSimilarStock;
       topETFHolder = data?.getTopETFHolder;
       //previousClose = stockDeck?.at(0)?.previousClose;
-    
-      
+        
 
       const asyncFunctions = [
         getPrePostQuote(),
