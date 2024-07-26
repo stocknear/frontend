@@ -1,6 +1,6 @@
 <script lang='ts'>
   import { goto } from '$app/navigation';
-  import { screenWidth, userRegion, numberOfUnreadNotification, etfTicker, stockTicker, isOpen } from '$lib/store';
+  import { screenWidth, numberOfUnreadNotification, etfTicker, stockTicker, isOpen } from '$lib/store';
   import notifySound from '$lib/audio/options-flow-reader.mp3';
   import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
   import { abbreviateNumber } from '$lib/utils';
@@ -11,16 +11,6 @@
   export let data;
     
   
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-  let wsURL;
-  
-  userRegion?.subscribe(value => {
-  if (usRegion?.includes(value)) {
-    wsURL = import.meta.env.VITE_USEAST_WS_URL;
-  } else {
-    wsURL = import.meta.env.VITE_EU_WS_URL;
-  }
-  });
   
   let rawData = [];
   let filterList = [];
@@ -64,6 +54,32 @@
   let optionExecutionEstimate;
   let optionExchange;
 
+  /*
+  async function infiniteHandler({ detail: { loaded, complete, error } }) {
+
+		try {
+      const lastId = rawData?.at(-1)?.id;
+      const postData = {'lastId': lastId};
+      const response = await fetch(data?.apiURL + '/options-flow-feed', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
+        },
+        body: JSON.stringify(postData),
+      });
+      const newData = await response.json();
+      if(newData?.length === 0) {
+        complete();
+      }
+      else {
+        rawData = [...rawData,...newData];
+        loaded();
+      }
+		} catch (e) {
+			error();
+		}
+	}
+  */
   function toggleMode()
   {
       if ($isOpen) {
@@ -120,7 +136,7 @@ function handleViewData(optionData) {
   async function websocketRealtimeData() {
   
   try {
-  socket = new WebSocket(wsURL+"/options-flow-reader");
+  socket = new WebSocket(data?.wsURL+"/options-flow-reader");
   
   
   socket.addEventListener('message', (event) => {
