@@ -206,7 +206,7 @@ async function getFairPrice(ticker) {
         fairPrice = null;
       }
     }
-    if (fairPrice !== null) {
+    if (fairPrice !== null && fairPrice >= 0) {
       $dcfComponent = true;
     }
     else {
