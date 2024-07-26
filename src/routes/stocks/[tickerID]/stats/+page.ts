@@ -1,21 +1,10 @@
-import { userRegion, getCache, setCache } from '$lib/store';
-
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
-let apiURL = import.meta.env.VITE_EU_API_URL; // Set a default API URL
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-userRegion.subscribe(value => {
-if (usRegion.includes(value)) {
-  apiURL = import.meta.env.VITE_USEAST_API_URL;
-} else {
-  apiURL = import.meta.env.VITE_EU_API_URL;
-}
-});
+import { getCache, setCache } from '$lib/store';
 
 
-export const load = async ({ params }) => {
 
+export const load = async ({ parent, params }) => {
 
+  
   const getQuantStats = async () => {
     let output;
 
@@ -24,15 +13,18 @@ export const load = async ({ params }) => {
     if (cachedData) {
       output = cachedData;
     } else {
+
+      const data = await parent();
+
       const postData = {
         ticker: params.tickerID
       };
 
       // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/get-quant-stats', {
+      const response = await fetch(data?.apiURL + '/get-quant-stats', {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
+          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
         },
         body: JSON.stringify(postData)
       });

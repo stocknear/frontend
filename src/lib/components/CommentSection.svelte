@@ -2,7 +2,7 @@
 
   import {getImageURL, formatDate} from '$lib/utils';
   import toast from 'svelte-french-toast';
-  import { userRegion, commentAdded, commentIdDeleted, screenWidth, replyCommentClicked, editCommentClicked, scrollToComment } from '$lib/store';
+  import { commentAdded, commentIdDeleted, screenWidth, replyCommentClicked, editCommentClicked, scrollToComment } from '$lib/store';
   import TextEditor from '$lib/components/TextEditor.svelte';
   import { marked } from 'marked';
   import { tick } from 'svelte';
@@ -115,7 +115,7 @@ const handleUpvote = async (event) => {
     } else {
       upvoteCounter--;
     }
-  const response = await fetch(fastifyURL+'/upvote-comment', {
+  const response = await fetch(data?.fastifyURL+'/upvote-comment', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json"
@@ -151,7 +151,7 @@ const handleDownvote = async (event) => {
     }
   
 
-  const response = await fetch(fastifyURL+'/downvote-comment', {
+  const response = await fetch(data?.fastifyURL+'/downvote-comment', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json"
@@ -160,18 +160,6 @@ const handleDownvote = async (event) => {
   }); // make a POST request to the server with the FormData object
   
 };
-  
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-  
-  let fastifyURL;
-  
-  userRegion.subscribe(value => {
-    if (usRegion.includes(value)) {
-      fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-    } else {
-      fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-    }
-  });
   
   
   let deleteCommentId = comment?.id
@@ -201,7 +189,7 @@ const handleDownvote = async (event) => {
   
   
   
-  const response = await fetch(fastifyURL+'/delete-comment', {
+  const response = await fetch(data?.fastifyURL+'/delete-comment', {
     method: 'POST',
     headers: {
         "Content-Type": "application/json"

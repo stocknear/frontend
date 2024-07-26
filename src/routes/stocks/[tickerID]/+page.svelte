@@ -3,25 +3,12 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
   import { TrackingModeExitMode } from 'lightweight-charts';
-  import {getCache, setCache, swapComponent, analystInsightComponent, governmentContractComponent, optionsNetFlowComponent, impliedVolatilityComponent, borrowedShareComponent, clinicalTrialComponent, optionComponent, failToDeliverComponent, marketMakerComponent, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent,  userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
+  import {getCache, setCache, swapComponent, analystInsightComponent, governmentContractComponent, optionsNetFlowComponent, impliedVolatilityComponent, borrowedShareComponent, clinicalTrialComponent, optionComponent, failToDeliverComponent, marketMakerComponent, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
   import CommunitySentiment from '$lib/components/CommunitySentiment.svelte';
   import Lazy from '$lib/components/Lazy.svelte';
     
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-  
-  let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-  userRegion?.subscribe(value => {
-  if (usRegion?.includes(value)) {
-    apiURL = import.meta.env.VITE_USEAST_API_URL;
-  } else {
-    apiURL = import.meta.env.VITE_EU_API_URL;
-  }
-  });
-  
   
     export let data;
     export let form;
@@ -333,10 +320,10 @@ async function historicalPrice(timePeriod:string) {
         timePeriod: timePeriod,
       };
 
-      const response = await fetch(apiURL+'/historical-price', {
+      const response = await fetch(data?.apiURL+'/historical-price', {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
+          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
         },
         body: JSON.stringify(postData)
       });
@@ -430,10 +417,10 @@ async function getPrePostQuote() {
 
 if(!$isOpen) {
   const postData = { ticker: $stockTicker};
-    const response = await fetch(apiURL+'/pre-post-quote', {
+    const response = await fetch(data?.apiURL+'/pre-post-quote', {
     method: 'POST',
     headers: {
-        "Content-Type": "application/json", "X-API-KEY": apiKey
+        "Content-Type": "application/json", "X-API-KEY": data?.apiKey
     },
     body: JSON.stringify(postData)
     });
@@ -1369,7 +1356,7 @@ function changeChartType() {
                                   <Lazy>
                                     <div class="w-full pt-10 sm:pl-6 sm:pb-6 sm:pt-6 m-auto {!$revenueSegmentationComponent ? 'hidden' : ''}">
                                     {#await import('$lib/components/RevenueSegmentation.svelte') then {default: Comp}}
-                                      <svelte:component this={Comp} userTier={data?.user?.tier}/>
+                                      <svelte:component this={Comp} apiURL={data?.apiURL} apiKey={data?.apiKey} userTier={data?.user?.tier}/>
                                     {/await}
                                     </div>
                                     </Lazy>

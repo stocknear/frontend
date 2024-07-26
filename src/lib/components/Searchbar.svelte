@@ -1,6 +1,6 @@
 <script lang="ts">
 
-  import { userRegion, searchBarData, stockTicker, etfTicker, cryptoTicker, screenWidth} from '$lib/store';  
+  import { searchBarData, stockTicker, etfTicker, cryptoTicker, userRegion, screenWidth} from '$lib/store';  
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
   import Search from "lucide-svelte/icons/search";
@@ -8,7 +8,7 @@
 
   const usRegion = ['cle1','iad1','pdx1','sfo1'];
   let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
+  let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
 
 
   userRegion.subscribe(value => {

@@ -2,7 +2,6 @@
 const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
 let companyName;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
 
 function cleanString(input) {
     // Define a list of substrings to remove (case insensitive)
@@ -29,7 +28,7 @@ function cleanString(input) {
     return input?.replace(pattern, '')?.trim();
   }
 
-const fetchData = async (apiURL, endpoint, ticker) => {
+const fetchData = async (apiURL, apiKey, endpoint, ticker) => {
 
   const postData = {
     ticker: ticker
@@ -121,33 +120,32 @@ export const load = async ({ params, locals, cookies, setHeaders}) => {
  
     const userRegion = locals?.region?.split("::")[0];
 
-    let apiURL;
-
-    let fastifyURL;
-
+    let apiURL = locals?.apiURL;
+    let fastifyURL = locals?.fastifyURL;
+    let apiKey = locals?.apiKey;
+    let wsURL;
+    
     if (usRegion?.includes(userRegion)) {
-        apiURL = import.meta.env.VITE_USEAST_API_URL;
-        fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
+        wsURL = import.meta.env.VITE_USEAST_WS_URL;
     } else {
-        apiURL = import.meta.env.VITE_EU_API_URL;
-        fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
+        wsURL = import.meta.env.VITE_EU_WS_URL;
     };
   
     
     
 
     const promises = [
-    fetchData(apiURL,'/fair-price',params.tickerID),
-    fetchData(apiURL,'/similar-stocks',params.tickerID),
-    fetchData(apiURL,'/stockdeck',params.tickerID),
-    fetchData(apiURL,'/stock-correlation',params.tickerID),
-    fetchData(apiURL,'/analyst-summary-rating',params.tickerID),
-    fetchData(apiURL,'/stock-quote',params.tickerID),
-    fetchData(apiURL,'/stock-rating',params.tickerID),
-    fetchData(apiURL,'/bull-bear-say',params.tickerID),
-    fetchData(apiURL,'/wiim',params.tickerID),
-    fetchData(apiURL,'/top-etf-ticker-holder',params.tickerID),
-    fetchData(apiURL,'/one-day-price',params.tickerID),
+    fetchData(apiURL,apiKey, '/fair-price',params.tickerID),
+    fetchData(apiURL,apiKey, '/similar-stocks',params.tickerID),
+    fetchData(apiURL,apiKey, '/stockdeck',params.tickerID),
+    fetchData(apiURL,apiKey, '/stock-correlation',params.tickerID),
+    fetchData(apiURL,apiKey, '/analyst-summary-rating',params.tickerID),
+    fetchData(apiURL,apiKey, '/stock-quote',params.tickerID),
+    fetchData(apiURL,apiKey, '/stock-rating',params.tickerID),
+    fetchData(apiURL,apiKey, '/bull-bear-say',params.tickerID),
+    fetchData(apiURL,apiKey, '/wiim',params.tickerID),
+    fetchData(apiURL,apiKey, '/top-etf-ticker-holder',params.tickerID),
+    fetchData(apiURL,apiKey, '/one-day-price',params.tickerID),
     fetchWatchlist(fastifyURL, locals?.user?.id),
     fetchPortfolio(fastifyURL, locals?.user?.id),
     fetchCommunitySentiment(locals?.pb, params.tickerID, cookies)
@@ -192,6 +190,7 @@ export const load = async ({ params, locals, cookies, setHeaders}) => {
     getUserPortfolio,
     getCommunitySentiment,
     companyName,
+    wsURL,
   };
 
   

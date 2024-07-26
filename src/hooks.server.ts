@@ -22,14 +22,23 @@ export const handle = async ({ event, resolve }) => {
         event?.request?.headers?.get('x-vercel-id') ?? 'fra1::fra1::8t4xg-1700258428633-157d82fdfcc7',
       );
 
-	const userRegion = event?.locals?.region?.split("::")?.at(0)?.split("::")?.at(0)
+	const userRegion = event?.locals?.region?.split("::")?.at(0)?.split("::")?.at(0) || '';
 
-	let pbUrl = import.meta.env.VITE_EU_POCKETBASE_URL; // Set a default API URL
+	// Set a default API URL
+	let pbUrl = import.meta.env.VITE_EU_POCKETBASE_URL; 
+	let apiURL = import.meta.env.VITE_EU_API_URL;
+	let fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
+	let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
+
 
 	if (usRegion?.includes(userRegion)) {
 		pbUrl = import.meta.env.VITE_USEAST_POCKETBASE_URL;
+		apiURL = import.meta.env.VITE_USEAST_API_URL;
+        fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
 	  } else {
 		pbUrl = import.meta.env.VITE_EU_POCKETBASE_URL;
+		apiURL = import.meta.env.VITE_EU_API_URL;
+        fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
 	  }
 
   
@@ -42,10 +51,16 @@ export const handle = async ({ event, resolve }) => {
 		if (event?.locals?.pb?.authStore?.isValid) {
 			await event?.locals?.pb?.collection('users')?.authRefresh();
 			event.locals.user = serializeNonPOJOs(event?.locals?.pb?.authStore?.model);
+			event.locals.apiURL = apiURL;
+			event.locals.fastifyURL = fastifyURL;
+			event.locals.apiKey = apiKey;
 		}
 	} catch(_) {
 		event?.locals?.pb?.authStore?.clear();
 		event.locals.user = undefined;
+		event.locals.apiURL = apiURL;
+		event.locals.fastifyURL = fastifyURL;
+		event.locals.apiKey = apiKey;
 	}
 
 	

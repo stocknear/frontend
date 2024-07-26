@@ -8,6 +8,9 @@ export const load = ({ locals, cookies }) => {
           user: locals.user,
           region: locals.region,
           cookieConsent: consent,
+          apiURL: locals.apiURL,
+          fastifyURL: locals.fastifyURL,
+          apiKey: locals.apiKey,
       };
   }
 
@@ -17,6 +20,9 @@ export const load = ({ locals, cookies }) => {
       user: undefined,
       region: locals.region,
       cookieConsent: consent,
+      apiURL: locals.apiURL,
+      fastifyURL: locals.fastifyURL,
+      apiKey: locals.apiKey,
   };
 };
 

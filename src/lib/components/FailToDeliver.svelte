@@ -1,5 +1,5 @@
 <script lang ='ts'>
-    import { failToDeliverComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
+    import { failToDeliverComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
     import { Chart } from 'svelte-echarts'
     import { abbreviateNumber, formatDateRange } from "$lib/utils";
@@ -8,20 +8,7 @@
     export let data;
   
     let isLoaded = false;
-    const usRegion = ['cle1','iad1','pdx1','sfo1'];
-  
-  let apiURL;
-  let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
 
-  
-    userRegion.subscribe(value => {
-  
-        if (usRegion.includes(value)) {
-        apiURL = import.meta.env.VITE_USEAST_API_URL;
-        } else {
-        apiURL = import.meta.env.VITE_EU_API_URL;
-        }
-    });
   
   
     let rawData = [];
@@ -40,7 +27,7 @@ function findLowestAndHighestPrice(data, lastDateStr) {
     const firstDate = new Date(lastDate.getFullYear(), lastDate.getMonth(), 1);
   
     // Filter data to include only prices within the specified month period
-    const filteredData = data.filter(item => {
+    const filteredData = data?.filter(item => {
         const currentDate = new Date(item?.date);
         return currentDate >= firstDate && currentDate <= lastDate;
     });
@@ -184,10 +171,10 @@ function findLowestAndHighestPrice(data, lastDateStr) {
   
       const postData = {'ticker': ticker};
       // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/fail-to-deliver', {
+      const response = await fetch(data?.apiURL + '/fail-to-deliver', {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
+          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
         },
         body: JSON.stringify(postData)
       });

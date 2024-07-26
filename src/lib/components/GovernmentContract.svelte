@@ -1,5 +1,5 @@
 <script lang ='ts'>
-    import { governmentContractComponent, displayCompanyName, stockTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
+    import { governmentContractComponent, displayCompanyName, stockTicker, screenWidth, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
     import { Chart } from 'svelte-echarts'
     import { abbreviateNumber, formatString } from "$lib/utils";
@@ -8,20 +8,6 @@
     export let data;
   
     let isLoaded = false;
-    const usRegion = ['cle1','iad1','pdx1','sfo1'];
-  
-    let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-  
-    userRegion.subscribe(value => {
-  
-        if (usRegion.includes(value)) {
-        apiURL = import.meta.env.VITE_USEAST_API_URL;
-        } else {
-        apiURL = import.meta.env.VITE_EU_API_URL;
-        }
-    });
   
   
     let rawData = [];
@@ -161,10 +147,10 @@ let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
   
       const postData = {'ticker': ticker};
       // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/government-contract', {
+      const response = await fetch(data?.apiURL + '/government-contract', {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
+          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
         },
         body: JSON.stringify(postData)
       });

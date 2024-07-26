@@ -1,21 +1,9 @@
 <script lang='ts'>
   import toast from 'svelte-french-toast';
-  import { userRegion, stockTicker, etfTicker, cryptoTicker, assetType, screenWidth } from "$lib/store";
+  import { stockTicker, etfTicker, cryptoTicker, assetType, screenWidth } from "$lib/store";
   import { page } from '$app/stores';
 
   export let data;
-
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-let fastifyURL;
-
-userRegion.subscribe(value => {
-  if (usRegion.includes(value)) {
-    fastifyURL  = import.meta.env.VITE_USEAST_FASTIFY_URL;
-  } else {
-    fastifyURL  = import.meta.env.VITE_EU_FASTIFY_URL;
-  }
-});
 
 
   let isClicked = false;
@@ -27,7 +15,7 @@ async function createPortfolio(event) {
 
   const postData = {'userId': data?.user?.id}
 
-  const response = await fetch(fastifyURL+'/create-portfolio', {
+  const response = await fetch(data?.fastifyURL+'/create-portfolio', {
       method: 'POST',
       headers: {
       "Content-Type": "application/json"
