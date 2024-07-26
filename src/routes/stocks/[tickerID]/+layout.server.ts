@@ -1,159 +1,73 @@
-
-let companyName;
-
-function cleanString(input) {
-    // Define a list of substrings to remove (case insensitive)
-    const substringsToRemove = [
-      'Depositary',
-      'Inc.',
-      'Incorporated',
-      'Holdings',
-      'Corporation',
-      'Corporations',
-      'LLC',
-      'Holdings plc American Depositary Shares',
-      'Holding Corporation',
-      'Oyj',
-      'Company',
-      'The',
-      'plc',
-    ];
-  
-    // Create a regular expression pattern that matches any of the substrings surrounded by word boundaries
-    const pattern = new RegExp(`\\b(${substringsToRemove?.join('|')})\\b|,`, 'gi');
-  
-    // Use the replace method to remove the specified substrings and commas, then trim the result
-    return input?.replace(pattern, '')?.trim();
-  }
-
-const fetchData = async (apiURL, apiKey, endpoint, ticker) => {
-
-  const postData = {
-    ticker: ticker
-  };
-
-  const response = await fetch(apiURL + endpoint, {
-    method: 'POST',
-    headers: {
-      "Content-Type": "application/json", "X-API-KEY": apiKey
-    },
-    body: JSON.stringify(postData)
-  });
-
-  const output = await response?.json();
-
-  if(endpoint === '/stockdeck')
-    {
-      companyName = cleanString(output?.at(0)?.companyName);
-    }
-
-  return output;
+const cleanString = (input) => {
+  const substringsToRemove = [
+    'Depositary', 'Inc.', 'Incorporated', 'Holdings', 'Corporation', 'Corporations',
+    'LLC', 'Holdings plc American Depositary Shares', 'Holding Corporation', 'Oyj',
+    'Company', 'The', 'plc',
+  ];
+  const pattern = new RegExp(`\\b(${substringsToRemove.join('|')})\\b|,`, 'gi');
+  return input?.replace(pattern, '').trim();
 };
 
-const fetchWatchlist = async (fastifyURL, userId) => {
+const fetchData = async (apiURL, apiKey, endpoint, ticker) => {
+  const response = await fetch(`${apiURL}${endpoint}`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+      "X-API-KEY": apiKey
+    },
+    body: JSON.stringify({ ticker })
+  });
+  return response.json();
+};
 
-    const postData = {'userId': userId}
-    const response = await fetch(fastifyURL+'/all-watchlists', {
-        method: 'POST',
-        headers: {
-        "Content-Type": "application/json"
-        },
-        body: JSON.stringify(postData)
-    });
+const fetchFromFastify = async (fastifyURL, endpoint, userId) => {
+  const response = await fetch(`${fastifyURL}${endpoint}`, {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId })
+  });
+  const { items } = await response.json();
+  return items;
+};
 
-
-    const output = (await response?.json())?.items;
-    return output;
-}
-
-async function fetchPortfolio(fastifyURL, userId)
-{
-  const postData = {'userId': userId};
-
-    const response = await fetch(fastifyURL+'/get-portfolio-data', {
-      method: 'POST',
-      headers: {
-      "Content-Type": "application/json"
-      },
-      body: JSON.stringify(postData)
-    });
-
-    const output = (await response?.json())?.items;
-    
-    return output
-}
-
-async function fetchCommunitySentiment(pb, ticker, cookies)
-{
-  let alreadyVoted;
-  const cookieVote = cookies?.get('community-sentiment-'+ticker);
-
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1);
-
-  const startDate = today.toISOString().split('T')[0];
-  const endDate = tomorrow.toISOString().split('T')[0];
+const fetchCommunitySentiment = async (pb, ticker, cookies) => {
+  const cookieVote = cookies.get(`community-sentiment-${ticker}`);
+  const today = new Date().toISOString().split('T')[0];
+  const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0];
 
   const output = await pb.collection("sentiment").getFullList({
-    filter: `ticker="${ticker}" && created >= "${startDate}" && created < "${endDate}"`
+    filter: `ticker="${ticker}" && created >= "${today}" && created < "${tomorrow}"`
   });
 
-  if (cookieVote) {
-    alreadyVoted = cookieVote;
-  }
+  return {
+    alreadyVoted: cookieVote || null,
+    sentimentData: output[0] || {}
+  };
+};
 
-  if(output?.length !== 0) {
-    
-    return {'alreadyVoted': alreadyVoted, 'sentimentData': output?.at(0)}
-  }
-  else {
-    return {'alreadyVoted': alreadyVoted, 'sentimentData': {} }
-  }
+export const load = async ({ params, locals, cookies, setHeaders }) => {
+  const { apiURL, fastifyURL, apiKey, pb, user } = locals;
+  const { tickerID } = params;
 
-}
+  const endpoints = [
+    '/similar-stocks', '/stockdeck', '/analyst-summary-rating', '/stock-quote',
+    '/bull-bear-say', '/wiim', '/top-etf-ticker-holder', '/one-day-price'
+  ];
 
-export const load = async ({ params, locals, cookies, setHeaders}) => {
-  
-    let apiURL = locals?.apiURL;
-    let fastifyURL = locals?.fastifyURL;
-    let apiKey = locals?.apiKey;
-    let wsURL = locals?.wsURL;
-    
-  
-    const promises = [
-    fetchData(apiURL,apiKey, '/similar-stocks',params.tickerID),
-    fetchData(apiURL,apiKey, '/stockdeck',params.tickerID),
-    fetchData(apiURL,apiKey, '/analyst-summary-rating',params.tickerID),
-    fetchData(apiURL,apiKey, '/stock-quote',params.tickerID),
-    fetchData(apiURL,apiKey, '/bull-bear-say',params.tickerID),
-    fetchData(apiURL,apiKey, '/wiim',params.tickerID),
-    fetchData(apiURL,apiKey, '/top-etf-ticker-holder',params.tickerID),
-    fetchData(apiURL,apiKey, '/one-day-price',params.tickerID),
-    fetchWatchlist(fastifyURL, locals?.user?.id),
-    fetchPortfolio(fastifyURL, locals?.user?.id),
-    fetchCommunitySentiment(locals?.pb, params.tickerID, cookies)
+  const promises = [
+    ...endpoints.map(endpoint => fetchData(apiURL, apiKey, endpoint, tickerID)),
+    fetchFromFastify(fastifyURL, '/all-watchlists', user?.id),
+    fetchFromFastify(fastifyURL, '/get-portfolio-data', user?.id),
+    fetchCommunitySentiment(pb, tickerID, cookies)
   ];
 
   const [
-    getSimilarStock,
-    getStockDeck,
-    getAnalystRating,
-    getStockQuote,
-    getBullBearSay,
-    getWhyPriceMoved,
-    getTopETFHolder,
-    getOneDayPrice,
-    getUserWatchlist,
-    getUserPortfolio,
-    getCommunitySentiment,
+    getSimilarStock, getStockDeck, getAnalystRating, getStockQuote,
+    getBullBearSay, getWhyPriceMoved, getTopETFHolder, getOneDayPrice,
+    getUserWatchlist, getUserPortfolio, getCommunitySentiment
   ] = await Promise.all(promises);
 
-
-  setHeaders({
-    'cache-control': 'public, max-age=300' //Cache data for 5 min
-    });
-    
+  setHeaders({ 'cache-control': 'public, max-age=300' });
 
   return {
     getSimilarStock,
@@ -167,9 +81,6 @@ export const load = async ({ params, locals, cookies, setHeaders}) => {
     getUserWatchlist,
     getUserPortfolio,
     getCommunitySentiment,
-    companyName,
-    wsURL,
+    companyName: cleanString(getStockDeck?.[0]?.companyName),
   };
-
-  
 };
