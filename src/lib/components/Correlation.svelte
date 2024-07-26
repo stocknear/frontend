@@ -1,13 +1,11 @@
 <script lang="ts">
   import { stockTicker, etfTicker, assetType, screenWidth } from '$lib/store';
-  import { abbreviateNumber, formatString } from '$lib/utils';
   import { goto } from '$app/navigation';
   import InfoModal from '$lib/components/InfoModal.svelte';
   import Lazy from 'svelte-lazy';
 
   export let correlationList;
 
-  let charNumber = 20;
   let showFullStats = false;
     
     
@@ -38,16 +36,7 @@
   
     
 
-  $: {
-  if ($screenWidth < 640)
-  {
-      charNumber = 10;
-  }
-  else {
-      charNumber = 20;
-  }
-  }
-    
+  $: charNumber = $screenWidth < 640 ? 10 : 20;
     
   
   

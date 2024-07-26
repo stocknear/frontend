@@ -19,7 +19,6 @@ const checkMarketHour = async () => {
 }
 
 
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
 let apiURL;
 let wsURL;

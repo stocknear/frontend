@@ -1,29 +1,13 @@
 
 <script lang ='ts'>
-    import { enterpriseComponent, displayCompanyName, stockTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
+    import { enterpriseComponent, displayCompanyName, stockTicker, screenWidth, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
-    import { Chart } from 'svelte-echarts'
-
+    import { Chart } from 'svelte-echarts';
     import Lazy from 'svelte-lazy';
 
     export let data;
     
     let isLoaded = false;
-    const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-    let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-
-    userRegion.subscribe(value => {
-
-        if (usRegion.includes(value)) {
-        apiURL = import.meta.env.VITE_USEAST_API_URL;
-        } else {
-        apiURL = import.meta.env.VITE_EU_API_URL;
-        }
-    });
-
 
     let rawData = [];
     let optionsData;
@@ -143,10 +127,10 @@ const getEnterPriseValues = async (ticker) => {
 
       const postData = {'ticker': ticker};
       // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/enterprise-values', {
+      const response = await fetch(data?.apiURL + '/enterprise-values', {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
+          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
         },
         body: JSON.stringify(postData)
       });

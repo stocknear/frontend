@@ -1,28 +1,13 @@
 <script lang ='ts'>
-    import { darkPoolComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
+    import { darkPoolComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
     import { Chart } from 'svelte-echarts'
     import { abbreviateNumber, formatDateRange } from "$lib/utils";
-
     import Lazy from 'svelte-lazy';
+
     export let data;
 
     let isLoaded = false;
-    const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-    let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-
-    userRegion.subscribe(value => {
-
-        if (usRegion.includes(value)) {
-        apiURL = import.meta.env.VITE_USEAST_API_URL;
-        } else {
-        apiURL = import.meta.env.VITE_EU_API_URL;
-        }
-    });
-
 
     let rawData = [];
     let optionsData;
@@ -183,10 +168,10 @@ const getDarkPool = async (ticker) => {
 
       const postData = {'ticker': ticker};
       // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/dark-pool', {
+      const response = await fetch(data?.apiURL + '/dark-pool', {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
+          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
         },
         body: JSON.stringify(postData)
       });

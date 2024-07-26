@@ -1,24 +1,10 @@
 
 <script lang ='ts'>
-  import { fundamentalAnalysisComponent, displayCompanyName, stockTicker, userRegion, getCache, setCache} from '$lib/store';
+  import { fundamentalAnalysisComponent, displayCompanyName, stockTicker, getCache, setCache} from '$lib/store';
   import InfoModal from '$lib/components/InfoModal.svelte';
 
   let fundamentalAnalysisDict = {};
   let isLoaded = false;
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-  let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-
-  userRegion.subscribe(value => {
-
-  if (usRegion.includes(value)) {
-      apiURL = import.meta.env.VITE_USEAST_API_URL;
-    } else {
-      apiURL = import.meta.env.VITE_EU_API_URL;
-    }
-  });
 
   export let data;
 
@@ -40,10 +26,10 @@ const getFundamentalAnalysis = async (ticker) => {
 
     const postData = {'ticker': ticker};
     // make the POST request to the endpoint
-    const response = await fetch(apiURL + '/fundamental-predictor-analysis', {
+    const response = await fetch(data?.apiURL + '/fundamental-predictor-analysis', {
       method: 'POST',
       headers: {
-        "Content-Type": "application/json", "X-API-KEY": apiKey
+        "Content-Type": "application/json", "X-API-KEY": data?.apiKey
       },
       body: JSON.stringify(postData)
     });

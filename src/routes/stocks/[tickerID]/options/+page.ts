@@ -1,19 +1,4 @@
-import { userRegion, getCache, setCache } from '$lib/store';
-
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-let apiURL = import.meta.env.VITE_EU_API_URL; // Set a default API URL
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-userRegion.subscribe(value => {
-
-  if (usRegion.includes(value)) {
-    apiURL = import.meta.env.VITE_USEAST_API_URL;
-  } else {
-    apiURL = import.meta.env.VITE_EU_API_URL;
-  }
-});
-
+import { getCache, setCache } from '$lib/store';
 
 
 function daysLeft(targetDate) {
@@ -28,7 +13,10 @@ function daysLeft(targetDate) {
 }
 
 
-export const load = async ({ params }) => {
+export const load = async ({ parent, params }) => {
+
+
+  const data = await parent();
 
  
   const getOptionsPlotData = async () => {
@@ -38,16 +26,15 @@ export const load = async ({ params }) => {
     if (cachedData) {
       res = cachedData;
     } else {
-
-    // make the POST request to the endpoint
+    
     const postData = {
       ticker: params.tickerID
     };
 
-    const response = await fetch(apiURL + '/options-plot-ticker', {
+    const response = await fetch(data?.apiURL + '/options-plot-ticker', {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
+          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
         },
         body: JSON.stringify(postData)
       });
@@ -105,10 +92,10 @@ export const load = async ({ params }) => {
     };
 
       // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/options-flow-ticker', {
+      const response = await fetch(data?.apiURL + '/options-flow-ticker', {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
+          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
         },
         body: JSON.stringify(postData)
       });

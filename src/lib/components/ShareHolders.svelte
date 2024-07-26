@@ -1,38 +1,23 @@
 <script lang='ts'>
 
 import { Chart } from 'svelte-echarts'
-import { shareholderComponent, screenWidth, stockTicker, userRegion, getCache, setCache, displayCompanyName} from '$lib/store';
+import { shareholderComponent, screenWidth, stockTicker, getCache, setCache, displayCompanyName} from '$lib/store';
 import { formatString } from '$lib/utils';
 import { goto } from '$app/navigation';
 import { abbreviateNumber } from '$lib/utils';
 import InfoModal from '$lib/components/InfoModal.svelte';
 import Lazy from 'svelte-lazy';
 
+export let data;
 let isLoaded = false;
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
 
 let callPercentage; 
 let putPercentage;
 let totalCalls;
 let totalPuts;
-let latestPutCallRatio;
 let putCallRatio;
 
-export let data;
-
-let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-
-userRegion.subscribe(value => {
-
-if (usRegion.includes(value)) {
-    apiURL = import.meta.env.VITE_USEAST_API_URL;
-} else {
-    apiURL = import.meta.env.VITE_EU_API_URL;
-}
-});
 
 let rawData = {};
 let shareholderList = []
@@ -41,7 +26,6 @@ let institutionalOwner = 0;
 let otherOwner = 0;
 let topHolders = 0;
 let showFullStats = false;
-
 
 
 
@@ -102,10 +86,10 @@ const getShareholders = async (ticker) => {
 
       const postData = {'ticker': ticker};
       // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/shareholders', {
+      const response = await fetch(data?.apiURL + '/shareholders', {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
+          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
         },
         body: JSON.stringify(postData)
       });
