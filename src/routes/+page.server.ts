@@ -15,6 +15,19 @@ export const load = ({ cookies }) => {
 
 */
 
+async function checkDisposableEmail(email) {
+	const url = `https://disposable.debounce.io/?email=${encodeURIComponent(email)}`;
+		const response = await fetch(url, {
+			method: 'GET',
+			headers: {
+			"Content-Type": "application/json"
+			},
+		});
+		const output = (await response.json())?.disposable ?? false;
+		return output
+	}
+
+	
 
 export const actions = {
 	
@@ -51,27 +64,36 @@ export const actions = {
 		}
 
 
-		redirect(302, '/');
+		redirect(301, '/home');
 	},
 	
     register: async ({ locals, request }) => {
-		const { formData, errors } = await validateData(await request.formData(), registerUserSchema);
 
+
+		const { formData, errors } = await validateData(await request.formData(), registerUserSchema);
 		if (errors) {
 			return fail(400, {
 				data: formData,
 				errors: errors.fieldErrors
 			});
 		}
+		const isEmailDisposable = await checkDisposableEmail(formData?.email);
 
+		if(isEmailDisposable === "true") {
+			error(400, 'Disposable Email Addresses not allowed!');
+		}
+
+
+		//let username = generateUsername(formData.name.split(' ').join('')).toLowerCase();
 
 		try {
-			let newUser = await locals.pb.collection('users').create(formData);
+			const newUser = await locals.pb.collection('users').create(formData);
 			await locals.pb?.collection('users').update(
 				newUser?.id, {
 					'freeTrial' : true,
 					'tier': 'Pro', //Give new users a free trial for the Pro Subscription
 			});
+
 			await locals.pb.collection('users').requestVerification(formData.email);
 		} catch (err) {
 			console.log('Error: ', err);
@@ -83,13 +105,20 @@ export const actions = {
 				.collection("users")
 				.authWithPassword(formData.email, formData.password);
 			
-		
+			/*
+			if (!locals.pb?.authStore?.model?.verified) {
+				locals.pb.authStore.clear();
+				return {
+					notVerified: true,
+				};
+			}
+			*/
 		} catch (err) {
 			console.log("Error: ", err);
 			error(err.status, err.message);
 		}
 
-		redirect(303, "/");
+		redirect(301, "/home");
 	},
 	
 

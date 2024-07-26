@@ -347,7 +347,7 @@ $: {
 
 <main class="w-full">
   <slot />
-
+  <Toaster class="bg-[#1A1A27] text-white text-medium"/>
   {#if Cookie && $showCookieConsent === true}
   <Cookie />
   {/if}

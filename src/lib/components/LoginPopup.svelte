@@ -7,8 +7,11 @@
     export let form;
     
     let oauthLoading = false;
-
+    let isClicked = false;
+	let loading = false;
+    
     const submitLogin = () => {
+        loading = true;
             return async ({ result, update}) => {
                 switch (result.type) {
                     case 'success':
@@ -26,7 +29,8 @@
                             await update();
                             break;
                         }
-                    case 'redirect':
+                        case 'redirect':
+                        isClicked = true;
                         toast.success('Login successfully!', {
                             style: 'border-radius: 200px; background: #333; color: #fff;'});
                         await update();
@@ -56,18 +60,18 @@
             }, 280);
             */
            
-            
+            loading = false;
+
             }
         }
     
-        let loading = false;
     
         const submitRegistration= () => {
             loading = true;
             return async ({ result, update}) => {
-                console.log(result.type);
                 switch (result.type) {
                     case 'success':
+                        isClicked = true;
                         toast.success('Registration successfully!', {
                          style: 'border-radius: 200px; background: #333; color: #fff;'});
                         await update();
@@ -113,10 +117,6 @@ const output = await response.json();
 
 let displaySection = 'login';
 
-function changeSection(state)
-{
-    displaySection = state;
-}
 
 let isHoveredGoogle = false;
 let isHoveredDiscord = false;
@@ -140,22 +140,21 @@ function handleHoverGithub() {
 </script>
 
     
+<svelte:options immutable={true} />
 
-
-    
 
 {#if $screenWidth > 640}
 <!--Start Login Modal-->
 
 <input type="checkbox" id="userLogin" class="modal-toggle" />
     
-    <dialog id="userLogin" class="modal modal-bottom sm:modal-middle border border-slate-800">
+    <dialog id="userLogin" class="modal modal-bottom sm:modal-middle">
     
     
         <label on:click={() => form= []} id="userLogin" for="userLogin"  class="cursor-pointer modal-backdrop bg-[#fff] bg-opacity-[0.05] "></label>
         
         
-        <div class="modal-box w-full bg-[#000] border border-slate-800 {$screenWidth < 640 ? 'min-h-screen' : ''}">
+        <div class="modal-box w-full bg-[#000] border border-gray-800 {$screenWidth < 640 ? 'min-h-screen' : ''}">
       
           
     
@@ -190,13 +189,22 @@ function handleHoverGithub() {
                             label="Password" 
                             errors={form?.errors?.password} 
                         />
-                        <div class="w-full max-w-lg">
-                            <a href="/reset-password" class="text-sm font-semibold text-[#FB6A67] hover:cursor-pointer hover:underline">Forgot Password?</a>
+                        <div class="text-start w-full max-w-lg">
+                            <a href="/reset-password" class="text-start text-sm font-semibold text-[#FB6A67] hover:cursor-pointer hover:underline">Forgot Password?</a>
                         </div>
                         <div class="w-full max-w-lg pt-5 m-auto pb-5">
-                            <button type="submit" class="btn bg-[#09090B] border border-gray-600 sm:hover:bg-[#313131] text-white btn-md w-full rounded-lg m-auto text-white font-semibold text-md">
-                                Login
-                            </button>
+                            {#if !loading && !isClicked}
+								<button type="submit" class="btn bg-purple-600 border border-gray-600 sm:hover:bg-purple-700 transition duration-100 text-white btn-md w-full rounded-lg m-auto text-white font-semibold text-[1rem]">
+									<span class="text-white">Login</span>
+								</button>
+							{:else}
+								<label class="cursor-not-allowed btn bg-purple-600 opacity-[0.5] border border-gray-600 sm:hover:bg-purple-700 transition duration-100 text-white btn-md w-full rounded-lg m-auto text-white font-semibold text-[1rem]">
+									<div class="flex flex-row m-auto items-center">
+										<span class="loading loading-infinity"></span>
+										<span class="text-white ml-1.5">Signing Up</span>
+									</div>
+								</label>
+							{/if}
                         </div>
 
                         <div class="divider divider-[#fff] pt-10 pb-10">
@@ -305,9 +313,18 @@ function handleHoverGithub() {
                         />
     
                         <div class="w-full max-w-lg pt-5 m-auto pb-3">
-                            <button type="submit" class="btn bg-[#09090B] border border-gray-600 sm:hover:bg-[#313131] text-white btn-md w-full rounded-lg m-auto font-semibold text-md">
-                                Register
-                            </button>
+                            {#if !loading && !isClicked}
+                                <button type="submit" class="btn bg-purple-600 border border-gray-600 sm:hover:bg-purple-700 transition duration-100 text-white btn-md w-full rounded-lg m-auto text-white font-semibold text-[1rem]">
+                                    <span class="text-white">Register</span>
+                                </button>
+                            {:else}
+                                <label class="cursor-not-allowed btn bg-purple-600 opacity-[0.5] border border-gray-600 sm:hover:bg-purple-700 transition duration-100 text-white btn-md w-full rounded-lg m-auto text-white font-semibold text-[1rem]">
+                                    <div class="flex flex-row m-auto items-center">
+                                        <span class="loading loading-infinity"></span>
+                                        <span class="text-white ml-1.5">Signing Up</span>
+                                    </div>
+                                </label>
+                            {/if}
                         </div>
 
                         <div class="divider divider-[#fff] pt-10 pb-10">

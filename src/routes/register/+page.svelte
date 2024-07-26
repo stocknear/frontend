@@ -11,10 +11,10 @@
 	let loading = false;
 	let oauthLoading = false;
 	
+
 	const submitRegistration= () => {
 		loading = true;
 		return async ({ result, update}) => {
-
 			switch (result.type) {
 				case 'success':
 				case 'redirect':

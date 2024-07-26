@@ -6,6 +6,7 @@
   import { intersect } from 'svelte-intersection-observer-action';
 
   export let data;
+  export let form;
 
   let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
 
@@ -454,7 +455,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                 </div>
 
 
-                                <Pricing />
+                                <Pricing data={data} form={form}/>
 
 
                                 </div>

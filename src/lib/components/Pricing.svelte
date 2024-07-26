@@ -1,10 +1,11 @@
 <script lang='ts'>
-    import { globalForm } from '$lib/store';
     import { onMount } from 'svelte';
     
     //import proTierLogo from "$lib/images/pro_tier_logo.png";
     
     export let data;
+    export let form;
+
     let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
     
     let mode = false;
@@ -339,7 +340,7 @@ onMount(async () => {
 
 <!--Start Login Modal-->
 {#if LoginPopup}
-  <LoginPopup form={$globalForm}/> 
+  <LoginPopup form={form}/> 
 {/if}   
 <!--End Login Modal-->
 

@@ -64,7 +64,7 @@ export const actions = {
 			*/
 		} catch (err) {
 			console.log("Error: ", err);
-			//error(err.status, err.message);
+			error(err.status, err.message);
 		}
 
 		redirect(301, "/");
