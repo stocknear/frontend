@@ -205,17 +205,7 @@ $: {
 
 let charNumber = 20;
 
-$: {
-  if($screenWidth < 640)
-  {
-    charNumber = 20;
-  }
-  else {
-    charNumber =20;
-  }
-}
     
-
 </script>
     
     
@@ -276,7 +266,7 @@ $: {
           <div class="w-full m-auto h-auto max-h-[500px] overflow-x-scroll sm:overflow-hidden sm:overflow-y-scroll scroller ">
           <table class="table table-sm table-compact table-pin-rows table-pin-cols w-full">
             <thead>
-              <tr class="border-b border-blue-400">
+              <tr>
                 <th class="text-white shadow-md font-semibold text-sm text-start bg-[#09090B]">Drug</th>
                 <th class="text-white shadow-md font-semibold text-sm text-start bg-[#09090B]">Stage</th>
                 <th class="text-white shadow-md font-semibold text-sm text-center bg-[#09090B]">Phase Status</th>
@@ -287,7 +277,7 @@ $: {
               {#each displayList as item,index}
               <tr on:click={() => handleViewData(item)} class="border-y border-gray-800 odd:bg-[#27272A] sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#09090B] border-b-[#09090B] cursor-pointer">
                
-                  <td class="text-white font-medium">
+                  <td class="text-white font-medium whitespace-nowrap">
                    {item["Interventions"]?.length === 0 ? '-' : item["Interventions"]?.length > charNumber ? formatString(item["Interventions"]?.slice(0,charNumber)) + "..." : formatString(item["Interventions"])}
                   </td>
                   <!--

@@ -94,7 +94,7 @@ $: {
 
             {#if Object?.keys(fundamentalAnalysisDict)?.length !== 0}
             <div class="w-full flex flex-col items-start">
-                <div class="text-white text-sm sm:text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
+                <div class="text-white text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
                   Our model uses fundamental data only to predict the next quarter. Here are the stats of the model for {$displayCompanyName} to ensure transparency and reliability.
                 </div>
             </div>
@@ -103,7 +103,7 @@ $: {
             <div class="w-full mt-5 mb-5 flex justify-start items-center">
                 <div class="w-full grid grid-cols-2 lg:grid-cols-3 gap-y-3 gap-x-3 ">
                   <!--Start Flow Sentiment-->  
-                  <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#27272A] shadow-lg rounded-2xl h-20">
+                  <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#27272A] shadow-lg rounded-lg h-20">
                       <div class="flex flex-col items-start">
                           <span class="font-medium text-gray-200 text-sm">Quarter Sentiment</span>
                           {#if !deactivateContent}
@@ -119,7 +119,7 @@ $: {
                   
                   <!--End Flow Sentiment-->
                    <!--Start Put/Call-->  
-                   <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#27272A] shadow-lg rounded-2xl h-20">
+                   <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#27272A] shadow-lg rounded-lg h-20">
                     <div class="flex flex-col items-start">
                         <span class="font-medium text-gray-200 text-sm ">Accuracy</span>
                         <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -147,7 +147,7 @@ $: {
                    <!--End Put/Call-->
 
                    <!--Start Precision-->  
-                   <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#27272A] shadow-lg rounded-2xl h-20">
+                   <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#27272A] shadow-lg rounded-lg h-20">
                     <div class="flex flex-col items-start">
                         <span class="font-medium text-gray-200 text-sm ">Precision</span>
                         <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
@@ -180,7 +180,7 @@ $: {
 
       
 
-            <div class="text-white text-sm sm:text-[1rem] mt-4 sm:mt-7 ml-1">
+            <div class="text-white text-[1rem] mt-4 sm:mt-7 ml-1">
               Over the next quarter the model forecasts a
               {#if !deactivateContent}
               <span class="font-semibold {flowSentiment === 'Bullish' ? 'text-[#10DB06]' : 'text-[#FC2120]'}">{flowSentiment}</span> price movement.

@@ -102,7 +102,7 @@ function latestInfoDate(inputDate) {
         {#if Object?.keys(rawData)?.length !== 0}
   
         <div class="w-full flex flex-col items-start">
-            <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">
+            <div class="text-white text-[1rem] mt-2 mb-2 w-full">
                 The AI model summarizes the latest Wallstreet Analyst Insight Report and extracts key points for you, focusing on what matters most.
             </div>
         </div>
@@ -135,7 +135,7 @@ function latestInfoDate(inputDate) {
                                     </div>
 
                                     <div class="flex flex-col w-full pt-3 pl-2 pr-2 sm:pr-4">
-                                        <span class="text-white text-[0.915rem] ">
+                                        <span class="text-white text-[1rem] ">
                                             {rawData?.insight}
                                         </span>
                                     </div>

@@ -259,7 +259,7 @@ $: {
             {#if Object?.keys(rawData)?.length !== 0}
 
             <div class="w-full flex flex-col items-start">
-              <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">
+              <div class="text-white text-[1rem] mt-2 mb-2 w-full">
                   In the past six months, the {$displayCompanyName} had an average retail investor volume of <span class="font-semibold">{avgVolume > 100e3 ? abbreviateNumber(avgVolume,true) : '< $100K'}</span>, with a prevailing
                   {#if avgSentiment === 'Bullish' }
                   <span class="text-[#10DB06]">

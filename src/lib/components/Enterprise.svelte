@@ -191,7 +191,7 @@ $: {
             <div class="mt-2 pb-4">
                     
                 <div class="w-full flex flex-col items-start">
-                    <div class="text-white text-sm sm:text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
+                    <div class="text-white text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
                         {$displayCompanyName}'s' enterprise value provides a comprehensive snapshot of its total worth, crucial for assessing its financial health and making informed investment decisions.
                     </div>
                 </div>

@@ -201,17 +201,7 @@
   }
   }
   
-  let charNumber = 20;
-  
-  $: {
-  if($screenWidth < 640)
-  {
-    charNumber = 20;
-  }
-  else {
-    charNumber =40;
-  }
-  }
+  $: charNumber = $screenWidth < 640 ? 20 : 40;
     
   
   
@@ -239,7 +229,7 @@
         {#if rawData?.length !== 0}
   
         <div class="w-full flex flex-col items-start">
-            <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">
+            <div class="text-white text-[1rem] mt-2 mb-2 w-full">
                 Analysis of the 20-day moving average of the options net flow demonstrates a {sentiment} trend, characterized by the {sentiment === 'bullish' ? 'Net Call Flow exceeding the Net Put Flow' : 'Net Put Flow exceeding the Net Call Flow'} .
             </div>
         </div>

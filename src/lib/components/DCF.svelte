@@ -24,8 +24,7 @@
           </span>`
     
     
-    const plotBarChart = () => {
-    
+const plotBarChart = () => {
     
         const options = {
             grid: {

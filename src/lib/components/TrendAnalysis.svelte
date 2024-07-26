@@ -107,7 +107,7 @@ $: {
             {#if isLoaded}
             {#if trendList?.length !== 0}
             <div class="w-full flex flex-col items-start">
-                <div class="text-white text-sm sm:text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
+                <div class="text-white text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
                   Our model uses technical indicators to predict the next trend. Here are the stats of the model for {$displayCompanyName} to ensure transparency and reliability.
                 </div>
             </div>
@@ -198,7 +198,7 @@ $: {
 
           
 
-            <div class="text-white text-sm sm:text-[1rem] mt-4 sm:mt-7 ml-1">
+            <div class="text-white text-[1rem] mt-4 sm:mt-7 ml-1">
               Over the next {displayData === 'threeMonth' ? '3 months' : displayData === 'oneMonth' ? '1 month' : '1 week'}, the model forecasts a 
               <span class="font-semibold {flowSentiment === 'Bullish' ? 'text-[#10DB06]' : 'text-[#FC2120]'}">{flowSentiment}</span>
               trend, indicating that the future price is expected to {flowSentiment === 'Bullish' ? 'exceed' : 'to be less than'} the previous price of 

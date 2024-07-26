@@ -115,7 +115,7 @@ $: {
     <div class="flex mt-5 h-auto">
     
       <div class="{activeIdx === 0 ? 'bg-[#10DB06]' : 'bg-[#FF2F1F]'} w-3.5 rounded-l-xl" />
-      <span class="text-gray-100 ml-3 text-[0.915rem] ">
+      <span class="text-gray-100 ml-3 text-[1rem] ">
         {#if showFullText}
         {#each (showFullText ? paragraphs : paragraphs?.slice(0,1)) as paragraph, index}
         <p class="{index !== 0 ? 'mt-1' : ''} pr-1">{paragraph} {paragraphs?.length <= index+1 ? '' : '.'}</p>

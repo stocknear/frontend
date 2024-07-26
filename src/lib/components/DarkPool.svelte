@@ -231,7 +231,7 @@ $: {
         {#if rawData?.length !== 0}
 
         <div class="w-full flex flex-col items-start">
-            <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">
+            <div class="text-white text-[1rem] mt-2 mb-2 w-full">
                 Over the past 12 months, {$displayCompanyName} has experienced an average dark pool trading volume of
                 <span class="font-semibold">{abbreviateNumber(avgVolume)}</span> shares.
                 Out of this total, an average of <span class="font-semibold">{abbreviateNumber(avgShortVolume)}</span> shares,
@@ -282,7 +282,7 @@ $: {
                       <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                           <span>Date</span>
                       </td>
-                      <td class="px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
+                      <td class="px-[5px] py-1.5 text-sm text-right font-medium xs:px-2.5 xs:py-2">
                         { formatDateRange(rawData?.slice(-1)?.at(0)?.date)}
                       </td>
                   </tr>

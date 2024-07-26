@@ -81,16 +81,16 @@ $: {
                                                 <div class="text-white text-sm ml-auto pr-4 font-medium">
                                                 {#if item?.changesPercentage >=0}
                                                     <svg class="w-5 h-5 -mr-0.5 -mt-0.5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
-                                                    <span class="text-[#10DB06] text-xs font-medium inline-block">+{item?.changesPercentage}%</span>
+                                                    <span class="text-[#10DB06] inline-block">+{item?.changesPercentage}%</span>
                                                 {:else if item?.changesPercentage < 0 }
                                                     <svg class="w-5 h-5 -mr-0.5 -mt-0.5 rotate-180 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
-                                                    <span class="text-[#FF2F1F] text-xs font-medium inline-block">{item?.changesPercentage}% </span>  
+                                                    <span class="text-[#FF2F1F] inline-block">{item?.changesPercentage}% </span>  
                                                 {/if}
                                                 </div>
                                             </div>
 
                                             <div class="flex flex-col w-full max-w-[430px] pt-2 pl-2 pr-2 sm:pr-0">
-                                                <span class="text-white text-sm ">
+                                                <span class="text-white text-[1rem] ">
                                                     {data?.user?.tier !== 'Pro' && latestInfoDate(item?.date) ? item?.text?.slice(0,30) + '...' : item?.text }
                                                 </span>
                                             </div>

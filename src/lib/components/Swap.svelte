@@ -232,7 +232,7 @@
         {#if rawData?.length !== 0}
   
         <div class="w-full flex flex-col items-start">
-            <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">
+            <div class="text-white text-[1rem] mt-2 mb-2 w-full">
                 The swap data from the past 100 days shows an average notional amount of {abbreviateNumber(avgNotionalAmount,true)} and an average notional quantity of {abbreviateNumber(avgNotionalQuantity)}.
             </div>
         </div>

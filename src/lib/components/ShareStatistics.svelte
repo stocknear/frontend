@@ -174,7 +174,7 @@ $: {
                 <div class="mt-2 pb-4 bg-[#09090B]">
                         
                     <div class="w-full flex flex-col items-start">
-                        <div class="text-white text-sm sm:text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
+                        <div class="text-white text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
                             {$displayCompanyName}'s' has <span class="font-semibold">{abbreviateNumber(rawData?.latestOutstandingShares)}</span> shares outstanding with <span class="font-semibold">{abbreviateNumber(rawData?.latestFloatShares)}</span> of those shares currently floating.
                         </div>
                     </div>

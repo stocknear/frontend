@@ -215,17 +215,7 @@ function findLowestAndHighestFee(data, lastDateStr) {
   }
   }
   
-  let charNumber = 20;
-  
-  $: {
-  if($screenWidth < 640)
-  {
-    charNumber = 20;
-  }
-  else {
-    charNumber =40;
-  }
-  }
+  $: charNumber = $screenWidth < 640 ? 20 : 40;
     
   
   
@@ -253,7 +243,7 @@ function findLowestAndHighestFee(data, lastDateStr) {
         {#if rawData?.length !== 0}
   
         <div class="w-full flex flex-col items-start">
-            <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">
+            <div class="text-white text-[1rem] mt-2 mb-2 w-full">
                 Over the past six months, Interactive Brokers had {abbreviateNumber(totalAvailableShares)} shares available for borrowing, with an average fee of {avgFee}%.
             </div>
         </div>

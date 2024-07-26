@@ -247,19 +247,8 @@ function findLowestAndhighestIV(data, lastDateStr) {
   }
   }
   
-  let charNumber = 20;
   
-  $: {
-  if($screenWidth < 640)
-  {
-    charNumber = 20;
-  }
-  else {
-    charNumber =40;
-  }
-  }
-    
-  
+  $: charNumber = $screenWidth < 640 ? 20 : 40;
   
   </script>
     
@@ -285,7 +274,7 @@ function findLowestAndhighestIV(data, lastDateStr) {
         {#if rawData?.length !== 0}
   
         <div class="w-full flex flex-col items-start">
-            <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">
+            <div class="text-white text-[1rem] mt-2 mb-2 w-full">
                 Based on the past 12 months of historical data, {$displayCompanyName} has an IV Rank of <span class="font-semibold">{ivRank}%</span>, with the current implied volatility standing at <span class="font-semibold">{rawData?.slice(-1)?.at(0)?.iv60}%</span>.
             </div>
         </div>

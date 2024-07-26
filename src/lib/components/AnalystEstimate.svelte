@@ -204,7 +204,7 @@ $: {
                 </div>
     
 
-                <div class="text-white text-sm sm:text-[1rem] mt-1 sm:mt-3 mb-1 w-full sm:w-5/6">
+                <div class="text-white text-[1rem] mt-1 sm:mt-3 mb-1 w-full sm:w-5/6">
                     We analyze insights from various analysts to offer both historical and future fundamental data forecasts.
                 </div>
 
