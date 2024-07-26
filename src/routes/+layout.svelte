@@ -44,6 +44,7 @@
   export let data;
 
   let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
+  console.log(cloudFrontUrl)
 
 
 //const trialLeftDays = Math?.floor(addDays(data, 7, ''));

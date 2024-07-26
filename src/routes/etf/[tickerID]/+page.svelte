@@ -34,7 +34,6 @@
       let geographicList = [];
       let sectorList = [];
       let etfProfile = [];
-      let correlationList = [];
       let topHoldingList = [];
       let dividendList = [];
       let similarTicker = []
@@ -60,7 +59,6 @@
     
   //let PricePredictionCard;
   //let TradingModel;
-    let Correlation;
     let CountrySegmentation;
     let SectorSegmentation;
     let WIIM;
@@ -70,7 +68,6 @@
   onMount(async() => {  
 
     WIIM = (await import('$lib/components/WIIM.svelte')).default;
-    Correlation = (await import('$lib/components/Correlation.svelte')).default;
     CountrySegmentation = (await import('$lib/components/CountrySegmentation.svelte')).default;
     SectorSegmentation = (await import('$lib/components/SectorSegmentation.svelte')).default;
   })
@@ -674,7 +671,6 @@ async function initializePrice() {
     
         geographicList = [];
         sectorList = [];
-        correlationList = [];
         prePostData = {};
         output = null;
   
@@ -684,9 +680,7 @@ async function initializePrice() {
         sectorList = sectorList?.sort(function(a,b) {
           return b?.exposure - a?.exposure;
         })
-        etfProfile = data?.getETFProfile;
-        correlationList = data?.getCorrelation?.correlation;
-  
+        etfProfile = data?.getETFProfile;  
         topHoldingList = data?.getETFHoldings;
         dividendList = data?.getStockDividend;
         similarTicker = data?.getSimilarETFs;
@@ -1340,11 +1334,13 @@ async function initializePrice() {
                                   
     
                                   
-                                    <div class="w-full pt-10 m-auto sm:p-6 rounded-2xl {correlationList?.length !== 0 ? '' : 'hidden'}">
-                                      {#if Correlation}
-                                        <Correlation correlationList={correlationList}/>
-                                      {/if}  
-                                    </div>
+                                      <!--
+                                      <div class="w-full m-auto pt-10 sm:pl-6 sm:pb-6 sm:pt-6 {!$correlationComponent ? 'hidden' : ''}">
+                                        {#await import('$lib/components/Correlation.svelte') then {default: Comp}}
+                                          <svelte:component this={Comp} data={data}/>
+                                        {/await}
+                                      </div>
+                                      -->
                   
                               </div>
                           </div>

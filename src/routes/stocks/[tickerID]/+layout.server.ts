@@ -136,7 +136,6 @@ export const load = async ({ params, locals, cookies, setHeaders}) => {
     const promises = [
     fetchData(apiURL,apiKey, '/similar-stocks',params.tickerID),
     fetchData(apiURL,apiKey, '/stockdeck',params.tickerID),
-    fetchData(apiURL,apiKey, '/stock-correlation',params.tickerID),
     fetchData(apiURL,apiKey, '/analyst-summary-rating',params.tickerID),
     fetchData(apiURL,apiKey, '/stock-quote',params.tickerID),
     fetchData(apiURL,apiKey, '/bull-bear-say',params.tickerID),
@@ -151,7 +150,6 @@ export const load = async ({ params, locals, cookies, setHeaders}) => {
   const [
     getSimilarStock,
     getStockDeck,
-    getCorrelation,
     getAnalystRating,
     getStockQuote,
     getBullBearSay,
@@ -172,7 +170,6 @@ export const load = async ({ params, locals, cookies, setHeaders}) => {
   return {
     getSimilarStock,
     getStockDeck,
-    getCorrelation,
     getAnalystRating,
     getStockQuote,
     getBullBearSay,

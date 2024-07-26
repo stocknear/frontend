@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
   import { TrackingModeExitMode } from 'lightweight-charts';
-  import {getCache, setCache, dcfComponent, taRatingComponent, swapComponent, analystInsightComponent, governmentContractComponent, optionsNetFlowComponent, impliedVolatilityComponent, borrowedShareComponent, clinicalTrialComponent, optionComponent, failToDeliverComponent, marketMakerComponent, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
+  import {getCache, setCache, correlationComponent, dcfComponent, taRatingComponent, swapComponent, analystInsightComponent, governmentContractComponent, optionsNetFlowComponent, impliedVolatilityComponent, borrowedShareComponent, clinicalTrialComponent, optionComponent, failToDeliverComponent, marketMakerComponent, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
   import CommunitySentiment from '$lib/components/CommunitySentiment.svelte';
@@ -16,7 +16,6 @@
     let displayChartType = 'line';
   
     let stockDeck = data?.getStockDeck ?? [];
-    let correlationList = data?.getCorrelation?.correlation ?? [];
     let prePostData = {};
     let similarstock = [];
     let topETFHolder = [];
@@ -41,16 +40,13 @@
   
   
   let StockSplits;
-  let Correlation;
   let WIIM;
 
 
 
   onMount(async() => {
     WIIM = (await import('$lib/components/WIIM.svelte')).default;
-    
     StockSplits = (await import('$lib/components/StockSplits.svelte')).default;
-    Correlation = (await import('$lib/components/Correlation.svelte')).default;
 
   })
   
@@ -664,7 +660,6 @@ function changeChartType() {
   
   
       stockDeck = data?.getStockDeck;
-      correlationList = data?.getCorrelation?.correlation;
       marketMoods = data?.getBullBearSay;
       communitySentiment = data?.getCommunitySentiment;
     
@@ -1440,22 +1435,22 @@ function changeChartType() {
                                   </div>
                                   <!--End DCF-->
   
-                                  <div class="w-full m-auto pt-10 sm:pl-6 sm:pb-6 sm:pt-6  {correlationList?.length !== 0 ? '' : 'hidden'}">
-                                    {#if Correlation}
-                                    <Correlation correlationList={correlationList}/>
-                                    {/if}
+                                  <!--
+                                  <div class="w-full m-auto pt-10 sm:pl-6 sm:pb-6 sm:pt-6 {!$correlationComponent ? 'hidden' : ''}">
+                                    {#await import('$lib/components/Correlation.svelte') then {default: Comp}}
+                                      <svelte:component this={Comp} data={data}/>
+                                    {/await}
                                   </div>
+                                  -->
 
-  
-  
-                                    <!--Start Stock Splits-->
-                                    {#if StockSplits && stockDeck?.at(0)?.stockSplits?.length !== 0}
-                                    <div class="w-full pt-10 sm:pl-6 sm:pb-6 sm:pt-6 m-auto rounded-2xl mb-10">
-                                        <StockSplits
-                                          stockDeck={stockDeck}
-                                        />  
-                                    </div>
-                                    {/if}
+                                  <!--Start Stock Splits-->
+                                  {#if StockSplits && stockDeck?.at(0)?.stockSplits?.length !== 0}
+                                  <div class="w-full pt-10 sm:pl-6 sm:pb-6 sm:pt-6 m-auto rounded-2xl mb-10">
+                                      <StockSplits
+                                        stockDeck={stockDeck}
+                                      />  
+                                  </div>
+                                  {/if}
                                   <!--End Stock Splits-->
   
 

@@ -737,12 +737,12 @@ $: {
           <!-- Page wrapper -->
           <div class="flex justify-center w-full m-auto h-full overflow-hidden">
                 <!-- Content area -->
-                <div class="mt-4 w-full overflow-x-auto overflow-y-auto h-[900px] rounded-lg">
+                <div class="mt-4 w-full overflow-x-auto overflow-y-auto h-[850px] rounded-lg">
                   <div class="table-container">
                   <div class="table">
                     <VirtualList
                       width="100%"
-                      height={900}
+                      height={850}
                       itemCount={rawData.length}
                       itemSize={40}
                     >

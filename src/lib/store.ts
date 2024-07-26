@@ -81,6 +81,7 @@ export const analystInsightComponent= writable(<boolean>(false));
 export const swapComponent= writable(<boolean>(false));
 export const taRatingComponent= writable(<boolean>(false));
 export const dcfComponent= writable(<boolean>(false));
+export const correlationComponent = writable(<boolean>(false));
 
 
 
