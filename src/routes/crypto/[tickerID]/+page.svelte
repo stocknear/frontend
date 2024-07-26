@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
   import { TrackingModeExitMode } from 'lightweight-charts';
-  import {setCache, getCache, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, priceAnalysisComponent, trendAnalysisComponent, sentimentComponent, varComponent, userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, cryptoTicker} from '$lib/store';
+  import {setCache, getCache, screenWidth, taRatingComponent, displayCompanyName, numberOfUnreadNotification, globalForm, priceAnalysisComponent, trendAnalysisComponent, sentimentComponent, varComponent, userRegion, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, cryptoTicker} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
   import CryptoKeyInformation from '$lib/components/CryptoKeyInformation.svelte';
   import Lazy from '$lib/components/Lazy.svelte';
@@ -31,7 +31,6 @@ let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
     let cryptoProfile = data?.getStockDeck ?? [];
 
     let previousClose = data?.getStockQuote?.previousClose;
-    let taRating = {};
 
     //============================================//
     
@@ -45,26 +44,6 @@ let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
   
   
   
-  
-  
-  
-  let TARating;
-  //let StockKeyInformation;
-
-  //let AnalystEstimate;
-
-
-
-
-onMount(async() => {  
-    TARating = (await import('$lib/components/TARating.svelte')).default;
-
-  })
-  
-  
-  
-  
-  //const startTimeTracking = performance.now();
   
   
   
@@ -648,13 +627,11 @@ function changeChartType() {
       oneMonthPrice = [];
       oneYearPrice = [];
       threeYearPrice = [];
-      taRating = {};
       output = null;
   
   
       cryptoProfile = data?.getCryptoProfile;
       previousClose = data?.getStockQuote?.previousClose;
-      taRating = data?.getStockTARating;
 
       const asyncFunctions = [];
 
@@ -1201,11 +1178,13 @@ afterUpdate(async () => {
                     
                                  
   
-                                <div class="w-full pt-10 m-auto sm:pl-6 sm:pb-6 sm:pt-6 rounded-2xl {Object?.keys(taRating)?.length !== 0 ? '' : 'hidden'} ">
-                                    {#if TARating}
-                                    <TARating taRating = {data?.getStockTARating}/>
-                                    {/if}
-                                </div>
+                                <Lazy>
+                                  <div class="w-full pt-10 m-auto sm:pl-6 sm:pb-6 sm:pt-6 rounded-2xl {!$taRatingComponent ? 'hidden' : ''}">
+                                    {#await import('$lib/components/TARating.svelte') then {default: Comp}}
+                                      <svelte:component this={Comp} data={data}/>
+                                    {/await}
+                                  </div>
+                                </Lazy>
                             
   
   

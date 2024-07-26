@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
     import { TrackingModeExitMode } from 'lightweight-charts';
-    import {getCache, setCache, impliedVolatilityComponent, optionsNetFlowComponent, optionComponent, sentimentComponent, varComponent, retailVolumeComponent, trendAnalysisComponent, priceAnalysisComponent, assetType, screenWidth, globalForm, userRegion, numberOfUnreadNotification, displayCompanyName, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, etfTicker, isOpen,  isBeforeMarketOpen, isWeekend} from '$lib/store';
+    import {getCache, setCache, taRatingComponent, impliedVolatilityComponent, optionsNetFlowComponent, optionComponent, sentimentComponent, varComponent, retailVolumeComponent, trendAnalysisComponent, priceAnalysisComponent, assetType, screenWidth, globalForm, numberOfUnreadNotification, displayCompanyName, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, etfTicker, isOpen,  isBeforeMarketOpen, isWeekend} from '$lib/store';
     import { onDestroy, onMount } from 'svelte';    
     import ETFKeyInformation from '$lib/components/ETFKeyInformation.svelte';
     import Lazy from '$lib/components/Lazy.svelte';
@@ -12,20 +12,7 @@
     export let form;
   
   $assetType = 'etf';
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-    
-  let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
 
-  userRegion?.subscribe(value => {
-  if (usRegion?.includes(value)) {
-    apiURL = import.meta.env.VITE_USEAST_API_URL;
-  } else {
-    apiURL = import.meta.env.VITE_EU_API_URL;
-  }
-  });
-    
-    
           
     let output = null;
     
@@ -52,7 +39,6 @@ let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
       let dividendList = [];
       let similarTicker = []
       let prePostData = {};
-      let taRating = {};
 
       let previousClose = data?.getStockQuote?.previousClose;
       //============================================//
@@ -72,7 +58,6 @@ let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
     
     
     
-    let TARating;
   //let PricePredictionCard;
   //let TradingModel;
     let Correlation;
@@ -85,7 +70,6 @@ let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
   onMount(async() => {  
 
     WIIM = (await import('$lib/components/WIIM.svelte')).default;
-    TARating = (await import('$lib/components/TARating.svelte')).default; 
     Correlation = (await import('$lib/components/Correlation.svelte')).default;
     CountrySegmentation = (await import('$lib/components/CountrySegmentation.svelte')).default;
     SectorSegmentation = (await import('$lib/components/SectorSegmentation.svelte')).default;
@@ -339,10 +323,10 @@ async function historicalPrice(timePeriod:string) {
         timePeriod: timePeriod,
       };
 
-      const response = await fetch(apiURL+'/historical-price', {
+      const response = await fetch(data?.apiURL+'/historical-price', {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
+          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
         },
         body: JSON.stringify(postData)
       });
@@ -438,10 +422,10 @@ async function initializePrice() {
   
   if(!$isOpen) {
     const postData = { ticker: $etfTicker};
-      const response = await fetch(apiURL+'/pre-post-quote', {
+      const response = await fetch(data?.apiURL+'/pre-post-quote', {
       method: 'POST',
       headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
+          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
       },
       body: JSON.stringify(postData)
       });
@@ -692,7 +676,6 @@ async function initializePrice() {
         sectorList = [];
         correlationList = [];
         prePostData = {};
-        taRating = {};
         output = null;
   
         
@@ -708,7 +691,6 @@ async function initializePrice() {
         dividendList = data?.getStockDividend;
         similarTicker = data?.getSimilarETFs;
         previousClose = data?.getStockQuote?.previousClose
-        taRating = data?.getStockTARating;
   
         //stockDeck = data?.getStockDeckData;
         
@@ -1348,13 +1330,13 @@ async function initializePrice() {
                                       </Lazy>
                                       
           
-  
-                                    
-                                    <div class="w-full pt-10 m-auto sm:p-6 rounded-2xl {Object?.keys(taRating)?.length !== 0 ? '' : 'hidden'} ">
-                                        {#if TARating }
-                                        <TARating taRating={taRating}/>
-                                        {/if}  
-                                    </div>
+                                      <Lazy>
+                                        <div class="w-full pt-10 m-auto sm:pl-6 sm:pb-6 sm:pt-6 rounded-2xl {!$taRatingComponent ? 'hidden' : ''}">
+                                          {#await import('$lib/components/TARating.svelte') then {default: Comp}}
+                                            <svelte:component this={Comp} data={data}/>
+                                          {/await}
+                                        </div>
+                                      </Lazy>
                                   
     
                                   

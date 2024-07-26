@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
   import { TrackingModeExitMode } from 'lightweight-charts';
-  import {getCache, setCache, swapComponent, analystInsightComponent, governmentContractComponent, optionsNetFlowComponent, impliedVolatilityComponent, borrowedShareComponent, clinicalTrialComponent, optionComponent, failToDeliverComponent, marketMakerComponent, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
+  import {getCache, setCache, taRatingComponent, swapComponent, analystInsightComponent, governmentContractComponent, optionsNetFlowComponent, impliedVolatilityComponent, borrowedShareComponent, clinicalTrialComponent, optionComponent, failToDeliverComponent, marketMakerComponent, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
   import CommunitySentiment from '$lib/components/CommunitySentiment.svelte';
@@ -22,7 +22,6 @@
     let similarstock = [];
     let topETFHolder = [];
     let marketMoods = {}
-    let taRating = {};
     let communitySentiment = {};
 
     $: previousClose = data?.getStockQuote?.previousClose;
@@ -42,7 +41,6 @@
   
   
   
-  let TARating;
   let StockSplits;
   let Correlation;
   let WIIM;
@@ -52,7 +50,6 @@
   onMount(async() => {
     WIIM = (await import('$lib/components/WIIM.svelte')).default;
     
-    TARating = (await import('$lib/components/TARating.svelte')).default;
     StockSplits = (await import('$lib/components/StockSplits.svelte')).default;
     Correlation = (await import('$lib/components/Correlation.svelte')).default;
 
@@ -663,7 +660,6 @@ function changeChartType() {
       threeYearPrice = [];
       prePostData = {};
       marketMoods = {};
-      taRating = {};
       communitySentiment = {}
       output = null;
   
@@ -672,7 +668,6 @@ function changeChartType() {
       stockDeck = data?.getStockDeck;
       correlationList = data?.getCorrelation?.correlation;
       marketMoods = data?.getBullBearSay;
-      taRating = data?.getStockTARating;
       communitySentiment = data?.getCommunitySentiment;
     
       similarstock = data?.getSimilarStock;
@@ -1428,14 +1423,14 @@ function changeChartType() {
   
                                  
                               
-  
-                                  <div class="w-full pt-10 m-auto sm:pl-6 sm:pb-6 sm:pt-6 rounded-2xl {Object?.keys(taRating)?.length !== 0 ? '' : 'hidden'} ">
-                                      {#if TARating}
-                                      <TARating taRating = {data?.getStockTARating}/>
-                                      {/if}
-                                  </div>
-  
-  
+                                  <Lazy>
+                                    <div class="w-full pt-10 m-auto sm:pl-6 sm:pb-6 sm:pt-6 rounded-2xl {!$taRatingComponent ? 'hidden' : ''}">
+                                      {#await import('$lib/components/TARating.svelte') then {default: Comp}}
+                                        <svelte:component this={Comp} data={data}/>
+                                      {/await}
+                                    </div>
+                                  </Lazy>
+
   
                   
                                   <!--Start DCF -->

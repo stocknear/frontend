@@ -2,7 +2,6 @@
 const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
 let companyName;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
 
 
 function cleanString(input) {
@@ -30,7 +29,7 @@ function cleanString(input) {
     return input?.replace(pattern, '')?.trim();
   }
 
-const fetchData = async (apiURL, endpoint, ticker) => {
+const fetchData = async (apiURL, apiKey, endpoint, ticker) => {
 
   const postData = {
     ticker: ticker
@@ -89,11 +88,18 @@ async function fetchPortfolio(fastifyURL, userId)
 
 export const load = async ({ params, locals, setHeaders}) => {
     
-    const userRegion = locals.region?.split("::")[0];
+    const userRegion = locals?.region?.split("::")[0];
 
-    let apiURL;
-
-    let fastifyURL;
+    let apiURL = locals?.apiURL;
+    let fastifyURL = locals?.fastifyURL;
+    let apiKey = locals?.apiKey;
+    let wsURL;
+    
+    if (usRegion?.includes(userRegion)) {
+        wsURL = import.meta.env.VITE_USEAST_WS_URL;
+    } else {
+        wsURL = import.meta.env.VITE_EU_WS_URL;
+    };
 
     if (usRegion?.includes(userRegion)) {
         apiURL = import.meta.env.VITE_USEAST_API_URL;
@@ -107,16 +113,15 @@ export const load = async ({ params, locals, setHeaders}) => {
 
 
 const promises = [
-    fetchData(apiURL,'/etf-profile', params.tickerID),
-    fetchData(apiURL,'/similar-etfs',  params.tickerID),
-    fetchData(apiURL,'/etf-country-weighting', params.tickerID),
-    fetchData(apiURL,'/stock-correlation', params.tickerID),
-    fetchData(apiURL,'/etf-holdings',  params.tickerID),
-    fetchData(apiURL,'/stock-dividend',params.tickerID),
-    fetchData(apiURL,'/stock-quote',  params.tickerID),
-    fetchData(apiURL,'/stock-rating', params.tickerID),
-    fetchData(apiURL,'/wiim',params.tickerID),
-    fetchData(apiURL,'/one-day-price',params.tickerID),
+    fetchData(apiURL,apiKey, '/etf-profile', params.tickerID),
+    fetchData(apiURL,apiKey, '/similar-etfs',  params.tickerID),
+    fetchData(apiURL,apiKey, '/etf-country-weighting', params.tickerID),
+    fetchData(apiURL,apiKey, '/stock-correlation', params.tickerID),
+    fetchData(apiURL,apiKey, '/etf-holdings',  params.tickerID),
+    fetchData(apiURL,apiKey, '/stock-dividend',params.tickerID),
+    fetchData(apiURL,apiKey, '/stock-quote',  params.tickerID),
+    fetchData(apiURL,apiKey, '/wiim',params.tickerID),
+    fetchData(apiURL,apiKey, '/one-day-price',params.tickerID),
     fetchWatchlist(fastifyURL, locals?.user?.id),
     fetchPortfolio(fastifyURL, locals?.user?.id)
   ];
@@ -129,7 +134,6 @@ const promises = [
     getETFHoldings,
     getStockDividend,
     getStockQuote,
-    getStockTARating,
     getWhyPriceMoved,
     getOneDayPrice,
     getUserWatchlist,
@@ -150,12 +154,12 @@ const promises = [
     getETFHoldings,
     getStockDividend,
     getStockQuote,
-    getStockTARating,
     getWhyPriceMoved,
     getOneDayPrice,
     getUserWatchlist,
     getUserPortfolio,
     companyName,
+    wsURL,
   };
 
   

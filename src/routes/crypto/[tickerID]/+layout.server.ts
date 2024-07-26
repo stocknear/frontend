@@ -3,9 +3,7 @@ const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
 let companyName;
 
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-const fetchData = async (apiURL, endpoint, ticker) => {
+const fetchData = async (apiURL, apiKey, endpoint, ticker) => {
 
   const postData = {
     ticker: ticker
@@ -64,29 +62,26 @@ async function fetchPortfolio(fastifyURL, userId)
 
 export const load = async ({ params, locals, setHeaders}) => {
 
- 
-    const userRegion = locals.region?.split("::")[0];
 
-    let apiURL;
+    const userRegion = locals?.region?.split("::")[0];
 
-    let fastifyURL;
-
+    let apiURL = locals?.apiURL;
+    let fastifyURL = locals?.fastifyURL;
+    let apiKey = locals?.apiKey;
+    let wsURL;
+    
     if (usRegion?.includes(userRegion)) {
-        apiURL = import.meta.env.VITE_USEAST_API_URL;
-        fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
+        wsURL = import.meta.env.VITE_USEAST_WS_URL;
     } else {
-        apiURL = import.meta.env.VITE_EU_API_URL;
-        fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
+        wsURL = import.meta.env.VITE_EU_WS_URL;
     };
   
-    
 
 
     const promises = [
-    fetchData(apiURL,'/crypto-profile',params.tickerID),
-    fetchData(apiURL,'/stock-quote',params.tickerID),
-    fetchData(apiURL,'/stock-rating',params.tickerID),
-    fetchData(apiURL,'/one-day-price',params.tickerID),
+    fetchData(apiURL,apiKey,'/crypto-profile',params.tickerID),
+    fetchData(apiURL,apiKey,'/stock-quote',params.tickerID),
+    fetchData(apiURL,apiKey,'/one-day-price',params.tickerID),
     fetchWatchlist(fastifyURL, locals?.user?.id),
     fetchPortfolio(fastifyURL, locals?.user?.id)
   ];
@@ -94,7 +89,6 @@ export const load = async ({ params, locals, setHeaders}) => {
   const [
     getCryptoProfile,
     getStockQuote,
-    getStockTARating,
     getOneDayPrice,
     getUserWatchlist,
     getUserPortfolio,
@@ -109,7 +103,6 @@ export const load = async ({ params, locals, setHeaders}) => {
   return {
     getCryptoProfile,
     getStockQuote,
-    getStockTARating,
     getOneDayPrice,
     getUserWatchlist,
     getUserPortfolio,

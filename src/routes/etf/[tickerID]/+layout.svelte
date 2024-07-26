@@ -1,6 +1,6 @@
 <script lang='ts'>
 
-    import {searchBarData, globalForm, userRegion, screenWidth, openPriceAlert, currentPortfolioPrice, realtimePrice, isCrosshairMoveActive, currentPrice, priceIncrease, displayCompanyName, traded, etfTicker, assetType, isOpen } from '$lib/store';
+    import {searchBarData, globalForm, screenWidth, openPriceAlert, currentPortfolioPrice, realtimePrice, isCrosshairMoveActive, currentPrice, priceIncrease, displayCompanyName, traded, etfTicker, assetType, isOpen } from '$lib/store';
 
     import { onMount, onDestroy, afterUpdate} from "svelte";
     import { goto } from '$app/navigation';
@@ -19,25 +19,6 @@
   $realtimePrice = null;
     
   
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-  
-let fastifyURL;
-let wsURL;
-let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-
-userRegion?.subscribe(value => {
-if (usRegion?.includes(value)) {
-  apiURL = import.meta.env.VITE_USEAST_API_URL;
-  fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-  wsURL = import.meta.env.VITE_USEAST_WS_URL;
-} else {
-  apiURL = import.meta.env.VITE_EU_API_URL;
-  fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-  wsURL = import.meta.env.VITE_EU_WS_URL;
-}
-});
 
 async function loadSearchData() {
     
@@ -48,10 +29,10 @@ async function loadSearchData() {
     else {
   
        // make the GET request to the endpoint
-       const response = await fetch(apiURL+'/searchbar-data', {
+       const response = await fetch(data?.apiURL+'/searchbar-data', {
       method: 'GET',
       headers: {
-          "Content-Type": "application/json","X-API-KEY": apiKey
+          "Content-Type": "application/json","X-API-KEY": data?.apiKey
       },
       });
   
@@ -187,7 +168,7 @@ async function toggleUserWatchlist(watchListId: string) {
       'ticker': $etfTicker,
     };
 
-    const response = await fetch(fastifyURL + '/update-watchlist', {
+    const response = await fetch(data?.fastifyURL + '/update-watchlist', {
       method: 'POST',
       headers: {
          "Content-Type": "application/json"
@@ -221,7 +202,7 @@ async function fetchPortfolio()
 {
   const postData = {'userId': data?.user?.id};
 
-    const response = await fetch(fastifyURL+'/get-portfolio-data', {
+    const response = await fetch(data?.fastifyURL+'/get-portfolio-data', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
@@ -257,7 +238,7 @@ async function fetchPortfolio()
   
     previousTicker = $etfTicker;
     try {
-      socket = new WebSocket(wsURL+"/realtime-data");
+      socket = new WebSocket(data?.wsURL+"/realtime-data");
   
       socket.addEventListener('open', () => {
         //console.log('WebSocket connection opened');
