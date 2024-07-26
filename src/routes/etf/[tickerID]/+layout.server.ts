@@ -1,107 +1,48 @@
-let companyName;
-
-
-function cleanString(input) {
-    // Define a list of substrings to remove (case insensitive)
-    const substringsToRemove = [
-      'Depositary',
-      'Inc.',
-      'Incorporated',
-      'Holdings',
-      'Corporation',
-      'Corporations',
-      'LLC',
-      'Holdings plc American Depositary Shares',
-      'Holding Corporation',
-      'Oyj',
-      'Company',
-      'The',
-      'plc',
-    ];
-  
-    // Create a regular expression pattern that matches any of the substrings surrounded by word boundaries
-    const pattern = new RegExp(`\\b(${substringsToRemove.join('|')})\\b|,`, 'gi');
-  
-    // Use the replace method to remove the specified substrings and commas, then trim the result
-    return input?.replace(pattern, '')?.trim();
-  }
-
-const fetchData = async (apiURL, apiKey, endpoint, ticker) => {
-
-  const postData = {
-    ticker: ticker
-  };
-
-  const response = await fetch(apiURL + endpoint, {
-    method: 'POST',
-    headers: {
-      "Content-Type": "application/json", "X-API-KEY": apiKey
-    },
-    body: JSON.stringify(postData)
-  });
-
-  const output = await response.json();
-
-
-  if(endpoint === '/etf-profile')
-    {
-      companyName = cleanString(output?.at(0)?.name);
-    }
-  return output;
+const cleanString = (input) => {
+  const substringsToRemove = [
+    'Depositary', 'Inc.', 'Incorporated', 'Holdings', 'Corporation', 'Corporations',
+    'LLC', 'Holdings plc American Depositary Shares', 'Holding Corporation', 'Oyj',
+    'Company', 'The', 'plc',
+  ];
+  const pattern = new RegExp(`\\b(${substringsToRemove.join('|')})\\b|,`, 'gi');
+  return input?.replace(pattern, '').trim();
 };
 
-const fetchWatchlist = async (fastifyURL, userId) => {
+const fetchData = async (apiURL, apiKey, endpoint, ticker) => {
+  const response = await fetch(`${apiURL}${endpoint}`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+      "X-API-KEY": apiKey
+    },
+    body: JSON.stringify({ ticker })
+  });
+  return response.json();
+};
 
-    const postData = {'userId': userId}
-    const response = await fetch(fastifyURL+'/all-watchlists', {
-        method: 'POST',
-        headers: {
-         "Content-Type": "application/json"
-        },
-        body: JSON.stringify(postData)
-    });
+const fetchFromFastify = async (fastifyURL, endpoint, userId) => {
+  const response = await fetch(`${fastifyURL}${endpoint}`, {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId })
+  });
+  const { items } = await response.json();
+  return items;
+};
 
+export const load = async ({ params, locals, setHeaders }) => {
+  const { apiURL, fastifyURL, apiKey, wsURL, user } = locals;
+  const { tickerID } = params;
 
-    const output = (await response.json())?.items;
-    return output;
-}
+  const endpoints = [
+    '/etf-profile', '/similar-etfs', '/etf-country-weighting', '/etf-holdings',
+    '/stock-dividend', '/stock-quote', '/wiim', '/one-day-price'
+  ];
 
-async function fetchPortfolio(fastifyURL, userId)
-{
-  const postData = {'userId': userId};
-
-    const response = await fetch(fastifyURL+'/get-portfolio-data', {
-      method: 'POST',
-      headers: {
-       "Content-Type": "application/json"
-      },
-      body: JSON.stringify(postData)
-    });
-
-    const output = (await response.json())?.items;
-    
-    return output
-}
-
-export const load = async ({ params, locals, setHeaders}) => {
-    
-  let apiURL = locals?.apiURL;
-  let fastifyURL = locals?.fastifyURL;
-  let apiKey = locals?.apiKey;
-  let wsURL = locals?.wsURL;
-
-
-const promises = [
-    fetchData(apiURL,apiKey, '/etf-profile', params.tickerID),
-    fetchData(apiURL,apiKey, '/similar-etfs',  params.tickerID),
-    fetchData(apiURL,apiKey, '/etf-country-weighting', params.tickerID),
-    fetchData(apiURL,apiKey, '/etf-holdings',  params.tickerID),
-    fetchData(apiURL,apiKey, '/stock-dividend',params.tickerID),
-    fetchData(apiURL,apiKey, '/stock-quote',  params.tickerID),
-    fetchData(apiURL,apiKey, '/wiim',params.tickerID),
-    fetchData(apiURL,apiKey, '/one-day-price',params.tickerID),
-    fetchWatchlist(fastifyURL, locals?.user?.id),
-    fetchPortfolio(fastifyURL, locals?.user?.id)
+  const promises = [
+    ...endpoints.map(endpoint => fetchData(apiURL, apiKey, endpoint, tickerID)),
+    fetchFromFastify(fastifyURL, '/all-watchlists', user?.id),
+    fetchFromFastify(fastifyURL, '/get-portfolio-data', user?.id)
   ];
 
   const [
@@ -117,11 +58,7 @@ const promises = [
     getUserPortfolio,
   ] = await Promise.all(promises);
 
-  
-  setHeaders({
-    'cache-control': 'public, max-age=300'
-    });
-  
+  setHeaders({ 'cache-control': 'public, max-age=300' });
 
   return {
     getETFProfile,
@@ -134,9 +71,7 @@ const promises = [
     getOneDayPrice,
     getUserWatchlist,
     getUserPortfolio,
-    companyName,
+    companyName: cleanString(getETFProfile?.[0]?.name),
     wsURL,
   };
-
-  
 };
