@@ -1,4 +1,4 @@
-import { userRegion, isOpen} from '$lib/store';
+import {isOpen} from '$lib/store';
 
 
 const checkMarketHour = async () => {
@@ -19,31 +19,10 @@ const checkMarketHour = async () => {
 }
 
 
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-let apiURL;
-let wsURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-
-userRegion.subscribe(value => {
-
-  if (usRegion?.includes(value)) {
-    apiURL = import.meta.env.VITE_USEAST_API_URL;
-    wsURL = import.meta.env.VITE_USEAST_WS_URL;
-  } else {
-    apiURL = import.meta.env.VITE_EU_API_URL;
-    wsURL = import.meta.env.VITE_EU_WS_URL;
-  }
-});
-
-
-
-
-
-export const load = async () => {
+export const load = async ({parent}) => {
   await checkMarketHour();
-
+  const { apiURL, apiKey } = await parent();
+  
   const getOptionsZeroDTE = async () => {
     // make the POST request to the endpoint
     const response = await fetch(apiURL + '/options-zero-dte', {

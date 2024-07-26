@@ -11,12 +11,14 @@ export const handle = async ({ event, resolve }) => {
     const pbUrl = import.meta.env[isUsRegion ? 'VITE_USEAST_POCKETBASE_URL' : 'VITE_EU_POCKETBASE_URL'];
     const apiURL = import.meta.env[isUsRegion ? 'VITE_USEAST_API_URL' : 'VITE_EU_API_URL'];
     const fastifyURL = import.meta.env[isUsRegion ? 'VITE_USEAST_FASTIFY_URL' : 'VITE_EU_FASTIFY_URL'];
+    const wsURL = import.meta.env[isUsRegion ? 'VITE_USEAST_WS_URL' : 'VITE_EU_WS_URL'];
 
     event.locals = {
         region: decodeURIComponent(regionHeader),
         pb: new PocketBase(pbUrl),
         apiURL,
         fastifyURL,
+        wsURL,
         apiKey: import.meta.env.VITE_STOCKNEAR_API_KEY
     };
 

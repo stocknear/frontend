@@ -1,65 +1,31 @@
-import { userRegion, displayCompanyName, getCache, setCache } from '$lib/store';
+import { displayCompanyName, getCache, setCache } from '$lib/store';
 
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-  let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-
-  userRegion?.subscribe(value => {
-    if (usRegion?.includes(value)) {
-      apiURL = import.meta.env.VITE_USEAST_API_URL;
-    } else {
-      apiURL = import.meta.env.VITE_EU_API_URL;
-    }
-  });
-
-
-export const load = async ({ params }) => {
-
+export const load = async ({ parent, params }) => {
   const getHedgeFundsData = async () => {
-    let output;
-
-    // Get cached data for the specific tickerID
     const cachedData = getCache(params.slug, 'getHedgeFundsData');
-    if (cachedData) {
-      output = cachedData;
-    } 
-    else {
+    if (cachedData) return cachedData;
 
-    
-      const postData = {
-        cik: params.slug
-      };
+    const { apiURL, apiKey } = await parent();
+    const response = await fetch(apiURL+'/cik-data', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": apiKey
+      },
+      body: JSON.stringify({ cik: params.slug })
+    });
 
-        // make the POST request to the endpoint
-        const response = await fetch(apiURL + '/cik-data', {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json", "X-API-KEY": apiKey
-          },
-          body: JSON.stringify(postData)
-        });
+    const output = await response.json();
 
-        output = await response.json();
+    if (output?.holdings) {
+      output.holdings = output?.holdings?.filter(item => item?.sharesNumber && item?.symbol);
+    }
 
-        // Cache the data for this specific tickerID with a specific name 'getHedgeFundsData'
-        try {
-          output.holdings = output?.holdings?.filter(item => item?.sharesNumber !== 0 && item?.symbol !== null); //item?.symbol !== null
-        } catch(e) {
-          console.log(e)
-        }
-        
-        setCache(params.slug, output, 'getHedgeFundsData');
-      }
-      
-
-  
-    displayCompanyName.update(value => output?.name ?? params.slug)
+    setCache(params.slug, output, 'getHedgeFundsData');
+    displayCompanyName.update(() => output?.name ?? params.slug);
     return output;
   };
 
-  // Make sure to return a promise
   return {
     getHedgeFundsData: await getHedgeFundsData()
   };

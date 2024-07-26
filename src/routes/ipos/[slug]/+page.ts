@@ -1,24 +1,6 @@
-import { userRegion, getCache, setCache } from '$lib/store';
+import { getCache, setCache } from '$lib/store';
 
-
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-
-userRegion.subscribe(value => {
-
-  if (usRegion?.includes(value)) {
-    apiURL = import.meta.env.VITE_USEAST_API_URL;
-  } else {
-    apiURL = import.meta.env.VITE_EU_API_URL;
-  }
-});
-
-
-
-export const load = async ({params}) => {
+export const load = async ({parent, params}) => {
   const getIPOCalendar = async () => {
     let output;
 
@@ -28,13 +10,14 @@ export const load = async ({params}) => {
       output = cachedData;
     } else {
 
+      const data = await parent();
       // make the POST request to the endpoint
       const postData = {'year': params.slug};
 
-      const response = await fetch(apiURL + '/ipo-calendar', {
+      const response = await fetch(data?.apiURL + '/ipo-calendar', {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
+          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
         },
         body: JSON.stringify(postData),
       });

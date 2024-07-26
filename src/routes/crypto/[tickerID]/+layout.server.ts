@@ -1,5 +1,4 @@
 
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
 
 let companyName;
 
@@ -63,20 +62,9 @@ async function fetchPortfolio(fastifyURL, userId)
 export const load = async ({ params, locals, setHeaders}) => {
 
 
-    const userRegion = locals?.region?.split("::")[0];
-
-    let apiURL = locals?.apiURL;
-    let fastifyURL = locals?.fastifyURL;
-    let apiKey = locals?.apiKey;
-    let wsURL;
-    
-    if (usRegion?.includes(userRegion)) {
-        wsURL = import.meta.env.VITE_USEAST_WS_URL;
-    } else {
-        wsURL = import.meta.env.VITE_EU_WS_URL;
-    };
-  
-
+  let apiURL = locals?.apiURL;
+  let fastifyURL = locals?.fastifyURL;
+  let apiKey = locals?.apiKey;
 
     const promises = [
     fetchData(apiURL,apiKey,'/crypto-profile',params.tickerID),

@@ -1,6 +1,4 @@
 
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
 let companyName;
 
 function cleanString(input) {
@@ -117,22 +115,12 @@ async function fetchCommunitySentiment(pb, ticker, cookies)
 
 export const load = async ({ params, locals, cookies, setHeaders}) => {
   
-  const userRegion = locals?.region?.split("::")[0];
-
     let apiURL = locals?.apiURL;
     let fastifyURL = locals?.fastifyURL;
     let apiKey = locals?.apiKey;
-    let wsURL;
+    let wsURL = locals?.wsURL;
     
-    if (usRegion?.includes(userRegion)) {
-        wsURL = import.meta.env.VITE_USEAST_WS_URL;
-    } else {
-        wsURL = import.meta.env.VITE_EU_WS_URL;
-    };
   
-    
-    
-
     const promises = [
     fetchData(apiURL,apiKey, '/similar-stocks',params.tickerID),
     fetchData(apiURL,apiKey, '/stockdeck',params.tickerID),

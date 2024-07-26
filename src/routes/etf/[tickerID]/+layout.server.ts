@@ -1,6 +1,3 @@
-
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
 let companyName;
 
 
@@ -88,28 +85,10 @@ async function fetchPortfolio(fastifyURL, userId)
 
 export const load = async ({ params, locals, setHeaders}) => {
     
-    const userRegion = locals?.region?.split("::")[0];
-
-    let apiURL = locals?.apiURL;
-    let fastifyURL = locals?.fastifyURL;
-    let apiKey = locals?.apiKey;
-    let wsURL;
-    
-    if (usRegion?.includes(userRegion)) {
-        wsURL = import.meta.env.VITE_USEAST_WS_URL;
-    } else {
-        wsURL = import.meta.env.VITE_EU_WS_URL;
-    };
-
-    if (usRegion?.includes(userRegion)) {
-        apiURL = import.meta.env.VITE_USEAST_API_URL;
-        fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-    } else {
-        apiURL = import.meta.env.VITE_EU_API_URL;
-        fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-    };
-  
-    
+  let apiURL = locals?.apiURL;
+  let fastifyURL = locals?.fastifyURL;
+  let apiKey = locals?.apiKey;
+  let wsURL = locals?.wsURL;
 
 
 const promises = [
