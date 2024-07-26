@@ -116,9 +116,8 @@ async function fetchCommunitySentiment(pb, ticker, cookies)
 }
 
 export const load = async ({ params, locals, cookies, setHeaders}) => {
-
- 
-    const userRegion = locals?.region?.split("::")[0];
+  
+  const userRegion = locals?.region?.split("::")[0];
 
     let apiURL = locals?.apiURL;
     let fastifyURL = locals?.fastifyURL;

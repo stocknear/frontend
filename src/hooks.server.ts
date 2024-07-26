@@ -25,9 +25,9 @@ export const handle = async ({ event, resolve }) => {
 	const userRegion = event?.locals?.region?.split("::")?.at(0)?.split("::")?.at(0) || '';
 
 	// Set a default API URL
-	let pbUrl = import.meta.env.VITE_EU_POCKETBASE_URL; 
-	let apiURL = import.meta.env.VITE_EU_API_URL;
-	let fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
+	let pbUrl;
+	let apiURL;
+	let fastifyURL;
 	let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
 
 
@@ -47,20 +47,19 @@ export const handle = async ({ event, resolve }) => {
 	event.locals.pb = new PocketBase(pbUrl);
 	event.locals.pb.authStore.loadFromCookie(event?.request?.headers?.get('cookie') || '');
 
+	event.locals.apiURL = apiURL;
+	event.locals.fastifyURL = fastifyURL;
+	event.locals.apiKey = apiKey;
+
 	try {
 		if (event?.locals?.pb?.authStore?.isValid) {
 			await event?.locals?.pb?.collection('users')?.authRefresh();
 			event.locals.user = serializeNonPOJOs(event?.locals?.pb?.authStore?.model);
-			event.locals.apiURL = apiURL;
-			event.locals.fastifyURL = fastifyURL;
-			event.locals.apiKey = apiKey;
+			
 		}
 	} catch(_) {
 		event?.locals?.pb?.authStore?.clear();
 		event.locals.user = undefined;
-		event.locals.apiURL = apiURL;
-		event.locals.fastifyURL = fastifyURL;
-		event.locals.apiKey = apiKey;
 	}
 
 	
