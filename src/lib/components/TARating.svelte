@@ -78,7 +78,6 @@ async function getTaRating(ticker) {
     else {
       $taRatingComponent = false;
     }
-    console.log($taRatingComponent)
   }
   
 

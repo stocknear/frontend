@@ -80,6 +80,7 @@ export const governmentContractComponent= writable(<boolean>(false));
 export const analystInsightComponent= writable(<boolean>(false));
 export const swapComponent= writable(<boolean>(false));
 export const taRatingComponent= writable(<boolean>(false));
+export const dcfComponent= writable(<boolean>(false));
 
 
 

@@ -134,7 +134,6 @@ export const load = async ({ params, locals, cookies, setHeaders}) => {
     
 
     const promises = [
-    fetchData(apiURL,apiKey, '/fair-price',params.tickerID),
     fetchData(apiURL,apiKey, '/similar-stocks',params.tickerID),
     fetchData(apiURL,apiKey, '/stockdeck',params.tickerID),
     fetchData(apiURL,apiKey, '/stock-correlation',params.tickerID),
@@ -150,7 +149,6 @@ export const load = async ({ params, locals, cookies, setHeaders}) => {
   ];
 
   const [
-    getFairPrice,
     getSimilarStock,
     getStockDeck,
     getCorrelation,
@@ -172,7 +170,6 @@ export const load = async ({ params, locals, cookies, setHeaders}) => {
     
 
   return {
-    getFairPrice,
     getSimilarStock,
     getStockDeck,
     getCorrelation,

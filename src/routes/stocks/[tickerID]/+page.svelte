@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
   import { TrackingModeExitMode } from 'lightweight-charts';
-  import {getCache, setCache, taRatingComponent, swapComponent, analystInsightComponent, governmentContractComponent, optionsNetFlowComponent, impliedVolatilityComponent, borrowedShareComponent, clinicalTrialComponent, optionComponent, failToDeliverComponent, marketMakerComponent, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
+  import {getCache, setCache, dcfComponent, taRatingComponent, swapComponent, analystInsightComponent, governmentContractComponent, optionsNetFlowComponent, impliedVolatilityComponent, borrowedShareComponent, clinicalTrialComponent, optionComponent, failToDeliverComponent, marketMakerComponent, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
   import CommunitySentiment from '$lib/components/CommunitySentiment.svelte';
@@ -16,7 +16,6 @@
     let displayChartType = 'line';
   
     let stockDeck = data?.getStockDeck ?? [];
-    let fairPrice = data?.getFairPrice ?? [];
     let correlationList = data?.getCorrelation?.correlation ?? [];
     let prePostData = {};
     let similarstock = [];
@@ -664,7 +663,6 @@ function changeChartType() {
       output = null;
   
   
-      fairPrice = data?.getFairPrice;
       stockDeck = data?.getStockDeck;
       correlationList = data?.getCorrelation?.correlation;
       marketMoods = data?.getBullBearSay;
@@ -1434,14 +1432,11 @@ function changeChartType() {
   
                   
                                   <!--Start DCF -->
-                                  <div class="w-full pt-10 sm:pl-6 sm:pb-6 sm:pt-6 m-auto {fairPrice !== null && fairPrice > 0 ? '' : 'hidden'}">
-                                    <Lazy>
-                                      <div class="w-full m-auto rounded-2xl mb-5">
-                                      {#await import('$lib/components/DCF.svelte') then {default: Comp}}
-                                        <svelte:component this={Comp} data = {data} fairPrice = {fairPrice} currentPrice = {currentPrice}/>
-                                      {/await}
-                                      </div>
-                                      </Lazy>
+                   
+                                  <div class="w-full pt-10 sm:pl-6 sm:pb-6 sm:pt-6 m-auto {!$dcfComponent ? 'hidden' : ''}">
+                                    {#await import('$lib/components/DCF.svelte') then {default: Comp}}
+                                      <svelte:component this={Comp} data={data}/>
+                                    {/await}
                                   </div>
                                   <!--End DCF-->
   
