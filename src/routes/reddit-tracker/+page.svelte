@@ -84,6 +84,7 @@ function getPlotOptions() {
 
   const optionPost = {
     silent: true,
+    animation: $screenWidth < 640 ? false: true,
     tooltip: {
         trigger: 'axis',
         hideDelay: 100, // Set the delay in milliseconds
@@ -92,7 +93,7 @@ function getPlotOptions() {
     left: '3%',
     right: '4%',
     bottom: '0%',
-    top: '5%',
+    top: $screenWidth < 640 ? '20%' : '10%',
     containLabel: true
   },
   xAxis: [
@@ -142,6 +143,7 @@ function getPlotOptions() {
   
 const optionComment = {
     silent: true,
+    animation: $screenWidth < 640 ? false: true,
     tooltip: {
         trigger: 'axis',
         hideDelay: 100, // Set the delay in milliseconds
@@ -150,7 +152,7 @@ const optionComment = {
     left: '3%',
     right: '4%',
     bottom: '0%',
-    top: '5%',
+    top: $screenWidth < 640 ? '20%' : '10%',
     containLabel: true
   },
   xAxis: [
@@ -200,6 +202,7 @@ const optionComment = {
   
 const optionCompanySpread = {
     silent: true,
+    animation: $screenWidth < 640 ? false: true,
     tooltip: {
         trigger: 'axis',
         hideDelay: 100, // Set the delay in milliseconds
@@ -208,7 +211,7 @@ const optionCompanySpread = {
     left: '3%',
     right: '4%',
     bottom: '0%',
-    top: '10%',
+    top: $screenWidth < 640 ? '20%' : '10%',
     containLabel: true
   },
   xAxis: [
@@ -262,17 +265,6 @@ const optionCompanySpread = {
   })
     
     
-    let charNumber = 40;
-    $: {
-      if ($screenWidth < 640)
-      {
-        charNumber = 15;
-      }
-      else {
-        charNumber = 40;
-      }
-    }
-    
           
     </script>
     
@@ -317,7 +309,7 @@ const optionCompanySpread = {
       </div>
 
       <div class="text-start w-full text-gray-300 text-[1rem]">
-        <span class="font-semibold text-white">Description:</span> Like 4chan found a Bloomberg Terminal. 
+        <span class="font-semibold text-white">Description:</span> <br> Like 4chan found a Bloomberg Terminal. 
       </div>
     </div>
       
@@ -333,7 +325,7 @@ const optionCompanySpread = {
                   <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:gap-8">
                     <Card.Root>
                       <Card.Header class="flex flex-col items-start space-y-0 pb-2">
-                        <Card.Title class="text-start text-[1rem] sm:text-2xl font-semibold pb-2">Post Activity</Card.Title>
+                        <Card.Title class="text-start text-xl sm:text-2xl font-semibold pb-2">Post Activity</Card.Title>
                         <Card.Description class="text-gray-300 text-sm pb-2">Number of Posts in the last 24 hours:</Card.Description>
                         <Card.Description class="text-white text-[1rem] pb-2"><span class="text-white font-bold text-2xl">
                           +{postList?.at(-1)}
@@ -355,7 +347,7 @@ const optionCompanySpread = {
 
                     <Card.Root>
                       <Card.Header class="flex flex-col items-start space-y-0 pb-2">
-                        <Card.Title class="text-start text-[1rem] sm:text-2xl font-semibold pb-2">Comment Activity</Card.Title>
+                        <Card.Title class="text-start text-xl sm:text-2xl font-semibold pb-2">Comment Activity</Card.Title>
                         <Card.Description class="text-gray-300 text-sm pb-2">Number of Comments in the last 24 hours:</Card.Description>
                         <Card.Description class="text-white text-[1rem] pb-2"><span class="text-white font-bold text-2xl">
                           +{abbreviateNumber(commentList?.at(-1))}
@@ -375,8 +367,8 @@ const optionCompanySpread = {
 
                     <Card.Root>
                       <Card.Header class="flex flex-col items-start space-y-0 pb-2">
-                        <Card.Title class="text-start text-[1rem] sm:text-2xl font-semibold pb-2">Company Spread</Card.Title>
-                        <Card.Description class="text-gray-300 text-sm pb-2">Number of Tickers discussed in the last 24 hours:</Card.Description>
+                        <Card.Title class="text-start text-xl sm:text-2xl font-semibold pb-2">Company Spread</Card.Title>
+                        <Card.Description class="text-start text-gray-300 text-sm pb-2">Number of Tickers discussed in the last 24 hours:</Card.Description>
                         <Card.Description class="text-white text-[1rem] pb-2"><span class="text-white font-bold text-2xl">
                           +{numCompanyList?.at(-1)}
                           </span> discussed today
@@ -401,7 +393,7 @@ const optionCompanySpread = {
                       <Card.Header class="flex flex-row items-center">
                         <div class="flex flex-col items-start w-full">
                           <div class="flex flex-row w-full items-center">
-                            <Card.Title class="text-xl sm:text-2xl tex-white font-semibold">Latest Posts</Card.Title>
+                            <Card.Title class="text-xl sm:text-2xl text-white font-semibold">Latest Posts</Card.Title>
                           </div>
                         </div>
                       </Card.Header>
@@ -514,7 +506,7 @@ const optionCompanySpread = {
       
       @media (max-width: 640px) {
       .app {
-        height: 210px;
+        height: 120px;
       }
       }
       
