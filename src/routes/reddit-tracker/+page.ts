@@ -4,17 +4,17 @@ import {getCache, setCache } from '$lib/store';
 
 export const load = async ({parent}) => {
 
-  const getCramerTracker = async () => {
+  const getRedditTracker = async () => {
     let output;
 
-    const cachedData = getCache('', 'getCramerTracker');
+    const cachedData = getCache('', 'getRedditTracker');
     if (cachedData) {
       output = cachedData;
     } else {
     
     const { apiKey, apiURL } = await parent();
 
-    const response = await fetch(apiURL + '/cramer-tracker', {
+    const response = await fetch(apiURL + '/reddit-tracker', {
       method: 'GET',
       headers: {
         "Content-Type": "application/json", "X-API-KEY": apiKey
@@ -23,7 +23,7 @@ export const load = async ({parent}) => {
 
     output = await response.json();
 
-    setCache('', output, 'getCramerTracker');
+    setCache('', output, 'getRedditTracker');
 
     }
 
@@ -34,6 +34,6 @@ export const load = async ({parent}) => {
 
   // Make sure to return a promise
   return {
-    getCramerTracker: await getCramerTracker()
+    getRedditTracker: await getRedditTracker()
   };
 };

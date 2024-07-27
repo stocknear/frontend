@@ -3,7 +3,6 @@
   import { onMount } from 'svelte';
  
   import * as Avatar from "$lib/components/shadcn/avatar/index.js";
-  import { Button } from "$lib/components/shadcn/button/index.ts";
   import * as Card from "$lib/components/shadcn/card/index.ts";
   import * as Table from "$lib/components/shadcn/table/index.ts";
   import ArrowUpRight from "lucide-svelte/icons/arrow-up-right";
@@ -18,6 +17,10 @@
   export let data;
 
   const quickInfo = data?.getDashboard?.quickInfo;
+
+function reformatDate(dateString) {
+    return dateString.substring(5, 7) + '/' + dateString.substring(8) + '/' + dateString.substring(2, 4);
+}
 
 function latestInfoDate(inputDate) {
     // Convert the input date string to milliseconds since epoch
@@ -219,7 +222,7 @@ onMount( async() => {
                         {item?.put_call}
                       </Table.Cell>
                       
-                      <Table.Cell class="text-right">07/26/24</Table.Cell>
+                      <Table.Cell class="text-right">{reformatDate(item?.date_expiration)}</Table.Cell>
                     </Table.Row>
                     {/each}
                   </Table.Body>
