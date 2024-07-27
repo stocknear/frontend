@@ -389,7 +389,7 @@ const optionCompanySpread = {
                   </div>
 
                   <div class="mt-10 grid gap-4 md:gap-8 grid-cols-1 md:grid-cols-2 text-start">
-                    <Card.Root class=" overflow-x-scroll h-[500px]">
+                    <Card.Root class="order-1 sm:order-0 overflow-x-scroll h-[500px]">
                       <Card.Header class="flex flex-row items-center">
                         <div class="flex flex-col items-start w-full">
                           <div class="flex flex-row w-full items-center">
@@ -397,7 +397,7 @@ const optionCompanySpread = {
                           </div>
                         </div>
                       </Card.Header>
-                      <Card.Content>
+                      <Card.Content class="p-3 sm:p-6">
                         {#each data?.getRedditTracker?.posts as item}
                         <div class="flex flex-col items-start mb-3 p-3 border border-gray-800 rounded-lg bg-[#141417]">
                           <div class="text-[1rem] font-semibold mb-3">
@@ -424,11 +424,11 @@ const optionCompanySpread = {
                           </label>
 
 
-                          <div class="flex flex-row items-center justify-between w-full mt-3">
+                          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full mt-3">
                             <a href={'https://www.reddit.com/user/'+item?.author} rel="noopener noreferrer" target="_blank"  class="text-xs text-white sm:hover:text-blue-400">
                               Posted by {item?.author}
                             </a>
-                            <a href={'https://www.reddit.com'+item?.permalink} rel="noopener noreferrer" target="_blank"  class="text-xs text-white sm:hover:text-blue-400">
+                            <a href={'https://www.reddit.com'+item?.permalink} rel="noopener noreferrer" target="_blank"  class="mt-2 sm:mt-0 text-xs text-white sm:hover:text-blue-400">
                               {formatUtcTimestamp(item?.created_utc)}
                               <Link class="h-3 w-3 inline-block shrink-0 -mt-1 ml-1" />
                             </a>
@@ -439,7 +439,7 @@ const optionCompanySpread = {
                         {/each}
                       </Card.Content>
                     </Card.Root>
-                    <Card.Root class=" overflow-x-scroll h-[500px]">
+                    <Card.Root class="order-0 sm:order-1 overflow-x-scroll h-[500px]">
                       <Card.Header>
                         <Card.Title class="text-start text-xl w-full flex flex-row items-center">
                           <span>
