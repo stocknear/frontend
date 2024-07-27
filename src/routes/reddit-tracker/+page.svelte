@@ -2,10 +2,14 @@
 import { numberOfUnreadNotification, screenWidth } from '$lib/store';
 import { onMount } from 'svelte';
 import * as Card from "$lib/components/shadcn/card/index.ts";
+import * as Table from "$lib/components/shadcn/table/index.ts";
+
 //import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
 import { abbreviateNumber } from '$lib/utils';
 import { Chart } from 'svelte-echarts'
 import Link from "lucide-svelte/icons/external-link";
+import ThumbsUp from "lucide-svelte/icons/thumbs-up";
+import MessageCircle from "lucide-svelte/icons/message-circle";
 
   export let data;
   let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
@@ -17,6 +21,7 @@ import Link from "lucide-svelte/icons/external-link";
   let postList = [];
   let commentList = [];
   let numCompanyList = [];
+
 
 
   function formatUtcTimestamp(timestamp) {
@@ -203,7 +208,7 @@ const optionCompanySpread = {
     left: '3%',
     right: '4%',
     bottom: '0%',
-    top: '5%',
+    top: '10%',
     containLabel: true
   },
   xAxis: [
@@ -239,7 +244,7 @@ const optionCompanySpread = {
       showSymbol: false,
       data: numCompanyList,
       itemStyle: {
-            color: '#4D9526'
+            color: '#E2E2E2'
           }
     },
   ]
@@ -306,7 +311,7 @@ const optionCompanySpread = {
         <div class="flex-shrink-0 rounded-full w-12 h-12 sm:w-20 sm:h-20 relative bg-[#27272A] flex items-center border border-gray-600 justify-center">
           <img style="clip-path: circle(50%);" class="avatar w-9 h-9 sm:w-16 sm:h-16" src={cloudFrontUrl+'/reddit/wallstreetbets_logo.png'} alt="stock logo"/>
         </div>
-        <h1 class="text-white text-2xl sm:text-4xl font-bold text-start w-full pl-4">
+        <h1 class="text-white text-xl sm:text-4xl font-bold text-start w-full pl-4">
           r/Wallstreetbets Tracker
         </h1>
       </div>
@@ -332,12 +337,16 @@ const optionCompanySpread = {
                         <Card.Description class="text-gray-300 text-sm pb-2">Number of Posts in the last 24 hours:</Card.Description>
                         <Card.Description class="text-white text-[1rem] pb-2"><span class="text-white font-bold text-2xl">
                           +{postList?.at(-1)}
-                        </span> posts today</Card.Description>
+                        </span> posts today
+                      </Card.Description>
+                      <Card.Description class="text-gray-400 text-sm pb-2">
+                        {((postList?.at(-1)/postList?.at(-2) -1)*100)?.toFixed(0)}% from yesterday
+                      </Card.Description>
 
                       </Card.Header>
                       <Card.Content>
                        
-                        <div class="app w-full h-[200px]">
+                        <div class="app w-full h-[150px]">
                           <Chart options={optionGraphPost} class="chart" />
                         </div>
                     
@@ -350,11 +359,15 @@ const optionCompanySpread = {
                         <Card.Description class="text-gray-300 text-sm pb-2">Number of Comments in the last 24 hours:</Card.Description>
                         <Card.Description class="text-white text-[1rem] pb-2"><span class="text-white font-bold text-2xl">
                           +{abbreviateNumber(commentList?.at(-1))}
-                        </span> comments today</Card.Description>
+                          </span> comments today
+                        </Card.Description>
+                        <Card.Description class="text-gray-400 text-sm pb-2">
+                          {((commentList?.at(-1)/commentList?.at(-2) -1)*100)?.toFixed(0)}% from yesterday
+                        </Card.Description>
 
                       </Card.Header>
                       <Card.Content>
-                        <div class="app w-full h-[200px]">
+                        <div class="app w-full h-[150px]">
                           <Chart options={optionGraphComment} class="chart" />
                         </div>
                       </Card.Content>
@@ -366,11 +379,16 @@ const optionCompanySpread = {
                         <Card.Description class="text-gray-300 text-sm pb-2">Number of Tickers discussed in the last 24 hours:</Card.Description>
                         <Card.Description class="text-white text-[1rem] pb-2"><span class="text-white font-bold text-2xl">
                           +{numCompanyList?.at(-1)}
-                        </span> discussed today</Card.Description>
+                          </span> discussed today
+                        </Card.Description>
+
+                        <Card.Description class="text-gray-400 text-sm pb-2">
+                          {((numCompanyList?.at(-1)/numCompanyList?.at(-2) -1)*100)?.toFixed(0)}% from yesterday
+                        </Card.Description>
 
                       </Card.Header>
                       <Card.Content>
-                        <div class="app w-full h-[200px]">
+                        <div class="app w-full h-[150px]">
                           <Chart options={optionGraphCompanySpread} class="chart" />
                         </div>
                       </Card.Content>
@@ -400,6 +418,20 @@ const optionCompanySpread = {
                           </div>
                           {/if}
 
+                          <div class="flex flex-row items-center mb-5 mt-3">
+                            <label class="mr-4 text-sm">
+                              <ThumbsUp class="h-5 w-5 inline-block -mt-1 shrink-0 mr-1" /> {(item?.upvote_ratio*100)}%
+                            </label>
+                            <label class="text-sm">
+                              <MessageCircle class="h-5 w-5 inline-block -mt-1 shrink-0 mr-1" /> {item?.num_comments}
+                            </label>
+                          </div>
+
+                          <label class="mt-2 mb-2 text-xs bg-white rounded-lg px-3 py-1 text-black">
+                            {item?.link_flair_text}
+                          </label>
+
+
                           <div class="flex flex-row items-center justify-between w-full mt-3">
                             <a href={'https://www.reddit.com/user/'+item?.author} rel="noopener noreferrer" target="_blank"  class="text-xs text-white sm:hover:text-blue-400">
                               Posted by {item?.author}
@@ -415,16 +447,37 @@ const optionCompanySpread = {
                         {/each}
                       </Card.Content>
                     </Card.Root>
-                    <Card.Root>
+                    <Card.Root class="xl:col-span-2 overflow-x-scroll h-[500px]">
                       <Card.Header>
                         <Card.Title class="text-start text-xl w-full flex flex-row items-center">
                           <span>
-                            Currently Trending
+                            Last 14 Days Trend
                           </span>
                         </Card.Title>
                       </Card.Header>
                       <Card.Content class="grid gap-y-4">
-                        
+                        <Table.Root class="overflow-x-scroll w-full no-scrollbar">
+                          <Table.Header>
+                            <Table.Row>
+                              <Table.Head class="text-white">Rank</Table.Head>
+                              <Table.Head class="text-white">Symbol</Table.Head>
+                              <Table.Head class="text-white text-end">Mentions</Table.Head>
+                            </Table.Row>
+                          </Table.Header>
+                          <Table.Body>
+                            {#each data?.getRedditTracker?.trending as item, index}
+                            <Table.Row>
+                              <Table.Cell class="text-left">
+                                {index+1}
+                              </Table.Cell>
+                              <Table.Cell>
+                                <a href={item?.assetType === 'stocks' ? `/stocks/${item?.symbol}` : `/etf/${item?.symbol}`} class="font-medium text-blue-400 sm:hover:text-white transition duration-100">{item?.symbol}</a>
+                              </Table.Cell>                              
+                              <Table.Cell class="text-right">{item?.count}</Table.Cell>
+                            </Table.Row>
+                            {/each}
+                          </Table.Body>
+                        </Table.Root>
                       </Card.Content>
                     </Card.Root>
                   </div>
@@ -454,7 +507,7 @@ const optionCompanySpread = {
     <style>
   
       .app {
-      height: 200px;
+      height: 150px;
       max-width: 100%; /* Ensure chart width doesn't exceed the container */
       
       }
