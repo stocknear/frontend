@@ -58,10 +58,10 @@ $: {
           <div class="flex justify-start items-center w-full m-auto overflow-hidden">
             <table class="table table-sm table-compact mt-3 text-start flex justify-start items-center w-full px-3 m-auto">
               <thead>
-                <tr class="border-b border-blue-400">
-                  <th class="text-white font-semibold text-sm text-start bg-[#000] lg:bg-[#09090B] border-b border-blue-400">Company</th>
-                  <th class="text-white font-semibold text-sm text-start bg-[#000] lg:bg-[#09090B] border-b border-blue-400">Market Value</th>
-                  <th class="text-white font-semibold text-sm text-end bg-[#000] lg:bg-[#09090B] border-b border-blue-400">Portfolio</th>
+                <tr>
+                  <th class="text-white font-semibold text-sm text-start bg-[#000] lg:bg-[#09090B]">Company</th>
+                  <th class="text-white font-semibold text-sm text-start bg-[#000] lg:bg-[#09090B]">Market Value</th>
+                  <th class="text-white font-semibold text-sm text-end bg-[#000] lg:bg-[#09090B]">Portfolio</th>
                 </tr>
               </thead>
               <tbody>

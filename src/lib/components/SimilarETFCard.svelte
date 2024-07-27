@@ -38,10 +38,10 @@ export let similarTicker;
     <div class="flex justify-start items-center w-full m-auto pl-2">
       <table class="table table-sm table-compact mt-3 text-start flex justify-start items-center w-full px-3 m-auto">
         <thead>
-          <tr class="border-b border-blue-400">
-            <th class="text-white font-semibold text-sm text-start bg-[#000] sm:bg-[#09090B] border-b border-blue-400">Fund Name</th>
-            <th class="text-white font-semibold text-sm text-start bg-[#000] sm:bg-[#09090B] border-b border-blue-400">Total Assets</th>
-            <th class="text-white font-semibold text-sm text-end bg-[#000] sm:bg-[#09090B] border-b border-blue-400">Holdings</th>
+          <tr>
+            <th class="text-white font-semibold text-sm text-start bg-[#000] sm:bg-[#09090B]">Fund Name</th>
+            <th class="text-white font-semibold text-sm text-start bg-[#000] sm:bg-[#09090B]">Total Assets</th>
+            <th class="text-white font-semibold text-sm text-end bg-[#000] sm:bg-[#09090B]">Holdings</th>
           </tr>
         </thead>
         <tbody>

@@ -14,11 +14,7 @@
   //import copilotIcon from '$lib/images/copilot_icon.png';
   
   
-  export let stockDeck;
   export let data;
-  export let similarstock;
-  export let topETFHolder;
-
   
 $: {
   if($similarTickerClicked)
@@ -64,8 +60,6 @@ $: {
 </section>
   
   
-  
-
 
 
   <!--Start Executive Modal-->
@@ -136,7 +130,7 @@ $: {
     
     <div class="w-screen overflow-y-scroll" >
   
-      <TickerInfoCard stockDeck={stockDeck}/>
+      <TickerInfoCard stockDeck={data?.getStockDeck}/>
   
           
     </div>
@@ -164,7 +158,7 @@ $: {
 
   
       <div class="w-screen overflow-y-scroll" >
-        <ESGCard stockDeck={stockDeck}/>
+        <ESGCard stockDeck={data?.getStockDeck}/>
       </div>
 
     </div>
@@ -188,7 +182,7 @@ $: {
 
   
       <div class="w-screen overflow-y-scroll" >
-        <SimilarTickerCard similarstock={similarstock}/>
+        <SimilarTickerCard similarstock={data?.getSimilarStock}/>
       </div>
 
     </div>
@@ -211,7 +205,7 @@ $: {
 
   
       <div class="w-screen overflow-y-scroll" >
-        <TopETFTickerHolder topETFHolder={topETFHolder}/>
+        <TopETFTickerHolder topETFHolder={data?.getTopETFHolder}/>
       </div>
 
     </div>

@@ -15,10 +15,7 @@
   
     let displayChartType = 'line';
   
-    let stockDeck = data?.getStockDeck ?? [];
     let prePostData = {};
-    let similarstock = [];
-    let topETFHolder = [];
     let marketMoods = {}
     let communitySentiment = {};
 
@@ -656,14 +653,9 @@ function changeChartType() {
       output = null;
   
   
-      stockDeck = data?.getStockDeck;
       marketMoods = data?.getBullBearSay;
       communitySentiment = data?.getCommunitySentiment;
-    
-      similarstock = data?.getSimilarStock;
-      topETFHolder = data?.getTopETFHolder;
-      //previousClose = stockDeck?.at(0)?.previousClose;
-        
+          
 
       const asyncFunctions = [
         getPrePostQuote(),
@@ -1195,9 +1187,6 @@ function changeChartType() {
                                     </h3>
                                     {#await import('$lib/components/StockKeyInformation.svelte') then {default: Comp}}
                                       <svelte:component this={Comp}
-                                        stockDeck={stockDeck}
-                                        similarstock={similarstock}
-                                        topETFHolder={topETFHolder}
                                         data={data} />
                                     {/await}
                                   
@@ -1441,9 +1430,9 @@ function changeChartType() {
                                   -->
 
                                   <Lazy>
-                                    <div class="w-full pt-10 sm:pl-6 sm:pb-6 sm:pt-6 m-auto {stockDeck?.at(0)?.stockSplits?.length === 0 ? 'hidden' : ''}">
+                                    <div class="w-full pt-10 sm:pl-6 sm:pb-6 sm:pt-6 m-auto {data?.getStockDeck?.at(0)?.stockSplits?.length === 0 ? 'hidden' : ''}">
                                       {#await import('$lib/components/StockSplits.svelte') then {default: Comp}}
-                                        <svelte:component this={Comp} stockDeck={stockDeck}/>
+                                        <svelte:component this={Comp} stockDeck={data?.getStockDeck}/>
                                       {/await}
                                   </div>
                                 </Lazy>

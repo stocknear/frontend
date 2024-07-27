@@ -1167,6 +1167,7 @@ afterUpdate(async () => {
                                   {/await}
                                 </div>
                                 </Lazy>
+                                
                                 <Lazy>
                                   <div class="w-full sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$varComponent ? 'hidden' : ''}">
                                   {#await import('$lib/components/VaR.svelte') then {default: Comp}}

@@ -39,10 +39,10 @@ export let similarstock;
       <div class="flex justify-start items-center w-full m-auto ">
         <table class="table table-sm table-compact mt-3 text-start flex justify-start items-center w-full px-3 m-auto">
           <thead>
-            <tr class="border-b border-blue-400">
-              <th class="text-white font-semibold text-sm text-start bg-[#000] sm:bg-[#09090B] border-b border-blue-400">Company</th>
-              <th class="text-white font-semibold text-sm text-center bg-[#000] sm:bg-[#09090B] border-b border-blue-400">Market Cap</th>
-              <th class="text-white font-semibold text-sm text-end bg-[#000] sm:bg-[#09090B] border-b border-blue-400">Avg Volume</th>
+            <tr>
+              <th class="text-white font-semibold text-sm text-start bg-[#000] sm:bg-[#09090B]">Company</th>
+              <th class="text-white font-semibold text-sm text-center bg-[#000] sm:bg-[#09090B]">Market Cap</th>
+              <th class="text-white font-semibold text-sm text-end bg-[#000] sm:bg-[#09090B]">Avg Volume</th>
             </tr>
           </thead>
           <tbody>
@@ -104,7 +104,7 @@ export let similarstock;
   <div class="bg-[#000] h-auto w-screen">
   
    <!--Start Header-->
-   <div class="bg-[#09090B] w-full p-1 flex flex-col items-center pb-5 h-auto rounded-b-[30px]">
+   <div class="bg-[#27272A] w-full p-1 flex flex-col items-center pb-5 h-auto rounded-b-[30px]">
     <h2 class="text-center m-auto text-[1.1rem] font-medium text-white mt-5">
      Similar Ticker
     </h2>
@@ -125,10 +125,10 @@ export let similarstock;
     <div class="flex justify-start items-center w-full m-auto mt-10 overflow-hidden">
       <table class="table table-sm table-compact mt-3 text-start flex justify-start items-center w-full px-3 m-auto">
         <thead>
-          <tr class="border-b border-blue-400">
-            <th class="text-white font-bold text-sm text-start bg-[#000] border-b border-blue-400">Company</th>
-            <th class="text-white font-bold text-sm text-center bg-[#000] border-b border-blue-400">Market Cap</th>
-            <th class="text-white font-bold text-sm text-end bg-[#000] border-b border-blue-400">Avg Volume</th>
+          <tr>
+            <th class="text-white font-bold text-sm text-start bg-[#000]">Company</th>
+            <th class="text-white font-bold text-sm text-center bg-[#000]">Market Cap</th>
+            <th class="text-white font-bold text-sm text-end bg-[#000]">Avg Volume</th>
           </tr>
         </thead>
         <tbody>

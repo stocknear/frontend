@@ -55,10 +55,10 @@
               <div class="flex justify-start items-center w-full m-auto pl-2">
                 <table class="table lg:table-sm table-compact mt-3 text-start flex justify-start items-center w-full px-3 m-auto">
                   <thead>
-                    <tr class="border-b border-blue-400">
-                      <th class="text-white font-semibold text-sm text-start bg-[#000] lg:bg-[#09090B] border-b border-blue-400">Ex-Dividend</th>
-                      <th class="text-white font-semibold text-sm text-end bg-[#000] lg:bg-[#09090B] border-b border-blue-400">Payment Date</th>
-                      <th class="text-white font-semibold text-sm text-end bg-[#000] lg:bg-[#09090B] border-b border-blue-400">Amount</th>
+                    <tr>
+                      <th class="text-white font-semibold text-sm text-start bg-[#000] lg:bg-[#09090B]">Ex-Dividend</th>
+                      <th class="text-white font-semibold text-sm text-end bg-[#000] lg:bg-[#09090B]">Payment Date</th>
+                      <th class="text-white font-semibold text-sm text-end bg-[#000] lg:bg-[#09090B]">Amount</th>
                     </tr>
                   </thead>
 

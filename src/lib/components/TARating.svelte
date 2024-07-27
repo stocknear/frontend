@@ -39,40 +39,13 @@ async function getTaRating(ticker) {
         });
         rawData = await response.json();
 
-        showFullStats = false;
-        overallSignal = rawData?.overallSignal;
-        signalList = rawData?.signalList ?? []
-        buyCount = 0;
-        sellCount = 0;
-        neutralCount=0;
-
-        signalList?.forEach(item => {
-          switch (item?.signal) {
-            case "Strong Buy":
-              buyCount++;
-              break;
-            case "Buy":
-              buyCount++;
-              break;
-            case "Sell":
-              sellCount++;
-              break;
-            case "Strong Sell":
-              sellCount++;
-              break;
-            default:
-              neutralCount++;
-          }
-        });
-
-
         setCache(ticker, rawData, 'getTaRating');
       } catch (error) {
         console.error('Failed to fetch swap data:', error);
         rawData = {};
       }
     }
-    if (rawData?.signalList?.lenght !== 0) {
+    if (Object?.keys(rawData)?.length !== 0) {
       $taRatingComponent = true;
     }
     else {
@@ -84,16 +57,45 @@ async function getTaRating(ticker) {
 
 
 
-$: {
+async function updateData() {
   if (($assetType === 'stock' ? $stockTicker : $assetType === 'etf' ? $etfTicker : $cryptoTicker) && typeof window !== 'undefined') {
-    
     isLoaded = false;
     const ticker = $assetType === 'stock' ? $stockTicker : $assetType === 'etf' ? $etfTicker : $cryptoTicker;
-    getTaRating(ticker).then(() => {
-      isLoaded = true;
-    });
     
+    try {
+      await getTaRating(ticker);
+      showFullStats = false;
+      overallSignal = rawData?.overallSignal;
+      signalList = rawData?.signalList || [];
+      buyCount = 0;
+      sellCount = 0;
+      neutralCount = 0;
+      
+      signalList?.forEach(item => {
+        switch (item?.signal) {
+          case "Strong Buy":
+          case "Buy":
+            buyCount++;
+            break;
+          case "Sell":
+          case "Strong Sell":
+            sellCount++;
+            break;
+          default:
+            neutralCount++;
+        }
+      });
+      
+      isLoaded = true;
+      console.log(signalList);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   }
+}
+
+$: if ($assetType || $stockTicker || $etfTicker || $cryptoTicker) {
+  updateData();
 }
 
 </script>
@@ -116,7 +118,7 @@ $: {
 
     {#if data?.user?.tier === 'Pro'}
       {#if isLoaded}  
-        {#if Object?.keys(rawData)?.length !== 0}
+        {#if signalList?.length !== 0}
 
           {#if overallSignal !== 'n/a'}
           <div class="text-white text-[1rem] sm:text-lg mt-3 mb-8 text-start">

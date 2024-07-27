@@ -146,7 +146,7 @@ $: {
   <div class="bg-[#000] h-auto w-screen">
   
     <!--Start Header-->
-    <div class="bg-[#191919] w-full  p-1 flex flex-col items-center pb-5 h-auto rounded-b-[30px]">
+    <div class="bg-[#27272A] w-full  p-1 flex flex-col items-center pb-5 h-auto rounded-b-[30px]">
       <h2 class="text-center m-auto text-[1.1rem] font-medium text-white mt-5">
         ESG Score
       </h2>
@@ -168,7 +168,7 @@ $: {
     <div class="mt-5 flex flex-col m-auto items-center rounded-lg w-full mb-16 p-3">
 
 
-      <div class="shadow-lg bg-[#191919] w-full rounded-lg p-4 mb-5  flex flex-row items-center">
+      <div class="shadow-lg bg-[#27272A] w-full rounded-lg p-4 mb-5  flex flex-row items-center">
         <div class="flex flex-col -mt-2 w-full">
             <div class="flex flex-row items-center w-full">
                 <span class="text-white text-md font-medium text-start mb-2 mr-auto mt-2">
@@ -182,7 +182,7 @@ $: {
         </div>
       </div>
 
-      <div class="shadow-lg bg-[#191919] w-full rounded-lg p-4 mb-5  flex flex-row items-center">
+      <div class="shadow-lg bg-[#27272A] w-full rounded-lg p-4 mb-5  flex flex-row items-center">
         <div class="flex flex-col -mt-2 w-full">
             <div class="flex flex-row items-center w-full">
                 <span class="text-white text-md font-medium text-start mb-2 mr-auto mt-2">
@@ -196,7 +196,7 @@ $: {
         </div>
       </div>
 
-      <div class="shadow-lg bg-[#191919] w-full rounded-lg p-4 mb-5  flex flex-row items-center">
+      <div class="shadow-lg bg-[#27272A] w-full rounded-lg p-4 mb-5  flex flex-row items-center">
         <div class="flex flex-col -mt-2 w-full">
             <div class="flex flex-row items-center w-full">
                 <span class="text-white text-md font-medium text-start mb-2 mr-auto mt-2">
@@ -209,7 +209,7 @@ $: {
         </div>
       </div>
 
-      <div class="shadow-lg bg-[#191919] w-full rounded-lg p-4 mb-5  flex flex-row items-center">
+      <div class="shadow-lg bg-[#27272A] w-full rounded-lg p-4 mb-5  flex flex-row items-center">
         <div class="flex flex-col -mt-2 w-full">
             <div class="flex flex-row items-center w-full">
                 <span class="text-white text-md font-medium text-start mb-2 mr-auto mt-2">

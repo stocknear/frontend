@@ -80,7 +80,7 @@ afterUpdate(async() => {
 <div class="space-y-3 sm:pt-5">  
   <div class="bg-[#000] h-auto w-screen">
     <!--Start Header-->
-    <div class="bg-[#09090B] w-full  p-1 flex flex-col items-center pb-5 h-auto rounded-b-[30px]">
+    <div class="bg-[#27272A] w-full  p-1 flex flex-col items-center pb-5 h-auto rounded-b-[30px]">
       <h2 class="text-center m-auto text-[1.1rem] font-medium text-white mt-5">
         Executives
       </h2>
@@ -128,7 +128,7 @@ afterUpdate(async() => {
           <!--Start Item-->
           <div class="flex flex-row items-center pl-4 pr-4 w-full mb-3">
                 
-            <div class="w-full rounded-md bg-[#09090B] shadow-lg h-auto pb-3 pl-3 pt-3">
+            <div class="w-full rounded-md bg-[#27272A] shadow-lg h-auto pb-3 pl-3 pt-3">
                 <div class="flex flex-row items-center relative">  
                     <div class="flex flex-col">
                       <div class="flex flex-row items-center mr-auto mb-2 text-white font-medium text-[1rem] w-56">
@@ -147,7 +147,7 @@ afterUpdate(async() => {
 
                     {#if item?.gender === 'male'}
                     <div class="flex flex-row items-center ml-auto absolute right-3 top-0">
-                      <div class="h-full bg-gray-800 transform -translate-x-1/2" aria-hidden="true"></div>
+                      <div class="h-full bg-[#27272A] transform -translate-x-1/2" aria-hidden="true"></div>
                       <div class="w-2 h-2 bg-[#FF2F1F] border-4 box-content border-gray-900 rounded-full transform -translate-x-1/2" aria-hidden="true"></div>
                       <span class="text-white text-[0.85rem] inline-block">
                         Male
@@ -155,7 +155,7 @@ afterUpdate(async() => {
                     </div>
                     {:else if item?.gender === 'female'}
                     <div class="flex flex-row items-center ml-auto absolute right-3 top-0">
-                      <div class="h-full bg-gray-800 transform -translate-x-1/2 " aria-hidden="true"></div>
+                      <div class="h-full bg-[#27272A] transform -translate-x-1/2 " aria-hidden="true"></div>
                       <div class="w-2 h-2 bg-[#0FC008] border-4 box-content border-gray-900 rounded-full transform -translate-x-1/2" aria-hidden="true"></div>
                       <span class="text-white text-[0.85rem] inline-block">
                         Female
