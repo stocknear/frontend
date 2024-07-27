@@ -21,6 +21,7 @@ export const config = {
 const pages = [
     {title: "/"},
     {title: "/cramer-tracker"},
+    {title: "/reddit-tracker"},
     {title: "/most-shorted-stocks"},
     {title: "/stocks"},
     {title: "/etf"},

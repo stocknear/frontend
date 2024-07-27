@@ -39,7 +39,7 @@
   import Boxes from "lucide-svelte/icons/boxes";
   import Newspaper from "lucide-svelte/icons/newspaper";
   import MessageCircle from "lucide-svelte/icons/message-circle";
-
+  import AudioLine from "lucide-svelte/icons/audio-lines";
 
   export let data;
 
@@ -79,24 +79,6 @@ async function detectSWUpdate() {
 
   $userRegion = data?.region?.split("::")[0];
 
-  let collapse = false;
-
-
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-
-  let fastifyURL;
-
-  userRegion.subscribe(value => {
-
-    if (usRegion?.includes(value)) {
-      fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-    } else {
-      fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-    }
-  });
-
-
   let hideHeader = false;
 
   NProgress.configure({ showSpinner: false });
@@ -123,19 +105,6 @@ async function detectSWUpdate() {
  
   let hasUnreadElement = false;
   let notificationList = [];
-
-function handleCollapse() {
-  if ($screenWidth > 640)
-  {
-  collapse = !collapse
-  stockGuide = false;
-  etfGuide = false;
-  optionsGuide = false;
-  calendarGuide = false;
-  }
-}
-
-
 
 
 //Define web workers:
@@ -164,8 +133,7 @@ const loadWorker = async () => {
   if ('serviceWorker' in navigator) {
   const SyncWorker = await import('$lib/workers/notificationWorker?worker');
   syncWorker = new SyncWorker.default();
-
-  syncWorker.postMessage({ message: {'fastifyURL': fastifyURL, 'userId': data?.user?.id }});
+  syncWorker.postMessage({ message: {'fastifyURL': data?.fastifyURL, 'userId': data?.user?.id }});
   syncWorker.onmessage = handleMessage;
   } else {
     // Fallback logic here
@@ -180,10 +148,10 @@ async function fallbackWorker() {
   console.log('Fallback worker activated');
 
   const postData = {'userId': data?.user?.id};
-    const response = await fetch(fastifyURL+'/get-notifications', {
+    const response = await fetch(data?.fastifyURL+'/get-notifications', {
         method: 'POST',
         headers: {
-    
+        "Content-Type": "application/json"
         },
         body: JSON.stringify(postData)
     });
@@ -212,21 +180,11 @@ $showCookieConsent = typeof data?.cookieConsent !== 'undefined' ? false : true;
 
 onMount(async () => {
   await loadWorker();
-
   //await pushNotification()
     
   if($showCookieConsent === true) {
       Cookie = (await import("$lib/components/Cookie.svelte")).default;
   }
-  //await loadTwitchWorker();
-
-  /*
-  if (window.innerWidth <= 768) {
-    detectSWUpdate();
-  }
-  */
-  
-
 })
 
 
@@ -259,9 +217,6 @@ $: {
     //data.currentPath = $page.url.pathname
   }
 }
-
-
-
 
 
 let innerWidth;
@@ -297,16 +252,12 @@ $: {
   }
 }
 
-$: {
-  if($screenWidth < 1536)
-  {
-    collapse = false;
-  }
-}
+
 </script>
 
 <svelte:window bind:innerWidth/>
 
+<svelte:options immutable = {true} />
 
 
 <div class="app {$page?.url?.pathname === '/' ? 'bg-[#000]' : ''}">
@@ -507,6 +458,31 @@ $: {
           </Accordion.Root>
                   
         </div>
+
+        <div class="flex flex-row items-center ml-9 w-full mt-3">
+
+          <Accordion.Root class="w-full">
+
+            <Accordion.Item value="item-1">
+
+              <Accordion.Trigger class="">
+                <AudioLine class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
+                <span class="text-white ml-1 mr-auto">Tracker Datasets</span>
+              </Accordion.Trigger>
+              <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
+                <div class="flex flex-col items-start">
+                  <a href="/cramer-tracker" class="text-[1rem] text-white ml-4 mt-4">Jim Cramer Tracker</a>
+                  <a href="/most-retail-volume" class="text-[1rem] text-white ml-4 mt-4">Retail Trader Tracker</a>
+                  <a href="/reddit-tracker" class="text-[1rem] text-white ml-4 mt-4">Reddit Tracker</a>
+                </div>
+                
+              </Accordion.Content
+              >
+            </Accordion.Item>
+          </Accordion.Root>
+                  
+        </div>
+
         <!--
         <a href="/dark-pool-flow" class="flex flex-row items-center ml-9 w-full mt-3">
           <div
@@ -797,7 +773,45 @@ $: {
             </Accordion.Root>
                     
           </div>
-        <!--
+
+          <div class="flex flex-row items-center w-full">
+
+            <Accordion.Root class="w-full">
+  
+              <Accordion.Item value="item-1">
+  
+                <Accordion.Trigger class="">
+                  <AudioLine class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
+                  <span class="text-white ml-1 mr-auto">Tracker Datasets</span>
+                </Accordion.Trigger>
+                <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
+
+                  <Sheet.Close asChild let:builder>
+                    <div class="flex flex-col items-start">
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                        <a href="/cramer-tracker" class="text-[1rem] text-white ml-4 mt-2">Jim Cramer Tracker</a>
+                      </Button>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                        <a href="/most-retail-volume" class="text-[1rem] text-white ml-4 mt-4">Retail Trader Tracker</a>
+                      </Button>
+                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                        <a href="/reddit-tracker" class="text-[1rem] text-white ml-4 mt-4">Reddit Tracker</a>
+                      </Button>
+                    </div>
+
+                  </Sheet.Close>
+
+                  
+                </Accordion.Content
+                >
+              </Accordion.Item>
+            </Accordion.Root>
+                    
+          </div>
+
+          
+
+          <!--
         <Sheet.Close asChild let:builder>
           <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 w-full">
             <a href="/dark-pool-flow" class="flex flex-row items-center w-full -mt-2"> 

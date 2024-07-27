@@ -7,7 +7,7 @@ async function loadNotifications(fastifyURL:string, userId:string) {
     const response = await fetch(fastifyURL+'/get-notifications', {
         method: 'POST',
         headers: {
-        "Content-Type": "application/json","X-API-KEY": apiKey
+        "Content-Type": "application/json"
         },
         body: JSON.stringify(postData)
     });
@@ -28,7 +28,6 @@ async function loadNotifications(fastifyURL:string, userId:string) {
 
     const numberOfUnreadNotification = notificationList?.length
     const hasUnreadElement = notificationList?.length !== 0 ? true : false;
-
     const output = {notificationList, hasUnreadElement, numberOfUnreadNotification}
     
     postMessage({ message: 'success', output});

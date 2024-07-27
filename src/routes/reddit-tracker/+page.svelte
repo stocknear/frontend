@@ -295,7 +295,7 @@ const optionCompanySpread = {
     
     <section class="w-full max-w-screen overflow-hidden m-auto min-h-screen bg-[#09090B] pb-40">
           
-      <div class="flex flex-col w-full max-w-7xl m-auto justify-center items-center">
+      <div class="flex flex-col w-full max-w-6xl 3xl:max-w-7xl m-auto justify-center items-center">
         <div class="text-center mb-10 w-full px-4 sm:px-0 mt-10">    
 
       <div class="flex flex-col items-start mb-10">
@@ -318,8 +318,7 @@ const optionCompanySpread = {
             <div class="relative flex justify-center items-center overflow-hidden w-full">
                 <main class="w-full">
                  
-      
-  
+    
                   {#if isLoaded}
 
                   <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:gap-8">
@@ -425,10 +424,10 @@ const optionCompanySpread = {
 
 
                           <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full mt-3">
-                            <a href={'https://www.reddit.com/user/'+item?.author} rel="noopener noreferrer" target="_blank"  class="text-xs text-white sm:hover:text-blue-400">
+                            <a href={'https://www.reddit.com/user/'+item?.author} rel="noopener noreferrer" target="_blank"  class="text-sm sm:text-xs text-white sm:hover:text-blue-400">
                               Posted by {item?.author}
                             </a>
-                            <a href={'https://www.reddit.com'+item?.permalink} rel="noopener noreferrer" target="_blank"  class="mt-2 sm:mt-0 text-xs text-white sm:hover:text-blue-400">
+                            <a href={'https://www.reddit.com'+item?.permalink} rel="noopener noreferrer" target="_blank"  class="mt-2 sm:mt-0text-sm sm:text-xs text-white sm:hover:text-blue-400">
                               {formatUtcTimestamp(item?.created_utc)}
                               <Link class="h-3 w-3 inline-block shrink-0 -mt-1 ml-1" />
                             </a>
