@@ -240,7 +240,7 @@ const optionCompanySpread = {
   ],
   series: [
     {
-      name: 'Company Spreads',
+      name: 'Company Spread',
       type: 'bar',
       smooth: true,
       barWidth: '90%',

@@ -345,7 +345,6 @@ $: {
                   <a href="/analysts" class="text-[1rem] text-white ml-4 mt-4">Top Analyst</a>
                   <a href="/analysts/top-stocks" class="text-[1rem] text-white ml-4 mt-4">Top Analyst Stocks</a>
                   <a href="/most-shorted-stocks" class="text-[1rem] text-white ml-4 mt-4">Shorted Stocks</a>
-                  <a href="/most-retail-volume" class="text-[1rem] text-white ml-4 mt-4">Retail Trader Tracker</a>
                   <a href="/stock-screener" class="text-[1rem] text-white ml-4 mt-4">Stock Screener</a>
                   <a href="/market-mover" class="text-[1rem] text-white ml-4 mt-4">Market Mover</a>
                   <a href="/heatmaps" class="text-[1rem] text-white ml-4 mt-4">Heatmaps</a>
@@ -605,9 +604,6 @@ $: {
                       </Button>
                       <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
                         <a href="/most-shorted-stocks" class="text-[1rem] text-white ml-4 mt-4">Shorted Stocks</a>
-                      </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/most-retail-volume" class="text-[1rem] text-white ml-4 mt-4">Retail Trader Tracker</a>
                       </Button>
                       <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
                         <a href="/stock-screener" class="text-[1rem] text-white ml-4 mt-4">Stock Screener</a>
