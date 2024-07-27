@@ -293,10 +293,10 @@ const optionCompanySpread = {
     <svelte:options immutable = {true} />
 
     
-    <section class="w-full max-w-screen overflow-hidden m-auto min-h-screen bg-[#09090B]">
+    <section class="w-full max-w-screen overflow-hidden m-auto min-h-screen bg-[#09090B] pb-40">
           
       <div class="flex flex-col w-full max-w-7xl m-auto justify-center items-center">
-        <div class="text-center mb-10 w-full px-4 sm:px-10 mt-10">    
+        <div class="text-center mb-10 w-full px-4 sm:px-0 mt-10">    
 
       <div class="flex flex-col items-start mb-10">
       <div class="flex flex-row items-center mb-10">
@@ -314,7 +314,7 @@ const optionCompanySpread = {
     </div>
       
                       
-        <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
+        <div class="flex justify-center w-full m-auto overflow-hidden">
             <div class="relative flex justify-center items-center overflow-hidden w-full">
                 <main class="w-full">
                  
@@ -389,7 +389,7 @@ const optionCompanySpread = {
                   </div>
 
                   <div class="mt-10 grid gap-4 md:gap-8 grid-cols-1 md:grid-cols-2 text-start">
-                    <Card.Root class="xl:col-span-2 overflow-x-scroll h-[500px]">
+                    <Card.Root class=" overflow-x-scroll h-[500px]">
                       <Card.Header class="flex flex-row items-center">
                         <div class="flex flex-col items-start w-full">
                           <div class="flex flex-row w-full items-center">
@@ -439,7 +439,7 @@ const optionCompanySpread = {
                         {/each}
                       </Card.Content>
                     </Card.Root>
-                    <Card.Root class="xl:col-span-2 overflow-x-scroll h-[500px]">
+                    <Card.Root class=" overflow-x-scroll h-[500px]">
                       <Card.Header>
                         <Card.Title class="text-start text-xl w-full flex flex-row items-center">
                           <span>
