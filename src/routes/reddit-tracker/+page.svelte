@@ -473,8 +473,8 @@ const optionCompanySpread = {
                           <Table.Body>
                             {#each data?.getRedditTracker?.trending as item, index}
                             <Table.Row>
-                              <Table.Cell class="text-left">
-                                {index+1}
+                              <Table.Cell class="text-left text-[1rem]">
+                                #{index+1}
                               </Table.Cell>
                               <Table.Cell>
                                 <a href={item?.assetType === 'stocks' ? `/stocks/${item?.symbol}` : `/etf/${item?.symbol}`} class="whitespace-wrap font-medium">
@@ -491,11 +491,11 @@ const optionCompanySpread = {
                               <Table.Cell class="text-right text-[1rem] text-[#FC2120]">{item?.put}</Table.Cell>
                               <Table.Cell class="text-right text-[1rem] {item?.avgSentiment > 0.4 ? 'text-[#00FC50]' : item?.avgSentiment <-0.1 ? 'text-[#FC2120]' : 'text-[#C6A755]'} ">{item?.avgSentiment > 0.4 ? 'Bullish' : item?.avgSentiment <= -0.1 ? 'Bearish' : 'Neutral'}</Table.Cell>
                               <Table.Cell>
-                                <div class="flex flex-row justify-end items-center">
+                                <div class="flex flex-row justify-end items-center text-[1rem]">
 
                                   <div class="flex flex-col mt-3">
-                                    <span class="text-white text-md ml-auto">${item.price?.toFixed(2)}</span>
-                                    <span class="{item?.changesPercentage > 0 ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-xs font-semibold text-end">{item?.changesPercentage?.toFixed(2)}%</span>
+                                    <span class="text-white ml-auto">${item.price?.toFixed(2)}</span>
+                                    <span class="{item?.changesPercentage > 0 ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-sm font-semibold text-end">{item?.changesPercentage?.toFixed(2)}%</span>
                                     
                                   </div>
                   
