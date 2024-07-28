@@ -453,6 +453,9 @@ const optionCompanySpread = {
                               <Table.Head class="text-white">Rank</Table.Head>
                               <Table.Head class="text-white">Symbol</Table.Head>
                               <Table.Head class="text-white text-end">Mentions</Table.Head>
+                              <Table.Head class="text-white text-end">Calls</Table.Head>
+                              <Table.Head class="text-white text-end">Puts</Table.Head>
+                              <Table.Head class="text-white text-end">Sentiment</Table.Head>
                             </Table.Row>
                           </Table.Header>
                           <Table.Body>
@@ -465,6 +468,9 @@ const optionCompanySpread = {
                                 <a href={item?.assetType === 'stocks' ? `/stocks/${item?.symbol}` : `/etf/${item?.symbol}`} class="font-medium text-blue-400 sm:hover:text-white transition duration-100">{item?.symbol}</a>
                               </Table.Cell>                              
                               <Table.Cell class="text-right">{item?.count}</Table.Cell>
+                              <Table.Cell class="text-right text-[#00FC50]">{item?.call}</Table.Cell>
+                              <Table.Cell class="text-right text-[#FC2120]">{item?.put}</Table.Cell>
+                              <Table.Cell class="text-right {item?.avgSentiment > 0.4 ? 'text-[#00FC50]' : item?.avgSentiment <-0.1 ? 'text-[#FC2120]' : 'text-[#C6A755]'} ">{item?.avgSentiment > 0.4 ? 'Bullish' : item?.avgSentiment <= -0.1 ? 'Bearish' : 'Neutral'}</Table.Cell>
                             </Table.Row>
                             {/each}
                           </Table.Body>
