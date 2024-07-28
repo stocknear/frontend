@@ -458,7 +458,7 @@ const optionCompanySpread = {
                         </Card.Title>
                       </Card.Header>
                       <Card.Content class="grid gap-y-4">
-                        <Table.Root class="overflow-x-scroll w-full no-scrollbar">
+                        <Table.Root class="overflow-x-scroll w-full">
                           <Table.Header>
                             <Table.Row>
                               <Table.Head class="text-white">Rank</Table.Head>
@@ -532,22 +532,21 @@ const optionCompanySpread = {
       </div>
     </section>
     
-    <style>
-  
-      .app {
-      height: 150px;
-      max-width: 100%; /* Ensure chart width doesn't exceed the container */
-      
-      }
-      
-      @media (max-width: 640px) {
-      .app {
-        height: 120px;
-      }
-      }
-      
-      .chart {
-      width: 100%;
-      }
-      
-      </style>
+<style>
+.app {
+height: 150px;
+max-width: 100%; /* Ensure chart width doesn't exceed the container */
+
+}
+
+@media (max-width: 640px) {
+.app {
+  height: 120px;
+}
+}
+
+.chart {
+width: 100%;
+}
+
+</style>
