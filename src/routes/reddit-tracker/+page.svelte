@@ -387,8 +387,8 @@ const optionCompanySpread = {
 
                   </div>
 
-                  <div class="mt-10 grid gap-4 md:gap-8 grid-cols-1 md:grid-cols-2 text-start">
-                    <Card.Root class="order-1 sm:order-0 overflow-x-scroll h-[500px]">
+                  <div class="mt-10 grid gap-4 md:gap-8 grid-cols-1  text-start">
+                    <Card.Root class="order-1 overflow-x-scroll h-full">
                       <Card.Header class="flex flex-row items-center">
                         <div class="flex flex-col items-start w-full">
                           <div class="flex flex-row w-full items-center">
@@ -399,13 +399,17 @@ const optionCompanySpread = {
                       <Card.Content class="p-3 sm:p-6">
                         {#each data?.getRedditTracker?.posts as item}
                         <div class="flex flex-col items-start mb-3 p-3 border border-gray-800 rounded-lg bg-[#141417]">
-                          <div class="text-[1rem] font-semibold mb-3">
+                          <a href={'https://www.reddit.com'+item?.permalink} rel="noopener noreferrer" target="_blank" class="text-[1rem] sm:text-xl font-semibold mb-3 transition duration-100 text-white sm:hover:text-blue-400">
                               {item?.title}
-                          </div>
+                          </a>
 
                           {#if item?.selftext?.length !== 0}
-                          <div class="text-sm mb-3">
-                            {item?.selftext?.length < 400 ? removeHttpsStrings(item?.selftext) : removeHttpsStrings(item?.selftext)?.slice(0,240) +'...'}
+                          <div class="text-sm sm:text-[1rem] mb-3">
+                            {#if $screenWidth < 640}
+                            {item?.selftext?.length > 400 ? removeHttpsStrings(item?.selftext)?.slice(0,240)+ '...' : removeHttpsStrings(item?.selftext)}
+                            {:else}
+                            {item?.selftext?.length > 1000 ? removeHttpsStrings(item?.selftext)?.slice(0,800)+ '...' : removeHttpsStrings(item?.selftext)}
+                            {/if}
                           </div>
                           {/if}
 
@@ -424,10 +428,10 @@ const optionCompanySpread = {
 
 
                           <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full mt-3">
-                            <a href={'https://www.reddit.com/user/'+item?.author} rel="noopener noreferrer" target="_blank"  class="text-sm sm:text-xs text-white sm:hover:text-blue-400">
+                            <a href={'https://www.reddit.com/user/'+item?.author} rel="noopener noreferrer" target="_blank"  class="text-sm text-white sm:hover:text-blue-400">
                               Posted by {item?.author}
                             </a>
-                            <a href={'https://www.reddit.com'+item?.permalink} rel="noopener noreferrer" target="_blank"  class="mt-2 sm:mt-0text-sm sm:text-xs text-white sm:hover:text-blue-400">
+                            <a href={'https://www.reddit.com'+item?.permalink} rel="noopener noreferrer" target="_blank"  class="mt-2 sm:mt-0 text-sm text-white sm:hover:text-blue-400">
                               {formatUtcTimestamp(item?.created_utc)}
                               <Link class="h-3 w-3 inline-block shrink-0 -mt-1 ml-1" />
                             </a>
@@ -438,7 +442,7 @@ const optionCompanySpread = {
                         {/each}
                       </Card.Content>
                     </Card.Root>
-                    <Card.Root class="order-0 sm:order-1 overflow-x-scroll h-[500px]">
+                    <Card.Root class="order-0 overflow-x-scroll h-[500px]">
                       <Card.Header>
                         <Card.Title class="text-start text-xl w-full flex flex-row items-center">
                           <span>
@@ -456,6 +460,7 @@ const optionCompanySpread = {
                               <Table.Head class="text-white text-end">Calls</Table.Head>
                               <Table.Head class="text-white text-end">Puts</Table.Head>
                               <Table.Head class="text-white text-end">Sentiment</Table.Head>
+                              <Table.Head class="text-white text-end">Price</Table.Head>
                             </Table.Row>
                           </Table.Header>
                           <Table.Body>
@@ -465,12 +470,31 @@ const optionCompanySpread = {
                                 {index+1}
                               </Table.Cell>
                               <Table.Cell>
-                                <a href={item?.assetType === 'stocks' ? `/stocks/${item?.symbol}` : `/etf/${item?.symbol}`} class="font-medium text-blue-400 sm:hover:text-white transition duration-100">{item?.symbol}</a>
+                                <a href={item?.assetType === 'stocks' ? `/stocks/${item?.symbol}` : `/etf/${item?.symbol}`} class="whitespace-wrap font-medium">
+                                  <div class="flex flex-col items-start">
+                                    <span class="text-blue-400 sm:hover:text-white transition duration-100">{item?.symbol}</span>
+                                    <span class="text-white whitespace-wrap text-sm hidden sm:block">
+                                        {item?.name}
+                                    </span>
+                                </div>
+                                </a>
                               </Table.Cell>                              
                               <Table.Cell class="text-right">{item?.count}</Table.Cell>
                               <Table.Cell class="text-right text-[#00FC50]">{item?.call}</Table.Cell>
                               <Table.Cell class="text-right text-[#FC2120]">{item?.put}</Table.Cell>
                               <Table.Cell class="text-right {item?.avgSentiment > 0.4 ? 'text-[#00FC50]' : item?.avgSentiment <-0.1 ? 'text-[#FC2120]' : 'text-[#C6A755]'} ">{item?.avgSentiment > 0.4 ? 'Bullish' : item?.avgSentiment <= -0.1 ? 'Bearish' : 'Neutral'}</Table.Cell>
+                              <Table.Cell>
+                                <div class="flex flex-row justify-end items-center">
+
+                                  <div class="flex flex-col mt-3">
+                                    <span class="text-white text-md ml-auto">${item.price?.toFixed(2)}</span>
+                                    <span class="{item?.changesPercentage > 0 ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-xs font-semibold text-end">{item?.changesPercentage?.toFixed(2)}%</span>
+                                    
+                                  </div>
+                  
+                                  
+                              </div>
+                              </Table.Cell>
                             </Table.Row>
                             {/each}
                           </Table.Body>
