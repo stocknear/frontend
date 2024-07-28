@@ -10,6 +10,7 @@ import { Chart } from 'svelte-echarts'
 import Link from "lucide-svelte/icons/external-link";
 import ThumbsUp from "lucide-svelte/icons/thumbs-up";
 import MessageCircle from "lucide-svelte/icons/message-circle";
+import Lazy from '$lib/components/Lazy.svelte';
 
   export let data;
   let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
@@ -57,13 +58,13 @@ import MessageCircle from "lucide-svelte/icons/message-circle";
 
   function removeHttpsStrings(input) {
     // Split the input string by spaces
-    let words = input.split(' ');
+    let words = input?.split(' ');
 
     // Filter out words that contain "https"
-    let filteredWords = words.filter(word => !word.includes('https'));
+    let filteredWords = words?.filter(word => !word?.includes('https'));
 
     // Join the filtered words back into a single string
-    let output = filteredWords.join(' ');
+    let output = filteredWords?.join(' ');
 
     return output;
 }
@@ -336,11 +337,11 @@ const optionCompanySpread = {
 
                       </Card.Header>
                       <Card.Content>
-                       
-                        <div class="app w-full h-[150px]">
-                          <Chart options={optionGraphPost} class="chart" />
-                        </div>
-                    
+                        <Lazy>
+                          <div class="app w-full h-[150px]">
+                            <Chart options={optionGraphPost} class="chart" />
+                          </div>
+                        </Lazy>
                       </Card.Content>
                     </Card.Root>
 
@@ -358,9 +359,11 @@ const optionCompanySpread = {
 
                       </Card.Header>
                       <Card.Content>
-                        <div class="app w-full h-[150px]">
-                          <Chart options={optionGraphComment} class="chart" />
-                        </div>
+                        <Lazy>
+                          <div class="app w-full h-[150px]">
+                            <Chart options={optionGraphComment} class="chart" />
+                          </div>
+                        </Lazy>
                       </Card.Content>
                     </Card.Root>
 
@@ -379,15 +382,18 @@ const optionCompanySpread = {
 
                       </Card.Header>
                       <Card.Content>
+                      <Lazy>
                         <div class="app w-full h-[150px]">
                           <Chart options={optionGraphCompanySpread} class="chart" />
                         </div>
+                      </Lazy>
                       </Card.Content>
                     </Card.Root>
 
                   </div>
 
-                  <div class="mt-10 grid gap-4 md:gap-8 grid-cols-1  text-start">
+                  <div class="mt-10 grid gap-4 md:gap-8 grid-cols-1 text-start">
+                  <Lazy>
                     <Card.Root class="order-1 overflow-x-scroll h-full">
                       <Card.Header class="flex flex-row items-center">
                         <div class="flex flex-col items-start w-full">
@@ -442,6 +448,7 @@ const optionCompanySpread = {
                         {/each}
                       </Card.Content>
                     </Card.Root>
+                  </Lazy>
                     <Card.Root class="order-0 overflow-x-scroll h-[500px]">
                       <Card.Header>
                         <Card.Title class="text-start text-xl w-full flex flex-row items-center">
