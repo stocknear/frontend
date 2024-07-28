@@ -131,8 +131,8 @@ function getPlotOptions() {
       },
       showSymbol: false,
       areaStyle: {
-        opacity: 0.6,
-        color: '#2662D9'
+        opacity: 1,
+        color: '#3B82F6'
       },
       emphasis: {
         focus: 'series'
@@ -190,8 +190,8 @@ const optionComment = {
       },
       showSymbol: false,
       areaStyle: {
-        opacity: 0.6,
-        color: '#DE356E'
+        opacity: 1,
+        color: '#E11D48'
       },
       emphasis: {
         focus: 'series'
@@ -248,7 +248,7 @@ const optionCompanySpread = {
       showSymbol: false,
       data: numCompanyList,
       itemStyle: {
-            color: '#E2E2E2'
+            color: '#22C55E'
           }
     },
   ]
@@ -297,7 +297,7 @@ const optionCompanySpread = {
     <section class="w-full max-w-screen overflow-hidden m-auto min-h-screen bg-[#09090B] pb-40">
           
       <div class="flex flex-col w-full max-w-6xl 3xl:max-w-7xl m-auto justify-center items-center">
-        <div class="text-center mb-10 w-full px-4 sm:px-0 mt-10">    
+        <div class="text-center mb-10 w-full px-4 sm:px-5 lg:px-0 mt-10">    
 
       <div class="flex flex-col items-start mb-10">
       <div class="flex flex-row items-center mb-10">
@@ -323,11 +323,11 @@ const optionCompanySpread = {
                   {#if isLoaded}
 
                   <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:gap-8">
-                    <Card.Root>
+                    <Card.Root class="bg-[#141417]">
                       <Card.Header class="flex flex-col items-start space-y-0 pb-2">
                         <Card.Title class="text-start text-xl sm:text-2xl font-semibold pb-2">Post Activity</Card.Title>
                         <Card.Description class="text-gray-300 text-sm pb-2">Number of Posts in the last 24 hours:</Card.Description>
-                        <Card.Description class="text-white text-[1rem] pb-2"><span class="text-white font-bold text-2xl">
+                        <Card.Description class="text-white text-[1rem] pb-2"><span class="text-[#408FFF] font-bold text-2xl">
                           +{postList?.at(-1)}
                         </span> posts today
                       </Card.Description>
@@ -345,11 +345,11 @@ const optionCompanySpread = {
                       </Card.Content>
                     </Card.Root>
 
-                    <Card.Root>
+                    <Card.Root class="bg-[#141417]">
                       <Card.Header class="flex flex-col items-start space-y-0 pb-2">
                         <Card.Title class="text-start text-xl sm:text-2xl font-semibold pb-2">Comment Activity</Card.Title>
                         <Card.Description class="text-gray-300 text-sm pb-2">Number of Comments in the last 24 hours:</Card.Description>
-                        <Card.Description class="text-white text-[1rem] pb-2"><span class="text-white font-bold text-2xl">
+                        <Card.Description class="text-white text-[1rem] pb-2"><span class="text-[#F71F4F] font-bold text-2xl">
                           +{abbreviateNumber(commentList?.at(-1))}
                           </span> comments today
                         </Card.Description>
@@ -367,11 +367,11 @@ const optionCompanySpread = {
                       </Card.Content>
                     </Card.Root>
 
-                    <Card.Root>
+                    <Card.Root class="bg-[#141417]">
                       <Card.Header class="flex flex-col items-start space-y-0 pb-2">
                         <Card.Title class="text-start text-xl sm:text-2xl font-semibold pb-2">Company Spread</Card.Title>
                         <Card.Description class="text-start text-gray-300 text-sm pb-2">Number of Tickers discussed in the last 24 hours:</Card.Description>
-                        <Card.Description class="text-white text-[1rem] pb-2"><span class="text-white font-bold text-2xl">
+                        <Card.Description class="text-white text-[1rem] pb-2"><span class="text-[#24D766] font-bold text-2xl">
                           +{numCompanyList?.at(-1)}
                           </span> discussed today
                         </Card.Description>
