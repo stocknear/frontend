@@ -312,13 +312,13 @@ $: {
 {:else }
 
 <div class="flex min-h-screen w-full flex-col bg-[#09090B]">
-  <aside class="fixed overflow-y-scroll scroller overflow-hidden inset-y-0 left-0 z-50 hidden w-72 flex-col 2xl:border-r 2xl:border-gray-800 bg-[#141417] 2xl:flex">
-    <nav class="flex flex-col items-center mr-auto gap-y-4 2xl:py-5 w-full">
+  <aside class="fixed overflow-y-scroll scroller overflow-hidden inset-y-0 left-0 z-50 hidden 3xl:flex w-72 flex-col 3xl:border-r 3xl:border-gray-800 bg-[#141417]">
+    <nav class="flex flex-col items-center mr-auto gap-y-4 3xl:py-5 w-full">
       <a
         href="/"
         class="-ml-3 mb-5 flex justify-end items-center h-9 w-9 shrink-0 gap-2 rounded-full text-lg font-semibold text-primary-foreground md:h-10 md:w-10 md:text-base"
       >
-      <img class="avatar w-9 2xl:w-12 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
+      <img class="avatar w-9 3xl:w-12 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
         <span class="text-white text-xl">Stocknear</span>
       </a>
       
@@ -896,7 +896,7 @@ $: {
       </Sheet.Root>
       
       <a href="/" class="-ml-2 flex w-9 flex-shrink-0">
-        <img class="avatar w-9 2xl:w-10 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
+        <img class="avatar w-9 3xl:w-10 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
         <span class="text-white font-semibold ml-2 text-lg">Stocknear</span>
       </a>
 
