@@ -297,7 +297,7 @@ const optionCompanySpread = {
     <section class="w-full max-w-screen overflow-hidden m-auto min-h-screen bg-[#09090B] pb-40">
           
       <div class="flex flex-col w-full max-w-6xl 3xl:max-w-7xl m-auto justify-center items-center">
-        <div class="text-center mb-10 w-full px-4 sm:px-5 lg:px-0 mt-10">    
+        <div class="text-center mb-10 w-full px-4 3xl:px-10 mt-10 3xl:ml-20">    
 
       <div class="flex flex-col items-start mb-10">
       <div class="flex flex-row items-center mb-10">
