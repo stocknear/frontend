@@ -35,6 +35,7 @@
 
         </div>
 
+        <!--
         <a href="https://stats.uptimerobot.com/MP0zLix9yk" rel="noopener noreferrer" target="_blank" class="flex flex-row items-center mt-4">
           <span class="text-white sm:hover:text-purple-400">
             Server Status
@@ -44,6 +45,7 @@
             <span class="relative inline-flex rounded-full h-3 w-3 bg-purple-600"></span>
           </span>
         </a>
+        -->
 
       </div>
       
