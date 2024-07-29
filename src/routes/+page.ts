@@ -4,9 +4,9 @@ import { redirect } from '@sveltejs/kit';
 
 export const load = async ({parent}) => {
 
-  const data = await parent();
+  const { user } = await parent();
 
-  if (data?.user) {
+  if (user) {
 		redirect(303, '/home');
 	}
 

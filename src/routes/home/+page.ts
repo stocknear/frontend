@@ -1,14 +1,7 @@
-import { userRegion, getCache, setCache } from '$lib/store';
+import { getCache, setCache } from '$lib/store';
 import defaultAvatar from '$lib/images/senator/default-avatar.png';
 import { getPartyForPoliticians } from '$lib/utils';
 import { redirect } from '@sveltejs/kit';
-
-
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
 
 
 let images = {};
@@ -30,22 +23,11 @@ async function loadImages() {
 }
 
 
-
-userRegion.subscribe(value => {
-
-  if (usRegion.includes(value)) {
-    apiURL = import.meta.env.VITE_USEAST_API_URL;
-  } else {
-    apiURL = import.meta.env.VITE_EU_API_URL;
-  }
-});
-
-
 export const load = async ({ parent}) => {
 
-  const data = await parent();
+  const { user, apiKey, apiURL } = await parent();
 
-  if (!data?.user) {
+  if (!user) {
 		redirect(303, '/');
 	}
 
