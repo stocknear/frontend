@@ -443,6 +443,7 @@ $: {
                 <HandShake class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
                 <span class="text-white ml-1 mr-auto">Congress</span>
               </Accordion.Trigger>
+              
               <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                 <div class="flex flex-col items-start">
                   <div class="flex flex-col items-start">
