@@ -21,6 +21,6 @@
 		on:click
 	>
 		<slot />
-		<ChevronDown class="h-4 w-4 absolute right-32 sm:right-16 transition-transform duration-200 " />
+		<ChevronDown class="h-4 w-4 flex-shrink-0 transition-transform duration-200" />
 	</AccordionPrimitive.Trigger>
 </AccordionPrimitive.Header>

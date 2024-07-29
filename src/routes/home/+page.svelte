@@ -87,8 +87,8 @@ onMount( async() => {
           <Feedback data={data} />
         {/if}
         
-        <div class="text-center mb-5 relative w-fit flex justify-center m-auto">
-          <a href="/reddit-tracker" class="text-white antialiased bg-[#27272A] w-full px-4 py-2 rounded-xl m-auto font-medium text-sm flex items-center">
+        <div class="text-center mb-10 relative w-fit flex justify-center m-auto">
+          <a href="/reddit-tracker" class="text-white antialiased bg-[#27272A] w-full px-4 py-2 rounded-xl m-auto font-medium text-[1rem] flex items-center">
             <span class="font-semibold">Realtime Wallstreetbets Tracker</span>
           </a>
           <div class="absolute top-[-1.2rem] -right-5 sm:-right-8 rotate-[7deg]">
