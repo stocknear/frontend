@@ -1,5 +1,5 @@
 <script lang='ts'>
-  import { stockTicker, userRegion, getCache, setCache, displayCompanyName, screenWidth, numberOfUnreadNotification } from '$lib/store';
+  import { stockTicker, getCache, setCache, displayCompanyName, screenWidth, numberOfUnreadNotification } from '$lib/store';
   import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
   import { page } from '$app/stores';
     
@@ -12,27 +12,11 @@
   let notDestroyed = true;
   
   let charNumber = 20;
-  let displayQuarter = '1';
-  let displayYear = '2024';
+  let displayQuarter = data?.quarter;
+  let displayYear = data?.year;
   let quarter = displayQuarter;
   let year = displayYear;
   let isLoaded = true;
-  
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-  
-  let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-  
-  userRegion.subscribe(value => {
-  
-    if (usRegion.includes(value)) {
-      apiURL = import.meta.env.VITE_USEAST_API_URL;
-    } else {
-      apiURL = import.meta.env.VITE_EU_API_URL;
-    }
-  });
-  
   
   function backToTop() {
       window.scrollTo({
@@ -68,12 +52,12 @@ let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
           quarter: quarter,
           year: year
         };
-  
+        console.log('test')
         // make the POST request to the endpoint
-        const response = await fetch(apiURL + '/earnings-call-transcripts', {
+        const response = await fetch(data?.apiURL + '/earnings-call-transcripts', {
           method: 'POST',
           headers: {
-            "Content-Type": "application/json", "X-API-KEY": apiKey
+            "Content-Type": "application/json", "X-API-KEY": data?.apiKey
           },
           body: JSON.stringify(postData)
         });
@@ -162,13 +146,13 @@ let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
 
   
                             <div class="flex flex-row items-center mb-5 pt-3 justify-center sm:justify-end">
-                              <label for="quarterModal" class="ml-1 sm:ml-3 text-sm cursor-pointer bg-[#09090B] sm:hover:bg-[#09090B] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
+                              <label for="quarterModal" class="ml-1 sm:ml-3 text-sm cursor-pointer bg-purple-600 sm:hover:bg-purple-700 duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
                                   Quarter: Q{quarter}
                               </label>
-                              <label for="yearModal" class="ml-3 text-sm cursor-pointer bg-[#09090B] sm:hover:bg-[#09090B] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
+                              <label for="yearModal" class="ml-3 text-sm cursor-pointer bg-purple-600 sm:hover:bg-purple-700 duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
                                   Year: {year}
                               </label>
-                              <label on:click={() => getTranscripts()} class="ml-3 text-sm cursor-pointer bg-[#09090B] sm:hover:bg-[#09090B] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
+                              <label on:click={() => getTranscripts()} class="ml-3 text-sm cursor-pointer bg-purple-600 sm:hover:bg-purple-700 duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
                                   Run
                               </label>
                             </div>
