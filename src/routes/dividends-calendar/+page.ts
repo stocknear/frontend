@@ -11,12 +11,12 @@ export const load = async ({parent}) => {
       output = cachedData;
     } else {
       
-      const data = await parent();
+      const {apiKey, apiURL} = await parent();
       // make the POST request to the endpoint
-      const response = await fetch(data?.apiURL + '/dividends-calendar', {
+      const response = await fetch(apiURL + '/dividends-calendar', {
         method: 'GET',
         headers: {
-          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
+          "Content-Type": "application/json", "X-API-KEY": apiKey
         },
       });
 

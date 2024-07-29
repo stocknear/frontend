@@ -1,32 +1,16 @@
-import { userRegion, getCache, setCache } from '$lib/store';
+import { getCache, setCache } from '$lib/store';
 
-
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-
-userRegion.subscribe(value => {
-
-  if (usRegion.includes(value)) {
-    apiURL = import.meta.env.VITE_USEAST_API_URL;
-  } else {
-    apiURL = import.meta.env.VITE_EU_API_URL;
-  }
-});
 
 
 export const load = async ({parent}) => {
   const getMostShortedStocks = async () => {
     let output;
-    const data = await parent();
+    const {apiKey, apiURL, user} = await parent();
 
     const cachedData = getCache('', 'getMostShortedStocks');
     if (cachedData) {
       output = cachedData;
     } else {
-    // make the POST request to the endpoint
     const response = await fetch(apiURL + '/most-shorted-stocks', {
       method: 'GET',
       headers: {
@@ -36,7 +20,7 @@ export const load = async ({parent}) => {
 
     output = await response.json();
 
-    output = data?.user?.tier !== 'Pro' ? output?.slice(0,6) : output;
+    output = user?.tier !== 'Pro' ? output?.slice(0,6) : output;
 
     setCache('', output, 'getMostShortedStocks');
 

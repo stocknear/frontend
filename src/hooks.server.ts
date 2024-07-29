@@ -8,14 +8,14 @@ export const handle = async ({ event, resolve }) => {
     const userRegion = regionHeader.split('::')[0];
 
     const isUsRegion = usRegion.has(userRegion);
-    const pbUrl = import.meta.env[isUsRegion ? 'VITE_USEAST_POCKETBASE_URL' : 'VITE_EU_POCKETBASE_URL'];
+    const pbURL = import.meta.env[isUsRegion ? 'VITE_USEAST_POCKETBASE_URL' : 'VITE_EU_POCKETBASE_URL'];
     const apiURL = import.meta.env[isUsRegion ? 'VITE_USEAST_API_URL' : 'VITE_EU_API_URL'];
     const fastifyURL = import.meta.env[isUsRegion ? 'VITE_USEAST_FASTIFY_URL' : 'VITE_EU_FASTIFY_URL'];
     const wsURL = import.meta.env[isUsRegion ? 'VITE_USEAST_WS_URL' : 'VITE_EU_WS_URL'];
 
     event.locals = {
         region: decodeURIComponent(regionHeader),
-        pb: new PocketBase(pbUrl),
+        pb: new PocketBase(pbURL),
         apiURL,
         fastifyURL,
         wsURL,

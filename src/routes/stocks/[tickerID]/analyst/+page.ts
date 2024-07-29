@@ -12,16 +12,17 @@ export const load = async ({ parent, params }) => {
         output = cachedData;
       } else {
 
-        const data = await parent();
+        const {apiURL, apiKey} = await parent();
+
         const postData = {
           ticker: params.tickerID
         };
 
       // make the POST request to the endpoint
-      const response = await fetch(data?.apiURL + '/analyst-ticker-history', {
+      const response = await fetch(apiURL + '/analyst-ticker-history', {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
+          "Content-Type": "application/json", "X-API-KEY": apiKey
         },
         body: JSON.stringify(postData)
       });

@@ -1,28 +1,12 @@
-import { userRegion, getCache, setCache } from '$lib/store';
-
-
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-let fastifyURL;
-userRegion.subscribe(value => {
-
-    if (usRegion.includes(value)) {
-        apiURL = import.meta.env.VITE_USEAST_API_URL;
-        fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-    } else {
-        apiURL = import.meta.env.VITE_EU_API_URL;
-        fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-    }
-});
+import { getCache, setCache } from '$lib/store';
 
 
 
 
+export const load = async ({parent, params}) => {
 
-export const load = async ({params}) => {
+
+  const { apiURL, apiKey, fastifyURL} = await parent();
 
     const getStrategyId = async () => {
         return params.strategyId;
@@ -83,8 +67,5 @@ export const load = async ({params}) => {
     getStockScreenerData: await getStockScreenerData(),
     getStrategy: await getStrategy(),
     getStrategyId: await getStrategyId(),
-    apiURL,
-    fastifyURL,
-    apiKey,
   };
 };

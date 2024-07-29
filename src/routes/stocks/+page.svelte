@@ -3,7 +3,6 @@ import { goto } from '$app/navigation';
 import { screenWidth, numberOfUnreadNotification } from '$lib/store';
 import { abbreviateNumber } from '$lib/utils';
 import { page } from '$app/stores';
-import { fly } from 'svelte/transition';
 import logo from '$lib/images/box_logo.png';
 
 import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
@@ -78,7 +77,7 @@ $: {
   
 
       
-    <section in:fly={{ x: -10, duration: 150, delay: 150 }} out:fly={{ x: 5, duration: 150 }} class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-40">
+    <section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-40">
         
       <!--
       <div class="text-sm breadcrumbs ml-4">
@@ -89,7 +88,7 @@ $: {
       </div>
       -->
 
-      <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+      <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
       
           <!-- Start Column -->

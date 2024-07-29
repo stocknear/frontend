@@ -1,4 +1,4 @@
-import { userRegion, getCache, setCache, isOpen } from '$lib/store';
+import { getCache, setCache, isOpen } from '$lib/store';
 
 
 const checkMarketHour = async () => {
@@ -19,35 +19,18 @@ const checkMarketHour = async () => {
 }
 
 
-
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-
-userRegion.subscribe(value => {
-
-  if (usRegion.includes(value)) {
-    apiURL = import.meta.env.VITE_USEAST_API_URL;
-  } else {
-    apiURL = import.meta.env.VITE_EU_API_URL;
-  }
-});
-
-
 export const load = async ({parent}) => {
 
   checkMarketHour()
   const getDarkPoolFlow = async () => {
     let output;
-    const data = await parent();
 
     const cachedData = getCache('', 'getDarkPoolFlow');
     if (cachedData) {
       output = cachedData;
     } else {
-    // make the POST request to the endpoint
+    
+    const {apiKey, apiURL} = await parent();
     const response = await fetch(apiURL + '/dark-pool-flow', {
       method: 'GET',
       headers: {

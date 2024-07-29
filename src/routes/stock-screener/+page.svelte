@@ -1,6 +1,6 @@
 <script lang='ts'>
   import { goto } from '$app/navigation';
-  import { strategyId, userRegion, screenWidth, numberOfUnreadNotification } from '$lib/store';
+  import { strategyId, screenWidth, numberOfUnreadNotification } from '$lib/store';
   import Input  from '$lib/components/Input.svelte';
   import toast from 'svelte-french-toast';
   import logo from "$lib/images/stock_screener_logo.png";
@@ -9,24 +9,6 @@
 
   import { onMount } from 'svelte';
   
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-  let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-  let fastifyURL;
-
-  userRegion.subscribe(value => {
-
-    if (usRegion.includes(value)) {
-      apiURL = import.meta.env.VITE_USEAST_API_URL;
-      fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-    } else {
-      apiURL = import.meta.env.VITE_EU_API_URL;
-      fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-    }
-  });
-
 
   export let data;
   export let form;
@@ -37,7 +19,7 @@ let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
 async function getAllStrategies()
 {
     const postData = {'userId': data?.user?.id}
-    const response = await fetch(fastifyURL+'/all-strategies', {
+    const response = await fetch(data?.fastifyURL+'/all-strategies', {
     method: 'POST',
     headers: {
      "Content-Type": "application/json"
@@ -85,7 +67,7 @@ async function createStrategy(event)
 
 
 
-  const response = await fetch(fastifyURL+'/create-strategy', {
+  const response = await fetch(data?.fastifyURL+'/create-strategy', {
     method: 'POST',
     headers: {
      "Content-Type": "application/json"
@@ -143,7 +125,7 @@ onMount(async () => {
   
     const postData = {'strategyId': deleteStrategyId};
 
-    const response = await fetch(fastifyURL+'/delete-strategy', {
+    const response = await fetch(data?.fastifyURL+'/delete-strategy', {
       method: 'POST',
       headers: {
          "Content-Type": "application/json"

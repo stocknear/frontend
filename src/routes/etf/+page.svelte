@@ -3,7 +3,6 @@ import { goto } from '$app/navigation';
 import { numberOfUnreadNotification, screenWidth } from '$lib/store';
 import { abbreviateNumber  } from '$lib/utils';
 import { page } from '$app/stores';
-import { fly } from 'svelte/transition';
 import logo from '$lib/images/box_logo.png';
 
 import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
@@ -64,7 +63,6 @@ $: {
 <!-- Other meta tags -->
 <meta property="og:title" content={`List of All ETF Ticker Symbols · stocknear`}/>
 <meta property="og:description" content={`An overview of all the ETF symbols listed. Explore the ETF pages to learn about the fund’s price history, holdings, dividends and more.`} />
-<meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <meta property="og:type" content="website"/>
 <!-- Add more Open Graph meta tags as needed -->
 
@@ -72,12 +70,11 @@ $: {
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content={`List of All ETF Ticker Symbols · stocknear`}/>
 <meta name="twitter:description" content={`An overview of all the ETF symbols listed. Explore the ETF pages to learn about the fund’s price history, holdings, dividends and more.`} />
-<meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
           
-        <section in:fly={{ x: -10, duration: 150, delay: 150 }} out:fly={{ x: 5, duration: 150 }} class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-40">
+        <section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-40">
             <!--
             <div class="text-sm breadcrumbs ml-4">
                 <ul>
@@ -87,7 +84,7 @@ $: {
             </div>
           -->
 
-          <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+          <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
           
               <!-- Start Column -->

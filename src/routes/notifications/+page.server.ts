@@ -1,17 +1,5 @@
 import { redirect, error} from '@sveltejs/kit';
-import { userRegion } from '$lib/store';
 
-
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
-	let fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-
-	userRegion.subscribe(value => {
-	if (usRegion.includes(value)) {
-		fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-	} else {
-		fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-	}
-	});
 
 export const load = async ({ locals }) => {
 
@@ -23,7 +11,7 @@ export const load = async ({ locals }) => {
 
         const postData = {'userId': locals?.user?.id};
     
-        const response = await fetch(fastifyURL+'/get-notifications', {
+        const response = await fetch(locals?.fastifyURL+'/get-notifications', {
             method: 'POST',
             headers: {
              "Content-Type": "application/json"

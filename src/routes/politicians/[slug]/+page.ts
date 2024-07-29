@@ -1,28 +1,13 @@
-import { userRegion, getCache, setCache } from '$lib/store';
+import { getCache, setCache } from '$lib/store';
 import defaultAvatar from '$lib/images/senator/default-avatar.png';
 import { getPartyForPoliticians } from '$lib/utils';
 
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
 
 let images = {};
 let politicianImage;
 let politicianDistrict;
 let politicianCongress;
 let politicianParty = 'n/a';
-
-userRegion.subscribe(value => {
-
-  if (usRegion?.includes(value)) {
-    apiURL = import.meta.env.VITE_USEAST_API_URL;
-  } else {
-    apiURL = import.meta.env.VITE_EU_API_URL;
-  }
-});
-
-
 // Function to load images only when they are viewed
   async function loadImages() {
     const imageFiles = import.meta.glob('$lib/images/senator/*.png');
@@ -41,7 +26,7 @@ userRegion.subscribe(value => {
   }
 
 
-export const load = async ({params}) => {
+export const load = async ({parent, params}) => {
   const getPolitician = async () => {
     let res;
 
@@ -50,9 +35,10 @@ export const load = async ({params}) => {
     if (cachedData) {
       res = cachedData;
     } else {
+      const { apiURL, apiKey} = await parent();
 
-        const postData = {'politicianId': params.slug}
-      // make the POST request to the endpoint
+      const postData = {'politicianId': params.slug}
+      
       const response = await fetch(apiURL + '/politician-stats', {
         method: 'POST',
         headers: {

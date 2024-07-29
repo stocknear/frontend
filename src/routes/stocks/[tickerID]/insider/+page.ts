@@ -26,7 +26,7 @@ const transactionTypeMap = {
 
 export const load = async ({ parent, params }) => {
 
-  const data = await parent();
+  const {apiURL, apiKey} = await parent();
 
 
   const getInsiderTrading = async () => {
@@ -42,10 +42,10 @@ export const load = async ({ parent, params }) => {
         };
 
       // make the POST request to the endpoint
-      const response = await fetch(data?.apiURL + '/insider-trading', {
+      const response = await fetch(apiURL + '/insider-trading', {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
+          "Content-Type": "application/json", "X-API-KEY": apiKey
         },
         body: JSON.stringify(postData)
       });
@@ -80,10 +80,10 @@ export const load = async ({ parent, params }) => {
         };
 
       // make the POST request to the endpoint
-      const response = await fetch(data?.apiURL + '/insider-trading-statistics', {
+      const response = await fetch(apiURL + '/insider-trading-statistics', {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
+          "Content-Type": "application/json", "X-API-KEY": apiKey
         },
         body: JSON.stringify(postData)
       });
@@ -110,10 +110,10 @@ async function historicalPrice() {
           timePeriod: 'max',
         };
   
-        const response = await fetch(data?.apiURL+'/historical-price', {
+        const response = await fetch(apiURL+'/historical-price', {
           method: 'POST',
           headers: {
-            "Content-Type": "application/json", "X-API-KEY": data?.apiKey
+            "Content-Type": "application/json", "X-API-KEY": apiKey
           },
           body: JSON.stringify(postData)
         });
@@ -123,7 +123,7 @@ async function historicalPrice() {
         //Adding this would create a bug hence I cant use the historicalPrice endpoint such as in +page.svelte but rather need to call
         // it again without modification.
       /*
-        output= (data) => data?.map(({ time, open, high, low, close }) => ({ 
+        output= (data) => map(({ time, open, high, low, close }) => ({ 
             time: Date.parse(time), 
             open, 
             high, 
