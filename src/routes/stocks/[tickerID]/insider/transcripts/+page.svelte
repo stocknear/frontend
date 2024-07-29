@@ -190,7 +190,7 @@
                                             <svg class="w-6 h-6 sm:w-7 sm:h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#27272A" d="M12 14q-1.25 0-2.125-.875T9 11V5q0-1.25.875-2.125T12 2q1.25 0 2.125.875T15 5v6q0 1.25-.875 2.125T12 14m-1 7v-3.075q-2.6-.35-4.3-2.325T5 11h2q0 2.075 1.463 3.538T12 16q2.075 0 3.538-1.463T17 11h2q0 2.625-1.7 4.6T13 17.925V21z"/></svg>
                                           </div>
                                       </div>
-                                      <div class="flex flex-col w-full leading-1.5 p-4 bg-purple-600 rounded-l-xl rounded-tr-xl">
+                                      <div class="flex flex-col w-full leading-1.5 p-4 bg-[#27272A] rounded-l-xl rounded-tr-xl">
                                          <p class="text-sm font-normal py-2.5 text-gray-200">
                                           {item?.description}
                                          </p>
@@ -213,7 +213,7 @@
                                           </span>
                                       </div>
                                   </div>
-                                  <div class="flex flex-col w-full leading-1.5 p-4 bg-slate-800 rounded-r-xl rounded-tl-xl">
+                                  <div class="flex flex-col w-full leading-1.5 p-4 bg-[#27272A] rounded-r-xl rounded-tl-xl">
                                      <p class="text-sm font-normal py-2.5 text-gray-200">
                                       {item?.description}
                                      </p>
