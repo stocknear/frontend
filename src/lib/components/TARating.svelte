@@ -87,7 +87,6 @@ async function updateData() {
       });
       
       isLoaded = true;
-      console.log(signalList);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
