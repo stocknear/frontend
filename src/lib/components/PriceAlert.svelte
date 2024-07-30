@@ -1,6 +1,6 @@
 <script lang='ts'>
     import toast from 'svelte-french-toast';
-    import {userRegion, screenWidth, openPriceAlert, displayCompanyName, stockTicker, etfTicker, cryptoTicker, assetType} from '$lib/store';
+    import {screenWidth, openPriceAlert, displayCompanyName, stockTicker, etfTicker, cryptoTicker, assetType} from '$lib/store';
     import RangeSlider from 'svelte-range-slider-pips';
     
     export let data;
@@ -9,19 +9,6 @@
     let values = [0];
     let displayPrice = (currentPrice*(1+values?.at(0)/100))?.toFixed(2);
 
-    const usRegion = ['cle1','iad1','pdx1','sfo1'];
-    
-    let fastifyURL;
-    
-    userRegion.subscribe(value => {
-        if (usRegion.includes(value)) {
-        fastifyURL  = import.meta.env.VITE_USEAST_FASTIFY_URL;
-        } else {
-        fastifyURL  = import.meta.env.VITE_EU_FASTIFY_URL;
-        }
-    });
-        
-        
     async function handleCreateAlert()
     {
         if (values?.at(0) === 0)
@@ -43,7 +30,7 @@
         }
     
             // Make the POST request to the endpoint
-            const response = await fetch(fastifyURL+'/create-price-alert', {
+            const response = await fetch(data?.fastifyURL+'/create-price-alert', {
                 method: 'POST',
                 headers: {
                 "Content-Type": "application/json"

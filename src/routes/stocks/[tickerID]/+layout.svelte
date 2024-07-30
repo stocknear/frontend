@@ -1,6 +1,6 @@
 <script lang='ts'>
 
-  import {searchBarData, globalForm, screenWidth, openPriceAlert, currentPortfolioPrice, realtimePrice, isCrosshairMoveActive, currentPrice, priceIncrease, displayCompanyName, traded, stockTicker, isOpen } from '$lib/store';
+  import {searchBarData, globalForm, screenWidth, openPriceAlert, currentPortfolioPrice, realtimePrice, isCrosshairMoveActive, currentPrice, priceIncrease, displayCompanyName, stockTicker, isOpen } from '$lib/store';
 
   import { onMount, onDestroy, afterUpdate} from "svelte";
   import { goto } from '$app/navigation';
@@ -45,12 +45,13 @@ async function loadSearchData() {
 
     
     let isScrolled = false;
+    let y;
       
     let userWatchList = data?.getUserWatchlist ?? [];
     let isTickerIncluded; 
-    let userPortfolio = data?.getUserPortfolio ?? [];
-    let holdingShares = 0;
-    let availableCash = 0;
+    //let userPortfolio = data?.getUserPortfolio ?? [];
+    //let holdingShares = 0;
+    //let availableCash = 0;
     
     let displaySection = '';
 
@@ -79,7 +80,7 @@ function shareContent(url) {
   
 }
 
-
+/*
 function handleTypeOfTrade(state:string)
 {
   if (state === 'buy')
@@ -92,10 +93,9 @@ function handleTypeOfTrade(state:string)
   {
     const closePopup = document.getElementById("sellTradeModal");
     closePopup?.dispatchEvent(new MouseEvent('click'))
-  }
-
-  
+  } 
 }
+*/
 
 
 function scrollToItem(itemId) {
@@ -134,39 +134,17 @@ function changeSection(state, item) {
 
     
 async function toggleUserWatchlist(watchListId: string) {
-
   try {
-    isTickerIncluded = !isTickerIncluded;
-
     const watchlistIndex = userWatchList?.findIndex(item => item?.id === watchListId);
-
-    if (watchlistIndex !== -1) {
-      const existingTickerIndex = userWatchList[watchlistIndex]?.ticker?.indexOf($stockTicker);
-
-      if (existingTickerIndex !== -1) {
-        // If the $stockTicker exists, remove it from the array
-        userWatchList[watchlistIndex]?.ticker?.splice(existingTickerIndex, 1);
-      } else {
-        // If the $stockTicker doesn't exist, add it to the array
-        userWatchList[watchlistIndex]?.ticker?.push($stockTicker);
-      }
-
-      // Update the userWatchList
-      userWatchList = [...userWatchList];
-    }
-
-
     const postData = {
-      'userId': data?.user?.id,
-      'watchListId': watchListId,
-      'ticker': $stockTicker,
+      userId: data?.user?.id,
+      watchListId,
+      ticker: $stockTicker,
     };
 
-    const response = await fetch(data?.fastifyURL + '/update-watchlist', {
+    const response = await fetch(`${data?.fastifyURL}/update-watchlist`, {
       method: 'POST',
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(postData),
     });
 
@@ -176,15 +154,14 @@ async function toggleUserWatchlist(watchListId: string) {
 
     const output = (await response.json())?.items;
 
-    // Update the userWatchList with the response from the server
-    if( watchlistIndex !== -1)
-    {
+    if (watchlistIndex !== -1) {
       userWatchList[watchlistIndex] = output;
-      userWatchList = [...userWatchList];
+    } else {
+      userWatchList.push(output);
     }
-    else {
-      userWatchList = [...userWatchList, output];
-    }
+
+    userWatchList = [...userWatchList];
+    isTickerIncluded = !isTickerIncluded;
 
   } catch (error) {
     console.error('An error occurred:', error);
@@ -192,7 +169,8 @@ async function toggleUserWatchlist(watchListId: string) {
   }
 }
 
-    
+
+/*
 async function fetchPortfolio()
 {
   const postData = {'userId': data?.user?.id};
@@ -208,15 +186,9 @@ async function fetchPortfolio()
     userPortfolio = (await response.json())?.items;
 
 }
-    
-    
+*/
 
 
-
-function handleScroll() {
-    // Check the scroll position
-    isScrolled = window.scrollY > 0;
-  }
 
   
 function sendMessage(message) {
@@ -286,7 +258,7 @@ async function websocketRealtimeData() {
 let LoginPopup;
 let PriceAlert;
 
-    
+
 onMount(async () => {
   
     if(!data?.user)
@@ -300,25 +272,11 @@ onMount(async () => {
       PriceAlert = (await import('$lib/components/PriceAlert.svelte')).default;
     }
    
-    //const startTime = currentDateTime.set({ hour: 15, minute: 30 });
-    //const endTime = currentDateTime.set({ hour: 22, minute: 0 });
-    // Check if it's not a weekend and the current time is within the specified range
-
 
     if ($isOpen) //&& currentDateTime > startTime && currentDateTime < endTime
     {
       await websocketRealtimeData()
     }
-
-  
-    // Add a scroll event listener
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-    // Remove the event listener when the component is unmounted
-    window.removeEventListener('scroll', handleScroll);
-    };
-
 });
 
 afterUpdate( async () => {
@@ -356,7 +314,7 @@ onDestroy(() => {
   $currentPortfolioPrice = null;
   $currentPrice = null;
   $priceIncrease = null;
-  $traded = false
+  //$traded = false
   
 });
 
@@ -371,30 +329,13 @@ $: {
     similarstock = data?.getSimilarStock;
     topETFHolder = data?.getTopETFHolder;
     $currentPortfolioPrice = data?.getStockQuote?.price;
-
-    const asyncFunctions = [
-      ];
-
-      Promise.all(asyncFunctions)
-          .then((results) => {
-            
-          })
-          .catch((error) => {
-            console.error('An error occurred:', error);
-          });
-  
-  }
-
-}
-    
-    
-$: {
-  if(userWatchList)
-  {
-    isTickerIncluded = userWatchList?.some(item => item.user === data?.user?.id && item?.ticker?.includes($stockTicker));
   }
 }
+    
+$: isTickerIncluded = userWatchList?.some(item => 
+  item.user === data?.user?.id && item.ticker?.includes($stockTicker));
 
+/*
 $: {
   if(userPortfolio) {
     availableCash = userPortfolio?.at(0)?.availableCash;
@@ -412,6 +353,7 @@ $: {
   }
 }
 
+
 $: {
   if(typeof window !== 'undefined' && $traded && data?.user && $stockTicker?.length !== 0)
   {
@@ -419,21 +361,10 @@ $: {
       $traded = false;
   }
 }
-    
+*/
 
 
-let charNumber = 12;
-
-$: {
-  if($screenWidth < 640)
-  {
-    charNumber = 12;
-  }
-  else {
-    charNumber = 25;
-  }
-}
-    
+$: charNumber = $screenWidth < 640 ? 12 : 25;
 
 $: {
   if($stockTicker && typeof window !== 'undefined' && $page.url.pathname === `/stocks/${$stockTicker}`)
@@ -458,7 +389,12 @@ $: {
   }
 }
 
+
+$: isScrolled = y > 0;
+
 </script>
+
+<svelte:window bind:scrollY={y}/>
 
 <body class="bg-[#09090B] pb-40">    
         <!-- Page wrapper -->
@@ -833,7 +769,7 @@ $: {
 
 <!--Start Type of Trade-->
 
-
+<!--
 <input type="checkbox" id="typeOfTrade" class="modal-toggle" />
 
 <dialog id="typeOfTrade" class="modal modal-bottom sm:modal-middle overflow-hidden">
@@ -897,16 +833,11 @@ $: {
   </div>
   </div>
 </dialog>
-
+-->
 <!--End Type of Trade-->
 
 
   
-
-
-
-
-
 
   <!--Start Add Watchlist Modal-->
   <input type="checkbox" id="addWatchListModal" class="modal-toggle" />
@@ -969,16 +900,6 @@ $: {
   <!--End Add Watchlist Modal-->
       
     
-
-
-
-
-
-
-
-
-
-
 
 
 
