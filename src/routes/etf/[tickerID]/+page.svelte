@@ -11,8 +11,6 @@
     export let data;
     export let form;
   
-  $assetType = 'etf';
-
           
     let output = null;
     
@@ -61,13 +59,11 @@
   //let TradingModel;
     let CountrySegmentation;
     let SectorSegmentation;
-    let WIIM;
     //let ETFKeyInformation;
     
     
   onMount(async() => {  
 
-    WIIM = (await import('$lib/components/WIIM.svelte')).default;
     CountrySegmentation = (await import('$lib/components/CountrySegmentation.svelte')).default;
     SectorSegmentation = (await import('$lib/components/SectorSegmentation.svelte')).default;
   })
@@ -1227,11 +1223,14 @@ async function initializePrice() {
                                   </div>
                                   {/if}
 
-                                  {#if WIIM}
-                                  <div class="w-full mt-10  m-auto sm:p-6 {data?.getWhyPriceMoved?.length !== 0  ? '' : 'hidden'}">
-                                    <WIIM wiim={data?.getWhyPriceMoved} data={data}/>
+    
+                                  <Lazy>
+                                    <div class="w-full mt-10  m-auto sm:p-6 {data?.getWhyPriceMoved?.length !== 0  ? '' : 'hidden'}">
+                                    {#await import('$lib/components/WIIM.svelte') then {default: Comp}}
+                                      <svelte:component this={Comp} data={data} />
+                                    {/await}
                                   </div>
-                                  {/if}
+                                  </Lazy>
 
                                   
                                 <Lazy>

@@ -1,6 +1,6 @@
 
 <script lang ='ts'>
-    import {stockTicker} from '$lib/store';
+    import {stockTicker, etfTicker} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
 
     export let data;
@@ -29,7 +29,7 @@ function latestInfoDate(inputDate) {
     
 $: {
 
-    if ($stockTicker && typeof window !== 'undefined')
+    if (($stockTicker || $etfTicker) && typeof window !== 'undefined')
     {   
         isLoaded = false;
         showFullHistory = false;
