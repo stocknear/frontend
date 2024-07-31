@@ -1,283 +1,98 @@
-
 <script lang="ts">
-
-    import { format, startOfWeek, addDays, addWeeks, subWeeks, differenceInWeeks } from 'date-fns'
-    import { screenWidth,  numberOfUnreadNotification } from '$lib/store';
-    import logo from '$lib/images/transcripts_logo.png';
-	  import ScrollToTop from '$lib/components/ScrollToTop.svelte';
-    import { listOfCountries } from '$lib/utils';
-    
-    export let data;
-    let rawData;
-    let filterList = [];
-    let weekdayFiltered = [];
-
-  async function handleFilter(e,newFilter) {
-    //e.preventDefault(); Weird bug but if you click on input box the blue checkmark does not appear when this line is included
-    //changeRuleFilter = true;
-    const filterSet = new Set(filterList);
+  import { format, startOfWeek, addDays, addWeeks, subWeeks, differenceInWeeks } from 'date-fns';
+  import { screenWidth, numberOfUnreadNotification } from '$lib/store';
+  import logo from '$lib/images/transcripts_logo.png';
+  import ScrollToTop from '$lib/components/ScrollToTop.svelte';
+  import { listOfCountries } from '$lib/utils';
   
-    // Check if the new filter already exists in the list
-    if (filterSet?.has(newFilter)) {
-      // If it exists, remove it from the list
-      filterSet?.delete(newFilter);
-    } else {
-      // If it doesn't exist, add it to the list
-      filterSet?.add(newFilter);
+  export let data;
+  let rawData;
+  let filterList = [];
+  let weekdayFiltered = [];
+  let syncWorker: Worker | undefined;
   
-    }
-    filterList = Array?.from(filterSet);
-    
-    if (filterList?.length !== 0) {
-      await loadWorker()
-    }
-    else {
-      weekday = rawData;
-    }
-    
+  const maxWeeksChange = 4;
+  const today = new Date();
+  let currentWeek = startOfWeek(today, { weekStartsOn: 1 });
+  let previousMax = false;
+  let nextMax = false;
   
+  $: economicCalendar = data?.getEconomicCalendar;
+  $: daysOfWeek = getDaysOfWeek(currentWeek);
+  $: formattedWeekday = daysOfWeek.map(day => format(day.date, "EEE, MMM d"));
+  $: weekday = getWeekdayData(economicCalendar, daysOfWeek);
+  $: rawData = weekday;
+  $: previousMax = differenceInWeeks(currentWeek, today) <= -maxWeeksChange;
+  $: nextMax = differenceInWeeks(currentWeek, today) >= maxWeeksChange;
+  
+  let currentDate = new Date();
+  let selectedWeekday = Math.min((currentDate.getDay() + 6) % 7, 4);
+  
+  function getDaysOfWeek(week) {
+      const startDate = startOfWeek(week, { weekStartsOn: 1 });
+      return Array.from({ length: 5 }, (_, i) => ({
+          name: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'][i],
+          date: addDays(startDate, i)
+      }));
   }
-
-let syncWorker: Worker | undefined = undefined;
-
-// Handling messages from the worker
-const handleMessage = async (event) => {
-    const finalData = event.data?.finalData
-    weekdayFiltered = finalData?.output ?? [];
-};
-
-const loadWorker = async () => {
-  const SyncWorker = await import('./workers/filterWorker?worker');
-  syncWorker = new SyncWorker.default();
-  syncWorker.postMessage({ rawData: rawData, filterList: filterList});
-  syncWorker.onmessage = handleMessage;
-
-};
-
-
-
-
-
-
-    let currentWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
-    let economicCalendar = data?.getEconomicCalendar;
-    const maxWeeksChange = 4; // Maximum allowed week change
-    let previousMax = false;
-    let nextMax = false;
-    const today = new Date();
   
-    let formattedMonday = startOfWeek(currentWeek, { weekStartsOn: 1 });
-    let formattedTuesday = format( addDays(formattedMonday, 1), "EEE, MMM d");
-    let formattedWednesday = format( addDays(formattedMonday, 2), "EEE, MMM d");
-    let formattedThursday = format( addDays(formattedMonday, 3), "EEE, MMM d");
-    let formattedFriday = format( addDays(formattedMonday, 4), "EEE, MMM d");
-    formattedMonday = format( formattedMonday, "EEE, MMM d");
-  
-    let formattedWeekday = [formattedMonday, formattedTuesday,formattedWednesday, formattedThursday, formattedFriday];
-    let weekday = [];
-  
-  
-    let startDate = startOfWeek(currentWeek, { weekStartsOn: 1 });
-    let endDate = addDays(startDate, 4);
-    let formattedStartDate = format(startDate, "yyyy-MM-dd");
-    let formattedEndDate = format(endDate, "yyyy-MM-dd");
-    let daysOfWeek = [
-        {
-          name: "Monday",
-          date: formattedStartDate,
-        },
-        {
-          name: "Tuesday",
-          date: format(addDays(startDate, 1), "yyyy-MM-dd"),
-        },
-        {
-          name: "Wednesday",
-          date: format(addDays(startDate, 2), "yyyy-MM-dd"),
-        },
-        {
-          name: "Thursday",
-          date: format(addDays(startDate, 3), "yyyy-MM-dd"),
-        },
-        {
-          name: "Friday",
-          date: formattedEndDate,
-        },
-      ];
-  
-    
-  
-    let currentDate = new Date();
-    let currentWeekday = Math.min((currentDate.getDay() + 6) % 7, 4);
-    let selectedWeekday = currentWeekday;
-    
-  
-    function toggleDate(index)
-    {
-      if($screenWidth > 640) {
-        selectedWeekday = index
-      }
-    }
-  
-  function clickWeekday (state, index)  {
-  
-      if (state==='next' && selectedWeekday+1 <=4)
-      {
-        selectedWeekday = selectedWeekday +1;
-      }
-      else if( state === 'previous' && selectedWeekday-1 >=0)
-      {
-        selectedWeekday --;
-      }
-  
-      else if (state=== 'previous' && index === 0 && differenceInWeeks(currentWeek, today) > -maxWeeksChange)
-      {
-        changeWeek(state)
-        selectedWeekday = 4;
-      }
-      else if (state=== 'next' && index === 4 && differenceInWeeks(currentWeek, today) < maxWeeksChange)
-      {
-        changeWeek(state)
-        selectedWeekday = 0;
-      }
-    
-    }
-  
-  async function changeWeek(state) {
-  
-    //Limit the user to go back max 4 weeks and look forward 4 weeks
-    if (state === 'previous' && differenceInWeeks(currentWeek, today) > -maxWeeksChange) {
-      currentWeek = subWeeks(currentWeek, 1);
-    } else if (state === 'next' && differenceInWeeks(currentWeek, today) < maxWeeksChange) {
-      currentWeek = addWeeks(currentWeek, 1);
-    }
-  
-  
-    formattedMonday = startOfWeek(currentWeek, { weekStartsOn: 1 });
-    formattedTuesday = format( addDays(formattedMonday, 1), "EEE, MMM d");
-    formattedWednesday = format( addDays(formattedMonday, 2), "EEE, MMM d");
-    formattedThursday = format( addDays(formattedMonday, 3), "EEE, MMM d");
-    formattedFriday = format( addDays(formattedMonday, 4), "EEE, MMM d");
-    formattedMonday = format( formattedMonday, "EEE, MMM d");
-  
-    formattedWeekday = [formattedMonday, formattedTuesday,formattedWednesday, formattedThursday, formattedFriday];
-    weekday = [];
-  
-    startDate = startOfWeek(currentWeek, { weekStartsOn: 1 });
-    endDate = addDays(startDate, 4);
-    formattedStartDate = format(startDate, "yyyy-MM-dd");
-    formattedEndDate = format(endDate, "yyyy-MM-dd");
-    daysOfWeek = [
-        {
-          name: "Monday",
-          date: formattedStartDate,
-        },
-        {
-          name: "Tuesday",
-          date: format(addDays(startDate, 1), "yyyy-MM-dd"),
-        },
-        {
-          name: "Wednesday",
-          date: format(addDays(startDate, 2), "yyyy-MM-dd"),
-        },
-        {
-          name: "Thursday",
-          date: format(addDays(startDate, 3), "yyyy-MM-dd"),
-        },
-        {
-          name: "Friday",
-          date: formattedEndDate,
-        },
-      ];
-  
-    economicCalendar = daysOfWeek.map((day) => {
-      return {
-        name: day?.name,
-        data: data?.getEconomicCalendar?.filter(
-          (item) => item.date === day.date
-        ),
-      };
-    });
-  
-
-    if (economicCalendar?.length) {
-        // Loop through each day of the week
-        for (let i = 0; i < economicCalendar?.length; i++) {
-          const dayData = economicCalendar[i].data;
-  
-          // Filter out entries with company name "---"
-  
-          // Sort and map the filtered data
-          weekday[i] = dayData
-        }
-  
-    }
-  
-  
+  function getWeekdayData(calendar, days) {
+      if (!calendar) return [];
+      return days.map(day => {
+          const dayData = calendar.filter(item => item.date === format(day.date, "yyyy-MM-dd"));
+          return dayData.sort((a, b) => new Date(`1970-01-01T${a.time}`) - new Date(`1970-01-01T${b.time}`));
+      });
   }
+  
+  async function handleFilter(e, newFilter) {
+      const filterSet = new Set(filterList);
+      filterSet.has(newFilter) ? filterSet.delete(newFilter) : filterSet.add(newFilter);
+      filterList = Array.from(filterSet);
       
-  $: {
-    if(economicCalendar && typeof window !== 'undefined')
-    {
-      economicCalendar = daysOfWeek?.map((day) => {
-          return {
-            name: day.name,
-            data: data?.getEconomicCalendar?.filter(
-              (item) => item.date === day.date
-            ),
-          };
-        });
-  
-        if (economicCalendar?.length) {
-            // Loop through each day of the week
-            for (let i = 0; i < economicCalendar?.length; i++) {
-              const dayData = economicCalendar[i].data;
-              //Sort by earliest time
-              weekday[i] = dayData?.sort((a, b) => new Date(`1970-01-01T${a.time}`) - new Date(`1970-01-01T${b.time}`));
-
-            }
-
-            rawData = weekday;
-      
-        }
-  
-    }
+      if (filterList.length !== 0) {
+          await loadWorker();
+      } else {
+          weekday = rawData;
+      }
   }
   
-  $: {
-    if (currentWeek)
-    {
+  const handleMessage = (event) => {
+      weekdayFiltered = event.data?.finalData?.output ?? [];
+  };
   
-      if (differenceInWeeks(currentWeek, today) > -maxWeeksChange)
-      {
-        previousMax = false;
+  const loadWorker = async () => {
+      if (!syncWorker) {
+          const SyncWorker = await import('./workers/filterWorker?worker');
+          syncWorker = new SyncWorker.default();
+          syncWorker.onmessage = handleMessage;
       }
-      else {
-        previousMax = true;
+      syncWorker.postMessage({ rawData, filterList });
+  };
+  
+  function toggleDate(index) {
+      if ($screenWidth > 640) {
+          selectedWeekday = index;
       }
-    }
   }
   
-  $: {
-    if (currentWeek)
-    {
-      if (differenceInWeeks(currentWeek, today) < maxWeeksChange)
-      {
-        nextMax = false;
+  function clickWeekday(state, index) {
+      if (state === 'next' && selectedWeekday < 4) {
+          selectedWeekday++;
+      } else if (state === 'previous' && selectedWeekday > 0) {
+          selectedWeekday--;
+      } else if (state === 'previous' && index === 0 && !previousMax) {
+          changeWeek('previous');
+          selectedWeekday = 4;
+      } else if (state === 'next' && index === 4 && !nextMax) {
+          changeWeek('next');
+          selectedWeekday = 0;
       }
-      else {
-        nextMax = true;
-      }
-    }
   }
-    
-
-  $: {
-    if(filterList) {
-      console.log(filterList)
-    }
+  
+  function changeWeek(state) {
+      currentWeek = state === 'previous' ? subWeeks(currentWeek, 1) : addWeeks(currentWeek, 1);
   }
-</script>
-        
+  </script>
       
   <svelte:head>
   
@@ -364,7 +179,6 @@ const loadWorker = async () => {
                 <!-- Content area -->
                 <div class="relative flex flex-col flex-1 overflow-hidden">
       
-                      
                 <!-- Cards -->
                 <div class=" w-full flex flex-row justify-center m-auto items-center pl-2 pr-2 sm:pl-0 sm:pr-0">
                     <!-- Start Columns -->
@@ -416,20 +230,8 @@ const loadWorker = async () => {
   
   <!-- Dropdown menu -->
   
-  <ul tabindex="0" class="z-30 dropdown-content p-2 shadow bg-base-100 rounded w-60 h-72 oveflow-hidden overflow-y-scroll">
-    <!--
-    <div class="p-3">
-      <label for="input-group-search" class="sr-only">Search</label>
-      <div class="relative">
-        <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-          <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-          </svg>
-        </div>
-        <input type="text" id="input-group-search" class="block w-full p-2 ps-10 text-sm placeholder-white text-white border border-gray-300 rounded-lg bg-[#202327] focus:ring-blue-500 focus:border-blue-500 " placeholder="Search Country">
-      </div>
-    </div>
-    -->
+  <ul tabindex="0" class="z-30 dropdown-content p-2 shadow bg-[#1D232A] rounded w-60 h-72 oveflow-hidden overflow-y-scroll">
+
     <div class="mb-3 mt-1 ml-1">
       <span class="text-white text-sm mb-2">
         Popular
