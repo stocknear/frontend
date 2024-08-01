@@ -18,7 +18,7 @@
             <div class="card bg-[#000] w-full">
                 <figure><img class="rounded-xl" src={discountBanner} alt="discount" /></figure>
                 <div class="card-body">
-                    <h2 class="card-title">Limited Offer: </h2>
+                    <h2 class="card-title">Only 100 Slots left: </h2>
                     <p>If a dog chews shoes whose shoes does he choose?</p>
                     <div class="card-actions justify-end">
                     <a href="/pricing" class="btn btn-primary">Buy Now</a>
