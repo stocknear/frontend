@@ -12,9 +12,18 @@
   import { abbreviateNumber, formatDate } from '$lib/utils';
   
   import {  numberOfUnreadNotification, screenWidth} from '$lib/store';
-  import { Chart } from 'svelte-echarts';
   import Lazy from 'svelte-lazy';
 
+  import { Chart } from 'svelte-echarts'
+
+import { init, use } from 'echarts/core'
+import { BarChart } from 'echarts/charts'
+import { GridComponent } from 'echarts/components'
+
+  // now with tree-shaking
+  use([BarChart, GridComponent])
+
+  
   export let data;
 
   const quickInfo = data?.getDashboard?.quickInfo;
@@ -305,7 +314,7 @@ onMount( async() => {
           
                   <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
                       <div class="app w-full h-[300px] mt-5">
-                          <Chart options={optionsGraph} class="chart" />
+                          <Chart {init} options={optionsGraph} class="chart" />
                       </div>
                   </Lazy>
               
