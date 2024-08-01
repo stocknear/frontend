@@ -17,7 +17,6 @@
   <!-- Other meta tags -->
   <meta property="og:title" content="Imprint · stocknear"/>
   <meta property="og:description" content="Imprint of Stocknear. Contact Information if you need help.">
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -25,7 +24,6 @@
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Imprint · stocknear"/>
   <meta name="twitter:description" content="Imprint of Stocknear. Contact Information if you need help.">
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 </svelte:head>
 
@@ -40,7 +38,7 @@
   </div>
   -->
 
-  <div  class="w-full m-auto sm:bg-[#09090B] sm:rounded-xl h-auto p-10 mt-3 mb-5 sm:mb-10">
+  <div  class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto p-10 mt-3 mb-5 sm:mb-10">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
   
       <!-- Start Column -->

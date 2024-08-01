@@ -67,7 +67,6 @@ let allBlogPosts = data?.getAllBlogPost;
   <!-- Other meta tags -->
   <meta property="og:title" content="Stock Analysis Blog · stocknear"/>
   <meta property="og:description" content="Get the latest blog post to understand and invest correctly into companies.">
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -75,14 +74,12 @@ let allBlogPosts = data?.getAllBlogPost;
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Stock Analysis Blog · stocknear"/>
   <meta name="twitter:description" content="Get the latest blog post to understand and invest correctly into companies.">
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 </svelte:head>
     
 
 
 
-    
 <section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-40 ">
             
 
@@ -93,7 +90,7 @@ let allBlogPosts = data?.getAllBlogPost;
       </ul>
   </div>
 
-    <div class="w-full max-w-4xl m-auto sm:bg-[#09090B] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+    <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 ">
     
         <!-- Start Column -->
