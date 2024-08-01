@@ -3,6 +3,7 @@ import { numberOfUnreadNotification, globalForm } from '$lib/store';
 import { openLemonSqueezyUrl } from '$lib/lemonsqueezy';
 //import Discount from '$lib/components/Discount.svelte';
 import { onMount } from 'svelte';
+  import { treemapResquarify } from 'd3-hierarchy';
 
 //import proTierLogo from "$lib/images/pro_tier_logo.png";
 
@@ -11,7 +12,7 @@ export let form;
 
 let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
 
-let mode = false;
+let mode = treemapResquarify;
 const emailAddress = 'support@stocknear.com';
 
 function toggleMode()
@@ -142,7 +143,7 @@ async function purchasePlan(subscriptionType:string='') {
                         Pay Yearly
                     </span>
                     <span class="text-[#FBCE3C] text-sm font-semibold">
-                        Save up 16%
+                        Save up 50%
                     </span>
                 </div>
               
@@ -263,7 +264,7 @@ async function purchasePlan(subscriptionType:string='') {
                 <div class="flex flex-col  mb-6 items-center">
 
                     <div class="flex flex-row items-center">
-                        <span class="mr-2 text-4xl font-bold">{mode ? '$499' : '$49.99'}</span>
+                        <span class="mr-2 text-4xl font-bold">{mode ? '$299' : '$49.99'}</span>
                         <span class="text-white text-xl">{mode ? '/year' : '/month'}</span>
                     </div>
                     <!--

@@ -8,7 +8,7 @@
 
     let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
     
-    let mode = false;
+    let mode = true;
     
     function toggleMode()
     {
@@ -56,7 +56,7 @@ onMount(async () => {
                         Pay Yearly
                     </span>
                     <span class="text-[#FBCE3C] text-sm font-semibold">
-                        Save up 16%
+                        Save up 50%
                     </span>
                 </div>
               
@@ -174,7 +174,7 @@ onMount(async () => {
                 <div class="flex flex-col  mb-6 items-center">
 
                     <div class="flex flex-row items-center">
-                        <span class="mr-2 text-4xl font-bold">{mode ? '$499' : '$49.99'}</span>
+                        <span class="mr-2 text-4xl font-bold">{mode ? '$299' : '$49.99'}</span>
                         <span class="text-white text-xl">{mode ? '/year' : '/month'}</span>
                     </div>
                     <!--
