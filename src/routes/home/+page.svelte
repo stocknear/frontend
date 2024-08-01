@@ -92,7 +92,8 @@ const optionsGraph = {
         position: 'inside',
         formatter: function(params) {
           return abbreviateNumber(params?.value,true);
-        }
+        },
+        fontWeight: 600
       },
       type: 'bar',
       showBackground: true,
