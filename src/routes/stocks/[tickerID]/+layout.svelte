@@ -12,7 +12,7 @@
   export let data;
 
 
-  $realtimePrice = null;
+  $: $realtimePrice = data?.getStockQuote?.price?.toFixed(2);
   
 
 
