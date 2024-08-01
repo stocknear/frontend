@@ -71,7 +71,7 @@ onMount(async () => {
 
 
 
-        <div class="flex flex-col sm:flex-row items-center gap-10 sm:gap-5 w-full max-w-5xl m-auto mt-10 sm:mt-20">
+        <div class="flex flex-col sm:flex-row items-center gap-10 sm:gap-5 w-full max-w-7xl m-auto mt-10 sm:mt-20">
             <!-- Pricing Card -->
             <div class="order-last sm:order-1 flex flex-col p-6 lg:p-8 mx-auto w-full text-center text-white border border-gray-800 bg-[#000000] rounded-lg">
 
@@ -269,7 +269,7 @@ onMount(async () => {
 
 
              <!--Start Pricing Card-->
-             <!--
+             
              <div class="relative sm:h-[660px] sm:order-2 box sm:-mt-10 flex flex-col p-6 lg:p-8 mx-auto ring-[1px] ring-gray-400 rounded-lg w-full text-center text-white">
 
                 <div class="absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-2xl flex flex-row border border-gray-300 items-center p-2">
@@ -326,7 +326,6 @@ onMount(async () => {
                 </label>
                
             </div>
-            -->
           
             <!--End Pricing Card-->
 
