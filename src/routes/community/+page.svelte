@@ -1,7 +1,7 @@
 <script lang='ts'>
   
   import { onMount,onDestroy } from 'svelte';
-  import { userRegion, postVote, discordMembers, setCache, getCache, cachedPosts, currentPagePosition, numberOfUnreadNotification, postIdDeleted } from '$lib/store';
+  import { postVote, discordMembers, setCache, getCache, cachedPosts, currentPagePosition, numberOfUnreadNotification, postIdDeleted } from '$lib/store';
 
   import { afterNavigate } from '$app/navigation';
   import { base } from '$app/paths'
@@ -12,21 +12,6 @@
   import communityBanner from '$lib/images/community_banner.jpg';
   export let data;
   export let form;
-
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-  let apiURL;
-  let fastifyURL;
-
-  userRegion.subscribe(value => {
-    if (usRegion.includes(value)) {
-      apiURL = import.meta.env.VITE_USEAST_API_URL;
-      fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-    } else {
-      apiURL = import.meta.env.VITE_EU_API_URL;
-      fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-    }
-  });
 
 
   let discordURL = import.meta.env.VITE_DISCORD_URL;
@@ -89,7 +74,7 @@ const getModerators = async () => {
     } else {
 
       // make the POST request to the endpoint
-      const response = await fetch(fastifyURL + '/get-moderators', {
+      const response = await fetch(data?.fastifyURL + '/get-moderators', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -140,7 +125,7 @@ const getCommunityStats = async () => {
     } else {
 
       // make the POST request to the endpoint
-      const response = await fetch(fastifyURL + '/get-community-stats', {
+      const response = await fetch(data?.fastifyURL + '/get-community-stats', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -182,7 +167,7 @@ async function getPost() {
   }
 
   // Make the POST request to the endpoint
-  const response = await fetch(fastifyURL+'/get-post', {
+  const response = await fetch(data?.fastifyURL+'/get-post', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -596,7 +581,7 @@ $: {
                                     <div class="mt-4 border-t border-slate-700 w-11/12 m-auto" />
 
                                     <div class="flex justify-center items-center mb-8 pt-5">
-                                      <a href="/community/create-post" class="rounded-lg cursor-pointer w-11/12 py-2 h-full mt-2 text-md text-center font-semibold text-white m-auto hover:bg-purple-600 bg-purple-600 bg-opacity-[0.6] mb-6 duration-150">
+                                      <a href="/community/create-post" class="rounded-lg cursor-pointer w-11/12 py-2 h-full mt-2 text-md text-center font-semibold text-white m-auto hover:bg-purple-700 bg-purple-600 mb-6 duration-100">
                                         Create Post
                                       </a>
                                     </div>
@@ -674,8 +659,8 @@ $: {
                                     <div class="mt-4 border-t border-slate-700 w-11/12 m-auto" />
 
                                     <div class="flex justify-center items-center mb-8 pt-5">
-                                      <a href={discordURL} rel="noopener noreferrer" target="_blank" class="rounded-lg cursor-pointer w-11/12 py-2 h-full mt-2 text-md text-center font-semibold text-white m-auto hover:bg-purple-600 bg-purple-600 bg-opacity-[0.6] mb-6 duration-150">
-                                        Join us
+                                      <a href={discordURL} rel="noopener noreferrer" target="_blank" class="rounded-lg cursor-pointer w-11/12 py-2 h-full mt-2 text-md text-center font-semibold text-white m-auto hover:bg-purple-700 bg-purple-600 mb-6 duration-100">
+                                        Join Us
                                       </a>
                                     </div>
 
