@@ -11,20 +11,15 @@
   import Activity from "lucide-svelte/icons/activity";
   import { abbreviateNumber, formatDate } from '$lib/utils';
   
-  import {  numberOfUnreadNotification, screenWidth} from '$lib/store';
-  import Lazy from 'svelte-lazy';
+  import {  numberOfUnreadNotification} from '$lib/store';
 
-  import { Chart } from 'svelte-echarts'
+  import { LayerCake, Svg } from 'layercake';
+  import { scaleBand } from 'd3-scale';
+  import Bar from '$lib/components/LayerCake/Bar/Bar.svelte';
+  import AxisY from '$lib/components/LayerCake/Bar/AxisY.svelte';
 
-import { init, use } from 'echarts/core'
-import { BarChart } from 'echarts/charts'
-import { GridComponent } from 'echarts/components'
-
-  // now with tree-shaking
-  use([BarChart, GridComponent])
-
-  
   export let data;
+  let isLoaded = false;
 
   const quickInfo = data?.getDashboard?.quickInfo;
 
@@ -49,68 +44,15 @@ function latestInfoDate(inputDate) {
     return differenceInDays <=1;
 }
 
-const tickerGraphName = data?.getDashboard?.retailTracker?.map(item => item?.symbol) || [];
-const tradedList = data?.getDashboard?.retailTracker?.map(item => item?.traded) || [];
 
-const optionsGraph = {
-  animation: $screenWidth < 640 ? false: true,
-  grid: {
-    left: '2%',
-    right: '3%',
-    bottom: '6%',
-    top: '0%',
-    containLabel: true
-  },
-  xAxis: {
-    type: 'value',
-    splitLine: {
-      show: false, // Disable x-axis grid lines
-    },
-    axisLabel: {
-      show: false // Hide x-axis labels
-    },
-    axisTick: {
-      show: false // Hide x-axis ticks
-    },
-    axisLine: {
-      show: false // Hide x-axis line
-    }
-  },
-  yAxis: {
-    type: 'category',
-    data: tickerGraphName,
-    inverse: true,
-    axisTick: {
-      show: false // Hide x-axis ticks
-    },
-  },
-  series: [
-    {
-      data: tradedList,
-      label: {
-        show: true,
-        position: 'inside',
-        formatter: function(params) {
-          return abbreviateNumber(params?.value,true);
-        },
-        fontWeight: 600
-      },
-      type: 'bar',
-      showBackground: true,
-      backgroundStyle: {
-        color: 'rgba(180, 180, 180, 0.2)'
-      },
-      itemStyle: {
-        color: 'white'  // Bar color is white
-      }
-    }
-  ]
-};
+const xKey = 'traded';
+const yKey = 'symbol';
 
 let Feedback;
 
 onMount( async() => {
-    Feedback = (await import('$lib/components/Feedback.svelte')).default   
+  Feedback = (await import('$lib/components/Feedback.svelte')).default
+  isLoaded = true;
 })
 
 
@@ -309,18 +251,32 @@ onMount( async() => {
                   <Card.Description class="mt-2">Latest Retail Trader investing behavior to identify market trends.</Card.Description>
                 </div>
               </Card.Header>
-              <Card.Content>
-                <div class="pb-2 rounded-lg bg-[#09090B]">
-                
-          
-                  <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
-                      <div class="app w-full h-[300px] mt-5">
-                          <Chart {init} options={optionsGraph} class="chart" />
-                      </div>
-                  </Lazy>
-              
-              </div>
-        
+              <Card.Content>                
+                {#if data?.getDashboard?.retailTracker?.length !== 0 && isLoaded}
+                  <div class="chart-container">
+                    <LayerCake
+                      padding={{ bottom: 20, left: 35 }}
+                      x={xKey}
+                      y={yKey}
+                      yScale={scaleBand().paddingInner(0.2)}
+                      xDomain={[0, null]}
+                      data={data?.getDashboard?.retailTracker}
+                    >
+                      <Svg>
+                        <AxisY tickMarks gridlines={false} />
+                        <Bar />
+                      </Svg>
+                    </LayerCake>
+                  </div>
+                  {:else}
+                  <div class="flex justify-center items-center h-80">
+                    <div class="relative">
+                    <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <span class="loading loading-spinner loading-md"></span>
+                    </label>
+                    </div>
+                </div>
+                  {/if}
               </Card.Content>
             </Card.Root>
           </div>
@@ -419,23 +375,11 @@ onMount( async() => {
 
   
 <style>
-   
-.app {
-  height: 250px;
-  max-width: 100%; /* Ensure chart width doesn't exceed the container */
-  
-  }
-  
-  @media (max-width: 640px) {
-  .app {
-    height: 210px;
-  }
-  }
-  
-  .chart {
-  width: 100%;
-  }
 
+   .chart-container {
+    width: 100%;
+    height: 250px;
+  }
 .scrollbar {
     display: grid;
     grid-gap: 90px;

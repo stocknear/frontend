@@ -92,7 +92,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 </svelte:head>
   
-  
+<svelte:options immutable={true}/>
+
   
   <div class="fixed z-[100] bottom-8 sm:bottom-10 right-8 sm:right-16">
       <label for="feedbackInfo" class="inline-flex items-center justify-center w-12 h-12 sm:w-full sm:h-10 font-medium bg-gray-700 sm:bg-[#FFEDE5] ml-1 mr-0 sm:mr-2 rounded-full cursor-pointer">
