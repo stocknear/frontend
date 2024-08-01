@@ -22,6 +22,8 @@ const checkMarketHour = async () => {
 export const load = async ({parent}) => {
 
   checkMarketHour()
+  const {apiKey, apiURL, user} = await parent();
+
   const getDarkPoolFlow = async () => {
     let output;
 
@@ -30,7 +32,6 @@ export const load = async ({parent}) => {
       output = cachedData;
     } else {
     
-    const {apiKey, apiURL} = await parent();
     const response = await fetch(apiURL + '/dark-pool-flow', {
       method: 'GET',
       headers: {
@@ -44,7 +45,7 @@ export const load = async ({parent}) => {
 
     }
 
-    output = data?.user?.tier !== 'Pro' ? output?.slice(0,6) : output;
+    output = user?.tier !== 'Pro' ? output?.slice(0,6) : output;
 
     return output;
   };
