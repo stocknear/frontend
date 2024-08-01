@@ -2,7 +2,6 @@
 
   import { onMount } from 'svelte';
  
-  import * as Avatar from "$lib/components/shadcn/avatar/index.js";
   import * as Card from "$lib/components/shadcn/card/index.ts";
   import * as Table from "$lib/components/shadcn/table/index.ts";
   import ArrowUpRight from "lucide-svelte/icons/arrow-up-right";
@@ -10,9 +9,11 @@
   import Bomb from "lucide-svelte/icons/bomb";
   import Crown from "lucide-svelte/icons/crown";
   import Activity from "lucide-svelte/icons/activity";
-  import { abbreviateNumber, formatDate, formatString } from '$lib/utils';
+  import { abbreviateNumber, formatDate } from '$lib/utils';
   
-  import {  numberOfUnreadNotification} from '$lib/store';
+  import {  numberOfUnreadNotification, screenWidth} from '$lib/store';
+  import { Chart } from 'svelte-echarts';
+  import Lazy from 'svelte-lazy';
 
   export let data;
 
@@ -39,7 +40,62 @@ function latestInfoDate(inputDate) {
     return differenceInDays <=1;
 }
 
+const tickerGraphName = data?.getDashboard?.retailTracker?.map(item => item?.symbol) || [];
+const tradedList = data?.getDashboard?.retailTracker?.map(item => item?.traded) || [];
 
+const optionsGraph = {
+  animation: $screenWidth < 640 ? false: true,
+  grid: {
+    left: '2%',
+    right: '3%',
+    bottom: '6%',
+    top: '0%',
+    containLabel: true
+  },
+  xAxis: {
+    type: 'value',
+    splitLine: {
+      show: false, // Disable x-axis grid lines
+    },
+    axisLabel: {
+      show: false // Hide x-axis labels
+    },
+    axisTick: {
+      show: false // Hide x-axis ticks
+    },
+    axisLine: {
+      show: false // Hide x-axis line
+    }
+  },
+  yAxis: {
+    type: 'category',
+    data: tickerGraphName,
+    inverse: true,
+    axisTick: {
+      show: false // Hide x-axis ticks
+    },
+  },
+  series: [
+    {
+      data: tradedList,
+      label: {
+        show: true,
+        position: 'inside',
+        formatter: function(params) {
+          return abbreviateNumber(params?.value,true);
+        }
+      },
+      type: 'bar',
+      showBackground: true,
+      backgroundStyle: {
+        color: 'rgba(180, 180, 180, 0.2)'
+      },
+      itemStyle: {
+        color: 'white'  // Bar color is white
+      }
+    }
+  ]
+};
 
 let Feedback;
 
@@ -49,11 +105,9 @@ onMount( async() => {
 
 
 
-
 </script>
   
   
-
 
 <svelte:head>
   <meta charset="utf-8" />
@@ -76,12 +130,13 @@ onMount( async() => {
   <!-- Add more Twitter meta tags as needed -->
 </svelte:head>
 
+<svelte:options immutable={true}/>
 
 
 <div class="w-full max-w-screen overflow-hidden m-auto min-h-screen bg-[#09090B]">
     
     <div class="flex flex-col w-full max-w-7xl m-auto justify-center items-center">
-      <div class="text-center mb-10 w-full px-4 sm:px-3 mt-10">                
+      <div class="text-center mb-10 w-full px-4 sm:px-3 mt-10 3xl:ml-20">                
       
         {#if Feedback}
           <Feedback data={data} />
@@ -177,8 +232,9 @@ onMount( async() => {
             </Card.Root>
           </div>
 
-          <div class="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3 text-start">
-            <Card.Root class="xl:col-span-2 overflow-x-scroll">
+          <div class="grid gap-4 md:gap-8 grid-cols-1 lg:grid-cols-2  text-start">
+
+            <Card.Root class="overflow-x-scroll">
               <Card.Header class="flex flex-row items-center">
                 <div class="flex flex-col items-start w-full">
                   <div class="flex flex-row w-full items-center">
@@ -229,45 +285,32 @@ onMount( async() => {
                 </Table.Root>
               </Card.Content>
             </Card.Root>
-            <Card.Root>
-              <Card.Header>
-                <Card.Title class="text-start text-xl w-full flex flex-row items-center">
-                  <span>
-                    Latest Congress Trading
-                  </span>
-                  <a href="/politicians/flow-data" class="ml-auto rounded-lg text-xs sm:text-sm px-2 sm:px-3 py-2 font-semibold bg-white text-black">
-                    View All
-                    <ArrowUpRight class="hidden sm:inline-block h-4 w-4 shrink-0 -mt-1 ml-0.5" />
-                  </a>
-                </Card.Title>
-              </Card.Header>
-              <Card.Content class="grid gap-y-4">
-                {#each data?.getDashboard?.congressFlow as item}
-                <div class="flex items-center gap-x-4">
-                  <Avatar.Root class="h-12 w-12 border border-gray-800 flex-shrink-0 avatar {item?.party === 'Republican' ? 'bg-[#98272B]' : item?.party === 'Democratic' ? 'bg-[#295AC7]' : 'bg-[#20202E]'} sm:flex">
-                    <Avatar.Image src={item?.image} alt="Avatar" />
-                    <Avatar.Fallback>OM</Avatar.Fallback>
-                  </Avatar.Root>
-                  <div class="grid gap-1">
-                    <p class="text-sm font-medium leading-none">{item?.representative?.replace('Dr','')}</p>
-                    <p class="text-sm text-muted-foreground">{item?.party ?? 'n/a'}</p>
-                  </div>
-                  <div class="flex flex-col items-end justify-end text-lg ml-auto">
-                    <a href={item?.ticker?.length !== 0 ? `/stocks/${item?.ticker}` : ''} class="text-sm {item?.ticker?.length !== 0 ? 'text-blue-400 sm:hover:text-white transition duration-100' : 'text-white cursor-text'} font-medium leading-none">
-                      {item?.ticker?.length !== 0 ? item?.ticker : formatString(item?.assetDescription)?.slice(0,15) + '...'}
+            
+            <Card.Root class="overflow-x-scroll">
+              <Card.Header class="flex flex-row items-center">
+                <div class="flex flex-col items-start w-full">
+                  <div class="flex flex-row w-full items-center">
+                    <Card.Title class="text-xl sm:text-2xl tex-white font-semibold">Retail Trader Tracker</Card.Title>
+                    <a href="/most-retail-volume" class="ml-auto rounded-lg text-xs sm:text-sm px-2 sm:px-3 py-2 font-semibold bg-white text-black">
+                      View All
+                      <ArrowUpRight class="hidden sm:inline-block h-4 w-4 shrink-0 -mt-1 ml-0.5" />
                     </a>
-                    
-                    <p class="text-sm text-white font-medium mt-1">{item?.amount?.replace("$1,000,001 - $5,000,000","$1Mio - $5Mio")}</p>
-                    <p class="text-sm text-white font-medium mt-1">
-                      {#if item?.type === 'Bought'}
-                      <span class="text-[#10DB06]">Bought</span>
-                      {:else if item?.type === 'Sold'}
-                        <span class="text-[#FF2F1F]">Sold</span>
-                      {/if}
-                    </p>
                   </div>
+                  <Card.Description class="mt-2">Latest Retail Trader investing behavior to identify market trends.</Card.Description>
                 </div>
-                {/each}
+              </Card.Header>
+              <Card.Content>
+                <div class="pb-2 rounded-lg bg-[#09090B]">
+                
+          
+                  <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
+                      <div class="app w-full h-[300px] mt-5">
+                          <Chart options={optionsGraph} class="chart" />
+                      </div>
+                  </Lazy>
+              
+              </div>
+        
               </Card.Content>
             </Card.Root>
           </div>
@@ -367,7 +410,21 @@ onMount( async() => {
   
 <style>
    
-
+.app {
+  height: 250px;
+  max-width: 100%; /* Ensure chart width doesn't exceed the container */
+  
+  }
+  
+  @media (max-width: 640px) {
+  .app {
+    height: 210px;
+  }
+  }
+  
+  .chart {
+  width: 100%;
+  }
 
 .scrollbar {
     display: grid;

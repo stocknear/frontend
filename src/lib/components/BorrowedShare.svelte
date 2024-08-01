@@ -221,7 +221,7 @@ function findLowestAndHighestFee(data, lastDateStr) {
   
   </script>
     
-    
+<svelte:options immutable={true}/>
     
   <section class="overflow-hidden text-white h-full pb-8">
     <main class="overflow-hidden ">
