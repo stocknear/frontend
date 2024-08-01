@@ -3,7 +3,7 @@ import { validateData } from "$lib/utils";
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 
 
-
+/*
 export const load = async () => {
 
 	const apiKey = import.meta.env.VITE_LEMON_SQUEEZY_API_KEY;
@@ -28,7 +28,7 @@ export const load = async () => {
 		getLTDCount: await getLTDCount(),
 	  };
   };
-
+*/
 
   
 
