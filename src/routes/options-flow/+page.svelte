@@ -2,7 +2,7 @@
   import { goto } from '$app/navigation';
   import { screenWidth, numberOfUnreadNotification, etfTicker, stockTicker, isOpen } from '$lib/store';
   import notifySound from '$lib/audio/options-flow-reader.mp3';
-  import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
+  //import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
   import { abbreviateNumber } from '$lib/utils';
   import { onMount, onDestroy } from 'svelte';
   import toast from 'svelte-french-toast';
@@ -895,10 +895,11 @@ $: {
       
           </div>
 
-
+          <!--
           <div class="relative bottom-[400px] w-fit m-auto flex justify-center items-center">
             <UpgradeToPro data={data} title="Get the recent Options Flow Data from Hedge Funds and major institutional traders to never miss out"/>
           </div>
+          -->
   
          
           {:else}

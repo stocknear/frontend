@@ -74,7 +74,7 @@
         trigger: 'axis',
         hideDelay: 100, // Set the delay in milliseconds
     },
-    animation: $screenWidth < 640 ? false: true,
+    animation: false,
     grid: {
         left:'2%',
         right:  $screenWidth < 640 ? '0%' : '2%',

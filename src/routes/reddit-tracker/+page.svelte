@@ -85,7 +85,7 @@ function getPlotOptions() {
 
   const optionPost = {
     silent: true,
-    animation: $screenWidth < 640 ? false: true,
+    animation: false,
     tooltip: {
         trigger: 'axis',
         hideDelay: 100, // Set the delay in milliseconds
@@ -144,7 +144,7 @@ function getPlotOptions() {
   
 const optionComment = {
     silent: true,
-    animation: $screenWidth < 640 ? false: true,
+    animation: false,
     tooltip: {
         trigger: 'axis',
         hideDelay: 100, // Set the delay in milliseconds
@@ -203,7 +203,7 @@ const optionComment = {
   
 const optionCompanySpread = {
     silent: true,
-    animation: $screenWidth < 640 ? false: true,
+    animation: false,
     tooltip: {
         trigger: 'axis',
         hideDelay: 100, // Set the delay in milliseconds

@@ -68,7 +68,7 @@ function getPlotOptions() {
 
   const option = {
   silent: true,
-  animation: $screenWidth < 640 ? false: true,
+  animation: false,
   grid: {
       left: '2%',
       right: '2%',

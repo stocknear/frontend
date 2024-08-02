@@ -34,7 +34,7 @@ const plotBarChart = () => {
             bottom: '0%',
             containLabel: true,
         },
-        animation: $screenWidth < 640 ? false: true,
+        animation: false,
         silent: true,
         xAxis: {
             type: 'value',
