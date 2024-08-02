@@ -42,6 +42,7 @@ const fetchWatchlist = async (fastifyURL, userId) => {
     return output;
 }
 
+/*
 async function fetchPortfolio(fastifyURL, userId)
 {
   const postData = {'userId': userId};
@@ -58,6 +59,7 @@ async function fetchPortfolio(fastifyURL, userId)
     
     return output
 }
+*/
 
 export const load = async ({ params, locals, setHeaders}) => {
 
@@ -71,7 +73,7 @@ export const load = async ({ params, locals, setHeaders}) => {
     fetchData(apiURL,apiKey,'/stock-quote',params.tickerID),
     fetchData(apiURL,apiKey,'/one-day-price',params.tickerID),
     fetchWatchlist(fastifyURL, locals?.user?.id),
-    fetchPortfolio(fastifyURL, locals?.user?.id)
+    //fetchPortfolio(fastifyURL, locals?.user?.id)
   ];
 
   const [
@@ -79,7 +81,6 @@ export const load = async ({ params, locals, setHeaders}) => {
     getStockQuote,
     getOneDayPrice,
     getUserWatchlist,
-    getUserPortfolio,
   ] = await Promise.all(promises);
 
 
@@ -93,7 +94,6 @@ export const load = async ({ params, locals, setHeaders}) => {
     getStockQuote,
     getOneDayPrice,
     getUserWatchlist,
-    getUserPortfolio,
     companyName,
   };
 

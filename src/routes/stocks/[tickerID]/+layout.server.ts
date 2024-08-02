@@ -64,7 +64,7 @@ export const load = async ({ params, locals, cookies, setHeaders }) => {
   const [
     getSimilarStock, getStockDeck, getAnalystRating, getStockQuote,
     getBullBearSay, getWhyPriceMoved, getTopETFHolder, getOneDayPrice,
-    getUserWatchlist, getUserPortfolio, getCommunitySentiment
+    getUserWatchlist, getCommunitySentiment
   ] = await Promise.all(promises);
 
   setHeaders({ 'cache-control': 'public, max-age=300' });
@@ -79,7 +79,6 @@ export const load = async ({ params, locals, cookies, setHeaders }) => {
     getTopETFHolder,
     getOneDayPrice,
     getUserWatchlist,
-    getUserPortfolio,
     getCommunitySentiment,
     companyName: cleanString(getStockDeck?.[0]?.companyName),
   };
