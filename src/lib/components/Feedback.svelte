@@ -12,12 +12,15 @@
   let rating = '';
   let inputValue = '';
   
-  
+  /*
   async function handleReturn() {
     rating = '';
     inputValue = '';
   
   }
+  */
+
+
   async function sendFeedback()
   { 
   

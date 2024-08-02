@@ -55,8 +55,6 @@ onMount( async() => {
   isLoaded = true;
 })
 
-
-
 </script>
   
   
@@ -286,7 +284,7 @@ onMount( async() => {
             <Card.Root class="sm:col-span-2 overflow-x-scroll">
               <Card.Header class="flex flex-row items-center">
                 <div class="text-start grid gap-2">
-                  <Card.Title class="text-2xl tex-white font-semibold">Market Momentum</Card.Title>
+                  <Card.Title class="text-2xl text-white font-semibold">Market Momentum</Card.Title>
                 </div>
               </Card.Header>
               <Card.Content>
@@ -303,7 +301,7 @@ onMount( async() => {
                             {formatDate(item?.date)} ago
                           </span>
                         </div>
-                        <span class="text-white">{item?.text}</span>
+                        <span class="text-white text-sm sm:text-[1rem]">{item?.text}</span>
                         <div class="flex flex-col mt-5 items-start w-full">
                           <div class="flex flex-wrap gap-y-3 flex-row items-center">
                             {#each item?.stocks as item2}
@@ -335,7 +333,7 @@ onMount( async() => {
             </Card.Root>
             <Card.Root>
               <Card.Header>
-                <Card.Title class="text-start">Market News</Card.Title>
+                <Card.Title class="text-start text-2xl text-white">Market News</Card.Title>
               </Card.Header>
               <Card.Content class="">
                 <div class="mb-4 rounded-lg text-start">
@@ -346,7 +344,7 @@ onMount( async() => {
                             {formatDate(item?.date)} ago
                           </span>
                         </div>
-                        <a href={item?.url} rel="noopener noreferrer" target="_blank" class="text-sm text-blue-400 sm:hover:text-white transition duration-100">
+                        <a href={item?.url} rel="noopener noreferrer" target="_blank" class="text-sm sm:text-[1rem] text-blue-400 sm:hover:text-white transition duration-100">
                           {item?.text}
                         </a>
                       </div>
