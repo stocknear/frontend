@@ -4,22 +4,10 @@
   import goodEmoji from '$lib/assets/goodEmoji.svg';
   import badEmoji from '$lib/assets/badEmoji.svg';
   import veryBadEmoji from '$lib/assets/veryBadEmoji.svg';
-  import { userRegion, screenWidth } from '$lib/store';
   export let data;
   
   let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
 
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-  
-    let fastifyURL;
-  
-    userRegion.subscribe(value => {
-      if (usRegion.includes(value)) {
-        fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-      } else {
-        fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-      }
-    });
   
   let rating = '';
   let inputValue = '';
@@ -54,7 +42,7 @@
                       'description': inputValue};
   
   
-    const response = await fetch(fastifyURL+'/feedback', {
+    const response = await fetch(data?.fastifyURL+'/feedback', {
       method: 'POST',
       headers: {
       "Content-Type": "application/json"
@@ -108,7 +96,6 @@
   
   
   
-  {#if $screenWidth > 640}
   <!--Start Create Watchlist Modal-->
   <input type="checkbox" id="feedbackInfo" class="modal-toggle" />
   
@@ -173,76 +160,4 @@
       
     </div>
   </dialog>
-  {:else}
-  
-  
-  <div class="drawer drawer-end z-50 overflow-hidden">
-    <input id="feedbackInfo" type="checkbox" class="drawer-toggle"/>
-    
-    <div class="drawer-side overflow-hidden">
-    
-        
-        <div class="bg-[#000] min-h-screen w-screen pb-20 overflow-hidden">
-  
-          <label for="feedbackInfo" on:click={handleReturn} class="absolute left-6 top-4">
-            <svg class="w-6 h-6 inline-block mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#fff" d="M9.125 21.1L.7 12.7q-.15-.15-.213-.325T.425 12q0-.2.063-.375T.7 11.3l8.425-8.425q.35-.35.875-.35t.9.375q.375.375.375.875t-.375.875L3.55 12l7.35 7.35q.35.35.35.863t-.375.887q-.375.375-.875.375t-.875-.375Z"/></svg>
-            <span class="text-white text-md font-medium">
-                Return
-            </span>
-          </label>
-  
-            <div class="flex flex-row items-center mt-10 p-7">
-                <h1 class="text-white text-xl sm:text-2xl font-bold">
-                    Your Feedback matters!
-                </h1>
-            </div>
-        
-        
-            <div class="pl-7 pr-7 w-full ">
-                <textarea
-                  class="textarea textarea-bordered h-24 placeholder-gray-300 w-full bg-[#09090B] text-white border border-gray-600"
-                  placeholder="Your feedback..."
-                  value={inputValue}
-                  on:input={handleInput}
-                  />
-        
-        
-            </div>
-        
-        
-            <ul class="flex gap-5 justify-center mt-5 mb-5">
-                <li on:click={() => rating= 'Very Good'} class="cursor-pointer">
-                    <div class="rounded-full w-16 h-16 relative {rating === 'Very Good' ? 'bg-[#333333]' : ''} hover:bg-[#333333] flex items-center justify-center">
-                        <img class="w-10 h-10" src={veryGoodEmoji} loading="lazy" />
-                    </div>
-                </li>
-                <li on:click={() => rating= 'Good'} class="cursor-pointer">
-                    <div class="rounded-full w-16 h-16 relative {rating === 'Good' ? 'bg-[#333333]' : ''} hover:bg-[#333333] flex items-center justify-center">
-                        <img class="w-10 h-10" src={goodEmoji} loading="lazy" />
-                    </div>
-                </li>
-                <li on:click={() => rating= 'Bad'} class="cursor-pointer">
-                    <div class="rounded-full w-16 h-16 relative {rating === 'Bad' ? 'bg-[#333333]' : ''} hover:bg-[#333333] flex items-center justify-center">
-                        <img class="w-10 h-10" src={badEmoji} loading="lazy" />
-                    </div>
-                </li>
-                <li on:click={() => rating= 'Very Bad'} class="cursor-pointer">
-                    <div class="rounded-full w-16 h-16 relative {rating === 'Very Bad' ? 'bg-[#333333]' : ''} hover:bg-[#333333] flex items-center justify-center">
-                        <img class="w-10 h-10" src={veryBadEmoji} loading="lazy" />
-                    </div>
-                </li>
-            </ul>
-        
-            <span class="hidden text-white flex justify-center text-lg sm:text-xl font-bold">
-                I think this website is {rating?.length !== 0 ? `"${rating}"` : ''}
-            </span>
-        
-            <button on:click={() => sendFeedback()} class="pl-7 pr-7 mb-4 flex justify-center items-center btn bg-purple-600 hover:bg-purple-500 {rating?.length !== 0 && inputValue?.length !== 0 ? 'opacity-100 cursor-pointer' : 'opacity-60 cursor-default'} btn-md rounded-full w-5/6 m-auto text-white font-bold text-md">
-                Send Feedback
-            </button>
-            
-            
-        </div>
-    </div>
-  </div>
-  {/if}
+ 
