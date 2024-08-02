@@ -393,12 +393,7 @@ $: {
 
                               <td class="text-white border-b-[#09090B] text-center">
                                 <span class="text-sm">
-                                  {item?.adjDividend !== null ? item?.adjDividend?.toLocaleString(undefined, {
-                                      style: 'currency',
-                                      currency: 'USD',
-                                  })
-                                  : 'n/a'
-                                }
+                                  {item?.adjDividend !== null ? '$'+item?.adjDividend?.toFixed(2) : 'n/a'}
                                   </span>
                                 </td>
               
