@@ -24,10 +24,8 @@ import { displayCompanyName, stockTicker, assetType, isOpen, isAfterMarketClose,
 
 export const load = async ({ params,  data }) => {
 
-
   stockTicker.update( value => params.tickerID?.toUpperCase());
   assetType.update( value => 'stock');
-
   displayCompanyName.update(value => data?.companyName)
   await checkMarketHour();
 

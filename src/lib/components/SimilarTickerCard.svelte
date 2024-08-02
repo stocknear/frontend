@@ -1,6 +1,6 @@
 <script lang="ts">
 
-import {stockTicker, similarTickerClicked, screenWidth} from '$lib/store';
+import {similarTickerClicked, screenWidth} from '$lib/store';
 import { goto } from '$app/navigation';
 import { abbreviateNumber } from '$lib/utils';
 
@@ -9,12 +9,12 @@ export let similarstock;
   
   
   
-  async function stockSelector(state)
+  async function stockSelector(symbol)
   {
     window?.scroll({ top: 0, left: 0, behavior: 'smooth' });
-    stockTicker.update(value => state);
+    //stockTicker.update(value => symbol);
     $similarTickerClicked = true;    
-    goto("/stocks/"+state+"/")
+    goto("/stocks/"+symbol)
   }
   
   
@@ -34,8 +34,7 @@ export let similarstock;
       </h2>
       {#if similarstock?.length !== 0} 
 
-      
-  
+    
       <div class="flex justify-start items-center w-full m-auto ">
         <table class="table table-sm table-compact mt-3 text-start flex justify-start items-center w-full px-3 m-auto">
           <thead>
