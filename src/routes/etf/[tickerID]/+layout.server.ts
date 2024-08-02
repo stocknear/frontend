@@ -31,7 +31,7 @@ const fetchFromFastify = async (fastifyURL, endpoint, userId) => {
 };
 
 export const load = async ({ params, locals, setHeaders }) => {
-  const { apiURL, fastifyURL, apiKey, wsURL, user } = locals;
+  const { apiURL, fastifyURL, apiKey, user } = locals;
   const { tickerID } = params;
 
   const endpoints = [
@@ -42,7 +42,7 @@ export const load = async ({ params, locals, setHeaders }) => {
   const promises = [
     ...endpoints.map(endpoint => fetchData(apiURL, apiKey, endpoint, tickerID)),
     fetchFromFastify(fastifyURL, '/all-watchlists', user?.id),
-    fetchFromFastify(fastifyURL, '/get-portfolio-data', user?.id)
+    //fetchFromFastify(fastifyURL, '/get-portfolio-data', user?.id)
   ];
 
   const [
@@ -55,7 +55,6 @@ export const load = async ({ params, locals, setHeaders }) => {
     getWhyPriceMoved,
     getOneDayPrice,
     getUserWatchlist,
-    getUserPortfolio,
   ] = await Promise.all(promises);
 
   setHeaders({ 'cache-control': 'public, max-age=300' });
@@ -70,8 +69,6 @@ export const load = async ({ params, locals, setHeaders }) => {
     getWhyPriceMoved,
     getOneDayPrice,
     getUserWatchlist,
-    getUserPortfolio,
     companyName: cleanString(getETFProfile?.[0]?.name),
-    wsURL,
   };
 };

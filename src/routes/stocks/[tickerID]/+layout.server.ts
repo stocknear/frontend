@@ -57,7 +57,7 @@ export const load = async ({ params, locals, cookies, setHeaders }) => {
   const promises = [
     ...endpoints.map(endpoint => fetchData(apiURL, apiKey, endpoint, tickerID)),
     fetchFromFastify(fastifyURL, '/all-watchlists', user?.id),
-    fetchFromFastify(fastifyURL, '/get-portfolio-data', user?.id),
+    //fetchFromFastify(fastifyURL, '/get-portfolio-data', user?.id),
     fetchCommunitySentiment(pb, tickerID, cookies)
   ];
 
