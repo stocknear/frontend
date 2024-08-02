@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Command as CommandPrimitive } from "cmdk-sv";
-	import { cn } from "$lib/utils.js";
+	import { cn } from "$lib/utils";
 
 	type $$Props = CommandPrimitive.CommandProps;
 

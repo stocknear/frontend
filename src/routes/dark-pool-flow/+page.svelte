@@ -2,7 +2,7 @@
   import { numberOfUnreadNotification, screenWidth, isOpen } from '$lib/store';
   import { onMount, onDestroy } from 'svelte';
   import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
-  import { abbreviateNumber } from '$lib/utils.js';
+  import { abbreviateNumber } from '$lib/utils';
   import { goto } from '$app/navigation';
   
     export let data;

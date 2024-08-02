@@ -5,23 +5,19 @@
     import { formatDateRange } from "$lib/utils";
     import Lazy from 'svelte-lazy';
 
-
     export let data;
   
     let isLoaded = false;
-  
+    let displayIV = 'iv60';
+
     let rawData = [];
     let optionsData;
-    let avgFee;
     let lowestIV;
     let highestIV;
     let lowestRV;
     let highestRV;
     let ivRank;
-
-    let totalAvailableShares;
   
-
 function findLowestAndhighestIV(data, lastDateStr) {
     // Convert lastDateStr to Date object
     const lastDate = new Date(lastDateStr);
@@ -49,27 +45,16 @@ function findLowestAndhighestIV(data, lastDateStr) {
 }
 
   
-  function normalizer(value) {
-  if (Math?.abs(value) >= 1e18) {
-    return { unit: 'Q', denominator: 1e18 };
-  } else if (Math?.abs(value) >= 1e12) {
-    return { unit: 'T', denominator: 1e12 };
-  } else if (Math?.abs(value) >= 1e9) {
-    return { unit: 'B', denominator: 1e9 };
-  } else if (Math?.abs(value) >= 1e6) {
-    return { unit: 'M', denominator: 1e6 };
-  } else if (Math?.abs(value) >= 1e5) {
-    return { unit: 'K', denominator: 1e5 };
-  } else {
-    return { unit: '', denominator: 1 };
-  }
-  }
-  
+function changeStatement(event)
+{
+    displayIV = event.target.value;
+    optionsData = getPlotOptions()
+}
   
   function getPlotOptions() {
     let dates = [];
     let priceList = [];
-    let iv60List = [];
+    let ivList = [];
     let realizedVolatility = [];
 
     // Iterate over the data and extract required information
@@ -77,7 +62,7 @@ function findLowestAndhighestIV(data, lastDateStr) {
   
     dates?.push(item?.date);
     priceList?.push(item?.stockpx);
-    iv60List?.push(item?.iv60)
+    ivList?.push(item[displayIV])
     realizedVolatility?.push(item['60dorhv'])
 
     });
@@ -86,16 +71,10 @@ function findLowestAndhighestIV(data, lastDateStr) {
     findLowestAndhighestIV(rawData, rawData?.slice(-1)?.at(0)?.date)
 
    // Calculate IV Rank
-    const lowestIV = Math.min(...iv60List); // Find the lowest IV in the past
-    const highestIV = Math.max(...iv60List); // Find the highest IV in the past
-    ivRank = ((iv60List?.slice(-1) - lowestIV) / (highestIV - lowestIV) * 100).toFixed(2); // Compute IV Rank
+    const lowestIV = Math.min(...ivList); // Find the lowest IV in the past
+    const highestIV = Math.max(...ivList); // Find the highest IV in the past
+    ivRank = ((ivList?.slice(-1) - lowestIV) / (highestIV - lowestIV) * 100).toFixed(2); // Compute IV Rank
 
-    // Compute the average of item?.traded
-    const totalNumber = iv60List?.reduce((acc, item) => acc + item, 0);
-    avgFee = (totalNumber / iv60List?.length)?.toFixed(1);
-    totalAvailableShares = priceList?.reduce((accumulator, sum) => {
-        return accumulator + sum;
-    }, 0);
 
   
     const option = {
@@ -104,7 +83,7 @@ function findLowestAndhighestIV(data, lastDateStr) {
         trigger: 'axis',
         hideDelay: 100, // Set the delay in milliseconds
     },
-    animation: $screenWidth < 640 ? false: true,
+    animation: false,
     grid: {
         left: '0%',
         right: '0%',
@@ -166,7 +145,7 @@ function findLowestAndhighestIV(data, lastDateStr) {
         },
         {
             name: 'IV',
-            data: iv60List,
+            data: ivList,
             type: 'line',
             areaStyle: {opacity: 0.3},
             stack: 'ImpliedVolatility',
@@ -231,6 +210,7 @@ function findLowestAndhighestIV(data, lastDateStr) {
   $: {
   if($assetType === 'stock' ? $stockTicker : $etfTicker && typeof window !== 'undefined') {
     isLoaded=false;
+    displayIV = 'iv60';
     const ticker = $assetType === 'stock' ? $stockTicker : $etfTicker
     const asyncFunctions = [
       getImpliedVolatility(ticker)
@@ -273,12 +253,27 @@ function findLowestAndhighestIV(data, lastDateStr) {
   
         {#if rawData?.length !== 0}
   
-        <div class="w-full flex flex-col items-start">
+        <div class="w-full flex flex-col items-start mb-2">
             <div class="text-white text-[1rem] mt-2 mb-2 w-full">
                 Based on the past 12 months of historical data, {$displayCompanyName} has an IV Rank of <span class="font-semibold">{ivRank}%</span>, with the current implied volatility standing at <span class="font-semibold">{rawData?.slice(-1)?.at(0)?.iv60}%</span>.
             </div>
         </div>
+
+        <select class="mt-5 mb-5 sm:mb-0 sm:mt-3 ml-1 w-44 select select-bordered select-sm p-0 pl-5 overflow-y-auto bg-[#2A303C]" on:change={changeStatement}>
+            <option disabled>Choose IV Period</option>
+            <option selected value="iv60">
+              60 Day IV
+            </option>
+            <option value="iv90">
+              90 Day IV
+            </option>
+            <option value="252dclshv">
+              1 Year historical volatility
+            </option>
+        </select>
   
+
+
         <div class="pb-2 rounded-lg bg-[#09090B]">
                 
           
