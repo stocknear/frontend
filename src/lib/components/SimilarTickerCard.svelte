@@ -52,7 +52,7 @@ export let similarstock;
                 <td class="text-gray-200">
                   <div class="flex flex-row items-center">
                     <div class="rounded-full w-10 h-10 relative  flex items-center justify-center">
-                      <img style="clip-path: circle(50%);" class="w-6 h-6 rounded-full" src={`https://financialmodelingprep.com/image-stock/${item.symbol}.png`} loading="lazy"/>
+                      <img style="clip-path: circle(50%);" class="w-6 h-6 rounded-full" src={`https://financialmodelingprep.com/image-stock/${item?.symbol}.png`} loading="lazy"/>
                     </div>
                     <div class="flex flex-col ml-3 w-full">
                       <span class="text-blue-400 text-sm font-medium">{item?.symbol}</span>

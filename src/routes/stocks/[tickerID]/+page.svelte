@@ -1167,7 +1167,9 @@ function changeChartType() {
 
 
                                 {#if $screenWidth <= 1022} <!--BUG: Dont remove since when changing ETF symbol display freezes-->
+                               
                                 <div class="w-full mt-10 m-auto sm:p-6 lg:hidden ">
+                                  <Lazy>
                                     <h3 class="cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
                                       Key Information
                                     </h3>
@@ -1175,7 +1177,8 @@ function changeChartType() {
                                       <svelte:component this={Comp}
                                         data={data} />
                                     {/await}
-                                  
+                                  </Lazy>
+
                                   </div>
                                   {/if}
 
