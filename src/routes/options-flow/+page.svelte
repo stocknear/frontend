@@ -285,10 +285,10 @@ function calculateStats(data) {
       displayCallVolume = callVolumeSum;
       displayPutVolume = putVolumeSum;
 
-      mostFrequentTicker = findMostFrequentTicker(rawData);
-      highestVolumeTicker = findHighestVolume(rawData);
-      highestPremiumTicker = findHighestCostBasis(rawData);
-      highestOpenInterestTicker = findHighestOpenInterest(rawData);
+      mostFrequentTicker = findMostFrequentTicker(data);
+      highestVolumeTicker = findHighestVolume(data);
+      highestPremiumTicker = findHighestCostBasis(data);
+      highestOpenInterestTicker = findHighestOpenInterest(data);
 
   }
   
