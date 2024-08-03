@@ -14,6 +14,7 @@
   
   let rawData = [];
   let filterList = [];
+  let displayedData =[];
 
   let flowSentiment;
   let putCallRatio;
@@ -35,7 +36,6 @@
   let isLoaded = false;
   let mode = $isOpen === true ? true : false;
   let showMore = false;
-  let newIncomingData = false;
   
   let optionSymbol;
   let optionDescription;
@@ -140,65 +140,48 @@ function handleViewData(optionData) {
   
   
   socket.addEventListener('message', (event) => {
-      previousCallVolume = displayCallVolume ?? 0;
-      if(mode === true) {
-      try {
-          const newData = JSON.parse(event.data);
-          if(rawData?.length !== newData?.length) {
-            newIncomingData = true;
-          }
+    previousCallVolume = displayCallVolume ?? 0;
+    if(mode === true) {
+        try {
+            const newData = JSON.parse(event.data);
+            if(rawData?.length !== newData?.length) {
+                newIncomingData = true;
+            }
+            rawData = [...newData];
+            
+            // Apply current filters to the new rawData
+            let filteredData = rawData;
 
-          rawData = [...newData];
-          
+            // Apply filterQuery if it exists
+            if (filterQuery?.length !== 0) {
+                filteredData = filteredData.filter(item => item?.ticker === filterQuery?.toUpperCase());
+            }
 
-          // Variables to track filter status
-          let queryFilteredData = rawData;
-          let listFilteredData = rawData;
+            // Apply filterList if it exists
+            if (filterList?.length !== 0) {
+                filteredData = filterExpiringSoon(filteredData, Math.max(...filterList));
+            }
 
-          // Apply filterQuery if it exists
-          if (filterQuery?.length !== 0) {
-              queryFilteredData = rawData.filter(item => item?.ticker === filterQuery?.toUpperCase());
-          }
+            if (filteredData.length !== 0) {
+                notFound = false;
+            } else {
+                notFound = true;
+            }
 
-          // Apply filterList if it exists
-          if (filterList?.length !== 0) {
-              listFilteredData = filterExpiringSoon(rawData, Math.max(...filterList));
-          }
+            // Update displayedData instead of rawData
+            displayedData = filteredData;
 
-          // Determine the final filtered data based on both filters
-          if (filterQuery?.length !== 0 && filterList?.length !== 0) {
-              rawData = queryFilteredData.filter(item => listFilteredData.includes(item));
-          } else if (filterQuery?.length !== 0) {
-              rawData = queryFilteredData;
-          } else if (filterList?.length !== 0) {
-              rawData = listFilteredData;
-          }
+            calculateStats(displayedData);
 
-          if (rawData?.length !== 0 && newIncomingData === true) {
-              notFound = false;
-              newIncomingData = false;
-          } else if (!newIncomingData) {
-              notFound = false;
-              newIncomingData = false;
-          } else {
-              notFound = true;
-              newIncomingData = false;
-              rawData = data?.getOptionsFlowFeed ?? [];
-          }
-
-          calculateStats(rawData);
-          if (previousCallVolume !== displayCallVolume && !muted) {
-              audio?.play();
-          }
-
-         
-      }
-      catch(e) {
-          console.log(e)
-      }
-      }
-  
-  });
+            if (previousCallVolume !== displayCallVolume && !muted) {
+                audio?.play();
+            }
+        }
+        catch(e) {
+            console.log(e)
+        }
+    }
+});
   
   
   socket.addEventListener('close', (event) => {
@@ -211,13 +194,12 @@ function handleViewData(optionData) {
   }
   }
   
-  
-  let scrollContainer;
-  
+    
 
   onMount(async () => {
     audio = new Audio(notifySound);
     rawData = data?.getOptionsFlowFeed;
+    displayedData = rawData;
     calculateStats(rawData);
     isLoaded = true;
 
@@ -384,27 +366,26 @@ function calculateStats(data) {
   }
   
   
-function handleInput(event) {
+  function handleInput(event) {
     filterQuery = event.target.value;
-    let newData = [];
+
     setTimeout(() => {
+        let filteredData = rawData;
+
         if (filterQuery?.length !== 0) {
-            newData = [...rawData?.filter(item => item?.ticker === filterQuery?.toUpperCase())];
-            if (newData?.length !== 0) {
-                rawData = newData;
-
-
-                notFound = false;
-            } else {
-                notFound = true;
-                rawData = data?.getOptionsFlowFeed;
-            }
-        } else {
-            notFound = false;
-            rawData = data?.getOptionsFlowFeed;
+            filteredData = rawData.filter(item => item?.ticker === filterQuery?.toUpperCase());
         }
 
-        calculateStats(rawData);
+        if (filteredData.length !== 0) {
+            notFound = false;
+        } else {
+            notFound = true;
+        }
+
+        // Update a separate variable for displayed data, not rawData itself
+        displayedData = filteredData;
+
+        calculateStats(displayedData);
     }, 200);
 }
 
@@ -418,7 +399,7 @@ function debounce(fn, delay) {
     };
 }
 
-const debouncedHandleInput = debounce(handleInput, 200);
+const debouncedHandleInput = debounce(handleInput, 300);
 
 
 async function handleFilter(newFilter) {
@@ -809,7 +790,7 @@ $: {
                   <VirtualList
                     width="100%"
                     height={850}
-                    itemCount={rawData.length}
+                    itemCount={displayedData.length}
                     itemSize={40}
                   >
                     <div slot="header" class="tr th sticky z-40 top-0">
@@ -827,61 +808,61 @@ $: {
                         <div class="td bg-[#161618] text-slate-300 font-bold text-xs text-end uppercase">OI</div>
                     </div>
                 
-                    <div on:click={() => handleViewData(rawData[index])} slot="item" let:index let:style {style} class="tr cursor-pointer">
+                    <div on:click={() => handleViewData(displayedData[index])} slot="item" let:index let:style {style} class="tr cursor-pointer">
 
 
                       <div style="justify-content: center;" class="td text-white pb-3 text-xs sm:text-sm text-start">
-                        {formatTime(rawData[index]?.time)}
+                        {formatTime(displayedData[index]?.time)}
                       </div>
   
-                      <div on:click|stopPropagation={() => assetSelector(rawData[index]?.ticker, rawData[index]?.assetType)} style="justify-content: center;" class="td text-sm text-blue-400 font-normal">
-                        {rawData[index]?.ticker}
+                      <div on:click|stopPropagation={() => assetSelector(displayedData[index]?.ticker, displayedData[index]?.assetType)} style="justify-content: center;" class="td text-sm text-blue-400 font-normal">
+                        {displayedData[index]?.ticker}
                       </div>
 
                       <div style="justify-content: center;" class="td text-sm text-white text-start">
-                        {reformatDate(rawData[index]?.date_expiration)}
+                        {reformatDate(displayedData[index]?.date_expiration)}
                       </div>
 
                     <div style="justify-content: center;" class="td text-sm text-white text-start">
-                      {rawData[index]?.strike_price}
+                      {displayedData[index]?.strike_price}
                     </div>
 
-                    <div style="justify-content: center;" class="td  text-sm {rawData[index]?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-start">
-                      {rawData[index]?.put_call}
+                    <div style="justify-content: center;" class="td  text-sm {displayedData[index]?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-start">
+                      {displayedData[index]?.put_call}
                     </div>
 
-                    <div style="justify-content: center;" class="td  text-sm {rawData[index]?.sentiment === 'Bullish' ? 'text-[#00FC50]' : rawData[index]?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'} text-start">
-                      {rawData[index]?.sentiment}
+                    <div style="justify-content: center;" class="td  text-sm {displayedData[index]?.sentiment === 'Bullish' ? 'text-[#00FC50]' : displayedData[index]?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'} text-start">
+                      {displayedData[index]?.sentiment}
                     </div>
   
                       <div style="justify-content: center;" class="td  text-sm text-start text-white">
-                        {rawData[index]?.underlying_price}
+                        {displayedData[index]?.underlying_price}
                       </div>
                     
                     <div style="justify-content: center;" class="td  text-sm text-start text-white">
-                      {rawData[index]?.price}
+                      {displayedData[index]?.price}
                     </div>
                     
-                    <div style="justify-content: center;" class="td  text-sm text-start font-semibold {rawData[index]?.put_call === 'Puts' ? 'text-[#CB281C]' : 'text-[#0FB307]'} ">
-                      {abbreviateNumber(rawData[index]?.cost_basis)}
+                    <div style="justify-content: center;" class="td  text-sm text-start font-semibold {displayedData[index]?.put_call === 'Puts' ? 'text-[#CB281C]' : 'text-[#0FB307]'} ">
+                      {abbreviateNumber(displayedData[index]?.cost_basis)}
                     </div>
 
-                    <div style="justify-content: center;" class="td  text-sm text-start {rawData[index]?.type === 'Sweep' ? 'text-[#C6A755]' : 'text-[#976DB7]'}">
-                      {rawData[index]?.type}
+                    <div style="justify-content: center;" class="td  text-sm text-start {displayedData[index]?.type === 'Sweep' ? 'text-[#C6A755]' : 'text-[#976DB7]'}">
+                      {displayedData[index]?.type}
                     </div>
     
                     <div style="justify-content: center;" class="td  text-sm text-white text-end">
                         {new Intl.NumberFormat("en", {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 0
-                        }).format(rawData[index]?.volume)}
+                        }).format(displayedData[index]?.volume)}
                     </div>
     
                     <div style="justify-content: center;" class="td  text-sm text-white text-end">
                       {new Intl.NumberFormat("en", {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0
-                    }).format(rawData[index]?.open_interest)}
+                    }).format(displayedData[index]?.open_interest)}
                     </div>
 
                     </div>
