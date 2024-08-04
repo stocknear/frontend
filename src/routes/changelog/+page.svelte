@@ -251,7 +251,7 @@ export let data;
                                     </div>
                                 </div>
                                 <h2 class="text-center m-auto text-[1rem] sm:text-lg text-white font-medium pb-4">
-                                    Try Stocknear Platform for 7 days. No credit card required.
+                                    Try Stocknear Platform for 30 days. No credit card required.
                                 </h2>
                                     <a href='/register'
                                     class="animate-shine mt-5 w-56 sm:w-80 m-auto group relative grid overflow-hidden rounded-xl px-6 py-3 shadow-[0_1000px_0_0_hsl(0_0%_20%)_inset] transition-colors"
@@ -265,7 +265,7 @@ export let data;
                                     class="backdrop absolute inset-px rounded-[11px] bg-[#FBCE3C] transition-colors duration-200 group-hover:bg-[#be9204"
                                     />
                                     <span class="z-10 text-black text-[1rem] sm:text-lg font-semibold">
-                                    <slot>Free trial for 7 days</slot>
+                                    <slot>Free trial for 30 days</slot>
                                     </span>
                                     
                                 </a>
