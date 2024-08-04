@@ -149,6 +149,14 @@ let navigation = [
         title: 'Magnificent Seven Stocks',
         link: '/list/magnificent-seven'
     },
+    {
+        title: 'Dividend Kings',
+        link: '/list/dividend-kings'
+    },
+    {
+        title: 'Dividend Aristocrats',
+        link: '/list/dividend-aristocrats'
+    },
     
 ];
 
@@ -173,7 +181,6 @@ const combinedNavigation = navigation?.concat(updatedNavigation);
   <!-- Other meta tags -->
   <meta property="og:title" content="Stock Lists · stocknear"/>
   <meta property="og:description" content="Lists of stocks that share common characteristics. See companies ranked by market cap, employee count, sales or others.">
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -181,7 +188,6 @@ const combinedNavigation = navigation?.concat(updatedNavigation);
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Stock Lists · stocknear"/>
   <meta name="twitter:description" content="Lists of stocks that share common characteristics. See companies ranked by market cap, employee count, sales or others.">
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 </svelte:head>
     

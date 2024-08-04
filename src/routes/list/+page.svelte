@@ -378,6 +378,16 @@
                       Magnificent Seven
                     </a>
                 </li>
+                <li class="mb-2 cursor-pointer">
+                  <a href="/list/dividend-kings" class="hover:text-white text-blue-400 text-lg">
+                    Dividend Kings
+                  </a>
+                </li>
+                <li class="mb-2 cursor-pointer">
+                  <a href="/list/dividend-aristocrats" class="hover:text-white text-blue-400 text-lg">
+                    Dividend Aristocrats
+                  </a>
+                </li>
                 <li class="mb-2 cursor-pointer sm:hidden">
                   <a href="/list/delisted-stocks" class="hover:text-white text-blue-400 text-lg">
                     Delisted Companies
