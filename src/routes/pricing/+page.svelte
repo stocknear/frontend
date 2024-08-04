@@ -267,6 +267,8 @@ async function purchasePlan(subscriptionType:string='') {
                         <span class="mr-2 text-4xl font-bold">{mode ? '$24.92' : '$49.99'}</span>
                         <span class="text-white text-xl">/month</span>
                     </div>
+                    <span class="text-center mt-3 text-white text-sm font-semibold">{mode ? '(Billed annually)' : ''}</span>
+
                     <!--
                     <div class="flex flex-col items-center">
                         <div class="flex flex-row items-center">
