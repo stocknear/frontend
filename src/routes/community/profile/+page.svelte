@@ -928,7 +928,7 @@ onDestroy(async () => {
                                     {/if}
                                   </span>
                                   <span class="text-sm text-white {subscriptionData?.status_formatted !== 'Active' ? 'hidden' : ''}">
-                                    {subscriptionData?.product_name?.includes('Monthly') ? '$49.99 billed every month' : '$499 billed every year'}
+                                    {subscriptionData?.product_name?.includes('Monthly') ? '$1.99 billed every month' : '$19.99 billed every year'}
                                   </span>
                                 </div>
                                 
