@@ -174,8 +174,8 @@ onMount(async () => {
                 <div class="flex flex-col  mb-6 items-center">
 
                     <div class="flex flex-row items-center">
-                        <span class="mr-2 text-4xl font-bold">{mode ? '$299' : '$49.99'}</span>
-                        <span class="text-white text-xl">{mode ? '/year' : '/month'}</span>
+                        <span class="mr-2 text-4xl font-bold">{mode ? '$24.92' : '$49.99'}</span>
+                        <span class="text-white text-xl">/month</span>
                     </div>
                     <!--
                     <div class="flex flex-col items-center">
