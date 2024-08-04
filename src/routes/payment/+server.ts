@@ -49,7 +49,8 @@ export const POST = async ({ request, locals }) => {
     //console.log(status, refunded, tier)
     try {
       await locals.pb.collection('users').update(userId, {
-        'tier': tier
+        'tier': tier,
+        'freeTrial': false
       });
 
       /*
