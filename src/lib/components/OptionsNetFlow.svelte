@@ -1,5 +1,5 @@
 <script lang ='ts'>
-    import { optionsNetFlowComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, userRegion, getCache, setCache} from '$lib/store';
+    import { optionsNetFlowComponent, stockTicker, assetType, etfTicker, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
     import { Chart } from 'svelte-echarts'
     import Lazy from 'svelte-lazy';
@@ -62,7 +62,7 @@
     animation: false,
     grid: {
         left: '1%',
-        right: $screenWidth < 640 ? '2%' : '0%',
+        right: '2%',
         bottom: '0%',
         top: '10%',
         containLabel: true
@@ -200,9 +200,7 @@
   
   }
   }
-  
-  $: charNumber = $screenWidth < 640 ? 20 : 40;
-    
+      
   
   
   </script>
