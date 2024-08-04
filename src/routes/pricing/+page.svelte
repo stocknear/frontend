@@ -3,7 +3,6 @@ import { numberOfUnreadNotification, globalForm } from '$lib/store';
 import { openLemonSqueezyUrl } from '$lib/lemonsqueezy';
 //import Discount from '$lib/components/Discount.svelte';
 import { onMount } from 'svelte';
-  import { treemapResquarify } from 'd3-hierarchy';
 
 //import proTierLogo from "$lib/images/pro_tier_logo.png";
 
@@ -12,7 +11,7 @@ export let form;
 
 let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
 
-let mode = treemapResquarify;
+let mode = false;
 const emailAddress = 'support@stocknear.com';
 
 function toggleMode()
@@ -143,7 +142,7 @@ async function purchasePlan(subscriptionType:string='') {
                         Pay Yearly
                     </span>
                     <span class="text-[#FBCE3C] text-sm font-semibold">
-                        Save up 50%
+                        Save up 20%
                     </span>
                 </div>
               
@@ -158,7 +157,7 @@ async function purchasePlan(subscriptionType:string='') {
 
 
 
-        <div class="flex flex-col sm:flex-row items-center gap-10 sm:gap-5 w-full max-w-7xl m-auto mt-10 sm:mt-20">
+        <div class="flex flex-col sm:flex-row items-center gap-10 sm:gap-5 w-full max-w-4xl m-auto mt-10 sm:mt-20">
             <!-- Pricing Card -->
             <div class="order-last sm:order-1 flex flex-col p-6 lg:p-8 mx-auto w-full text-center text-white border border-gray-800 bg-[#09090B] rounded-lg">
 
@@ -264,10 +263,9 @@ async function purchasePlan(subscriptionType:string='') {
                 <div class="flex flex-col  mb-6 items-center">
 
                     <div class="flex flex-row items-center">
-                        <span class="mr-2 text-4xl font-bold">{mode ? '$24.99' : '$49.99'}</span>
-                        <span class="text-white text-xl">/month</span>
+                        <span class="mr-2 text-4xl font-bold">{mode ? '$19.99' : '$1.99'}</span>
+                        <span class="text-white text-xl">{mode ? '/year' : '/month'}</span>
                     </div>
-                    <span class="text-center mt-3 text-white text-sm font-semibold">{mode ? '(Billed annually)' : ''}</span>
 
                     <!--
                     <div class="flex flex-col items-center">
@@ -374,7 +372,7 @@ async function purchasePlan(subscriptionType:string='') {
 
 
              <!--Start Pricing Card-->
-             
+             <!--
              <div class="sm:h-[660px] sm:order-2 box sm:-mt-10 flex flex-col p-6 lg:p-8 mx-auto ring-[1px] ring-gray-400 rounded-lg w-full text-center text-white">
 
                 <div class="absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-2xl flex flex-row border border-gray-300 items-center p-2">
@@ -444,6 +442,7 @@ async function purchasePlan(subscriptionType:string='') {
                 {/if}
                
             </div>
+            -->
             <!--End Pricing Card-->
 
 
