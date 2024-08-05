@@ -12,10 +12,10 @@ import ThumbsUp from "lucide-svelte/icons/thumbs-up";
 import MessageCircle from "lucide-svelte/icons/message-circle";
 import Lazy from '$lib/components/Lazy.svelte';
 import { init, use } from 'echarts/core'
-import { BarChart } from 'echarts/charts'
+import { LineChart, BarChart } from 'echarts/charts'
 import { GridComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-use([BarChart, GridComponent, CanvasRenderer])
+use([LineChart, BarChart, GridComponent, CanvasRenderer])
 
   export let data;
   let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
