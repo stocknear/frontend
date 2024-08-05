@@ -57,8 +57,8 @@
        
             const options = {
                 grid: {
-                    left: "0%",
-                    right: "7%",
+                    left: "2%",
+                    right: "2%",
                     bottom: '0%',
                     height: "90%",
                     containLabel: true,
@@ -185,7 +185,10 @@
                 {
                 name: 'Frequency of Return',
                 type: 'bar',
-                barWidth: '100%',
+                barWidth: '80%',
+                itemStyle: {
+                    color: 'white',
+                },
                 data: histogramData
                 }
             ],
@@ -259,7 +262,7 @@
             </div>
 
 
-            <div class="rounded-2xl pl-3 sm:pr-0 pt-3 w-full m-auto flex flex-col justify-center items-center mt-4">
+            <div class="rounded-2xl pl-3 sm:pr-0 pt-3 w-full mt-4">
 
                 {#if displayReturn === 'annualReturn'}
                     <h1 class="text-white m-auto font-bold text-lg  text-center">
@@ -288,8 +291,8 @@
                     </div>
 
                     <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
-                        <div class="app w-[90vw] sm:w-[50vw] mb-20 mt-6">
-                            <Chart options={optionsAnnualReturn} class="chart w-full" />
+                        <div class="app w-full h-[300px] mt-5 mb-16">
+                            <Chart options={optionsAnnualReturn} class="chart" />
                         </div>
                     </Lazy>
 
@@ -300,9 +303,11 @@
                         Distribution of Monthly Returns
                     </h1>
 
-                    <div class="app w-[90vw] sm:w-[50vw] mb-4">
-                        <Chart options={optionsMonthlyDistributionReturn} class="chart w-full" />  
-                    </div>
+                    <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
+                        <div class="app w-full h-[300px] mt-5 mb-16">
+                            <Chart options={optionsMonthlyDistributionReturn} class="chart" />
+                        </div>
+                    </Lazy>
                 {/if}
             </div>
     
@@ -310,23 +315,22 @@
             </div>
           </section>
     
-    <style>
-    
-    
-    .app {
-        height: 300px;
-        max-width: 100%; /* Ensure chart width doesn't exceed the container */
-    
-      }
-    
-      @media (max-width: 640px) {
-        .app {
-          height: 180px;
-        }
-      }
-    
-      .chart {
-        width: 100%;
-      }
-      
-      </style>
+<style>
+
+.app {
+height: 300px;
+max-width: 100%; /* Ensure chart width doesn't exceed the container */
+
+}
+
+@media (max-width: 640px) {
+.app {
+height: 210px;
+}
+}
+
+.chart {
+width: 100%;
+}
+
+</style>

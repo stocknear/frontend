@@ -287,38 +287,40 @@ updateYearRange()
               <h3 class="text-start w-full mt-8 mb-2 text-lg sm:text-2xl font-bold text-white">
                 Worst 10 Drawdowns of {$stockTicker}
               </h3>
-              <table class="table table-sm table-pin-rows table-compact text-start w-full flex justify-start items-center m-auto">
-                <thead>
-                  <tr class="bg-[#09090B] border-slate-800 rounded text-white font-semibold">
-                    <th class="text-start text-sm w-36 sm:w-56">Started</th>
-                    <th class="text-sm text-end">Recovered</th>
-                    <th class="text-sm text-end">Drawdown</th>
-                    <th class="text-sm text-end ">Days</th>
-                  </tr>
-                </thead>
-                <tbody class="shadow-md">
-                  {#each quantStats[$stockTicker?.toUpperCase()]['Worst 10 Drawdowns'] as item}
-                    <tr class="text-white border-y border-gray-800 odd:bg-[#27272A]">
-                      <td class="text-start text-sm text-white w-36 sm:w-56">
-                        {new Date(item['Started']).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
-                      </td>
-                      <td class="text-sm  text-white text-end">
-                        {#if ongoingDD(item['Recovered']) === true}
-                        continuing
-                        {:else}
-                        {new Date(item['Recovered']).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
-                        {/if}
-                      </td>
-                      <td class="text-start font-semibold text-white text-end">
-                        {item['Drawdown']?.toFixed(2)}%
-                      </td> 
-                      <td class="text-end font-semibold text-white">
-                        {item['Days']}
-                      </td>
+              <div class="w-full overflow-x-scroll">
+                <table class="table table-sm table-pin-rows table-compact text-start w-full flex justify-start items-center m-auto">
+                  <thead>
+                    <tr class="bg-[#09090B] border-slate-800 rounded text-white font-semibold">
+                      <th class="text-start text-sm w-36 sm:w-56">Started</th>
+                      <th class="text-sm text-end">Recovered</th>
+                      <th class="text-sm text-end">Drawdown</th>
+                      <th class="text-sm text-end ">Days</th>
                     </tr>
-                  {/each}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody class="shadow-md">
+                    {#each quantStats[$stockTicker?.toUpperCase()]['Worst 10 Drawdowns'] as item}
+                      <tr class="text-white border-y border-gray-800 odd:bg-[#27272A]">
+                        <td class="text-start text-sm text-white whitespace-nowrap">
+                          {new Date(item['Started']).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                        </td>
+                        <td class="text-sm  text-white text-end whitespace-nowrap">
+                          {#if ongoingDD(item['Recovered']) === true}
+                          continuing
+                          {:else}
+                          {new Date(item['Recovered']).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                          {/if}
+                        </td>
+                        <td class="text-start font-semibold text-white text-end">
+                          {item['Drawdown']?.toFixed(2)}%
+                        </td> 
+                        <td class="text-end font-semibold text-white">
+                          {item['Days']}
+                        </td>
+                      </tr>
+                    {/each}
+                  </tbody>
+                </table>
+              </div>
 
               
               <h2 class="text-start ml-2 text-lg sm:text-2xl font-bold text-white mt-8 ">
@@ -330,7 +332,7 @@ updateYearRange()
                 Comparison of company stats against the S&P500 Index.                                  
               </p>
 
-              <span class="ml-2 text-start italic text-sm text-gray-300 mb-2 sm:mb-5">
+              <span class="ml-2 text-start italic text-xs text-gray-300 mt-5 mb-2 sm:mb-5">
                 Time Period between {new Date(quantStats[$stockTicker?.toUpperCase()]["Start Period"]).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })} 
                 - 
                 {new Date(quantStats[$stockTicker?.toUpperCase()]["End Period"]).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
