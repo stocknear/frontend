@@ -6,10 +6,10 @@ import { goto } from '$app/navigation';
 import { Chart } from 'svelte-echarts'
 
 import { init, use } from 'echarts/core'
-import { HeatmapChart } from 'echarts/charts'
-import { GridComponent } from 'echarts/components'
+import { TreemapChart } from 'echarts/charts'
+import { GridComponent} from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-use([HeatmapChart, GridComponent, CanvasRenderer])
+use([TreemapChart, GridComponent, CanvasRenderer])
 
 export let data;
 let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
