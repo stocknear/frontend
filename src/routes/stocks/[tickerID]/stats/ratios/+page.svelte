@@ -604,7 +604,7 @@ $: {
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Return on Equity (ROE)</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm">
-                                                        {filterRule === 'annual' ? (item?.returnOnEquity*100)?.toFixed(2): (item?.returnOnEquity*100)?.toFixed(2)}%
+                                                        {(item?.returnOnEquity*100)?.toFixed(2)}%
                                                     </td>
                                                     {/each}
                                                 </tr>
@@ -629,19 +629,25 @@ $: {
                                                 <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Payout Ratio</td>
                                                     {#each ratios as item}
-                                                    <td class="text-xs sm:text-sm"> {(item?.payoutRatio*100)?.toFixed(2)}%</td>
+                                                    <td class="text-xs sm:text-sm">
+                                                        {filterRule === 'annual' ? (item?.payoutRatio/4*100)?.toFixed(2): (item?.payoutRatio*100)?.toFixed(2)}%
+                                                    </td>
                                                     {/each}
                                                 </tr>
                                                 <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Gross Profit Margin</td>
                                                     {#each ratios as item}
-                                                    <td class="text-xs sm:text-sm"> {(item?.grossProfitMargin*100)?.toFixed(2)}%</td>
+                                                    <td class="text-xs sm:text-sm">
+                                                        {filterRule === 'annual' ? (item?.grossProfitMargin/4*100)?.toFixed(2): (item?.grossProfitMargin*100)?.toFixed(2)}%
+                                                    </td>
                                                     {/each}
                                                 </tr>
                                                 <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Net Profit Margin</td>
                                                     {#each ratios as item}
-                                                    <td class="text-xs sm:text-sm"> {(item?.netProfitMargin*100)?.toFixed(2)}%</td>
+                                                    <td class="text-xs sm:text-sm">
+                                                        {filterRule === 'annual' ? (item?.netProfitMargin/4*100)?.toFixed(2): (item?.netProfitMargin*100)?.toFixed(2)}%
+                                                    </td>
                                                     {/each}
                                                 </tr>
                                            </tbody>
