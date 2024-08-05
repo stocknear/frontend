@@ -498,7 +498,7 @@ const changeTab = (state) => {
 };
 
 
-const trialEndDate = addDays(data, 7, 'date');
+const trialEndDate = addDays(data, 30, 'date');
 
 onMount(async () => {
 

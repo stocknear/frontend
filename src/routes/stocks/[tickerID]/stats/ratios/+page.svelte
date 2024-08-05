@@ -569,33 +569,43 @@ $: {
                                                 <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Quick Ratio</td>
                                                     {#each ratios as item}
-                                                    <td class="text-xs sm:text-sm"> {item?.quickRatio?.toFixed(2)}</td>
+                                                    <td class="text-xs sm:text-sm">
+                                                        {filterRule === 'annual' ? (item?.quickRatio/4)?.toFixed(2): item?.quickRatio?.toFixed(2)}
+                                                    </td>
                                                     {/each}
                                                 </tr>
                                                     <!-- row -->
                                                 <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Current Ratio</td>
                                                     {#each ratios as item}
-                                                    <td class="text-xs sm:text-sm"> {item?.currentRatio?.toFixed(2)}</td>
+                                                    <td class="text-xs sm:text-sm">
+                                                        {filterRule === 'annual' ? (item?.currentRatio/4)?.toFixed(2): item?.currentRatio?.toFixed(2)}
+                                                    </td>
                                                     {/each}
                                                 </tr>
                                                 <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm whitespace-nowrap">Asset Turnover</td>
                                                     {#each ratios as item}
-                                                    <td class="text-xs sm:text-sm"> {item?.assetTurnover?.toFixed(2)}</td>
+                                                    <td class="text-xs sm:text-sm">
+                                                        {item?.assetTurnover?.toFixed(2)}
+                                                    </td>
                                                     {/each}
                                                 </tr>
                                                 <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Interest Coverage</td>
                                                     {#each ratios as item}
-                                                    <td class="text-xs sm:text-sm"> {item?.interestCoverage?.toFixed(2)}</td>
+                                                    <td class="text-xs sm:text-sm">
+                                                        {filterRule === 'annual' ? (item?.interestCoverage/4)?.toFixed(2): item?.interestCoverage?.toFixed(2)}
+                                                    </td>
                                                     {/each}
                                                 </tr>
                                                     <!-- row -->
                                                 <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Return on Equity (ROE)</td>
                                                     {#each ratios as item}
-                                                    <td class="text-xs sm:text-sm"> {(item?.returnOnEquity*100)?.toFixed(2)}%</td>
+                                                    <td class="text-xs sm:text-sm">
+                                                        {filterRule === 'annual' ? (item?.returnOnEquity*100)?.toFixed(2): (item?.returnOnEquity*100)?.toFixed(2)}%
+                                                    </td>
                                                     {/each}
                                                 </tr>
                                                 <tr class="text-white odd:bg-[#27272A]">

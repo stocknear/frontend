@@ -194,8 +194,8 @@ export function sumQuarterlyResultsByYear(quarterlyResults, namingList) {
   });
   
   // Filter out years with less than 4 quarters
-  const validYears = Object.keys(quarterCounts).filter(year => quarterCounts[year] === 4);
-  const annualResults = validYears.map(year => yearlySummaries[year]);
+  const validYears = Object?.keys(quarterCounts)?.filter(year => quarterCounts[year] === 4);
+  const annualResults = validYears?.map(year => yearlySummaries[year]);
   
   // Sort the results by year in descending order
   annualResults.sort((a, b) => b?.calendarYear?.localeCompare(a?.calendarYear));
