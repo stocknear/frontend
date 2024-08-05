@@ -76,7 +76,32 @@ export let data;
                                         <div class="md:flex">
                                             <div class="w-48 shrink-0">
                                                 <time class="text-sm inline-flex items-center text-white md:leading-8 before:w-1.5 before:h-1.5 before:rounded-full before:bg-purple-500 before:ring-4 before:ring-purple-500/30 mb-3">
-                                                    <span class="ml-[1.625rem] md:ml-5">July 29- August 04, 2024</span>
+                                                    <span class="ml-[1.625rem] md:ml-5">Aug 05,- Aug 11, 2024</span>
+                                                </time>
+                                            </div>
+                                            <div class="grow ml-8 md:ml-0 pb-12 group-last-of-type:pb-0 border-b [border-image:linear-gradient(to_right,theme(colors.slate.700/.3),theme(colors.slate.700),theme(colors.slate.700/.3))1] group-last-of-type:border-none">
+                                                <header>
+                                                    <h2 class="text-xl sm:text-2xl font-semibold text-white leading-8 pb-3">
+                                                        Weekly Update
+                                                    </h2>
+                                                </header>
+                                                    <ol class="text-white list-disc ml-5 sm:ml-3">
+                                                        <li class="p-1">
+                                                            Feature Enhancement: Make echarts tree-shakeable to increase performance of charts.
+                                                        </li>
+                                                        <li class="p-1">
+                                                            Feature Enhancement: Filter out Market News to increase signal/noise ratio
+                                                        </li>
+                                                    </ol>
+                                            </div>
+                                        </div>
+                                    </article>
+
+                                    <article class="pt-12 first-of-type:pt-0 group">
+                                        <div class="md:flex">
+                                            <div class="w-48 shrink-0">
+                                                <time class="text-sm inline-flex items-center text-white md:leading-8 before:w-1.5 before:h-1.5 before:rounded-full before:bg-purple-500 before:ring-4 before:ring-purple-500/30 mb-3">
+                                                    <span class="ml-[1.625rem] md:ml-5">July 29- Aug 04, 2024</span>
                                                 </time>
                                             </div>
                                             <div class="grow ml-8 md:ml-0 pb-12 group-last-of-type:pb-0 border-b [border-image:linear-gradient(to_right,theme(colors.slate.700/.3),theme(colors.slate.700),theme(colors.slate.700/.3))1] group-last-of-type:border-none">
