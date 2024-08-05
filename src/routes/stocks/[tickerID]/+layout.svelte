@@ -612,8 +612,8 @@ $: isScrolled = y > 0;
                                       <!--Start Ticker Section-->
                                       
                                       <!--<div class="w-full max-w-3xl sm:max-w-2xl m-auto pt-2 pb-5 sm:pl-3 sticky z-20 bg-[#09090B]"  style="top: {$screenWidth < 520 && $isScrollingUp ? '4rem' : '0rem'};">-->
-                                        <div class="-ml-2 sm:ml-4 w-screen sm:w-full {$screenWidth < 640 ? 'overflow-auto scrollbar no-scrollbar' : ''} mb-2" >
-                                          <ul class="pr-4 sm:pr-0 w-screen font-medium flex flex-row items-center bg-[#09090B] overflow-x-scroll space-x-3 rtl:space-x-reverse py-2">
+                                        <div class="-ml-2 sm:ml-4 w-screen sm:w-full {$screenWidth < 640 ? 'overflow-auto scrollbar' : ''} mb-2" >
+                                          <ul class="pr-4 sm:pr-0 w-screen font-medium flex flex-row items-center bg-[#09090B] overflow-x-scroll no-scrollbar space-x-3 rtl:space-x-reverse py-2">
                                             <li class="cursor-pointer flex flex-col items-center">
                                               <a href={`/stocks/${$stockTicker}`} id="item1" on:click={() => (changeSection('overview','item1'))} class="px-3 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'overview' ? 'text-white ' : 'bg-[#09090B]'}" >
                                                 Overview
