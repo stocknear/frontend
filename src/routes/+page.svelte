@@ -201,7 +201,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
 
 
                                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-4 w-full m-auto">
-                                    <div use:intersect={intersectOptions} class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg invisible">
+                                    <div class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg">
                                       <div class="card-body">
                                         <h2 class="card-title text-white text-2xl font-bold">
                                           <svg class="w-9 h-9 inline-block mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15"><path fill="none" stroke="#fff" stroke-linejoin="round" d="M.5 3.498L7.5.5l7 2.998m-14 0l7 2.998m-7-2.998V3.5m14-.002l-7 2.998m7-2.998V11.5l-7 3m7-11.002L7.5 6.5v8m0-8.004V14.5m0-8.004L.5 3.5m7 11l-7-3v-8"/></svg>
@@ -213,7 +213,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                       </div>
                                     </div>
   
-                                  <div use:intersect={intersectOptions} class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg invisible">
+                                  <div class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg ">
                                     <div class="card-body">
                                       <h2 class="card-title text-white text-2xl font-bold">
                                         <svg class="w-10 h-10 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 16V8c0-.943 0-1.414-.293-1.707S12.943 6 12 6s-1.414 0-1.707.293S10 7.057 10 8v8c0 .943 0 1.414.293 1.707S11.057 18 12 18s1.414 0 1.707-.293S14 16.943 14 16m7-7V7c0-.943 0-1.414-.293-1.707S19.943 5 19 5s-1.414 0-1.707.293S17 6.057 17 7v2c0 .943 0 1.414.293 1.707S18.057 11 19 11s1.414 0 1.707-.293S21 9.943 21 9M7 14v-2c0-.943 0-1.414-.293-1.707S5.943 10 5 10s-1.414 0-1.707.293S3 11.057 3 12v2c0 .943 0 1.414.293 1.707S4.057 16 5 16s1.414 0 1.707-.293S7 14.943 7 14m5 7v-3m7-5v-2m-7-5V3m7 2V3M5 18v-2m0-6V8" color="#F9784E"/></svg>
@@ -225,7 +225,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                     </div>
                                   </div>
   
-                                  <div use:intersect={intersectOptions} class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg invisible">
+                                  <div class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg ">
                                     <div class="card-body">
                                       <h2 class="card-title text-white text-2xl font-bold">
                                         <svg class="w-10 h-10 inline-block " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#fff" d="M4 7a1 1 0 0 0 0 2h2.22l2.624 10.5c.223.89 1.02 1.5 1.937 1.5h12.47c.903 0 1.67-.6 1.907-1.47L27.75 10h-2.094l-2.406 9H10.78L8.157 8.5A1.984 1.984 0 0 0 6.22 7zm18 14c-1.645 0-3 1.355-3 3s1.355 3 3 3s3-1.355 3-3s-1.355-3-3-3m-9 0c-1.645 0-3 1.355-3 3s1.355 3 3 3s3-1.355 3-3s-1.355-3-3-3m3-14v5h-3l4 4l4-4h-3V7zm-3 16c.564 0 1 .436 1 1c0 .564-.436 1-1 1c-.564 0-1-.436-1-1c0-.564.436-1 1-1m9 0c.564 0 1 .436 1 1c0 .564-.436 1-1 1c-.564 0-1-.436-1-1c0-.564.436-1 1-1"/></svg>
@@ -237,7 +237,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                     </div>
                                   </div>
   
-                                  <div use:intersect={intersectOptions} class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg invisible">
+                                  <div class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg ">
                                     <div class="card-body">
                                       <h2 class="card-title text-white text-2xl font-bold text-start">
                                         <svg class="w-9 h-9 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#fff" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128m95.8 32.6L272 480l-32-136l32-56h-96l32 56l-32 136l-47.8-191.4C56.9 292 0 350.3 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8"/></svg>
@@ -249,7 +249,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                     </div>
                                   </div>
   
-                                  <div use:intersect={intersectOptions} class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg invisible">
+                                  <div class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg ">
                                     <div class="card-body">
                                       <h2 class="card-title text-white text-2xl font-bold text-start">
                                         <svg class="w-10 h-10 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#fff" d="M247.002 32v47.725a56.5 56.5 0 0 1 17.996 0V32zM256 96.998c-11.5 0-23.002 5.001-23.002 15.002v10.1c7.37-2 15.05-3.098 23.002-3.098c7.953 0 15.632 1.098 23.002 3.098V112c0-10-11.502-15.002-23.002-15.002m0 40c-28.25 0-53.982 17.938-72.867 42.488c-16.345 21.249-26.934 47.277-29.496 67.516h204.726c-2.562-20.239-13.15-46.267-29.496-67.516c-18.885-24.55-44.617-42.488-72.867-42.488m-80 78.004h32v17.996h-32zm64 0h32v17.996h-32zm64 0h32v17.996h-32zm-170.29 49.996l-7.53 16.004h259.64l-7.53-16.004zm1.292 34v28.004h17.996v-28.004zm56 0v28.004h17.996v-28.004zm56 0v28.004h17.996v-28.004zm56 0v28.004h17.996v-28.004zm56 0v28.004h17.996v-28.004zm-270.004 46v16.004h334.004v-16.004zm14.004 34v60.004h17.996v-60.004zm48 0v60.004h17.996v-60.004zm48 0v60.004h17.996v-60.004zm48 0v60.004h17.996v-60.004zm48 0v60.004h17.996v-60.004zm48 0v60.004h17.996v-60.004zm48 0v60.004h17.996v-60.004zm-350.004 78v30.004h430.004v-30.004z"/></svg>
@@ -261,7 +261,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                     </div>
                                   </div>
   
-                                  <div use:intersect={intersectOptions} class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg invisible">
+                                  <div class="card bg-[#121016] sm:w-96 shadow-xl rounded-none sm:rounded-lg ">
                                     <div class="card-body">
                                       <h2 class="card-title text-white text-2xl font-bold text-start">
                                         <svg class="w-10 h-10 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="#fff" d="M9.228 2.183a1.33 1.33 0 0 1 1.543 0l5.852 4.152c.727.516.363 1.662-.528 1.664H3.907c-.894 0-1.26-1.147-.53-1.664zM10 5.874a.833.833 0 1 0 0-1.667a.833.833 0 0 0 0 1.667M4.5 9v4h2V9zM3 16.166c0-1.197.97-2.167 2.166-2.167h9.667A2.17 2.17 0 0 1 17 16.166v.333a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5zm12.5-7.167v4h-2V9zm-3 0v4h-2V9zm-3 0v4h-2V9z"/></svg>
@@ -279,7 +279,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
 
                                 
                                 
-                                <h2 use:intersect={intersectOptions} class="invisible text-white text-3xl sm:text-4xl font-bold mt-16 w-5/6 sm:w-1/2 text-center m-auto">
+                                <h2 class=" text-white text-3xl sm:text-4xl font-bold mt-16 w-5/6 sm:w-1/2 text-center m-auto">
                                   AI-Powered Algorithms to assist you in any way
                                 </h2>
 
@@ -334,12 +334,12 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
 
 
                               
-                                <h2 use:intersect={intersectOptions} class="invisible text-white text-3xl sm:text-4xl text-center m-auto font-bold mt-20 w-11/12 sm:w-1/2 mb-10">
+                                <h2 class="text-white text-3xl sm:text-4xl text-center m-auto font-bold mt-20 w-11/12 sm:w-1/2 mb-10">
                                   Realtime Options Flow from Hedge Funds & Major Institutions
                                 </h2>
                                     
 
-                                <div use:intersect={intersectOptions} class="invisible relative mb-4">
+                                <div class="relative mb-4">
                                   <div class="absolute top-0 flex w-full justify-center">
                                     <div
                                       class="h-[1px] animate-border-width rounded-full bg-gradient-to-r from-[rgba(251,206,60,0)] via-white to-[rgba(188,126,254,0)] transition-all duration-1000"

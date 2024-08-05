@@ -152,7 +152,7 @@ onMount(async () => {
         
 
             <!-- Pricing Card -->
-            <div class="relative sm:order-2 light-box-1 box sm:-mt-10 flex flex-col p-6 lg:p-8 mx-auto ring-[1px] ring-[#FF2F1F] w-full text-center text-white bg-gradient-to-r from-orange-600 to-purple-800">
+            <div class="relative sm:order-2 rounded-lg box sm:-mt-10 flex flex-col p-6 lg:p-8 mx-auto w-full text-center text-white bg-[#27272A]">
                 <div class="{!mode ? 'hidden' : ''} ribbon ribbon-top-right"><span class="text-white">Discount</span></div>
 
                 <div class="absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-2xl flex flex-row items-center bg-red-600 p-2">
@@ -408,54 +408,6 @@ onMount(async () => {
     
     }
     
-    
-    
-    .light-box-1 {
-      --border-size: 1px;
-      --border-angle: 0turn;
-      --border-radius: 15px; /* Added border radius */
-      
-      background-image: conic-gradient(from var(--border-angle), #213, #112 50%, #213), conic-gradient(from var(--border-angle), transparent 10%, #000, #FBCE3C);
-      background-size: calc(100% - (var(--border-size) * 2)) calc(100% - (var(--border-size) * 2)), cover;
-      background-position: center center;
-      background-repeat: no-repeat;
-      border-radius: var(--border-radius); /* Added border radius */
-      
-      animation: bg-spin 4s linear infinite;
-    }
-    
-    @keyframes bg-spin {
-      to {
-        --border-angle: 1turn;
-      }
-    }
-    
-    @property --border-angle {
-      syntax: "<angle>";
-      inherits: true;
-      initial-value: 0turn;
-    }
-    
-    @property --border-radius {
-      syntax: "<length>";
-      inherits: false;
-      initial-value: 0px;
-    }
-    
-        
-        
-        .light-box-2 {
-            --border-size: 1px;
-            --border-angle: 0turn;
-            --border-radius: 15px; /* Added border radius */
-            background-image: conic-gradient(from var(--border-angle), #09090B, #09090B 50%, #09090B), conic-gradient(from var(--border-angle), transparent 10%, #fff, #fff);
-            background-size: calc(100% - (var(--border-size) * 2)) calc(100% - (var(--border-size) * 2)), cover;
-            background-position: center center;
-            background-repeat: no-repeat;
-            border-radius: var(--border-radius); /* Added border radius */
-    
-            animation: bg-spin 30s linear infinite;
-        }
-        
+
         
     </style>
