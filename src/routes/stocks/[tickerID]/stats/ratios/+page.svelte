@@ -314,7 +314,7 @@ $: {
     if (timeFrame || displayStatement || filterRule)
     {   
         if (filterRule === 'annual') {
-            fullStatement = sumQuarterlyResultsByYear(data?.getRatiosStatement)
+            fullStatement = sumQuarterlyResultsByYear(data?.getRatiosStatement, namingList)
         }
         else {
             fullStatement = data?.getRatiosStatement;
@@ -333,8 +333,7 @@ $: {
         
     }
 
-}
-        
+}  
 </script>
 
 
@@ -512,44 +511,58 @@ $: {
                                                 <tr class="text-white odd:bg-[#27272A] whitespace-nowrap">
                                                     <td class="text-start border-r border-[#191E24] text-xs sm:text-sm">PE Ratio</td>
                                                     {#each ratios as item}
-                                                    <td class="text-xs sm:text-sm"> {item?.priceEarningsRatio?.toFixed(2)}</td>
+                                                    <td class="text-xs sm:text-sm">
+                                                        {filterRule === 'annual' ? (item?.priceEarningsRatio/4)?.toFixed(2): item?.priceEarningsRatio?.toFixed(2)}
+                                                    </td>
                                                     {/each}
                                                 </tr>
                                                 <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">PS Ratio</td>
                                                     {#each ratios as item}
-                                                    <td class="text-xs sm:text-sm"> {item?.priceToSalesRatio?.toFixed(2)}</td>
+                                                    <td class="text-xs sm:text-sm">
+                                                        {filterRule === 'annual' ? (item?.priceToSalesRatio/4)?.toFixed(2): item?.priceToSalesRatio?.toFixed(2)}
+                                                    </td>
                                                     {/each}
                                                 </tr>
                                                     <!-- row -->
                                                     <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">PB Ratio</td>
                                                     {#each ratios as item}
-                                                    <td class="text-xs sm:text-sm"> {item?.priceToBookRatio?.toFixed(2)}</td>
+                                                    <td class="text-xs sm:text-sm">
+                                                        {filterRule === 'annual' ? (item?.priceToBookRatio/4)?.toFixed(2): item?.priceToBookRatio?.toFixed(2)}
+                                                    </td>
                                                     {/each}
                                                 </tr>
                                                 <tr class="text-white odd:bg-[#27272A] whitespace-nowrap">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">P/FCF Ratio</td>
                                                     {#each ratios as item}
-                                                    <td class="text-xs sm:text-sm"> {item?.priceToFreeCashFlowsRatio?.toFixed(2)}</td>
+                                                    <td class="text-xs sm:text-sm">
+                                                        {filterRule === 'annual' ? (item?.priceToFreeCashFlowsRatio/4)?.toFixed(2): item?.priceToFreeCashFlowsRatio?.toFixed(2)}
+                                                    </td>
                                                     {/each}
                                                 </tr>
                                                 <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">P/OCF Ratio</td>
                                                     {#each ratios as item}
-                                                    <td class="text-xs sm:text-sm"> {item?.priceToOperatingCashFlowsRatio?.toFixed(2)}</td>
+                                                    <td class="text-xs sm:text-sm">
+                                                        {filterRule === 'annual' ? (item?.priceToOperatingCashFlowsRatio/4)?.toFixed(2): item?.priceToOperatingCashFlowsRatio?.toFixed(2)}
+                                                    </td>
                                                     {/each}
                                                 </tr>
                                                 <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">OCF/S Ratio</td>
                                                     {#each ratios as item}
-                                                    <td class="text-xs sm:text-sm"> {item?.operatingCashFlowSalesRatio !== null ? item?.operatingCashFlowSalesRatio?.toFixed(2) : '-'}</td>
+                                                    <td class="text-xs sm:text-sm">
+                                                        {filterRule === 'annual' ? (item?.operatingCashFlowSalesRatio/4)?.toFixed(2): item?.operatingCashFlowSalesRatio?.toFixed(2)}
+                                                    </td>
                                                     {/each}
                                                 </tr>
                                                 <tr class="text-white odd:bg-[#27272A]">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Debt / Equity Ratio</td>
                                                     {#each ratios as item}
-                                                    <td class="text-xs sm:text-sm"> {item?.debtEquityRatio?.toFixed(2)}</td>
+                                                    <td class="text-xs sm:text-sm">
+                                                        {filterRule === 'annual' ? (item?.debtEquityRatio/4)?.toFixed(2): item?.debtEquityRatio?.toFixed(2)}
+                                                    </td>
                                                     {/each}
                                                 </tr>
                                                     <!-- row -->

@@ -143,7 +143,7 @@ export function sumQuarterlyResultsByYear(quarterlyResults, namingList) {
 
   // Define a Set of keys to exclude from summing
   //FMP sucks since these keys are up to date for every quarter hence no summation required
-  const excludeKeys = new Set(['weightedAverageShsOut', 'weightedAverageShsOutDil']);
+  const excludeKeys = new Set(['priceToEarnings','weightedAverageShsOut', 'weightedAverageShsOutDil']);
 
   // Function to get the quarter number from the period string
   function getQuarterNumber(period) {
