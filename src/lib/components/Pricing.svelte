@@ -56,7 +56,7 @@ onMount(async () => {
                         Pay Yearly
                     </span>
                     <span class="text-[#FBCE3C] text-sm font-semibold">
-                        Save up 20%
+                        Save up 16%
                     </span>
                 </div>
               
