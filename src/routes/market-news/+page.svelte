@@ -9,7 +9,7 @@ export let data;
 
 
 let rawData = data?.getMarketNews;
-let news = rawData.slice(0,5) ?? [];
+let news = rawData.slice(0,15) ?? [];
 
 
 async function infiniteHandler({ detail: { loaded, complete } }) 
@@ -83,7 +83,7 @@ function checkIfYoutubeVideo(link) {
                           <div class="flex flex-col w-full mt-5 bg-[#27272A] shadow-lg h-auto sm:h-[430px] pb-10 sm:pb-5 rounded-none sm:rounded-lg m-auto">
                             {#if videoId = checkIfYoutubeVideo(item.url)}
                                 <iframe
-                                    class="w-full h-56 rounded-none sm:rounded-lg"
+                                    class="w-full h-60 rounded-none sm:rounded-lg"
                                     src={`https://www.youtube.com/embed/${videoId}`}
                                     frameborder="0"
                                     allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -91,8 +91,8 @@ function checkIfYoutubeVideo(link) {
                                 ></iframe>
                             {:else}
                                 <a href={item.url} target="_blank">
-                                <div class="h-48 sm:h-56 m-auto border border-slate-800 rounded-none sm:rounded-lg ">
-                                    <img src={item?.image} class="w-screen sm:w-full h-48 sm:h-56 rounded-none sm:rounded-t-lg" alt="news image" loading="lazy">
+                                <div class="h-48 sm:h-60 m-auto border border-slate-800 rounded-none sm:rounded-lg ">
+                                    <img src={item?.image} class="w-screen sm:w-full h-48 sm:h-60 rounded-none sm:rounded-t-lg" alt="news image" loading="lazy">
                                 </div>
                                 </a>
                             {/if}
@@ -100,7 +100,7 @@ function checkIfYoutubeVideo(link) {
                             <div class="pl-3 pr-3">
                               <label class="mt-3 mb-3 cursor-pointer text-xs text-gray-200 flex flex-row items-center">
                                 <div class="rounded-full w-6 h-6 relative bg-gray-800 mr-1.5 mb-0.5">
-                                  <img class="rounded-full w-4 h-4 absolute inset-1/2 transform -translate-x-1/2 -translate-y-1/2" src={`https://financialmodelingprep.com/image-stock/${item.symbol}.png`} loading="lazy" />
+                                  <img class="rounded-full w-4 h-4 absolute inset-1/2 transform -translate-x-1/2 -translate-y-1/2" src={`https://financialmodelingprep.com/image-stock/${item?.symbol}.png`} loading="lazy" />
                                 </div>
                                 {item?.symbol} · {formatDate(item?.publishedDate)} ago
                                 <span class="ml-auto text-gray-300 italic text-xs mr-2">

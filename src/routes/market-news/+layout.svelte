@@ -13,10 +13,6 @@ const navigation = [
         link: '/market-news'
     },
     {
-        title: 'Crypto',
-        link: '/market-news/crypto'
-    },
-    {
         title: 'General',
         link: '/market-news/general'
     },

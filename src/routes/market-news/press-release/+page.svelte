@@ -6,7 +6,7 @@ import { formatDate } from '$lib/utils';
 export let data;
 
 
-let rawData = data?.getCryptoNews;
+let rawData = data?.getPressRelease;
 let news = rawData.slice(0,5) ?? [];
 
 
@@ -82,29 +82,20 @@ function checkIfYoutubeVideo(link) {
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       {#if news.length !== 0}
                       {#each news as item}
-                          <div class="flex flex-col w-full mt-5 bg-[#27272A] shadow-lg h-auto sm:h-[420px] pb-10 sm:pb-5 rounded-none sm:rounded-lg m-auto">
-                            {#if videoId = checkIfYoutubeVideo(item.url)}
-                                <iframe
-                                    class="w-full h-56 rounded-none sm:rounded-lg"
-                                    src={`https://www.youtube.com/embed/${videoId}`}
-                                    frameborder="0"
-                                    allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowfullscreen
-                                ></iframe>
-                            {:else}
-                                <a href={item.url} target="_blank">
-                                <div class="h-56 m-auto border border-slate-800 rounded-none sm:rounded-lg ">
-                                    <img src={item.image} class="w-screen sm:w-full h-56 rounded-none sm:rounded-t-lg" alt="news image" loading="lazy">
-                                </div>
-                                </a>
-                            {/if}
+                          <div class="flex flex-col w-full mt-5 bg-[#27272A] shadow-lg h-auto sm:h-[440px] pb-10 sm:pb-5 rounded-none sm:rounded-lg m-auto">
+                           
+                            <a href={item.url} target="_blank">
+                            <div class="h-48 sm:h-60 m-auto border border-slate-800 rounded-none sm:rounded-lg ">
+                                <img src="https://cdn.snapi.dev/images/v1/n/1/press11-2568834.jpg" class="w-screen sm:w-full h-48 sm:h-60 rounded-none sm:rounded-t-lg" alt="news image" loading="lazy">
+                            </div>
+                            </a>
 
                             <div class="pl-3 pr-3">
                               <label class="mt-3 mb-3 cursor-pointer text-xs text-gray-200 flex flex-row items-center">
-                                Source: {item?.site} · {formatDate(item?.publishedDate)} ago
+                                Source: {item?.site} · {formatDate(item?.date)} ago
                               </label>
                                 
-                                  <a href={item.url} target="_blank" class="text-lg font-bold text-white">
+                                  <a href={item?.url} target="_blank" class="text-lg font-bold text-white">
                                     {item?.title?.length > 120 ? item?.title?.slice(0,120) +'...' : item?.title}
                                   </a>
                                   <p class="text-white text-sm mt-2">

@@ -58,7 +58,6 @@
 <!-- Other meta tags -->
 <meta property="og:title" content={`Today's General News and Breaking Stories · stocknear`}/>
 <meta property="og:description" content={`Get the latest general news and breaking stories from the world's best finance and investing websites.`} />
-<meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <meta property="og:type" content="website"/>
 <!-- Add more Open Graph meta tags as needed -->
 
@@ -66,7 +65,6 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content={`Today's General News and Breaking Stories · stocknear`}/>
 <meta name="twitter:description" content={`Get the latest general news and breaking stories from the world's best finance and investing websites.`} />
-<meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -85,7 +83,7 @@
                           <div class="flex flex-col w-full mt-5 bg-[#27272A] shadow-lg h-auto sm:h-[420px] pb-10 sm:pb-5 rounded-none sm:rounded-lg m-auto">
                             {#if videoId = checkIfYoutubeVideo(item.url)}
                                 <iframe
-                                    class="w-full h-56 rounded-none sm:rounded-lg"
+                                    class="w-full h-60 rounded-none sm:rounded-lg"
                                     src={`https://www.youtube.com/embed/${videoId}`}
                                     frameborder="0"
                                     allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -93,8 +91,8 @@
                                 ></iframe>
                             {:else}
                                 <a href={item?.url} target="_blank">
-                                <div class="h-56 m-auto border border-slate-800 rounded-none sm:rounded-lg ">
-                                    <img src={item?.image} class="w-screen sm:w-full h-56 rounded-none sm:rounded-t-lg" alt="news image" loading="lazy">
+                                <div class="h-48 sm:h-60 m-auto border border-slate-800 rounded-none sm:rounded-lg ">
+                                    <img src={item?.image} class="w-screen sm:w-full h-48 sm:h-60 rounded-none sm:rounded-t-lg" alt="news image" loading="lazy">
                                 </div>
                                 </a>
                             {/if}

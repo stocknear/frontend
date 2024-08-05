@@ -3,16 +3,16 @@ import { getCache, setCache } from '$lib/store';
 
 
 export const load = async ({parent}) => {
-  const getGeneralNews = async () => {
+  const getPressRelease = async () => {
     let output;
 
     // Get cached data for the specific tickerID
-    const cachedData = getCache('', 'getGeneralNews');
+    const cachedData = getCache('', 'getPressRelease');
     if (cachedData) {
       output = cachedData;
     } else {
       const { apiURL, apiKey } = await parent();
-      const postData = {'newsType': 'general-news'}
+      const postData = {'newsType': 'press-releases'}
 
       // make the POST request to the endpoint
       const response = await fetch(apiURL + '/market-news', {
@@ -25,8 +25,8 @@ export const load = async ({parent}) => {
 
       output = await response.json();
 
-      // Cache the data for this specific tickerID with a specific name 'getGeneralNews'
-      setCache('', output, 'getGeneralNews');
+      // Cache the data for this specific tickerID with a specific name 'getPressRelease'
+      setCache('', output, 'getPressRelease');
     }
 
     return output;
@@ -34,6 +34,6 @@ export const load = async ({parent}) => {
 
   // Make sure to return a promise
   return {
-    getGeneralNews: await getGeneralNews()
+    getPressRelease: await getPressRelease()
   };
 };
