@@ -714,7 +714,7 @@ function updateVote(postVote) {
                           
                                           
                                               {#if post?.thumbnail?.length !==0}
-                                                  {#if !['webm', 'mp4'].some(format => post?.thumbnail?.includes(format))}
+                                                  {#if !post?.thumbnail?.toLowerCase()?.includes('mp4')}
                                                   <!--<label for="zoomPostImage" class="cursor-zoom-in mt-10 bg-[#000] m-auto flex justify-center items-center">-->
                                                   <label class="mt-10 bg-[#000] m-auto flex justify-center items-center rounded-xl">
                                                       <img src="{getImageURL(post?.collectionId, post?.id, post?.thumbnail)}" alt="image" class="relative bg-center m-auto object-center w-auto relative max-h-[520px] sm:max-h-[700px]">

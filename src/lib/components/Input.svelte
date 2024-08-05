@@ -28,7 +28,8 @@
 		const files = target.files;
 		if (files.length > 0) {
 
-			if (['.mp4', '.webm'].some(format => files[0]?.name?.includes(format)) )
+
+			if (files[0]?.name?.toLowerCase()?.includes('.mp4'))
 			{
 				videoInput = URL.createObjectURL(files[0]);
 			}
@@ -67,8 +68,7 @@
   
 	function handleInput(event) {
 		inputValue = event.target.value;
-		
-		if(inputValue.includes('.mp4'))
+		if(inputValue?.toLowerCase()?.includes('.mp4'))
 		{
 			showVideo = true;
 		}

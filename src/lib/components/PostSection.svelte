@@ -6,7 +6,7 @@
   import Downvote from '$lib/components/Downvote.svelte';
   import Upvote from '$lib/components/Upvote.svelte';
 
-  import {userRegion, postVote, tagList, postIdDeleted} from '$lib/store';
+  import {postVote, tagList, postIdDeleted} from '$lib/store';
   import toast from 'svelte-french-toast';
 
   
@@ -14,21 +14,6 @@
   export let moderators;
   export let data;
   
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-  let apiURL = import.meta.env.VITE_EU_API_URL; // Set a default API URL
-
-  let fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-  userRegion.subscribe(value => {
-    if (usRegion.includes(value)) {
-      apiURL = import.meta.env.VITE_USEAST_API_URL;
-      fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-    } else {
-      apiURL = import.meta.env.VITE_EU_API_URL;
-      fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-    }
-  });
-
   let deletePostId = posts?.id
   
   
@@ -89,7 +74,7 @@
                     'userId': posts?.user
                   };
   
-  const response = await fetch(fastifyURL+'/delete-post', {
+  const response = await fetch(data?.fastifyURL+'/delete-post', {
     method: 'POST',
     headers: {
             'Content-Type': 'application/json'
@@ -147,7 +132,7 @@ const handleUpvote = async (event) => {
   
   $postVote = {'id': postId, 'upvote': upvoteCounter[postId], 'downvote': downvoteCounter[postId], 'upvoteClicked': upvoteButtonClicked[postId], 'downvoteClicked': downvoteButtonClicked[postId]};
 
-  const response = await fetch(fastifyURL+'/upvote', {
+  const response = await fetch(data?.fastifyURL+'/upvote', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -183,7 +168,7 @@ const handleDownvote = async (event) => {
   
     $postVote = {'id': postId, 'upvote': upvoteCounter[postId], 'downvote': downvoteCounter[postId], 'upvoteClicked': upvoteButtonClicked[postId], 'downvoteClicked': downvoteButtonClicked[postId]};
 
-  const response = await fetch(fastifyURL+'/downvote', {
+  const response = await fetch(data?.fastifyURL+'/downvote', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -457,7 +442,7 @@ $: {
   
           
                       <div class="relative">
-                        {#if posts?.thumbnail && !['webm', 'mp4']?.some(format => posts?.thumbnail?.includes(format))}
+                        {#if posts?.thumbnail && !posts?.thumbnail?.toLowerCase()?.includes('mp4')}
                           <div class="absolute inset-0 bg-cover object-fill bg-center bg-[#000]"></div>
                  
                           <!--<div class="absolute -inset-3 md:-inset-y-20 md:mt-10 bg-cover object-contain blur-[40px]" style="clip-path: polygon(0 0, 100% 0, 100% 90%, 0 90%); background-image: url('{getImageURL(posts.collectionId, posts.id, posts.thumbnail)}');"></div>-->
