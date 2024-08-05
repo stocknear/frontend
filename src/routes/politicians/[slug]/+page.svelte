@@ -8,6 +8,12 @@
   import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
   import { Chart } from 'svelte-echarts'
   
+import { init, use } from 'echarts/core'
+import { BarChart } from 'echarts/charts'
+import { GridComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+use([BarChart, GridComponent, CanvasRenderer])
+  
   import { onMount } from 'svelte';
   
   export let data;
@@ -352,7 +358,7 @@
                       <span class="ml-3 text-white text-xl">Trade Amount by Year</span>
                     </div>
                     <div class="app w-full h-[300px] ">
-                      <Chart options={optionsData} class="chart" />
+                      <Chart {init} options={optionsData} class="chart" />
                     </div>
   
                     <div class="flex flex-row items-center justify-between mx-auto mt-10 sm:mt-5 w-56 sm:w-80">

@@ -1,8 +1,15 @@
 <script lang="ts">
-import Chart from '$lib/components/Chart.svelte'
 import {numberOfUnreadNotification,displayCompanyName, stockTicker} from '$lib/store';
 import { abbreviateNumber, sumQuarterlyResultsByYear } from '$lib/utils';
 //import * as XLSX from 'xlsx';
+import { Chart } from 'svelte-echarts'
+
+import { init, use } from 'echarts/core'
+import { BarChart } from 'echarts/charts'
+import { GridComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+use([BarChart, GridComponent, CanvasRenderer])
+
 
 export let data;
 
@@ -442,7 +449,7 @@ $: {
                             </label>
         
         
-                            <label for="timeFrameModal" class="cursor-pointer bg-[#09090B] sm:hover:bg-[#313131] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
+                            <label for="timeFrameModal" class="cursor-pointer bg-[#27272A] sm:hover:bg-[#313131] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
                                 <div class="flex flex-row items-center">
                                     <span class="m-auto mr-0.5 text-white text-sm">{timeFrame}</span>
                                     <svg class="inline-block w-4 h-4 ml-1 mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><g transform="rotate(180 512 512)">                                        <path fill="#fff" d="m488.832 344.32l-339.84 356.672a32 32 0 0 0 0 44.16l.384.384a29.44 29.44 0 0 0 42.688 0l320-335.872l319.872 335.872a29.44 29.44 0 0 0 42.688 0l.384-.384a32 32 0 0 0 0-44.16L535.168 344.32a32 32 0 0 0-46.336 0z"/></g></svg>
@@ -515,7 +522,7 @@ $: {
                         </div>
             
                         <div class="app w-full h-[300px]  m-auto">
-                            <Chart options={optionsData} class="chart" />
+                            <Chart {init} options={optionsData} class="chart" />
                         </div>
 
                         {:else}

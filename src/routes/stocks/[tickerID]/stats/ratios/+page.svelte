@@ -3,6 +3,13 @@ import { Chart } from 'svelte-echarts'
 import {numberOfUnreadNotification, displayCompanyName, stockTicker} from '$lib/store';
 import { sumQuarterlyResultsByYear } from '$lib/utils';
 //import * as XLSX from 'xlsx';
+import { init, use } from 'echarts/core'
+import { BarChart } from 'echarts/charts'
+import { GridComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+use([BarChart, GridComponent, CanvasRenderer])
+
+
 
 
 export let data;
@@ -480,7 +487,7 @@ $: {
                                 </div>
                     
                                 <div class="app w-full h-[300px]  m-auto">
-                                    <Chart options={optionsData} class="chart" />
+                                    <Chart {init} options={optionsData} class="chart" />
                                 </div>
 
                                 {:else}

@@ -2,7 +2,12 @@
 
   import {numberOfUnreadNotification, displayCompanyName, stockTicker} from '$lib/store';
   import { Chart } from 'svelte-echarts'
-  
+  import { init, use } from 'echarts/core'
+  import { BarChart } from 'echarts/charts'
+  import { GridComponent } from 'echarts/components'
+  import { CanvasRenderer } from 'echarts/renderers'
+  use([BarChart, GridComponent, CanvasRenderer])
+
   import { abbreviateNumber } from '$lib/utils';
 
   export let data;
@@ -307,7 +312,7 @@ optionsGrowth = plotGrowth();
                               Employees
                           </h2>
   
-                          <div class="text-white p-3 sm:p-5 mb-5 rounded-lg sm:flex sm:flex-row sm:items-center border border-slate-800 text-sm sm:text-[1rem]">
+                          <div class="text-white p-3 sm:p-5 mb-5 rounded-lg sm:flex sm:flex-row sm:items-center border border-gray-800 text-sm sm:text-[1rem]">
                             <svg class="w-6 h-6 flex-shrink-0 inline-block sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
                             
                             {#if employeeHistory?.length !== 0 && !dateDistance}
@@ -337,7 +342,7 @@ optionsGrowth = plotGrowth();
                       </div>
 
                       
-                      <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-5 bg-[#09090B] shadow-md rounded-xl p-5 flex justify-center items-center mb-2">
+                      <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-5 bg-[#27272A] shadow-md rounded-xl p-5 flex justify-center items-center mb-2">
                         <!--Start Column Title-->
                         <div class="flex flex-col">
                           <div class="flex flex-row items-center">
@@ -410,7 +415,7 @@ optionsGrowth = plotGrowth();
       
                           <div class="{employeeHistory?.length === 0 ? 'hidden' : ''} flex justify-end ml-auto items-center mr-2">
 
-                                  <label for="sortByModal" class="cursor-pointer bg-[#09090B] sm:hover:bg-[#313131] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
+                                  <label for="sortByModal" class="cursor-pointer bg-[#27272A] sm:hover:bg-[#313131] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
                                       <div class="flex flex-row">
                                           <span class="text-sm  m-auto font-medium text-white">
                                           {sortBy}
@@ -435,15 +440,15 @@ optionsGrowth = plotGrowth();
 
                           {#if sortBy === 'Total'}
                           <div class="app w-full">
-                              <Chart options={optionsTotal} class="chart" />
+                              <Chart {init} options={optionsTotal} class="chart" />
                           </div>
                           {:else if sortBy === 'Change'}
                           <div class="app w-full">
-                              <Chart options={optionsChange} class="chart" />
+                              <Chart {init} options={optionsChange} class="chart" />
                           </div>
                           {:else if sortBy === 'Growth'}
                           <div class="app w-full">
-                              <Chart options={optionsGrowth} class="chart" />
+                              <Chart {init} options={optionsGrowth} class="chart" />
                           </div>
                           {/if}
                           

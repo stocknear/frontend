@@ -1,12 +1,18 @@
 <script lang="ts">
 
-  import {numberOfUnreadNotification, displayCompanyName, etfTicker} from '$lib/store';
-  import { Chart } from 'svelte-echarts'
-  import { abbreviateNumber } from '$lib/utils';
-  import InfoModal from '$lib/components/InfoModal.svelte';
-  import { onMount } from 'svelte'
-  import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
-  
+import {numberOfUnreadNotification, displayCompanyName, etfTicker} from '$lib/store';
+import { Chart } from 'svelte-echarts'
+import { abbreviateNumber } from '$lib/utils';
+import InfoModal from '$lib/components/InfoModal.svelte';
+import { onMount } from 'svelte'
+import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
+import { init, use } from 'echarts/core'
+import { BarChart } from 'echarts/charts'
+import { GridComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+use([BarChart, GridComponent, CanvasRenderer])
+
+
   export let data;
   
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -305,7 +311,7 @@
                   
                       {#if optionsPlotData?.length !== 0}
   
-                      <div class="stats stats-horizontal bg-[#09090B] w-full rounded-lg">
+                      <div class="stats stats-horizontal bg-[#27272A] w-full rounded-lg">
               
                         <div class="grid grid-cols-2">
             
@@ -387,7 +393,7 @@
                           
                               
                               <div class="app w-full bg-[#09090B] bg-opacity-1 rounded-xl">
-                                  <Chart options={options} class="chart" />
+                                  <Chart {init} options={options} class="chart" />
                               </div>
                               
   

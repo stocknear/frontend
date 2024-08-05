@@ -11,6 +11,11 @@ import Link from "lucide-svelte/icons/external-link";
 import ThumbsUp from "lucide-svelte/icons/thumbs-up";
 import MessageCircle from "lucide-svelte/icons/message-circle";
 import Lazy from '$lib/components/Lazy.svelte';
+import { init, use } from 'echarts/core'
+import { BarChart } from 'echarts/charts'
+import { GridComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+use([BarChart, GridComponent, CanvasRenderer])
 
   export let data;
   let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
@@ -339,7 +344,7 @@ const optionCompanySpread = {
                       <Card.Content>
                         <Lazy>
                           <div class="app w-full h-[150px]">
-                            <Chart options={optionGraphPost} class="chart" />
+                            <Chart {init} options={optionGraphPost} class="chart" />
                           </div>
                         </Lazy>
                       </Card.Content>
@@ -361,7 +366,7 @@ const optionCompanySpread = {
                       <Card.Content>
                         <Lazy>
                           <div class="app w-full h-[150px]">
-                            <Chart options={optionGraphComment} class="chart" />
+                            <Chart {init} options={optionGraphComment} class="chart" />
                           </div>
                         </Lazy>
                       </Card.Content>
@@ -384,7 +389,7 @@ const optionCompanySpread = {
                       <Card.Content>
                       <Lazy>
                         <div class="app w-full h-[150px]">
-                          <Chart options={optionGraphCompanySpread} class="chart" />
+                          <Chart {init} options={optionGraphCompanySpread} class="chart" />
                         </div>
                       </Lazy>
                       </Card.Content>

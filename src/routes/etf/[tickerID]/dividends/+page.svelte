@@ -1,6 +1,11 @@
 <script lang="ts">
   import {numberOfUnreadNotification, displayCompanyName, etfTicker} from '$lib/store';
-  import Chart from '$lib/components/Chart.svelte'
+  import { Chart } from 'svelte-echarts'
+import { init, use } from 'echarts/core'
+import { BarChart } from 'echarts/charts'
+import { GridComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+use([BarChart, GridComponent, CanvasRenderer])
   
   
   export let data;
@@ -225,7 +230,7 @@
       
                         {#if stockDividends?.length !== 0}
         
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-5 bg-[#09090B] shadow-md rounded-xl p-5 flex justify-center items-center mb-2">
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-5 bg-[#27272A] shadow-md rounded-lg p-5 flex justify-center items-center mb-2">
                           <!--Start Column Title-->
                           <div class="flex flex-col">
                             <div class="flex flex-row items-center">
@@ -336,7 +341,7 @@
         
                             {#if mode}
                               <div class="app w-full ">
-                                <Chart options={optionsDividend} class="chart" />
+                                <Chart {init} options={optionsDividend} class="chart" />
                               </div>
         
                               <span class="text-gray-200 text-sm italic">

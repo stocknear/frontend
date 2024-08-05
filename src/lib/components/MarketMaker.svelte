@@ -4,7 +4,15 @@
   import { Chart } from 'svelte-echarts'
   import { abbreviateNumber, formatString, formatDateRange } from "$lib/utils";
 
+  import { init, use } from 'echarts/core'
+  import { LineChart } from 'echarts/charts'
+  import { GridComponent } from 'echarts/components'
+  import { CanvasRenderer } from 'echarts/renderers'
   import Lazy from 'svelte-lazy';
+
+  use([LineChart, GridComponent, CanvasRenderer])
+
+
   export let data;
 
   let isLoaded = false;
@@ -249,7 +257,7 @@ else {
         
           <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
               <div class="app w-full h-[300px] mt-5">
-                  <Chart options={optionsData} class="chart" />
+                  <Chart {init} options={optionsData} class="chart" />
               </div>
           </Lazy>
       

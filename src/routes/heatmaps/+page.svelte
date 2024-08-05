@@ -1,12 +1,15 @@
 <script lang='ts'>
 
 
-import Chart from '$lib/components/Chart.svelte'
-
 import { screenWidth, numberOfUnreadNotification } from '$lib/store';
 import { goto } from '$app/navigation';
-//import * as echarts from 'echarts';
+import { Chart } from 'svelte-echarts'
 
+import { init, use } from 'echarts/core'
+import { HeatmapChart } from 'echarts/charts'
+import { GridComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+use([HeatmapChart, GridComponent, CanvasRenderer])
 
 export let data;
 let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
@@ -414,7 +417,7 @@ $: {
 
 
                     <div class="app w-[100vw] h-full mt-10">
-                        <Chart id="treemap" options={options} class="chart w-full h-full" />
+                        <Chart id="treemap" {init} options={options} class="chart w-full h-full" />
                     </div>
 
 

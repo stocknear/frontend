@@ -1,11 +1,19 @@
 
 <script lang ='ts'>
-    import { shareStatisticsComponent, displayCompanyName, stockTicker, screenWidth, getCache, setCache} from '$lib/store';
-    import InfoModal from '$lib/components/InfoModal.svelte';
-    import { Chart } from 'svelte-echarts'
-    import { abbreviateNumber } from "$lib/utils";
+import { shareStatisticsComponent, displayCompanyName, stockTicker, screenWidth, getCache, setCache} from '$lib/store';
+import InfoModal from '$lib/components/InfoModal.svelte';
+import { Chart } from 'svelte-echarts'
+import { abbreviateNumber } from "$lib/utils";
 
-    import Lazy from 'svelte-lazy';
+import Lazy from 'svelte-lazy';
+
+import { init, use } from 'echarts/core'
+
+import { BarChart } from 'echarts/charts'
+import { GridComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+use([BarChart, GridComponent, CanvasRenderer])
+
 
     export let data;
     
@@ -182,7 +190,7 @@ $: {
                     
                     <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
                         <div class="app w-full h-[300px] mt-6">
-                            <Chart options={optionsData} class="chart" />
+                            <Chart {init} options={optionsData} class="chart" />
                         </div>
                     </Lazy>
                     

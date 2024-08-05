@@ -1,12 +1,20 @@
 <script lang='ts'>
 
 import { Chart } from 'svelte-echarts'
-import { shareholderComponent, screenWidth, stockTicker, getCache, setCache, displayCompanyName} from '$lib/store';
+import { shareholderComponent, stockTicker, getCache, setCache, displayCompanyName} from '$lib/store';
 import { formatString } from '$lib/utils';
 import { goto } from '$app/navigation';
 import { abbreviateNumber } from '$lib/utils';
 import InfoModal from '$lib/components/InfoModal.svelte';
 import Lazy from 'svelte-lazy';
+
+import { init, use } from 'echarts/core'
+import { PieChart } from 'echarts/charts'
+import { GridComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+
+use([PieChart, GridComponent, CanvasRenderer])
+
 
 export let data;
 let isLoaded = false;
@@ -148,16 +156,6 @@ $: {
 
 let charNumber = 20;
 
-$: {
-  if($screenWidth < 640)
-  {
-    charNumber = 20;
-  }
-  else {
-    charNumber =20;
-  }
-}
-    
 
 </script>
 
@@ -191,7 +189,7 @@ $: {
                     <div class="flex flex-row items-center sm:-mt-5">
                         <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
                             <div class="app w-56">
-                                <Chart options={optionsPieChart} class="chart w-full" />
+                                <Chart {init} options={optionsPieChart} class="chart w-full" />
                             </div>
                         </Lazy>
                         

@@ -9,7 +9,13 @@
 
   import { abbreviateNumber, formatString } from '$lib/utils';
 
-  import { Chart } from 'svelte-echarts'
+import { Chart } from 'svelte-echarts'
+import { init, use } from 'echarts/core'
+import { LineChart } from 'echarts/charts'
+import { GridComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+use([LineChart, GridComponent, CanvasRenderer])
+  
   
   import { onMount } from 'svelte';
   
@@ -535,7 +541,7 @@ function tabFunction(state) {
                     </div>
                     
                     <div class="app w-full h-[300px] ">
-                      <Chart options={optionsData} class="chart" />
+                      <Chart {init} options={optionsData} class="chart" />
                     </div>
                   
   

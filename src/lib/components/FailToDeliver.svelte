@@ -1,12 +1,20 @@
 <script lang ='ts'>
-    import { failToDeliverComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, getCache, setCache} from '$lib/store';
-    import InfoModal from '$lib/components/InfoModal.svelte';
-    import { Chart } from 'svelte-echarts'
-    import { abbreviateNumber, formatDateRange } from "$lib/utils";
+  import { failToDeliverComponent, displayCompanyName, stockTicker, assetType, etfTicker, screenWidth, getCache, setCache} from '$lib/store';
+  import InfoModal from '$lib/components/InfoModal.svelte';
+  import { Chart } from 'svelte-echarts'
+  import { abbreviateNumber, formatDateRange } from "$lib/utils";
+
+  import Lazy from 'svelte-lazy';
+
+  import { init, use } from 'echarts/core'
+  import { LineChart } from 'echarts/charts'
+  import { GridComponent } from 'echarts/components'
+  import { CanvasRenderer } from 'echarts/renderers'
+
+  export let data;
   
-    import Lazy from 'svelte-lazy';
-    export let data;
-  
+  use([LineChart, GridComponent, CanvasRenderer])
+
     let isLoaded = false;
 
   
@@ -261,7 +269,7 @@ function findLowestAndHighestPrice(data, lastDateStr) {
           
             <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
                 <div class="app w-full h-[300px] mt-5">
-                    <Chart options={optionsData} class="chart" />
+                    <Chart {init} options={optionsData} class="chart" />
                 </div>
             </Lazy>
         

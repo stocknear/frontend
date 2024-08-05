@@ -1,10 +1,16 @@
 <script lang="ts">
-  import { displayCompanyName, numberOfUnreadNotification, stockTicker } from '$lib/store';
-  import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
-	import { formatString, abbreviateNumber } from '$lib/utils';
-  import Chart from '$lib/components/Chart.svelte';
-  import InfoModal from '$lib/components/InfoModal.svelte';
-  import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
+import { displayCompanyName, numberOfUnreadNotification, stockTicker } from '$lib/store';
+import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
+import { formatString, abbreviateNumber } from '$lib/utils';
+import InfoModal from '$lib/components/InfoModal.svelte';
+import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
+import { Chart } from 'svelte-echarts'
+import { init, use } from 'echarts/core'
+import { BarChart } from 'echarts/charts'
+import { GridComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+use([BarChart, GridComponent, CanvasRenderer])
+
 
   import { onMount } from 'svelte';
 
@@ -349,7 +355,7 @@ onMount(async() => {
 
                     {#if Object?.keys(options)?.length !== 0}
                       <div class="app w-full h-[400px] sm:h-[500px]">
-                        <Chart options={options} class="chart" />
+                        <Chart {init} options={options} class="chart" />
                       </div>
 
                       <div class="flex flex-row items-center justify-between mx-auto mb-10 w-full sm:w-5/6">

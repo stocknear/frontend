@@ -1,8 +1,13 @@
 <script lang='ts'>
 
-    //import { Chart } from 'svelte-echarts';
-    import { Chart } from 'svelte-echarts'
-    import Lazy from "svelte-lazy";
+import { Chart } from 'svelte-echarts'
+import Lazy from "svelte-lazy";
+import { init, use } from 'echarts/core'
+
+import { BarChart } from 'echarts/charts'
+import { GridComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+use([BarChart, GridComponent, CanvasRenderer])
 
     import {stockTicker, etfTicker, cryptoTicker, assetType} from '$lib/store';
     
@@ -292,7 +297,7 @@
 
                     <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
                         <div class="app w-full h-[300px] mt-5 mb-16">
-                            <Chart options={optionsAnnualReturn} class="chart" />
+                            <Chart {init} options={optionsAnnualReturn} class="chart" />
                         </div>
                     </Lazy>
 
@@ -305,7 +310,7 @@
 
                     <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
                         <div class="app w-full h-[300px] mt-5 mb-16">
-                            <Chart options={optionsMonthlyDistributionReturn} class="chart" />
+                            <Chart {init} options={optionsMonthlyDistributionReturn} class="chart" />
                         </div>
                     </Lazy>
                 {/if}

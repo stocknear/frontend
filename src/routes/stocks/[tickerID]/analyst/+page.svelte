@@ -131,7 +131,7 @@ changeTab(0)
             
                 {#if historyList?.length !== 0}
 
-                <div class="stats stats-horizontal bg-[#09090B] w-full rounded-lg pr-6 sm:pr-0">
+                <div class="stats stats-horizontal bg-[#272727] w-full rounded-lg pr-6 sm:pr-0">
         
                   <div class="grid grid-cols-2">
       
