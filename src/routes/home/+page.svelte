@@ -184,7 +184,7 @@ onMount( async() => {
 
           <div class="grid gap-4 md:gap-8 grid-cols-1 lg:grid-cols-2  text-start">
 
-            <Card.Root class="overflow-x-scroll">
+            <Card.Root class="overflow-x-scroll no-scrollbar">
               <Card.Header class="flex flex-row items-center">
                 <div class="flex flex-col items-start w-full">
                   <div class="flex flex-row w-full items-center">
@@ -198,7 +198,7 @@ onMount( async() => {
                 </div>
               </Card.Header>
               <Card.Content>
-                <Table.Root class="overflow-x-scroll w-full no-scrollbar">
+                <Table.Root class="overflow-x-scroll w-full">
                   <Table.Header>
                     <Table.Row>
                       <Table.Head class="text-white">Symbol</Table.Head>
@@ -236,7 +236,7 @@ onMount( async() => {
               </Card.Content>
             </Card.Root>
             
-            <Card.Root class="overflow-x-scroll">
+            <Card.Root class="overflow-x-scroll no-scrollbar">
               <Card.Header class="flex flex-row items-center">
                 <div class="flex flex-col items-start w-full">
                   <div class="flex flex-row w-full items-center">
@@ -281,7 +281,7 @@ onMount( async() => {
 
 
           <div class="grid gap-4 sm:gap-8 sm:grid-cols-3 text-start">
-            <Card.Root class="sm:col-span-2 overflow-x-scroll">
+            <Card.Root class="sm:col-span-2 overflow-x-scroll no-scrollbar">
               <Card.Header class="flex flex-row items-center">
                 <div class="text-start grid gap-2">
                   <Card.Title class="text-2xl text-white font-semibold">Market Momentum</Card.Title>
