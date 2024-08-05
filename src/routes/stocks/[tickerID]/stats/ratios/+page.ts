@@ -12,6 +12,7 @@ export const load = async ({ parent, params }) => {
     } else {
 
       const {apiKey, apiURL} = await parent();
+      
       const postData = {
         ticker: params.tickerID
       };

@@ -309,11 +309,12 @@ displayStatement = 'priceEarningsRatio';
 
 
 
+   
 $: {
     if (timeFrame || displayStatement || filterRule)
     {   
         if (filterRule === 'annual') {
-            fullStatement = sumQuarterlyResultsByYear(data?.getRatiosStatement, namingList)
+            fullStatement = sumQuarterlyResultsByYear(data?.getRatiosStatement)
         }
         else {
             fullStatement = data?.getRatiosStatement;
@@ -333,7 +334,6 @@ $: {
     }
 
 }
-
         
 </script>
 
@@ -350,7 +350,6 @@ $: {
 <!-- Other meta tags -->
 <meta property="og:title" content={`${$displayCompanyName} (${$stockTicker}) Financial Ratios and Metrics · stocknear`}/>
 <meta property="og:description" content={`Financial ratios and metrics for ${$displayCompanyName} (${$stockTicker}). Includes annual, quarterly and trailing numbers with full history and charts.`} />
-<meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <meta property="og:type" content="website"/>
 <!-- Add more Open Graph meta tags as needed -->
 
@@ -358,7 +357,6 @@ $: {
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content={`${$displayCompanyName} (${$stockTicker}) Financial Ratios and Metrics · stocknear`}/>
 <meta name="twitter:description" content={`Financial ratios and metrics for ${$displayCompanyName} (${$stockTicker}). Includes annual, quarterly and trailing numbers with full history and charts.`} />
-<meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -415,7 +413,7 @@ $: {
                             </label>
         
         
-                            <label for="timeFrameModal" class="cursor-pointer bg-[#09090B] sm:hover:bg-[#313131] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
+                            <label for="timeFrameModal" class="cursor-pointer bg-[#27272A] sm:hover:bg-[#313131] duration-100 transition ease-in-out px-4 py-1.5 rounded-lg shadow-md">
                                 <div class="flex flex-row items-center">
                                     <span class="m-auto mr-0.5 text-white text-sm">{timeFrame}</span>
                                     <svg class="inline-block w-4 h-4 ml-1 mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><g transform="rotate(180 512 512)">                                        <path fill="#fff" d="m488.832 344.32l-339.84 356.672a32 32 0 0 0 0 44.16l.384.384a29.44 29.44 0 0 0 42.688 0l320-335.872l319.872 335.872a29.44 29.44 0 0 0 42.688 0l.384-.384a32 32 0 0 0 0-44.16L535.168 344.32a32 32 0 0 0-46.336 0z"/></g></svg>
@@ -511,7 +509,7 @@ $: {
                                     
                                                 
                                                 <!-- row -->
-                                                <tr class="text-white odd:bg-[#27272A]">
+                                                <tr class="text-white odd:bg-[#27272A] whitespace-nowrap">
                                                     <td class="text-start border-r border-[#191E24] text-xs sm:text-sm">PE Ratio</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {item?.priceEarningsRatio?.toFixed(2)}</td>
@@ -530,7 +528,7 @@ $: {
                                                     <td class="text-xs sm:text-sm"> {item?.priceToBookRatio?.toFixed(2)}</td>
                                                     {/each}
                                                 </tr>
-                                                <tr class="text-white odd:bg-[#27272A]">
+                                                <tr class="text-white odd:bg-[#27272A] whitespace-nowrap">
                                                     <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">P/FCF Ratio</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {item?.priceToFreeCashFlowsRatio?.toFixed(2)}</td>
@@ -569,7 +567,7 @@ $: {
                                                     {/each}
                                                 </tr>
                                                 <tr class="text-white odd:bg-[#27272A]">
-                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm">Asset Turnover</td>
+                                                    <td class="text-start border-r border-[#191E24]  text-xs sm:text-sm whitespace-nowrap">Asset Turnover</td>
                                                     {#each ratios as item}
                                                     <td class="text-xs sm:text-sm"> {item?.assetTurnover?.toFixed(2)}</td>
                                                     {/each}
