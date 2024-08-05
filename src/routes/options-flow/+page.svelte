@@ -277,8 +277,8 @@ function calculateStats(data) {
       }
 
 
-      putCallRatio = (putVolumeSum/callVolumeSum);
-  
+      putCallRatio = callVolumeSum !== 0 ? (putVolumeSum / callVolumeSum) : 0;
+      
       callPercentage = Math.floor((callVolumeSum)/(callVolumeSum+putVolumeSum)*100);
       putPercentage = (100-callPercentage);
   
