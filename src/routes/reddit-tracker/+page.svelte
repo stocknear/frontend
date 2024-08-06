@@ -454,7 +454,7 @@ const optionCompanySpread = {
                       </Card.Content>
                     </Card.Root>
                   </Lazy>
-                    <Card.Root class="order-0 overflow-x-scroll h-[500px]">
+                    <Card.Root class="order-0 overflow-x-scroll no-scrollbar h-[500px]">
                       <Card.Header>
                         <Card.Title class="text-start text-xl w-full flex flex-row items-center">
                           <span>
