@@ -4,10 +4,10 @@ import {numberOfUnreadNotification, displayCompanyName, stockTicker} from '$lib/
 import { sumQuarterlyResultsByYear } from '$lib/utils';
 //import * as XLSX from 'xlsx';
 import { init, use } from 'echarts/core'
-import { BarChart } from 'echarts/charts'
+import { LineChart, BarChart } from 'echarts/charts'
 import { GridComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-use([BarChart, GridComponent, CanvasRenderer])
+use([LineChart, BarChart, GridComponent, CanvasRenderer])
 
 
 
