@@ -418,12 +418,12 @@ $: {
                         <div class="flex-grow w-full sm:w-3/4 max-w-2xl break-all">
   
                           
-                        <div class="ml-3 mt-2 flex flex-wrap sm:hover:text-[#0099FF] text-start text-[1.1rem] sm:text-xl font-semibold mb-2 flex-shrink w-fit break-normal">
+                        <div class="mt-2 flex flex-wrap sm:hover:text-[#0099FF] text-start text-[1.1rem] sm:text-xl font-semibold mb-2 flex-shrink w-fit break-normal">
                           {posts?.title}
                         </div>
 
                         
-                        <div class="{posts?.description?.length > 400 ? 'darken-overlay' : ''} p-3 text-sm sm:text-[1rem] whitespace-pre-line break-normal text-[#D7DADC]">
+                        <div class="{posts?.description?.length > 400 ? 'darken-overlay' : ''} mt-3 text-sm sm:text-[1rem] whitespace-pre-line break-normal text-[#D7DADC]">
                           {@html posts?.description}
                         </div>
                               
