@@ -1,24 +1,10 @@
 
 <script lang ='ts'>
-    import {sentimentComponent, displayCompanyName, stockTicker, etfTicker, cryptoTicker, assetType, userRegion, getCache, setCache} from '$lib/store';
+    import {sentimentComponent, displayCompanyName, stockTicker, etfTicker, cryptoTicker, assetType, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
 
     let sentimentList = [];
     let isLoaded = false;
-    const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-    let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-
-    userRegion.subscribe(value => {
-
-        if (usRegion.includes(value)) {
-        apiURL = import.meta.env.VITE_USEAST_API_URL;
-        } else {
-        apiURL = import.meta.env.VITE_EU_API_URL;
-        }
-    });
     export let data;
     
     let oneMonthResult;
@@ -49,15 +35,15 @@ const getSentimentAnalysis = async (ticker) => {
 
       const postData = {'ticker': ticker};
       // make the POST request to the endpoint
-      const response = await fetch(apiURL + '/sentiment-analysis', {
+      const response = await fetch(data?.apiURL + '/sentiment-analysis', {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json", "X-API-KEY": apiKey
+          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
         },
         body: JSON.stringify(postData)
       });
 
-      sentimentList = await response.json();
+      sentimentList = await response?.json();
 
       // Cache the data for this specific tickerID with a specific name 'getSentimentAnalysis'
       setCache(ticker, sentimentList, 'getSentimentAnalysis');
@@ -144,7 +130,7 @@ $: {
                             </svg>
                             <!-- Percentage Text -->
                             <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                                <span class="text-center text-white text-xl font-semibold">
+                                <span class="text-center text-white text-xl sm:text-2xl font-semibold">
                                     {oneMonthResult}
                                 </span>
                             </div>

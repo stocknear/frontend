@@ -221,7 +221,7 @@ let charNumber = 20;
                 </div>
 
                 <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center">
-                    <div class="w-full grid grid-cols-2 lg:grid-cols-3 gap-y-3 lg:gap-y-3 gap-x-3 ">
+                    <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-y-3 lg:gap-y-3 gap-x-3 ">
                       <!--Start Put/Call-->  
                       <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#27272A] shadow-lg rounded-md h-20">
                         <div class="flex flex-col items-start">
@@ -332,7 +332,7 @@ let charNumber = 20;
                       <thead>
                         <tr>
                           <th class="text-white shadow-md font-semibold text-sm text-start bg-[#09090B]">Institute</th>
-                          <th class="text-white shadow-md font-semibold text-sm text-start bg-[#09090B]">Ownership</th>
+                          <th class="text-white shadow-md font-semibold text-sm text-center bg-[#09090B]">Ownership</th>
                           <th class="text-white shadow-md font-semibold text-sm text-end hidden sm:table-cell bg-[#09090B]">Shares</th>
                           <th class="text-white shadow-md font-semibold text-sm text-end hidden sm:table-cell bg-[#09090B]">Market Value</th>
                           <th class="text-white shadow-md font-semibold text-sm text-end  bg-[#09090B]">Portfolio</th>

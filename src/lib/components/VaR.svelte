@@ -94,8 +94,8 @@
             <div class="pb-4 w-full mt-5">
                 <div class="w-auto p-4 sm:p-6 bg-[#09090B] sm:bg-[#09090B] rounded-lg relative">
                   <div class="flex flex-row items-center justify-between ">
-                            <div class="relative size-[60px] sm:size-[70px] ml-auto">
-                            <svg class="size-full w-[60px] h-[60px] sm:w-[70px] sm:h-[70px]" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                            <div class="relative size-[60px] sm:size-[90px] ml-auto">
+                            <svg class="size-full w-[60px] h-[60px] sm:w-[90px] sm:h-[90px]" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
                                 <!-- Background Circle -->
                                 <circle cx="18" cy="18" r="16" fill="none" class="stroke-current text-[#303030]" stroke-width="4"></circle>
                                 <!-- Progress Circle inside a group with rotation -->
@@ -105,7 +105,7 @@
                             </svg>
                             <!-- Percentage Text -->
                             <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                                <span class="text-center text-white text-xl font-semibold">
+                                <span class="text-center text-white text-xl sm:text-2xl font-semibold">
                                     {rating}
                                 </span>
                             </div>
@@ -115,7 +115,7 @@
                             <h3 class="hidden sm:block text-gray-300 text-[1rem] sm:text-lg font-semibold">
                                 <span class="{outlook === 'Minimum Risk' ? 'text-[#10BC09]' : outlook==='Risky' ? 'text-red-500' : 'text-white'}">{outlook}</span> outlook:
                             </h3>
-                            <span class="text-gray-200 text-sm mt-1">
+                            <span class="text-gray-200 text-sm sm:text-lg mt-1">
                                 Under typical market conditions, there is a <span class="font-semibold">95%</span> probability that <span class="text-blue-400">${$assetType === 'stock' ? $stockTicker : $assetType === 'etf' ? $etfTicker : $cryptoTicker}</span> will incur a maximum loss of <span class="text-[#FF2F1F] font-semibold">{valueAtRisk}%</span> in the upcoming week.
                             </span>
                         </div>

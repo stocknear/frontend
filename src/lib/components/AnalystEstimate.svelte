@@ -61,7 +61,7 @@ const getAnalystEstimate = async (ticker) => {
     } else {
 
       const postData = {'ticker': ticker};
-      // make the POST request to the endpoint
+
       const response = await fetch(data?.apiURL + '/analyst-estimate', {
         method: 'POST',
         headers: {
@@ -217,10 +217,10 @@ $: {
                     <select class="mt-5 mb-5 sm:mb-0 sm:mt-3 ml-1 w-44 select select-bordered select-sm p-0 pl-5 overflow-y-auto bg-[#2A303C]" on:change={changeStatement}>
                         <option disabled>Choose Fundamental Data</option>
                         <option disabled={deactivateContent} value="EPS">
-                            {!deactivateContent ? 'EPS' : 'EPS (Pro Only)'} 
+                            EPS
                         </option>
                         <option disabled={deactivateContent} value="EBITDA">
-                            {!deactivateContent ? `EBITDA in ${displayEBITDAUnit}` : 'EBITDA (Pro Only)'}
+                            EBITDA in ${displayEBITDAUnit}
                         </option>
                         <option value="Net Income">
                             Net Income in {displayNetIncomeUnit}
@@ -282,13 +282,13 @@ $: {
 
                 
                 
-                <div class="no-scrollbar flex justify-start items-center w-screen sm:w-full mt-6 m-auto rounded-none sm:rounded-lg overflow-hidden overflow-x-scroll">
+                <div class="no-scrollbar flex justify-start items-center w-screen sm:w-full mt-6 m-auto  overflow-x-scroll">
                     <table class="table table-sm shaodow table-pin-cols table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B]">
                         <thead class="">
                         <tr class="">
-                            <th class="bg-[#09090B] border-b border-[#000] text-white font-semibold text-sm text-start">Year</th>
-                            {#each ($screenWidth >= 640 ? xData?.slice(-6) : xData) as item}
-                            <td class="z-20 bg-[#09090B] border-b border-[#000] text-white font-semibold text-sm text-center bg-[#09090B]">{'FY'+item}</td>
+                            <th class="bg-[#09090B] border-b border-[#000] text-white font-semibold text-sm sm:text-[1rem] text-start">Year</th>
+                            {#each ($screenWidth >= 640 ? xData?.slice(-8) : xData) as item}
+                            <td class="z-20 bg-[#09090B] border-b border-[#000] text-white font-semibold text-sm sm:text-[1rem] text-center bg-[#09090B]">{'FY'+item}</td>
                             {/each}
 
                         </tr>
@@ -296,23 +296,23 @@ $: {
                         <tbody class="shadow-md">
 
                             <tr class="bg-[#09090B] border-b-[#09090B]">
-                                <th class="text-white text-start font-medium bg-[#09090B] border-b border-[#09090B]">
+                                <th class="text-white text-sm sm:text-[1rem] text-start font-medium bg-[#09090B] border-b border-[#09090B]">
                                     Forecast
                                 </th>
-                                {#each ($screenWidth >= 640 ? tableDataForecast?.slice(-6) : tableDataForecast) as item}
-                                    <td class="text-white text-center font-medium  border-b border-[#09090B]">
+                                {#each ($screenWidth >= 640 ? tableDataForecast?.slice(-8) : tableDataForecast) as item}
+                                    <td class="text-white text-sm sm:text-[1rem] text-center font-medium  border-b border-[#09090B]">
                                         {(item?.val === '0.00' || item?.val === null) ? '-' : item?.val}
                                     </td>
                                 {/each}
                            
                             </tr>
 
-                            <tr class="bg-[#09090B] border-b-[#09090B]">
+                            <tr class="bg-[#09090B] text-sm sm:text-[1rem] border-b-[#09090B]">
                                 <th class="bg-[#09090B] text-white text-start font-medium  bg-[#09090B] border-b border-[#09090B]">
                                     Actual
                                 </th>
-                                {#each ($screenWidth >= 640 ? tableDataActual?.slice(-6) : tableDataActual) as item}
-                                    <td class="text-white text-center font-medium bg-[#09090B]">
+                                {#each ($screenWidth >= 640 ? tableDataActual?.slice(-8) : tableDataActual) as item}
+                                    <td class="text-white text-sm sm:text-[1rem] text-center font-medium bg-[#09090B]">
                                         {(item?.val === '0.00' || item?.val === null) ? '-' : item?.val}
                                     </td>
                                 {/each}
