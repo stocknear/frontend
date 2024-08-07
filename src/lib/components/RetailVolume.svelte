@@ -83,6 +83,8 @@ function getPlotOptions() {
 
     });
 
+    console.log(tradingList)
+
     findMonthlyValue(historyData, rawData?.lastDate)
 
 

@@ -100,21 +100,21 @@ function getPlotOptions() {
             data: addTotalDebt,
             type: 'bar',
             itemStyle: {
-                color: '#FF2F1F' // Change bar color to white
+                color: '#3B82F6' // Change bar color to white
             }
         },
         {
             data: marketCapitalization,
             type: 'bar',
             itemStyle: {
-                color: '#5470C6' // Change bar color to white
+                color: '#E11D48' // Change bar color to white
             }
         },
         {
             data: enterpriseValue,
             type: 'bar',
             itemStyle: {
-                    color: '#F8901E' // Change bar color to white
+                    color: '#22C55E' // Change bar color to white
                 }
         },
     ]
@@ -213,21 +213,21 @@ $: {
                 <div class="flex flex-row items-center justify-between mx-auto mt-5 w-full sm:w-11/12">
                     <div class="mt-3.5 sm:mt-0 flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                     <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
-                    <div class="w-3 h-3 bg-[#F8901E] border-4 box-content border-[#27272A] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                    <div class="w-3 h-3 bg-[#22C55E] border-4 box-content border-[#27272A] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
                     <span class="mt-2 sm:mt-0 text-white text-center sm:text-start text-xs sm:text-md inline-block">
                         Enterprise Value
                     </span>
                 </div>
                     <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                         <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
-                        <div class="w-3 h-3 bg-[#5470C6] border-4 box-content border-[#27272A] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                        <div class="w-3 h-3 bg-[#E11D48] border-4 box-content border-[#27272A] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
                         <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md sm:font-medium inline-block">
                         Mkt Cap
                         </span>
                     </div>
                     <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                     <div class="h-full transform -translate-x-1/2 " aria-hidden="true"></div>
-                    <div class="w-3 h-3 bg-[#FF2F1F] border-4 box-content border-[#27272A] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                    <div class="w-3 h-3 bg-[#3B82F6] border-4 box-content border-[#27272A] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
                     <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md inline-block">
                         Debt
                     </span>

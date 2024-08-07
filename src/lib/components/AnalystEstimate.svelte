@@ -190,7 +190,7 @@ $: {
 
 <section class="overflow-hidden text-white h-full pb-8 sm:pb-2">
     <main class="overflow-hidden ">
-                <div class="w-fit sm:w-full  m-auto mt-5 sm:mt-0">
+                <div class="w-full m-auto mt-5 sm:mt-0">
                     
                 <div class="flex flex-row items-center">
                     <label for="predictiveFundamentalsInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
@@ -262,19 +262,20 @@ $: {
 
 
                 <div class="flex flex-row items-center justify-between m-auto mt-10">
+
                     <div class="flex flex-row items-center w-1/2 sm:w-full justify-center">
                         <div class="h-full bg-gray-800 transform -translate-x-1/2 " aria-hidden="true"></div>
-                        <div class="w-3 h-3 bg-[#3B82F6] border-4 box-content border-gray-900 rounded-full transform -translate-x-1/2" aria-hidden="true"></div>
+                        <div class="w-3 h-3 bg-[#fff] border-4 box-content border-gray-900 rounded-full transform -translate-x-1/2" aria-hidden="true"></div>
                         <span class="text-white text-sm sm:text-md sm:font-medium inline-block">
-                            Analyst Forecast
+                            Actual
                         </span>
                     </div>
 
                     <div class="flex flex-row items-center w-1/2 sm:w-full justify-center">
                         <div class="h-full bg-gray-800 transform -translate-x-1/2 " aria-hidden="true"></div>
-                        <div class="w-3 h-3 bg-[#0FC008] border-4 box-content border-gray-900 rounded-full transform -translate-x-1/2" aria-hidden="true"></div>
+                        <div class="w-3 h-3 bg-[#E11D48] border-4 box-content border-gray-900 rounded-full transform -translate-x-1/2" aria-hidden="true"></div>
                         <span class="text-white text-sm sm:text-md sm:font-medium inline-block">
-                            Actual
+                            Analyst Forecast
                         </span>
                     </div>
                 </div>
@@ -323,7 +324,12 @@ $: {
                         </tbody>
                     </table>
 
-            
+        
+                    </div>
+
+                    <div class="mt-5 text-gray-100 text-sm sm:text-[1rem] sm:rounded-lg h-auto border border-slate-800 p-4">
+                        <svg class="w-5 h-5 inline-block mr-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
+                        For {(new Date()).getFullYear()}, we use available quarterly data. Complete annual data, used to compare against analyst estimates, is only finalized after the year ends.
                     </div>
             
                 

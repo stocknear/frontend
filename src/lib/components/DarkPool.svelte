@@ -151,9 +151,9 @@ function getPlotOptions() {
 
             data: shortVolumeList,
             type: 'line',
-            areaStyle: {opacity: 0.3},
+            areaStyle: {opacity: 1},
             itemStyle: {
-                color: '#536FC5' // Change bar color to white
+                color: '#3B82F6' // Change bar color to white
             },
             showSymbol: false
         },

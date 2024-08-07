@@ -176,7 +176,7 @@ const getClinicalTrial = async (ticker) => {
       // Cache the data for this specific tickerID with a specific name 'getClinicalTrial'
       setCache(ticker, rawData, 'getClinicalTrial');
     }
-    if(rawData?.length !== 0) {
+    if(rawData?.length >= 5) {
       $clinicalTrialComponent = true;
     } else {
       $clinicalTrialComponent = false;
@@ -232,7 +232,7 @@ let charNumber = 20;
         {#if data?.user?.tier === 'Pro'}
         {#if isLoaded}
 
-        {#if rawData?.length !== 0}
+        {#if rawData?.length >= 5}
 
         <div class="w-full flex flex-col items-start">
             <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">

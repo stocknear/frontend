@@ -30,8 +30,8 @@
         top: {$yGet(d) + ($yScale.bandwidth ? $yScale.bandwidth() / 2 : 0)}%;
         width: {r * 2}px;
         height: {r * 2}px;
-        background-color: {d?.dataset === 'actual' ? '#10C208' : 'rgb(0,187,255,0.4)'};
-        border: {strokeWidth}px solid {d?.dataset === 'actual' ? '#10C208' : 'rgb(0,187,255,0.4)'};
+        background-color: {d?.dataset === 'actual' ? '#fff' : '#E11D48'};
+        border: {strokeWidth}px solid {d?.dataset === 'actual' ? '#E11D48' : 'rgb(0,187,255,0.4)'};
       "
     />
   {/each}
