@@ -1,19 +1,8 @@
-import { userRegion, cachedPosts } from '$lib/store';
+import { cachedPosts } from '$lib/store';
 
 import { get } from 'svelte/store';
 
-export const load = async ({ params }) => {
-
-	const usRegion = ['cle1','iad1','pdx1','sfo1'];
-	let fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-
-	userRegion.subscribe(value => {
-	if (usRegion.includes(value)) {
-		fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-	} else {
-		fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-	}
-	});
+export const load = async ({ parent, params }) => {
 
 
 
@@ -28,7 +17,8 @@ export const load = async ({ params }) => {
         if (Object.keys(output).length !== 0) {
             return output;
         }
-    
+        
+        const { fastifyURL } = await parent();
         // If the post is not found in the cache, fetch it from the endpoint
         const postData = { postId: params.postId };
     

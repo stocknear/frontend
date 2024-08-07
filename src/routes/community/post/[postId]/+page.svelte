@@ -9,7 +9,7 @@
   
   
   import { onMount, onDestroy } from 'svelte';
-  import {userRegion, cachedPosts, postVote, screenWidth, scrollToComment, postIdDeleted, setCache, getCache, tagList, numberOfUnreadNotification, commentAdded, commentUpdated, commentIdDeleted } from '$lib/store';
+  import {cachedPosts, postVote, screenWidth, scrollToComment, postIdDeleted, setCache, getCache, tagList, numberOfUnreadNotification, commentAdded, commentUpdated, commentIdDeleted } from '$lib/store';
   import { goto, afterNavigate } from '$app/navigation';
   import { base } from '$app/paths'
   
@@ -18,20 +18,7 @@
   export let data;
   export let form;
       
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-  
-  let fastifyURL;
-  
-  userRegion.subscribe(value => {
-  
-      if (usRegion.includes(value)) {
-        fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-      } else {
-        fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-      }
-    });
-  
-  
+
   let post = data?.getOnePost;
   let isScrolled = false;
   let isLoaded = false;
@@ -71,7 +58,7 @@
 
     $postVote = {'id': postId, 'upvote': upvoteCounter[postId], 'downvote': downvoteCounter[postId], 'upvoteClicked': upvoteButtonClicked[postId], 'downvoteClicked': downvoteButtonClicked[postId]};
 
-    const response = await fetch(fastifyURL+'/upvote', {
+    const response = await fetch(data?.fastifyURL+'/upvote', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
@@ -107,7 +94,7 @@
     
     $postVote = {'id': postId, 'upvote': upvoteCounter[postId], 'downvote': downvoteCounter[postId], 'upvoteClicked': upvoteButtonClicked[postId], 'downvoteClicked': downvoteButtonClicked[postId]};
 
-    const response = await fetch(fastifyURL+'/downvote', {
+    const response = await fetch(data?.fastifyURL+'/downvote', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
@@ -169,7 +156,7 @@
           userId: data?.user?.id
       };
     
-    const response = await fetch(fastifyURL+'/delete-post', {
+    const response = await fetch(data?.fastifyURL+'/delete-post', {
       method: 'POST',
       headers: {
               "Content-Type": "application/json"
@@ -220,7 +207,7 @@
     const postData = {'postId': data?.getPostId};
   
     // make the GET request to the endpoint
-    const response = await fetch(fastifyURL+'/get-all-comments', {
+    const response = await fetch(data?.fastifyURL+'/get-all-comments', {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
@@ -245,7 +232,7 @@
       } else {
   
         // make the POST request to the endpoint
-        const response = await fetch(fastifyURL + '/get-moderators', {
+        const response = await fetch(data?.fastifyURL + '/get-moderators', {
           method: 'GET',
           headers: {
             "Content-Type": "application/json"
