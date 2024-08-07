@@ -1,14 +1,12 @@
 <script lang='ts'>
   import { stockTicker, getCache, setCache, displayCompanyName, screenWidth, numberOfUnreadNotification } from '$lib/store';
-  import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
   import { page } from '$app/stores';
     
   export let data;
   
-  let rawData = data?.getTranscripts?.chat ?? [];
+  let chats = data?.getTranscripts?.chat ?? [];
   let date = data?.getTranscripts?.date;
   
-  let chats = rawData?.slice(0,20) ?? [];
   let notDestroyed = true;
   
   let charNumber = 20;
@@ -26,17 +24,7 @@
   }
   
   
-  async function infiniteHandler({ detail: { loaded, complete } }) 
-  {
-      if (chats?.length === rawData?.length && notDestroyed) {
-          complete();
-      } else if (notDestroyed) {
-          const nextIndex = chats?.length;
-          const newSymbols = rawData?.slice(nextIndex, nextIndex + 5);
-          chats = [...chats, ...newSymbols];
-          loaded();
-      }
-  }
+
   
   const getTranscripts = async () => {
       isLoaded = false;
@@ -52,7 +40,6 @@
           quarter: quarter,
           year: year
         };
-        console.log('test')
         // make the POST request to the endpoint
         const response = await fetch(data?.apiURL + '/earnings-call-transcripts', {
           method: 'POST',
@@ -67,8 +54,7 @@
         setCache(`${$stockTicker}-Q-${quarter}-${year}`, output, 'getTranscripts');
       }
   
-      rawData = output?.chat ?? [];
-      chats = rawData?.slice(0,5); 
+      chats = output?.chat ?? [];
       date = output?.date ?? '-';
       displayQuarter = quarter;
       displayYear = year;
@@ -87,17 +73,7 @@
       }
   }
   
-  $: {
-    if(chats) {
-      rawData = [...rawData];
-      chats = [...chats];
-    }
-  }
-  $: {
-  if ($page.url.pathname !== `/stocks/${$stockTicker}/transcripts`) {
-  notDestroyed = false;
-  }
-  }
+
   </script>
     
     
@@ -223,7 +199,7 @@
                               {/if}
                           {/each}
   
-                          
+
                           <label on:click={backToTop} class="w-32 py-1.5 mt-10 hover:bg-white hover:bg-opacity-[0.05] cursor-pointer m-auto flex justify-center items-center border border-slate-800 rounded-full">
                               Back to top
                           </label>
@@ -235,7 +211,6 @@
                           {/if}
   
   
-                          <InfiniteLoading on:infinite={infiniteHandler} />
   
   
                       {:else}

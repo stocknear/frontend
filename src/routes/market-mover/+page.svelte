@@ -41,8 +41,6 @@ function getCurrentDateFormatted() {
     return `${month} ${day}, ${year}`;
 }
 
-console.log(getCurrentDateFormatted());
-
 
 // Assign values based on the symbol
 rawData?.forEach(({ symbol, priceData, changesPercentage, previousClose }) => {
