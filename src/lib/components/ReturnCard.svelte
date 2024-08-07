@@ -305,11 +305,9 @@ use([BarChart, GridComponent, CanvasRenderer])
                         Distribution of Monthly Returns
                     </h1>
 
-                    <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
-                        <div class="app w-full h-[300px] mt-5 mb-16">
-                            <Chart {init} options={optionsMonthlyDistributionReturn} class="chart" />
-                        </div>
-                    </Lazy>
+                    <div class="app w-full h-[300px] mt-5 mb-16">
+                        <Chart {init} options={optionsMonthlyDistributionReturn} class="chart" />
+                    </div>
                 {/if}
             </div>
     
