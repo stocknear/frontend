@@ -187,7 +187,7 @@ $: {
 
 
                     
-                <div class="sm:mt-5">
+                <div class="sm:mt-10">
                     The Options activity signals a
                     {#if signal === 'Bullish' }
                       <span class="text-[#10DB06]">

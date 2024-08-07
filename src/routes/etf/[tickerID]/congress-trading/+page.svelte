@@ -182,7 +182,7 @@ isLoaded = true;
     <section class="bg-[#09090B] overflow-hidden text-white h-full mb-40 sm:mb-0">
         <div class="flex justify-center w-fit m-auto h-full overflow-hidden">
             <div class="relative flex justify-center items-center overflow-hidden">
-                  <div class="sm:p-7 sm:w-full sm:max-w-3xl m-auto mt-5 sm:mt-0">
+                  <div class="sm:p-7 w-full m-auto mt-5 sm:mt-0">
                     <div class="mb-6">
                         <h1 class="text-2xl sm:text-3xl text-gray-200 font-bold mb-4">
                             Congress Trading
@@ -208,7 +208,7 @@ isLoaded = true;
                       </h3>
                        <!--Start Widget-->
                        <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center ">
-                        <div class="w-full grid grid-cols-2 gap-y-3 lg:gap-y-3 gap-x-3 ">
+                        <div class="w-full grid grid-cols-2 sm:grid-cols-3 gap-y-3 lg:gap-y-3 gap-x-3 ">
         
                           <!--Start Buy/Sell-->  
                           <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] shadow-lg rounded-2xl h-20">

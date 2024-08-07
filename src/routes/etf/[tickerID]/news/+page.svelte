@@ -1,14 +1,14 @@
 <script lang='ts'>
-  import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
+  import {numberOfUnreadNotification, displayCompanyName, stockTicker} from '$lib/store';
   import { formatDate } from '$lib/utils';
-  import { etfTicker, numberOfUnreadNotification, displayCompanyName} from '$lib/store';
+  
   export let data;
   
   
   
   
   let rawNews = data?.getStockNews;
-  let newsList = rawNews?.slice(0,5) ?? [];
+  let newsList = rawNews?.slice(0,20) ?? [];
   
   
   let videoId = null;
@@ -29,24 +29,12 @@
       }
   }
   
-  
-  
-  
-  
-    async function infiniteHandler({ detail: { loaded, complete } }) 
-  {
-  
-  
-  
-    if (newsList?.length === rawNews?.length) {
-        complete();
-      } else {
-        const nextIndex = newsList?.length;
-        const newArticles = rawNews?.slice(nextIndex, nextIndex + 5);
-        newsList = [...newsList, ...newArticles];
-        loaded();
-      }
+  function loadMoreData() {
+    const nextIndex = newsList?.length;
+    const newArticles = rawNews?.slice(nextIndex, nextIndex + 20);
+    newsList = [...newsList, ...newArticles];
   }
+  
   
   
   
@@ -58,22 +46,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>
-      {$numberOfUnreadNotification > 0 ? `(${$numberOfUnreadNotification})` : ''} {$displayCompanyName} ({$etfTicker}) latest Stock Market News and Breaking Stories · stocknear
+      {$numberOfUnreadNotification > 0 ? `(${$numberOfUnreadNotification})` : ''} {$displayCompanyName} ({$stockTicker}) latest Stock Market News and Breaking Stories · stocknear
     </title>
-    <meta name="description" content={`Get the latest stock market news and breaking stories of ${$displayCompanyName} (${$etfTicker}).`} />
+    <meta name="description" content={`Get the latest stock market news and breaking stories of ${$displayCompanyName} (${$stockTicker}).`} />
     
     <!-- Other meta tags -->
-    <meta property="og:title" content={`${$displayCompanyName} (${$etfTicker}) latest Stock Market News and Breaking Stories · stocknear`}/>
-    <meta property="og:description" content={`Get the latest stock market news and breaking stories of ${$displayCompanyName} (${$etfTicker}).`} />
-    <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
+    <meta property="og:title" content={`${$displayCompanyName} (${$stockTicker}) latest Stock Market News and Breaking Stories · stocknear`}/>
+    <meta property="og:description" content={`Get the latest stock market news and breaking stories of ${$displayCompanyName} (${$stockTicker}).`} />
     <meta property="og:type" content="website"/>
     <!-- Add more Open Graph meta tags as needed -->
   
     <!-- Twitter specific meta tags -->
     <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:title" content={`${$displayCompanyName} (${$etfTicker}) latest Stock Market News and Breaking Stories · stocknear`}/>
-    <meta name="twitter:description" content={`Get the latest stock market news and breaking stories of ${$displayCompanyName} (${$etfTicker}).`} />
-    <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
+    <meta name="twitter:title" content={`${$displayCompanyName} (${$stockTicker}) latest Stock Market News and Breaking Stories · stocknear`}/>
+    <meta name="twitter:description" content={`Get the latest stock market news and breaking stories of ${$displayCompanyName} (${$stockTicker}).`} />
     <!-- Add more Twitter meta tags as needed -->
   
   </svelte:head>
@@ -81,33 +67,32 @@
   
   
   
-  
-  <section class="w-auto max-w-3xl bg-[#09090B] overflow-hidden text-black h-full mb-40">
-      <div class="m-auto h-full overflow-hidden">
-              <main>
-                  <div class="sm:p-7 m-auto mt-5 sm:mt-0">
+  <section class="w-auto max-w-4xl bg-[#09090B] overflow-hidden text-black h-full mb-40">
+      <div class="m-auto h-full overflow-hidden ">
+              <main class="">
+                  <div class="sm:p-7 m-auto mt-2 sm:mt-0">
                       <div class="mb-6">
                           <h1 class="text-2xl sm:text-3xl text-white font-bold">
                             News
                           </h1>
                         </div>
   
-                        <div class="grid grid-cols-1 gap-2">
                             {#if newsList.length !== 0}
+                            <div class="grid grid-cols-1 gap-2 pb-5">
                             {#each newsList as item}
-                                  <div class="flex flex-col bg-[#09090B] rounded-lg m-auto">
+                                  <div class="w-full flex flex-col bg-[#09090B] rounded-lg m-auto">
                                       {#if videoId = checkIfYoutubeVideo(item.url)}
                                           <iframe
-                                              class="w-full h-96 rounded-lg"
+                                              class="w-full h-96 rounded-lg border border-gray-800"
                                               src={`https://www.youtube.com/embed/${videoId}`}
                                               frameborder="0"
                                               allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                               allowfullscreen
                                           ></iframe>
                                       {:else}
-                                          <a href={item.url} rel="noopener noreferrer" target="_blank">
+                                          <a href={item?.url} rel="noopener noreferrer" target="_blank" class="border border-gray-800 rounded-lg">
                                           <div class="flex-shrink-0 m-auto ">
-                                              <img src={item.image} class=" w-full rounded-lg" alt="news image" loading="lazy">
+                                              <img src={item?.image} class=" w-full rounded-lg" alt="news image" loading="lazy">
                                           </div>
                                           </a>
                                       {/if}
@@ -116,32 +101,32 @@
                                             {item?.site} · {formatDate(item?.publishedDate)} ago
                                           </h3>
                                           
-                                          <a href={item.url} rel="noopener noreferrer" target="_blank" class="text-lg font-bold text-white">
+                                          <a href={item?.url} rel="noopener noreferrer" target="_blank" class="text-lg font-bold text-white">
                                             {item?.title}
-                                          
-                                          <p class="text-white text-sm mt-2 font-normal">
-                                            {item?.text}
-                                          </p>
+                                            <p class="text-white text-sm mt-2 font-normal">
+                                              {item?.text}
+                                            </p>
                                           </a>
                                       </div>
                                   </div>
                             
                                   <hr class="border-blue-400 w-full m-auto mt-5 mb-5">
-  
-                                  
                               {/each}
-  
-                              <InfiniteLoading on:infinite={infiniteHandler} />
-  
-  
-                                
-                            {:else}
-                            <h2 class="mt-20 text-3xl font-bold text-slate-700 mb-20 m-auto">
-                              No data available
-                              <svg class="w-10 sm:w-12 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#334155" d="M18.68 12.32a4.49 4.49 0 0 0-6.36.01a4.49 4.49 0 0 0 0 6.36a4.508 4.508 0 0 0 5.57.63L21 22.39L22.39 21l-3.09-3.11c1.13-1.77.87-4.09-.62-5.57m-1.41 4.95c-.98.98-2.56.97-3.54 0c-.97-.98-.97-2.56.01-3.54c.97-.97 2.55-.97 3.53 0c.97.98.97 2.56 0 3.54M10.9 20.1a6.527 6.527 0 0 1-1.48-2.32C6.27 17.25 4 15.76 4 14v3c0 2.21 3.58 4 8 4c-.4-.26-.77-.56-1.1-.9M4 9v3c0 1.68 2.07 3.12 5 3.7v-.2c0-.93.2-1.85.58-2.69C6.34 12.3 4 10.79 4 9m8-6C7.58 3 4 4.79 4 7c0 2 3 3.68 6.85 4h.05c1.2-1.26 2.86-2 4.6-2c.91 0 1.81.19 2.64.56A3.215 3.215 0 0 0 20 7c0-2.21-3.58-4-8-4Z"/></svg>
-                            </h2>
+                              
+                            </div>
+                            {#if newsList?.length !== rawNews?.length}
+                            <label on:click={loadMoreData} class="shadow-lg rounded-lg cursor-pointer w-5/6 sm:w-3/5 sm:max-w-3xl flex justify-center items-center py-3 h-full text-sm sm:text-[1rem] text-center font-semibold text-white m-auto hover:bg-purple-600 bg-purple-600 bg-opacity-[0.6]">
+                              Load More News
+                            </label>
                             {/if}
-                        </div>
+  
+  
+                            {:else}
+                            <div class="w-screen max-w-xl sm:flex sm:flex-row sm:items-center justify-center m-auto text-gray-100 font-medium bg-[#09090B] sm:rounded-lg h-auto p-5 mb-4">
+                              <svg class="w-5 h-5 inline-block sm:mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>      
+                              No news article published yet!
+                            </div>
+                            {/if}
   
                       
                   </div>

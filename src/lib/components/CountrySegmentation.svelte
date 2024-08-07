@@ -50,7 +50,7 @@ $: {
 <section class="bg-[#09090B] overflow-hidden text-white h-full sm:mb-0">
     <div class="flex justify-center m-auto h-full overflow-hidden">
         <div class="relative flex justify-center items-center overflow-hidden w-full">
-                <div class="w-full max-w-2xl">
+                <div class="w-full">
 
                     <div class="flex flex-row items-center">
                         <label for="countryWeightingInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">

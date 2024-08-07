@@ -77,7 +77,7 @@ function loadMoreData() {
                         </h1>
                       </div>
 
-                          {#if newsList.length !== 0}
+                          {#if newsList?.length !== 0}
                           <div class="grid grid-cols-1 gap-2 pb-5">
                           {#each newsList as item}
                                 <div class="w-full flex flex-col bg-[#09090B] rounded-lg m-auto">

@@ -744,12 +744,12 @@ async function initializePrice() {
   
 <section class="bg-[#09090B] min-h-screen pb-40">
   
-  <div class="w-full max-w-4xl m-auto ">
+  <div class="w-full max-w-5xl m-auto ">
 
 
         <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
             <!-- Main content -->
-            <div class="pb-12 md:pb-20 w-full max-w-3xl sm:pr-6 xl:pr-0">
+            <div class="pb-12 md:pb-20 w-full sm:pr-6 xl:pr-0">
               <div class="xl:pr-10">
     
         
@@ -888,7 +888,7 @@ async function initializePrice() {
                                   <!-- Start Graph -->
     
                                   {#if output !== null}
-                                  <div class ="w-full sm:pl-7 ml-auto max-w-3xl mb-10">
+                                  <div class ="w-full sm:pl-7 ml-auto mb-10">
                                       {#if displayData === '1D' && oneDayPrice?.length === 0}
                                       <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
                                         No data available
