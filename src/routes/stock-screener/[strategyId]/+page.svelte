@@ -442,7 +442,7 @@ async function updateStockScreenerData() {
       return ratingRecommendationExists && trendAnalysisAccuracyExists && fundamentalAnalysisAccuracyExists;
     });
     filteredData = filterStockScreenerData();
-    displayResults = filteredData?.slice(0, 10);
+    displayResults = filteredData?.slice(0, 50);
   } catch (error) {
     console.error('Error fetching new stock screener data:', error);
     toast.error('Failed to update stock data. Please try again.', {
@@ -495,7 +495,7 @@ async function handleScroll() {
   const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
   if (isBottom && displayResults?.length !== filteredData?.length) {
       const nextIndex = displayResults?.length;
-      const filteredNewResults = filteredData?.slice(nextIndex, nextIndex + 9);
+      const filteredNewResults = filteredData?.slice(nextIndex, nextIndex + 30);
       displayResults = [...displayResults, ...filteredNewResults];
   }
 }
@@ -552,10 +552,7 @@ async function handleSave(printToast) {
        
       isSaved = true;
     }
-    else {
-      toast.success('Strategy saved!', {
-          style: 'border-radius: 200px; background: #333; color: #fff;'});
-    }
+   
   }  
 }
   
@@ -831,7 +828,7 @@ $: {
   }
 }
 
-$: displayResults = filteredData?.slice(0, 10);
+$: displayResults = filteredData?.slice(0, 50);
 
 $: isSaved = !ruleOfList;
 
@@ -888,7 +885,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                 Build Strategy
 
 
-              <label for="userLogin" on:click={() => handleSave(true)} class="hidden sm:inline-flex ml-5 sm:hover:bg-purple-700 bg-purple-600 transition duration-100 cursor-pointer font-medium text-center text-white rounded-full px-4 py-1 text-sm border border-slate-800">
+              <label for="userLogin" on:click={() => handleSave(true)} class="hidden sm:inline-flex ml-5 sm:hover:bg-purple-700 bg-purple-600 transition duration-100 cursor-pointer font-medium text-center text-white rounded-lg px-4 py-1 text-sm border border-slate-800">
                 Save
               </label>
     
@@ -2136,7 +2133,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                         <div class="text-white font-bold text-xl sm:text-2xl flex justify-start items-center">
                           {ruleOfList.length} Rules Preview
                         </div>
-                        <label on:click={handleResetAll} class="ml-auto cursor-pointer transition duration-100 bg-purple-600 sm:hover:bg-purple-700 border border-slate-800 py-2 px-3 rounded-full text-white text-sm">
+                        <label on:click={handleResetAll} class="ml-auto cursor-pointer transition duration-100 bg-purple-600 sm:hover:bg-purple-700 border border-slate-800 py-2 px-3 rounded-lg text-white text-sm">
                           Reset All
                         </label>
                       </div>
@@ -2198,13 +2195,14 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                         <tr class="border-b-[#1A1A27]">
                           <th class="text-white bg-[#09090B] text-sm border-b-[#09090B]">Symbol</th>
                           <th class="text-white hidden sm:table-cell bg-[#09090B] text-sm border-b-[#09090B]">Company Name</th>
-                          <th class="text-white bg-[#09090B] text-sm border-b-[#09090B]">Market Cap</th>
+                          <th class="text-white bg-[#09090B] text-sm text-center border-b-[#09090B]">Market Cap</th>
+                          <th class="text-white bg-[#09090B] text-sm text-end border-b-[#09090B]">Change</th>
                           <th class="text-white bg-[#09090B] text-end text-sm border-b-[#09090B]">Price</th>
                         </tr>
                       </thead>
                       <tbody>
                         {#each displayResults as item}
-                        <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#09090B] border-b-[#09090B] odd:bg-[#27272A] cursor-pointer">
+                        <tr on:click={() => {handleSave(false); goto("/stocks/"+item?.symbol)}} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#09090B] border-b-[#09090B] odd:bg-[#27272A] cursor-pointer">
                           <td class="border-b-[#09090B]">
                             <div class="flex flex-col items-start">
                               <span class="text-blue-400">{item?.symbol}</span>
@@ -2217,40 +2215,24 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                             {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
                           </td>
                           
-                          <td class="text-white border-b-[#09090B]">
-                            <span class="text-white text-sm ml-auto">
+                          <td class="text-white text-sm sm:text-[1rem] text-center border-b-[#09090B]">
                               {#if item?.symbol?.includes('.DE') || item?.symbol?.includes('.F')}
                                 €{abbreviateNumber(item?.marketCap)}
                               {:else}
                                 {abbreviateNumber(item?.marketCap,true)}
                               {/if}
-                            </span>
                           </td>
 
-                          <td class="text-gray-200 border-b-[#09090B]">
-                            <div class="flex flex-row justify-end items-center">
-              
-                              <div class="flex flex-col mt-3">
-                                <span class="text-white text-md ml-auto">
-                                  {#if item?.symbol?.includes('.DE') || item?.symbol?.includes('.F')}
-                                    €{item.price?.toFixed(2)}
-                                  {:else}
-                                    ${item.price?.toFixed(2)}
-                                  {/if}
-                                </span>
-                                <div class="flex flex-row mt-1">
-                                  {#if item?.changesPercentage >=0}
-                                    <svg class="w-5 h-5 -mr-0.5 -mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
-                                    <span class="text-[#10DB06] text-xs">+{item?.changesPercentage?.toFixed(2)}%</span>
-                                  {:else}
-                                    <svg class="w-5 h-5 -mr-0.5 -mt-0.5 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
-                                    <span class="text-[#FF2F1F] text-xs">{item?.changesPercentage?.toFixed(2)}% </span> 
-                                  {/if}
-                                </div>
-                              </div>
-              
-                              
-                          </div>
+                          <td class="text-white text-end text-sm sm:text-[1rem] font-medium border-b-[#09090B]">
+                            {#if item?.changesPercentage >=0}
+                              <span class="text-[#10DB06]">+{item?.changesPercentage >= 1000 ? abbreviateNumber(item?.changesPercentage) : item?.changesPercentage?.toFixed(2)}%</span>
+                            {:else}
+                              <span class="text-[#FF2F1F]">{item?.changesPercentage <= -1000 ? abbreviateNumber(item?.changesPercentage) : item?.changesPercentage?.toFixed(2)}% </span> 
+                            {/if}
+                          </td>
+
+                          <td class="text-white text-sm sm:text-[1rem] text-end border-b-[#09090B]">
+                            {item.price?.toFixed(2)}
                         </td>                   
                         </tr>
                         
