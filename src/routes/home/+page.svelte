@@ -17,6 +17,7 @@
   import { scaleBand } from 'd3-scale';
   import Bar from '$lib/components/LayerCake/Bar/Bar.svelte';
   import AxisY from '$lib/components/LayerCake/Bar/AxisY.svelte';
+  import { goto } from '$app/navigation';
 
   export let data;
   let isLoaded = false;
@@ -51,8 +52,8 @@ const yKey = 'symbol';
 let Feedback;
 
 onMount( async() => {
-  Feedback = (await import('$lib/components/Feedback.svelte')).default
   isLoaded = true;
+  Feedback = (await import('$lib/components/Feedback.svelte')).default
 })
 
 </script>
@@ -113,7 +114,9 @@ onMount( async() => {
           <div class="grid gap-4 grid-cols-2 md:gap-8 lg:grid-cols-4">
             <Card.Root>
               <Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
-                <Card.Title class="text-start text-[1rem] sm:text-xl font-semibold">Most Active</Card.Title>
+                <Card.Title class="cursor-pointer text-start text-[1rem] sm:text-xl font-semibold">
+                  <a href="/market-mover" class="sm:hover:underline">Most Active</a>
+                </Card.Title>
                 <Activity class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
@@ -132,7 +135,9 @@ onMount( async() => {
             </Card.Root>
             <Card.Root >
               <Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
-                <Card.Title class="text-start text-[1rem] sm:text-xl font-semibold">Biggest Winner</Card.Title>
+                <Card.Title class="text-start text-[1rem] sm:text-xl font-semibold">
+                  <a href="/market-mover" class="sm:hover:underline">Biggest Winner</a>
+                </Card.Title>
                 <Crown class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
@@ -151,7 +156,9 @@ onMount( async() => {
             </Card.Root>
             <Card.Root>
               <Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
-                <Card.Title class="text-start text-[1rem] sm:text-xl font-semibold">Biggest Loser</Card.Title>
+                <Card.Title class="text-start text-[1rem] sm:text-xl font-semibold">
+                  <a href="/market-mover" class="sm:hover:underline">Biggest Loser</a>
+                </Card.Title>
                 <Bomb class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
@@ -170,7 +177,9 @@ onMount( async() => {
             </Card.Root>
             <Card.Root>
               <Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
-                <Card.Title class="text-start text-[1rem] sm:text-xl font-semibold">Most Shorted</Card.Title>
+                <Card.Title class="text-start text-[1rem] sm:text-xl font-semibold">
+                  <a href="/most-shorted-stocks" class="sm:hover:underline"> Most Shorted</a>
+                </Card.Title>
                 <Zap class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
