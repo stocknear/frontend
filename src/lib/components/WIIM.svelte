@@ -94,7 +94,7 @@ $: {
                                                 </div>
                                             </div>
 
-                                            <div class="flex flex-col w-full max-w-[430px] pt-2 pl-2 pr-2 sm:pr-0">
+                                            <div class="flex flex-col w-full max-w-3xl pt-2 pl-2 pr-2 sm:pr-0">
                                                 <span class="text-white text-[1rem] ">
                                                     {data?.user?.tier !== 'Pro' && latestInfoDate(item?.date) ? item?.text?.slice(0,30) + '...' : item?.text }
                                                 </span>
