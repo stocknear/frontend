@@ -18,6 +18,32 @@ let changeSP500, changeNasdaq, changeDowJones, changeRussel2000;
 let previousCloseSP500, previousCloseNasdaq, previousCloseDowJones, previousCloseRussel2000;
 
 
+function getCurrentDateFormatted() {
+    // Get current date
+    let date = new Date();
+    
+    // If today is Saturday or Sunday, move to the previous Friday
+    if (date.getDay() === 6) { // Saturday
+        date.setDate(date.getDate() - 1);
+    } else if (date.getDay() === 0) { // Sunday
+        date.setDate(date.getDate() - 2);
+    }
+    
+    // Define months array for formatting
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    
+    // Get formatted date components
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    
+    // Return formatted date
+    return `${month} ${day}, ${year}`;
+}
+
+console.log(getCurrentDateFormatted());
+
+
 // Assign values based on the symbol
 rawData?.forEach(({ symbol, priceData, changesPercentage, previousClose }) => {
   switch (symbol) {
@@ -166,12 +192,12 @@ function selectTimeInterval(interval) {
 
       else if(displaySection === 'loser')
       {
-        gainerLoserActive = sortByLowestChange(outputList?.losers[timePeriod]);
+        gainerLoserActive = sortByHighestChange(outputList?.losers[timePeriod]); //sortByLowestChange(outputList?.losers[timePeriod]);
       }
   
       else if(displaySection === 'active')
       {
-        gainerLoserActive = sortByVolume(outputList?.active[timePeriod]);
+        gainerLoserActive = sortByHighestChange(outputList?.active[timePeriod]); //sortByVolume(outputList?.active[timePeriod]);
       }
     }
   }
@@ -181,7 +207,7 @@ let charNumber = 30;
 $: {
   if($screenWidth < 640)
   {
-    charNumber = 15;
+    charNumber = 20;
   }
   else {
     charNumber =30;
@@ -273,7 +299,11 @@ $: {
 
   </div>
 
-  <div class="w-full -mt-4 mb-8 m-auto flex justify-center items-center p-3">
+  <div class="text-white text-xs sm:text-sm pb-5 sm:pb-2 pl-3 sm:pl-0">
+    Stock Indexes - {getCurrentDateFormatted()}
+  </div>
+
+  <div class="w-full -mt-4 sm:mt-0 mb-8 m-auto flex justify-center items-center p-3 sm:p-0">
     <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-y-3 lg:gap-y-0 gap-x-3 ">
     <MiniPlot title="S&P500" priceData = {priceDataSP500} changesPercentage={changeSP500} previousClose={previousCloseSP500}/>
     <MiniPlot title="Nasdaq" priceData = {priceDataNasdaq} changesPercentage={changeNasdaq} previousClose={previousCloseNasdaq}/>
@@ -282,7 +312,8 @@ $: {
     </div>
   </div>
 
-    <div class="w-full m-auto mb-10 bg-[#09090B] pl-3 pr-3">
+
+    <div class="w-full m-auto mb-10 bg-[#09090B] pl-3 pr-3 sm:pl-0 sm:pr-0">
      
       
 
@@ -340,58 +371,52 @@ $: {
       <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B]">
         <thead>
           <tr>
-            <th class="text-white font-bold text-sm">Company</th>
-            <th on:click={() => console.log('mkt')} class="text-white font-bold text-sm text-end">Market Cap</th>
-            <th class="text-white font-bold text-sm text-end ">Volume</th>
-            <th class="text-white font-bold text-end text-sm">Today</th>
+            <th class="text-white font-semibold text-sm whitespace-nowrap">Company</th>
+            <th on:click={() => changeOrder(order)} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm text-end">
+              % Change
+              <svg class="w-5 h-5 inline-block {order === 'highToLow' ? '' : 'rotate-180'}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </th>
+            <th class="text-white font-semibold text-end text-sm">Price</th>
+            <th class="text-white font-semibold text-sm text-end">Market Cap</th>
+            <th class="text-white font-semibold text-sm text-end ">Volume</th>
           </tr>
         </thead>
         <tbody>
           {#each gainerLoserActive as item, index}
           <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] cursor-pointer">
     
-          <td class="border-b-[#09090B]">
+          <td class="border-b-[#09090B] whitespace-nowrap">
             <div class="flex flex-col">
               <span class="text-blue-400 font-medium">
                 {item?.symbol}
               </span>
-              <span class="hidden sm:block text-white text-opacity-[0.8] font-medium border-b-[#09090B]">
+              <span class="text-white text-opacity-[0.8] font-medium border-b-[#09090B]">
                 {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
               </span>
             </div>
           </td>
 
-  
+          <td class="text-white text-end text-sm sm:text-[1rem] font-medium border-b-[#09090B]">
+              {#if item?.changesPercentage >=0}
+                <span class="text-[#10DB06]">+{item?.changesPercentage >= 1000 ? abbreviateNumber(item?.changesPercentage) : item?.changesPercentage?.toFixed(2)}%</span>
+              {:else}
+                <span class="text-[#FF2F1F]">{item?.changesPercentage <= -1000 ? abbreviateNumber(item?.changesPercentage) : item?.changesPercentage?.toFixed(2)}% </span> 
+              {/if}
+          </td>
 
-          <td class="text-white font-medium border-b-[#09090B] text-end">
+          <td class="text-white font-medium text-sm sm:text-[1rem] text-end border-b-[#09090B]">
+            ${item?.price?.toFixed(2)}
+          </td>
+
+          <td class="text-white text-sm sm:text-[1rem] font-medium border-b-[#09090B] text-end">
             {item?.marketCap !== null ? abbreviateNumber(item?.marketCap, true) : '-'}
           </td>
 
-          <td class="text-white font-medium border-b-[#09090B] text-end">
+          <td class="text-white text-sm sm:text-[1rem] font-medium border-b-[#09090B] text-end">
             {item?.volume !== null ? abbreviateNumber(item?.volume) : '-'}
           </td>
 
 
-
-          <td class="text-white font-medium border-b-[#09090B]">
-            <div class="flex flex-row justify-end items-center">
-
-              <div class="flex flex-col items-center">
-                <span class="text-white font-medium text-md ml-auto">${item.price?.toFixed(2)}</span>
-                <div class="flex flex-row mt-1">
-                  {#if item?.changesPercentage >=0}
-                    <svg class="w-5 h-5 -mr-0.5 -mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
-                    <span class="text-[#10DB06] text-xs font-medium">+{item?.changesPercentage >= 1000 ? abbreviateNumber(item?.changesPercentage) : item?.changesPercentage?.toFixed(2)}%</span>
-                  {:else}
-                    <svg class="w-5 h-5 -mr-0.5 -mt-0.5 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
-                    <span class="text-[#FF2F1F] text-xs font-medium">{item?.changesPercentage <= -1000 ? abbreviateNumber(item?.changesPercentage) : item?.changesPercentage?.toFixed(2)}% </span> 
-                  {/if}
-                </div>
-              </div>
-
-              
-          </div>
-        </td>
 
 
 

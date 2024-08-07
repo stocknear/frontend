@@ -139,7 +139,7 @@ if(chart && typeof window !== 'undefined')
 
 
 
-<label on:click={etfSelector} class="sm:hover:border-[#3C74D4] duration-200 transition ease-in-out cursor-pointer flex flex-row items-center rounded-lg shadow-lg border border-gray-800 bg-[#09090B]">
+<label on:click={etfSelector} class="sm:hover:border-[#3C74D4] duration-200 transition ease-in-out cursor-pointer flex flex-row items-center rounded-lg shadow-lg border border-gray-600 bg-[#09090B]">
   <div class="flex flex-col items-center lg:mr-5">
     <span class="text-white font-semibold text-xs w-20 text-start pl-3 uppercase">{title}</span>
     <div class="flex flex-row mt-1 items-center">
