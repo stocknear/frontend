@@ -306,7 +306,7 @@ optionsGrowth = plotGrowth();
   <section class="bg-[#09090B] overflow-hidden text-white h-full mb-40 sm:mb-0">
       <div class="flex justify-center m-auto h-full overflow-hidden">
           <div class="relative flex justify-center items-center overflow-hidden">
-                <div class="sm:p-7 w-full sm:max-w-3xl m-auto mt-2 sm:mt-0">
+                <div class="sm:p-7 w-full m-auto mt-2 sm:mt-0">
                       <div class="mb-6">
                           <h2 class="text-2xl sm:text-3xl text-gray-200 font-bold mb-4">
                               Employees

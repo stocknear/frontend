@@ -6,6 +6,7 @@
     import { stratify, pack, hierarchy } from 'd3-hierarchy'
     import { getContext } from 'svelte';
     import { format } from 'd3-format';
+    import { screenWidth } from '$lib/store';
   
     const { width, height, data } = getContext('LayerCake');
   
@@ -78,6 +79,7 @@
   
     $: descendants = packed.descendants();
 
+    $: ballSize = $screenWidth < 1024 ? 2 : 3;
   
     const titleCase = d => d.replace(/^\w/, w => w.toUpperCase());
     const commas = format(',');
@@ -92,7 +94,7 @@
       >
         <div
           class="circle"
-          style="left:{d.x}px;top:{d.y}px;width:{d.r * 2}px;height:{d.r * 2}px;background-color:{(index === 1 && d.data.id === 'puts') ? '#FF2F1F' : (index === 1 && d.data.id === 'calls') ? '#0FB307' : '#1E1E1E'}; border: 0px solid #000;"
+          style="left:{d.x}px;top:{d.y}px;width:{d.r * ballSize}px;height:{d.r * ballSize}px;background-color:{(index === 1 && d.data.id === 'puts') ? '#FF2F1F' : (index === 1 && d.data.id === 'calls') ? '#0FB307' : '#1E1E1E'}; border: 0px solid #000;"
         />
           <div
             class="text-group"

@@ -130,7 +130,6 @@ updateYearRange()
   <!-- Other meta tags -->
   <meta property="og:title" content={`${$displayCompanyName} (${$stockTicker}) Statistics & Valuation Metrics · stocknear`}/>
   <meta property="og:description" content={`Detailed statistics for ${$displayCompanyName} (${$stockTicker}) stock, including valuation, metrics, financial numbers, share information and more.`} />
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -138,7 +137,6 @@ updateYearRange()
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content={`${$displayCompanyName} (${$stockTicker}) Statistics & Valuation Metrics · stocknear`}/>
   <meta name="twitter:description" content={`Detailed statistics for ${$displayCompanyName} (${$stockTicker}) stock, including valuation, metrics, financial numbers, share information and more.`} />
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -146,7 +144,7 @@ updateYearRange()
 
 
 <section class="text-white w-full">
-  <div class="sm:pl-7 m-auto pt-5">
+  <div class="sm:p-7 m-auto">
     <div class="mb-6">
         <h1 class="text-2xl sm:text-3xl text-white font-bold mb-5">
           Fundamental Data

@@ -150,7 +150,6 @@ onMount(async() => {
   <!-- Other meta tags -->
   <meta property="og:title" content={`${$displayCompanyName} (${$stockTicker}) Dividend History, Dates & Yield · stocknear`}/>
   <meta property="og:description" content={`Get the latest dividend data for ${$displayCompanyName} (${$stockTicker}), including dividend history, yield, key dates, growth and other metrics.`} />
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -158,7 +157,6 @@ onMount(async() => {
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content={`${$displayCompanyName} (${$stockTicker}) Dividend History, Dates & Yield · stocknear`}/>
   <meta name="twitter:description" content={`Get the latest dividend data for ${$displayCompanyName} (${$stockTicker}) stock price quote with breaking news, financials, statistics, charts and more.`} />
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>

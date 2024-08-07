@@ -53,7 +53,6 @@ function loadMoreData() {
   <!-- Other meta tags -->
   <meta property="og:title" content={`${$displayCompanyName} (${$stockTicker}) latest Stock Market News and Breaking Stories · stocknear`}/>
   <meta property="og:description" content={`Get the latest stock market news and breaking stories of ${$displayCompanyName} (${$stockTicker}).`} />
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -61,7 +60,6 @@ function loadMoreData() {
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content={`${$displayCompanyName} (${$stockTicker}) latest Stock Market News and Breaking Stories · stocknear`}/>
   <meta name="twitter:description" content={`Get the latest stock market news and breaking stories of ${$displayCompanyName} (${$stockTicker}).`} />
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -69,7 +67,7 @@ function loadMoreData() {
 
 
 
-<section class="w-auto max-w-3xl bg-[#09090B] overflow-hidden text-black h-full mb-40">
+<section class="w-auto max-w-4xl bg-[#09090B] overflow-hidden text-black h-full mb-40">
     <div class="m-auto h-full overflow-hidden ">
             <main class="">
                 <div class="sm:p-7 m-auto mt-2 sm:mt-0">
@@ -82,17 +80,17 @@ function loadMoreData() {
                           {#if newsList.length !== 0}
                           <div class="grid grid-cols-1 gap-2 pb-5">
                           {#each newsList as item}
-                                <div class="flex flex-col bg-[#09090B] rounded-lg m-auto">
+                                <div class="w-full flex flex-col bg-[#09090B] rounded-lg m-auto">
                                     {#if videoId = checkIfYoutubeVideo(item.url)}
                                         <iframe
-                                            class="w-full h-96 rounded-lg"
+                                            class="w-full h-96 rounded-lg border border-gray-800"
                                             src={`https://www.youtube.com/embed/${videoId}`}
                                             frameborder="0"
                                             allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                             allowfullscreen
                                         ></iframe>
                                     {:else}
-                                        <a href={item?.url} rel="noopener noreferrer" target="_blank">
+                                        <a href={item?.url} rel="noopener noreferrer" target="_blank" class="border border-gray-800 rounded-lg">
                                         <div class="flex-shrink-0 m-auto ">
                                             <img src={item?.image} class=" w-full rounded-lg" alt="news image" loading="lazy">
                                         </div>
@@ -117,7 +115,7 @@ function loadMoreData() {
                             
                           </div>
                           {#if newsList?.length !== rawNews?.length}
-                          <label on:click={loadMoreData} class="shadow-lg rounded-lg cursor-pointer w-11/12 sm:w-full flex justify-center items-center py-3 h-full text-sm sm:text-lg text-center font-medium text-white m-auto hover:bg-purple-600 bg-purple-600 bg-opacity-[0.6]">
+                          <label on:click={loadMoreData} class="shadow-lg rounded-lg cursor-pointer w-5/6 sm:w-3/5 sm:max-w-3xl flex justify-center items-center py-3 h-full text-sm sm:text-[1rem] text-center font-semibold text-white m-auto hover:bg-purple-600 bg-purple-600 bg-opacity-[0.6]">
                             Load More News
                           </label>
                           {/if}

@@ -287,7 +287,6 @@ onMount(async() => {
   <!-- Other meta tags -->
   <meta property="og:title" content={`${$displayCompanyName} (${$stockTicker}) US Congress & Senate Trading · stocknear`}/>
   <meta property="og:description" content={`Get the latest US congress & senate trading of ${$displayCompanyName} (${$stockTicker}) from democrates and republicans.`} />
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -295,24 +294,21 @@ onMount(async() => {
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content={`${$displayCompanyName} (${$stockTicker}) US Congress & Senate Trading · stocknear`}/>
   <meta name="twitter:description" content={`Get the latest US congress & senate trading of ${$displayCompanyName} (${$stockTicker}) from democrates and republicans.`} />
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
   
      
-                  
-  
-    
-          
-    <section class="bg-[#09090B] overflow-hidden text-white h-full mb-40 sm:mb-0">
-        <div class="flex justify-center w-fit m-auto h-full overflow-hidden">
-            <div class="relative flex justify-center items-center overflow-hidden">
-                  <div class="sm:p-7 sm:w-full sm:max-w-3xl m-auto mt-5 sm:mt-0">
-                    <div class="mb-6">
-                        <h1 class="text-2xl sm:text-3xl text-gray-200 font-bold mb-4">
-                            Insider Trading
-                        </h1>
+
+
+<section class="w-full bg-[#09090B] overflow-hidden text-white h-full mb-40 sm:mb-0">
+  <div class="h-full overflow-hidden">
+      <div class="relative flex justify-center items-center overflow-hidden">
+            <div class="sm:p-7 w-full mt-2 sm:mt-0">
+                  <div class="mb-6">
+                      <h1 class="text-2xl sm:text-3xl text-gray-200 font-bold mb-4">
+                          Insider Trading
+                      </h1>
   
 
                         <div class="text-white p-3 sm:p-5 mb-5 rounded-lg sm:flex sm:flex-row sm:items-center border border-slate-800 text-sm sm:text-[1rem]">

@@ -127,11 +127,8 @@ $: {
 
 </script>
     
-<section class="bg-[#09090B] overflow-hidden text-white h-full w-full sm:mb-10">
-  <div class="flex justify-center w-full m-auto h-full overflow-hidden">
-      <div class="relative flex justify-center items-center overflow-hidden w-full">
-          <main class="w-full">
-              <div class="w-full sm:max-w-2xl m-auto mt-5 sm:mt-0">
+<section class="overflow-hidden text-white h-full pb-8">
+  <main class="overflow-hidden ">
                   
 
               <div class="flex flex-row items-center">
@@ -190,7 +187,7 @@ $: {
 
 
                     
-                <div>
+                <div class="sm:mt-5">
                     The Options activity signals a
                     {#if signal === 'Bullish' }
                       <span class="text-[#10DB06]">
@@ -250,12 +247,11 @@ $: {
               </div>
             {/if}
               
-          </div>
-      </main>
-      </div>
-      </div>
+          
+
+  
+  </main>
 </section>
-      
   
   
   

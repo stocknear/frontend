@@ -40,15 +40,11 @@
     
     </script>
     
-    <section class="w-auto max-w-3xl bg-[#09090B] overflow-hidden text-black h-full mb-40">
-      <div class="m-auto h-full overflow-hidden">
-                <main class="w-fit sm:w-full sm:max-w-2xl ">
-                    <div class="m-auto">
+    <section class="w-full max-w-5xl bg-[#09090B] overflow-hidden text-black h-full mb-40">
+      <div class="h-full overflow-hidden">
+                <main class="w-full">
                                         
-    
-                    
-
-   
+ 
                         <div class="sm:ml-8 w-screen sm:w-full {$screenWidth < 640 ? 'overflow-auto scrollbar no-scrollbar' : ''} mb-2" >
                           <ul class="pr-4 sm:pr-0 w-screen flex flex-row items-center bg-[#09090B] overflow-x-scroll space-x-6 rtl:space-x-reverse py-2">
                             <li class="cursor-pointer flex flex-col items-center">
@@ -73,8 +69,6 @@
                         </div>
 
                         
-                        
-                    </div>
     
                 </main>
     

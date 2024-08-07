@@ -47,7 +47,7 @@ function changeSubSection(state) {
 
 </script>
 
-<section class="w-auto max-w-3xl bg-[#09090B] overflow-hidden text-black h-full mb-40">
+<section class="w-auto max-w-5xl bg-[#09090B] overflow-hidden text-black h-full mb-40">
   <div class="m-auto h-full overflow-hidden">
             <main class="w-fit sm:w-full sm:max-w-2xl">
                 <div class="m-auto">
