@@ -326,7 +326,7 @@ $: {
             {#each weekday as day,index}
             
             <div class="w-full {index === selectedWeekday ? '' : 'hidden sm:block'}">
-                    <label on:click={() => toggleDate(index)} class="w-11/12 m-auto sm:w-full cursor-pointer h-16 {index === selectedWeekday ? 'bg-purple-600 bg-opacity-[0.6] sm:bg-[#A24D51] sm:gradient-effect' : ''} rounded-lg sm:rounded-none flex bg-[#3C40F0] border border-blue-600 mb-3">
+                    <label on:click={() => toggleDate(index)} class="w-11/12 m-auto sm:w-full cursor-pointer h-16 {index === selectedWeekday ? 'bg-purple-600 sm:bg-[#A24D51] sm:gradient-effect' : ''} rounded-lg sm:rounded-none flex bg-[#3C40F0] border border-blue-600 mb-3">
                       <div class=" flex flex-row justify-center items-center w-full ">
                         <label on:click={() => clickWeekday('previous', index) } class="{previousMax === true && index === 0? 'opacity-20' : ''} sm:hidden ml-auto">
                           <svg class="w-8 h-8 inline-block rotate-180 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"/></svg>
@@ -352,44 +352,45 @@ $: {
           {#each weekday as day,index}
             {#if index === selectedWeekday}
               {#if day?.length !== 0}
-                <table class="hidden sm:inline-table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto mt-4 ">
+              <div class="w-full overflow-x-scroll no-scrollbar">
+                <table class="table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto mt-4 ">
                     <thead>
-                      <tr>
-                        <th class="text-start text-slate-200 font-bold text-sm">Symbol</th>
-                        <th class="text-start text-slate-200 font-bold text-sm">Company Name</th>
-                        <th class="text-slate-200 font-bold text-sm">Market Cap</th>
-                        <th class="text-slate-200 font-bold hidden sm:table-cell text-sm">Revenue Estimate</th>
-                        <th class="text-slate-200 font-bold hidden sm:table-cell text-sm">EPS Estimate</th>
-                        <th class="text-slate-200 font-bold text-sm text-end">Earnings Time</th>
+                      <tr class="whitespace-nowrap">
+                        <th class="text-start text-slate-200 font-semibold text-sm">Symbol</th>
+                        <th class="text-start text-slate-200 font-semibold text-sm">Company Name</th>
+                        <th class="text-slate-200 font-semibold text-sm">Market Cap</th>
+                        <th class="text-slate-200 font-semibold text-sm">Revenue Estimate</th>
+                        <th class="text-slate-200 font-semibold text-sm">EPS Estimate</th>
+                        <th class="text-slate-200 font-semibold text-sm text-end">Earnings Time</th>
                       </tr>
                     </thead>
                     <tbody>
                       {#each day as item, index}
                       <!-- row -->
-                      <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] cursor-pointer">
+                      <tr on:click={() => goto("/stocks/"+item?.symbol)} class=" sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] cursor-pointer">
                         
-                        <td class="text-blue-400 border-b-[#09090B] text-start">
+                        <td class="text-blue-400 border-b-[#09090B] text-start text-sm sm:text-[1rem]">
                           {item?.symbol}
                         </td>
 
-                        <td class="text-gray-200 border-b-[#09090B]">
+                        <td class="text-white whitespace-nowrap text-sm sm:text-[1rem] border-b-[#09090B]">
                           {item?.name.length > 20 ? item?.name?.slice(0,20) + "..." : item?.name}
                         </td>
 
-                    <td class="text-white border-b-[#09090B] text-center">
+                    <td class="text-white border-b-[#09090B] text-center text-sm sm:text-[1rem]">
                       {item?.marketCap !== null ? '$' + abbreviateNumber(item?.marketCap) : '-'}
                     </td>
 
-                    <td class="text-white hidden sm:table-cell text-center border-b-[#09090B]">
+                    <td class="text-white text-center border-b-[#09090B] text-sm sm:text-[1rem]">
                       {item?.revenueEstimated !== null ? '$' + abbreviateNumber(item?.revenueEstimated) : '-'}
                     </td>
 
-                    <td class="text-white hidden sm:table-cell text-center  border-b-[#09090B]">
+                    <td class="text-white text-center  border-b-[#09090B] text-sm sm:text-[1rem]">
                       {item?.epsEstimated !== null ? item?.epsEstimated : '-'}
                     </td>
 
 
-                    <td class="text-white border-b-[#09090B] text-end">
+                    <td class="text-white border-b-[#09090B] text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if item?.time === 'amc'}
                       <svg class="w-4 h-4 inline-block mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#70A1EF" d="M232.13 143.64a6 6 0 0 0-6-1.49a90.07 90.07 0 0 1-112.27-112.3a6 6 0 0 0-7.49-7.48a102.88 102.88 0 0 0-51.89 36.31a102 102 0 0 0 142.84 142.84a102.88 102.88 0 0 0 36.31-51.89a6 6 0 0 0-1.5-5.99m-42 48.29a90 90 0 0 1-126-126a90.9 90.9 0 0 1 35.52-28.27a102.06 102.06 0 0 0 118.69 118.69a90.9 90.9 0 0 1-28.24 35.58Z"/></svg>
                       <span class="text-sm">After Close</span>
@@ -407,80 +408,13 @@ $: {
         
                       {/each}
                     </tbody>
-                  </table>
+                </table>
+              </div>
 
 
 
-                  <div class="relative p-2 sm:hidden pt-5">
-                    {#each day as item}
-                    <div class="bg-[#09090B] rounded-lg border border-slate-800 shadow-lg h-auto pb-5 pl-2 pr-2 pt-4 mb-7">
-                          <div class="flex flex-row items-center">
-                            <!--
-                            <div class="rounded-full w-10 h-10 relative bg-[#101112] flex items-center justify-center">
-                              <img style="clip-path: circle(50%);" class="w-6 h-6" src={`https://financialmodelingprep.com/image-stock/${item?.symbol}.png`} loading="lazy"/>
-                            </div>
-                            -->
-                            <label on:click={() => goto("/stocks/"+item?.symbol)} class="cursor-pointer flex flex-col ml-3 w-40">
-                              <span class="text-blue-400 text-sm">{item?.symbol}</span>
-                              <span class="text-white text-sm">{item?.name}</span>
-                            </label>
+              
 
-                            <div class="flex flex-col justify-end items-end ml-auto">
-                              <span class="font-medium text-slate-300 text-end">Earnings Time</span>
-                              <span class="text-white text-opacity-[0.8] text-sm text-end">
-                                {#if item?.time === 'amc'}
-                                  <svg class="w-5 h-5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#70A1EF" d="M232.13 143.64a6 6 0 0 0-6-1.49a90.07 90.07 0 0 1-112.27-112.3a6 6 0 0 0-7.49-7.48a102.88 102.88 0 0 0-51.89 36.31a102 102 0 0 0 142.84 142.84a102.88 102.88 0 0 0 36.31-51.89a6 6 0 0 0-1.5-5.99m-42 48.29a90 90 0 0 1-126-126a90.9 90.9 0 0 1 35.52-28.27a102.06 102.06 0 0 0 118.69 118.69a90.9 90.9 0 0 1-28.24 35.58Z"/></svg>
-                                  <span class="font-medium text-sm">After Close</span>
-                                  {:else}
-                                  <svg class="w-5 h-5 inline-block"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><g fill="#FEC001"><path d="M184 128a56 56 0 1 1-56-56a56 56 0 0 1 56 56Z" opacity=".2"/><path d="M120 40V16a8 8 0 0 1 16 0v24a8 8 0 0 1-16 0Zm72 88a64 64 0 1 1-64-64a64.07 64.07 0 0 1 64 64Zm-16 0a48 48 0 1 0-48 48a48.05 48.05 0 0 0 48-48ZM58.34 69.66a8 8 0 0 0 11.32-11.32l-16-16a8 8 0 0 0-11.32 11.32Zm0 116.68l-16 16a8 8 0 0 0 11.32 11.32l16-16a8 8 0 0 0-11.32-11.32ZM192 72a8 8 0 0 0 5.66-2.34l16-16a8 8 0 0 0-11.32-11.32l-16 16A8 8 0 0 0 192 72Zm5.66 114.34a8 8 0 0 0-11.32 11.32l16 16a8 8 0 0 0 11.32-11.32ZM48 128a8 8 0 0 0-8-8H16a8 8 0 0 0 0 16h24a8 8 0 0 0 8-8Zm80 80a8 8 0 0 0-8 8v24a8 8 0 0 0 16 0v-24a8 8 0 0 0-8-8Zm112-88h-24a8 8 0 0 0 0 16h24a8 8 0 0 0 0-16Z"/></g></svg>
-                                  <span class="font-medium text-sm">Before Open</span>
-                                {/if}
-                              </span>
-                            </div>
-                          </div>
-                          <div class="border-1 border-b border-slate-800 w-full mt-5 mb-5" />
-
-                          <div class="flex flex-row items-center">
-                            <div class="flex flex-col ml-3 w-40">
-                              <span class="font-medium text-slate-300">Market Cap</span>
-                              <span class="text-white text-md">
-                                {item?.marketCap !== null ? abbreviateNumber(item?.marketCap,true) : '-'}
-                              </span>
-                            </div>
-
-                            <div class="flex flex-col justify-end items-end ml-auto">
-                              <span class="font-medium text-slate-300 text-end">Forecasted EPS</span>
-                              <span class="text-white text-md text-end">
-                                {item?.epsEstimated !== null ? item?.epsEstimated : '-'}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div class="border-1 border-b border-slate-800 w-full mt-5 mb-5" />
-
-                          <div class="flex flex-row items-center">
-                            <div class="flex flex-col ml-3 w-40">
-                              <span class="font-medium text-slate-300">Current Revenue</span>
-                              <span class="text-white text-md">
-                                {item?.revenue !== null ? abbreviateNumber(item?.revenue,true) : '-'}
-                              </span>
-                            </div>
-
-                            <div class="flex flex-col justify-end items-end ml-auto">
-                              <span class="font-medium text-slate-300 text-end">Forecasted Revenue</span>
-                              <span class="text-white text-md text-end">
-                                {item?.revenueEstimated !== null ? '$' + abbreviateNumber(item?.revenueEstimated) : '-'}
-                              </span>
-                            </div>
-                          </div>
-
-
-                      </div>
-                    {/each}
-
-                    <ScrollToTop />
-
-                  </div>
                 
 
                 {:else}

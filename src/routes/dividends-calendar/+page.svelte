@@ -328,7 +328,7 @@ $: {
                   {#each weekday as day,index}
                   
                   <div class="w-full {index === selectedWeekday ? '' : 'hidden sm:block'}">
-                          <label on:click={() => toggleDate(index)} class="w-11/12 m-auto sm:w-full cursor-pointer h-16 {index === selectedWeekday ? 'bg-purple-600 bg-opacity-[0.6] sm:bg-[#A24D51] sm:gradient-effect' : ''} flex rounded-lg sm:rounded-none bg-[#3C40F0] border border-blue-600 mb-3">
+                          <label on:click={() => toggleDate(index)} class="w-11/12 m-auto sm:w-full cursor-pointer h-16 {index === selectedWeekday ? 'bg-purple-600 sm:bg-[#A24D51] sm:gradient-effect' : ''} flex rounded-lg sm:rounded-none bg-[#3C40F0] border border-blue-600 mb-3">
                             <div class=" flex flex-row justify-center items-center w-full">
                               <label on:click={() => clickWeekday('previous', index) } class="sm:hidden ml-auto">
                                 <svg class="w-8 h-8 inline-block rotate-180 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"/></svg>
@@ -353,16 +353,17 @@ $: {
               {#each weekday as day,index}
                 {#if index === selectedWeekday}
                   {#if day?.length !== 0}
-                    <table class="hidden sm:inline-table table table-sm table-compact rounded-none sm:rounded-md w-full border-[#09090B] m-auto mt-4 ">
+                  <div class="w-full overflow-x-scroll no-scrollbar">  
+                    <table class="table table-sm table-compact rounded-none sm:rounded-md w-full border-[#09090B] m-auto mt-4 ">
                         <thead>
-                          <tr>
-                            <th class="text-white font-medium text-sm">Symbol</th>
-                            <th class="text-white font-medium text-sm">Company Name</th>
-                            <th class="text-white font-medium hidden sm:table-cell text-sm">Market Cap</th>
-                            <th class="text-white font-medium hidden sm:table-cell text-sm">Revenue</th>
-                            <th class="text-white font-medium hidden sm:table-cell text-sm">Ex. Dividend Date</th>
-                            <th class="text-white font-medium text-sm">Cash Amount</th>
-                            <th class="text-white font-medium text-sm text-end">Payment Date</th>
+                          <tr class="whitespace-nowrap">
+                            <th class="text-white font-semibold text-sm">Symbol</th>
+                            <th class="text-white font-semibold text-sm">Company Name</th>
+                            <th class="text-white font-semibold text-sm">Market Cap</th>
+                            <th class="text-white font-semibold text-sm">Revenue</th>
+                            <th class="text-white font-semibold text-sm">Ex. Dividend Date</th>
+                            <th class="text-white font-semibold text-sm">Cash Amount</th>
+                            <th class="text-white font-semibold text-sm text-end">Payment Date</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -370,107 +371,40 @@ $: {
                           <!-- row -->
                           <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] cursor-pointer">
                             
-                            <td class="text-blue-400 border-b-[#09090B]">
+                            <td class="text-blue-400 border-b-[#09090B] text-sm sm:text-[1rem]">
                               {item?.symbol}
                             </td>
 
-                            <td class="text-white border-b-[#09090B]">
+                            <td class="text-white border-b-[#09090B] whitespace-nowrap text-sm sm:text-[1rem]">
                               {item?.name.length > 20 ? item?.name.slice(0,20) + "..." : item?.name}
                             </td>
   
         
-                              <td class="text-white hidden sm:table-cell border-b-[#09090B]">
+                              <td class="text-white border-b-[#09090B] text-sm sm:text-[1rem]">
                                 {item?.marketCap !== null ? abbreviateNumber(item?.marketCap,true) : '-'}
                               </td>
 
-                              <td class="text-white hidden sm:table-cell border-b-[#09090B]">
+                              <td class="text-white border-b-[#09090B] text-sm sm:text-[1rem]">
                                 {item?.revenue !== null ? abbreviateNumber(item?.revenue,true) : '-'}
                               </td>
               
-                              <td class="text-center text-white hidden sm:table-cell border-b-[#09090B]">
+                              <td class="text-center text-white border-b-[#09090B] whitespace-nowrap text-sm sm:text-[1rem]">
                                 {item?.date !== null ? new Date(item?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' }) : '-'}
                               </td>
 
-                              <td class="text-white border-b-[#09090B] text-center">
-                                <span class="text-sm">
+                              <td class="text-white border-b-[#09090B] text-center text-sm sm:text-[1rem]">
                                   {item?.adjDividend !== null ? '$'+item?.adjDividend?.toFixed(2) : 'n/a'}
-                                  </span>
-                                </td>
+                              </td>
               
-                              <td class="text-white text-sm text-end mr-1 border-b-[#09090B]">
+                              <td class="text-white text-end border-b-[#09090B] text-sm sm:text-[1rem]">
                                 {item?.paymentDate !== null ? new Date(item?.paymentDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' }) : '-'}
                               </td>
                             </tr>
                           {/each}
                         </tbody>
-                      </table>
+                    </table>
+                  </div>
 
-                      <div class="relative p-2 sm:hidden pt-5">
-                      {#each day as item}
-                        <div class="bg-[#09090B] rounded-lg border border-slate-800 shadow-lg h-auto pb-3 pl-2 pr-2 pt-4 mb-7">
-                            <div class="flex flex-row items-center">
-                              <!--
-                              <div class="rounded-full w-10 h-10 relative bg-[#101112] flex items-center justify-center">
-                                <img style="clip-path: circle(50%);" class="w-6 h-6" src={`https://financialmodelingprep.com/image-stock/${item?.symbol}.png`} loading="lazy"/>
-                              </div>
-                            -->
-                              <label on:click={() => goto("/stocks/"+item?.symbol)} class="cursor-pointer flex flex-col ml-3 w-40">
-                                <span class="text-blue-400">{item?.symbol}</span>
-                                <span class="text-slate-300 text-sm">{item?.name}</span>
-                              </label>
-
-                              <div class="flex flex-col justify-end items-end ml-auto">
-                                <span class="font-medium text-slate-300 text-ends">Payment Date</span>
-                                <span class="text-white text-opacity-[0.8] text-md text-end">
-                                  {item?.paymentDate !== null ? new Date(item?.paymentDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' }) : '-'}
-                                </span>
-                              </div>
-                            </div>
-                            <div class="border-1 border-b border-slate-800 w-full mt-5 mb-5" />
-
-                            <div class="flex flex-row items-center">
-                              <div class="flex flex-col ml-3 w-40">
-                                <span class="font-medium text-slate-300">Market Cap</span>
-                                <span class="text-slate-300 text-md">
-                                  {item?.marketCap !== null ? abbreviateNumber(item?.marketCap,true) : '-'}
-                                </span>
-                              </div>
-
-                              <div class="flex flex-col justify-end items-end ml-auto">
-                                <span class="font-medium text-slate-300 text-ends">Ex. Dividend Date</span>
-                                <span class="text-white text-opacity-[0.8] text-md text-end">
-                                  {item?.date !== null ? new Date(item?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' }) : '-'}
-                                </span>
-                              </div>
-                            </div>
-
-                            <div class="border-1 border-b border-slate-800 w-full mt-5 mb-5" />
-
-
-                            <div class="flex flex-row items-center">
-                              <div class="flex flex-col ml-3 w-40">
-                                <span class="font-medium text-slate-300">Revenue</span>
-                                <span class="text-slate-300 text-md">
-                                  {item?.revenue !== null ? abbreviateNumber(item?.revenue,true) : '-'}
-                                </span>
-                              </div>
-
-                              <div class="flex flex-col justify-end items-end ml-auto">
-                                <span class="font-medium text-slate-300 text-ends">Cash Amount</span>
-                                <span class="text-white text-md text-end">
-                                  {item?.adjDividend !== null ? item?.adjDividend?.toLocaleString(undefined, { style: 'currency', currency: 'USD', }) : 'n/a'}
-                                </span>
-                              </div>
-                            </div>
-
-
-                        </div>
-                      {/each}
-
-                      <ScrollToTop />
-
-                    </div>
-                  
   
                       {:else}
                       <h2 class=" mt-20 justify-center items-center text-3xl font-bold text-slate-700 mb-5 m-auto">

@@ -188,7 +188,7 @@
                     {#each (filterList?.length === 0 ? weekday : weekdayFiltered) as day,index}
                     
                     <div class="w-full {index === selectedWeekday ? '' : 'hidden sm:block'}">
-                            <label on:click={() => toggleDate(index)} class="w-11/12 m-auto sm:w-full cursor-pointer h-16 {index === selectedWeekday ? 'bg-purple-600 bg-opacity-[0.6] sm:bg-[#A24D51] sm:gradient-effect' : ''} rounded-lg sm:rounded-none flex bg-[#3C40F0] border border-blue-600 mb-3">
+                            <label on:click={() => toggleDate(index)} class="w-11/12 m-auto sm:w-full cursor-pointer h-16 {index === selectedWeekday ? 'bg-purple-600 sm:bg-[#A24D51] sm:gradient-effect' : ''} rounded-lg sm:rounded-none flex bg-[#3C40F0] border border-blue-600 mb-3">
                               <div class=" flex flex-row justify-center items-center w-full">
                                 <label on:click={() => clickWeekday('previous', index) } class="sm:hidden ml-auto">
                                   <svg class="w-8 h-8 inline-block rotate-180 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"/></svg>
@@ -275,9 +275,9 @@
                   {#if index === selectedWeekday}
                     {#if day?.length !== 0}
                     <div class="w-full overflow-x-scroll no-scrollbar">  
-                      <table class="hidden sm:inline-table table-sm table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 ">
+                      <table class="table-sm table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 ">
                           <thead>
-                            <tr>
+                            <tr class="whitespace-nowrap">
                               <th class="text-start text-white font-semibold text-sm"></th>
 
                               <th class="text-start text-white font-semibold text-sm"></th>
@@ -293,13 +293,13 @@
                             <!-- row -->
                             <tr class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A]">
                               
-                            <td class="text-white text-sm border-b-[#09090B]">
+                            <td class="text-white text-sm sm:text-[1rem] border-b-[#09090B] ">
                                 <label class="p-1.5 rounded-lg">
                                   {item?.time}
                                 </label>
                             </td>
         
-                            <td class="flex flex-row items-center">
+                            <td class="flex flex-row items-center text-sm sm:text-[1rem] whitespace-nowrap">
                               {#if item?.country === 'EU'}
                               <svg style="clip-path: circle(50%);" class="w-4 h-4 sm:w-6 sm:h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><mask id="circleFlagsEu0"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#circleFlagsEu0)"><path fill="#0052b4" d="M0 0h512v512H0z"/><path fill="#ffda44" d="m256 100.2l8.3 25.5H291l-21.7 15.7l8.3 25.6l-21.7-15.8l-21.7 15.8l8.3-25.6l-21.7-15.7h26.8zm-110.2 45.6l24 12.2l18.9-19l-4.2 26.5l23.9 12.2l-26.5 4.2l-4.2 26.5l-12.2-24l-26.5 4.3l19-19zM100.2 256l25.5-8.3V221l15.7 21.7l25.6-8.3l-15.8 21.7l15.8 21.7l-25.6-8.3l-15.7 21.7v-26.8zm45.6 110.2l12.2-24l-19-18.9l26.5 4.2l12.2-23.9l4.2 26.5l26.5 4.2l-24 12.2l4.3 26.5l-19-19zM256 411.8l-8.3-25.5H221l21.7-15.7l-8.3-25.6l21.7 15.8l21.7-15.8l-8.3 25.6l21.7 15.7h-26.8zm110.2-45.6l-24-12.2l-18.9 19l4.2-26.5l-23.9-12.2l26.5-4.2l4.2-26.5l12.2 24l26.5-4.3l-19 19zM411.8 256l-25.5 8.3V291l-15.7-21.7l-25.6 8.3l15.8-21.7l-15.8-21.7l25.6 8.3l15.7-21.7v26.8zm-45.6-110.2l-12.2 24l19 18.9l-26.5-4.2l-12.2 23.9l-4.2-26.5l-26.5-4.2l24-12.2l-4.3-26.5l19 19z"/></g></svg>
                               {:else if item?.country === 'UK'}
@@ -307,28 +307,28 @@
                               {:else}
                                 <img style="clip-path: circle(50%);" class="w-4 h-4 sm:w-6 sm:h-6" src={`https://hatscripts.github.io/circle-flags/flags/${item?.countryCode}.svg`} />
                               {/if}
-                              <span class="text-white ml-2 text-sm">
+                              <span class="text-white ml-2">
                                 {item?.country}
                               </span>
                             </td>
 
-                            <td class="text-start text-white border-b-[#09090B]">
-                              <span class="text-white font-medium ">{item?.event?.length > 15 ? item?.event?.slice(0,15) + '...' : item?.event}</span>
+                            <td class="text-start text-white border-b-[#09090B] text-sm sm:text-[1rem] whitespace-nowrap">
+                              {item?.event?.length > 15 ? item?.event?.slice(0,15) + '...' : item?.event}
                             </td>
     
-                          <td class="text-white font-medium border-b-[#09090B] text-end">
+                          <td class="text-white border-b-[#09090B] text-end text-sm sm:text-[1rem] whitespace-nowrap">
                             {item?.previous !== null ? item?.previous : '-'}
                           </td>
           
-                          <td class="text-white font-medium border-b-[#09090B] text-end">
+                          <td class="text-white border-b-[#09090B] text-end text-sm sm:text-[1rem] whitespace-nowrap">
                             {item?.estimate !== null ? item?.estimate : '-'}
                           </td>
 
-                          <td class="text-end text-white font-medium text-center border-b-[#09090B] text-end">
+                          <td class="text-white border-b-[#09090B] text-end text-sm sm:text-[1rem] whitespace-nowrap">
                             {item?.actual !== null ? item?.actual : '-'}
                           </td>
           
-                          <td class="{item?.impact === 'Low' ? 'text-[#00FC50]' : item?.impact === 'Medium' ? 'text-[#3DDBFE]' : item?.impact === 'High' ? 'text-[#FC2120]' : 'text-white'} text-sm text-end mr-1 border-b-[#09090B]">
+                          <td class="{item?.impact === 'Low' ? 'text-[#00FC50]' : item?.impact === 'Medium' ? 'text-[#3DDBFE]' : item?.impact === 'High' ? 'text-[#FC2120]' : 'text-white'} text-end text-sm sm:text-[1rem] whitespace-nowrap  border-b-[#09090B]">
                             {item?.impact}
                           </td>
   
@@ -342,75 +342,7 @@
                     </div>
 
 
-                        <div class="relative p-2 sm:hidden pt-5 ">
-                          {#each day as item}
-                            <div class="bg-[#09090B] rounded-lg border border-slate-800 h-auto pl-2 pr-2 pt-4 pb-3 mb-7">
-                                <div class="flex flex-row items-center">
-                                  <div class="hidden rounded-full w-10 h-10 relative bg-[#101112] flex items-center justify-center">
-                                    {#if item?.country === 'EU'}
-                                    <svg style="clip-path: circle(50%);" class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><mask id="circleFlagsEu0"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#circleFlagsEu0)"><path fill="#0052b4" d="M0 0h512v512H0z"/><path fill="#ffda44" d="m256 100.2l8.3 25.5H291l-21.7 15.7l8.3 25.6l-21.7-15.8l-21.7 15.8l8.3-25.6l-21.7-15.7h26.8zm-110.2 45.6l24 12.2l18.9-19l-4.2 26.5l23.9 12.2l-26.5 4.2l-4.2 26.5l-12.2-24l-26.5 4.3l19-19zM100.2 256l25.5-8.3V221l15.7 21.7l25.6-8.3l-15.8 21.7l15.8 21.7l-25.6-8.3l-15.7 21.7v-26.8zm45.6 110.2l12.2-24l-19-18.9l26.5 4.2l12.2-23.9l4.2 26.5l26.5 4.2l-24 12.2l4.3 26.5l-19-19zM256 411.8l-8.3-25.5H221l21.7-15.7l-8.3-25.6l21.7 15.8l21.7-15.8l-8.3 25.6l21.7 15.7h-26.8zm110.2-45.6l-24-12.2l-18.9 19l4.2-26.5l-23.9-12.2l26.5-4.2l4.2-26.5l12.2 24l26.5-4.3l-19 19zM411.8 256l-25.5 8.3V291l-15.7-21.7l-25.6 8.3l15.8-21.7l-15.8-21.7l25.6 8.3l15.7-21.7v26.8zm-45.6-110.2l-12.2 24l19 18.9l-26.5-4.2l-12.2 23.9l-4.2-26.5l-26.5-4.2l24-12.2l-4.3-26.5l19 19z"/></g></svg>
-                                    {:else if item?.country === 'UK'}
-                                    <svg style="clip-path: circle(50%);" class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><mask id="circleFlagsUk0"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#circleFlagsUk0)"><path fill="#eee" d="m0 0l8 22l-8 23v23l32 54l-32 54v32l32 48l-32 48v32l32 54l-32 54v68l22-8l23 8h23l54-32l54 32h32l48-32l48 32h32l54-32l54 32h68l-8-22l8-23v-23l-32-54l32-54v-32l-32-48l32-48v-32l-32-54l32-54V0l-22 8l-23-8h-23l-54 32l-54-32h-32l-48 32l-48-32h-32l-54 32L68 0z"/><path fill="#0052b4" d="M336 0v108L444 0Zm176 68L404 176h108zM0 176h108L0 68ZM68 0l108 108V0Zm108 512V404L68 512ZM0 444l108-108H0Zm512-108H404l108 108Zm-68 176L336 404v108z"/><path fill="#d80027" d="M0 0v45l131 131h45zm208 0v208H0v96h208v208h96V304h208v-96H304V0zm259 0L336 131v45L512 0zM176 336L0 512h45l131-131zm160 0l176 176v-45L381 336z"/></g></svg>
-                                    {:else}
-                                      <img style="clip-path: circle(50%);" class="w-7 h-7" src={`https://hatscripts.github.io/circle-flags/flags/${item?.countryCode}.svg`} />
-                                    {/if}
-                                  </div>
-                                  <label class="cursor-pointer flex flex-col ml-3 w-40">
-                                    <span class="text-white rounded-lg w-fit text-sm">
-                                      {item?.time}
-                                    </span>
-                                    <span class="text-slate-300 text-sm">{item?.country}</span>
-                                  </label>
-    
-                                  <div class="flex flex-col justify-end items-end ml-auto">
-                                    <span class="font-medium text-slate-300 text-end">Event</span>
-                                    <span class="text-white text-sm text-end">
-                                      {item?.event}
-                                    </span>
-                                  </div>
-                                </div>
-                                <div class="border-1 border-b border-slate-800 w-full mt-5 mb-5" />
-    
-                                <div class="flex flex-row items-center">
-                                  <div class="flex flex-col ml-3 w-40">
-                                    <span class="font-medium text-slate-300">Previous</span>
-                                    <span class="text-slate-300 text-sm">
-                                      {item?.previous !== null ? item?.previous : '-'}
-                                    </span>
-                                  </div>
-    
-                                  <div class="flex flex-col justify-end items-end ml-auto">
-                                    <span class="font-medium text-slate-300 text-ends">Impact</span>
-                                    <span class="{item?.impact === 'Low' ? 'text-[#00FC50]' : item?.impact === 'Medium' ? 'text-[#3DDBFE]' : item?.impact === 'High' ? 'text-[#FC2120]' : 'text-white'} text-end">
-                                      {item?.impact !== null ? item?.impact : '-'}
-                                    </span>
-                                  </div>
-                                </div>
-    
-                                <div class="border-1 border-b border-slate-800 w-full mt-5 mb-5" />
-    
-  
-                                <div class="flex flex-row items-center">
-                                  <div class="flex flex-col ml-3 w-40">
-                                    <span class="font-medium text-slate-300">Estimated</span>
-                                    <span class="text-slate-300 text-sm">
-                                      {item?.estimate !== null ? item?.estimate : '-'}
-                                    </span>
-                                  </div>
-    
-                                  <div class="flex flex-col justify-end items-end ml-auto">
-                                    <span class="font-medium text-slate-300 text-ends">Actual</span>
-                                    <span class="text-white text-sm text-end">
-                                      {item?.actual !== null ? item?.actual : '-'}
-                                    </span>
-                                  </div>
-                                </div>    
-                              </div>
-                            {/each}
-
-                            <ScrollToTop />
-                          </div>
-                    
+   
     
                         {:else}
                         <h2 class="m-auto mt-20 flex justify-center items-center text-3xl font-bold text-slate-700 mb-5 m-auto">
