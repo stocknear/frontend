@@ -167,7 +167,7 @@
                                       </div>
                                       <div class="flex flex-col w-full leading-1.5 p-4 bg-[#27272A] rounded-l-xl rounded-tr-xl">
                                          <p class="text-sm font-normal py-2.5 text-gray-200">
-                                          {item?.description}
+                                          {@html item?.description}
                                          </p>
                                       </div>
                                    </div>
@@ -190,7 +190,7 @@
                                   </div>
                                   <div class="flex flex-col w-full leading-1.5 p-4 bg-[#27272A] rounded-r-xl rounded-tl-xl">
                                      <p class="text-sm font-normal py-2.5 text-gray-200">
-                                      {item?.description}
+                                      {@html item?.description}
                                      </p>
                                   </div>
                                </div>
