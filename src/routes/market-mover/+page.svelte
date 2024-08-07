@@ -110,7 +110,7 @@ const sortByHighestChange = (tickerList) => {
        
       });
   }
-
+/*
 const sortByLowestChange = (tickerList) => {
     return tickerList?.sort(function(a, b) {
       if(order === 'highToLow')
@@ -136,6 +136,18 @@ const sortByVolume = (tickerList) => {
        
       });
   }
+*/
+const sortByMarketCap = (tickerList) => {
+  return tickerList?.sort(function(a, b) {
+    if(order === 'highToLow')
+    {
+      return b?.marketCap - a?.marketCap;
+    }
+    else {
+      return a?.marketCap - b?.marketCap;
+    }
+  });
+}
 
   
 function changeSection(state) {
@@ -183,25 +195,29 @@ function selectTimeInterval(interval) {
 
 
   $: {
-    if(order)
+  if(order)
+  {
+    if(displaySection === 'gainer')
     {
-      if(displaySection === 'gainer')
-      {
-        gainerLoserActive = sortByHighestChange(outputList?.gainers[timePeriod]);
-      }
-
-      else if(displaySection === 'loser')
-      {
-        gainerLoserActive = sortByHighestChange(outputList?.losers[timePeriod]); //sortByLowestChange(outputList?.losers[timePeriod]);
-      }
-  
-      else if(displaySection === 'active')
-      {
-        gainerLoserActive = sortByHighestChange(outputList?.active[timePeriod]); //sortByVolume(outputList?.active[timePeriod]);
-      }
+      gainerLoserActive = sortByHighestChange(outputList?.gainers[timePeriod]);
+    }
+    else if(displaySection === 'loser')
+    {
+      gainerLoserActive = sortByHighestChange(outputList?.losers[timePeriod]);
+    }
+    else if(displaySection === 'active')
+    {
+      gainerLoserActive = sortByHighestChange(outputList?.active[timePeriod]);
+    }
+    
+    // Add this condition for market cap sorting
+    if (sortBy === 'marketCap') {
+      gainerLoserActive = sortByMarketCap(gainerLoserActive);
     }
   }
+}
 
+let sortBy = 'change'; // Default sorting by change percentage
 let charNumber = 30;
 
 $: {
@@ -368,12 +384,15 @@ $: {
         <thead>
           <tr>
             <th class="text-white font-semibold text-sm whitespace-nowrap">Company</th>
-            <th on:click={() => changeOrder(order)} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm text-end">
+            <th on:click={() => { sortBy = 'change'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm text-end">
               % Change
-              <svg class="w-5 h-5 inline-block {order === 'highToLow' ? '' : 'rotate-180'}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+              <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'change' ? '' : 'rotate-180'}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
             </th>
             <th class="text-white font-semibold text-end text-sm">Price</th>
-            <th class="text-white font-semibold text-sm text-end">Market Cap</th>
+            <th on:click={() => { sortBy = 'marketCap'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm text-end">
+              Market Cap
+              <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'marketCap' ? 'rotate-180' : ''}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </th>
             <th class="text-white font-semibold text-sm text-end ">Volume</th>
           </tr>
         </thead>
