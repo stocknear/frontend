@@ -817,7 +817,58 @@ function filterStockScreenerData() {
   });
 }
 
+let order = 'highToLow';
+let sortBy = 'change'; // Default sorting by change percentage
 
+function changeOrder(state:string) {
+    if (state === 'highToLow')
+    {
+      order = 'lowToHigh';
+    }
+    else {
+      order = 'highToLow';
+    }
+  }
+
+const sortByHighestChange = (tickerList) => {
+  return tickerList?.sort(function(a, b) {
+    if(order === 'highToLow')
+    {
+      return b?.changesPercentage - a?.changesPercentage;
+    }
+    else {
+      return a?.changesPercentage - b?.changesPercentage;
+    }
+      
+    });
+}
+
+const sortByMarketCap = (tickerList) => {
+  return tickerList?.sort(function(a, b) {
+    if(order === 'highToLow')
+    {
+      return b?.marketCap - a?.marketCap;
+    }
+    else {
+      return a?.marketCap - b?.marketCap;
+    }
+  });
+}
+
+$: {
+  if(order)
+  {
+    if(sortBy === 'change')
+    {
+      displayResults = sortByHighestChange(filteredData)?.slice(0,50);
+    }
+    else if(sortBy === 'marketCap')
+    {
+      displayResults = sortByMarketCap(filteredData)?.slice(0,50);
+    }
+    
+  }
+}
 
 
 
@@ -2189,21 +2240,27 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               
                 {#if displayResults?.length !== 0 && ruleOfList?.length !== 0}
                 
-                  <div class="w-full rounded-lg overflow-x-auto p-0 sm:p-3">
+                  <div class="w-full rounded-lg overflow-x-scroll p-0 sm:p-3">
                     <table class="table table-sm table-compact w-full bg-[#09090B] border-bg-[#09090B]">
                       <thead>
                         <tr class="border-b-[#1A1A27]">
                           <th class="text-white bg-[#09090B] text-sm border-b-[#09090B]">Symbol</th>
                           <th class="text-white hidden sm:table-cell bg-[#09090B] text-sm border-b-[#09090B]">Company Name</th>
-                          <th class="text-white bg-[#09090B] text-sm text-center border-b-[#09090B]">Market Cap</th>
-                          <th class="text-white bg-[#09090B] text-sm text-end border-b-[#09090B]">Change</th>
+                          <th on:click={() => { sortBy = 'marketCap'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm text-center">
+                            Market Cap
+                            <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'marketCap' ? 'rotate-180' : ''}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                          </th>
+                          <th on:click={() => { sortBy = 'change'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm text-center">
+                            % Change
+                            <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'change' ? '' : 'rotate-180'}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                          </th>
                           <th class="text-white bg-[#09090B] text-end text-sm border-b-[#09090B]">Price</th>
                         </tr>
                       </thead>
                       <tbody>
                         {#each displayResults as item}
                         <tr on:click={() => {handleSave(false); goto("/stocks/"+item?.symbol)}} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#09090B] border-b-[#09090B] odd:bg-[#27272A] cursor-pointer">
-                          <td class="border-b-[#09090B]">
+                          <td class="border-b-[#09090B] whitespace-nowrap">
                             <div class="flex flex-col items-start">
                               <span class="text-blue-400">{item?.symbol}</span>
                               <span class="text-white text-xs sm:hidden">{item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}</span>
@@ -2223,7 +2280,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                               {/if}
                           </td>
 
-                          <td class="text-white text-end text-sm sm:text-[1rem] font-medium border-b-[#09090B]">
+                          <td class="text-white text-center text-sm sm:text-[1rem] font-medium border-b-[#09090B]">
                             {#if item?.changesPercentage >=0}
                               <span class="text-[#10DB06]">+{item?.changesPercentage >= 1000 ? abbreviateNumber(item?.changesPercentage) : item?.changesPercentage?.toFixed(2)}%</span>
                             {:else}
