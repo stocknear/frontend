@@ -7,7 +7,7 @@
   
     const { data, xGet, yGet, xScale, yScale } = getContext('LayerCake');
   
-    /** @type {String} [fill='#00bbff'] - The shape's fill color. This is technically optional because it comes with a default value but you'll likely want to replace it with your own color. */
+    /** @type {String} [fill='#3B82F6'] - The shape's fill color. This is technically optional because it comes with a default value but you'll likely want to replace it with your own color. */
     export let fill = '#fff';
   </script>
   

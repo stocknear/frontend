@@ -240,8 +240,8 @@ $: {
                                             >
                                             <Svg>
                                                 <Sankey
-                                                colorNodes={d => '#00bbff'}
-                                                colorLinks={d => '#00bbff35'}
+                                                colorNodes={d => '#3B82F6'}
+                                                colorLinks={d => '#3B82F635'}
                                                 />
                                             </Svg>
                                             </LayerCake>

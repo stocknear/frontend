@@ -3,7 +3,6 @@
   import InfoModal from '$lib/components/InfoModal.svelte';
   import { Chart } from 'svelte-echarts'
   import { abbreviateNumber, formatDateRange } from "$lib/utils";
-  import Lazy from 'svelte-lazy';
   import { init, use } from 'echarts/core'
   import { LineChart } from 'echarts/charts'
   import { GridComponent } from 'echarts/components'
@@ -248,11 +247,9 @@ $: {
         <div class="pb-2 rounded-lg bg-[#09090B]">
                 
           
-            <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
-                <div class="app w-full h-[300px] mt-5">
-                    <Chart {init} options={optionsData} class="chart" />
-                </div>
-            </Lazy>
+          <div class="app w-full h-[300px] mt-5">
+              <Chart {init} options={optionsData} class="chart" />
+          </div>
         
         </div>
 
@@ -288,7 +285,7 @@ $: {
                       <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                           <span>Date</span>
                       </td>
-                      <td class="px-[5px] py-1.5 text-sm sm:text[1rem] text-right font-medium xs:px-2.5 xs:py-2">
+                      <td class="px-[5px] py-1.5 text-sm sm:text-[1rem] text-right font-medium xs:px-2.5 xs:py-2">
                         { formatDateRange(rawData?.slice(-1)?.at(0)?.date)}
                       </td>
                   </tr>

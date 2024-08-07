@@ -8,7 +8,6 @@
   import { LineChart } from 'echarts/charts'
   import { GridComponent } from 'echarts/components'
   import { CanvasRenderer } from 'echarts/renderers'
-  import Lazy from 'svelte-lazy';
   
   export let data;
   
@@ -160,10 +159,10 @@ function findLowestAndHighestFee(data, lastDateStr) {
         {
             data: feeList,
             type: 'line',
-            areaStyle: {opacity: 0.3},
+            areaStyle: {opacity: 1},
             yAxisIndex: 1,
             itemStyle: {
-                color: '#FF9E21' // Change bar color to white
+                color: '#22C55E' // Change bar color to white
             },
             showSymbol: false
         },
@@ -259,11 +258,9 @@ function findLowestAndHighestFee(data, lastDateStr) {
         <div class="pb-2 rounded-lg bg-[#09090B]">
                 
           
-            <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
-                <div class="app w-full h-[300px] mt-5">
-                    <Chart {init} options={optionsData} class="chart" />
-                </div>
-            </Lazy>
+          <div class="app w-full h-[300px] mt-5">
+              <Chart {init} options={optionsData} class="chart" />
+          </div>
         
         </div>
   

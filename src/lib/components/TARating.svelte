@@ -2,7 +2,6 @@
   import { taRatingComponent, stockTicker, etfTicker, cryptoTicker, assetType, getCache, setCache} from '$lib/store';
   import SignalBar from '$lib/components/SignalBar.svelte'
   import InfoModal from '$lib/components/InfoModal.svelte';
-  import Lazy from 'svelte-lazy';
 
   export let data;
 
@@ -151,7 +150,6 @@ $: if ($assetType || $stockTicker || $etfTicker || $cryptoTicker) {
 
             <!--Start Momentum Indicators-->
             <div class="w-full overflow-hidden">
-              <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
                 <table class="table table-sm table-compact w-full mb-5 mt-5">
                   <!-- head -->
                   <thead>
@@ -188,7 +186,6 @@ $: if ($assetType || $stockTicker || $etfTicker || $cryptoTicker) {
                   <svg class="w-10 h-10 transform {showFullStats ? 'rotate-180' : ''} " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#2A323C" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm0 13.5L7.5 11l1.42-1.41L12 12.67l3.08-3.08L16.5 11L12 15.5z"/></svg>
                 </label>
 
-              </Lazy>
             </div>
           <!--End Momentum Indicators-->
 

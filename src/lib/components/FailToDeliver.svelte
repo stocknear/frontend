@@ -4,8 +4,6 @@
   import { Chart } from 'svelte-echarts'
   import { abbreviateNumber, formatDateRange } from "$lib/utils";
 
-  import Lazy from 'svelte-lazy';
-
   import { init, use } from 'echarts/core'
   import { LineChart } from 'echarts/charts'
   import { GridComponent } from 'echarts/components'
@@ -156,10 +154,10 @@ function findLowestAndHighestPrice(data, lastDateStr) {
         {
             data: failToDeliverList,
             type: 'line',
-            areaStyle: {opacity: 0.3},
+            areaStyle: {opacity: 1},
             yAxisIndex: 1,
             itemStyle: {
-                color: '#FF9E21' // Change bar color to white
+                color: '#E11D48' // Change bar color to white
             },
             showSymbol: false
         },
@@ -267,11 +265,9 @@ function findLowestAndHighestPrice(data, lastDateStr) {
         <div class="pb-2 rounded-lg bg-[#09090B]">
                 
           
-            <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
-                <div class="app w-full h-[300px] mt-5">
-                    <Chart {init} options={optionsData} class="chart" />
-                </div>
-            </Lazy>
+          <div class="app w-full h-[300px] mt-5">
+              <Chart {init} options={optionsData} class="chart" />
+          </div>
         
         </div>
   

@@ -2,7 +2,6 @@
     import { optionsNetFlowComponent, stockTicker, assetType, etfTicker, getCache, setCache} from '$lib/store';
     import InfoModal from '$lib/components/InfoModal.svelte';
     import { Chart } from 'svelte-echarts'
-    import Lazy from 'svelte-lazy';
     import { init, use } from 'echarts/core'
     import { LineChart } from 'echarts/charts'
     import { GridComponent } from 'echarts/components'
@@ -241,11 +240,9 @@
         <div class="pb-2 rounded-lg bg-[#09090B]">
                 
           
-            <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
                 <div class="app w-full h-[300px] mt-5">
                     <Chart {init} options={optionsData} class="chart" />
                 </div>
-            </Lazy>
         
         </div>
   

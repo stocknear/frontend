@@ -5,7 +5,6 @@ import InfoModal from '$lib/components/InfoModal.svelte';
 import { Chart } from 'svelte-echarts'
 import { abbreviateNumber } from "$lib/utils";
 
-import Lazy from 'svelte-lazy';
 
 import { init, use } from 'echarts/core'
 
@@ -91,14 +90,14 @@ function getPlotOptions() {
             data: floatShares,
             type: 'bar',
             itemStyle: {
-                color: '#5470C6' // Change bar color to white
+                color: '#3B82F6' // Change bar color to white
             }
         },
         {
             data: outstandingShares,
             type: 'bar',
             itemStyle: {
-                color: '#C12F23' // Change bar color to white
+                color: '#E11D48'
             }
         },
     ]
@@ -188,11 +187,9 @@ $: {
                     </div>
                 
                     
-                    <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
-                        <div class="app w-full h-[300px] mt-6">
-                            <Chart {init} options={optionsData} class="chart" />
-                        </div>
-                    </Lazy>
+                    <div class="app w-full h-[300px] mt-6">
+                        <Chart {init} options={optionsData} class="chart" />
+                    </div>
                     
                     
                     <div class="flex flex-row items-center justify-between mx-auto mt-8 w-full sm:w-11/12">

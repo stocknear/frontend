@@ -6,7 +6,6 @@ import { formatString } from '$lib/utils';
 import { goto } from '$app/navigation';
 import { abbreviateNumber } from '$lib/utils';
 import InfoModal from '$lib/components/InfoModal.svelte';
-import Lazy from 'svelte-lazy';
 
 import { init, use } from 'echarts/core'
 import { PieChart } from 'echarts/charts'
@@ -187,11 +186,9 @@ let charNumber = 20;
               
 
                     <div class="flex flex-row items-center sm:-mt-5">
-                        <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
-                            <div class="app w-56">
-                                <Chart {init} options={optionsPieChart} class="chart w-full" />
-                            </div>
-                        </Lazy>
+                        <div class="app w-56">
+                            <Chart {init} options={optionsPieChart} class="chart w-full" />
+                        </div>
                         
                         <div class="flex flex-col items-center  sm:pt-0 m-auto">
 

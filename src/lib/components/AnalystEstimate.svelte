@@ -264,7 +264,7 @@ $: {
                 <div class="flex flex-row items-center justify-between m-auto mt-10">
                     <div class="flex flex-row items-center w-1/2 sm:w-full justify-center">
                         <div class="h-full bg-gray-800 transform -translate-x-1/2 " aria-hidden="true"></div>
-                        <div class="w-3 h-3 bg-[#00BBFF] border-4 box-content border-gray-900 rounded-full transform -translate-x-1/2" aria-hidden="true"></div>
+                        <div class="w-3 h-3 bg-[#3B82F6] border-4 box-content border-gray-900 rounded-full transform -translate-x-1/2" aria-hidden="true"></div>
                         <span class="text-white text-sm sm:text-md sm:font-medium inline-block">
                             Analyst Forecast
                         </span>

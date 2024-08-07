@@ -9,9 +9,7 @@
     import { init, use } from 'echarts/core'
     import { ScatterChart } from 'echarts/charts'
    import { GridComponent } from 'echarts/components'
-   import { CanvasRenderer } from 'echarts/renderers'
-
-    import Lazy from 'svelte-lazy';
+   import { CanvasRenderer } from 'echarts/renderers';
     export let data;
 
     use([ScatterChart, GridComponent, CanvasRenderer])
@@ -277,11 +275,9 @@
               </div>
 
           
-            <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
                 <div class="app w-full h-[300px] mt-5">
                     <Chart {init} options={optionsData} class="chart" />
                 </div>
-            </Lazy>
         
         </div>
   

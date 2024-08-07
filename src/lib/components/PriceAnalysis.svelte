@@ -3,7 +3,6 @@
   import { priceAnalysisComponent, displayCompanyName, stockTicker, etfTicker, cryptoTicker, assetType, screenWidth, getCache, setCache} from '$lib/store';
   import InfoModal from '$lib/components/InfoModal.svelte';
   import { Chart } from 'svelte-echarts'
-  import Lazy from 'svelte-lazy';
 
 
   import { init, use } from 'echarts/core'
@@ -294,11 +293,9 @@ $: {
 
             
 
-            <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
-                <div class="app w-full h-[300px] ">
-                    <Chart {init} options={optionsData} class="chart" />
-                </div>
-            </Lazy>
+              <div class="app w-full h-[300px]">
+                  <Chart {init} options={optionsData} class="chart" />
+              </div>
 
             <div class="text-white text-[1rem] mt-4 sm:mt-7 ml-1">
                 Over the next 12 months, the model predicts a
