@@ -203,7 +203,7 @@ onMount( async() => {
                       <ArrowUpRight class="hidden sm:inline-block h-4 w-4 shrink-0 -mt-1 ml-0.5" />
                     </a>
                   </div>
-                  <Card.Description class="mt-2">Recent hedge fund options with the highest premiums.</Card.Description>
+                  <Card.Description class="mt-2 text-sm sm:text-[1rem]">Recent hedge fund options with the highest premiums.</Card.Description>
                 </div>
               </Card.Header>
               <Card.Content>
@@ -222,22 +222,22 @@ onMount( async() => {
                     {#each data?.getDashboard?.optionsFlow as item}
                     <Table.Row>
                       <Table.Cell>
-                        <a href={item?.assetType === 'stock' ? `/stocks/${item?.ticker}` : `/etf/${item?.ticker}`} class="font-medium text-blue-400 sm:hover:text-white transition duration-100">{item?.ticker}</a>
+                        <a href={item?.assetType === 'stock' ? `/stocks/${item?.ticker}` : `/etf/${item?.ticker}`} class="text-sm sm:text-[1rem] font-medium text-blue-400 sm:hover:text-white transition duration-100">{item?.ticker}</a>
                       </Table.Cell>
-                      <Table.Cell class="xl:table.-column {item?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
+                      <Table.Cell class="xl:table.-column text-sm sm:text-[1rem] {item?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
                         {abbreviateNumber(item?.cost_basis,true)}
                       </Table.Cell>
-                      <Table.Cell class="xl:table.-column">
+                      <Table.Cell class="xl:table.-column text-sm sm:text-[1rem]">
                         ${item?.strike_price}
                       </Table.Cell>
-                      <Table.Cell class="md:table.-cell xl:table.-column {item?.sentiment === 'Bullish' ? 'text-[#00FC50]' : item?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'}">
+                      <Table.Cell class="md:table.-cell xl:table.-column text-sm sm:text-[1rem] {item?.sentiment === 'Bullish' ? 'text-[#00FC50]' : item?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'}">
                         {item?.sentiment}
                       </Table.Cell>
-                      <Table.Cell class="md:table.-cell xl:table.-column {item?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
+                      <Table.Cell class="md:table.-cell xl:table.-column text-sm sm:text-[1rem] {item?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
                         {item?.put_call}
                       </Table.Cell>
                       
-                      <Table.Cell class="text-right">{reformatDate(item?.date_expiration)}</Table.Cell>
+                      <Table.Cell class="text-right text-sm sm:text-[1rem]">{reformatDate(item?.date_expiration)}</Table.Cell>
                     </Table.Row>
                     {/each}
                   </Table.Body>
@@ -255,7 +255,7 @@ onMount( async() => {
                       <ArrowUpRight class="hidden sm:inline-block h-4 w-4 shrink-0 -mt-1 ml-0.5" />
                     </a>
                   </div>
-                  <Card.Description class="mt-2">Latest Retail Trader investing behavior to identify market trends.</Card.Description>
+                  <Card.Description class="mt-2 text-sm sm:text-[1rem]">Latest Retail Trader investing behavior to identify market trends.</Card.Description>
                 </div>
               </Card.Header>
               <Card.Content>                

@@ -99,18 +99,18 @@
 
 <style>
   .tick {
-    font-size: 11px;
+    font-size: 13px;
   }
 
   .tick line {
-    stroke: #aaa;
+    stroke: #fff;
   }
   .tick .gridline {
     stroke-dasharray: 2;
   }
 
   .tick text {
-    fill: #666;
+    fill: #fff;
   }
 
   .tick.tick-0 line {
