@@ -176,15 +176,15 @@ function selectTimeInterval(interval) {
     }
   }
 
-let charNumber = 50;
+let charNumber = 30;
 
 $: {
   if($screenWidth < 640)
   {
-    charNumber = 20;
+    charNumber = 15;
   }
   else {
-    charNumber =50;
+    charNumber =30;
   }
 }
 
@@ -311,8 +311,8 @@ $: {
       
 
         
-      <div class="flex justify-start items-center mb-10 w-full">
-        <label for="timePeriodModal" class="pl-3  cursor-pointer bg-[#09090B] flex flex-row items-center">
+      <div class="pl-2 sm:pl-0 flex justify-start items-center mb-10 w-full">
+        <label for="timePeriodModal" class="px-4 py-3 rounded-lg cursor-pointer bg-[#27272A] flex flex-row items-center">
           <span class="text-white text-sm sm:text-md mr-2">
             Time Period: 
           </span>
@@ -336,69 +336,71 @@ $: {
     
 
 
-     
-    <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B]">
-      <thead>
-        <tr>
-          <th class="text-white font-bold text-sm">Company</th>
-          <th class="text-white font-bold text-sm {$screenWidth < 640 && displaySection === 'active' ? 'hidden' : ''}">Market Cap</th>
-          <th class="text-white font-bold text-sm {$screenWidth < 640 && displaySection !== 'active' ? 'hidden' : ''}">Volume</th>
-          <th class="text-white font-bold text-end text-sm">Today</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#each gainerLoserActive as item, index}
-        <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] cursor-pointer">
+    <div class="w-full overflow-x-scroll no-scrollbar">
+      <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B]">
+        <thead>
+          <tr>
+            <th class="text-white font-bold text-sm">Company</th>
+            <th on:click={() => console.log('mkt')} class="text-white font-bold text-sm text-end">Market Cap</th>
+            <th class="text-white font-bold text-sm text-end ">Volume</th>
+            <th class="text-white font-bold text-end text-sm">Today</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each gainerLoserActive as item, index}
+          <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] cursor-pointer">
+    
+          <td class="border-b-[#09090B]">
+            <div class="flex flex-col">
+              <span class="text-blue-400 font-medium">
+                {item?.symbol}
+              </span>
+              <span class="hidden sm:block text-white text-opacity-[0.8] font-medium border-b-[#09090B]">
+                {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
+              </span>
+            </div>
+          </td>
+
   
-        <td class="border-b-[#09090B]">
-          <div class="flex flex-col">
-            <span class="text-blue-400 font-medium">
-              {item?.symbol}
-            </span>
-            <span class="text-white text-opacity-[0.8] font-medium border-b-[#09090B]">
-              {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
-            </span>
+
+          <td class="text-white font-medium border-b-[#09090B] text-end">
+            {item?.marketCap !== null ? abbreviateNumber(item?.marketCap, true) : '-'}
+          </td>
+
+          <td class="text-white font-medium border-b-[#09090B] text-end">
+            {item?.volume !== null ? abbreviateNumber(item?.volume) : '-'}
+          </td>
+
+
+
+          <td class="text-white font-medium border-b-[#09090B]">
+            <div class="flex flex-row justify-end items-center">
+
+              <div class="flex flex-col items-center">
+                <span class="text-white font-medium text-md ml-auto">${item.price?.toFixed(2)}</span>
+                <div class="flex flex-row mt-1">
+                  {#if item?.changesPercentage >=0}
+                    <svg class="w-5 h-5 -mr-0.5 -mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
+                    <span class="text-[#10DB06] text-xs font-medium">+{item?.changesPercentage >= 1000 ? abbreviateNumber(item?.changesPercentage) : item?.changesPercentage?.toFixed(2)}%</span>
+                  {:else}
+                    <svg class="w-5 h-5 -mr-0.5 -mt-0.5 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
+                    <span class="text-[#FF2F1F] text-xs font-medium">{item?.changesPercentage <= -1000 ? abbreviateNumber(item?.changesPercentage) : item?.changesPercentage?.toFixed(2)}% </span> 
+                  {/if}
+                </div>
+              </div>
+
+              
           </div>
         </td>
 
- 
-
-        <td class="text-white font-medium border-b-[#09090B] {$screenWidth < 640 && displaySection === 'active' ? 'hidden' : ''}">
-          {item?.marketCap !== null ? abbreviateNumber(item?.marketCap, true) : '-'}
-        </td>
-
-        <td class="text-white font-medium border-b-[#09090B] {$screenWidth < 640 && displaySection !== 'active' ? 'hidden' : ''}">
-          {item?.volume !== null ? abbreviateNumber(item?.volume) : '-'}
-        </td>
 
 
+          </tr>
+          {/each}
+        </tbody>
+      </table>
 
-        <td class="text-white font-medium border-b-[#09090B]">
-          <div class="flex flex-row justify-end items-center">
-
-            <div class="flex flex-col items-center">
-              <span class="text-white font-medium text-md ml-auto">${item.price?.toFixed(2)}</span>
-              <div class="flex flex-row mt-1">
-                {#if item?.changesPercentage >=0}
-                  <svg class="w-5 h-5 -mr-0.5 -mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
-                  <span class="text-[#10DB06] text-xs font-medium">+{item?.changesPercentage >= 1000 ? abbreviateNumber(item?.changesPercentage) : item?.changesPercentage?.toFixed(2)}%</span>
-                {:else}
-                  <svg class="w-5 h-5 -mr-0.5 -mt-0.5 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
-                  <span class="text-[#FF2F1F] text-xs font-medium">{item?.changesPercentage <= -1000 ? abbreviateNumber(item?.changesPercentage) : item?.changesPercentage?.toFixed(2)}% </span> 
-                {/if}
-              </div>
-            </div>
-
-            
-        </div>
-      </td>
-
-
-
-        </tr>
-        {/each}
-      </tbody>
-    </table>
+    </div>
 
 
 
