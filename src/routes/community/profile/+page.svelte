@@ -7,7 +7,7 @@
 
   import { onMount, onDestroy } from 'svelte';
   import {getImageURL, addDays } from '$lib/utils';
-  import {userRegion, setCache, getCache, newAvatar, numberOfUnreadNotification, postIdDeleted } from '$lib/store';
+  import {setCache, getCache, newAvatar, numberOfUnreadNotification, postIdDeleted } from '$lib/store';
 
   import toast from 'svelte-french-toast';
 	import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
@@ -19,19 +19,6 @@
 
   export let data;
   export let form;
-
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-
-  let fastifyURL;
-
-  userRegion.subscribe(value => {
-    if (usRegion.includes(value)) {
-      fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-    } else {
-      fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-    }
-  });
 
 
   let zodErrors = [];
@@ -352,7 +339,7 @@ const getModerators = async () => {
     } else {
 
       // make the POST request to the endpoint
-      const response = await fetch(fastifyURL + '/get-moderators', {
+      const response = await fetch(data?.fastifyURL + '/get-moderators', {
         method: 'GET',
         headers: {
           "Content-Type": "application/json"
@@ -386,7 +373,7 @@ const getUserStats = async () => {
     const postData = {'userId': data?.user?.id};
 
     // make the POST request to the endpoint
-    const response = await fetch(fastifyURL + '/get-user-stats', {
+    const response = await fetch(data?.fastifyURL + '/get-user-stats', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
@@ -453,7 +440,7 @@ async function getPost() {
   };
 
   // Make the POST request to the endpoint
-  const response = await fetch(fastifyURL+'/get-post', {
+  const response = await fetch(data?.fastifyURL+'/get-post', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json"
@@ -583,7 +570,7 @@ onDestroy(async () => {
 
             <div class="w-full flex flex-row">
             <!--Start Profile Pic-->
-            <div class="flex items-center justify-start mb-5 w-screen sm:w-full bg-[#09090B] h-48 sm:rounded-xl border border-gray-700 sm:hover:border-gray-600">
+            <div class="flex items-center justify-start mb-5 w-screen sm:w-full bg-[#141417] h-48 sm:rounded-xl border border-gray-700 sm:hover:border-gray-600">
               <form 
                 on:submit={handleAvatar}
                 class="ml-5"
@@ -639,7 +626,7 @@ onDestroy(async () => {
 
                       <!--Start User Profile -->
                       <div class="space-y-6 ml-4">  
-                      <div class="rounded-xl bg-[#09090B] h-48 w-full border border-gray-700 font-mono">
+                      <div class="rounded-xl bg-[#141417] h-48 w-full border border-gray-700 font-mono">
                         <!--Start Header-->
                         <div class="ml-2 w-full p-3">
                             <span class="text-white text-lg font-medium ml-0.5">User Profile</span>
@@ -649,17 +636,17 @@ onDestroy(async () => {
                         <!--Start Content-->
                         <div class="w-full p-2">
 
-                          <table class="font-semibold table table-compact bg-[#09090B] text-start flex justify-start items-center w-full px-3 m-auto">
-                            <tbody class="bg-[#09090B]">
+                          <table class="font-semibold table table-compact bg-[#141417] text-start flex justify-start items-center w-full px-3 m-auto">
+                            <tbody class="bg-[#141417]">
                               <!-- row 1 -->
                               <tr class="text-gray-300">
-                                <td class="bg-[#09090B] border-b border-[#27272A]">Karma: {data?.user?.karma}</td>
+                                <td class="bg-[#141417] border-b border-[#27272A]">Karma: {data?.user?.karma}</td>
                                 <td class="bg-[#27272A border-b border-[#27272A]">Posts: {userStats?.numberOfPosts}</td>
                               </tr>
                               <!-- row 2 -->
                               <tr class="text-gray-300">
-                                <td class="bg-[#09090B]">Comments: {userStats?.numberOfComments}</td>
-                                <td class="bg-[#09090B]"></td>
+                                <td class="bg-[#141417]">Comments: {userStats?.numberOfComments}</td>
+                                <td class="bg-[#141417]"></td>
                               </tr>
                             </tbody>
                           </table>
@@ -668,7 +655,7 @@ onDestroy(async () => {
 
                     {#if data?.user?.tier === 'Pro'}
                     <!--Start Badge-->
-                      <div class="rounded-xl bg-[#09090B] h-48 w-full border border-gray-700 mt-14">
+                      <div class="rounded-xl bg-[#141417] h-48 w-full border border-gray-700 mt-14">
                         <!--Start Header-->
                         <div class="ml-2 w-full p-3">
                             <span class="text-white text-lg font-medium ml-0.5 ">Badge</span>
@@ -825,7 +812,7 @@ onDestroy(async () => {
                                   />
                                 -->
                                   <div class="w-full max-w-lg pt-3">
-                                    <button type="submit" class="btn bg-purple-600 hover:bg-purple-500 text-white w-full max-w-lg normal-case">Update your data</button>
+                                    <button type="submit" class="btn bg-purple-600 sm:hover:bg-purple-700 duration-100 text-white w-full max-w-lg normal-case">Update your data</button>
                                   </div>
                                 
                               </form>

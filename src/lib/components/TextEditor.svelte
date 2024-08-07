@@ -242,7 +242,7 @@ function handleImageInput(event) {
 <div class="p-2 w-full max-w-xl mr-auto overflow-y-scroll {commentId?.length !== 0 ? '-ml-2' : ''}">
   <textarea
     on:click={() => expandField = true}
-    class="rounded-lg text-sm  {expandField ? 'min-h-24 h-auto border-[#1C4090]' : 'h-12  border-gray-500'} overflow-hidden sm:hover:border-[#1C4090] sm:hover:ring-1 transition sm:ease-out placeholder-gray-500 w-full bg-[#09090B] text-white border border-1 ring-2 sm:ring-0 ring-[#1C4090]"
+    class="rounded-lg text-sm  {expandField ? 'min-h-24 h-auto border-[#1C4090]' : 'h-12  border-gray-500'} overflow-hidden sm:hover:border-[#1C4090] sm:hover:ring-1 transition sm:ease-out placeholder-gray-300 w-full bg-[#27272A] text-white border border-1 ring-2 sm:ring-0 ring-[#1C4090]"
     placeholder={placeholder}
     value={inputValue}
     bind:this={ref}
@@ -272,11 +272,11 @@ function handleImageInput(event) {
             Cancel
         </label>
         {#if isLoaded}
-          <label on:click={handleComment} class="inline-flex justify-end items-center bg-purple-600 {inputValue.length !== 0 ? 'opacity-100 cursor-pointer' : 'opacity-60'}  py-2.5 px-4 text-xs font-medium text-center text-white rounded-lg focus:ring-purple-300">
+          <label on:click={handleComment} class="inline-flex justify-end items-center bg-purple-600 sm:hover:bg-purple-700 duration-100 transition {inputValue.length !== 0 ? 'opacity-100 cursor-pointer' : 'opacity-60'}  py-2.5 px-4 text-xs font-medium text-center text-white rounded-lg focus:ring-purple-300">
               Post
           </label>
         {:else}
-        <label class="inline-flex justify-end items-center bg-purple-600 opacity-60 py-2.5 px-4 text-xs font-medium text-center text-white rounded-lg focus:ring-purple-300">
+        <label class="cursor-not-allowed inline-flex justify-end items-center bg-purple-600 bg-opacity-40 py-2.5 px-4 text-xs font-medium text-center text-white rounded-lg focus:ring-purple-300">
           Post
         </label>
         {/if}
