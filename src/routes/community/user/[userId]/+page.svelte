@@ -6,26 +6,14 @@
 
   import { onMount} from 'svelte';
   import {getImageURL } from '$lib/utils';
-  import {userRegion, setCache, getCache, numberOfUnreadNotification } from '$lib/store';
+  import {setCache, getCache, numberOfUnreadNotification } from '$lib/store';
 
 	import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
-  import communityBanner from '$lib/images/community_banner.jpg';
 
 
   export let data;
   export let form;
   
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-  let fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-
-  userRegion.subscribe(value => {
-    if (usRegion.includes(value)) {
-      fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-    } else {
-      fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-    }
-  });
 
   let userData = {
   "karma": 0,
@@ -56,7 +44,7 @@ const getUserData = async() => {
 
   const postData = {'userId': data?.userId};
 
-  const response = await fetch(fastifyURL+'/get-user-data', {
+  const response = await fetch(data?.fastifyURL+'/get-user-data', {
       method: 'POST',
       headers: {
           "Content-Type": "application/json"
@@ -108,7 +96,7 @@ const getUserStats = async () => {
     const postData = {'userId': data?.userId};
 
     // make the POST request to the endpoint
-    const response = await fetch(fastifyURL + '/get-user-stats', {
+    const response = await fetch(data?.fastifyURL + '/get-user-stats', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
@@ -136,7 +124,7 @@ const getModerators = async () => {
   } else {
 
     // make the POST request to the endpoint
-    const response = await fetch(fastifyURL + '/get-moderators', {
+    const response = await fetch(data?.fastifyURL + '/get-moderators', {
       method: 'GET',
       headers: {
         "Content-Type": "application/json"
@@ -170,7 +158,7 @@ async function getPost() {
   };
 
   // Make the POST request to the endpoint
-  const response = await fetch(fastifyURL+'/get-post', {
+  const response = await fetch(data?.fastifyURL+'/get-post', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json"
@@ -225,7 +213,6 @@ onMount(async () => {
   <!-- Other meta tags -->
   <meta property="og:title" content="{userData?.username} · stocknear"/>
   <meta property="og:description" content="Explore {userData?.username}'s latest posts, comments, and notebooks on stocknear. Discover new insights and connect with other users in the stocknear community.">
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -233,7 +220,6 @@ onMount(async () => {
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="{userData?.username} · stocknear"/>
   <meta name="twitter:description" content="Explore {userData?.username}'s latest posts, comments, and notebooks on stocknear. Discover new insights and connect with other users in the stocknear community.">
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 </svelte:head>
 
