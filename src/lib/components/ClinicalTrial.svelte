@@ -9,7 +9,6 @@ import { GridComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 use([LineChart, GridComponent, CanvasRenderer])
 
-    import Lazy from 'svelte-lazy';
     export let data;
 
     let isLoaded = false;
@@ -247,12 +246,9 @@ let charNumber = 20;
         
         <div class="pb-2 rounded-lg bg-[#09090B]">
                 
-          
-            <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
-                <div class="app w-full h-[300px] mt-5">
-                    <Chart {init} options={optionsData} class="chart" />
-                </div>
-            </Lazy>
+          <div class="app w-full h-[300px] mt-5">
+              <Chart {init} options={optionsData} class="chart" />
+          </div>
         
         </div>
         

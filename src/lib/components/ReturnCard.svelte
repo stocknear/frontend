@@ -1,7 +1,6 @@
 <script lang='ts'>
 
 import { Chart } from 'svelte-echarts'
-import Lazy from "svelte-lazy";
 import { init, use } from 'echarts/core'
 
 import { BarChart } from 'echarts/charts'
@@ -295,11 +294,9 @@ use([BarChart, GridComponent, CanvasRenderer])
 
                     </div>
 
-                    <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
-                        <div class="app w-full h-[300px] mt-5 mb-16">
-                            <Chart {init} options={optionsAnnualReturn} class="chart" />
-                        </div>
-                    </Lazy>
+                <div class="app w-full h-[300px] mt-5 mb-16">
+                    <Chart {init} options={optionsAnnualReturn} class="chart" />
+                </div>
 
                     
                 {:else if displayReturn === 'monthlyDistributionReturn'}
