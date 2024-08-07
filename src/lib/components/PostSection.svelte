@@ -672,7 +672,8 @@ $: {
         overflow: hidden; /* To ensure the gradient does not overflow */
         max-height: 330px; /* Limit the container's height */
         width: 100%;
-        padding: 14px;
+        padding-left: 14px;
+        padding-right: 14px;
       }
     
       .darken-overlay::after {
