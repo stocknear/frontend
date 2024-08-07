@@ -299,7 +299,7 @@ $: {
   
     </div>
    
-  <div class="w-full bg-[#09090B] border-t border-b sm:border sm:hover:border-slate-600 border-gray-700 rounded-none sm:rounded-lg">
+  <div class="w-full bg-[#141417] border-t border-b sm:border sm:hover:border-slate-600 border-gray-700 rounded-none sm:rounded-lg">
       <!-- List container -->
       <div class="flex flex-col">
           <!-- Item -->
@@ -671,6 +671,8 @@ $: {
         position: relative; /* Ensure relative positioning for the gradient overlay */
         overflow: hidden; /* To ensure the gradient does not overflow */
         max-height: 330px; /* Limit the container's height */
+        width: 100%;
+        padding: 14px;
       }
     
       .darken-overlay::after {
@@ -680,7 +682,7 @@ $: {
         left: 0;
         right: 0;
         height: 50px; /* Adjust as needed for the gradient effect */
-        background: linear-gradient(0deg, rgb(9, 9, 11, 1), rgb(9, 9, 11, 0)); /* Smooth gradient transition */
+        background: linear-gradient(0deg, rgb(20, 20, 23, 1), rgb(20, 20, 23, 0)); /* Smooth gradient transition */
         pointer-events: none; /* Ensure it doesn't interfere with text interaction */
       }
     </style>
