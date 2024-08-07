@@ -873,7 +873,7 @@ async function initializePrice() {
   
   
     
-                                    <label on:click={changeChartType} class="ml-auto -mt-3 block cursor-pointer bg-[#18181B] sm:hover:bg-[#09090B] duratiion-100 transition ease-in-out px-3 py-1 rounded-lg shadow-sm">
+                                    <label on:click={changeChartType} class="ml-auto -mt-3 block cursor-pointer bg-[#27272A] sm:hover:bg-[#303030] duratiion-100 transition ease-in-out px-3 py-1 rounded-lg shadow-sm">
                                       {#if displayChartType === 'line'}
                                         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M7 20v-2H5V6h2V4h2v2h2v12H9v2zm8 0v-5h-2V8h2V4h2v4h2v7h-2v5z"/></svg>
                                         {:else}

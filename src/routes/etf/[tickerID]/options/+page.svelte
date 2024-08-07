@@ -1,6 +1,6 @@
 <script lang="ts">
 
-import {numberOfUnreadNotification, displayCompanyName, etfTicker} from '$lib/store';
+import {numberOfUnreadNotification, displayCompanyName, screenWidth, etfTicker} from '$lib/store';
 import { Chart } from 'svelte-echarts'
 import { abbreviateNumber } from '$lib/utils';
 import InfoModal from '$lib/components/InfoModal.svelte';
@@ -108,8 +108,8 @@ use([BarChart, GridComponent, CanvasRenderer])
           },
           silent: true,
           grid: {
-              left: '10%',
-              right: '5%',
+              left: $screenWidth < 640 ? '5%' : '2%',
+              right: $screenWidth < 640 ? '5%' : '2%',
               bottom: '20%',
               containLabel: true
           },
@@ -392,7 +392,7 @@ use([BarChart, GridComponent, CanvasRenderer])
                               </div>
                           
                               
-                              <div class="app w-full bg-[#09090B] bg-opacity-1 rounded-xl">
+                              <div class="app w-full bg-[#09090B] rounded-xl">
                                   <Chart {init} options={options} class="chart" />
                               </div>
                               

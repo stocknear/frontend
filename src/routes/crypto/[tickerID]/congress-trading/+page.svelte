@@ -9,6 +9,7 @@
 	import { getPartyForPoliticians } from '$lib/utils';
   import { goto } from '$app/navigation';
 
+
   export let data;
 
   let rawData = data?.getSenateTrading;
@@ -65,7 +66,7 @@ const district = {
 
 function replaceMultipleStrings(inputString, replacements) {
   // Create a regular expression pattern by joining the keys of the replacements object with '|'
-  const pattern = new RegExp(Object.keys(replacements).join('|'), 'gi');
+  const pattern = new RegExp(Object?.keys(replacements)?.join('|'), 'gi');
 
   // Replace occurrences of the pattern with the corresponding values in the replacements object
   const resultString = inputString.replace(pattern, match => replacements[match]);
@@ -79,7 +80,7 @@ async function infiniteHandler({ detail: { loaded, complete } })
       complete();
     } else {
       const nextIndex = senateTradingList?.length;
-      const newArticles = rawData?.slice(nextIndex, nextIndex + 5);
+      const newArticles = rawData?.slice(nextIndex, nextIndex + 20);
       senateTradingList = [...senateTradingList, ...newArticles];
       loaded();
     }
@@ -141,12 +142,13 @@ const typeCounts = rawData?.reduce((counts, item) => {
 }, {});
 
 partyRatio = partyCounts['Democratic'] > 0 && partyCounts['Republican'] === undefined ? 1 : partyCounts['Democratic'] === undefined ? 0 : partyCounts["Democratic"]/partyCounts["Republican"];
-buySellRatio = typeCounts['Bought']/typeCounts['Sold'];
+buySellRatio = typeCounts['Bought'] > 0 && typeCounts['Sold'] === undefined ? 1 : typeCounts['Bought'] === undefined ? 0 : typeCounts["Bought"]/typeCounts["Sold"];
 
 senateTradingList = rawData?.slice(0,20) ?? [];
 
 
 isLoaded = true;
+
 });
 </script>
 
@@ -164,7 +166,6 @@ isLoaded = true;
   <!-- Other meta tags -->
   <meta property="og:title" content={`${$displayCompanyName} (${$cryptoTicker}) US Congress & Senate Trading · stocknear`}/>
   <meta property="og:description" content={`Get the latest US congress & senate trading of ${$displayCompanyName} (${$cryptoTicker}) from democrates and republicans.`} />
-  <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
 
@@ -172,7 +173,6 @@ isLoaded = true;
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content={`${$displayCompanyName} (${$cryptoTicker}) US Congress & Senate Trading · stocknear`}/>
   <meta name="twitter:description" content={`Get the latest US congress & senate trading of ${$displayCompanyName} (${$cryptoTicker}) from democrates and republicans.`} />
-  <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
   <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -181,14 +181,14 @@ isLoaded = true;
 
     
           
-    <section class="bg-[#09090B] overflow-hidden text-white h-full mb-40 sm:mb-0">
-        <div class="flex justify-center w-fit m-auto h-full overflow-hidden">
-            <div class="relative flex justify-center items-center overflow-hidden">
-                  <div class="sm:p-7 sm:w-full sm:max-w-3xl m-auto mt-5 sm:mt-0">
-                    <div class="mb-6">
-                        <h1 class="text-2xl sm:text-3xl text-gray-200 font-bold mb-4">
-                            Congress Trading
-                        </h1>
+<section class="w-full bg-[#09090B] overflow-hidden text-white h-full mb-40 sm:mb-0">
+  <div class="h-full overflow-hidden">
+      <div class="relative flex justify-center items-center overflow-hidden">
+            <div class="sm:p-7 w-full mt-2 sm:mt-0">
+                  <div class="mb-6">
+                      <h1 class="text-2xl sm:text-3xl text-gray-200 font-bold mb-4">
+                          Congress Trading
+                      </h1>
   
 
                         <div class="text-white p-3 sm:p-5 mb-10 rounded-lg sm:flex sm:flex-row sm:items-center border border-slate-800 text-sm sm:text-[1rem]">
@@ -210,7 +210,7 @@ isLoaded = true;
                       </h3>
                        <!--Start Widget-->
                        <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center ">
-                        <div class="w-full grid grid-cols-2 gap-y-3 lg:gap-y-3 gap-x-3 ">
+                        <div class="w-full grid grid-cols-2 sm:grid-cols-3 gap-y-3 lg:gap-y-3 gap-x-3 ">
         
                           <!--Start Buy/Sell-->  
                           <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] shadow-lg rounded-2xl h-20">
@@ -330,11 +330,14 @@ isLoaded = true;
                                 </td>
                             </tr>
                           {/each}
+
                           </tbody>
                         </table>
+
+                        
                     </div>
 
-                      <InfiniteLoading on:infinite={infiniteHandler} />
+                    <InfiniteLoading on:infinite={infiniteHandler} />
 
                       {:else}
                       <div class="relative w-full mt-10">

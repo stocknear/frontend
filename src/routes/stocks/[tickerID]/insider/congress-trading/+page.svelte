@@ -210,7 +210,7 @@ isLoaded = true;
                       </h3>
                        <!--Start Widget-->
                        <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center ">
-                        <div class="w-full grid grid-cols-2 gap-y-3 lg:gap-y-3 gap-x-3 ">
+                        <div class="w-full grid grid-cols-2 sm:grid-cols-3 gap-y-3 lg:gap-y-3 gap-x-3 ">
         
                           <!--Start Buy/Sell-->  
                           <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] shadow-lg rounded-2xl h-20">

@@ -453,12 +453,12 @@ $: {
 </script>
 
 <body class="bg-[#09090B] pb-40">    
-        <!-- Page wrapper -->
-        <div class="flex flex-col min-h-screen overflow-hidden m-auto w-full mt-5 supports-[overflow:clip]:overflow-clip pb-40">
-            <main class="grow">
-                <section>
-                    <div class="w-full">
-                        <div class="sm:flex sm:justify-start w-full">
+  <!-- Page wrapper -->
+  <div class="flex flex-col min-h-screen overflow-hidden m-auto w-full mt-5 supports-[overflow:clip]:overflow-clip pb-40">
+      <main class="grow">
+          <section>
+              <div class="w-full">
+                  <div class="sm:flex sm:justify-start w-full">
     
            <!--Start Mobile Navbar-->
            <div class="navbar w-screen sticky top-0 z-30 bg-[#09090B] sm:hidden ">
@@ -543,17 +543,17 @@ $: {
           <!--End Mobile Navbar-->
          
       
-          <div class="w-full xl:w-fit max-w-3xl sm:max-w-6xl m-auto px-3">      
+          <div class="w-full xl:w-fit max-w-3xl sm:max-w-7xl m-auto px-3">      
                     
             <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
                 <!-- Main content -->
-                <div class="pb-12 md:pb-20 w-full max-w-5xl lg:max-w-3xl">
+                <div class="pb-12 md:pb-20 w-full max-w-3xl lg:max-w-5xl">
                     <div class="md:pr-6 lg:pr-10">
                                  
                 
                                     <!-----Start-Header-CandleChart-Indicators------>
       
-                                    <div class="m-auto pl-0 sm:pl-4 max-w-3xl overflow-hidden mb-5 md:mt-10">
+                                    <div class="m-auto pl-0 sm:pl-4 overflow-hidden mb-5 md:mt-10">
       
                                       <div class="hidden sm:flex flex-row w-full justify-between items-center pb-10">
 
@@ -702,7 +702,7 @@ $: {
                             </div>
                         </div>
 
-                        <aside class="hidden lg:block w-fit max-w-xl 2xl:w-[120px] m-auto sm:m-0 md:shrink-0 md:pt-10 pb-12 md:pb-20">
+                        <aside class="hidden xl:block w-fit max-w-xl 2xl:w-[120px] m-auto sm:m-0 md:shrink-0 md:pt-10 pb-12 md:pb-20">
                             <div class="sm:pl-10">
                       
                               <CryptoProfileCard

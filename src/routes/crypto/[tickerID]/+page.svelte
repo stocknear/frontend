@@ -681,7 +681,6 @@ afterUpdate(async () => {
     <!-- Other meta tags -->
     <meta property="og:title" content={`${$displayCompanyName} (${$cryptoTicker}) Stock Price, Quote & News · stocknear`}/>
     <meta property="og:description" content={`Get a real-time ${$displayCompanyName} (${$cryptoTicker}) stock price quote with breaking news, financials, statistics, charts and more.`} />
-    <!--<meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>-->
     <meta property="og:type" content="website"/>
     <!-- Add more Open Graph meta tags as needed -->
   
@@ -689,7 +688,6 @@ afterUpdate(async () => {
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:title" content={`${$displayCompanyName} (${$cryptoTicker}) Stock Price, Quote & News · stocknear`}/>
     <meta name="twitter:description" content={`Get a real-time ${$displayCompanyName} (${$cryptoTicker}) stock price quote with breaking news, financials, statistics, charts and more.`} />
-    <!--<meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>-->
     <!-- Add more Twitter meta tags as needed -->
   
   </svelte:head>
@@ -697,12 +695,12 @@ afterUpdate(async () => {
   
   <section class="bg-[#09090B] min-h-screen pb-40">
   
-              <div class="w-full max-w-4xl m-auto ">
+              <div class="w-full max-w-5xl m-auto ">
   
           
                     <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
                         <!-- Main content -->
-                        <div class="pb-12 md:pb-20 w-full max-w-3xl sm:pr-6 xl:pr-0">
+                        <div class="pb-12 md:pb-20 w-full sm:pr-6 xl:pr-0">
                           <div class="xl:pr-10">
   
       
@@ -798,7 +796,7 @@ afterUpdate(async () => {
 
 
   
-                                  <label on:click={changeChartType} class="ml-auto -mt-3 block cursor-pointer bg-[#09090B] sm:hover:bg-[#09090B] duratiion-100 transition ease-in-out px-3 py-1 rounded-lg shadow-sm">
+                                  <label on:click={changeChartType} class="ml-auto -mt-3 block cursor-pointer bg-[#27272A] sm:hover:bg-[#303030] duratiion-100 transition ease-in-out px-3 py-1 rounded-lg shadow-sm">
                                     {#if displayChartType === 'line'}
                                       <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M7 20v-2H5V6h2V4h2v2h2v12H9v2zm8 0v-5h-2V8h2V4h2v4h2v7h-2v5z"/></svg>
                                       {:else}
@@ -813,7 +811,7 @@ afterUpdate(async () => {
                                 <!-- Start Graph -->
   
                                 {#if output !== null}
-                                  <div class ="w-full sm:pl-7 ml-auto max-w-3xl mb-10">
+                                  <div class ="w-full sm:pl-7 ml-auto max-w-5xl mb-10">
                                     {#if displayData === '1D' && oneDayPrice?.length === 0}
                                     <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
                                       No data available
@@ -835,7 +833,7 @@ afterUpdate(async () => {
                                       No data available
                                     </h2>
                                     {:else if displayData === 'MAX' && threeYearPrice?.length === 0}
-                                    <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
+                                    <h2 class="mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
                                       No data available
                                     </h2>
                                     {:else}
