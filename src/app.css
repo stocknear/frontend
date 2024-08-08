@@ -47,20 +47,27 @@
 
 
 @layer utilities {
-    /* Chrome, Safari and Opera */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-
-    .no-scrollbar {
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
-      overflow: -moz-scrollbars-none; /* Legacy support for older Firefox versions */
-    }
-    
-    .no-scrollbar::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, and other WebKit-based browsers */
-    }
+  .no-scrollbar {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  
+  /* Styles for WebKit browsers (Chrome, Safari, newer versions of Opera) */
+  .no-scrollbar::-webkit-scrollbar {
+    width: auto;  /* Keep the width for vertical scrollbar */
+    height: 0;    /* Set height to 0 to hide horizontal scrollbar */
+  }
+  
+  /* Styles for Firefox */
+  .no-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: auto transparent;  /* vertical scrollbar color, then track color */
+  }
+  
+  /* Styles for Internet Explorer and Edge */
+  .no-scrollbar {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+  }
 
 
     .shake-ticker:hover img {

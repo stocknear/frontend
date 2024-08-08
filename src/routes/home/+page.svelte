@@ -24,9 +24,21 @@
 
 
   export let data;
-  let isLoaded = false;
 
   const quickInfo = data?.getDashboard?.quickInfo;
+
+
+  function compareTimes(time1, time2) {
+  const [hours1, minutes1] = time1.split(':').map(Number);
+  const [hours2, minutes2] = time2.split(':').map(Number);
+  
+  if (hours1 > hours2) return 1;
+  if (hours1 < hours2) return -1;
+  if (minutes1 > minutes2) return 1;
+  if (minutes1 < minutes2) return -1;
+  return 0;
+}
+
 
 function reformatDate(dateString) {
     return dateString.substring(5, 7) + '/' + dateString.substring(8) + '/' + dateString.substring(2, 4);
@@ -116,7 +128,6 @@ function latestInfoDate(inputDate) {
 let Feedback;
 
 onMount( async() => {
-  isLoaded = true;
   Feedback = (await import('$lib/components/Feedback.svelte')).default
 })
 
@@ -255,9 +266,12 @@ onMount( async() => {
             </Card.Root>
           </div>
 
-          <div class="grid gap-4 md:gap-8 grid-cols-1 lg:grid-cols-2  text-start">
 
-            <Card.Root class="overflow-x-scroll no-scrollbar">
+      
+
+          <div class="grid gap-4 md:gap-8 grid-cols-1 lg:grid-cols-2 text-start">
+
+            <Card.Root class="overflow-x-scroll overflow-hidden overflow-y-scroll">
               <Card.Header class="flex flex-row items-center">
                 <div class="flex flex-col items-start w-full">
                   <div class="flex flex-row w-full items-center">
@@ -309,7 +323,7 @@ onMount( async() => {
               </Card.Content>
             </Card.Root>
             
-            <Card.Root class="overflow-x-scroll no-scrollbar">
+            <Card.Root class="overflow-hidden">
               <Card.Header class="flex flex-row items-center">
                 <div class="flex flex-col items-start w-full">
                   <div class="flex flex-row w-full items-center">
@@ -323,7 +337,7 @@ onMount( async() => {
                 </div>
               </Card.Header>
               <Card.Content>                
-                {#if data?.getDashboard?.retailTracker?.length !== 0 && isLoaded}
+                {#if data?.getDashboard?.retailTracker?.length !== 0}
                   <div class="app w-full h-[300px] mt-5">
                     <Chart {init} options={optionsGraph} class="chart" />
                 </div>
@@ -341,8 +355,76 @@ onMount( async() => {
           </div>
 
 
+            <!--Start Earnings Section-->
+            <div class="grid gap-4 md:gap-8 grid-cols-1 lg:grid-cols-2 text-start">
+
+              <Card.Root class="overflow-x-scroll overflow-hidden overflow-y-scroll no-scrollbar max-h-[400px]">
+                <Card.Header class="flex flex-row items-center">
+                  <div class="flex flex-col items-start w-full">
+                    <div class="flex flex-row w-full items-center">
+                      <Card.Title class="text-xl sm:text-2xl tex-white font-semibold">Upcoming Earnings</Card.Title>
+                      <a href="/earnings-calendar" class="ml-auto rounded-lg text-xs sm:text-sm px-2 sm:px-3 py-2 font-semibold bg-white text-black">
+                        View All
+                        <ArrowUpRight class="hidden sm:inline-block h-4 w-4 shrink-0 -mt-1 ml-0.5" />
+                      </a>
+                    </div>
+                  </div>
+                </Card.Header>
+                <Card.Content>
+                  <ul style="padding-left: 5px;">
+                    {#each data?.getDashboard?.upcomingEarnings as item}
+                        <li style="font-size: 16px; line-height: 22px; margin-bottom: 20px; list-style-type: disc;">
+                            <strong>{item?.name}</strong> (<a href="/stocks/{item?.symbol}" class="text-blue-400 sm:hover:text-white">{item?.symbol}</a>)
+                            will report tomorrow
+                            {#if item?.time}
+                                {#if compareTimes(item?.time, '16:00') > 0}
+                                    after market closes.
+                                {:else if compareTimes(item?.time, '09:30') < 0}
+                                    before market opens.
+                                {:else}
+                                    during market.
+                                {/if}
+                            {/if}Analysts estimate {abbreviateNumber(item?.revenueEst,true)} in revenue ({((item?.revenueEst/item?.revenuePrior-1)*100)?.toFixed(2)}% YoY) and ${item?.epsEst} in earnings per share ({((item?.epsEst/item?.epsPrior-1)*100)?.toFixed(2)}% YoY).</li>
+                            <div class="border-b w-11/12 m-auto border-gray-500 mb-5 mt-5"></div>
+
+                    {/each}
+                  </ul>
+                </Card.Content>
+              </Card.Root>
+              
+              <Card.Root class="overflow-x-scroll overflow-hidden overflow-y-scroll no-scrollbar max-h-[400px]">
+                <Card.Header class="flex flex-row items-center">
+                  <div class="flex flex-col items-start w-full">
+                    <div class="flex flex-row w-full items-center">
+                      <Card.Title class="text-xl sm:text-2xl tex-white font-semibold">Recent Earnings</Card.Title>
+                    </div>
+                  </div>
+                </Card.Header>
+                <Card.Content>
+                  <ul style="padding-left: 5px;">
+                    {#each data?.getDashboard?.recentEarnings as item}
+                    <strong>{item?.name}</strong> (<a href="/stocks/{item?.symbol}" class="sm:hover:text-white text-blue-400">{item?.symbol}</a>) has released its quarterly earnings:
+  
+                    <li style="color: #fff; line-height: 22px; margin-top:10px; margin-left: 30px; margin-bottom: 10px; list-style-type: disc;">
+                        Revenue of {abbreviateNumber(item?.revenue,true)} ({(item?.revenue/item?.revenuePrior-1) > 0 ? '+' :''}{((item?.revenue/item?.revenuePrior-1)*100)?.toFixed(2)}% YoY) {item?.revenueSurprise > 0 ? 'beats' : 'misses'} by {abbreviateNumber(Math.abs(item?.revenueSurprise),true)}.
+                    </li>
+                    <li style="color: #fff; line-height: 22px; margin-top:0px; margin-left: 30px; list-style-type: disc;">
+                        EPS of ${item?.eps} ({(item?.eps/item?.epsPrior-1) > 0 ? '+' :''}{((item?.eps/item?.epsPrior-1)*100)?.toFixed(2)}% YoY) {item?.epsSurprise > 0 ? 'beats' : 'misses'} by ${Math.abs(item?.epsSurprise)?.toFixed(2)}.
+                    </li>
+                    <div class="border-b w-11/12 m-auto border-gray-500 mb-5 mt-5"></div>
+                    {/each}
+                </ul>
+               
+                </Card.Content>
+              </Card.Root>
+              
+        
+            </div>
+            <!--End of Earnings Section-->
+
+
           <div class="grid gap-4 sm:gap-8 sm:grid-cols-3 text-start">
-            <Card.Root class="sm:col-span-2 overflow-x-scroll no-scrollbar">
+            <Card.Root class="sm:col-span-2 overflow-x-scroll overflow-hidden overflow-y-scroll">
               <Card.Header class="flex flex-row items-center">
                 <div class="text-start grid gap-2">
                   <Card.Title class="text-2xl text-white font-semibold">Market Momentum</Card.Title>
