@@ -8,9 +8,9 @@
   import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
   import { init, use } from 'echarts/core'
   import { BarChart } from 'echarts/charts'
-  import { GridComponent } from 'echarts/components'
+  import { GridComponent, TooltipComponent } from 'echarts/components'
   import { CanvasRenderer } from 'echarts/renderers'
-  use([BarChart, GridComponent, CanvasRenderer])
+  use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
   
   
     export let data;
@@ -553,10 +553,10 @@
                                             <td class="text-slate-200 font-semibold text-sm text-end">Strike</td>
                                             <td class="text-slate-200 font-semibold text-sm text-end">C/P</td>
                                             <td class="text-slate-200 font-semibold text-sm text-start">Sent.</td>
-                                            <td class="text-slate-200 font-semibold text-sm table-cell sm:hidden text-end">Spot</td>
+                                            <td class="text-slate-200 font-semibold text-sm text-end">Spot</td>
                                             <td class="text-slate-200 font-semibold text-sm text-end">Price</td>
                                             <td class="text-slate-200 font-semibold text-sm text-end">Prem.</td>
-                                            <td class="text-slate-200 font-semibold text-sm table-cell sm:hidden text-start">Type</td>
+                                            <td class="text-slate-200 font-semibold text-sm text-start">Type</td>
                                             <td class="text-slate-200 font-semibold text-sm text-end">Vol.</td>
                                             <td class="text-slate-200 font-semibold text-sm text-end">OI</td>
                                           </tr>
@@ -566,19 +566,19 @@
                                           <!-- row -->
                                           <tr class="odd:bg-[#27272A] border-b-[#09090B] {index+1 === optionList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                                             
-                                            <td class="text-white text-xs sm:text-sm text-start whitespace-nowrap">
+                                            <td class="text-white text-sm sm:text-[1rem] text-start whitespace-nowrap">
                                               {formatTime(item?.time)}
                                             </td>
     
-                                            <td class="text-white text-xs sm:text-sm text-start">
+                                            <td class="text-white text-sm sm:text-[1rem] text-start">
                                               {formatDate(item?.date)}
                                             </td>
     
-                                            <td class="text-white text-sm text-end">
+                                            <td class="text-white text-sm sm:text-[1rem] text-end">
                                               {item?.dte < 0 ? 'expired' : item?.dte +'d'}
                                             </td>
                                             
-                                            <td class="text-sm text-end text-white">
+                                            <td class="text-sm sm:text-[1rem] text-end text-white">
                                               {item?.strike_price}
                                             </td>
     
@@ -590,19 +590,19 @@
                                               {item?.sentiment}
                                             </td>
     
-                                            <td class="text-sm text-end text-white table-cell sm:hidden">
+                                            <td class="text-sm sm:text-[1rem] text-end text-white">
                                               {item?.underlying_price}
                                             </td>
                                           
-                                          <td class="text-sm text-end text-white">
+                                          <td class="text-sm sm:text-[1rem] text-end text-white">
                                             {item?.price}
                                           </td>
                                           
-                                          <td class="text-sm text-end font-medium {item?.put_call === 'Puts' ? 'text-[#CB281C]' : 'text-[#0FB307]'} ">
+                                          <td class="text-sm sm:text-[1rem] text-end font-medium {item?.put_call === 'Puts' ? 'text-[#CB281C]' : 'text-[#0FB307]'} ">
                                             {abbreviateNumber(item?.cost_basis)}
                                           </td>
                       
-                                          <td class="text-sm text-start table-cell sm:hidden {item?.type === 'Sweep' ? 'text-[#C6A755]' : 'text-[#976DB7]'}">
+                                          <td class="text-sm sm:text-[1rem] text-start {item?.type === 'Sweep' ? 'text-[#C6A755]' : 'text-[#976DB7]'}">
                                             {item?.type}
                                           </td>
                           

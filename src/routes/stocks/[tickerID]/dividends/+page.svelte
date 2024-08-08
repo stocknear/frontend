@@ -1,15 +1,13 @@
 <script lang="ts">
 import {numberOfUnreadNotification, displayCompanyName, stockTicker} from '$lib/store';
 import { onMount } from 'svelte';
-import Lazy from 'svelte-lazy';
 
 import { Chart } from 'svelte-echarts'
 import { init, use } from 'echarts/core'
 import { LineChart, BarChart } from 'echarts/charts'
-import { GridComponent } from 'echarts/components'
+import { GridComponent, TooltipComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-use([LineChart, BarChart, GridComponent, CanvasRenderer])
-
+use([LineChart, BarChart, TooltipComponent, GridComponent, CanvasRenderer])
 
 
 export let data;
@@ -31,24 +29,41 @@ let dividendList = [];
 let growthList = [];
 let dateList = [];
 
-let mode = false;
-
-
-function toggleMode() {
-    mode = !mode;
-}
-            
     
 
 async function plotDividend(dividendList, growthList, dateList) {  
-    const options = {
+  const options = {
+     tooltip: {
+        trigger: 'axis',
+        hideDelay: 100, // Set the delay in milliseconds
+    },
+    animation: false,
+    grid: {
+        left: '2%',
+        right: '2%',
+        bottom: '2%',
+        top: '5%',
+        containLabel: true
+    },
       xAxis: {
         data: dateList,
         type: 'category',
+        axisLabel: {
+          color: '#fff',
+        },
+        splitLine: {
+            show: false, // Disable x-axis grid lines
+        },
       },
       yAxis: [
         {
           type: 'value',
+        axisLabel: {
+          color: '#fff',
+          },
+          splitLine: {
+            show: false, // Disable x-axis grid lines
+        },
         },
         {
           type: 'value',
@@ -71,7 +86,10 @@ async function plotDividend(dividendList, growthList, dateList) {
           name: 'Dividend per Share',
           data: dividendList,
           type: 'line',
-          smooth: true,
+          itemStyle: {
+                color: '#fff' // Change bar color to white
+            },
+          showSymbol: false
         },
         {
           name: 'Growth Rate (%)',
@@ -83,15 +101,11 @@ async function plotDividend(dividendList, growthList, dateList) {
           itemStyle: {
             color: (params) => {
               // Set color based on positive or negative value
-              return params.data >= 0 ? '#076E0B' : '#F80102';
+              return params.data >= 0 ? '#22C55E' : '#E11D48';
             },
           },
         },
       ],
-      tooltip: {
-        trigger: 'axis',
-        
-      },
     };
     
     
@@ -292,40 +306,18 @@ onMount(async() => {
                               Dividends History
                             </h3>
         
-        
-                            <label class="{stockDividends?.length === 0 ? 'hidden' : ''} inline-flex cursor-pointer relative ml-auto mt-5 sm:mt-0">
-                              <input on:click={toggleMode} type="checkbox" value={mode} class="sr-only peer">
-                              <div class="w-11 h-6 bg-gray-400 rounded-full peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1563F9]"></div>
-                              {#if mode}
-                              <span class="ml-2 text-sm font-medium text-gray-300">
-                                  Cool Mode
-                              </span>
-                              {:else}
-                              <span class="ml-2 text-sm font-medium text-gray-500">
-                                  Boring Mode
-                              </span>
-                              {/if}
-                            </label>
+      
         
                           </div>
       
-                        {#if stockDividends?.length !== 0}
+                        {#if stockDividends?.length !== 0 && optionsDividend}
       
+                        <div class="app w-full h-[400px] sm:h-[500px] mb-14">
+                          <Chart {init} options={optionsDividend} class="chart" />
+                        </div>
       
-                          {#if mode}
-                          <Lazy height={300} fadeOption={{delay: 0, duration: 0}} keep={true}>
-                            <div class="app w-full ">
-                              <Chart {init} options={optionsDividend} class="chart" />
-                            </div>
-                          </Lazy>
-      
-                            <span class="text-gray-200 text-sm italic">
-                              * Dividend amounts are adjusted for stock splits when applicable.
-                            </span>
-                          
-                          {:else}
-                          
-                            <div class="flex justify-start items-center w-full m-auto shadow-md rounded-none sm:rounded-lg mb-4">
+                        
+                            <div class="overflow-x-scroll no-scrollbar flex justify-start items-center w-full m-auto shadow-md rounded-none sm:rounded-lg mb-4">
                               <table class="table table-sm table-compact flex justify-start items-center w-full m-auto">
                                 <thead>
                                   <tr class="bg-[#09090B] border-b-slate-600 shadow-md">
@@ -335,7 +327,7 @@ onMount(async() => {
                                     <th class="text-end bg-[#09090B] border-b border-[#09090B] text-white text-sm font-semibold">
                                       Cash Amount
                                     </th>
-                                    <th class="text-end bg-[#09090B] border-b border-[#09090B] hidden sm:table-cell text-white text-sm font-semibold">
+                                    <th class="text-end bg-[#09090B] border-b border-[#09090B] text-white text-sm font-semibold">
                                       Record Date
                                     </th>
                                     <th class="text-end bg-[#09090B] border-b border-[#09090B] text-white text-sm font-semibold">
@@ -346,16 +338,16 @@ onMount(async() => {
                                 <tbody class="shadow-md">
                                   {#each stockDividends as item}
                                   <tr class="text-gray-200 odd:bg-[#27272A]">
-                                    <td class="text-start text-xs sm:text-sm text-white font-medium border-b border-[#09090B]">
+                                    <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap text-white font-medium border-b border-[#09090B]">
                                       {new Date(item?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                     </td>
-                                    <td class="text-end text-xs sm:text-sm text-white border-b border-[#09090B]">
+                                    <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap text-white border-b border-[#09090B]">
                                       ${item?.adjDividend?.toFixed(2)}
                                     </td>
-                                    <td class="text-end text-xs sm:text-sm hidden sm:table-cell text-white border-b border-[#09090B]">
+                                    <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap text-white border-b border-[#09090B]">
                                       {item?.recordDate?.length !== 0 ? new Date(item?.recordDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' }) : 'n/a'}
                                     </td>
-                                    <td class="text-end text-xs sm:text-sm text-white border-b border-[#09090B]">
+                                    <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap text-white border-b border-[#09090B]">
                                       {item?.paymentDate?.length !== 0 ? new Date(item?.paymentDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' }) : 'n/a'}
                                     </td>
                                   </tr>
@@ -366,7 +358,6 @@ onMount(async() => {
                             <span class="text-gray-200 text-sm italic">
                               * Dividend amounts are adjusted for stock splits when applicable.
                             </span>
-                            {/if}
       
                         {:else}
                         <h1 class="text-xl m-auto flex justify-center text-gray-200 mb-4 mt-10">
@@ -391,19 +382,20 @@ onMount(async() => {
     
         
 <style>
-    .app {
-        height: 700px;
-        max-width: 1500px;
-    }
-    
-    @media (max-width: 560px) {
-        .app {
-            max-width: 520px;
-            height: 500px;
-        }
-    }
-
-    .chart {
-        width: 100%;
-    }
+  .app {
+  height: 500px;
+  max-width: 100%; /* Ensure chart width doesn't exceed the container */
+  
+  }
+  
+  @media (max-width: 640px) {
+  .app {
+    height: 300px;
+  }
+  }
+  
+  .chart {
+  width: 100%;
+  }
+  
 </style>
