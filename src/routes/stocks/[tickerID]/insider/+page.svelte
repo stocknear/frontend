@@ -183,7 +183,7 @@ const handleMessage = async (event) => {
           // prettier-ignore
           data: dataPoints,
           itemStyle: {
-            color: "#C40377"
+            color: "#fff"
           }
           /*
           markArea: {
@@ -354,32 +354,42 @@ onMount(async() => {
                         <Chart {init} options={options} class="chart" />
                       </div>
 
-                      <div class="flex flex-row items-center justify-between mx-auto mb-10 w-full sm:w-5/6">
-                        <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
+
+                      <div class="grid grid-cols-3 sm:grid-cols-5 gap-y-6 sm:gap-y-4 sm:gap-4 flex-shrink-0 mx-auto mb-10 w-full">
+
+                        <div class="flex flex-col sm:flex-row items-center justify-center">
                           <div class="h-full bg-gray-800 transform -translate-x-1/2 " aria-hidden="true"></div>
-                          <div class="w-3 h-3 bg-[#0FC008] border-4 box-content border-gray-900 rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
-                          <span class="mt-2 sm:mt-0 text-white text-sm sm:text-md inline-block">
+                          <div class="flex-shrink-0 w-3 h-3 bg-[#fff] border-4 box-content border-gray-900 rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                          <span class="mt-2 sm:mt-0 text-white text-xs sm:text-[1rem] inline-block">
+                              Stock Price
+                          </span>
+                      </div>
+
+                        <div class="flex flex-col sm:flex-row items-center justify-center">
+                          <div class="h-full bg-gray-800 transform -translate-x-1/2 " aria-hidden="true"></div>
+                          <div class="flex-shrink-0 w-3 h-3 bg-[#0FC008] border-4 box-content border-gray-900 rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                          <span class="mt-2 sm:mt-0 text-white text-xs sm:text-[1rem] inline-block">
                               Bought
                           </span>
                       </div>
-                        <div class="flex flex-col sm:flex-row items-center  w-1/2 justify-center">
+                        <div class="flex flex-col sm:flex-row items-center justify-center">
                             <div class="h-full bg-gray-800 transform -translate-x-1/2 " aria-hidden="true"></div>
-                            <div class="w-3 h-3 bg-[#FF2F1F] border-4 box-content border-gray-900 rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
-                            <span class="mt-2 sm:mt-0 text-white text-sm sm:text-md sm:font-medium inline-block">
+                            <div class="flex-shrink-0 w-3 h-3 bg-[#FF2F1F] border-4 box-content border-gray-900 rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                            <span class="mt-2 sm:mt-0 text-white text-xs sm:text-[1rem] sm:font-medium inline-block">
                                 Sold
                             </span>
                         </div>
-                        <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
+                        <div class="flex flex-col sm:flex-row items-center justify-center">
                           <div class="h-full bg-gray-800 transform -translate-x-1/2 " aria-hidden="true"></div>
-                          <div class="w-3 h-3 bg-[#8f95a1] border-4 box-content border-gray-900 rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
-                          <span class="mt-2 sm:mt-0 text-white text-sm sm:text-md inline-block">
+                          <div class="flex-shrink-0 w-3 h-3 bg-[#8f95a1] border-4 box-content border-gray-900 rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                          <span class="mt-2 sm:mt-0 text-white text-xs sm:text-[1rem] inline-block">
                               Grant
                           </span>
                       </div>
-                      <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
+                      <div class="flex flex-col sm:flex-row items-center justify-center">
                         <div class="h-full bg-gray-800 transform -translate-x-1/2 " aria-hidden="true"></div>
-                        <div class="w-3 h-3 bg-[#F8901E] border-4 box-content border-gray-900 rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
-                        <span class="mt-2 sm:mt-0 text-white text-sm sm:text-md inline-block">
+                        <div class="flex-shrink-0 w-3 h-3 bg-[#F8901E] border-4 box-content border-gray-900 rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                        <span class="mt-2 sm:mt-0 text-white text-xs sm:text-[1rem] inline-block">
                             Exercise
                         </span>
                     </div>
