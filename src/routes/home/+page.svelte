@@ -39,6 +39,21 @@
   return 0;
 }
 
+function formatTime(timeString) {
+  // Split the time string into components
+  const [hours, minutes, seconds] = timeString.split(':').map(Number);
+
+  // Determine AM or PM
+  const period = hours >= 12 ? 'PM' : 'AM';
+
+  // Convert hours from 24-hour to 12-hour format
+  const formattedHours = hours % 12 || 12; // Converts 0 to 12 for midnight
+
+  // Format the time string
+  const formattedTimeString = `${formattedHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${period}`;
+
+  return formattedTimeString;
+}
 
 function reformatDate(dateString) {
     return dateString.substring(5, 7) + '/' + dateString.substring(8) + '/' + dateString.substring(2, 4);
@@ -403,7 +418,7 @@ onMount( async() => {
                 <Card.Content>
                   <ul style="padding-left: 5px;">
                     {#each data?.getDashboard?.recentEarnings as item}
-                    <strong>{item?.name}</strong> (<a href="/stocks/{item?.symbol}" class="sm:hover:text-white text-blue-400">{item?.symbol}</a>) has released its quarterly earnings:
+                    <strong>{item?.name}</strong> (<a href="/stocks/{item?.symbol}" class="sm:hover:text-white text-blue-400">{item?.symbol}</a>) has released at {formatTime(item?.time)} its quarterly earnings:
   
                     <li style="color: #fff; line-height: 22px; margin-top:10px; margin-left: 30px; margin-bottom: 10px; list-style-type: disc;">
                         Revenue of {abbreviateNumber(item?.revenue,true)} ({(item?.revenue/item?.revenuePrior-1) > 0 ? '+' :''}{((item?.revenue/item?.revenuePrior-1)*100)?.toFixed(2)}% YoY) {item?.revenueSurprise > 0 ? 'beats' : 'misses'} by {abbreviateNumber(Math.abs(item?.revenueSurprise),true)}.
