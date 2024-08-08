@@ -390,7 +390,7 @@ onMount( async() => {
                     {#each data?.getDashboard?.upcomingEarnings as item}
                         <li style="margin-left: 8px; line-height: 22px; margin-bottom: 20px; list-style-type: disc;">
                             <strong>{item?.name}</strong> (<a href="/stocks/{item?.symbol}" class="text-blue-400 sm:hover:text-white">{item?.symbol}</a>)
-                            will report {['Monday', 'Tuesday', 'Wednesday', 'Thursday'].includes(new Date().toLocaleDateString('en-US', { weekday: 'long' })) ? "will report tomorrow" : "will report monday"}
+                            {['Monday', 'Tuesday', 'Wednesday', 'Thursday'].includes(new Date().toLocaleDateString('en-US', { weekday: 'long' })) ? "will report tomorrow" : "will report monday"}
                             {#if item?.time}
                                 {#if compareTimes(item?.time, '16:00') > 0}
                                     after market closes.
