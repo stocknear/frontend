@@ -1,17 +1,23 @@
 
 <script lang ='ts'>
-    import { displayCompanyName, stockTicker, screenWidth} from '$lib/store';
-    import InfoModal from '$lib/components/InfoModal.svelte';
-    import { Chart } from 'svelte-echarts'
-    import { abbreviateNumber } from "$lib/utils";
+import { corporateLobbyingComponent, displayCompanyName, stockTicker, screenWidth, getCache, setCache} from '$lib/store';
+import InfoModal from '$lib/components/InfoModal.svelte';
+import { Chart } from 'svelte-echarts'
+import { abbreviateNumber } from "$lib/utils";
+import { init, use } from 'echarts/core'
+import { BarChart } from 'echarts/charts'
+import { GridComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+use([BarChart, GridComponent, CanvasRenderer])
 
-    import Lazy from 'svelte-lazy';
 
+    export let data;
 
-    export let lobbyingList;
+    let isLoaded = false;
+    let rawData = [];
 
     let optionsData;
-    let avgTotalValue = 0;
+    let avgAmount = 0;
     let displayMaxLobbying = 0;
     let displayYear = 'n/a';
 
@@ -32,13 +38,13 @@ function getPlotOptions() {
     let dates = [];
     let valueList = [];
     // Iterate over the data and extract required information
-    lobbyingList?.forEach(item => {
+    rawData?.forEach(item => {
     // Extract year and convert it to fiscal year format
     const fiscalYear = "FY" + String(item?.year)?.slice(2);
     dates?.push(fiscalYear);
 
-    // Extract totalValue
-    valueList?.push(item.totalValue);
+    // Extract amount
+    valueList?.push(item?.amount);
     });
 
 
@@ -55,6 +61,9 @@ function getPlotOptions() {
     xAxis: {
         data: dates,
         type: 'category',
+        axisLabel: {
+            color: '#fff',
+        }
         },
         yAxis: [
         {
@@ -63,7 +72,7 @@ function getPlotOptions() {
             show: false, // Disable x-axis grid lines
             },
             axisLabel: {
-            color: '#6E7079', // Change label color to white
+            color: '#fff', // Change label color to white
                 formatter: function (value) {
                 return '$'+(value / denominator)?.toFixed(1) + unit; // Format value in millions
                 },
@@ -84,19 +93,67 @@ function getPlotOptions() {
 
 return option;
 }
+
+const getCorporateLobbing = async (ticker) => {
+    // Get cached data for the specific tickerID
+    const cachedData = getCache(ticker, 'getCorporateLobbing');
+    if (cachedData) {
+      rawData = cachedData;
+    } else {
+  
+      const postData = {'ticker': ticker};
+      // make the POST request to the endpoint
+      const response = await fetch(data?.apiURL + '/corporate-lobbying', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
+        },
+        body: JSON.stringify(postData)
+      });
+  
+      rawData = (await response.json())?.slice(-100);
+      // Cache the data for this specific tickerID with a specific name 'getCorporateLobbing'
+      setCache(ticker, rawData, 'getCorporateLobbing');
+    }
+    
+    if(rawData?.length !== 0) {
+      $corporateLobbyingComponent = true;
+    } else {
+      $corporateLobbyingComponent = false;
+    }
+  };
+  
    
+
+
 $: {
-  if($stockTicker && typeof window !== 'undefined' && lobbyingList?.length !== 0) {
-
-    optionsData = getPlotOptions()
-
-    // Calculate total number of contracts
-    avgTotalValue = Math.floor((lobbyingList?.reduce((sum, item) => sum + item?.totalValue, 0))/lobbyingList?.length);
-    const { year:yearWithMaxLobbying, totalValue: maxLobbying } = lobbyingList?.reduce((max, item) => item?.totalValue > max?.totalValue ? item : max, lobbyingList?.at(0));
-    displayYear = yearWithMaxLobbying;
-    displayMaxLobbying = maxLobbying
+    if($stockTicker && typeof window !== 'undefined') {
+    isLoaded=false;
+    const asyncFunctions = [
+      getCorporateLobbing($stockTicker)
+      ];
+      Promise.all(asyncFunctions)
+          .then((results) => {
+            if (rawData?.length !== 0) {
+                optionsData = getPlotOptions();        
+            // Calculate total number of contracts
+            avgAmount = Math.floor((rawData?.reduce((sum, item) => sum + item?.amount, 0))/rawData?.length);
+            const { year:yearWithMaxLobbying, amount: maxLobbying } = rawData?.reduce((max, item) => item?.amount > max?.amount ? item : max, rawData?.at(0));
+            displayYear = yearWithMaxLobbying;
+            displayMaxLobbying = maxLobbying;
+            console.log('yes')
+            }
+            
+          })
+          .catch((error) => {
+            console.error('An error occurred:', error);
+          });
+    isLoaded = true;
+  
   }
-}
+  }
+  
+    
 
 </script>
     
@@ -107,16 +164,18 @@ $: {
                         
             <div class="flex flex-row items-center">
                 <label for="lobbyingInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
-                 Senate Lobbying
+                 Corporate Lobbying
                 </label>
                 <InfoModal
-                  title={"Senate Lobbying"}
+                  title={"Corporate Lobbying"}
                   content={"Lobbying the Senate involves special interest groups hiring professional advocates to influence lawmakers and government policies. It is a constitutionally protected activity, but critics argue it can undermine democratic representation by giving disproportionate influence to wealthy and well-organized groups."}
                   id={"lobbyingInfo"}
                 />
             </div>
-    
-            {#if lobbyingList?.length !== 0}
+            
+            {#if data?.user?.tier === 'Pro'}
+            {#if isLoaded}
+            {#if rawData?.length !== 0}
             <div class="p-3 sm:p-0 mt-2 pb-8 sm:pb-2 rounded-lg bg-[#09090B] sm:bg-[#09090B]">
                     
                 <div class="w-full flex flex-col items-start">
@@ -127,14 +186,12 @@ $: {
             
                 
 
-                <Lazy height={300} fadeOption={{delay: 100, duration: 500}} keep={true}>
-                    <div class="app w-full h-[300px] ">
-                        <Chart options={optionsData} class="chart" />
-                    </div>
-                </Lazy>
+                <div class="app w-full h-[300px] ">
+                    <Chart {init} options={optionsData} class="chart" />
+                </div>
 
                 <div class="w-full text-white text-sm sm:text-[1rem] mt-6">
-                    The company allocated an average of {abbreviateNumber(avgTotalValue,true)} annually towards lobbying efforts, reaching its peak at {abbreviateNumber(displayMaxLobbying,true)} in {displayYear}.
+                    The company allocated an average of {abbreviateNumber(avgAmount,true)} annually towards lobbying efforts, reaching its peak at {abbreviateNumber(displayMaxLobbying,true)} in {displayYear}.
                 </div>
             </div>
               
@@ -145,6 +202,24 @@ $: {
             </h2>
             
             {/if}
+
+            {:else}
+            <div class="flex justify-center items-center h-80">
+                <div class="relative">
+                <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <span class="loading loading-spinner loading-md"></span>
+                </label>
+                </div>
+            </div>
+            {/if}
+      
+            {:else}
+            <div class="shadow-lg shadow-bg-[#000] bg-[#111112] sm:bg-opacity-[0.5] text-sm sm:text-[1rem] rounded-md w-full p-4 min-h-24 mt-4 text-white m-auto flex justify-center items-center text-center font-semibold">
+                <svg class="mr-1.5 w-5 h-5 inline-block"xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#A3A3A3" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/></svg>
+                Unlock content with <a class="inline-block ml-2 text-blue-400 hover:sm:text-white" href="/pricing">Pro Subscription</a>
+              </div>
+            {/if}
+      
     
         </main>
     </section>
