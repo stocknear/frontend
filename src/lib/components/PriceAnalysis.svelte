@@ -64,6 +64,7 @@ function getPlotOptions() {
     boundaryGap: false,
     data: predictionDate,
     axisLabel: {
+      color: '#fff',
       formatter: function (value) {
         // Assuming dates are in the format 'yyyy-mm-dd'
         // Extract the month and day from the date string and convert the month to its abbreviated name
@@ -78,6 +79,9 @@ function getPlotOptions() {
     type: 'value',
     splitLine: {
       show: false,
+    },
+    axisLabel: {
+      color: '#fff',
     }
   },
   series: [
@@ -123,7 +127,7 @@ function getPlotOptions() {
       smooth: true,
       type: 'line',
       itemStyle: {
-            color: "#C40377"
+            color: "#fff"
         }
     }
   ]

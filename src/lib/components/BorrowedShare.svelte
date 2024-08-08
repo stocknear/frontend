@@ -110,6 +110,9 @@ function findLowestAndHighestFee(data, lastDateStr) {
         type: 'category',
         boundaryGap: false,
         data: dates,
+        axisLabel: {
+            color: '#fff',
+        }
     },
     yAxis: [
     { 
@@ -118,7 +121,7 @@ function findLowestAndHighestFee(data, lastDateStr) {
             show: false, // Disable x-axis grid lines
         },
         axisLabel: {
-            color: '#6E7079', // Change label color to white
+            color: '#fff', // Change label color to white
             formatter: function (value, index) {
                 // Display every second tick
                 if (index % 2 === 0) {
@@ -137,6 +140,7 @@ function findLowestAndHighestFee(data, lastDateStr) {
       },
       position: 'right',
       axisLabel: {
+        color: '#fff',
           formatter: function (value, index) {
             if (index % 2 === 0) {
               return value?.toFixed(1)+'%'

@@ -113,6 +113,7 @@ function getPlotOptions() {
         boundaryGap: false,
         data: dates,
         axisLabel: {
+        color: '#fff',
         formatter: function (value) {
             // Assuming dates are in the format 'yyyy-mm-dd'
             // Extract the month and day from the date string and convert the month to its abbreviated name
@@ -132,7 +133,7 @@ function getPlotOptions() {
             show: false, // Disable x-axis grid lines
         },
         axisLabel: {
-            color: '#6E7079', // Change label color to white
+            color: '#fff', // Change label color to white
             formatter: function (value, index) {
                 // Display every second tick
                 if (index % 2 === 0) {
@@ -152,9 +153,10 @@ function getPlotOptions() {
       name: 'Sentiment',
       position: 'right',
       axisLabel: {
+        color: '#fff',
           formatter: function (value, index) {
             if (index % 2 === 0) {
-              return value.toFixed(2); // Format the sentiment value
+              return value?.toFixed(2); // Format the sentiment value
             } else {
                   return ''; // Hide this tick
               }

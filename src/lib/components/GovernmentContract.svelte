@@ -90,7 +90,11 @@ use([BarChart, GridComponent, CanvasRenderer])
     xAxis: {
         data: dates,
         type: 'category',
+        axisLabel: {
+            color: '#fff',
+        }
         },
+        
         yAxis: [
         {
             type: 'value',
@@ -98,7 +102,7 @@ use([BarChart, GridComponent, CanvasRenderer])
             show: false, // Disable x-axis grid lines
             },
             axisLabel: {
-            color: '#6E7079', // Change label color to white
+            color: '#fff', // Change label color to white
                 formatter: function (value, index) {
                     if(index % 2) {
                         return '$'+(value / denominator)?.toFixed(1) + unit; // Format value in millions        
