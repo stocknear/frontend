@@ -433,7 +433,7 @@ $: {
       
   
   
-  let charNumber = 20;
+  let charNumber = 50;
       
       
       $: {
@@ -443,7 +443,7 @@ $: {
         }
         else 
         {
-          charNumber=20;
+          charNumber=50;
         }
       }
       
