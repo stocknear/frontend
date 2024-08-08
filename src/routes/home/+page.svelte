@@ -13,11 +13,15 @@
   
   import {  numberOfUnreadNotification} from '$lib/store';
 
-  import { LayerCake, Svg } from 'layercake';
-  import { scaleBand } from 'd3-scale';
-  import Bar from '$lib/components/LayerCake/Bar/Bar.svelte';
-  import AxisY from '$lib/components/LayerCake/Bar/AxisY.svelte';
-  import { goto } from '$app/navigation';
+  import { Chart } from 'svelte-echarts'
+  import { init, use } from 'echarts/core'
+  import { BarChart } from 'echarts/charts'
+  import { GridComponent } from 'echarts/components'
+  import { CanvasRenderer } from 'echarts/renderers'
+
+  // now with tree-shaking
+  use([BarChart, GridComponent, CanvasRenderer])
+
 
   export let data;
   let isLoaded = false;
@@ -27,6 +31,68 @@
 function reformatDate(dateString) {
     return dateString.substring(5, 7) + '/' + dateString.substring(8) + '/' + dateString.substring(2, 4);
 }
+
+
+const tickerGraphName = data?.getDashboard?.retailTracker?.map(item => item?.symbol) || [];
+const tradedList = data?.getDashboard?.retailTracker?.map(item => item?.traded) || [];
+
+const optionsGraph = {
+  animation: false,
+  grid: {
+    left: '2%',
+    right: '3%',
+    bottom: '6%',
+    top: '0%',
+    containLabel: true
+  },
+  xAxis: {
+    type: 'value',
+    splitLine: {
+      show: false, // Disable x-axis grid lines
+    },
+    axisLabel: {
+      show: false // Hide x-axis labels
+    },
+    axisTick: {
+      show: false // Hide x-axis ticks
+    },
+    axisLine: {
+      show: false // Hide x-axis line
+    }
+  },
+  yAxis: {
+    type: 'category',
+    data: tickerGraphName,
+    inverse: true,
+    axisTick: {
+      show: false // Hide x-axis ticks
+    },
+    axisLabel: {
+        color: '#fff' // Set the y-axis label color to white
+    }
+  },
+  series: [
+    {
+      data: tradedList,
+      label: {
+        show: true,
+        position: 'inside',
+        formatter: function(params) {
+          return abbreviateNumber(params?.value,true);
+        },
+        fontWeight: 600,
+      },
+      type: 'bar',
+      showBackground: true,
+      backgroundStyle: {
+        color: 'rgba(180, 180, 180, 0.2)'
+      },
+      itemStyle: {
+        color: 'white'  // Bar color is white
+      }
+    }
+  ]
+};
 
 function latestInfoDate(inputDate) {
     // Convert the input date string to milliseconds since epoch
@@ -46,8 +112,6 @@ function latestInfoDate(inputDate) {
 }
 
 
-const xKey = 'traded';
-const yKey = 'symbol';
 
 let Feedback;
 
@@ -260,21 +324,9 @@ onMount( async() => {
               </Card.Header>
               <Card.Content>                
                 {#if data?.getDashboard?.retailTracker?.length !== 0 && isLoaded}
-                  <div class="chart-container">
-                    <LayerCake
-                      padding={{ bottom: 20, left: 35 }}
-                      x={xKey}
-                      y={yKey}
-                      yScale={scaleBand().paddingInner(0.2)}
-                      xDomain={[0, null]}
-                      data={data?.getDashboard?.retailTracker}
-                    >
-                      <Svg>
-                        <AxisY tickMarks gridlines={false} />
-                        <Bar />
-                      </Svg>
-                    </LayerCake>
-                  </div>
+                  <div class="app w-full h-[300px] mt-5">
+                    <Chart {init} options={optionsGraph} class="chart" />
+                </div>
                   {:else}
                   <div class="flex justify-center items-center h-80">
                     <div class="relative">
@@ -382,6 +434,23 @@ onMount( async() => {
 
   
 <style>
+
+
+.app {
+  height: 250px;
+  max-width: 100%; /* Ensure chart width doesn't exceed the container */
+  
+  }
+  
+  @media (max-width: 640px) {
+  .app {
+    height: 210px;
+  }
+  }
+  
+  .chart {
+  width: 100%;
+  }
 
    .chart-container {
     width: 100%;
