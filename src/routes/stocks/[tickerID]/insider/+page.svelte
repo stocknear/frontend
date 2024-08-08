@@ -135,6 +135,7 @@ const handleMessage = async (event) => {
           boundaryGap: false,
           data: dates,
           axisLabel: {
+            color: '#fff',
               formatter: function (value) {
                   // Assuming dates are in the format 'yyyy-mm-dd'
                   const dateParts = value.split('-');
@@ -148,6 +149,7 @@ const handleMessage = async (event) => {
         {
           type: 'value',
           axisLabel: {
+            color: '#fff',
             formatter: '${value}',
           },
           splitLine: {
@@ -499,14 +501,14 @@ onMount(async() => {
                     {/if}
 
 
-                      <div class="hidden sm:flex justify-start items-center w-full m-auto rounded-none sm:rounded-lg mb-4">
+                      <div class="flex justify-start items-center w-full m-auto rounded-none sm:rounded-lg mb-4 overflow-x-scroll no-scrollbar">
                           <table class="table table-sm table-pin-rows table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                             <thead>
                               <tr class="bg-[#09090B] shadow-md">
                                 <th class="text-start bg-[#09090B] text-white text-sm sm:font-medium">
                                   Person
                                 </th>
-                                <th class="text-end bg-[#09090B] hidden sm:table-cell text-white text-sm sm:font-medium">
+                                <th class="text-end bg-[#09090B] text-white text-sm sm:font-medium">
                                   Transaction Date
                                 </th>
                                 <th class="text-end bg-[#09090B]  text-white text-sm sm:font-medium">
@@ -520,26 +522,26 @@ onMount(async() => {
                             </thead>
                             <tbody>
                               {#each (data?.user?.tier === 'Pro' ? insiderTradingList : insiderTradingList?.slice(0,3)) as item, index}
-                              <tr class="text-gray-200 odd:bg-[#27272A] {index+1 === insiderTradingList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
+                              <tr class="text-white odd:bg-[#27272A] {index+1 === insiderTradingList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
       
-                                <td class="text-gray-200 border-b border-[#09090B]">
+                                <td class="text-white text-sm sm:text-[1rem] border-b border-[#09090B] whitespace-nowrap">
                                   <div class="flex flex-col">
-                                    <span class="text-white">{formatString(item?.reportingName)?.replace('/de/','')}</span>
-                                    <span class="text-white text-xs">{extractOfficeInfo(item?.typeOfOwner)}</span>
+                                    <span class="">{formatString(item?.reportingName)?.replace('/de/','')}</span>
+                                    <span class="text-sm sm:text-[1rem]">{extractOfficeInfo(item?.typeOfOwner)}</span>
                                   </div>
                                 </td>
       
-                                  <td class="text-end hidden sm:table-cell text-xs sm:text-sm text-white border-b border-[#09090B]">
+                                  <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap text-white border-b border-[#09090B]">
                                       {new Date(item?.transactionDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                   </td>
 
-                                  <td class="text-end text-xs sm:text-sm text-white border-b border-[#09090B]">
+                                  <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap text-white border-b border-[#09090B]">
                                       {abbreviateNumber(item?.securitiesTransacted)}
                                   </td>
-                                  <td class="text-end text-xs sm:text-sm text-white border-b border-[#09090B]">
+                                  <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap text-white border-b border-[#09090B]">
                                     ${item?.price?.toFixed(2)}
                                   </td>
-                                  <td class="font-medium text-end sm:text-sm text-white border-b border-[#09090B]">
+                                  <td class="font-medium text-end text-sm sm:text-[1rem] whitespace-nowrap text-white border-b border-[#09090B]">
                                     {#if item?.transactionType === 'Bought'}
                                       <span class="text-[#10DB06]">Bought</span>
                                     {:else if item?.transactionType === 'Grant'}
@@ -558,73 +560,7 @@ onMount(async() => {
                           </table>
                       </div>
 
-                      <div class="relative sm:hidden w-full">
-                        {#each insiderTradingList as item}
-                          <div class="bg-[#09090B] border border-slate-800 shadow-lg rounded-lg h-auto pb-4 pl-2 pr-4 pt-4 mb-7">
-                              <div class="flex flex-row items-center">
-                                <label class="flex flex-col ml-2 w-40">
-                                  <span class="text-white fónt-medium">Name</span>
-                                  <span class="text-slate-300 text-sm">{formatString(item?.reportingName)?.replace('/de/','')}</span>
-                                </label>
-    
-                                <div class="flex flex-col justify-end items-end ml-auto">
-                                  <span class="font-medium text-slate-300 text-end">Position</span>
-                                  <span class="text-white text-opacity-[0.8] text-sm text-end">
-                                    {extractOfficeInfo(item?.typeOfOwner)}
-                                  </span>
-                                </div>
-                              </div>
-                              <div class="border-1 border-b border-slate-800 w-full mt-5 mb-5" />
-    
-                              <div class="flex flex-row items-center">
-                                <div class="flex flex-col ml-3 w-40">
-                                  <span class="font-medium text-slate-300">Transaction Date</span>
-                                  <span class="text-slate-300 text-sm">
-                                    {new Date(item?.transactionDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
-                                  </span>
-                                </div>
-    
-                                <div class="flex flex-col justify-end items-end ml-auto">
-                                  <span class="font-medium text-slate-300 text-ends">Price</span>
-                                  <span class="text-white text-sm text-end">
-                                    ${item?.price?.toFixed(2)}
-                                  </span>
-                                </div>
-                              </div>
-    
-                              <div class="border-1 border-b border-slate-800 w-full mt-5 mb-5" />
-    
-                              <div class="flex flex-row items-center">
-                                <div class="flex flex-col ml-3 w-40">
-                                  <span class="font-medium text-slate-300">Shares</span>
-                                  <span class="text-slate-300 text-sm font-medium">
-                                    {abbreviateNumber(item?.securitiesTransacted)}
-                                  </span>
-                                </div>
-    
-                                <div class="flex flex-col justify-end items-end ml-auto">
-                                  <span class="font-medium text-slate-300 text-ends">Type</span>
-                                  <span class="text-white text-end font-medium">
-                                    {#if item?.transactionType === 'Bought'}
-                                      <span class="text-[#10DB06]">Bought</span>
-                                    {:else if item?.transactionType === 'Grant'}
-                                      <span class="text-[#8f95a1]">Grant</span>
-                                    {:else if item?.transactionType === 'Sold'}
-                                      <span class="text-[#FF2F1F]">Sold</span>
-                                    {:else if item?.transactionType === 'Exercise'}
-                                      <span class="text-[#F8901E]">Exercise</span>
-                                    {:else if item?.transactionType === 'n/a'}
-                                      <span class="text-gray-300">n/a</span>
-                                    {/if}
-                                  </span>
-                                </div>
-                              </div>
-    
-    
-                          </div>
-                        {/each}
-
-                      </div>
+                
 
                       {#if rawData?.length >= 20 && data?.user?.tier === 'Pro'}
                       <label on:click={backToTop} class="w-32 py-1.5 mt-10 hover:bg-white hover:bg-opacity-[0.05] cursor-pointer m-auto flex justify-center items-center border border-slate-800 rounded-full">
