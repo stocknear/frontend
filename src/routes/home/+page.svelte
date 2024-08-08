@@ -411,14 +411,14 @@ onMount( async() => {
                 <Card.Header class="flex flex-row items-center">
                   <div class="flex flex-col items-start w-full">
                     <div class="flex flex-row w-full items-center">
-                      <Card.Title class="text-xl sm:text-2xl tex-white font-semibold">Recent Earnings</Card.Title>
+                      <Card.Title class="text-xl sm:text-2xl tex-white font-semibold">Recent Earnings <span class="text-sm text-gray-300">(NYSE Time)</span></Card.Title>
                     </div>
                   </div>
                 </Card.Header>
                 <Card.Content>
                   <ul style="padding-left: 5px;">
                     {#each data?.getDashboard?.recentEarnings as item}
-                    <strong>{item?.name}</strong> (<a href="/stocks/{item?.symbol}" class="sm:hover:text-white text-blue-400">{item?.symbol}</a>) has released at {formatTime(item?.time)} its quarterly earnings:
+                    <strong>{item?.name}</strong> (<a href="/stocks/{item?.symbol}" class="sm:hover:text-white text-blue-400">{item?.symbol}</a>) has released its quarterly earnings at {formatTime(item?.time)}:
   
                     <li style="color: #fff; line-height: 22px; margin-top:10px; margin-left: 30px; margin-bottom: 10px; list-style-type: disc;">
                         Revenue of {abbreviateNumber(item?.revenue,true)} ({(item?.revenue/item?.revenuePrior-1) > 0 ? '+' :''}{((item?.revenue/item?.revenuePrior-1)*100)?.toFixed(2)}% YoY) {item?.revenueSurprise > 0 ? 'beats' : 'misses'} by {abbreviateNumber(Math.abs(item?.revenueSurprise),true)}.
