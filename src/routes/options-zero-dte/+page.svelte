@@ -557,7 +557,7 @@ $: {
               <!--Start Flow Sentiment-->  
               <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
                   <div class="flex flex-col items-start">
-                      <span class="font-semibold text-gray-200 text-sm ">Flow Sentiment</span>
+                      <span class="font-semibold text-gray-200 text-sm sm:text-lg">Flow Sentiment</span>
                       <span class="text-start text-xl font-semibold {flowSentiment === 'Bullish' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">{flowSentiment}</span>
                   </div>
                   
@@ -566,7 +566,7 @@ $: {
                <!--Start Put/Call-->  
                <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
                 <div class="flex flex-col items-start">
-                    <span class="font-semibold text-gray-200 text-sm ">Put/Call</span>
+                    <span class="font-semibold text-gray-200 text-sm sm:text-lg">Put/Call</span>
                     <span class="text-start text-lg font-semibold text-white">
                       {putCallRatio?.toFixed(3)}
                     </span>
@@ -593,7 +593,7 @@ $: {
              <!--Start Call Flow-->  
              <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-semibold text-gray-200 text-sm ">Call Flow</span>
+                  <span class="font-semibold text-gray-200 text-sm sm:text-lg">Call Flow</span>
                   <span class="text-start text-lg font-semibold text-white">
                     {new Intl.NumberFormat("en", {
                       minimumFractionDigits: 0,
@@ -622,7 +622,7 @@ $: {
             <!--Start Put Flow-->  
             <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-semibold text-gray-200 text-sm ">Put Flow</span>
+                  <span class="font-semibold text-gray-200 text-sm sm:text-lg">Put Flow</span>
                   <span class="text-start text-lg font-semibold text-white">
                     {new Intl.NumberFormat("en", {
                       minimumFractionDigits: 0,
@@ -653,7 +653,7 @@ $: {
              <!--Start Most Traded-->  
              <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-semibold text-gray-200 text-sm ">Most Traded Option</span>
+                  <span class="font-semibold text-gray-200 text-sm sm:text-lg">Most Traded Option</span>
                   <span class="text-start text-lg font-semibold text-white mt-0.5">
                     <span class="text-blue-400 ">
                       {mostFrequentTicker?.ticker}
@@ -670,7 +670,7 @@ $: {
              <!--Start Highest Premium-->  
              <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-semibold text-gray-200 text-sm ">Highest Premium</span>
+                  <span class="font-semibold text-gray-200 text-sm sm:text-lg">Highest Premium</span>
                   <span class="text-start text-lg font-semibold text-white mt-0.5">
                     <span class="text-blue-400 ">
                       {highestPremiumTicker?.ticker}
@@ -687,7 +687,7 @@ $: {
             <!--Start Highest Volume-->  
             <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-semibold text-gray-200 text-sm ">Highest Volume</span>
+                  <span class="font-semibold text-gray-200 text-sm sm:text-lg">Highest Volume</span>
                   <span class="text-start text-lg font-semibold text-white mt-0.5">
                     <span class="text-blue-400 ">
                       {highestVolumeTicker?.ticker}
@@ -704,7 +704,7 @@ $: {
              <!--Start Highest Open Interest-->  
              <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-semibold text-gray-200 text-sm ">Highest Open Interest</span>
+                  <span class="font-semibold text-gray-200 text-sm sm:text-lg">Highest Open Interest</span>
                   <span class="text-start text-lg font-semibold text-white mt-0.5">
                     <span class="text-blue-400 ">
                       {highestOpenInterestTicker?.ticker}
@@ -771,42 +771,42 @@ $: {
                           {rawData[index]?.ticker}
                         </div>
   
-                      <div style="justify-content: center;" class="td text-sm text-white text-start">
+                      <div style="justify-content: center;" class="td text-sm sm:text-[1rem] text-white text-start">
                         {rawData[index]?.strike_price}
                       </div>
   
-                      <div style="justify-content: center;" class="td  text-sm {rawData[index]?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-start">
+                      <div style="justify-content: center;" class="td  text-sm sm:text-[1rem] {rawData[index]?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-start">
                         {rawData[index]?.put_call}
                       </div>
   
-                      <div style="justify-content: center;" class="td  text-sm {rawData[index]?.sentiment === 'Bullish' ? 'text-[#00FC50]' : rawData[index]?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'} text-start">
+                      <div style="justify-content: center;" class="td  text-sm sm:text-[1rem] {rawData[index]?.sentiment === 'Bullish' ? 'text-[#00FC50]' : rawData[index]?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'} text-start">
                         {rawData[index]?.sentiment}
                       </div>
     
-                        <div style="justify-content: center;" class="td  text-sm text-start text-white">
+                        <div style="justify-content: center;" class="td  text-sm sm:text-[1rem] text-start text-white">
                           {rawData[index]?.underlying_price}
                         </div>
                       
-                      <div style="justify-content: center;" class="td  text-sm text-start text-white">
+                      <div style="justify-content: center;" class="td  text-sm sm:text-[1rem] text-start text-white">
                         {rawData[index]?.price}
                       </div>
                       
-                      <div style="justify-content: center;" class="td  text-sm text-start font-semibold {rawData[index]?.put_call === 'Puts' ? 'text-[#CB281C]' : 'text-[#0FB307]'} ">
+                      <div style="justify-content: center;" class="td  text-sm sm:text-[1rem] text-start font-semibold {rawData[index]?.put_call === 'Puts' ? 'text-[#CB281C]' : 'text-[#0FB307]'} ">
                         {abbreviateNumber(rawData[index]?.cost_basis)}
                       </div>
   
-                      <div style="justify-content: center;" class="td  text-sm text-start {rawData[index]?.type === 'Sweep' ? 'text-[#C6A755]' : 'text-[#976DB7]'}">
+                      <div style="justify-content: center;" class="td  text-sm sm:text-[1rem] text-start {rawData[index]?.type === 'Sweep' ? 'text-[#C6A755]' : 'text-[#976DB7]'}">
                         {rawData[index]?.type}
                       </div>
       
-                      <div style="justify-content: center;" class="td  text-sm text-white text-end">
+                      <div style="justify-content: center;" class="td  text-sm sm:text-[1rem] text-white text-end">
                           {new Intl.NumberFormat("en", {
                               minimumFractionDigits: 0,
                               maximumFractionDigits: 0
                           }).format(rawData[index]?.volume)}
                       </div>
       
-                      <div style="justify-content: center;" class="td  text-sm text-white text-end">
+                      <div style="justify-content: center;" class="td  text-sm sm:text-[1rem] text-white text-end">
                         {new Intl.NumberFormat("en", {
                           minimumFractionDigits: 0,
                           maximumFractionDigits: 0

@@ -497,7 +497,7 @@ $: {
     
       <div class="w-full m-auto mb-10 pl-3 pr-3">
 
-        <div class="text-sm breadcrumbs mb-5">
+        <div class="text-sm sm:text-lg breadcrumbs mb-5">
           <ul>
             <li><a href="/" class="text-gray-300">Home</a></li>
             <li class="text-gray-300">Options Flow</li>
@@ -505,7 +505,7 @@ $: {
         </div>
 
         {#if !$isOpen}
-          <div class="text-white text-sm sm:text-md italic text-center sm:text-start w-full ml-2 mb-3">
+          <div class="text-white text-sm sm:text-lg sm:text-md italic text-center sm:text-start w-full ml-2 mb-3">
             Live flow of {new Date(rawData?.at(0)?.date ?? null)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })} (NYSE Time)
           </div>
         {/if}
@@ -527,7 +527,7 @@ $: {
                 </label>
                 
   
-              <span class="text-xs sm:text-sm {!mode ? 'text-white' : 'text-gray-400'} mr-3">
+              <span class="text-xs sm:text-sm sm:text-lg {!mode ? 'text-white' : 'text-gray-400'} mr-3">
                   Paused
               </span>
               
@@ -538,7 +538,7 @@ $: {
   
             
               <div class="ml-3 flex flex-col items-start">
-                  <span class="text-xs sm:text-sm {mode ? 'text-white' : 'text-gray-400'}">
+                  <span class="text-xs sm:text-sm sm:text-lg {mode ? 'text-white' : 'text-gray-400'}">
                      Live Flow
                   </span>
               </div>
@@ -602,7 +602,7 @@ $: {
               <!--Start Flow Sentiment-->  
               <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
                   <div class="flex flex-col items-start">
-                      <span class="font-semibold text-gray-200 text-sm ">Flow Sentiment</span>
+                      <span class="font-semibold text-gray-200 text-sm sm:text-lg ">Flow Sentiment</span>
                       <span class="text-start text-xl font-semibold {flowSentiment === 'Bullish' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">{flowSentiment}</span>
                   </div>
                   
@@ -611,7 +611,7 @@ $: {
                <!--Start Put/Call-->  
                <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
                 <div class="flex flex-col items-start">
-                    <span class="font-semibold text-gray-200 text-sm ">Put/Call</span>
+                    <span class="font-semibold text-gray-200 text-sm sm:text-lg ">Put/Call</span>
                     <span class="text-start text-lg font-semibold text-white">
                       {putCallRatio?.toFixed(3)}
                     </span>
@@ -638,7 +638,7 @@ $: {
              <!--Start Call Flow-->  
              <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-semibold text-gray-200 text-sm ">Call Flow</span>
+                  <span class="font-semibold text-gray-200 text-sm sm:text-lg ">Call Flow</span>
                   <span class="text-start text-lg font-semibold text-white">
                     {new Intl.NumberFormat("en", {
                       minimumFractionDigits: 0,
@@ -667,7 +667,7 @@ $: {
             <!--Start Put Flow-->  
             <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-semibold text-gray-200 text-sm ">Put Flow</span>
+                  <span class="font-semibold text-gray-200 text-sm sm:text-lg ">Put Flow</span>
                   <span class="text-start text-lg font-semibold text-white">
                     {new Intl.NumberFormat("en", {
                       minimumFractionDigits: 0,
@@ -698,7 +698,7 @@ $: {
              <!--Start Most Traded-->  
              <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-semibold text-gray-200 text-sm ">Most Traded Option</span>
+                  <span class="font-semibold text-gray-200 text-sm sm:text-lg ">Most Traded Option</span>
                   <span class="text-start text-lg font-semibold text-white mt-0.5">
                     <span class="text-blue-400 ">
                       {mostFrequentTicker?.ticker}
@@ -715,7 +715,7 @@ $: {
              <!--Start Highest Premium-->  
              <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-semibold text-gray-200 text-sm ">Highest Premium</span>
+                  <span class="font-semibold text-gray-200 text-sm sm:text-lg ">Highest Premium</span>
                   <span class="text-start text-lg font-semibold text-white mt-0.5">
                     <span class="text-blue-400 ">
                       {highestPremiumTicker?.ticker}
@@ -732,7 +732,7 @@ $: {
             <!--Start Highest Volume-->  
             <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-semibold text-gray-200 text-sm ">Highest Volume</span>
+                  <span class="font-semibold text-gray-200 text-sm sm:text-lg ">Highest Volume</span>
                   <span class="text-start text-lg font-semibold text-white mt-0.5">
                     <span class="text-blue-400 ">
                       {highestVolumeTicker?.ticker}
@@ -749,7 +749,7 @@ $: {
              <!--Start Highest Open Interest-->  
              <div class="flex flex-row items-center flex-wrap w-full px-5 bg-[#262626] shadow-lg rounded-lg h-20">
               <div class="flex flex-col items-start">
-                  <span class="font-semibold text-gray-200 text-sm ">Highest Open Interest</span>
+                  <span class="font-semibold text-gray-200 text-sm sm:text-lg ">Highest Open Interest</span>
                   <span class="text-start text-lg font-semibold text-white mt-0.5">
                     <span class="text-blue-400 ">
                       {highestOpenInterestTicker?.ticker}
@@ -811,54 +811,54 @@ $: {
                     <div on:click={() => handleViewData(displayedData[index])} slot="item" let:index let:style {style} class="tr cursor-pointer">
 
 
-                      <div style="justify-content: center;" class="td text-white pb-3 text-xs sm:text-sm text-start">
+                      <div style="justify-content: center;" class="td text-white pb-3 text-xs sm:text-sm sm:text-lg text-start">
                         {formatTime(displayedData[index]?.time)}
                       </div>
   
-                      <div on:click|stopPropagation={() => assetSelector(displayedData[index]?.ticker, displayedData[index]?.assetType)} style="justify-content: center;" class="td text-sm text-blue-400 font-normal">
+                      <div on:click|stopPropagation={() => assetSelector(displayedData[index]?.ticker, displayedData[index]?.assetType)} style="justify-content: center;" class="td text-sm sm:text-lg text-blue-400 font-normal">
                         {displayedData[index]?.ticker}
                       </div>
 
-                      <div style="justify-content: center;" class="td text-sm text-white text-start">
+                      <div style="justify-content: center;" class="td text-sm sm:text-lg sm:text-[1rem] text-white text-start">
                         {reformatDate(displayedData[index]?.date_expiration)}
                       </div>
 
-                    <div style="justify-content: center;" class="td text-sm text-white text-start">
+                    <div style="justify-content: center;" class="td text-sm sm:text-lg sm:text-[1rem] text-white text-start">
                       {displayedData[index]?.strike_price}
                     </div>
 
-                    <div style="justify-content: center;" class="td  text-sm {displayedData[index]?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-start">
+                    <div style="justify-content: center;" class="td  text-sm sm:text-lg sm:text-[1rem] {displayedData[index]?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-start">
                       {displayedData[index]?.put_call}
                     </div>
 
-                    <div style="justify-content: center;" class="td  text-sm {displayedData[index]?.sentiment === 'Bullish' ? 'text-[#00FC50]' : displayedData[index]?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'} text-start">
+                    <div style="justify-content: center;" class="td  text-sm sm:text-lg sm:text-[1rem] {displayedData[index]?.sentiment === 'Bullish' ? 'text-[#00FC50]' : displayedData[index]?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'} text-start">
                       {displayedData[index]?.sentiment}
                     </div>
   
-                      <div style="justify-content: center;" class="td  text-sm text-start text-white">
+                      <div style="justify-content: center;" class="td  text-sm sm:text-lg sm:text-[1rem] text-start text-white">
                         {displayedData[index]?.underlying_price}
                       </div>
                     
-                    <div style="justify-content: center;" class="td  text-sm text-start text-white">
+                    <div style="justify-content: center;" class="td  text-sm sm:text-lg sm:text-[1rem] text-start text-white">
                       {displayedData[index]?.price}
                     </div>
                     
-                    <div style="justify-content: center;" class="td  text-sm text-start font-semibold {displayedData[index]?.put_call === 'Puts' ? 'text-[#CB281C]' : 'text-[#0FB307]'} ">
+                    <div style="justify-content: center;" class="td  text-sm sm:text-lg sm:text-[1rem] text-start font-semibold {displayedData[index]?.put_call === 'Puts' ? 'text-[#CB281C]' : 'text-[#0FB307]'} ">
                       {abbreviateNumber(displayedData[index]?.cost_basis)}
                     </div>
 
-                    <div style="justify-content: center;" class="td  text-sm text-start {displayedData[index]?.type === 'Sweep' ? 'text-[#C6A755]' : 'text-[#976DB7]'}">
+                    <div style="justify-content: center;" class="td  text-sm sm:text-lg sm:text-[1rem] text-start {displayedData[index]?.type === 'Sweep' ? 'text-[#C6A755]' : 'text-[#976DB7]'}">
                       {displayedData[index]?.type}
                     </div>
     
-                    <div style="justify-content: center;" class="td  text-sm text-white text-end">
+                    <div style="justify-content: center;" class="td  text-sm sm:text-lg sm:text-[1rem] text-white text-end">
                         {new Intl.NumberFormat("en", {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 0
                         }).format(displayedData[index]?.volume)}
                     </div>
     
-                    <div style="justify-content: center;" class="td  text-sm text-white text-end">
+                    <div style="justify-content: center;" class="td  text-sm sm:text-lg sm:text-[1rem] text-white text-end">
                       {new Intl.NumberFormat("en", {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0
