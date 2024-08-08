@@ -428,6 +428,37 @@ export function pageTransitionOut(node, { duration }) {
 }
 
 
+/*
+function convertNYTimeToLocalTime(nyTimeString) {
+    // New York Time Zone
+    const nyTimeZone = 'America/New_York';
+    
+    // Parse the New York time string
+    let nyTime = new Date(nyTimeString);
+    if (isNaN(nyTime)) {
+        throw new Error('Invalid date format');
+    }
+    
+    // Convert New York time to UTC
+    let utcTime = new Date(nyTime.toLocaleString('en-US', { timeZone: nyTimeZone }));
+    
+    // Create an Intl.DateTimeFormat object for local time zone
+    const localTimeFormatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        hour12: false,  // Use 24-hour format
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+    
+    // Format the UTC time as local time
+    const localFormattedTime = localTimeFormatter.format(utcTime);
+    return localFormattedTime;
+}
+*/
 
 export function getPartyForPoliticians(name) {
   // Predefined list of senators and their parties
