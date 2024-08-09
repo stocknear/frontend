@@ -13,8 +13,21 @@
       let rawData = []
       let displayList =  [];
 
+      let order = 'highToLow';
 
-  
+  const sortByAmount = (tickerList) => {
+    return tickerList?.sort(function(a, b) {
+      if(order === 'highToLow')
+      {
+        return b?.amount - a?.amount;
+      }
+      else {
+        return a?.amount - b?.amount;
+      }
+       
+      });
+  }
+
     async function infiniteHandler({ detail: { loaded, complete } }) 
     {
     if (displayList?.length === rawData?.length) {
@@ -30,7 +43,7 @@
       
     onMount(() => {
       rawData = data?.getCramerTracker ?? [];
-      displayList = rawData?.slice(0,20) ?? []
+      displayList = rawData?.slice(0,50) ?? []
       isLoaded = true;
     })
     
@@ -46,7 +59,22 @@
       }
     }
     
-          
+function changeOrder(state:string) {
+  if (state === 'highToLow')
+  {
+    order = 'lowToHigh';
+  }
+  else {
+    order = 'highToLow';
+  }
+
+  displayList = sortByAmount(rawData)?.slice(0,50);
+
+}
+
+
+
+
     </script>
     
     <svelte:head>
@@ -158,8 +186,9 @@
                               <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
                                 Sector
                               </th>
-                              <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                              <th on:click={() => { changeOrder(order); }} class="cursor-pointer text-end bg-[#09090B] text-white text-sm font-semibold">
                                 Amount
+                                <svg class="w-5 h-5 inline-block {order === 'highToLow' ? '' : 'rotate-180'}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                               </th>
                             </tr>
                           </thead>
@@ -195,7 +224,10 @@
                               </td>
 
                               <td class="text-white text-sm sm:text-[1rem] text-end">
-                                {item?.amount}
+                                ${new Intl.NumberFormat("en", {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }).format(item?.amount)}
                               </td>
 
   
