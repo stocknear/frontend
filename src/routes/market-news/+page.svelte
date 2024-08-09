@@ -35,6 +35,8 @@ const inputDate = new Date(dateString);
     return `${days} day${days !== 1 ? 's' : ''}`;
   }
 };
+
+
 async function infiniteHandler({ detail: { loaded, complete } }) 
 {
   if (news?.length === rawData?.length) {

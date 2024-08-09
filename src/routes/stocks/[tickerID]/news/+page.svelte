@@ -1,6 +1,5 @@
 <script lang='ts'>
 import {numberOfUnreadNotification, displayCompanyName, stockTicker} from '$lib/store';
-import { formatDate } from '$lib/utils';
 
 export let data;
 
@@ -10,6 +9,30 @@ export let data;
 let rawNews = data?.getStockNews;
 let newsList = rawNews?.slice(0,20) ?? [];
 
+const formatDate = (dateString) => {
+// Create a date object for the input dateString
+const inputDate = new Date(dateString);
+  
+  // Create a date object for the current time in New York City
+  const nycTime = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
+  const currentNYCDate = new Date(nycTime);
+  
+  // Calculate the difference in milliseconds
+  const difference = inputDate.getTime() - currentNYCDate.getTime();
+  
+  // Convert the difference to minutes
+  const minutes = Math.abs(Math.round(difference / (1000 * 60)));
+  
+  if (minutes < 60) {
+    return `${minutes} minutes`;
+  } else if (minutes < 1440) {
+    const hours = Math.round(minutes / 60);
+    return `${hours} hour${hours !== 1 ? 's' : ''}`;
+  } else {
+    const days = Math.round(minutes / 1440);
+    return `${days} day${days !== 1 ? 's' : ''}`;
+  }
+};
 
 let videoId = null;
 
