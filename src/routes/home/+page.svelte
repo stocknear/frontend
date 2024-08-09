@@ -373,7 +373,7 @@ onMount( async() => {
             <!--Start Earnings Section-->
             <div class="grid gap-4 md:gap-8 grid-cols-1 lg:grid-cols-2 text-start">
 
-              <Card.Root class="overflow-x-scroll overflow-hidden overflow-y-scroll no-scrollbar max-h-[400px]">
+              <Card.Root class="overflow-x-scroll overflow-hidden overflow-y-scroll no-scrollbar sm:max-h-[400px]">
                 <Card.Header class="flex flex-row items-center">
                   <div class="flex flex-col items-start w-full">
                     <div class="flex flex-row w-full items-center">
@@ -407,7 +407,7 @@ onMount( async() => {
                 </Card.Content>
               </Card.Root>
               
-              <Card.Root class="overflow-x-scroll overflow-hidden overflow-y-scroll no-scrollbar max-h-[400px]">
+              <Card.Root class="overflow-x-scroll overflow-hidden overflow-y-scroll no-scrollbar sm:max-h-[400px]">
                 <Card.Header class="flex flex-row items-center">
                   <div class="flex flex-col items-start w-full">
                     <div class="flex flex-row w-full items-center">

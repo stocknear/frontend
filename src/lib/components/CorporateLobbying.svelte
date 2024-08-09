@@ -159,7 +159,7 @@ $: {
     
     
     
-    <section class="overflow-hidden text-white h-full pb-8 sm:pb-2 ">
+    <section class="overflow-hidden text-white h-full ">
         <main class="overflow-hidden ">
                         
             <div class="flex flex-row items-center">
@@ -176,10 +176,10 @@ $: {
             {#if data?.user?.tier === 'Pro'}
             {#if isLoaded}
             {#if rawData?.length !== 0}
-            <div class="p-3 sm:p-0 mt-2 pb-8 sm:pb-2 rounded-lg bg-[#09090B] sm:bg-[#09090B]">
+            <div class="mt-2 pb-8 sm:pb-2 rounded-lg bg-[#09090B] sm:bg-[#09090B]">
                     
                 <div class="w-full flex flex-col items-start">
-                    <div class="text-white text-sm sm:text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
+                    <div class="text-white text-[1rem] mt-1 sm:mt-3 mb-1 w-full">
                         Explore {$displayCompanyName}'s lobbying strategy by analyzing their annual spending to influence lawmakers towards favorable regulation and legislation alignment.
                     </div>
                 </div>
@@ -190,7 +190,7 @@ $: {
                     <Chart {init} options={optionsData} class="chart" />
                 </div>
 
-                <div class="w-full text-white text-sm sm:text-[1rem] mt-6">
+                <div class="w-full text-white text-[1rem] mt-6">
                     The company allocated an average of {abbreviateNumber(avgAmount,true)} annually towards lobbying efforts, reaching its peak at {abbreviateNumber(displayMaxLobbying,true)} in {displayYear}.
                 </div>
             </div>
