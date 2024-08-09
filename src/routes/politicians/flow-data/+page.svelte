@@ -384,7 +384,7 @@
   
   
   
-  <section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-60">
+  <section class="w-full max-w-5xl overflow-hidden m-auto min-h-screen pt-5 pb-60">
       <!-- 
       <div class="text-sm breadcrumbs ml-4">
         <ul>
@@ -394,13 +394,13 @@
       </div>
     -->
   
-        <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+        <div class="w-full max-w-5xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
         
             <!-- Start Column -->
             <div>
               <div class="flex flex-row justify-center items-center">
-                <h1 class="text-3xl sm:text-4xl text-white text-center font-bold mb-5">
+                <h1 class="text-3xl sm:text-4xl text-white text-center font-bold mb-5 w-80 whitespace-normal">
                   Latest Trades of Politicians
                 </h1>
               </div>
@@ -442,15 +442,15 @@
       
   
   
-    <body class="w-full max-w-4xl overflow-hidden m-auto">
+    <body class="w-full max-w-5xl overflow-hidden m-auto">
               
         
     {#if isLoaded}
   
               
-      <section class="w-full max-w-4xl overflow-hidden m-auto  sm:mt-10">
+      <section class="w-full max-w-5xl overflow-hidden m-auto  sm:mt-10">
         
-        <div class="p-3 sm:p-0 flex justify-center w-full m-auto overflow-hidden max-w-4xl">
+        <div class="p-3 sm:p-0 flex justify-center w-full m-auto overflow-hidden max-w-5xl">
             <div class="relative flex justify-center items-center overflow-hidden w-full">
                 <main class="w-full">
   
@@ -460,7 +460,7 @@
                     <ul class="relative grid grid-cols-2 sm:grid-cols-4 gap-y-3 gap-x-3 flex flex-wrap p-1 list-none rounded-[3px]">
                       <li class="pl-3 py-1.5 flex-auto text-center bg-[#2E3238] rounded-[3px]">
                         <label on:click={changeStructure}  class="cursor-pointer border flex items-center justify-center w-full px-0 py-1 mb-0 border-0 rounded-[3px] bg-inherit">
-                          <span class="text-[0.75rem] sm:text-sm font-medium text-white ml-3">
+                          <span class="text-sm font-medium text-white ml-3">
                             Switch To: {displayStructure}
                           </span>
                           <svg class="ml-auto mr-5 h-4 w-4 inline-block transform transition-transform mr-2 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="#fff" d="m488.832 344.32l-339.84 356.672a32 32 0 0 0 0 44.16l.384.384a29.44 29.44 0 0 0 42.688 0l320-335.872l319.872 335.872a29.44 29.44 0 0 0 42.688 0l.384-.384a32 32 0 0 0 0-44.16L535.168 344.32a32 32 0 0 0-46.336 0z"/></svg>
@@ -468,7 +468,7 @@
                       </li>
                       <li class="pl-3 py-1.5 flex-auto text-center bg-[#2E3238] rounded-[3px]">
                         <label for="filterList" class="cursor-pointer border flex items-center justify-center w-full px-0 py-1 mb-0 border-0 rounded-[3px] bg-inherit">
-                          <span class="text-[0.75rem] sm:text-sm font-medium text-white ml-3">
+                          <span class="text-sm font-medium text-white ml-3">
                             Filter
                           </span>
                           <svg class="ml-auto mr-5 h-4 w-4 inline-block transform transition-transform mr-2 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="#fff" d="m488.832 344.32l-339.84 356.672a32 32 0 0 0 0 44.16l.384.384a29.44 29.44 0 0 0 42.688 0l320-335.872l319.872 335.872a29.44 29.44 0 0 0 42.688 0l.384-.384a32 32 0 0 0 0-44.16L535.168 344.32a32 32 0 0 0-46.336 0z"/></svg>
@@ -476,7 +476,7 @@
                       </li>
                       <li class="pl-3 py-1.5 flex-auto text-center bg-[#2E3238] rounded-[3px]">
                         <label for="rowList" class="cursor-pointer border flex items-center justify-center w-full px-0 py-1 mb-0 border-0 rounded-[3px] bg-inherit">
-                          <span class="text-[0.75rem] sm:text-sm font-medium text-white ml-3">
+                          <span class="text-sm font-medium text-white ml-3">
                             {displayRows} Rows
                           </span>
                           <svg class="ml-auto mr-5 h-4 w-4 inline-block transform transition-transform mr-2 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="#fff" d="m488.832 344.32l-339.84 356.672a32 32 0 0 0 0 44.16l.384.384a29.44 29.44 0 0 0 42.688 0l320-335.872l319.872 335.872a29.44 29.44 0 0 0 42.688 0l.384-.384a32 32 0 0 0 0-44.16L535.168 344.32a32 32 0 0 0-46.336 0z"/></svg>
@@ -485,7 +485,7 @@
                       <!--
                       <li class="pl-3 py-1.5 flex-auto text-center bg-[#2E3238] rounded-[3px]">
                         <label for="exportDataModal" class="cursor-pointer border flex items-center justify-center w-full px-0 py-1 mb-0 border-0 rounded-[3px] bg-inherit">
-                          <span class="text-[0.75rem] sm:text-sm font-medium text-white ml-3">
+                          <span class="text-sm font-medium text-white ml-3">
                             Export
                           </span>
                           <svg class="ml-auto mr-5 h-4 w-4 inline-block transform transition-transform mr-2 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="#fff" d="m488.832 344.32l-339.84 356.672a32 32 0 0 0 0 44.16l.384.384a29.44 29.44 0 0 0 42.688 0l320-335.872l319.872 335.872a29.44 29.44 0 0 0 42.688 0l.384-.384a32 32 0 0 0 0-44.16L535.168 344.32a32 32 0 0 0-46.336 0z"/></svg>
@@ -616,41 +616,41 @@
                           </thead>
                           <tbody>
                             {#each displayList as item, index}
-                            <tr on:click={() => goto(`/politicians/${item?.id}`)} class="cursor-pointer text-gray-200 odd:bg-[#27272A] border-b-[#09090B] {index+1 === rawData?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
+                            <tr on:click={() => goto(`/politicians/${item?.id}`)} class="cursor-pointer odd:bg-[#27272A] border-b-[#09090B] {index+1 === rawData?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                             
-                              <th class="{index % 2 ? 'bg-[#09090B]' : 'bg-[#27272A]'} text-gray-200 ">
+                              <th class="{index % 2 ? 'bg-[#09090B]' : 'bg-[#27272A]'} text-white text-sm sm:text-[1rem] whitespace-nowrap">
                                 <div class="flex flex-row items-center">
                                   <div class="flex-shrink-0 rounded-full border border-slate-700 w-9 h-9 relative {item?.party === 'Republican' ? 'bg-[#98272B]' : item?.party === 'Democratic' ? 'bg-[#295AC7]' : 'bg-[#4E2153]'} flex items-center justify-center">
                                     <img style="clip-path: circle(50%);" class="rounded-full w-7" src={item?.image} loading="lazy"/>
                                   </div>
-                                  <div class="flex flex-col ml-3 text-xs sm:text-sm font-normal">
+                                  <div class="flex flex-col ml-3 font-normal">
                                     <span class="text-white">{getAbbreviatedName(item?.representative?.replace('_',' '))}</span>
-                                    <span class="text-white text-opacity-60">{item?.party}</span>
+                                    <span class="text-gray-300">{item?.party}</span>
                                   </div>
                                 </div>
                                 <!--{item?.firstName} {item?.lastName}-->
                               </th>
                               
   
-                              <td on:click|stopPropagation={() => assetSelector(item?.ticker, item?.assetType)} class="cursor-pointer text-start whitespace-nowrap text-sm text-blue-400">
+                              <td on:click|stopPropagation={() => assetSelector(item?.ticker, item?.assetType)} class="cursor-pointer text-start whitespace-nowrap text-sm sm:text-[1rem] text-blue-400">
                                 <div class="flex flex-col items-start">
                                   <span class="text-blue-400">{item?.ticker?.length !== 0 ? item?.ticker : '-'}</span>
                                   <span class="text-white">{item?.assetDescription.length > charNumber ? formatString(item?.assetDescription.slice(0,charNumber)) + "..." : formatString(item?.assetDescription)?.replace("- Common Stock", "")?.replace("Common Stock", "")}</span>
                                 </div>
                               </td>
   
-                                <td class="text-end text-sm text-white whitespace-nowrap">
+                                <td class="text-end text-sm sm:text-[1rem] text-white whitespace-nowrap">
                                     {new Date(item?.transactionDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                 </td>
 
-                                <td class="text-end text-sm text-white whitespace-nowrap">
+                                <td class="text-end text-sm sm:text-[1rem] text-white whitespace-nowrap">
                                   {new Date(item?.disclosureDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                 </td>
   
-                                <td class="text-center text-sm text-white whitespace-nowrap">
+                                <td class="text-center text-sm sm:text-[1rem] text-white whitespace-nowrap">
                                     {item?.amount?.replace("$1,000,001 - $5,000,000","$1Mio - $5Mio")}
                                 </td>
-                                <td class="text-start text-sm text-end sm:text-sm text-white">
+                                <td class="text-sm sm:text-[1rem] text-end text-white">
                                   {#if item?.type === 'Bought'}
                                     <span class="text-[#10DB06]">Bought</span>
                                   {:else if item?.type === 'Sold'}
