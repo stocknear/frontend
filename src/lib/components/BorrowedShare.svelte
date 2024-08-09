@@ -6,12 +6,12 @@
 
   import { init, use } from 'echarts/core'
   import { LineChart } from 'echarts/charts'
-  import { GridComponent } from 'echarts/components'
+  import { GridComponent, TooltipComponent } from 'echarts/components'
   import { CanvasRenderer } from 'echarts/renderers'
   
   export let data;
   
-  use([LineChart, GridComponent, CanvasRenderer])
+  use([LineChart, GridComponent, TooltipComponent, CanvasRenderer])
 
 
     let isLoaded = false;

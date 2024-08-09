@@ -5,13 +5,13 @@
     import { Chart } from 'svelte-echarts';
     import { init, use } from 'echarts/core'
     import { BarChart } from 'echarts/charts'
-    import { GridComponent } from 'echarts/components'
+    import { GridComponent, TooltipComponent } from 'echarts/components'
     import { CanvasRenderer } from 'echarts/renderers'
 
     export let data;
 
     // now with tree-shaking
-    use([BarChart, GridComponent, CanvasRenderer])
+    use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
     
     let isLoaded = false;
 
@@ -37,7 +37,6 @@ function normalizer(value) {
 function getPlotOptions() {
     let dates = [];
     let enterpriseValue = [];
-    let numberOfShares = [];
     let marketCapitalization = [];
     let addTotalDebt = [];
     let cashEquivalent = [];
@@ -61,6 +60,10 @@ function getPlotOptions() {
     const option = {
     silent: true,
     animation: false,
+    tooltip: {
+        trigger: 'axis',
+        hideDelay: 100, // Set the delay in milliseconds
+    },
     grid: {
         left: $screenWidth < 640 ? '0%' : '2%',
         right: $screenWidth < 640 ? '2%' : '2%',

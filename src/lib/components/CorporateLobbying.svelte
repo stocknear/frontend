@@ -6,9 +6,9 @@ import { Chart } from 'svelte-echarts'
 import { abbreviateNumber } from "$lib/utils";
 import { init, use } from 'echarts/core'
 import { BarChart } from 'echarts/charts'
-import { GridComponent } from 'echarts/components'
+import { GridComponent, TooltipComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-use([BarChart, GridComponent, CanvasRenderer])
+use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
 
 
     export let data;
@@ -52,6 +52,11 @@ function getPlotOptions() {
 
     const option = {
     silent: true,
+    animation: false,
+    tooltip: {
+        trigger: 'axis',
+        hideDelay: 100, // Set the delay in milliseconds
+    },
     grid: {
         left: $screenWidth < 640 ? '0%' : '2%',
         right: $screenWidth < 640 ? '5%' : '2%',

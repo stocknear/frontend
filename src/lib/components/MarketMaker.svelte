@@ -6,10 +6,10 @@
 
   import { init, use } from 'echarts/core'
   import { LineChart } from 'echarts/charts'
-  import { GridComponent } from 'echarts/components'
+  import { GridComponent, TooltipComponent } from 'echarts/components'
   import { CanvasRenderer } from 'echarts/renderers'
 
-  use([LineChart, GridComponent, CanvasRenderer])
+  use([LineChart, GridComponent, TooltipComponent, CanvasRenderer])
 
 
   export let data;
@@ -76,6 +76,10 @@ function getPlotOptions() {
   const option = {
   silent: true,
   animation: false,
+  tooltip: {
+        trigger: 'axis',
+        hideDelay: 100, // Set the delay in milliseconds
+    },
   grid: {
       left: '2%',
       right: '2%',
