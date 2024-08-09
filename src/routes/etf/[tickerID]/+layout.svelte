@@ -701,43 +701,43 @@ $: {
                                           <div class="sm:ml-4 w-screen sm:w-full {$screenWidth < 640 ? 'overflow-auto scrollbar no-scrollbar' : ''} mb-2" >
                                             <ul class="pr-4 sm:pr-0 w-screen font-medium flex flex-row items-center bg-[#09090B]  space-x-3 rtl:space-x-reverse py-2">
                                               <li class="cursor-pointer flex flex-col items-center">
-                                                <a href={`/etf/${$etfTicker}`} id="item1" on:click={() => (changeSection('overview','item1'))} class="px-2 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'overview' ? 'text-white ' : 'bg-[#09090B]'}" >
+                                                <a href={`/etf/${$etfTicker}`} id="item1" on:click={() => (changeSection('overview','item1'))} class="px-2 text-sm sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'overview' ? 'text-white ' : 'bg-[#09090B]'}" >
                                                   Overview
                                                 </a>
                                                 <div class="{displaySection === 'overview' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[3.5rem]" />
                                               </li>
                                               <li class="cursor-pointer flex flex-col items-center">
-                                                <a href={`/etf/${$etfTicker}/stats`} id="item2" on:click={() => (changeSection('stats','item2'))} class="px-2 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'stats' ? 'text-white ' : 'bg-[#09090B]'}" >
+                                                <a href={`/etf/${$etfTicker}/stats`} id="item2" on:click={() => (changeSection('stats','item2'))} class="px-2 text-sm sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'stats' ? 'text-white ' : 'bg-[#09090B]'}" >
                                                   Stats
                                                 </a>
                                                 <div class="{displaySection === 'stats' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[2rem]" />
                                               </li>
                                               <li class="cursor-pointer flex flex-col items-center">
-                                                <a href={`/etf/${$etfTicker}/options`} id="item3" on:click={() => (changeSection('options','item3'))} class="px-2 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'options' ? 'text-white ' : 'bg-[#09090B]'}" >
+                                                <a href={`/etf/${$etfTicker}/options`} id="item3" on:click={() => (changeSection('options','item3'))} class="px-2 text-sm sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'options' ? 'text-white ' : 'bg-[#09090B]'}" >
                                                   Options
                                                 </a>
                                                 <div class="{displaySection === 'options' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[3rem]" />
                                               </li>
                                               <li class="cursor-pointer flex flex-col items-center">
-                                                <a href={`/etf/${$etfTicker}/holdings`} id="item4" on:click={() => (changeSection('holdings','item4'))} class="px-2 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'holdings' ? 'text-white ' : 'bg-[#09090B]'}" >
+                                                <a href={`/etf/${$etfTicker}/holdings`} id="item4" on:click={() => (changeSection('holdings','item4'))} class="px-2 text-sm sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'holdings' ? 'text-white ' : 'bg-[#09090B]'}" >
                                                   Holdings
                                                 </a>
                                                 <div class="{displaySection === 'holdings' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[3rem]" />
                                               </li>
                                               <li class="cursor-pointer flex flex-col items-center">
-                                                <a href={`/etf/${$etfTicker}/dividends`} id="item5" on:click={() => (changeSection('dividends','item5'))} class="px-2 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'dividends' ? 'text-white ' : 'bg-[#09090B]'}" >
+                                                <a href={`/etf/${$etfTicker}/dividends`} id="item5" on:click={() => (changeSection('dividends','item5'))} class="px-2 text-sm sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'dividends' ? 'text-white ' : 'bg-[#09090B]'}" >
                                                   Dividends
                                                 </a>
                                                 <div class="{displaySection === 'dividends' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[3rem]" />
                                               </li>
                                               <li class="cursor-pointer flex flex-col items-center">
-                                                <a href={`/etf/${$etfTicker}/congress-trading`} id="item5" on:click={() => (changeSection('congress-trading','item5'))} class="px-2 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'congress-trading' ? 'text-white ' : 'bg-[#09090B]'}" >
+                                                <a href={`/etf/${$etfTicker}/congress-trading`} id="item5" on:click={() => (changeSection('congress-trading','item5'))} class="px-2 text-sm sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'congress-trading' ? 'text-white ' : 'bg-[#09090B]'}" >
                                                   Insider
                                                 </a>
                                                 <div class="{displaySection === 'congress-trading' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[3rem]" />
                                               </li>
                                               <li class="cursor-pointer flex flex-col items-center pr-6">
-                                                <a href={`/etf/${$etfTicker}/news`} id="item7" on:click={() => (changeSection('news','item7'))} class="px-2 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'news' ? 'text-white ' : 'bg-[#09090B]'}" >
+                                                <a href={`/etf/${$etfTicker}/news`} id="item7" on:click={() => (changeSection('news','item7'))} class="px-2 text-sm sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'news' ? 'text-white ' : 'bg-[#09090B]'}" >
                                                   News
                                                 </a>
                                                 <div class="{displaySection === 'news' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[2rem]" />

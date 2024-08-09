@@ -48,19 +48,19 @@
                         <div class="sm:ml-8 w-screen sm:w-full {$screenWidth < 640 ? 'overflow-auto scrollbar no-scrollbar' : ''} mb-2" >
                           <ul class="pr-4 sm:pr-0 w-screen flex flex-row items-center bg-[#09090B] overflow-x-scroll space-x-6 rtl:space-x-reverse py-2">
                             <li class="cursor-pointer flex flex-col items-center">
-                              <a href={`/stocks/${$stockTicker}/insider`} on:click={() => (changeSubSection('insider'))} class="text-xs sm:text-[0.85rem] font-medium text-gray-400 sm:hover:text-white {displaySubSection === 'insider' ? 'text-white ' : 'bg-[#09090B]'}" >
+                              <a href={`/stocks/${$stockTicker}/insider`} on:click={() => (changeSubSection('insider'))} class="text-xs sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySubSection === 'insider' ? 'text-white ' : 'bg-[#09090B]'}" >
                                 Insider Trading
                               </a>
                               <div class="{displaySubSection === 'insider' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[5rem]" />
                             </li>
                             <li class="cursor-pointer flex flex-col items-center">
-                              <a href={`/stocks/${$stockTicker}/insider/congress-trading`} on:click={() => (changeSubSection('congress-trading'))} class="text-xs sm:text-[0.85rem] font-medium text-gray-400 sm:hover:text-white {displaySubSection === 'congress-trading' ? 'text-white ' : 'bg-[#09090B]'}" >
+                              <a href={`/stocks/${$stockTicker}/insider/congress-trading`} on:click={() => (changeSubSection('congress-trading'))} class="text-xs sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySubSection === 'congress-trading' ? 'text-white ' : 'bg-[#09090B]'}" >
                                 Congress Trading
                               </a>
                               <div class="{displaySubSection === 'congress-trading' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[5rem]" />
                             </li>
                             <li class="cursor-pointer flex flex-col items-center">
-                              <a href={`/stocks/${$stockTicker}/insider/transcripts`} on:click={() => (changeSubSection('transcripts'))} class="text-xs sm:text-[0.85rem] font-medium text-gray-400 sm:hover:text-white {displaySubSection === 'transcripts' ? 'text-white ' : 'bg-[#09090B]'}" >
+                              <a href={`/stocks/${$stockTicker}/insider/transcripts`} on:click={() => (changeSubSection('transcripts'))} class="text-xs sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySubSection === 'transcripts' ? 'text-white ' : 'bg-[#09090B]'}" >
                                 Transcripts
                               </a>
                               <div class="{displaySubSection === 'transcripts' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[3.5rem]" />

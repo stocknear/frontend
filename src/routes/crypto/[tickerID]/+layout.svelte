@@ -667,23 +667,23 @@ $: {
                                         <div class="-ml-2 sm:ml-4 w-screen sm:w-full {$screenWidth < 640 ? 'overflow-auto scrollbar no-scrollbar' : ''} mb-2" >
                                           <ul class="pr-4 sm:pr-0 w-screen font-medium flex flex-row items-center bg-[#09090B] overflow-x-scroll space-x-3 rtl:space-x-reverse py-2">
                                             <li class="cursor-pointer flex flex-col items-center">
-                                              <a href={`/crypto/${$cryptoTicker}`} id="item1" on:click={() => (changeSection('overview','item1'))} class="px-3 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'overview' ? 'text-white ' : 'bg-[#09090B]'}" >
+                                              <a href={`/crypto/${$cryptoTicker}`} id="item1" on:click={() => (changeSection('overview','item1'))} class="px-3 text-sm sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'overview' ? 'text-white ' : 'bg-[#09090B]'}" >
                                                 Overview
                                               </a>
                                               <div class="{displaySection === 'overview' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[3.5rem]" />
                                             </li>
                                             <li class="cursor-pointer flex flex-col items-center">
-                                              <a href={`/crypto/${$cryptoTicker}/stats`} id="item2" on:click={() => (changeSection('stats','item2'))} class="px-3 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'stats' ? 'text-white ' : 'bg-[#09090B]'}" >Stats</a>
+                                              <a href={`/crypto/${$cryptoTicker}/stats`} id="item2" on:click={() => (changeSection('stats','item2'))} class="px-3 text-sm sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'stats' ? 'text-white ' : 'bg-[#09090B]'}" >Stats</a>
                                               <div class="{displaySection === 'stats' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[2rem]" />
                                             </li>
                                             <li class="cursor-pointer flex flex-col items-center">
-                                              <a href={`/crypto/${$cryptoTicker}/congress-trading`} id="item7" on:click={() => (changeSection('congress-trading','item7'))} class="px-3 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'congress-trading' ? 'text-white ' : 'bg-[#09090B]'}" >
+                                              <a href={`/crypto/${$cryptoTicker}/congress-trading`} id="item7" on:click={() => (changeSection('congress-trading','item7'))} class="px-3 text-sm sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'congress-trading' ? 'text-white ' : 'bg-[#09090B]'}" >
                                                 Insider
                                               </a>
                                               <div class="{displaySection === 'congress-trading' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[2.5rem]" />
                                             </li>
                                             <li class="cursor-pointer flex flex-col items-center">
-                                              <a href={`/crypto/${$cryptoTicker}/news`} id="item7" on:click={() => (changeSection('news','item7'))} class="px-3 text-sm sm:text-[0.9rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'news' ? 'text-white ' : 'bg-[#09090B]'}" >
+                                              <a href={`/crypto/${$cryptoTicker}/news`} id="item7" on:click={() => (changeSection('news','item7'))} class="px-3 text-sm sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'news' ? 'text-white ' : 'bg-[#09090B]'}" >
                                                 News
                                               </a>
                                               <div class="{displaySection === 'news' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[2rem]" />
