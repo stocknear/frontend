@@ -811,54 +811,54 @@ $: {
                     <div on:click={() => handleViewData(displayedData[index])} slot="item" let:index let:style {style} class="tr cursor-pointer">
 
 
-                      <div style="justify-content: center;" class="td text-white pb-3 text-xs sm:text-sm sm:text-lg text-start">
+                      <div style="justify-content: center;" class="td text-white pb-3 text-xs sm:text-sm text-start">
                         {formatTime(displayedData[index]?.time)}
                       </div>
   
-                      <div on:click|stopPropagation={() => assetSelector(displayedData[index]?.ticker, displayedData[index]?.assetType)} style="justify-content: center;" class="td text-sm sm:text-lg text-blue-400 font-normal">
+                      <div on:click|stopPropagation={() => assetSelector(displayedData[index]?.ticker, displayedData[index]?.assetType)} style="justify-content: center;" class="td text-sm sm:text-[1rem] text-blue-400 font-normal">
                         {displayedData[index]?.ticker}
                       </div>
 
-                      <div style="justify-content: center;" class="td text-sm sm:text-lg sm:text-[1rem] text-white text-start">
+                      <div style="justify-content: center;" class="td text-sm sm:text-[1rem] text-white text-start">
                         {reformatDate(displayedData[index]?.date_expiration)}
                       </div>
 
-                    <div style="justify-content: center;" class="td text-sm sm:text-lg sm:text-[1rem] text-white text-start">
+                    <div style="justify-content: center;" class="td text-sm sm:text-[1rem] text-white text-start">
                       {displayedData[index]?.strike_price}
                     </div>
 
-                    <div style="justify-content: center;" class="td  text-sm sm:text-lg sm:text-[1rem] {displayedData[index]?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-start">
+                    <div style="justify-content: center;" class="td  text-sm sm:text-[1rem] {displayedData[index]?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-start">
                       {displayedData[index]?.put_call}
                     </div>
 
-                    <div style="justify-content: center;" class="td  text-sm sm:text-lg sm:text-[1rem] {displayedData[index]?.sentiment === 'Bullish' ? 'text-[#00FC50]' : displayedData[index]?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'} text-start">
+                    <div style="justify-content: center;" class="td  text-sm sm:text-[1rem] {displayedData[index]?.sentiment === 'Bullish' ? 'text-[#00FC50]' : displayedData[index]?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'} text-start">
                       {displayedData[index]?.sentiment}
                     </div>
   
-                      <div style="justify-content: center;" class="td  text-sm sm:text-lg sm:text-[1rem] text-start text-white">
+                      <div style="justify-content: center;" class="td  text-sm sm:text-[1rem] text-start text-white">
                         {displayedData[index]?.underlying_price}
                       </div>
                     
-                    <div style="justify-content: center;" class="td  text-sm sm:text-lg sm:text-[1rem] text-start text-white">
+                    <div style="justify-content: center;" class="td  text-sm sm:text-[1rem] text-start text-white">
                       {displayedData[index]?.price}
                     </div>
                     
-                    <div style="justify-content: center;" class="td  text-sm sm:text-lg sm:text-[1rem] text-start font-semibold {displayedData[index]?.put_call === 'Puts' ? 'text-[#CB281C]' : 'text-[#0FB307]'} ">
+                    <div style="justify-content: center;" class="td  text-sm sm:text-[1rem] text-start font-semibold {displayedData[index]?.put_call === 'Puts' ? 'text-[#CB281C]' : 'text-[#0FB307]'} ">
                       {abbreviateNumber(displayedData[index]?.cost_basis)}
                     </div>
 
-                    <div style="justify-content: center;" class="td  text-sm sm:text-lg sm:text-[1rem] text-start {displayedData[index]?.type === 'Sweep' ? 'text-[#C6A755]' : 'text-[#976DB7]'}">
+                    <div style="justify-content: center;" class="td  text-sm sm:text-[1rem] text-start {displayedData[index]?.type === 'Sweep' ? 'text-[#C6A755]' : 'text-[#976DB7]'}">
                       {displayedData[index]?.type}
                     </div>
     
-                    <div style="justify-content: center;" class="td  text-sm sm:text-lg sm:text-[1rem] text-white text-end">
+                    <div style="justify-content: center;" class="td  text-sm sm:text-[1rem] text-white text-end">
                         {new Intl.NumberFormat("en", {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 0
                         }).format(displayedData[index]?.volume)}
                     </div>
     
-                    <div style="justify-content: center;" class="td  text-sm sm:text-lg sm:text-[1rem] text-white text-end">
+                    <div style="justify-content: center;" class="td  text-sm sm:text-[1rem] text-white text-end">
                       {new Intl.NumberFormat("en", {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0
