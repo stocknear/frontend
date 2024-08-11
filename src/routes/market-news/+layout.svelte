@@ -32,7 +32,7 @@ const navigation = [
 
 
 
-<section class="w-full max-w-5xl overflow-hidden m-auto min-h-screen pt-4 mb-40">
+<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
 
   <!--
   <div class="text-sm breadcrumbs ml-4">
@@ -48,7 +48,7 @@ const navigation = [
             <main>
   
   
-              <div class="w-full max-w-5xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+              <div class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
               
                   <!-- Start Column -->
@@ -99,7 +99,7 @@ const navigation = [
   
               <div class="pl-4 pr-4 sm:pl-0 sm:pr-0 w-screen sm:w-full">
 
-                    <div class="tabs flex flex-row justify-between sm:justify-start items-center w-full pl-3 pr-3 sm:pl-0 sm:pr-0">
+                    <div class="tabs grid grid-cols-3 sm:grid-cols-9 w-full pl-3 pr-3 sm:pl-0 sm:pr-0">
 
                     {#each navigation as item}
                    

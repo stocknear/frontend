@@ -257,8 +257,8 @@ $: {
   
 <section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
     
-<!--
-  <div class="text-sm breadcrumbs ml-4">
+
+  <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
     <ul>
       <li><a href="/" class="text-gray-300">Home</a></li> 
       <li class="text-gray-300">
@@ -266,7 +266,7 @@ $: {
       </li>
     </ul>
   </div>
--->
+
 
 
   <div class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto sm:p-10 mt-8 mb-4 sm:mb-8">

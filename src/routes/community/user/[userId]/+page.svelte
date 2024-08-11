@@ -244,12 +244,12 @@ onMount(async () => {
            
             <!-- Page content -->
             <section>
-                <div class="w-full max-w-6xl m-auto sm:px-20 ml-auto ">
+                <div class="w-full max-w-7xl m-auto sm:px-20 ml-auto ">
   
   
               <div class="w-full flex flex-row">
               <!--Start Profile Pic-->
-              <div class="flex items-center justify-start mb-5 w-screen sm:w-full bg-[#09090B] h-48 sm:rounded-xl border border-gray-700 sm:hover:border-gray-600">
+              <div class="flex items-center justify-start mb-5 w-screen sm:w-full bg-[#141417] h-48 sm:rounded-xl border border-gray-700 sm:hover:border-gray-600">
                   <label class="ml-5 avatar w-20 h-20 sm:w-24 sm:h-24 rounded-full hover:cursor-pointer">
                       <img style="clip-path: circle(50%);" class="w-24 bg-slate-300 border border-slate-400 rounded-full inline-block "
                       src={userData?.avatar
@@ -284,14 +284,14 @@ onMount(async () => {
               </div>
   
                         <!-- Sidebar -->
-                        <aside class="hidden lg:inline-block h-sh lg:w-1/2 lg:pr-2 xl:pr-0">
+                        <aside class="hidden lg:inline-block h-sh lg:w-1/3 lg:pr-2 xl:pr-0">
                           <div class="lg:pl-5 z-20 h-full">
                         
                                 <!-- Sidebar content -->
             
                                   <!--Start User Profile -->
                                   <div class="space-y-6 ml-4">  
-                                  <div class="rounded-xl bg-[#09090B] h-48 w-full border border-gray-700 font-mono">
+                                  <div class="rounded-xl bg-[#141417] h-48 w-full border border-gray-700 font-mono">
                                     <!--Start Header-->
                                     <div class="ml-2 w-full p-3">
                                         <span class="text-white text-lg font-medium ml-0.5">User Profile</span>
@@ -301,17 +301,17 @@ onMount(async () => {
                                     <!--Start Content-->
                                     <div class="w-full p-2">
             
-                                      <table class="font-semibold table table-compact bg-[#09090B] text-start flex justify-start items-center w-full px-3 m-auto">
-                                        <tbody class="bg-[#09090B]">
+                                      <table class="font-semibold table table-compact bg-[#141417] text-start flex justify-start items-center w-full px-3 m-auto">
+                                        <tbody class="bg-[#141417]">
                                           <!-- row 1 -->
                                           <tr class="text-gray-300">
-                                            <td class="bg-[#09090B] border-b border-[#27272A]">Karma: {userData?.karma}</td>
+                                            <td class="bg-[#141417] border-b border-[#27272A]">Karma: {userData?.karma}</td>
                                             <td class="bg-[#27272A border-b border-[#27272A]">Posts: {userStats?.numberOfPosts}</td>
                                           </tr>
                                           <!-- row 2 -->
                                           <tr class="text-gray-300">
-                                            <td class="bg-[#09090B]">Comments: {userStats?.numberOfComments}</td>
-                                            <td class="bg-[#09090B]"></td>
+                                            <td class="bg-[#141417]">Comments: {userStats?.numberOfComments}</td>
+                                            <td class="bg-[#141417]"></td>
                                           </tr>
                                         </tbody>
                                       </table>
@@ -320,7 +320,7 @@ onMount(async () => {
             
                                 {#if userData?.tier === 'Pro'}
                                 <!--Start Badge-->
-                                  <div class="rounded-xl bg-[#09090B] h-48 w-full border border-gray-700 mt-14">
+                                  <div class="rounded-xl bg-[#141417] h-48 w-full border border-gray-700 mt-14">
                                     <!--Start Header-->
                                     <div class="ml-2 w-full p-3">
                                         <span class="text-white text-lg font-medium ml-0.5 ">Badge</span>

@@ -562,10 +562,10 @@ onDestroy(async () => {
       <main class="grow">
         
 
-         
+
           <!-- Page content -->
           <section>
-              <div class="w-full max-w-6xl m-auto sm:px-20 ml-auto ">
+              <div class="w-full max-w-7xl m-auto sm:px-20 ml-auto ">
 
 
             <div class="w-full flex flex-row">
@@ -619,7 +619,7 @@ onDestroy(async () => {
             </div>
 
                       <!-- Sidebar -->
-            <aside class="hidden lg:inline-block h-sh lg:w-1/2 lg:pr-2 xl:pr-0">
+            <aside class="hidden lg:inline-block h-sh lg:w-1/3 lg:pr-2 xl:pr-0">
               <div class="lg:pl-5 z-20 h-full">
             
                     <!-- Sidebar content -->

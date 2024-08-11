@@ -73,22 +73,22 @@
   
       
   
-  <section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-40">
+  <section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
         
-    <div class="text-sm breadcrumbs ml-4">
+    <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
       <ul>
         <li><a href="/" class="text-gray-300">Home</a></li>
         <li class="text-gray-300">Most Shorted Stocks</li>
       </ul>
     </div>
             
-    <div class="w-full max-w-4xl overflow-hidden m-auto mt-5">
+    <div class="w-full overflow-hidden m-auto mt-5">
       
-      <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden max-w-4xl">
+      <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
           <div class="relative flex justify-center items-center overflow-hidden w-full">
               <main class="w-full">
                
-                <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+                <div class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
                 
                     <!-- Start Column -->
@@ -142,27 +142,27 @@
                       <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                         <thead>
                           <tr class="bg-[#09090B]">
-                            <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                               #
                             </th>
-                            <th class="text-start bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-start bg-[#09090B] text-white text-[1rem] font-semibold">
                               Symbol
                             </th>
   
-                            <th class="hidden sm:table-cell text-start bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="hidden sm:table-cell text-start bg-[#09090B] text-white text-[1rem] font-semibold">
                               Name
                             </th>
   
-                            <th class="text-center bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-center bg-[#09090B] text-white text-[1rem] font-semibold">
                               Short Interest
                             </th>
-                            <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                               Float
                             </th>
-                            <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                               Outstd
                             </th>
-                            <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                               Sector
                             </th>
                           </tr>
@@ -171,11 +171,11 @@
                           {#each shortedList as item, index}
   
                           <tr on:click={() => goto(`/stocks/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] {index+1 === shortedList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''} cursor-pointer">
-                            <td class="text-white text-sm font-medium text-white text-end">
+                            <td class="text-white text-sm sm:text-[1rem] font-medium text-white text-end">
                               {index+1}
                             </td>
   
-                            <td class="text-sm text-start">
+                            <td class="text-sm sm:text-[1rem] whtitespace-nowrap text-start">
                                 <div class="flex flex-col items-start w-32 sm:w-fit">
                                     <span class="text-blue-400">{item?.symbol}</span>
                                     <span class="text-white sm:hidden">
@@ -184,24 +184,24 @@
                                 </div>
                             </td>
   
-                            <td class="hidden sm:table-cell text-white text-sm text-white text-start">
+                            <td class="hidden sm:table-cell text-white text-sm sm:text-[1rem] whtitespace-nowrap text-white text-start">
                                 {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
                             </td>
                           
   
-                            <td class="text-center text-sm font-medium text-white">
+                            <td class="text-center text-sm sm:text-[1rem] whtitespace-nowrap font-medium text-white">
                                 {item?.shortOutStandingPercent}%
                             </td>
 
-                            <td class="text-end text-sm font-medium text-white">
+                            <td class="text-end text-sm sm:text-[1rem] whtitespace-nowrap font-medium text-white">
                                 {abbreviateNumber(item?.latestFloatShares)}
                             </td>
                             
-                            <td class="text-end text-sm font-medium text-white">
+                            <td class="text-end text-sm sm:text-[1rem] whtitespace-nowrap font-medium text-white">
                               {abbreviateNumber(item?.latestOutstandingShares)}
                             </td>
 
-                            <td class="text-end text-sm font-medium text-white">
+                            <td class="text-end text-sm sm:text-[1rem] whtitespace-nowrap font-medium text-white">
                               {item?.sector}
                             </td>
 

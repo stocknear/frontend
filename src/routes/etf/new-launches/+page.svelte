@@ -46,16 +46,16 @@ $: {
 <!-- Add more Twitter meta tags as needed -->
 </svelte:head>
               
-<section  class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-40">
+<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
     
-    <div class="text-sm breadcrumbs ml-4">
+    <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
         <ul>
           <li><a href="/" class="text-gray-300">Home</a></li> 
           <li><a class="text-gray-300">New Launches of ETFs</a></li> 
         </ul>
     </div>
 
-  <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto p-10 mt-3 sm:mb-8">
+  <div class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto p-10 mt-3 sm:mb-8">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
   
       <!-- Start Column -->
@@ -111,7 +111,7 @@ $: {
 
 
 
-<div class="w-full max-w-4xl mt-5 m-auto mb-10 bg-[#09090B] pl-3 pr-3 overflow-hidden">
+<div class="w-full mt-5 m-auto mb-10 bg-[#09090B] pl-3 pr-3 overflow-hidden">
 
 
     <!--Start Top Winners/Losers-->
@@ -125,40 +125,40 @@ $: {
 
       <div class="border-b mt-2 border-gray-800 w-full mb-4" />
 
-
+    <div class="w-full overflow-x-scroll">
     <table class="mt-5 table table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto overflow-hidden">
       <thead>
         <tr>
-          <th class="text-white font-medium text-[0.95rem]">Inception</th>
-          <th class="text-white font-medium text-[0.95rem]">Symbol</th>
-          <th class="text-white font-medium text-[0.95rem] hidden sm:table-cell">Fund Name</th>
-          <th class="text-white font-medium text-end text-[0.95rem] hidden sm:table-cell">Holdings</th>
-          <th class="text-white font-medium text-end text-[0.95rem] ">Total Assets</th>
+          <th class="text-white font-semibold text-[1rem]">Inception</th>
+          <th class="text-white font-semibold text-[1rem]">Symbol</th>
+          <th class="text-white font-semibold text-[1rem] ">Fund Name</th>
+          <th class="text-white font-semibold text-end text-[1rem] ">Holdings</th>
+          <th class="text-white font-semibold text-end text-[1rem] ">Total Assets</th>
         </tr>
       </thead>
       <tbody>
         {#each etfData as item,index}
         <tr on:click={() => goto("/etf/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
-          <td class="text-white font-medium border-b-[#09090B]">
+          <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B]">
             {new Date(item?.inceptionDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
           </td>
         
           
-        <td class="text-blue-400 border-b-[#09090B]">
+        <td class="text-blue-400 text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B]">
           {item?.symbol}
         </td>
 
-        <td class="text-white font-medium border-b-[#09090B] hidden sm:table-cell">
+        <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B] ">
           {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + '...' : item?.name}
         </td>
 
 
 
-        <td class="text-white font-medium border-b-[#09090B] text-end hidden sm:table-cell">
+        <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B] text-end ">
             {item?.numberOfHoldings}
         </td>
 
-        <td class="text-white font-medium border-b-[#09090B] text-end">
+        <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B] text-end">
             {(item?.totalAssets !== 0 && item?.totalAssets !== null) ? abbreviateNumber(item?.totalAssets,true) : '-'}
         </td>
 
@@ -170,6 +170,7 @@ $: {
 
       </tbody>
     </table>
+    </div>
   </div>
 
 
