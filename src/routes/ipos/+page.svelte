@@ -53,7 +53,7 @@
   </script>
   
     
-  <section class="w-full max-w-4xl overflow-hidden m-auto ">
+  <section class="w-full  overflow-hidden m-auto ">
             
       
   

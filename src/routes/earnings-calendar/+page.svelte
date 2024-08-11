@@ -4,7 +4,6 @@
   import { format, startOfWeek, addDays, addWeeks, subWeeks, differenceInWeeks } from 'date-fns'
   import { screenWidth,  numberOfUnreadNotification } from '$lib/store';
   import logo from '$lib/images/earnings_calender_logo.png';
-  import ScrollToTop from '$lib/components/ScrollToTop.svelte';
   import { goto } from '$app/navigation';
   import { abbreviateNumber } from '$lib/utils';
   
@@ -251,18 +250,18 @@ $: {
 </svelte:head>
 
 
-  <section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-4 pb-40">
+<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
   
-    <!--
-    <div class="text-sm breadcrumbs ml-4">
+    
+    <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
       <ul>
         <li><a href="/" class="text-gray-300">Home</a></li> 
         <li class="text-gray-300">Earnings Calendar</li>
       </ul>
     </div>
-    -->
+    
 
-    <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+    <div class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
     
         <!-- Start Column -->
@@ -308,7 +307,7 @@ $: {
     </div>
     
       <!-- Page wrapper -->
-      <div class="flex justify-center w-full max-w-5xl m-auto h-full overflow-hidden">
+      <div class="flex justify-center w-full m-auto h-full overflow-hidden">
       
               
             
@@ -393,10 +392,10 @@ $: {
                     <td class="text-white border-b-[#09090B] text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if item?.time === 'amc'}
                       <svg class="w-4 h-4 inline-block mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#70A1EF" d="M232.13 143.64a6 6 0 0 0-6-1.49a90.07 90.07 0 0 1-112.27-112.3a6 6 0 0 0-7.49-7.48a102.88 102.88 0 0 0-51.89 36.31a102 102 0 0 0 142.84 142.84a102.88 102.88 0 0 0 36.31-51.89a6 6 0 0 0-1.5-5.99m-42 48.29a90 90 0 0 1-126-126a90.9 90.9 0 0 1 35.52-28.27a102.06 102.06 0 0 0 118.69 118.69a90.9 90.9 0 0 1-28.24 35.58Z"/></svg>
-                      <span class="text-sm">After Close</span>
+                      After Close
                       {:else}
                       <svg class="w-4 h-4 inline-block mr-1"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><g fill="#FEC001"><path d="M184 128a56 56 0 1 1-56-56a56 56 0 0 1 56 56Z" opacity=".2"/><path d="M120 40V16a8 8 0 0 1 16 0v24a8 8 0 0 1-16 0Zm72 88a64 64 0 1 1-64-64a64.07 64.07 0 0 1 64 64Zm-16 0a48 48 0 1 0-48 48a48.05 48.05 0 0 0 48-48ZM58.34 69.66a8 8 0 0 0 11.32-11.32l-16-16a8 8 0 0 0-11.32 11.32Zm0 116.68l-16 16a8 8 0 0 0 11.32 11.32l16-16a8 8 0 0 0-11.32-11.32ZM192 72a8 8 0 0 0 5.66-2.34l16-16a8 8 0 0 0-11.32-11.32l-16 16A8 8 0 0 0 192 72Zm5.66 114.34a8 8 0 0 0-11.32 11.32l16 16a8 8 0 0 0 11.32-11.32ZM48 128a8 8 0 0 0-8-8H16a8 8 0 0 0 0 16h24a8 8 0 0 0 8-8Zm80 80a8 8 0 0 0-8 8v24a8 8 0 0 0 16 0v-24a8 8 0 0 0-8-8Zm112-88h-24a8 8 0 0 0 0 16h24a8 8 0 0 0 0-16Z"/></g></svg>
-                      <span class="text-sm">Before Open</span>
+                      Before Open
                       {/if}
                   </td>
         

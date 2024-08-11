@@ -99,13 +99,13 @@ $: {
 </script>
 
   
-<section class="w-full max-w-4xl overflow-hidden m-auto p-5 sm:p-0 ">
+<section class="w-full overflow-hidden m-auto ">
           
     
 
   {#if isLoaded}
 
-<div class="flex flex-col justify-center items-center p-5 sm:p-0">
+<div class="flex flex-col justify-center items-center">
 
   
   <div class="mt-0 sm:mt-5 mb-2 w-full sm:flex sm:flex-row sm:items-center m-auto text-gray-100 font-medium border border-gray-800 sm:rounded-lg h-auto p-5">
@@ -139,16 +139,16 @@ $: {
 
 
   {#if rawData?.length !== 0}
-    {#if $screenWidth > 640}
+   <div class="w-full overflow-x-scroll">
     <table class="mt-5 table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto overflow-hidden">
       <thead>
         <tr>
-          <th class="text-white font-medium text-[0.95rem] text-start">IPO Date</th>
-          <th class="text-white font-medium text-[0.95rem] hidden sm:table-cell text-start">Symbol</th>
-          <th class="text-white font-medium text-sm sm:text-[0.95rem]">Name</th>
-          <th class="text-white font-medium text-end text-sm sm:text-[0.95rem]l">IPO Price</th>
-          <th class="text-white font-medium text-end text-sm sm:text-[0.95rem]">Current Price</th>
-          <th class="text-white font-medium text-end text-sm sm:text-[0.95rem]">Return Since</th>
+          <th class="text-white font-medium text-[1rem] text-start">IPO Date</th>
+          <th class="text-white font-medium text-[1rem] text-start">Symbol</th>
+          <th class="text-white font-medium text-[1rem]">Name</th>
+          <th class="text-white font-medium text-end text-[1rem]">IPO Price</th>
+          <th class="text-white font-medium text-end text-[1rem]">Current Price</th>
+          <th class="text-white font-medium text-end text-[1rem]">Return Since</th>
         </tr>
       </thead>
       <tbody>
@@ -156,27 +156,21 @@ $: {
         <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
           
 
-          <td class="text-white text-sm text-start border-b-[#09090B]">
+          <td class="text-white text-sm text-start border-b-[#09090B] whitespace-nowrap">
             {new Date(item?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
           </td>
 
 
-          <td class="hidden sm:table-cell text-blue-400 text-sm text-start border-b-[#09090B]">
+          <td class="text-blue-400 text-sm text-start border-b-[#09090B] whitespace-nowrap">
             {item?.symbol}
           </td>
 
-          <td class="text-gray-200 border-b-[#09090B]">
-            <span class="hidden sm:block text-white">{item?.name?.length > charNumber ? formatString(item?.name?.slice(0,charNumber)) + "..." : formatString(item?.name)}</span>
-            <div class="sm:hidden flex flex-row">
-              <div class="flex flex-col">
-                <span class="text-blue-400 ">{item?.symbol}</span>
-                <span class="text-white">{item?.name?.length > charNumber ? formatString(item?.name?.slice(0,charNumber)) + "..." : formatString(item?.name)}</span>
-              </div>
-            </div>
+          <td class="text-gray-200 border-b-[#09090B] whitespace-nowrap">
+            <span class="text-white">{item?.name?.length > charNumber ? formatString(item?.name?.slice(0,charNumber)) + "..." : formatString(item?.name)}</span>
           </td>
         
         
-          <td class="text-white border-b-[#09090B] text-end">
+          <td class="text-white text-sm border-b-[#09090B] text-end">
             {item?.ipoPrice !== null ? '$'+item?.ipoPrice : '-'}
           </td>
 
@@ -207,84 +201,7 @@ $: {
       </tbody>
     </table>
 
-    {:else}
-
-    <div class="relative sm:hidden pt-3 w-full">
-      {#each ipoList as item}
-        <div class="bg-[#09090B] rounded-lg border border-slate-800 shadow-lg h-auto pb-3 pl-2 pr-2 pt-4 mb-7">
-            <div class="flex flex-row items-center">
-              <label on:click={() => goto("/stocks/"+item?.symbol)} class="cursor-pointer flex flex-col ml-3 w-40">
-                <span class="text-blue-400">{item?.symbol}</span>
-                <span class="text-slate-300 text-sm">{item?.name?.length > charNumber ? formatString(item?.name?.slice(0,charNumber)) + "..." : formatString(item?.name)}</span>
-              </label>
-
-              <div class="flex flex-col justify-end items-end ml-auto">
-                <span class="font-medium text-slate-300 text-ends">IPO Date</span>
-                <span class="text-white text-opacity-[0.8] text-md text-end">
-                  {item?.date !== null ? new Date(item?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' }) : '-'}
-                </span>
-              </div>
-            </div>
-            <div class="border-1 border-b border-slate-800 w-full mt-5 mb-5" />
-
-            <div class="flex flex-row items-center">
-              <div class="flex flex-col ml-3 w-40">
-                <span class="font-medium text-slate-300">IPO Price</span>
-                <span class="text-white text-md">
-                  {item?.ipoPrice !== null ? '$'+item?.ipoPrice : '-'}
-                </span>
-              </div>
-
-              <div class="flex flex-col justify-end items-end ml-auto">
-                <span class="font-medium text-slate-300 text-ends">Current Price</span>
-                <span class="text-white text-md text-end">
-                  {item?.currentPrice !== null ? '$'+item?.currentPrice : '-'}
-                </span>
-              </div>
-            </div>
-
-            <div class="border-1 border-b border-slate-800 w-full mt-5 mb-5" />
-
-
-            <div class="flex flex-row items-center">
-              <div class="flex flex-col ml-3 w-40">
-                <span class="font-medium text-slate-300">Market Cap</span>
-                <span class="text-white text-md">
-                  {item?.marketCap !== null && item?.marketCap !== 0 ? abbreviateNumber(item?.marketCap,true) : '-'}
-                </span>
-              </div>
-
-              <div class="flex flex-col justify-end items-end ml-auto">
-                <span class="font-medium text-slate-300 text-ends">Return Since</span>
-                <span class="text-white text-md text-end">
-                  <div class="flex flex-row mt-1">
-                    {#if item?.return >=0 && item?.return !== null}
-                      <svg class="w-5 h-5 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
-                      <span class="text-[#10DB06] text-md">+{abbreviateNumber(item?.return)}%</span>
-                    {:else if item?.return < 0 && item?.return !== null}
-                      <svg class="w-5 h-5 mt-0.5 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
-                      <span class="text-[#FF2F1F] text-md">{abbreviateNumber(item?.return)}% </span> 
-                    {:else}
-                      <span class="text-[#FF2F1F] text-md">
-                        -
-                      </span> 
-                    {/if}
-                  </div>
-                </span>
-              </div>
-            </div>
-
-
-        </div>
-      {/each}
-
-      <ScrollToTop />
-
-    </div>
-
-
-    {/if}
-    <InfiniteLoading on:infinite={infiniteHandler} />
+  </div>
   {:else}
     <div class="flex justify-center items-center m-auto mt-10 mb-6">
       <div class="text-gray-100 text-center text-sm sm:text-[1rem] rounded-lg h-auto border border-slate-800 p-4">
