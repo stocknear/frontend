@@ -404,14 +404,14 @@ $: {
 {#if $screenWidth > 640}
 <input type="checkbox" id="searchBarModal" class="modal-toggle" bind:checked={searchBarModalChecked} />
 
-<dialog id="searchBarModal" class="modal modal-top ">
+<dialog id="searchBarModal" class="modal modal-top z-[999]">
 
 
   <label for="searchBarModal"  class="cursor-pointer modal-backdrop"></label>
   
   
   
-  <div class="modal-box overflow-hidden rounded-xl bg-[#09090B] border border-gray-800 sm:my-8 sm:m-auto sm:h-auto w-full sm:w-1/2 md:w-3/4 lg:w-1/2 2xl:w-1/3 " >
+  <div class="z-[999] modal-box overflow-hidden rounded-xl bg-[#09090B] border border-gray-800 sm:my-8 sm:m-auto sm:h-auto w-full sm:w-1/2 md:w-3/4 lg:w-1/2 2xl:w-1/3 " >
 
      
       <!-- Search layout -->
