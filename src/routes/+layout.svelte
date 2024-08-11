@@ -315,26 +315,26 @@ $: {
                     <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/analysts" class="text-[1rem] text-white ml-4 mt-2">Top Analyst</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/analysts" class="text-start w-full text-[1rem] text-white ml-4 mt-2">Top Analyst</a>
                           </Button>
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/analysts/top-stocks" class="text-[1rem] text-white ml-4 mt-4">Top Analyst Stocks</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/analysts/top-stocks" class="text-start w-full text-[1rem] text-white ml-4 mt-4">Top Analyst Stocks</a>
                           </Button>
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/most-shorted-stocks" class="text-[1rem] text-white ml-4 mt-4">Shorted Stocks</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/most-shorted-stocks" class="text-start w-full text-[1rem] text-white ml-4 mt-4">Shorted Stocks</a>
                           </Button>
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/stock-screener" class="text-[1rem] text-white ml-4 mt-4">Stock Screener</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/stock-screener" class="text-start w-full text-[1rem] text-white ml-4 mt-4">Stock Screener</a>
                           </Button>
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/market-mover" class="text-[1rem] text-white ml-4 mt-4">Market Mover</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/market-mover" class="text-start w-full text-[1rem] text-white ml-4 mt-4">Market Mover</a>
                           </Button>
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/heatmaps" class="text-[1rem] text-white ml-4 mt-4">Heatmaps</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/heatmaps" class="text-start w-full text-[1rem] text-white ml-4 mt-4">Heatmaps</a>
                           </Button>
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/list" class="text-[1rem] text-white ml-4 mt-4">Stock Lists</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/list" class="text-start w-full text-[1rem] text-white ml-4 mt-4">Stock Lists</a>
                           </Button>
                         </div>
     
@@ -361,11 +361,11 @@ $: {
     
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/etf/new-launches" class="text-[1rem] text-white ml-4 mt-2">New Launches</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/etf/new-launches" class="text-start w-full text-[1rem] text-white ml-4 mt-2">New Launches</a>
                           </Button>
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/etf/etf-providers" class="text-[1rem] text-white ml-4 mt-4">ETF Providers</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/etf/etf-providers" class="text-start w-full text-[1rem] text-white ml-4 mt-4">ETF Providers</a>
                           </Button>
                         </div>
     
@@ -393,25 +393,25 @@ $: {
     
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/dividends-calendar" class="text-[1rem] text-white ml-4 mt-2">Dividends Calendar</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/dividends-calendar" class="text-start w-full text-[1rem] text-white ml-4 mt-2">Dividends Calendar</a>
                           </Button>
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/earnings-calendar" class="text-[1rem] text-white ml-4 mt-4">Earnings Calendar</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/earnings-calendar" class="text-start w-full text-[1rem] text-white ml-4 mt-4">Earnings Calendar</a>
                           </Button>
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/ipos/2024" class="text-[1rem] text-white ml-4 mt-4">IPO Calendar</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/ipos/2024" class="text-start w-full text-[1rem] text-white ml-4 mt-4">IPO Calendar</a>
                           </Button>
                           <!--
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/fda-calendar" class="text-[1rem] text-white ml-4 mt-4">FDA Calendar</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/fda-calendar" class="text-start w-full text-[1rem] text-white ml-4 mt-4">FDA Calendar</a>
                           </Button>
                           -->
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/economic-calendar" class="text-[1rem] text-white ml-4 mt-4">Economic Calendar</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/economic-calendar" class="text-start w-full text-[1rem] text-white ml-4 mt-4">Economic Calendar</a>
                           </Button>
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/stock-splits-calendar" class="text-[1rem] text-white ml-4 mt-4">Stock Splits Calendar</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/stock-splits-calendar" class="text-start w-full text-[1rem] text-white ml-4 mt-4">Stock Splits Calendar</a>
                           </Button>
                         </div>
     
@@ -439,11 +439,11 @@ $: {
     
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/options-flow" class="text-[1rem] text-white ml-4 mt-2">Options Flow</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/options-flow" class="text-start w-full text-[1rem] text-white ml-4 mt-2">Options Flow</a>
                           </Button>
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/options-zero-dte" class="text-[1rem] text-white ml-4 mt-4">0DTE Flow</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/options-zero-dte" class="text-start w-full text-[1rem] text-white ml-4 mt-4">0DTE Flow</a>
                           </Button>
                         </div>
     
@@ -471,11 +471,11 @@ $: {
     
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/politicians/flow-data" class="text-[1rem] text-white ml-4 mt-2">Congress Flow</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/politicians/flow-data" class="text-start w-full text-[1rem] text-white ml-4 mt-2">Congress Flow</a>
                           </Button>
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/politicians" class="text-[1rem] text-white ml-4 mt-4">All Politicians</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/politicians" class="text-start w-full text-[1rem] text-white ml-4 mt-4">All Politicians</a>
                           </Button>
                         </div>
     
@@ -503,14 +503,14 @@ $: {
     
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/cramer-tracker" class="text-[1rem] text-white ml-4 mt-2">Jim Cramer Tracker</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/cramer-tracker" class="text-start w-full text-[1rem] text-white ml-4 mt-2">Jim Cramer Tracker</a>
                           </Button>
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/most-retail-volume" class="text-[1rem] text-white ml-4 mt-4">Retail Trader Tracker</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/most-retail-volume" class="text-start w-full text-[1rem] text-white ml-4 mt-4">Retail Trader Tracker</a>
                           </Button>
-                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                            <a href="/reddit-tracker" class="text-[1rem] text-white ml-4 mt-4">Reddit Tracker</a>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/reddit-tracker" class="text-start w-full text-[1rem] text-white ml-4 mt-4">Reddit Tracker</a>
                           </Button>
                         </div>
     
