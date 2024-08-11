@@ -701,8 +701,8 @@ $: {
                             </div>
                         </div>
 
-                        <aside class="hidden xl:block w-fit max-w-xl 2xl:w-[120px] m-auto sm:m-0 md:shrink-0 md:pt-10 pb-12 md:pb-20">
-                            <div class="sm:pl-10">
+                        <aside class="hidden lg:block w-fit max-w-xl 2xl:w-[120px] m-auto sm:m-0 md:shrink-0 md:pt-10 pb-12 md:pb-20">
+                          <div class="sm:pl-10">
                       
                               <CryptoProfileCard
                                   cryptoProfile = {cryptoProfile}
