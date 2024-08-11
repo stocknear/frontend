@@ -194,7 +194,6 @@ const handleMessage = async (event) => {
         {
           name: 'Price',
           type: 'line',
-          smooth: true,
           // prettier-ignore
           data: dataPoints,
           itemStyle: {
@@ -209,10 +208,9 @@ const handleMessage = async (event) => {
         {
             name: '',
             data: soldList,
-            type: 'bar',
-            smooth: true,
+            type: 'line',
+            areaStyle: {opacity: 1},
             yAxisIndex: 1,
-            barWidth: '1000%',
             itemStyle: {
             color: (params) => {
                 // Set color based on positive or negative value
@@ -223,10 +221,9 @@ const handleMessage = async (event) => {
         {
             name: '',
             data: boughtList,
-            type: 'bar',
-            smooth: true,
+            type: 'line',
+            areaStyle: {opacity: 1},
             yAxisIndex: 1,
-            barWidth: '1000%',
             itemStyle: {
             color: (params) => {
                 // Set color based on positive or negative value
@@ -237,10 +234,9 @@ const handleMessage = async (event) => {
         {
             name: '',
             data: grantList,
-            type: 'bar',
-            smooth: true,
+            type: 'line',
             yAxisIndex: 1,
-            barWidth: '1000%',
+            areaStyle: {opacity: 1},
             itemStyle: {
             color: (params) => {
                 // Set color based on positive or negative value
@@ -251,10 +247,9 @@ const handleMessage = async (event) => {
         {
             name: '',
             data: exerciseList,
-            type: 'bar',
-            smooth: true,
+            type: 'line',
+            areaStyle: {opacity: 1},
             yAxisIndex: 1,
-            barWidth: '1000%',
             itemStyle: {
             color: (params) => {
                 // Set color based on positive or negative value

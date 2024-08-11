@@ -233,16 +233,17 @@ onMount(async () => {
       
   
   
-<section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-40">
+<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
+
         
-  <div class="text-sm breadcrumbs ml-4">
+  <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
     <ul>
       <li><a href="/" class="text-gray-300">Home</a></li> 
       <li class="text-gray-300">Stock Screener</li>
     </ul>
   </div>
       
-  <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+  <div class="w-full  m-auto sm:bg-[#27272A] sm:rounded-lg h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
   
       <!-- Start Column -->

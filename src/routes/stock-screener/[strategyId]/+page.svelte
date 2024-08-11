@@ -916,10 +916,11 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
 <svelte:window on:scroll={handleScroll} />
 
 
-<section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-10 pb-40">
+<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
+
                     
             
-    <div class="text-sm breadcrumbs ml-4">
+    <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
       <ul>
         <li><a href="/" class="text-gray-300">Home</a></li> 
         <li><a href="/stock-screener" class="text-gray-300">Stock Screener</a></li>
@@ -930,7 +931,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
 
             
             <!--Start Build Strategy-->
-            <div class="bg-[#09090B] mt-5 sm:rounded-xl sm:border sm:hover:border-slate-700 sm:border-slate-800 pb-10">
+            <div class="bg-[#09090B] mt-5 sm:rounded-lg sm:border sm:hover:border-slate-700 sm:border-slate-800 pb-10">
       
               <div class="text-slate-300 font-bold text-2xl flex flex-row justify-center sm:justify-start items-center pt-10 pb-5 ml-3 sm:ml-10">
                 Build Strategy
@@ -946,8 +947,8 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
              
   
                       
-              <div class="mt-3 sm:mt-0 w-full max-w-3xl flex flex-col justify-center sm:flex-row sm:justify-between items-center sm:ml-10">
-                <label id="step-1" for="ruleModal" class="w-5/6 sm:w-full text-white text-sm bg-[#09090B] border border-slate-800 p-1.5 rounded-full cursor-pointer">
+              <div class="mt-3 sm:mt-0 m-auto w-5/6 flex flex-col justify-center sm:flex-row sm:justify-between items-center sm:ml-10">
+                <label id="step-1" for="ruleModal" class="w-full text-white text-sm bg-[#09090B] border border-slate-800 p-1.5 rounded-lg cursor-pointer">
                   <div class="flex justify-between items-center py-2 px-3">
                     {#if ruleName === ''}
                       Choose a rule
@@ -969,13 +970,13 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               </div>
   
                 <!--Start Adding Rules-->
-                <div class="flex flex-col space-y-2 pt-6 pb-6 justify-center items-center m-auto w-5/6 sm:w-full max-w-md">
+                <div class="flex flex-col space-y-2 pt-6 pb-6 justify-center items-center m-auto w-3/4 sm:w-full max-w-xl ">
                   
 
               <!--Start AI Trend Analysis Rule-->
                {#if ruleName === 'trendAnalysis'}
        
-               <div class="w-full max-w-xl text-white font-medium text-[1rem] flex flex-row justify-center items-center">
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                  AI Trend Analysis (Bullish) {ruleCondition[ruleName]} {valueTrendAnalysis}%
   
                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -998,7 +999,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                 <!--Start AI Fundamental Analysis Rule-->
                 {#if ruleName === 'fundamentalAnalysis'}
        
-                <div class="w-full max-w-xl text-white font-medium text-[1rem] flex flex-row justify-center items-center">
+                <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                   AI Fund. Analysis (Bullish) {ruleCondition[ruleName]} {valueFundamentalAnalysis}%
    
                   <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1021,7 +1022,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                   <!--Start Revenue Rule-->
               {#if ruleName === 'revenue'}
       
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 Revenue {ruleCondition[ruleName]} ${valueRevenue} Bn
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1047,7 +1048,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               <!--Start Growth Of Revenue Rule-->
               {#if ruleName === 'growthRevenue'}
       
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 Revenue Growth {ruleCondition[ruleName]} {valueGrowthRevenue} %
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1069,7 +1070,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               <!--Start Cost Of Revenue Rule-->
               {#if ruleName === 'costOfRevenue'}
       
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 Cost of Revenue {ruleCondition[ruleName]} ${valueCostOfRevenue} Bn
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1092,7 +1093,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               <!--Start Growth Of Cost Of Revenue Rule-->
               {#if ruleName === 'growthCostOfRevenue'}
       
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 Cost of Revenue Growth {ruleCondition[ruleName]} {valueGrowthCostOfRevenue} %
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1113,7 +1114,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                <!--Start CostAndExpenses Rule-->
                {#if ruleName === 'costAndExpenses'}
        
-               <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                  Cost & Expenses {ruleCondition[ruleName]} ${valueCostAndExpenses} Bn
        
                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1139,7 +1140,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               <!--Start Growth Of Cost and Expenses Rule-->
               {#if ruleName === 'growthCostAndExpenses'}
 
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 Cost & Expenses Growth {ruleCondition[ruleName]} {valueGrowthCostAndExpenses} %
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1165,7 +1166,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               <!--Start Net Income Rule-->
               {#if ruleName === 'netIncome'}
       
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 Net Income {ruleCondition[ruleName]} ${valueNetIncome} Bn
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1192,7 +1193,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               <!--Start Growth Net Income Rule-->
               {#if ruleName === 'growthNetIncome'}
 
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 Net Income Growth {ruleCondition[ruleName]} {valueGrowthNetIncome} %
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1219,7 +1220,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               <!--Start Gross Profit Rule-->
               {#if ruleName === 'grossProfit'}
 
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 Gross Profit {ruleCondition[ruleName]} ${valueGrossProfit} Bn
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1242,7 +1243,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               {#if ruleName === 'growthGrossProfit'}
 
       
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 Gross Profit Growth {ruleCondition[ruleName]} {valueGrowthGrossProfit} %
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1268,7 +1269,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               <!--Start Research & Development Expenses Rule-->
               {#if ruleName === 'researchAndDevelopmentExpenses'}
       
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 R&D Expenses {ruleCondition[ruleName]} ${valueResearchAndDevelopmentExpenses} Bn
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1294,7 +1295,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               <!--Start Growth Of R&D Expenses-->
               {#if ruleName === 'growthResearchAndDevelopmentExpenses'}
       
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 R&D Growth {ruleCondition[ruleName]} {valueGrowthResearchAndDevelopmentExpenses} %
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1321,7 +1322,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                <!--Start Interest Income Rule-->
                {#if ruleName === 'interestIncome'}
 
-               <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                  Interest Income {ruleCondition[ruleName]} ${valueInterestIncome === 1000 ? `${valueInterestIncome / 1000} Bn` : `${valueInterestIncome} Mio`}
   
                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1348,7 +1349,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                 <!--Start Interest Expenses Rule-->
                 {#if ruleName === 'interestExpense'}
 
-                <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+                <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                   Interest Expenses {ruleCondition[ruleName]} ${valueInterestExpenses === 1000 ? `${valueInterestExpenses / 1000} Bn` : `${valueInterestExpenses} Mio`}
    
                   <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1371,7 +1372,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                 <!--Start Avg. Volume Rule-->
                 {#if ruleName === 'avgVolume'}
 
-                <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+                <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                   Avg. Volume {ruleCondition[ruleName]} {valueAvgVolume} Mio
    
                   <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1394,7 +1395,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                 <!--Start Growth Of Interest Expenses-->
               {#if ruleName === 'growthInterestExpense'}
       
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 Interest Expenses Growth {ruleCondition[ruleName]} {valueGrowthInterestExpenses} %
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1421,7 +1422,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                <!--Start Operating Expenses Rule-->
                {#if ruleName === 'operatingExpenses'}
                
-               <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                  Operating Expenses {ruleCondition[ruleName]} ${valueOperatingExpenses} Bn
   
                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1444,7 +1445,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                  <!--Start Growth Of Operating Expenses-->
                 {#if ruleName === 'growthOperatingExpenses'}
         
-                <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+                <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                   Operating Expenses Growth {ruleCondition[ruleName]} {valueGrowthOperatingExpenses} %
         
                   <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1472,7 +1473,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                <!--Start Operating Income Rule-->
                {#if ruleName === 'operatingIncome'}
        
-               <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                  Operating Income {ruleCondition[ruleName]} ${valueOperatingIncome} Bn
   
                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1496,7 +1497,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                <!--Start Growth Of Operating Income-->
                {#if ruleName === 'growthOperatingIncome'}
        
-               <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                  Operating Income Growth {ruleCondition[ruleName]} {valueGrowthOperatingIncome} %
        
                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1522,7 +1523,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                <!--Start Analyst Rule-->
                {#if ruleName === 'ratingRecommendation'}
        
-               <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 Analyst Rating:
                 {#if ruleTrend[ruleName] === 'Hold'}
                   <span class="text-[#FF9F00] font-medium ml-1">{ruleTrend[ruleName]}</span>
@@ -1547,7 +1548,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                <!--Start Market Cap Rule-->
                {#if ruleName === 'marketCap'}
        
-               <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                  Market Cap {ruleCondition[ruleName]} ${valueMarketCap} Bn
        
                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1574,7 +1575,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               <!--Start EPS Rule-->
               {#if ruleName === 'eps'}
               
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 EPS {ruleCondition[ruleName]} ${valueEPS}
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1600,7 +1601,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               <!--Start Growth of EPS Rule-->
               {#if ruleName === 'growthEPS'}
       
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 EPS Growth {ruleCondition[ruleName]} {valueGrowthEPS} %
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1626,7 +1627,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
     
                <!--Start PE Rule-->
                {#if ruleName === 'pe'}       
-               <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                  PE Ratio {ruleCondition[ruleName]} {valuePE}
        
                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1650,7 +1651,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
 
                 <!--Start PE Rule-->
                 {#if ruleName === 'forwardPE'}
-                <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+                <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                   Forward PE {ruleCondition[ruleName]} {valueForwardPE}
         
                   <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1674,7 +1675,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
 
                <!--Start Price to Book Ratio Rule-->
                {#if ruleName === 'priceToBookRatio'}       
-               <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                  PB Ratio {ruleCondition[ruleName]} {valuePriceToBookRatio}
        
                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1698,7 +1699,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
 
                <!--Start Price to Sales Ratio Rule-->
                {#if ruleName === 'priceToSalesRatio'}       
-               <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                  PS Ratio {ruleCondition[ruleName]} {valuePriceToSalesRatio}
        
                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1724,7 +1725,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               {#if ruleName === 'var'}
 
       
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 VaR {ruleCondition[ruleName]} {valueVaR}%
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1749,7 +1750,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                <!--Start Beta Rule-->
                {#if ruleName === 'beta'}
 
-               <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                  Beta {ruleCondition[ruleName]} {valueBeta}
        
                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1769,7 +1770,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
     
                 <!--Start EBITDA Rule-->
                 {#if ruleName === 'ebitda'}
-                <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+                <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                   EBITDA {ruleCondition[ruleName]} ${valueEBITDA} Bn
         
                   <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1794,7 +1795,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                  <!--Start Growth of EBITDA Rule-->
               {#if ruleName === 'growthEBITDA'}
       
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 EBITDA Growth {ruleCondition[ruleName]} {valueGrowthEBITDA} %
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1822,7 +1823,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                <!--Start ESGScore Rule-->
                {#if ruleName === 'esgScore'}
        
-                <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+                <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                  ESG Score {ruleCondition[ruleName]} {valueESGScore}
        
                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1847,7 +1848,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
 
                 <!--Start RSI Rule-->
                 {#if ruleName === 'rsi'}
-                <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+                <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                   RSI {ruleCondition[ruleName]} {valueRSI}
        
                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1869,7 +1870,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
 
                 <!--Start Stoch RSI Rule-->
                 {#if ruleName === 'stochRSI'}
-                <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+                <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                   Stoch RSI {ruleCondition[ruleName]} {valueStochRSI}
        
                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1891,7 +1892,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
 
               <!--Start MFI Rule-->
                 {#if ruleName === 'mfi'}
-                <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+                <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                   MFI {ruleCondition[ruleName]} {valueMFI}
        
                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1912,7 +1913,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
 
                <!--Start CCI Rule-->
                {#if ruleName === 'cci'}
-               <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                  CCI {ruleCondition[ruleName]} {valueCCI}
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1933,7 +1934,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
 
                <!--Start ATR Rule-->
                {#if ruleName === 'atr'}
-               <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                  ATR {ruleCondition[ruleName]} {valueATR}
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1955,7 +1956,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                <!--Start SMA-50 Rule-->
                {#if ruleName === 'sma50'}
        
-               <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                  SMA-50 {ruleCondition[ruleName]} {valueSMA50}
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -1980,7 +1981,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                <!--Start SMA-200 Rule-->
                {#if ruleName === 'sma200'}
        
-               <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                  SMA-200 {ruleCondition[ruleName]} {valueSMA200}
       
                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -2006,7 +2007,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               <!--Start EMA-50 Rule-->
               {#if ruleName === 'ema50'}
        
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 EMA-50 {ruleCondition[ruleName]} {valueEMA50}
      
                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -2031,7 +2032,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               <!--Start SMA-200 Rule-->
               {#if ruleName === 'ema200'}
       
-              <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                 EMA-200 {ruleCondition[ruleName]} {valueEMA200}
      
                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -2055,7 +2056,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
 
              <!--Start Change 1W Rule-->
              {#if ruleName === 'change1W'}
-             <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+             <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                Change 1W {ruleCondition[ruleName]} {valueChange1W}%
               <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
                 <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
@@ -2074,7 +2075,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
 
              <!--Start Change 1M Rule-->
              {#if ruleName === 'change1M'}
-             <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+             <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                Change 1M {ruleCondition[ruleName]} {valueChange1M}%
               <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
                 <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
@@ -2093,7 +2094,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
 
              <!--Start Change 3M Rule-->
              {#if ruleName === 'change3M'}
-             <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+             <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                Change 3M {ruleCondition[ruleName]} {valueChange3M}%
               <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
                 <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
@@ -2112,7 +2113,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
 
              <!--Start Change 6M Rule-->
              {#if ruleName === 'change6M'}
-             <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+             <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                Change 6M {ruleCondition[ruleName]} {valueChange6M}%
               <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
                 <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
@@ -2131,7 +2132,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
 
              <!--Start Change 1Y Rule-->
              {#if ruleName === 'change1Y'}
-             <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+             <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                Change 1Y {ruleCondition[ruleName]} {valueChange1Y}%
               <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
                 <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
@@ -2150,7 +2151,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
 
              <!--Start Change 3Y Rule-->
              {#if ruleName === 'change3Y'}
-             <div class="w-full max-w-xl text-white font-medium text-lg flex flex-row justify-center items-center">
+             <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
                Change 3Y {ruleCondition[ruleName]} {valueChange3Y}%
               <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
                 <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
@@ -2179,7 +2180,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                   <!--Start Rules Preview -->
                 
   
-                    <div id="step-3" class="w-full max-w-3xl bg-[#09090B] sm:ml-10 h-auto max-h-[400px] no-scrollbar overflow-hidden overflow-y-scroll p-5 sm:rounded-xl border-b sm:border sm:hover:border-slate-700 border-slate-800 pb-10">
+                    <div id="step-3" class="m-auto w-5/6 bg-[#09090B] sm:ml-10 h-auto max-h-[400px] no-scrollbar overflow-hidden overflow-y-scroll p-5 sm:rounded-lg border-b sm:border sm:hover:border-slate-700 border-slate-800 pb-10">
                       <div class="flex flex-row items-center pb-5 sm:pb-0">
                         <div class="text-white font-bold text-xl sm:text-2xl flex justify-start items-center">
                           {ruleOfList.length} Rules Preview
