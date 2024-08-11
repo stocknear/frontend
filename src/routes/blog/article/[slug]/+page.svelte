@@ -35,9 +35,9 @@ const article = data?.getArticle;
 </svelte:head>
 
             
-<section class="w-full max-w-6xl m-auto pt-5 pb-60 min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
+<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
         
-    <div class="text-sm breadcrumbs ml-4 sm:ml-0">
+    <div class="text-sm sm:text-[1rem] breadcrumbs ml-4 sm:ml-0">
         <ul>
           <li><a href="/" class="text-gray-300">Home</a></li> 
           <li><a href="/blog" class="text-gray-300">All Blog Post</a></li> 

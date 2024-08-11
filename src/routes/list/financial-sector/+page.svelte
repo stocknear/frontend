@@ -42,17 +42,17 @@
   }
   </script>
       
-      <section class="w-full max-w-4xl overflow-hidden m-auto">
+      <section class="w-full overflow-hidden m-auto">
               
             
-          <div class="w-full max-w-4xl sm:flex sm:flex-row sm:items-center m-auto text-gray-100 bg-[#09090B] sm:rounded-lg h-auto p-5 mb-4">
+          <div class="w-full sm:flex sm:flex-row sm:items-center m-auto text-gray-100 bg-[#09090B] sm:rounded-lg h-auto p-5 mb-4">
               <svg class="w-5 h-5 inline-block sm:mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
               A complete list of companies in the Financial Sector that are publicly traded on the US stock exchange.
           </div>
       
           <div class="stats stats-horizontal no-scrollbar bg-[#09090B] shadow w-full rounded-lg">
             
-            <div class="grid grid-cols-2 sm:grid-cols-3">
+            <div class="grid grid-cols-2 sm:grid-cols-4">
 
               <div class="stat">
                 <div class="flex flex-row items-center">
@@ -152,12 +152,12 @@
       
           
             <!-- Page wrapper -->
-            <div class="flex justify-center w-full max-w-5xl m-auto h-full overflow-hidden">
+            <div class="flex justify-center w-full m-auto h-full overflow-hidden">
         
                 
           
                 <!-- Content area -->
-                <div class="relative flex flex-col flex-1 overflow-hidden">
+                <div class="w-full overflow-x-scroll">
         
       
              

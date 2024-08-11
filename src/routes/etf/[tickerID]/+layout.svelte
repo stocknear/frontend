@@ -479,14 +479,13 @@ $: {
   
       
 
-<body class="bg-[#09090B] pb-40">    
+<body class="xl:pl-10 bg-[#09090B] pb-40 w-full max-w-screen min-h-screen sm:max-w-6xl xl:max-w-screen-2xl overflow-hidden">    
   <!-- Page wrapper -->
-  <div class="flex flex-col min-h-screen overflow-hidden m-auto w-full mt-5 supports-[overflow:clip]:overflow-clip pb-40">
-      <main class="grow">
-          <section>
+  <div class="flex flex-col">
+      <main class="grow w-full">
+          <section class="w-full">
               <div class="w-full">
                   <div class="sm:flex sm:justify-start w-full">
-      
              <!--Start Mobile Navbar-->
              <div class="navbar w-screen sticky top-0 z-30 bg-[#09090B] sm:hidden">
       
@@ -569,11 +568,11 @@ $: {
             <!--End Mobile Navbar-->
            
         
-            <div class="w-full xl:w-fit max-w-3xl sm:max-w-7xl m-auto px-3">       
+            <div class="w-full max-w-3xl sm:max-w-6xl px-3">     
                     
               <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
                   <!-- Main content -->
-                  <div class="pb-12 md:pb-20 w-full max-w-5xl lg:max-w-5xl">
+                  <div class="pb-12 md:pb-20 w-full lg:max-w-2xl xl:max-w-3xl 2xl:max-w-5xl">
                       <div class="md:pr-6 lg:pr-10">
                                    
                                    
@@ -756,8 +755,8 @@ $: {
                               </div>
                           </div>
   
-                          <aside class="hidden xl:block w-fit max-w-xl 2xl:w-[120px] m-auto sm:m-0 md:shrink-0 md:pt-10 pb-12 md:pb-20">
-                              <div class="sm:pl-10">
+                          <aside class="hidden lg:block w-fit max-w-xl 2xl:w-[120px] m-auto sm:m-0 md:shrink-0 md:pt-10 pb-12 md:pb-20">
+                            <div class="sm:pl-10">
                         
                                 <!--Start Company Info -->
                                 

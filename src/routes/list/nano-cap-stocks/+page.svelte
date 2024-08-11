@@ -42,11 +42,11 @@
   }
   </script>
   
-  <section class="w-full max-w-4xl overflow-hidden m-auto">
+  <section class="w-full overflow-hidden m-auto">
           
         
         
-    <div class="w-full max-w-4xl m-auto text-gray-100 bg-[#27272A] sm:rounded-lg h-auto p-5 mb-4">
+    <div class="w-full m-auto text-gray-100 bg-[#27272A] sm:rounded-lg h-auto p-5 mb-4">
       Nano-cap stocks have a market capitalizations under $50 million USD, while additional categories include 
       <a href="/list/mega-cap-stocks" class="text-blue-400 hover:text-white">
           Mega-Cap
@@ -94,19 +94,19 @@
             
       
             <!-- Content area -->
-            <div class="relative flex flex-col flex-1 overflow-hidden">
+            <div class="w-full overflow-x-scroll">
     
   
          
               <table class="table table-sm sm:table-md table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 ">
                 <thead>
                   <tr class="border border-slate-800">
-                    <th class="text-slate-200 hidden sm:table-cell sm:font-bold text-[0.95rem]">Symbol</th>
-                    <th class="text-slate-200 sm:font-bold text-[0.95rem]">Company</th>
-                    <th class="text-slate-200 sm:font-bold text-end text-[0.95rem]">Market Cap</th>
-                    <th class="text-slate-200 sm:font-bold hidden sm:table-cell text-center text-[0.95rem]">Revenue</th>
-                    <th class="text-slate-200 sm:font-bold hidden sm:table-cell text-center text-[0.95rem]">Profits</th>
-                    <th class="text-slate-200 sm:font-bold text-[0.95rem] text-end">Price</th>
+                    <th class="text-slate-200 sm:font-bold text-[1rem]">Symbol</th>
+                    <th class="text-slate-200 sm:font-bold text-[1rem]">Company</th>
+                    <th class="text-slate-200 sm:font-bold text-end text-[1rem]">Market Cap</th>
+                    <th class="text-slate-200 sm:font-bold text-center text-[1rem]">Revenue</th>
+                    <th class="text-slate-200 sm:font-bold text-center text-[1rem]">Profits</th>
+                    <th class="text-slate-200 sm:font-bold text-[1rem] text-end">Price</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -115,46 +115,38 @@
                   <tr on:click={() => goto("/stocks/"+item?.symbol)}  class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
                   
                   
-                    <td class="hidden sm:table-cell text-blue-400 font-medium  border-b-[#09090B]">
+                    <td class="text-blue-400 font-medium text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B]">
                       {item?.symbol}
                     </td>
   
   
-                    <td class="text-gray-200 border-b-[#09090B]">
-                      <span class="hidden sm:inline-block text-white font-medium">{item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}</span>
-                      <div class="sm:hidden flex flex-row">
-                        <div class="flex flex-col">
-                          <span class="text-blue-400 font-medium">{item?.symbol}</span>
-                          <span class="text-gray-200 font-medium">{item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}</span>
-                        </div>
-                      </div>
+                    <td class="text-gray-200 border-b-[#09090B] text-sm sm:text-[1rem] whitespace-nowrap">
+                      {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
                     </td>
   
-                    <td class="text-white font-medium text-end border-b-[#09090B]">
+                    <td class="text-white font-medium text-sm sm:text-[1rem] whitespace-nowrap text-end border-b-[#09090B]">
                         {abbreviateNumber(item?.marketCap,true)}
                     </td>
   
-                    <td class="text-white font-medium text-center hidden sm:table-cell border-b-[#09090B]">
+                    <td class="text-white font-medium text-sm sm:text-[1rem] whitespace-nowrap text-center border-b-[#09090B]">
                         {item?.revenue !== null ? abbreviateNumber(item?.revenue,true) : '-'}
                     </td>
   
-                    <td class="text-white font-medium text-center hidden sm:table-cell border-b-[#09090B]">
+                    <td class="text-white font-medium text-sm sm:text-[1rem] whitespace-nowrap text-center border-b-[#09090B]">
                       {item?.netIncome !== null ? abbreviateNumber(item?.netIncome,true) : '-'}
                   </td>
             
   
-                    <td class="text-gray-200 border-b-[#09090B]">
+                    <td class="text-gray-200 border-b-[#09090B] text-sm sm:text-[1rem] whitespace-nowrap">
                         <div class="flex flex-row justify-end items-center">
           
                           <div class="flex flex-col">
                             <span class="text-white font-semibold text-md ml-auto">${item.price?.toFixed(2)}</span>
                             <div class="flex flex-row mt-0.5 ml-auto">
                               {#if item.changesPercentage >=0}
-                                <svg class="w-5 h-5 -mr-0.5 -mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
-                                <span class="text-[#10DB06] text-xs font-medium">+{item.changesPercentage?.toFixed(2)}%</span>
+                                <span class="text-[#10DB06] font-medium">+{item.changesPercentage?.toFixed(2)}%</span>
                               {:else}
-                                <svg class="w-5 h-5 -mr-0.5 -mt-0.5 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
-                                <span class="text-[#FF2F1F] text-xs font-medium">{item.changesPercentage?.toFixed(2)}% </span> 
+                                <span class="text-[#FF2F1F] font-medium">{item.changesPercentage?.toFixed(2)}% </span> 
                               {/if}
                             </div>
                           </div>
@@ -171,7 +163,7 @@
               
                   {/each}
                 </tbody>
-              </table>
+            </table>
     
         
           <InfiniteLoading on:infinite={infiniteHandler} />

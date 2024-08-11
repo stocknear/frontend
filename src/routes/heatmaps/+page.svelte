@@ -305,9 +305,9 @@ $: {
     
     
     
-    <section class="w-full max-w-5xl overflow-hidden m-auto min-h-screen pt-5 pb-60">
+<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
     
-          <div class="w-full max-w-5xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+          <div class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
           
               <!-- Start Column -->
@@ -355,7 +355,7 @@ $: {
         
     
     
-      <body class="w-full max-w-5xl overflow-hidden m-auto">
+      <body class="w-full overflow-hidden m-auto">
                 
           
       {#if isLoaded}
@@ -371,7 +371,7 @@ $: {
     
                     
 
-                  <div class="w-full sm:flex sm:flex-row sm:items-center m-auto text-gray-100 border border-gray-800 sm:rounded-lg h-auto p-5 mb-4 ">
+                  <div class="w-full text-center sm:text-start sm:flex sm:flex-row sm:items-center m-auto text-gray-100 border border-gray-800 sm:rounded-lg h-auto p-5 mb-4 ">
                       <svg class="w-5 h-5 inline-block sm:mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
                       <span>
                           Today, <label on:click={() => sectorSelector(lowestAvgCategory)} class="cursor-pointer text-blue-400 sm:hover:text-white">{lowestAvgCategory}</label> took the lead as the {displayIndex} largest loser, marking a average return of <span class="text-white font-medium">{lowestAvg?.toFixed(2)}%</span>, 

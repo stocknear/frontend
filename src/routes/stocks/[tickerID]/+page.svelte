@@ -702,12 +702,12 @@ function changeChartType() {
   
   <section class="bg-[#09090B] min-h-screen pb-40 overflow-hidden">
   
-              <div class="w-full max-w-5xl m-auto overflow-hidden">
+              <div class="w-full m-auto overflow-hidden">
   
           
                     <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
                         <!-- Main content -->
-                        <div class="pb-12 md:pb-20 w-full max-w-5xl sm:pr-6 xl:pr-0">
+                        <div class="pb-12 md:pb-20 w-full sm:pr-6 xl:pr-0">
                           <div class="xl:pr-10">
   
       

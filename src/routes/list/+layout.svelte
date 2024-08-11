@@ -2,8 +2,6 @@
     import { numberOfUnreadNotification } from '$lib/store';
     import { page } from '$app/stores';
     import logo from '$lib/images/list_logo.png';
-
-    import { fly } from 'svelte/transition';
     
     
     export let data;
@@ -193,9 +191,9 @@ const combinedNavigation = navigation?.concat(updatedNavigation);
     
     
           
-        <section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-4 pb-40">
+<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
             
-            <div class="text-sm breadcrumbs ml-4">
+            <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
                 <ul>
                   <li><a href="/" class="text-gray-300">Home</a></li> 
                   <li><a href="/list/" class="text-gray-300">Lists</a></li>
@@ -211,7 +209,7 @@ const combinedNavigation = navigation?.concat(updatedNavigation);
 
 
 
-        <div class="hidden sm:block w-full max-w-4xl m-auto bg-[#27272A] sm:rounded-xl h-auto p-10 mt-3 mb-8">
+        <div class="hidden sm:block w-full m-auto bg-[#27272A] sm:rounded-xl h-auto p-10 mt-3 mb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
         
             <!-- Start Column -->
@@ -258,7 +256,7 @@ const combinedNavigation = navigation?.concat(updatedNavigation);
 
 
         
-        <div class="mt-10 sm:mt-0 w-full max-w-4xl m-auto mb-10 bg-[#09090B] pl-3 pr-3 overflow-hidden">
+        <div class="mt-10 sm:mt-0 w-full m-auto mb-10 bg-[#09090B] pl-3 pr-3 overflow-hidden">
         
         
             <!--Start Top Winners/Losers-->

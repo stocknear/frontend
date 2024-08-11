@@ -71,7 +71,7 @@ $: {
               
         
               <!-- Content area -->
-              <div class="relative flex flex-col flex-1 overflow-hidden">
+              <div class="w-full overflow-x-scroll">
       
     
            

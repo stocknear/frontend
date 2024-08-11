@@ -69,9 +69,9 @@
       
   
   
-  <section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-40">
+  <section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
         
-    <div class="text-sm breadcrumbs ml-4">
+    <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
       <ul>
         <li><a href="/" class="text-gray-300">Home</a></li>
         <li><a href="/analysts" class="text-gray-300">Analysts</a></li> 
@@ -79,13 +79,13 @@
       </ul>
     </div>
             
-    <div class="w-full max-w-4xl overflow-hidden m-auto mt-5">
+    <div class="w-full overflow-hidden m-auto mt-5">
       
-      <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden max-w-4xl">
+      <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
           <div class="relative flex justify-center items-center overflow-hidden w-full">
               <main class="w-full">
                
-                <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+                <div class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
                 
                     <!-- Start Column -->
@@ -132,7 +132,7 @@
             
                 </div>
 
-                <div class="w-full max-w-4xl sm:flex sm:flex-row sm:items-center m-auto text-gray-100 bg-[#09090B] border border-gray-800 sm:rounded-lg h-auto p-5 ">
+                <div class="w-full sm:flex sm:flex-row sm:items-center m-auto text-gray-100 bg-[#09090B] border border-gray-800 sm:rounded-lg h-auto p-5 ">
                   <svg class="w-5 h-5 inline-block sm:mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
                   Strong Buy stocks by top-rated analysts with a star rating of 4 or above, known for their exceptional accuracy and returns. Stocks are ranked based on the volume of analyst ratings.
                 </div>
@@ -145,30 +145,30 @@
                       <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                         <thead>
                           <tr class="bg-[#09090B]">
-                            <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                               #
                             </th>
-                            <th class="text-start bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-start bg-[#09090B] text-white text-[1rem] font-semibold">
                               Symbol
                             </th>
   
-                            <th class="hidden sm:table-cell text-start bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-start bg-[#09090B] text-white text-[1rem] font-semibold">
                               Name
                             </th>
   
-                            <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                               Ratings Count
                             </th>
-                            <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Price Target
                             </th>
-                            <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Current Price
                             </th>
-                            <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                               Upside
                             </th>
-                            <th class="text-white font-semibold text-end text-sm">
+                            <th class="text-white font-semibold text-end text-[1rem]">
                               Market Cap
                             </th>
                           </tr>
@@ -177,37 +177,32 @@
                           {#each analytRatingList as item, index}
   
                           <tr on:click={() => goto(`/stocks/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] {index+1 === rawData?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''} cursor-pointer">
-                            <td class="text-white text-sm font-medium text-white text-end">
+                            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-white text-end">
                               {item?.rank}
                             </td>
   
-                            <td class="text-sm text-start">
-                                <div class="flex flex-col items-start w-32 sm:w-fit">
-                                    <span class="text-blue-400">{item?.ticker}</span>
-                                    <span class="text-white sm:hidden">
-                                        {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
-                                    </span>
-                                </div>
+                            <td class="text-blue-400 text-sm sm:text-[1rem] whitespace-nowrap text-start">
+                                {item?.ticker}
                             </td>
   
-                            <td class="hidden sm:table-cell text-white text-sm text-white text-start">
+                            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap text-white text-start">
                                 {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
                             </td>
                           
   
-                            <td class="text-end text-sm font-medium text-white">
+                            <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap font-medium text-white">
                                 {item?.counter}
                             </td>
 
-                            <td class="text-end text-sm font-medium text-white">
+                            <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap font-medium text-white">
                                 ${item?.priceTarget?.toFixed(2)}
                             </td>
                             
-                            <td class="text-end text-sm font-medium text-white">
+                            <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap font-medium text-white">
                                 ${item?.price?.toFixed(2)}
                             </td>
 
-                              <td class="text-end text-sm font-medium text-white">
+                              <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap font-medium text-white">
                                 {#if Number(item?.upside) >= 0}
                                   <span class="text-[#37C97D]">{Number(item?.upside)?.toFixed(2)}%</span>
                                 {:else}

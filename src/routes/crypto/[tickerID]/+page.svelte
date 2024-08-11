@@ -695,7 +695,7 @@ afterUpdate(async () => {
   
   <section class="bg-[#09090B] min-h-screen pb-40">
   
-              <div class="w-full max-w-5xl m-auto ">
+              <div class="w-full m-auto ">
   
           
                     <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">

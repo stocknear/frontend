@@ -158,7 +158,7 @@
                 
           
                 <!-- Content area -->
-                <div class="relative flex flex-col flex-1 overflow-hidden">
+                <div class="w-full overflow-x-scroll">
         
              
                   <table class="table table-sm sm:table-md table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 ">
