@@ -269,11 +269,7 @@ onMount(async () => {
     }
   }
 
-//This function is needed to set currentPage to 1 again when switching from stocks to options.
-function tabFunction(state) {
-    currentPage = 1;
-    changeAssetType = state;
-}
+
 
   $: {
     if(changeAssetType && typeof window !== 'undefined') {
