@@ -359,8 +359,8 @@ changeTab(0)
                         <UpgradeToPro data={data} title="Get stock forecasts from Wall Street's highest rated professionals"/>
 
                     {:else}
-                    <div class="flex justify-center items-center m-auto mt-10 mb-6">
-                        <div class="text-gray-100 text-sm sm:text-[1rem] rounded-lg h-auto border border-slate-800 p-4">
+                    <div class="w-full flex justify-start items-center m-auto mt-10 mb-6">
+                        <div class="text-center w-fit text-gray-100 text-sm sm:text-[1rem] rounded-lg h-auto border border-slate-800 p-4">
                         <svg class="w-5 h-5 inline-block sm:mr-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
                             Wall Street analysts have not provided any ratings for  {$displayCompanyName}
                         </div>
