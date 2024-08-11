@@ -4,7 +4,7 @@
   import republicanBackground from "$lib/images/bg-republican.png";
   import democraticBackground from "$lib/images/bg-democratic.png";
   import otherBackground from "$lib/images/bg-other.png";
-  import { getPartyForPoliticians, abbreviateNumber } from '$lib/utils';
+  import { abbreviateNumber } from '$lib/utils';
   import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
   import { Chart } from 'svelte-echarts'
   
@@ -136,18 +136,29 @@ use([BarChart, GridComponent, CanvasRenderer])
       xAxis: {
           data: dates,
           type: 'category',
+          axisLabel: {
+            color: '#fff'
+          }
           },
+          
           yAxis: [
           {
+
               type: 'value',
               splitLine: {
               show: false, // Disable x-axis grid lines
               },
               axisLabel: {
-              color: '#6E7079', // Change label color to white
-              formatter: function (value) {
-                  return '$'+(value / denominator)?.toFixed(0) + unit; // Format value in millions
-                  },
+              color: '#fff', // Change label color to white
+              formatter: function (value, index) {
+                // Display every second tick
+                if (index % 2 === 0) {
+                    value = Math.max(value, 0);
+                    return (value / denominator)?.toFixed(0) + unit; // Format value in millions
+                } else {
+                    return ''; // Hide this tick
+                }
+            }
               },
           },
           ],
@@ -156,7 +167,7 @@ use([BarChart, GridComponent, CanvasRenderer])
               data: boughtList,
               type: 'bar',
               itemStyle: {
-                      color: '#69B3A2' // Change bar color to white
+                      color: '#22C55E' // Change bar color to white
                 },
               barWidth: '25%',
             },
@@ -165,7 +176,7 @@ use([BarChart, GridComponent, CanvasRenderer])
               data: soldList,
               type: 'bar',
               itemStyle: {
-                  color: '#E8864D' // Change bar color to white
+                  color: '#E11D48' // Change bar color to white
               },
               barWidth: '25%',
           },
@@ -235,18 +246,19 @@ use([BarChart, GridComponent, CanvasRenderer])
   
   
   
-    <section class="w-full max-w-6xl overflow-hidden m-auto min-h-screen pt-5 pb-60 sm:px-10 xl:px-0">
+  <section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
   
-      <div class="text-sm breadcrumbs ml-4 pb-10">
-        <ul>
-          <li><a href="/" class="text-gray-300">Home</a></li> 
-          <li><a href="/politicians" class="text-gray-300">Politicians</a></li> 
-          <li class="text-gray-300">{name}</li>
-        </ul>
-      </div>
               
-              
-      <div class="w-full overflow-hidden m-auto px-3 sm:px-0">
+      <div class="sm:ml-10 w-full overflow-hidden m-auto px-3 sm:px-0">
+
+        <div class="text-sm sm:text-[1rem] breadcrumbs pb-10">
+          <ul>
+            <li><a href="/" class="text-gray-300">Home</a></li> 
+            <li><a href="/politicians" class="text-gray-300">Politicians</a></li> 
+            <li class="text-gray-300">{name}</li>
+          </ul>
+        </div>
+                
         
         <div class="flex justify-center w-full m-auto overflow-hidden">
             <div class="relative flex flex-col sm:flex-row justify-between items-start overflow-hidden w-full">
@@ -302,8 +314,8 @@ use([BarChart, GridComponent, CanvasRenderer])
                        <!--Start Total Amount Traded-->  
                        <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#27272A] rounded-2xl h-20">
                         <div class="flex flex-col items-start">
-                            <span class="font-medium text-gray-200 text-sm ">Total Amount</span>
-                            <span class="text-start text-[1rem] font-medium text-white mt-0.5">
+                            <span class="font-medium text-gray-200 text-sm sm:text-[1rem] ">Total Amount</span>
+                            <span class="text-start text-lg font-medium text-white mt-0.5">
                               ${new Intl.NumberFormat("en", {
                                 minimumFractionDigits: 0,
                                 maximumFractionDigits: 0
@@ -317,7 +329,7 @@ use([BarChart, GridComponent, CanvasRenderer])
                       <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#27272A] rounded-2xl h-20">
                         <div class="flex flex-col items-start">
                             <span class="font-medium text-gray-200 text-sm sm:text-[1rem] ">Buy/Sell</span>
-                            <span class="text-start text-sm sm:text-[1rem] font-medium text-white mt-0.5">
+                            <span class="text-start text-sm sm:text-lg font-medium text-white mt-0.5">
                               {buySellRatio?.toFixed(3)}
                             </span>
                         </div>
@@ -333,7 +345,7 @@ use([BarChart, GridComponent, CanvasRenderer])
                             </svg>
                             <!-- Percentage Text -->
                             <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                              <span class="text-center text-white text-sm">{buySellRatio?.toFixed(2)}</span>
+                              <span class="text-center text-white text-sm  ">{buySellRatio?.toFixed(2)}</span>
                             </div>
                           </div>
                         <!-- End Circular Progress -->
@@ -364,14 +376,14 @@ use([BarChart, GridComponent, CanvasRenderer])
                     <div class="flex flex-row items-center justify-between mx-auto mt-10 sm:mt-5 w-56 sm:w-80">
                       <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                       <div class="h-full bg-[#313131] transform -translate-x-1/2 " aria-hidden="true"></div>
-                      <div class="w-3 h-3 bg-[#69B3A2] border-4 box-content border-[#313131] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                      <div class="w-3 h-3 bg-[#22C55E] border-4 box-content border-[#313131] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
                       <span class="mt-2 sm:mt-0 text-white text-center sm:text-start text-xs sm:text-md inline-block">
                           Bought
                       </span>
                   </div>
                       <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                           <div class="h-full bg-[#313131] transform -translate-x-1/2 " aria-hidden="true"></div>
-                          <div class="w-3 h-3 bg-[#E8864D] border-4 box-content border-[#313131] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                          <div class="w-3 h-3 bg-[#E11D48] border-4 box-content border-[#313131] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
                           <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md sm:font-medium inline-block">
                           Sold
                           </span>
@@ -415,20 +427,20 @@ use([BarChart, GridComponent, CanvasRenderer])
                           {#each displayList as item}
                               <tr on:click={() => goto(`/${item?.assetType === 'stock' ? 'stocks' : item?.assetType === 'etf' ? 'etf' : 'crypto'}/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#27272A] cursor-pointer">
                                 
-                                <td class="text-gray-200 pb-3 border-b border-b-[#27272A]">
+                                <td class="pb-3 border-b border-b-[#27272A] whitespace-nowrap">
                                   <div class="flex flex-row items-center">
                                     <div class="flex-shrink-0 rounded-full w-8 h-8 relative bg-[#09090B] flex items-center justify-center">
                                       <img style="clip-path: circle(50%);" class="avatar w-5 h-5" src={`https://financialmodelingprep.com/image-stock/${item?.ticker}.png`} alt="stock logo"/>
                                     </div>
                                     <div class="flex flex-col ml-2">
-                                      <span class="text-blue-400">{item?.ticker?.replace('_',' ')}</span>
-                                      <span class="text-white text-opacity-80 text-xs">{item?.name?.length > 20 ? item?.name?.slice(0,20)+'...' : item?.name}</span>
+                                      <span class="text-sm sm:text-[1rem] text-blue-400">{item?.ticker?.replace('_',' ')}</span>
+                                      <span class="text-white text-sm">{item?.name?.length > 20 ? item?.name?.slice(0,20)+'...' : item?.name}</span>
                                     </div>
                                   </div>
                                   <!--{item?.firstName} {item?.lastName}-->
                                 </td>
   
-                                <td class="text-start text-xs sm:text-sm text-white border-b border-b-[#27272A]">
+                                <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap text-white border-b border-b-[#27272A]">
                                   <div class="flex flex-col items-start">
                                     <span class="font-semibold">
                                       {#if item?.type === 'Bought'}
@@ -445,11 +457,11 @@ use([BarChart, GridComponent, CanvasRenderer])
                                   </div>
                                 </td>
       
-                                  <td class="text-end text-sm text-white border-b border-b-[#27272A]">
+                                  <td class="text-end text-sm sm:text-[1rem] text-white border-b border-b-[#27272A] whitespace-nowrap">
                                       {new Date(item?.transactionDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                   </td>
   
-                                  <td class="text-end text-sm text-white border-b border-b-[#27272A]">
+                                  <td class="text-end text-sm sm:text-[1rem] text-white border-b border-b-[#27272A] whitespace-nowrap">
                                     {new Date(item?.disclosureDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                 </td>
                               </tr>
@@ -495,7 +507,7 @@ use([BarChart, GridComponent, CanvasRenderer])
                                   <div class="flex flex-row items-center">
                                     <div class="flex flex-col">
                                       <span class="text-blue-400 text-sm">{item?.ticker?.replace('_',' ')}</span>
-                                      <span class="text-white text-opacity-80 text-xs">{item?.name?.length > 15 ? item?.name?.slice(0,15)+'...' : item?.name}</span>
+                                      <span class="text-white ">{item?.name?.length > 15 ? item?.name?.slice(0,15)+'...' : item?.name}</span>
                                     </div>
                                   </div>
                                   <!--{item?.firstName} {item?.lastName}-->

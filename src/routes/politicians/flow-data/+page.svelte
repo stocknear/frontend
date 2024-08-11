@@ -384,17 +384,16 @@
   
   
   
-  <section class="w-full max-w-5xl overflow-hidden m-auto min-h-screen pt-5 pb-60">
-      <!-- 
-      <div class="text-sm breadcrumbs ml-4">
+    <section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
+      <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
         <ul>
           <li><a href="/" class="text-gray-300">Home</a></li> 
-          <li class="text-gray-300">Politicians</li>
+          <li class="text-gray-300">Congress Flow</li>
         </ul>
       </div>
-    -->
+    
   
-        <div class="w-full max-w-5xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+        <div class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
         
             <!-- Start Column -->
@@ -442,15 +441,15 @@
       
   
   
-    <body class="w-full max-w-5xl overflow-hidden m-auto">
+    <body class="w-full overflow-hidden m-auto">
               
         
     {#if isLoaded}
   
               
-      <section class="w-full max-w-5xl overflow-hidden m-auto  sm:mt-10">
+      <section class="w-full overflow-hidden m-auto  sm:mt-10">
         
-        <div class="p-3 sm:p-0 flex justify-center w-full m-auto overflow-hidden max-w-5xl">
+        <div class="p-3 sm:p-0 flex justify-center w-full m-auto overflow-hidden ">
             <div class="relative flex justify-center items-center overflow-hidden w-full">
                 <main class="w-full">
   

@@ -758,11 +758,11 @@ function tabFunction(state) {
                           {#each displayList as item}
                               <tr on:click={() => goto(`/${item?.type}/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#27272A] cursor-pointer">
       
-                                <td class="text-gray-200 pb-3 border-b border-b-[#27272A]">
+                                <td class="text-gray-200 pb-3 border-b border-b-[#27272A] whitespace-nowrap">
                                   <div class="flex flex-row items-center">
                                     <div class="flex flex-col">
                                       <span class="text-blue-400">{item?.symbol?.replace('_',' ')}</span>
-                                      <span class="text-white text-opacity-60 text-xs">{formatString(item?.securityName)}</span>
+                                      <span class="text-white text-sm">{formatString(item?.securityName)}</span>
                                     </div>
                                   </div>
                                   <!--{item?.firstName} {item?.lastName}-->
