@@ -410,18 +410,18 @@ $: {
 
 
 
-<body class="bg-[#09090B] text-slate-200 m-auto sm:mt-5 max-w-3xl sm:max-w-screen-xl">
+<body class="bg-[#09090B] sm:mt-5 max-w-3xl sm:max-w-screen-2xl">
 
 
     <!-- Page wrapper -->
-    <div class="flex flex-col min-h-screen overflow-hidden pl-0 lg:pl-20 m-auto w-full supports-[overflow:clip]:overflow-clip pb-40">
+    <div class="max-w-screen-xl flex flex-col min-h-screen overflow-hidden pl-0 lg:pl-20 m-auto w-full supports-[overflow:clip]:overflow-clip pb-40">
 
 
 
-        <main class="m-auto w-full ">
+        <main class="m-auto w-full">
 
           <!--Start Header-->
-          <div class="w-full sm:rounded-2xl m-auto h-44 sm:h-60 shadow-sm shadow-black bg-center bg-cover bg-no-repeat" style="background-image: url('{communityBanner}');" />
+          <div class="w-full sm:rounded-lg m-auto h-44 sm:h-60 shadow-sm shadow-black bg-center bg-cover bg-no-repeat" style="background-image: url('{communityBanner}');" />
           <!--End Header-->
 
 

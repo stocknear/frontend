@@ -538,7 +538,7 @@ function updateVote(postVote) {
   <!--<section on:click={closePost} class="bg-[#141417] cursor-zoom-out min-h-screen">-->
   
   <!--in:pageTransitionIn={{ duration: 250, screenWidth: $screenWidth }}-->
-  <div class="overflow-hidden flex flex-row item-start w-full lg:mt-5 relative max-w-6xl m-auto lg:px-5 sm:pb-40">
+  <div class="overflow-hidden flex flex-row item-start w-full lg:mt-5 relative max-w-3xl sm:max-w-screen-2xl lg:px-5 sm:pb-40">
     <!--Start Voting-->
     <div style="top: 4rem;" class="hidden lg:flex flex-col items-center relative h-fit sticky z-20 lg:mr-3 ">
       <!--Start Upvote-->
@@ -590,10 +590,10 @@ function updateVote(postVote) {
    <!--End Voting-->
   
   
-  <div class="w-full bg-[#141417] max-w-5xl m-auto border sm:hover:border-slate-800 border-slate-800 rounded-none sm:rounded-xl ">
+  <div class="w-full bg-[#141417] max-w-5xl border sm:hover:border-slate-800 border-slate-800 rounded-none sm:rounded-lg ">
       
   <!-- Start Header -->
-  <div style="top: 0.8rem;" class="sm:rounded-xl absolute h-12 sticky z-20 bg-[#141417] w-full {isScrolled && $screenWidth < 640 ? 'border-b border-gray-700 ease-in' : 'ease-out'}">
+  <div style="top: 0.8rem;" class="sm:rounded-lg absolute h-12 sticky z-20 bg-[#141417] w-full {isScrolled && $screenWidth < 640 ? 'border-b border-gray-700 ease-in' : 'ease-out'}">
       <div class="flex flex-row items-center justify-between w-full pt-3">
           <a href={previousPage} class="absolute left-2 sm:left-4 sm:top-4">
               <svg class="w-5 h-5 inline-block sm:mr-1 sm:-mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">

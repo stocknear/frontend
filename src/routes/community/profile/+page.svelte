@@ -553,7 +553,7 @@ onDestroy(async () => {
 
 
 
-<body class="bg-[#09090B] text-slate-200 overflow-hidden mt-10 sm:mt-5">
+<body class="bg-[#09090B] max-w-3xl sm:max-w-screen-2xl overflow-hidden mt-10 sm:mt-5">
 
   <!-- Page wrapper -->
   <div class="flex flex-col min-h-screen overflow-hidden">
