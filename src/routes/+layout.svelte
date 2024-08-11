@@ -41,6 +41,8 @@
   import MessageCircle from "lucide-svelte/icons/message-circle";
   import AudioLine from "lucide-svelte/icons/audio-lines";
 
+  import { Pane, Splitpanes } from 'svelte-splitpanes';
+
   export let data;
 
   let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
@@ -262,6 +264,9 @@ $: {
 
 <div class="app {$page?.url?.pathname === '/' ? 'bg-[#000]' : ''}">
 
+
+
+
 {#if !data?.user}
 <header
   class="sticky {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} inset-x-0 top-0 z-30 mx-auto w-full max-w-screen-md border border-[#202020] py-3 sm:py-4 shadow-lg sm:backdrop-blur-sm bg-[#202020] sm:bg-opacity-80 md:top-3 md:rounded-2xl lg:max-w-screen-lg">
@@ -312,684 +317,770 @@ $: {
 {:else }
 
 <div class="flex min-h-screen w-full flex-col bg-[#09090B]">
-  <aside class="fixed overflow-y-scroll scroller overflow-hidden inset-y-0 left-0 z-50 hidden 3xl:flex w-72 flex-col 3xl:border-r 3xl:border-gray-800 bg-[#141417]">
-    <nav class="flex flex-col items-center mr-auto gap-y-4 3xl:py-5 w-full">
-      <a
-        href="/"
-        class="-ml-3 mb-5 flex justify-end items-center h-9 w-9 shrink-0 gap-2 rounded-full text-lg font-semibold text-primary-foreground md:h-10 md:w-10 md:text-base"
-      >
-      <img class="avatar w-9 3xl:w-12 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
-        <span class="text-white text-xl">Stocknear</span>
-      </a>
-      
-      <a href="/" class="flex flex-row items-center ml-9 w-full">
-        <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
-          <Home class="h-5.5 w-5.5" />  
-        </div>
-        <span class="ml-3 text-white">Home</span>
-        </a>
 
-
-        <div class="flex flex-row items-center ml-9 w-full mt-3">
-
-          <Accordion.Root class="w-full">
-
-            <Accordion.Item value="item-1">
-
-              <Accordion.Trigger class="">
-                <Stock class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                <span class="text-white ml-1 mr-auto">Stocks</span>
-              </Accordion.Trigger>
-              <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
-                <div class="flex flex-col items-start">
-                  <a href="/analysts" class="text-[1rem] text-white ml-4 mt-4">Top Analyst</a>
-                  <a href="/analysts/top-stocks" class="text-[1rem] text-white ml-4 mt-4">Top Analyst Stocks</a>
-                  <a href="/most-shorted-stocks" class="text-[1rem] text-white ml-4 mt-4">Shorted Stocks</a>
-                  <a href="/stock-screener" class="text-[1rem] text-white ml-4 mt-4">Stock Screener</a>
-                  <a href="/market-mover" class="text-[1rem] text-white ml-4 mt-4">Market Mover</a>
-                  <a href="/heatmaps" class="text-[1rem] text-white ml-4 mt-4">Heatmaps</a>
-                  <a href="/list" class="text-[1rem] text-white ml-4 mt-4">Stock Lists</a>
-
-                </div>
-                
-              </Accordion.Content
+  <Splitpanes class="w-full" theme="no-splitter" horizontal dblClickSplitter={false}>
+    <Pane class="w-full navbar sticky {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} top-0 z-40 bg-[#09090B] border-b border-gray-800 flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6" size={6} minSize={10} maxSize={6}>
+        
+          <Sheet.Root>
+            <Sheet.Trigger asChild let:builder>
+              <Button builders={[builder]} size="icon" class="sm:xl bg-[#09090B] text-white sm:hover:bg-[#27272A] border-none">
+                <Menu class=" h-5.5 w-5.5 sm:w-7 sm:h-7" />
+                <span class="sr-only">Toggle Menu</span>
+              </Button>
+            </Sheet.Trigger>
+            <Sheet.Content side="left" class="sm:max-w-xs bg-[#141417] overflow-y-scroll">
+              <nav class="grid gap-6 text-lg font-medium bg-[#141417]">
+                <a
+                href="/"
+                class="flex items-center gap-4 px-0.5 text-white"
               >
-            </Accordion.Item>
-          </Accordion.Root>
-                  
-        </div>
-       
-        <div class="flex flex-row items-center ml-9 w-full mt-3">
-
-          <Accordion.Root class="w-full">
-
-            <Accordion.Item value="item-1">
-
-              <Accordion.Trigger class="">
-                <Layers class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                <span class="text-white ml-1 mr-auto">ETFs</span>
-              </Accordion.Trigger>
-              <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
-                <div class="flex flex-col items-start">
-                  <a href="/etf/new-launches" class="text-[1rem] text-white ml-4 mt-4">New Launches</a>
-                  <a href="/etf/etf-providers" class="text-[1rem] text-white ml-4 mt-4">ETF Providers</a>
-                </div>
-                
-              </Accordion.Content
-              >
-            </Accordion.Item>
-          </Accordion.Root>
-                  
-        </div>
-
-        <div class="flex flex-row items-center ml-9 w-full mt-3">
-
-          <Accordion.Root class="w-full">
-
-            <Accordion.Item value="item-1">
-
-              <Accordion.Trigger class="">
-                <Calendar class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                <span class="text-white ml-1 mr-auto">Calendar</span>
-              </Accordion.Trigger>
-              <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
-                <div class="flex flex-col items-start">
-                  <a href="/dividends-calendar" class="text-[1rem] text-white ml-4 mt-4">Dividends Calendar</a>
-                  <a href="/earnings-calendar" class="text-[1rem] text-white ml-4 mt-4">Earnings Calendar</a>
-                  <a href="/ipos/2024" class="text-[1rem] text-white ml-4 mt-4">IPO Calendar</a>
-                  <!--<a href="/fda-calendar" class="text-[1rem] text-white ml-4 mt-4">FDA Calendar</a>-->
-                  <a href="/economic-calendar" class="text-[1rem] text-white ml-4 mt-4">Economic Calendar</a>
-                  <a href="/stock-splits-calendar" class="text-[1rem] text-white ml-4 mt-4">Stock Splits Calendar</a>
-                </div>
-                
-              </Accordion.Content
-              >
-            </Accordion.Item>
-          </Accordion.Root>
-                  
-        </div>
-
-        <div class="flex flex-row items-center ml-9 w-full mt-3">
-
-          <Accordion.Root class="w-full">
-
-            <Accordion.Item value="item-1">
-
-              <Accordion.Trigger class="">
-                <Option class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                <span class="text-white ml-1 mr-auto">Options</span>
-              </Accordion.Trigger>
-              <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
-                <div class="flex flex-col items-start">
-                  <a href="/options-flow" class="text-[1rem] text-white ml-4 mt-4">Options Flow</a>
-                  <a href="/options-zero-dte" class="text-[1rem] text-white ml-4 mt-4">0DTE Flow</a>
-                </div>
-                
-              </Accordion.Content
-              >
-            </Accordion.Item>
-          </Accordion.Root>
-                  
-        </div>
-
-
-        <div class="flex flex-row items-center ml-9 w-full mt-3">
-
-          <Accordion.Root class="w-full">
-
-            <Accordion.Item value="item-1">
-
-              <Accordion.Trigger class="">
-                <HandShake class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                <span class="text-white ml-1 mr-auto">Congress</span>
-              </Accordion.Trigger>
+              <img class="avatar w-9 sm:w-10 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
+                Stocknear
+              </a>
+    
+              <Sheet.Close asChild let:builder>
+                <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 mr-auto">
+                  <a href="/" class="flex flex-row items-center mr-auto mt-5 ">
+                    <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
+                      <Home class="h-5.5 w-5.5" />  
+                    </div>
+                    <span class="ml-3 text-white text-[1rem]">Home</span>
+                  </a>
+                </Button>
+              </Sheet.Close>
               
-              <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
-                <div class="flex flex-col items-start">
-                  <div class="flex flex-col items-start">
-                    <a href="/politicians/flow-data" class="text-[1rem] text-white ml-4 mt-4">Congress Flow</a>
-                    <a href="/politicians" class="text-[1rem] text-white ml-4 mt-4">All Politicians</a>
-                  </div>
-                </div>
-                
-              </Accordion.Content
-              >
-            </Accordion.Item>
-          </Accordion.Root>
-                  
-        </div>
-
-        <div class="flex flex-row items-center ml-9 w-full mt-3">
-
-          <Accordion.Root class="w-full">
-
-            <Accordion.Item value="item-1">
-
-              <Accordion.Trigger class="">
-                <AudioLine class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                <span class="text-white ml-1 mr-auto">Tracker Datasets</span>
-              </Accordion.Trigger>
-              <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
-                <div class="flex flex-col items-start">
-                  <a href="/cramer-tracker" class="text-[1rem] text-white ml-4 mt-4">Jim Cramer Tracker</a>
-                  <a href="/most-retail-volume" class="text-[1rem] text-white ml-4 mt-4">Retail Trader Tracker</a>
-                  <a href="/reddit-tracker" class="text-[1rem] text-white ml-4 mt-4">Reddit Tracker</a>
-                </div>
-                
-              </Accordion.Content
-              >
-            </Accordion.Item>
-          </Accordion.Root>
-                  
-        </div>
-
-        <!--
-        <a href="/dark-pool-flow" class="flex flex-row items-center ml-9 w-full mt-3">
-          <div
-            class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
-          >
-            <Box class="h-5.5 w-5.5" />
-            
-          </div>
-          <span class="ml-3 text-white">Dark Pool</span>
-        </a>
-      -->
-
-        <a href="/hedge-funds" class="flex flex-row items-center ml-9 w-full mt-3">
-          <div
-            class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
-          >
-            <Boxes class="h-5.5 w-5.5" />
-            
-          </div>
-          <span class="ml-3 text-white">Hedge Funds</span>
-        </a>
-
-        <a href="/market-news" class="flex flex-row items-center ml-9 w-full mt-3">
-          <div
-            class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
-          >
-            <Newspaper class="h-5.5 w-5.5" />
-            
-          </div>
-          <span class="ml-3 text-white">News</span>
-        </a>
-
-        <a href="/community" class="flex flex-row items-center ml-9 w-full mt-3">
-          <div
-            class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
-          >
-            <MessageCircle class="h-5.5 w-5.5" />
-            
-          </div>
-          <span class="ml-3 text-white">Community</span>
-        </a>
-            
-    </nav>
-    {#if data?.user?.tier === 'Free' || data?.user?.freeTrial === true}
-    <div class="mt-auto p-4 ">
-      <Card.Root
-        data-x-chunk-name="dashboard-02-chunk-0"
-        data-x-chunk-description="A card with a call to action"
-      >
-        <Card.Header class="p-2 pt-0 md:p-4">
-          <Card.Title>Upgrade to Pro</Card.Title>
-          <Card.Description>
-            {#if data?.user?.freeTrial === true}
-              Your free trial will be expired soon.
-              Upgrade now for unlimited access to all features!
-            {:else}
-              Unlock all features of the platform and level up your trading.
-            {/if}
-          </Card.Description>
-        </Card.Header>
-        <Card.Content class="p-2 pt-0 md:p-4 md:pt-0">
-          <a href="/pricing" class="flex justify-center items-center text-center rounded-lg text-sm py-2 m-auto text-center w-full bg-white text-black font-semibold hover:bg-white/80">
-            Upgrade
+              
+              <div class="flex flex-row items-center w-full">
+    
+                <Accordion.Root class="w-full">
+      
+                  <Accordion.Item value="item-1">
+      
+                    <Accordion.Trigger class="">
+                      <Stock class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
+                      <span class="text-white ml-1 mr-auto">Stocks</span>
+                    </Accordion.Trigger>
+                    <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
+                      <Sheet.Close asChild let:builder>
+                        <div class="flex flex-col items-start">
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/analysts" class="text-[1rem] text-white ml-4 mt-2">Top Analyst</a>
+                          </Button>
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/analysts/top-stocks" class="text-[1rem] text-white ml-4 mt-4">Top Analyst Stocks</a>
+                          </Button>
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/most-shorted-stocks" class="text-[1rem] text-white ml-4 mt-4">Shorted Stocks</a>
+                          </Button>
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/stock-screener" class="text-[1rem] text-white ml-4 mt-4">Stock Screener</a>
+                          </Button>
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/market-mover" class="text-[1rem] text-white ml-4 mt-4">Market Mover</a>
+                          </Button>
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/heatmaps" class="text-[1rem] text-white ml-4 mt-4">Heatmaps</a>
+                          </Button>
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/list" class="text-[1rem] text-white ml-4 mt-4">Stock Lists</a>
+                          </Button>
+                        </div>
+    
+                      </Sheet.Close>
+                      
+                    </Accordion.Content
+                    >
+                  </Accordion.Item>
+                </Accordion.Root>
+                        
+              </div>
+    
+              <div class="flex flex-row items-center w-full">
+    
+                <Accordion.Root class="w-full">
+      
+                  <Accordion.Item value="item-1">
+      
+                    <Accordion.Trigger class="">
+                      <Layers class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
+                      <span class="text-white ml-1 mr-auto">ETFs</span>
+                    </Accordion.Trigger>
+                    <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
+    
+                      <Sheet.Close asChild let:builder>
+                        <div class="flex flex-col items-start">
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/etf/new-launches" class="text-[1rem] text-white ml-4 mt-2">New Launches</a>
+                          </Button>
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/etf/etf-providers" class="text-[1rem] text-white ml-4 mt-4">ETF Providers</a>
+                          </Button>
+                        </div>
+    
+                      </Sheet.Close>
+    
+                      
+                    </Accordion.Content
+                    >
+                  </Accordion.Item>
+                </Accordion.Root>
+                        
+              </div>
+    
+              <div class="flex flex-row items-center w-full">
+    
+                <Accordion.Root class="w-full">
+      
+                  <Accordion.Item value="item-1">
+      
+                    <Accordion.Trigger class="">
+                      <Calendar class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
+                      <span class="text-white ml-1 mr-auto">Calendar</span>
+                    </Accordion.Trigger>
+                    <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
+    
+                      <Sheet.Close asChild let:builder>
+                        <div class="flex flex-col items-start">
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/dividends-calendar" class="text-[1rem] text-white ml-4 mt-2">Dividends Calendar</a>
+                          </Button>
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/earnings-calendar" class="text-[1rem] text-white ml-4 mt-4">Earnings Calendar</a>
+                          </Button>
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/ipos/2024" class="text-[1rem] text-white ml-4 mt-4">IPO Calendar</a>
+                          </Button>
+                          <!--
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/fda-calendar" class="text-[1rem] text-white ml-4 mt-4">FDA Calendar</a>
+                          </Button>
+                          -->
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/economic-calendar" class="text-[1rem] text-white ml-4 mt-4">Economic Calendar</a>
+                          </Button>
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/stock-splits-calendar" class="text-[1rem] text-white ml-4 mt-4">Stock Splits Calendar</a>
+                          </Button>
+                        </div>
+    
+                      </Sheet.Close>
+    
+                      
+                    </Accordion.Content
+                    >
+                  </Accordion.Item>
+                </Accordion.Root>
+                        
+              </div>
+    
+              <div class="flex flex-row items-center w-full">
+    
+                <Accordion.Root class="w-full">
+      
+                  <Accordion.Item value="item-1">
+      
+                    <Accordion.Trigger class="">
+                      <Option class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
+                      <span class="text-white ml-1 mr-auto">Options</span>
+                    </Accordion.Trigger>
+                    <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
+    
+                      <Sheet.Close asChild let:builder>
+                        <div class="flex flex-col items-start">
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/options-flow" class="text-[1rem] text-white ml-4 mt-2">Options Flow</a>
+                          </Button>
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/options-zero-dte" class="text-[1rem] text-white ml-4 mt-4">0DTE Flow</a>
+                          </Button>
+                        </div>
+    
+                      </Sheet.Close>
+    
+                      
+                    </Accordion.Content
+                    >
+                  </Accordion.Item>
+                </Accordion.Root>
+                        
+              </div>
+    
+              <div class="flex flex-row items-center w-full">
+    
+                <Accordion.Root class="w-full">
+      
+                  <Accordion.Item value="item-1">
+      
+                    <Accordion.Trigger class="">
+                      <HandShake class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
+                      <span class="text-white ml-1 mr-auto">Congress</span>
+                    </Accordion.Trigger>
+                    <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
+    
+                      <Sheet.Close asChild let:builder>
+                        <div class="flex flex-col items-start">
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/politicians/flow-data" class="text-[1rem] text-white ml-4 mt-2">Congress Flow</a>
+                          </Button>
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/politicians" class="text-[1rem] text-white ml-4 mt-4">All Politicians</a>
+                          </Button>
+                        </div>
+    
+                      </Sheet.Close>
+    
+                      
+                    </Accordion.Content
+                    >
+                  </Accordion.Item>
+                </Accordion.Root>
+                        
+              </div>
+    
+              <div class="flex flex-row items-center w-full">
+    
+                <Accordion.Root class="w-full">
+      
+                  <Accordion.Item value="item-1">
+      
+                    <Accordion.Trigger class="">
+                      <AudioLine class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
+                      <span class="text-white ml-1 mr-auto">Tracker Datasets</span>
+                    </Accordion.Trigger>
+                    <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
+    
+                      <Sheet.Close asChild let:builder>
+                        <div class="flex flex-col items-start">
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/cramer-tracker" class="text-[1rem] text-white ml-4 mt-2">Jim Cramer Tracker</a>
+                          </Button>
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/most-retail-volume" class="text-[1rem] text-white ml-4 mt-4">Retail Trader Tracker</a>
+                          </Button>
+                          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
+                            <a href="/reddit-tracker" class="text-[1rem] text-white ml-4 mt-4">Reddit Tracker</a>
+                          </Button>
+                        </div>
+    
+                      </Sheet.Close>
+    
+                      
+                    </Accordion.Content
+                    >
+                  </Accordion.Item>
+                </Accordion.Root>
+                        
+              </div>
+    
+              
+    
+              <!--
+            <Sheet.Close asChild let:builder>
+              <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 w-full">
+                <a href="/dark-pool-flow" class="flex flex-row items-center w-full -mt-2"> 
+                      <div class="flex flex-row items-center mr-auto">
+                        <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
+                          <Box class="h-5.5 w-5.5" />  
+                        </div>
+                        <span class="ml-3 text-white text-[1rem]">Dark Pool</span>
+                      </div>
+                </a>
+              </Button>
+            </Sheet.Close>
+            -->
+    
+            <Sheet.Close asChild let:builder>
+              <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 w-full">
+                <a href="/hedge-funds" class="flex flex-row items-center w-full -mt-2"> 
+                      <div class="flex flex-row items-center mr-auto">
+                        <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
+                          <Boxes class="h-5.5 w-5.5" />  
+                        </div>
+                        <span class="ml-3 text-white text-[1rem]">Hedge Funds</span>
+                      </div>
+                </a>
+              </Button>
+            </Sheet.Close>  
+    
+            <Sheet.Close asChild let:builder>
+              <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 w-full">
+                <a href="/market-news" class="flex flex-row items-center w-full -mt-2"> 
+                      <div class="flex flex-row items-center mr-auto">
+                        <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
+                          <Newspaper class="h-5.5 w-5.5" />  
+                        </div>
+                        <span class="ml-3 text-white text-[1rem]">News</span>
+                      </div>
+                </a>
+              </Button>
+            </Sheet.Close>  
+    
+            <Sheet.Close asChild let:builder>
+              <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 w-full">
+                <a href="/community" class="flex flex-row items-center w-full -mt-2"> 
+                      <div class="flex flex-row items-center mr-auto">
+                        <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
+                          <MessageCircle class="h-5.5 w-5.5" />  
+                        </div>
+                        <span class="ml-3 text-white text-[1rem]">Community</span>
+                      </div>
+                </a>
+              </Button>
+            </Sheet.Close>  
+    
+    
+              </nav>
+    
+              {#if data?.user?.tier === 'Free' || data?.user?.freeTrial === true}
+              <div class="pt-10 w-full mb-5 m-auto sticky">
+                <Card.Root
+                >
+                  <Card.Header class="p-4">
+                    <Card.Title>Upgrade to Pro</Card.Title>
+                    <Card.Description>
+                      {#if data?.user?.freeTrial === true}
+                       Your free trial will expire soon.
+                       Upgrade now for unlimited access to all features!
+                      {:else}
+                        Unlock all features of the platform and level up your trading.
+                      {/if}
+                    </Card.Description>
+                  </Card.Header>
+                  <Card.Content class="p-4 pt-0">
+                    <Sheet.Close asChild let:builder>
+                      <Button on:click={() => goto('/pricing')} builders={[builder]} type="submit" size="sm" class="w-full bg-white hover:bg-white/80">
+                        <span class="flex flex-row items-center text-black font-semibold text-center">
+                          Upgrade
+                        </span>
+                      </Button>
+                  </Sheet.Close>
+                  </Card.Content>
+                </Card.Root>
+              </div>
+              {/if}
+    
+            </Sheet.Content>
+          </Sheet.Root>
+          
+          <a href="/" class="-ml-2 flex w-9 flex-shrink-0">
+            <img class="avatar w-9 3xl:w-10 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
+            <span class="text-white font-semibold ml-2 text-lg">Stocknear</span>
           </a>
-        </Card.Content>
-      </Card.Root>
-    </div>
-    {/if}
-
-  </aside>
-  <div class="flex flex-col">
-    <header class="navbar {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} sticky top-0 z-40 bg-[#09090B] border-b border-gray-800 flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6">
-      <Sheet.Root>
-        <Sheet.Trigger asChild let:builder>
-          <Button builders={[builder]} size="icon" class="sm:xl bg-[#09090B] text-white sm:hover:bg-[#27272A] border-none">
-            <Menu class=" h-5.5 w-5.5 sm:w-7 sm:h-7" />
-            <span class="sr-only">Toggle Menu</span>
-          </Button>
-        </Sheet.Trigger>
-        <Sheet.Content side="left" class="sm:max-w-xs bg-[#141417] overflow-y-scroll">
-          <nav class="grid gap-6 text-lg font-medium bg-[#141417]">
-            <a
-            href="/"
-            class="flex items-center gap-4 px-0.5 text-white"
-          >
-          <img class="avatar w-9 sm:w-10 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
-            Stocknear
-          </a>
-
-          <Sheet.Close asChild let:builder>
-            <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 mr-auto">
-              <a href="/" class="flex flex-row items-center mr-auto mt-5 ">
+    
+          
+          <div class="relative ml-auto">
+            <!--
+            <Search class="absolute left-2.5 top-2.5 h-4 w-4 text-white" />
+            <Input
+              type="search"
+              placeholder="Search..."
+              class="w-full rounded-lg bg-[#202327] placeholder-gray-400 border-none pl-8 md:w-[300px] lg:w-[700px] border-transparent focus:border-transparent focus:ring-0 "
+              autocomplete="off"
+              />
+            -->
+            <Searchbar />
+    
+            <NotificationBell 
+              data={data}
+              hasUnreadElement={hasUnreadElement}
+            />
+    
+          </div>
+    
+          
+          <DropdownMenu.Root >
+            <DropdownMenu.Trigger asChild let:builder>
+              <Button
+                size="icon"
+                class="overflow-hidden rounded-full"
+                builders={[builder]}
+              >
+                <img
+                src={data?.user?.avatar
+                  ? getImageURL(data?.user.collectionId, data?.user.id, data?.user.avatar)
+                  : `https://avatar.vercel.sh/${data?.user?.username}`}
+                  width={36}
+                  height={36}
+                  alt="Avatar"
+                  class="overflow-hidden rounded-full"
+                />
+              </Button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content align="end">
+              <DropdownMenu.Item>
+                <a href="/community/profile">
+                  My Account
+                </a>
+              </DropdownMenu.Item>
+              <DropdownMenu.Separator />
+              <DropdownMenu.Item>
+                <a href="/watchlist">
+                  Watchlist
+                </a>
+              </DropdownMenu.Item>
+              <DropdownMenu.Item>
+                <a href="/price-alert">
+                 Price Alert
+                </a>
+              </DropdownMenu.Item>
+              <DropdownMenu.Separator />
+              <DropdownMenu.Item>
+                <form class="cursor-pointer" action="/logout" method="POST">
+                  <button type="submit" class="w-full text-start">
+                      <span class="text-start">Logout</span>
+                  </button>
+                </form>
+              </DropdownMenu.Item>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
+    
+       
+    </Pane>
+    <Pane>
+      <Splitpanes class="w-full" theme="modern-theme">
+        {#if $screenWidth >= 1536}
+        <Pane class="" size={14} minSize={6}>
+          <aside class="fixed overflow-y-scroll scroller overflow-hidden inset-y-0 left-0 z-50 hidden 3xl:flex w-72 flex-col 3xl:border-r 3xl:border-gray-800 bg-[#141417]">
+            <nav class="flex flex-col items-center mr-auto gap-y-4 3xl:py-5 w-full">
+              <a
+                href="/"
+                class="-ml-3 mb-5 flex justify-end items-center h-9 w-9 shrink-0 gap-2 rounded-full text-lg font-semibold text-primary-foreground md:h-10 md:w-10 md:text-base"
+              >
+              <img class="avatar w-9 3xl:w-12 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
+                <span class="text-white text-xl">Stocknear</span>
+              </a>
+              
+              <a href="/" class="flex flex-row items-center ml-9 w-full">
                 <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
                   <Home class="h-5.5 w-5.5" />  
                 </div>
-                <span class="ml-3 text-white text-[1rem]">Home</span>
-              </a>
-            </Button>
-          </Sheet.Close>
-          
-          
-          <div class="flex flex-row items-center w-full">
-
-            <Accordion.Root class="w-full">
-  
-              <Accordion.Item value="item-1">
-  
-                <Accordion.Trigger class="">
-                  <Stock class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                  <span class="text-white ml-1 mr-auto">Stocks</span>
-                </Accordion.Trigger>
-                <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
-                  <Sheet.Close asChild let:builder>
-                    <div class="flex flex-col items-start">
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/analysts" class="text-[1rem] text-white ml-4 mt-2">Top Analyst</a>
-                      </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/analysts/top-stocks" class="text-[1rem] text-white ml-4 mt-4">Top Analyst Stocks</a>
-                      </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/most-shorted-stocks" class="text-[1rem] text-white ml-4 mt-4">Shorted Stocks</a>
-                      </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/stock-screener" class="text-[1rem] text-white ml-4 mt-4">Stock Screener</a>
-                      </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/market-mover" class="text-[1rem] text-white ml-4 mt-4">Market Mover</a>
-                      </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/heatmaps" class="text-[1rem] text-white ml-4 mt-4">Heatmaps</a>
-                      </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/list" class="text-[1rem] text-white ml-4 mt-4">Stock Lists</a>
-                      </Button>
-                    </div>
-
-                  </Sheet.Close>
-                  
-                </Accordion.Content
-                >
-              </Accordion.Item>
-            </Accordion.Root>
+                <span class="ml-3 text-white">Home</span>
+                </a>
+        
+        
+                <div class="flex flex-row items-center ml-9 w-full mt-3">
+        
+                  <Accordion.Root class="w-full">
+        
+                    <Accordion.Item value="item-1">
+        
+                      <Accordion.Trigger class="">
+                        <Stock class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
+                        <span class="text-white ml-1 mr-auto">Stocks</span>
+                      </Accordion.Trigger>
+                      <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
+                        <div class="flex flex-col items-start">
+                          <a href="/analysts" class="text-[1rem] text-white ml-4 mt-4">Top Analyst</a>
+                          <a href="/analysts/top-stocks" class="text-[1rem] text-white ml-4 mt-4">Top Analyst Stocks</a>
+                          <a href="/most-shorted-stocks" class="text-[1rem] text-white ml-4 mt-4">Shorted Stocks</a>
+                          <a href="/stock-screener" class="text-[1rem] text-white ml-4 mt-4">Stock Screener</a>
+                          <a href="/market-mover" class="text-[1rem] text-white ml-4 mt-4">Market Mover</a>
+                          <a href="/heatmaps" class="text-[1rem] text-white ml-4 mt-4">Heatmaps</a>
+                          <a href="/list" class="text-[1rem] text-white ml-4 mt-4">Stock Lists</a>
+        
+                        </div>
+                        
+                      </Accordion.Content
+                      >
+                    </Accordion.Item>
+                  </Accordion.Root>
+                          
+                </div>
+               
+                <div class="flex flex-row items-center ml-9 w-full mt-3">
+        
+                  <Accordion.Root class="w-full">
+        
+                    <Accordion.Item value="item-1">
+        
+                      <Accordion.Trigger class="">
+                        <Layers class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
+                        <span class="text-white ml-1 mr-auto">ETFs</span>
+                      </Accordion.Trigger>
+                      <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
+                        <div class="flex flex-col items-start">
+                          <a href="/etf/new-launches" class="text-[1rem] text-white ml-4 mt-4">New Launches</a>
+                          <a href="/etf/etf-providers" class="text-[1rem] text-white ml-4 mt-4">ETF Providers</a>
+                        </div>
+                        
+                      </Accordion.Content
+                      >
+                    </Accordion.Item>
+                  </Accordion.Root>
+                          
+                </div>
+        
+                <div class="flex flex-row items-center ml-9 w-full mt-3">
+        
+                  <Accordion.Root class="w-full">
+        
+                    <Accordion.Item value="item-1">
+        
+                      <Accordion.Trigger class="">
+                        <Calendar class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
+                        <span class="text-white ml-1 mr-auto">Calendar</span>
+                      </Accordion.Trigger>
+                      <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
+                        <div class="flex flex-col items-start">
+                          <a href="/dividends-calendar" class="text-[1rem] text-white ml-4 mt-4">Dividends Calendar</a>
+                          <a href="/earnings-calendar" class="text-[1rem] text-white ml-4 mt-4">Earnings Calendar</a>
+                          <a href="/ipos/2024" class="text-[1rem] text-white ml-4 mt-4">IPO Calendar</a>
+                          <!--<a href="/fda-calendar" class="text-[1rem] text-white ml-4 mt-4">FDA Calendar</a>-->
+                          <a href="/economic-calendar" class="text-[1rem] text-white ml-4 mt-4">Economic Calendar</a>
+                          <a href="/stock-splits-calendar" class="text-[1rem] text-white ml-4 mt-4">Stock Splits Calendar</a>
+                        </div>
+                        
+                      </Accordion.Content
+                      >
+                    </Accordion.Item>
+                  </Accordion.Root>
+                          
+                </div>
+        
+                <div class="flex flex-row items-center ml-9 w-full mt-3">
+        
+                  <Accordion.Root class="w-full">
+        
+                    <Accordion.Item value="item-1">
+        
+                      <Accordion.Trigger class="">
+                        <Option class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
+                        <span class="text-white ml-1 mr-auto">Options</span>
+                      </Accordion.Trigger>
+                      <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
+                        <div class="flex flex-col items-start">
+                          <a href="/options-flow" class="text-[1rem] text-white ml-4 mt-4">Options Flow</a>
+                          <a href="/options-zero-dte" class="text-[1rem] text-white ml-4 mt-4">0DTE Flow</a>
+                        </div>
+                        
+                      </Accordion.Content
+                      >
+                    </Accordion.Item>
+                  </Accordion.Root>
+                          
+                </div>
+        
+        
+                <div class="flex flex-row items-center ml-9 w-full mt-3">
+        
+                  <Accordion.Root class="w-full">
+        
+                    <Accordion.Item value="item-1">
+        
+                      <Accordion.Trigger class="">
+                        <HandShake class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
+                        <span class="text-white ml-1 mr-auto">Congress</span>
+                      </Accordion.Trigger>
+                      
+                      <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
+                        <div class="flex flex-col items-start">
+                          <div class="flex flex-col items-start">
+                            <a href="/politicians/flow-data" class="text-[1rem] text-white ml-4 mt-4">Congress Flow</a>
+                            <a href="/politicians" class="text-[1rem] text-white ml-4 mt-4">All Politicians</a>
+                          </div>
+                        </div>
+                        
+                      </Accordion.Content
+                      >
+                    </Accordion.Item>
+                  </Accordion.Root>
+                          
+                </div>
+        
+                <div class="flex flex-row items-center ml-9 w-full mt-3">
+        
+                  <Accordion.Root class="w-full">
+        
+                    <Accordion.Item value="item-1">
+        
+                      <Accordion.Trigger class="">
+                        <AudioLine class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
+                        <span class="text-white ml-1 mr-auto">Tracker Datasets</span>
+                      </Accordion.Trigger>
+                      <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
+                        <div class="flex flex-col items-start">
+                          <a href="/cramer-tracker" class="text-[1rem] text-white ml-4 mt-4">Jim Cramer Tracker</a>
+                          <a href="/most-retail-volume" class="text-[1rem] text-white ml-4 mt-4">Retail Trader Tracker</a>
+                          <a href="/reddit-tracker" class="text-[1rem] text-white ml-4 mt-4">Reddit Tracker</a>
+                        </div>
+                        
+                      </Accordion.Content
+                      >
+                    </Accordion.Item>
+                  </Accordion.Root>
+                          
+                </div>
+        
+                <!--
+                <a href="/dark-pool-flow" class="flex flex-row items-center ml-9 w-full mt-3">
+                  <div
+                    class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
+                  >
+                    <Box class="h-5.5 w-5.5" />
                     
-          </div>
-
-          <div class="flex flex-row items-center w-full">
-
-            <Accordion.Root class="w-full">
-  
-              <Accordion.Item value="item-1">
-  
-                <Accordion.Trigger class="">
-                  <Layers class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                  <span class="text-white ml-1 mr-auto">ETFs</span>
-                </Accordion.Trigger>
-                <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
-
-                  <Sheet.Close asChild let:builder>
-                    <div class="flex flex-col items-start">
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/etf/new-launches" class="text-[1rem] text-white ml-4 mt-2">New Launches</a>
-                      </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/etf/etf-providers" class="text-[1rem] text-white ml-4 mt-4">ETF Providers</a>
-                      </Button>
-                    </div>
-
-                  </Sheet.Close>
-
-                  
-                </Accordion.Content
-                >
-              </Accordion.Item>
-            </Accordion.Root>
-                    
-          </div>
-
-          <div class="flex flex-row items-center w-full">
-
-            <Accordion.Root class="w-full">
-  
-              <Accordion.Item value="item-1">
-  
-                <Accordion.Trigger class="">
-                  <Calendar class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                  <span class="text-white ml-1 mr-auto">Calendar</span>
-                </Accordion.Trigger>
-                <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
-
-                  <Sheet.Close asChild let:builder>
-                    <div class="flex flex-col items-start">
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/dividends-calendar" class="text-[1rem] text-white ml-4 mt-2">Dividends Calendar</a>
-                      </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/earnings-calendar" class="text-[1rem] text-white ml-4 mt-4">Earnings Calendar</a>
-                      </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/ipos/2024" class="text-[1rem] text-white ml-4 mt-4">IPO Calendar</a>
-                      </Button>
-                      <!--
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/fda-calendar" class="text-[1rem] text-white ml-4 mt-4">FDA Calendar</a>
-                      </Button>
-                      -->
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/economic-calendar" class="text-[1rem] text-white ml-4 mt-4">Economic Calendar</a>
-                      </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/stock-splits-calendar" class="text-[1rem] text-white ml-4 mt-4">Stock Splits Calendar</a>
-                      </Button>
-                    </div>
-
-                  </Sheet.Close>
-
-                  
-                </Accordion.Content
-                >
-              </Accordion.Item>
-            </Accordion.Root>
-                    
-          </div>
-
-          <div class="flex flex-row items-center w-full">
-
-            <Accordion.Root class="w-full">
-  
-              <Accordion.Item value="item-1">
-  
-                <Accordion.Trigger class="">
-                  <Option class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                  <span class="text-white ml-1 mr-auto">Options</span>
-                </Accordion.Trigger>
-                <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
-
-                  <Sheet.Close asChild let:builder>
-                    <div class="flex flex-col items-start">
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/options-flow" class="text-[1rem] text-white ml-4 mt-2">Options Flow</a>
-                      </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/options-zero-dte" class="text-[1rem] text-white ml-4 mt-4">0DTE Flow</a>
-                      </Button>
-                    </div>
-
-                  </Sheet.Close>
-
-                  
-                </Accordion.Content
-                >
-              </Accordion.Item>
-            </Accordion.Root>
-                    
-          </div>
-
-          <div class="flex flex-row items-center w-full">
-
-            <Accordion.Root class="w-full">
-  
-              <Accordion.Item value="item-1">
-  
-                <Accordion.Trigger class="">
-                  <HandShake class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                  <span class="text-white ml-1 mr-auto">Congress</span>
-                </Accordion.Trigger>
-                <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
-
-                  <Sheet.Close asChild let:builder>
-                    <div class="flex flex-col items-start">
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/politicians/flow-data" class="text-[1rem] text-white ml-4 mt-2">Congress Flow</a>
-                      </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/politicians" class="text-[1rem] text-white ml-4 mt-4">All Politicians</a>
-                      </Button>
-                    </div>
-
-                  </Sheet.Close>
-
-                  
-                </Accordion.Content
-                >
-              </Accordion.Item>
-            </Accordion.Root>
-                    
-          </div>
-
-          <div class="flex flex-row items-center w-full">
-
-            <Accordion.Root class="w-full">
-  
-              <Accordion.Item value="item-1">
-  
-                <Accordion.Trigger class="">
-                  <AudioLine class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
-                  <span class="text-white ml-1 mr-auto">Tracker Datasets</span>
-                </Accordion.Trigger>
-                <Accordion.Content class="border-l border-gray-500 ml-2 mt-5">
-
-                  <Sheet.Close asChild let:builder>
-                    <div class="flex flex-col items-start">
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/cramer-tracker" class="text-[1rem] text-white ml-4 mt-2">Jim Cramer Tracker</a>
-                      </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/most-retail-volume" class="text-[1rem] text-white ml-4 mt-4">Retail Trader Tracker</a>
-                      </Button>
-                      <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417]">
-                        <a href="/reddit-tracker" class="text-[1rem] text-white ml-4 mt-4">Reddit Tracker</a>
-                      </Button>
-                    </div>
-
-                  </Sheet.Close>
-
-                  
-                </Accordion.Content
-                >
-              </Accordion.Item>
-            </Accordion.Root>
-                    
-          </div>
-
-          
-
-          <!--
-        <Sheet.Close asChild let:builder>
-          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 w-full">
-            <a href="/dark-pool-flow" class="flex flex-row items-center w-full -mt-2"> 
-                  <div class="flex flex-row items-center mr-auto">
-                    <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
-                      <Box class="h-5.5 w-5.5" />  
-                    </div>
-                    <span class="ml-3 text-white text-[1rem]">Dark Pool</span>
                   </div>
-            </a>
-          </Button>
-        </Sheet.Close>
-        -->
-
-        <Sheet.Close asChild let:builder>
-          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 w-full">
-            <a href="/hedge-funds" class="flex flex-row items-center w-full -mt-2"> 
-                  <div class="flex flex-row items-center mr-auto">
-                    <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
-                      <Boxes class="h-5.5 w-5.5" />  
-                    </div>
-                    <span class="ml-3 text-white text-[1rem]">Hedge Funds</span>
+                  <span class="ml-3 text-white">Dark Pool</span>
+                </a>
+              -->
+        
+                <a href="/hedge-funds" class="flex flex-row items-center ml-9 w-full mt-3">
+                  <div
+                    class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
+                  >
+                    <Boxes class="h-5.5 w-5.5" />
+                    
                   </div>
-            </a>
-          </Button>
-        </Sheet.Close>  
-
-        <Sheet.Close asChild let:builder>
-          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 w-full">
-            <a href="/market-news" class="flex flex-row items-center w-full -mt-2"> 
-                  <div class="flex flex-row items-center mr-auto">
-                    <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
-                      <Newspaper class="h-5.5 w-5.5" />  
-                    </div>
-                    <span class="ml-3 text-white text-[1rem]">News</span>
+                  <span class="ml-3 text-white">Hedge Funds</span>
+                </a>
+        
+                <a href="/market-news" class="flex flex-row items-center ml-9 w-full mt-3">
+                  <div
+                    class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
+                  >
+                    <Newspaper class="h-5.5 w-5.5" />
+                    
                   </div>
-            </a>
-          </Button>
-        </Sheet.Close>  
-
-        <Sheet.Close asChild let:builder>
-          <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 w-full">
-            <a href="/community" class="flex flex-row items-center w-full -mt-2"> 
-                  <div class="flex flex-row items-center mr-auto">
-                    <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
-                      <MessageCircle class="h-5.5 w-5.5" />  
-                    </div>
-                    <span class="ml-3 text-white text-[1rem]">Community</span>
+                  <span class="ml-3 text-white">News</span>
+                </a>
+        
+                <a href="/community" class="flex flex-row items-center ml-9 w-full mt-3">
+                  <div
+                    class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
+                  >
+                    <MessageCircle class="h-5.5 w-5.5" />
+                    
                   </div>
-            </a>
-          </Button>
-        </Sheet.Close>  
-
-
-          </nav>
-
-          {#if data?.user?.tier === 'Free' || data?.user?.freeTrial === true}
-          <div class="pt-10 w-full mb-5 m-auto sticky">
-            <Card.Root
-            >
-              <Card.Header class="p-4">
-                <Card.Title>Upgrade to Pro</Card.Title>
-                <Card.Description>
-                  {#if data?.user?.freeTrial === true}
-                   Your free trial will expire soon.
-                   Upgrade now for unlimited access to all features!
-                  {:else}
-                    Unlock all features of the platform and level up your trading.
-                  {/if}
-                </Card.Description>
-              </Card.Header>
-              <Card.Content class="p-4 pt-0">
-                <Sheet.Close asChild let:builder>
-                  <Button on:click={() => goto('/pricing')} builders={[builder]} type="submit" size="sm" class="w-full bg-white hover:bg-white/80">
-                    <span class="flex flex-row items-center text-black font-semibold text-center">
-                      Upgrade
-                    </span>
-                  </Button>
-              </Sheet.Close>
-              </Card.Content>
-            </Card.Root>
-          </div>
+                  <span class="ml-3 text-white">Community</span>
+                </a>
+                    
+            </nav>
+            {#if data?.user?.tier === 'Free' || data?.user?.freeTrial === true}
+            <div class="mt-auto p-4 ">
+              <Card.Root
+                data-x-chunk-name="dashboard-02-chunk-0"
+                data-x-chunk-description="A card with a call to action"
+              >
+                <Card.Header class="p-2 pt-0 md:p-4">
+                  <Card.Title>Upgrade to Pro</Card.Title>
+                  <Card.Description>
+                    {#if data?.user?.freeTrial === true}
+                      Your free trial will be expired soon.
+                      Upgrade now for unlimited access to all features!
+                    {:else}
+                      Unlock all features of the platform and level up your trading.
+                    {/if}
+                  </Card.Description>
+                </Card.Header>
+                <Card.Content class="p-2 pt-0 md:p-4 md:pt-0">
+                  <a href="/pricing" class="flex justify-center items-center text-center rounded-lg text-sm py-2 m-auto text-center w-full bg-white text-black font-semibold hover:bg-white/80">
+                    Upgrade
+                  </a>
+                </Card.Content>
+              </Card.Root>
+            </div>
+            {/if}
+        
+          </aside>
+        </Pane>
+        {/if}
+        <Pane class="w-full">
+         
+            <main class="w-full overflow-y-auto bg-[#09090B] sm:p-4">
+              <slot />
+          <Toaster class="bg-[#1A1A27] text-white text-medium"/>
+          {#if Cookie && $showCookieConsent === true}
+          <Cookie />
           {/if}
+          </main>
 
-        </Sheet.Content>
-      </Sheet.Root>
-      
-      <a href="/" class="-ml-2 flex w-9 flex-shrink-0">
-        <img class="avatar w-9 3xl:w-10 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
-        <span class="text-white font-semibold ml-2 text-lg">Stocknear</span>
-      </a>
-
-      
-      <div class="relative ml-auto">
-        <!--
-        <Search class="absolute left-2.5 top-2.5 h-4 w-4 text-white" />
-        <Input
-          type="search"
-          placeholder="Search..."
-          class="w-full rounded-lg bg-[#202327] placeholder-gray-400 border-none pl-8 md:w-[300px] lg:w-[700px] border-transparent focus:border-transparent focus:ring-0 "
-          autocomplete="off"
-          />
-        -->
-        <Searchbar />
-
-        <NotificationBell 
-          data={data}
-          hasUnreadElement={hasUnreadElement}
-        />
-
-      </div>
-
-      
-      <DropdownMenu.Root >
-        <DropdownMenu.Trigger asChild let:builder>
-          <Button
-            size="icon"
-            class="overflow-hidden rounded-full"
-            builders={[builder]}
-          >
-            <img
-            src={data?.user?.avatar
-              ? getImageURL(data?.user.collectionId, data?.user.id, data?.user.avatar)
-              : `https://avatar.vercel.sh/${data?.user?.username}`}
-              width={36}
-              height={36}
-              alt="Avatar"
-              class="overflow-hidden rounded-full"
-            />
-          </Button>
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Content align="end">
-          <DropdownMenu.Item>
-            <a href="/community/profile">
-              My Account
-            </a>
-          </DropdownMenu.Item>
-          <DropdownMenu.Separator />
-          <DropdownMenu.Item>
-            <a href="/watchlist">
-              Watchlist
-            </a>
-          </DropdownMenu.Item>
-          <DropdownMenu.Item>
-            <a href="/price-alert">
-             Price Alert
-            </a>
-          </DropdownMenu.Item>
-          <DropdownMenu.Separator />
-          <DropdownMenu.Item>
-            <form class="cursor-pointer" action="/logout" method="POST">
-              <button type="submit" class="w-full text-start">
-                  <span class="text-start">Logout</span>
-              </button>
-            </form>
-          </DropdownMenu.Item>
-        </DropdownMenu.Content>
-      </DropdownMenu.Root>
-
-    </header>
-    <main class="w-full">
-      <slot />
-      <Toaster class="bg-[#1A1A27] text-white text-medium"/>
-      {#if Cookie && $showCookieConsent === true}
-      <Cookie />
-      {/if}
+        </Pane>
+      </Splitpanes>
+    </Pane>
+    <Pane size={6} minSize={6} maxSize={6}>
       {#if !hideFooter}
       <Footer/>
       {/if}
-    </main>
-  </div>
+    </Pane>
+  </Splitpanes>
+
 </div>
 
 {/if}
 </div>
 
-<style>
-  .scroller {
+
+
+<style global lang="scss">
+
+.scroller {
     scrollbar-width: thin;
   }
   
-  
-  
-  </style>
+
+
+  .splitpanes.modern-theme {
+    .splitpanes__pane {
+      background-color: #f8f8f8;
+    }
+    .splitpanes__splitter {
+      background-color: #ccc;
+      position: relative;
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        transition: opacity 0.4s;
+        background-color: #2db9d2;
+        opacity: 0;
+        z-index: 1;
+      }
+      &:hover:before {
+        opacity: 1;
+      }
+      &.splitpanes__splitter__active {
+        z-index: 2; /* Fix an issue of overlap fighting with a near hovered splitter */
+      }
+    }
+  }
+  .modern-theme {
+    &.splitpanes--vertical > .splitpanes__splitter:before {
+      left: -3px;
+      right: -3px;
+      height: 100%;
+      cursor: col-resize;
+    }
+    &.splitpanes--horizontal > .splitpanes__splitter:before {
+      top: -3px;
+      bottom: -3px;
+      width: 100%;
+      cursor: row-resize;
+    }
+  }
+
+  .splitpanes.no-splitter {
+    .splitpanes__pane {
+      background-color: #f8f8f8;
+    }
+    .splitpanes__splitter {
+      background-color: #ccc;
+      position: relative;
+    }
+  }
+  .no-splitter {
+    &.splitpanes--horizontal > .splitpanes__splitter:before {
+      width: 0.125rem;
+      pointer-events: none;
+      cursor: none;
+    }
+    &.splitpanes--vertical > .splitpanes__splitter:before {
+      height: 0.125rem;
+      pointer-events: none;
+      cursor: none;
+    }
+  }
+
+
+</style>
+

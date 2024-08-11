@@ -176,8 +176,8 @@ onMount( async() => {
 
 <div class="w-full max-w-screen overflow-hidden m-auto min-h-screen bg-[#09090B]">
     
-    <div class="flex flex-col w-full max-w-7xl m-auto justify-center items-center">
-      <div class="text-center mb-10 w-full px-4 sm:px-3 mt-10 3xl:ml-20">                
+    <div class="flex flex-col w-full xl:max-w-screen-2xl m-auto justify-center items-center">
+      <div class="text-center mb-10 w-full px-4 sm:px-3 mt-10 ">                
       
         {#if Feedback}
           <Feedback data={data} />
@@ -388,7 +388,7 @@ onMount( async() => {
                 <Card.Content>
                   <ul style="padding-left: 5px;">
                     {#each data?.getDashboard?.upcomingEarnings as item}
-                        <li style="margin-left: 8px; line-height: 22px; margin-bottom: 20px; list-style-type: disc;">
+                        <li style="margin-left: 8px; line-height: 22px; margin-bottom: 30px; list-style-type: disc;">
                             <strong>{item?.name}</strong> (<a href="/stocks/{item?.symbol}" class="text-blue-400 sm:hover:text-white">{item?.symbol}</a>)
                             {['Monday', 'Tuesday', 'Wednesday', 'Thursday'].includes(new Date().toLocaleDateString('en-US', { weekday: 'long' })) ? "will report tomorrow" : "will report monday"}
                             {#if item?.time}
@@ -400,7 +400,6 @@ onMount( async() => {
                                     during market.
                                 {/if}
                             {/if}Analysts estimate {abbreviateNumber(item?.revenueEst,true)} in revenue ({((item?.revenueEst/item?.revenuePrior-1)*100)?.toFixed(2)}% YoY) and ${item?.epsEst} in earnings per share ({((item?.epsEst/item?.epsPrior-1)*100)?.toFixed(2)}% YoY).</li>
-                            <div class="border-b w-11/12 m-auto border-gray-500 mb-5 mt-5"></div>
 
                     {/each}
                   </ul>
@@ -423,10 +422,10 @@ onMount( async() => {
                     <li style="color: #fff; line-height: 22px; margin-top:10px; margin-left: 30px; margin-bottom: 10px; list-style-type: disc;">
                         Revenue of {abbreviateNumber(item?.revenue,true)} ({(item?.revenue/item?.revenuePrior-1) > 0 ? '+' :''}{((item?.revenue/item?.revenuePrior-1)*100)?.toFixed(2)}% YoY) {item?.revenueSurprise > 0 ? 'beats' : 'misses'} by {abbreviateNumber(Math.abs(item?.revenueSurprise),true)}.
                     </li>
-                    <li style="color: #fff; line-height: 22px; margin-top:0px; margin-left: 30px; list-style-type: disc;">
+                    <li style="color: #fff; line-height: 22px; margin-top:0px; margin-left: 30px; margin-bottom: 30px; list-style-type: disc;">
                         EPS of ${item?.eps} ({(item?.eps/item?.epsPrior-1) > 0 ? '+' :''}{((item?.eps/item?.epsPrior-1)*100)?.toFixed(2)}% YoY) {item?.epsSurprise > 0 ? 'beats' : 'misses'} by ${Math.abs(item?.epsSurprise)?.toFixed(2)}.
                     </li>
-                    <div class="border-b w-11/12 m-auto border-gray-500 mb-5 mt-5"></div>
+
                     {/each}
                 </ul>
                
