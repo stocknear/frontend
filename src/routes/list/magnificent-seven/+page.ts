@@ -1,24 +1,8 @@
-import { userRegion, getCache, setCache } from '$lib/store';
-
-
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-
-userRegion.subscribe(value => {
-
-  if (usRegion.includes(value)) {
-    apiURL = import.meta.env.VITE_USEAST_API_URL;
-  } else {
-    apiURL = import.meta.env.VITE_EU_API_URL;
-  }
-});
+import {getCache, setCache } from '$lib/store';
 
 
 
-export const load = async () => {
+export const load = async ({parent}) => {
   const getMagnificentSeven = async () => {
     let output;
 
@@ -28,6 +12,7 @@ export const load = async () => {
       output = cachedData;
     } else {
       
+      const{ apiURL, apiKey} = await parent();
 
       const response = await fetch(apiURL + '/magnificent-seven', {
         method: 'GET',
