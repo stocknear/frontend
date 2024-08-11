@@ -690,7 +690,7 @@ $: {
     </Pane>
     <Pane>
       <Splitpanes class="w-full" theme="modern-theme">
-        {#if $screenWidth >= 1536}
+        {#if $screenWidth >= 1736}
         <Pane size={14} minSize={0}>
           <aside class="fixed overflow-y-scroll scroller overflow-hidden inset-y-0 left-0 z-50 hidden 3xl:flex w-72 flex-col 3xl:border-r 3xl:border-gray-800 bg-[#141417]">
             <nav class="flex flex-col items-center mr-auto gap-y-4 3xl:py-5 w-full">
@@ -937,7 +937,7 @@ $: {
         {/if}
         <Pane class="w-full">
          
-            <main class="w-full overflow-y-auto bg-[#09090B] xl:p-4">
+            <main class="xl:pl-10 w-full overflow-y-auto bg-[#09090B] sm:p-4">
               <slot />
           <Toaster class="bg-[#1A1A27] text-white text-medium"/>
           {#if Cookie && $showCookieConsent === true}

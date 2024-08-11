@@ -479,7 +479,7 @@ $: {
   
       
 
-<body class="xl:pl-10 bg-[#09090B] pb-40 w-full max-w-screen min-h-screen sm:max-w-6xl xl:max-w-screen-2xl overflow-hidden">    
+<body class="bg-[#09090B] pb-40 w-full max-w-screen min-h-screen sm:max-w-6xl xl:max-w-screen-2xl overflow-hidden">    
   <!-- Page wrapper -->
   <div class="flex flex-col">
       <main class="grow w-full">

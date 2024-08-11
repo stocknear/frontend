@@ -172,7 +172,7 @@
                             <tr on:click={() => goto(`/stocks/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] {index+1 === displayList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''} cursor-pointer">
    
 
-                              <td class="text-sm text-start">
+                              <td class="text-sm sm:text-[1rem] whitespace-nowrap text-start">
                                 <div class="flex flex-col items-start w-32 sm:w-fit">
                                     <span class="text-blue-400">{item?.ticker}</span>
                                     <span class="text-white sm:hidden">
@@ -181,11 +181,11 @@
                                 </div>
                             </td>
 
-                            <td class="hidden sm:table-cell text-white text-sm text-white text-start">
+                            <td class="hidden sm:table-cell text-white text-sm sm:text-[1rem] whitespace-nowrap text-white text-start">
                                 {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
                             </td>
   
-                                <td class="text-start text-sm text-white whitespace-nowrap">
+                                <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap text-white">
                                     {new Date(item?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                 </td>
   
@@ -198,7 +198,7 @@
                                 {item?.returnSince}%
                               </td>
 
-                              <td class="text-end text-sm font-medium text-white">
+                              <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap font-medium text-white">
                                 {item?.sector}
                               </td>
   

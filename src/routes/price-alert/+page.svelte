@@ -167,7 +167,7 @@ isLoaded = true;
 
 
 
-let charNumber = 20;
+let charNumber =40;
 
   
 $: {
@@ -176,7 +176,7 @@ $: {
     charNumber = 15;
   }
   else {
-    charNumber = 20;
+    charNumber =40;
   }
 }
 
@@ -211,7 +211,7 @@ $: {
             
         
         
-    <div class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-40">
+    <div class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
         
          
       <div  class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
@@ -319,12 +319,13 @@ $: {
                   <!-- head -->
                   <thead>
                     <tr class="">
-                      <th class="text-white hidden sm:table-cell font-medium text-sm ">Symbol</th>
-                      <th class="text-white font-medium text-sm ">Company</th>
-                      <th class="text-white hidden sm:table-cell font-medium text-center text-sm ">Volume</th>
-                      <th class="text-white font-medium text-end text-sm ">Price when Created</th>
-                      <th class="text-white font-medium text-end text-sm ">Price Target</th>
-                      <th class="text-white font-medium text-end text-sm ">Today</th>
+                      <th class="text-white font-semibold text-[1rem] ">Symbol</th>
+                      <th class="text-white font-semibold text-[1rem] ">Company</th>
+                      <th class="text-white font-semibold text-center text-[1rem] ">Volume</th>
+                      <th class="text-white font-semibold text-end text-[1rem] ">Price when Created</th>
+                      <th class="text-white font-semibold text-end text-[1rem] ">Price Target</th>
+                      <th class="text-white font-semibold text-end text-[1rem] ">Current Price</th>
+                      <th class="text-white font-semibold text-end text-[1rem] ">Change</th>
                     </tr>
                   </thead>
                   <tbody class="p-3">
@@ -332,60 +333,44 @@ $: {
                     <!-- row -->
                     <tr on:click={() => stockSelector(item?.symbol, item?.assetType)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] cursor-pointer">
                       
-                      <td on:click={() => handleFilter(item?.id)} class="hidden sm:table-cell text-blue-400 font-medium text-sm text-start border-b-[#09090B] flex flex-row items-center">
+                      <td on:click={() => handleFilter(item?.id)} class="text-blue-400 font-medium text-sm sm:text-[1rem] whitespace-nowrap text-start border-b-[#09090B] flex flex-row items-center">
                         <input type="checkbox" checked={deletePriceAlertList?.includes(item?.id) ?? false} class="{!editMode ? 'hidden' : ''} bg-[#2E3238] h-[18px] w-[18px] rounded-sm ring-offset-0 mr-3" />
                         {item?.symbol}
                       </td>
         
-                      <td on:click={() => handleFilter(item?.id)} class="text-gray-200 border-b-[#09090B]">
-                        
-                        <span class="hidden sm:block text-white">{item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}</span>
-                        <div class="sm:hidden flex flex-row items-center">
-                            <input type="checkbox" checked={deletePriceAlertList?.includes(item?.id) ?? false} class="{!editMode ? 'hidden' : ''} bg-[#2E3238] h-[18px] w-[18px] rounded-sm ring-offset-0 mr-3" />
-                          <div class="flex flex-col w-24">
-                            <span class="text-blue-400 font-medium">{item?.symbol}</span>
-                            <span class="text-white">{item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}</span>
-                          </div>
-                        </div>
+                      <td on:click={() => handleFilter(item?.id)} class="text-white text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B]">
+                        {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
                       </td>
                     
-                    <td class="hidden sm:table-cell text-white font-medium text-sm text-center border-b-[#09090B]">
+                    <td class="text-white font-medium text-sm sm:text-[1rem] whitespace-nowrap text-center border-b-[#09090B]">
                         {new Intl.NumberFormat("en", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2
                         }).format(item?.volume)}
                         
                     </td>
-                    <td class="text-white font-medium text-sm text-end border-b-[#09090B]">
+                    <td class="text-white font-medium text-sm sm:text-[1rem] whitespace-nowrap text-end border-b-[#09090B]">
                         ${item?.priceWhenCreated}
                     </td>
 
         
-                    <td class="text-white font-medium text-sm text-end border-b-[#09090B]">
+                    <td class="text-white font-medium text-sm sm:text-[1rem] whitespace-nowrap text-end border-b-[#09090B]">
                         ${item?.targetPrice}
                     </td>
 
+                    <td class="text-white font-medium text-sm sm:text-[1rem] whitespace-nowrap text-end border-b-[#09090B]">
+                      ${item.price?.toFixed(2)}
+                    </td>
+
+                    <td class="text-white font-medium text-sm sm:text-[1rem] whitespace-nowrap text-end border-b-[#09090B]">
+                      {#if item?.changesPercentage >=0}
+                        <span class="text-[#10DB06]">+{item?.changesPercentage?.toFixed(2)}%</span>
+                      {:else}
+                        <span class="text-[#FF2F1F]">{item?.changesPercentage?.toFixed(2)}% </span> 
+                      {/if}
+                    </td>
         
-                    <td class="text-gray-200 border-b-[#09090B]">
-                      <div class="flex flex-row justify-end items-center">
-        
-                        <div class="flex flex-col mt-3">
-                          <span class="text-white font-medium text-md ml-auto">${item.price?.toFixed(2)}</span>
-                          <div class="flex flex-row mt-1">
-                            {#if item?.changesPercentage >=0}
-                              <svg class="w-5 h-5 -mr-0.5 -mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
-                              <span class="text-[#10DB06] text-xs font-medium">+{item?.changesPercentage?.toFixed(2)}%</span>
-                            {:else}
-                              <svg class="w-5 h-5 -mr-0.5 -mt-0.5 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
-                              <span class="text-[#FF2F1F] text-xs font-medium">{item?.changesPercentage?.toFixed(2)}% </span> 
-                            {/if}
-                          </div>
-                        </div>
-        
-                        
-                    </div>
-                  </td>
-        
+
                     </tr>
                     
                  
