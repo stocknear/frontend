@@ -937,7 +937,7 @@ $: {
         {/if}
         <Pane class="w-full">
          
-            <main class="w-full overflow-y-auto bg-[#09090B] sm:p-4">
+            <main class="w-full overflow-y-auto bg-[#09090B] xl:p-4">
               <slot />
           <Toaster class="bg-[#1A1A27] text-white text-medium"/>
           {#if Cookie && $showCookieConsent === true}

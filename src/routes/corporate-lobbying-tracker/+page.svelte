@@ -183,7 +183,7 @@ function changeOrder(state:string) {
                               <th class="text-start bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Symbol
                               </th>
-                              <th class="hidden sm:table-cell text-start bg-[#09090B] text-white text-[1rem] font-semibold">
+                              <th class="text-start bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Name
                               </th>
                               
@@ -206,16 +206,11 @@ function changeOrder(state:string) {
                                 {item?.date}
                             </td>
 
-                              <td class="text-[1rem] text-start">
-                                <div class="flex flex-col items-start">
-                                    <span class="text-blue-400">{item?.ticker}</span>
-                                    <span class="text-white sm:hidden">
-                                        {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
-                                    </span>
-                                </div>
+                              <td class="text-blue-400 text-[1rem] text-start">
+                                {item?.ticker}
                             </td>
 
-                            <td class="hidden sm:table-cell text-white text-[1rem] text-white text-start">
+                            <td class="text-white text-[1rem] whitespace-nowrap text-white text-start">
                                 {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
                             </td>
   

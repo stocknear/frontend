@@ -405,7 +405,7 @@ $: isScrolled = y > 0;
                         <div class="sm:flex sm:justify-start w-full">
     
            <!--Start Mobile Navbar-->
-           <header class="navbar w-screen fixed sticky top-0 z-30 bg-[#09090B] sm:hidden" style="top: 0rem;">
+           <header class="navbar w-screen fixed sticky top-0 mt-4 z-30 bg-[#09090B] sm:hidden" style="top: 0rem;">
       
             <div class="{isScrolled ? 'border-b border-slate-800 ease-in' : 'ease-out'} m-auto w-full">
       

@@ -460,7 +460,7 @@ $: {
               <div class="w-full">
                   <div class="sm:flex sm:justify-start w-full">
            <!--Start Mobile Navbar-->
-           <div class="navbar w-screen sticky top-0 z-30 bg-[#09090B] sm:hidden ">
+           <div class="navbar w-screen sticky top-0 mt-4 z-30 bg-[#09090B] sm:hidden ">
       
             <div class="{isScrolled ? 'border-b border-slate-800 ease-in' : 'ease-out'} m-auto w-full">
       
