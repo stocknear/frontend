@@ -1,6 +1,5 @@
 <script lang="ts">
 import {userRegion, secFilingsClicked, stockTicker, clientSideCache, } from '$lib/store';
-import { Motion, AnimateSharedLayout } from "svelte-motion";
 
 import { fade } from 'svelte/transition';
   
@@ -175,7 +174,6 @@ $: {
         <div class="relative right-0 bg-[#27272A] rounded-lg">
 
           <div class="relative flex flex-row items-center p-1 list-none rounded-lg">
-            <AnimateSharedLayout>
               {#each tabs as item, i}
                 <button
                   on:click={() => changeSECType(i)}
@@ -184,16 +182,9 @@ $: {
                     : ''} "
                   >
                   {#if activeIdx === i}
-                    <Motion
-                      layoutId="clicked-btn"
-                      transition={{ duration: 0.2 }}
-                      let:motion
-                    >
                       <div
-                        use:motion
                         class="absolute inset-0 rounded-lg sm:rounded-lg {[0,1,2]?.includes(activeIdx) ? 'bg-[#00C806]' : 'bg-[#E02424]'}"
                       ></div>
-                    </Motion>
                   {/if}
                   
                   {#if item?.title === '8-K'}
@@ -215,7 +206,6 @@ $: {
 
                 </button>
               {/each}
-            </AnimateSharedLayout>
           </div>
 
         </div>

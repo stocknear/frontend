@@ -1149,13 +1149,6 @@ function changeChartType() {
                                     <div class="{displayData === 'MAX' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
                                   </div>
 
-                                  <label on:click={changeChartType} class="ml-auto mr-5 -mt-1 sm:hidden border border-slate-800 px-2.5 py-1 rounded-xl">
-                                    {#if displayChartType === 'line'}
-                                      <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M7 20v-2H5V6h2V4h2v2h2v12H9v2zm8 0v-5h-2V8h2V4h2v4h2v7h-2v5z"/></svg>
-                                      {:else}
-                                      <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 16.5L9 10l4 6l8-9.5"/></svg>
-                                      {/if}
-                                  </label>
                                     
                                     </div>
                                     <!--End Time Interval-->

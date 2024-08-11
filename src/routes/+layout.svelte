@@ -270,7 +270,7 @@ $: {
 
 <div class="flex min-h-screen w-full flex-col bg-[#09090B]">
 
-  <Splitpanes class="w-full" theme="no-splitter" horizontal dblClickSplitter={false}>
+  <Splitpanes class="w-full " style="z-index: 1" theme="no-splitter" horizontal dblClickSplitter={false}>
     <Pane size={6} minSize={10} maxSize={6} class="w-full navbar sticky {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} top-0 z-40 bg-[#09090B] border-b border-gray-800 flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6">
         
           <Sheet.Root>

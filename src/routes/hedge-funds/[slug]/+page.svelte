@@ -3,7 +3,6 @@
   import { screenWidth, numberOfUnreadNotification, displayCompanyName } from '$lib/store';
   import cardBackground from "$lib/images/bg-hedge-funds.png";
   import defaultAvatar from "$lib/images/hedge_funds/default-avatar.png";
-  import { Motion, AnimateSharedLayout } from "svelte-motion";
 
 
   import { abbreviateNumber, formatString } from '$lib/utils';
@@ -675,7 +674,6 @@ onMount(async () => {
                         <div class="relative right-0 bg-[#141417] rounded-lg">
                 
                           <div class="relative flex flex-row items-center p-1 list-none rounded-lg">
-                        <AnimateSharedLayout>
                           {#each tabs as item, i}
                             <button
                               on:click={() => changeTab(i)}
@@ -684,16 +682,9 @@ onMount(async () => {
                                 : ''} "
                               >
                               {#if activeIdx === i}
-                                <Motion
-                                  layoutId="clicked-btn"
-                                  transition={{ duration: 0.2 }}
-                                  let:motion
-                                >
                                   <div
-                                    use:motion
                                     class="absolute inset-0 rounded-lg sm:rounded-lg {[0,1]?.includes(activeIdx) ? 'bg-[#00C806]' : 'bg-[#E02424]'}"
                                   ></div>
-                                </Motion>
                               {/if}
                               
                               {#if item?.title === 'Stocks'}
@@ -710,7 +701,6 @@ onMount(async () => {
             
                             </button>
                           {/each}
-                        </AnimateSharedLayout>
                       </div>
                       </div>
                       </div>

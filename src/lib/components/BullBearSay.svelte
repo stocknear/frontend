@@ -1,7 +1,6 @@
 <script lang='ts'>
 import { stockTicker, displayCompanyName } from "$lib/store";
 import InfoModal from '$lib/components/InfoModal.svelte';
-import { Motion, AnimateSharedLayout } from "svelte-motion";
 
 export let data;
 export let marketMoods = {};
@@ -78,7 +77,6 @@ $: {
     {#if data?.user?.tier === 'Pro'}
    <!--Start Header-->
    <div class="bg-[#313131] w-fit relative flex flex-wrap items-center justify-center rounded-lg p-1 -mt-2">
-    <AnimateSharedLayout>
       {#each tabs as item, i}
         <button
           on:click={() => handleMode(i)}
@@ -87,16 +85,9 @@ $: {
             : ''} "
         >
           {#if activeIdx === i}
-            <Motion
-              layoutId="clicked-btn"
-              transition={{ duration: 0.2 }}
-              let:motion
-            >
               <div
-                use:motion
                 class="absolute inset-0 rounded-lg bg-purple-600"
               ></div>
-            </Motion>
           {/if}
           <span
             class="relative text-sm block font-medium duration-200 text-white">
@@ -104,7 +95,6 @@ $: {
           </span>
         </button>
       {/each}
-    </AnimateSharedLayout>
   </div>
   
 
