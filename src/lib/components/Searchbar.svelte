@@ -1,24 +1,14 @@
 <script lang="ts">
 
-  import { searchBarData, stockTicker, etfTicker, cryptoTicker, userRegion, screenWidth} from '$lib/store';  
+  import { searchBarData, stockTicker, etfTicker, cryptoTicker, screenWidth} from '$lib/store';  
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
   import Search from "lucide-svelte/icons/search";
 
 
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-  let apiURL;
-  let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-
-  userRegion.subscribe(value => {
-    if (usRegion.includes(value)) {
-      apiURL = import.meta.env.VITE_USEAST_API_URL;
-    } else {
-      apiURL = import.meta.env.VITE_EU_API_URL;
-    }
-  });
-
+  export let apiURL;
+  export let apiKey;
+  
   let assetType = '';
 
   let showSuggestions = false;
@@ -547,14 +537,14 @@ $: {
 <!--Start Drawer Sidewise for mobile-->
 
 
-<div class="drawer drawer-end overflow-hidden" style="z-index: 9999">
+<div class="drawer drawer-end overflow-hidden z-[999]" style="z-index: 9999">
   <input id="searchBarModal" type="checkbox" class="drawer-toggle" bind:checked={searchBarModalChecked} />
  
-  <div class="drawer-side overflow-hidden">
+  <div class="drawer-side overflow-hidden z-[999]">
     
     
 
-  <div class="modal-box overflow-hidden rounded-xl bg-[#09090B] min-h-screen w-screen pt-10" >
+  <div class="modal-box z-[999] overflow-hidden rounded-xl bg-[#09090B] min-h-screen w-screen pt-10" >
   
    
     <!-- Search layout -->
