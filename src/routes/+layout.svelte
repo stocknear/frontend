@@ -270,18 +270,18 @@ $: {
 
 <div class="flex min-h-screen w-full flex-col bg-[#09090B]">
 
-  <Splitpanes class="w-full " style="z-index: 1" theme="no-splitter" horizontal dblClickSplitter={false}>
+  <Splitpanes class="w-full " theme="no-splitter" horizontal dblClickSplitter={false}>
     <Pane size={6} minSize={10} maxSize={6} class="w-full navbar sticky {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} top-0 z-40 bg-[#09090B] border-b border-gray-800 flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6">
         
-          <Sheet.Root>
+          <Sheet.Root >
             <Sheet.Trigger asChild let:builder>
               <Button builders={[builder]} size="icon" class="sm:xl bg-[#09090B] text-white sm:hover:bg-[#27272A] border-none">
                 <Menu class=" h-5.5 w-5.5 sm:w-7 sm:h-7" />
                 <span class="sr-only">Toggle Menu</span>
               </Button>
             </Sheet.Trigger>
-            <Sheet.Content side="left" class="sm:max-w-xs bg-[#141417] overflow-y-scroll">
-              <nav class="grid gap-6 text-lg font-medium bg-[#141417]">
+            <Sheet.Content side="left" class="max-w-screen w-full sm:max-w-xs bg-[#141417] overflow-y-scroll">
+              <nav class=" grid gap-6 text-lg font-medium bg-[#141417]">
                 <a
                 href="/"
                 class="flex items-center gap-4 px-0.5 text-white"
@@ -692,9 +692,8 @@ $: {
     </Pane>
     <Pane>
       <Splitpanes class="w-full" theme="modern-theme">
-        {#if $screenWidth >= 1736}
-        <Pane size={14} minSize={0}>
-          <aside class="fixed overflow-y-scroll scroller overflow-hidden inset-y-0 left-0 z-50 hidden 3xl:flex w-72 flex-col 3xl:border-r 3xl:border-gray-800 bg-[#141417]">
+        <Pane class="hidden 3xl:inline-block" size={$screenWidth < 1750 ? 0 : 14}  maxSize={14} minSize={0}>
+          <aside class="fixed overflow-y-scroll scroller overflow-hidden inset-y-0 left-0 z-50 3xl:flex w-72 flex-col 3xl:border-r 3xl:border-gray-800 bg-[#141417]">
             <nav class="flex flex-col items-center mr-auto gap-y-4 3xl:py-5 w-full">
               <a
                 href="/"
@@ -936,7 +935,6 @@ $: {
         
           </aside>
         </Pane>
-        {/if}
         <Pane class="w-full">
          
             <main class="xl:pl-10 w-full overflow-y-auto bg-[#09090B] sm:p-4">

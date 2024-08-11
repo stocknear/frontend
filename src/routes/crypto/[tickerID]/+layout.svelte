@@ -452,9 +452,9 @@ $: {
 
 </script>
 
-<body class="bg-[#09090B] pb-40 w-full max-w-screen min-h-screen sm:max-w-6xl xl:max-w-screen-2xl overflow-hidden">    
+<body class="bg-[#09090B] pb-40 w-full max-w-screen min-h-screen sm:max-w-7xl xl:max-w-screen-2xl overflow-hidden">    
   <!-- Page wrapper -->
-  <div class="flex flex-col">
+  <div class="flex flex-col w-full">
       <main class="grow w-full">
           <section class="w-full">
               <div class="w-full">
@@ -542,12 +542,13 @@ $: {
           <!--End Mobile Navbar-->
          
       
-          <div class="w-full max-w-3xl sm:max-w-6xl px-3">     
+          <div class="w-auto max-w-3xl lg:max-w-content 2xl:max-w-6xl px-3 sm:px-0">     
                     
             <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
                 <!-- Main content -->
-                <div class="pb-12 md:pb-20 w-full lg:max-w-2xl xl:max-w-3xl 2xl:max-w-5xl">
+                <div class="pb-12 md:pb-20 w-full 2xl:max-w-5xl">
                     <div class="md:pr-6 lg:pr-10">
+                                 
                                  
                 
                                     <!-----Start-Header-CandleChart-Indicators------>

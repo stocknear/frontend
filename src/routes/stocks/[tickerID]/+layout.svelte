@@ -487,7 +487,7 @@ $: isScrolled = y > 0;
           <!--End Mobile Navbar-->
          
       
-          <div class="w-auto max-w-3xl lg:max-w-content 2xl:max-w-6xl px-5">     
+          <div class="w-auto max-w-3xl lg:max-w-content 2xl:max-w-6xl px-3 sm:px-0">     
                     
                         <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
                             <!-- Main content -->
