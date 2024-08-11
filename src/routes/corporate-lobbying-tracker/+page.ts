@@ -4,10 +4,10 @@ import {getCache, setCache } from '$lib/store';
 
 export const load = async ({parent}) => {
 
-  const getCramerTracker = async () => {
+  const getCorporateLobbyingTracker = async () => {
     let output;
 
-    const cachedData = getCache('', 'getCramerTracker');
+    const cachedData = getCache('', 'getCorporateLobbyingTracker');
     if (cachedData) {
       output = cachedData;
     } else {
@@ -23,7 +23,7 @@ export const load = async ({parent}) => {
 
     output = await response.json();
 
-    setCache('', output, 'getCramerTracker');
+    setCache('', output, 'getCorporateLobbyingTracker');
 
     }
 
@@ -34,6 +34,6 @@ export const load = async ({parent}) => {
 
   // Make sure to return a promise
   return {
-    getCramerTracker: await getCramerTracker()
+    getCorporateLobbyingTracker: await getCorporateLobbyingTracker()
   };
 };

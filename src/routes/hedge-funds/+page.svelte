@@ -131,7 +131,8 @@ async function handleInput(event) {
   
   
   
-  <section class="w-full max-w-6xl overflow-hidden m-auto min-h-screen pt-5 pb-60">
+  <section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
+
       
     
     <body class="w-full max-w-6xl overflow-hidden m-auto">
@@ -147,7 +148,7 @@ async function handleInput(event) {
     {#if isLoaded}
   
               
-      <section class="w-full max-w-6xl overflow-hidden m-auto sm:mt-10 px-0 sm:px-3 mt-10">
+      <section class="w-full  overflow-hidden m-auto sm:mt-10 px-0 sm:px-3 mt-10">
         
         <div class="p-3 sm:p-0 flex justify-center w-full m-auto overflow-hidden">
             <div class="relative flex justify-center items-center overflow-hidden w-full">

@@ -42,7 +42,7 @@
     
       
     onMount(() => {
-      rawData = data?.getCramerTracker ?? [];
+      rawData = data?.getCorporateLobbyingTracker ?? [];
       displayList = rawData?.slice(0,50) ?? []
       isLoaded = true;
     })

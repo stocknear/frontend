@@ -299,9 +299,9 @@ const optionCompanySpread = {
     <svelte:options immutable = {true} />
 
     
-    <section class="w-full max-w-screen overflow-hidden m-auto min-h-screen bg-[#09090B] pb-40">
+    <section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screenpb-40">
           
-      <div class="flex flex-col w-full max-w-6xl 3xl:max-w-7xl m-auto justify-center items-center">
+      <div class="flex flex-col w-full  m-auto justify-center items-center">
         <div class="text-center mb-10 w-full px-4 3xl:px-10 mt-10 3xl:ml-20">    
 
       <div class="flex flex-col items-start mb-10">
@@ -454,7 +454,7 @@ const optionCompanySpread = {
                       </Card.Content>
                     </Card.Root>
                   </Lazy>
-                    <Card.Root class="order-0 overflow-x-scroll no-scrollbar h-[500px]">
+                    <Card.Root class="order-0 overflow-x-scroll no-scrollbar sm:h-[500px]">
                       <Card.Header>
                         <Card.Title class="text-start text-xl w-full flex flex-row items-center">
                           <span>

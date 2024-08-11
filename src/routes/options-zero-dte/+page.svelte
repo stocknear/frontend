@@ -451,13 +451,14 @@ $: {
   
   </svelte:head>
     
-<body class="sm:fixed h-screen m-auto w-full max-w-screen">
-  <section class="w-full max-w-screen sm:max-w-6xl flex justify-center items-center m-auto pt-5 bg-[#09090B] ">
+  <body class="sm:fixed h-screen w-full max-w-screen-xl">
+
+    <section class="w-full max-w-screen sm:max-w-6xl xl:max-w-7xl flex justify-center items-center pt-5 bg-[#09090B] ">
       
   
       <div class="w-full m-auto mb-10 pl-3 pr-3">
 
-        <div class="text-sm breadcrumbs mb-5">
+        <div class="text-sm sm:text-[1rem] breadcrumbs mb-5">
           <ul>
             <li><a href="/" class="text-gray-300">Home</a></li>
             <li class="text-gray-300">Options 0DTE Flow</li>
@@ -465,7 +466,7 @@ $: {
         </div>
 
         {#if !$isOpen}
-          <div class="text-white text-sm sm:text-md italic text-center sm:text-start w-full ml-2 mb-3">
+          <div class="text-white text-sm sm:text-[1rem] italic text-center sm:text-start w-full ml-2 mb-3">
             Live flow of {new Date(rawData?.at(0)?.date ?? null)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })} (NYSE Time)
           </div>
         {/if}
@@ -737,7 +738,7 @@ $: {
           <!-- Page wrapper -->
           <div class="flex justify-center w-full m-auto h-full overflow-hidden">
                 <!-- Content area -->
-                <div class="mt-4 w-full overflow-x-auto overflow-y-auto h-[850px] rounded-lg">
+                <div class="mt-4 w-full overflow-x-auto overflow-y-auto h-[850px]">
                   <div class="table-container">
                   <div class="table">
                     <VirtualList

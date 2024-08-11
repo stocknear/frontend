@@ -3,7 +3,6 @@
   import { screenWidth, numberOfUnreadNotification, displayCompanyName } from '$lib/store';
   import cardBackground from "$lib/images/bg-hedge-funds.png";
   import defaultAvatar from "$lib/images/hedge_funds/default-avatar.png";
-  import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
   import { Motion, AnimateSharedLayout } from "svelte-motion";
 
 
@@ -30,7 +29,6 @@ use([LineChart, GridComponent, CanvasRenderer])
   const itemsPerPage = 50;
   let images = {};
 
-  let deactivateContent = data?.user?.tier === 'Pro' ? false : true;
 
   let numOfAssets;
   let changeAssetType = 'Stocks'
@@ -203,7 +201,7 @@ function getYearFromDate(dateString) {
       silent: true,
       grid: {
           left: $screenWidth < 640 ? '0.5%' : '0.5%',
-          right: $screenWidth < 640 ? '1%' : '0.5%',
+          right: $screenWidth < 640 ? '1%' : '5%',
           bottom: '0%',
           containLabel: true
       },
@@ -332,19 +330,21 @@ function tabFunction(state) {
 
   
   
-<section class="w-full max-w-6xl overflow-hidden m-auto min-h-screen pt-5 pb-60">
+<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
+
   
-  <div class="text-sm breadcrumbs ml-4 sm:ml-1 pb-10">
-    <ul>
-      <li><a href="/" class="text-gray-300">Home</a></li> 
-      <li><a href="/hedge-funds" class="text-gray-300">Hedge Funds</a></li> 
-      <li class="text-gray-300">Company Data</li>
-    </ul>
-  </div>
           
           
-  <div class="w-full overflow-hidden m-auto px-3 sm:px-0">
-    
+  <div class="sm:ml-10 w-full overflow-hidden m-auto px-3 sm:px-0">
+
+    <div class="text-sm sm:text-[1rem] breadcrumbs pb-10">
+      <ul>
+        <li><a href="/" class="text-gray-300">Home</a></li> 
+        <li><a href="/hedge-funds" class="text-gray-300">Hedge Funds</a></li> 
+        <li class="text-gray-300">Company Data</li>
+      </ul>
+    </div>
+
     <div class="flex justify-center w-full m-auto overflow-hidden">
         <div class="relative flex flex-col sm:flex-row justify-between items-start overflow-hidden w-full">
   
@@ -352,8 +352,8 @@ function tabFunction(state) {
                 <!--Start Card-->
                 <div class="w-full bg-[#141417] border border-gray-800 rounded-lg h-auto pb-4">
                   <div class="flex flex-col relative ">
-                    <img class="absolute w-full m-auto rounded-lg " src={cardBackground} />
-                    <div class="flex flex-col justify-center items-center rounded-2xl ">
+                    <img class="absolute w-full m-auto rounded-lg" src={cardBackground} />
+                    <div class="flex flex-col justify-center items-center rounded-lg ">
 
                       <div class="mt-10 rounded-full border border-slate-600 w-24 h-24 relative hedge-fund-striped bg-[#20202E] flex items-center justify-center">
                         <img style="clip-path: circle(50%);" class="rounded-full w-20"  src={images[rawData?.cik] ?? defaultAvatar} loading="lazy"/>
@@ -409,7 +409,7 @@ function tabFunction(state) {
                  <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center ">
                   <div class="sm:hidden w-full grid grid-cols-2 gap-y-3 lg:gap-y-3 gap-x-3 ">
                      <!--Start Total Amount Traded-->  
-                     <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] rounded-2xl h-20">
+                     <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] rounded-lg h-20">
                       <div class="flex flex-col items-start">
                           <span class="font-medium text-gray-200 text-sm ">AUM</span>
                           <span class="text-start text-[1rem] font-medium text-white mt-0.5">
@@ -421,7 +421,7 @@ function tabFunction(state) {
                   <!--End Total Amount Traded-->
                   
                     <!--Start-->  
-                    <div class="sm:hidden flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
+                    <div class="sm:hidden flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-lg h-20">
                       <div class="flex flex-col items-start">
                           <span class="font-medium text-gray-200 text-sm sm:text-[0.85rem]">3 Year Perf.</span>
                           <span class="text-start text-[1rem] sm:text-sm font-semibold text-white mt-0.5">
@@ -456,7 +456,7 @@ function tabFunction(state) {
                   <!--End-->
 
                   <!--Start-->  
-                   <div class="sm:hidden flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
+                   <div class="sm:hidden flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-lg h-20">
                     <div class="flex flex-col items-start">
                         <span class="font-medium text-gray-200 text-sm sm:text-[0.85rem]">5 Year Perf.</span>
                         <span class="text-start text-[1rem] sm:text-sm font-semibold text-white mt-0.5">
@@ -491,7 +491,7 @@ function tabFunction(state) {
 
 
                    <!--Start-->  
-                   <div class="sm:hidden flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
+                   <div class="sm:hidden flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-lg h-20">
                     <div class="flex flex-col items-start">
                         <span class="font-medium text-gray-200 text-sm sm:text-[0.85rem]">Incept. Perf.</span>
                         <span class="text-start text-[1rem] sm:text-sm font-semibold text-white mt-0.5">
@@ -530,7 +530,7 @@ function tabFunction(state) {
             </aside>
   
   
-                <main class="w-full mt-10 sm:mt-0 sm:w-3/4 sm:ml-5">
+                <main class="w-full mt-10 sm:mt-0 sm:ml-5">
                 
                   {#if isLoaded && Object?.keys(optionsData)?.length !== 0}
                   <div class="p-0 sm:p-10 bg-[#09090B] sm:bg-[#09090B] rounded-lg sm:min-h-[330px] mb-10 sm:mb-6">
@@ -570,10 +570,10 @@ function tabFunction(state) {
 
 
                    <!--Start Widget-->
-                 <div class="hidden sm:flex justify-center items-center w-full mt-5 mb-10 m-auto">
-                  <div class="w-full grid grid-cols-4 gap-y-3 lg:gap-y-3 gap-x-3 ">
+                 <div class="hidden sm:flex justify-center items-center w-full sm:w-11/12 mt-5 mb-10">
+                  <div class="w-full grid grid-cols-4 gap-y-3 lg:gap-y-3 gap-x-3">
                      <!--Start Total Amount Traded-->  
-                     <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] rounded-2xl h-20">
+                     <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#262626] rounded-lg h-20">
                       <div class="flex flex-col items-start">
                           <span class="font-medium text-gray-200 text-[1rem]">AUM</span>
                           <span class="text-start text-[1rem] font-medium text-white mt-0.5">
@@ -585,7 +585,7 @@ function tabFunction(state) {
                   <!--End Total Amount Traded-->
                   
                     <!--Start-->  
-                    <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
+                    <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-lg h-20">
                       <div class="flex flex-col items-start">
                           <span class="font-medium text-gray-200 text-[1rem]">3 Year Perf.</span>
                           <span class="text-start text-[1rem] font-semibold text-white mt-0.5">
@@ -611,7 +611,7 @@ function tabFunction(state) {
                   <!--End-->
 
                      <!--Start-->  
-                     <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
+                     <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-lg h-20">
                       <div class="flex flex-col items-start">
                           <span class="font-medium text-gray-200 text-[1rem]">5 Year Perf.</span>
                           <span class="text-start text-[1rem] font-semibold text-white mt-0.5">
@@ -638,7 +638,7 @@ function tabFunction(state) {
   
   
                      <!--Start-->  
-                     <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-2xl h-20">
+                     <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] rounded-lg h-20">
                       <div class="flex flex-col items-start">
                           <span class="font-medium text-gray-200 text-[1rem]">Incept. Perf.</span>
                           <span class="text-start text-[1rem] font-semibold text-white mt-0.5">
@@ -667,8 +667,8 @@ function tabFunction(state) {
                   </div>
                 </div>
                 
-                <div class="p-3 sm:p-5 bg-[#09090B] sm:bg-[#09090B] border border-gray-800 rounded-lg sm:min-h-[430px] pt-6">
-                  <div class="h-auto w-full ">
+                <div class="sm:p-3 bg-[#09090B] sm:bg-[#09090B] sm:min-h-[430px] pt-6">
+                  <div class="h-auto w-full sm:w-11/12 ">
                     
                     
                       <span class="text-[#F5F5F5] font-bold text-2xl">
@@ -755,7 +755,7 @@ function tabFunction(state) {
                           </tr>
                         </thead>
                         <tbody class="p-0">
-                          {#each deactivateContent ? displayList?.slice(0,5) : displayList as item}
+                          {#each displayList as item}
                               <tr on:click={() => goto(`/${item?.type}/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#27272A] cursor-pointer">
       
                                 <td class="text-gray-200 pb-3 border-b border-b-[#27272A]">
@@ -801,11 +801,7 @@ function tabFunction(state) {
                       </table>
                     </div>
 
-                    <div class="hidden sm:block">
-                      <UpgradeToPro data={data} color={'#313131'} title="Get the recent transactions from Hedge Funds to never miss out"/>
-                    </div>
 
-                    {#if !deactivateContent}
                     <div class="hidden sm:flex flex-col items-center mt-10">
                       <!-- Help text -->
                       <span class="text-sm text-gray-200">
@@ -821,7 +817,6 @@ function tabFunction(state) {
                           </button>
                       </div>
                     </div>
-                    {/if}
 
                     
                     
@@ -866,15 +861,15 @@ function tabFunction(state) {
                             </tr>
                           </thead>
                             <tbody>
-                              {#each deactivateContent ? displayList?.slice(0,5) : displayList as item,index}
+                              {#each displayList as item,index}
                               <!-- row -->
-                              <tr on:click={() => goto(`/${item?.type}/${item?.ticker}`)} class="bg-[#09090B] cursor-pointer">
+                              <tr on:click={() => goto(`/${item?.type}/${item?.ticker}`)} class="odd:bg-[#27272A] cursor-pointer">
                                 
-                                <td class="text-gray-200 border-b border-b-[#09090B]">
+                                <td class="text-gray-200 border-b border-b-[#09090B] whitespace-nowrap">
                                   <div class="flex flex-row items-center">
                                     <div class="flex flex-col">
                                       <span class="text-blue-400 font-medium">{item?.symbol?.replace('_',' ')}</span>
-                                      <span class="text-white text-opacity-60 text-xs">{item?.securityName?.length > charNumber ? formatString(item?.securityName?.slice(0,charNumber)) + '...' : formatString(item?.securityName)}</span>
+                                      <span class="text-white text-xs">{item?.securityName?.length > charNumber ? formatString(item?.securityName?.slice(0,charNumber)) + '...' : formatString(item?.securityName)}</span>
                                     </div>
                                   </div>
                                   <!--{item?.firstName} {item?.lastName}-->
@@ -917,9 +912,7 @@ function tabFunction(state) {
                           </table>
                         </div>
 
-                        <UpgradeToPro data={data} title="Get the recent transactions from Hedge Funds to never miss out"/>
 
-                        {#if !deactivateContent}
                         <div class="sm:hidden flex flex-col items-center mt-10">
                           <!-- Help text -->
                           <span class="text-[1rem] text-gray-200">
@@ -935,11 +928,10 @@ function tabFunction(state) {
                               </button>
                           </div>
                         </div>
-                        {/if}
           
             
             
-                  </div>
+                   </div>
 
                   
                   

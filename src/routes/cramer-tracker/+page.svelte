@@ -30,7 +30,7 @@
       
     onMount(() => {
       rawData = data?.getCramerTracker ?? [];
-      displayList = rawData?.slice(0,20) ?? []
+      displayList = rawData?.slice(0,50) ?? []
       isLoaded = true;
     })
     
@@ -73,22 +73,22 @@
     
         
     
-    <section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-40">
+    <section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
           
-      <div class="text-sm breadcrumbs ml-4">
+      <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
         <ul>
           <li><a href="/" class="text-gray-300">Home</a></li>
           <li class="text-gray-300">Jim Cramer Tracker</li>
         </ul>
       </div>
               
-      <div class="w-full max-w-4xl overflow-hidden m-auto mt-5">
+      <div class="w-full  overflow-hidden m-auto mt-5">
         
-        <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden max-w-4xl">
+        <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden ">
             <div class="relative flex justify-center items-center overflow-hidden w-full">
                 <main class="w-full">
                  
-                  <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+                  <div class="w-full  m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
                   
                       <!-- Start Column -->
@@ -146,22 +146,22 @@
                         <table class="table table-sm table-compact no-scrollbar rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                           <thead>
                             <tr class="bg-[#09090B]">
-                              <th class="text-start bg-[#09090B] text-white text-sm font-semibold">
+                              <th class="text-start bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Symbol
                               </th>
-                              <th class="hidden sm:table-cell text-start bg-[#09090B] text-white text-sm font-semibold">
+                              <th class="hidden sm:table-cell text-start bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Name
                               </th>
-                              <th class="text-start bg-[#09090B] text-white text-sm font-semibold">
+                              <th class="text-start bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Date
                               </th>
-                              <th class="text-center bg-[#09090B] text-white text-sm font-semibold">
+                              <th class="text-center bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Sentiment
                               </th>
-                              <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                              <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Return Since
                               </th>
-                              <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                              <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Sector
                               </th>
                             </tr>
