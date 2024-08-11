@@ -125,7 +125,7 @@ const handleMessage = async (event) => {
         silent: true,
       grid: {
         left: '0%',
-        right: '0%',
+        right: '2%',
         top: '10%',
         bottom: '10%',
         containLabel: true,
@@ -150,7 +150,14 @@ const handleMessage = async (event) => {
           type: 'value',
           axisLabel: {
             color: '#fff',
-            formatter: '${value}',
+            formatter: function (value, index) {
+                // Display every second tick
+                if (index % 2 === 0) {
+                    return '$'+`${value}` // Format value in millions
+                } else {
+                    return ''; // Hide this tick
+                }
+            }
           },
           splitLine: {
               show: false, // Disable x-axis grid lines
@@ -159,9 +166,15 @@ const handleMessage = async (event) => {
         {
             type: 'value',
             axisLabel: {
-              formatter: function (value) {
-                return (value / denominator)?.toFixed(0) + unit; // Format value in millions
-                },
+              formatter: function (value, index) {
+                // Display every second tick
+                if (index % 2 === 0) {
+                    value = Math.max(value, 0);
+                    return (value / denominator)?.toFixed(0) + unit; // Format value in millions
+                } else {
+                    return ''; // Hide this tick
+                }
+              },
             },
             splitLine: {
             show: false, // Disable x-axis grid lines
@@ -606,14 +619,14 @@ onMount(async() => {
 
 <style>
   .app {
-      height: 500px;
+      height: 300px;
       max-width: 1500px;
   }
   
   @media (max-width: 560px) {
       .app {
           max-width: 520px;
-          height: 500px;
+          height: 250px;
       }
   }
 

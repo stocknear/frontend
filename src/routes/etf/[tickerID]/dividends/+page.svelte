@@ -67,13 +67,8 @@
           },
           {
             type: 'value',
-            splitLine: {
-              show: false,
-            },
-          },
-          {
-            type: 'value',
             axisLabel: {
+              show: false,
               formatter: '{value} %',
             },
             splitLine: {
@@ -96,7 +91,6 @@
             data: growthList,
             type: 'bar',
             barWidth: '80%',
-            smooth: true,
             yAxisIndex: 1,
             itemStyle: {
               color: (params) => {
@@ -390,7 +384,7 @@
     
     @media (max-width: 640px) {
     .app {
-      height: 300px;
+      height: 200px;
     }
     }
     
