@@ -27,7 +27,6 @@ function scrollToItem(itemId) {
 function changeSection(state, item) {
   scrollToItem(item);
   displaySection = state;
-  goto(`/ipos/${state}`);
 }
 
 
@@ -137,56 +136,24 @@ $: {
               
                   </div>
       
+                  <div class="sm:ml-4 w-screen sm:w-full  {$page?.url?.pathname === '/ipos' ? 'hidden' : ''} {$screenWidth < 640 ? 'overflow-auto scrollbar' : ''} mb-2" >
+                    <ul class="pr-4 sm:pr-0 w-screen font-medium flex flex-row items-center bg-[#09090B] overflow-x-scroll no-scrollbar space-x-3 rtl:space-x-reverse py-2">
+                      {#each ['2024','2022','2021','2020','2019'] as item, index}
+                      <li class="cursor-pointer flex flex-col items-center">
+                        <a href={`/ipos/${item}`} id="item1" on:click={() => (changeSection(item,'item1'))} class="px-3 text-lg font-medium text-gray-400 sm:hover:text-white {displaySection === item ? 'text-white ' : 'bg-[#09090B]'}" >
+                          {item}
+                        </a>
+                        <div class="{displaySection === item ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[2.5rem]" />
+                      </li>
+                      {/each}
 
-                  <div class="pl-4 pr-4 sm:pl-0 sm:pr-0 w-full {$page?.url?.pathname === '/ipos' ? 'hidden' : ''}">
-    
-                        <div class="tabs flex flex-row justify-between sm:justify-start items-center w-full pl-3 pr-3 sm:pl-0 sm:pr-0">
-    
-                          <div class="sm:pl-2 w-screen sm:w-full {$screenWidth < 640 ? 'overflow-auto scrollbar no-scrollbar' : 'flex flex-row items-center gap-x-4'} pr-5 sm:pr-0">
-                            <div class="flex flex-col items-center sm:w-fit">
-                              <button id="item1" on:click={() => (changeSection('2024','item1'))} class="text-lg font-medium text-gray-400 sm:hover:text-white {displaySection === '2024' ? 'text-white' : 'bg-[#09090B]'}">
-                                2024
-                              </button>
-                              <div class="{displaySection === '2024' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-14" />
-                            </div>
-                            <div class="flex flex-col items-center sm:ml-5 w-fit">
-                              <button id="item2" on:click={() => (changeSection('2023','item2'))} class="text-lg font-medium text-gray-400 sm:hover:text-white {displaySection === '2023' ? 'text-white ' : 'bg-[#09090B]'}">
-                                2023
-                              </button>
-                              <div class="{displaySection === '2023' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-14" />
-                            </div>
-                            <div class="flex flex-col items-center -ml-6 sm:ml-4 w-fit">
-                              <button id="item3" on:click={() => (changeSection('2022','item3'))} class="text-lg font-medium text-gray-400 sm:hover:text-white {displaySection === '2022' ? 'text-white ' : 'bg-[#09090B]'}">
-                                2022
-                              </button>
-                              <div class="{displaySection === '2022' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-14" />
-                            </div>
-                            <div class="flex flex-col items-center -ml-12 sm:ml-4 w-fit ">
-                              <button id="item4" on:click={() => (changeSection('2021','item4'))} class="text-lg font-medium text-gray-400 sm:hover:text-white {displaySection === '2021' ? 'text-white ' : 'bg-[#09090B]'}">
-                                2021
-                              </button>
-                              <div class="{displaySection === '2021' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-14" />
-                            </div>
-                            <div class="flex flex-col items-center ml-2 sm:ml-4 w-fit">
-                              <button id="item5" on:click={() => (changeSection('2020','item5'))} class="text-lg font-medium text-gray-400 sm:hover:text-white {displaySection === '2020' ? 'text-white ' : 'bg-[#09090B]'}">
-                                2020
-                              </button>
-                              <div class="{displaySection === '2020' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-14" />
-                            </div>
-                            <div class="flex flex-col items-center ml-2 sm:ml-4 w-fit">
-                              <button id="item6" on:click={() => (changeSection('2019','item6'))} class="text-lg font-medium text-gray-400 sm:hover:text-white {displaySection === '2019' ? 'text-white ' : 'bg-[#09090B]'}">
-                                2019
-                              </button>
-                              <div class="{displaySection === '2019' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-14" />
-                            </div>
-                            
-                          </div>
+
+                          </ul>
                           
             
                       </div>
     
     
-                  </div>
                   <div class="border-b mt-4 border-slate-700" />
     
                     <slot />
