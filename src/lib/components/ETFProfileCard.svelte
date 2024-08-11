@@ -56,10 +56,10 @@ let showFullText = false;
   </script>
   
   <div class="sm:space-y-3">  
-    <div class="lg:rounded-2xl shadow-lg sm:border sm:border-slate-800 bg-[#000] lg:bg-[#09090B] h-auto h-auto w-screen pt-16 sm:w-full lg:w-96 lg:pt-0">
+    <div class="sm:rounded-lg shadow-lg sm:border sm:border-slate-800 bg-[#000] lg:bg-[#09090B] h-auto h-auto w-screen pt-16 sm:w-full md:w-[400px] lg:pt-0">
 
          <!--Start Header-->
-         <div class="lg:rounded-t-2xl w-full h-[130px] bg-[#09090B] p-3 flex flex-col bg-cover bg-center bg-no-repeat" style="background-image: url('{defaultImage}');">
+         <div class="lg:rounded-t-sm w-full h-[130px] bg-[#09090B] p-3 flex flex-col bg-cover bg-center bg-no-repeat" style="background-image: url('{defaultImage}');">
 
             <div class="flex flex-row pt-1 pb-2">
                 <div class="badge badge-error gap-2 mt-2 font-medium text-sm text-white">
@@ -126,12 +126,12 @@ let showFullText = false;
             </table>
           </div>
   
-          <h2 class="text-start ml-2 text-xl font-bold text-white pb-2 pt-6 lg:pt-3">
+          <h2 class="text-start ml-4 text-xl font-bold text-white pb-2 pt-6 lg:pt-3">
             Description
           </h2>
   
   
-          <p class="text-gray-100 ml-2 text-sm whitespace-normal">
+          <p class="text-gray-100 ml-2 text-sm whitespace-normal p-2">
             {#if showFullText}
             <div transition:fade={{ delay: 0, duration: 80 }} in={showFullText}>
               {description}

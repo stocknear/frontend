@@ -45,7 +45,7 @@ if ($stockTicker && typeof window !== 'undefined' && typeof analystRating !== 'u
   
   <!--Start Analyst Card -->
   <div class="space-y-3 sm:pt-5 hidden sm:block sm:{Object?.keys(analystRating)?.length !== 0 ? '' : 'hidden'}">  
-    <div class="rounded-2xl shadow-lg bg-[#000] sm:bg-[#09090B] sm:border sm:border-slate-800 h-auto {$screenWidth < 640 ? 'w-screen pt-16' : ''} md:w-96 -mx-1 sm:mx-0">
+    <div class="sm:rounded-lg shadow-lg bg-[#000] sm:bg-[#09090B] sm:border sm:border-slate-800 h-auto {$screenWidth < 640 ? 'w-screen pt-16' : ''} md:w-[400px] -mx-1 sm:mx-0">
      
       <!--Start Content-->
       <div class="w-auto lg:w-full p-1 flex flex-col m-auto pb-14 sm:pb-10 px-2 sm:px-0">

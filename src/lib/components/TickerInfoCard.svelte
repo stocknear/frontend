@@ -86,10 +86,10 @@ $: {
 </script>
 
 <div class="sm:space-y-3">  
-    <div class="rounded-2xl shadow-lg lg:border lg:border-slate-800 bg-[#000] lg:bg-[#09090B] h-auto w-screen pt-16 sm:w-full lg:w-96 lg:pt-0">
+    <div class="sm:rounded-lg shadow-lg lg:border lg:border-slate-800 bg-[#000] lg:bg-[#09090B] h-auto w-screen pt-16 sm:w-full md:w-[400px] lg:pt-0">
 
       <!--Start Header-->
-      <div class="sm:rounded-t-2xl w-full h-[130px] bg-[#000] p-3 flex flex-col bg-cover bg-center bg-no-repeat" style="background-image: url({`${cloudFrontUrl}/stocks/cover/${$stockTicker?.toUpperCase()}.jpg`});">
+      <div class="sm:rounded-t-lg w-full h-[130px] bg-[#000] p-3 flex flex-col bg-cover bg-center bg-no-repeat" style="background-image: url({`${cloudFrontUrl}/stocks/cover/${$stockTicker?.toUpperCase()}.jpg`});">
 
           <div class="flex flex-row pt-1 pb-2">
               {#if earningDate}
@@ -150,12 +150,12 @@ $: {
           </table>
         </div>
 
-        <h2 class="text-start ml-2 text-xl font-bold text-white pb-2 pt-3">
+        <h2 class="text-start ml-4 text-xl font-bold text-white pb-2 pt-3">
           Description
         </h2>
 
 
-        <p class="text-gray-100 ml-2 text-sm whitespace-normal">
+        <p class="text-gray-100 ml-2 text-sm whitespace-normal p-2">
           {#if showFullText}
           <div transition:fade={{ delay: 0, duration: 80 }} in={showFullText}>
             {description}
