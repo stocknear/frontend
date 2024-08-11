@@ -277,18 +277,18 @@ changeTab(0)
                             <table class="table table-sm table-compact no-scrollbar rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                                 <thead class="">
                                   <tr class="">
-                                    <td class="text-white font-semibold text-sm text-start">Analyst</td>
-                                    <td class="text-white font-semibold text-sm text-start">Rating</td>
-                                    <td class="text-white font-semibold text-sm text-end">Date</td>
+                                    <td class="text-white font-semibold text-[1rem] text-start">Analyst</td>
+                                    <td class="text-white font-semibold text-[1rem] text-start">Rating</td>
+                                    <td class="text-white font-semibold text-[1rem] text-end">Date</td>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   {#each (data?.user?.tier === 'Pro' ? historyList : historyList?.slice(0,3)) as item,index}
                                   <tr on:click={() => goto(`/analysts/${item?.analystId}`)} class="cursor-pointer {latestInfoDate(item?.date) ? 'bg-[#F9AB00] bg-opacity-[0.1]' : 'odd:bg-[#27272A]'} border-b-[#09090B]  {index+1 === historyList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
-                                    <td class="text-sm text-start">
+                                    <td class="text-sm sm:text-[1rem] whitespace-nowrap text-start">
                                       <div class="flex flex-col items-start">
-                                        <span class="text-blue-400 font-medium">{item?.analyst_name} </span>
-                                        <span class="text-white text-opacity-80">{item?.analyst?.length > 15 ? item?.analyst?.slice(0,15) + '...' : item?.analyst}</span>
+                                        <span class="text-blue-400">{item?.analyst_name} </span>
+                                        <span class="text-white">{item?.analyst?.length > 15 ? item?.analyst?.slice(0,15) + '...' : item?.analyst}</span>
                                         
                                             <div class="flex flex-row items-center mt-1">
                                               {#each Array.from({ length: 5 }) as _, i}
@@ -303,7 +303,7 @@ changeTab(0)
                                                     {/if}
                                                 {/each}
                                           
-                                                <span class="ml-1 text-xs text-gray-400">
+                                                <span class="ml-1 text-sm">
                                                     ({item?.analystScore !== null ? item?.analystScore : 0})
                                                 </span>
                                             
@@ -312,13 +312,13 @@ changeTab(0)
                                         
                                     </td>
                 
-                                    <td class="text-sm text-center text-white">
+                                    <td class="text-sm sm:text-[1rem] whitespace-nowrap text-center text-white">
                                         <div class="flex flex-col items-start">
                                             <span class="text-[1rem] font-medium {['Strong Buy', 'Buy']?.includes(item?.rating_current) ? 'text-[#10DB06]' : item?.rating_current === 'Hold' ? 'text-[#FF7070]' : ['Strong Sell','Sell']?.includes(item?.rating_current) ? 'text-[#FF2F1F]' : ''}"> 
                                                 {item?.rating_current}
                                             </span>
                                             <span class="font-medium text-white">{item?.action_company?.replace('Initiates Coverage On','Initiates')}</span>
-                                            <div class="flex flex-row items-center text-sm">
+                                            <div class="flex flex-row items-center">
                                                 {#if Math?.ceil(item?.adjusted_pt_prior) !== 0}
                                                 <span class="text-gray-100 font-normal">${Math?.ceil(item?.adjusted_pt_prior)}</span>
                                                 <svg class="w-3 h-3 ml-1 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 12h16m0 0l-6-6m6 6l-6 6"/></svg>
@@ -330,7 +330,7 @@ changeTab(0)
                                         </div>
                                     </td>
                   
-                                  <td class="text-white text-end font-medium text-sm sm:w-auto">
+                                  <td class="text-white text-end font-medium text-sm sm:text-[1rem] whitespace-nowrap">
                                     <div class="flex flex-col items-end">
                                       {#if latestInfoDate(item?.date)}
                                         <label class="bg-[#2D4F8A] text-white font-medium text-xs rounded-lg px-2 py-0.5 ml-3 mb-1">

@@ -319,12 +319,12 @@ onMount(async() => {
                         </div>
                         
                         {#if insiderTradingList?.length !== 0}
-                        <div class="text-white text-md text-center m-auto w-full pb-3">
+                        <div class="text-white text-[1rem] text-center m-auto w-full pb-3">
                           We can divide four types of insider transactions:
                         
                           <div class="flex flex-row items-center justify-center">
                             Buy, Sell, 
-                            <label for="grantInfo" class="ml-1 cursor-pointer font-medium text-gray-300">
+                            <label for="grantInfo" class="ml-1 cursor-pointer font-medium">
                               Grant
                             </label>
                             <InfoModal
@@ -332,7 +332,7 @@ onMount(async() => {
                               content={"A stock grant occurs when a company compensates an employee by offering them equity, or when an insider gifts shares. In essence, the company grants ownership of shares, or an insider transfers shares. These grants may involve common stock shares, preferred shares, or another class of shares."}
                               id={"grantInfo"}
                             />,
-                            <label for="exerciseInfo" class="ml-1 cursor-pointer font-medium text-gray-300">
+                            <label for="exerciseInfo" class="ml-1 cursor-pointer font-medium">
                               Exercise
                             </label>
                             <InfoModal
@@ -410,7 +410,7 @@ onMount(async() => {
                         <!--Start Put/Call-->  
                         <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] shadow-lg rounded-md h-20">
                           <div class="flex flex-col items-start">
-                              <span class="font-medium text-gray-200 text-xs sm:text-sm">Buy/Sell</span>
+                              <span class="font-medium text-gray-200 text-sm sm:text-[1rem]">Buy/Sell</span>
                               <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
                                 {buySellRatio?.toFixed(3) }
                               </span>
@@ -427,7 +427,7 @@ onMount(async() => {
                               </svg>
                               <!-- Percentage Text -->
                               <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                                <span class="text-center text-white text-xs sm:text-sm">{buySellRatio?.toFixed(2)}</span>
+                                <span class="text-center text-white text-sm sm:text-[1rem]">{buySellRatio?.toFixed(2)}</span>
                               </div>
                             </div>
                           <!-- End Circular Progress -->
@@ -437,7 +437,7 @@ onMount(async() => {
                       <!--Start Call Flow-->  
                       <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] shadow-lg rounded-md h-20">
                         <div class="flex flex-col items-start">
-                            <span class="font-medium text-gray-200 text-xs sm:text-sm">Bought Shares</span>
+                            <span class="font-medium text-gray-200 text-sm sm:text-[1rem]">Bought Shares</span>
                             <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
                               {new Intl.NumberFormat("en", {
                                 minimumFractionDigits: 0,
@@ -457,7 +457,7 @@ onMount(async() => {
                           </svg>
                           <!-- Percentage Text -->
                           <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                            <span class="text-center text-white text-xs sm:text-sm">{buySharesPercentage}%</span>
+                            <span class="text-center text-white text-sm sm:text-[1rem]">{buySharesPercentage}%</span>
                           </div>
                         </div>
                         <!-- End Circular Progress -->
@@ -466,7 +466,7 @@ onMount(async() => {
                       <!--Start Put Flow-->  
                       <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#262626] shadow-lg rounded-md h-20">
                         <div class="flex flex-col items-start">
-                            <span class="font-medium text-gray-200 text-xs sm:text-sm">Sold Shares</span>
+                            <span class="font-medium text-gray-200 text-sm sm:text-[1rem]">Sold Shares</span>
                             <span class="text-start text-sm sm:text-[1rem] font-medium text-white">
                               {new Intl.NumberFormat("en", {
                                 minimumFractionDigits: 0,
@@ -486,7 +486,7 @@ onMount(async() => {
                           </svg>
                           <!-- Percentage Text -->
                           <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                            <span class="text-center text-white text-xs sm:text-sm">{soldSharesPercentage}%</span>
+                            <span class="text-center text-white text-sm sm:text-[1rem]">{soldSharesPercentage}%</span>
                           </div>
                         </div>
                         <!-- End Circular Progress -->
@@ -505,19 +505,19 @@ onMount(async() => {
                           <table class="table table-sm table-pin-rows table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                             <thead>
                               <tr class="bg-[#09090B] shadow-md">
-                                <th class="text-start bg-[#09090B] text-white text-sm sm:font-medium">
+                                <th class="text-start bg-[#09090B] text-white text-[1rem] font-semibold">
                                   Person
                                 </th>
-                                <th class="text-end bg-[#09090B] text-white text-sm sm:font-medium">
+                                <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                                   Transaction Date
                                 </th>
-                                <th class="text-end bg-[#09090B]  text-white text-sm sm:font-medium">
+                                <th class="text-end bg-[#09090B]  text-white text-[1rem] font-semibold">
                                   Shares
                                 </th>
-                                <th class="text-end bg-[#09090B]  text-white text-sm sm:font-medium">
+                                <th class="text-end bg-[#09090B]  text-white text-[1rem] font-semibold">
                                   Price
                                 </th>
-                                <th class="text-white sm:font-semibold text-end text-sm">Type</th>
+                                <th class="text-white font-semibold text-end text-[1rem]">Type</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -527,7 +527,7 @@ onMount(async() => {
                                 <td class="text-white text-sm sm:text-[1rem] border-b border-[#09090B] whitespace-nowrap">
                                   <div class="flex flex-col">
                                     <span class="">{formatString(item?.reportingName)?.replace('/de/','')}</span>
-                                    <span class="text-sm sm:text-[1rem]">{extractOfficeInfo(item?.typeOfOwner)}</span>
+                                    <span class="text-sm">{extractOfficeInfo(item?.typeOfOwner)}</span>
                                   </div>
                                 </td>
       
