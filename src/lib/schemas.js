@@ -20,13 +20,13 @@ export const registerUserSchema = z
 			.email({ message: 'Email must be a valid email' }),
 		password: z
 			.string({ required_error: 'Password is required' })
-			 .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&+\-,.\[\]{};':"\\|/=\(\)\^]{8,}$/, {
+			 .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&+\-,.\[\]{};':"\\|/=\(\)\^_*]{8,}$/, {
 				message:
 					'Password must be a minimum of 8 characters & contain at least one letter, one number, and one special character.'
 			}),
 		passwordConfirm: z
 			.string({ required_error: 'Confirm Password is required' })
-			 .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&+\-,.\[\]{};':"\\|/=\(\)\^]{8,}$/, {
+			 .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&+\-,.\[\]{};':"\\|/=\(\)\^_*]{8,}$/, {
 				message:
 					'Password must be a minimum of 8 characters & contain at least one letter, one number, and one special character.'
 			})
@@ -189,13 +189,13 @@ export const updatePasswordSchema = z
 		oldPassword: z.string({ required_error: 'Old password is required' }),
 		password: z
 			.string({ required_error: 'Password is required' })
-			.regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&+\-,.\[\]{};':"\\|/=\(\)\^]{8,}$/, {
+			.regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&+\-,.\[\]{};':"\\|/=\(\)\^_*]{8,}$/, {
 				message:
 					'Password must be a minimum of 8 characters & contain at least one letter, one number, and one special character.'
 			}),
 		passwordConfirm: z
 			.string({ required_error: 'Confirm Password is required' })
-			.regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&+\-,.\[\]{};':"\\|/=\(\)\^]{8,}$/, {
+			.regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&+\-,.\[\]{};':"\\|/=\(\)\^_*]{8,}$/, {
 				message:
 					'Password must be a minimum of 8 characters & contain at least one letter, one number, and one special character.'
 			})
