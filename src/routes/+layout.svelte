@@ -676,6 +676,7 @@ $: {
                 </a>
               </DropdownMenu.Item>
               <DropdownMenu.Separator />
+              {#if data?.user}
               <DropdownMenu.Item>
                 <form class="cursor-pointer" action="/logout" method="POST">
                   <button type="submit" class="w-full text-start">
@@ -683,6 +684,7 @@ $: {
                   </button>
                 </form>
               </DropdownMenu.Item>
+              {/if}
             </DropdownMenu.Content>
           </DropdownMenu.Root>
     
