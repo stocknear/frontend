@@ -1,5 +1,5 @@
 <script lang='ts'>  
-  import DotPattern from '$lib/components/DotPattern.svelte';
+  //import DotPattern from '$lib/components/DotPattern.svelte';
   import Marquee from '$lib/components/Marquee.svelte';
   import Pricing from '$lib/components/Pricing.svelte';
   //import Discount from '$lib/components/Discount.svelte';
@@ -53,7 +53,7 @@ function callback(entry: IntersectionObserverEntry) {
 
 </svelte:head>
 
-
+<!--
 <DotPattern
 width={20}
 height={20}
@@ -62,9 +62,9 @@ cy={10}
 cr={1}
 class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] "
 />
+-->
 
-
-<div class="w-full max-w-screen overflow-hidden m-auto min-h-screen bg-[#000]">
+<div class="w-full max-w-screen overflow-hidden m-auto min-h-screen bg-[#09090B]">
 
 
   <div class="m-auto flex flex-wrap flex-col justify-center items-center md:flex-row ">
