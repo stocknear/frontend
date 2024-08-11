@@ -101,7 +101,7 @@ function changeOrder(state:string) {
     
         
     
-    <section class="sm:pl-10 w-full max-w-3xl sm:max-w-screen-lg xxl:max-w-screen-2xl overflow-hidden min-h-screen pt-5 pb-40">
+    <section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
           
 
               
@@ -112,14 +112,14 @@ function changeOrder(state:string) {
             <div class="relative flex justify-center m-auto items-center overflow-hidden w-full">
                 <main class="w-full">
                   
-                  <div class="text-sm breadcrumbs ml-4">
+                  <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
                     <ul>
                       <li><a href="/" class="text-gray-300">Home</a></li>
                       <li class="text-gray-300">Corporate Lobbying Tracker</li>
                     </ul>
                   </div>
                   
-                  <div class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+                  <div class="w-full sm:bg-[#27272A] sm:border sm:border-gray-800 sm:rounded-lg h-auto pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
                   
                       <!-- Start Column -->
@@ -170,26 +170,27 @@ function changeOrder(state:string) {
   
   
          
-                  <div class="w-screen sm:w-full m-auto mt-20 sm:mt-10">
+                  <div class="w-screen sm:w-full flex flex-row items-start mt-20 sm:mt-10">
                       
                     
-                      <div class="w-screen sm:w-full m-auto rounded-none sm:rounded-lg mb-4 overflow-x-scroll lg:overflow-hidden">
+                      <div class="w-screen sm:w-full rounded-none sm:rounded-lg mb-4 overflow-x-scroll lg:overflow-hidden">
                         <table class="table table-sm table-compact no-scrollbar rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                           <thead>
                             <tr class="bg-[#09090B]">
-                              <th class="text-start bg-[#09090B] text-white text-sm font-semibold">
-                                Symbol
-                              </th>
-                              <th class="hidden sm:table-cell text-start bg-[#09090B] text-white text-sm font-semibold">
-                                Name
-                              </th>
-                              <th class="text-start bg-[#09090B] text-white text-sm font-semibold">
+                              <th class="text-start bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Date
                               </th>
-                              <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                              <th class="text-start bg-[#09090B] text-white text-[1rem] font-semibold">
+                                Symbol
+                              </th>
+                              <th class="hidden sm:table-cell text-start bg-[#09090B] text-white text-[1rem] font-semibold">
+                                Name
+                              </th>
+                              
+                              <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Sector
                               </th>
-                              <th on:click={() => { changeOrder(order); }} class="cursor-pointer text-end bg-[#09090B] text-white text-sm font-semibold">
+                              <th on:click={() => { changeOrder(order); }} class="cursor-pointer text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Amount
                                 <svg class="w-5 h-5 inline-block {order === 'highToLow' ? '' : 'rotate-180'}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                               </th>
@@ -201,8 +202,12 @@ function changeOrder(state:string) {
                             <tr on:click={() => goto(`/stocks/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] {index+1 === displayList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''} cursor-pointer">
    
 
-                              <td class="text-sm sm:text-[1rem] text-start">
-                                <div class="flex flex-col items-start w-32 sm:w-fit">
+                            <td class="text-start text-[1rem] text-white whitespace-nowrap">
+                                {item?.date}
+                            </td>
+
+                              <td class="text-[1rem] text-start">
+                                <div class="flex flex-col items-start">
                                     <span class="text-blue-400">{item?.ticker}</span>
                                     <span class="text-white sm:hidden">
                                         {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
@@ -210,23 +215,17 @@ function changeOrder(state:string) {
                                 </div>
                             </td>
 
-                            <td class="hidden sm:table-cell text-white text-sm sm:text-[1rem] text-white text-start">
+                            <td class="hidden sm:table-cell text-white text-[1rem] text-white text-start">
                                 {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
                             </td>
   
-                                <td class="text-start text-sm sm:text-[1rem] text-white whitespace-nowrap">
-                                    {item?.date}
-                                </td>
-  
-        
-                              
+                      
 
-
-                              <td class="text-end text-sm sm:text-[1rem] font-medium text-white">
+                              <td class="text-end text-[1rem] font-medium text-white">
                                 {item?.sector}
                               </td>
 
-                              <td class="text-white text-sm sm:text-[1rem] text-end">
+                              <td class="text-white text-[1rem] text-end">
                                 ${new Intl.NumberFormat("en", {
                                   minimumFractionDigits: 0,
                                   maximumFractionDigits: 0,
@@ -241,9 +240,13 @@ function changeOrder(state:string) {
                     </div>
                       <InfiniteLoading on:infinite={infiniteHandler} />
                       <!--<UpgradeToPro data={data} title="Get the latest dark pool trades in realtime from Hedge Funds & Major Institutional Traders"/>-->
+                  
                       
+                      
+
                   </div>
                   
+                 
 
   
                   {:else}

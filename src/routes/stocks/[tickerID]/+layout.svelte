@@ -491,7 +491,7 @@ $: isScrolled = y > 0;
                     
                         <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
                             <!-- Main content -->
-                            <div class="pb-12 md:pb-20 w-full lg:max-w-3xl xl:max-w-5xl">
+                            <div class="pb-12 md:pb-20 w-full lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl">
                                 <div class="md:pr-6 lg:pr-10">
                                  
                 

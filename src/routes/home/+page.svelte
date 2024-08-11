@@ -174,9 +174,9 @@ onMount( async() => {
 <svelte:options immutable={true}/>
 
 
-<div class="w-full max-w-screen overflow-hidden m-auto min-h-screen bg-[#09090B]">
+<div class="w-full xl:max-w-screen-2xl overflow-hidden m-auto min-h-screen bg-[#09090B]">
     
-    <div class="flex flex-col w-full xl:max-w-screen-2xl m-auto justify-center items-center">
+    <div class="flex flex-col m-auto justify-center items-center">
       <div class="text-center mb-10 w-full px-4 sm:px-3 mt-10 ">                
       
         {#if Feedback}
@@ -184,7 +184,7 @@ onMount( async() => {
         {/if}
         
         <div class="text-center mb-10 relative w-fit flex justify-center m-auto">
-          <a href="/corporate-lobbying-tracker" class="text-white antialiased bg-[#27272A] w-full px-4 py-2 rounded-xl m-auto font-medium text-[1rem] flex items-center">
+          <a href="/corporate-lobbying-tracker" class="text-white antialiased bg-[#27272A] w-full px-4 py-2 rounded-lg m-auto font-medium text-[1rem] flex items-center">
             <span class="font-semibold">Corporate Lobbying Tracker</span>
           </a>
           <div class="absolute top-[-1.2rem] -right-5 sm:-right-8 rotate-[7deg]">
