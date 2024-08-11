@@ -7,23 +7,12 @@ import { Drawer } from "vaul-svelte";
 
 import Input from '$lib/components/Input.svelte';
 import WatchListCard from '$lib/components/WatchListCard.svelte';
-import { userRegion, screenWidth, switchWatchList } from '$lib/store';
+import {screenWidth, switchWatchList } from '$lib/store';
 import MiniPlot from '$lib/components/MiniPlot.svelte';
 
 let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
 
 
-const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-let fastifyURL;
-
-userRegion.subscribe(value => {
-  if (usRegion.includes(value)) {
-    fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-  } else {
-    fastifyURL = import.meta.env.VITE_EU_FASTIFY_URL;
-  }
-});
 
 export let data;
 
@@ -122,7 +111,7 @@ async function createWatchList(event) {
   }
 
   try {
-    const response = await fetch(fastifyURL + '/create-watchlist', {
+    const response = await fetch(data?.fastifyURL + '/create-watchlist', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
@@ -188,7 +177,7 @@ async function editNameWatchList(event) {
   }
 
   try {
-    const response = await fetch(fastifyURL + '/edit-name-watchlist', {
+    const response = await fetch(data?.fastifyURL + '/edit-name-watchlist', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
@@ -249,7 +238,7 @@ async function deleteWatchList(event) {
 
   try {
     
-    const response = await fetch(fastifyURL + '/delete-watchlist', {
+    const response = await fetch(data?.fastifyURL + '/delete-watchlist', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
@@ -296,7 +285,7 @@ async function deleteWatchList(event) {
 async function getAllListData()
 {
     const postData = {'userId': data?.user?.id}
-    const response = await fetch(fastifyURL+'/all-watchlists', {
+    const response = await fetch(data?.fastifyURL+'/all-watchlists', {
     method: 'POST',
     headers: {
     "Content-Type": "application/json"
@@ -376,7 +365,7 @@ onDestroy( () => {
         
     
     
-<div class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-40">
+<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
     
      
   <div  class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
@@ -424,7 +413,7 @@ onDestroy( () => {
     {#if isLoaded}
 
     <div class="w-full -mt-6 mb-8 m-auto flex justify-center items-center p-3">
-      <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-y-3 lg:gap-y-0 gap-x-3 ">
+      <div class="w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-y-3 lg:gap-y-0 gap-x-3 ">
       <MiniPlot title="S&P500" priceData = {priceDataSP500} changesPercentage={changeSP500} previousClose={previousCloseSP500}/>
       <MiniPlot title="Nasdaq" priceData = {priceDataNasdaq} changesPercentage={changeNasdaq} previousClose={previousCloseNasdaq}/>
       <MiniPlot title="Dow" priceData = {priceDataDowJones} changesPercentage={changeDowJones} previousClose={previousCloseDowJones}/>
@@ -500,6 +489,8 @@ onDestroy( () => {
 
         <WatchListCard
           watchListId={displayWatchList?.id}
+          apiURL = {data?.apiURL}
+          apiKey = {data?.apiKey}
         />
         
         
@@ -515,7 +506,7 @@ onDestroy( () => {
 
     {/if}
     
-    </div>
+</section>
     
     
 

@@ -122,9 +122,9 @@ function sectorSelector(sector) {
 
 
 
-  <section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-60">
+<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
 
-    <div class="text-sm breadcrumbs ml-4">
+    <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
       <ul>
         <li><a href="/" class="text-gray-300">Home</a></li> 
         <li><a href="/analysts" class="text-gray-300">Analysts</a></li> 
@@ -133,9 +133,9 @@ function sectorSelector(sector) {
     </div>
             
             
-    <div class="w-full max-w-4xl overflow-hidden m-auto ">
+    <div class="w-full overflow-hidden m-auto ">
       
-      <div class="p-0 flex justify-center w-full m-auto overflow-hidden max-w-4xl">
+      <div class="p-0 flex justify-center w-full m-auto overflow-hidden">
           <div class="relative flex justify-center items-center overflow-hidden w-full">
               <main class="w-full">
               
@@ -231,17 +231,17 @@ function sectorSelector(sector) {
                         <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                           <thead>
                             <tr class="bg-[#09090B]">
-                              <th class="text-start bg-[#09090B] text-gray-200 text-sm font-bold">
+                              <th class="text-start bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Stock
                               </th>
-                              <th class="text-start bg-[#09090B] text-white text-sm font-bold">
+                              <th class="text-start bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Action
                               </th>
     
-                              <th class="text-end bg-[#09090B] text-white text-sm font-bold">
+                              <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Price Target
                               </th>
-                              <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">
+                              <th class="text-white font-semibold text-end text-[1rem]">
                                 Date
                               </th>
                             </tr>
@@ -251,25 +251,25 @@ function sectorSelector(sector) {
     
                             <tr on:click={() => goto(`/stocks/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] cursor-pointer">
     
-                              <td class="text-sm text-start whitespace-nowrap">
+                              <td class="text-sm sm:text-[1rem] text-start whitespace-nowrap">
                                 <div class="flex flex-col items-start ">
                                   <span class="text-blue-400 text-sm">{item?.ticker} </span>
-                                  <span class="text-white/80 text-xs ">{item?.name} </span>
+                                  <span class="text-white">{item?.name} </span>
                               </div>
                                   
                               </td>
                             
     
-                              <td class="text-sm text-start whitespace-nowrap">
+                              <td class="text-sm sm:text-[1rem] text-start whitespace-nowrap">
                                 <div class="flex flex-col sm:flex-row items-start">
-                                  <span class="text-sm font-medium text-white mr-1">{item?.action_company}:</span>
-                                  <span class="text-xs sm:text-sm font-medium {['Strong Buy', 'Buy']?.includes(item?.rating_current) ? 'text-[#10DB06]' : item?.rating_current === 'Hold' ? 'text-[#FF7070]' : ['Strong Sell','Sell']?.includes(item?.rating_current) ? 'text-[#FF2F1F]' : 'text-gray-300'}"> 
+                                  <span class="font-medium text-white mr-1">{item?.action_company}:</span>
+                                  <span class="font-medium {['Strong Buy', 'Buy']?.includes(item?.rating_current) ? 'text-[#10DB06]' : item?.rating_current === 'Hold' ? 'text-[#FF7070]' : ['Strong Sell','Sell']?.includes(item?.rating_current) ? 'text-[#FF2F1F]' : 'text-gray-300'}"> 
                                     {item?.rating_current}
                                   </span>
                                 </div>
                               </td>
     
-                              <td class="text-white text-sm whitespace-nowrap">
+                              <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap">
                                   <div class="flex flex-row items-center justify-end">
                                       {#if Math?.ceil(item?.adjusted_pt_prior) !== 0}
                                       <span class="text-gray-100 font-normal">${Math?.ceil(item?.adjusted_pt_prior)}</span>
@@ -281,7 +281,7 @@ function sectorSelector(sector) {
                                   </div>
                             </td>
 
-                            <td class="text-white text-end font-medium text-sm whitespace-nowrap">
+                            <td class="text-white text-end font-medium text-sm sm:text-[1rem] whitespace-nowrap">
                               {new Date(item?.date).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                             </td>
                                 

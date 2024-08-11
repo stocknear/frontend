@@ -265,18 +265,17 @@
       
       
       
-<section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-4 pb-40">
-  <!--
-  <div class="text-sm breadcrumbs ml-4">
+<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
+  
+  <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
     <ul>
       <li><a href="/" class="text-gray-300">Home</a></li> 
       <li class="text-gray-300">Stock Splits Calendar</li>
     </ul>
   </div>
-  -->
-
+  
       
-          <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pt-10 sm:pb-10 sm:mt-3 mb-8">
+          <div class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pt-10 sm:pb-10 sm:mt-3 mb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
           
               <!-- Start Column -->
@@ -324,7 +323,7 @@
           </div>
           
             <!-- Page wrapper -->
-            <div class="flex justify-center w-full max-w-5xl m-auto h-full overflow-hidden">
+            <div class="flex justify-center w-full m-auto h-full overflow-hidden">
         
                 
               
@@ -366,14 +365,15 @@
                 {#each weekday as day,index}
                   {#if index === selectedWeekday}
                     {#if day?.length !== 0}
-                      <table class="hidden sm:inline-table table-sm table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 ">
+                    <div class="w-full overflow-x-scroll">
+                      <table class="table-sm table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 ">
                           <thead>
                             <tr>
-                              <th class="text-slate-200 font-medium text-sm text-start">Symbol</th>
-                              <th class="text-slate-200 font-medium text-sm text-start">Company Name</th>
-                              <th class="text-slate-200 font-medium hidden sm:table-cell text-sm text-start">Earnings per Share</th>
-                              <th class="text-slate-200 font-medium text-sm text-start">Market Cap</th>
-                              <th class="text-slate-200 font-medium text-sm text-end">Split</th>
+                              <th class="text-slate-200 font-semibold text-[1rem] text-start">Symbol</th>
+                              <th class="text-slate-200 font-semibold whitespace-nowrap text-[1rem] text-start">Company Name</th>
+                              <th class="text-slate-200 font-semibold whitespace-nowrap text-[1rem] text-start">Earnings per Share</th>
+                              <th class="text-slate-200 font-semibold whitespace-nowrap text-[1rem] text-start">Market Cap</th>
+                              <th class="text-slate-200 font-semibold whitespace-nowrap text-[1rem] text-end">Split</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -381,23 +381,23 @@
                             <!-- row -->
                             <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
                               
-                              <td class="text-blue-400 border-b-[#09090B]">
+                              <td class="text-blue-400 text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B]">
                                 {item?.symbol}
                               </td>
 
-                              <td class="text-white border-b-[#09090B]">
+                              <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B]">
                                   {item?.name?.length > 40 ? item?.name?.slice(0,40) + "..." : item?.name}
                               </td>
           
-                            <td class="text-white font-medium hidden sm:table-cell border-b-[#09090B]">
+                            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium border-b-[#09090B]">
                                 {item?.eps !== null ? item?.eps : '-'}
                             </td>
 
-                            <td class="text-white font-medium border-b-[#09090B]">
+                            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium border-b-[#09090B]">
                                 {item?.marketCap !== null ? '$' + abbreviateNumber(item?.marketCap) : '-'}
                             </td>
 
-                            <td class="text-white font-medium text-sm text-end mr-1 border-b-[#09090B]">
+                            <td class="text-white font-medium text-sm sm:text-[1rem] whitespace-nowrap text-end mr-1 border-b-[#09090B]">
                                 <span class="">From {item?.denominator} to {item?.numerator}</span>
                             </td>
               
@@ -410,70 +410,8 @@
                             {/each}
                           </tbody>
                         </table>
+                      </div>
 
-
-                        <div class="relative p-2 sm:hidden pt-5">
-                          {#each day as item}
-                            <div class="bg-[#09090B] rounded-lg border border-slate-800 h-auto pb-3 pl-2 pr-2 pt-4 mb-7">
-                                <div class="flex flex-row items-center">
-                                  <div class="rounded-full w-10 h-10 relative bg-[#101112] flex items-center justify-center">
-                                    <img style="clip-path: circle(50%);" class="w-6 h-6" src={`https://financialmodelingprep.com/image-stock/${item?.symbol}.png`} loading="lazy"/>
-                                  </div>
-                                  <label on:click={() => goto("/stocks/"+item?.symbol)} class="cursor-pointer flex flex-col ml-3 w-40">
-                                    <span class="text-blue-400 text-sm">{item?.symbol}</span>
-                                    <span class="text-white text-sm">{item?.name}</span>
-                                  </label>
-    
-                                  <div class="flex flex-col justify-end items-end ml-auto">
-                                    <span class="font-medium text-slate-300 text-ends">Split</span>
-                                    <span class="text-white text-md text-end">
-                                      From {item?.denominator} to {item?.numerator}
-                                    </span>
-                                  </div>
-                                </div>
-                                <div class="border-1 border-b border-slate-800 w-full mt-5 mb-5" />
-    
-                                <div class="flex flex-row items-center">
-                                  <div class="flex flex-col ml-3 w-40">
-                                    <span class="font-medium text-slate-300">Market Cap</span>
-                                    <span class="text-white text-md">
-                                      {item?.marketCap !== null ? abbreviateNumber(item?.marketCap,true) : '-'}
-                                    </span>
-                                  </div>
-    
-                                  <div class="flex flex-col justify-end items-end ml-auto">
-                                    <span class="font-medium text-slate-300 text-end">EPS</span>
-                                    <span class="text-white text-md text-end">
-                                      {item?.eps !== null ? item?.eps : '-'}
-                                    </span>
-                                  </div>
-                                </div>
-    
-                                <div class="border-1 border-b border-slate-800 w-full mt-5 mb-5" />
-    
-    
-                                <div class="flex flex-row items-center">
-                                  <div class="flex flex-col ml-3 w-40">
-                                    <span class="font-medium text-slate-300">Revenue</span>
-                                    <span class="text-white text-md">
-                                      {item?.revenue !== null ? abbreviateNumber(item?.revenue,true) : '-'}
-                                    </span>
-                                  </div>
-    
-                                  <div class="flex flex-col justify-end items-end ml-auto">
-                                    <span class="font-medium text-slate-300 text-ends">Profit</span>
-                                    <span class="text-white text-md text-end">
-                                      {item?.netIncome !== null ? abbreviateNumber(item?.netIncome,true) : '-'}
-                                    </span>
-                                  </div>
-                                </div>
-    
-    
-                            </div>
-                          {/each}
-                          <ScrollToTop />
-                        </div>
-                    
     
                         {:else}
                         <h2 class="mt-20 flex justify-center items-center text-xl sm:text-2xl font-bold text-slate-700 mb-5 m-auto">

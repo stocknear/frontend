@@ -1,27 +1,14 @@
 <script lang='ts'>
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
-  import { userRegion, switchWatchList, screenWidth } from '$lib/store';
+  import { switchWatchList, screenWidth } from '$lib/store';
   import { formatDate, abbreviateNumber } from '$lib/utils';
   import InfoModal from '$lib/components/InfoModal.svelte';
   
   export let watchListId;
-
-  const usRegion = ['cle1','iad1','pdx1','sfo1'];
-
-let apiURL;
-let apiKey = import.meta.env.VITE_STOCKNEAR_API_KEY;
-
-
-userRegion.subscribe(value => {
-  if (usRegion.includes(value)) {
-    apiURL = import.meta.env.VITE_USEAST_API_URL;
-  } else {
-    apiURL = import.meta.env.VITE_EU_API_URL;
-  }
-});
-
-
+  export let apiKey;
+  export let apiURL;
+  
 
 
 const sortTickersByName = (tickerList) => {
@@ -148,6 +135,7 @@ async function getWatchlistData()
   });
 
 const output = await response.json();
+console.log(output)
 
 try {
   watchList = sortTickersByChange(output[0]);
@@ -340,7 +328,7 @@ if(watchList && isLoaded)
 
 
 
-<section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-10 mb-40">
+<section class="w-full overflow-hidden m-auto min-h-screen pt-10 mb-40">
 
 
 
@@ -349,7 +337,7 @@ if(watchList && isLoaded)
       {#if watchList.length !== 0}
 
 
-      <div class="flex flex-row  items-center mb-5">
+      <div class="flex flex-row items-center mb-5">
         <div class="flex flex-row items-center">
           <label for="performanceInfo" class="ml-2 cursor-pointer text-xl font-bold text-gray-300">
             Performance
@@ -405,13 +393,13 @@ if(watchList && isLoaded)
           <!-- head -->
           <thead>
             <tr class="">
-              <th class="text-white hidden sm:table-cell font-medium text-sm ">Symbol</th>
-              <th class="text-white font-medium text-sm ">Company</th>
-              <th class="text-white font-medium text-center text-sm  {$screenWidth < 640 && sortBy !== 'EPS' ? 'hidden' : ''}">EPS</th>
-              <th class="text-white font-medium text-center text-sm  {$screenWidth < 640 && sortBy !== 'PE Ratio' ? 'hidden' : ''}">PE Ratio</th>
-              <th class="text-white font-medium text-center text-sm  {$screenWidth < 640 && sortBy !== 'Volume' ? 'hidden' : ''}">Volume</th>
-              <th class="text-white font-medium text-center text-sm  {$screenWidth < 640 && (sortBy !== 'Market Cap' && sortBy !== 'Change' && sortBy !== 'Price' && sortBy !== 'Name: A-Z') ? 'hidden' : ''}">Market Cap</th>
-              <th class="text-white font-medium text-end text-sm ">Price</th>
+              <th class="text-white hidden sm:table-cell font-semibold text-[1rem] ">Symbol</th>
+              <th class="text-white font-semibold text-[1rem] ">Company</th>
+              <th class="text-white font-semibold text-center text-[1rem]  {$screenWidth < 640 && sortBy !== 'EPS' ? 'hidden' : ''}">EPS</th>
+              <th class="text-white font-semibold text-center text-[1rem]  {$screenWidth < 640 && sortBy !== 'PE Ratio' ? 'hidden' : ''}">PE Ratio</th>
+              <th class="text-white font-semibold text-center text-[1rem]  {$screenWidth < 640 && sortBy !== 'Volume' ? 'hidden' : ''}">Volume</th>
+              <th class="text-white font-semibold text-center text-[1rem]  {$screenWidth < 640 && (sortBy !== 'Market Cap' && sortBy !== 'Change' && sortBy !== 'Price' && sortBy !== 'Name: A-Z') ? 'hidden' : ''}">Market Cap</th>
+              <th class="text-white font-semibold text-end text-[1rem] ">Price</th>
             </tr>
           </thead>
           <tbody class="p-0">
@@ -420,11 +408,11 @@ if(watchList && isLoaded)
             <tr on:click={() => goto(`/${item?.type === 'stock' ? 'stocks' : item?.type === 'etf' ? 'etf' : 'crypto'}/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] cursor-pointer">
               
 
-              <td class="hidden sm:table-cell text-blue-400 text-sm text-start border-b-[#09090B]">
+              <td class="hidden sm:table-cell text-blue-400 text-sm sm:text-[1rem] text-start border-b-[#09090B]">
                 {item?.symbol}
               </td>
 
-              <td class="text-white border-b-[#09090B]">
+              <td class="text-white text-sm sm:text-[1rem] border-b-[#09090B]">
                 <span class="hidden sm:block text-white">{item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}</span>
                 <div class="sm:hidden flex flex-row">
                   <div class="flex flex-col">
@@ -434,27 +422,27 @@ if(watchList && isLoaded)
                 </div>
               </td>
 
-              <td class="text-white text-sm text-center border-b-[#09090B] {$screenWidth < 640 && sortBy !== 'EPS' ? 'hidden' : ''}">
+              <td class="text-white text-sm sm:text-[1rem] text-center border-b-[#09090B] {$screenWidth < 640 && sortBy !== 'EPS' ? 'hidden' : ''}">
                 {item?.eps !== null ? item?.eps?.toFixed(2) : '-'}
             </td>
 
-            <td class="text-white text-sm text-center border-b-[#09090B] {$screenWidth < 640 && sortBy !== 'PE Ratio' ? 'hidden' : ''}">
+            <td class="text-white text-sm sm:text-[1rem] text-center border-b-[#09090B] {$screenWidth < 640 && sortBy !== 'PE Ratio' ? 'hidden' : ''}">
                 {item?.pe !== null ? item?.pe?.toFixed(2) : '-'}
             </td>
 
-            <td class="text-white text-sm text-center border-b-[#09090B] {$screenWidth < 640 && sortBy !== 'Volume' ? 'hidden' : ''}">
+            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap text-center border-b-[#09090B] {$screenWidth < 640 && sortBy !== 'Volume' ? 'hidden' : ''}">
               {new Intl.NumberFormat("en", {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             }).format(item?.volume)}
             </td>
 
-            <td class="text-white text-sm text-center border-b-[#09090B] {$screenWidth < 640 && (sortBy !== 'Market Cap' && sortBy !== 'Change' && sortBy !== 'Price' && sortBy !== 'Name: A-Z') ? 'hidden' : ''}">
+            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap text-center border-b-[#09090B] {$screenWidth < 640 && (sortBy !== 'Market Cap' && sortBy !== 'Change' && sortBy !== 'Price' && sortBy !== 'Name: A-Z') ? 'hidden' : ''}">
                 {abbreviateNumber(item?.marketCap,true)}
             </td>
 
 
-            <td class="border-b-[#09090B]">
+            <td class="border-b-[#09090B] text-sm sm:text-[1rem] whitespace-nowrap">
               <div class="flex flex-row justify-end items-center">
 
                 <div class="flex flex-col mt-3">

@@ -65,22 +65,22 @@ $: {
     
 
 
-<section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-60">
+<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
       
-  <div class="text-sm breadcrumbs ml-4">
+  <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
     <ul>
       <li><a href="/" class="text-gray-300">Home</a></li> 
       <li class="text-gray-300">Analysts</li>
     </ul>
   </div>
           
-  <div class="w-full max-w-4xl overflow-hidden m-auto mt-5">
+  <div class="w-full overflow-hidden m-auto mt-5">
     
-    <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden max-w-4xl">
+    <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
         <div class="relative flex justify-center items-center overflow-hidden w-full">
             <main class="w-full">
              
-              <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+              <div class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
               
                   <!-- Start Column -->
@@ -136,27 +136,27 @@ $: {
                     <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                       <thead>
                         <tr class="bg-[#09090B]">
-                          <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                          <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                             #
                           </th>
-                          <th class="text-start bg-[#09090B] text-white text-sm font-semibold">
+                          <th class="text-start bg-[#09090B] text-white text-[1rem] font-semibold">
                             Analyst
                           </th>
 
               
-                          <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                          <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                             Success Rate
                           </th>
-                          <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                          <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                             Average Return
                           </th>
-                          <th class="text-white font-semibold text-end text-sm">
+                          <th class="text-white font-semibold text-end text-[1rem]">
                             Total Ratings
                           </th>
-                          <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                          <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                             Main Sector
                           </th>
-                          <th class="text-white font-semibold  text-end text-sm">
+                          <th class="text-white font-semibold  text-end text-[1rem]">
                             Last Rating
                           </th>
                          
@@ -170,10 +170,10 @@ $: {
                             {item?.rank}
                           </td>
 
-                          <td class="text-sm text-start">
-                            <div class="flex flex-col items-star w-32">
-                              <span class="text-blue-400 text-sm font-medium">{item?.analystName} </span>
-                              <span class="text-white text-xs">{item?.companyName} </span>
+                          <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                            <div class="flex flex-col items-start">
+                              <span class="text-blue-400 font-medium">{item?.analystName} </span>
+                              <span class="text-white ">{item?.companyName} </span>
                                   <div class="flex flex-row items-center mt-1">
                                     {#each Array.from({ length: 5 }) as _, i}
                                     {#if i < Math.floor(item?.analystScore)}
@@ -187,7 +187,7 @@ $: {
                                           {/if}
                                       {/each}
                                 
-                                      <span class="ml-1 text-sm text-gray-400">
+                                      <span class="ml-1 text-gray-400">
                                           ({item?.analystScore !== null ? item?.analystScore : 0})
                                       </span>
                                   
@@ -198,13 +198,13 @@ $: {
 
                        
         
-                         <td class="text-end text-sm font-semibold text-white">
+                         <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap font-semibold text-white">
                             {#if Number(item?.successRate) >= 0}
                             <span class="text-[#37C97D]">{Number(item?.successRate)?.toFixed(2)}%</span>
                             {/if}
                           </td>
 
-                            <td class="text-end text-sm font-semibold text-white">
+                            <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap font-semibold text-white">
                               {#if Number(item?.avgReturn) >= 0}
                                 <span class="text-[#37C97D]">{Number(item?.avgReturn)?.toFixed(2)}%</span>
                               {:else}
@@ -212,16 +212,16 @@ $: {
                               {/if}
                             </td>
 
-                            <td class="text-end font-semibold text-white text-sm">
+                            <td class="text-end font-semibold text-white text-sm sm:text-[1rem] whitespace-nowrap">
                               {item?.totalRatings}
                             </td>
 
                           
-                            <td class="text-white text-sm text-white text-end">
+                            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap text-white text-end">
                               {item?.mainSectors?.at(0)}
                             </td>
 
-                            <td class="text-end text-sm whitespace-nowrap text-white">
+                            <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap  text-white">
                               {item?.lastRating !== null ? new Date(item?.lastRating)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' }) : 'n/a'}
                             </td>
                             

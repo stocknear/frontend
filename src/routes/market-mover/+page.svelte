@@ -255,7 +255,7 @@ $: {
 
 </svelte:head>
   
-<section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-2 pb-40 bg-[#09090B]">
+<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
     
 <!--
   <div class="text-sm breadcrumbs ml-4">
@@ -269,7 +269,7 @@ $: {
 -->
 
 
-  <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto sm:p-10 mt-8 mb-4 sm:mb-8">
+  <div class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto sm:p-10 mt-8 mb-4 sm:mb-8">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
   
       <!-- Start Column -->
@@ -318,7 +318,7 @@ $: {
   </div>
 
   <div class="w-full -mt-4 sm:mt-0 mb-8 m-auto flex justify-center items-center p-3 sm:p-0">
-    <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-y-3 lg:gap-y-0 gap-x-3 ">
+    <div class="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-3 lg:gap-y-0 gap-x-3 ">
     <MiniPlot title="S&P500" priceData = {priceDataSP500} changesPercentage={changeSP500} previousClose={previousCloseSP500}/>
     <MiniPlot title="Nasdaq" priceData = {priceDataNasdaq} changesPercentage={changeNasdaq} previousClose={previousCloseNasdaq}/>
     <MiniPlot title="Dow" priceData = {priceDataDowJones} changesPercentage={changeDowJones} previousClose={previousCloseDowJones}/>
