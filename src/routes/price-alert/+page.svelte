@@ -260,7 +260,7 @@ $: {
         {#if isLoaded}
     
         <div class="w-full sm:-mt-6 mb-8 m-auto flex justify-center items-center p-3">
-          <div class="w-full grid grid-cols-2 lg:grid-cols-4 gap-y-3 lg:gap-y-0 gap-x-3 ">
+          <div class="w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-y-3 lg:gap-y-0 gap-x-3 ">
           <MiniPlot title="S&P500" priceData = {priceDataSP500} changesPercentage={changeSP500} previousClose={previousCloseSP500}/>
           <MiniPlot title="Nasdaq" priceData = {priceDataNasdaq} changesPercentage={changeNasdaq} previousClose={previousCloseNasdaq}/>
           <MiniPlot title="Dow" priceData = {priceDataDowJones} changesPercentage={changeDowJones} previousClose={previousCloseDowJones}/>

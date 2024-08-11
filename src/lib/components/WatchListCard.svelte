@@ -388,88 +388,79 @@ if(watchList && isLoaded)
       </div>
 
 
-      <div class="w-screen sm:w-full rounded-lg">
-        <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto mt-4 ">
-          <!-- head -->
-          <thead>
-            <tr class="">
-              <th class="text-white hidden sm:table-cell font-semibold text-[1rem] ">Symbol</th>
-              <th class="text-white font-semibold text-[1rem] ">Company</th>
-              <th class="text-white font-semibold text-center text-[1rem]  {$screenWidth < 640 && sortBy !== 'EPS' ? 'hidden' : ''}">EPS</th>
-              <th class="text-white font-semibold text-center text-[1rem]  {$screenWidth < 640 && sortBy !== 'PE Ratio' ? 'hidden' : ''}">PE Ratio</th>
-              <th class="text-white font-semibold text-center text-[1rem]  {$screenWidth < 640 && sortBy !== 'Volume' ? 'hidden' : ''}">Volume</th>
-              <th class="text-white font-semibold text-center text-[1rem]  {$screenWidth < 640 && (sortBy !== 'Market Cap' && sortBy !== 'Change' && sortBy !== 'Price' && sortBy !== 'Name: A-Z') ? 'hidden' : ''}">Market Cap</th>
-              <th class="text-white font-semibold text-end text-[1rem] ">Price</th>
-            </tr>
-          </thead>
-          <tbody class="p-0">
-            {#each watchList as item, index}
-            <!-- row -->
-            <tr on:click={() => goto(`/${item?.type === 'stock' ? 'stocks' : item?.type === 'etf' ? 'etf' : 'crypto'}/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] cursor-pointer">
-              
+      <div class="w-screen sm:w-full">
 
-              <td class="hidden sm:table-cell text-blue-400 text-sm sm:text-[1rem] text-start border-b-[#09090B]">
-                {item?.symbol}
-              </td>
-
-              <td class="text-white text-sm sm:text-[1rem] border-b-[#09090B]">
-                <span class="hidden sm:block text-white">{item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}</span>
-                <div class="sm:hidden flex flex-row">
-                  <div class="flex flex-col">
-                    <span class="text-blue-400 font-medium">{item?.symbol}</span>
-                    <span class="text-white">{item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}</span>
-                  </div>
-                </div>
-              </td>
-
-              <td class="text-white text-sm sm:text-[1rem] text-center border-b-[#09090B] {$screenWidth < 640 && sortBy !== 'EPS' ? 'hidden' : ''}">
-                {item?.eps !== null ? item?.eps?.toFixed(2) : '-'}
-            </td>
-
-            <td class="text-white text-sm sm:text-[1rem] text-center border-b-[#09090B] {$screenWidth < 640 && sortBy !== 'PE Ratio' ? 'hidden' : ''}">
-                {item?.pe !== null ? item?.pe?.toFixed(2) : '-'}
-            </td>
-
-            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap text-center border-b-[#09090B] {$screenWidth < 640 && sortBy !== 'Volume' ? 'hidden' : ''}">
-              {new Intl.NumberFormat("en", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }).format(item?.volume)}
-            </td>
-
-            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap text-center border-b-[#09090B] {$screenWidth < 640 && (sortBy !== 'Market Cap' && sortBy !== 'Change' && sortBy !== 'Price' && sortBy !== 'Name: A-Z') ? 'hidden' : ''}">
-                {abbreviateNumber(item?.marketCap,true)}
-            </td>
-
-
-            <td class="border-b-[#09090B] text-sm sm:text-[1rem] whitespace-nowrap">
-              <div class="flex flex-row justify-end items-center">
-
-                <div class="flex flex-col mt-3">
-                  <span class="text-white text-md ml-auto">${item.price?.toFixed(2)}</span>
-                  <div class="flex flex-row mt-1">
-                    {#if item?.changesPercentage >=0}
-                      <svg class="w-5 h-5 -mr-0.5 -mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
-                      <span class="text-[#10DB06] text-xs font-medium">+{item?.changesPercentage?.toFixed(2)}%</span>
-                    {:else}
-                      <svg class="w-5 h-5 -mr-0.5 -mt-0.5 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
-                      <span class="text-[#FF2F1F] text-xs font-medium">{item?.changesPercentage?.toFixed(2)}% </span> 
-                    {/if}
-                  </div>
-                </div>
-
+        <div class="w-full overflow-x-scroll">
+          <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto mt-4 ">
+            <!-- head -->
+            <thead>
+              <tr class="">
+                <th class="text-white font-semibold text-[1rem] ">Symbol</th>
+                <th class="text-white font-semibold text-[1rem] ">Company</th>
+                <th class="text-white font-semibold text-center text-[1rem]  {$screenWidth < 640 && sortBy !== 'EPS' ? 'hidden' : ''}">EPS</th>
+                <th class="text-white font-semibold text-center text-[1rem]  {$screenWidth < 640 && sortBy !== 'PE Ratio' ? 'hidden' : ''}">PE Ratio</th>
+                <th class="text-white font-semibold text-center text-[1rem]  {$screenWidth < 640 && sortBy !== 'Volume' ? 'hidden' : ''}">Volume</th>
+                <th class="text-white font-semibold text-center text-[1rem]  {$screenWidth < 640 && (sortBy !== 'Market Cap' && sortBy !== 'Change' && sortBy !== 'Price' && sortBy !== 'Name: A-Z') ? 'hidden' : ''}">Market Cap</th>
+                <th class="text-white font-semibold text-end text-[1rem] ">Price</th>
+                <th class="text-white font-semibold text-end text-[1rem] ">Change</th>
+              </tr>
+            </thead>
+            <tbody class="p-0">
+              {#each watchList as item, index}
+              <!-- row -->
+              <tr on:click={() => goto(`/${item?.type === 'stock' ? 'stocks' : item?.type === 'etf' ? 'etf' : 'crypto'}/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] cursor-pointer">
                 
-            </div>
-          </td>
 
-            </tr>
-            
-         
+                <td class="text-blue-400 text-sm sm:text-[1rem] text-start border-b-[#09090B]">
+                  {item?.symbol}
+                </td>
+
+                <td class="text-white text-sm sm:text-[1rem] border-b-[#09090B] whitespace-nowrap">
+                {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
+                </td>
+
+                <td class="text-white text-sm sm:text-[1rem] text-center border-b-[#09090B] {$screenWidth < 640 && sortBy !== 'EPS' ? 'hidden' : ''}">
+                  {item?.eps !== null ? item?.eps?.toFixed(2) : '-'}
+              </td>
+
+              <td class="text-white text-sm sm:text-[1rem] text-center border-b-[#09090B] {$screenWidth < 640 && sortBy !== 'PE Ratio' ? 'hidden' : ''}">
+                  {item?.pe !== null ? item?.pe?.toFixed(2) : '-'}
+              </td>
+
+              <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap text-center border-b-[#09090B] {$screenWidth < 640 && sortBy !== 'Volume' ? 'hidden' : ''}">
+                {new Intl.NumberFormat("en", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+              }).format(item?.volume)}
+              </td>
+
+              <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap text-center border-b-[#09090B] {$screenWidth < 640 && (sortBy !== 'Market Cap' && sortBy !== 'Change' && sortBy !== 'Price' && sortBy !== 'Name: A-Z') ? 'hidden' : ''}">
+                  {abbreviateNumber(item?.marketCap,true)}
+              </td>
 
 
-            {/each}
-          </tbody>
-        </table>
+              <td class="border-b-[#09090B] text-sm sm:text-[1rem] text-end text-white whitespace-nowrap">
+                ${item.price?.toFixed(2)}
+              </td>
+
+              <td class="border-b-[#09090B] text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                {#if item?.changesPercentage >=0}
+                <span class="text-[#10DB06]">+{item?.changesPercentage?.toFixed(2)}%</span>
+              {:else}
+                <span class="text-[#FF2F1F]">{item?.changesPercentage?.toFixed(2)}% </span> 
+              {/if}
+              </td>
+
+
+              </tr>
+              
+          
+
+
+              {/each}
+            </tbody>
+          </table>
+        </div>
 
 
             
