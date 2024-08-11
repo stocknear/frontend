@@ -2,8 +2,7 @@
   import { goto } from '$app/navigation';
   import { screenWidth } from '$lib/store';
   import { abbreviateNumber} from '$lib/utils';
-  import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
-
+  import { onMount } from 'svelte';
 
   export let data;
   
@@ -11,19 +10,22 @@
   let marketCapList = rawData?.slice(0,50);
   
   
-  async function infiniteHandler({ detail: { loaded, complete } }) 
-  {
-  
-  if (marketCapList?.length === rawData?.length) {
-      complete();
-      } 
-      else {
-      const nextIndex = marketCapList?.length;
-      const newElements= rawData?.slice(nextIndex, nextIndex + 5);
-      marketCapList = [...marketCapList, ...newElements];
-      loaded();
-      }
+  async function handleScroll() {
+    const scrollThreshold = document.body.offsetHeight * 0.8; // 80% of the website height
+    const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
+    if (isBottom && marketCapList?.length !== rawData?.length) {
+        const nextIndex = marketCapList?.length;
+        const filteredNewResults = rawData?.slice(nextIndex, nextIndex + 50);
+        marketCapList = [...marketCapList, ...filteredNewResults];
+    }
   }
+
+  onMount(async () => {
+    window.addEventListener('scroll', handleScroll);
+      return () => {
+          window.removeEventListener('scroll', handleScroll);
+      };
+  })
 
   let totalMarketCap = rawData?.reduce((total, stock) => total + stock?.marketCap, 0);
   let totalRevenue = rawData?.reduce((total, stock) => total + stock?.revenue, 0);
@@ -168,7 +170,6 @@
             </table>
     
         
-          <InfiniteLoading on:infinite={infiniteHandler} />
 
         </div>
     </section>
