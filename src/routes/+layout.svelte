@@ -41,7 +41,6 @@
   import MessageCircle from "lucide-svelte/icons/message-circle";
   import AudioLine from "lucide-svelte/icons/audio-lines";
 
-  import { Pane, Splitpanes } from 'svelte-splitpanes';
 
   export let data;
 
@@ -270,8 +269,8 @@ $: {
 
 <div class="flex min-h-screen w-full flex-col bg-[#09090B]">
 
-  <Splitpanes class="w-full " theme="no-splitter" horizontal dblClickSplitter={false}>
-    <Pane size={6} minSize={10} maxSize={6} class="w-full navbar sticky {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} top-0 z-40 bg-[#09090B] border-b border-gray-800 flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6">
+  <div class="w-full ">
+    <div class="w-full navbar sticky {$screenWidth < 640 && hideHeader ? 'invisible -mt-20' : ''} top-0 z-40 bg-[#09090B] border-b border-gray-800 flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6">
         
           <Sheet.Root >
             <Sheet.Trigger asChild let:builder>
@@ -692,10 +691,10 @@ $: {
           {/if}
     
        
-    </Pane>
-    <Pane>
-      <Splitpanes class="w-full" theme="modern-theme">
-        <Pane class="hidden 3xl:inline-block" size={$screenWidth < 1750 ? 0 : 14}  maxSize={14} minSize={0}>
+    </div>
+    <div>
+      <div class="flex w-full">
+        <div class="hidden 3xl:block 3xl:w-1/6">
           <aside class="fixed overflow-y-scroll scroller overflow-hidden inset-y-0 left-0 z-50 3xl:flex w-72 flex-col 3xl:border-r 3xl:border-gray-800 bg-[#141417]">
             <nav class="flex flex-col items-center mr-auto gap-y-4 3xl:py-5 w-full">
               <a
@@ -937,26 +936,25 @@ $: {
             {/if}
         
           </aside>
-        </Pane>
-        <Pane class="w-full">
-         
-            <main class="xl:pl-10 w-full overflow-y-auto bg-[#09090B] sm:p-4">
-              <slot />
-          <Toaster class="bg-[#1A1A27] text-white text-medium"/>
-          {#if Cookie && $showCookieConsent === true}
-          <Cookie />
-          {/if}
+        </div>
+        <div class="w-full 3xl:w-5/6">
+          <main class="w-full overflow-y-auto bg-[#09090B] sm:p-4">
+            <slot />
+            <Toaster class="bg-[#1A1A27] text-white text-medium"/>
+            {#if Cookie && $showCookieConsent === true}
+            <Cookie />
+            {/if}
           </main>
+        </div>
 
-        </Pane>
-      </Splitpanes>
-    </Pane>
-    <Pane size={6} minSize={6} maxSize={6}>
+      </div>
+    </div>
+    <div>
       {#if !hideFooter}
       <Footer/>
       {/if}
-    </Pane>
-  </Splitpanes>
+    </div>
+  </div>
 
 </div>
 
@@ -970,71 +968,6 @@ $: {
     scrollbar-width: thin;
   }
   
-
-
-  .splitpanes.modern-theme {
-    .splitpanes__pane {
-      background-color: #f8f8f8;
-    }
-    .splitpanes__splitter {
-      background-color: #ccc;
-      position: relative;
-
-      &:before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        transition: opacity 0.4s;
-        background-color: #2db9d2;
-        opacity: 0;
-        z-index: 1;
-      }
-      &:hover:before {
-        opacity: 1;
-      }
-      &.splitpanes__splitter__active {
-        z-index: 2; /* Fix an issue of overlap fighting with a near hovered splitter */
-      }
-    }
-  }
-  .modern-theme {
-    &.splitpanes--vertical > .splitpanes__splitter:before {
-      left: -3px;
-      right: -3px;
-      height: 100%;
-      cursor: col-resize;
-    }
-    &.splitpanes--horizontal > .splitpanes__splitter:before {
-      top: -3px;
-      bottom: -3px;
-      width: 100%;
-      cursor: row-resize;
-    }
-  }
-
-  .splitpanes.no-splitter {
-    .splitpanes__pane {
-      background-color: #f8f8f8;
-    }
-    .splitpanes__splitter {
-      background-color: #ccc;
-      position: relative;
-    }
-  }
-  .no-splitter {
-    &.splitpanes--horizontal > .splitpanes__splitter:before {
-      width: 0.125rem;
-      pointer-events: none;
-      cursor: none;
-    }
-    &.splitpanes--vertical > .splitpanes__splitter:before {
-      height: 0.125rem;
-      pointer-events: none;
-      cursor: none;
-    }
-  }
-
 
 </style>
 

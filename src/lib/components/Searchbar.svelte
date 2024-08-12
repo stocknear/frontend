@@ -390,10 +390,12 @@ $: {
 
 
 <!--Start Desktop Searchbar-->
+<!--Don't remove if since input.focus does not work anymore-->
 
+{#if $screenWidth >= 640}
 <input type="checkbox" id="searchBarModal" class="modal-toggle" bind:checked={searchBarModalChecked} />
 
-<dialog id="searchBarModal" class="hidden sm:modal modal-top z-[999]">
+<dialog id="searchBarModal" class="modal modal-top z-[999]">
 
 
   <label for="searchBarModal"  class="cursor-pointer modal-backdrop"></label>
@@ -530,7 +532,7 @@ $: {
   
   </div>
 </dialog>
-
+{:else}
 
 <!--End Desktop Searchbar-->
 
@@ -538,7 +540,7 @@ $: {
 <!--Start Drawer Sidewise for mobile-->
 
 
-<div class="sm:hidden drawer drawer-end z-40 overflow-hidden">
+<div class="drawer drawer-end z-40 overflow-hidden">
   <input id="searchBarModal" type="checkbox" class="drawer-toggle" bind:checked={searchBarModalChecked} />
  
   <div class="drawer-side overflow-hidden">
@@ -665,7 +667,7 @@ $: {
 
   </div>
 </div>
-
+{/if}
 
 <!--End Drawer Sidewise for mobile-->
 
