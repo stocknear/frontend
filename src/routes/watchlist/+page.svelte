@@ -18,6 +18,30 @@ export let data;
 
 const rawData = data?.getMiniPlotsIndex;
 
+function getCurrentDateFormatted() {
+    // Get current date
+    let date = new Date();
+    
+    // If today is Saturday or Sunday, move to the previous Friday
+    if (date.getDay() === 6) { // Saturday
+        date.setDate(date.getDate() - 1);
+    } else if (date.getDay() === 0) { // Sunday
+        date.setDate(date.getDate() - 2);
+    }
+    
+    // Define months array for formatting
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    
+    // Get formatted date components
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    
+    // Return formatted date
+    return `${month} ${day}, ${year}`;
+}
+
+
 let priceDataSP500;
 let priceDataNasdaq;
 let priceDataDowJones;
@@ -412,8 +436,12 @@ onDestroy( () => {
 
     {#if isLoaded}
 
-    <div class="w-full -mt-6 mb-8 m-auto flex justify-center items-center p-3">
-      <div class="w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-y-3 lg:gap-y-0 gap-x-3 ">
+    <div class="text-white text-xs sm:text-sm pb-5 sm:pb-2 pl-3 sm:pl-0">
+      Stock Indexes - {getCurrentDateFormatted()}
+    </div>
+
+    <div class="w-full -mt-4 sm:mt-0 mb-8 m-auto flex justify-center items-center p-3 sm:p-0">
+      <div class="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-3 lg:gap-y-0 gap-x-3 ">
       <MiniPlot title="S&P500" priceData = {priceDataSP500} changesPercentage={changeSP500} previousClose={previousCloseSP500}/>
       <MiniPlot title="Nasdaq" priceData = {priceDataNasdaq} changesPercentage={changeNasdaq} previousClose={previousCloseNasdaq}/>
       <MiniPlot title="Dow" priceData = {priceDataDowJones} changesPercentage={changeDowJones} previousClose={previousCloseDowJones}/>

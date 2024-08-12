@@ -389,12 +389,11 @@ $: {
 
 
 
-<!--Start Searchbar Modal-->
+<!--Start Desktop Searchbar-->
 
-{#if $screenWidth > 640}
 <input type="checkbox" id="searchBarModal" class="modal-toggle" bind:checked={searchBarModalChecked} />
 
-<dialog id="searchBarModal" class="modal modal-top z-[999]">
+<dialog id="searchBarModal" class="hidden sm:block modal modal-top z-[999]">
 
 
   <label for="searchBarModal"  class="cursor-pointer modal-backdrop"></label>
@@ -533,19 +532,21 @@ $: {
 </dialog>
 
 
-{:else}
+<!--End Desktop Searchbar-->
+
+
 <!--Start Drawer Sidewise for mobile-->
 
 
-<div class="drawer drawer-end overflow-hidden z-[999]" style="z-index: 9999">
+<div class="sm:hidden drawer drawer-end z-40 overflow-hidden">
   <input id="searchBarModal" type="checkbox" class="drawer-toggle" bind:checked={searchBarModalChecked} />
  
-  <div class="drawer-side overflow-hidden z-[999]">
+  <div class="drawer-side overflow-hidden">
     
-    
-
-  <div class="modal-box z-[999] overflow-hidden rounded-xl bg-[#09090B] min-h-screen w-screen pt-10" >
   
+    <div class="p-3 bg-[#09090B] min-h-screen w-screen pb-20 overflow-hidden pt-10">
+
+      
    
     <!-- Search layout -->
     <div class="mt-5 lg:mt-0">
@@ -667,5 +668,4 @@ $: {
 
 
 <!--End Drawer Sidewise for mobile-->
-{/if}
-<!--End Searchbar Modal-->
+
