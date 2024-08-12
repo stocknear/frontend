@@ -639,7 +639,7 @@ $: {
     
           </div>
     
-          
+          {#if data?.user}
           <DropdownMenu.Root >
             <DropdownMenu.Trigger asChild let:builder>
               <Button
@@ -676,7 +676,6 @@ $: {
                 </a>
               </DropdownMenu.Item>
               <DropdownMenu.Separator />
-              {#if data?.user}
               <DropdownMenu.Item>
                 <form class="cursor-pointer" action="/logout" method="POST">
                   <button type="submit" class="w-full text-start">
@@ -684,9 +683,13 @@ $: {
                   </button>
                 </form>
               </DropdownMenu.Item>
-              {/if}
             </DropdownMenu.Content>
           </DropdownMenu.Root>
+          {:else}
+          <a href="/login" class="inline-flex items-center justify-center rounded-xl bg-purple-600 px-3 py-2 text-sm font-semibold text-white  shadow-sm transition-all duration-150 hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
+            Login
+          </a>
+          {/if}
     
        
     </Pane>
