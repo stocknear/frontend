@@ -1,1396 +1,1162 @@
 <script lang="ts">
 
-  import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
+  import ReturnCard from '$lib/components/ReturnCard.svelte'
+  import {numberOfUnreadNotification, displayCompanyName, screenWidth, etfTicker} from '$lib/store';
+  import { abbreviateNumber } from '$lib/utils';
   
-    import { TrackingModeExitMode } from 'lightweight-charts';
-    import {getCache, setCache, taRatingComponent, impliedVolatilityComponent, optionsNetFlowComponent, optionComponent, sentimentComponent, varComponent, retailVolumeComponent, trendAnalysisComponent, priceAnalysisComponent, assetType, screenWidth, globalForm, numberOfUnreadNotification, displayCompanyName, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, etfTicker, isOpen,  isBeforeMarketOpen, isWeekend} from '$lib/store';
-    import { onDestroy, onMount } from 'svelte';    
-    import ETFKeyInformation from '$lib/components/ETFKeyInformation.svelte';
-    import Lazy from '$lib/components/Lazy.svelte';
-
-    export let data;
-    export let form;
+  export let data;
   
-          
-    let output = null;
-    
-    
-    //====================================//
-    
-    
-    
-    let intervalId = null;
-    let oneDayPrice = [];
-    let oneWeekPrice = [];
-    let oneMonthPrice = [];
-    let sixMonthPrice = [];
-    
-    let oneYearPrice = [];
-    let threeYearPrice = [];
-    
+  
+  let quantStats = {};
+  let stockQuote;
+  
+  
+  let marketCap = '-';
+  let yearHigh = '-';
+  let yearLow = '-';
+  let dayHigh = '-';
+  let dayLow = '-';
+  
+  let currentPrice = 0;
+  let previousClose = '-';
+  let volume = '-';
+  let eps = '-';
+  let pe = '-';
+  let alpha = '-';
+  let beta = '-';
       
-      let geographicList = [];
-      let sectorList = [];
-      let etfProfile = [];
-      let topHoldingList = [];
-      let dividendList = [];
-      let similarTicker = []
-      let prePostData = {};
-
-      let previousClose = data?.getStockQuote?.previousClose;
-      //============================================//
-      
-    
-    
-      let chart = null;
-      let displayChartType = 'line';
+  // Function to check if a date is today or yesterday, adjusting for weekends
+  function ongoingDD(dateString) {
+    const date = new Date(dateString);
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
   
-      async function checkChart() {
-        if (chart) {
-          clearInterval(intervalId);
-          fitContentChart();
-        }
-      }
-    
-    
-    
-    
-  //let PricePredictionCard;
-  //let TradingModel;
-    let CountrySegmentation;
-    let SectorSegmentation;
-    //let ETFKeyInformation;
-    
-    
-  onMount(async() => {  
-
-    CountrySegmentation = (await import('$lib/components/CountrySegmentation.svelte')).default;
-    SectorSegmentation = (await import('$lib/components/SectorSegmentation.svelte')).default;
-  })
-  
-    
-  
-    //const startTimeTracking = performance.now();
-    
-    
-    
-    
-    //==========================//
-    
-      $: {
-        if (output !==null)
-        {
-          
-          //Bug value is NaN
-          if (displayData === '1D')
-          {
-            const length = oneDayPrice?.length;
-            for (let i = length - 1; i >= 0; i--) {
-              if (!isNaN(oneDayPrice[i]?.close ?? oneDayPrice[i]?.value)) {
-                currentDataRow = oneDayPrice[i];
-                break;
-              }
-            }
-          }
-          else if (displayData === '6M') {
-            currentDataRow = sixMonthPrice?.slice(-1)[0];
-          }
-        
-         
-         //currentDataRow = oneWeekPrice.slice(-1)[0]
-    
-         const change = (displayData === '1D') 
-                    ? (((currentDataRow?.close ?? currentDataRow?.value)/previousClose -1 )*100)?.toFixed(2)
-                    : (((currentDataRow?.close ?? currentDataRow?.value)/displayLastLogicalRangeValue -1 )*100)?.toFixed(2)
-  
-    
-          const date = new Date(currentDataRow?.time);
-    
-      
-          const options = {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-          };
-    
-          //const formattedDate = ( displayData === '1W' || displayData === '1M' ) ? date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric',hour: '2-digit', minute: '2-digit' }).replace(/\//g, '.') : date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '.');
-          
-          const formattedDate = (displayData === '1D' || displayData === '1W' || displayData === '1M') ? date.toLocaleString('en-GB', options).replace(/\//g, '.') : date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '.');
-          
-    
-    
-    
-          displayLegend = {'close':  (currentDataRow?.close ?? currentDataRow?.value) , 'date': formattedDate, 'change': change};
-    
-    
-        }
-    
-      }
-      
-    //==========================//
-    
-    
-    $: {
-      if ($etfTicker  && typeof window !== 'undefined') // add a check to see if running on client-side
-      {
-        
-        if ($realtimePrice !== null)
-        {
-          $currentPortfolioPrice = $realtimePrice;
-    
-        }
-        
-        else if (oneDayPrice?.length !== 0)
-        {
-          const length = oneDayPrice.length;
-            for (let i = length - 1; i >= 0; i--) {
-              if (!isNaN(oneDayPrice[i]?.close ?? oneDayPrice[i]?.value)) {
-                $currentPortfolioPrice = oneDayPrice[i]?.close ?? oneDayPrice[i]?.value;
-                break;
-              }
-            }
-        }
-    
-      }
-    
+    // Adjust today to Friday if it's Saturday or Sunday
+    if (today.getDay() === 6) { // Saturday
+      today.setDate(today.getDate() - 1); // Set to Friday
+    } else if (today.getDay() === 0) { // Sunday
+      today.setDate(today.getDate() - 2); // Set to Friday
     }
-    
-    
-    
-    
-let displayData;
-let colorChange;
-let topColorChange;
-let bottomColorChange;
-
-let lastValue;
-async function changeData(state) {
   
-  switch (state) {
-    case '1D':
-      displayData = '1D';
-      if(oneDayPrice?.length !== 0)
-      {
-        displayLastLogicalRangeValue = oneDayPrice?.at(0)?.close; //previousClose
-        const length = oneDayPrice?.length;
-        for (let i = length - 1; i >= 0; i--) {
-          if (!isNaN(oneDayPrice[i]?.close)) {
-            lastValue = oneDayPrice[i]?.close;
-            break;
-          }
-        }
-
-      }
-      else {
-        displayLastLogicalRangeValue = null;
-        lastValue = null;
-
-      }
-
-     
-      break;
-    case '1W':
-      displayData = '1W';
-      await historicalPrice('one-week');
-      if(oneWeekPrice?.length !== 0)
-      {
-        displayLastLogicalRangeValue = oneWeekPrice?.at(0)?.close;
-        lastValue = oneWeekPrice?.slice(-1)?.at(0)?.close;
-
-      }
-      else {
-        displayLastLogicalRangeValue = null;
-        lastValue = null;
-
-      }
-      
-
-      break;
-    case '1M':
-      displayData = '1M';
-      await historicalPrice('one-month');
-      if(oneMonthPrice?.length !== 0)
-      {
-        displayLastLogicalRangeValue = oneMonthPrice?.at(0)?.close;
-        lastValue = oneMonthPrice.slice(-1)?.at(0)?.close;
-
-      }
-      else {
-        displayLastLogicalRangeValue = null;
-        lastValue = null;
-
-      }
-      break;
-
-    case '6M':
-      displayData = '6M';
-      await historicalPrice('six-months');
-      if(sixMonthPrice?.length !== 0)
-      {
-        displayLastLogicalRangeValue = sixMonthPrice?.at(0)?.close;
-        lastValue = sixMonthPrice?.slice(-1)?.at(0)?.close;
-
-      }
-      else {
-        displayLastLogicalRangeValue = null;
-        lastValue = null;
-
-      }
-      break;
-    case '1Y':
-      displayData = '1Y';
-      await historicalPrice('one-year');
-      if(oneYearPrice?.length !== 0)
-      {
-        displayLastLogicalRangeValue = oneYearPrice?.at(0)?.close;
-        lastValue = oneYearPrice.slice(-1)?.at(0)?.close;
-      }
-      else {
-        displayLastLogicalRangeValue = null;
-        lastValue = null;
-      }
-      
-      break;
-    case 'MAX':
-      displayData = 'MAX';
-      await historicalPrice('max');
-      if(threeYearPrice?.length !== 0)
-      {
-        displayLastLogicalRangeValue = threeYearPrice?.at(0)?.close;
-        lastValue = threeYearPrice.slice(-1)?.at(0)?.close;
-
-      }
-      else {
-        displayLastLogicalRangeValue = null;
-        lastValue = null;
-
-      }
-     
-      break;
-    default:
-      return;
+    return date.getDate() === today.getDate() &&
+            date.getMonth() === today.getMonth() &&
+            date.getFullYear() === today.getFullYear() ||
+            date.getDate() === yesterday.getDate() &&
+            date.getMonth() === yesterday.getMonth() &&
+            date.getFullYear() === yesterday.getFullYear();
   }
-  colorChange = lastValue < displayLastLogicalRangeValue ? "#FF2F1F" : "#10DB06";
-  topColorChange = lastValue < displayLastLogicalRangeValue ? "rgb(255, 47, 31, 0.2)" : "rgb(16, 219, 6, 0.2)";
-  bottomColorChange = lastValue < displayLastLogicalRangeValue ? "rgb(255, 47, 31, 0.001)" : "rgb(16, 219, 6, 0.001)";
   
-  fitContentChart();
+  /*
+  let progressDayPriceValue = 0;
+  let progressYearPriceValue = 0;
+  let totalDuration = 500;
+             
+  async function updateDayRange() {
   
-
-  //trackButtonClick('Time Period: '+ state)
-}
-    
-      
-    
-    
-async function historicalPrice(timePeriod:string) {
+  const interval = 10; // interval between each update in ms
+  const increment = (currentPrice / (totalDuration / interval));
   
-  const cachedData = getCache($etfTicker, 'historicalPrice'+timePeriod);
-    if (cachedData) {
-      switch (timePeriod) {
-          case 'one-week':
-              oneWeekPrice = cachedData
-              break;
-          case 'one-month':
-              oneMonthPrice = cachedData
-              break;
-          case 'six-months':
-              sixMonthPrice = cachedData
-              break;
-          case 'one-year':
-              oneYearPrice = cachedData
-              break;
-          case 'max':
-              threeYearPrice = cachedData
-              break;
-          default:
-              console.log(`Unsupported time period: ${timePeriod}`);
-      }
-  } else {
-    output = null;
-
-      const postData = {
-        ticker: $etfTicker,
-        timePeriod: timePeriod,
-      };
-
-      const response = await fetch(data?.apiURL+'/historical-price', {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
-        },
-        body: JSON.stringify(postData)
-      });
-
-      output = await response?.json() ?? [];
-
-      const mapData = (data) => data?.map(({ time, open, high, low, close }) => ({ 
-          time: Date.parse(time), 
-          open, 
-          high, 
-          low, 
-          close 
-      }));
-
-    const mappedData = mapData(output);
-    try {
-        switch (timePeriod) {
-            case 'one-week':
-                oneWeekPrice = mappedData
-                break;
-            case 'one-month':
-                oneMonthPrice = mappedData
-                break;
-            case 'six-months':
-                sixMonthPrice = mappedData
-                break;
-            case 'one-year':
-                oneYearPrice = mappedData
-                break;
-            case 'max':
-                threeYearPrice = mappedData
-                break;
-            default:
-                console.log(`Unsupported time period: ${timePeriod}`);
-        }
-        setCache($etfTicker, mappedData, 'historicalPrice'+timePeriod);
-
-    } catch (e) {
-        console.log(e);
-    }
-
-  }  
-}
-    
-    
-  
-async function initializePrice() {
-  
-  output = null;
-  if (intervalId) {
-      clearInterval(intervalId);
+  if (progressDayPriceValue < currentPrice) {
+      progressDayPriceValue = progressDayPriceValue + increment;
+      setTimeout(updateDayRange, interval);
   }
-  intervalId = setInterval(checkChart, 0);
-  try {
-
-  output = [...data?.getOneDayPrice] ?? [];
-  oneDayPrice = output?.map(item => ({ time: Date.parse(item?.time), open: item?.open !== null ? item?.open : NaN, high: item?.high !== null ? item?.high : NaN, low: item?.low !== null ? item?.low : NaN, close: item?.close !== null ? item?.close : NaN}));
-
-    displayData = oneDayPrice?.length  === 0 && sixMonthPrice?.length !== 0 ? '6M' : '1D';
-      //lastValue = oneDayPrice[oneDayPrice?.length - 1]?.value;
-      if (displayData === '1D')
-      {
-        const length = oneDayPrice?.length;
-        for (let i = length - 1; i >= 0; i--) {
-          if (!isNaN(oneDayPrice[i]?.close)) {
-            lastValue = oneDayPrice[i]?.close;
-            break;
-          }
-        }
-      }
-      else if (displayData === '6M') {
-        lastValue = sixMonthPrice?.slice(-1)?.at(0)?.close
-      }
-      
-
-      displayLastLogicalRangeValue = oneDayPrice?.length  === 0 && sixMonthPrice?.length !== 0 ? sixMonthPrice?.at(0)?.close : oneDayPrice?.at(0)?.close //previousClose;
-
-      //colorChange = lastValue < displayLastLogicalRangeValue ? "#CC3636" : "#367E18";
-      
-      colorChange = lastValue < displayLastLogicalRangeValue ? "#FF2F1F" : "#10DB06";
-      topColorChange = lastValue < displayLastLogicalRangeValue ? "rgb(255, 47, 31, 0.2)" : "rgb(16, 219, 6, 0.2)";
-      bottomColorChange = lastValue < displayLastLogicalRangeValue ? "rgb(255, 47, 31, 0.001)" : "rgb(16, 219, 6, 0.001)";
-    } catch(e) {
-      console.log(e)
-    }
-};
-    
-    
-    
-    
-    
-  async function getPrePostQuote() {
-  
-  if(!$isOpen) {
-    const postData = { ticker: $etfTicker};
-      const response = await fetch(data?.apiURL+'/pre-post-quote', {
-      method: 'POST',
-      headers: {
-          "Content-Type": "application/json", "X-API-KEY": data?.apiKey
-      },
-      body: JSON.stringify(postData)
-      });
-  
-      prePostData = await response.json();
-  
-    }
   };
-    
-    
-    
-    
-    
-        let currentDataRow = {'value': '-', 'date': '-'};
-    
-        let lineLegend = null;
-        let displayLegend = {'close': '-', 'date': '-'};
-    
-    
-    
-      
-        function handleSeriesReference(ref) {
-          try {
-            lineLegend = ref;
-          }
-          catch (error)
-          {
-            console.log(error);
-          }
-    
-            
-        };
-    
-    
-    
-    
-    
-    
-    
-    
-    async function handleCrosshairMove({detail: param}) {
-        
-        if (param?.time && !isNaN(param?.seriesData?.get(lineLegend)?.close ?? param?.seriesData?.get(lineLegend)?.value)) 
-        { 
-          $isCrosshairMoveActive = true;
-          try {
-            let graphData;
-              graphData = param?.seriesData?.get(lineLegend);
-  
-              const price = graphData?.close ?? graphData?.value
-              const dateObj = graphData?.time
-              const date = new Date(dateObj);
-  
-              
-              const options = {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-              };
-  
-              //const formattedDate = ( displayData === '1W' || displayData === '1M' ) ? date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric',hour: '2-digit', minute: '2-digit' }).replace(/\//g, '.') : date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '.');
-              
-              const formattedDate = (displayData === '1D' || displayData === '1W' || displayData === '1M') ? date.toLocaleString('en-GB', options).replace(/\//g, '.') : date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })?.replace(/\//g, '.');
-              
-              const change = ((price/displayLastLogicalRangeValue -1 )*100)?.toFixed(2);
   
   
-              displayLegend = {"close": price?.toFixed(2), 'date': formattedDate, 'change': change};
+  async function updateYearRange() {
   
-           
+  const interval = 10; // interval between each update in ms
+  const increment = (currentPrice / (totalDuration / interval));
   
-          }
-  
-          catch(error)
-          {
-              //pass;
-          }
-            
-        }
-      else
-        {
-  
-          //currentDataRow = oneDayPrice[oneDayPrice?.length - 1];
-          const length = oneDayPrice?.length;
-          for (let i = length - 1; i >= 0; i--) {
-            if (!isNaN(oneDayPrice[i]?.close ?? oneDayPrice[i]?.value )) {
-              currentDataRow = oneDayPrice[i];
-              break;
-            }
-          }
-     
-  
-        }
-        
-      };
-    
-    
-    
-      
-      let displayLastLogicalRangeValue; 
-      
-        
-        const fitContentChart = async () => {
-    
-          if(displayData === '1Y' && oneYearPrice?.length === 0)
-          {
-    
-          }
-          else if (chart !== null) {
-    
-            chart?.timeScale().fitContent();
-    
-            chart?.applyOptions({
-              trackingMode: {
-                exitMode: TrackingModeExitMode.OnTouchEnd
-              },
-            });
-    
-          }
-         
-    
+  if (progressYearPriceValue < currentPrice) {
+      progressYearPriceValue = progressYearPriceValue + increment;
+      setTimeout(updateYearRange, interval);
+  }
+  };
           
-        };
-    
-      
-    
-        let width = 500;
-        //Initial height of graph
-        let height = 350;
-    
-        let observer;
-        let ref;
-    
-        ref = (element) => {
-            if (observer) {
-                observer.disconnect();
-            }
-            if (!element) {
-                return;
-            }
+  */
+          
+  marketCap = '-';
+  yearHigh = '-';
+  yearLow = '-';
+  dayHigh = '-';
+  dayLow = '-';
+  
+  currentPrice = '-';
+  previousClose = '-';
+  volume = '-';
+  eps = '-';
+  pe = '-';
+  alpha = '-';
+  beta = '-';
+  
+  stockQuote = data?.getStockQuote;
+  quantStats = data?.getQuantStats ?? {};
+  
+  marketCap = abbreviateNumber(stockQuote?.marketCap);
+  volume = abbreviateNumber(stockQuote?.volume);
+  currentPrice = stockQuote?.price;
+  previousClose = stockQuote?.previousClose;
+  eps = stockQuote?.eps;
+  pe = stockQuote?.pe;
+  
+  beta = stockQuote?.beta;
+  
+  dayLow = stockQuote?.dayLow?.toFixed(2);
+  dayHigh = stockQuote?.dayHigh?.toFixed(2);
+  yearLow = stockQuote?.yearLow?.toFixed(2);
+  yearHigh = stockQuote?.yearHigh?.toFixed(2);
+  
+  alpha = quantStats[$etfTicker?.toUpperCase()]?.Alpha;
+  
+  /*
+  updateDayRange()
+  updateYearRange()
+  */
+  
+  </script>
             
-            observer = new ResizeObserver(([entry]) => {
-                width = entry.contentRect.width;
-                height = entry.contentRect.height;
-            });
-            observer.observe(element);
-        }
-    
-    
-    
-        //===============================================//
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    const options = {
-      width: width,
-      height: height,
-      layout: {
-        background: {
-          color: '#09090B',
-        },
-      
-      },
-      grid: {
-        vertLines: {
-          color: '#09090B',
-          visible: false,
-        },
-        horzLines: {
-          color: '#09090B',
-          visible: false,
-        },
-      },
-      crosshair: {
-        // hide the horizontal crosshair line
-        horzLine: {
-          visible: false,
-          labelVisible: false,
-        },
-        // hide the vertical crosshair label
-        vertLine: {
-          labelVisible: false,
-          style: 0,
-        },
-      },
-      rightPriceScale: {
-        visible: false,
-        borderColor: 'rgba(197, 203, 206, 0.8)',
-      },
-      leftPriceScale: {
-        visible: false,
-        borderColor: 'rgba(197, 203, 206, 0.8)',
-      },
-      handleScale: {
-        mouseWheel: false,
-      },
-      handleScroll: {
-        mouseWheel: false,
-        horzTouchDrag: false,
-        vertTouchDrag: false,
-        pressedMouseMove: false,
-      },
-      timeScale: {
-        borderColor: '#FFFFFF',
-        textColor: '#FFFFFF',
-        visible: false,
-        fixLeftEdge: true,
-        fixRightEdge: true,
-      },
-    };
-    
-    
-    
-    onDestroy(async() => {
-      $priceIncrease = null;
-    })
-    
-  function changeChartType() {
-    if(displayChartType === 'line') {
-      displayChartType = 'candlestick';
-    }
-    else {
-      displayChartType = 'line';
-    }
-  }
   
-    $: {
+  <svelte:head>
+  
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>
+      {$numberOfUnreadNotification > 0 ? `(${$numberOfUnreadNotification})` : ''} {$displayCompanyName} ({$etfTicker}) Statistics & Valuation Metrics · stocknear
+    </title>
+    <meta name="description" content={`Detailed statistics for ${$displayCompanyName} (${$etfTicker}) stock, including valuation, metrics, financial numbers, share information and more.`} />
     
-      if ($etfTicker  && typeof window !== 'undefined') // add a check to see if running on client-side
-      {
+    <!-- Other meta tags -->
+    <meta property="og:title" content={`${$displayCompanyName} (${$etfTicker}) Statistics & Valuation Metrics · stocknear`}/>
+    <meta property="og:description" content={`Detailed statistics for ${$displayCompanyName} (${$etfTicker}) stock, including valuation, metrics, financial numbers, share information and more.`} />
+    <meta property="og:type" content="website"/>
+    <!-- Add more Open Graph meta tags as needed -->
+  
+    <!-- Twitter specific meta tags -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content={`${$displayCompanyName} (${$etfTicker}) Statistics & Valuation Metrics · stocknear`}/>
+    <meta name="twitter:description" content={`Detailed statistics for ${$displayCompanyName} (${$etfTicker}) stock, including valuation, metrics, financial numbers, share information and more.`} />
+    <!-- Add more Twitter meta tags as needed -->
+  
+  </svelte:head>
     
-        oneDayPrice = [];
-        oneWeekPrice = [];
-        oneMonthPrice = [];
-        oneYearPrice = [];
-        threeYearPrice = [];
-    
-        geographicList = [];
-        sectorList = [];
-        prePostData = {};
-        output = null;
-  
-        
-        geographicList = data?.getCountryWeighting;
-        sectorList = data?.getETFProfile[0]?.sectorsList;
-        sectorList = sectorList?.sort(function(a,b) {
-          return b?.exposure - a?.exposure;
-        })
-        etfProfile = data?.getETFProfile;  
-        topHoldingList = data?.getETFHoldings;
-        dividendList = data?.getStockDividend;
-        similarTicker = data?.getSimilarETFs;
-        previousClose = data?.getStockQuote?.previousClose
-  
-        //stockDeck = data?.getStockDeckData;
-        
-    
-      
-      const asyncFunctions = [
-        getPrePostQuote(),
-      ];
-
-
-  
-      Promise.all(asyncFunctions)
-          .then((results) => {
-            initializePrice()
-          })
-          .catch((error) => {
-            console.error('An error occurred:', error);
-          });
-        
-        
-      }
-    
-    }
-
-
-
-  $: {
-    if(form)
-    {
-      $globalForm = form;
-    }
-  }
-  
-    
-</script>
-
-
-<svelte:head>
-
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width" />
-<title>
-  {$numberOfUnreadNotification > 0 ? `(${$numberOfUnreadNotification})` : ''} {$displayCompanyName} ({$etfTicker}) Stock Price, Quote & News · stocknear
-</title>
-
-<meta name="description" content={`Get a real-time ${$displayCompanyName} (${$etfTicker}) stock price quote with breaking news, financials, statistics, charts and more.`}>
-<!-- Other meta tags -->
-<meta property="og:title" content={`${$displayCompanyName} (${$etfTicker}) Stock Price, Quote & News · stocknear`}/>
-<meta property="og:description" content={`Get a real-time ${$displayCompanyName} (${$etfTicker}) stock price quote with breaking news, financials, statistics, charts and more.`} />
-<meta property="og:type" content="website"/>
-<!-- Add more Open Graph meta tags as needed -->
-
-<!-- Twitter specific meta tags -->
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content={`${$displayCompanyName} (${$etfTicker}) Stock Price, Quote & News · stocknear`}/>
-<meta name="twitter:description" content={`Get a real-time ${$displayCompanyName} (${$etfTicker}) stock price quote with breaking news, financials, statistics, charts and more.`} />
-<!-- Add more Twitter meta tags as needed -->
-
-</svelte:head>
-
-  
-<section class="bg-[#09090B] min-h-screen pb-40">
-  
-  <div class="w-full m-auto ">
-
-
-        <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
-            <!-- Main content -->
-            <div class="pb-12 md:pb-20 w-full sm:pr-6 xl:pr-0">
-              <div class="xl:pr-10">
-    
-        
-                                    <!-- svelte-ignore a11y-click-events-have-key-events -->
-                                    <!-- svelte-ignore a11y-label-has-associated-control -->
-                                    
-                                    <div class="flex flex-row items-start w-full sm:pl-6">
-                                      <div class="flex flex-col items-start justify-start w-full" >
-                                      
-                                      <div class="text-2xl md:text-3xl font-bold text-white flex flex-row items-center w-full">
-                                          {#if $isCrosshairMoveActive }
-                                          {$etfTicker?.includes('.DE') || $etfTicker?.includes('.F') ? `${displayLegend?.close}€` : ` $${displayLegend?.close}`}
-                                          {:else if !$isCrosshairMoveActive && $realtimePrice !== null}
-                                          {$etfTicker?.includes('.DE') || $etfTicker?.includes('.F') ? `${$realtimePrice}€` : ` $${$realtimePrice}`}
-                                          {:else}
-                                          {$etfTicker?.includes('.DE') || $etfTicker?.includes('.F') ? `${displayLegend?.close}€` : ` $${displayLegend?.close}`}
-                                          
-                                          {/if}
-                                            
-                                          {#if $priceIncrease === true}
-                                          <div style="background-color: green;" class="inline-block pulse rounded-full w-3 h-3 ml-2" ></div>
-                                          {:else if $priceIncrease === false}
-                                          <div style="background-color: red;" class="inline-block pulse rounded-full w-3 h-3 ml-2" ></div>
-                                          {/if}
-  
-                                      </div>  
-  
-                                      
-                                        
-      
-                                      <div class="flex flex-row items-center w-full">
-                                        
-                                        {#if displayLegend?.change >= 0}
-                                        <svg class="inline-block w-5 h-5 mt-0.5 -mr-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
-                                        <span class="items-center justify-start text-[#10DB06] font-medium text-xs sm:text-sm">+{displayLegend?.change}%</span> 
-                                        {:else if displayLegend?.change < 0}
-                                        <svg class="inline-block w-5 h-5 mt-0.5 -mr-0.5 rotate-180"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
-                                        <span class="items-center justify-start text-[#FF2F1F] font-medium text-xs sm:text-sm">{displayLegend?.change}% </span> 
-                                        {/if}
-  
-                                        <span class="ml-3 text-white text-xs sm:text-sm">{displayLegend?.date}</span>
-                                        
-  
-                                      
-                                      </div>
-  
-                                      </div>
-                                      
-                                      {#if Object?.keys(prePostData)?.length !== 0 && prePostData?.price !== 0}
-                                      <div class="ml-auto flex flex-col justify-end items-end ">
-                                        <div class="flex flex-row items-center justify-end">
-                                        <span class="text-white text-2xl font-bold">
-                                          ${prePostData?.price}
-                                        </span>
-                                        {#if prePostData?.changesPercentage >= 0}
-                                        <span class="ml-1 items-center justify-start text-[#10DB06] font-medium text-xs sm:text-sm">({prePostData?.changesPercentage}%)</span> 
-                                        {:else if prePostData?.changesPercentage < 0}
-                                        <span class="ml-1 items-center justify-start text-[#FF2F1F] font-medium text-xs sm:text-sm">({prePostData?.changesPercentage}%)</span> 
-                                        {/if}
-                                        </div>
-                                        {#if $isBeforeMarketOpen && !$isOpen && !$isWeekend}
-                                        <div class="flex flex-row items-center text-white text-[0.65rem] sm:text-sm font-normal text-end w-24">
-                                          <span>Pre-market:</span>
-                                            <svg class="ml-1 w-4 h-4 inline-block"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#EA9703" d="M120 40V16a8 8 0 0 1 16 0v24a8 8 0 0 1-16 0m72 88a64 64 0 1 1-64-64a64.07 64.07 0 0 1 64 64m-16 0a48 48 0 1 0-48 48a48.05 48.05 0 0 0 48-48M58.34 69.66a8 8 0 0 0 11.32-11.32l-16-16a8 8 0 0 0-11.32 11.32Zm0 116.68l-16 16a8 8 0 0 0 11.32 11.32l16-16a8 8 0 0 0-11.32-11.32M192 72a8 8 0 0 0 5.66-2.34l16-16a8 8 0 0 0-11.32-11.32l-16 16A8 8 0 0 0 192 72m5.66 114.34a8 8 0 0 0-11.32 11.32l16 16a8 8 0 0 0 11.32-11.32ZM48 128a8 8 0 0 0-8-8H16a8 8 0 0 0 0 16h24a8 8 0 0 0 8-8m80 80a8 8 0 0 0-8 8v24a8 8 0 0 0 16 0v-24a8 8 0 0 0-8-8m112-88h-24a8 8 0 0 0 0 16h24a8 8 0 0 0 0-16"/></svg>
-                                        </div>
-                                        {:else}
-                                        <div class="flex flex-row items-center justify-end text-white text-[0.65rem] sm:text-sm font-normal text-end w-28">
-                                          <span>Post-market:</span>
-                                            <svg class="ml-1 w-4 h-4 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#70A1EF" d="M232.13 143.64a6 6 0 0 0-6-1.49a90.07 90.07 0 0 1-112.27-112.3a6 6 0 0 0-7.49-7.48a102.88 102.88 0 0 0-51.89 36.31a102 102 0 0 0 142.84 142.84a102.88 102.88 0 0 0 36.31-51.89a6 6 0 0 0-1.5-5.99m-42 48.29a90 90 0 0 1-126-126a90.9 90.9 0 0 1 35.52-28.27a102.06 102.06 0 0 0 118.69 118.69a90.9 90.9 0 0 1-28.24 35.58Z"/></svg>
-                                        </div>
-                                        {/if}
-  
-                                      </div>
-                                      {/if}
-  
-                 
-                                    </div>
-                                  <!-----End-Header-CandleChart-Indicators------>
-    
-    
-                                  <!--Start Time Interval-->
-                                    <div class="hidden sm:flex flex-row items-center pl-1 sm:pl-6 w-full mt-4 ">
-                                      <div class="flex flex-col items-center mr-4">
-                                      <button on:click={() => changeData('1D')} class="text-sm font-medium text-gray-400 {displayData === '1D' ? 'text-white ' : 'bg-[#09090B]'}">
-                                          1D
-                                      </button>
-                                      <div class="{displayData === '1D' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem] rounded-full" />
-                                      </div>
-                                      <div class="flex flex-col items-center mr-4">
-                                      <button on:click={() => (changeData('1W'))} class="w-full text-sm font-medium text-gray-400 {displayData === '1W' ? 'text-white ' : 'bg-[#09090B]'}">
-                                          1W
-                                      </button>
-                                      <div class="{displayData === '1W' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                      </div>
-                                      <div class="flex flex-col items-center mr-4">
-                                      <button on:click={() => (changeData('1M'))} class="text-sm font-medium text-gray-400 {displayData === '1M' ? 'text-white ' : 'bg-[#09090B]'}">
-                                          1M
-                                      </button>
-                                      <div class="{displayData === '1M' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                      </div>
-                                      <div class="flex flex-col items-center mr-4">
-                                      <button on:click={() => changeData('6M')} class="text-sm font-medium text-gray-400 {displayData === '6M' ? 'text-white ' : 'bg-[#09090B]'}">
-                                          6M
-                                      </button>
-                                      <div class="{displayData === '6M' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                      </div>
-                                    <div class="flex flex-col items-center mr-4">
-                                      <button on:click={() => changeData('1Y')} class="text-sm font-medium text-gray-400 {displayData === '1Y' ? 'text-white ' : 'bg-[#09090B]'}">
-                                          1Y
-                                      </button>
-                                      <div class="{displayData === '1Y' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                    </div>
-                                    
-                                    <div class="flex flex-col items-center mr-4">
-                                      <button on:click={() => changeData('MAX')} class="text-sm font-medium text-gray-400 {displayData === 'MAX' ? 'text-white ' : 'bg-[#09090B]'}">
-                                          MAX
-                                      </button>
-                                      <div class="{displayData === 'MAX' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                    
-                                    </div>
   
   
-    
-                                    <label on:click={changeChartType} class="ml-auto -mt-3 block cursor-pointer bg-[#27272A] sm:hover:bg-[#303030] duratiion-100 transition ease-in-out px-3 py-1 rounded-lg shadow-sm">
-                                      {#if displayChartType === 'line'}
-                                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M7 20v-2H5V6h2V4h2v2h2v12H9v2zm8 0v-5h-2V8h2V4h2v4h2v7h-2v5z"/></svg>
-                                        {:else}
-                                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 16.5L9 10l4 6l8-9.5"/></svg>
-                                        {/if}
-                                  </label>
-                                    
-                                  </div>
-                                  <!--End Time Interval-->
-                                  
-                                    <!--End Ticker Section-->
-                                  <!-- Start Graph -->
-    
-                                  {#if output !== null}
-                                  <div class ="w-full sm:pl-7 ml-auto mb-10">
-                                      {#if displayData === '1D' && oneDayPrice?.length === 0}
-                                      <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
-                                        No data available
-                                      </h2>
-                                      {:else if displayData === '1W' && oneWeekPrice?.length === 0}
-                                      <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
-                                        No data available
-                                      </h2>
-                                      {:else if displayData === '1M' && oneMonthPrice?.length === 0}
-                                      <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
-                                        No data available
-                                      </h2>
-                                      {:else if displayData === '6M' && sixMonthPrice?.length === 0}
-                                      <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
-                                        No data available
-                                      </h2>
-                                      {:else if displayData === '1Y' && oneYearPrice?.length === 0}
-                                      <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
-                                        No data available
-                                      </h2>
-                                      {:else if displayData === 'MAX' && threeYearPrice?.length === 0}
-                                      <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
-                                        No data available
-                                      </h2>
-                                      {:else}
-    
-                                      <Chart {...options} autoSize={true} ref={(ref) => chart = ref} on:crosshairMove={handleCrosshairMove} >
-                                    
-                                        {#if displayData === '1D'}
-                                          {#if displayChartType === 'line'}
-                                          <AreaSeries 
-                                            data={oneDayPrice?.map(({ time, close }) => ({ time, value: close }))}
-                                            lineWidth={1.5}
-                                            priceScaleId="left"
-                                            lineColor={colorChange}
-                                            topColor={topColorChange}
-                                            bottomColor={bottomColorChange}
-                                            crosshairMarkerVisible={false}
-                                            ref={handleSeriesReference}
-                                            priceLineVisible= {false}
-                                            lastPriceAnimation={1}
-                                            >
-                                            <PriceLine
-                                              price={oneDayPrice?.at(0)?.close}
-                                              lineWidth = {1}
-                                              color="#fff"
-                                            />
-                                          </AreaSeries>
-                                          {:else}
-                                          <CandlestickSeries
-                                              data={oneDayPrice}
-                                              crosshairMarkerVisible={false}
-                                              ref={handleSeriesReference}
-                                              priceLineVisible= {false}
-                                              >
-                                            <PriceLine
-                                              price={oneDayPrice?.at(0)?.close}
-                                              lineWidth = {1}
-                                              color="#fff"
-                                            />
-                                        </CandlestickSeries>
-                                          {/if}
-                                          {:else if displayData === '1W'}
-                                          {#if displayChartType === 'line'}
-                                          <AreaSeries 
-                                            data={oneWeekPrice?.map(({ time, close }) => ({ time, value: close }))}
-                                            lineWidth={1.5}
-                                            priceScaleId="left"
-                                            lineColor={colorChange}
-                                            topColor={topColorChange}
-                                            bottomColor={bottomColorChange}
-                                            crosshairMarkerVisible={false}
-                                            ref={handleSeriesReference}
-                                            priceLineVisible= {false}
-                                            lastPriceAnimation={1}
-                                            >
-                                            <PriceLine
-                                              price={oneWeekPrice?.at(0)?.close}
-                                              lineWidth = {1}
-                                              color="#fff"
-                                            />
-                                          </AreaSeries>
-                                          {:else}
-                                          <CandlestickSeries
-                                              data={oneWeekPrice}
-                                              crosshairMarkerVisible={false}
-                                              ref={handleSeriesReference}
-                                              priceLineVisible= {false}
-                                              >
-                                            <PriceLine
-                                              price={oneWeekPrice?.at(0)?.close}
-                                              lineWidth = {1}
-                                              color="#fff"
-                                            />
-                                        </CandlestickSeries>
-                                          {/if}
-      
-                                          {:else if displayData === '1M'}
-                                          {#if displayChartType === 'line'}
-                                          <AreaSeries 
-                                            data={oneMonthPrice?.map(({ time, close }) => ({ time, value: close }))}
-                                            lineWidth={1.5}
-                                            priceScaleId="left"
-                                            lineColor={colorChange}
-                                            topColor={topColorChange}
-                                            bottomColor={bottomColorChange}
-                                            crosshairMarkerVisible={false}
-                                            ref={handleSeriesReference}
-                                            priceLineVisible= {false}
-                                            lastPriceAnimation={1}
-                                            >
-                                            <PriceLine
-                                              price={oneMonthPrice?.at(0)?.close}
-                                              lineWidth = {1}
-                                              color="#fff"
-                                            />
-                                          </AreaSeries>
-                                          {:else}
-                                          <CandlestickSeries
-                                              data={oneMonthPrice}
-                                              crosshairMarkerVisible={false}
-                                              ref={handleSeriesReference}
-                                              priceLineVisible= {false}
-                                              >
-                                            <PriceLine
-                                              price={oneMonthPrice?.at(0)?.close}
-                                              lineWidth = {1}
-                                              color="#fff"
-                                            />
-                                        </CandlestickSeries>
-                                          {/if}
-      
-      
-                                          {:else if displayData === '6M'}
-                                          {#if displayChartType === 'line'}
-                                          <AreaSeries 
-                                          data={sixMonthPrice?.map(({ time, close }) => ({ time, value: close }))}
-                                            lineWidth={1.5}
-                                            priceScaleId="left"
-                                            lineColor={colorChange}
-                                            topColor={topColorChange}
-                                            bottomColor={bottomColorChange}
-                                            crosshairMarkerVisible={false}
-                                            ref={handleSeriesReference}
-                                            priceLineVisible= {false}
-                                            lastPriceAnimation={1}
-                                            >
-                                            <PriceLine
-                                              price={sixMonthPrice?.at(0)?.close}
-                                              lineWidth = {1}
-                                              color="#fff"
-                                            />
-                                          </AreaSeries>
-                                          {:else}
-                                          <CandlestickSeries
-                                              data={sixMonthPrice}
-                                              crosshairMarkerVisible={false}
-                                              ref={handleSeriesReference}
-                                              priceLineVisible= {false}
-                                              >
-                                            <PriceLine
-                                              price={sixMonthPrice?.at(0)?.close}
-                                              lineWidth = {1}
-                                              color="#fff"
-                                            />
-                                        </CandlestickSeries>
-                                          {/if}
-      
-      
-      
-                                          {:else if displayData === '1Y'}
-                                          {#if displayChartType === 'line'}
-                                          <AreaSeries 
-                                          data={oneYearPrice?.map(({ time, close }) => ({ time, value: close }))}
-                                            lineWidth={1.5}
-                                            priceScaleId="left"
-                                            lineColor={colorChange}
-                                            topColor={topColorChange}
-                                            bottomColor={bottomColorChange}
-                                            crosshairMarkerVisible={false}
-                                            ref={handleSeriesReference}
-                                            priceLineVisible= {false}
-                                            lastPriceAnimation={1}
-                                            >
-                                            <PriceLine
-                                              price={oneYearPrice?.at(0)?.close}
-                                              lineWidth = {1}
-                                              color="#fff"
-                                            />
-                                          </AreaSeries>
-                                          {:else}
-                                          <CandlestickSeries
-                                              data={oneYearPrice}
-                                              crosshairMarkerVisible={false}
-                                              ref={handleSeriesReference}
-                                              priceLineVisible= {false}
-                                              >
-                                            <PriceLine
-                                              price={oneYearPrice?.at(0)?.close}
-                                              lineWidth = {1}
-                                              color="#fff"
-                                            />
-                                        </CandlestickSeries>
-                                          {/if}
-      
-      
-      
-                                          {:else if displayData === 'MAX'}
-                                          {#if displayChartType === 'line'}
-                                          <AreaSeries 
-                                            data={threeYearPrice?.map(({ time, close }) => ({ time, value: close }))}
-                                            lineWidth={1.5}
-                                            priceScaleId="left"
-                                            lineColor={colorChange}
-                                            topColor={topColorChange}
-                                            bottomColor={bottomColorChange}
-                                            crosshairMarkerVisible={false}
-                                            ref={handleSeriesReference}
-                                            priceLineVisible= {false}
-                                            lastPriceAnimation={1}
-                                            >
-                                            <PriceLine
-                                              price={threeYearPrice?.at(0)?.close}
-                                              lineWidth = {1}
-                                              color="#fff"
-                                            />
-                                          </AreaSeries>
-                                          {:else}
-                                          <CandlestickSeries
-                                              data={threeYearPrice}
-                                              crosshairMarkerVisible={false}
-                                              ref={handleSeriesReference}
-                                              priceLineVisible= {false}
-                                              >
-                                            <PriceLine
-                                              price={threeYearPrice?.at(0)?.close}
-                                              lineWidth = {1}
-                                              color="#fff"
-                                            />
-                                        </CandlestickSeries>
-                                          {/if}
-      
-      
-                                        {/if}
-                                        </Chart>
-                                      
-                                      {/if}
-    
-                                    </div>
-                                    {:else}
-                                   <!-- else output not loaded yet-->
-                                      <div class="flex justify-center w-full sm:w-[650px] h-80 sm:w-[600px] items-center">
-                                        <div class="relative">
-                                          <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                                            <span class="loading loading-spinner loading-md"></span>
-                                          </label>
-                                      </div>  
-                                    </div>
-                                  {/if}
-                                    
-                                    <!--End Graph-->
+  <section class="text-white w-full">
+    <div class="sm:p-7 m-auto">
+      <div class="mb-6">
+          <h1 class="text-2xl sm:text-3xl text-white font-bold mb-5">
+            Fundamental Data
+          </h1>
   
+          <div class="text-white p-3 sm:p-5 mb-10 rounded-lg sm:flex sm:flex-row sm:items-center border border-slate-800 text-sm sm:text-[1rem]">
+            <svg class="w-6 h-6 flex-shrink-0 inline-block sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
+            Get detailed Fundamental insights of {$displayCompanyName} and compare it to the S&P500.
+          </div>
   
-                                    <!--Start Time Interval-->
-                                    <div class="pl-1 w-screen sm:hidden flex flex-row items-center">
-                                      <div class="flex flex-col items-center mr-4">
-                                      <button on:click={() => changeData('1D')} class="text-sm font-medium text-gray-400 {displayData === '1D' ? 'text-white ' : 'bg-[#09090B]'}">
-                                          1D
-                                      </button>
-                                      <div class="{displayData === '1D' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem] rounded-full" />
-                                      </div>
-                                      <div class="flex flex-col items-center mr-4">
-                                      <button on:click={() => (changeData('1W'))} class="w-full text-sm font-medium text-gray-400 {displayData === '1W' ? 'text-white ' : 'bg-[#09090B]'}">
-                                          1W
-                                      </button>
-                                      <div class="{displayData === '1W' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                      </div>
-                                      <div class="flex flex-col items-center mr-4">
-                                      <button on:click={() => (changeData('1M'))} class="text-sm font-medium text-gray-400 {displayData === '1M' ? 'text-white ' : 'bg-[#09090B]'}">
-                                          1M
-                                      </button>
-                                      <div class="{displayData === '1M' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                      </div>
-                                      <div class="flex flex-col items-center mr-4">
-                                      <button on:click={() => changeData('6M')} class="text-sm font-medium text-gray-400 {displayData === '6M' ? 'text-white ' : 'bg-[#09090B]'}">
-                                          6M
-                                      </button>
-                                      <div class="{displayData === '6M' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                      </div>
-                                    <div class="flex flex-col items-center mr-4">
-                                      <button on:click={() => changeData('1Y')} class="text-sm font-medium text-gray-400 {displayData === '1Y' ? 'text-white ' : 'bg-[#09090B]'}">
-                                          1Y
-                                      </button>
-                                      <div class="{displayData === '1Y' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                    </div>
-                                    
-                                    <div class="flex flex-col items-center mr-4">
-                                      <button on:click={() => changeData('MAX')} class="text-sm font-medium text-gray-400 {displayData === 'MAX' ? 'text-white ' : 'bg-[#09090B]'}">
-                                          MAX
-                                      </button>
-                                      <div class="{displayData === 'MAX' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                    </div>
-  
-                                    <label on:click={changeChartType} class="ml-auto mr-5 -mt-1 sm:hidden border border-slate-800 px-2.5 py-1 rounded-xl">
-                                      {#if displayChartType === 'line'}
-                                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M7 20v-2H5V6h2V4h2v2h2v12H9v2zm8 0v-5h-2V8h2V4h2v4h2v7h-2v5z"/></svg>
-                                        {:else}
-                                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 16.5L9 10l4 6l8-9.5"/></svg>
-                                        {/if}
-                                    </label>
-                                      
-                                      </div>
-                                      <!--End Time Interval-->
-    
-    
-    
-                                   
-                      
-                                  {#if ETFKeyInformation && $screenWidth <=1022} <!--BUG: Dont remove since when changing ETF symbol display freezes-->
-                                  <div class="w-full mt-8  m-auto sm:p-6">
-                                    <label class="cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
-                                      Key Information
-                                    </label>
-                                    <ETFKeyInformation 
-                                      etfProfile={etfProfile}
-                                      similarTicker={similarTicker}
-                                      topHoldingList={topHoldingList}
-                                      dividendList={dividendList}
-                                      data={data}
-                                    />
-    
-                                  </div>
-                                  {/if}
-
-    
-                                  <Lazy>
-                                    <div class="w-full mt-10  m-auto sm:p-6 {data?.getWhyPriceMoved?.length !== 0  ? '' : 'hidden'}">
-                                    {#await import('$lib/components/WIIM.svelte') then {default: Comp}}
-                                      <svelte:component this={Comp} data={data} />
-                                    {/await}
-                                  </div>
-                                  </Lazy>
-
-                                  
-                                <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$priceAnalysisComponent ? 'hidden' : ''}">
-                                  {#await import('$lib/components/PriceAnalysis.svelte') then {default: Comp}}
-                                    <svelte:component this={Comp} data={data} />
-                                  {/await}
-                                </div>
-                                </Lazy>
-                                  
-                                <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$trendAnalysisComponent ? 'hidden' : ''}">
-                                  {#await import('$lib/components/TrendAnalysis.svelte') then {default: Comp}}
-                                    <svelte:component this={Comp} data={data} />
-                                  {/await}
-                                </div>
-                                </Lazy>
-
-                                  <Lazy>
-                                    <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$sentimentComponent ? 'hidden' : ''}">
-                                    {#await import('$lib/components/SentimentAnalysis.svelte') then {default: Comp}}
-                                      <svelte:component this={Comp} data={data} />
-                                    {/await}
-                                  </div>
-                                  </Lazy>
-
-                                  <Lazy>
-                                    <div class="w-full sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$varComponent ? 'hidden' : ''}">
-                                    {#await import('$lib/components/VaR.svelte') then {default: Comp}}
-                                      <svelte:component this={Comp} data={data} />
-                                    {/await}
-                                  </div>
-                                  </Lazy>
-                                  
-                                  <Lazy>
-                                    <div class="w-full mt-10 sm:mt-0 m-auto sm:p-6 {!$optionComponent ? 'hidden' : ''}">
-                                    {#await import('$lib/components/OptionsData.svelte') then {default: Comp}}
-                                      <svelte:component this={Comp} data={data} />
-                                    {/await}
-                                  </div>
-                                  </Lazy>
-
-                                  <Lazy>
-                                    <div class="w-full mt-10 sm:mt-0 m-auto sm:p-6 {!$optionsNetFlowComponent ? 'hidden' : ''}">
-                                      {#await import('$lib/components/OptionsNetFlow.svelte') then {default: Comp}}
-                                        <svelte:component this={Comp} data={data} />
-                                      {/await}
-                                    </div>
-                                  </Lazy>
-                                  
-
-                                  <Lazy>
-                                    <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$impliedVolatilityComponent ? 'hidden' : ''}">
-                                      {#await import('$lib/components/ImpliedVolatility.svelte') then {default: Comp}}
-                                        <svelte:component this={Comp} data={data} />
-                                      {/await}
-                                    </div>
-                                  </Lazy>
+          {#if Object?.keys(quantStats)?.length !== 0}
+          <div class="grid grid-cols-1 gap-2 mt-10">
+            
+                <div class="flex justify-start items-start w-full m-auto">
+                  <table class="table table-sm table-pin-rows table-compact pb-2 text-start flex justify-start items-center w-full px-3 m-auto ">
+                      <tbody class="shadow-md">
+                      <!-- row 1 -->
+                      <tr class="text-white ">
+                        {#if $screenWidth <= 550}
+                        <td class="text-start text-white font-medium">
+                          1-Day Range
+                        </td>
+                        <td class="bg-[#09090B]">
+                          <div class="flex flex-col items-start">
+                            <div class="flex justify-between w-full mb-1.5">
+                              <span class="text-start">{dayLow}</span>
+                              <span class="text-end">{dayHigh}</span>
+                            </div>
+                            <div class="flex justify-center w-full">
+                              <progress class="progress [&::-webkit-progress-value]:bg-blue-600 [&::-moz-progress-bar]:bg-blue-600 w-full bg-white h-[4px]" min={dayLow} value={currentPrice} max={dayHigh} style="flex-direction: row-reverse" />
+                            </div>
+                          </div>
+                        </td>
+                        {:else}
+                        <td class="text-start text-white font-medium">
+                          1-Day Range
+                        </td>
+                        <td class="bg-[#09090B]">
+                          {dayLow}
+                        </td>
+                        <td class="bg-[#09090B]">
+                          <!--<span class="text-center flex justify-center items-center ">158.8</span>-->
+                          <progress class="progress [&::-webkit-progress-value]:bg-blue-600 [&::-moz-progress-bar]:bg-blue-600 bg-white w-[200px] sm:w-full h-[4px]" min={dayLow} value={currentPrice} max={dayHigh} />
+                        </td>
+                        <td class="bg-[#09090B] ">
+                          {dayHigh}
+                        </td>
+                        {/if}
+                      </tr>
+                      <!--2 row -->
+                      <tr class="text-white bg-[#09090B]">
+                        {#if $screenWidth < 640}
+                        <td class="text-start text-white font-medium">
+                          1-Year Range
+                        </td>
+                        <td class="bg-[#09090B]">
+                          <div class="flex flex-col items-start">
+                            <div class="flex justify-between w-full mb-1.5">
+                              <span class="text-start">{yearLow}</span>
+                              <span class="text-end">{yearHigh}</span>
+                            </div>
+                            <div class="flex justify-center w-full">
+                              <progress class="progress [&::-webkit-progress-value]:bg-blue-600 [&::-moz-progress-bar]:bg-blue-600 bg-white w-[200px] sm:w-full h-[4px]" min={yearLow} value={currentPrice} max={yearHigh} style="flex-direction: row-reverse" />
+                            </div>
+                          </div>
+                        </td>
+                        {:else}
+                        <td class="text-start text-white font-medium">
+                          1-Year Range
+                        </td>
+                        <td class="bg-[#09090B]">
+                          {yearLow}
+                        </td>
+                        <td class="bg-[#09090B]">
+                          <progress class="progress [&::-webkit-progress-value]:bg-blue-600 [&::-moz-progress-bar]:bg-blue-600 w-full bg-white h-[4px]" min={yearLow} value={currentPrice} max={yearHigh} />
+                        </td>
+                        <td class="bg-[#09090B]">
+                          {yearHigh}
+                        </td>
+                        {/if}
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            
                 
   
-                                    <!--End Price Prediction Model-->
-    
-                                     <!--Start CountrySegmentation-->
-                                      <div class="w-full pt-10 sm:p-6 m-auto {geographicList?.length !== 0 ? '' : 'hidden'}">
-                                          {#if CountrySegmentation}
-                                            <CountrySegmentation
-                                            geographicList = {geographicList}
-                                            />     
-                                          {/if}
-                                      </div>  
-                                      <!--End CountrySegmentation-->
-  
-  
-                                      <!--Start SectorSegmentation -->
-                                      <div class="w-full pt-10 sm:p-6 m-auto {sectorList?.length === 0 ? 'hidden' : ''}"> 
-                                          {#if SectorSegmentation}
-                                            <SectorSegmentation
-                                            sectorList = {sectorList}
-                                            />
-                                          {/if}
-                                      </div>  
-                                      <!--End SectorSegmentation -->
-                                      
-                                      <Lazy>
-                                        <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$retailVolumeComponent ? 'hidden' : ''}">
-                                        {#await import('$lib/components/RetailVolume.svelte') then {default: Comp}}
-                                          <svelte:component this={Comp} data={data}/>
-                                        {/await}
-                                      </div>
-                                      </Lazy>
-                                      
+                <h3 class="text-start ml-2 text-lg sm:text-2xl font-bold text-white mt-5 ">
+                  Company Stats
+                </h3>
+                
           
-                                      <Lazy>
-                                        <div class="w-full pt-10 m-auto sm:pl-6 sm:pb-6 sm:pt-6 rounded-2xl {!$taRatingComponent ? 'hidden' : ''}">
-                                          {#await import('$lib/components/TARating.svelte') then {default: Comp}}
-                                            <svelte:component this={Comp} data={data}/>
-                                          {/await}
-                                        </div>
-                                      </Lazy>
-                                  
+                <div class="flex justify-start items-center w-full m-auto">
+                  <table class="table table-sm table-compact text-start flex justify-start items-center w-full px-3 m-auto">
+                    <tbody class="">
+                      <!-- row 1 -->
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] text-white ">Mkt Cap</td>
+                        <td class="text-end text-sm sm:text-[1rem]"> ${marketCap}</td>
+                        <td class="text-end text-sm sm:text-[1rem] text-white ">Volume</td>
+                        <td class="text-end text-sm sm:text-[1rem]">{volume}</td>
+                      </tr>
+                      <!-- row 2 -->
+                      <tr class="text-white odd:bg-[#27272A] text-sm sm:text-[1rem] ">
+                        <td class="text-start text-sm sm:text-[1rem]">Price</td>
+                        <td class="text-end text-sm sm:text-[1rem]">${currentPrice}</td>
+                        <td class="text-end text-white text-sm sm:text-[1rem]">Prev. Close</td>
+                        <td class="text-end text-sm sm:text-[1rem]">${previousClose}</td>
+                      </tr>
+                      <!-- row 3 -->
+                      
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] text-white ">Alpha</td>
+                        <td class="text-end text-sm sm:text-[1rem]">
+                          {typeof alpha !== 'undefined' ? alpha : '-'}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] text-white">Beta</td>
+                        <td class="text-end text-sm sm:text-[1rem]">
+                          {typeof beta !== 'undefined' && !isNaN(beta) ? beta?.toFixed(2) : '-'}
+                        </td>
+                      </tr>
+                      
+  
+                      <tr class="text-white font-semibold">
+                        <td class="text-start">EPS</td>
+                        <td class="text-sm text-end">{eps}</td>
+                        <td class="text-end">PE</td>
+                        <td class="text-sm text-end">{pe}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+  
+              
+  
+                {#if $etfTicker in quantStats && Object.keys(quantStats[$etfTicker]).length > 0}
+  
+                <h3 class="text-start w-full mt-8 mb-2 text-lg sm:text-2xl font-bold text-white">
+                  Worst 10 Drawdowns of {$etfTicker}
+                </h3>
+                <div class="w-full overflow-x-scroll">
+                  <table class="table table-sm table-pin-rows table-compact text-start w-full flex justify-start items-center m-auto">
+                    <thead>
+                      <tr class="bg-[#09090B] border-slate-800 rounded text-white font-semibold">
+                        <th class="text-start text-sm sm:text-[1rem] ">Started</th>
+                        <th class="text-sm sm:text-[1rem] text-end">Recovered</th>
+                        <th class="text-sm sm:text-[1rem] text-end">Drawdown</th>
+                        <th class="text-sm sm:text-[1rem] text-end ">Days</th>
+                      </tr>
+                    </thead>
+                    <tbody class="shadow-md">
+                      {#each quantStats[$etfTicker?.toUpperCase()]['Worst 10 Drawdowns'] as item}
+                        <tr class="text-white border-y border-gray-800 odd:bg-[#27272A]">
+                          <td class="text-start text-sm sm:text-[1rem] text-white whitespace-nowrap">
+                            {new Date(item['Started']).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                          </td>
+                          <td class="text-sm sm:text-[1rem]  text-white text-end whitespace-nowrap">
+                            {#if ongoingDD(item['Recovered']) === true}
+                            continuing
+                            {:else}
+                            {new Date(item['Recovered']).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                            {/if}
+                          </td>
+                          <td class="text-start font-semibold text-white text-end text-sm sm:text-[1rem]">
+                            {item['Drawdown']?.toFixed(2)}%
+                          </td> 
+                          <td class="text-end font-semibold text-white text-sm sm:text-[1rem]">
+                            {item['Days']}
+                          </td>
+                        </tr>
+                      {/each}
+                    </tbody>
+                  </table>
+                </div>
+  
+                
+                <h2 class="text-start ml-2 text-lg sm:text-2xl font-bold text-white mt-8 ">
+                  {$etfTicker} vs. 
+                  S&P500
+                </h2>
+  
+                <p class="ml-2 text-[1rem] flex justify-start items-center m-auto text-white ">
+                  Comparison of company stats against the S&P500 Index.                                  
+                </p>
+  
+                <span class="ml-2 text-start italic text-sm text-gray-300 mt-5 mb-2 sm:mb-5">
+                  Time Period between {new Date(quantStats[$etfTicker?.toUpperCase()]["Start Period"]).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })} 
+                  - 
+                  {new Date(quantStats[$etfTicker?.toUpperCase()]["End Period"]).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                </span>
+  
+  
+                <ReturnCard quantData={quantStats} />
+                
+  
+  
+                <div class="flex flex-col justify-center items-center w-full m-auto">
+                  <table class="table table-sm table-pin-rows table-compact text-start w-full flex justify-start items-center w-full m-auto">
+                    <thead>
+                      <tr class="bg-[#09090B] text-white text-sm">
+                        <th class="text-start text-sm sm:text-[1rem] font-semibold">
+                          Metric
+                        </th>
+                        <th class="text-end bg-[#09090B] text-sm sm:text-[1rem] font-semibold">
+                          {$etfTicker}
+                        </th>
+                        <th class="text-end text-sm sm:text-[1rem] font-semibold">
+                          S&P500
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-white text-sm sm:text-[1rem] whitespace-nowrap">
+                          Cumulative Return
+                        </td>
+                        <td class="text-white text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats[$etfTicker?.toUpperCase()]["Cumulative Return %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["Cumulative Return %"]}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["Cumulative Return %"]}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-white text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats['SPY']["Cumulative Return %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Cumulative Return %"]}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["Cumulative Return %"]}% </span> 
+                        {/if}
+                        </td>
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Compound Annual Growth Rate (CAGR)
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats[$etfTicker?.toUpperCase()]["CAGR %"] >=0}
+                          <span class="text-[#10DB06]">+{quantStats[$etfTicker?.toUpperCase()]["CAGR %"]}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F]">{quantStats[$etfTicker?.toUpperCase()]["CAGR %"]}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats['SPY']["CAGR %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["CAGR %"]}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["CAGR %"]}% </span> 
+                        {/if}
+                        </td>
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Sharpe
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats[$etfTicker?.toUpperCase()]["Sharpe"]?.toFixed(2)}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Sharpe"]?.toFixed(2)}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] ">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Sortino
+                        </td>
+                        <td class=" text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats[$etfTicker?.toUpperCase()]["Sortino"]?.toFixed(2)}
+                        </td>
+                        <td class=" text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Sortino"]?.toFixed(2)}
+                        </td>  
+                      </tr>
+                      
+                        <tr class="text-white odd:bg-[#27272A] font-semibold">
+                          <td class="text-start text-white text-sm sm:text-[1rem] whitespace-nowrap">
+                            Max Drawdown
+                          </td>
+                          <td class="text-start text-white text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {#if quantStats[$etfTicker?.toUpperCase()]["Max Drawdown"] >=0}
+                            <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["Max Drawdown"]}%</span>
+                          {:else}
+                            <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["Max Drawdown"]}% </span> 
+                          {/if}
+                          </td>
+                          <td class=" text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                            {#if quantStats['SPY']["Max Drawdown"] >=0}
+                            <span class="text-[#10DB06] ">+{quantStats['SPY']["Max Drawdown"]}%</span>
+                          {:else}
+                            <span class="text-[#FF2F1F] ">{quantStats['SPY']["Max Drawdown"]}% </span> 
+                          {/if}
+                          </td>  
+                        </tr>
     
-                                  
-                                      <!--
-                                      <div class="w-full m-auto pt-10 sm:pl-6 sm:pb-6 sm:pt-6 {!$correlationComponent ? 'hidden' : ''}">
-                                        {#await import('$lib/components/Correlation.svelte') then {default: Comp}}
-                                          <svelte:component this={Comp} data={data}/>
-                                        {/await}
-                                      </div>
-                                      -->
-                  
-                              </div>
-                          </div>
+                        <tr class="text-white odd:bg-[#27272A] font-semibold">
+                          <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                            Longest Drawdown Days
+                          </td>
+                          <td class=" text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                            {quantStats[$etfTicker?.toUpperCase()]["Longest DD Days"]}
+                          </td>
+                          <td class=" text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                            {quantStats['SPY']["Longest DD Days"]}
+                          </td>  
+                        </tr>
+                      
     
-                    
+                        <tr class="text-white odd:bg-[#27272A] font-semibold">
+                          <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                            Volatility (ann.)
+                          </td>
+                          <td class=" text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                            {quantStats[$etfTicker?.toUpperCase()]["Volatility (ann.) %"]}%
+                          </td>
+                          <td class=" text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                            {quantStats['SPY']["Volatility (ann.) %"]}%
+                          </td>  
+                        </tr>
     
-      </div>
-    </section>
+                        <tr class="text-white odd:bg-[#27272A] font-semibold">
+                          <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                            Correlation
+                          </td>
+                          <td class=" text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                            {quantStats[$etfTicker?.toUpperCase()]["Correlation"]}%
+                          </td>
+                          <td class=" text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                            {quantStats['SPY']["Correlation"]}
+                          </td>  
+                        </tr>
+    
+                        <tr class="text-white odd:bg-[#27272A] font-semibold">
+                          <td class="text-start text-white text-sm sm:text-[1rem] whitespace-nowrap">
+                            R^2
+                          </td>
+                          <td class=" text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                            {quantStats[$etfTicker?.toUpperCase()]["R^2"]}
+                          </td>
+                          <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                            {quantStats['SPY']["R^2"]}
+                          </td>  
+                        </tr>
+    
+                        <tr class="text-white odd:bg-[#27272A] font-semibold">
+                          <td class="text-start text-white text-sm sm:text-[1rem] whitespace-nowrap">
+                            Calmar
+                          </td>
+                          <td class=" text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                            {quantStats[$etfTicker?.toUpperCase()]["Calmar"]}
+                          </td>
+                          <td class=" text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                            {quantStats['SPY']["Calmar"]}
+                          </td>  
+                        </tr>
     
     
+                        <tr class="text-white odd:bg-[#27272A] font-semibold">
+                          <td class="text-start text-white text-sm sm:text-[1rem] whitespace-nowrap">
+                            Skew
+                          </td>
+                          <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                            {quantStats[$etfTicker?.toUpperCase()]["Skew"]?.toFixed(2)}
+                          </td>
+                          <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                            {quantStats['SPY']["Skew"]?.toFixed(2)}
+                          </td>  
+                        </tr>
     
-    
-    
-    
-    <!--End-Indicator-Modal-->
-    
-    
-    <style lang='scss'>
-       
-    
-    
-    
-    canvas {
-      width: 100%;
-      height: 100%;
-      max-width: 800px;
-      max-height: 450px;
-    }
-    
-    .pulse {
-      position: relative;
-      animation: pulse-animation 1s forwards cubic-bezier(0.5, 0, 0.5, 1);
-    }
-    
-    @keyframes pulse-animation {
-      0% {
-        transform: scale(0.9);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(0.9);
-        opacity: 0;
-      }
-    }
-    
-    
-    :root {
-      --date-picker-background: #09090B;
-      --date-picker-foreground: #f7f7f7;
-    }
-    
-    
-    
-    </style>
+                        <tr class="text-white odd:bg-[#27272A] font-semibold">
+                          <td class="text-start text-white text-sm sm:text-[1rem] whitespace-nowrap">
+                            Kurtosis
+                          </td>
+                          <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                            {quantStats[$etfTicker?.toUpperCase()]["Kurtosis"]?.toFixed(2)}
+                          </td>
+                          <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                            {quantStats['SPY']["Kurtosis"]?.toFixed(2)}
+                          </td>  
+                        </tr>
+                          
+  
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-starttext-sm sm:text-[1rem] whitespace-nowrap">
+                          Expected Daily
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {#if quantStats[$etfTicker?.toUpperCase()]["Expected Daily %"] >=0}
+                            <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["Expected Daily %"]}%</span>
+                          {:else}
+                            <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["Expected Daily %"]}% </span> 
+                          {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {#if quantStats['SPY']["Expected Daily %"] >=0}
+                            <span class="text-[#10DB06] ">+{quantStats['SPY']["Expected Daily %"]}%</span>
+                          {:else}
+                            <span class="text-[#FF2F1F] ">{quantStats['SPY']["Expected Daily %"]}% </span> 
+                          {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-white text-sm sm:text-[1rem] whitespace-nowrap">
+                          Expected Monthly
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {#if quantStats[$etfTicker?.toUpperCase()]["Expected Monthly %"] >=0}
+                            <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["Expected Monthly %"]}%</span>
+                          {:else}
+                            <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["Expected Monthly %"]}% </span> 
+                          {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {#if quantStats['SPY']["Expected Monthly %"] >=0}
+                            <span class="text-[#10DB06] ">+{quantStats['SPY']["Expected Monthly %"]}%</span>
+                          {:else}
+                            <span class="text-[#FF2F1F] ">{quantStats['SPY']["Expected Monthly %"]}% </span> 
+                          {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-white text-sm sm:text-[1rem] whitespace-nowrap">
+                          Expected Yearly
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {#if quantStats[$etfTicker?.toUpperCase()]["Expected Yearly %"] >=0}
+                            <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["Expected Yearly %"]}%</span>
+                          {:else}
+                            <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["Expected Yearly %"]}% </span> 
+                          {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {#if quantStats['SPY']["Expected Yearly %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Expected Yearly %"]}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["Expected Yearly %"]}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-white text-sm sm:text-[1rem] whitespace-nowrap">
+                          Kelly Criterion
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats[$etfTicker?.toUpperCase()]["Kelly Criterion %"]}%
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Kelly Criterion %"]}%
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-white text-sm sm:text-[1rem] whitespace-nowrap">
+                          Risk of Ruin
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats[$etfTicker?.toUpperCase()]["Risk of Ruin %"]}%
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Risk of Ruin %"]}%
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Daily Value-at-Risk
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {#if quantStats[$etfTicker?.toUpperCase()]["Daily Value-at-Risk %"] >=0}
+                            <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["Daily Value-at-Risk %"]?.toFixed(2)}%</span>
+                          {:else}
+                            <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["Daily Value-at-Risk %"]?.toFixed(2)}% </span> 
+                          {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats['SPY']["Daily Value-at-Risk %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Daily Value-at-Risk %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["Daily Value-at-Risk %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-white text-sm sm:text-[1rem] whitespace-nowrap">
+                          Expected Shortfall (cVaR)
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats[$etfTicker?.toUpperCase()]["Expected Shortfall (cVaR) %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["Expected Shortfall (cVaR) %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["Expected Shortfall (cVaR) %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats['SPY']["Expected Shortfall (cVaR) %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Expected Shortfall (cVaR) %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["Expected Shortfall (cVaR) %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+                        
+  
+                        <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-whitetext-sm sm:text-[1rem] whitespace-nowrap">
+                          Max Consecutive Wins
+                        </td>
+                        <td class="text-start text-end text-sm">
+                          {quantStats[$etfTicker?.toUpperCase()]["Max Consecutive Wins"]}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Max Consecutive Wins"]}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-whitetext-sm sm:text-[1rem] whitespace-nowrap">
+                          Max Consecutive Losses
+                        </td>
+                        <td class="text-start text-end text-sm">
+                          {quantStats[$etfTicker?.toUpperCase()]["Max Consecutive Losses"]}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Max Consecutive Losses"]}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-starttext-sm sm:text-[1rem] whitespace-nowrap">
+                          Gain/Pain Ratio
+                        </td>
+                        <td class="text-start text-end text-sm">
+                          {quantStats[$etfTicker?.toUpperCase()]["Gain/Pain Ratio"]?.toFixed(2)}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Gain/Pain Ratio"]?.toFixed(2)}
+                        </td>  
+                      </tr>
+                      
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Gain/Pain (1M)
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats[$etfTicker?.toUpperCase()]["Gain/Pain (1M)"]?.toFixed(2)}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Gain/Pain (1M)"]?.toFixed(2)}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Payoff Ratio
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats[$etfTicker?.toUpperCase()]["Payoff Ratio"]?.toFixed(2)}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Payoff Ratio"]?.toFixed(2)}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Profit Factor
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats[$etfTicker?.toUpperCase()]["Profit Factor"]?.toFixed(2)}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Profit Factor"]?.toFixed(2)}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Outlier Win Ratio
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats[$etfTicker?.toUpperCase()]["Outlier Win Ratio"]?.toFixed(2)}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Outlier Win Ratio"]?.toFixed(2)}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Outlier Loss Ratio
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats[$etfTicker?.toUpperCase()]["Outlier Loss Ratio"]?.toFixed(2)}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Outlier Loss Ratio"]?.toFixed(2)}
+                        </td>  
+                      </tr>
+                        
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-starttext-sm sm:text-[1rem] whitespace-nowrap">
+                          MTD
+                        </td>
+                        <td class="text-start text-end text-sm">
+                        {#if quantStats[$etfTicker?.toUpperCase()]["MTD %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["MTD %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["MTD %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats['SPY']["MTD %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["MTD %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["MTD %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          3M
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {#if quantStats[$etfTicker?.toUpperCase()]["3M %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["3M %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["3M %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats['SPY']["3M %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["3M %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["3M %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          6M
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats[$etfTicker?.toUpperCase()]["6M %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["6M %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["6M %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {#if quantStats['SPY']["6M %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["6M %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["6M %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          YTD
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats[$etfTicker?.toUpperCase()]["YTD %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["YTD %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["YTD %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats['SPY']["YTD %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["YTD %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["YTD %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          1Y
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats[$etfTicker?.toUpperCase()]["1Y %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["1Y %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["1Y %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats['SPY']["1Y %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["1Y %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["1Y %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          3Y (ann.)
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats[$etfTicker?.toUpperCase()]["3Y (ann.) %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["3Y (ann.) %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["3Y (ann.) %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats['SPY']["3Y (ann.) %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["3Y (ann.) %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["3Y (ann.) %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-starttext-sm sm:text-[1rem] whitespace-nowrap">
+                          Best Day
+                        </td>
+                        <td class="text-start text-end text-sm">
+                        {#if quantStats[$etfTicker?.toUpperCase()]["Best Day %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["Best Day %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["Best Day %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats['SPY']["Best Day %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Best Day %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["Best Day %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Worst Day
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats[$etfTicker?.toUpperCase()]["Worst Day %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["Worst Day %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["Worst Day %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats['SPY']["Worst Day %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Worst Day %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["Worst Day %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Best Month
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {#if quantStats[$etfTicker?.toUpperCase()]["Worst Day %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["Worst Day %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["Worst Day %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {#if quantStats['SPY']["Worst Day %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Worst Day %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["Worst Day %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Worst Month
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {#if quantStats[$etfTicker?.toUpperCase()]["Worst Month %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["Worst Month %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["Worst Month %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {#if quantStats['SPY']["Worst Month %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Worst Month %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["Worst Month %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Best Year
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats[$etfTicker?.toUpperCase()]["Best Year %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["Best Year %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["Best Year %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats['SPY']["Best Year %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Best Year %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["Best Year %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Worst Year
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats[$etfTicker?.toUpperCase()]["Worst Year %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["Worst Year %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["Worst Year %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {#if quantStats['SPY']["Worst Year %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Worst Year %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["Worst Year %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+                        
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-starttext-sm sm:text-[1rem] whitespace-nowrap">
+                          Avg. Drawdown
+                        </td>
+                        <td class="text-start text-end text-sm">
+                        {#if quantStats[$etfTicker?.toUpperCase()]["Avg. Drawdown"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["Avg. Drawdown"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["Avg. Drawdown"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats['SPY']["Avg. Drawdown"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Avg. Drawdown"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["Avg. Drawdown"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Avg. Drawdown Days
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats[$etfTicker?.toUpperCase()]["Avg. Drawdown Days"]}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Avg. Drawdown Days"]}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Recovery Factor
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats[$etfTicker?.toUpperCase()]["Recovery Factor"]?.toFixed(2)}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Recovery Factor"]?.toFixed(2)}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Ulcer Index
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats[$etfTicker?.toUpperCase()]["Ulcer Index"]?.toFixed(2)}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Ulcer Index"]?.toFixed(2)}
+                        </td>  
+                      </tr>
+                        
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-starttext-sm sm:text-[1rem] whitespace-nowrap">
+                          Avg. Up Month
+                        </td>
+                        <td class="text-start text-end text-sm">
+                        {#if quantStats[$etfTicker?.toUpperCase()]["Avg. Up Month %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["Avg. Up Month %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["Avg. Up Month %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats['SPY']["Avg. Up Month %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Avg. Up Month %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["Avg. Up Month %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Avg. Down Month
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats[$etfTicker?.toUpperCase()]["Avg. Down Month %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats[$etfTicker?.toUpperCase()]["Avg. Down Month %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats[$etfTicker?.toUpperCase()]["Avg. Down Month %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                        {#if quantStats['SPY']["Avg. Down Month %"] >=0}
+                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Avg. Down Month %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#FF2F1F] ">{quantStats['SPY']["Avg. Down Month %"]?.toFixed(2)}% </span> 
+                        {/if}
+                        </td>  
+                      </tr>
+  
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Win Days
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats[$etfTicker?.toUpperCase()]["Win Days %"]?.toFixed(2)}%
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Win Days %"]?.toFixed(2)}%
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Win Month
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats[$etfTicker?.toUpperCase()]["Win Month %"]?.toFixed(2)}%
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Win Month %"]?.toFixed(2)}%
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Win Quarter
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats[$etfTicker?.toUpperCase()]["Win Quarter %"]?.toFixed(2)}%
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Win Quarter %"]?.toFixed(2)}%
+                        </td>  
+                      </tr>
+  
+                      <tr class="text-white odd:bg-[#27272A] font-semibold">
+                        <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
+                          Win Year
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats[$etfTicker?.toUpperCase()]["Win Year %"]?.toFixed(2)}%
+                        </td>
+                        <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
+                          {quantStats['SPY']["Win Year %"]?.toFixed(2)}%
+                        </td>  
+                      </tr>
+                        
+                    </tbody>
+                  </table>
+  
+                </div>
+  
+              
+                {:else}
+  
+                <h1 class="m-auto mt-10 text-slate-400 text-2xl ">
+                  <svg class="w-10 sm:w-12 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#334155" d="M18.68 12.32a4.49 4.49 0 0 0-6.36.01a4.49 4.49 0 0 0 0 6.36a4.508 4.508 0 0 0 5.57.63L21 22.39L22.39 21l-3.09-3.11c1.13-1.77.87-4.09-.62-5.57m-1.41 4.95c-.98.98-2.56.97-3.54 0c-.97-.98-.97-2.56.01-3.54c.97-.97 2.55-.97 3.53 0c.97.98.97 2.56 0 3.54M10.9 20.1a6.527 6.527 0 0 1-1.48-2.32C6.27 17.25 4 15.76 4 14v3c0 2.21 3.58 4 8 4c-.4-.26-.77-.56-1.1-.9M4 9v3c0 1.68 2.07 3.12 5 3.7v-.2c0-.93.2-1.85.58-2.69C6.34 12.3 4 10.79 4 9m8-6C7.58 3 4 4.79 4 7c0 2 3 3.68 6.85 4h.05c1.2-1.26 2.86-2 4.6-2c.91 0 1.81.19 2.64.56A3.215 3.215 0 0 0 20 7c0-2.21-3.58-4-8-4Z"/></svg>
+                </h1>
+                {/if}
+  
+                
+          </div>
+          {:else}
+            <h2 class=" mt-16 flex justify-center items-center text-3xl font-medium text-slate-700 mb-5 m-auto">
+              No data available
+          </h2>
+          {/if}
+          
+        </div>
+  </section>

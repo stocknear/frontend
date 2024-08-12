@@ -239,7 +239,7 @@
                 </h3>
                 
           
-                <div class="flex justify-start items-center w-full m-auto">
+                <div class="flex justify-start items-center w-full m-auto overflow-x-scroll no-scrollbar">
                   <table class="table table-sm table-compact text-start flex justify-start items-center w-full px-3 m-auto">
                     <tbody class="shadow-md">
                       <!-- row 1 -->
