@@ -398,12 +398,12 @@ $: {
           {#each gainerLoserActive as item, index}
           <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] cursor-pointer">
     
-          <td class="border-b-[#09090B] whitespace-nowrap">
+          <td class="border-b-[#09090B] text-sm sm:text-[1rem] whitespace-nowrap">
             <div class="flex flex-col">
               <span class="text-blue-400 font-medium">
                 {item?.symbol}
               </span>
-              <span class="text-white text-opacity-[0.8] font-medium border-b-[#09090B]">
+              <span class="text-white font-medium border-b-[#09090B]">
                 {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
               </span>
             </div>

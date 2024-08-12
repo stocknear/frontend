@@ -290,8 +290,8 @@ $: {
               </a>
     
               <Sheet.Close asChild let:builder>
-                <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 mr-auto">
-                  <a href="/" class="flex flex-row items-center mr-auto mt-5 ">
+                <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417] -ml-4 mr-auto">
+                  <a href="/" class="w-full flex flex-row items-center mr-auto mt-5 ">
                     <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
                       <Home class="h-5.5 w-5.5" />  
                     </div>
