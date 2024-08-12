@@ -990,7 +990,7 @@ $: {
 <!-- Put this part before </body> tag -->
 <input type="checkbox" id="optionDetailsDesktopModal" class="modal-toggle" />
 
-<label for="optionDetailsDesktopModal" class="hidden sm:modal modal-bottom sm:modal-middle cursor-pointer">
+<label for="optionDetailsDesktopModal" class="modal modal-bottom sm:modal-middle cursor-pointer">
 
   <label for="optionDetailsDesktopModal"  class="cursor-pointer modal-backdrop"></label>
 
@@ -1064,19 +1064,20 @@ $: {
 <!--End Options Detial Desktop Modal-->
 
   <!--Start Options Detail Modal-->
-<div class="sm:hidden drawer drawer-end z-40 overflow-hidden w-screen">
+  <!--
+<div class="hidden drawer drawer-end z-[999] w-full overflow-hidden">
   <input id="optionDetailsMobileModal" type="checkbox" class="drawer-toggle"/>
-  <div class="drawer-side overflow-hidden">
+  <div class="drawer-side overflow-hidden z-[999]">
   
       
-    <div class="bg-[#000] min-h-screen w-screen pb-20 overflow-hidden">
+    <div class="bg-[#000] min-h-screen w-full border pb-20 overflow-hidden">
 
         <label for="optionDetailsMobileModal" class="absolute left-6 top-6">
           <svg class="w-6 h-6 inline-block mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#fff" d="M9.125 21.1L.7 12.7q-.15-.15-.213-.325T.425 12q0-.2.063-.375T.7 11.3l8.425-8.425q.35-.35.875-.35t.9.375q.375.375.375.875t-.375.875L3.55 12l7.35 7.35q.35.35.35.863t-.375.887q-.375.375-.875.375t-.875-.375Z"/></svg>
         </label>
 
   
-  <div class="w-full overflow-hidden overflow-y-scroll p-2">
+  <div class="w-fit border overflow-hidden p-2">
 
     <p class="text-xl font-semibold text-white mt-16 p-3">
       <span class="text-xl font-semibold">Order Details:</span>
@@ -1090,7 +1091,6 @@ $: {
 
     <table class="table table-sm table-compact w-full mt-5 mb-10 text-white">
       <tbody>
-        <!-- row 1 -->
         <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Premium</td>
           <td class="">{optionPremium}</td>
@@ -1142,6 +1142,7 @@ $: {
 </div>
 </div>
 </div>
+-->
 <!--End Options Detail Modal-->
 
 <style>

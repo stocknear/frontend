@@ -928,6 +928,7 @@ $: {
 <!--End Options Detial Desktop Modal-->
 
   <!--Start Options Detail Modal-->
+  <!--
 <div class="sm:hidden drawer drawer-end z-40 overflow-hidden w-screen">
   <input id="optionDetailsMobileModal" type="checkbox" class="drawer-toggle"/>
   <div class="drawer-side overflow-hidden">
@@ -954,7 +955,6 @@ $: {
 
     <table class="table table-sm table-compact w-full mt-5 mb-10 text-white">
       <tbody>
-        <!-- row 1 -->
         <tr class="border-b border-slate-700 odd:bg-[#27272A]">
           <td class="font-semibold">Premium</td>
           <td class="">{optionPremium}</td>
@@ -1006,6 +1006,7 @@ $: {
 </div>
 </div>
 </div>
+-->
 <!--End Options Detail Modal-->
 
 

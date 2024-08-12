@@ -202,25 +202,25 @@ function changeOrder(state:string) {
                             <tr on:click={() => goto(`/stocks/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] {index+1 === displayList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''} cursor-pointer">
    
 
-                            <td class="text-start text-[1rem] text-white whitespace-nowrap">
+                            <td class="text-start text-sm sm:text-[1rem] text-white whitespace-nowrap">
                                 {item?.date}
                             </td>
 
-                              <td class="text-blue-400 text-[1rem] text-start">
+                              <td class="text-blue-400 text-sm sm:text-[1rem] text-start">
                                 {item?.ticker}
                             </td>
 
-                            <td class="text-white text-[1rem] whitespace-nowrap text-white text-start">
+                            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap text-white text-start">
                                 {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
                             </td>
   
                       
 
-                              <td class="text-end text-[1rem] font-medium text-white">
+                              <td class="text-end text-sm sm:text-[1rem] font-medium text-white">
                                 {item?.sector}
                               </td>
 
-                              <td class="text-white text-[1rem] text-end">
+                              <td class="text-white text-sm sm:text-[1rem] text-end">
                                 ${new Intl.NumberFormat("en", {
                                   minimumFractionDigits: 0,
                                   maximumFractionDigits: 0,
