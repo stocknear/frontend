@@ -393,7 +393,7 @@ $: {
 
 <input type="checkbox" id="searchBarModal" class="modal-toggle" bind:checked={searchBarModalChecked} />
 
-<dialog id="searchBarModal" class="hidden sm:block modal modal-top z-[999]">
+<dialog id="searchBarModal" class="hidden sm:modal modal-top z-[999]">
 
 
   <label for="searchBarModal"  class="cursor-pointer modal-backdrop"></label>
