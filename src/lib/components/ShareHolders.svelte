@@ -327,7 +327,7 @@ let charNumber = 30;
                 {/if}
 
 
-                <div class="flex justify-start items-center w-full m-auto mt-6 ">
+                <div class="flex justify-start items-center w-full m-auto mt-6 overflow-x-scroll">
                     <table class="table table-sm table-compact w-full">
                       <thead>
                         <tr>
@@ -343,23 +343,23 @@ let charNumber = 30;
                         {#if item?.investorName?.length > 0}
                         <tr on:click={() => goto('/hedge-funds/'+item?.cik)} class="border-y border-gray-800 odd:bg-[#27272A] {index === 2 && !showFullStats && shareholderList?.length > 3 ? 'opacity-[0.5]' : '' } sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#09090B] border-b-[#09090B] cursor-pointer">
                          
-                            <td class="text-white font-medium">
+                            <td class="text-white font-medium text-sm sm:text-[1rem] whitespace-nowrap">
                              {item?.investorName?.length > charNumber ? formatString(item?.investorName?.slice(0,charNumber)) + "..." : formatString(item?.investorName)}
                             </td>
                         
-                            <td class="text-white text-center font-medium">
+                            <td class="text-white text-center font-medium text-sm sm:text-[1rem] whitespace-nowrap">
                                 {item?.ownership <= 0.01 ? "< 0.01%" : item?.ownership?.toFixed(2)+'%'}
                             </td>
 
-                            <td class="text-white text-end hidden sm:table-cell font-medium">
+                            <td class="text-white text-end hidden sm:table-cell font-medium text-sm sm:text-[1rem] whitespace-nowrap">
                                 {item?.sharesNumber !== null ? abbreviateNumber(item?.sharesNumber) : '-'}
                             </td>
                         
-                            <td class="text-white text-end hidden sm:table-cell font-medium ">
+                            <td class="text-white text-end hidden sm:table-cell font-medium text-sm sm:text-[1rem] whitespace-nowrap ">
                                 {item?.marketValue !== null ? "$" + abbreviateNumber(item?.marketValue) : '-'}
                             </td>
                             
-                            <td class="text-white text-end font-medium">
+                            <td class="text-white text-end font-medium text-sm sm:text-[1rem] whitespace-nowrap">
                                 {item?.weight <= 0.01 ? "< 0.01%" : item?.weight?.toFixed(2)+'%'}
                             </td>
                         
