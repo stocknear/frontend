@@ -1,36 +1,38 @@
 <script lang='ts'>
   import { goto } from '$app/navigation';
   import { screenWidth } from '$lib/store';
-  import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
-  
+  import { onMount } from 'svelte';
+
   export let data;
   let rawData = data?.getDividendAristocrats;
   let displayList = rawData?.slice(0,50);
   
   
-  async function infiniteHandler({ detail: { loaded, complete } }) 
-  {
-  
-  if (displayList?.length === rawData?.length) {
-      complete();
-      } 
-      else {
-      const nextIndex = displayList?.length;
-      const newElements= rawData?.slice(nextIndex, nextIndex + 5);
-      displayList = [...displayList, ...newElements];
-      loaded();
+  async function handleScroll() {
+      const scrollThreshold = document.body.offsetHeight * 0.8; // 80% of the website height
+      const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
+      if (isBottom && displayList?.length !== rawData?.length) {
+          const nextIndex = displayList?.length;
+          const filteredNewResults = rawData?.slice(nextIndex, nextIndex + 50);
+          displayList = [...displayList, ...filteredNewResults];
       }
-  }
+    }
   
+    onMount(async () => {
+      window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    })
   
   $: charNumber = $screenWidth < 640 ? 15 : 40;
 
   </script>
       
-      <section class="w-full max-w-4xl overflow-hidden m-auto">
+      <section class="w-full overflow-hidden m-auto">
               
             
-          <div class="w-full max-w-4xl sm:flex sm:flex-row sm:items-center m-auto text-gray-100 bg-[#27272A] sm:rounded-lg h-auto p-5 mb-4">
+          <div class="w-full sm:flex sm:flex-row sm:items-center m-auto text-gray-100 border border-gray-800 sm:rounded-lg h-auto p-5 mb-4">
               <svg class="w-5 h-5 inline-block sm:mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
               
               Dividend Aristocrats are companies in the S&P500 index that have been raising their dividends every year for 25 or more years. This is a list of all the dividend aristocrats.
@@ -38,7 +40,7 @@
       
       
             <!-- Page wrapper -->
-            <div class="flex justify-center w-full max-w-5xl m-auto h-full overflow-hidden">
+            <div class="flex justify-center w-full m-auto h-full overflow-hidden">
         
                 
           
@@ -120,9 +122,7 @@
                     </tbody>
                 </table>
       
-                    
-                    <InfiniteLoading on:infinite={infiniteHandler} />
-  
+                      
             </div>
   
             
