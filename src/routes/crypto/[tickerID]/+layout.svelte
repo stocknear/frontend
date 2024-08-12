@@ -460,9 +460,9 @@ $: {
               <div class="w-full">
                   <div class="sm:flex sm:justify-start w-full">
            <!--Start Mobile Navbar-->
-           <div class="navbar w-screen sticky top-0 mt-4 z-30 bg-[#09090B] sm:hidden ">
-      
-            <div class="{isScrolled ? 'border-b border-slate-800 ease-in' : 'ease-out'} m-auto w-full">
+           <div class="fixed top-0 left-0 right-0 z-20 bg-[#09090B] sm:hidden">
+            <div class="navbar w-full px-4 py-2">
+              <div class="{isScrolled ? 'border-b border-slate-800 ease-in' : 'ease-out'} m-auto w-full">
       
                 <div class="flex-1 flex-shrink-0 flex flex-row items-center justify-between -mt-2">
       
@@ -538,11 +538,12 @@ $: {
                       
                   </div>
               </div>
+            </div>
           </div>
           <!--End Mobile Navbar-->
          
       
-          <div class="w-auto max-w-3xl lg:max-w-content 2xl:max-w-6xl px-3 sm:px-0">     
+          <div class="pt-20 sm:pt-0 w-auto max-w-3xl lg:max-w-content 2xl:max-w-6xl px-3 sm:px-0">     
                     
             <div class="md:flex md:justify-between md:divide-x md:divide-slate-800">
                 <!-- Main content -->
