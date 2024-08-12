@@ -1,24 +1,9 @@
 <script lang='ts'>
-import { page } from '$app/stores';
 import logo from '$lib/images/news_logo.png'
 import ScrollToTop from '$lib/components/ScrollToTop.svelte';
 
-let displaySection = '';
 
-
-
-const navigation = [
-    {
-        title: 'Stock',
-        link: '/market-news'
-    },
-    {
-        title: 'General',
-        link: '/market-news/general'
-    },
-
-];
-
+let displaySection = 'stock'
 
 
 </script>
@@ -96,25 +81,28 @@ const navigation = [
           
               </div>
   
-  
-              <div class="pl-4 pr-4 sm:pl-0 sm:pr-0 w-screen sm:w-full">
-
-                    <div class="tabs grid grid-cols-3 sm:grid-cols-9 w-full pl-3 pr-3 sm:pl-0 sm:pr-0">
-
-                    {#each navigation as item}
-                   
-                      <a href={item?.link} class="flex flex-col items-center w-fit text-center text-xl mr-0 sm:mr-10 rounded-md transition font-semibold hover:text-white {(item?.link === $page.url.pathname || item?.link +'/' === $page.url.pathname) ? ' text-white' : 'text-[#9A9996]'}" >
-                        <span>{item.title}</span>
-                        <div class="{(item?.link === $page.url.pathname || item?.link +'/' === $page.url.pathname) ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[3rem] rounded-full" />
-                      </a> 
-
-        
-                    {/each}
-        
-                  </div>
 
 
-              </div>
+                <div class="ml-4 w-full mb-2" >
+                  <ul class="pr-4 sm:pr-0 w-full font-medium flex flex-row items-center bg-[#09090B] overflow-x-scroll no-scrollbar space-x-3 rtl:space-x-reverse py-2">
+                    <li class="cursor-pointer flex flex-col items-center text-xl">
+                      <a href='/market-news' on:click={() => displaySection = 'stock'} class="px-3 font-medium text-gray-400 sm:hover:text-white {displaySection === 'stock' ? 'text-white ' : 'bg-[#09090B]'}" >
+                        Stock
+                      </a>
+                      <div class="{displaySection === 'stock' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[4.2rem]" />
+                    </li>
+                    <li class="cursor-pointer flex flex-col items-center text-xl">
+                      <a href='/market-news/general' on:click={() => displaySection = 'general'} class="px-3 font-medium text-gray-400 sm:hover:text-white {displaySection === 'general' ? 'text-white ' : 'bg-[#09090B]'}" >
+                        General
+                      </a>
+                      <div class="{displaySection === 'general' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[4.2rem]" />
+                    </li>
+                  </ul>
+                </div>
+
+
+
+
               <div class="border-b mt-5 border-slate-700" />
 
                 <slot />
