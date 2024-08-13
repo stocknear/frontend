@@ -516,8 +516,8 @@ const exportData = (format = 'csv') => {
                                   <thead>
                                     <tr class="border border-slate-800">
                                       <th class="text-white font-semibold text-start text-sm sm:text-[1rem]">{filterRule === 'annual' ? 'Fiscal Year End' : 'Quarter Ends'}</th>
-                                      <th class="text-white font-semibold text-sm sm:text-[1rem]">{statementConfig?.find((item) => item?.propertyName === displayStatement)?.label}</th>
-                                      <th class="text-white font-semibold text-center text-sm sm:text-[1rem]">Change</th>
+                                      <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">{statementConfig?.find((item) => item?.propertyName === displayStatement)?.label}</th>
+                                      <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Change</th>
                                       <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Growth</th>
                                     </tr>
                                   </thead>
@@ -530,11 +530,11 @@ const exportData = (format = 'csv') => {
                                             {item?.date}
                                             </td>
 
-                                            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B]">
+                                            <td class="text-white text-sm sm:text-[1rem] text-right whitespace-nowrap border-b-[#09090B]">
                                             {abbreviateNumber(item?.value)}
                                             </td>
 
-                                            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-center border-b-[#09090B]">
+                                            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-end border-b-[#09090B]">
                                                 {item?.value-tableList[index+1]?.value !== 0 ? abbreviateNumber((item?.value-tableList[index+1]?.value)?.toFixed(2)) : '-'}
                                             </td>
 

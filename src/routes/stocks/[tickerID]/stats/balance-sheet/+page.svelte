@@ -578,54 +578,54 @@ $: {
         
                                     <div class="w-full overflow-x-scroll">         
                                         <table class="table table-sm table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 ">
-                                          <thead>
-                                            <tr class="border border-slate-800">
-                                              <th class="text-white font-semibold text-start text-sm sm:text-[1rem]">{filterRule === 'annual' ? 'Fiscal Year End' : 'Quarter Ends'}</th>
-                                              <th class="text-white font-semibold text-sm sm:text-[1rem]">{statementConfig?.find((item) => item?.propertyName === displayStatement)?.label}</th>
-                                              <th class="text-white font-semibold text-center text-sm sm:text-[1rem]">Change</th>
-                                              <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Growth</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                                            {#each tableList as item, index}
-                                                <!-- row -->
-                                                <tr class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
-                                                
-                                                    <td class="text-white font-medium text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B]">
-                                                    {item?.date}
-                                                    </td>
-        
-                                                    <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B]">
-                                                    {abbreviateNumber(item?.value)}
-                                                    </td>
-        
-                                                    <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-center border-b-[#09090B]">
-                                                        {item?.value-tableList[index+1]?.value !== 0 ? abbreviateNumber((item?.value-tableList[index+1]?.value)?.toFixed(2)) : '-'}
-                                                    </td>
-        
-                                                    <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-end border-b-[#09090B]">
-                                                        {#if index+1-tableList?.length === 0}
-                                                        -
-                                                        {:else}
-                                                        {#if (item?.value- tableList[index+1]?.value) > 0}
-                                                        <span class="text-[#10DB06]">
-                                                          +{(((item?.value-tableList[index+1]?.value) / item?.value) * 100 )?.toFixed(2)}%
-                                                        </span>
-                                                        {:else if (item?.value - tableList[index+1]?.value ) < 0}
-                                                        <span class="text-[#FF2F1F]">
-                                                          -{(((tableList[index+1]?.value - item?.value) / item?.value) * 100 )?.toFixed(2)}%
-                                                        </span>
-                                                        {:else}
-                                                        -
-                                                        {/if}
-                                                        {/if}
-                                                    </td>
-        
-                                                </tr>
-                                                {/each}
-        
-                                          </tbody>
-                                        </table>
+                                            <thead>
+                                              <tr class="border border-slate-800">
+                                                <th class="text-white font-semibold text-start text-sm sm:text-[1rem]">{filterRule === 'annual' ? 'Fiscal Year End' : 'Quarter Ends'}</th>
+                                                <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">{statementConfig?.find((item) => item?.propertyName === displayStatement)?.label}</th>
+                                                <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Change</th>
+                                                <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Growth</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              {#each tableList as item, index}
+                                                  <!-- row -->
+                                                  <tr class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
+                                                  
+                                                      <td class="text-white font-medium text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B]">
+                                                      {item?.date}
+                                                      </td>
+          
+                                                      <td class="text-white text-sm sm:text-[1rem] text-right whitespace-nowrap border-b-[#09090B]">
+                                                      {abbreviateNumber(item?.value)}
+                                                      </td>
+          
+                                                      <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-end border-b-[#09090B]">
+                                                          {item?.value-tableList[index+1]?.value !== 0 ? abbreviateNumber((item?.value-tableList[index+1]?.value)?.toFixed(2)) : '-'}
+                                                      </td>
+          
+                                                      <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-end border-b-[#09090B]">
+                                                          {#if index+1-tableList?.length === 0}
+                                                          -
+                                                          {:else}
+                                                          {#if (item?.value- tableList[index+1]?.value) > 0}
+                                                          <span class="text-[#10DB06]">
+                                                            +{(((item?.value-tableList[index+1]?.value) / item?.value) * 100 )?.toFixed(2)}%
+                                                          </span>
+                                                          {:else if (item?.value - tableList[index+1]?.value ) < 0}
+                                                          <span class="text-[#FF2F1F]">
+                                                            -{(((tableList[index+1]?.value - item?.value) / item?.value) * 100 )?.toFixed(2)}%
+                                                          </span>
+                                                          {:else}
+                                                          -
+                                                          {/if}
+                                                          {/if}
+                                                      </td>
+          
+                                                  </tr>
+                                                  {/each}
+          
+                                            </tbody>
+                                          </table>
                             
                                             
                                     </div>
