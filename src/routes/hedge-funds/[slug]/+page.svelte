@@ -744,11 +744,11 @@ onMount(async () => {
                           {#each displayList as item}
                               <tr on:click={() => goto(`/${item?.type}/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#27272A] cursor-pointer">
       
-                                <td class="text-gray-200 pb-3 border-b border-b-[#27272A] whitespace-nowrap">
+                                <td class="pb-3 border-b border-b-[#27272A] whitespace-nowrap">
                                   <div class="flex flex-row items-center">
                                     <div class="flex flex-col">
                                       <span class="text-blue-400">{item?.symbol?.replace('_',' ')}</span>
-                                      <span class="text-white text-sm">{formatString(item?.securityName)}</span>
+                                      <span class="text-white">{formatString(item?.securityName)}</span>
                                     </div>
                                   </div>
                                   <!--{item?.firstName} {item?.lastName}-->
@@ -849,13 +849,13 @@ onMount(async () => {
                             <tbody>
                               {#each displayList as item,index}
                               <!-- row -->
-                              <tr on:click={() => goto(`/${item?.type}/${item?.ticker}`)} class="odd:bg-[#27272A] cursor-pointer">
+                              <tr on:click={() => goto(`/${item?.type}/${item?.symbol}`)} class="odd:bg-[#27272A] cursor-pointer">
                                 
-                                <td class="text-gray-200 border-b border-b-[#09090B] whitespace-nowrap">
+                                <td class="text-white border-b border-b-[#09090B] whitespace-nowrap">
                                   <div class="flex flex-row items-center">
                                     <div class="flex flex-col">
                                       <span class="text-blue-400 font-medium">{item?.symbol?.replace('_',' ')}</span>
-                                      <span class="text-white text-xs">{item?.securityName?.length > charNumber ? formatString(item?.securityName?.slice(0,charNumber)) + '...' : formatString(item?.securityName)}</span>
+                                      <span class="">{item?.securityName?.length > charNumber ? formatString(item?.securityName?.slice(0,charNumber)) + '...' : formatString(item?.securityName)}</span>
                                     </div>
                                   </div>
                                   <!--{item?.firstName} {item?.lastName}-->

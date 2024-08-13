@@ -213,7 +213,7 @@ let BottomNavigation;
 onMount(async () => {
   if (Object?.keys($cachedPosts)?.length === 0) {
     // Only make API requests if cached posts are not available
-    [communityStats, moderators, posts, discordData] = await Promise?.all([
+    [communityStats, moderators, posts, discordData] = await Promise.all([
       getCommunityStats(),
       getModerators(),
       getPost(),
@@ -222,7 +222,6 @@ onMount(async () => {
     ]);
 
       window.scrollTo(0, 0);
-      loading = false;
   }
 
   else {
@@ -232,7 +231,6 @@ onMount(async () => {
     moderators = getCache('', 'getModerators');
     discordData = getCache('','getDiscordWidget');
     //tickerMentioning = getCache('','getTickerMentioning');
-    loading = false; // Mark loading as complete
   }
 
   if(!data?.user)
@@ -241,6 +239,8 @@ onMount(async () => {
     }
 
     BottomNavigation = (await import('$lib/components/BottomNavigation.svelte')).default;
+
+    loading = false;
 
 });
 

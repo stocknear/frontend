@@ -10,6 +10,8 @@
   let showFullText = false;
   // Function to split text into paragraphs
   
+  //DO NOT TOUCH THIS CODE - SAFARI 15.3 are not compatible with the previous code. The website will break.
+  // CONSIDER MOVING THIS LOGIC TO THE BACKEND TO REMOVE THE RISK COMPLETELY
   function splitIntoParagraphs(text) {
     if (!text) return [];
     
