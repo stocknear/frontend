@@ -1,7 +1,7 @@
 <script lang="ts">
 import { Chart } from 'svelte-echarts'
 import {numberOfUnreadNotification, displayCompanyName, stockTicker} from '$lib/store';
-import { sumQuarterlyResultsByYear, abbreviateNumber } from '$lib/utils';
+import { abbreviateNumber } from '$lib/utils';
 //import * as XLSX from 'xlsx';
 import { init, use } from 'echarts/core'
 import { LineChart, BarChart } from 'echarts/charts'
@@ -310,10 +310,10 @@ $: {
     if (timeFrame || displayStatement || filterRule)
     {   
         if (filterRule === 'annual') {
-            fullStatement = sumQuarterlyResultsByYear(data?.getRatiosStatement, namingList)
+            fullStatement = data?.getRatiosStatement?.annual
         }
         else {
-            fullStatement = data?.getRatiosStatement;
+            fullStatement = data?.getRatiosStatement?.quarter;
         }
         
         ratios = filterStatement(fullStatement, timeFrame);
@@ -512,7 +512,7 @@ $: {
                                                       </span>
                                                       {:else if (item?.value - tableList[index+1]?.value ) < 0}
                                                       <span class="text-[#FF2F1F]">
-                                                        -{(((tableList[index+1]?.value - item?.value) / item?.value) * 100 )?.toFixed(2)}%
+                                                        -{(Math?.abs((tableList[index+1]?.value - item?.value) / item?.value) * 100 )?.toFixed(2)}%
                                                       </span>
                                                       {:else}
                                                       -

@@ -1,6 +1,6 @@
 <script lang="ts">
 import {numberOfUnreadNotification,displayCompanyName, stockTicker} from '$lib/store';
-import { abbreviateNumber, sumQuarterlyResultsByYear } from '$lib/utils';
+import { abbreviateNumber } from '$lib/utils';
 //import * as XLSX from 'xlsx';
 import { Chart } from 'svelte-echarts'
 
@@ -339,10 +339,10 @@ const filterStatement = (fullStatement, timeFrame) => {
     if (timeFrame || displayStatement || filterRule)
     {   
         if (filterRule === 'annual') {
-            fullStatement = sumQuarterlyResultsByYear(data?.getIncomeStatement)
+            fullStatement = data?.getIncomeStatement?.annual
         }
         else {
-            fullStatement = data?.getIncomeStatement;
+            fullStatement = data?.getIncomeStatement?.quarter
         }
         income = filterStatement(fullStatement, timeFrame);
     
@@ -556,7 +556,7 @@ const filterStatement = (fullStatement, timeFrame) => {
                                                 </span>
                                                 {:else if (item?.value - tableList[index+1]?.value ) < 0}
                                                 <span class="text-[#FF2F1F]">
-                                                  -{(((tableList[index+1]?.value - item?.value) / item?.value) * 100 )?.toFixed(2)}%
+                                                  -{(Math?.abs((tableList[index+1]?.value - item?.value) / item?.value) * 100 )?.toFixed(2)}%
                                                 </span>
                                                 {:else}
                                                 -
