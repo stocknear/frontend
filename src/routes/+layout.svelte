@@ -180,6 +180,7 @@ let Cookie;
 $showCookieConsent = typeof data?.cookieConsent !== 'undefined' ? false : true;
 
 onMount(async () => {
+  //await fallbackWorker();
   await loadWorker();
   //await pushNotification()
     
