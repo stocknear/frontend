@@ -3,7 +3,7 @@
   import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
   
   import { TrackingModeExitMode } from 'lightweight-charts';
-  import {getCache, setCache, corporateLobbyingComponent, taRatingComponent, swapComponent, analystInsightComponent, governmentContractComponent, optionsNetFlowComponent, impliedVolatilityComponent, borrowedShareComponent, clinicalTrialComponent, optionComponent, failToDeliverComponent, marketMakerComponent, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
+  import {getCache, setCache, corporateLobbyingComponent, taRatingComponent, swapComponent, analystInsightComponent, governmentContractComponent, optionsNetFlowComponent, borrowedShareComponent, clinicalTrialComponent, optionComponent, failToDeliverComponent, marketMakerComponent, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
   import CommunitySentiment from '$lib/components/CommunitySentiment.svelte';
@@ -1308,6 +1308,7 @@ function changeChartType() {
                                     </div>
                                   </Lazy>
                                 
+                                  <!--
                                   <Lazy>
                                     <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$impliedVolatilityComponent ? 'hidden' : ''}">
                                       {#await import('$lib/components/ImpliedVolatility.svelte') then {default: Comp}}
@@ -1315,6 +1316,7 @@ function changeChartType() {
                                       {/await}
                                     </div>
                                   </Lazy>
+                                  -->
                                 
 
                                  <!--Start RevenueSegmentation-->
