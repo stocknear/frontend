@@ -282,7 +282,7 @@ $: {
 
                 
                 
-                <div class="no-scrollbar flex justify-start items-center w-screen sm:w-full mt-6 m-auto  overflow-x-scroll">
+                <div class="no-scrollbar flex justify-start items-center w-screen sm:w-full mt-6 m-auto overflow-x-scroll pr-5 sm:pr-0">
                     <table class="table table-sm shaodow table-pin-cols table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B]">
                         <thead class="">
                         <tr class="">

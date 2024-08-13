@@ -261,7 +261,7 @@ function findLowestAndHighestPrice(data, lastDateStr) {
         {#if rawData?.length !== 0}
   
         <div class="w-full flex flex-col items-start">
-            <div class="text-white text-sm sm:text-[1rem] mt-2 mb-2 w-full">
+            <div class="text-white text-[1rem] mt-2 mb-2 w-full">
                 Over the past year, {$displayCompanyName} has seen a monthly average of
                 <span class="font-semibold">{abbreviateNumber(avgFailToDeliver)}</span> fail to deliver shares.
             </div>
@@ -307,7 +307,7 @@ function findLowestAndHighestPrice(data, lastDateStr) {
                       <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                           <span>Date</span>
                       </td>
-                      <td class="px-[5px] py-1.5 text-right text-sm sm:text-[1rem] font-medium xs:px-2.5 xs:py-2">
+                      <td class="px-[5px] py-1.5 text-right whitespace-nowrap font-medium xs:px-2.5 xs:py-2">
                         {formatDateRange(rawData?.slice(-1)?.at(0)?.date)}
                       </td>
                   </tr>

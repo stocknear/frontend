@@ -298,7 +298,7 @@ function findLowestAndHighestFee(data, lastDateStr) {
                       <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                           <span>Date</span>
                       </td>
-                      <td class="px-[5px] py-1.5 text-right text-sm sm:text-[1rem] font-medium xs:px-2.5 xs:py-2">
+                      <td class="px-[5px] py-1.5 text-right whitespace-nowrap font-medium xs:px-2.5 xs:py-2">
                         {formatDateRange(rawData?.slice(-1)?.at(0)?.date)}
                       </td>
                   </tr>

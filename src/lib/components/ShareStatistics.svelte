@@ -239,7 +239,7 @@ $: {
                         <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                             <span>Short Interest</span>
                         </td>
-                        <td class="text-sm sm:text-[1rem] px-[5px] py-1.5 text-right font-semibold xs:px-2.5 xs:py-2">
+                        <td class="whitespace-nowrap px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
                             {abbreviateNumber(rawData?.sharesShort)}
                         </td>
                     </tr>
@@ -247,7 +247,7 @@ $: {
                         <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                             <span>Short Previous Month</span>
                         </td>
-                        <td class="text-sm sm:text-[1rem] px-[5px] py-1.5 text-right font-semibold xs:px-2.5 xs:py-2">
+                        <td class="whitespace-nowrap px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
                           {abbreviateNumber(rawData?.sharesShortPriorMonth)}
                         </td>
                     </tr>
@@ -255,7 +255,7 @@ $: {
                         <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                             <span>Short % of Shares Out</span>
                         </td>
-                        <td class="text-sm sm:text-[1rem] px-[5px] py-1.5 text-right font-semibold xs:px-2.5 xs:py-2">
+                        <td class="whitespace-nowrap px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
                             {rawData?.shortOutStandingPercent}%
                         </td>
                     </tr>
@@ -263,7 +263,7 @@ $: {
                         <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                             <span>Short % of Float</span>
                         </td>
-                        <td class="text-sm sm:text-[1rem] px-[5px] py-1.5 text-right font-semibold xs:px-2.5 xs:py-2">
+                        <td class="whitespace-nowrap px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
                           {rawData?.shortFloatPercent}%
                         </td>
                     </tr>
@@ -271,7 +271,7 @@ $: {
                         <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                             <span>Short Ratio (days to cover)</span>
                         </td>
-                        <td class="text-sm sm:text-[1rem] px-[5px] py-1.5 text-right font-semibold xs:px-2.5 xs:py-2">
+                        <td class="whitespace-nowrap px-[5px] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
                             {rawData?.shortRatio}
                         </td>
                     </tr>

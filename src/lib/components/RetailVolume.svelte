@@ -321,7 +321,7 @@ $: {
                           <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                               <span>Date</span>
                           </td>
-                          <td class="px-[5px] text-sm sm:text-[1rem] py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
+                          <td class="px-[5px] whitespace-nowrap py-1.5 text-right font-medium xs:px-2.5 xs:py-2">
                             {formatDateRange(rawData?.lastDate)}
                           </td>
                       </tr>
