@@ -64,7 +64,7 @@ function selectSortingMethod(state:string) {
     const options = {
       grid: {
           left: '0%',
-          right: '2%',
+          right: '0%',
           top: '10%',
           bottom: '20%',
           containLabel: true,
@@ -72,11 +72,15 @@ function selectSortingMethod(state:string) {
     xAxis: {
       data: dateList,
       type: 'category',
+      axisLabel: {
+        color: '#fff',
+      }
     },
     yAxis: [
         {
             type: 'value',
             axisLabel: {
+            color: '#fff',
             formatter: '{value}',
             },
             splitLine: {
@@ -94,12 +98,7 @@ function selectSortingMethod(state:string) {
         type: 'bar',
         barWidth: '80%',
         smooth: true,
-        itemStyle: {
-                  // Define colors based on positive/negative values
-                  color: function(params) {
-                      return '#F8901E';
-                  }
-              },
+
       },
       
     ],
@@ -142,11 +141,15 @@ function selectSortingMethod(state:string) {
       xAxis: {
         data: dateList,
         type: 'category',
+        axisLabel: {
+          color: '#fff'
+        }
       },
       yAxis: [
         {
             type: 'value',
             axisLabel: {
+            color: '#fff',
             formatter: '{value}',
             },
             splitLine: {
@@ -219,11 +222,15 @@ function plotGrowth() {
       xAxis: {
         data: dateList,
         type: 'category',
+        axisLabel: {
+          color: '#fff'
+        }
       },
       yAxis: [
         {
             type: 'value',
             axisLabel: {
+            color:'#fff',
             formatter: '{value} %',
             },
             splitLine: {
@@ -452,20 +459,20 @@ optionsGrowth = plotGrowth();
                           </div>
                           {/if}
                           
-                          <div class="flex justify-start items-center w-full m-auto pr-1 pl-1 p-3">
-                              <table class="table table-sm table-compact flex justify-start items-center w-full px-3 m-auto">
+                          <div class="w-full overflow-x-scroll">  
+                            <table class="table table-sm table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 ">
                               <thead>
                                   <tr>
-                                  <th class="text-start border-b border-[#09090B] bg-[#09090B] text-white text-sm font-semibiold">
+                                  <th class="text-start border-b border-[#09090B] bg-[#09090B] text-white text-[1rem] whitespace-nowrap font-semibiold">
                                       Date
                                   </th>
-                                  <th class="text-end border-b border-[#09090B] bg-[#09090B] text-white text-sm font-semibiold">
+                                  <th class="text-end border-b border-[#09090B] bg-[#09090B] text-white text-[1rem] whitespace-nowrap font-semibiold">
                                       Employees
                                   </th>
-                                  <th class="text-end border-b border-[#09090B] bg-[#09090B] hidden sm:table-cell text-white text-sm font-semibiold">
+                                  <th class="text-end border-b border-[#09090B] bg-[#09090B] text-white text-[1rem] whitespace-nowrap font-semibiold">
                                       Change
                                   </th>
-                                  <th class="text-end border-b border-[#09090B] bg-[#09090B] text-white text-sm font-semibiold">
+                                  <th class="text-end border-b border-[#09090B] bg-[#09090B] text-white text-[1rem] whitespace-nowrap font-semibiold">
                                       Growth
                                   </th>
                                 </tr>
@@ -473,28 +480,26 @@ optionsGrowth = plotGrowth();
                               <tbody class="">
                                 {#each historyList as item, index}
                                 <tr class="text-gray-200 odd:bg-[#27272A]">
-                                  <td class="text-start border-b border-[#09090B] text-xs sm:text-sm text-white">
+                                  <td class="text-start border-b border-[#09090B] text-sm sm:text-[1rem] whitespace-nowrap text-white">
                                     {new Date(item?.filingDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                                   </td>
-                                  <td class="text-end border-b border-[#09090B] text-xs sm:text-sm text-white">
+                                  <td class="text-end border-b border-[#09090B] text-sm sm:text-[1rem] whitespace-nowrap text-white">
                                     {new Intl.NumberFormat("en").format(item?.employeeCount)}
                                   </td>
-                                  <td class="text-end border-b border-[#09090B] text-xs sm:text-sm hidden sm:table-cell text-white">
+                                  <td class="text-end border-b border-[#09090B] text-sm sm:text-[1rem] whitespace-nowrap text-white">
                                     {abbreviateNumber(item?.employeeCount-historyList[index+1]?.employeeCount)}
                                   </td>
-                                  <td class="text-end border-b border-[#09090B] text-xs sm:text-sm text-white text-end">
-                                    {#if index+1-historyList?.length == 0}
+                                  <td class="text-end border-b border-[#09090B] text-sm sm:text-[1rem] whitespace-nowrap text-white text-end">
+                                    {#if index+1-historyList?.length === 0}
                                     0.00%
                                     {:else}
                                     {#if (item?.employeeCount- historyList[index+1]?.employeeCount) > 0}
-                                    <svg class="w-5 h-5 -mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
                                     <span class="text-[#10DB06]">
                                       +{(((item?.employeeCount-historyList[index+1]?.employeeCount) / item?.employeeCount) * 100 )?.toFixed(2)}%
                                     </span>
                                     {:else if (item?.employeeCount - historyList[index+1]?.employeeCount ) < 0}
                                     <span class="text-[#FF2F1F]">
-                                      <svg class="w-5 h-5 rotate-180 inline-block -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
-                                      {(((historyList[index+1]?.employeeCount - item?.employeeCount) / item?.employeeCount) * 100 )?.toFixed(2)}%
+                                      -{(((historyList[index+1]?.employeeCount - item?.employeeCount) / item?.employeeCount) * 100 )?.toFixed(2)}%
                                     </span>
                                     {:else}
                                     0.00%
@@ -625,21 +630,20 @@ optionsGrowth = plotGrowth();
   </dialog>
 <!--End Sort By Modal-->
 
-      
-  <style>
-    .app {
-        height: 450px;
-        max-width: 1500px;
-    }
-    
-    @media (max-width: 560px) {
-        .app {
-            max-width: 520px;
-            height: 450px;
-        }
-    }
+<style>
+  .app {
+      height: 400px;
+      width: 100%;
+  }
   
-    .chart {
-        width: 100%;
-    }
-  </style>
+  @media (max-width: 560px) {
+      .app {
+          width: 100%;
+          height: 300px;
+      }
+  }
+
+  .chart {
+      width: 100%;
+  }
+</style>

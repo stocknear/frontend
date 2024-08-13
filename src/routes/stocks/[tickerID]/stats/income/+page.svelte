@@ -6,24 +6,30 @@ import { Chart } from 'svelte-echarts'
 
 import { init, use } from 'echarts/core'
   import { LineChart, BarChart } from 'echarts/charts'
-  import { GridComponent } from 'echarts/components'
+  import { GridComponent, TooltipComponent } from 'echarts/components'
   import { CanvasRenderer } from 'echarts/renderers'
-  use([LineChart, BarChart, GridComponent, CanvasRenderer])
+  import { onMount } from 'svelte';
+  use([LineChart, BarChart, GridComponent,TooltipComponent, CanvasRenderer])
 
 
     export let data;
     
+    let isLoaded = false;
     let optionsData;
-    
+    let tableList = [];
+
     let income = [];
     let fullStatement = [];
     let filterRule = 'annual';
     let displayStatement = 'revenue';
         
         
-    let mode = false;
+    let mode = true;
     let timeFrame = '10Y';
     
+    onMount(async () => {
+        isLoaded = true;
+    })
 
 
     const statementConfig = [
@@ -163,14 +169,14 @@ function normalizer(value) {
   }
 }  
         
-    function plotData()
+function plotData()
     {
     
     let labelName = '-';
     let xList = [];
     let valueList = [];
     let growthList = [];
-    
+    tableList = [];
     
     
     const index = statementConfig?.findIndex((item) => item?.propertyName === displayStatement);
@@ -180,22 +186,30 @@ function normalizer(value) {
             const year = statement?.calendarYear?.slice(-2);
             const quarter = statement?.period;
 
+            // Determine the label based on filterRule
             if (filterRule === 'annual') {
-                xList?.push('FY'+year);
+                xList.push('FY' + year);
             } else {
-                xList?.push('FY'+year+' '+quarter);
+                xList.push('FY' + year + ' ' + quarter);
             }
-            
 
-            if (!['eps', 'epsdiluted']?.includes(statementConfig[index]?.propertyName))
-            {
-                valueList.push((Number(statement[statementConfig[index]?.propertyName]) )?.toFixed(2));
-            }
-            else {
-                valueList.push((Number(statement[statementConfig[index]?.propertyName]))?.toFixed(2));
-            }
-            growthList.push((Number(statement[statementConfig[index]?.growthPropertyName]) * 100)?.toFixed(2));
-    }
+            // Calculate the value and growth
+            const value = (Number(statement[statementConfig[index]?.propertyName]))?.toFixed(2);
+            const growth = (Number(statement[statementConfig[index]?.growthPropertyName]) * 100)?.toFixed(2);
+
+            valueList.push(value);
+            growthList.push(growth);
+
+            // Add the entry to tableList
+            tableList.push({
+                'date': statement?.date,
+                'value': value,
+            });
+        }
+
+    //sort tableList by date
+    tableList?.sort((a, b) => new Date(b?.date) - new Date(a?.date));
+
 
     if(['growthSellingGeneralAndAdministrativeExpenses']?.includes(statementConfig[index]?.growthPropertyName))
     {   growthList = [];
@@ -213,7 +227,18 @@ function normalizer(value) {
     const {unit, denominator } = normalizer(Math.max(...valueList) ?? 0)
 
     const options = {
+        animation: false,
+        grid: {
+        left: '0%',
+        right: '0%',
+        bottom: '2%',
+        top: '10%',
+        containLabel: true
+        },
         xAxis: {
+        axisLabel: {
+            color: '#fff',
+        },
         data: xList,
         type: 'category',
         },
@@ -224,7 +249,7 @@ function normalizer(value) {
             show: false, // Disable x-axis grid lines
             },
             axisLabel: {
-            color: '#6E7079', // Change label color to white
+            color: '#fff', // Change label color to white
             formatter: function (value) {
                 value = Math.max(value, 0);
                 return '$'+(value / denominator)?.toFixed(1) + unit; // Format value in millions
@@ -237,40 +262,18 @@ function normalizer(value) {
             show: false, // Disable x-axis grid lines
             },
         },
-        {
-            type: 'value',
-            axisLabel: {
-            formatter: '{value} %',
-            },
-            splitLine: {
-            show: false, // Disable x-axis grid lines
-            },
-        },
         ],
         series: [
         {
             name: labelName,
             data: valueList,
-            type: 'line',
-            smooth: true,
-        },
-        {
-            name: 'Growth Rate [%]',
-            data: growthList,
             type: 'bar',
             smooth: true,
-            yAxisIndex: 1,
-            itemStyle: {
-            color: (params) => {
-                // Set color based on positive or negative value
-                return params.data >= 0 ? '#10DB06' : '#FF2F1F';
-            },
-            },
         },
         ],
         tooltip: {
             trigger: 'axis',
-            hideDelay: 100, // Set the delay in milliseconds
+            hideDelay: 100,
         },
     };
     
@@ -329,8 +332,8 @@ const exportData = (format = 'csv') => {
     timeFrame = '10Y';
     income = fullStatement?.slice(0,10);
     displayStatement = 'revenue';
-        
     
+
     $: {
     if (timeFrame || displayStatement || filterRule)
     {   
@@ -387,9 +390,11 @@ const exportData = (format = 'csv') => {
 </svelte:head>
 
     
-    <section class="bg-[#09090B] overflow-hidden text-white h-full pb-40 sm:mb-0">
-        <div class="flex justify-center w-full sm-auto h-full overflow-hidden">
-            <div class="relative flex justify-center items-center overflow-hidden">
+    <section class="bg-[#09090B] w-full  overflow-hidden text-white h-full pb-40 sm:mb-0">
+        <div class="w-full flex justify-center w-full sm-auto h-full overflow-hidden">
+            <div class="w-full relative flex justify-center items-center overflow-hidden">
+
+                {#if isLoaded}
                 <main>
                     <div class="sm:p-7 m-auto mt-2 sm:mt-0">
                         <div class="mb-3">
@@ -508,9 +513,70 @@ const exportData = (format = 'csv') => {
                                 </div>
                             </div>
                 
-                            <div class="app w-full h-[300px] m-auto">
+                            <div class="app w-full ">
                                 <Chart {init} options={optionsData} class="chart" />
                             </div>
+
+
+                            <h1 class="mt-5 text-2xl text-gray-200 font-semibold">
+                                {statementConfig?.find((item) => item?.propertyName === displayStatement)?.label} History
+                            </h1>
+
+
+                            <div class="w-full overflow-x-scroll">         
+                                <table class="table table-sm table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 ">
+                                  <thead>
+                                    <tr class="border border-slate-800">
+                                      <th class="text-white font-semibold text-start text-[1rem]">{filterRule === 'annual' ? 'Fiscal Year End' : 'Quarter Ends'}</th>
+                                      <th class="text-white font-semibold text-[1rem]">Revenue</th>
+                                      <th class="text-white font-semibold text-center text-[1rem]">Change</th>
+                                      <th class="text-white font-semibold text-end text-[1rem]">Growth</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {#each tableList as item, index}
+                                        <!-- row -->
+                                        <tr class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
+                                        
+                                            <td class="text-white font-medium text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B]">
+                                            {item?.date}
+                                            </td>
+
+                                            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B]">
+                                            {abbreviateNumber(item?.value,true)}
+                                            </td>
+
+                                            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-center border-b-[#09090B]">
+                                                {item?.value-tableList[index+1]?.value !== 0 ? abbreviateNumber(item?.value-tableList[index+1]?.value) : '-'}
+                                            </td>
+
+                                            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-end border-b-[#09090B]">
+                                                {#if index+1-tableList?.length === 0}
+                                                -
+                                                {:else}
+                                                {#if (item?.value- tableList[index+1]?.value) > 0}
+                                                <span class="text-[#10DB06]">
+                                                  +{(((item?.value-tableList[index+1]?.value) / item?.value) * 100 )?.toFixed(2)}%
+                                                </span>
+                                                {:else if (item?.value - tableList[index+1]?.value ) < 0}
+                                                <span class="text-[#FF2F1F]">
+                                                  -{(((tableList[index+1]?.value - item?.value) / item?.value) * 100 )?.toFixed(2)}%
+                                                </span>
+                                                {:else}
+                                                -
+                                                {/if}
+                                                {/if}
+                                            </td>
+
+                                        </tr>
+                                        {/each}
+
+                                  </tbody>
+                                </table>
+                    
+                                    
+                          </div>
+
     
                             {:else}
                             
@@ -653,6 +719,15 @@ const exportData = (format = 'csv') => {
     
                     </div>
                 </main>
+                {:else}
+                <div class="w-full flex justify-center items-center h-80">
+                    <div class="relative">
+                    <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <span class="loading loading-spinner loading-md"></span>
+                    </label>
+                    </div>
+                </div>
+                {/if}
             </div>
         </div>
     </section>
@@ -826,14 +901,14 @@ const exportData = (format = 'csv') => {
     
     <style>
         .app {
-            height: 500px;
-            max-width: 1500px;
+            height: 400px;
+            width: 100%;
         }
         
-        @media (Max-width: 560px) {
+        @media (max-width: 560px) {
             .app {
-                Max-width: 520px;
-                height: 500px;
+                width: 100%;
+                height: 300px;
             }
         }
     
