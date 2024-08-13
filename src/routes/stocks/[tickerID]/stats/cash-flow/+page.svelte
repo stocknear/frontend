@@ -344,11 +344,24 @@ const exportData = (format = 'csv') => {
 fullStatement = data?.getCashFlowStatement;
     
 timeFrame = '10Y';
-cashFlow = fullStatement?.slice(0,10);
 displayStatement = 'netIncome';
     
 
-    
+const getCurrentYear = () => new Date()?.getFullYear();
+
+const filterStatement = (fullStatement, timeFrame) => {
+  const currentYear = getCurrentYear();
+  
+  switch(timeFrame) {
+    case '5Y':
+      return fullStatement?.filter(item => currentYear - parseInt(item?.calendarYear) < 5);
+    case '10Y':
+      return fullStatement?.filter(item => currentYear - parseInt(item?.calendarYear) < 10);
+    default:
+      return fullStatement;
+  }
+};
+
 $: {
     if (timeFrame || displayStatement || filterRule)
     {   
@@ -359,11 +372,7 @@ $: {
             fullStatement = data?.getCashFlowStatement;
         }
         
-        cashFlow = timeFrame === '5Y'
-        ? (fullStatement?.slice(0, 5))
-        : timeFrame === '10Y'
-        ? (fullStatement?.slice(0, 10))
-        : fullStatement;
+        cashFlow = filterStatement(fullStatement, timeFrame);
     
         if (mode === true)
         {

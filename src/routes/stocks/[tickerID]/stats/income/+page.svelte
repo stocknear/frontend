@@ -315,10 +315,23 @@ const exportData = (format = 'csv') => {
 };
 */
     
-    
+const getCurrentYear = () => new Date()?.getFullYear();
+
+const filterStatement = (fullStatement, timeFrame) => {
+  const currentYear = getCurrentYear();
+  
+  switch(timeFrame) {
+    case '5Y':
+      return fullStatement?.filter(item => currentYear - parseInt(item?.calendarYear) < 5);
+    case '10Y':
+      return fullStatement?.filter(item => currentYear - parseInt(item?.calendarYear) < 10);
+    default:
+      return fullStatement;
+  }
+};
+
     fullStatement = data?.getIncomeStatement;
     timeFrame = '10Y';
-    income = fullStatement?.slice(0,10);
     displayStatement = 'revenue';
     
 
@@ -331,12 +344,7 @@ const exportData = (format = 'csv') => {
         else {
             fullStatement = data?.getIncomeStatement;
         }
-        
-        income = timeFrame === '5Y'
-        ? (fullStatement?.slice(0, 5))
-        : timeFrame === '10Y'
-        ? (fullStatement?.slice(0, 10))
-        : fullStatement;
+        income = filterStatement(fullStatement, timeFrame);
     
         if (mode === true)
         {
