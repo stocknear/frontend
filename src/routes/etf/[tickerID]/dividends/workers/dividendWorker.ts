@@ -14,22 +14,22 @@ function plotDividend(stockDividends) {
   const reverseData = sortDividendsByDate(copyData);
 
   for (let i = 0; i < reverseData?.length; i++) {
-      const currentDividend = reverseData[i]?.dividend;
-      const previousDividend = i === 0 ? 0 : reverseData[i - 1]?.dividend;
+    const currentDividend = reverseData[i]?.dividend;
+    const previousDividend = i === 0 ? 0 : reverseData[i - 1]?.dividend;
 
-      dateList.push(reverseData[i]?.paymentDate);
-      dividendList?.push(currentDividend);
+    dateList.push(reverseData[i]?.date);
+    dividendList?.push(currentDividend?.toFixed(2));
 
 
-      if (currentDividend !== null && previousDividend !== null && previousDividend !== 0) {
-          const growthRate = (((currentDividend - previousDividend) / previousDividend) * 100 )?.toFixed(2);
-          growthList?.push(growthRate);
-      } else {
-          growthList?.push(0); // Pushing null if the growth calculation is not possible
-      }
+    if (currentDividend !== null && previousDividend !== null && previousDividend !== 0) {
+        const growthRate = (((currentDividend - previousDividend) / previousDividend) * 100 )?.toFixed(2);
+        growthList?.push(growthRate);
+    } else {
+        growthList?.push(0); // Pushing null if the growth calculation is not possible
+    }
 
-      
-  }
+    
+}
 
     return {dividendList, growthList, dateList};
 }

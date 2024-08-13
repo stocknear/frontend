@@ -195,88 +195,63 @@ onMount(async() => {
                         </div>
     
                       {#if stockDividends?.length !== 0}
-      
-                          <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-5 bg-[#27272A] shadow-md rounded-lg p-5 flex justify-center items-center mb-2">
-                              <!--Start Column Title-->
-                              <div class="flex flex-col">
-                                <div class="flex flex-row items-center">
-                                  <span class="text-gray-300 font-medium text-[1rem]">
-                                    Dividend Yield
-                                  </span>
-                                </div>
-                              
-                                <span class="text-white text-[1rem] font-semibold">
-                                  {dividendYield !== '0.00' ? dividendYield : '0'}%
-                                </span>
-                              </div>
-                              <!--End Column Title-->
-                        
-                              <!--Start Column Win Rate-->
-                              <div class="flex flex-col">
-                                <div class="flex flex-row items-center">
-                                  <span class="text-gray-300 font-medium text-[1rem] ">
-                                      Annual Dividend
-                                  </span>
-                                </div>
-                                <span class="text-white text-[1rem] font-semibold">
-                                  ${annualDividend !== '0.00' ? annualDividend : '0'}
-                                </span>
-                              </div>
-                              <!--End Column Win Rate-->
-                        
-                              <!--Start Column Performance-->
-                              <div class="flex flex-col">
-                                  <div class="flex flex-row items-center">
-                                    <span class="text-gray-300 font-medium text-[1rem]">
-                                    Ex-Dividend Date
-                                    </span>
-                                  </div>
-                                  <span class="text-white  text-[1rem] font-semibold">
-                                    {new Date(exDividendDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
-                                  </span>
-                                </div>
-                          <!--End Column-->
-      
-                            <!--Start Column-->
-                            <div class="flex flex-col sm:mt-5">
-                              <div class="flex flex-row items-center">
-                                <span class="text-gray-300 font-medium text-[1rem]">
-                                Payout Frequency
-                                </span>
-                              </div>
-                              <span class="text-white text-[1rem] font-semibold">
-                                  {payoutFrequency === 4 ? 'Quartely' : payoutFrequency === 2 ? 'Half-Yearly' : payoutFrequency === 1 ? 'Annually' : 'n/a'}
-                              </span>
-                            </div>
-                            <!--End Column-->
-      
-                            <!--Start Column-->
-                            <div class="flex flex-col sm:mt-5">
-                              <div class="flex flex-row items-center">
-                                <span class="text-gray-300 font-medium text-[1rem]">
-                                Payout Ratio 
-                                </span>
-                              </div>
-                              <span class="text-white text-[1rem] font-semibold">
-                                  {payoutRatio !== '0.00' ? payoutRatio : '0'}%
-                              </span>
-                            </div>
-                            <!--End Column-->
-      
-                            <!--Start Column-->
-                            <div class="flex flex-col sm:mt-5">
-                              <div class="flex flex-row items-center">
-                                <span class="text-gray-300 font-medium text-[1rem]">
-                                Dividend Growth
-                                </span>
-                              </div>
-                              <span class="text-white text-[1rem] font-semibold">
-                                  {dividendGrowth !== 'NaN' ? dividendGrowth+'%' : '-'}
-                              </span>
-                            </div>
-                            <!--End Column-->
-      
-                          </div>
+                      <div class="mb-4 grid grid-cols-2 grid-rows-2 rounded-lg border border-gray-600 bg-[#272727] shadow md:grid-cols-4 md:grid-rows-1">
+                        <div class="p-4 bp:p-5 sm:p-6">
+                            <div class="text-sm font-normal text-default xs:text-base">
+                              Dividend Yield
+                            </div> 
+                            <div class="mt-1 break-words font-semibold leading-8 text-light text-xl">
+                              {dividendYield !== '0.00' ? dividendYield : '0'}%
+                            </div> 
+                        </div>
+                        <div class="p-4 bp:p-5 sm:p-6">
+                            <div class="text-sm font-normal text-default xs:text-base">
+                              Annual Dividend
+                            </div> 
+                            <div class="mt-1 break-words font-semibold leading-8 text-light text-xl">
+                              ${annualDividend !== '0.00' ? annualDividend : '0'}
+                            </div> 
+                        </div>
+                        <div class="p-4 bp:p-5 sm:p-6 ">
+                            <div class="text-sm font-normal text-default xs:text-base">
+                              Ex-Dividend Date
+                            </div> 
+                            <div class="mt-1 break-words font-semibold leading-8 text-light text-xl">
+                              {new Date(exDividendDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                            </div> 
+                        </div>
+
+                        <div class="p-4 bp:p-5 sm:p-6 ">
+                            <div class="text-sm font-normal text-default xs:text-base">
+                              Payout Frequency
+                            </div> 
+                            <div class="mt-1 break-words font-semibold leading-8 text-light text-xl">
+                              {payoutFrequency === 4 ? 'Quartely' : payoutFrequency === 2 ? 'Half-Yearly' : payoutFrequency === 1 ? 'Annually' : 'n/a'}
+                            </div> 
+                        </div>
+
+                        <div class="p-4 bp:p-5 sm:p-6 ">
+                          <div class="text-sm font-normal text-default xs:text-base">
+                            Payout Ratio 
+                          </div> 
+                          <div class="mt-1 break-words font-semibold leading-8 text-light text-xl">
+                            {payoutRatio !== '0.00' ? payoutRatio : '0'}%
+                          </div> 
+                      </div>
+
+                      <div class="p-4 bp:p-5 sm:p-6 ">
+                        <div class="text-sm font-normal text-default xs:text-base">
+                          Dividend Growth
+                        </div> 
+                        <div class="mt-1 break-words font-semibold leading-8 text-light text-xl">
+                          {dividendGrowth !== 'NaN' ? dividendGrowth+'%' : '-'}
+                        </div> 
+                    </div>
+
+
+                    </div>
+
+                         
       
                           <div class="flex flex-col sm:flex-row items-start sm:items-center w-full mt-14 mb-8">
         
