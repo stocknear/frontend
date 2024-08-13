@@ -49,17 +49,17 @@
         
       
              
-                <table class="table table-sm sm:table-md table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 ">
+                  <table class="table table-sm sm:table-md table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 ">
                     <thead>
                       <tr class="border border-slate-800">
-                        <th class="text-slate-200 sm:font-bold text-[0.95rem]">No.</th>
-                        <th class="text-slate-200 hidden sm:table-cell sm:font-bold text-[0.95rem]">Symbol</th>
-                        <th class="text-slate-200 sm:font-bold text-[0.95rem]">Company</th>
-                        <th class="text-slate-200 sm:font-bold text-end text-[0.95rem]">Stock Price</th>
-                        <th class="text-slate-200 sm:font-bold text-center text-[0.95rem]">% Change</th>
-                        <th class="text-slate-200 sm:font-bold text-center text-[0.95rem]">Div. Yield</th>
-                        <!--<th class="text-slate-200 sm:font-bold text-center text-[0.95rem]">Sector</th>-->
-                        <th class="text-slate-200 sm:font-bold text-[0.95rem] text-end">Years</th>
+                        <th class="text-white font-semibold text-sm sm:text-[1rem]">No.</th>
+                        <th class="text-slate-200 hidden sm:table-cell sm:font-bold text-sm sm:text-[1rem] ">Symbol</th>
+                        <th class="text-white font-semibold text-sm sm:text-[1rem] ">Company</th>
+                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem] ">Stock Price</th>
+                        <th class="text-white font-semibold text-center text-sm sm:text-[1rem] ">% Change</th>
+                        <th class="text-white font-semibold text-center text-sm sm:text-[1rem] ">Div. Yield</th>
+                        <!--<th class="text-white font-semibold text-center text-sm sm:text-[1rem] ">Sector</th>-->
+                        <th class="text-white font-semibold text-sm sm:text-[1rem]  text-end">Years</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -67,7 +67,7 @@
                       <!-- row -->
                       <tr on:click={() => goto("/stocks/"+item?.symbol)}  class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
                         
-                        <td class="text-white font-semibold sm:font-normal text-center text-sm sm:text-[1rem]border-b-[#09090B]">
+                        <td class="text-white font-semibold sm:font-normal text-center text-sm sm:text-[1rem] border-b-[#09090B]">
                           {index+1}
                         </td>
                       
@@ -86,7 +86,7 @@
                           </div>
                         </td>
     
-                        <td class="text-white font-semibold sm:font-normal text-center text-sm sm:text-[1rem] border-b-[#09090B]">
+                        <td class="text-white font-semibold sm:font-normal text-end text-sm sm:text-[1rem] border-b-[#09090B]">
                             {item?.price}
                         </td>
       
@@ -121,6 +121,7 @@
                       {/each}
                     </tbody>
                 </table>
+      
       
                       
             </div>
