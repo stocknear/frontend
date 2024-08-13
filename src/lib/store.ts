@@ -1,24 +1,47 @@
 import { writable } from 'svelte/store';
 
-// Function to set cache data for a specific tickerID
+
+// Cache expiration time in milliseconds (5 minutes)
+const CACHE_EXPIRATION_TIME = 5 * 60 * 1000;
+
+export const clientSideCache = writable({});
+
+// Function to set cache data for a specific key
 export const setCache = (key, data, name) => {
+  const timestamp = Date.now();
   clientSideCache.update(cache => {
     return {
       ...cache,
       [key]: {
         ...cache[key],
-        [name]: data
+        [name]: { data, timestamp }
       }
     };
   });
 };
 
+// Function to get cache data for a specific key
 export const getCache = (key, name) => {
   let cacheData;
   clientSideCache.subscribe(cache => {
-    cacheData = cache[key]?.[name];
+    const entry = cache[key]?.[name];
+    if (entry) {
+      const { data, timestamp } = entry;
+      // Check if the cache has expired
+      if (Date.now() - timestamp < CACHE_EXPIRATION_TIME) {
+        cacheData = data;
+      } else {
+        // Cache has expired, so return undefined to fetch new data
+        cacheData = undefined;
+      }
+    }
   });
   return cacheData;
+};
+
+// Function to clear the entire cache
+export const clearCache = () => {
+  clientSideCache.set({});
 };
 
 
@@ -42,7 +65,6 @@ export const isCrosshairMoveActive = writable(<boolean>(true));
 
 export const twitchStatus = writable(<boolean>(false));
 
-export const clientSideCache = writable({});
 export const screenWidth = writable(<Number> (0));
 
 export const globalForm = writable(<Array<any>> []);

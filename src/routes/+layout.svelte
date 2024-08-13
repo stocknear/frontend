@@ -19,7 +19,7 @@
   
   import { beforeNavigate, afterNavigate } from '$app/navigation';
   import { onMount } from 'svelte';
-  import { showCookieConsent,  newAvatar, userRegion, screenWidth, stockTicker, etfTicker, loginData, numberOfUnreadNotification, cachedPosts, currentPagePosition, clientSideCache, twitchStatus } from '$lib/store';
+  import { clearCache, showCookieConsent,  newAvatar, userRegion, screenWidth, stockTicker, etfTicker, loginData, numberOfUnreadNotification, cachedPosts, currentPagePosition, clientSideCache, twitchStatus } from '$lib/store';
 
   import { Button } from "$lib/components/shadcn/button/index.ts";
   import * as Card from "$lib/components/shadcn/card/index.ts";
@@ -187,6 +187,14 @@ onMount(async () => {
   if($showCookieConsent === true) {
       Cookie = (await import("$lib/components/Cookie.svelte")).default;
   }
+
+  //Clear all the cache every 20 min
+  const interval = setInterval(() => {
+      clearCache();
+    }, 20 * 60 * 1000);
+
+    return () => clearInterval(interval);
+    
 })
 
 
