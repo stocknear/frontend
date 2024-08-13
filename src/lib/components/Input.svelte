@@ -144,7 +144,7 @@ $: {
 </script>
 
 
-<div class="form-control w-full max-w-lg mb-2 {hidden ? 'hidden' : ''}">
+<div class="form-control w-full max-w-2xl mb-2 {hidden ? 'hidden' : ''}">
 	<label for={id} class="label font-medium pb-1">
 		<span class="text-white label-text">{label}</span>
 	</label>
@@ -213,7 +213,7 @@ $: {
 		</label>
 		{:else}
 			<input
-				class="input input-bordered w-full max-w-lg bg-[#313131] placeholder-gray-300 text-white whitespace-normal ring-2"
+				class="input input-bordered w-full bg-[#313131] placeholder-gray-300 text-white whitespace-normal ring-2"
 				{type}
 				{placeholder}
 				{required}

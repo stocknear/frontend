@@ -41,7 +41,7 @@ function handleInput(event) {
 </svelte:head>
 
 
-<div class="form-control w-full h-auto max-w-lg {hidden ? 'hidden' : ''}">
+<div class="form-control w-full h-auto max-w-2xl {hidden ? 'hidden' : ''}">
 	<label for={id} class="label font-medium pb-1">
 		<span class="label-text">{label}</span>
 	</label>

@@ -68,11 +68,11 @@
     
   
     {#if selectedTags?.length === 0}
-    <span class="w-full max-w-lg pt-3 text-sm text-gray-400">{placeholder}</span>
+    <span class="w-full max-w-2xl pt-3 text-sm text-gray-400">{placeholder}</span>
     {:else}
-    <span class="w-full max-w-lg pt-3 text-sm text-gray-400">Tags selected: {selectedTags}</span>
+    <span class="w-full max-w-2xl pt-3 text-sm text-gray-400">Tags selected: {selectedTags}</span>
     {/if}
-    <div class="form-control flex flex-col flex flex-wrap rounded-lg pt-3 items-center bg-[#242527] w-full max-w-lg">
+    <div class="form-control flex flex-col flex flex-wrap rounded-lg pt-3 items-center bg-[#242527] w-full max-w-2xl">
       <div class="flex flex-wrap m-auto p-3 "> 
   
   
@@ -131,7 +131,7 @@
       
   </div>
   
-  <div class="w-full max-w-lg ">
+  <div class="w-full max-w-2xl ">
   {#if errors?.length}
         <label for={id} class="label py-0 pt-1">
           <span class="label-text-alt text-error">
