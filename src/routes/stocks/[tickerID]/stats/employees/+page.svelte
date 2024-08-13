@@ -62,6 +62,7 @@ function selectSortingMethod(state:string) {
   
       
     const options = {
+      animation: false,
       grid: {
           left: '0%',
           right: '0%',
@@ -131,6 +132,7 @@ function selectSortingMethod(state:string) {
     
         
       const options = {
+        animation: false,
         grid: {
           left: '0%',
           right: '0%',
@@ -212,6 +214,7 @@ function plotGrowth() {
     
         
       const options = {
+        animation: false,
         grid: {
           left: '0%',
           right: '0%',

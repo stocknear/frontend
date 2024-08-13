@@ -528,7 +528,7 @@ const exportData = (format = 'csv') => {
                                   <thead>
                                     <tr class="border border-slate-800">
                                       <th class="text-white font-semibold text-start text-[1rem]">{filterRule === 'annual' ? 'Fiscal Year End' : 'Quarter Ends'}</th>
-                                      <th class="text-white font-semibold text-[1rem]">Revenue</th>
+                                      <th class="text-white font-semibold text-[1rem]">{statementConfig?.find((item) => item?.propertyName === displayStatement)?.label}</th>
                                       <th class="text-white font-semibold text-center text-[1rem]">Change</th>
                                       <th class="text-white font-semibold text-end text-[1rem]">Growth</th>
                                     </tr>
@@ -547,7 +547,7 @@ const exportData = (format = 'csv') => {
                                             </td>
 
                                             <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-center border-b-[#09090B]">
-                                                {item?.value-tableList[index+1]?.value !== 0 ? abbreviateNumber(item?.value-tableList[index+1]?.value) : '-'}
+                                                {item?.value-tableList[index+1]?.value !== 0 ? abbreviateNumber((item?.value-tableList[index+1]?.value)?.toFixed(2)) : '-'}
                                             </td>
 
                                             <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-end border-b-[#09090B]">
