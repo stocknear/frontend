@@ -97,7 +97,7 @@
 </svelte:head>
 	
 
-	<div class="relative max-w-3xl sm:max-w-screen-xl min-h-screen pb-40 sm:mt-10 {oauthLoading ? 'opacity-[0.2]' : ''}">
+	<div class="relative w-full max-w-3xl mx-auto min-h-screen pb-40 sm:mt-10 {oauthLoading ? 'opacity-[0.2]' : ''}">
 	
 			<div class="grid grid-cols-1 gap-4" >
 				<div class="relative">
