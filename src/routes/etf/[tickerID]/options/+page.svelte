@@ -8,9 +8,9 @@ import { onMount } from 'svelte'
 import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
 import { init, use } from 'echarts/core'
 import { BarChart } from 'echarts/charts'
-import { GridComponent } from 'echarts/components'
+import { GridComponent, TooltipComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-use([BarChart, GridComponent, CanvasRenderer])
+use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
 
 
   export let data;
@@ -100,6 +100,7 @@ use([BarChart, GridComponent, CanvasRenderer])
   
   function plotData(callData, putData) {
       const options = {
+        animation: false,
           tooltip: {
               trigger: 'axis',
               axisPointer: {

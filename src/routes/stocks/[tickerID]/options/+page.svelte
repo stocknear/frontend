@@ -100,6 +100,7 @@
     
     function plotData(callData, putData) {
         const options = {
+          animation: false,
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {
