@@ -4,7 +4,7 @@
   
   import { TrackingModeExitMode } from 'lightweight-charts';
   import {getCache, setCache, corporateLobbyingComponent, taRatingComponent, swapComponent, analystInsightComponent, governmentContractComponent, optionsNetFlowComponent, borrowedShareComponent, clinicalTrialComponent, optionComponent, failToDeliverComponent, marketMakerComponent, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
-  import { onDestroy, onMount } from 'svelte';
+  import { onDestroy} from 'svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
   import CommunitySentiment from '$lib/components/CommunitySentiment.svelte';
       
@@ -1160,7 +1160,6 @@ function changeChartType() {
                                 {#if $screenWidth <= 1022} <!--BUG: Dont remove since when changing ETF symbol display freezes-->
                                
                                 <div class="w-full mt-10 m-auto sm:p-6 lg:hidden ">
-                                  <Lazy>
                                     <h3 class="cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
                                       Key Information
                                     </h3>
@@ -1168,7 +1167,6 @@ function changeChartType() {
                                       <svelte:component this={Comp}
                                         data={data} />
                                     {/await}
-                                  </Lazy>
 
                                   </div>
                                   {/if}

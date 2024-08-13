@@ -6,7 +6,6 @@
     import {getCache, setCache, taRatingComponent,  optionsNetFlowComponent, optionComponent, sentimentComponent, varComponent, retailVolumeComponent, trendAnalysisComponent, priceAnalysisComponent, assetType, screenWidth, globalForm, numberOfUnreadNotification, displayCompanyName, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, currentPrice, clientSideCache, etfTicker, isOpen,  isBeforeMarketOpen, isWeekend} from '$lib/store';
     import { onDestroy, onMount } from 'svelte';    
     import ETFKeyInformation from '$lib/components/ETFKeyInformation.svelte';
-    import Lazy from '$lib/components/Lazy.svelte';
 
     export let data;
     export let form;
@@ -1223,63 +1222,48 @@ async function initializePrice() {
                                   </div>
                                   {/if}
 
-    
-                                  <Lazy>
-                                    <div class="w-full mt-10  m-auto sm:p-6 {data?.getWhyPriceMoved?.length !== 0  ? '' : 'hidden'}">
+  
+                                  <div class="w-full mt-10  m-auto sm:p-6 {data?.getWhyPriceMoved?.length !== 0  ? '' : 'hidden'}">
                                     {#await import('$lib/components/WIIM.svelte') then {default: Comp}}
                                       <svelte:component this={Comp} data={data} />
                                     {/await}
                                   </div>
-                                  </Lazy>
 
-                                  
-                                <Lazy>
                                   <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$priceAnalysisComponent ? 'hidden' : ''}">
                                   {#await import('$lib/components/PriceAnalysis.svelte') then {default: Comp}}
                                     <svelte:component this={Comp} data={data} />
                                   {/await}
                                 </div>
-                                </Lazy>
-                                  
-                                <Lazy>
+
                                   <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$trendAnalysisComponent ? 'hidden' : ''}">
                                   {#await import('$lib/components/TrendAnalysis.svelte') then {default: Comp}}
                                     <svelte:component this={Comp} data={data} />
                                   {/await}
                                 </div>
-                                </Lazy>
 
-                                  <Lazy>
                                     <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$sentimentComponent ? 'hidden' : ''}">
                                     {#await import('$lib/components/SentimentAnalysis.svelte') then {default: Comp}}
                                       <svelte:component this={Comp} data={data} />
                                     {/await}
                                   </div>
-                                  </Lazy>
 
-                                  <Lazy>
                                     <div class="w-full sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$varComponent ? 'hidden' : ''}">
                                     {#await import('$lib/components/VaR.svelte') then {default: Comp}}
                                       <svelte:component this={Comp} data={data} />
                                     {/await}
                                   </div>
-                                  </Lazy>
-                                  
-                                  <Lazy>
+
                                     <div class="w-full mt-10 sm:mt-0 m-auto sm:p-6 {!$optionComponent ? 'hidden' : ''}">
                                     {#await import('$lib/components/OptionsData.svelte') then {default: Comp}}
                                       <svelte:component this={Comp} data={data} />
                                     {/await}
                                   </div>
-                                  </Lazy>
 
-                                  <Lazy>
                                     <div class="w-full mt-10 sm:mt-0 m-auto sm:p-6 {!$optionsNetFlowComponent ? 'hidden' : ''}">
                                       {#await import('$lib/components/OptionsNetFlow.svelte') then {default: Comp}}
                                         <svelte:component this={Comp} data={data} />
                                       {/await}
                                     </div>
-                                  </Lazy>
                                   
                                   <!--
                                   <Lazy>
@@ -1315,22 +1299,18 @@ async function initializePrice() {
                                       </div>  
                                       <!--End SectorSegmentation -->
                                       
-                                      <Lazy>
                                         <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$retailVolumeComponent ? 'hidden' : ''}">
                                         {#await import('$lib/components/RetailVolume.svelte') then {default: Comp}}
                                           <svelte:component this={Comp} data={data}/>
                                         {/await}
                                       </div>
-                                      </Lazy>
                                       
           
-                                      <Lazy>
                                         <div class="w-full pt-10 m-auto sm:pl-6 sm:pb-6 sm:pt-6 rounded-2xl {!$taRatingComponent ? 'hidden' : ''}">
                                           {#await import('$lib/components/TARating.svelte') then {default: Comp}}
                                             <svelte:component this={Comp} data={data}/>
                                           {/await}
                                         </div>
-                                      </Lazy>
                                   
     
                                   
