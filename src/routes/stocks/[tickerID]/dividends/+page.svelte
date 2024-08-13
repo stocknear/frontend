@@ -38,13 +38,13 @@ async function plotDividend(dividendList, growthList, dateList) {
         hideDelay: 100, // Set the delay in milliseconds
     },
     animation: false,
-    grid: {
+        grid: {
         left: '2%',
-        right: '2%',
-        bottom: '2%',
-        top: '5%',
+        right: '0%',
+        bottom: '10%',
+        top: '10%',
         containLabel: true
-    },
+        },
       xAxis: {
         data: dateList,
         type: 'category',
@@ -80,24 +80,8 @@ async function plotDividend(dividendList, growthList, dateList) {
         {
           name: 'Dividend per Share',
           data: dividendList,
-          type: 'line',
-          itemStyle: {
-                color: '#fff' // Change bar color to white
-            },
-          showSymbol: false
-        },
-        {
-          name: 'Growth Rate (%)',
-          data: growthList,
           type: 'bar',
-          barWidth: '80%',
-          yAxisIndex: 1,
-          itemStyle: {
-            color: (params) => {
-              // Set color based on positive or negative value
-              return params.data >= 0 ? '#22C55E' : '#E11D48';
-            },
-          },
+          smooth: true,
         },
       ],
     };
@@ -181,7 +165,7 @@ onMount(async() => {
                             </h1>
     
                               
-                        <div class="text-white text-center sm:text-start p-3 sm:p-5 mb-10 rounded-lg sm:flex sm:flex-row sm:items-center border border-slate-800 text-sm sm:text-[1rem]">
+                        <div class="text-white text-start p-3 sm:p-5 mb-10 rounded-lg sm:flex sm:flex-row sm:items-center border border-slate-800 text-sm sm:text-[1rem]">
                           <svg class="w-6 h-6 flex-shrink-0 inline-block sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
 
                           
@@ -306,7 +290,7 @@ onMount(async() => {
       
                         {#if stockDividends?.length !== 0 && optionsDividend}
       
-                        <div class="app w-full h-[400px] sm:h-[500px] mb-14">
+                        <div class="app w-full">
                           <Chart {init} options={optionsDividend} class="chart" />
                         </div>
       
@@ -375,21 +359,21 @@ onMount(async() => {
     
     
         
-<style>
-  .app {
-  height: 300px;
-  max-width: 100%; /* Ensure chart width doesn't exceed the container */
+                
+    <style>
+      .app {
+          height: 400px;
+          width: 100%;
+      }
+      
+      @media (max-width: 560px) {
+          .app {
+              width: 100%;
+              height: 300px;
+          }
+      }
   
-  }
-  
-  @media (max-width: 640px) {
-  .app {
-    height: 200px;
-  }
-  }
-  
-  .chart {
-  width: 100%;
-  }
-  
-</style>
+      .chart {
+          width: 100%;
+      }
+  </style>

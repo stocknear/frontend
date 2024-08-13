@@ -208,7 +208,7 @@ const handleMessage = async (event) => {
         {
             name: '',
             data: soldList,
-            type: 'line',
+            type: 'bar',
             areaStyle: {opacity: 1},
             yAxisIndex: 1,
             itemStyle: {
@@ -221,7 +221,7 @@ const handleMessage = async (event) => {
         {
             name: '',
             data: boughtList,
-            type: 'line',
+            type: 'bar',
             areaStyle: {opacity: 1},
             yAxisIndex: 1,
             itemStyle: {
@@ -234,7 +234,7 @@ const handleMessage = async (event) => {
         {
             name: '',
             data: grantList,
-            type: 'line',
+            type: 'bar',
             yAxisIndex: 1,
             areaStyle: {opacity: 1},
             itemStyle: {
@@ -247,7 +247,7 @@ const handleMessage = async (event) => {
         {
             name: '',
             data: exerciseList,
-            type: 'line',
+            type: 'bar',
             areaStyle: {opacity: 1},
             yAxisIndex: 1,
             itemStyle: {
@@ -365,7 +365,7 @@ onMount(async() => {
                       {#if insiderTradingList?.length !== 0}
 
                     {#if Object?.keys(options)?.length !== 0}
-                      <div class="app w-full h-[400px] sm:h-[500px]">
+                      <div class="app w-full">
                         <Chart {init} options={options} class="chart" />
                       </div>
 
@@ -611,21 +611,20 @@ onMount(async() => {
     </section>
 
 
-
-<style>
-  .app {
-      height: 300px;
-      max-width: 1500px;
-  }
-  
-  @media (max-width: 560px) {
+    <style>
       .app {
-          max-width: 520px;
-          height: 250px;
+          height: 400px;
+          width: 100%;
       }
-  }
-
-  .chart {
-      width: 100%;
-  }
-</style>
+      
+      @media (max-width: 560px) {
+          .app {
+              width: 100%;
+              height: 300px;
+          }
+      }
+  
+      .chart {
+          width: 100%;
+      }
+  </style>
