@@ -175,7 +175,6 @@ function plotData()
     let labelName = '-';
     let xList = [];
     let valueList = [];
-    let growthList = [];
     tableList = [];
     
     
@@ -195,10 +194,8 @@ function plotData()
 
             // Calculate the value and growth
             const value = (Number(statement[statementConfig[index]?.propertyName]))?.toFixed(2);
-            const growth = (Number(statement[statementConfig[index]?.growthPropertyName]) * 100)?.toFixed(2);
 
             valueList.push(value);
-            growthList.push(growth);
 
             // Add the entry to tableList
             tableList.push({
@@ -211,16 +208,7 @@ function plotData()
     tableList?.sort((a, b) => new Date(b?.date) - new Date(a?.date));
 
 
-    if(['growthSellingGeneralAndAdministrativeExpenses']?.includes(statementConfig[index]?.growthPropertyName))
-    {   growthList = [];
-        // Calculate growth percentage and append to growthList
-        for (let i = 1; i < valueList?.length; i++) {
-        let growth = ((valueList[i] - valueList[i - 1]) / valueList[i - 1]) * 100;
-            growthList?.push(growth?.toFixed(2));
-        }
-        growthList?.unshift("0")
-    }
-    
+
     labelName = statementConfig[index]?.label;
     
     
@@ -518,19 +506,19 @@ const exportData = (format = 'csv') => {
                             </div>
 
 
-                            <h1 class="mt-5 text-2xl text-gray-200 font-semibold">
+                            <h2 class="mt-5 text-2xl text-gray-200 font-semibold">
                                 {statementConfig?.find((item) => item?.propertyName === displayStatement)?.label} History
-                            </h1>
+                            </h2>
 
 
                             <div class="w-full overflow-x-scroll">         
                                 <table class="table table-sm table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 ">
                                   <thead>
                                     <tr class="border border-slate-800">
-                                      <th class="text-white font-semibold text-start text-[1rem]">{filterRule === 'annual' ? 'Fiscal Year End' : 'Quarter Ends'}</th>
-                                      <th class="text-white font-semibold text-[1rem]">{statementConfig?.find((item) => item?.propertyName === displayStatement)?.label}</th>
-                                      <th class="text-white font-semibold text-center text-[1rem]">Change</th>
-                                      <th class="text-white font-semibold text-end text-[1rem]">Growth</th>
+                                      <th class="text-white font-semibold text-start text-sm sm:text-[1rem]">{filterRule === 'annual' ? 'Fiscal Year End' : 'Quarter Ends'}</th>
+                                      <th class="text-white font-semibold text-sm sm:text-[1rem]">{statementConfig?.find((item) => item?.propertyName === displayStatement)?.label}</th>
+                                      <th class="text-white font-semibold text-center text-sm sm:text-[1rem]">Change</th>
+                                      <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Growth</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -543,7 +531,7 @@ const exportData = (format = 'csv') => {
                                             </td>
 
                                             <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B]">
-                                            {abbreviateNumber(item?.value,true)}
+                                            {abbreviateNumber(item?.value)}
                                             </td>
 
                                             <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-center border-b-[#09090B]">
@@ -575,7 +563,7 @@ const exportData = (format = 'csv') => {
                                 </table>
                     
                                     
-                          </div>
+                            </div>
 
     
                             {:else}

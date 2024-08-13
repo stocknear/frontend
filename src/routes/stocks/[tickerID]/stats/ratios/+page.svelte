@@ -1,13 +1,13 @@
 <script lang="ts">
 import { Chart } from 'svelte-echarts'
 import {numberOfUnreadNotification, displayCompanyName, stockTicker} from '$lib/store';
-import { sumQuarterlyResultsByYear } from '$lib/utils';
+import { sumQuarterlyResultsByYear, abbreviateNumber } from '$lib/utils';
 //import * as XLSX from 'xlsx';
 import { init, use } from 'echarts/core'
 import { LineChart, BarChart } from 'echarts/charts'
-import { GridComponent } from 'echarts/components'
+import { GridComponent, TooltipComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-use([LineChart, BarChart, GridComponent, CanvasRenderer])
+use([LineChart, BarChart, GridComponent, TooltipComponent, CanvasRenderer])
 
 
 
@@ -19,6 +19,8 @@ export let data;
 
 let ratios = [];
 let fullStatement = []
+let tableList = [];
+
 let filterRule = 'annual';
 let optionsData;
 
@@ -26,7 +28,7 @@ let optionsData;
 let displayStatement = 'priceEarningsRatio';
     
 
-let mode = false;
+let mode = true;
 let timeFrame = '10Y';
 
 
@@ -144,62 +146,60 @@ function changeStatement(event)
 }
 
 
+
 function plotData()
-{
-
-    let labelName = '-';
-    let xList = [];
-    let valueList = [];
-    let growthList = [];
+    {
     
-    const index = statementConfig?.findIndex((item) => item?.propertyName === displayStatement);
-
-    for (let i = ratios.length - 1; i >= 0; i--) {
-        const statement = ratios[i];
-        const year = statement?.calendarYear?.slice(-2);
-        const quarter = statement?.period;
-        if (filterRule === 'annual') {
-            xList?.push('FY'+year);
-        } else {
-            xList?.push('FY'+year+' '+quarter);
-        }
-
-        if(['returnOnEquity','returnOnAssets','returnOnCapital','dividendYield','payoutRatio','grossProfitMargin','netProfitMargin']?.includes(statementConfig[index]?.propertyName))
-        {
-            valueList.push((Number(statement[statementConfig[index]?.propertyName]) * 100)?.toFixed(2));
-        }
-        else {
-            valueList.push((Number(statement[statementConfig[index]?.propertyName]))?.toFixed(2));
-        }
-    }
-
-    // Calculate growth percentage and append to growthList
-    for (let i = 1; i < valueList.length; i++) {
-        // Declare a variable to hold the growth rate.
-        let growth;
-
-        // Check if the current value is negative and the previous value is positive.
-        if (valueList[i] < 0 && valueList[i - 1] > 0 || valueList[i] < 0 && valueList[i - 1] < 0) {
-            // Calculate the growth rate using the adjusted formula.
-            growth = (1 - (valueList[i] / valueList[i - 1])) * 100;
-        } else {
-            // Calculate the growth rate using the standard formula.
-            growth = (Math?.abs(valueList[i] / valueList[i - 1]) - 1) * 100;
-        }
+        let labelName = '-';
+        let xList = [];
+        let valueList = [];
+        tableList = [];
         
-        // Format the growth rate to two decimal places and add it to the growthList.
-        growthList.push(growth?.toFixed(2));
-    }
+        const index = statementConfig?.findIndex((item) => item?.propertyName === displayStatement);
     
-    growthList?.unshift("0")
-    labelName =statementConfig[index]?.label;
+        for (let i = ratios?.length - 1; i >= 0; i--) {
+            const statement = ratios[i];
+            const year = statement?.calendarYear?.slice(-2);
+            const quarter = statement?.period;
 
+            // Determine the label based on filterRule
+            if (filterRule === 'annual') {
+                xList.push('FY' + year);
+            } else {
+                xList.push('FY' + year + ' ' + quarter);
+            }
 
+            // Calculate the value and growth
+            const value = (Number(statement[statementConfig[index]?.propertyName]))?.toFixed(2);
 
+            valueList.push(value);
 
+            // Add the entry to tableList
+            tableList.push({
+                'date': statement?.date,
+                'value': value,
+            });
+        }
 
-    const options = {
+    //sort tableList by date
+    tableList?.sort((a, b) => new Date(b?.date) - new Date(a?.date));
+    
+        labelName =statementConfig[index]?.label;
+        
+    
+        const options = {
+        animation: false,
+        grid: {
+        left: '0%',
+        right: '0%',
+        bottom: '2%',
+        top: '10%',
+        containLabel: true
+        },
         xAxis: {
+        axisLabel: {
+            color: '#fff',
+        },
         data: xList,
         type: 'category',
         },
@@ -210,7 +210,7 @@ function plotData()
             show: false, // Disable x-axis grid lines
             },
             axisLabel: {
-            color: '#6E7079', // Change label color to white
+            color: '#fff', // Change label color to white
             },
         },
         {
@@ -219,46 +219,23 @@ function plotData()
             show: false, // Disable x-axis grid lines
             },
         },
-        {
-                type: 'value',
-                axisLabel: {
-                formatter: '{value} %',
-                },
-                splitLine: {
-                show: false, // Disable x-axis grid lines
-                },
-            },
         ],
         series: [
         {
-            name: `${labelName}`,
+            name: labelName,
             data: valueList,
-            type: 'line',
+            type: 'bar',
             smooth: true,
         },
-        {
-                name: 'Growth Rate [%]',
-                data: growthList,
-                type: 'bar',
-                smooth: true,
-                yAxisIndex: 1,
-                itemStyle: {
-                color: (params) => {
-                    // Set color based on positive or negative value
-                    return params.data >= 0 ? '#10DB06' : '#FF2F1F';
-                },
-                },
-            },
-
         ],
         tooltip: {
             trigger: 'axis',
-            hideDelay: 100, // Set the delay in milliseconds
+            hideDelay: 100,
         },
     };
-
-    return options;
-}
+    
+        return options;
+    }
 
 /*
 const exportData = (format = 'csv') => {
@@ -486,8 +463,62 @@ $: {
                                     </div>
                                 </div>
                     
-                                <div class="app w-full h-[300px]  m-auto">
+                                <div class="app w-full">
                                     <Chart {init} options={optionsData} class="chart" />
+                                </div>
+
+                                <div class="w-full overflow-x-scroll">         
+                                    <table class="table table-sm table-compact rounded-none sm:rounded-md w-full border-bg-[#09090B] m-auto mt-4 ">
+                                      <thead>
+                                        <tr class="border border-slate-800">
+                                          <th class="text-white font-semibold text-start text-sm sm:text-[1rem]">{filterRule === 'annual' ? 'Fiscal Year End' : 'Quarter Ends'}</th>
+                                          <th class="text-white font-semibold text-sm sm:text-[1rem]">{statementConfig?.find((item) => item?.propertyName === displayStatement)?.label}</th>
+                                          <th class="text-white font-semibold text-center text-sm sm:text-[1rem]">Change</th>
+                                          <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Growth</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {#each tableList as item, index}
+                                            <!-- row -->
+                                            <tr class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
+                                            
+                                                <td class="text-white font-medium text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B]">
+                                                {item?.date}
+                                                </td>
+        
+                                                <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B]">
+                                                {abbreviateNumber(item?.value)}
+                                                </td>
+        
+                                                <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-center border-b-[#09090B]">
+                                                    {item?.value-tableList[index+1]?.value !== 0 ? abbreviateNumber((item?.value-tableList[index+1]?.value)?.toFixed(2)) : '-'}
+                                                </td>
+        
+                                                <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-end border-b-[#09090B]">
+                                                    {#if index+1-tableList?.length === 0}
+                                                    -
+                                                    {:else}
+                                                    {#if (item?.value- tableList[index+1]?.value) > 0}
+                                                    <span class="text-[#10DB06]">
+                                                      +{(((item?.value-tableList[index+1]?.value) / item?.value) * 100 )?.toFixed(2)}%
+                                                    </span>
+                                                    {:else if (item?.value - tableList[index+1]?.value ) < 0}
+                                                    <span class="text-[#FF2F1F]">
+                                                      -{(((tableList[index+1]?.value - item?.value) / item?.value) * 100 )?.toFixed(2)}%
+                                                    </span>
+                                                    {:else}
+                                                    -
+                                                    {/if}
+                                                    {/if}
+                                                </td>
+        
+                                            </tr>
+                                            {/each}
+        
+                                      </tbody>
+                                    </table>
+                        
+                                        
                                 </div>
 
                                 {:else}
@@ -838,16 +869,17 @@ $: {
   
   
             
-<style>
+                
+  <style>
     .app {
-        height: 500px;
-        max-width: 1500px;
+        height: 400px;
+        width: 100%;
     }
     
     @media (max-width: 560px) {
         .app {
-            max-width: 520px;
-            height: 500px;
+            width: 100%;
+            height: 300px;
         }
     }
 
