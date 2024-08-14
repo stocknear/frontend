@@ -408,6 +408,9 @@ $: {
                             <a href="/earnings-calendar" class="text-start w-full text-[1rem] text-white ml-4 mt-4">Earnings Calendar</a>
                           </Button>
                           <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/fda-calendar" class="text-start w-full text-[1rem] text-white ml-4 mt-4">FDA Calendar</a>
+                          </Button>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
                             <a href="/ipos/2024" class="text-start w-full text-[1rem] text-white ml-4 mt-4">IPO Calendar</a>
                           </Button>
                           <!--
@@ -788,6 +791,7 @@ $: {
                         <div class="flex flex-col items-start">
                           <a href="/dividends-calendar" class="text-[1rem] text-white ml-4 mt-4">Dividends Calendar</a>
                           <a href="/earnings-calendar" class="text-[1rem] text-white ml-4 mt-4">Earnings Calendar</a>
+                          <a href="/fda-calendar" class="text-[1rem] text-white ml-4 mt-4">FDA Calendar</a>
                           <a href="/ipos/2024" class="text-[1rem] text-white ml-4 mt-4">IPO Calendar</a>
                           <!--<a href="/fda-calendar" class="text-[1rem] text-white ml-4 mt-4">FDA Calendar</a>-->
                           <a href="/economic-calendar" class="text-[1rem] text-white ml-4 mt-4">Economic Calendar</a>

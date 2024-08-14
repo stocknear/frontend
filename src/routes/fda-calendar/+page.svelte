@@ -73,22 +73,22 @@
   
       
   
-  <section class="w-full max-w-4xl overflow-hidden m-auto min-h-screen pt-5 pb-40">
+  <section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
         
-    <div class="text-sm breadcrumbs ml-4">
+    <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
       <ul>
         <li><a href="/" class="text-gray-300">Home</a></li>
         <li class="text-gray-300">FDA Calendar</li>
       </ul>
     </div>
             
-    <div class="w-full max-w-4xl overflow-hidden m-auto mt-5">
+    <div class="w-full overflow-hidden m-auto mt-5">
       
-      <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden max-w-4xl">
+      <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
           <div class="relative flex justify-center items-center overflow-hidden w-full">
               <main class="w-full">
                
-                <div class="w-full max-w-4xl m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+                <div class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
                 
                     <!-- Start Column -->
@@ -137,7 +137,7 @@
 
                 {#if isLoaded}
 
-                <div class="w-full max-w-4xl text-center sm:text-start sm:flex sm:flex-row sm:items-center m-auto text-gray-100 border border-gray-800 sm:rounded-lg h-auto p-5 ">
+                <div class="w-full text-center sm:text-start sm:flex sm:flex-row sm:items-center m-auto text-gray-100 border border-gray-800 sm:rounded-lg h-auto p-5 ">
                   <svg class="w-5 h-5 inline-block sm:mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
                   Biotech companies can be among the most lucrative stocks if you invest wisely. Their stock prices can soar by +100% in a single day or plummet by the same amount, depending on the outcomes of clinical trials.
                 </div>
@@ -149,32 +149,32 @@
                       <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                         <thead>
                           <tr class="bg-[#09090B]">
-                            <th class="text-start bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-start bg-[#09090B] text-white text-sm sm:text-[1rem] whitespace-nowrap font-semibold">
                               Symbol
                             </th>
                             <!--
-                            <th class="text-start bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-start bg-[#09090B] text-white text-sm sm:text-[1rem] whitespace-nowrap font-semibold">
                               Name
                             </th>
                               
-                            <th class="text-start bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-start bg-[#09090B] text-white text-sm sm:text-[1rem] whitespace-nowrap font-semibold">
                               Source
                             </th>
                               -->
-                            <th class="text-start bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-start bg-[#09090B] text-white text-sm sm:text-[1rem] whitespace-nowrap font-semibold">
                               Drug
                             </th>
-                            <th class="text-start bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-start bg-[#09090B] text-white text-sm sm:text-[1rem] whitespace-nowrap font-semibold">
                               Indication
                             </th>
-                            <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-end bg-[#09090B] text-white text-sm sm:text-[1rem] whitespace-nowrap font-semibold">
                               Status
                             </th>
-                            <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-end bg-[#09090B] text-white text-sm sm:text-[1rem] whitespace-nowrap font-semibold">
                              Target Date
                             </th>
                            
-                            <th class="text-end bg-[#09090B] text-white text-sm font-semibold">
+                            <th class="text-end bg-[#09090B] text-white text-sm sm:text-[1rem] whitespace-nowrap font-semibold">
                               Change
                             </th>
                           </tr>
@@ -183,7 +183,7 @@
                           {#each displayList as item, index}
   
                           <tr on:click={() => goto(`/stocks/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] {index+1 === displayList?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''} cursor-pointer">
-                            <td class="text-sm text-start">
+                            <td class="text-sm text-start text-sm sm:text-[1rem] whitespace-nowrap">
                                 <div class="flex flex-col items-start w-32 sm:w-fit">
                                     <span class="text-blue-400">{item?.symbol}</span>
                                     <span class="text-white sm:hidden">
@@ -201,24 +201,24 @@
                             </td>
                              -->
   
-                            <td class="text-start text-sm font-medium text-white">
+                            <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap font-medium text-white">
                                 {item?.drugName}
                             </td>
 
-                            <td class="text-start text-sm font-medium text-white">
+                            <td class="text-start text-sm sm:text-[1rem] font-medium text-white">
                               {item?.indication}
                           </td>
       
-                            <td class="text-end text-sm font-medium text-white">
+                            <td class="text-end text-sm sm:text-[1rem] font-medium text-white">
                               {item?.status?.length !== 0 ? item?.status : 'n/a'}
                             </td>
 
-                            <td class="text-end text-sm font-medium text-white">
+                            <td class="text-end text-sm sm:text-[1rem] font-medium text-white">
                               {item?.targetDate?.length !== 0 ? item?.targetDate : 'n/a'}
                           </td>
 
 
-                          <td class="text-end text-sm font-medium text-white text-sm font-medium">
+                          <td class="text-end text-white text-sm sm:text-[1rem] font-medium">
                               {#if item?.changesPercentage >=0}
                               <span class="text-[#10DB06]">+{item?.changesPercentage}%</span>
                             {:else}

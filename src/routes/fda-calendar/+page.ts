@@ -11,7 +11,7 @@ export const load = async ({parent}) => {
       output = cachedData;
     } else {
     
-    const { apiURL, apiKey, user} = await parent();
+    const { apiURL, apiKey} = await parent();
 
     const response = await fetch(apiURL + '/fda-calendar', {
       method: 'GET',
@@ -21,8 +21,6 @@ export const load = async ({parent}) => {
     });
 
     output = await response.json();
-
-    output = user?.tier !== 'Pro' ? output?.slice(0,6) : output;
 
     setCache('', output, 'getFDACalendar');
 
