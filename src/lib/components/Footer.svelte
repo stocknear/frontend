@@ -1,7 +1,6 @@
 <script lang='ts'>
 
   let discordURL = import.meta.env.VITE_DISCORD_URL;
-  let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
 
 
 </script>
@@ -57,9 +56,6 @@
           </li>
           <li class="mt-2 inline-block mr-2 md:block md:mr-0" >
             <a href="/changelog" class="no-underline hover:underline text-gray-300  sm:hover:text-purple-400">Changelog</a>
-          </li>
-          <li class="mt-2 inline-block mr-2 md:block md:mr-0" >
-            <a href="https://stocknear.lemonsqueezy.com/affiliates" rel="noopener noreferrer" target="_blank" class="no-underline hover:underline text-gray-300  sm:hover:text-purple-400">Affiliate Program</a>
           </li>
         </ul>
       </div>
