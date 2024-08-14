@@ -23,7 +23,7 @@
   let filterList = [];
   
   let changeRuleFilter = false;
-  
+
     
   async function handleScroll() {
     const scrollThreshold = document.body.offsetHeight * 0.8; // 80% of the website height
@@ -143,19 +143,7 @@ onMount(async () => {
 }
 
   
-  let charNumber = 40;
-  $: {
-      if ($screenWidth < 640)
-      {
-        charNumber = 20;
-      }
-      else {
-        charNumber = 40;
-      }
-    }
-    
-  
-  
+
   
   $: {
     if(filterList && changeRuleFilter === true)
@@ -180,7 +168,6 @@ onMount(async () => {
       <!-- Other meta tags -->
       <meta property="og:title" content="US Politician Stock Trade Tracker · stocknear"/>
       <meta property="og:description" content="What are US Politicians trading? Filter by Senate or House, Party, Committee, State and more - get detailed infomation about it.">
-      <meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
       <meta property="og:type" content="website"/>
       <!-- Add more Open Graph meta tags as needed -->
   
@@ -188,7 +175,6 @@ onMount(async () => {
       <meta name="twitter:card" content="summary_large_image"/>
       <meta name="twitter:title" content="US Politician Stock Trade Tracker · stocknear"/>
       <meta name="twitter:description" content="What are US Politicians trading? Filter by Senate or House, Party, Committee, State and more - get detailed infomation about it.">
-      <meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
       <!-- Add more Twitter meta tags as needed -->
   </svelte:head>
   
@@ -267,7 +253,7 @@ onMount(async () => {
 
 
                                     <div class="-mt-3 shadow-lg rounded-full border border-slate-600 w-20 h-20 relative {item?.party === 'Republican' ? 'republican-striped bg-[#98272B]' : item?.party === 'Democratic' ? 'democratic-striped bg-[#295AC7]' : 'other-striped bg-[#20202E]'} flex items-center justify-center">
-                                      <img style="clip-path: circle(50%);" class="rounded-full w-16" src={item?.image} loading="lazy"/>
+                                      <img style="clip-path: circle(50%);" class="rounded-full w-16" src={`${cloudFrontUrl}/assets/senator/${item?.representative?.replace(/\s+/g, "_")}.png`} loading="lazy"/>
                                     </div>
                                     <span class="text-white text-lg font-medium mt-2 mb-2">
                                       {item?.representative}

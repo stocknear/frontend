@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { displayCompanyName, numberOfUnreadNotification, stockTicker } from '$lib/store';
-  import defaultAvatar from '$lib/images/senator/default-avatar.png';
   import republicanBackground from "$lib/images/bg-republican.png";
   import democraticBackground from "$lib/images/bg-democratic.png";
   import otherBackground from "$lib/images/bg-other.png";

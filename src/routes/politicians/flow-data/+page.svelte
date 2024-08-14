@@ -8,7 +8,6 @@
   import { getPartyForPoliticians } from '$lib/utils';
   import { stockTicker, etfTicker, cryptoTicker, screenWidth, numberOfUnreadNotification } from '$lib/store';
   import { onMount } from 'svelte';
-  import defaultAvatar from '$lib/images/senator/default-avatar.png';
   import defaultLogo from '$lib/images/stocks/logo/default_logo.png';
 	import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
   //  import * as XLSX from 'xlsx';
@@ -21,7 +20,7 @@
   let rawData = data?.getPoliticianRSS;
   let slicedRawData = [];
   let displayList = [];
-  let images = {};
+
   let isLoaded = false;
   let displayStructure = 'Table';
   let displayRows = 100;
@@ -57,23 +56,7 @@
     }
   }
   
-  // Function to load images only when they are viewed
-    async function loadImages() {
-      const imageFiles = import.meta.glob('$lib/images/senator/*.png');
-      const imagesPromises = [];
-  
-      for (const [path, resolver] of Object?.entries(imageFiles)) {
-        const imageNameMatch = path.match(/\/([^/]+)\.png$/);
-        if (imageNameMatch && imageNameMatch[1] !== 'default-avatar') {
-          imagesPromises?.push(resolver()?.then(module => {
-            images[imageNameMatch[1]] = module.default;
-          }));
-        }
-      }
-  
-      await Promise.all(imagesPromises);
-    }
-  
+
   
   
   
@@ -101,7 +84,6 @@
   
   
   onMount(async () => {
-    await loadImages();
     rawData?.forEach(item => {
       let representative = item?.representative || '';
   
@@ -110,7 +92,6 @@
           .replace(/Dr_/g, '')
   
       const fullName = representative?.replace(/(\s(?:Dr\s)?\w(?:\.|(?=\s)))?\s/g, '_').trim();
-      item.image = images[fullName] || defaultAvatar;
       item.representative = fullName?.replace(/_/g, ' ');
       });
   
@@ -513,7 +494,7 @@
 
 
                                     <div class="-mt-3 shadow-lg rounded-full border border-slate-600 w-20 h-20 relative {item?.party === 'Republican' ? 'republican-striped bg-[#98272B]' : item?.party === 'Democratic' ? 'democratic-striped bg-[#295AC7]' : 'bg-[#20202E]'} flex items-center justify-center">
-                                      <img style="clip-path: circle(50%);" class="rounded-full w-16" src={item?.image} loading="lazy"/>
+                                      <img style="clip-path: circle(50%);" class="rounded-full w-16" src={`${cloudFrontUrl}/assets/senator/${item?.representative?.replace(/\s+/g, "_")}.png`} loading="lazy"/>
                                     </div>
                                     <span class="text-white text-lg font-medium mt-2 mb-2">
                                       {item?.representative?.replace('Dr','')}
@@ -620,7 +601,7 @@
                               <th class="{index % 2 ? 'bg-[#09090B]' : 'bg-[#27272A]'} text-white text-sm sm:text-[1rem] whitespace-nowrap">
                                 <div class="flex flex-row items-center">
                                   <div class="flex-shrink-0 rounded-full border border-slate-700 w-9 h-9 relative {item?.party === 'Republican' ? 'bg-[#98272B]' : item?.party === 'Democratic' ? 'bg-[#295AC7]' : 'bg-[#4E2153]'} flex items-center justify-center">
-                                    <img style="clip-path: circle(50%);" class="rounded-full w-7" src={item?.image} loading="lazy"/>
+                                    <img style="clip-path: circle(50%);" class="rounded-full w-7" src={`${cloudFrontUrl}/assets/senator/${item?.representative?.replace(/\s+/g, "_")}.png`} loading="lazy"/>
                                   </div>
                                   <div class="flex flex-col ml-3 font-normal">
                                     <span class="text-white">{getAbbreviatedName(item?.representative?.replace('_',' '))}</span>

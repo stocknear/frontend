@@ -17,6 +17,9 @@ use([BarChart, GridComponent, CanvasRenderer])
   import { onMount } from 'svelte';
   
   export let data;
+  let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
+
+
   let isLoaded = false;
   let rawData = data?.getPolitician?.output;
   let displayList = [];
@@ -188,7 +191,6 @@ use([BarChart, GridComponent, CanvasRenderer])
   }
   
   onMount(async () => {
-    isLoaded = false;
     optionsData = await getPlotOptions();
      
     const typeCounts = rawData?.reduce((counts, item) => {
@@ -207,17 +209,6 @@ use([BarChart, GridComponent, CanvasRenderer])
   
   
   
-    let charNumber = 40;
-    $: {
-      if ($screenWidth < 640)
-      {
-        charNumber = 15;
-      }
-      else {
-        charNumber = 40;
-      }
-    }
-    
           
     </script>
     
@@ -278,7 +269,7 @@ use([BarChart, GridComponent, CanvasRenderer])
   
   
                         <div class="mt-10 rounded-full border border-slate-600 w-24 h-24 relative {politicianParty === 'Republican' ? 'republican-striped bg-[#98272B]' : politicianParty === 'Democratic' ? 'democratic-striped bg-[#295AC7]' : 'other-striped bg-[#20202E]'} flex items-center justify-center">
-                          <img style="clip-path: circle(50%);" class="rounded-full w-20"  src={politicianImage} loading="lazy"/>
+                          <img style="clip-path: circle(50%);" class="rounded-full w-20"  src={`${cloudFrontUrl}/assets/senator/${name?.replace(/\s+/g, "_")}.png`} loading="lazy"/>
                         </div>
                         <span class="text-white text-lg sm:text-xl font-medium mt-6 mb-2">
                           {name?.replace('Dr','')}
