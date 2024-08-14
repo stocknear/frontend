@@ -178,13 +178,15 @@ let charNumber = 30;
                 {#if isLoaded}
                 {#if shareholderList?.length !== 0}
                 <div class="p-3 sm:p-0 mt-2 pb-8 sm:pb-2 rounded-lg bg-[#09090B] sm:bg-[#09090B]">
-                    <div class="text-white text-md mt-3">
+                    <div class="text-white text-[1rem] mt-3">
                         As of {new Date(rawData?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })},
-                        <span class="font-semibold">{rawData?.investorsHolding}</span> Hedge Funds hold a total of <span class="font-semibold">{abbreviateNumber(rawData?.numberOf13Fshares)}</span> {$displayCompanyName} shares, with a combined investment of <span class="font-semibold">{abbreviateNumber(rawData?.totalInvested, true)}</span>.
+                        <span class="font-semibold">{new Intl.NumberFormat("en", {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 0
+                      }).format(rawData?.investorsHolding)}</span> Hedge Funds hold a total of <span class="font-semibold">{abbreviateNumber(rawData?.numberOf13Fshares)}</span> {$displayCompanyName} shares, with a combined investment of <span class="font-semibold">{abbreviateNumber(rawData?.totalInvested, true)}</span>.
                     </div>
 
               
-
                     <div class="flex flex-row items-center sm:-mt-5">
                         <div class="app w-56">
                             <Chart {init} options={optionsPieChart} class="chart w-full" />
@@ -221,7 +223,7 @@ let charNumber = 30;
                 </div>
 
                 <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center">
-                    <div class="w-full grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-3 lg:gap-y-3 gap-x-3 ">
+                    <div class="w-full grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-y-3 lg:gap-y-3 gap-x-3 ">
                       <!--Start Put/Call-->  
                       <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#27272A] shadow-lg rounded-md h-20">
                         <div class="flex flex-col items-start">
@@ -320,8 +322,8 @@ let charNumber = 30;
                 </h3>
 
                 {#if topHolders !== 0}
-                <span class="text-white text-md">
-                    The top 10 shareholders own <span class="font-semibold">{topHolders <= 0.01 ? "< 0.01%" : topHolders?.toFixed(2)+'%'}</span>
+                <span class="text-white text-[1rem">
+                    The Top 10 shareholders own <span class="font-semibold">{topHolders <= 0.01 ? "< 0.01%" : topHolders?.toFixed(2)+'%'}</span>
                     of the company.
                 </span>
                 {/if}
