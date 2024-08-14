@@ -76,7 +76,8 @@
 	</svelte:head>
 	
 	
-		<div  class="flex flex-col w-full min-h-screen p-2 pt-10 pb-40">
+		<div class="flex justify-start items-start m-auto max-w-6xl w-full min-h-screen p-2 pt-10 pb-40">
+			
 			<div class="w-full">
 				<form
 					action= {postType === 'text' ? '?/createPostText' : postType === 'image' ? '?/createPostImage' : '?/createPostLink'}
@@ -210,5 +211,59 @@
 	
 	
 			</div>
+
+			
+            <!-- Sidebar -->
+			<aside class="hidden xl:inline-block pt-36 pl-10">
+
+				
+					<!-- Sidebar content -->
+					<div class="lg:pl-2 z-20 h-full">
+				
+						<!-- Sidebar content -->
+
+				
+						<!--Community Rules-->
+						<div class="space-y-3 mt-5 fixed sticky" style="top: 5rem;">  
+						<div class="bg-[#141417] border border-gray-800 sm:w-96 rounded-lg">
+						<!--Start Header-->
+						<div class="bg-[#141417] border-b border-slate-700 w-full pl-6 pr-6 pt-6 pb-4 rounded-t-lg">
+							<span class="text-white text-xl ml-1 font-semibold">
+							Community Rules
+							</span>
+						</div>
+						<!--End Header-->
+
+						<!--Start Content-->
+						<div class="w-full pl-7 text-gray-300">
+							<ol class="list-decimal pl-4 pr-4 pb-5 pt-4">
+							<li class="text-[1rem] mb-3">
+								Avoid Purely Policital Discussion
+							</li>
+							<li class="text-[1rem] mb-3">
+								No violence or gory contents
+							</li>
+							<li class="text-[1rem] mb-3">
+								No Advertisement, Self-Promotion, Fundraising, or Begging
+							</li>
+							<li class="text-[1rem]">
+								No illegal activities
+							</li>
+							</ol>
+							
+						</div>
+						<!--End Content-->
+
+						</div>
+
+						</div>
+					<!--End Community Rules-->
+					
+					
+					</div>
+
+			</aside>
+
+						  
 		</div>
 		

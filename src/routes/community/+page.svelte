@@ -666,77 +666,10 @@ $: {
 
 
                                   </div>
-                                </div>
+                            </div>
                                 {/if}
 
                               <!--End Discord -->
-
-                              <!--Ticker Mentioning-->
-                              <!--
-                              <div class="space-y-3 mt-5 pb-3">  
-                                <div class="rounded-2xl bg-[#27272A] h-96 sm:w-96">
-                                  Start Header
-                                  <div class="bg-[#27272A] border-b border-slate-700 w-full p-3 rounded-t-lg ">
-                                    <span class="text-white text-xl ml-1 font-semibold">
-                                      Ticker Mentions
-                                    </span>
-                                  </div>
-                                End Header
-
-                                  Start Content
-                                  <div class="w-full text-gray-300">
-                                    <table class="table table-xs table-zebra table-compact w-full bg-[#27272A] border-b border-[#27272A]">
-                                      <thead>
-                                        <tr class="border-b border-slate-700">
-                                          <th class="text-white font-medium text-sm border-b border-slate-800">Company</th>
-                                          <th class="text-white font-medium text-sm border-b border-slate-800">Mentioned</th>
-                                          <th class="text-white font-medium text-sm border-b border-slate-800 text-end">Market Cap</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody class="p-3">
-                                        {#each tickerMentioning?.slice(0,5) as item}
-                                        <tr class="bg-[#27272A] border-b border-[#27272A] shake-ticker w-full">
-                                          <td class="text-gray-200 border-b border-[#27272A]">
-                                            <div class="flex flex-row">
-                                              <div class="rounded-full w-8 h-8 relative bg-[#20202E] flex items-center justify-center">
-                                                <img style="clip-path: circle(50%);" class="w-4 h-4" src={`https://financialmodelingprep.com/image-stock/${item.symbol}.png`} loading="lazy"/>
-                                              </div>
-                                              <div class="flex flex-col ml-2">
-                                                <span class="text-blue-400">{item?.symbol}</span>
-                                                <span class="text-white text-xs">{item?.name.length > 10 ? item?.name.slice(0,10) + "..." : item?.name}</span>
-                                              </div>
-                                            </div>
-                                          </td>
-                        
-                            
-                                        <td class="text-gray-200 border-b border-[#27272A]">
-                                          <span class="text-white font-medium text-[0.93rem] flex justify-center items-center">
-                                            {item?.count}
-                                          </span>
-                                        </td>
-
-                                        <td class="text-gray-200 border-b border-[#27272A]">
-                                          <span class="text-white font-medium text-[0.93rem] flex justify-end items-center">
-                                            {abbreviateNumber(item?.marketCap,true)}
-                                          </span>
-                                        </td>
-                            
-                                        </tr>
-                                        
-                                     
-                            
-                            
-                                        {/each}
-                                      </tbody>
-                                    </table>
-                                    
-                                  </div>
-                                  End Content
-
-                                  </div>
-                                </div>
-                              -->
-                              <!--End Ticker Mentioning-->
 
 
                                <!--Community Rules-->
