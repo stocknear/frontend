@@ -20,6 +20,9 @@
   let isLoaded = false;
   let images = {};
 
+  let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
+
+
 function backToTop() {
     window.scrollTo({
         top: 0,
@@ -35,17 +38,6 @@ function changeStructure() {
     }
   }
 
-
-const replacements = {
-  'Thomas_Tuberville': 'Tommy_Tuberville',
-  'Patrick_Toomey': 'Pat_Toomey',
-  'Thomas_Carper': 'Tom_Carper',
-  'Shelley_Moore_Capito': 'Shelley_Capito',
-  'Christopher_Coons': 'Chris_Coons',
-  'Daniel_Sullivan': 'Dan_Sullivan',
-  'William_Cassidy': 'Bill_Cassidy',
-  'Angus_King_.': 'Angus_King',
-};
 
 const district = {
   'Tommy_Tuberville': 'Alabama',
@@ -64,15 +56,7 @@ const district = {
   'Bill_Cassidy': 'Louisiana',
 }
 
-function replaceMultipleStrings(inputString, replacements) {
-  // Create a regular expression pattern by joining the keys of the replacements object with '|'
-  const pattern = new RegExp(Object?.keys(replacements)?.join('|'), 'gi');
 
-  // Replace occurrences of the pattern with the corresponding values in the replacements object
-  const resultString = inputString.replace(pattern, match => replacements[match]);
-
-  return resultString;
-}
 
 async function infiniteHandler({ detail: { loaded, complete } }) 
 {
@@ -86,69 +70,42 @@ async function infiniteHandler({ detail: { loaded, complete } })
     }
 }
 
-  // Function to load images only when they are viewed
-  async function loadImages() {
-    const imageFiles = import.meta.glob('$lib/images/senator/*.png');
-    const imagesPromises = [];
 
-    for (const [path, resolver] of Object?.entries(imageFiles)) {
-      const imageNameMatch = path.match(/\/([^/]+)\.png$/);
-      if (imageNameMatch && imageNameMatch[1] !== 'default-avatar') {
-        imagesPromises?.push(resolver()?.then(module => {
-          images[imageNameMatch[1]] = module.default;
-        }));
-      }
-    }
-
-    await Promise?.all(imagesPromises);
-  }
-
-
-let fullName;
 
 onMount(async () => {
-  isLoaded = false;
-  await loadImages();
 
-  rawData?.forEach(item => {
-      let representative = item?.representative || '';
   
-      representative = representative?.replace('Jr', '')
-          .replace(/Dr./g, '')
-          .replace(/Dr_/g, '')
-  
-      const fullName = representative?.replace(/(\s(?:Dr\s)?\w(?:\.|(?=\s)))?\s/g, '_').trim();
-      item.image = images[fullName] || defaultAvatar;
-      item.representative = fullName?.replace(/_/g, ' ');
-      });
-  
-      rawData = rawData?.map(item => {
-          const party = getPartyForPoliticians(item?.representative);
-          return {
-              ...item,
-              party: party
-          };
-});
+    rawData.forEach(item => {
+        const representative = item?.representative || '';
+        const fullName = representative.replace(/(\s(?:Dr\s)?\w(?:\.|(?=\s)))?\s/g, '_').trim();
+        item.representative = fullName.replace(/_/g, ' ');
+    });
 
-// Count the occurrences of "Republican" and "Democrat"
-const partyCounts = rawData?.reduce((counts, item) => {
-    counts[item?.party] = (counts[item?.party] || 0) + 1;
-    return counts;
-}, {});
+    rawData = rawData?.map(item => {
+        const party = getPartyForPoliticians(item?.representative);
+        return {
+            ...item,
+            party: party
+        };
+    });
 
-const typeCounts = rawData?.reduce((counts, item) => {
-    counts[item?.type] = (counts[item?.type ] || 0) + 1;
-    return counts;
-}, {});
+    // Count the occurrences of "Republican" and "Democrat"
+    const partyCounts = rawData.reduce((counts, item) => {
+        counts[item?.party] = (counts[item?.party] || 0) + 1;
+        return counts;
+    }, {});
 
-partyRatio = partyCounts['Democratic'] > 0 && partyCounts['Republican'] === undefined ? 1 : partyCounts['Democratic'] === undefined ? 0 : partyCounts["Democratic"]/partyCounts["Republican"];
-buySellRatio = typeCounts['Bought'] > 0 && typeCounts['Sold'] === undefined ? 1 : typeCounts['Bought'] === undefined ? 0 : typeCounts["Bought"]/typeCounts["Sold"];
+    const typeCounts = rawData.reduce((counts, item) => {
+        counts[item?.type] = (counts[item?.type ] || 0) + 1;
+        return counts;
+    }, {});
 
-senateTradingList = rawData?.slice(0,20) ?? [];
+    partyRatio = partyCounts['Democratic'] > 0 && partyCounts['Republican'] === undefined ? 1 : partyCounts['Democratic'] === undefined ? 0 : partyCounts["Democratic"] / partyCounts["Republican"];
+    buySellRatio = typeCounts['Bought'] > 0 && typeCounts['Sold'] === undefined ? 1 : typeCounts['Bought'] === undefined ? 0 : typeCounts["Bought"] / typeCounts["Sold"];
 
+    senateTradingList = rawData.slice(0, 20) ?? [];
 
-isLoaded = true;
-
+    isLoaded = true;
 });
 </script>
 
@@ -302,7 +259,8 @@ isLoaded = true;
                               <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap pb-3 border-b border-b-[#09090B]">
                                 <div class="flex flex-row items-center">
                                   <div class="flex-shrink-0 rounded-full border border-slate-700 w-10 h-10 sm:w-12 sm:h-12 relative {item?.party === 'Republican' ? 'bg-[#98272B]' : item?.party === 'Democratic' ? 'bg-[#295AC7]' : 'bg-[#4E2153]'} flex items-center justify-center">
-                                    <img style="clip-path: circle(50%);" class="avatar rounded-full w-7 sm:w-9" src={item?.image} loading="lazy"/>
+                                    
+                                    <img style="clip-path: circle(50%);" class="avatar rounded-full w-7 sm:w-9" src={`${cloudFrontUrl}/assets/senator/${item?.representative?.replace(/\s+/g, "_")}.png`} loading="lazy"/>
                                   </div>
                                   <div class="flex flex-col ml-3">
                                     <span class="">{item?.representative?.replace('_',' ')}</span>
@@ -355,7 +313,7 @@ isLoaded = true;
 
 
                               <div class="-mt-3 shadow-lg rounded-full border border-slate-600 w-20 h-20 relative {item?.party === 'Republican' ? 'bg-[#98272B]' : item?.party === 'Democratic' ? 'bg-[#295AC7]' : 'bg-[#20202E]'} flex items-center justify-center">
-                                <img style="clip-path: circle(50%);" class="rounded-full w-16" src={item?.image} loading="lazy"/>
+                                <img style="clip-path: circle(50%);" class="rounded-full w-16" src={`${cloudFrontUrl}/assets/senator/${item?.representative?.replace(/\s+/g, "_")}.png`} loading="lazy"/>
                               </div>
                               <span class="text-white text-lg font-medium mt-2 mb-2">
                                 {item?.representative?.replace('_',' ')}
