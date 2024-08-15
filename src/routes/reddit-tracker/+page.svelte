@@ -485,7 +485,7 @@ const optionCompanySpread = {
                                 <a href={item?.assetType === 'stocks' ? `/stocks/${item?.symbol}` : `/etf/${item?.symbol}`} class="whitespace-wrap font-medium">
                                   <div class="flex flex-col items-start text-[1rem]">
                                     <span class="text-blue-400 sm:hover:text-white transition duration-100">{item?.symbol}</span>
-                                    <span class="text-white whitespace-wrap text-sm hidden sm:block">
+                                    <span class="text-white whitespace-wrap hidden sm:block">
                                         {item?.name}
                                     </span>
                                 </div>
@@ -500,7 +500,13 @@ const optionCompanySpread = {
 
                                   <div class="flex flex-col mt-3">
                                     <span class="text-white ml-auto">${item.price?.toFixed(2)}</span>
-                                    <span class="{item?.changesPercentage > 0 ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-sm font-semibold text-end">{item?.changesPercentage?.toFixed(2)}%</span>
+                                    <span class="{item?.changesPercentage > 0 ? 'text-[#00FC50]' : 'text-[#FC2120]'} font-semibold text-end">
+                                      {#if item?.changesPercentage > 0 }
+                                      +{item?.changesPercentage?.toFixed(2)}%
+                                      {:else}
+                                      {item?.changesPercentage?.toFixed(2)}%
+                                      {/if}
+                                    </span>
                                     
                                   </div>
                   

@@ -2,8 +2,7 @@
   import { goto } from '$app/navigation';
   import { screenWidth } from '$lib/store';
   import { abbreviateNumber} from '$lib/utils';
-  import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
-
+  import { onMount } from 'svelte';
 
   export let data;
   
@@ -11,19 +10,22 @@
   let marketCapList = rawData?.slice(0,50);
   
   
-  async function infiniteHandler({ detail: { loaded, complete } }) 
-  {
-  
-  if (marketCapList?.length === rawData?.length) {
-      complete();
-      } 
-      else {
-      const nextIndex = marketCapList?.length;
-      const newElements= rawData?.slice(nextIndex, nextIndex + 5);
-      marketCapList = [...marketCapList, ...newElements];
-      loaded();
-      }
+  async function handleScroll() {
+    const scrollThreshold = document.body.offsetHeight * 0.8; // 80% of the website height
+    const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
+    if (isBottom && marketCapList?.length !== rawData?.length) {
+        const nextIndex = marketCapList?.length;
+        const filteredNewResults = rawData?.slice(nextIndex, nextIndex + 50);
+        marketCapList = [...marketCapList, ...filteredNewResults];
+    }
   }
+
+  onMount(async () => {
+    window.addEventListener('scroll', handleScroll);
+      return () => {
+          window.removeEventListener('scroll', handleScroll);
+      };
+  })
 
   let totalMarketCap = rawData?.reduce((total, stock) => total + stock?.marketCap, 0);
   let totalRevenue = rawData?.reduce((total, stock) => total + stock?.revenue, 0);
@@ -41,12 +43,11 @@
     }
   }
   </script>
-  
   <section class="w-full overflow-hidden m-auto">
           
         
         
-    <div class="w-full m-auto text-gray-100 font-medium bg-[#09090B] sm:rounded-lg h-auto p-5 mb-4">
+    <div class="w-full m-auto text-gray-100 font-medium bg-[#27272A] sm:rounded-lg h-auto p-5 mb-4">
       Small-cap stocks have a market capitalizations ranging between $300 million and $2 billion USD, while additional categories include 
       <a href="/list/mega-cap-stocks" class="text-blue-400 hover:text-white">
           Mega-Cap
@@ -146,10 +147,10 @@
                           <div class="flex flex-col">
                             <span class="text-white font-semibold text-md ml-auto">${item.price?.toFixed(2)}</span>
                             <div class="flex flex-row mt-0.5 ml-auto">
-                              {#if item.changesPercentage >=0}
-                                <span class="text-[#10DB06] font-medium">+{item.changesPercentage?.toFixed(2)}%</span>
+                              {#if item?.changesPercentage >=0}
+                                <span class="text-[#10DB06] font-medium">+{item?.changesPercentage?.toFixed(2)}%</span>
                               {:else}
-                                <span class="text-[#FF2F1F] font-medium">{item.changesPercentage?.toFixed(2)}% </span> 
+                                <span class="text-[#FF2F1F] font-medium">{item?.changesPercentage?.toFixed(2)}% </span> 
                               {/if}
                             </div>
                           </div>
@@ -169,7 +170,6 @@
             </table>
     
         
-          <InfiniteLoading on:infinite={infiniteHandler} />
 
         </div>
     </section>
