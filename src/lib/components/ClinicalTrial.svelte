@@ -5,9 +5,9 @@ import { Chart } from 'svelte-echarts'
 import { abbreviateNumber, formatString } from "$lib/utils";
 import { init, use } from 'echarts/core'
 import { LineChart } from 'echarts/charts'
-import { GridComponent } from 'echarts/components'
+import { GridComponent, TooltipComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-use([LineChart, GridComponent, CanvasRenderer])
+use([LineChart, GridComponent, TooltipComponent, CanvasRenderer])
 
     export let data;
 
@@ -107,13 +107,17 @@ function getPlotOptions() {
   });
 
     // Update valueList with the count of each fiscal year
-    valueList = dates.map(fiscalYear => fiscalYearCount[fiscalYear]);
+    valueList = dates?.map(fiscalYear => fiscalYearCount[fiscalYear]);
 
 
     const {unit, denominator } = normalizer(Math.max(...valueList) ?? 0)
 
     const option = {
     silent: true,
+    tooltip: {
+        trigger: 'axis',
+        hideDelay: 100, // Set the delay in milliseconds
+    },
     grid: {
         left: $screenWidth < 640 ? '0%' : '2%',
         right: $screenWidth < 640 ? '2%' : '2%',
@@ -144,9 +148,9 @@ function getPlotOptions() {
     series: [
         {
         data: valueList,
-        type: 'line',
+        type: 'bar',
         itemStyle: {
-            color: 'rgb(255,255,255,0.8)' // Change bar color to white
+            color: '#F8901E' // Change bar color to white
         }
         }
     ]
