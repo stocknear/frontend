@@ -29,6 +29,7 @@
   
   let audio;
   let muted = true;
+  let newIncomingData = false;
   let socket;
   let filterQuery = '';
   let previousCallVolume = 0; //This is needed to play the sound only if it changes.
