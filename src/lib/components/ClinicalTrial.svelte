@@ -348,75 +348,75 @@ let charNumber = 20;
 
 
   <!-- svelte-ignore a11y-label-has-associated-control -->
-  <label class="modal-box w-full relative bg-[#09090B] h-auto max-h-[900px] overflow-y-scroll">
-    <label for="clinicalDesktopModal" class="cursor-pointer absolute right-5 top-2 bg-[#09090B] text-2xl text-white">
+  <label class="modal-box w-full relative bg-[#27272A] h-auto max-h-[900px] overflow-y-scroll">
+    <label for="clinicalDesktopModal" class="cursor-pointer absolute right-5 top-2 bg-[#27272A] text-2xl text-white">
       ✕
     </label>
 
     <h3 class="text-xl font-semibold text-white mt-10">
       Title: {trialTitle}
     </h3>
-    <p class="py-4 text-gray-200 bg-[#09090B] w-full">
+    <p class="py-4 text-gray-200 bg-[#27272A] w-full">
       <span class="font-semibold text-white">Brief Summary:</span>
       {trialSummary}
 
     </p>
 
-    <table class="table table-sm table-compact bg-[#09090B] w-full mt-5 mb-10 text-white">
+    <table class="table table-sm table-compact bg-[#27272A] w-full mt-5 mb-10 text-white">
       <tbody>
         <!-- row 1 -->
         <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">NCT Number</td>
-          <td class="bg-[#09090B] ">{trialId}</td>
+          <td class="bg-[#27272A] font-semibold ">NCT Number</td>
+          <td class="bg-[#27272A] ">{trialId}</td>
         </tr>
         <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Start Date</td>
-          <td class="bg-[#09090B] ">{trialStart}</td>
+          <td class="bg-[#27272A] font-semibold ">Start Date</td>
+          <td class="bg-[#27272A] ">{trialStart}</td>
         </tr>
         <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">End Date</td>
-          <td class="bg-[#09090B] ">{trialEnd}</td>
+          <td class="bg-[#27272A] font-semibold ">End Date</td>
+          <td class="bg-[#27272A] ">{trialEnd}</td>
         </tr>
         <!-- row 2 -->
         <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Study Status</td>
-          <td class="bg-[#09090B] ">{trialStage}</td>
+          <td class="bg-[#27272A] font-semibold ">Study Status</td>
+          <td class="bg-[#27272A] ">{trialStage}</td>
         </tr>
         <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Phase Status</td>
-          <td class="bg-[#09090B] ">{trialPhase}</td>
+          <td class="bg-[#27272A] font-semibold ">Phase Status</td>
+          <td class="bg-[#27272A] ">{trialPhase}</td>
         </tr>
         <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Study Results</td>
-          <td class="bg-[#09090B] ">{trialResult}</td>
+          <td class="bg-[#27272A] font-semibold ">Study Results</td>
+          <td class="bg-[#27272A] ">{trialResult}</td>
         </tr>
         <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Sex</td>
-          <td class="bg-[#09090B] ">{formatString(trialSex)}</td>
+          <td class="bg-[#27272A] font-semibold ">Sex</td>
+          <td class="bg-[#27272A] ">{formatString(trialSex)}</td>
         </tr>
         <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Age</td>
-          <td class="bg-[#09090B] ">{formatString(trialAge)?.replace('Older_adult', 'Older Adult')}</td>
+          <td class="bg-[#27272A] font-semibold ">Age</td>
+          <td class="bg-[#27272A] ">{formatString(trialAge)?.replace('Older_adult', 'Older Adult')}</td>
         </tr>
         <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Sponsor</td>
-          <td class="bg-[#09090B] ">{trialSponsor}</td>
+          <td class="bg-[#27272A] font-semibold ">Sponsor</td>
+          <td class="bg-[#27272A] ">{trialSponsor}</td>
         </tr>
         <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Enrollment</td>
-          <td class="bg-[#09090B] ">{trialEnrollment}</td>
+          <td class="bg-[#27272A] font-semibold ">Enrollment</td>
+          <td class="bg-[#27272A] ">{trialEnrollment}</td>
         </tr>
         <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Study Type</td>
-          <td class="bg-[#09090B] ">{trialStudyType}</td>
+          <td class="bg-[#27272A] font-semibold ">Study Type</td>
+          <td class="bg-[#27272A] ">{trialStudyType}</td>
         </tr>
         <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Funder Type</td>
-          <td class="bg-[#09090B] ">{trialFunderType}</td>
+          <td class="bg-[#27272A] font-semibold ">Funder Type</td>
+          <td class="bg-[#27272A] ">{trialFunderType}</td>
         </tr>
         <tr class="border-b border-slate-700">
-          <td class="bg-[#09090B] font-semibold ">Website</td>
-          <td class="bg-[#09090B] "><a class="text-blue-400 sm:hover:text-white" href={trialLink} rel="noopener noreferrer" target="_blank">{trialLink}</a></td>
+          <td class="bg-[#27272A] font-semibold ">Website</td>
+          <td class="bg-[#27272A] "><a class="text-blue-400 sm:hover:text-white" href={trialLink} rel="noopener noreferrer" target="_blank">{trialLink}</a></td>
         </tr>
       </tbody>
     </table>
@@ -435,7 +435,7 @@ let charNumber = 20;
   <div class="drawer-side overflow-hidden">
   
       
-    <div class="bg-[#000] min-h-screen w-screen pb-20 overflow-hidden">
+    <div class="bg-[#09090B] min-h-screen w-screen pb-20 overflow-hidden">
 
         <label for="clinicalMobileModal" class="absolute left-6 top-6">
           <svg class="w-6 h-6 inline-block mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#fff" d="M9.125 21.1L.7 12.7q-.15-.15-.213-.325T.425 12q0-.2.063-.375T.7 11.3l8.425-8.425q.35-.35.875-.35t.9.375q.375.375.375.875t-.375.875L3.55 12l7.35 7.35q.35.35.35.863t-.375.887q-.375.375-.875.375t-.875-.375Z"/></svg>
