@@ -3,16 +3,14 @@
   import { screenWidth, numberOfUnreadNotification, displayCompanyName } from '$lib/store';
   import cardBackground from "$lib/images/bg-hedge-funds.png";
   import defaultAvatar from "$lib/images/hedge_funds/default-avatar.png";
-
-
   import { abbreviateNumber, formatString } from '$lib/utils';
 
 import { Chart } from 'svelte-echarts'
 import { init, use } from 'echarts/core'
-import { LineChart } from 'echarts/charts'
-import { GridComponent } from 'echarts/components'
+import { BarChart } from 'echarts/charts'
+import { GridComponent, TooltipComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-use([LineChart, GridComponent, CanvasRenderer])
+use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
   
   
   import { onMount } from 'svelte';
@@ -177,9 +175,6 @@ function formatToFY(dateString) {
   }
 
 
-function getYearFromDate(dateString) {
-  return new Date(dateString).getFullYear();
-}
   
   async function getPlotOptions() {
       // Initialize boughtList and soldList arrays
@@ -198,6 +193,11 @@ function getYearFromDate(dateString) {
 
     const option = {
       silent: true,
+      animation: false,
+      tooltip: {
+        trigger: 'axis',
+        hideDelay: 100, // Set the delay in milliseconds
+      },
       grid: {
           left: $screenWidth < 640 ? '0.5%' : '0.5%',
           right: $screenWidth < 640 ? '1%' : '5%',
@@ -207,6 +207,9 @@ function getYearFromDate(dateString) {
       xAxis: {
           data: dates,
           type: 'category',
+          axisLabel: {
+            color: '#fff'
+          }
           },
           yAxis: [
           {
@@ -215,7 +218,7 @@ function getYearFromDate(dateString) {
               show: false, // Disable x-axis grid lines
               },
               axisLabel: {
-              color: '#6E7079', // Change label color to white
+              color: '#fff', // Change label color to white
               formatter: function (value) {
                   return value >= 0 ? +(value / denominator)?.toFixed(0) + unit+'%' : ''; // Format value in millions
                   },
@@ -226,18 +229,18 @@ function getYearFromDate(dateString) {
             {
               name: 'SPY',
               data: spyPerformance,
-              type: 'line',
+              type: 'bar',
               showSymbol: false,
               itemStyle: {
-                      color: '#36A2EB' // Change bar color to white
+                      color: '#FF9E21' // Change bar color to white
                 },
             },
             {  name: 'Hedge Fund',
               data: hedgeFundPerformance,
-              type: 'line',
+              type: 'bar',
               showSymbol: false,
               itemStyle: {
-                      color: '#FF6384' // Change bar color to white
+                      color: '#36A2EB' // Change bar color to white
                 },
             },
       ]
@@ -248,7 +251,6 @@ function getYearFromDate(dateString) {
   }
   
 onMount(async () => {
-    isLoaded = false;
     await loadImages();
     optionsData = await getPlotOptions();
     isLoaded = true;
@@ -286,7 +288,7 @@ onMount(async () => {
     }
   }
 
-  $: totalPages = Math.ceil(rawList.length / itemsPerPage);
+  $: totalPages = Math?.ceil(rawList.length / itemsPerPage);
 
     let charNumber = 40;
     $: {
@@ -535,26 +537,27 @@ onMount(async () => {
                       <span class="ml-3 text-white text-xl">Performance History</span>
                     </div>
                     
-                    <div class="app w-full h-[300px] ">
+                    <div class="app w-full">
                       <Chart {init} options={optionsData} class="chart" />
                     </div>
                   
   
                     <div class="flex flex-row items-center justify-between mx-auto mt-10 sm:mt-5 w-56 sm:w-80">
                       <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
-                      <div class="h-full bg-[#313131] transform -translate-x-1/2 " aria-hidden="true"></div>
-                      <div class="w-3 h-3 bg-[#FF6384] border-4 box-content border-[#313131] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
-                      <span class="mt-2 sm:mt-0 text-white text-center sm:text-start text-xs sm:text-md inline-block">
-                          Hedge Fund
-                      </span>
-                  </div>
-                      <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                           <div class="h-full bg-[#313131] transform -translate-x-1/2 " aria-hidden="true"></div>
-                          <div class="w-3 h-3 bg-[#36A2EB] border-4 box-content border-[#313131] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                          <div class="w-3 h-3 bg-[#FFAD24] border-4 box-content border-[#313131] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
                           <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md sm:font-medium inline-block">
                           SPY
                           </span>
                       </div>
+
+                      <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
+                        <div class="h-full bg-[#313131] transform -translate-x-1/2" aria-hidden="true"></div>
+                        <div class="w-3 h-3 bg-[#36A2EB] border-4 box-content border-[#313131] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                        <span class="mt-2 sm:mt-0 text-white text-center sm:text-start text-xs sm:text-md inline-block">
+                            Hedge Fund
+                        </span>
+                    </div>
                 
               </div>
   
@@ -690,12 +693,12 @@ onMount(async () => {
                               {#if item?.title === 'Stocks'}
                               <span
                                 class="relative block font-medium duration-200 {changeAssetType === 'Stocks' ? 'text-black' : 'text-white'}">
-                                {item.title}
+                                {item?.title}
                               </span>
                               {:else if item?.title === 'Options'}
                               <span
                                 class="relative block font-medium duration-200 {changeAssetType === 'Options' ? 'text-black' : 'text-white'}">
-                                {item.title}
+                                {item?.title}
                               </span>
                               {/if}
             
@@ -717,7 +720,7 @@ onMount(async () => {
                               Name
                             </th>
                             <th class="shadow-md text-start bg-[#09090B] text-white text-sm font-semibold">
-                              % of Portfolio
+                              Portfolio
                             </th>
                             {#if changeAssetType === 'Stocks'}
                             <th class="shadow-md text-start bg-[#09090B] text-white text-sm font-semibold">
@@ -744,7 +747,7 @@ onMount(async () => {
                           {#each displayList as item}
                               <tr on:click={() => goto(`/${item?.type}/${item?.symbol}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#27272A] cursor-pointer">
       
-                                <td class="pb-3 border-b border-b-[#27272A] whitespace-nowrap">
+                                <td class="pb-3 border-b border-b-[#27272A] text-sm sm:text-[1rem] whitespace-nowrap">
                                   <div class="flex flex-row items-center">
                                     <div class="flex flex-col">
                                       <span class="text-blue-400">{item?.symbol?.replace('_',' ')}</span>
@@ -754,30 +757,30 @@ onMount(async () => {
                                   <!--{item?.firstName} {item?.lastName}-->
                                 </td>
       
-                                  <td class="text-center text-sm font-semibold text-white border-b border-b-[#27272A]">
+                                  <td class="text-center text-sm sm:text-[1rem] whitespace-nowrap font-semibold text-white border-b border-b-[#27272A]">
                                       {item?.weight >= 0.01 ? item?.weight?.toFixed(2) : '< 0.01'}%
                                   </td>
 
                                   {#if changeAssetType === 'Stocks'}
-                                  <td class="text-center text-sm font-semibold border-b border-b-[#27272A] {item?.changeInSharesNumberPercentage > 0 ? 'text-[#00FC50]' : item?.changeInSharesNumberPercentage < 0 ? 'text-[#FC2120]' : 'text-white'}">
+                                  <td class="text-center text-sm sm:text-[1rem] whitespace-nowrap font-semibold border-b border-b-[#27272A] {item?.changeInSharesNumberPercentage > 0 ? 'text-[#00FC50]' : item?.changeInSharesNumberPercentage < 0 ? 'text-[#FC2120]' : 'text-white'}">
                                     {item?.changeInSharesNumberPercentage !== 0 ? abbreviateNumber(item?.changeInSharesNumberPercentage?.toFixed(2))+'%' : '-'}
                                   </td>
 
-                                  <td class="text-center text-sm font-semibold border-b border-b-[#27272A] text-white">
+                                  <td class="text-center text-sm sm:text-[1rem] whitespace-nowrap font-semibold border-b border-b-[#27272A] text-white">
                                     {item?.sharesNumber !== 0 ? abbreviateNumber(item?.sharesNumber?.toFixed(2)) : '-'}
                                   </td>
 
                                   {/if}
   
-                                  <td class="text-center text-sm font-semibold text-white border-b border-b-[#27272A]">
+                                  <td class="text-center text-sm sm:text-[1rem] whitespace-nowrap font-semibold text-white border-b border-b-[#27272A]">
                                     {abbreviateNumber(item?.marketValue,true)}
                                 </td>
   
-                                  <td class="text-end text-sm font-semibold text-white border-b border-b-[#27272A]">
+                                  <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap font-semibold text-white border-b border-b-[#27272A]">
                                       ${item?.avgPricePaid}
                                   </td>
                                   {#if changeAssetType === 'Options'}
-                                  <td class="text-end text-sm font-semibold border-b border-b-[#27272A] {item?.putCallShare === 'CALL' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
+                                  <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap font-semibold border-b border-b-[#27272A] {item?.putCallShare === 'CALL' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
                                     {formatString(item?.putCallShare)}
                                   </td>
                                   {/if}
@@ -957,21 +960,21 @@ onMount(async () => {
   .scroller {
     scrollbar-width: thin;
   }
-    .app {
-        height: 300px;
-        max-width: 100%; /* Ensure chart width doesn't exceed the container */
-    
-        }
-    
-        @media (max-width: 640px) {
-        .app {
-            height: 230px;
-        }
-        }
-    
-        .chart {
-        width: 100%;
-        }
+  .app {
+          height: 400px;
+          width: 100%;
+      }
+      
+      @media (max-width: 560px) {
+          .app {
+              width: 100%;
+              height: 300px;
+          }
+      }
+  
+      .chart {
+          width: 100%;
+      }
 
 .hedge-fund-striped {
     background-image: repeating-linear-gradient(
