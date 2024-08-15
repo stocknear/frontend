@@ -3,11 +3,12 @@
 
   import { format, startOfWeek, addDays, addWeeks, subWeeks, differenceInWeeks } from 'date-fns'
   import { screenWidth,  numberOfUnreadNotification } from '$lib/store';
-  import logo from '$lib/images/earnings_calender_logo.png';
   import { goto } from '$app/navigation';
   import { abbreviateNumber } from '$lib/utils';
   
   export let data;
+  let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
+
 
   let currentWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
   let earningsCalendar = data?.getEarningsCalendar;
@@ -297,7 +298,7 @@ $: {
           
           
           <div class="z-1 absolute top-0">
-            <img class="w-20 ml-5" src={logo} alt="logo" loading="lazy">
+            <img class="w-20 ml-5" src={cloudFrontUrl+"/assets/earnings_calender_logo.png"} alt="logo" loading="lazy">
           </div>
         </div>
         <!-- End Column -->

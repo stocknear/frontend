@@ -1,12 +1,13 @@
 <script lang="ts">
 
-import logo from '$lib/images/blog_logo.png';
 import { articleId, numberOfUnreadNotification } from '$lib/store';
 import { goto } from '$app/navigation';
 import {getImageURL} from '$lib/utils';
 
 
 export let data;
+let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
+
 
 function blogSelector(state:string)
 {
@@ -133,7 +134,7 @@ let allBlogPosts = data?.getAllBlogPost;
           
           
           <div class="z-1 absolute top-3 right-0">
-            <img class="w-28 mr-6" src={logo} alt="logo" loading="lazy">
+            <img class="w-28 mr-6" src={cloudFrontUrl+"/assets/blog_logo.png"} alt="logo" loading="lazy">
           </div>
         </div>
         <!-- End Column -->
