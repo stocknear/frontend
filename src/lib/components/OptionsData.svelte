@@ -96,6 +96,17 @@ function prepareData() {
 
 }
 
+const timePeriods = {
+  oneDay: '24h',
+  oneWeek: 'week',
+  oneMonth: 'month',
+  threeMonth: '3 months',
+  sixMonth: '6 months',
+  oneYear: '1 year'
+};
+
+$: period = timePeriods[displayTimePeriod] || displayTimePeriod;
+
 
 $: {
   if(($assetType === 'stock' ? $stockTicker : $etfTicker) && typeof window !== 'undefined') {
@@ -148,15 +159,17 @@ $: {
                   <select class="mt-5 sm:mb-0 ml-1 w-36 select select-bordered select-sm p-0 pl-5  bg-[#2A303C]" on:change={changeStatement}>
                       <option disabled>Choose a time period</option>
                       <option value="oneDay">
-                        Last 24h
+                        1 Day
                       </option>
                       <option value="oneWeek">
-                        Last Week
+                        1 Week
                       </option>
                       <option value="oneMonth" selected>
-                        Last Month
+                        1 Month
                       </option>
-                      <option value="threeMonth">Last 3 Months</option>                        
+                      <option value="threeMonth">3 Months</option>
+                      <option value="sixMonth">6 Months</option>
+                      <option value="oneYear">1 Year</option>                     
                   </select>
 
 
@@ -209,7 +222,7 @@ $: {
                   </div>
 
                   <span class="text-[1rem] text-white">
-                    In the past {displayTimePeriod ==='oneDay' ? '24h': displayTimePeriod==='oneWeek' ? 'week' : displayTimePeriod==='oneMonth' ? 'month' : 'three months'}, hedge funds and major institutional traders have bought {abbreviateNumber(callVolume)} calls and {abbreviateNumber(putVolume)} puts with an average DTE of {dataset?.avgDTE} days.
+                    In the past {period}, hedge funds and major institutional traders have bought {abbreviateNumber(callVolume)} calls and {abbreviateNumber(putVolume)} puts with an average DTE of {dataset?.avgDTE} days.
                   </span>
 
                 </div>

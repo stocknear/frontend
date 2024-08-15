@@ -15,6 +15,8 @@
   
     export let data;
     
+    let rawPlotData = data?.getOptionsPlotData;
+    let filteredList = [];
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     
     let optionsPlotData = data?.getOptionsPlotData?.plot;
@@ -30,29 +32,29 @@
     let latestPutCallRatio;
     let displayOTMRatio;
     
-    const totalPutCallRatio = data?.getOptionsPlotData?.putCallRatio;
     
     
-    const totalVolume = data?.getOptionsPlotData?.totalVolume;
+    let totalVolume //= data?.getOptionsPlotData?.totalVolume;
     
-    const totalOpenInterest = data?.getOptionsPlotData?.totalOpenInterest;
+    let totalOpenInterest //= data?.getOptionsPlotData?.totalOpenInterest;
     
     
     // Computing the put-call ratio for open interest
-    const putCallOpenInterestRatio = data?.getOptionsPlotData?.putCallOpenInterestRatio;
+    let putCallOpenInterestRatio //= data?.getOptionsPlotData?.putCallOpenInterestRatio;
+    let putCallRatio;
+    let displayTotalVolume //= new Intl.NumberFormat("en", {minimumFractionDigits: 0, maximumFractionDigits: 0})?.format(totalVolume);
+    let displayTotalOpenInterest //= new Intl.NumberFormat("en", {minimumFractionDigits: 0, maximumFractionDigits: 0})?.format(totalOpenInterest);
+    let displayTotalPutCall
+    let dateList //= data?.getOptionsPlotData?.dateList;
     
-    const displayTotalVolume = new Intl.NumberFormat("en", {minimumFractionDigits: 0, maximumFractionDigits: 0})?.format(totalVolume);
-    const displayTotalOpenInterest = new Intl.NumberFormat("en", {minimumFractionDigits: 0, maximumFractionDigits: 0})?.format(totalOpenInterest);
-    
-    const dateList = data?.getOptionsPlotData?.dateList;
-    
-    const callVolumeList = data?.getOptionsPlotData?.callVolumeList;
-    const putVolumeList = data?.getOptionsPlotData?.putVolumeList;
-    const callOpenInterestList = data?.getOptionsPlotData?.callOpenInterestList;
-    const putOpenInterestList = data?.getOptionsPlotData?.putOpenInterestList;
+    let callVolumeList //= data?.getOptionsPlotData?.callVolumeList;
+    let putVolumeList //= data?.getOptionsPlotData?.putVolumeList;
+    let callOpenInterestList //= data?.getOptionsPlotData?.callOpenInterestList;
+    let putOpenInterestList //= data?.getOptionsPlotData?.putOpenInterestList;
     
     
-    
+    let displayTimePeriod = 'threeMonths'
+
     
     function formatDate(dateStr) {
       // Parse the input date string (YYYY-mm-dd)
@@ -94,6 +96,11 @@
     function changeStatement(event)
     {
       displayData = event.target.value;
+    }
+    
+    function changeTimePeriod(event)
+    {
+      displayTimePeriod = event.target.value;
     }
     
     
@@ -220,7 +227,74 @@
         // Calculate OTM/ITM ratio
         displayOTMRatio = otmVolume / (itmVolume+otmVolume) ?? 0;
     }
-    
+
+function filterDate(filteredList, displayTimePeriod) {
+  const now = Date.now();
+  let cutoffDate;
+
+  switch (displayTimePeriod) {
+    case 'oneWeek':
+      cutoffDate = now - 7 * 24 * 60 * 60 * 1000;
+      break;
+    case 'oneMonth':
+      cutoffDate = now - 30 * 24 * 60 * 60 * 1000;
+      break;
+    case 'threeMonths':
+      cutoffDate = now - 90 * 24 * 60 * 60 * 1000;
+      break;
+    case 'sixMonths':
+      cutoffDate = now - 180 * 24 * 60 * 60 * 1000;
+      break;
+    case 'oneYear':
+      cutoffDate = now - 365 * 24 * 60 * 60 * 1000;
+      break;
+    default:
+      throw new Error('Invalid time period');
+  }
+
+  return filteredList?.filter(item => {
+    // Convert YYYY-MM-DD to a timestamp
+    const [year, month, day] = item?.date?.split('-')?.map(Number);
+    const itemTimestamp = new Date(year, month - 1, day)?.getTime();
+   
+    return itemTimestamp >= cutoffDate;
+  });
+}
+
+
+function processPlotData(filteredList: any[]) {
+  const totals = filteredList?.reduce((acc, obj) => {
+    acc.callVolume += obj?.CALL?.volume;
+    acc.putVolume += obj?.PUT?.volume;
+    acc.callOpenInterest += obj?.CALL?.open_interest;
+    acc.putOpenInterest += obj?.PUT?.open_interest;
+    return acc;
+  }, { callVolume: 0, putVolume: 0, callOpenInterest: 0, putOpenInterest: 0 });
+
+  putCallRatio = (totals.putVolume / totals.callVolume)?.toFixed(2);
+  totalVolume = totals.callVolume + totals.putVolume;
+  totalOpenInterest = totals.callOpenInterest + totals.putOpenInterest;
+  putCallOpenInterestRatio = (totals.putOpenInterest / totals.callOpenInterest)?.toFixed(2);
+
+  dateList = filteredList?.map(item => item.date);
+  callVolumeList = filteredList?.map(item => item?.CALL?.volume);
+  putVolumeList = filteredList?.map(item => item?.PUT?.volume);
+  callOpenInterestList = filteredList?.map(item => item?.CALL?.open_interest);
+  putOpenInterestList = filteredList?.map(item => item?.PUT?.open_interest);
+
+  displayTotalVolume = new Intl.NumberFormat("en", {minimumFractionDigits: 0, maximumFractionDigits: 0}).format(totalVolume);
+  displayTotalPutCall = new Intl.NumberFormat("en", {minimumFractionDigits: 0, maximumFractionDigits: 0}).format(putCallRatio);
+  displayTotalOpenInterest = new Intl.NumberFormat("en", {minimumFractionDigits: 0, maximumFractionDigits: 0}).format(totalOpenInterest);
+
+  // Determine the type of plot data to generate based on displayData
+  if (displayData === 'volume') {
+      options = plotData(callVolumeList, putVolumeList);
+    } else if (displayData === 'openInterest') {
+      options = plotData(callOpenInterestList, putOpenInterestList);
+    }
+
+}
+
     async function handleScroll() {
         const scrollThreshold = document.body.offsetHeight * 0.8; // 80% of the website height
         const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
@@ -233,35 +307,36 @@
     
     
     
-    onMount(async () => {
-      calculateStats();
-      
-      if(data?.user?.tier === 'Pro') {
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-      }
-    })
+onMount(async () => {
+  calculateStats();
+  
+  if(data?.user?.tier === 'Pro') {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+        window.removeEventListener('scroll', handleScroll);
+    };
+  }
+})
     
     
-    $: {
-        if(displayData && optionsPlotData?.length !== 0 && typeof window !== 'undefined') {
-            if (displayData === 'volume') {
-                options = plotData(callVolumeList, putVolumeList)
-            }
-            else if (displayData === 'openInterest') {
-                options = plotData(callOpenInterestList, putOpenInterestList)
-            }
-        }
-    }
+$: {
+  if ((displayTimePeriod || displayData) && optionsPlotData?.length !== 0 && typeof window !== 'undefined') {
+    // Filter the raw plot data based on the selected time period
+    filteredList = filterDate(rawPlotData, displayTimePeriod);
     
+    // Process the filtered list to generate the plot data
+    processPlotData(filteredList);
+  }
+}
+
+
+  
     
     
     </script>
     
     
-      
+  
     <svelte:head>
     
     <meta charset="utf-8" />
@@ -300,7 +375,7 @@
                                   <svg class="w-6 h-6 flex-shrink-0 inline-block sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
                                   
                                   {#if optionsPlotData?.length !== 0}
-                                    Last 3 months of options activity involving {$displayCompanyName} by major institutional traders and hedge funds.
+                                    1 Year of options activity involving {$displayCompanyName} by major institutional traders and hedge funds.
                                     {:else}
                                     There's no data available, indicating that major traders may not be actively betting on {$displayCompanyName}.
                                   {/if}
@@ -311,90 +386,126 @@
     
                     
                         {#if optionsPlotData?.length !== 0}
-    
-                        <div class="stats stats-horizontal bg-[#27272A] w-full rounded-lg">
-                
-                          <div class="grid grid-cols-2">
-              
-                            <div class="stat">
-                              <div class="flex flex-row items-center">
-                                <label for="totalVolume" class="cursor-pointer stat-title text-md sm:text-lg font-medium text-gray-300">
-                                  Total Volume
-                                </label>
-                                <InfoModal
-                                  title={"Total Volume"}
-                                  content={"The total volume is the combined number of puts and calls traded over the past three months in options trading."}
-                                  id={"totalVolume"}
-                                />
-                                </div>
-                              <div class="stat-value font-semibold mt-1 text-lg text-gray-200">{displayTotalVolume}</div>
-                            </div>
-                            
-              
-              
-                            <div class="stat">
-                              <div class="flex flex-row items-center">
-                              <label for="totalOpenInterestModal" class="cursor-pointer stat-title text-md sm:text-lg font-medium text-gray-300">
-                                Total OI
-                              </label>
-                              <InfoModal
-                                    title={"Total Open Interest"}
-                                    content={"The total open interest reflects the aggregate number of outstanding options contracts in options trading."}
-                                    id={"totalOpenInterestModal"}
-                                  />
-                              </div>
-                              
-                              <div class="stat-value font-semibold mt-1 text-lg text-gray-200">{displayTotalOpenInterest}</div>
-                            </div>
-                            
-                            <div class="stat">
-                              <div class="flex flex-row items-center">
-                              <label for="revenueInfo" class="cursor-pointer stat-title text-md sm:text-lg font-medium text-gray-300">
-                                P/C Ratio
-                              </label>
-                              <InfoModal
-                                title={"Put-Call Ratio"}
-                                content={"The put-call ratio assesses market sentiment and potential movements by comparing traded put options to call options."}
-                                  id={"revenueInfo"}
-                                  />
-                                </div>
-                              <div class="stat-value font-semibold mt-1 text-lg text-gray-200">
-                                {totalPutCallRatio !== 'Infinity' ? totalPutCallRatio : '> 1'}
-                              </div>
-                            </div>
-              
-                            <div class="stat">
-                              <div class="flex flex-row items-center">
-                                <label for="profitsInfo" class="cursor-pointer stat-title text-md sm:text-lg font-medium text-gray-300">
-                                  OI P/C Ratio
-                                </label>
-                                <InfoModal
-                                  title={"Open Interest Put-Call Ratio"}
-                                  content={"The open interest put-call ratio measures market sentiment in options trading by comparing the total number of outstanding put options contracts to outstanding call options contracts. A higher ratio suggests bearish sentiment, while a lower ratio indicates bullish sentiment."}
-                                  id={"profitsInfo"}
-                                  />
-                                  </div>
-                              <div class="stat-value font-semibold mt-1 text-lg text-gray-200">{putCallOpenInterestRatio !== 'Infinity' ? putCallOpenInterestRatio : '> 1'}</div>
-                            </div>
-              
-                            </div>
                           
+                        <div class="mb-4 grid grid-cols-2 grid-rows-2 divide-gray-500 rounded-lg border border-gray-600 bg-[#272727] shadow md:grid-cols-4 md:grid-rows-1 md:divide-x">
+                          <div class="p-4 bp:p-5 sm:p-6">
+                              <div class="text-sm font-normal text-default xs:text-base">
+                                Total Volume
+                                  <span class="relative" role="tooltip">
+                                      <label for="totaVolume" class="absolute -right-[10px] -top-[3px] cursor-pointer p-1 text-gray-300 hover:text-gray-600 dark:text-dark-400 dark:hover:text-dark-300">
+                                          <svg class="h-[9px] w-[9px]" viewBox="0 0 4 16" fill="white" style="max-width:20px">
+                                              <path d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"></path>
+                                          </svg>
+                                      </label>
+                                      <InfoModal
+                                        title={"Total Volume"}
+                                        content={"The total volume is the combined number of puts and calls traded over the past three months in options trading."}
+                                        id={"totaVolume"}
+                                        hide={true}
+                                      />
+                                  </span> 
+                              </div> 
+                              <div class="mt-1 break-words font-semibold leading-8 text-light text-lg">
+                                {displayTotalVolume}
+                              </div> 
+                          </div>
+                          <div class="p-4 bp:p-5 sm:p-6 border-l border-contrast md:border-0">
+                              <div class="text-sm font-normal text-default xs:text-base">
+                                Total OI 
+                                  <span class="relative" role="tooltip">
+                                      <label for="totalOpenInterest" class="absolute -right-[10px] -top-[3px] cursor-pointer p-1 text-gray-300 hover:text-gray-600 dark:text-dark-400 dark:hover:text-dark-300">
+                                          <svg class="h-[9px] w-[9px]" viewBox="0 0 4 16" fill="white" style="max-width:20px">
+                                              <path d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"></path>
+                                          </svg>
+                                      </label>
+                                      <InfoModal
+                                        title={"Total OI"}
+                                        content={"The total open interest reflects the aggregate number of outstanding options contracts in options trading."}
+                                        id={"totalOpenInterest"}
+                                        hide={true}
+                                      />
+                                  </span> 
+                              </div> 
+                              <div class="mt-1 break-words font-semibold leading-8 text-light text-lg">
+                                {displayTotalOpenInterest}
+                              </div> 
+                          </div>
+                          <div class="p-4 bp:p-5 sm:p-6 border-t border-contrast md:border-0">
+                              <div class="text-sm font-normal text-default xs:text-base">
+                                P/C Ratio
+                                  <span class="relative" role="tooltip">
+                                      <label for="putCallRatio" class="absolute -right-[10px] -top-[3px] cursor-pointer p-1 text-gray-300 hover:text-gray-600 dark:text-dark-400 dark:hover:text-dark-300">
+                                          <svg class="h-[9px] w-[9px]" viewBox="0 0 4 16" fill="white" style="max-width:20px">
+                                              <path d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"></path>
+                                          </svg>
+                                      </label>
+                                      <InfoModal
+                                        title={"P/C Ratio"}
+                                        content={"The put-call ratio assesses market sentiment and potential movements by comparing traded put options to call options."}
+                                        id={"putCallRatio"}
+                                        hide={true}
+                                        />
+                                  </span> 
+                              </div> 
+                              <div class="mt-1 break-words font-semibold leading-8 text-light text-lg">
+                                {putCallRatio !== 'Infinity' ? putCallRatio : '> 1'}
+                              </div> 
+                          </div>
+                          <div class="p-4 bp:p-5 sm:p-6 border-t border-contrast md:border-0 border-l border-contrast md:border-0">
+                              <div class="text-sm font-normal text-default xs:text-base">
+                                OI P/C Ratio
+                                  <span class="relative" role="tooltip">
+                                      <label for="openInteresteRatio" class="absolute -right-[10px] -top-[3px] cursor-pointer p-1 text-gray-300 hover:text-gray-600 dark:text-dark-400 dark:hover:text-dark-300">
+                                          <svg class="h-[9px] w-[9px]" viewBox="0 0 4 16" fill="white" style="max-width:20px">
+                                              <path d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"></path>
+                                          </svg>
+                                      </label>
+                                        <InfoModal
+                                          title={"OI P/C Ratio"}
+                                          content={"The open interest put-call ratio measures market sentiment in options trading by comparing the total number of outstanding put options contracts to outstanding call options contracts. A higher ratio suggests bearish sentiment, while a lower ratio indicates bullish sentiment."}
+                                          id={"openInteresteRatio"}
+                                          hide ={true}
+                                          />
+                                  </span> 
+                              </div> 
+                              <div class="mt-1 break-words font-semibold leading-8 text-light text-lg">
+                                {putCallOpenInterestRatio !== 'Infinity' ? putCallOpenInterestRatio : '> 1'}
+                              </div> 
+                          </div>
                         </div>
-    
-    
-                              
-    
-                                <div class="flex flex-row items-center w-full mt-5">
-                                    <select class="mt-5 sm:mb-0 ml-1 w-40 select select-bordered select-sm p-0 pl-5  bg-[#2A303C]" on:change={changeStatement}>
-                                        <option disabled>Choose a category</option>
-                                        <option value="volume" selected>Volume</option>
-                                        <option value="openInterest">Open Interest</option>
+
+                                <div class="flex flex-row items-center w-full mt-10">
+                                    <select class="ml-1 w-40 select select-bordered select-sm p-0 pl-5 bg-[#2A303C]" on:change={changeTimePeriod}>
+                                        <option disabled>Choose a time period</option>
+                                        <option value="oneWeek">1 Week</option>
+                                        <option value="oneMonth" selected>1 Month</option>
+                                        <option value="threeMonths" selected>3 Months</option>
+                                        <option value="sixMonths">6 Months</option>
+                                        <option value="oneYear">1 Year</option>
                                     </select>
+
+                                    <select class="ml-auto sm:ml-3 w-40 select select-bordered select-sm p-0 pl-5 bg-[#2A303C]" on:change={changeStatement}>
+                                      <option disabled>Choose a category</option>
+                                      <option value="volume" selected>Volume</option>
+                                      <option value="openInterest">Open Interest</option>
+                                  </select>
+
                                 </div>
+
+                                
                             
                                 
                                 <div class="app w-full bg-[#09090B] rounded-xl">
-                                    <Chart {init} options={options} class="chart" />
+                                  {#if filteredList?.length !== 0}  
+                                  <Chart {init} options={options} class="chart" />
+                                  {:else}
+                                  <span class="text-xl text-white m-auto flex justify-center items-center h-full">
+                                    <div class="text-gray-100 text-sm sm:text-[1rem] sm:rounded-lg h-auto border border-slate-800 p-4">
+                                      <svg class="w-5 h-5 inline-block sm:mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
+                                      No Options activity found
+                                    </div>
+                                  </span>
+                                  {/if}
                                 </div>
                                 
     
@@ -567,7 +678,7 @@
                                           <!-- row -->
                                           <tr class="odd:bg-[#27272A] border-b-[#09090B] {index+1 === optionList?.slice(0,3)?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''}">
                                             
-                                            <td class="text-white text-sm sm:text-[1rem] text-start whitespace-nowrap">
+                                            <td class="text-white text-sm text-start whitespace-nowrap">
                                               {formatTime(item?.time)}
                                             </td>
     
@@ -583,11 +694,11 @@
                                               {item?.strike_price}
                                             </td>
     
-                                            <td class="{item?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-start">
+                                            <td class="text-sm sm:text-[1rem] {item?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-start">
                                               {item?.put_call}
                                             </td>
     
-                                            <td class="{item?.sentiment === 'Bullish' ? 'text-[#00FC50]' : item?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'} text-start">
+                                            <td class="text-sm sm:text-[1rem] {item?.sentiment === 'Bullish' ? 'text-[#00FC50]' : item?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'} text-start">
                                               {item?.sentiment}
                                             </td>
     
