@@ -2,7 +2,6 @@
   import { goto } from '$app/navigation';
   import { screenWidth, numberOfUnreadNotification, displayCompanyName } from '$lib/store';
   import cardBackground from "$lib/images/bg-hedge-funds.png";
-  import defaultAvatar from "$lib/images/hedge_funds/default-avatar.png";
   import { abbreviateNumber, formatString } from '$lib/utils';
 
 import { Chart } from 'svelte-echarts'
@@ -16,6 +15,8 @@ use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
   import { onMount } from 'svelte';
   
   export let data;
+  let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
+
 
   let isLoaded = false;
   let rawData = data?.getHedgeFundsData;
@@ -142,23 +143,6 @@ function formatToFY(dateString) {
 }
 
 
-  // Function to load images only when they are viewed
-  async function loadImages() {
-      const imageFiles = import.meta.glob('$lib/images/hedge_funds/*.png');
-      const imagesPromises = [];
-  
-      for (const [path, resolver] of Object?.entries(imageFiles)) {
-        const imageNameMatch = path.match(/\/([^/]+)\.png$/);
-        if (imageNameMatch && imageNameMatch[1] !== 'default-avatar') {
-          imagesPromises?.push(resolver()?.then(module => {
-            images[imageNameMatch[1]] = module.default;
-          }));
-        }
-      }
-  
-      await Promise?.all(imagesPromises);
-    }
-  
   
   function normalizer(value) {
     if (Math?.abs(value) >= 1e12) {
@@ -251,7 +235,6 @@ function formatToFY(dateString) {
   }
   
 onMount(async () => {
-    await loadImages();
     optionsData = await getPlotOptions();
     isLoaded = true;
 });
@@ -353,7 +336,7 @@ onMount(async () => {
                     <div class="flex flex-col justify-center items-center rounded-lg ">
 
                       <div class="mt-10 rounded-full border border-slate-600 w-24 h-24 relative hedge-fund-striped bg-[#20202E] flex items-center justify-center">
-                        <img style="clip-path: circle(50%);" class="rounded-full w-20"  src={images[rawData?.cik] ?? defaultAvatar} loading="lazy"/>
+                        <img style="clip-path: circle(50%);" class="rounded-full w-20" src={`${cloudFrontUrl}/assets/hedge_funds/default-avatar.png`} loading="lazy"/>
                       </div>
                       <span class="text-white text-md font-semibold mt-2 mb-2 w-64 text-center">
                         {formatString($displayCompanyName)}
