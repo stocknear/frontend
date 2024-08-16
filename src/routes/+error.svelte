@@ -4,6 +4,7 @@
     import logo from '$lib/images/stocknear_logo.png';
 
     
+    const emailAddress = 'support@stocknear.com';
 
 </script>
 
@@ -26,13 +27,14 @@
                 -->
 
                 
-                <span class="mt-4 text-white font-medium text-md w-5/6 m-auto text-center flex justify-center items-center">
-                    The page was not found. If this error occurs persistenly please report it to us. 
-                    <br class="mt-3">
+                <div class="mt-4 text-white font-medium text-md w-11/12 sm:w-full m-auto text-center">
+                    The page was not found. If this error occurs persistenly please report it to us via
+                    <a href={`mailto:${emailAddress}`} class="inline-block text-blue-400 sm:hover:text-white sm:hover:underline">{emailAddress}</a>.
+                    <br />
                     We will fix it asap!
-                </span>
+                </div>
 
-                <a href="/" class="flex justify-center items-center w-5/6 m-auto py-2.5 mt-10 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-medium">
+                <a href="/home" class="flex justify-center items-center w-1/2 m-auto py-2.5 mt-10 rounded-md duration-100 bg-purple-600 sm:hover:bg-purple-700 text-white font-medium">
                     Back to Home Page
                 </a>
                 
