@@ -9,7 +9,7 @@ export let hide = false;
   
 
 <div class="relative">
-<label for={id} class="absolute bottom-0 -left-1 cursor-pointer p-1 text-gray-300 hover:text-gray-600 dark:text-dark-400 dark:hover:text-dark-300">
+<label for={id} class="absolute -bottom-1 left-0 cursor-pointer border border-gray-900 rounded-full bg-[#242424] sm:hover:bg-[#313131] duration-100 p-1 text-gray-300 hover:text-gray-600 dark:text-dark-400 dark:hover:text-dark-300">
   <svg class="h-[10.5px] w-[10.5px]" viewBox="0 0 4 16" fill="white" style="max-width:20px">
       <path d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"></path>
   </svg>
