@@ -389,85 +389,55 @@ $: {
                           
                         <div class="mb-4 grid grid-cols-2 grid-rows-2 divide-gray-500 rounded-lg border border-gray-600 bg-[#272727] shadow md:grid-cols-4 md:grid-rows-1 md:divide-x">
                           <div class="p-4 bp:p-5 sm:p-6">
-                              <div class="text-sm font-normal text-default xs:text-base">
-                                Total Volume
-                                  <span class="relative" role="tooltip">
-                                      <label for="totaVolume" class="absolute -right-[10px] -top-[3px] cursor-pointer p-1 text-gray-300 hover:text-gray-600 dark:text-dark-400 dark:hover:text-dark-300">
-                                          <svg class="h-[9px] w-[9px]" viewBox="0 0 4 16" fill="white" style="max-width:20px">
-                                              <path d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"></path>
-                                          </svg>
-                                      </label>
-                                      <InfoModal
-                                        title={"Total Volume"}
-                                        content={"The total volume is the combined number of puts and calls traded over the past three months in options trading."}
-                                        id={"totaVolume"}
-                                        hide={true}
-                                      />
-                                  </span> 
-                              </div> 
+                            <label for="totaVolume" class="mr-1 cursor-pointer flex flex-row items-center text-white text-[1rem]">
+                              Total Volume
+                              <InfoModal
+                              title={"Total Volume"}
+                              content={"The total volume is the combined number of puts and calls traded over the past three months in options trading."}
+                              id={"totaVolume"}
+                            />
+                            </label>
+                               
                               <div class="mt-1 break-words font-semibold leading-8 text-light text-lg">
                                 {displayTotalVolume}
                               </div> 
                           </div>
                           <div class="p-4 bp:p-5 sm:p-6 border-l border-contrast md:border-0">
-                              <div class="text-sm font-normal text-default xs:text-base">
-                                Total OI 
-                                  <span class="relative" role="tooltip">
-                                      <label for="totalOpenInterest" class="absolute -right-[10px] -top-[3px] cursor-pointer p-1 text-gray-300 hover:text-gray-600 dark:text-dark-400 dark:hover:text-dark-300">
-                                          <svg class="h-[9px] w-[9px]" viewBox="0 0 4 16" fill="white" style="max-width:20px">
-                                              <path d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"></path>
-                                          </svg>
-                                      </label>
-                                      <InfoModal
-                                        title={"Total OI"}
-                                        content={"The total open interest reflects the aggregate number of outstanding options contracts in options trading."}
-                                        id={"totalOpenInterest"}
-                                        hide={true}
-                                      />
-                                  </span> 
-                              </div> 
+                            <label for="totalOpenInterest" class="mr-1 cursor-pointer flex flex-row items-center text-white text-[1rem]">
+                              Total OI 
+                              <InfoModal
+                              title={"Total OI"}
+                              content={"The total open interest reflects the aggregate number of outstanding options contracts in options trading."}
+                              id={"totalOpenInterest"}
+                            />
+                            </label>
                               <div class="mt-1 break-words font-semibold leading-8 text-light text-lg">
                                 {displayTotalOpenInterest}
                               </div> 
                           </div>
                           <div class="p-4 bp:p-5 sm:p-6 border-t border-contrast md:border-0">
-                              <div class="text-sm font-normal text-default xs:text-base">
-                                P/C Ratio
-                                  <span class="relative" role="tooltip">
-                                      <label for="putCallRatio" class="absolute -right-[10px] -top-[3px] cursor-pointer p-1 text-gray-300 hover:text-gray-600 dark:text-dark-400 dark:hover:text-dark-300">
-                                          <svg class="h-[9px] w-[9px]" viewBox="0 0 4 16" fill="white" style="max-width:20px">
-                                              <path d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"></path>
-                                          </svg>
-                                      </label>
-                                      <InfoModal
-                                        title={"P/C Ratio"}
-                                        content={"The put-call ratio assesses market sentiment and potential movements by comparing traded put options to call options."}
-                                        id={"putCallRatio"}
-                                        hide={true}
-                                        />
-                                  </span> 
-                              </div> 
+                            <label for="putCallRatio" class="mr-1 cursor-pointer flex flex-row items-center text-white text-[1rem]">
+                              P/C Ratio
+                              <InfoModal
+                              title={"P/C Ratio"}
+                              content={"The put-call ratio assesses market sentiment and potential movements by comparing traded put options to call options."}
+                              id={"putCallRatio"}
+                              />
+                            </label> 
                               <div class="mt-1 break-words font-semibold leading-8 text-light text-lg">
                                 {putCallRatio !== 'Infinity' ? putCallRatio : '> 1'}
                               </div> 
                           </div>
                           <div class="p-4 bp:p-5 sm:p-6 border-t border-contrast md:border-0 border-l border-contrast md:border-0">
-                              <div class="text-sm font-normal text-default xs:text-base">
-                                OI P/C Ratio
-                                  <span class="relative" role="tooltip">
-                                      <label for="openInteresteRatio" class="absolute -right-[10px] -top-[3px] cursor-pointer p-1 text-gray-300 hover:text-gray-600 dark:text-dark-400 dark:hover:text-dark-300">
-                                          <svg class="h-[9px] w-[9px]" viewBox="0 0 4 16" fill="white" style="max-width:20px">
-                                              <path d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"></path>
-                                          </svg>
-                                      </label>
-                                        <InfoModal
-                                          title={"OI P/C Ratio"}
-                                          content={"The open interest put-call ratio measures market sentiment in options trading by comparing the total number of outstanding put options contracts to outstanding call options contracts. A higher ratio suggests bearish sentiment, while a lower ratio indicates bullish sentiment."}
-                                          id={"openInteresteRatio"}
-                                          hide ={true}
-                                          />
-                                  </span> 
-                              </div> 
+                            <label for="openInteresteRatio" class="mr-1 cursor-pointer flex flex-row items-center text-white text-[1rem]">
+                              OI P/C Ratio
+                              <InfoModal
+                                title={"OI P/C Ratio"}
+                                content={"The open interest put-call ratio measures market sentiment in options trading by comparing the total number of outstanding put options contracts to outstanding call options contracts. A higher ratio suggests bearish sentiment, while a lower ratio indicates bullish sentiment."}
+                                id={"openInteresteRatio"}
+                                />
+                            </label>   
+   
                               <div class="mt-1 break-words font-semibold leading-8 text-light text-lg">
                                 {putCallOpenInterestRatio !== 'Infinity' ? putCallOpenInterestRatio : '> 1'}
                               </div> 

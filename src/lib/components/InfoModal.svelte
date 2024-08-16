@@ -4,7 +4,6 @@
 export let title;
 export let content;
 export let id;
-export let hide = false;
 </script>
   
 

@@ -337,7 +337,8 @@ onMount(async() => {
                           We can divide four types of insider transactions:
                         
                           <div class="flex flex-row items-center justify-center">
-                            Buy, Sell, 
+                            Buy, Sell,
+                            
                             <label for="grantInfo" class="ml-1 cursor-pointer font-medium">
                               Grant
                             </label>
@@ -345,8 +346,8 @@ onMount(async() => {
                               title={"Stock Grant"}
                               content={"A stock grant occurs when a company compensates an employee by offering them equity, or when an insider gifts shares. In essence, the company grants ownership of shares, or an insider transfers shares. These grants may involve common stock shares, preferred shares, or another class of shares."}
                               id={"grantInfo"}
-                            />,
-                            <label for="exerciseInfo" class="ml-1 cursor-pointer font-medium">
+                            />
+                            <label for="exerciseInfo" class="ml-6 cursor-pointer font-medium">
                               Exercise
                             </label>
                             <InfoModal

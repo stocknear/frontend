@@ -132,85 +132,56 @@ changeTab(0)
 
                 <div class="mb-4 grid grid-cols-2 grid-rows-2 divide-gray-500 rounded-lg border border-gray-600 bg-[#272727] shadow md:grid-cols-4 md:grid-rows-1 md:divide-x">
                   <div class="p-4 bp:p-5 sm:p-6">
-                      <div class="text-sm font-normal text-default xs:text-base">
-                          Total Analysts 
-                          <span class="relative" role="tooltip">
-                              <label for="totalAnalystInfo" class="absolute -right-[10px] -top-[3px] cursor-pointer p-1 text-gray-300 hover:text-gray-600 dark:text-dark-400 dark:hover:text-dark-300">
-                                  <svg class="h-[9px] w-[9px]" viewBox="0 0 4 16" fill="white" style="max-width:20px">
-                                      <path d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"></path>
-                                  </svg>
-                              </label>
-                              <InfoModal
-                                title={"Total Analyst"}
-                                content={"The total number of analyst who provided a rating in the past 12 months."}
-                                id={"totalAnalystInfo"}
-                                hide={true}
-                              />
-                          </span> 
-                      </div> 
+                    <label for="totalAnalystInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-[1rem]">
+                      Total Analysts 
+                      <InfoModal
+                      title={"Total Analyst"}
+                      content={"The total number of analyst who provided a rating in the past 12 months."}
+                      id={"totalAnalystInfo"}
+                      />
+                    </label>   
                       <div class="mt-1 break-words font-semibold leading-8 text-light text-xl">
                         {numOfAnalyst}
                       </div> 
                   </div>
                   <div class="p-4 bp:p-5 sm:p-6 border-l border-contrast md:border-0">
-                      <div class="text-sm font-normal text-default xs:text-base">
-                          Consensus Rating 
-                          <span class="relative" role="tooltip">
-                              <label for="consensusRatingInfo" class="absolute -right-[10px] -top-[3px] cursor-pointer p-1 text-gray-300 hover:text-gray-600 dark:text-dark-400 dark:hover:text-dark-300">
-                                  <svg class="h-[9px] w-[9px]" viewBox="0 0 4 16" fill="white" style="max-width:20px">
-                                      <path d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"></path>
-                                  </svg>
-                              </label>
-                              <InfoModal
-                                title={"Consensus Rating"}
-                                content={`The average analyst rating for ${$stockTicker} is standardized to align with categories: Strong Buy, Buy, Hold, Sell, and Strong Sell.`}
-                                id={"consensusRatingInfo"}
-                                hide={true}
-                              />
-                          </span> 
-                      </div> 
+                    <label for="consensusRatingInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-[1rem]">
+                      Total Rating 
+                      <InfoModal
+                      title={"Consensus Rating"}
+                      content={`The average analyst rating for ${$stockTicker} is standardized to align with categories: Strong Buy, Buy, Hold, Sell, and Strong Sell.`}
+                      id={"consensusRatingInfo"}
+                    />
+                    </label>  
+      
                       <div class="mt-1 break-words font-semibold leading-8 text-light text-xl">
                         {consensusRating}
                       </div> 
                   </div>
                   <div class="p-4 bp:p-5 sm:p-6 border-t border-contrast md:border-0">
-                      <div class="text-sm font-normal text-default xs:text-base">
-                          Price Target 
-                          <span class="relative" role="tooltip">
-                              <label for="priceTargetInfo" class="absolute -right-[10px] -top-[3px] cursor-pointer p-1 text-gray-300 hover:text-gray-600 dark:text-dark-400 dark:hover:text-dark-300">
-                                  <svg class="h-[9px] w-[9px]" viewBox="0 0 4 16" fill="white" style="max-width:20px">
-                                      <path d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"></path>
-                                  </svg>
-                              </label>
-                              <InfoModal
-                                title={"Price Target"}
-                                content={"The average 12-month price target"}
-                                id={"priceTargetInfo"}
-                                hide={true}
-                                />
-                          </span> 
-                      </div> 
+                    <label for="priceTargetInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-[1rem]">
+                      Price Target 
+                      <InfoModal
+                      title={"Price Target"}
+                      content={"The average 12-month price target"}
+                      id={"priceTargetInfo"}
+                      />
+                    </label>    
+                   
                       <div class="mt-1 break-words font-semibold leading-8 text-light text-xl">
                         ${priceTarget}
                       </div> 
                   </div>
                   <div class="p-4 bp:p-5 sm:p-6 border-t border-contrast md:border-0 border-l border-contrast md:border-0">
-                      <div class="text-sm font-normal text-default xs:text-base">
-                          Upside 
-                          <span class="relative" role="tooltip">
-                              <label for="upsideInfo" class="absolute -right-[10px] -top-[3px] cursor-pointer p-1 text-gray-300 hover:text-gray-600 dark:text-dark-400 dark:hover:text-dark-300">
-                                  <svg class="h-[9px] w-[9px]" viewBox="0 0 4 16" fill="white" style="max-width:20px">
-                                      <path d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"></path>
-                                  </svg>
-                              </label>
-                                <InfoModal
-                                  title={"Upside"}
-                                  content={"The average price target's percentage difference from the current stock price."}
-                                  id={"upsideInfo"}
-                                  hide ={true}
-                                  />
-                          </span> 
-                      </div> 
+                    <label for="upsideInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-[1rem]">
+                      Upside 
+                      <InfoModal
+                      title={"Upside"}
+                      content={"The average price target's percentage difference from the current stock price."}
+                      id={"upsideInfo"}
+                      />
+                    </label>      
+
                       <div class="mt-1 break-words font-semibold leading-8 text-light text-xl">
                         {#if changesPercentage >=0}
                             <span class="text-[#10DB06]">+{changesPercentage}%</span>
