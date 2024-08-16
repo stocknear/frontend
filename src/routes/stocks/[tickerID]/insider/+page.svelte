@@ -123,6 +123,7 @@ const handleMessage = async (event) => {
 
       options =  {
         silent: true,
+        animation: false,
       grid: {
         left: '0%',
         right: '2%',

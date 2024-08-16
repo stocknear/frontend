@@ -1,7 +1,7 @@
 <script lang='ts'>
   import cardBackground from "$lib/images/bg-hedge-funds.png";
 
-  import { screenWidth, numberOfUnreadNotification } from '$lib/store';
+  import { numberOfUnreadNotification } from '$lib/store';
   import { abbreviateNumber } from '$lib/utils';
   import { onMount } from 'svelte';
     //  import * as XLSX from 'xlsx';
@@ -12,7 +12,7 @@
 
 
   let rawData = data?.getAllHedgeFunds;
-  console.log(rawData)
+  console.log(rawData[0])
   let displayList = [];
   let filterQuery = '';
 
@@ -89,19 +89,6 @@ async function handleInput(event) {
     }, 500);
 }
 
-  
-
-  let charNumber = 40;
-  $: {
-      if ($screenWidth < 640)
-      {
-        charNumber = 20;
-      }
-      else {
-        charNumber = 40;
-      }
-    }
-    
   
 
   </script>
@@ -201,7 +188,12 @@ async function handleInput(event) {
                                   <div class="relative bottom-0 w-full px-8">
                                     <div class="flex flex-row justify-between items-center w-full mb-6">
                                       <label class="cursor-pointer flex flex-col items-start">
-                                        <span class="text-white text-[1rem] font-semibold">{abbreviateNumber(item?.numberOfStocks)}</span>
+                                        <span class="text-white text-[1rem] font-semibold">
+                                          {new Intl.NumberFormat("en", {
+                                            minimumFractionDigits: 0,
+                                            maximumFractionDigits: 0
+                                        }).format(item?.numberOfStocks)}
+                                        </span>
                                         <span class="text-slate-300 font-medium text-sm"># of Holdings</span>
                                       </label>
                   
