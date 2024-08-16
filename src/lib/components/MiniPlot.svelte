@@ -15,7 +15,7 @@
   const bottomLineColor = '#FF7070';
   const bottomFillColor1 = 'rgba(239, 83, 80, 0.2)';
 
-  let width = ($screenWidth <= 1200 && $screenWidth > 900) ? 360 : ($screenWidth <= 900 && $screenWidth > 700) ? 260 : ($screenWidth <= 700 && $screenWidth >=600 ) ? 200 : ($screenWidth < 600 && $screenWidth >=500 ) ? 150 : 80;
+  let width = $screenWidth < 640 ? 80 : $screenWidth < 1200 ? 150 : 180 //= ($screenWidth <= 1200 && $screenWidth > 900) ? 360 : ($screenWidth <= 900 && $screenWidth > 700) ? 260 : ($screenWidth <= 700 && $screenWidth >=600 ) ? 200 : ($screenWidth < 600 && $screenWidth >=500 ) ? 150 : 80;
 
   
   //Initial height of graph
@@ -129,7 +129,7 @@ function etfSelector() {
 $: {
 if(chart && typeof window !== 'undefined')
 {
-  chart?.timeScale()?.fitContent();    
+  chart?.timeScale()?.fitContent();
 }
 }
 
@@ -139,7 +139,7 @@ if(chart && typeof window !== 'undefined')
 
 
 
-<label on:click={etfSelector} class="sm:hover:border-[#3C74D4] duration-200 transition ease-in-out cursor-pointer flex flex-row items-center rounded-lg shadow-lg border border-gray-600 bg-[#09090B]">
+<label on:click={etfSelector} class="sm:hover:border-[#3C74D4] duration-100 transition ease-in-out cursor-pointer flex flex-row items-center rounded-lg shadow-lg border border-gray-600 bg-[#09090B]">
   <div class="flex flex-col items-center lg:mr-5">
     <span class="text-white font-semibold text-xs w-20 text-start pl-3 uppercase">{title}</span>
     <div class="flex flex-row mt-1 items-center">
