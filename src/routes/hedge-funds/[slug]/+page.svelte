@@ -4,6 +4,10 @@
   import cardBackground from "$lib/images/bg-hedge-funds.png";
   import { abbreviateNumber, formatString } from '$lib/utils';
 
+  import PercentIcon from "lucide-svelte/icons/percent";
+  import MoneyIcon from 'lucide-svelte/icons/circle-dollar-sign';
+
+
 import { Chart } from 'svelte-echarts'
 import { init, use } from 'echarts/core'
 import { BarChart } from 'echarts/charts'
@@ -159,12 +163,37 @@ function formatToFY(dateString) {
   }
 
 
+  const plotTabs = [
+      {
+        title: "Performance",
+      },
+      {
+        title: "Market Value",
+      },
+    ];
   
-  async function getPlotOptions() {
+  let activePlotIdx = 0;
+
+  
+async function handleMode(i) {
+    activePlotIdx = i;
+    if (activePlotIdx === 0) {
+      optionsData = await getPerformancePlot();
+    }
+    else {
+      optionsData = await getValuePlot();
+    }
+
+  }
+  
+
+  async function getPerformancePlot() {
       // Initialize boughtList and soldList arrays
       const data = rawData?.summary?.slice(0,20)
-      ?.map(item => ({ date: item?.date, performancePercentage: item?.performancePercentage }))
-      ?.reverse();
+      ?.map(item => ({ date: item?.date, performancePercentage: item?.performancePercentage }));
+
+      data.sort((a, b) => new Date(a?.date) - new Date(b?.date));
+
 
       const updatedData = addSpyPerformance(data, spyData);
       const dates = updatedData?.map(item => formatToFY(item?.date));
@@ -233,13 +262,77 @@ function formatToFY(dateString) {
   
   return option;
   }
+ 
   
+  async function getValuePlot() {
+      // Initialize boughtList and soldList arrays
+      const data = rawData?.summary?.slice(0,20)
+      ?.map(item => ({ date: item?.date, marketValue: item?.marketValue }));
+
+      data.sort((a, b) => new Date(a?.date) - new Date(b?.date));
+
+      const dates = data?.map(item => formatToFY(item?.date));
+
+      const hedgeFundValue = data?.map(item => item?.marketValue)
+
+      const { unit, denominator } = normalizer(Math.max(...hedgeFundValue) ?? 0);
+
+
+    const option = {
+      silent: true,
+      animation: false,
+      tooltip: {
+        trigger: 'axis',
+        hideDelay: 100, // Set the delay in milliseconds
+      },
+      grid: {
+          left: $screenWidth < 640 ? '0.5%' : '0.5%',
+          right: $screenWidth < 640 ? '1%' : '5%',
+          bottom: '0%',
+          containLabel: true
+      },
+      xAxis: {
+          data: dates,
+          type: 'category',
+          axisLabel: {
+            color: '#fff'
+          }
+          },
+          yAxis: [
+          {
+              type: 'value',
+              splitLine: {
+              show: false, // Disable x-axis grid lines
+              },
+              axisLabel: {
+              color: '#fff', // Change label color to white
+              formatter: function (value) {
+                  return value >= 0 ? '$'+(value / denominator)?.toFixed(0) + unit : ''; // Format value in millions
+                  },
+              },
+          },
+          ],
+      series: [
+            {  name: 'Hedge Fund',
+              data: hedgeFundValue,
+              type: 'bar',
+              showSymbol: false,
+              itemStyle: {
+                      color: '#36A2EB' // Change bar color to white
+                },
+            },
+      ]
+      };
+  
+  
+  return option;
+  }
+
 onMount(async () => {
-    optionsData = await getPlotOptions();
+    optionsData = await getPerformancePlot();
     isLoaded = true;
 });
   
-
 
   function prevPage() {
     if (currentPage > 1) {
@@ -273,17 +366,8 @@ onMount(async () => {
 
   $: totalPages = Math?.ceil(rawList.length / itemsPerPage);
 
-    let charNumber = 40;
-    $: {
-      if ($screenWidth < 640)
-      {
-        charNumber = 15;
-      }
-      else {
-        charNumber = 40;
-      }
-    }
-    
+  $: charNumber = $screenWidth < 640 ? 15 : 40;
+
           
     </script>
     
@@ -516,16 +600,45 @@ onMount(async () => {
                   <div class="p-0 sm:p-10 bg-[#09090B] sm:bg-[#09090B] rounded-lg sm:min-h-[330px] mb-10 sm:mb-6">
   
                     <div class="flex flex-row justify-center sm:justify-start items-center">
-                      <svg class="w-7 h-7 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="#849AAE" d="M576 0c17.7 0 32 14.3 32 32v448c0 17.7-14.3 32-32 32s-32-14.3-32-32V32c0-17.7 14.3-32 32-32M448 96c17.7 0 32 14.3 32 32v352c0 17.7-14.3 32-32 32s-32-14.3-32-32V128c0-17.7 14.3-32 32-32m-96 128v256c0 17.7-14.3 32-32 32s-32-14.3-32-32V224c0-17.7 14.3-32 32-32s32 14.3 32 32m-160 64c17.7 0 32 14.3 32 32v160c0 17.7-14.3 32-32 32s-32-14.3-32-32V320c0-17.7 14.3-32 32-32M96 416v64c0 17.7-14.3 32-32 32s-32-14.3-32-32v-64c0-17.7 14.3-32 32-32s32 14.3 32 32"/></svg>
+                      {#if activePlotIdx === 0}
+                      <PercentIcon class="h-6 w-6 shrink-0 inline-block" />
                       <span class="ml-3 text-white text-xl">Performance History</span>
+                      {:else}
+                      <MoneyIcon class="h-6 w-6 shrink-0 inline-block" />
+                      <span class="ml-3 text-white text-xl">Portofolio Value History</span>
+                      {/if}
                     </div>
+
+                    <div class="bg-[#313131] w-fit relative flex flex-wrap items-center justify-center rounded-lg p-1 mt-5">
+                      {#each plotTabs as item, i}
+                        <button
+                          on:click={() => handleMode(i)}
+                          class="group relative rounded-full px-6 py-1 z-30 flex items-center justify-center {activePlotIdx === i
+                            ? 'z-0'
+                            : ''} "
+                        >
+                          {#if activePlotIdx === i}
+                              <div
+                                class="absolute inset-0 rounded-lg sm:rounded-lg bg-purple-600"
+                              ></div>
+                          {/if}
+                          <span
+                        class="relative block text-sm font-medium duration-200 text-white">
+                        {item?.title}
+                      </span>
+                        </button>
+                      {/each}
+
+
+
+                  </div>
                     
                     <div class="app w-full">
                       <Chart {init} options={optionsData} class="chart" />
                     </div>
                   
-  
-                    <div class="flex flex-row items-center justify-between mx-auto mt-10 sm:mt-5 w-56 sm:w-80">
+                    
+                    <div class="{activePlotIdx !== 0 ? 'invisible' : ''} flex flex-row items-center justify-between mx-auto mt-10 sm:mt-5 w-56 sm:w-80">
                       <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                           <div class="h-full bg-[#313131] transform -translate-x-1/2 " aria-hidden="true"></div>
                           <div class="w-3 h-3 bg-[#FFAD24] border-4 box-content border-[#313131] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
@@ -657,7 +770,7 @@ onMount(async () => {
                       </span>
                       
                       <div class="w-64 mt-5">
-                        <div class="relative right-0 bg-[#141417] rounded-lg">
+                        <div class="relative right-0 bg-[#313131] rounded-lg">
                 
                           <div class="relative flex flex-row items-center p-1 list-none rounded-lg">
                           {#each tabs as item, i}
@@ -669,21 +782,15 @@ onMount(async () => {
                               >
                               {#if activeIdx === i}
                                   <div
-                                    class="absolute inset-0 rounded-lg sm:rounded-lg {[0,1]?.includes(activeIdx) ? 'bg-[#00C806]' : 'bg-[#E02424]'}"
+                                    class="absolute inset-0 rounded-lg sm:rounded-lg bg-purple-600"
                                   ></div>
                               {/if}
                               
-                              {#if item?.title === 'Stocks'}
-                              <span
-                                class="relative block font-medium duration-200 {changeAssetType === 'Stocks' ? 'text-black' : 'text-white'}">
-                                {item?.title}
-                              </span>
-                              {:else if item?.title === 'Options'}
-                              <span
-                                class="relative block font-medium duration-200 {changeAssetType === 'Options' ? 'text-black' : 'text-white'}">
-                                {item?.title}
-                              </span>
-                              {/if}
+                              
+                            <span
+                              class="relative text-sm block font-medium duration-200 text-white">
+                              {item?.title}
+                            </span>
             
                             </button>
                           {/each}
@@ -740,30 +847,30 @@ onMount(async () => {
                                   <!--{item?.firstName} {item?.lastName}-->
                                 </td>
       
-                                  <td class="text-center text-sm sm:text-[1rem] whitespace-nowrap font-semibold text-white border-b border-b-[#27272A]">
+                                  <td class="text-center text-sm sm:text-[1rem] whitespace-nowrap text-white border-b border-b-[#27272A]">
                                       {item?.weight >= 0.01 ? item?.weight?.toFixed(2) : '< 0.01'}%
                                   </td>
 
                                   {#if changeAssetType === 'Stocks'}
-                                  <td class="text-center text-sm sm:text-[1rem] whitespace-nowrap font-semibold border-b border-b-[#27272A] {item?.changeInSharesNumberPercentage > 0 ? 'text-[#00FC50]' : item?.changeInSharesNumberPercentage < 0 ? 'text-[#FC2120]' : 'text-white'}">
+                                  <td class="text-center text-sm sm:text-[1rem] whitespace-nowrap border-b border-b-[#27272A] {item?.changeInSharesNumberPercentage > 0 ? 'text-[#00FC50]' : item?.changeInSharesNumberPercentage < 0 ? 'text-[#FC2120]' : 'text-white'}">
                                     {item?.changeInSharesNumberPercentage !== 0 ? abbreviateNumber(item?.changeInSharesNumberPercentage?.toFixed(2))+'%' : '-'}
                                   </td>
 
-                                  <td class="text-center text-sm sm:text-[1rem] whitespace-nowrap font-semibold border-b border-b-[#27272A] text-white">
+                                  <td class="text-center text-sm sm:text-[1rem] whitespace-nowrap border-b border-b-[#27272A] text-white">
                                     {item?.sharesNumber !== 0 ? abbreviateNumber(item?.sharesNumber?.toFixed(2)) : '-'}
                                   </td>
 
                                   {/if}
   
-                                  <td class="text-center text-sm sm:text-[1rem] whitespace-nowrap font-semibold text-white border-b border-b-[#27272A]">
+                                  <td class="text-center text-sm sm:text-[1rem] whitespace-nowrap text-white border-b border-b-[#27272A]">
                                     {abbreviateNumber(item?.marketValue,true)}
                                 </td>
   
-                                  <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap font-semibold text-white border-b border-b-[#27272A]">
+                                  <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap text-white border-b border-b-[#27272A]">
                                       ${item?.avgPricePaid}
                                   </td>
                                   {#if changeAssetType === 'Options'}
-                                  <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap font-semibold border-b border-b-[#27272A] {item?.putCallShare === 'CALL' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
+                                  <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap border-b border-b-[#27272A] {item?.putCallShare === 'CALL' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
                                     {formatString(item?.putCallShare)}
                                   </td>
                                   {/if}
