@@ -11,7 +11,8 @@
   let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
 
 
-  let rawData = data?.getHedgeFunds;
+  let rawData = data?.getAllHedgeFunds;
+  console.log(rawData)
   let displayList = [];
   let filterQuery = '';
 
@@ -54,13 +55,13 @@ let syncWorker: Worker | undefined = undefined;
 // Handling messages from the worker
 const handleMessage = async (event) => {
     const filterData = event.data?.output
-    console.log(filterData)
+
     if (filterData?.length !== 0) {
         rawData = filterData;
         displayList = [...filterData]?.slice(0,20);
     } else {
         // Reset to original data if no matches found
-        rawData = data?.getHedgeFunds;
+        rawData = data?.getAllHedgeFunds;
         displayList = rawData?.slice(0, 20);
     }
 };
@@ -68,7 +69,7 @@ const handleMessage = async (event) => {
 const loadWorker = async () => {
   const SyncWorker = await import('./workers/filterQuery?worker');
   syncWorker = new SyncWorker.default();
-  syncWorker.postMessage({ rawData: data?.getHedgeFunds, filterQuery: filterQuery});
+  syncWorker.postMessage({ rawData: data?.getAllHedgeFunds, filterQuery: filterQuery});
   syncWorker.onmessage = handleMessage;
 
 };
@@ -82,7 +83,7 @@ async function handleInput(event) {
             await loadWorker();
         } else {
             // Reset to original data if filter is empty
-            rawData = data?.getHedgeFunds;
+            rawData = data?.getAllHedgeFunds;
             displayList = rawData?.slice(0, 20);
         }
     }, 500);
@@ -135,7 +136,7 @@ async function handleInput(event) {
     
     <body class="w-full max-w-6xl overflow-hidden m-auto">
               
-      <div class="text-sm breadcrumbs ml-4">
+      <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
         <ul>
           <li><a href="/" class="text-gray-300">Home</a></li> 
           <li class="text-gray-300">Hedge Funds</li>

@@ -841,7 +841,7 @@ onMount(async () => {
                                   <div class="flex flex-row items-center">
                                     <div class="flex flex-col">
                                       <span class="text-blue-400">{item?.symbol?.replace('_',' ')}</span>
-                                      <span class="text-white">{formatString(item?.securityName)}</span>
+                                      <span class="text-white text-sm">{formatString(item?.securityName)}</span>
                                     </div>
                                   </div>
                                   <!--{item?.firstName} {item?.lastName}-->
@@ -948,7 +948,7 @@ onMount(async () => {
                                   <div class="flex flex-row items-center">
                                     <div class="flex flex-col">
                                       <span class="text-blue-400 font-medium">{item?.symbol?.replace('_',' ')}</span>
-                                      <span class="">{item?.securityName?.length > charNumber ? formatString(item?.securityName?.slice(0,charNumber)) + '...' : formatString(item?.securityName)}</span>
+                                      <span class="text-sm">{item?.securityName?.length > charNumber ? formatString(item?.securityName?.slice(0,charNumber)) + '...' : formatString(item?.securityName)}</span>
                                     </div>
                                   </div>
                                   <!--{item?.firstName} {item?.lastName}-->
