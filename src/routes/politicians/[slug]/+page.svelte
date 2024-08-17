@@ -10,9 +10,9 @@
   
 import { init, use } from 'echarts/core'
 import { BarChart } from 'echarts/charts'
-import { GridComponent } from 'echarts/components'
+import { GridComponent, TooltipComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-use([BarChart, GridComponent, CanvasRenderer])
+use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
   
   import { onMount } from 'svelte';
   
@@ -130,6 +130,11 @@ use([BarChart, GridComponent, CanvasRenderer])
   
     const option = {
       silent: true,
+      animation: false,
+      tooltip: {
+        trigger: 'axis',
+        hideDelay: 100, // Set the delay in milliseconds
+      },
       grid: {
           left: $screenWidth < 640 ? '5.2%' : '0.5%',
           right: $screenWidth < 640 ? '5%' : '0.5%',
@@ -166,7 +171,8 @@ use([BarChart, GridComponent, CanvasRenderer])
           },
           ],
       series: [
-          {
+          {   
+              name: 'Bought',
               data: boughtList,
               type: 'bar',
               itemStyle: {
@@ -175,7 +181,8 @@ use([BarChart, GridComponent, CanvasRenderer])
               barWidth: '25%',
             },
             
-          {
+          {   
+              name: 'Sold',
               data: soldList,
               type: 'bar',
               itemStyle: {
@@ -283,14 +290,14 @@ use([BarChart, GridComponent, CanvasRenderer])
                       <div class="flex flex-row justify-between items-center w-full px-10 pb-4">
                         <label class="cursor-pointer flex flex-col items-center">
                           <span class="text-white text-[1rem] font-semibold">{abbreviateNumber(numOfTrades)}</span>
-                          <span class="text-slate-300 font-medium text-sm">Total Trades</span>
+                          <span class="text-slate-300 font-medium text-[1rem]">Total Trades</span>
                         </label>
     
                         <div class="flex flex-col items-center ">
                           <span class="text-white text-[1rem] font-semibold">
                             {lastTradedDate?.length !== undefined ? new Date(lastTradedDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' }) : 'n/a'}
                           </span>
-                          <span class="text-slate-300 font-medium text-sm">Last Traded</span>
+                          <span class="text-slate-300 font-medium text-[1rem]">Last Traded</span>
                         </div>
                       </div>
   
