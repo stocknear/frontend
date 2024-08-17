@@ -715,7 +715,7 @@ async function purchasePlan(subscriptionType:string='') {
                                 </summary>
                                 <div class="collapse-content"> 
                                     <p class="text-sm sm:text-[1rem] pb-5 text-gray-200 overflow-hidden transition-all duration-300 ease-in-out">
-                                        Currently we accept credit card only.
+                                        We support Credit Card & Paypal payments.
                                     </p>
                                 </div>
                             </details>
