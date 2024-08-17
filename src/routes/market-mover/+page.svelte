@@ -216,17 +216,8 @@ function selectTimeInterval(interval) {
 }
 
 let sortBy = 'change'; // Default sorting by change percentage
-let charNumber = 30;
 
-$: {
-  if($screenWidth < 640)
-  {
-    charNumber = 20;
-  }
-  else {
-    charNumber =30;
-  }
-}
+$: charNumber = $screenWidth < 640 ? 20 : 30;
 
 </script>
 

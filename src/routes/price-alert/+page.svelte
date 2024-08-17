@@ -261,15 +261,16 @@ $: charNumber = $screenWidth < 640 ? 15 : 40;
           Stock Indexes - {getCurrentDateFormatted()}
         </div>
     
-        <div class="w-full -mt-4 sm:mt-0 mb-8 m-auto flex justify-center items-center p-3 sm:p-0">
-          <div class="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-3 lg:gap-y-0 gap-x-3 ">
+        <div class="w-full -mt-4 sm:mt-0 mb-8 m-auto flex justify-start sm:justify-center items-center p-3 sm:p-0">
+          <div class="w-full grid grid-cols-2 md:grid-cols-4 gap-y-3 lg:gap-y-0 gap-x-3 ">
           <MiniPlot title="S&P500" priceData = {priceDataSP500} changesPercentage={changeSP500} previousClose={previousCloseSP500}/>
           <MiniPlot title="Nasdaq" priceData = {priceDataNasdaq} changesPercentage={changeNasdaq} previousClose={previousCloseNasdaq}/>
           <MiniPlot title="Dow" priceData = {priceDataDowJones} changesPercentage={changeDowJones} previousClose={previousCloseDowJones}/>
           <MiniPlot title="Russel" priceData = {priceDataRussel2000} changesPercentage={changeRussel2000} previousClose={previousCloseRussel2000}/>
           </div>
         </div>
-    
+      
+      
         
     
             {#if priceAlertList?.length === 0}
