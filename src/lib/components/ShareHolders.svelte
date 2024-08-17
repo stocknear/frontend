@@ -106,8 +106,7 @@ const getShareholders = async (ticker) => {
       // Cache the data for this specific tickerID with a specific name 'getShareholders'
       setCache(ticker, rawData, 'getShareholders');
     }
-
-    if(Object?.keys(rawData)?.length !== 0) {
+    if(Object?.keys(rawData)?.length !== 0 && rawData?.shareholders?.length > 1) {
         $shareholderComponent = true
     }
     else {
