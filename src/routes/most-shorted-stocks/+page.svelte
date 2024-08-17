@@ -202,7 +202,7 @@
                             </td>
 
                             <td class="text-end text-sm sm:text-[1rem] whtitespace-nowrap font-medium text-white">
-                              {item?.sector}
+                              {item?.sector !== null ? item?.sector : '-'}
                             </td>
 
 
