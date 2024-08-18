@@ -40,7 +40,7 @@
   import Newspaper from "lucide-svelte/icons/newspaper";
   import MessageCircle from "lucide-svelte/icons/message-circle";
   import AudioLine from "lucide-svelte/icons/audio-lines";
-
+  import Gem from 'lucide-svelte/icons/gem';
 
   export let data;
 
@@ -589,7 +589,20 @@ $: {
                       </div>
                 </a>
               </Button>
-            </Sheet.Close>  
+            </Sheet.Close>
+
+            <Sheet.Close asChild let:builder>
+              <Button builders={[builder]} type="submit" class="bg-[#141417] hover:bg-[#141417] -ml-4 w-full">
+                <a href="/pricing" class="flex flex-row items-center w-full -mt-2"> 
+                      <div class="flex flex-row items-center mr-auto">
+                        <div class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8">
+                          <Gem class="h-5.5 w-5.5" />  
+                        </div>
+                        <span class="ml-3 text-white text-[1rem]">Pricing</span>
+                      </div>
+                </a>
+              </Button>
+            </Sheet.Close>
     
     
               </nav>
@@ -919,6 +932,16 @@ $: {
                     
                   </div>
                   <span class="ml-3 text-white">Community</span>
+                </a>
+
+                <a href="/pricing" class="flex flex-row items-center ml-9 w-full mt-3">
+                  <div
+                    class="flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors hover:text-white md:h-8 md:w-8"
+                  >
+                    <Gem class="h-5.5 w-5.5" />
+                    
+                  </div>
+                  <span class="ml-3 text-white">Pricing</span>
                 </a>
                     
             </nav>

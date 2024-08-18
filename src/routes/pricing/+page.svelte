@@ -375,7 +375,7 @@ async function purchasePlan(subscriptionType:string='') {
              
              <div class="sm:h-[660px] sm:order-2 box sm:-mt-10 flex flex-col p-6 lg:p-8 mx-auto ring-[1px] ring-gray-400 rounded-lg w-full text-center text-white">
 
-                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-2xl flex flex-row border border-gray-300 items-center p-2">
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-2xl flex flex-row border-l border-r border-b border-gray-400 items-center p-2">
                     <span class="text-white text-md font-semibold px-3">
                         Best Support
                     </span>
