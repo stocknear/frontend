@@ -71,10 +71,12 @@ const getAnalystEstimate = async (ticker) => {
       });
 
       analystEstimateList = await response?.json();
+      analystEstimateList = analystEstimateList?.filter(item => !item.date.toString().startsWith("19"));
 
       // Cache the data for this specific tickerID with a specific name 'getAnalystEstimate'
       setCache(ticker, analystEstimateList, 'getAnalystEstimate');
     }
+    
     if(analystEstimateList?.length !== 0) {
         $analystEstimateComponent = true;
     } else {

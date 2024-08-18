@@ -10,10 +10,10 @@
 
 import { Chart } from 'svelte-echarts'
 import { init, use } from 'echarts/core'
-import { BarChart } from 'echarts/charts'
+import { BarChart, PieChart } from 'echarts/charts'
 import { GridComponent, TooltipComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
+use([BarChart, PieChart, GridComponent, TooltipComponent, CanvasRenderer])
   
   
   import { onMount } from 'svelte';
@@ -23,13 +23,13 @@ use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
 
 
   let isLoaded = false;
+  let optionsPie;
   let rawData = data?.getHedgeFundsData;
   let rawList = []
   let displayList = [];
   let optionsData = {};
   let currentPage=1;
   const itemsPerPage = 50;
-  let images = {};
 
 
   let numOfAssets;
@@ -328,8 +328,39 @@ async function handleMode(i) {
   return option;
   }
 
+async function getPieChart() {
+  const options = {
+  animation: false,
+  silent: true,
+  series: [
+    {
+      name: 'Access From',
+      type: 'pie',
+      radius: ['70%', '90%'],
+      avoidLabelOverlap: false,
+      label: {
+        show: false,
+        position: 'center'
+      },
+      labelLine: {
+        show: false
+      },
+      data: [
+        { value: 1048, name: 'Search Engine' },
+        { value: 735, name: 'Direct' },
+        { value: 580, name: 'Email' },
+        { value: 484, name: 'Union Ads' },
+      ],
+      color: ['#C8603E', '#B53199', '#5DAD85', '#9969FB', '#AB33B2']
+    }
+  ]
+};
+  return options;
+}
+
 onMount(async () => {
     optionsData = await getPerformancePlot();
+    //optionsPie = await getPieChart();
     isLoaded = true;
 });
   
@@ -466,7 +497,13 @@ onMount(async () => {
                     </div>
 
                 </div>
-              </div>
+                </div>
+                <!--
+                <div class="w-full mt-5">
+                  <Chart {init} options={optionsPie} class="" />
+                </div>
+                -->
+
                 <!--End Card-->
 
                  <!--Start Widget-->
