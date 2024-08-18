@@ -284,11 +284,11 @@ $: {
           <Sheet.Root >
             <Sheet.Trigger asChild let:builder>
               <Button builders={[builder]} size="icon" class="sm:xl bg-[#09090B] text-white sm:hover:bg-[#27272A] border-none">
-                <Menu class=" h-5.5 w-5.5 sm:w-7 sm:h-7" />
+                <Menu class="h-5.5 w-5.5 sm:w-7 sm:h-7" />
                 <span class="sr-only">Toggle Menu</span>
               </Button>
             </Sheet.Trigger>
-            <Sheet.Content side="left" class="max-w-screen w-full sm:max-w-xs bg-[#141417] overflow-y-scroll">
+            <Sheet.Content side="left" class="max-w-screen w-full sm:max-w-xs bg-[#141417] overflow-y-scroll text-white">
               <nav class=" grid gap-6 text-lg font-medium bg-[#141417]">
                 <a
                 href="/"
@@ -731,7 +731,7 @@ $: {
         
                     <Accordion.Item value="item-1">
         
-                      <Accordion.Trigger class="">
+                      <Accordion.Trigger class="text-white ">
                         <Stock class="h-5.5 w-5.5 mr-3 text-white ml-1"/>  
                         <span class="text-white ml-1 mr-auto">Stocks</span>
                       </Accordion.Trigger>
