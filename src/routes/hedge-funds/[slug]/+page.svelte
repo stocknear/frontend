@@ -10,10 +10,10 @@
 
 import { Chart } from 'svelte-echarts'
 import { init, use } from 'echarts/core'
-import { BarChart, PieChart } from 'echarts/charts'
+import { BarChart } from 'echarts/charts'
 import { GridComponent, TooltipComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-use([BarChart, PieChart, GridComponent, TooltipComponent, CanvasRenderer])
+use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
   
   
   import { onMount } from 'svelte';
@@ -21,9 +21,57 @@ use([BarChart, PieChart, GridComponent, TooltipComponent, CanvasRenderer])
   export let data;
   let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
 
+  function sectorSelector(sector) {
+    let path;
+    switch(sector) {
+        case 'Financials':
+            path = "financial-sector";
+            break;
+        case 'Healthcare':
+            path = "healthcare-sector";
+            break;
+        case 'Information Technology':
+            path = "technology-sector";
+            break;
+        case 'Technology':
+            path = "technology-sector";
+            break;
+        case 'Financial Services':
+            path = "financial-sector";
+            break;
+        case 'Industrials':
+            path = "industrials-sector";
+            break;
+        case 'Energy':
+            path = "energy-sector";
+            break;
+        case 'Utilities':
+            path = "utilities-sector";
+            break;
+        case 'Consumer Cyclical':
+            path = "consumer-cyclical-sector";
+            break;
+        case 'Real Estate':
+            path = "real-estate-sector";
+            break;
+        case 'Basic Materials':
+            path = "basic-materials-sector";
+            break;
+        case 'Communication Services':
+            path = "communication-services-sector";
+            break;
+        case 'Consumer Defensive':
+            path = "consumer-defensive-sector";
+            break;
+        default:
+            // Handle default case if needed
+            break;
+    }
+    goto("/list/" + path);
+}
+
 
   let isLoaded = false;
-  let optionsPie;
   let rawData = data?.getHedgeFundsData;
   let rawList = []
   let displayList = [];
@@ -212,7 +260,7 @@ async function handleMode(i) {
         hideDelay: 100, // Set the delay in milliseconds
       },
       grid: {
-          left: $screenWidth < 640 ? '0.5%' : '0.5%',
+          left: $screenWidth < 640 ? '0.5%' : '0%',
           right: $screenWidth < 640 ? '1%' : '5%',
           bottom: '0%',
           containLabel: true
@@ -286,7 +334,7 @@ async function handleMode(i) {
         hideDelay: 100, // Set the delay in milliseconds
       },
       grid: {
-          left: $screenWidth < 640 ? '0.5%' : '0.5%',
+          left: $screenWidth < 640 ? '0.5%' : '0%',
           right: $screenWidth < 640 ? '1%' : '5%',
           bottom: '0%',
           containLabel: true
@@ -328,39 +376,8 @@ async function handleMode(i) {
   return option;
   }
 
-async function getPieChart() {
-  const options = {
-  animation: false,
-  silent: true,
-  series: [
-    {
-      name: 'Access From',
-      type: 'pie',
-      radius: ['70%', '90%'],
-      avoidLabelOverlap: false,
-      label: {
-        show: false,
-        position: 'center'
-      },
-      labelLine: {
-        show: false
-      },
-      data: [
-        { value: 1048, name: 'Search Engine' },
-        { value: 735, name: 'Direct' },
-        { value: 580, name: 'Email' },
-        { value: 484, name: 'Union Ads' },
-      ],
-      color: ['#C8603E', '#B53199', '#5DAD85', '#9969FB', '#AB33B2']
-    }
-  ]
-};
-  return options;
-}
-
 onMount(async () => {
     optionsData = await getPerformancePlot();
-    //optionsPie = await getPieChart();
     isLoaded = true;
 });
   
@@ -498,11 +515,49 @@ onMount(async () => {
 
                 </div>
                 </div>
-                <!--
-                <div class="w-full mt-5">
-                  <Chart {init} options={optionsPie} class="" />
+                
+                <div class="w-full bg-[#141417] border border-gray-800 rounded-lg h-fit pb-4 mt-5">
+                  <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
+                    <h2 class="text-start text-xl font-semibold text-white p-3 mt-3 ml-1">
+                      Top Sectors
+                    </h2>
+                    {#if rawData?.topSectors?.length !== 0} 
+              
+                  
+                    <div class="flex justify-start items-center w-full m-auto ">
+                      <table class="table table-sm table-compact mt-3 text-start flex justify-start items-center w-full px-3 m-auto">
+                        <thead>
+                          <tr class="border-b border-[#141417">
+                            <th class="text-white font-semibold text-sm sm:text-[1rem] text-start bg-[#141417]">Sector</th>
+                            <th class="text-white font-semibold text-sm sm:text-[1rem] text-end bg-[#141417]">% Portfolio</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {#each rawData?.topSectors as item}
+                            {#each Object.entries(item) as [name, value]}
+                              <tr on:click={() => sectorSelector(name)} class="text-white cursor-pointer sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#141417] border-b border-[#141417]">
+                                <td class="text-blue-400 sm:hover:text-white duration-100 text-[1rem] whitespace-nowrap">
+                                  {name}
+                                </td>
+                                <td class="text-white text-[1rem] whitespace-nowrap text-end">
+                                  {value?.toFixed(2)}%
+                                </td>
+                              </tr>
+                            {/each}
+                          {/each}
+                        </tbody>
+                      </table>
+                    </div>
+              
+                    {:else}
+                    <div class=" mt-20 flex justify-center items-center text-2xl font-bold text-slate-700 mb-20 m-auto">
+                        No data available
+                    </div>
+                    {/if}
+           
                 </div>
-                -->
+                </div>
+                
 
                 <!--End Card-->
 
@@ -628,15 +683,15 @@ onMount(async () => {
                   </div>
                 <!--End Widget-->
 
-            </aside>
+              </aside>
   
   
-                <main class="w-full mt-10 sm:mt-0 sm:ml-5">
+                <main class="w-full mt-10 sm:mt-0 sm:pl-10">
                 
                   {#if isLoaded && Object?.keys(optionsData)?.length !== 0}
-                  <div class="p-0 sm:p-10 bg-[#09090B] sm:bg-[#09090B] rounded-lg sm:min-h-[330px] mb-10 sm:mb-6">
+                  <div class="bg-[#09090B] sm:bg-[#09090B] rounded-lg sm:min-h-[330px] mb-10 sm:mb-6">
   
-                    <div class="flex flex-row justify-center sm:justify-start items-center">
+                    <div class="flex flex-row justify-start items-center">
                       {#if activePlotIdx === 0}
                       <PercentIcon class="h-6 w-6 shrink-0 inline-block" />
                       <span class="ml-3 text-white text-xl">Performance History</span>
@@ -798,7 +853,7 @@ onMount(async () => {
                   </div>
                 </div>
                 
-                <div class="sm:p-3 bg-[#09090B] sm:bg-[#09090B] sm:min-h-[430px] pt-6">
+                <div class="bg-[#09090B] sm:bg-[#09090B] sm:min-h-[430px] pt-6">
                   <div class="h-auto w-full sm:w-11/12 ">
                     
                     
@@ -860,7 +915,7 @@ onMount(async () => {
                             <th class="shadow-md text-start bg-[#09090B] text-white text-sm font-semibold">
                               Value Owned
                             </th>
-                            <th class="shadow-md text-ednd bg-[#09090B]  text-white text-sm font-semibold">
+                            <th class="shadow-md text-end bg-[#09090B]  text-white text-sm font-semibold">
                               Avg. Buy Price
                             </th>
                             {#if changeAssetType === 'Options'}
@@ -977,7 +1032,7 @@ onMount(async () => {
                             </tr>
                           </thead>
                             <tbody>
-                              {#each displayList as item,index}
+                              {#each displayList as item}
                               <!-- row -->
                               <tr on:click={() => goto(`/${item?.type}/${item?.symbol}`)} class="odd:bg-[#27272A] cursor-pointer">
                                 

@@ -108,6 +108,7 @@ const getShareholders = async (ticker) => {
     }
     if(Object?.keys(rawData)?.length !== 0 && rawData?.shareholders?.length > 1) {
         $shareholderComponent = true
+        
     }
     else {
         $shareholderComponent = false;
@@ -147,6 +148,7 @@ $: {
                 console.error('An error occurred:', error);
             });
         isLoaded = true;
+
     }
 
 }
