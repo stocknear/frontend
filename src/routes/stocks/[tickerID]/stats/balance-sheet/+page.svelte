@@ -297,7 +297,6 @@ function normalizer(value) {
             axisLabel: {
             color: '#fff', // Change label color to white
             formatter: function (value) {
-                value = Math.max(value, 0);
                 return '$'+(value / denominator)?.toFixed(1) + unit; // Format value in millions
                 },
             },
@@ -435,7 +434,6 @@ $: {
 <!-- Other meta tags -->
 <meta property="og:title" content={`${$displayCompanyName} (${$stockTicker}) Balance Sheet &#183 stocknear`}/>
 <meta property="og:description" content={`Detailed balance sheet for ${$displayCompanyName} (${$stockTicker}), including cash, debt, assets, liabilities, and book value.`} />
-<meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <meta property="og:type" content="website"/>
 <!-- Add more Open Graph meta tags as needed -->
 
@@ -443,7 +441,6 @@ $: {
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content={`${$displayCompanyName} (${$stockTicker}) Balance Sheet &#183 stocknear`}/>
 <meta name="twitter:description" content={`Detailed balance sheet for ${$displayCompanyName} (${$stockTicker}), including cash, debt, assets, liabilities, and book value.`} />
-<meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <!-- Add more Twitter meta tags as needed -->
 
 </svelte:head>
@@ -452,7 +449,7 @@ $: {
     <section class="bg-[#09090B] overflow-hidden text-white h-full pb-40 sm:mb-0">
         <div class="flex justify-center w-full m-auto h-full overflow-hidden">
             <div class="relative flex justify-center items-center overflow-hidden">
-                <main>
+                <main class="w-full">
                     <div class="sm:p-7 m-auto mt-2 sm:mt-0">
                         <div class="mb-3">
                             <h1 class="text-2xl text-gray-200 font-bold">

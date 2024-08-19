@@ -261,7 +261,7 @@ async function handleMode(i) {
       },
       grid: {
           left: $screenWidth < 640 ? '0.5%' : '0%',
-          right: $screenWidth < 640 ? '1%' : '5%',
+          right: $screenWidth < 640 ? '1%' : '10%',
           bottom: '0%',
           containLabel: true
       },
@@ -335,7 +335,7 @@ async function handleMode(i) {
       },
       grid: {
           left: $screenWidth < 640 ? '0.5%' : '0%',
-          right: $screenWidth < 640 ? '1%' : '5%',
+          right: $screenWidth < 640 ? '1%' : '10%',
           bottom: '0%',
           containLabel: true
       },
@@ -689,7 +689,7 @@ onMount(async () => {
                 <main class="w-full mt-10 sm:mt-0 sm:pl-10">
                 
                   {#if isLoaded && Object?.keys(optionsData)?.length !== 0}
-                  <div class="bg-[#09090B] sm:bg-[#09090B] rounded-lg sm:min-h-[330px] mb-10 sm:mb-6">
+                  <div class="bg-[#09090B] rounded-lg sm:min-h-[330px] mb-10 sm:mb-6">
   
                     <div class="flex flex-row justify-start items-center">
                       {#if activePlotIdx === 0}

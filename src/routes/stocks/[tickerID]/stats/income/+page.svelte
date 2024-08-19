@@ -140,17 +140,16 @@ import { init, use } from 'echarts/core'
     
     
         
-    function toggleMode()
-    {
+function toggleMode()
+{
     mode = !mode;
-    }
+}
             
-                
-                
-    function changeStatement(event)
-    {
+           
+function changeStatement(event)
+{
     displayStatement = event.target.value;
-    }
+}
 
 
 function normalizer(value) {
@@ -239,7 +238,6 @@ function plotData()
             axisLabel: {
             color: '#fff', // Change label color to white
             formatter: function (value) {
-                value = Math.max(value, 0);
                 return '$'+(value / denominator)?.toFixed(1) + unit; // Format value in millions
                 },
             },
@@ -330,12 +328,13 @@ const filterStatement = (fullStatement, timeFrame) => {
   }
 };
 
-    fullStatement = data?.getIncomeStatement;
-    timeFrame = '10Y';
-    displayStatement = 'revenue';
-    
 
-    $: {
+fullStatement = data?.getIncomeStatement;
+timeFrame = '10Y';
+displayStatement = 'revenue';
+
+
+$: {
     if (timeFrame || displayStatement || filterRule)
     {   
         if (filterRule === 'annual') {
@@ -349,10 +348,8 @@ const filterStatement = (fullStatement, timeFrame) => {
         if (mode === true)
         {
             optionsData= plotData()
-        }
-        
+        }   
     }
-
 }
 
 
@@ -368,21 +365,12 @@ const filterStatement = (fullStatement, timeFrame) => {
     {$numberOfUnreadNotification > 0 ? `(${$numberOfUnreadNotification})` : ''} {$displayCompanyName} ({$stockTicker}) Financials - Income Statement · stocknear
 </title>
 <meta name="description" content={`Detailed annual and timeFramely income statement for ${$displayCompanyName} (${$stockTicker}). See many years of revenue, expenses and profits or losses.`} />
-
-<!-- Other meta tags -->
 <meta property="og:title" content={`${$displayCompanyName} (${$stockTicker}) Financials - Income Statement · stocknear`}/>
 <meta property="og:description" content={`Detailed annual and timeFramely income statement for ${$displayCompanyName} (${$stockTicker}). See many years of revenue, expenses and profits or losses.`} />
-<meta property="og:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
 <meta property="og:type" content="website"/>
-<!-- Add more Open Graph meta tags as needed -->
-
-<!-- Twitter specific meta tags -->
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content={`${$displayCompanyName} (${$stockTicker}) Financials - Income Statement · stocknear`}/>
 <meta name="twitter:description" content={`Detailed annual and timeFramely income statement for ${$displayCompanyName} (${$stockTicker}). See many years of revenue, expenses and profits or losses.`} />
-<meta name="twitter:image" content="https://stocknear-pocketbase.s3.amazonaws.com/logo/meta_logo.jpg"/>
-<!-- Add more Twitter meta tags as needed -->
-
 </svelte:head>
 
     
@@ -391,7 +379,7 @@ const filterStatement = (fullStatement, timeFrame) => {
             <div class="w-full relative flex justify-center items-center overflow-hidden">
 
                 {#if isLoaded}
-                <main>
+                <main class="w-full">
                     <div class="sm:p-7 m-auto mt-2 sm:mt-0">
                         <div class="mb-3">
                             <h1 class="text-2xl text-gray-200 font-bold">
@@ -484,7 +472,7 @@ const filterStatement = (fullStatement, timeFrame) => {
             
     
                         {#if mode}
-                            <div class="w-full Max-w-3xl">
+                            <div class="w-full">
                                 <div class="relative">
                                 <select class="select select-bordered select-sm p-0 pl-5 overflow-y-auto bg-[#2A303C]" on:change={changeStatement}>
                                     <option disabled>Choose an Cash Flow Variable</option>
