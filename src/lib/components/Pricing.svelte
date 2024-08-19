@@ -25,7 +25,7 @@ onMount(async () => {
 
 </script>
 
-<section class="bg-[#09090B] min-h-screen max-w-7xl w-full pt-24 m-auto">
+<section class="bg-[#09090B] min-h-screen max-w-3xl sm:max-w-screen-xl w-full pt-24 m-auto">
     <div class="px-3">
         <div class="mx-auto text-center mb-8 ">
             
@@ -71,7 +71,7 @@ onMount(async () => {
 
 
 
-        <div class="flex flex-col sm:flex-row items-center gap-10 sm:gap-5 w-full max-w-6xl m-auto mt-10 sm:mt-20">
+        <div class="flex flex-col sm:flex-row items-center gap-10 sm:gap-5 w-full m-auto mt-10 sm:mt-20">
             <!-- Pricing Card -->
             <div class="order-last sm:order-1 flex flex-col p-6 lg:p-8 mx-auto w-full text-center text-white border border-gray-800 bg-[#09090B] rounded-lg">
 
