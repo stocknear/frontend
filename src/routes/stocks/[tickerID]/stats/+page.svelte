@@ -655,10 +655,10 @@ updateYearRange()
                       
 
                       <tr class="text-white odd:bg-[#27272A] font-semibold">
-                      <td class="text-start text-whitetext-sm sm:text-[1rem] whitespace-nowrap">
+                      <td class="text-start text-white text-sm sm:text-[1rem] whitespace-nowrap">
                         Max Consecutive Wins
                       </td>
-                      <td class="text-start text-end text-sm">
+                      <td class="text-start text-end text-sm sm:text-[1rem] whitespace-nowrap">
                         {quantStats[$stockTicker?.toUpperCase()]["Max Consecutive Wins"]}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">

@@ -1,219 +1,144 @@
 <script lang='ts'>
-
+import {stockTicker, etfTicker, cryptoTicker, assetType} from '$lib/store';
 import { Chart } from 'svelte-echarts'
 import { init, use } from 'echarts/core'
 
 import { BarChart } from 'echarts/charts'
-import { GridComponent } from 'echarts/components'
+import { GridComponent, TooltipComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-use([BarChart, GridComponent, CanvasRenderer])
 
-    import {stockTicker, etfTicker, cryptoTicker, assetType} from '$lib/store';
+use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
     
-    export let quantData;
-    
+export let quantData;
+
+
+let firstElementKey;
+
+let monthlyReturnsData;
+let benchmarkMonthlyReturnsData;
 
     
-    const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
     
-    let firstElementKey;
+const plotAnnualReturn = () => {
 
-    let monthlyReturnsData;
-    let benchmarkMonthlyReturnsData;
-    
-    
-    
- 
-    
-    const plotAnnualReturn = () => {
-        
-        const annualReturnList = [];
-        const annualReturnListBenchmark = [];
+const annualReturnList = [];
+const annualReturnListBenchmark = [];
 
-        // Find the maximum year in monthlyReturnsData
-        // Find the maximum year in monthlyReturnsData
-        let maxYear = Math?.max(...Object?.keys(monthlyReturnsData)?.map(year => parseInt(year)));
+// Find the maximum year in monthlyReturnsData
+// Find the maximum year in monthlyReturnsData
+let maxYear = Math?.max(...Object?.keys(monthlyReturnsData)?.map(year => parseInt(year)));
 
-        // Iterate over the last 4 years
-        for (let year = maxYear; year > maxYear - 4; year--) {
-            if (monthlyReturnsData.hasOwnProperty(year.toString())) {
-                const values = monthlyReturnsData[year.toString()];
-                annualReturnList.push(values[values.length - 1]);
-            }
-        }
+// Iterate over the last 4 years
+for (let year = maxYear; year > maxYear - 4; year--) {
+    if (monthlyReturnsData.hasOwnProperty(year.toString())) {
+        const values = monthlyReturnsData[year.toString()];
+        annualReturnList.push(values[values.length - 1]);
+    }
+}
 
-        // Find the maximum year in benchmarkMonthlyReturnsData
-        maxYear = Math?.max(...Object?.keys(benchmarkMonthlyReturnsData)?.map(year => parseInt(year)));
+// Find the maximum year in benchmarkMonthlyReturnsData
+maxYear = Math?.max(...Object?.keys(benchmarkMonthlyReturnsData)?.map(year => parseInt(year)));
 
-        // Iterate over the last 4 years
-        for (let year = maxYear; year > maxYear - 4; year--) {
-            if (benchmarkMonthlyReturnsData.hasOwnProperty(year.toString())) {
-                const values = benchmarkMonthlyReturnsData[year.toString()];
-                annualReturnListBenchmark.push(values[values.length - 1]);
-            }
-        }
+// Iterate over the last 4 years
+for (let year = maxYear; year > maxYear - 4; year--) {
+    if (benchmarkMonthlyReturnsData.hasOwnProperty(year.toString())) {
+        const values = benchmarkMonthlyReturnsData[year.toString()];
+        annualReturnListBenchmark.push(values[values.length - 1]);
+    }
+}
 
 
 
 
        
-            const options = {
-                grid: {
-                    left: "2%",
-                    right: "2%",
-                    bottom: '0%',
-                    height: "90%",
-                    containLabel: true,
-                },
-                xAxis: {
-                    data: ['2020', '2021', '2022', '2023','2024'],
-                    type: 'category',
-                    axisTick: {
-                        alignWithLabel: true,
-                    },
-                },
-                yAxis: [
-                    {
-                        type: 'value',
-                        splitLine: {
-                            show: false, // Disable y-axis grid lines
-                        },
-                    },
-                    {
-                        type: 'value',
-                        axisLabel: {
-                            formatter: '{value} %', // Display value with a percent sign
-                        },
-                        splitLine: {
-                            show: false, // Disable y-axis grid lines
-                        },
-                    },
-                ],
-                series: [                    
-                    {
-                        name: $assetType === 'etf' ? $etfTicker : $assetType === 'crypto' ? $cryptoTicker : $stockTicker,
-                        data: annualReturnList,
-                        type: 'bar',
-                        barWidth: '30%',
-                        smooth: true,
-                        itemStyle: {
-                            color: '#398EC2',
-                        },
-                       
-                    },
-                    {
-                        name: 'S&P500',
-                        data: annualReturnListBenchmark,
-                        type: 'bar',
-                        barWidth: '30%',
-                        smooth: true,
-                        itemStyle: {
-                            color: '#FEDD78',
-                        },
-                      
-                       
-                    },
-                ],
-               
-            };
-    
-    
-        return options;
-    
-    }
-    
-    const plotMonthlyDistributionReturn = () => {
-        const allReturns = Object?.values(monthlyReturnsData)?.flat();
-
-        let histogramData = [];
-        // Calculate histogram data
-        let binSize = 6;
-        let maxBin = Math.ceil(Math.max(...allReturns) / binSize) * binSize;
-        let minBin = Math.floor(Math.min(...allReturns) / binSize) * binSize;
-
-        for (let i = minBin; i <= maxBin; i += binSize) {
-            let count = allReturns.filter(r => r >= i && r < i + binSize)?.length;
-            histogramData.push([i, count]);
+const options = {
+    silent: true,
+    animation: false,
+    tooltip: {
+        trigger: 'axis',
+        hideDelay: 100, // Set the delay in milliseconds
+    },
+    grid: {
+        left: "0%",
+        right: "0%",
+        bottom: '0%',
+        height: "90%",
+        containLabel: true,
+    },
+    xAxis: {
+        data: ['2020', '2021', '2022', '2023','2024'],
+        type: 'category',
+        axisTick: {
+            alignWithLabel: true,
+        },
+        axisLabel: {
+            color: '#fff',
         }
-
-        const options = {
-            grid: {
-                    left: "0%",
-                    right: "0%",
-                    bottom: '0%',
-                    height: "90%",
-                    containLabel: true,
-                },
-            xAxis: [
-                {
-                type: 'category',
-                name: 'Return (%)', // X-axis label
-                nameLocation: 'center',
-                axisTick: {
-                    alignWithLabel: true,
-                },
-               
-                nameTextStyle: {
-                    color: 'white', // Set label color to white
-                    padding: [30, 0, 0, 0],
-                },
-                }
-                
-            ],
-            yAxis: [
-                    {
-                        type: 'value',
-                        name: 'Frequency', // X-axis label
-                        nameLocation: 'center',
-                        splitLine: {
-                            show: false, // Disable y-axis grid lines
-                        },
-                        nameTextStyle: {
-                            color: 'white', // Set label color to white
-                            padding: [0, 0, 20, 0],
-                        },
-                    },
-                    {
-                        type: 'value',
-                        axisLabel: {
-                            formatter: '{value} %', // Display value with a percent sign
-                        },
-                        splitLine: {
-                            show: false, // Disable y-axis grid lines
-                        },
-                    },
-                ],
-            series: [
-                {
-                name: 'Frequency of Return',
-                type: 'bar',
-                barWidth: '80%',
-                itemStyle: {
-                    color: 'white',
-                },
-                data: histogramData
-                }
-            ],
-            
-            };
-        
-        return options;
-    };
-    
-    let displayReturn = 'annualReturn';
-    let optionsAnnualReturn;
-    let optionsMonthlyDistributionReturn;
-    
-    function changeStatement(event)
-        
+    },
+    yAxis: [
         {
-        
-            displayReturn = event.target.value;
-        
+            type: 'value',
+            splitLine: {
+                show: false, // Disable y-axis grid lines
+            },
+            axisLabel: {
+            color: '#fff',
+            formatter: function (value, index) {
+                // Display every second tick
+                if (index % 2 === 0) {
+                    return '%'+value; // Format value in millions
+                } else {
+                    return ''; // Hide this tick
+                }
+            }
         }
-        
+        },
+        {
+            type: 'value',
+            axisLabel: {
+                formatter: '{value} %', // Display value with a percent sign
+            },
+            splitLine: {
+                show: false, // Disable y-axis grid lines
+            },
+        },
+    ],
+    series: [                    
+        {
+            name: $assetType === 'etf' ? $etfTicker : $assetType === 'crypto' ? $cryptoTicker : $stockTicker,
+            data: annualReturnList,
+            type: 'bar',
+            barWidth: '30%',
+            smooth: true,
+            itemStyle: {
+                color: '#398EC2',
+            },
+            
+        },
+        {
+            name: 'S&P500',
+            data: annualReturnListBenchmark,
+            type: 'bar',
+            barWidth: '30%',
+            smooth: true,
+            itemStyle: {
+                color: '#FEDD78',
+            },
+            
+            
+        },
+    ],
+    
+};
+
+
+return options;
+
+}
+    
+
+    let optionsAnnualReturn;
+    
     
     
     $: {
@@ -232,14 +157,7 @@ use([BarChart, GridComponent, CanvasRenderer])
             }
             
     
-            if (displayReturn === 'annualReturn')
-            {
-                optionsAnnualReturn = plotAnnualReturn()
-            }
-            else if(displayReturn === 'monthlyDistributionReturn')
-            {
-                optionsMonthlyDistributionReturn = plotMonthlyDistributionReturn();
-            }
+            optionsAnnualReturn = plotAnnualReturn()
         }
     }
     
@@ -253,22 +171,11 @@ use([BarChart, GridComponent, CanvasRenderer])
         <div class="w-full m-auto h-full overflow-hidden">
             <main>
 
-            <div class="text-start mr-auto w-full">
-              <select class="w-48 select select-bordered select-sm p-0 pl-5 ml-2 mt-2 bg-[#2A303C]" on:change={changeStatement}>
-                <option disabled>Choose your Return</option>
-                <option value="annualReturn" selected>
-                    Annual Return
-                </option>
-                <option value="monthlyDistributionReturn" >
-                    Distribution of Monthly Returns
-                </option>
-              </select>
-            </div>
+      
 
 
             <div class="rounded-2xl pl-3 sm:pr-0 pt-3 w-full mt-4">
 
-                {#if displayReturn === 'annualReturn'}
                     <h1 class="text-white m-auto font-bold text-lg  text-center">
                         Annual Return (%)
                     </h1>
@@ -298,17 +205,7 @@ use([BarChart, GridComponent, CanvasRenderer])
                     <Chart {init} options={optionsAnnualReturn} class="chart" />
                 </div>
 
-                    
-                {:else if displayReturn === 'monthlyDistributionReturn'}
-
-                    <h1 class="text-white m-auto font-bold text-lg sm:-mb-2 text-center">
-                        Distribution of Monthly Returns
-                    </h1>
-
-                    <div class="app w-full h-[300px] mt-5 mb-16">
-                        <Chart {init} options={optionsMonthlyDistributionReturn} class="chart" />
-                    </div>
-                {/if}
+                
             </div>
     
               </main>
