@@ -313,16 +313,17 @@ optionsGrowth = plotGrowth();
 
 
             
-  <section class="bg-[#09090B] overflow-hidden text-white h-full mb-40 sm:mb-0">
-      <div class="flex justify-center m-auto h-full overflow-hidden">
-          <div class="relative flex justify-center items-center overflow-hidden">
+  <section class="bg-[#09090B] w-full overflow-hidden text-white h-full mb-40 sm:mb-0">
+      <div class="w-full flex justify-center m-auto h-full overflow-hidden">
+          <div class="w-full relative flex justify-center items-center overflow-hidden">
                 <div class="sm:p-7 w-full m-auto mt-2 sm:mt-0">
                       <div class="mb-6">
                           <h2 class="text-2xl sm:text-3xl text-gray-200 font-bold mb-4">
                               Employees
                           </h2>
-  
-                          <div class="text-white p-3 sm:p-5 mb-5 rounded-lg sm:flex sm:flex-row sm:items-center border border-gray-800 text-sm sm:text-[1rem]">
+                          
+                          
+                          <div class="text-white p-3 sm:p-5 mb-5 rounded-lg flex flex-row  items-center border border-gray-800 text-sm sm:text-[1rem]">
                             <svg class="w-6 h-6 flex-shrink-0 inline-block sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
                             
                             {#if employeeHistory?.length !== 0 && !dateDistance}
@@ -352,46 +353,34 @@ optionsGrowth = plotGrowth();
                       </div>
 
                       
-                      <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-5 bg-[#27272A] shadow-md rounded-xl p-5 flex justify-center items-center mb-2">
-                        <!--Start Column Title-->
-                        <div class="flex flex-col">
-                          <div class="flex flex-row items-center">
-                            <span class="text-gray-300 font-medium text-[1rem]">
-                              Total Employees
-                            </span>
-                          </div>
-                        
-                          <span class="text-white text-[1rem] font-semibold">
-                            {abbreviateNumber(employees)}
-                          </span>
+                      <div class="mb-4 grid grid-cols-2 grid-rows-1 divide-gray-500 rounded-lg border border-gray-600 bg-[#272727] shadow md:grid-cols-3 md:grid-rows-1 md:divide-x">
+                        <div class="p-4 bp:p-5 sm:p-6">
+                          <label for="totalAnalystInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-[1rem]">
+                            Total Employees
+                          </label>   
+                            <div class="mt-1 break-words font-semibold leading-8 text-light text-xl">
+                              {abbreviateNumber(employees)}
+                            </div> 
                         </div>
-                        <!--End Column Title-->
-                  
-                        <!--Start Column Win Rate-->
-                        <div class="flex flex-col">
-                          <div class="flex flex-row items-center">
-                            <span class="text-gray-300 font-medium text-[1rem] ">
-                                Change (1Y)
-                            </span>
-                          </div>
-                          <span class="text-white text-[1rem] font-semibold">
-                            {#if dateDistance}
-                            n/a
-                            {:else}
-                              {abbreviateNumber(changeRate)}
-                            {/if}
-                          </span>
+                        <div class="p-4 bp:p-5 sm:p-6 border-l border-b border-contrast md:border-0">
+                          <label for="consensusRatingInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-[1rem]">
+                            Change (1Y)
+                          </label>  
+            
+                            <div class="mt-1 break-words font-semibold leading-8 text-light text-xl">
+                              {#if dateDistance}
+                              n/a
+                              {:else}
+                                {abbreviateNumber(changeRate)}
+                              {/if}
+                            </div> 
                         </div>
-                        <!--End Column Win Rate-->
-                  
-                        <!--Start Column Performance-->
-                        <div class="flex flex-col">
-                            <div class="flex flex-row items-center">
-                              <span class="text-gray-300 font-medium text-[1rem]">
-                              Growth (1Y)
-                              </span>
-                            </div>
-                            <span class="text-white  text-[1rem] font-semibold">
+                        <div class="p-4 bp:p-5 sm:p-6 border-t border-r border-contrast md:border-0">
+                          <label for="priceTargetInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-[1rem]">
+                            Growth (1Y)
+                          </label>    
+                         
+                            <div class="mt-1 break-words font-semibold leading-8 text-light text-xl">
                               {#if growthRate >= 0}
                               <span class="text-white text-md font-medium">
                                 <svg class="w-5 h-5 inline-block -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
@@ -407,12 +396,14 @@ optionsGrowth = plotGrowth();
                                   n/a
                                 </span>
                               {/if}
-                            </span>
-                          </div>
-                    <!--End Column-->
+                            </div> 
+                        </div>
+                     
                     </div>
 
-                         
+                    
+
+           
       
                       
       

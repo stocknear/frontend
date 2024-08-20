@@ -10,6 +10,7 @@ let displaySubSection = 'fundamental';
 if (displaySubSection) {
   const parts = $page?.url?.pathname.split('/');
   const sectionMap = {
+    'market-cap': 'market-cap',
     'employees': 'employees',
     'income': 'income',
     'balance-sheet': 'balance-sheet',
@@ -27,6 +28,7 @@ if (displaySubSection) {
 
 function changeSubSection(state) {
   const subSectionMap = {
+    'market-cap': '/stats/market-cap',
     'employees': '/stats/employees',
     'income': '/stats/income',
     'balance-sheet': '/stats/balance-sheet',
@@ -60,6 +62,12 @@ function changeSubSection(state) {
                             Fundamental
                           </a>
                           <div class="{displaySubSection === 'fundamental' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[4rem]" />
+                        </li>
+                        <li class="cursor-pointer flex flex-col items-center">
+                          <a href={`/stocks/${$stockTicker}/stats/market-cap`} on:click={() => (changeSubSection('market-cap'))} class="whitespace-nowrap px-2 text-xs sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySubSection === 'market-cap' ? 'text-white ' : 'bg-[#09090B]'}" >
+                            Market Cap
+                          </a>
+                          <div class="{displaySubSection === 'market-cap' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[3.5rem]" />
                         </li>
                         <li class="cursor-pointer flex flex-col items-center">
                           <a href={`/stocks/${$stockTicker}/stats/employees`} on:click={() => (changeSubSection('employees'))} class="px-2 text-xs sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySubSection === 'employees' ? 'text-white ' : 'bg-[#09090B]'}" >
