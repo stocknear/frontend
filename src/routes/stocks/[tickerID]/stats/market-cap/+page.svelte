@@ -308,7 +308,7 @@ async function plotData()
                             
                             <div class="w-full">
                                 <div class="relative flex justify-end">
-                                <select class="w-24 select select-bordered select-sm p-0 pl-5 overflow-y-auto bg-[#2A303C]" on:change={changeStatement}>
+                                <select class="w-24 select select-bordered select-sm p-0 pl-5 bg-[#2A303C]" on:change={changeStatement}>
                                     <option disabled>Choose a Time Period</option>
                                     <option value="oneMonth">1M</option>
                                     <option value="sixMonths">6M</option>
