@@ -302,7 +302,7 @@ async function plotData()
                         <div class="grid grid-cols-1 gap-2">
                             <div class="text-white p-3 sm:p-5 mb-10 rounded-lg sm:flex sm:flex-row sm:items-center border border-slate-800 text-sm sm:text-[1rem]">
                                 <svg class="w-6 h-6 flex-shrink-0 inline-block sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
-                                {$displayCompanyName} has a market cap or net worth of {abbreviateNumber(data?.getStockQuote?.marketCap,true)} as of {new Date(rawData?.at(-1)?.date ?? null)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}. Its market cap has {changePercentageYearAgo > 0 ? 'increased' : changePercentageYearAgo < 0 ? 'decreased' : 'unchanged'} by {abbreviateNumber(changePercentageYearAgo?.toFixed(2))}% in one year.
+                                {$displayCompanyName} has a market cap or net worth of {abbreviateNumber(data?.getStockQuote?.marketCap,true)} as of {(new Date())?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}. Its market cap has {changePercentageYearAgo > 0 ? 'increased' : changePercentageYearAgo < 0 ? 'decreased' : 'unchanged'} by {abbreviateNumber(changePercentageYearAgo?.toFixed(2))}% in one year.
                             </div>
     
                             
