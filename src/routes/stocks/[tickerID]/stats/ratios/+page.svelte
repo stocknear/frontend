@@ -355,9 +355,9 @@ $: {
                 
 <section class="bg-[#09090B] overflow-hidden text-white h-full pb-40 sm:mb-0">
     <div class="flex justify-center w-full m-auto h-full overflow-hidden">
-        <div class="relative flex justify-center items-center overflow-hidden">
+        <div class="w-full relative flex justify-center items-center overflow-hidden">
             <main class="w-full">
-                <div class="sm:p-7 m-auto mt-2 sm:mt-0">
+                <div class="sm:p-7 m-auto mt-2 sm:mt-0 w-full">
                     <div class="mb-3">
                         <h1 class="text-2xl text-gray-200 font-bold">
                             {#if mode}
