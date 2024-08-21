@@ -3,6 +3,8 @@
     import { numberOfUnreadNotification, screenWidth } from '$lib/store';
     import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
     import { onMount } from 'svelte';
+    import ArrowLogo from "lucide-svelte/icons/move-up-right";
+
     //import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
   
     
@@ -73,7 +75,7 @@
     
         
     
-    <section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
+    <section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40 lg:px-3">
           
       <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
         <ul>
@@ -82,11 +84,13 @@
         </ul>
       </div>
               
-      <div class="w-full  overflow-hidden m-auto mt-5">
+      <div class="w-full overflow-hidden m-auto mt-5">
         
         <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden ">
-            <div class="relative flex justify-center items-center overflow-hidden w-full">
-                <main class="w-full">
+            <div class="relative flex justify-center items-start overflow-hidden w-full">
+
+
+                <main class="w-full lg:w-3/4 lg:pr-5">
                  
                   <div class="w-full  m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
@@ -142,7 +146,7 @@
                   <div class="w-screen sm:w-full m-auto mt-20 sm:mt-10">
                       
                     
-                      <div class="w-screen sm:w-full m-auto rounded-none sm:rounded-lg mb-4 overflow-x-scroll sm:overflow-hidden">
+                      <div class="w-screen sm:w-full m-auto rounded-none sm:rounded-lg mb-4 overflow-x-scroll">
                         <table class="table table-sm table-compact no-scrollbar rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                           <thead>
                             <tr class="bg-[#09090B]">
@@ -161,7 +165,7 @@
                               <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Return Since
                               </th>
-                              <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
+                              <th class="hidden xl:table-cell text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Sector
                               </th>
                             </tr>
@@ -190,15 +194,15 @@
                                 </td>
   
         
-                                <td class="{item?.sentiment === 'Bullish' ? 'text-[#00FC50]' : item?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'} text-center">
+                                <td class="text-sm sm:text-[1rem] whitespace-nowrap {item?.sentiment === 'Bullish' ? 'text-[#00FC50]' : item?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'} text-center">
                                 {item?.sentiment}
                               </td>
 
-                              <td class="{item?.returnSince >= 0 ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-end">
+                              <td class="text-sm sm:text-[1rem] {item?.returnSince >= 0 ? 'text-[#00FC50]' : 'text-[#FC2120]'} text-end">
                                 {item?.returnSince}%
                               </td>
 
-                              <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap font-medium text-white">
+                              <td class="hidden xl:table-cell text-end text-sm sm:text-[1rem] whitespace-nowrap font-medium text-white">
                                 {item?.sector}
                               </td>
   
@@ -224,6 +228,55 @@
   
                 
                 </main>
+
+                <aside class="hidden lg:block relative fixed w-1/4 ml-4">        
+              
+                  {#if data?.user?.tier !== 'Pro' || data?.user?.freeTrial}
+                  <div on:click={() => goto('/pricing')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 cursor-pointer">
+                      <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
+                          <div class="w-full flex justify-between items-center p-3 mt-3">
+                          <h2 class="text-start text-xl font-semibold text-white ml-3">
+                          Pro Subscription
+                          </h2>
+                          <ArrowLogo class="w-8 h-8 mr-3 flex-shrink-0"/>
+                          </div>
+                          <span class="text-white p-3 ml-3 mr-3">
+                              Upgrade now for unlimited access to all data and tools.
+                          </span>
+                      </div>
+                  </div>
+                  {/if}
+  
+                  <div on:click={() => goto('/analysts')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 mt-4 cursor-pointer">
+                      <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
+                          <div class="w-full flex justify-between items-center p-3 mt-3">
+                          <h2 class="text-start text-xl font-semibold text-white ml-3">
+                          Wallstreet Analyst
+                          </h2>
+                          <ArrowLogo class="w-8 h-8 mr-3 flex-shrink-0"/>
+                          </div>
+                          <span class="text-white p-3 ml-3 mr-3">
+                              Get the latest top Wall Street analyst ratings.
+                          </span>
+                      </div>
+                  </div>
+  
+                  <div on:click={() => goto('/politicians')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 mt-4 cursor-pointer">
+                      <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
+                          <div class="w-full flex justify-between items-center p-3 mt-3">
+                          <h2 class="text-start text-xl font-semibold text-white ml-3">
+                          Congress Trading
+                          </h2>
+                          <ArrowLogo class="w-8 h-8 mr-3 flex-shrink-0"/>
+                          </div>
+                          <span class="text-white p-3 ml-3 mr-3">
+                              Get the latest top Congress trading insights.
+                          </span>
+                      </div>
+                  </div>
+  
+                </aside>
+
             </div>
         </div>
     

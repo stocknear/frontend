@@ -193,7 +193,7 @@ const combinedNavigation = navigation?.concat(updatedNavigation);
           
 <section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
             
-            <div class="text-sm sm:text-[1rem] breadcrumbs ml-3 sm:ml-10">
+            <div class="text-sm sm:text-[1rem] breadcrumbs ml-3 lg:ml-10">
                 <ul>
                   <li><a href="/" class="text-gray-300">Home</a></li> 
                   <li><a href="/list/" class="text-gray-300">Lists</a></li>
@@ -213,7 +213,7 @@ const combinedNavigation = navigation?.concat(updatedNavigation);
 
 
         
-        <div class="mt-10 sm:mt-5 w-full m-auto mb-10 bg-[#09090B] px-3 sm:px-10 overflow-hidden">
+        <div class="mt-10 sm:mt-5 w-full m-auto mb-10 bg-[#09090B] px-3 lg:px-10 overflow-hidden">
         
         
             <!--Start Top Winners/Losers-->
@@ -233,7 +233,7 @@ const combinedNavigation = navigation?.concat(updatedNavigation);
 
               <div class="flex justify-center w-full m-auto overflow-hidden">
       
-            <main class="w-3/4 pr-10">
+            <main class="w-full lg:w-3/4 lg:pr-10">
               <slot />
             </main>
 
