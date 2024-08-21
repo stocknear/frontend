@@ -283,7 +283,7 @@ $: {
         
           <Sheet.Root >
             <Sheet.Trigger asChild let:builder>
-              <Button builders={[builder]} size="icon" class="sm:xl bg-[#09090B] text-white sm:hover:bg-[#27272A] border-none">
+              <Button builders={[builder]} size="icon" class="bg-[#09090B] text-white sm:hover:bg-[#27272A] border-none">
                 <Menu class="h-5.5 w-5.5 sm:w-7 sm:h-7" />
                 <span class="sr-only">Toggle Menu</span>
               </Button>
@@ -638,7 +638,7 @@ $: {
             </Sheet.Content>
           </Sheet.Root>
           
-          <a href="/" class="-ml-2 flex w-9 flex-shrink-0">
+          <a href="/home" class="-ml-2 flex flex-shrink-0">
             <img class="avatar w-9 3xl:w-10 rounded-full" src={cloudFrontUrl+"/assets/stocknear_logo.png"} />
             <span class="text-white font-semibold ml-2 text-lg">Stocknear</span>
           </a>
