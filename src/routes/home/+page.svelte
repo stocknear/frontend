@@ -24,7 +24,7 @@
 
 
   export let data;
-
+  let isLoaded = false;
   const quickInfo = data?.getDashboard?.quickInfo;
 
 
@@ -143,6 +143,7 @@ function latestInfoDate(inputDate) {
 let Feedback;
 
 onMount( async() => {
+  isLoaded = true;
   Feedback = (await import('$lib/components/Feedback.svelte')).default
 })
 
@@ -352,18 +353,18 @@ onMount( async() => {
                 </div>
               </Card.Header>
               <Card.Content>                
-                {#if data?.getDashboard?.retailTracker?.length !== 0}
+                {#if isLoaded && data?.getDashboard?.retailTracker?.length !== 0}
                   <div class="app w-full h-[300px] mt-5">
                     <Chart {init} options={optionsGraph} class="chart" />
                 </div>
                   {:else}
-                  <div class="flex justify-center items-center h-80">
-                    <div class="relative">
-                    <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        <span class="loading loading-spinner loading-md"></span>
-                    </label>
-                    </div>
-                </div>
+                  <div class="flex w-11/12 flex-col gap-x-4 gap-y-5 mt-5">
+                    <div class="rounded-lg skeleton h-6 w-full"></div>
+                    <div class="rounded-lg skeleton h-6 w-11/12"></div>
+                    <div class="rounded-lg skeleton h-6 w-5/6"></div>
+                    <div class="rounded-lg skeleton h-6 w-72"></div>
+                    <div class="rounded-lg skeleton h-6 w-28"></div>
+                  </div>
                   {/if}
               </Card.Content>
             </Card.Root>
