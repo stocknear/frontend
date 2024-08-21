@@ -25,16 +25,64 @@ use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
   let displayList = [];
   let optionsData = {};
   
-  let name = rawData?.at(0)?.representative ?? 'n/a';
-  let numOfTrades = rawData?.length;
-  let lastTradedDate = rawData?.at(0)?.transactionDate;
+  let name = rawData?.history?.at(0)?.representative ?? 'n/a';
+  let numOfTrades = rawData?.history?.length;
+  let lastTradedDate = rawData?.history?.at(0)?.transactionDate;
   let buySellRatio = 0
   let totalAmountTraded = 0;
-  let politicianImage =  data?.getPolitician?.politicianImage;
   let politicianDistrict = data?.getPolitician?.politicianDistrict;
   let politicianCongress =  data?.getPolitician?.politicianCongress;
-  let numOfAssets = new Set(rawData?.map(item => item?.ticker))?.size;
+  let numOfAssets = new Set(rawData?.history?.map(item => item?.ticker))?.size;
   let politicianParty = data?.getPolitician?.politicianParty;
+
+  function sectorSelector(sector) {
+    let path;
+    switch(sector) {
+        case 'Financials':
+            path = "financial-sector";
+            break;
+        case 'Healthcare':
+            path = "healthcare-sector";
+            break;
+        case 'Information Technology':
+            path = "technology-sector";
+            break;
+        case 'Technology':
+            path = "technology-sector";
+            break;
+        case 'Financial Services':
+            path = "financial-sector";
+            break;
+        case 'Industrials':
+            path = "industrials-sector";
+            break;
+        case 'Energy':
+            path = "energy-sector";
+            break;
+        case 'Utilities':
+            path = "utilities-sector";
+            break;
+        case 'Consumer Cyclical':
+            path = "consumer-cyclical-sector";
+            break;
+        case 'Real Estate':
+            path = "real-estate-sector";
+            break;
+        case 'Basic Materials':
+            path = "basic-materials-sector";
+            break;
+        case 'Communication Services':
+            path = "communication-services-sector";
+            break;
+        case 'Consumer Defensive':
+            path = "consumer-defensive-sector";
+            break;
+        default:
+            // Handle default case if needed
+            break;
+    }
+    goto("/list/" + path);
+}
 
   
   function getYearFromDate(dateString) {
@@ -60,7 +108,7 @@ use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
   }
   
   // Calculate the total sum
-  totalAmountTraded = rawData?.reduce((sum, item) => {
+  totalAmountTraded = rawData?.history?.reduce((sum, item) => {
     const amount = item?.amount;
     const parsedAmount = extractNumberFromAmount(amount);
     return sum + parsedAmount;
@@ -71,11 +119,11 @@ use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
   
   async function infiniteHandler({ detail: { loaded, complete } }) 
   {
-    if (displayList?.length === rawData?.length) {
+    if (displayList?.length === rawData?.history?.length) {
         complete();
       } else {
         const nextIndex = displayList?.length;
-        const newArticles = rawData?.slice(nextIndex, nextIndex + 20);
+        const newArticles = rawData?.history?.slice(nextIndex, nextIndex + 20);
         displayList = [...displayList, ...newArticles];
         loaded();
       }
@@ -106,11 +154,11 @@ use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
   
       // Calculate the total bought and sold amounts for each year
       uniqueYears?.forEach(year => {
-        const boughtAmount = rawData
+        const boughtAmount = rawData?.history
           ?.filter(item => getYearFromDate(item?.transactionDate) === year && item?.type === 'Bought')
           ?.reduce((sum, item) => sum + extractNumberFromAmount(item?.amount), 0);
   
-        const soldAmount = rawData
+        const soldAmount = rawData?.history
           ?.filter(item => getYearFromDate(item.transactionDate) === year && item?.type === 'Sold')
           ?.reduce((sum, item) => sum + extractNumberFromAmount(item?.amount), 0);
   
@@ -200,14 +248,14 @@ use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
   onMount(async () => {
     optionsData = await getPlotOptions();
      
-    const typeCounts = rawData?.reduce((counts, item) => {
+    const typeCounts = rawData?.history?.reduce((counts, item) => {
           counts[item?.type] = (counts[item?.type ] || 0) + 1;
           return counts;
       }, {});
       
       buySellRatio = typeCounts['Bought'] > 0 && typeCounts['Sold'] === undefined ? 1 : typeCounts['Bought'] === undefined ? 0 : typeCounts["Bought"]/typeCounts["Sold"];
   
-    displayList = rawData?.slice(0,20) ?? [];
+    displayList = rawData?.history?.slice(0,20) ?? [];
       
 
     isLoaded = true;
@@ -307,10 +355,10 @@ use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
                   <!--End Card-->
   
                    <!--Start Widget-->
-                   <div class="w-full mt-5 mb-10 m-auto flex justify-center items-center ">
+                   <div class="w-full mt-5 mb-5 m-auto flex justify-center items-center ">
                     <div class="w-full grid grid-cols-2 gap-y-3 lg:gap-y-3 gap-x-3 ">
                        <!--Start Total Amount Traded-->  
-                       <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#27272A] rounded-2xl h-20">
+                       <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#141417] border border-gray-800 rounded-2xl h-20">
                         <div class="flex flex-col items-start">
                             <span class="font-medium text-gray-200 text-sm sm:text-[1rem] ">Total Amount</span>
                             <span class="text-start text-lg font-medium text-white mt-0.5">
@@ -324,7 +372,7 @@ use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
                     </div>
                     <!--End Total Amount Traded-->
                       <!--Start Buy/Sell-->  
-                      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#27272A] rounded-2xl h-20">
+                      <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-4 bg-[#141417] border border-gray-800 rounded-2xl h-20">
                         <div class="flex flex-col items-start">
                             <span class="font-medium text-gray-200 text-sm sm:text-[1rem] ">Buy/Sell</span>
                             <span class="text-start text-sm sm:text-lg font-medium text-white mt-0.5">
@@ -354,6 +402,48 @@ use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
                       </div>
                     </div>
                   <!--End Widget-->
+
+                  <div class="w-full bg-[#141417] border border-gray-800 rounded-lg h-fit pb-4">
+                    <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
+                      <h2 class="text-start text-xl font-semibold text-white p-3 mt-3 ml-1">
+                        Top Sectors
+                      </h2>
+                      {#if rawData?.topSectors?.length !== 0} 
+                
+                    
+                      <div class="flex justify-start items-center w-full m-auto ">
+                        <table class="table table-sm table-compact mt-3 text-start flex justify-start items-center w-full px-3 m-auto">
+                          <thead>
+                            <tr class="border-b border-[#141417">
+                              <th class="text-white font-semibold text-sm sm:text-[1rem] text-start bg-[#141417]">Sector</th>
+                              <th class="text-white font-semibold text-sm sm:text-[1rem] text-end bg-[#141417]">% Portfolio</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {#each rawData?.topSectors as item}
+                              {#each Object.entries(item) as [name, value]}
+                                <tr on:click={() => sectorSelector(name)} class="text-white cursor-pointer sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#141417] border-b border-[#141417]">
+                                  <td class="text-blue-400 sm:hover:text-white duration-100 text-[1rem] whitespace-nowrap">
+                                    {name}
+                                  </td>
+                                  <td class="text-white text-[1rem] whitespace-nowrap text-end">
+                                    {value?.toFixed(2)}%
+                                  </td>
+                                </tr>
+                              {/each}
+                            {/each}
+                          </tbody>
+                        </table>
+                      </div>
+                
+                      {:else}
+                      <div class=" mt-20 flex justify-center items-center text-2xl font-bold text-slate-700 mb-20 m-auto">
+                          No data available
+                      </div>
+                      {/if}
+             
+                  </div>
+                  </div>
   
               </aside>
   
@@ -397,7 +487,7 @@ use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
                   <div class="w-full m-auto h-auto sm:max-h-[500px] sm:overflow-y-scroll scroller">
   
   
-                    {#if rawData?.length !== 0}
+                    {#if rawData?.history?.length !== 0}
                     <div class="hidden sm:block">
                     <span class="text-[#F5F5F5] font-bold text-2xl">
                       {numOfAssets} Assets
@@ -497,7 +587,7 @@ use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
                               </tr>
                             </thead>
                             <tbody>
-                              {#each displayList as item,index}
+                              {#each displayList as item}
                               <!-- row -->
                               <tr on:click={() => goto(`/${item?.assetType === 'stock' ? 'stocks' : item?.assetType === 'etf' ? 'etf' : 'crypto'}/${item?.ticker}`)} class="w-screen odd:bg-[#27272A] border-b-[#09090B]">
                                 
@@ -505,7 +595,7 @@ use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
                                   <div class="flex flex-row items-center">
                                     <div class="flex flex-col">
                                       <span class="text-blue-400 text-sm">{item?.ticker?.replace('_',' ')}</span>
-                                      <span class="text-white ">{item?.name?.length > 15 ? item?.name?.slice(0,15)+'...' : item?.name}</span>
+                                      <span class="text-white text-xs">{item?.name?.length > 15 ? item?.name?.slice(0,15)+'...' : item?.name}</span>
                                     </div>
                                   </div>
                                   <!--{item?.firstName} {item?.lastName}-->

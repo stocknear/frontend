@@ -32,11 +32,11 @@ export const load = async ({parent, params}) => {
       });
 
       const output = await response.json();
-
+      const history = output?.history;
       // Cache the data for this specific tickerID with a specific name 'getPolitician'
 
-      if (output && output.length > 0) {
-          let firstItem = output?.at(0);
+      if (output && history?.length > 0) {
+          let firstItem = history?.at(0);
           let representative = firstItem?.representative || '';
       
           representative = representative?.replace('Jr', '')
