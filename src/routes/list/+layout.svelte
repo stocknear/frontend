@@ -233,11 +233,11 @@ const combinedNavigation = navigation?.concat(updatedNavigation);
 
               <div class="flex justify-center w-full m-auto overflow-hidden">
       
-            <main class="w-full">
+            <main class="w-3/4 pr-10">
               <slot />
             </main>
 
-              <aside class="hidden lg:block relative fixed w-1/3 ml-12">        
+              <aside class="hidden lg:block relative fixed w-1/4 -mt-4">        
               
                 {#if data?.user?.tier !== 'Pro' || data?.user?.freeTrial}
                 <div on:click={() => goto('/pricing')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 cursor-pointer">
