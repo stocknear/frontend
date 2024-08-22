@@ -87,27 +87,29 @@ function getPlotOptions() {
     let valueList = [];
     let estimatedValueList = [];
 
+    let filteredData = analystEstimateList?.filter(item => item.date >= 2015) ?? [];
+
     // Iterate over the data and extract required information
     if( displayData === 'Revenue') {
-        analystEstimateList?.slice(-10)?.forEach(item => {
+        filteredData?.slice(-20)?.forEach(item => {
         dates.push(item?.date);
         valueList.push(item?.revenue); // Handle null values by using 0 or any placeholder value
         estimatedValueList.push(item?.estimatedRevenueAvg);
         });
     } else if ( displayData === 'Net Income') {
-        analystEstimateList?.slice(-10)?.forEach(item => {
+        filteredData?.slice(-20)?.forEach(item => {
         dates.push(item?.date);
         valueList.push(item?.netIncome); // Handle null values by using 0 or any placeholder value
         estimatedValueList.push(item?.estimatedNetIncomeAvg);
         });
     } else if ( displayData === 'EBITDA') {
-        analystEstimateList?.slice(-10)?.forEach(item => {
+        filteredData?.slice(-20)?.forEach(item => {
         dates.push(item?.date);
         valueList.push(item?.ebitda); // Handle null values by using 0 or any placeholder value
         estimatedValueList.push(item?.estimatedEbitdaAvg);
         });
     } else if ( displayData === 'EPS') {
-        analystEstimateList?.slice(-10)?.forEach(item => {
+        filteredData?.slice(-20)?.forEach(item => {
         dates.push(item?.date);
         valueList.push(item?.eps); // Handle null values by using 0 or any placeholder value
         estimatedValueList.push(item?.estimatedEpsAvg);
@@ -190,12 +192,14 @@ function prepareData() {
     tableDataActual = [];
     tableDataForecast = [];
 
-    xData = analystEstimateList?.slice(-10)?.map(({ date }) => Number(String(date)?.slice(-2)));
+    let filteredData = analystEstimateList?.filter(item => item.date >= 2015) ?? [];
+
+    xData = filteredData?.map(({ date }) => Number(String(date)?.slice(-2)));
 
     if(displayData === 'Revenue') {
 
         
-        analystEstimateList?.slice(-10)?.forEach(item => {
+        filteredData?.forEach(item => {
         
         tableDataActual?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.revenue)});
         tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.estimatedRevenueAvg)});
@@ -206,7 +210,7 @@ function prepareData() {
     else if(displayData === 'Net Income') {
 
 
-        analystEstimateList?.slice(-10)?.forEach(item => {
+        filteredData?.forEach(item => {
         
         tableDataActual?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.netIncome )});
         tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.estimatedNetIncomeAvg )});
@@ -215,7 +219,7 @@ function prepareData() {
     }
 
     else if(displayData === 'EPS') {
-        analystEstimateList?.slice(-10)?.forEach(item => {
+        filteredData?.forEach(item => {
 
         tableDataActual?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': item?.eps ?? null});
         tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': item?.estimatedEpsAvg});
@@ -225,7 +229,7 @@ function prepareData() {
 
     else if(displayData === 'EBITDA') {
 
-        analystEstimateList?.slice(-10)?.forEach(item => {
+        filteredData?.forEach(item => {
         
         tableDataActual?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.ebitda)});
         tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.estimatedEbitdaAvg)});
@@ -345,7 +349,7 @@ $: {
                         <thead class="">
                         <tr class="">
                             <th class="bg-[#27272A] border-b border-[#000] text-white font-semibold text-sm sm:text-[1rem] text-start">Year</th>
-                            {#each ($screenWidth >= 640 ? xData?.slice(-8) : xData) as item}
+                            {#each xData as item}
                             <td class="z-20 bg-[#27272A] border-b border-[#000] text-white font-semibold text-sm sm:text-[1rem] text-center bg-[#09090B]">{'FY'+item}</td>
                             {/each}
 
@@ -357,7 +361,7 @@ $: {
                                 <th class="text-white whitespace-nowrap  text-sm sm:text-[1rem] text-start font-medium bg-[#09090B] border-b border-[#09090B]">
                                     Forecast
                                 </th>
-                                {#each ($screenWidth >= 640 ? tableDataForecast?.slice(-8) : tableDataForecast) as item}
+                                {#each tableDataForecast as item}
                                     <td class="text-white text-sm sm:text-[1rem] text-center font-medium  border-b border-[#09090B]">
                                         {(item?.val === '0.00' || item?.val === null) ? '-' : abbreviateNumber(item?.val)}
                                     </td>
@@ -369,7 +373,7 @@ $: {
                                 <th class="bg-[#27272A] whitespace-nowrap text-white text-start font-medium  bg-[#27272A] border-b border-[#27272A]">
                                     Actual
                                 </th>
-                                {#each ($screenWidth >= 640 ? tableDataActual?.slice(-8) : tableDataActual) as item}
+                                {#each tableDataActual as item}
                                     <td class="text-white text-sm sm:text-[1rem] text-center font-medium bg-[#27272A]">
                                         {(item?.val === '0.00' || item?.val === null) ? '-' : abbreviateNumber(item?.val)}
                                     </td>
@@ -381,7 +385,7 @@ $: {
                                 <th class="bg-[#09090B] whitespace-nowrap text-white text-start font-medium  bg-[#09090B] border-b border-[#09090B]">
                                     % Change
                                 </th>
-                                {#each ($screenWidth >= 640 ? tableDataActual?.slice(-8) : tableDataActual) as item, index}
+                                {#each tableDataActual as item, index}
                                     <td class="text-white text-sm sm:text-[1rem] text-center font-medium bg-[#09090B]">
                                         {#if index+1-tableDataActual?.length === 0}
                                         -
