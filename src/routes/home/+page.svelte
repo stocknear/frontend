@@ -387,6 +387,7 @@ onMount( async() => {
                   </div>
                 </Card.Header>
                 <Card.Content>
+                  {#if data?.getDashboard?.upcomingEarnings?.length !== 0}
                   <ul style="padding-left: 5px;">
                     {#each data?.getDashboard?.upcomingEarnings as item}
                         <li style="margin-left: 8px; line-height: 22px; margin-bottom: 30px; list-style-type: disc;">
@@ -404,6 +405,9 @@ onMount( async() => {
 
                     {/each}
                   </ul>
+                  {:else}
+                  Currently, there are no upcoming earnings reports available that include the latest analyst estimates.
+                  {/if}
                 </Card.Content>
               </Card.Root>
               
