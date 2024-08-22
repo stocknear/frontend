@@ -2,28 +2,26 @@
 import {analystEstimateComponent, stockTicker, screenWidth, getCache, setCache} from '$lib/store';
 import InfoModal from '$lib/components/InfoModal.svelte';
 
-import { LayerCake, Html } from 'layercake';
-
-import Scatter from '$lib/components/Scatter//Scatter.html.svelte';
-import AxisX from '$lib/components/Scatter//AxisX.html.svelte';
-import AxisY from '$lib/components/Scatter//AxisY.html.svelte';
-
+import { Chart } from 'svelte-echarts'
+import { init, use } from 'echarts/core'
+import { ScatterChart } from 'echarts/charts'
+import { GridComponent, TooltipComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+  import { abbreviateNumber } from '$lib/utils';
 
 export let data;
+use([ScatterChart, GridComponent, TooltipComponent, CanvasRenderer])
+
 
 let analystEstimateList = [];
 let isLoaded = false;
 
 let deactivateContent = data?.user?.tier === 'Pro' ? false : true;
 
-let dataset = [];
 let xData = [];
+let optionsData;
 
 let displayData = 'Revenue';
-let displayRevenueUnit = 'Billions';
-let displayNetIncomeUnit = 'Billions';
-let displayEBITDAUnit = 'Billions';
-
 
 function changeStatement(event)
 {
@@ -31,24 +29,23 @@ function changeStatement(event)
 }
     
 
-function determineDisplayUnit(value) {
-  if (Math?.abs(value) >= 1e10) {
-    return { unit: '100 Billions', denominator: 10e10 };
+function normalizer(value) {
+  if (Math?.abs(value) >= 1e18) {
+    return { unit: 'Q', denominator: 1e18 };
+  } else if (Math?.abs(value) >= 1e12) {
+    return { unit: 'T', denominator: 1e12 };
   } else if (Math?.abs(value) >= 1e9) {
-    return { unit: '10 Billions', denominator: 1e10 };
-  } else if (Math?.abs(value) >= 1e7) {
-    return { unit: 'Billions', denominator: 1e9 };
+    return { unit: 'B', denominator: 1e9 };
+  } else if (Math?.abs(value) >= 1e6) {
+    return { unit: 'M', denominator: 1e6 };
   } else if (Math?.abs(value) >= 1e5) {
-    return { unit: 'Millions', denominator: 1e6 };
+    return { unit: 'K', denominator: 1e5 };
   } else {
     return { unit: '', denominator: 1 };
   }
-}
+  }
+  
 
-const xKey = 'FY';
-const yKey = 'val';
-const r = 5;
-const padding = 2.5;
 
 let tableDataActual = [];
 let tableDataForecast = []
@@ -85,75 +82,154 @@ const getAnalystEstimate = async (ticker) => {
 };
 
 
-//To-do: Optimize this piece of shit
-function prepareData(analystEstimateList) {
+function getPlotOptions() {
+    let dates = [];
+    let valueList = [];
+    let estimatedValueList = [];
 
-    dataset = [];
+    // Iterate over the data and extract required information
+    if( displayData === 'Revenue') {
+        analystEstimateList?.slice(-10)?.forEach(item => {
+        dates.push(item?.date);
+        valueList.push(item?.revenue); // Handle null values by using 0 or any placeholder value
+        estimatedValueList.push(item?.estimatedRevenueAvg);
+        });
+    } else if ( displayData === 'Net Income') {
+        analystEstimateList?.slice(-10)?.forEach(item => {
+        dates.push(item?.date);
+        valueList.push(item?.netIncome); // Handle null values by using 0 or any placeholder value
+        estimatedValueList.push(item?.estimatedNetIncomeAvg);
+        });
+    } else if ( displayData === 'EBITDA') {
+        analystEstimateList?.slice(-10)?.forEach(item => {
+        dates.push(item?.date);
+        valueList.push(item?.ebitda); // Handle null values by using 0 or any placeholder value
+        estimatedValueList.push(item?.estimatedEbitdaAvg);
+        });
+    } else if ( displayData === 'EPS') {
+        analystEstimateList?.slice(-10)?.forEach(item => {
+        dates.push(item?.date);
+        valueList.push(item?.eps); // Handle null values by using 0 or any placeholder value
+        estimatedValueList.push(item?.estimatedEpsAvg);
+        });
+    }
+   
+
+    // Normalize the data if needed (not required in this case, but leaving it here for reference)
+    const { unit, denominator } = normalizer(Math.max(...valueList, ...estimatedValueList) ?? 0);
+
+    const option = {
+        silent: true,
+        tooltip: {
+            trigger: 'axis',
+            hideDelay: 100, // Set the delay in milliseconds
+        },
+        animation: false,
+        grid: {
+            left: '2%',
+            right: '2%',
+            bottom: '2%',
+            top: '5%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: dates,
+            axisLabel: {
+                color: '#fff',
+            }
+        },
+        yAxis: {
+            type: 'value',
+            splitLine: {
+                show: false, // Disable x-axis grid lines
+            },
+            axisLabel: {
+                color: '#fff', // Change label color to white
+                formatter: function (value, index) {
+                    // Display every second tick
+                    if (index % 2 === 0) {
+                        return (value / denominator)?.toFixed(0) + unit; // Format value in millions
+                    } else {
+                        return ''; // Hide this tick
+                    }
+                }
+            },
+        },
+        series: [
+            {
+                name: 'Actual',
+                data: valueList,
+                type: 'scatter',
+                itemStyle: {
+                    color: '#fff' // Change scatter plot color to white
+                },
+                showSymbol: true // Show symbols for scatter plot points
+            },
+            {
+                name: 'Forecast',
+                data: estimatedValueList,
+                type: 'scatter',
+                itemStyle: {
+                    color: '#E11D48' // Change scatter plot color to green
+                },
+                showSymbol: true // Show symbols for scatter plot points
+            },
+        ]
+    };
+
+    return option;
+}
+
+  
+
+//To-do: Optimize this piece of shit
+function prepareData() {
+
     tableDataActual = [];
     tableDataForecast = [];
 
-    xData = analystEstimateList?.slice(-7)?.map(({ date }) => Number(String(date)?.slice(-2)));
+    xData = analystEstimateList?.slice(-10)?.map(({ date }) => Number(String(date)?.slice(-2)));
 
     if(displayData === 'Revenue') {
 
-        const { unit, denominator } = determineDisplayUnit(analystEstimateList?.at(-1)?.estimatedRevenueAvg);
-        displayRevenueUnit = unit;
         
-        analystEstimateList?.slice(-7)?.forEach(item => {
+        analystEstimateList?.slice(-10)?.forEach(item => {
         
-        tableDataActual?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.revenue/ denominator)?.toFixed(2)});
-        tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.estimatedRevenueAvg/denominator)?.toFixed(2)});
+        tableDataActual?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.revenue)});
+        tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.estimatedRevenueAvg)});
 
-        if (item?.revenue !== null) {
-            dataset?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.revenue/denominator)?.toFixed(2), 'dataset': 'actual' });
-        }
-            dataset?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': item?.estimatedRevenueAvg !== null ? (item?.estimatedRevenueAvg / denominator)?.toFixed(2) : null, 'dataset': 'forecast' });
-        });
-
+        })
     }
 
     else if(displayData === 'Net Income') {
 
-        const { unit, denominator } = analystEstimateList?.at(-2)?.estimatedNetIncomeAvg !== 0 ? determineDisplayUnit(analystEstimateList?.at(-2)?.estimatedNetIncomeAvg) : determineDisplayUnit(analystEstimateList?.at(-1)?.netIncome);
-        displayNetIncomeUnit = unit;
 
-        analystEstimateList?.slice(-7)?.forEach(item => {
+        analystEstimateList?.slice(-10)?.forEach(item => {
         
-        tableDataActual?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.netIncome / denominator)?.toFixed(2)});
-        tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.estimatedNetIncomeAvg / denominator)?.toFixed(2)});
+        tableDataActual?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.netIncome )});
+        tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.estimatedNetIncomeAvg )});
         
-        if (item?.netIncome !== null) {
-            dataset?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.netIncome / denominator)?.toFixed(2), 'dataset': 'actual' });
-        }
-            dataset?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': item?.estimatedNetIncomeAvg !== null ? (item?.estimatedNetIncomeAvg / denominator)?.toFixed(2) : null, 'dataset': 'forecast' });
-        });
+         });
     }
 
     else if(displayData === 'EPS') {
-        analystEstimateList?.slice(-7)?.forEach(item => {
+        analystEstimateList?.slice(-10)?.forEach(item => {
 
-        tableDataActual?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': item?.eps?.toFixed(2) ?? null});
-        tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': item?.estimatedEpsAvg?.toFixed(2)});
-        if (item?.eps !== null) {
-            dataset?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': item?.eps, 'dataset': 'actual' });
-        }
-            dataset?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': item?.estimatedEpsAvg !== null ? item?.estimatedEpsAvg : null, 'dataset': 'forecast' });
+        tableDataActual?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': item?.eps ?? null});
+        tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': item?.estimatedEpsAvg});
+
         });
     }
 
     else if(displayData === 'EBITDA') {
-        const { unit, denominator } = determineDisplayUnit(analystEstimateList?.at(-1)?.estimatedEbitdaAvg);
-        displayEBITDAUnit = unit;
 
-        analystEstimateList?.slice(-7)?.forEach(item => {
+        analystEstimateList?.slice(-10)?.forEach(item => {
         
-        tableDataActual?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.ebitda/ denominator)?.toFixed(2)});
-        tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.estimatedEbitdaAvg/ denominator)?.toFixed(2)});
+        tableDataActual?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.ebitda)});
+        tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.estimatedEbitdaAvg)});
 
-        if (item?.ebitda !== null) {
-            dataset?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.ebitda / denominator)?.toFixed(2), 'dataset': 'actual' });
-        }
-            dataset?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': item?.estimatedEbitdaAvg !== null ? (item?.estimatedEbitdaAvg / denominator)?.toFixed(2) : null, 'dataset': 'forecast' });
         });
     }
 
@@ -170,7 +246,9 @@ $: {
       ];
       Promise.all(asyncFunctions)
           .then((results) => {
-            prepareData(analystEstimateList)
+            //prepareData(analystEstimateList)
+            optionsData = getPlotOptions();
+            prepareData()
         
           })
           .catch((error) => {
@@ -222,45 +300,23 @@ $: {
                             EPS
                         </option>
                         <option disabled={deactivateContent} value="EBITDA">
-                            EBITDA in ${displayEBITDAUnit}
+                            EBITDA
                         </option>
                         <option value="Net Income">
-                            Net Income in {displayNetIncomeUnit}
+                            Net Income
                         </option>
-                        <option value="Revenue" selected>Revenue in {displayRevenueUnit}</option>                      
+                        <option value="Revenue" selected>Revenue</option>                      
                     </select>
                 
 
-                <div class="flex flex-row items-center ml-2 sm:ml-0 justify-start w-[90vw] sm:w-full h-[220px] sm:h-[250px] sm:pl-3 sm:pr-3 pt-4 pb-5 mt-5 sm:mt-10">
-
-
-                    <div class="chart-container h-[250px]">
-                        <LayerCake
-                          ssr={true}
-                          percentRange={true}
-                          padding={{ top: 0, right: 0, bottom: 30, left: 0 }}
-                          x={xKey}
-                          y={yKey}
-                          xPadding={[padding, padding]}
-                          yPadding={[padding, padding]}
-                          data={dataset}
-                          position={'relative'}
-
-                        >
+                    <div class="pb-2">
+                
+          
+                        <div class="app w-full h-[300px] mt-5">
+                            <Chart {init} options={optionsData} class="chart" />
+                        </div>
                       
-                          <Html>
-                            <AxisX ticks={xData}/>
-                            <AxisY/>
-                            <Scatter
-                              {r}
-                            />
-                          </Html>
-                      
-                        </LayerCake>
                     </div>
-                    
-
-                </div>
 
 
                 <div class="flex flex-row items-center justify-between m-auto mt-10">
@@ -288,9 +344,9 @@ $: {
                     <table class="table table-sm shaodow table-pin-cols table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B]">
                         <thead class="">
                         <tr class="">
-                            <th class="bg-[#09090B] border-b border-[#000] text-white font-semibold text-sm sm:text-[1rem] text-start">Year</th>
+                            <th class="bg-[#27272A] border-b border-[#000] text-white font-semibold text-sm sm:text-[1rem] text-start">Year</th>
                             {#each ($screenWidth >= 640 ? xData?.slice(-8) : xData) as item}
-                            <td class="z-20 bg-[#09090B] border-b border-[#000] text-white font-semibold text-sm sm:text-[1rem] text-center bg-[#09090B]">{'FY'+item}</td>
+                            <td class="z-20 bg-[#27272A] border-b border-[#000] text-white font-semibold text-sm sm:text-[1rem] text-center bg-[#09090B]">{'FY'+item}</td>
                             {/each}
 
                         </tr>
@@ -298,24 +354,52 @@ $: {
                         <tbody class="shadow-md">
 
                             <tr class="bg-[#09090B] border-b-[#09090B]">
-                                <th class="text-white text-sm sm:text-[1rem] text-start font-medium bg-[#09090B] border-b border-[#09090B]">
+                                <th class="text-white whitespace-nowrap  text-sm sm:text-[1rem] text-start font-medium bg-[#09090B] border-b border-[#09090B]">
                                     Forecast
                                 </th>
                                 {#each ($screenWidth >= 640 ? tableDataForecast?.slice(-8) : tableDataForecast) as item}
                                     <td class="text-white text-sm sm:text-[1rem] text-center font-medium  border-b border-[#09090B]">
-                                        {(item?.val === '0.00' || item?.val === null) ? '-' : item?.val}
+                                        {(item?.val === '0.00' || item?.val === null) ? '-' : abbreviateNumber(item?.val)}
+                                    </td>
+                                {/each}
+                           
+                            </tr>
+
+                            <tr class="bg-[#27272A] text-sm sm:text-[1rem] border-b-[#27272A]">
+                                <th class="bg-[#27272A] whitespace-nowrap text-white text-start font-medium  bg-[#27272A] border-b border-[#27272A]">
+                                    Actual
+                                </th>
+                                {#each ($screenWidth >= 640 ? tableDataActual?.slice(-8) : tableDataActual) as item}
+                                    <td class="text-white text-sm sm:text-[1rem] text-center font-medium bg-[#27272A]">
+                                        {(item?.val === '0.00' || item?.val === null) ? '-' : abbreviateNumber(item?.val)}
                                     </td>
                                 {/each}
                            
                             </tr>
 
                             <tr class="bg-[#09090B] text-sm sm:text-[1rem] border-b-[#09090B]">
-                                <th class="bg-[#09090B] text-white text-start font-medium  bg-[#09090B] border-b border-[#09090B]">
-                                    Actual
+                                <th class="bg-[#09090B] whitespace-nowrap text-white text-start font-medium  bg-[#09090B] border-b border-[#09090B]">
+                                    % Change
                                 </th>
-                                {#each ($screenWidth >= 640 ? tableDataActual?.slice(-8) : tableDataActual) as item}
+                                {#each ($screenWidth >= 640 ? tableDataActual?.slice(-8) : tableDataActual) as item, index}
                                     <td class="text-white text-sm sm:text-[1rem] text-center font-medium bg-[#09090B]">
-                                        {(item?.val === '0.00' || item?.val === null) ? '-' : item?.val}
+                                        {#if index+1-tableDataActual?.length === 0}
+                                        -
+                                        {:else}
+                                            {#if item?.val === null}
+                                            -
+                                            {:else if (item?.val- tableDataActual[index-1]?.val) > 0}
+                                            <span class="text-[#10DB06]">
+                                            +{(((item?.val-tableDataActual[index-1]?.val) / tableDataActual[index-1]?.val) * 100 )?.toFixed(2)}%
+                                            </span>
+                                            {:else if (item?.val - tableDataActual[index-1]?.val ) < 0}
+                                            <span class="text-[#FF2F1F]">
+                                            {(((item?.val - tableDataActual[index-1]?.val ) / tableDataActual[index-1]?.val) * 100 )?.toFixed(2)}%
+                                            </span>
+                                            {:else}
+                                            0.00%
+                                            {/if}
+                                        {/if}
                                     </td>
                                 {/each}
                            
@@ -327,7 +411,8 @@ $: {
                     </table>
 
         
-                    </div>
+                </div>
+                
 
                     <div class="mt-5 text-gray-100 text-sm sm:text-[1rem] sm:rounded-lg h-auto border border-slate-800 p-4">
                         <svg class="w-5 h-5 inline-block mr-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
@@ -362,21 +447,22 @@ $: {
     
     
 
-    
 <style>
 
+.app {
+height: 300px;
+max-width: 100%; /* Ensure chart width doesn't exceed the container */
 
-/*
-The wrapper div needs to have an explicit width and height in CSS.
-It can also be a flexbox child or CSS grid element.
-The point being it needs dimensions since the <LayerCake> element will
-expand to fill it.
-*/
-.chart-container {
-width: 100%;
-height: 100%;
-max-height: 250px;
 }
 
+@media (max-width: 640px) {
+.app {
+height: 210px;
+}
+}
+
+.chart {
+width: 100%;
+}
 
 </style>
