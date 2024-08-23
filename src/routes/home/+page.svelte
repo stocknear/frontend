@@ -379,13 +379,13 @@ onMount( async() => {
                     <span class="font-bold">Dividend Yield:</span> {item?.dividendYield?.toFixed(2)}%
                   </li>
                   <li style="color: #fff; line-height: 22px; margin-top:0px; margin-left: 30px; margin-bottom: 10px; list-style-type: disc;">
-                    <span class="font-bold">Ex-Dividend Date</span> {new Date(item?.exDividendDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                    <span class="font-bold">Ex-Dividend Date:</span> {new Date(item?.exDividendDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                   </li>
                   <li style="color: #fff; line-height: 22px; margin-top:0px; margin-left: 30px; margin-bottom: 10px; list-style-type: disc;">
-                    <span class="font-bold">Payable Date</span> {new Date(item?.payableDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                    <span class="font-bold">Payable Date:</span> {new Date(item?.payableDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                   </li>
                   <li style="color: #fff; line-height: 22px; margin-top:0px; margin-left: 30px; margin-bottom: 30px; list-style-type: disc;">
-                    <span class="font-bold">Record Date</span> {new Date(item?.recordDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                    <span class="font-bold">Record Date:</span> {new Date(item?.recordDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                   </li>
 
                   {/each}
