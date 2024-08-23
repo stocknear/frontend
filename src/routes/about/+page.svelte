@@ -121,10 +121,12 @@
     <!--End Section-->
 
     <!--Start Why we need this -->
-    <div class="bg-[#09090B] w-full bg-[#09090B]  sm:border-t hover:border-slate-500 border-slate-600 h-auto sm:p-10 mt-3 mb-8">
-      <div class="text-4xl sm:text-5xl font-bold text-white text-center p-3 mt-10 sm:mt-5">
-            What we offer
-      </div>
+    <div class="bg-[#09090B] w-full hover:border-slate-500 border-slate-600 h-auto pb-10 mb-8">
+      <div class="text-4xl sm:text-5xl text-white text-center p-3 mt-10 sm:mt-5">
+        <span class="font-bold">
+         What we offer
+        </span>
+    </div>
 
       <div class="text-white text-lg mt-3 text-center pl-3 pr-3 sm:pl-10 sm:pr-10">
         We provide retail traders with high-quality, accurate data that is only available to hedge funds and institutional investors. By bridging the gap between <span class="text-[#FBCE3C] font-semibold italic">Wall Street</span> and <span class="text-[#FBCE3C] font-semibold italic">Retail Traders</span>, we enhance your stock analysis with a wide range of data sources. Take control of your investments, make informed decisions, and execute profitable trades using our comprehensive data presented in an intuitive UI.
