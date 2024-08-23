@@ -1763,7 +1763,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                  </label>
                </div>
                  <div class="w-full pt-5">
-                   <input type="range" min="-10" max="10" step="1" bind:value={valueBeta} class="range range-secondary" />
+                   <input type="range" min="-10" max="10" step="0.1" bind:value={valueBeta} class="range range-secondary" />
                  </div>
                {/if}
                <!--End Beta Rule-->
