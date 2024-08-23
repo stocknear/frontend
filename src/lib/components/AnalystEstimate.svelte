@@ -423,7 +423,7 @@ $: {
                                 </th>
                                 {#each tableDataForecast as item}
                                     <td class="text-white text-sm sm:text-[1rem] text-end font-medium bg-[#27272A]">
-                                        {item?.numOfAnalysts === null ? '-' : item?.numOfAnalysts}
+                                        {item?.numOfAnalysts === (null || 0) ? '-' : item?.numOfAnalysts}
                                     </td>
                                 {/each}
                            

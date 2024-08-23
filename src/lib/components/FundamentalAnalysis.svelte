@@ -101,7 +101,7 @@ $: {
            
 
             <div class="w-full mt-5 mb-5 flex justify-start items-center">
-                <div class="w-full grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-3 gap-x-3 ">
+                <div class="w-full grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-y-3 gap-x-3 ">
                   <!--Start Flow Sentiment-->  
                   <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#27272A] shadow-lg rounded-lg h-20">
                       <div class="flex flex-col items-start">
