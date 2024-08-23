@@ -17,15 +17,15 @@
 
   const title = data?.getStrategy?.title;
 
-  let stockScreenerData = data?.getStockScreenerData?.filter(item => {
-  const ratingRecommendationExists = item?.ratingRecommendation !== null;
-  const trendAnalysisAccuracyExists = item?.trendAnalysis?.accuracy !== null;
-  const fundamentalAnalysisAccuracyExists = item?.fundamentalAnalysis?.accuracy !== null;
-
-  
-  // Return true only if both conditions are satisfied
-  return ratingRecommendationExists && trendAnalysisAccuracyExists && fundamentalAnalysisAccuracyExists;
-});
+  let stockScreenerData = data?.getStockScreenerData?.filter(item => 
+    item?.ratingRecommendation !== null &&
+    item?.trendAnalysis?.accuracy !== null &&
+    item?.fundamentalAnalysis?.accuracy !== null &&
+    item?.dividendYield !== null &&
+    item?.annualDividend !== null &&
+    item?.dividendGrowth !== null &&
+    item?.payoutRatio !== null
+);
 
 
 const getStockScreenerData = async (rules) => {
@@ -78,6 +78,10 @@ const getStockScreenerData = async (rules) => {
     change6M: (ruleOfList?.find(item => item.name === "change6M") || { condition: 'above' }).condition,
     change1Y: (ruleOfList?.find(item => item.name === "change1Y") || { condition: 'above' }).condition,
     change3Y: (ruleOfList?.find(item => item.name === "change3Y") || { condition: 'above' }).condition,
+    payoutRatio:  (ruleOfList?.find(item => item.name === "payoutRatio") || { condition: 'above' }).condition,
+    annualDividend:  (ruleOfList?.find(item => item.name === "annualDividend") || { condition: 'above' }).condition,
+    dividendYield:  (ruleOfList?.find(item => item.name === "dividendYield") || { condition: 'above' }).condition,
+    dividendGrowth:  (ruleOfList?.find(item => item.name === "dividendGrowth") || { condition: 'above' }).condition,
     eps:  (ruleOfList?.find(item => item.name === "eps") || { condition: 'above' }).condition,
     growthEPS:  (ruleOfList?.find(item => item.name === "growthEPS") || { condition: 'above' }).condition,
     pe:  (ruleOfList?.find(item => item.name === "pe") || { condition: 'above' }).condition,
@@ -146,6 +150,10 @@ const getStockScreenerData = async (rules) => {
     { rule: 'growthGrossProfit', label: 'Gross Profit Growth [%]', category: 'fund'},
     { rule: 'researchAndDevelopmentExpenses', label: 'Research & Development (R&D) Expenses', category: 'fund'},
     { rule: 'growthResearchAndDevelopmentExpenses', label: 'R&D Expenses Growth [%]', category: 'fund'},
+    { rule: 'payoutRatio', label: 'Payout Ratio [%]',category: 'fund' },
+    { rule: 'dividendYield', label: 'Dividend Yield [%]',category: 'fund' },
+    { rule: 'annualDividend', label: 'Annual Dividend',category: 'fund' },
+    { rule: 'dividendGrowth', label: 'Dividend Growth [%]',category: 'fund' },
     { rule: 'eps', label: 'Earnings Per Share (EPS)',category: 'fund' },
     { rule: 'growthEPS', label: 'EPS Growth [%]',category: 'fund' },
     { rule: 'interestIncome', label: 'Interest Income',category: 'fund' },
@@ -219,6 +227,11 @@ const getStockScreenerData = async (rules) => {
       let valueGrowthNetIncome = (ruleOfList?.find(item => item.name === "growthNetIncome") || { value: 10 }).value;
       let valueGrossProfit = (ruleOfList?.find(item => item.name === "grossProfit") || { value: 50 }).value;
       let valueGrowthGrossProfit = (ruleOfList?.find(item => item.name === "growthGrossProfit") || { value: 10 }).value;
+      let valueDividendYield = (ruleOfList?.find(item => item.name === "dividendYield") || { value: 20 }).value;
+      let valueAnnualDividend = (ruleOfList?.find(item => item.name === "annualDividend") || { value: 1 }).value;
+      let valueDividendGrowth = (ruleOfList?.find(item => item.name === "dividendGrowth") || { value: 5 }).value;
+      let valuePayoutRatio = (ruleOfList?.find(item => item.name === "payoutRatio") || { value: 20 }).value;
+
       let valueEPS = (ruleOfList?.find(item => item.name === "eps") || { value: 2 }).value;
       let valueGrowthEPS = (ruleOfList?.find(item => item.name === "growthEPS") || { value: 10 }).value;
       let valuePE = (ruleOfList?.find(item => item.name === "pe") || { value: 10 }).value;
@@ -289,6 +302,10 @@ const valueMappings = {
   researchAndDevelopmentExpenses: valueResearchAndDevelopmentExpenses,
   growthResearchAndDevelopmentExpenses: valueGrowthResearchAndDevelopmentExpenses,
   eps: valueEPS,
+  dividendYield: valueDividendYield,
+  annualDividend: valueAnnualDividend,
+  dividendGrowth: valueDividendGrowth,
+  payoutRatio: valuePayoutRatio,
   growthEPS: valueGrowthEPS,
   interestIncome: valueInterestIncome,
   interestExpense: valueInterestExpenses,
@@ -435,12 +452,16 @@ async function handleRule(newRule) {
 async function updateStockScreenerData() {
   try {
     const newData = await getStockScreenerData(ruleOfList);
-    stockScreenerData = newData?.filter(item => {
-      const ratingRecommendationExists = item?.ratingRecommendation !== null;
-      const trendAnalysisAccuracyExists = item?.trendAnalysis?.accuracy !== null;
-      const fundamentalAnalysisAccuracyExists = item?.fundamentalAnalysis?.accuracy !== null;
-      return ratingRecommendationExists && trendAnalysisAccuracyExists && fundamentalAnalysisAccuracyExists;
-    });
+    stockScreenerData = newData?.filter(item => 
+      item?.ratingRecommendation !== null &&
+      item?.trendAnalysis?.accuracy !== null &&
+      item?.fundamentalAnalysis?.accuracy !== null &&
+      item?.dividendYield !== null &&
+      item?.annualDividend !== null &&
+      item?.dividendGrowth !== null &&
+      item?.payoutRatio !== null
+    );
+
     filteredData = filterStockScreenerData();
     displayResults = filteredData?.slice(0, 50);
   } catch (error) {
@@ -589,6 +610,18 @@ $: {
     const ruleToUpdate = ruleOfList?.find(rule => rule.name === ruleName);
     if (ruleToUpdate) {
       switch (ruleToUpdate.name) {
+        case 'payoutRatio':
+          ruleToUpdate.value = valuePayoutRatio;
+          break;
+        case 'dividendGrowth':
+          ruleToUpdate.value = valueDividendGrowth;
+          break;
+        case 'dividendYield':
+          ruleToUpdate.value = valueDividendYield;
+          break;
+        case 'annualDividend':
+          ruleToUpdate.value = valueAnnualDividend;
+          break;
         case 'eps':
           ruleToUpdate.value = valueEPS;
           break;
@@ -747,6 +780,7 @@ $: {
     }
 
     filteredData = filterStockScreenerData();
+    
     if(ruleOfList?.some(item => item.name === 'ratingRecommendation')) {
       filteredData = filteredData?.filter(item => item?.ratingRecommendation === valueAnalyst)
     }
@@ -801,8 +835,8 @@ function filterStockScreenerData() {
           return false;
         }
       }
-      
-    
+
+
       else {
         if (rule.condition === "above"  && item[rule.name] !== null && item[rule.name] <= rule.value) {
           return false;
@@ -1571,7 +1605,113 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                {/if}
                <!--End Market Cap Rule-->
     
-    
+              
+              <!--Start Rule-->
+              {#if ruleName === 'payoutRatio'}
+              
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
+                Dividend Growth {ruleCondition[ruleName]} {valuePayoutRatio}%
+      
+                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
+                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
+                  <span class="label-text text-white">Below</span> 
+                </label>
+                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
+                  <span class="label-text text-white">Above</span> 
+                </label>
+      
+              </div>
+      
+                
+                <div class="w-full pt-5">
+                  <input type="range" min="-100" max="100" step="1" bind:value={valuePayoutRatio} class="range range-secondary" />
+      
+                </div>
+      
+              {/if}
+              <!--End Rule-->
+
+                <!--Start Rule-->
+              {#if ruleName === 'dividendGrowth'}
+              
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
+                Dividend Growth {ruleCondition[ruleName]} {valueDividendGrowth}%
+      
+                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
+                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
+                  <span class="label-text text-white">Below</span> 
+                </label>
+                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
+                  <span class="label-text text-white">Above</span> 
+                </label>
+      
+              </div>
+      
+                
+                <div class="w-full pt-5">
+                  <input type="range" min="0" max="100" step="1" bind:value={valueDividendGrowth} class="range range-secondary" />
+      
+                </div>
+      
+              {/if}
+              <!--End Rule-->
+
+               
+              <!--Start Rule-->
+              {#if ruleName === 'dividendYield'}
+              
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
+                Dividend Yield {ruleCondition[ruleName]} {valueDividendYield}%
+      
+                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
+                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
+                  <span class="label-text text-white">Below</span> 
+                </label>
+                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
+                  <span class="label-text text-white">Above</span> 
+                </label>
+      
+              </div>
+      
+                
+                <div class="w-full pt-5">
+                  <input type="range" min="0" max="100" step="0.5" bind:value={valueDividendYield} class="range range-secondary" />
+      
+                </div>
+      
+              {/if}
+              <!--End Rule-->
+
+
+               <!--Start Rule-->
+               {#if ruleName === 'annualDividend'}
+              
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
+                 Annual Dividend {ruleCondition[ruleName]} ${valueAnnualDividend}
+       
+                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
+                   <span class="label-text text-white">Below</span> 
+                 </label>
+                 <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
+                   <span class="label-text text-white">Above</span> 
+                 </label>
+       
+               </div>
+       
+                 
+                 <div class="w-full pt-5">
+                   <input type="range" min="0" max="20" step="0.5" bind:value={valueAnnualDividend} class="range range-secondary" />
+       
+                 </div>
+       
+               {/if}
+               <!--End Rule-->
+
               <!--Start EPS Rule-->
               {#if ruleName === 'eps'}
               
@@ -2275,9 +2415,9 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                           
                           <td class="text-white text-sm sm:text-[1rem] text-center border-b-[#09090B]">
                               {#if item?.symbol?.includes('.DE') || item?.symbol?.includes('.F')}
-                                €{abbreviateNumber(item?.marketCap)}
+                                €{item?.marketCap < 100 ? '< $100' : abbreviateNumber(item?.marketCap)}
                               {:else}
-                                {abbreviateNumber(item?.marketCap,true)}
+                                {item?.marketCap < 100 ? '< $100' : abbreviateNumber(item?.marketCap,true)}
                               {/if}
                           </td>
 
@@ -2290,7 +2430,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                           </td>
 
                           <td class="text-white text-sm sm:text-[1rem] text-end border-b-[#09090B]">
-                            {item.price?.toFixed(2)}
+                            {item.price < 0.01 ? '< $0.01' :item.price?.toFixed(2)}
                         </td>                   
                         </tr>
                         
@@ -2395,7 +2535,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
             {#each (searchTerm?.length !== 0 ? filteredRows : allRows) as row, index}
               <tr on:click={() => changeRule(row?.rule)} class="hover:bg-[#333333] cursor-pointer">
                 <td class="border-b border-[#262626]">{index+1}</td>
-                <td class="border-b border-[#262626]">
+                <td class="text-start border-b border-[#262626]">
                   {#if ruleOfList.find((rule) => rule?.name === row?.rule)}
                   <svg class="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 text-green-400 inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                   {/if}
