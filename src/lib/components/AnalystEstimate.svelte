@@ -386,34 +386,35 @@ $: {
                                     % Change
                                 </th>
                                 {#each tableDataActual as item, index}
-                                    <td class="text-white text-sm sm:text-[1rem] text-end font-medium bg-[#09090B]">
-                                        {#if index-tableDataActual?.length === 0}
+                                <td class="text-white text-sm sm:text-[1rem] text-end font-medium bg-[#09090B]">
+                                    {#if index === 0 || tableDataActual?.length === 0}
                                         -
-                                        {:else}
-                                            {#if item?.val === null}
-                                                {#if (tableDataForecast[index]?.val- tableDataForecast[index-1]?.val) > 0}
+                                    {:else}
+                                        {#if item?.val === null}
+                                            {#if (tableDataForecast[index]?.val - tableDataForecast[index-1]?.val) > 0}
                                                 <span class="text-orange-400">
-                                                    +{(((tableDataForecast[index]?.val-tableDataForecast[index-1]?.val) / tableDataForecast[index-1]?.val) * 100 )?.toFixed(2)}%&#42;
+                                                    {(((tableDataForecast[index]?.val - tableDataForecast[index-1]?.val) / Math.abs(tableDataForecast[index-1]?.val)) * 100 )?.toFixed(2)}%&#42;
                                                 </span>
-                                                {:else if (tableDataForecast[index]?.val - tableDataForecast[index-1]?.val ) < 0}
+                                            {:else if (tableDataForecast[index]?.val - tableDataForecast[index-1]?.val ) < 0}
                                                 <span class="text-orange-400">
-                                                    {(((tableDataForecast[index]?.val - tableDataForecast[index-1]?.val ) / tableDataForecast[index-1]?.val) * 100 )?.toFixed(2)}%&#42;
+                                                    {(((tableDataForecast[index]?.val - tableDataForecast[index-1]?.val ) / Math.abs(tableDataForecast[index-1]?.val)) * 100 )?.toFixed(2)}%&#42;
                                                 </span>
                                             {/if}
-                                            {:else if (item?.val- tableDataActual[index-1]?.val) > 0}
+                                        {:else if (item?.val - tableDataActual[index-1]?.val) > 0}
                                             <span class="text-[#10DB06]">
-                                            +{(((item?.val-tableDataActual[index-1]?.val) / tableDataActual[index-1]?.val) * 100 )?.toFixed(2)}%
+                                                {(((item?.val - tableDataActual[index-1]?.val) / Math.abs(tableDataActual[index-1]?.val)) * 100 )?.toFixed(2)}%
                                             </span>
-                                            {:else if (item?.val - tableDataActual[index-1]?.val ) < 0}
+                                        {:else if (item?.val - tableDataActual[index-1]?.val ) < 0}
                                             <span class="text-[#FF2F1F]">
-                                            {(((item?.val - tableDataActual[index-1]?.val ) / tableDataActual[index-1]?.val) * 100 )?.toFixed(2)}%
+                                                {(((item?.val - tableDataActual[index-1]?.val ) / Math.abs(tableDataActual[index-1]?.val)) * 100 )?.toFixed(2)}%
                                             </span>
-                                            {:else}
+                                        {:else}
                                             0.00%
-                                            {/if}
                                         {/if}
-                                    </td>
-                                {/each}
+                                    {/if}
+                                </td>
+                            {/each}
+
                            
                             </tr>
 
