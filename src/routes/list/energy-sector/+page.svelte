@@ -33,17 +33,7 @@
   let totalProfits = rawData?.reduce((total, stock) => total + stock?.netIncome, 0) ?? 0;
 
   
-  let charNumber = 40;
-  
-  $: {
-      if ($screenWidth < 640)
-      {
-      charNumber = 15;
-      }
-      else {
-      charNumber = 40;
-      }
-  }
+  $: charNumber = $screenWidth < 640 ? 15 : 20;
   </script>
       
       <section class="w-full overflow-hidden m-auto">

@@ -13,17 +13,7 @@ const avgExpenseRatio = rawData?.reduce(
 0
 ) / rawData?.length;
 
-let charNumber = 40;
-
-$: {
-    if ($screenWidth < 640)
-    {
-      charNumber = 15;
-    }
-    else {
-      charNumber = 40;
-    }
-  }
+$: charNumber = $screenWidth < 640 ? 15 : 20;
 </script>
         
 <section class="w-full overflow-hidden m-auto">

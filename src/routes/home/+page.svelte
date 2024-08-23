@@ -13,6 +13,7 @@
   
   import {  numberOfUnreadNotification} from '$lib/store';
 
+  /*
   import { Chart } from 'svelte-echarts'
   import { init, use } from 'echarts/core'
   import { BarChart } from 'echarts/charts'
@@ -21,6 +22,7 @@
 
   // now with tree-shaking
   use([BarChart, GridComponent, CanvasRenderer])
+  */
 
 
   export let data;
@@ -60,9 +62,24 @@ function reformatDate(dateString) {
 }
 
 
-const tickerGraphName = data?.getDashboard?.retailTracker?.map(item => item?.symbol) || [];
-const tradedList = data?.getDashboard?.retailTracker?.map(item => item?.traded) || [];
+function convertTimestamp(unixTimestamp) {
+    // Multiply by 1000 because JavaScript's Date object expects milliseconds
+    const date = new Date(unixTimestamp * 1000);
 
+    // Formatting the date to a human-readable format
+    const formattedDate = date.toLocaleString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+    });
+
+    return formattedDate;
+}
+
+//const tickerGraphName = data?.getDashboard?.retailTracker?.map(item => item?.symbol) || [];
+//const tradedList = data?.getDashboard?.retailTracker?.map(item => item?.traded) || [];
+
+/*
 const optionsGraph = {
   animation: false,
   grid: {
@@ -120,6 +137,7 @@ const optionsGraph = {
     }
   ]
 };
+*/
 
 function latestInfoDate(inputDate) {
     // Convert the input date string to milliseconds since epoch
@@ -184,6 +202,7 @@ onMount( async() => {
           <Feedback data={data} />
         {/if}
         
+        <!--
         <div class="text-center mb-10 relative w-fit flex justify-center m-auto">
           <a href="/corporate-lobbying-tracker" class="text-white antialiased bg-[#27272A] w-full px-4 py-2 rounded-lg m-auto font-medium text-[1rem] flex items-center">
             <span class="font-semibold">Corporate Lobbying Tracker</span>
@@ -194,6 +213,7 @@ onMount( async() => {
             </span>
           </div>
         </div>
+      -->
 
         <h1 class="text-white text-3xl font-semibold text-start w-full pl-4 pb-4 sm:pb-2">
           Dashboard
@@ -339,6 +359,42 @@ onMount( async() => {
               </Card.Content>
             </Card.Root>
             
+            <Card.Root class="overflow-x-scroll overflow-hidden overflow-y-scroll no-scrollbar sm:max-h-[400px]">
+              <Card.Header class="flex flex-row items-center">
+                <div class="flex flex-col items-start w-full">
+                  <div class="flex flex-row w-full items-center">
+                    <Card.Title class="text-xl sm:text-2xl tex-white font-semibold">Dividend Announcement <span class="text-sm text-gray-300">(NYSE Time)</span></Card.Title>
+                  </div>
+                </div>
+              </Card.Header>
+              <Card.Content>
+                <ul style="padding-left: 5px;">
+                  {#each data?.getDashboard?.recentDividends as item}
+                  <strong>{item?.name}</strong> (<a href="/stocks/{item?.symbol}" class="sm:hover:text-white text-blue-400">{item?.symbol}</a>) has announced its upcoming dividend details as of {convertTimestamp(item?.updated)}:
+
+                  <li style="color: #fff; line-height: 22px; margin-top:10px; margin-left: 30px; margin-bottom: 10px; list-style-type: disc;">
+                     <span class="font-bold">Dividend:</span> ${item?.dividend} per share ({(item?.dividend/item?.dividendPrior-1) > 0 ? '+' :''}{((item?.dividend/item?.dividendPrior-1)*100)?.toFixed(2)}% YoY)
+                  </li>
+                  <li style="color: #fff; line-height: 22px; margin-top:0px; margin-left: 30px; margin-bottom: 10px; list-style-type: disc;">
+                    <span class="font-bold">Dividend Yield:</span> {item?.dividendYield?.toFixed(2)}%
+                  </li>
+                  <li style="color: #fff; line-height: 22px; margin-top:0px; margin-left: 30px; margin-bottom: 10px; list-style-type: disc;">
+                    <span class="font-bold">Ex-Dividend Date</span> {new Date(item?.exDividendDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                  </li>
+                  <li style="color: #fff; line-height: 22px; margin-top:0px; margin-left: 30px; margin-bottom: 10px; list-style-type: disc;">
+                    <span class="font-bold">Payable Date</span> {new Date(item?.payableDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                  </li>
+                  <li style="color: #fff; line-height: 22px; margin-top:0px; margin-left: 30px; margin-bottom: 30px; list-style-type: disc;">
+                    <span class="font-bold">Record Date</span> {new Date(item?.recordDate)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
+                  </li>
+
+                  {/each}
+              </ul>
+             
+              </Card.Content>
+            </Card.Root>
+
+            <!--
             <Card.Root class="overflow-hidden">
               <Card.Header class="flex flex-row items-center">
                 <div class="flex flex-col items-start w-full">
@@ -368,6 +424,8 @@ onMount( async() => {
                   {/if}
               </Card.Content>
             </Card.Root>
+            -->
+
           </div>
 
 
