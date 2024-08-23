@@ -48,7 +48,7 @@ function normalizer(value) {
 
 
 let tableDataActual = [];
-let tableDataForecast = []
+let tableDataForecast = [];
 
 const getAnalystEstimate = async (ticker) => {
     // Get cached data for the specific tickerID
@@ -202,7 +202,7 @@ function prepareData() {
         filteredData?.forEach(item => {
         
         tableDataActual?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.revenue)});
-        tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.estimatedRevenueAvg)});
+        tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': item?.estimatedRevenueAvg, 'numOfAnalysts': item?.numOfAnalysts});
 
         })
     }
@@ -213,7 +213,7 @@ function prepareData() {
         filteredData?.forEach(item => {
         
         tableDataActual?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.netIncome )});
-        tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.estimatedNetIncomeAvg )});
+        tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': item?.estimatedNetIncomeAvg, 'numOfAnalysts': item?.numOfAnalysts});
         
          });
     }
@@ -222,7 +222,7 @@ function prepareData() {
         filteredData?.forEach(item => {
 
         tableDataActual?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': item?.eps ?? null});
-        tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': item?.estimatedEpsAvg});
+        tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': item?.estimatedEpsAvg, 'numOfAnalysts': item?.numOfAnalysts});
 
         });
     }
@@ -232,7 +232,7 @@ function prepareData() {
         filteredData?.forEach(item => {
         
         tableDataActual?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.ebitda)});
-        tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': (item?.estimatedEbitdaAvg)});
+        tableDataForecast?.push({ 'FY': Number(String(item?.date)?.slice(-2)), 'val': item?.estimatedEbitdaAvg, 'numOfAnalysts': item?.numOfAnalysts});
 
         });
     }
@@ -358,46 +358,46 @@ $: {
                         <tbody class="shadow-md">
 
                             <tr class="bg-[#09090B] border-b-[#09090B]">
-                                <th class="text-white whitespace-nowrap  text-sm sm:text-[1rem] text-start font-medium bg-[#09090B] border-b border-[#09090B]">
+                                <th class="text-white whitespace-nowrap text-sm sm:text-[1rem] text-start font-medium bg-[#09090B] border-b border-[#09090B]">
                                     Forecast
                                 </th>
                                 {#each tableDataForecast as item}
-                                    <td class="text-white text-sm sm:text-[1rem] text-center font-medium  border-b border-[#09090B]">
+                                    <td class="text-white text-sm sm:text-[1rem] text-end font-medium  border-b border-[#09090B]">
                                         {(item?.val === '0.00' || item?.val === null) ? '-' : abbreviateNumber(item?.val)}
                                     </td>
                                 {/each}
                            
                             </tr>
 
-                            <tr class="bg-[#27272A] text-sm sm:text-[1rem] border-b-[#27272A]">
-                                <th class="bg-[#27272A] whitespace-nowrap text-white text-start font-medium  bg-[#27272A] border-b border-[#27272A]">
+                            <tr class="bg-[#27272A] border-b-[#27272A]">
+                                <th class="bg-[#27272A] text-sm sm:text-[1rem] whitespace-nowrap text-white text-start font-medium  bg-[#27272A] border-b border-[#27272A]">
                                     Actual
                                 </th>
                                 {#each tableDataActual as item}
-                                    <td class="text-white text-sm sm:text-[1rem] text-center font-medium bg-[#27272A]">
+                                    <td class="text-white text-sm sm:text-[1rem] text-end font-medium bg-[#27272A]">
                                         {(item?.val === '0.00' || item?.val === null) ? '-' : abbreviateNumber(item?.val)}
                                     </td>
                                 {/each}
                            
                             </tr>
 
-                            <tr class="bg-[#09090B] text-sm sm:text-[1rem] border-b-[#09090B]">
-                                <th class="bg-[#09090B] whitespace-nowrap text-white text-start font-medium  bg-[#09090B] border-b border-[#09090B]">
+                            <tr class="bg-[#09090B] border-b-[#09090B]">
+                                <th class="bg-[#09090B] whitespace-nowrap text-sm sm:text-[1rem] text-white text-start font-medium border-b border-[#09090B]">
                                     % Change
                                 </th>
                                 {#each tableDataActual as item, index}
-                                    <td class="text-white text-sm sm:text-[1rem] text-center font-medium bg-[#09090B]">
+                                    <td class="text-white text-sm sm:text-[1rem] text-end font-medium bg-[#09090B]">
                                         {#if index-tableDataActual?.length === 0}
                                         -
                                         {:else}
                                             {#if item?.val === null}
                                                 {#if (tableDataForecast[index]?.val- tableDataForecast[index-1]?.val) > 0}
                                                 <span class="text-orange-400">
-                                                    &#42;+{(((tableDataForecast[index]?.val-tableDataForecast[index-1]?.val) / tableDataForecast[index-1]?.val) * 100 )?.toFixed(2)}%
+                                                    +{(((tableDataForecast[index]?.val-tableDataForecast[index-1]?.val) / tableDataForecast[index-1]?.val) * 100 )?.toFixed(2)}%&#42;
                                                 </span>
                                                 {:else if (tableDataForecast[index]?.val - tableDataForecast[index-1]?.val ) < 0}
                                                 <span class="text-orange-400">
-                                                    &#42;{(((tableDataForecast[index]?.val - tableDataForecast[index-1]?.val ) / tableDataForecast[index-1]?.val) * 100 )?.toFixed(2)}%
+                                                    {(((tableDataForecast[index]?.val - tableDataForecast[index-1]?.val ) / tableDataForecast[index-1]?.val) * 100 )?.toFixed(2)}%&#42;
                                                 </span>
                                             {/if}
                                             {:else if (item?.val- tableDataActual[index-1]?.val) > 0}
@@ -412,6 +412,18 @@ $: {
                                             0.00%
                                             {/if}
                                         {/if}
+                                    </td>
+                                {/each}
+                           
+                            </tr>
+
+                            <tr class="bg-[#27272A] border-b-[#27272A]">
+                                <th class="bg-[#27272A] whitespace-nowrap text-sm sm:text-[1rem] text-white text-start font-medium  bg-[#27272A] border-b border-[#27272A]">
+                                    No. Analysts
+                                </th>
+                                {#each tableDataForecast as item}
+                                    <td class="text-white text-sm sm:text-[1rem] text-end font-medium bg-[#27272A]">
+                                        {item?.numOfAnalysts === null ? '-' : item?.numOfAnalysts}
                                     </td>
                                 {/each}
                            
