@@ -1,31 +1,20 @@
 <script lang="ts">
 
-    import {etfTicker, stockTicker, screenWidth} from '$lib/store';
+    import {etfTicker, screenWidth} from '$lib/store';
     import { goto } from '$app/navigation';
-    import { abbreviateNumber, formatString } from '$lib/utils';
-    import defaultLogo from '$lib/images/stocks/logo/default_logo.png';
     
     export let dividendList;
-    let eps;
-    let currentPrice;
+  
     let dividendHistoryList = []; 
     let dividendYield;
     
     $: {
         if($etfTicker && typeof window !== 'undefined')
         {
-            dividendHistoryList = dividendList?.at(0);
-            eps = dividendList?.at(1)
-            currentPrice = dividendList?.at(2);
+            dividendHistoryList = dividendList?.history;
 
-        if(dividendHistoryList?.length !== 0)
-        {
-            const payoutFrequency =  dividendHistoryList?.filter(entry => entry.date.includes('2022'))?.length;
-            const amount = dividendHistoryList[0]?.adjDividend;
-            const annualDividend = amount * payoutFrequency 
-            dividendYield = ((annualDividend / currentPrice )*100)?.toFixed(2)
-
-        }      
+            dividendYield = dividendList?.dividendYield;
+            console.log(dividendList)
 
         }
 }
@@ -34,7 +23,7 @@
           
           <!--Start Similar Stocks Card -->
           
-          <div class="space-y-3 lg:pt-5 lg:{dividendList?.length !== 0 ? '' : 'hidden'}">  
+          <div class="space-y-3 lg:pt-5 lg:{dividendHistoryList?.length !== 0 ? '' : 'hidden'}">  
           
           <div class="sm:rounded-lg shadow-lg bg-[#000] lg:bg-[#09090B] lg:border lg:border-slate-800 h-auto {$screenWidth <= 800 ? 'w-screen pt-16' : ''} md:w-[400px]">
           
@@ -48,7 +37,7 @@
                 </span>
               </div>
               
-              {#if dividendList?.at(0)?.length !== 0} 
+              {#if dividendList?.history?.at(0)?.length !== 0} 
         
               
           

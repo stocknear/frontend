@@ -773,7 +773,7 @@ $: {
                                 />
                                 </div>
 
-                                <div class="{dividendList?.at(0)?.length === 0 ? 'hidden' : ''}">
+                                <div class="{dividendList?.history?.length === 0 ? 'hidden' : ''}">
                                   <DividendCard
                                   dividendList = {dividendList}
                                   />
