@@ -247,7 +247,7 @@ onMount( async() => {
             <Card.Root >
               <Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
                 <Card.Title class="text-start text-[1rem] sm:text-xl font-semibold">
-                  <a href="/market-mover" class="sm:hover:underline">Biggest Winner</a>
+                  <a href="/market-mover" class="sm:hover:underline">Winner</a>
                 </Card.Title>
                 <Crown class="h-4 w-4 shrink-0" />
               </Card.Header>
@@ -268,7 +268,7 @@ onMount( async() => {
             <Card.Root>
               <Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
                 <Card.Title class="text-start text-[1rem] sm:text-xl font-semibold">
-                  <a href="/market-mover" class="sm:hover:underline">Biggest Loser</a>
+                  <a href="/market-mover" class="sm:hover:underline">Loser</a>
                 </Card.Title>
                 <Bomb class="h-4 w-4 shrink-0" />
               </Card.Header>

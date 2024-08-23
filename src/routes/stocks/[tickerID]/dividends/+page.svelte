@@ -13,7 +13,7 @@ use([LineChart, BarChart, TooltipComponent, GridComponent, CanvasRenderer])
 export let data;
 
 let dateDistance;
-let stockDividends = data?.getStockDividend?.at(0);
+let stockDividends = data?.getStockDividend?.at(0)?.filter(item => item?.recordDate && item?.paymentDate);
 let optionsDividend;
     
     
@@ -26,12 +26,11 @@ let payoutRatio = 'n/a';
 let dividendGrowth = 'n/a';
     
 let dividendList = [];
-let growthList = [];
 let dateList = [];
 
     
 
-async function plotDividend(dividendList, growthList, dateList) {  
+async function plotDividend(dividendList, dateList) {  
   const options = {
      tooltip: {
         trigger: 'axis',
@@ -106,10 +105,9 @@ const handleMessage = async (event) => {
     payoutRatio = finalData?.payoutRatio;
     dateDistance = finalData?.dateDistance;
     dividendList = finalData?.dividendList;
-    growthList = finalData?.growthList;
     dateList = finalData?.dateList;
     annualDividend = finalData?.annualDividend;
-    optionsDividend = await plotDividend(dividendList, growthList, dateList)
+    optionsDividend = await plotDividend(dividendList, dateList)
     //console.log('Message from worker:', chartData);
 
 };
