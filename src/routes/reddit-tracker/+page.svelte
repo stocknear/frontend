@@ -13,9 +13,9 @@ import MessageCircle from "lucide-svelte/icons/message-circle";
 import Lazy from '$lib/components/Lazy.svelte';
 import { init, use } from 'echarts/core'
 import { LineChart, BarChart } from 'echarts/charts'
-import { GridComponent } from 'echarts/components'
+import { GridComponent, TooltipComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-use([LineChart, BarChart, GridComponent, CanvasRenderer])
+use([LineChart, BarChart, GridComponent, TooltipComponent, CanvasRenderer])
 
   export let data;
   let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
@@ -454,7 +454,7 @@ const optionCompanySpread = {
                       </Card.Content>
                     </Card.Root>
                   </Lazy>
-                    <Card.Root class="order-0 overflow-x-scroll no-scrollbar sm:h-[500px]">
+                    <Card.Root class="order-0 overflow-x-scroll no-scrollbar">
                       <Card.Header>
                         <Card.Title class="text-start text-xl w-full flex flex-row items-center">
                           <span>
