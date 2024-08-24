@@ -11,7 +11,13 @@
   
   export let data;
     
-  
+  const nyseDate = new Date(data?.getOptionsZeroDTE?.at(0)?.date ?? null)?.toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'Europe/Berlin' 
+});
+
   let rawData = [];
   let filterList = [];
 
@@ -467,7 +473,7 @@ $: {
 
         {#if !$isOpen}
           <div class="text-white text-sm sm:text-[1rem] italic text-center sm:text-start w-full ml-2 mb-3">
-            Live flow of {new Date(rawData?.at(0)?.date ?? null)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })} (NYSE Time)
+            Live flow of {nyseDate} (NYSE Time)
           </div>
         {/if}
 
