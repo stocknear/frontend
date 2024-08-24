@@ -2,7 +2,6 @@
 import { goto } from '$app/navigation';
 import {formatString, abbreviateNumber} from '$lib/utils';
 import { screenWidth } from '$lib/store';
-import ScrollToTop from '$lib/components/ScrollToTop.svelte';
 
 import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
 
@@ -114,7 +113,7 @@ $: {
   </div>
 
   <div class="mr-auto flex flex-col jusitfy-start items-start ml-2 mb-5 mt-5">
-    <div class="text-white text-md font-medium mr-2">
+    <div class="text-white text-sm sm:text-[1rem] font-medium mr-2">
       Select Time period
     </div>
       <div class="relative mt-4">
@@ -156,12 +155,12 @@ $: {
         <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
           
 
-          <td class="text-white text-sm text-start border-b-[#09090B] whitespace-nowrap">
+          <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap text-start border-b-[#09090B] whitespace-nowrap">
             {new Date(item?.date)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
           </td>
 
 
-          <td class="text-blue-400 text-sm text-start border-b-[#09090B] whitespace-nowrap">
+          <td class="text-blue-400 text-sm sm:text-[1rem] whitespace-nowrap text-start border-b-[#09090B] whitespace-nowrap">
             {item?.symbol}
           </td>
 
@@ -170,7 +169,7 @@ $: {
           </td>
         
         
-          <td class="text-white text-sm border-b-[#09090B] text-end">
+          <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B] text-end">
             {item?.ipoPrice !== null ? '$'+item?.ipoPrice : '-'}
           </td>
 
@@ -182,11 +181,11 @@ $: {
 
         <td class="text-white border-b-[#09090B] text-end flex flex-row items-center justify-end font-semibold">
           {#if item?.return >=0 && item?.return !== null}
-            <span class="inline-block text-[#10DB06] text-sm">{abbreviateNumber(item?.return)}%</span>
+            <span class="inline-block text-[#10DB06] text-sm sm:text-[1rem] whitespace-nowrap">{abbreviateNumber(item?.return)}%</span>
           {:else if item?.return < 0 && item?.return !== null}
-            <span class="inline-block text-[#FF2F1F] text-sm">{abbreviateNumber(item?.return)}% </span> 
+            <span class="inline-block text-[#FF2F1F] text-sm sm:text-[1rem] whitespace-nowrap">{abbreviateNumber(item?.return)}% </span> 
           {:else}
-            <span class="inline-block text-white text-sm">
+            <span class="inline-block text-white text-sm sm:text-[1rem] whitespace-nowrap">
               -
             </span> 
           {/if}

@@ -4,7 +4,8 @@
     import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
     import { onMount } from 'svelte';
     //import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
-  
+    import ArrowLogo from "lucide-svelte/icons/move-up-right";
+
     
       export let data;
       let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
@@ -47,17 +48,7 @@
       isLoaded = true;
     })
     
-    
-    let charNumber = 40;
-    $: {
-      if ($screenWidth < 640)
-      {
-        charNumber = 15;
-      }
-      else {
-        charNumber = 40;
-      }
-    }
+  
     
 function changeOrder(state:string) {
   if (state === 'highToLow')
@@ -73,54 +64,55 @@ function changeOrder(state:string) {
 }
 
 
+$: charNumber = $screenWidth < 640 ? 15 : 40;
 
 
-    </script>
-    
-    <svelte:head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>
-        {$numberOfUnreadNotification > 0 ? `(${$numberOfUnreadNotification})` : ''} Latest Lobbiyng Disclosure Tracker · stocknear
-    </title>
-    <meta name="description" content={`Track the latest senate lobbying spending of US companies.`} />
-    
-    <!-- Other meta tags -->
-    <meta property="og:title" content={`Latest Lobbiyng Disclosure Tracker · stocknear`}/>
-    <meta property="og:description" content={`Track the latest senate lobbying spending of US companies.`} />
-    <meta property="og:type" content="website"/>
-    <!-- Add more Open Graph meta tags as needed -->
-    
-    <!-- Twitter specific meta tags -->
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:title" content={`Latest Lobbiyng Disclosure Tracker · stocknear`}/>
-    <meta name="twitter:description" content={`Track the latest senate lobbying spending of US companies.`} />
-    <!-- Add more Twitter meta tags as needed -->
-    
-    </svelte:head>
+  </script>
+  
+  <svelte:head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>
+      {$numberOfUnreadNotification > 0 ? `(${$numberOfUnreadNotification})` : ''} Latest Lobbiyng Disclosure Tracker · stocknear
+  </title>
+  <meta name="description" content={`Track the latest senate lobbying spending of US companies.`} />
+  
+  <!-- Other meta tags -->
+  <meta property="og:title" content={`Latest Lobbiyng Disclosure Tracker · stocknear`}/>
+  <meta property="og:description" content={`Track the latest senate lobbying spending of US companies.`} />
+  <meta property="og:type" content="website"/>
+  <!-- Add more Open Graph meta tags as needed -->
+  
+  <!-- Twitter specific meta tags -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content={`Latest Lobbiyng Disclosure Tracker · stocknear`}/>
+  <meta name="twitter:description" content={`Track the latest senate lobbying spending of US companies.`} />
+  <!-- Add more Twitter meta tags as needed -->
+  
+  </svelte:head>
     
         
     
-    <section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
+  <section class="w-full max-w-3xl sm:max-w-screen-2xl overflow-hidden min-h-screen pt-5 pb-40 lg:px-3">
           
+    <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
+      <ul>
+        <li><a href="/" class="text-gray-300">Home</a></li>
+        <li class="text-gray-300">Corporate Lobbying Tracker</li>
+      </ul>
+    </div>
+            
+    <div class="w-full overflow-hidden m-auto mt-5">
+      
+      <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden ">
+          <div class="relative flex justify-center items-start overflow-hidden w-full">
 
-              
-      <div class="w-full overflow-hidden m-auto">
-        
-        
-        <div class="sm:p-0 flex justify-center m-auto w-full overflow-hidden ">
-            <div class="relative flex justify-center m-auto items-center overflow-hidden w-full">
-                <main class="w-full">
-                  
-                  <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
-                    <ul>
-                      <li><a href="/" class="text-gray-300">Home</a></li>
-                      <li class="text-gray-300">Corporate Lobbying Tracker</li>
-                    </ul>
-                  </div>
-                  
-                  <div class="w-full sm:bg-[#27272A] sm:border sm:border-gray-800 sm:rounded-lg h-auto pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
+
+              <main class="w-full lg:w-3/4 lg:pr-5">
+               
+                <div class="w-full  m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
+                
                   
                       <!-- Start Column -->
                       <div>
@@ -255,17 +247,65 @@ function changeOrder(state:string) {
                   {/if}
 
                   
-                </main>
+              </main>
 
 
-            </div>
+              <aside class="hidden lg:block relative fixed w-1/4 ml-4">        
+              
+                {#if data?.user?.tier !== 'Pro' || data?.user?.freeTrial}
+                <div on:click={() => goto('/pricing')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 mt-4 cursor-pointer">
+                    <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
+                        <div class="w-full flex justify-between items-center p-3 mt-3">
+                        <h2 class="text-start text-xl font-semibold text-white ml-3">
+                        Pro Subscription
+                        </h2>
+                        <ArrowLogo class="w-8 h-8 mr-3 flex-shrink-0"/>
+                        </div>
+                        <span class="text-white p-3 ml-3 mr-3">
+                            Upgrade now for unlimited access to all data and tools.
+                        </span>
+                    </div>
+                </div>
+                {/if}
+
+                <div on:click={() => goto('/analysts')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 mt-4 cursor-pointer">
+                    <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
+                        <div class="w-full flex justify-between items-center p-3 mt-3">
+                        <h2 class="text-start text-xl font-semibold text-white ml-3">
+                        Wallstreet Analyst
+                        </h2>
+                        <ArrowLogo class="w-8 h-8 mr-3 flex-shrink-0"/>
+                        </div>
+                        <span class="text-white p-3 ml-3 mr-3">
+                            Get the latest top Wall Street analyst ratings.
+                        </span>
+                    </div>
+                </div>
+
+                <div on:click={() => goto('/politicians')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 mt-4 cursor-pointer">
+                    <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
+                        <div class="w-full flex justify-between items-center p-3 mt-3">
+                        <h2 class="text-start text-xl font-semibold text-white ml-3">
+                        Congress Trading
+                        </h2>
+                        <ArrowLogo class="w-8 h-8 mr-3 flex-shrink-0"/>
+                        </div>
+                        <span class="text-white p-3 ml-3 mr-3">
+                            Get the latest top Congress trading insights.
+                        </span>
+                    </div>
+                </div>
+
+              </aside>
+
         </div>
-    
-      
       </div>
-          
-          
-      
-    </section>
+  
     
+    </div>
+        
+        
+    
+  </section>
+      
     

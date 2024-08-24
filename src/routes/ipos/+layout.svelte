@@ -1,8 +1,10 @@
 <script lang='ts'>
 import { page } from '$app/stores';
 import { numberOfUnreadNotification, screenWidth } from '$lib/store';
-import { goto } from '$app/navigation';
-      
+import ArrowLogo from "lucide-svelte/icons/move-up-right";
+
+export let data;
+
 let navigation = [];
 let displaySection = '2024'
 let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
@@ -73,7 +75,7 @@ $: {
     
     
     
-<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
+<section class="w-full max-w-3xl sm:max-w-screen-2xl overflow-hidden min-h-screen pt-5 pb-40">
   <!--
       <div class="text-sm breadcrumbs ml-4">
         <ul>
@@ -83,9 +85,13 @@ $: {
       </div>
     -->
     
-        <div class="flex justify-center w-full m-auto h-full overflow-hidden mb-40">
-            <div class="w-full relative flex justify-center items-center overflow-hidden">
-                <main class="w-full">
+    <div class="w-full overflow-hidden m-auto mt-5">
+        
+      <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden ">
+          <div class="relative flex justify-center items-start overflow-hidden w-full">
+              
+            
+            <main class="w-full lg:w-3/4 lg:pr-5">
       
       
                   <div class="w-full m-auto sm:bg-[#27272A] sm:rounded-lg h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-12">
@@ -138,7 +144,7 @@ $: {
       
                   <div class="sm:ml-4 w-screen sm:w-full  {$page?.url?.pathname === '/ipos' ? 'hidden' : ''} {$screenWidth < 640 ? 'overflow-auto scrollbar' : ''} mb-2" >
                     <ul class="pr-4 sm:pr-0 w-screen font-medium flex flex-row items-center bg-[#09090B] overflow-x-scroll no-scrollbar space-x-3 rtl:space-x-reverse py-2">
-                      {#each ['2024','2022','2021','2020','2019'] as item, index}
+                      {#each ['2024','2023','2022','2021','2020','2019'] as item, index}
                       <li class="cursor-pointer flex flex-col items-center">
                         <a href={`/ipos/${item}`} id="item1" on:click={() => (changeSection(item,'item1'))} class="px-3 text-lg font-medium text-gray-400 sm:hover:text-white {displaySection === item ? 'text-white ' : 'bg-[#09090B]'}" >
                           {item}
@@ -159,6 +165,57 @@ $: {
                     <slot />
                     
                 </main>
+
+                <aside class="hidden lg:block relative fixed w-1/4 ml-4">        
+              
+                  {#if data?.user?.tier !== 'Pro' || data?.user?.freeTrial}
+                  <div on:click={() => goto('/pricing')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 mt-4 cursor-pointer">
+                      <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
+                          <div class="w-full flex justify-between items-center p-3 mt-3">
+                          <h2 class="text-start text-xl font-semibold text-white ml-3">
+                          Pro Subscription
+                          </h2>
+                          <ArrowLogo class="w-8 h-8 mr-3 flex-shrink-0"/>
+                          </div>
+                          <span class="text-white p-3 ml-3 mr-3">
+                              Upgrade now for unlimited access to all data and tools.
+                          </span>
+                      </div>
+                  </div>
+                  {/if}
+      
+                  <div on:click={() => goto('/analysts')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 mt-4 cursor-pointer">
+                      <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
+                          <div class="w-full flex justify-between items-center p-3 mt-3">
+                          <h2 class="text-start text-xl font-semibold text-white ml-3">
+                          Wallstreet Analyst
+                          </h2>
+                          <ArrowLogo class="w-8 h-8 mr-3 flex-shrink-0"/>
+                          </div>
+                          <span class="text-white p-3 ml-3 mr-3">
+                              Get the latest top Wall Street analyst ratings.
+                          </span>
+                      </div>
+                  </div>
+      
+                  <div on:click={() => goto('/politicians')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 mt-4 cursor-pointer">
+                      <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
+                          <div class="w-full flex justify-between items-center p-3 mt-3">
+                          <h2 class="text-start text-xl font-semibold text-white ml-3">
+                          Congress Trading
+                          </h2>
+                          <ArrowLogo class="w-8 h-8 mr-3 flex-shrink-0"/>
+                          </div>
+                          <span class="text-white p-3 ml-3 mr-3">
+                              Get the latest top Congress trading insights.
+                          </span>
+                      </div>
+                  </div>
+      
+                </aside>
+
+
+                </div>
     
             </div>
         </div>

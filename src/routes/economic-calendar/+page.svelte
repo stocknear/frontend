@@ -2,9 +2,9 @@
   import { format, startOfWeek, addDays, addWeeks, subWeeks, differenceInWeeks } from 'date-fns';
   import { screenWidth, numberOfUnreadNotification } from '$lib/store';
   import logo from '$lib/images/transcripts_logo.png';
-  import ScrollToTop from '$lib/components/ScrollToTop.svelte';
   import { listOfCountries } from '$lib/utils';
-  
+  import ArrowLogo from "lucide-svelte/icons/move-up-right";
+
   export let data;
   let rawData;
   let filterList = [];
@@ -119,59 +119,72 @@
       
       
       
-  <section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
-        
-      
-
-          <div class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto sm:p-10 mt-10 sm:mt-3 mb-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2">
-          
-              <!-- Start Column -->
-              <div>
-                <div class="flex flex-row justify-center items-center">
-                  <h1 class="text-3xl sm:text-4xl text-white text-center font-bold mb-5">
-                    Economic Calendar
-                  </h1>
-                </div>
-      
-                <span class="hidden sm:block text-white text-md font-medium text-center flex justify-center items-center ">
-                  Stay updated on upcoming Economic Events worldwide.
-                </span>
+  <section class="w-full max-w-3xl sm:max-w-screen-2xl overflow-hidden min-h-screen pt-5 pb-40">
+  
     
-      
-              </div>
-              <!-- End Column -->
+    <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
+      <ul>
+        <li><a href="/" class="text-gray-300">Home</a></li> 
+        <li class="text-gray-300">Economic Calendar</li>
+      </ul>
+    </div>
+    
+    <div class="w-full overflow-hidden m-auto mt-5">
+        
+      <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden ">
+          <div class="relative flex justify-center items-start overflow-hidden w-full">
+              
+            
+            <main class="w-full lg:w-3/4 lg:pr-5">
           
-              <!-- Start Column -->
-              <div class="hidden sm:block relative m-auto mt-7 sm:mb-0 sm:mt-0">
-                <svg class="w-32 sm:w-36 -my-5" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <filter id="glow">
-                      <feGaussianBlur stdDeviation="5" result="glow"/>
-                      <feMerge>
-                        <feMergeNode in="glow"/>
-                        <feMergeNode in="SourceGraphic"/>
-                      </feMerge>
-                    </filter>
-                  </defs>
-                  <path fill="#1E40AF" d="M57.6,-58.7C72.7,-42.6,81.5,-21.3,82,0.5C82.5,22.3,74.7,44.6,59.7,60.1C44.6,75.6,22.3,84.3,0,84.3C-22.3,84.2,-44.6,75.5,-61.1,60.1C-77.6,44.6,-88.3,22.3,-87.6,0.7C-86.9,-20.8,-74.7,-41.6,-58.2,-57.7C-41.6,-73.8,-20.8,-85.2,0.2,-85.4C21.3,-85.6,42.6,-74.7,57.6,-58.7Z" transform="translate(100 100)" filter="url(#glow)" />
-                </svg>
-                
-                
-                <div class="z-1 absolute top-2">
-                  <img class="w-24 ml-6" src={logo} alt="logo" loading="lazy">
+              <div class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
+              
+                  <!-- Start Column -->
+                  <div>
+                    <div class="flex flex-row justify-center items-center">
+                      <h1 class="text-3xl sm:text-4xl text-white text-center font-bold mb-5">
+                        Economic Calendar
+                      </h1>
+                    </div>
+          
+                    <span class="hidden sm:block text-white text-md font-medium text-center flex justify-center items-center ">
+                      Stay updated on upcoming Economic Events worldwide.
+                    </span>
+          
+          
+                  </div>
+                  <!-- End Column -->
+              
+                  <!-- Start Column -->
+                  <div class="hidden sm:block relative m-auto mb-5 mt-5 sm:mb-0 sm:mt-0">
+                    <svg class="w-36 -my-5" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <filter id="glow">
+                          <feGaussianBlur stdDeviation="5" result="glow"/>
+                          <feMerge>
+                            <feMergeNode in="glow"/>
+                            <feMergeNode in="SourceGraphic"/>
+                          </feMerge>
+                        </filter>
+                      </defs>
+                      <path fill="#1E40AF" d="M57.6,-58.7C72.7,-42.6,81.5,-21.3,82,0.5C82.5,22.3,74.7,44.6,59.7,60.1C44.6,75.6,22.3,84.3,0,84.3C-22.3,84.2,-44.6,75.5,-61.1,60.1C-77.6,44.6,-88.3,22.3,-87.6,0.7C-86.9,-20.8,-74.7,-41.6,-58.2,-57.7C-41.6,-73.8,-20.8,-85.2,0.2,-85.4C21.3,-85.6,42.6,-74.7,57.6,-58.7Z" transform="translate(100 100)" filter="url(#glow)" />
+                    </svg>
+                    
+                    
+                    <div class="z-1 absolute top-0">
+                      <img class="w-20 ml-5" src={logo} alt="logo" loading="lazy">
+                    </div>
+                  </div>
+                  <!-- End Column -->
                 </div>
-              </div>
-              <!-- End Column -->
-            </div>
-      
-           
-      
-      
-          </div>
           
-            <!-- Page wrapper -->
-            <div class="flex justify-center w-full m-auto h-full overflow-hidden">
+            
+              </div>
+              
+                <!-- Page wrapper -->
+                <div class="flex justify-center w-full m-auto h-full overflow-hidden">
+    
         
     
                 <!-- Content area -->
@@ -212,7 +225,7 @@
 
 <div class="flex flex-row items-center w-fit ml-auto mt-6 mb-2 mr-3 sm:mr-0">
 {#if filterList?.length !== 0}
-<label on:click={() => filterList = [] } class="mr-3 text-sm cursor-pointer bg-[#27272A] sm:hover:bg-[#27272A] duratiion-100 transition ease-in-out px-4 py-2 rounded-lg shadow-lg ml-auto">
+<label on:click={() => filterList = [] } class="mr-3 text-sm cursor-pointer bg-[#27272A] sm:hover:bg-[#27272A] text-white duration-100 transition ease-in-out px-4 py-2 rounded-lg shadow-lg ml-auto">
   <svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-4 h-4" viewBox="0 0 21 21"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3.578 6.487A8 8 0 1 1 2.5 10.5"/><path d="M7.5 6.5h-4v-4"/></g></svg>
       Reset All
 </label>
@@ -228,47 +241,49 @@
   
   <!-- Dropdown menu -->
   
-  <ul tabindex="0" class="z-30 dropdown-content p-2 shadow bg-[#1D232A] rounded w-60 h-72 oveflow-hidden overflow-y-scroll">
+    <ul tabindex="0" class="z-30 dropdown-content p-2 shadow bg-[#1D232A] rounded w-60 h-72 oveflow-hidden overflow-y-scroll">
 
-    <div class="mb-3 mt-1 ml-1">
-      <span class="text-white text-sm mb-2">
-        Popular
-      </span>
-      <hr class="mt-2 mb-2 border-gray-500"/>
-      {#each ['United States','Russia','China','UK','EU'] as item}
-    <li>
-      <label on:click|stopPropagation={(event) => handleFilter(event, item)} class="flex items-center ps-2 rounded">
-        <input checked={filterList?.includes(item)} type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-        <label class="w-full py-2 ms-2 text-sm font-medium text-white rounded cursor-pointer">
-          {item}
+      <div class="mb-3 mt-1 ml-1">
+        <span class="text-white text-sm mb-2">
+          Popular
+        </span>
+        <hr class="mt-2 mb-2 border-gray-500"/>
+        {#each ['United States','Russia','China','UK','EU'] as item}
+      <li>
+        <label on:click|stopPropagation={(event) => handleFilter(event, item)} class="flex items-center ps-2 rounded">
+          <input checked={filterList?.includes(item)} type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+          <label class="w-full py-2 ms-2 text-sm font-medium text-white rounded cursor-pointer">
+            {item}
+          </label>
         </label>
-      </label>
-    </li>
-    {/each}
-    </div>
-    <div>
-      <span class="text-white text-sm mb-2 ml-1">
-       All Countries
-      </span>
-      <hr class="mt-2 mb-2 border-gray-500"/>
-    </div>
-    {#each listOfCountries as item}
-    <li>
-      <div on:click|stopPropagation={(event) => handleFilter(event, item)} class="flex items-center ps-2 rounded">
-        <input type="checkbox" checked={filterList?.includes(item)} class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-        <label class="w-full py-2 ms-2 text-sm font-medium text-white rounded cursor-pointer">
-          {item}
-        </label>
+      </li>
+      {/each}
       </div>
-    </li>
-    {/each}
-  </ul>
+      <div>
+        <span class="text-white text-sm mb-2 ml-1">
+        All Countries
+        </span>
+        <hr class="mt-2 mb-2 border-gray-500"/>
+      </div>
+      {#each listOfCountries as item}
+      <li>
+        <div on:click|stopPropagation={(event) => handleFilter(event, item)} class="flex items-center ps-2 rounded">
+          <input type="checkbox" checked={filterList?.includes(item)} class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+          <label class="w-full py-2 ms-2 text-sm font-medium text-white rounded cursor-pointer">
+            {item}
+          </label>
+        </div>
+      </li>
+      {/each}
+    </ul>
+
+
 </div>
   
 </div>
 
 
-  <body class="z-0 mb-40">
+  <div class="z-0 mb-40">
         {#each (filterList?.length === 0 ? weekday : weekdayFiltered) as day,index}
                   {#if index === selectedWeekday}
                     {#if day?.length !== 0}
@@ -350,7 +365,64 @@
                     {/if}
         {/each}
         
-  </body>
+</div>
+
+</div>
+
+              </div>
+        
+      </main>
+
+      <aside class="hidden lg:block relative fixed w-1/4 ml-4">        
+              
+        {#if data?.user?.tier !== 'Pro' || data?.user?.freeTrial}
+        <div on:click={() => goto('/pricing')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 mt-4 cursor-pointer">
+            <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
+                <div class="w-full flex justify-between items-center p-3 mt-3">
+                <h2 class="text-start text-xl font-semibold text-white ml-3">
+                Pro Subscription
+                </h2>
+                <ArrowLogo class="w-8 h-8 mr-3 flex-shrink-0"/>
+                </div>
+                <span class="text-white p-3 ml-3 mr-3">
+                    Upgrade now for unlimited access to all data and tools.
+                </span>
+            </div>
+        </div>
+        {/if}
+
+        <div on:click={() => goto('/analysts')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 mt-4 cursor-pointer">
+            <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
+                <div class="w-full flex justify-between items-center p-3 mt-3">
+                <h2 class="text-start text-xl font-semibold text-white ml-3">
+                Wallstreet Analyst
+                </h2>
+                <ArrowLogo class="w-8 h-8 mr-3 flex-shrink-0"/>
+                </div>
+                <span class="text-white p-3 ml-3 mr-3">
+                    Get the latest top Wall Street analyst ratings.
+                </span>
+            </div>
+        </div>
+
+        <div on:click={() => goto('/politicians')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 mt-4 cursor-pointer">
+            <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
+                <div class="w-full flex justify-between items-center p-3 mt-3">
+                <h2 class="text-start text-xl font-semibold text-white ml-3">
+                Congress Trading
+                </h2>
+                <ArrowLogo class="w-8 h-8 mr-3 flex-shrink-0"/>
+                </div>
+                <span class="text-white p-3 ml-3 mr-3">
+                    Get the latest top Congress trading insights.
+                </span>
+            </div>
+        </div>
+
+      </aside>
+
+    </div>
+</div>
 
 </section>
         

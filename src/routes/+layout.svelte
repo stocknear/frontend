@@ -523,6 +523,9 @@ $: {
                           <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
                             <a href="/reddit-tracker" class="text-start w-full text-[1rem] text-white ml-4 mt-4">Reddit Tracker</a>
                           </Button>
+                          <Button builders={[builder]} type="submit" class="w-full bg-[#141417] hover:bg-[#141417]">
+                            <a href="/corporate-lobbying-tracker" class="text-start w-full text-[1rem] text-white ml-4 mt-4">Lobbying Tracker</a>
+                          </Button>
                         </div>
     
                       </Sheet.Close>
@@ -883,6 +886,7 @@ $: {
                           <a href="/cramer-tracker" class="text-[1rem] text-white ml-4 mt-4">Jim Cramer Tracker</a>
                           <a href="/most-retail-volume" class="text-[1rem] text-white ml-4 mt-4">Retail Trader Tracker</a>
                           <a href="/reddit-tracker" class="text-[1rem] text-white ml-4 mt-4">Reddit Tracker</a>
+                          <a href="/corporate-lobbying-tracker" class="text-[1rem] text-white ml-4 mt-4">Lobbying Tracker</a>
                         </div>
                         
                       </Accordion.Content
