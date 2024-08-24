@@ -247,7 +247,7 @@ onMount( async() => {
             <Card.Root >
               <Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
                 <Card.Title class="text-start text-[1rem] sm:text-xl font-semibold">
-                  <a href="/market-mover" class="sm:hover:underline">Winner</a>
+                  <a href="/market-mover" class="sm:hover:underline">Top Stock</a>
                 </Card.Title>
                 <Crown class="h-4 w-4 shrink-0" />
               </Card.Header>
@@ -268,7 +268,7 @@ onMount( async() => {
             <Card.Root>
               <Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
                 <Card.Title class="text-start text-[1rem] sm:text-xl font-semibold">
-                  <a href="/market-mover" class="sm:hover:underline">Loser</a>
+                  <a href="/market-mover" class="sm:hover:underline">Worst Stock</a>
                 </Card.Title>
                 <Bomb class="h-4 w-4 shrink-0" />
               </Card.Header>
@@ -289,14 +289,22 @@ onMount( async() => {
             <Card.Root>
               <Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
                 <Card.Title class="text-start text-[1rem] sm:text-xl font-semibold">
-                  <a href="/most-shorted-stocks" class="sm:hover:underline"> Most Shorted</a>
+                  <a href={quickInfo?.topSector?.link} class="sm:hover:underline">Top Sector</a>
                 </Card.Title>
                 <Zap class="h-4 w-4 shrink-0" />
               </Card.Header>
               <Card.Content>
-                <a href={`/stocks/${quickInfo?.shorted?.symbol}`} class="flex text-start text-blue-400 sm:hover:text-white text-[1rem] sm:text-lg font-semibold">{quickInfo?.shorted?.symbol}</a>
+                <a href={quickInfo?.topSector?.link} class="flex text-start text-blue-400 sm:hover:text-white text-[1rem] sm:text-lg font-semibold">
+                  {quickInfo?.topSector?.sector?.length > 15 ? quickInfo?.topSector?.sector?.slice(0,15) +'...' : quickInfo?.topSector?.sector}
+                </a>
                 <p class="text-start text-[1rem] sm:text-lg font-medium text-[#FF2F1F] mt-1">
-                  Short: {quickInfo?.shorted?.shortOutStandingPercent?.toFixed(2)}%
+                  {#if quickInfo?.topSector?.changesPercentage >=0}
+                      <svg class="hidden sm:inline-block w-5 h-5 -mr-0.5 -mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#10db06" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>
+                      <span class="text-[#10DB06] font-medium">+{abbreviateNumber(quickInfo?.topSector?.changesPercentage?.toFixed(2))}%</span>
+                    {:else}
+                      <svg class="hidden sm:inline-block w-5 h-5 -mr-0.5 -mt-0.5 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="evaArrowUpFill0"><g id="evaArrowUpFill1"><path id="evaArrowUpFill2" fill="#FF2F1F" d="M16.21 16H7.79a1.76 1.76 0 0 1-1.59-1a2.1 2.1 0 0 1 .26-2.21l4.21-5.1a1.76 1.76 0 0 1 2.66 0l4.21 5.1A2.1 2.1 0 0 1 17.8 15a1.76 1.76 0 0 1-1.59 1Z"/></g></g></svg>    
+                      <span class="text-[#FF2F1F] font-medium">{abbreviateNumber(quickInfo?.topSector?.changesPercentage?.toFixed(2))}% </span> 
+                    {/if}
                 </p>
               </Card.Content>
             </Card.Root>
