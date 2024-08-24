@@ -90,7 +90,7 @@ function getPlotOptions() {
             itemStyle: {
             color: (params) => {
                 // Set color based on positive or negative value
-                return params.data >= 0 ? '#10DB06' : '#FF2F1F';
+                return params.data >= 0 ? '#22C55E' : '#F71F4F';
             },
             },
             

@@ -172,7 +172,7 @@ function selectSortingMethod(state:string) {
           itemStyle: {
                   // Define colors based on positive/negative values
                   color: function(params) {
-                      return params.data >= 0 ? '#10DB06' : '#FF2F1F';
+                      return params.data >= 0 ? '#22C55E' : '#F71F4F';
                   }
               },
         },
@@ -252,7 +252,7 @@ function plotGrowth() {
               itemStyle: {
                   // Define colors based on positive/negative values
                   color: function(params) {
-                      return params.data >= 0 ? '#10DB06' : '#FF2F1F';
+                      return params.data >= 0 ? '#22C55E' : '#F71F4F';
                   }
               },
           },
