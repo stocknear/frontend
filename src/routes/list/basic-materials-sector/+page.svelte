@@ -4,28 +4,113 @@
   import { abbreviateNumber} from '$lib/utils';
   import InfoModal from '$lib/components/InfoModal.svelte';
   import { onMount } from 'svelte';
+  import { Chart } from 'svelte-echarts'
 
-  export let data;
-  let rawData = data?.getBasicMaterialsSector;
-  let marketCapList = rawData?.slice(0,50);
+  import { init, use } from 'echarts/core'
+  import { BarChart } from 'echarts/charts'
+  import { GridComponent, TooltipComponent } from 'echarts/components'
+  import { CanvasRenderer } from 'echarts/renderers'
   
+  export let data;
+  let isLoaded = false;
+  use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
+
+  let rawData = data?.getBasicMaterialsSector;
+  let historicalPrice = data?.getHistoricalSector;
+
+  let marketCapList = rawData?.slice(0,50);
+  let optionsData;
   
   async function handleScroll() {
       const scrollThreshold = document.body.offsetHeight * 0.8; // 80% of the website height
       const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
-      if (isBottom && displayList?.length !== rawData?.length) {
-          const nextIndex = displayList?.length;
+      if (isBottom && marketCapList?.length !== rawData?.length) {
+          const nextIndex = marketCapList?.length;
           const filteredNewResults = rawData?.slice(nextIndex, nextIndex + 50);
-          displayList = [...displayList, ...filteredNewResults];
+          marketCapList = [...marketCapList, ...filteredNewResults];
       }
     }
   
-    onMount(async () => {
-      window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    })
+      
+function getPlotOptions() {
+    let dates = [];
+    let priceList = [];
+    // Iterate over the data and extract required information
+    historicalPrice?.forEach(item => {
+      dates?.push(item?.date);
+      priceList?.push(item?.changesPercentage);
+    });
+
+    const option = {
+    silent: true,
+    tooltip: {
+        trigger: 'axis',
+        hideDelay: 100, // Set the delay in milliseconds
+    },
+    animation: false,
+    grid: {
+        left: '0%',
+        right: '2%',
+        bottom: '2%',
+        top: '5%',
+        containLabel: true
+    },
+    xAxis:
+    {
+        type: 'category',
+        boundaryGap: false,
+        data: dates,
+        axisLabel: {
+            color: '#fff',
+        }
+    },
+    yAxis: [
+      {
+        type: 'value',
+        splitLine: {
+              show: false, // Disable x-axis grid lines
+        },
+        axisLabel: {
+          color: '#fff',
+            formatter: function (value, index) {
+              if (index % 2 === 0) {
+                return value?.toFixed(2)+'%'; // Format the sentiment value
+              } else {
+                    return ''; // Hide this tick
+                }
+            }
+        }
+      }
+    ],
+    series: [
+        {
+            name: 'Daily Change [%]',
+            data: priceList,
+            type: 'bar',
+            itemStyle: {
+            color: (params) => {
+                // Set color based on positive or negative value
+                return params.data >= 0 ? '#10DB06' : '#FF2F1F';
+            },
+            },
+            
+        },
+    ]
+    };
+  
+  
+  return option;
+  }
+
+  onMount(async () => {
+
+    optionsData = await getPlotOptions();
+    isLoaded = true;
+    window.addEventListener('scroll', handleScroll);
+      return () => {
+          window.removeEventListener('scroll', handleScroll);
+      };
+  })
   
   
   let totalMarketCap = rawData?.reduce((total, stock) => total + stock?.marketCap, 0) ?? 0;
@@ -34,6 +119,7 @@
 
   
   $: charNumber = $screenWidth < 640 ? 15 : 20;
+
   </script>
       
       <section class="w-full overflow-hidden m-auto">
@@ -143,13 +229,27 @@
               
           </div>
       
-      
+          <h2 class="text-white text-xl sm:text-2xl mt-8 font-semibold">
+            Historical Performance
+          </h2>
+          <div class="app w-full h-[300px] mt-5 mb-8">
+            {#if isLoaded}
+            <Chart {init} options={optionsData} class="chart" />
+            {:else}
+            <div class="flex justify-center items-center h-80">
+              <div class="relative">
+              <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <span class="loading loading-spinner loading-md"></span>
+              </label>
+              </div>
+            </div>
+            {/if}
+          </div>
           
             <!-- Page wrapper -->
             <div class="flex justify-center w-full m-auto h-full overflow-hidden">
         
-                
-          
+      
                 <!-- Content area -->
                 <div class="w-full overflow-x-scroll">
         
@@ -230,3 +330,25 @@
         </section>
         
         
+
+
+  
+<style>
+
+.app {
+height: 300px;
+max-width: 100%; /* Ensure chart width doesn't exceed the container */
+
+}
+
+@media (max-width: 640px) {
+.app {
+  height: 210px;
+}
+}
+
+.chart {
+width: 100%;
+}
+
+</style>
