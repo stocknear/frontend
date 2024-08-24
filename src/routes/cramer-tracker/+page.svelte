@@ -37,16 +37,7 @@
     })
     
     
-    let charNumber = 40;
-    $: {
-      if ($screenWidth < 640)
-      {
-        charNumber = 15;
-      }
-      else {
-        charNumber = 40;
-      }
-    }
+    $: charNumber = $screenWidth < 640 ? 15 : 40;
     
           
     </script>
@@ -75,7 +66,7 @@
     
         
     
-    <section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40 lg:px-3">
+    <section class="w-full max-w-3xl sm:max-w-screen-2xl overflow-hidden min-h-screen pt-5 pb-40 lg:px-3">
           
       <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
         <ul>
@@ -232,7 +223,7 @@
                 <aside class="hidden lg:block relative fixed w-1/4 ml-4">        
               
                   {#if data?.user?.tier !== 'Pro' || data?.user?.freeTrial}
-                  <div on:click={() => goto('/pricing')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 cursor-pointer">
+                  <div on:click={() => goto('/pricing')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 mt-4 cursor-pointer">
                       <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
                           <div class="w-full flex justify-between items-center p-3 mt-3">
                           <h2 class="text-start text-xl font-semibold text-white ml-3">
