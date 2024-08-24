@@ -12,10 +12,7 @@ let stockQuote;
 
 
 let marketCap = '-';
-let yearHigh = '-';
-let yearLow = '-';
-let dayHigh = '-';
-let dayLow = '-';
+
 
 let currentPrice = 0;
 let previousClose = '-';
@@ -78,10 +75,6 @@ if (progressYearPriceValue < currentPrice) {
 */
         
 marketCap = '-';
-yearHigh = '-';
-yearLow = '-';
-dayHigh = '-';
-dayLow = '-';
 
 currentPrice = '-';
 previousClose = '-';
@@ -102,11 +95,6 @@ eps = stockQuote?.eps;
 pe = stockQuote?.pe;
 
 beta = stockQuote?.beta;
-
-dayLow = stockQuote?.dayLow?.toFixed(2);
-dayHigh = stockQuote?.dayHigh?.toFixed(2);
-yearLow = stockQuote?.yearLow?.toFixed(2);
-yearHigh = stockQuote?.yearHigh?.toFixed(2);
 
 alpha = quantStats[$stockTicker?.toUpperCase()]?.Alpha;
 
@@ -156,79 +144,118 @@ updateYearRange()
         </div>
 
         {#if Object?.keys(quantStats)?.length !== 0}
+
+
+         <!--Start Widget-->
+         <div class="w-full mt-5 mb-5 flex justify-start items-center">
+          <div class="w-full grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-y-3 gap-x-3 ">
+
+            <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#09090B] border border-gray-800 rounded-lg h-auto">
+              <div class="flex flex-col items-center w-full p-3">
+                  <span class="font-medium text-white text-xl font-semibold">YTD Return</span>
+                  <div class="grid grid-cols-3 w-full mt-2">
+                      <div class="flex flex-col items-center">
+                          <span class="text-center text-white font-semibold">{$stockTicker}</span>
+                          <span class="text-center text-[1rem] sm:text-lg font-semibold mt-1">
+                            {#if quantStats[$stockTicker?.toUpperCase()]["YTD %"] >=0}
+                              <span class="text-[#22C55E]">+{quantStats[$stockTicker?.toUpperCase()]["YTD %"]?.toFixed(2)}%</span>
+                            {:else}
+                              <span class="text-[#F71F4F] ">{quantStats[$stockTicker?.toUpperCase()]["YTD %"]?.toFixed(2)}% </span> 
+                            {/if}
+                          </span>
+                      </div>
+                      <div class="text-center text-white">
+                          vs.
+                      </div>
+                      <div class="flex flex-col items-center">
+                          <span class="text-center text-white font-semibold">SPY</span>
+                          <span class="text-center text-[1rem] sm:text-lg font-semibold mt-1">
+                            {#if quantStats['SPY']["YTD %"] >=0}
+                              <span class="text-[#22C55E]">+{quantStats['SPY']["YTD %"]?.toFixed(2)}%</span>
+                            {:else}
+                              <span class="text-[#F71F4F] ">{quantStats['SPY']["YTD %"]?.toFixed(2)}% </span> 
+                            {/if}
+                          </span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+          
+          <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#09090B] border border-gray-800 rounded-lg h-auto">
+            <div class="flex flex-col items-center w-full p-3">
+                <span class="font-medium text-white text-xl font-semibold">1-Year Return</span>
+                <div class="grid grid-cols-3 w-full mt-2">
+                    <div class="flex flex-col items-center">
+                        <span class="text-center text-white font-semibold">{$stockTicker}</span>
+                        <span class="text-center text-[1rem] sm:text-lg font-semibold mt-1">
+                          {#if quantStats[$stockTicker?.toUpperCase()]["1Y %"] >=0}
+                            <span class="text-[#22C55E]">+{quantStats[$stockTicker?.toUpperCase()]["1Y %"]?.toFixed(2)}%</span>
+                          {:else}
+                            <span class="text-[#F71F4F] ">{quantStats[$stockTicker?.toUpperCase()]["1Y %"]?.toFixed(2)}% </span> 
+                          {/if}
+                        </span>
+                    </div>
+                    <div class="text-center text-white">
+                        vs.
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-center text-white font-semibold">SPY</span>
+                        <span class="text-center text-[1rem] sm:text-lg font-semibold mt-1">
+                          {#if quantStats['SPY']["1Y %"] >=0}
+                            <span class="text-[#22C55E]">+{quantStats['SPY']["1Y %"]?.toFixed(2)}%</span>
+                          {:else}
+                            <span class="text-[#F71F4F] ">{quantStats['SPY']["1Y %"]?.toFixed(2)}% </span> 
+                          {/if}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 bg-[#09090B] border border-gray-800 rounded-lg h-auto">
+          <div class="flex flex-col items-center w-full p-3">
+              <span class="font-medium text-white text-xl font-semibold">3-Year Return</span>
+              <div class="grid grid-cols-3 w-full mt-2">
+                  <div class="flex flex-col items-center">
+                      <span class="text-center text-white font-semibold">{$stockTicker}</span>
+                      <span class="text-center text-[1rem] sm:text-lg font-semibold mt-1">
+                        {#if quantStats[$stockTicker?.toUpperCase()]["3Y (ann.) %"] >=0}
+                          <span class="text-[#22C55E]">+{quantStats[$stockTicker?.toUpperCase()]["3Y (ann.) %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#F71F4F] ">{quantStats[$stockTicker?.toUpperCase()]["3Y (ann.) %"]?.toFixed(2)}% </span> 
+                        {/if}
+                      </span>
+                  </div>
+                  <div class="text-center text-white">
+                      vs.
+                  </div>
+                  <div class="flex flex-col items-center">
+                      <span class="text-center text-white font-semibold">SPY</span>
+                      <span class="text-center text-[1rem] sm:text-lg font-semibold mt-1">
+                        {#if quantStats['SPY']["3Y (ann.) %"] >=0}
+                          <span class="text-[#22C55E]">+{quantStats['SPY']["3Y (ann.) %"]?.toFixed(2)}%</span>
+                        {:else}
+                          <span class="text-[#F71F4F] ">{quantStats['SPY']["3Y (ann.) %"]?.toFixed(2)}% </span> 
+                        {/if}
+                      </span>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+        
+
+        </div>
+      </div>
+
+      <!--End Widget-->
+
+
         <div class="grid grid-cols-1 gap-2 mt-10">
           
-              <div class="flex justify-start items-start w-full m-auto">
-                <table class="table table-sm table-pin-rows table-compact pb-2 text-start flex justify-start items-center w-full px-3 m-auto ">
-                    <tbody class="shadow-md">
-                    <!-- row 1 -->
-                    <tr class="text-white ">
-                      {#if $screenWidth <= 550}
-                      <td class="text-start text-white font-medium">
-                        1-Day Range
-                      </td>
-                      <td class="bg-[#09090B]">
-                        <div class="flex flex-col items-start">
-                          <div class="flex justify-between w-full mb-1.5">
-                            <span class="text-start">{dayLow}</span>
-                            <span class="text-end">{dayHigh}</span>
-                          </div>
-                          <div class="flex justify-center w-full">
-                            <progress class="progress [&::-webkit-progress-value]:bg-blue-600 [&::-moz-progress-bar]:bg-blue-600 w-full bg-white h-[4px]" min={dayLow} value={currentPrice} max={dayHigh} style="flex-direction: row-reverse" />
-                          </div>
-                        </div>
-                      </td>
-                      {:else}
-                      <td class="text-start text-white font-medium">
-                        1-Day Range
-                      </td>
-                      <td class="bg-[#09090B]">
-                        {dayLow}
-                      </td>
-                      <td class="bg-[#09090B]">
-                        <!--<span class="text-center flex justify-center items-center ">158.8</span>-->
-                        <progress class="progress [&::-webkit-progress-value]:bg-blue-600 [&::-moz-progress-bar]:bg-blue-600 bg-white w-[200px] sm:w-full h-[4px]" min={dayLow} value={currentPrice} max={dayHigh} />
-                      </td>
-                      <td class="bg-[#09090B] ">
-                        {dayHigh}
-                      </td>
-                      {/if}
-                    </tr>
-                    <!--2 row -->
-                    <tr class="text-white bg-[#09090B]">
-                      {#if $screenWidth < 640}
-                      <td class="text-start text-white font-medium">
-                        1-Year Range
-                      </td>
-                      <td class="bg-[#09090B]">
-                        <div class="flex flex-col items-start">
-                          <div class="flex justify-between w-full mb-1.5">
-                            <span class="text-start">{yearLow}</span>
-                            <span class="text-end">{yearHigh}</span>
-                          </div>
-                          <div class="flex justify-center w-full">
-                            <progress class="progress [&::-webkit-progress-value]:bg-blue-600 [&::-moz-progress-bar]:bg-blue-600 bg-white w-[200px] sm:w-full h-[4px]" min={yearLow} value={currentPrice} max={yearHigh} style="flex-direction: row-reverse" />
-                          </div>
-                        </div>
-                      </td>
-                      {:else}
-                      <td class="text-start text-white font-medium">
-                        1-Year Range
-                      </td>
-                      <td class="bg-[#09090B]">
-                        {yearLow}
-                      </td>
-                      <td class="bg-[#09090B]">
-                        <progress class="progress [&::-webkit-progress-value]:bg-blue-600 [&::-moz-progress-bar]:bg-blue-600 w-full bg-white h-[4px]" min={yearLow} value={currentPrice} max={yearHigh} />
-                      </td>
-                      <td class="bg-[#09090B]">
-                        {yearHigh}
-                      </td>
-                      {/if}
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+             
           
               
 
@@ -278,7 +305,8 @@ updateYearRange()
                 </table>
               </div>
 
-          
+           
+
 
               {#if $stockTicker in quantStats && Object.keys(quantStats[$stockTicker]).length > 0}
 
@@ -363,14 +391,14 @@ updateYearRange()
                       </td>
                       <td class="text-white text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats[$stockTicker?.toUpperCase()]["Cumulative Return %"] >=0}
-                        <span class="text-[#10DB06] ">+{abbreviateNumber(quantStats[$stockTicker?.toUpperCase()]["Cumulative Return %"])}%</span>
+                        <span class="text-[#22C55E] ">+{abbreviateNumber(quantStats[$stockTicker?.toUpperCase()]["Cumulative Return %"])}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{abbreviateNumber(quantStats[$stockTicker?.toUpperCase()]["Cumulative Return %"])}% </span> 
                       {/if}
                       </td>
                       <td class="text-white text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats['SPY']["Cumulative Return %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Cumulative Return %"]}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats['SPY']["Cumulative Return %"]}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats['SPY']["Cumulative Return %"]}% </span> 
                       {/if}
@@ -383,14 +411,14 @@ updateYearRange()
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats[$stockTicker?.toUpperCase()]["CAGR %"] >=0}
-                        <span class="text-[#10DB06]">+{quantStats[$stockTicker?.toUpperCase()]["CAGR %"]}%</span>
+                        <span class="text-[#22C55E]">+{quantStats[$stockTicker?.toUpperCase()]["CAGR %"]}%</span>
                       {:else}
                         <span class="text-[#FF2F1F]">{quantStats[$stockTicker?.toUpperCase()]["CAGR %"]}% </span> 
                       {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats['SPY']["CAGR %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["CAGR %"]}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats['SPY']["CAGR %"]}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats['SPY']["CAGR %"]}% </span> 
                       {/if}
@@ -427,14 +455,14 @@ updateYearRange()
                         </td>
                         <td class="text-start text-white text-end text-sm sm:text-[1rem] whitespace-nowrap">
                         {#if quantStats[$stockTicker?.toUpperCase()]["Max Drawdown"] >=0}
-                          <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Max Drawdown"]}%</span>
+                          <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["Max Drawdown"]}%</span>
                         {:else}
                           <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Max Drawdown"]}% </span> 
                         {/if}
                         </td>
                         <td class=" text-end text-sm sm:text-[1rem] whitespace-nowrap">
                           {#if quantStats['SPY']["Max Drawdown"] >=0}
-                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Max Drawdown"]}%</span>
+                          <span class="text-[#22C55E] ">+{quantStats['SPY']["Max Drawdown"]}%</span>
                         {:else}
                           <span class="text-[#FF2F1F] ">{quantStats['SPY']["Max Drawdown"]}% </span> 
                         {/if}
@@ -535,14 +563,14 @@ updateYearRange()
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                         {#if quantStats[$stockTicker?.toUpperCase()]["Expected Daily %"] >=0}
-                          <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Expected Daily %"]}%</span>
+                          <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["Expected Daily %"]}%</span>
                         {:else}
                           <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Expected Daily %"]}% </span> 
                         {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                         {#if quantStats['SPY']["Expected Daily %"] >=0}
-                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Expected Daily %"]}%</span>
+                          <span class="text-[#22C55E] ">+{quantStats['SPY']["Expected Daily %"]}%</span>
                         {:else}
                           <span class="text-[#FF2F1F] ">{quantStats['SPY']["Expected Daily %"]}% </span> 
                         {/if}
@@ -555,14 +583,14 @@ updateYearRange()
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                         {#if quantStats[$stockTicker?.toUpperCase()]["Expected Monthly %"] >=0}
-                          <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Expected Monthly %"]}%</span>
+                          <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["Expected Monthly %"]}%</span>
                         {:else}
                           <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Expected Monthly %"]}% </span> 
                         {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                         {#if quantStats['SPY']["Expected Monthly %"] >=0}
-                          <span class="text-[#10DB06] ">+{quantStats['SPY']["Expected Monthly %"]}%</span>
+                          <span class="text-[#22C55E] ">+{quantStats['SPY']["Expected Monthly %"]}%</span>
                         {:else}
                           <span class="text-[#FF2F1F] ">{quantStats['SPY']["Expected Monthly %"]}% </span> 
                         {/if}
@@ -575,14 +603,14 @@ updateYearRange()
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                         {#if quantStats[$stockTicker?.toUpperCase()]["Expected Yearly %"] >=0}
-                          <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Expected Yearly %"]}%</span>
+                          <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["Expected Yearly %"]}%</span>
                         {:else}
                           <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Expected Yearly %"]}% </span> 
                         {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                         {#if quantStats['SPY']["Expected Yearly %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Expected Yearly %"]}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats['SPY']["Expected Yearly %"]}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats['SPY']["Expected Yearly %"]}% </span> 
                       {/if}
@@ -619,14 +647,14 @@ updateYearRange()
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                         {#if quantStats[$stockTicker?.toUpperCase()]["Daily Value-at-Risk %"] >=0}
-                          <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Daily Value-at-Risk %"]?.toFixed(2)}%</span>
+                          <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["Daily Value-at-Risk %"]?.toFixed(2)}%</span>
                         {:else}
                           <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Daily Value-at-Risk %"]?.toFixed(2)}% </span> 
                         {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats['SPY']["Daily Value-at-Risk %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Daily Value-at-Risk %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats['SPY']["Daily Value-at-Risk %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats['SPY']["Daily Value-at-Risk %"]?.toFixed(2)}% </span> 
                       {/if}
@@ -639,14 +667,14 @@ updateYearRange()
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats[$stockTicker?.toUpperCase()]["Expected Shortfall (cVaR) %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Expected Shortfall (cVaR) %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["Expected Shortfall (cVaR) %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Expected Shortfall (cVaR) %"]?.toFixed(2)}% </span> 
                       {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats['SPY']["Expected Shortfall (cVaR) %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Expected Shortfall (cVaR) %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats['SPY']["Expected Shortfall (cVaR) %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats['SPY']["Expected Shortfall (cVaR) %"]?.toFixed(2)}% </span> 
                       {/if}
@@ -757,14 +785,14 @@ updateYearRange()
                       </td>
                       <td class="text-start text-end text-sm sm:text-[1rem]">
                       {#if quantStats[$stockTicker?.toUpperCase()]["MTD %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["MTD %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["MTD %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["MTD %"]?.toFixed(2)}% </span> 
                       {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats['SPY']["MTD %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["MTD %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats['SPY']["MTD %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats['SPY']["MTD %"]?.toFixed(2)}% </span> 
                       {/if}
@@ -777,14 +805,14 @@ updateYearRange()
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                         {#if quantStats[$stockTicker?.toUpperCase()]["3M %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["3M %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["3M %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["3M %"]?.toFixed(2)}% </span> 
                       {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats['SPY']["3M %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["3M %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats['SPY']["3M %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats['SPY']["3M %"]?.toFixed(2)}% </span> 
                       {/if}
@@ -797,79 +825,20 @@ updateYearRange()
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats[$stockTicker?.toUpperCase()]["6M %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["6M %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["6M %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["6M %"]?.toFixed(2)}% </span> 
                       {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                         {#if quantStats['SPY']["6M %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["6M %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats['SPY']["6M %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats['SPY']["6M %"]?.toFixed(2)}% </span> 
                       {/if}
                       </td>  
                     </tr>
 
-                    <tr class="text-white odd:bg-[#27272A] font-semibold">
-                      <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
-                        YTD
-                      </td>
-                      <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
-                      {#if quantStats[$stockTicker?.toUpperCase()]["YTD %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["YTD %"]?.toFixed(2)}%</span>
-                      {:else}
-                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["YTD %"]?.toFixed(2)}% </span> 
-                      {/if}
-                      </td>
-                      <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
-                      {#if quantStats['SPY']["YTD %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["YTD %"]?.toFixed(2)}%</span>
-                      {:else}
-                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["YTD %"]?.toFixed(2)}% </span> 
-                      {/if}
-                      </td>  
-                    </tr>
-
-                    <tr class="text-white odd:bg-[#27272A] font-semibold">
-                      <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
-                        1Y
-                      </td>
-                      <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
-                      {#if quantStats[$stockTicker?.toUpperCase()]["1Y %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["1Y %"]?.toFixed(2)}%</span>
-                      {:else}
-                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["1Y %"]?.toFixed(2)}% </span> 
-                      {/if}
-                      </td>
-                      <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
-                      {#if quantStats['SPY']["1Y %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["1Y %"]?.toFixed(2)}%</span>
-                      {:else}
-                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["1Y %"]?.toFixed(2)}% </span> 
-                      {/if}
-                      </td>  
-                    </tr>
-
-                    <tr class="text-white odd:bg-[#27272A] font-semibold">
-                      <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
-                        3Y (ann.)
-                      </td>
-                      <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
-                      {#if quantStats[$stockTicker?.toUpperCase()]["3Y (ann.) %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["3Y (ann.) %"]?.toFixed(2)}%</span>
-                      {:else}
-                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["3Y (ann.) %"]?.toFixed(2)}% </span> 
-                      {/if}
-                      </td>
-                      <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
-                      {#if quantStats['SPY']["3Y (ann.) %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["3Y (ann.) %"]?.toFixed(2)}%</span>
-                      {:else}
-                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["3Y (ann.) %"]?.toFixed(2)}% </span> 
-                      {/if}
-                      </td>  
-                    </tr>
 
                     <tr class="text-white odd:bg-[#27272A] font-semibold">
                       <td class="text-starttext-sm sm:text-[1rem] whitespace-nowrap">
@@ -877,14 +846,14 @@ updateYearRange()
                       </td>
                       <td class="text-start text-end text-sm">
                       {#if quantStats[$stockTicker?.toUpperCase()]["Best Day %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Best Day %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["Best Day %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Best Day %"]?.toFixed(2)}% </span> 
                       {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats['SPY']["Best Day %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Best Day %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats['SPY']["Best Day %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats['SPY']["Best Day %"]?.toFixed(2)}% </span> 
                       {/if}
@@ -897,14 +866,14 @@ updateYearRange()
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats[$stockTicker?.toUpperCase()]["Worst Day %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Worst Day %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["Worst Day %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Worst Day %"]?.toFixed(2)}% </span> 
                       {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats['SPY']["Worst Day %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Worst Day %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats['SPY']["Worst Day %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats['SPY']["Worst Day %"]?.toFixed(2)}% </span> 
                       {/if}
@@ -916,17 +885,17 @@ updateYearRange()
                         Best Month
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
-                        {#if quantStats[$stockTicker?.toUpperCase()]["Worst Day %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Worst Day %"]?.toFixed(2)}%</span>
+                        {#if quantStats[$stockTicker?.toUpperCase()]["Best Month %"] >=0}
+                        <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["Best Month %"]?.toFixed(2)}%</span>
                       {:else}
-                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Worst Day %"]?.toFixed(2)}% </span> 
+                        <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Best Month %"]?.toFixed(2)}% </span> 
                       {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
-                        {#if quantStats['SPY']["Worst Day %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Worst Day %"]?.toFixed(2)}%</span>
+                        {#if quantStats['SPY']["Best Month %"] >=0}
+                        <span class="text-[#22C55E] ">+{quantStats['SPY']["Best Month %"]?.toFixed(2)}%</span>
                       {:else}
-                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["Worst Day %"]?.toFixed(2)}% </span> 
+                        <span class="text-[#FF2F1F] ">{quantStats['SPY']["Best Month %"]?.toFixed(2)}% </span> 
                       {/if}
                       </td>  
                     </tr>
@@ -937,14 +906,14 @@ updateYearRange()
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                         {#if quantStats[$stockTicker?.toUpperCase()]["Worst Month %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Worst Month %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["Worst Month %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Worst Month %"]?.toFixed(2)}% </span> 
                       {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                         {#if quantStats['SPY']["Worst Month %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Worst Month %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats['SPY']["Worst Month %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats['SPY']["Worst Month %"]?.toFixed(2)}% </span> 
                       {/if}
@@ -957,14 +926,14 @@ updateYearRange()
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats[$stockTicker?.toUpperCase()]["Best Year %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Best Year %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["Best Year %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Best Year %"]?.toFixed(2)}% </span> 
                       {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats['SPY']["Best Year %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Best Year %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats['SPY']["Best Year %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats['SPY']["Best Year %"]?.toFixed(2)}% </span> 
                       {/if}
@@ -977,14 +946,14 @@ updateYearRange()
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats[$stockTicker?.toUpperCase()]["Worst Year %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Worst Year %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["Worst Year %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Worst Year %"]?.toFixed(2)}% </span> 
                       {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                         {#if quantStats['SPY']["Worst Year %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Worst Year %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats['SPY']["Worst Year %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats['SPY']["Worst Year %"]?.toFixed(2)}% </span> 
                       {/if}
@@ -997,14 +966,14 @@ updateYearRange()
                       </td>
                       <td class="text-start text-end ttext-sm sm:text-[1rem]">
                       {#if quantStats[$stockTicker?.toUpperCase()]["Avg. Drawdown"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Avg. Drawdown"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["Avg. Drawdown"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Avg. Drawdown"]?.toFixed(2)}% </span> 
                       {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats['SPY']["Avg. Drawdown"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Avg. Drawdown"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats['SPY']["Avg. Drawdown"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats['SPY']["Avg. Drawdown"]?.toFixed(2)}% </span> 
                       {/if}
@@ -1054,14 +1023,14 @@ updateYearRange()
                       </td>
                       <td class="text-start text-end text-sm sm:text-[1rem]">
                       {#if quantStats[$stockTicker?.toUpperCase()]["Avg. Up Month %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Avg. Up Month %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["Avg. Up Month %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Avg. Up Month %"]?.toFixed(2)}% </span> 
                       {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats['SPY']["Avg. Up Month %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Avg. Up Month %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats['SPY']["Avg. Up Month %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats['SPY']["Avg. Up Month %"]?.toFixed(2)}% </span> 
                       {/if}
@@ -1074,14 +1043,14 @@ updateYearRange()
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats[$stockTicker?.toUpperCase()]["Avg. Down Month %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats[$stockTicker?.toUpperCase()]["Avg. Down Month %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats[$stockTicker?.toUpperCase()]["Avg. Down Month %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats[$stockTicker?.toUpperCase()]["Avg. Down Month %"]?.toFixed(2)}% </span> 
                       {/if}
                       </td>
                       <td class="text-end text-sm sm:text-[1rem] whitespace-nowrap">
                       {#if quantStats['SPY']["Avg. Down Month %"] >=0}
-                        <span class="text-[#10DB06] ">+{quantStats['SPY']["Avg. Down Month %"]?.toFixed(2)}%</span>
+                        <span class="text-[#22C55E] ">+{quantStats['SPY']["Avg. Down Month %"]?.toFixed(2)}%</span>
                       {:else}
                         <span class="text-[#FF2F1F] ">{quantStats['SPY']["Avg. Down Month %"]?.toFixed(2)}% </span> 
                       {/if}
