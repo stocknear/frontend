@@ -1,40 +1,120 @@
 <script lang='ts'>
   import { goto } from '$app/navigation';
   import { numberOfUnreadNotification, screenWidth } from '$lib/store';
-  import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
 	import { abbreviateNumber } from '$lib/utils';
   import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
+  import { onMount } from 'svelte';
   import ArrowLogo from "lucide-svelte/icons/move-up-right";
 
   
     export let data;
+    let isLoaded = false;
     let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
 
     
     let rawData = data?.getTopAnalystStocks;
 
-    let analytRatingList =  rawData?.slice(0,20) ?? [];
+    let analytRatingList =  rawData?.slice(0,50) ?? [];
   
   
-  async function infiniteHandler({ detail: { loaded, complete } }) 
-  {
-  if (analytRatingList?.length === rawData?.length) {
-      complete();
-    } else {
-      const nextIndex = analytRatingList?.length;
-      const newArticles = rawData?.slice(nextIndex, nextIndex + 5);
-      analytRatingList = [...analytRatingList, ...newArticles];
-      loaded();
+    async function handleScroll() {
+    const scrollThreshold = document.body.offsetHeight * 0.8; // 80% of the website height
+    const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
+    if (isBottom && analytRatingList?.length !== rawData?.length) {
+        const nextIndex = analytRatingList?.length;
+        const filteredNewResults = rawData?.slice(nextIndex, nextIndex + 50);
+        analytRatingList = [...analytRatingList, ...filteredNewResults];
     }
   }
-  
+
+onMount(async () => {
+
+isLoaded = true;
+window.addEventListener('scroll', handleScroll);
+  return () => {
+      window.removeEventListener('scroll', handleScroll);
+  };
+})
+
+let order = '';
+let sortBy = ''; // Default sorting by change percentage
+
+function changeOrder(state:string) {
+    if (state === 'highToLow')
+    {
+      order = 'lowToHigh';
+    }
+    else {
+      order = 'highToLow';
+    }
+  }
+
+const sortByRank = (tickerList) => {
+  return tickerList?.sort(function(a, b) {
+    if(order === 'highToLow')
+    {
+      return b?.rank - a?.rank;
+    }
+    else {
+      return a?.rank - b?.rank;
+    }
+      
+    });
+}
+
+const sortByRatingCount = (tickerList) => {
+  return tickerList?.sort(function(a, b) {
+    if(order === 'highToLow')
+    {
+      return b?.counter - a?.counter;
+    }
+    else {
+      return a?.counter - b?.counter;
+    }
+  });
+}
+
+const sortByUpside = (tickerList) => {
+  return tickerList?.sort(function(a, b) {
+    if(order === 'highToLow')
+    {
+      return b?.upside - a?.upside;
+    }
+    else {
+      return a?.upside - b?.upside;
+    }
+  });
+}
+
+
+
+
+
+$: {
+  if(order)
+  {
+    if(sortBy === 'rank')
+    {
+      analytRatingList = sortByRank(rawData)?.slice(0,50);
+    }
+    else if(sortBy === 'ratingCount')
+    {
+      analytRatingList = sortByRatingCount(rawData)?.slice(0,50);
+    }
+    else if(sortBy === 'upside')
+    {
+      analytRatingList = sortByUpside(rawData)?.slice(0,50);
+    }
     
-  
-  
-  $: charNumber = $screenWidth < 640 ? 15 : 40;
+  }
+}
+
+
+
+  $: charNumber = $screenWidth < 640 ? 15 : 20;
 
   
-        
+
   </script>
   
   <svelte:head>
@@ -134,13 +214,14 @@
     
                 
                 <div class="w-screen sm:w-full m-auto mt-10">
-                    
+                  {#if isLoaded}
                     <div class="w-screen sm:w-full m-auto rounded-none sm:rounded-lg mb-4 overflow-x-scroll sm:overflow-hidden">
                       <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B] m-auto">
                         <thead>
                           <tr class="bg-[#09090B]">
-                            <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
-                              #
+                            <th on:click={() => { sortBy = 'rank'; changeOrder(order); }} class="cursor-pointer text-center bg-[#09090B] text-white text-[1rem] font-semibold">
+                              Rank
+                              <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'rank' ? 'rotate-180' : ''}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                             </th>
                             <th class="text-start bg-[#09090B] text-white text-[1rem] font-semibold">
                               Symbol
@@ -150,8 +231,9 @@
                               Name
                             </th>
   
-                            <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
+                            <th on:click={() => { sortBy = 'ratingCount'; changeOrder(order); }} class="cursor-pointer text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                               Ratings Count
+                              <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'ratingCount' ? 'rotate-180' : ''}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                             </th>
                             <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Price Target
@@ -159,8 +241,9 @@
                             <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                                 Current Price
                             </th>
-                            <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
+                            <th on:click={() => { sortBy = 'upside'; changeOrder(order); }} class="cursor-pointer text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                               Upside
+                              <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'upside' ? 'rotate-180' : ''}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                             </th>
                             <th class="sm:hidden text-white font-semibold text-end text-[1rem]">
                               Market Cap
@@ -171,7 +254,7 @@
                           {#each analytRatingList as item, index}
   
                           <tr on:click={() => goto(`/stocks/${item?.ticker}`)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] {index+1 === rawData?.length && data?.user?.tier !== 'Pro' ? 'opacity-[0.1]' : ''} cursor-pointer">
-                            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-white text-end">
+                            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-white text-center">
                               {item?.rank}
                             </td>
   
@@ -212,10 +295,18 @@
                         {/each}
                         </tbody>
                       </table>
-                  </div>
-                    <InfiniteLoading on:infinite={infiniteHandler} />
+                    </div>
 
                     <UpgradeToPro data={data} title="Get stock forecasts from Wall Street's highest rated professionals"/>
+                    {:else}
+                    <div class="flex justify-center items-center h-80">
+                      <div class="relative">
+                      <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                          <span class="loading loading-spinner loading-md"></span>
+                      </label>
+                      </div>
+                    </div>
+                    {/if}
   
                 </div>
 

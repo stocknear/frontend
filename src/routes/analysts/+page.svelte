@@ -1,7 +1,6 @@
 <script lang='ts'>
   import { goto } from '$app/navigation';
   import { numberOfUnreadNotification } from '$lib/store';
-  import InfiniteLoading from '$lib/components/InfiniteLoading.svelte';
   import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
   import ArrowLogo from "lucide-svelte/icons/move-up-right";
   import { onMount } from 'svelte';
@@ -36,8 +35,8 @@ window.addEventListener('scroll', handleScroll);
 
 
 
-let order = 'highToLow';
-let sortBy = 'change'; // Default sorting by change percentage
+let order = '';
+let sortBy = ''; // Default sorting by change percentage
 
 function changeOrder(state:string) {
     if (state === 'highToLow')
