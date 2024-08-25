@@ -192,6 +192,7 @@ $: {
             // Sort and map the filtered data
             weekday[i] = dayData
               .sort((a, b) => b.marketCap - a.marketCap)
+            console.log(weekday)
           }
     
       }
@@ -328,13 +329,13 @@ $: {
         <!-- Cards -->
         <div class=" w-full flex flex-row justify-center m-auto items-center pl-2 pr-2 sm:pl-0 sm:pr-0">
             <!-- Start Columns -->
-            <label on:click={() => changeWeek('previous')} class="{previousMax ? 'opacity-80' : ''} hidden sm:flex h-16 w-48 cursor-pointer border m-auto flex bg-[#3C40F0] hover:bg-purple-600 border border-blue-600 mb-3">
+            <label on:click={() => changeWeek('previous')} class="{previousMax ? 'opacity-80' : ''} hidden sm:flex h-16 w-48 cursor-pointer border m-auto flex bg-[#27272A] border border-gray-600 mb-3">
               <svg class="w-6 h-6 m-auto rotate-180 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"/></svg>
             </label>
             {#each weekday as day,index}
             
             <div class="w-full {index === selectedWeekday ? '' : 'hidden sm:block'}">
-                    <label on:click={() => toggleDate(index)} class="w-11/12 m-auto sm:w-full cursor-pointer h-16 {index === selectedWeekday ? 'bg-purple-600 sm:bg-[#A24D51] sm:gradient-effect' : ''} rounded-lg sm:rounded-none flex bg-[#3C40F0] border border-blue-600 mb-3">
+                    <label on:click={() => toggleDate(index)} class="w-11/12 m-auto sm:w-full cursor-pointer h-16 {index === selectedWeekday ? 'bg-[#27272A]' : ''} rounded-lg sm:rounded-none flex bg-[#09090B] border border-gray-600 mb-3">
                       <div class=" flex flex-row justify-center items-center w-full ">
                         <label on:click={() => clickWeekday('previous', index) } class="{previousMax === true && index === 0? 'opacity-20' : ''} sm:hidden ml-auto">
                           <svg class="w-8 h-8 inline-block rotate-180 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"/></svg>
@@ -350,7 +351,7 @@ $: {
                     </label>
                 </div>
             {/each}
-            <label on:click={() => changeWeek('next')} class="{nextMax ? 'opacity-80' : ''} hidden sm:flex h-16 w-48 cursor-pointer border m-auto flex bg-[#3C40F0] hover:bg-purple-600 border border-blue-600 mb-3">
+            <label on:click={() => changeWeek('next')} class="{nextMax ? 'opacity-80' : ''} hidden sm:flex h-16 w-48 cursor-pointer border m-auto flex bg-[#27272A] border border-gray-600 mb-3">
               <svg class="w-6 h-6 m-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"/></svg>
             </label>
         </div>
@@ -367,9 +368,9 @@ $: {
                         <th class="text-start text-slate-200 font-semibold text-sm">Symbol</th>
                         <th class="text-start text-slate-200 font-semibold text-sm">Company Name</th>
                         <th class="text-slate-200 font-semibold text-sm">Market Cap</th>
-                        <th class="text-slate-200 font-semibold text-sm">Revenue Estimate</th>
-                        <th class="text-slate-200 font-semibold text-sm">EPS Estimate</th>
-                        <th class="text-slate-200 font-semibold text-sm text-end">Earnings Time</th>
+                        <th class="text-slate-200 font-semibold text-sm text-end">Revenue Estimate</th>
+                        <th class="text-slate-200 font-semibold text-sm text-end">EPS Estimate</th>
+                        <th class="text-slate-200 font-semibold text-sm text-end text-end">Earnings Time</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -389,12 +390,30 @@ $: {
                       {item?.marketCap !== null ? '$' + abbreviateNumber(item?.marketCap) : '-'}
                     </td>
 
-                    <td class="text-white text-center border-b-[#09090B] text-sm sm:text-[1rem]">
-                      {item?.revenueEstimated !== null ? '$' + abbreviateNumber(item?.revenueEstimated) : '-'}
+                    <td class="text-white text-end  border-b-[#09090B] text-sm sm:text-[1rem]">
+                      <div class="flex flex-row items-center justify-end">
+                        <span>
+                          {item?.revenueEstimated !== null ? '$' + abbreviateNumber(item?.revenueEstimated) : '-'}
+                        </span>
+                        {#if item?.revenueEstimated !== null && item?.revenue !== null}
+                        <span class="ml-1 {item?.revenueEstimated/item?.revenue-1 > 0 ? 'text-[#22C55E]' : 'text-[#FF2F1F]'}">
+                          {`(${((item?.revenueEstimated/item?.revenue-1)*100)?.toFixed(2)}%)`}
+                        </span>
+                        {/if}
+                      </div>
                     </td>
 
-                    <td class="text-white text-center  border-b-[#09090B] text-sm sm:text-[1rem]">
-                      {item?.epsEstimated !== null ? item?.epsEstimated : '-'}
+                    <td class="text-white text-end border-b-[#09090B] text-sm sm:text-[1rem]">
+                      <div class="flex flex-row items-center justify-end">
+                        <span>
+                          {item?.epsEstimated !== null ? '$' + abbreviateNumber(item?.epsEstimated) : '-'}
+                        </span>
+                        {#if item?.epsEstimated !== null && item?.eps !== null}
+                        <span class="ml-1 {item?.epsEstimated/item?.eps-1 > 0 ? 'text-[#22C55E]' : 'text-[#FF2F1F]'}">
+                          {`(${((item?.epsEstimated/item?.eps-1)*100)?.toFixed(2)}%)`}
+                        </span>
+                        {/if}
+                      </div>
                     </td>
 
 
