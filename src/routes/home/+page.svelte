@@ -491,11 +491,12 @@ onMount( async() => {
                     <strong>{item?.name}</strong> (<a href="/stocks/{item?.symbol}" class="sm:hover:text-white text-blue-400">{item?.symbol}</a>) has released its quarterly earnings at {formatTime(item?.time)}:
   
                     <li style="color: #fff; line-height: 22px; margin-top:10px; margin-left: 30px; margin-bottom: 10px; list-style-type: disc;">
-                        Revenue of {abbreviateNumber(item?.revenue,true)} ({(item?.revenue/item?.revenuePrior-1) > 0 ? '+' :''}{((item?.revenue/item?.revenuePrior-1)*100)?.toFixed(2)}% YoY) {item?.revenueSurprise > 0 ? 'beats' : 'misses'} by {abbreviateNumber(Math.abs(item?.revenueSurprise),true)}.
-                    </li>
-                    <li style="color: #fff; line-height: 22px; margin-top:0px; margin-left: 30px; margin-bottom: 30px; list-style-type: disc;">
-                        EPS of ${item?.eps} ({(item?.eps/item?.epsPrior-1) > 0 ? '+' :''}{((item?.eps/item?.epsPrior-1)*100)?.toFixed(2)}% YoY) {item?.epsSurprise > 0 ? 'beats' : 'misses'} by ${Math.abs(item?.epsSurprise)?.toFixed(2)}.
-                    </li>
+                      Revenue of {abbreviateNumber(item?.revenue,true)} {item?.revenueSurprise > 0 ? 'exceeds' : 'misses'} estimates by {abbreviateNumber(Math.abs(item?.revenueSurprise),true)}, with {((item?.revenue/item?.revenuePrior-1)*100)?.toFixed(2)}% YoY {(item?.revenue/item?.revenuePrior-1) < 0 ? 'decline' : 'growth'}.
+                  </li>
+                  <li style="color: #fff; line-height: 22px; margin-top:0px; margin-left: 30px; margin-bottom: 30px; list-style-type: disc;">
+                    EPS of ${item?.eps} {item?.epsSurprise > 0 ? 'exceeds' : 'misses'} estimates by ${item?.epsSurprise?.toFixed(2)}, with {((item?.eps/item?.epsPrior-1)*100)?.toFixed(2)}% YoY {(item?.eps/item?.epsPrior-1) < 0 ? 'decline' : 'growth'}.
+                </li>
+
 
                     {/each}
                 </ul>

@@ -7,7 +7,7 @@ import { init, use } from 'echarts/core'
 import { ScatterChart } from 'echarts/charts'
 import { GridComponent, TooltipComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-  import { abbreviateNumber } from '$lib/utils';
+import { abbreviateNumber } from '$lib/utils';
 
 export let data;
 use([ScatterChart, GridComponent, TooltipComponent, CanvasRenderer])
@@ -443,7 +443,7 @@ $: {
                 </div>
                     <div class="mt-5 text-gray-100 text-sm sm:text-[1rem] sm:rounded-lg h-auto border border-slate-800 p-4">
                         <svg class="w-5 h-5 inline-block mr-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
-                        For {(new Date()).getFullYear()}, we use available quarterly data. Complete annual data, used to compare against analyst estimates, is only finalized after the year ends.
+                        For the current Fiscal Year we use available quarterly data. Complete annual data, used to compare against analyst estimates, is only finalized after the year ends.
                     </div>
             
                 
