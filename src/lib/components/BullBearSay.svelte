@@ -3,50 +3,12 @@
   import InfoModal from '$lib/components/InfoModal.svelte';
   
   export let data;
-  export let marketMoods = {};
   
-  let rawData = marketMoods;
-  let mode = 'bullish';
-  let showFullText = false;
-  // Function to split text into paragraphs
-  
-  //DO NOT TOUCH THIS CODE - SAFARI 15.3 are not compatible with the previous code. The website will break.
-  // CONSIDER MOVING THIS LOGIC TO THE BACKEND TO REMOVE THE RISK COMPLETELY
-  function splitIntoParagraphs(text) {
-    if (!text) return [];
-    
-    // Replace "U.S." and "vs." with placeholders
-    const placeholderUS = '__US__';
-    const placeholderVs = '__VS__';
-    
-    let tempText = text.replace(/U\.S\./g, placeholderUS)
-                       .replace(/vs\./g, placeholderVs);
-    
-    // Split the text based on periods followed by spaces
-    let paragraphs = tempText.split(/\. \s*/);
+  let rawData = {};
 
-    // Restore the placeholders back to "U.S." and "vs."
-    paragraphs = paragraphs.map(paragraph => 
-        paragraph.replace(new RegExp(placeholderUS, 'g'), 'U.S.')
-                 .replace(new RegExp(placeholderVs, 'g'), 'vs.')
-    );
-
-    return paragraphs;
-}
-
-
-  
-  let paragraphs = splitIntoParagraphs(rawData?.bullSays);
-  
   
   function handleMode(i) {
     activeIdx = i;
-    if(activeIdx === 0) {
-          paragraphs = splitIntoParagraphs(rawData?.bullSays);
-      }
-      else if (activeIdx === 1) {
-          paragraphs = splitIntoParagraphs(rawData?.bearSays);
-      }
   }
   
   const tabs = [
@@ -62,17 +24,15 @@
   
   $: {
       if($stockTicker && typeof window !== 'undefined') {
-          rawData = marketMoods;
-          mode = 'bullish';
-          showFullText = false;
-          paragraphs = splitIntoParagraphs(rawData?.bullSays);
+          rawData = data?.getBullBearSay;
+          activeIdx = 0;
       }
   }
       
   </script>
   
   
-  {#if Object?.keys(marketMoods)?.length !== 0}
+  {#if Object?.keys(rawData)?.length !== 0}
   
   <div class="space-y-3 overflow-hidden">  
       <!--Start Content-->
@@ -125,14 +85,12 @@
       </span>
       <div class="flex mt-5 h-auto">
       
-        <div class="{activeIdx === 0 ? 'bg-[#10DB06]' : 'bg-[#FF2F1F]'} w-3.5 rounded-l-xl" />
+        <div class="{activeIdx === 0 ? 'bg-[#10DB06]' : 'bg-[#FF2F1F]'} w-full max-w-[3px] rounded-l-xl" />
         <span class="text-gray-100 ml-3 text-[1rem] ">
-          {#if showFullText}
-          {#each (showFullText ? paragraphs : paragraphs?.slice(0,1)) as paragraph, index}
-          <p class="{index !== 0 ? 'mt-1' : ''} pr-1">{paragraph} {paragraphs?.length <= index+1 ? '' : '.'}</p>
-          {/each}
+          {#if activeIdx === 0}
+          <p class="pr-1">{rawData?.bullSays}</p>
           {:else}
-          {paragraphs?.at(0)?.slice(0,250) + '...'}
+          <p class="pr-1">{rawData?.bearSays}</p>
           {/if}
         </span>
       </div>
@@ -144,11 +102,7 @@
       {/if}
   
       </div>
-  
-      <label on:click={() => showFullText = !showFullText} class="{data?.user?.tier !== 'Pro' ? 'hidden' : ''} cursor-pointer m-auto flex justify-center items-center mt-5">
-          <svg class="w-10 h-10 transform {showFullText ? 'rotate-180' : ''} " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#2A323C" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm0 13.5L7.5 11l1.42-1.41L12 12.67l3.08-3.08L16.5 11L12 15.5z"/></svg>
-      </label>
-  
+
   
     </div>
   {/if}

@@ -16,7 +16,6 @@
     let displayChartType = 'line';
   
     let prePostData = {};
-    let marketMoods = {}
     let communitySentiment = {};
 
     $: previousClose = data?.getStockQuote?.previousClose;
@@ -634,12 +633,10 @@ function changeChartType() {
       oneYearPrice = [];
       threeYearPrice = [];
       prePostData = {};
-      marketMoods = {};
       communitySentiment = {}
       output = null;
   
   
-      marketMoods = data?.getBullBearSay;
       communitySentiment = data?.getCommunitySentiment;
           
 
@@ -1178,8 +1175,8 @@ function changeChartType() {
                                
                                 
 
-                                <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(marketMoods)?.length !== 0 ? '' : 'hidden'}">
-                                  <BullBearSay data={data} marketMoods={marketMoods}/>
+                                <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(data?.getBullBearSay || {})?.length !== 0 ? '' : 'hidden'}">
+                                  <BullBearSay data={data}/>
                                 </div>
 
                                 <Lazy>
