@@ -92,25 +92,25 @@ function getPlotOptions() {
     // Iterate over the data and extract required information
     if( displayData === 'Revenue') {
         filteredData?.slice(-20)?.forEach(item => {
-        dates.push(item?.date);
+        dates.push(`FY${item?.date?.toString()?.slice(-2)}`);
         valueList.push(item?.revenue); // Handle null values by using 0 or any placeholder value
         estimatedValueList.push(item?.estimatedRevenueAvg);
         });
     } else if ( displayData === 'Net Income') {
         filteredData?.slice(-20)?.forEach(item => {
-        dates.push(item?.date);
+        dates.push(`FY${item?.date?.toString()?.slice(-2)}`);
         valueList.push(item?.netIncome); // Handle null values by using 0 or any placeholder value
         estimatedValueList.push(item?.estimatedNetIncomeAvg);
         });
     } else if ( displayData === 'EBITDA') {
         filteredData?.slice(-20)?.forEach(item => {
-        dates.push(item?.date);
+        dates.push(`FY${item?.date?.toString()?.slice(-2)}`);
         valueList.push(item?.ebitda); // Handle null values by using 0 or any placeholder value
         estimatedValueList.push(item?.estimatedEbitdaAvg);
         });
     } else if ( displayData === 'EPS') {
         filteredData?.slice(-20)?.forEach(item => {
-        dates.push(item?.date);
+        dates.push(`FY${item?.date?.toString()?.slice(-2)}`);
         valueList.push(item?.eps); // Handle null values by using 0 or any placeholder value
         estimatedValueList.push(item?.estimatedEpsAvg);
         });
