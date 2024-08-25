@@ -193,13 +193,13 @@
                 <!-- Cards -->
                 <div class=" w-full flex flex-row justify-center m-auto items-center pl-2 pr-2 sm:pl-0 sm:pr-0">
                     <!-- Start Columns -->
-                    <label on:click={() => changeWeek('previous')} class="{previousMax ? 'opacity-80' : ''} hidden sm:flex h-16 w-48 cursor-pointer border m-auto flex bg-[#3C40F0] hover:bg-purple-600 border border-blue-600 mb-3">
+                    <label on:click={() => changeWeek('previous')} class="{previousMax ? 'opacity-80' : ''} hidden sm:flex h-16 w-48 cursor-pointer border m-auto flex bg-[#27272A] border border-gray-600 mb-3">
                       <svg class="w-6 h-6 m-auto rotate-180 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"/></svg>
                     </label>
                     {#each (filterList?.length === 0 ? weekday : weekdayFiltered) as day,index}
                     
                     <div class="w-full {index === selectedWeekday ? '' : 'hidden sm:block'}">
-                            <label on:click={() => toggleDate(index)} class="w-11/12 m-auto sm:w-full cursor-pointer h-16 {index === selectedWeekday ? 'bg-purple-600 sm:bg-[#A24D51] sm:gradient-effect' : ''} rounded-lg sm:rounded-none flex bg-[#3C40F0] border border-blue-600 mb-3">
+                            <label on:click={() => toggleDate(index)} class="w-11/12 m-auto sm:w-full cursor-pointer h-16 {index === selectedWeekday ? 'bg-[#27272A]' : ''} rounded-lg sm:rounded-none flex bg-[#09090B] border border-gray-600 mb-3">
                               <div class=" flex flex-row justify-center items-center w-full">
                                 <label on:click={() => clickWeekday('previous', index) } class="sm:hidden ml-auto">
                                   <svg class="w-8 h-8 inline-block rotate-180 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"/></svg>
@@ -215,7 +215,7 @@
                             </label>
                         </div>
                     {/each}
-                    <label on:click={() => changeWeek('next')} class="{nextMax ? 'opacity-80' : ''} hidden sm:flex h-16 w-48 cursor-pointer border m-auto flex bg-[#3C40F0] hover:bg-purple-600 border border-blue-600 mb-3">
+                    <label on:click={() => changeWeek('next')} class="{nextMax ? 'opacity-80' : ''} hidden sm:flex h-16 w-48 cursor-pointer border m-auto flex bg-[#27272A] border border-gray-600 mb-3">
                       <svg class="w-6 h-6 m-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"/></svg>
                     </label>
                 </div>
@@ -428,15 +428,3 @@
         
       
       
-      
-<style>
-
-
-.gradient-effect {
-background: linear-gradient(100deg, #B46266, #A24D51);
-color: #fff;
-position: relative;
-overflow: hidden;
-}
-
-</style>

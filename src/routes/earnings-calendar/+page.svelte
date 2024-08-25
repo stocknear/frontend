@@ -376,7 +376,7 @@ $: {
                     <tbody>
                       {#each day as item, index}
                       <!-- row -->
-                      <tr on:click={() => goto("/stocks/"+item?.symbol)} class=" sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] cursor-pointer">
+                      <tr on:click={() => goto("/stocks/"+item?.symbol)} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] cursor-pointer">
                         
                         <td class="text-blue-400 border-b-[#09090B] text-start text-sm sm:text-[1rem]">
                           {item?.symbol}
@@ -510,17 +510,4 @@ $: {
   </section>
   
 
-
-
-
-
-<style>
-  .gradient-effect {
-    background: linear-gradient(100deg, #B46266, #A24D51);
-    color: #fff;
-    position: relative;
-    overflow: hidden;
-  }
-
-</style>
   
