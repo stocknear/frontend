@@ -59,27 +59,21 @@
   
   function getPlotOptions(state) {
 
+    // Combine the data into an array of objects to keep them linked
+    const combinedData = rawData?.map(item => ({
+        date: state === 'effectiveDate' ? item['Effective Date'] : item['Expiration Date'],
+        notionalAmount: item['Notional amount-Leg 1'],
+        notionalQuantity: item['Total notional quantity-Leg 1']
+    }));
 
-    let dates = [];
-    let notionalAmount = [];
-    let notionalQuantity = [];
+    // Sort the combined data array based on the date
+    combinedData?.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-    // Iterate over the data and extract required information
-    rawData?.forEach(item => {
-        
-    if ( state === 'effectiveDate') {
-        dates?.push(item['Effective Date']);
-    }
-    else {
-        dates?.push(item['Expiration Date']);
-    }
-    notionalAmount?.push(item['Notional amount-Leg 1']);
-    notionalQuantity?.push(item['Total notional quantity-Leg 1']);
-    });
-    
-    dates?.sort((a, b) => {
-        return new Date(a) - new Date(b);
-    });
+    // Separate the sorted data back into individual arrays
+    const dates = combinedData?.map(item => item?.date);
+    const notionalAmount = combinedData?.map(item => item?.notionalAmount);
+    const notionalQuantity = combinedData?.map(item => item?.notionalQuantity);
+
 
     // Compute the average of item?.traded
     const totalNotionalAmount = notionalAmount?.reduce((acc, item) => acc + item, 0);

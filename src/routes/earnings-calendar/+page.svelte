@@ -335,7 +335,7 @@ $: {
             {#each weekday as day,index}
             
             <div class="w-full {index === selectedWeekday ? '' : 'hidden sm:block'}">
-                    <label on:click={() => toggleDate(index)} class="w-11/12 m-auto sm:w-full cursor-pointer h-16 {index === selectedWeekday ? 'bg-[#27272A]' : ''} rounded-lg sm:rounded-none flex bg-[#09090B] border border-gray-600 mb-3">
+                    <label on:click={() => toggleDate(index)} class="w-11/12 m-auto sm:w-full cursor-pointer h-16 {index === selectedWeekday ? 'bg-[#141417]' : ''} rounded-lg sm:rounded-none flex bg-[#09090B] border border-gray-600 mb-3">
                       <div class=" flex flex-row justify-center items-center w-full ">
                         <label on:click={() => clickWeekday('previous', index) } class="{previousMax === true && index === 0? 'opacity-20' : ''} sm:hidden ml-auto">
                           <svg class="w-8 h-8 inline-block rotate-180 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"/></svg>

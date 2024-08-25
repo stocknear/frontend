@@ -30,16 +30,19 @@ let dividendGrowth = rawData?.dividendGrowth;
 
 async function plotDividend() {
 
-  let dates = [];
-  let dividendList = [];
-  // Iterate over the data and extract required information
-  rawData?.history?.forEach(item => {
+  // Combine the data into an array of objects to keep them linked
+  const combinedData = rawData?.history?.map(item => ({
+      date: item?.paymentDate,
+      dividend: item?.adjDividend
+  }));
 
-  dates?.push(item?.paymentDate);
-  dividendList?.push(item?.adjDividend);
-  });
+  // Sort the combined data array based on the date
+  combinedData.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-  dates?.sort((a,b) => new Date(a) - new Date(b));
+  // Separate the sorted data back into individual arrays
+  const dates = combinedData.map(item => item.date);
+  const dividendList = combinedData.map(item => item.dividend);
+
 
   const options = {
      tooltip: {
