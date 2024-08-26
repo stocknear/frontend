@@ -1,16 +1,104 @@
 
 <script lang ='ts'>
-    import { varComponent, displayCompanyName, stockTicker, etfTicker, cryptoTicker, assetType, getCache, setCache} from '$lib/store';
-    import InfoModal from '$lib/components/InfoModal.svelte';
+import { varComponent, displayCompanyName, stockTicker, etfTicker, cryptoTicker, assetType, getCache, setCache} from '$lib/store';
+import InfoModal from '$lib/components/InfoModal.svelte';
 
-    export let data;
+import { Chart } from 'svelte-echarts'
+
+import { init, use } from 'echarts/core'
+import { LineChart } from 'echarts/charts'
+import { GridComponent, TooltipComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+
+export let data;
+  
+  use([LineChart, GridComponent, TooltipComponent, CanvasRenderer])
+
 
     let isLoaded = false;
     let rating;
     let outlook;
     let valueAtRisk;
     let varDict = {}
+    let optionsData;
 
+  
+function getPlotOptions() {
+    let dates = [];
+    let varList = [];
+    // Iterate over the data and extract required information
+    varDict?.history?.forEach(item => {
+  
+    dates?.push(item?.date);
+    varList?.push(item?.var);
+    });
+
+
+    const option = {
+    silent: true,
+    tooltip: {
+        trigger: 'axis',
+        hideDelay: 100, // Set the delay in milliseconds
+    },
+    animation: false,
+    grid: {
+        left: '0%',
+        right: '2%',
+        bottom: '2%',
+        top: '5%',
+        containLabel: true
+    },
+    xAxis:
+    {
+        type: 'category',
+        boundaryGap: false,
+        data: dates,
+        axisLabel: {
+            color: '#fff',
+            formatter: function (value) {
+                // Format the date
+                const date = new Date(value + '-01'); // Append a day to make it a full date
+                const options = { year: 'numeric', month: 'short' };
+                return new Intl.DateTimeFormat('en-US', options).format(date);
+            }
+        }
+    },
+    yAxis: [
+    {
+      type: 'value',
+      splitLine: {
+            show: false, // Disable x-axis grid lines
+      },
+      
+      axisLabel: {
+        color: '#fff',
+          formatter: function (value, index) {
+            if (index % 2 === 0) {
+              return value?.toFixed(0)+'%'
+            } else {
+                  return ''; // Hide this tick
+              }
+          }
+      }
+    }
+    ],
+    series: [
+        {
+            name: 'VaR',
+            data: varList,
+            type: 'line',
+            areaStyle: {opacity: 0.8},
+            itemStyle: {
+                color: '#E11D48' // Change bar color to white
+            },
+            showSymbol: false,
+        },
+    ]
+    };
+  
+  
+  return option;
+  }
 
     const getVaR = async (ticker) => {
     // Get cached data for the specific tickerID
@@ -30,7 +118,6 @@
       });
 
       varDict = await response.json();
-
       // Cache the data for this specific tickerID with a specific name 'getVaR'
       setCache(ticker, varDict, 'getVaR');
     }
@@ -59,7 +146,8 @@
             .then((results) => {
                 rating = varDict?.rating;
                 outlook = varDict?.outlook;
-                valueAtRisk = varDict?.var;
+                valueAtRisk = varDict?.history?.slice(-1)?.at(0)?.var;
+                optionsData = getPlotOptions();
             })
             .catch((error) => {
                 console.error('An error occurred:', error);
@@ -90,6 +178,7 @@
 
             {#if Object?.keys(varDict)?.length !== 0}
             
+
 
             <div class="pb-4 w-full mt-5">
                 <div class="w-auto p-4 sm:p-6 bg-[#09090B] sm:bg-[#09090B] rounded-lg relative">
@@ -123,7 +212,12 @@
                 </div>
               </div>
 
-           
+        
+          
+            <div class="app w-full h-[300px] mt-5">
+                <Chart {init} options={optionsData} class="chart" />
+            </div>
+              
     
               
             {:else}
@@ -146,4 +240,22 @@
     
     
     
-    
+<style>
+
+.app {
+height: 300px;
+max-width: 100%; /* Ensure chart width doesn't exceed the container */
+
+}
+
+@media (max-width: 640px) {
+.app {
+    height: 210px;
+}
+}
+
+.chart {
+width: 100%;
+}
+
+</style>
