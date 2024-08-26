@@ -149,7 +149,7 @@ $: if ($assetType || $stockTicker || $etfTicker || $cryptoTicker) {
 
 
             <!--Start Momentum Indicators-->
-            <div class="w-full overflow-hidden">
+            <div class="w-full overflow-x-scroll">
                 <table class="table table-sm table-compact w-full mb-5 mt-5">
                   <!-- head -->
                   <thead>
@@ -162,12 +162,12 @@ $: if ($assetType || $stockTicker || $etfTicker || $cryptoTicker) {
                   <tbody>
                     {#each (showFullStats ? signalList : signalList?.slice(0, 3)) as item,index}
                     <tr class="border-y border-gray-800 odd:bg-[#27272A] {index === 2 && !showFullStats && signalList?.length > 2 ? 'opacity-[0.3]' : '' }">
-                      <td class="text-white text-sm w-1/2 sm:w-full">
+                      <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap">
                         {item?.name}
                       </td>
 
                       <td class="text-white text-end">
-                        <span class="text-white text-md font-medium">
+                        <span class="text-white text-sm sm:text-[1rem] font-medium">
                           {item?.value}
                         </span>
                       </td>
@@ -182,11 +182,11 @@ $: if ($assetType || $stockTicker || $etfTicker || $cryptoTicker) {
                   </tbody>
                 </table>
 
-                <label on:click={() => showFullStats = !showFullStats} class="{signalList?.length < 4 ? 'hidden' : ''} cursor-pointer m-auto flex justify-center items-center mt-5">
-                  <svg class="w-10 h-10 transform {showFullStats ? 'rotate-180' : ''} " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#2A323C" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm0 13.5L7.5 11l1.42-1.41L12 12.67l3.08-3.08L16.5 11L12 15.5z"/></svg>
-                </label>
-
             </div>
+            
+            <label on:click={() => showFullStats = !showFullStats} class="{signalList?.length < 4 ? 'hidden' : ''} cursor-pointer m-auto flex justify-center items-center mt-5">
+              <svg class="w-10 h-10 transform {showFullStats ? 'rotate-180' : ''} " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#2A323C" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm0 13.5L7.5 11l1.42-1.41L12 12.67l3.08-3.08L16.5 11L12 15.5z"/></svg>
+            </label>
           <!--End Momentum Indicators-->
 
           {/if}
