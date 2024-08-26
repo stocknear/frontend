@@ -162,7 +162,7 @@ $: {
                 <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-medium">Shares Out.</td>
                 <td class="text-end bg-[#000] lg:bg-[#09090B]">{abbreviateNumber(sharesOutstanding)}</td>
                 <td class="text-end bg-[#000] lg:bg-[#09090B] text-white font-medium">Forward PE</td>
-                <td class="text-center bg-[#000] lg:bg-[#09090B]">{forwardPE}</td>
+                <td class="text-center bg-[#000] lg:bg-[#09090B]">{forwardPE === undefined ? '-' : forwardPE}</td>
               </tr>
             </tbody>
           </table>
