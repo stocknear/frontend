@@ -363,7 +363,7 @@ $: {
                                 </th>
                                 {#each tableDataForecast as item}
                                     <td class="text-white text-sm sm:text-[1rem] text-end font-medium  border-b border-[#09090B]">
-                                        {(item?.val === '0.00' || item?.val === null) ? '-' : abbreviateNumber(item?.val)}
+                                        {(item?.val === '0.00' || item?.val === null || item?.val === 0) ? '-' : abbreviateNumber(item?.val)}
                                     </td>
                                 {/each}
                            
@@ -375,7 +375,7 @@ $: {
                                 </th>
                                 {#each tableDataActual as item}
                                     <td class="text-white text-sm sm:text-[1rem] text-end font-medium bg-[#27272A]">
-                                        {(item?.val === '0.00' || item?.val === null) ? '-' : abbreviateNumber(item?.val)}
+                                        {(item?.val === '0.00' || item?.val === null || item?.val === 0) ? '-' : abbreviateNumber(item?.val)}
                                     </td>
                                 {/each}
                            
