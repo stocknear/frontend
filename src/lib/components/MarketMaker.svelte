@@ -351,19 +351,19 @@ else {
               {#each (showFullStats ? topMarketMakers?.slice(0,10) : topMarketMakers?.slice(0,3)) as item,index}
               <tr class="border-y border-gray-800 odd:bg-[#27272A] {index === 2 && !showFullStats && topMarketMakers?.length > 3 ? 'opacity-[0.5]' : '' } sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#09090B] border-b-[#09090B]">
                
-                  <td class="text-white font-medium whitespace-nowrap">
+                  <td class="text-white text-sm sm:text-[1rem] font-medium whitespace-nowrap">
                    {item?.name?.length > charNumber ? formatString(item?.name?.slice(0,charNumber)) + "..." : formatString(item?.name)}
                   </td>
               
-                  <td class="text-white text-end font-medium whitespace-nowrap">
+                  <td class="text-white text-end text-sm sm:text-[1rem] font-medium whitespace-nowrap">
                       {abbreviateNumber(item?.avgWeeklyTradeCount)}
                   </td>
 
-                  <td class="text-white text-end font-medium whitespace-nowrap">
+                  <td class="text-white text-end text-sm sm:text-[1rem] font-medium whitespace-nowrap">
                       {abbreviateNumber(item?.avgWeeklyShareQuantity)}
                   </td>
               
-                  <td class="text-white text-end font-medium whitespace-nowrap">
+                  <td class="text-white text-end text-sm sm:text-[1rem] font-medium whitespace-nowrap">
                       {abbreviateNumber(item?.avgNotionalSum, true)}
                   </td>
               </tr>

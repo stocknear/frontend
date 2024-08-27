@@ -677,14 +677,24 @@ $: {
                   </div>
                 </div>
 
-                <aside class="hidden lg:block w-fit max-w-xl xl:w-[120px] md:pt-10 pb-12 md:pb-20">
-                  <div class="sm:pl-10">
-                    <!--Start Company Info -->
-                    <Sidecard {stockDeck} lastPrice={data?.getStockQuote?.price} analystRating={data?.getAnalystRating} {similarstock} {topETFHolder} />
-                    <!--End Company Info -->
-                  </div>
-                </aside>
-                <!--
+                        <aside class="hidden lg:block w-fit max-w-xl xl:w-[120px] md:pt-10 pb-12 md:pb-20">
+                            <div class="sm:pl-10">
+                      
+                              <!--Start Company Info -->
+                              <Sidecard
+                                data = {data}
+                                stockDeck = {stockDeck}
+                                lastPrice = {data?.getStockQuote?.price}
+                                analystRating ={data?.getAnalystRating}
+                                similarstock = {similarstock}
+                                topETFHolder = {topETFHolder}
+                              />
+                              <!--End Company Info -->
+  
+  
+                            </div>
+                        </aside>
+                        <!--
                         {#if $screenWidth < 640 && MobileStockNavbar}
                           <MobileStockNavbar 
                             logoUrl={logoUrl}

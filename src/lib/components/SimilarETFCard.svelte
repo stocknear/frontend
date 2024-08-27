@@ -26,7 +26,7 @@ export let similarTicker;
 
 <div class="space-y-3 sm:pt-5  hidden lg:block sm:{similarTicker?.length !== 0 ? '' : 'hidden'}">  
 
-<div class="sm:rounded-lg shadow-lg bg-[#000] sm:bg-[#09090B] sm:border sm:border-slate-800 h-auto {$screenWidth < 640 ? 'w-screen pt-16' : ''} md:w-[400px]">
+<div class="sm:rounded-lg shadow-lg bg-[#000] sm:bg-[#09090B] sm:border sm:border-slate-800 h-auto {$screenWidth < 640 ? 'w-screen pt-16' : ''} md:w-[420px]">
 
   <div class="w-auto lg:w-full p-1 flex-1 flex flex-wrap pb-5">
     <h2 class="text-start ml-2 text-2xl font-bold text-white pb-2 p-3">

@@ -50,7 +50,7 @@ $: {
 
 <!--Start ESG Card -->
 <div class="space-y-3 lg:pt-5 hidden lg:block lg:{esgScore && esgRiskRating && environmentalScore && governanceScore !== 'n/a' ? '' : 'hidden'}">  
-  <div class="sm:rounded-lg shadow-lg bg-[#000] sm:bg-[#09090B] sm:border sm:border-slate-800 h-auto sm:h-[470px] {$screenWidth < 640 ? 'w-screen pt-16' : ''} md:w-[400px] -mx-1 sm:mx-0">
+  <div class="sm:rounded-lg shadow-lg bg-[#000] sm:bg-[#09090B] sm:border sm:border-slate-800 h-auto sm:h-[470px] {$screenWidth < 640 ? 'w-screen pt-16' : ''} md:w-[420px] -mx-1 sm:mx-0">
    
     <!--Start Content-->
     <div class="w-auto lg:w-full p-1 flex flex-col m-auto pb-14 sm:pb-10 px-2 sm:px-0">

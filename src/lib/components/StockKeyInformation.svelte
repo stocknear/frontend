@@ -130,7 +130,7 @@ $: {
     
     <div class="w-screen overflow-y-scroll" >
   
-      <TickerInfoCard stockDeck={data?.getStockDeck}/>
+      <TickerInfoCard data={data} stockDeck={data?.getStockDeck}/>
   
           
     </div>
