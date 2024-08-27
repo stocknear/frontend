@@ -82,7 +82,7 @@ $: {
 
 </script>
 
-<div class="sm:space-y-3 overflow-hidden">  
+<div class="sm:space-y-3">  
     <div class="sm:rounded-lg lg:border lg:border-slate-800 bg-[#000] lg:bg-[#09090B] h-auto w-screen pt-16 sm:w-full md:w-[420px] lg:pt-0">
 
       <!--Start Header-->
