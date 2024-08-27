@@ -3,15 +3,15 @@ import { getCache, setCache } from '$lib/store';
 
 
 export const load = async ({parent}) => {
-  const getEconomicData = async () => {
+  const getEconomicIndicator = async () => {
     let output;
     const {apiKey, apiURL} = await parent();
 
-    const cachedData = getCache('', 'getEconomicData');
+    const cachedData = getCache('', 'getEconomicIndicator');
     if (cachedData) {
       output = cachedData;
     } else {
-    const response = await fetch(apiURL + '/economic-data', {
+    const response = await fetch(apiURL + '/economic-indicator', {
       method: 'GET',
       headers: {
         "Content-Type": "application/json", "X-API-KEY": apiKey
@@ -21,7 +21,7 @@ export const load = async ({parent}) => {
     output = await response.json();
 
 
-    setCache('', output, 'getEconomicData');
+    setCache('', output, 'getEconomicIndicator');
 
     }
 
@@ -30,6 +30,6 @@ export const load = async ({parent}) => {
 
   // Make sure to return a promise
   return {
-    getEconomicData: await getEconomicData()
+    getEconomicIndicator: await getEconomicIndicator()
   };
 };

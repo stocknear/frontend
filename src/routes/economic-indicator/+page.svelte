@@ -17,9 +17,10 @@ export let data;
 let cloudFrontUrl = import.meta.env.VITE_IMAGE_URL;
 
 let isLoaded = false;
-let rawData =  data?.getEconomicData || [];
+let rawData;
 let tableList = [];
 let optionsData;
+let optionsCPI;
 let filterRule = 'annual';
 
 let timePeriod = 'threeYears';
@@ -210,10 +211,71 @@ async function plotData() {
     return options;
 }
 
+async function plotCPI() {
+    // Get the filtered data based on the selected time period
+    let dates = [];
+    let valueList = [];
+    // Iterate over the data and extract required information
+    data?.getEconomicIndicator?.cpi?.forEach(item => {
+  
+    dates?.push(item?.date);
+    valueList?.push(item?.value);
+    });
+
+    const options = {
+        animation: false,
+        grid: {
+            left: '2%',
+            right: '2%',
+            bottom: '2%',
+            top: '10%',
+            containLabel: true
+        },
+        xAxis: {
+            axisLabel: {
+                color: '#fff',
+            },
+            data: dates,
+            type: 'category',
+        },
+        yAxis: [
+            {
+                type: 'value',
+                splitLine: {
+                    show: false, // Disable x-axis grid lines
+                },
+                axisLabel: {
+                    color: '#fff', // Change label color to white
+                },
+            },
+            {
+                type: 'value',
+                splitLine: {
+                    show: false, // Disable x-axis grid lines
+                },
+            },
+        ],
+        series: {
+            name: 'CPI',
+            data: valueList,
+            type: 'line',
+            areaStyle: {opacity: 0.2},
+            smooth: true,
+        },
+        tooltip: {
+            trigger: 'axis',
+            hideDelay: 100,
+        },
+    };
+
+    return options;
+}
+
   
 onMount(async () => {
-  rawData = data?.getEconomicData ?? [];
+  rawData = data?.getEconomicIndicator?.treasury ?? {};
   optionsData = await plotData();
+  optionsCPI = await plotCPI();
   tableList = filterEndOfYearDates(rawData);
   tableList?.sort((a, b) => new Date(b?.date) - new Date(a?.date));
   isLoaded = true;
@@ -228,20 +290,20 @@ onMount(async () => {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
   <title>
-      {$numberOfUnreadNotification > 0 ? `(${$numberOfUnreadNotification})` : ''} US Economic Data · stocknear
+      {$numberOfUnreadNotification > 0 ? `(${$numberOfUnreadNotification})` : ''} US Economic Indicator · stocknear
   </title>
-  <meta name="description" content={`Short interest, stock short squeeze, short interest ratio & short selling data positions for NASDAQ, NYSE & AMEX stocks to find shorts in the stock market.`} />
+  <meta name="description" content={`Economic indicators measure economic performance and identify growth trends.`} />
   
   <!-- Other meta tags -->
-  <meta property="og:title" content={`US Economic Data · stocknear`}/>
-  <meta property="og:description" content={`Short interest, stock short squeeze, short interest ratio & short selling data positions for NASDAQ, NYSE & AMEX stocks to find shorts in the stock market.`} />
+  <meta property="og:title" content={`US Economic Indicator · stocknear`}/>
+  <meta property="og:description" content={`Economic indicators measure economic performance and identify growth trends.`} />
   <meta property="og:type" content="website"/>
   <!-- Add more Open Graph meta tags as needed -->
   
   <!-- Twitter specific meta tags -->
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content={`US Economic Data · stocknear`}/>
-  <meta name="twitter:description" content={`Short interest, stock short squeeze, short interest ratio & short selling data positions for NASDAQ, NYSE & AMEX stocks to find shorts in the stock market.`} />
+  <meta name="twitter:title" content={`US Economic Indicator · stocknear`}/>
+  <meta name="twitter:description" content={`Economic indicators measure economic performance and identify growth trends.`} />
   <!-- Add more Twitter meta tags as needed -->
   
   </svelte:head>
@@ -253,7 +315,7 @@ onMount(async () => {
     <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
       <ul>
         <li><a href="/" class="text-gray-300">Home</a></li>
-        <li class="text-gray-300">US Economic Data</li>
+        <li class="text-gray-300">US Economic Indicator</li>
       </ul>
     </div>
             
@@ -272,12 +334,12 @@ onMount(async () => {
                     <div>
                       <div class="flex flex-row justify-center items-center">
                         <h1 class="text-3xl sm:text-4xl text-white text-center font-bold mb-5">
-                           US Economic Data
+                            Economic Indicator
                         </h1>
                       </div>
             
                       <span class="text-white text-md font-medium text-center flex justify-center items-center ">
-                        US Economic Data such as treasury rate, CPI 
+                        The indicators measure economic performance and identify growth trends.
                       </span>
             
         
@@ -314,10 +376,22 @@ onMount(async () => {
 
                 {#if isLoaded}
                 <div class="w-screen sm:w-full m-auto mt-20 sm:mt-10 p-3">
-                    
-                  <h1 class="text-2xl text-gray-200 font-bold">
+                  
+                  <h2 class="text-2xl text-gray-200 font-bold">
+                    Consumer Price Index (CPI)
+                  </h2>
+
+                  <div class="text-[1rem] text-white mt-2 mb-2">
+                    The CPI measures the average change in prices for a typical basket of goods. It's key for tracking inflation, affecting interest rates, wages, and business decisions. Rising CPI indicates inflation, impacting purchasing power and the overall economy.
+                  </div>
+
+                  <div class="app w-full ">
+                    <Chart {init} options={optionsCPI} class="chart" />
+                  </div>
+
+                  <h2 class="text-2xl text-gray-200 font-bold mt-10">
                     Treasury Rates
-                  </h1>
+                  </h2>
 
                   <div class="text-[1rem] text-white mt-2 mb-2">
                     Treasury rates are the interest rates that the US government pays on its debt obligations, and they are a key benchmark for interest rates across the economy.
@@ -383,7 +457,7 @@ onMount(async () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {#each tableList as item, index}
+                      {#each tableList as item}
                           <!-- row -->
                           <tr class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
                           
@@ -394,7 +468,7 @@ onMount(async () => {
                                 {item?.month1}
                               </td>
                               <td class="text-white font-medium text-sm sm:text-[1rem] text-end whitespace-nowrap border-b-[#09090B]">
-                                {item?.month2}
+                                {item?.month2 !== null ? item?.month2 : '-'}
                               </td>
                               <td class="text-white font-medium text-sm sm:text-[1rem] text-end whitespace-nowrap border-b-[#09090B]">
                                 {item?.month3}
