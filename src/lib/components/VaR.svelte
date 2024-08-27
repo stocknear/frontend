@@ -21,7 +21,7 @@ export let data;
     let valueAtRisk;
     let varDict = {}
     let optionsData;
-
+    let monthlyVarAvg;
   
 function getPlotOptions() {
     let dates = [];
@@ -32,6 +32,12 @@ function getPlotOptions() {
     dates?.push(item?.date);
     varList?.push(item?.var);
     });
+
+    const sum = varList.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue;
+    }, 0);
+
+    monthlyVarAvg = (sum / varList?.length)?.toFixed(2);
 
 
     const option = {
@@ -213,7 +219,13 @@ function getPlotOptions() {
               </div>
 
         
-          
+            <h2 class="text-white text-xl sm:text-2xl font-semibold mt-5">
+                Historical VaR
+            </h2>
+            <div class="text-white text-[1rem] mt-3">
+                Based on historical price data, the company experienced an average monthly Value at Risk (VaR) of {monthlyVarAvg}%.
+            </div>
+
             <div class="app w-full h-[300px] mt-5">
                 <Chart {init} options={optionsData} class="chart" />
             </div>
