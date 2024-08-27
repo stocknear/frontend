@@ -121,48 +121,49 @@ $: {
       <!--Start Content-->
       <div class="w-full flex flex-wrap border-t border-slate-800 px-2 lg:px-0">
         <h2 class="text-start ml-2 text-2xl font-bold text-white pb-2 mt-3">Company Info</h2>
-        <div class="flex justify-start items-center w-full m-auto">
-          <table class="table table-sm table-compact ">
-            <tbody>
+        <div class="flex justify-center items-center w-full m-auto">
+          <table class="table table-sm table-compact">
+            <tbody >
               <!-- row 1 -->
               <tr class="text-white border-b border-[#27272A]" style="font-size: 0.75rem">
-                <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-medium">CEO</td>
-                <td class="text-end bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-normal">{ceoName}</td>
-                <td class="text-end lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-medium">Industry</td>
-                <td class="text-center bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-normal">{industry}</td>
+                <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">CEO</td>
+                <td class="text-end bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-normal font-semibold">{ceoName}</td>
+                <td class="text-end lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Country</td>
+                <td class="text-end bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-normal font-semibold">{country}</td>
               </tr>
               <!-- row 2 -->
               <tr class="text-white " style="font-size: 0.75rem">
-                <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-medium">Country</td>
-                <td class="text-end bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-normal">{country}</td>
-                <td class="text-end lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white whitespace-pre-line font-medium">Sector</td>
-                <td class="text-center bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-pre-line">{sector}</td>
+                <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white whitespace-pre-line font-semibold whitespace-nowrap">Sector</td>
+                <td class="text-end bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-pre-line font-semibold">{sector}</td>
+                <td class="text-end lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Employees</td>
+                <td class="text-end bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] font-semibold">{employees}</td>
               </tr>
               <!-- row 3 -->
               <tr class="text-white border-b border-[#27272A]" style="font-size: 0.75rem">
-                <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-medium">Employees</td>
-                <td class="text-end bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B]">{employees}</td>
-                <td class="text-end lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-medium">Exchange</td>
-                <td class="text-center bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B]">{exchange}</td>
+                <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Industry</td>
+                <td class="text-end bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-normal font-semibold">{industry}</td>
+            
+                <td class="text-end lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Exchange</td>
+                <td class="text-end bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] font-semibold">{exchange}</td>
               </tr>
                <!-- row 4 -->
                <tr class="text-white border-b border-[#27272A]" style="font-size: 0.75rem">
-                <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-medium">Mkt Cap</td>
-                <td class="text-end bg-[#000] lg:bg-[#09090B]">{marketCap}</td>
-                <td class="text-end bg-[#000] lg:bg-[#09090B] text-white font-medium">Avg. Volume</td>
-                <td class="text-center bg-[#000] lg:bg-[#09090B]">{avgVolume}</td>
+                <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Mkt Cap</td>
+                <td class="text-end bg-[#000] lg:bg-[#09090B] font-semibold">{marketCap}</td>
+                <td class="text-end bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Avg. Volume</td>
+                <td class="text-end bg-[#000] lg:bg-[#09090B] font-semibold">{avgVolume}</td>
               </tr>
               <tr class="text-white border-b border-[#27272A]" style="font-size: 0.75rem">
-                <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-medium">EPS (TTM)</td>
-                <td class="text-end bg-[#000] lg:bg-[#09090B]">{epsTTM}</td>
-                <td class="text-end bg-[#000] lg:bg-[#09090B] text-white font-medium">PE Ratio (TTM)</td>
-                <td class="text-center bg-[#000] lg:bg-[#09090B]">{peTTM}</td>
+                <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">EPS (TTM)</td>
+                <td class="text-end bg-[#000] lg:bg-[#09090B] font-semibold">{epsTTM}</td>
+                <td class="text-end bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">PE Ratio (TTM)</td>
+                <td class="text-end bg-[#000] lg:bg-[#09090B] font-semibold">{peTTM}</td>
               </tr>
               <tr class="text-white border-b border-[#27272A]" style="font-size: 0.75rem">
-                <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-medium">Shares Out.</td>
-                <td class="text-end bg-[#000] lg:bg-[#09090B]">{abbreviateNumber(sharesOutstanding)}</td>
-                <td class="text-end bg-[#000] lg:bg-[#09090B] text-white font-medium">Forward PE</td>
-                <td class="text-center bg-[#000] lg:bg-[#09090B]">{forwardPE === undefined ? '-' : forwardPE}</td>
+                <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Shares Out.</td>
+                <td class="text-end bg-[#000] lg:bg-[#09090B] font-semibold">{abbreviateNumber(sharesOutstanding)}</td>
+                <td class="text-end bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Forward PE</td>
+                <td class="text-end bg-[#000] lg:bg-[#09090B] font-semibold whitespace-nowrap">{forwardPE === undefined ? '-' : forwardPE}</td>
               </tr>
             </tbody>
           </table>
