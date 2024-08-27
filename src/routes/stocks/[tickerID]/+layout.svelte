@@ -97,7 +97,7 @@ function handleTypeOfTrade(state:string)
       options: "/options",
       dividends: "/dividends",
       fundamental: "/stats",
-      analyst: "/analyst",
+      forecast: "/forecast",
       news: "/news",
     };
 
@@ -320,7 +320,7 @@ $: {
         options: "options",
         insider: "insider",
         dividends: "dividends",
-        analyst: "analyst",
+        forecast: "forecast",
         news: "news",
       };
       displaySection = sectionMap[parts?.find((part) => Object?.keys(sectionMap)?.includes(part))] || "overview";
@@ -615,6 +615,17 @@ $: {
                         </li>
                         <li class="cursor-pointer flex flex-col items-center">
                           <a
+                            href={`/stocks/${$stockTicker}/forecast`}
+                            id="item3"
+                            on:click={() => changeSection("forecast", "item3")}
+                            class="px-3 text-sm sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'forecast' ? 'text-white ' : 'bg-[#09090B]'}"
+                          >
+                            Forecast
+                          </a>
+                          <div class="{displaySection === 'forecast' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[3.5rem]" />
+                        </li>
+                        <li class="cursor-pointer flex flex-col items-center">
+                          <a
                             href={`/stocks/${$stockTicker}/options`}
                             id="item3"
                             on:click={() => changeSection("options", "item3")}
@@ -623,17 +634,6 @@ $: {
                             Options
                           </a>
                           <div class="{displaySection === 'options' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[3.5rem]" />
-                        </li>
-                        <li class="cursor-pointer flex flex-col items-center">
-                          <a
-                            href={`/stocks/${$stockTicker}/analyst`}
-                            id="item3"
-                            on:click={() => changeSection("analyst", "item3")}
-                            class="px-3 text-sm sm:text-[1rem] font-medium text-gray-400 sm:hover:text-white {displaySection === 'analyst' ? 'text-white ' : 'bg-[#09090B]'}"
-                          >
-                            Analyst
-                          </a>
-                          <div class="{displaySection === 'analyst' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[3.5rem]" />
                         </li>
                         <li class="cursor-pointer flex flex-col items-center">
                           <a

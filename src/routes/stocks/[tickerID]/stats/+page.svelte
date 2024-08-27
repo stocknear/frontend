@@ -1,7 +1,7 @@
 <script lang="ts">
   import Lazy from "$lib/components/Lazy.svelte";
   import ReturnCard from "$lib/components/ReturnCard.svelte";
-  import { numberOfUnreadNotification, displayCompanyName, screenWidth, stockTicker, analystEstimateComponent, revenueSegmentationComponent } from "$lib/store";
+  import { numberOfUnreadNotification, displayCompanyName, screenWidth, stockTicker, revenueSegmentationComponent } from "$lib/store";
   import { abbreviateNumber } from "$lib/utils";
 
   export let data;
@@ -199,14 +199,6 @@ updateYearRange()
         </div>
 
         <!--End Widget-->
-
-        <Lazy>
-          <div class="w-full m-auto sm:pb-6 sm:pt-6 {!$analystEstimateComponent ? 'hidden' : ''}">
-            {#await import("$lib/components/AnalystEstimate.svelte") then { default: Comp }}
-              <svelte:component this={Comp} {data} />
-            {/await}
-          </div>
-        </Lazy>
 
         <!--Start RevenueSegmentation-->
         <Lazy>
