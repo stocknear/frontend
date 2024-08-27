@@ -74,29 +74,12 @@ if (progressYearPriceValue < currentPrice) {
         
 */
         
-marketCap = '-';
 
-currentPrice = '-';
-previousClose = '-';
-volume = '-';
-eps = '-';
-pe = '-';
-alpha = '-';
-beta = '-';
 
 stockQuote = data?.getStockQuote;
 quantStats = data?.getQuantStats ?? {};
 
-marketCap = abbreviateNumber(stockQuote?.marketCap);
-volume = abbreviateNumber(stockQuote?.volume);
-currentPrice = stockQuote?.price;
-previousClose = stockQuote?.previousClose;
-eps = stockQuote?.eps;
-pe = stockQuote?.pe;
 
-beta = stockQuote?.beta;
-
-alpha = quantStats[$stockTicker?.toUpperCase()]?.Alpha;
 
 /*
 updateDayRange()
@@ -256,57 +239,6 @@ updateYearRange()
         <div class="grid grid-cols-1 gap-2 mt-10">
           
              
-          
-              
-
-              <h3 class="text-start ml-2 text-lg sm:text-2xl font-bold text-white mt-5 ">
-                Company Stats
-              </h3>
-              
-        
-              <div class="flex justify-start items-center w-full m-auto overflow-x-scroll no-scrollbar">
-                <table class="table table-sm table-compact text-start flex justify-start items-center w-full px-3 m-auto">
-                  <tbody class="">
-                    <!-- row 1 -->
-                    <tr class="text-white odd:bg-[#27272A] font-semibold">
-                      <td class="text-start text-sm sm:text-[1rem] text-white ">Mkt Cap</td>
-                      <td class="text-end text-sm sm:text-[1rem]"> ${marketCap}</td>
-                      <td class="text-end text-sm sm:text-[1rem] text-white ">Volume</td>
-                      <td class="text-end text-sm sm:text-[1rem]">{volume}</td>
-                    </tr>
-                    <!-- row 2 -->
-                    <tr class="text-white odd:bg-[#27272A] text-sm sm:text-[1rem] ">
-                      <td class="text-start text-sm sm:text-[1rem]">Price</td>
-                      <td class="text-end text-sm sm:text-[1rem]">${currentPrice}</td>
-                      <td class="text-end text-white text-sm sm:text-[1rem]">Prev. Close</td>
-                      <td class="text-end text-sm sm:text-[1rem]">${previousClose}</td>
-                    </tr>
-                    <!-- row 3 -->
-                    
-                    <tr class="text-white odd:bg-[#27272A] font-semibold">
-                      <td class="text-start text-sm sm:text-[1rem] text-white ">Alpha</td>
-                      <td class="text-end text-sm sm:text-[1rem]">
-                        {typeof alpha !== 'undefined' ? alpha : '-'}
-                      </td>
-                      <td class="text-end text-sm sm:text-[1rem] text-white">Beta</td>
-                      <td class="text-end text-sm sm:text-[1rem]">
-                        {typeof beta !== 'undefined' && !isNaN(beta) ? beta?.toFixed(2) : '-'}
-                      </td>
-                    </tr>
-                    
-
-                    <tr class="text-white font-semibold">
-                      <td class="text-start">EPS</td>
-                      <td class="text-sm text-end">{eps}</td>
-                      <td class="text-end">PE</td>
-                      <td class="text-sm text-end">{pe}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-           
-
 
               {#if $stockTicker in quantStats && Object.keys(quantStats[$stockTicker]).length > 0}
 

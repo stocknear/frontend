@@ -56,7 +56,7 @@ let showFullText = false;
   </script>
   
   <div class="sm:space-y-3">  
-    <div class="sm:rounded-lg shadow-lg sm:border sm:border-slate-800 bg-[#000] lg:bg-[#09090B] h-auto h-auto w-screen pt-16 sm:w-full md:w-[400px] lg:pt-0">
+    <div class="sm:rounded-lg shadow-lg sm:border sm:border-slate-800 bg-[#000] lg:bg-[#09090B] h-auto h-auto w-screen pt-16 sm:w-full md:w-[420px] lg:pt-0">
 
          <!--Start Header-->
          <div class="lg:rounded-t-sm w-full h-[130px] bg-[#09090B] p-3 flex flex-col bg-cover bg-center bg-no-repeat" style="background-image: url('{defaultImage}');">

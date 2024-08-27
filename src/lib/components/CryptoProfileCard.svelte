@@ -47,7 +47,7 @@
   </script>
   
   <div class="sm:space-y-3">  
-    <div class="lg:rounded-lg shadow-lg sm:border sm:border-slate-800 bg-[#000] lg:bg-[#09090B] h-auto h-auto w-screen pt-16 sm:w-full md:w-[400px] lg:pt-0">
+    <div class="lg:rounded-lg shadow-lg sm:border sm:border-slate-800 bg-[#000] lg:bg-[#09090B] h-auto h-auto w-screen pt-16 sm:w-full md:w-[420px] lg:pt-0">
 
          <!--Start Header-->
         <div class="sm:rounded-t-lg w-full h-[130px] bg-[#000] p-3 flex flex-col bg-cover bg-center bg-no-repeat" style="background-image: url({`${cloudFrontUrl}/stocks/cover/${$cryptoTicker?.toUpperCase()}.jpg`});">

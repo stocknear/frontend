@@ -675,6 +675,7 @@ $: isScrolled = y > 0;
                       
                               <!--Start Company Info -->
                               <Sidecard
+                                data = {data}
                                 stockDeck = {stockDeck}
                                 lastPrice = {data?.getStockQuote?.price}
                                 analystRating ={data?.getAnalystRating}
