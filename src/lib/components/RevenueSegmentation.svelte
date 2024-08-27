@@ -43,12 +43,12 @@
         for (const category in values) {
           if (count >= 4) break; // Stop after the fifth element
           const value = values[category];
-          if (value !== 0) {
+          if (value > 0) {
             nodes?.push({
-              id: (category?.length > 35 ? category?.slice(0, 35) + "..." : category) + `- $${abbreviateNumber(value)}`,
+              id: (category?.length > 35 ? category?.slice(0, 35) + "..." : category) + ' · ' +`$${abbreviateNumber(value)}`,
             });
             links?.push({
-              source: (category?.length > 35 ? category?.slice(0, 35) + "..." : category) + `- $${abbreviateNumber(value)}`,
+              source: (category?.length > 35 ? category?.slice(0, 35) + "..." : category) + ' · ' +`$${abbreviateNumber(value)}`,
               target: "Revenue",
               value: value,
             });
@@ -169,15 +169,8 @@
   }
 
   let showFullStats = false;
-  let charNumber = 40;
+$: charNumber = $screenWidth < 640 ? 25 :40;
 
-  $: {
-    if ($screenWidth < 640) {
-      charNumber = 25;
-    } else {
-      charNumber = 40;
-    }
-  }
 </script>
 
 <section class="overflow-hidden text-white h-full pb-8">
