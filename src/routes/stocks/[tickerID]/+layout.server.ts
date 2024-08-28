@@ -41,7 +41,7 @@ const fetchCommunitySentiment = async (pb, ticker, cookies) => {
 
   return {
     alreadyVoted: cookieVote || null,
-    sentimentData: output[0] || {}
+    sentimentData: output?.at(0) || {}
   };
 };
 
@@ -80,6 +80,6 @@ export const load = async ({ params, locals, cookies, setHeaders }) => {
     getOneDayPrice,
     getUserWatchlist,
     getCommunitySentiment,
-    companyName: cleanString(getStockDeck?.[0]?.companyName),
+    companyName: cleanString(getStockDeck?.at(0)?.companyName),
   };
 };
