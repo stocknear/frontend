@@ -71,7 +71,7 @@
   
   
   
-<section class="w-full max-w-5xl overflow-hidden m-auto mt-10">
+<section class="w-full overflow-hidden m-auto mt-10">
   
   <div class="flex justify-center w-full m-auto overflow-hidden">
       <div class="relative flex justify-center items-center overflow-hidden">
