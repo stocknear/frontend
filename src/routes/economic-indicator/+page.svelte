@@ -1,8 +1,9 @@
 <script lang='ts'>
-  import { goto } from '$app/navigation';
-  import { numberOfUnreadNotification, screenWidth } from '$lib/store';
-  import ArrowLogo from "lucide-svelte/icons/move-up-right";
-  import { Chart } from 'svelte-echarts'
+import { goto } from '$app/navigation';
+import { numberOfUnreadNotification, screenWidth } from '$lib/store';
+import ArrowLogo from "lucide-svelte/icons/move-up-right";
+import { Chart } from 'svelte-echarts'
+import Lazy from '$lib/components/Lazy.svelte';
 
 import { init, use } from 'echarts/core'
 import { LineChart, BarChart } from 'echarts/charts'
@@ -21,6 +22,9 @@ let rawData;
 let tableList = [];
 let optionsData;
 let optionsCPI;
+let optionsGDP;
+let optionsInflation;
+
 let filterRule = 'annual';
 
 let timePeriod = 'threeYears';
@@ -278,6 +282,7 @@ async function plotCPI() {
             type: 'line',
             areaStyle: {opacity: 0.2},
             smooth: true,
+            showSymbol: false,
         },
         tooltip: {
             trigger: 'axis',
@@ -288,15 +293,210 @@ async function plotCPI() {
     return options;
 }
 
+async function plotGDP() {
+    // Get the filtered data based on the selected time period
+    let dates = [];
+    let gdpList = [];
+    let realGDPList = [];
+    let realGDPPerCapitaList = []
+    // Iterate over the data and extract required information
+    data?.getEconomicIndicator?.gdp?.forEach(item => {
   
+    dates?.push(item?.date);
+    gdpList?.push(item?.value);
+    });
+
+    data?.getEconomicIndicator?.realGDP?.forEach(item => {
+      realGDPList?.push(item?.value);
+    });
+
+    data?.getEconomicIndicator?.realGDPPerCapita?.forEach(item => {
+      realGDPPerCapitaList?.push(item?.value);
+    });
+
+    const options = {
+        animation: false,
+        grid: {
+            left: '2%',
+            right: '2%',
+            bottom: '2%',
+            top: '10%',
+            containLabel: true
+        },
+        xAxis: {
+            axisLabel: {
+                color: '#fff',
+                formatter: function (value) {
+                // Assuming dates are in the format 'yyyy-mm-dd'
+                // Extract the month and day from the date string and convert the month to its abbreviated name
+                const dateParts = value.split('-');
+                const year = dateParts[0].substring(2); // Extracting the last two digits of the year
+                const monthIndex = parseInt(dateParts[1]) - 1; // Months are zero-indexed in JavaScript Date objects
+                return `${monthNames[monthIndex]} '${year}`;
+              }
+            },
+            data: dates,
+            type: 'category',
+        },
+        yAxis: [
+            {
+                type: 'value',
+                splitLine: {
+                    show: false, // Disable x-axis grid lines
+                },
+                axisLabel: {
+                    color: '#fff', // Change label color to white
+                },
+            },
+            {
+                type: 'value',
+                splitLine: {
+                    show: false, // Disable x-axis grid lines
+                },
+                axisLabel: {
+                    color: '#fff', // Change label color to white
+                },
+            },
+        ],
+        series:
+          [
+            {
+            name: 'GDP',
+            data: gdpList,
+            type: 'line',
+            smooth: true,
+            showSymbol: false,
+          },
+          {
+          name: 'Real GDP',
+            data: realGDPList,
+            type: 'line',
+            smooth: true,
+            showSymbol: false,
+          },
+          {
+          name: 'Real GDP Per Capita',
+            data: realGDPPerCapitaList,
+            type: 'line',
+            yAxisIndex: 1,
+            smooth: true,
+            showSymbol: false,
+          },
+        ],
+        tooltip: {
+            trigger: 'axis',
+            hideDelay: 100,
+        },
+    };
+
+    return options;
+}
+
+async function plotInflation() {
+    // Get the filtered data based on the selected time period
+    let dates = [];
+    let inflationRateList = [];
+    let recessionList = [];
+    // Iterate over the data and extract required information
+    data?.getEconomicIndicator?.inflationRate?.forEach(item => {
+  
+    dates?.push(item?.date);
+    inflationRateList?.push(item?.value);
+    });
+
+    data?.getEconomicIndicator?.unemploymentRate?.forEach(item => {
+      recessionList?.push(item?.value);
+    });
+
+
+    const options = {
+        animation: false,
+        grid: {
+            left: '2%',
+            right: '2%',
+            bottom: '2%',
+            top: '10%',
+            containLabel: true
+        },
+        xAxis: {
+            axisLabel: {
+                color: '#fff',
+                formatter: function (value) {
+                // Assuming dates are in the format 'yyyy-mm-dd'
+                // Extract the month and day from the date string and convert the month to its abbreviated name
+                const dateParts = value.split('-');
+                const year = dateParts[0].substring(2); // Extracting the last two digits of the year
+                const monthIndex = parseInt(dateParts[1]) - 1; // Months are zero-indexed in JavaScript Date objects
+                return `${monthNames[monthIndex]} '${year}`;
+              }
+            },
+            data: dates,
+            type: 'category',
+        },
+        yAxis: [
+            {
+                type: 'value',
+                splitLine: {
+                    show: false, // Disable x-axis grid lines
+                },
+                axisLabel: {
+                    color: '#fff', // Change label color to white
+                },
+            },
+            {
+                type: 'value',
+                splitLine: {
+                    show: false, // Disable x-axis grid lines
+                },
+                axisLabel: {
+                    color: '#fff', // Change label color to white
+                },
+            },
+        ],
+        series:
+          [
+            {
+            name: 'Inflation Rate',
+            data: inflationRateList,
+            type: 'line',
+            smooth: true,
+            showSymbol: false,
+          },
+          {
+          name: 'Unemployment Rate',
+            data: recessionList,
+            yAxisIndex: 1,
+
+            type: 'line',
+            smooth: true,
+            showSymbol: false,
+          },
+          
+        ],
+        tooltip: {
+            trigger: 'axis',
+            hideDelay: 100,
+        },
+    };
+
+    return options;
+}
 onMount(async () => {
   rawData = data?.getEconomicIndicator?.treasury ?? {};
-  optionsData = await plotData();
-  optionsCPI = await plotCPI();
+
+  // Run the async functions concurrently
+  [optionsData, optionsCPI, optionsGDP, optionsInflation] = await Promise.all([
+    plotData(),
+    plotCPI(),
+    plotGDP(),
+    plotInflation(),
+  ]);
+
   tableList = filterEndOfYearDates(rawData);
   tableList?.sort((a, b) => new Date(b?.date) - new Date(a?.date));
+
   isLoaded = true;
-})
+});
 
 
 
@@ -402,11 +602,41 @@ onMount(async () => {
                     The CPI measures the average change in prices for a typical basket of goods. It's key for tracking inflation, affecting interest rates, wages, and business decisions. Rising CPI indicates inflation, impacting purchasing power and the overall economy.
                   </div>
 
-                  <div class="app w-full ">
+                  <Lazy>
+                  <div class="app w-full">
                     <Chart {init} options={optionsCPI} class="chart" />
                   </div>
+                  </Lazy>
 
-                  <h2 class="text-2xl text-gray-200 font-bold mt-10">
+                  <h2 class="text-2xl text-gray-200 font-bold mt-20 sm:mt-10">
+                    Gross Domestic Product (GDP)
+                  </h2>
+
+                  <div class="text-[1rem] text-white mt-2 mb-2">
+                    The GDP measures a country's economic performance, representing the total value of all goods and services produced within a specific period. It's a key indicator of economic health, used to compare the economic output of different nations and track growth or decline over time.
+                  </div>
+
+                  <Lazy>
+                  <div class="app w-full ">
+                    <Chart {init} options={optionsGDP} class="chart" />
+                  </div>
+                  </Lazy>
+
+                  <h2 class="text-2xl text-gray-200 font-bold mt-20 sm:mt-10">
+                    Unemployment Rate vs Inflation Rate
+                  </h2>
+
+                  <div class="text-[1rem] text-white mt-2 mb-2">
+                    The unemployment rate measures the jobless percentage in the labor force, impacting spending and growth. Low unemployment boosts wages and activity, while high unemployment slows them. The inflation rate tracks price increases, with moderate inflation (~2%) being healthy. These rates are often inversely related and crucial for economic stability, influencing spending, savings, and investment.
+                  </div>
+
+                  <Lazy>
+                  <div class="app w-full ">
+                    <Chart {init} options={optionsInflation} class="chart" />
+                  </div>
+                  </Lazy>
+
+                  <h2 class="text-2xl text-gray-200 font-bold mt-20 sm:mt-10">
                     Treasury Rates
                   </h2>
 
@@ -427,11 +657,11 @@ onMount(async () => {
                     </select>
                     </div>
                 </div>
-
+                <Lazy>
                   <div class="app w-full ">
                     <Chart {init} options={optionsData} class="chart" />
                   </div>
-
+                </Lazy>
 
                   <ul class="text-[0.8rem] font-medium text-center w-56 pt-10 sm:w-56 mb-5 flex justify-center sm:justify-end items-center ml-auto">
                     <li class="w-full">
