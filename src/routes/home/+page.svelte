@@ -205,7 +205,7 @@ onMount( async() => {
         
         <div class="text-center mb-10 relative w-fit flex justify-center m-auto">
           <a href="/economic-indicator" class="text-white antialiased bg-[#27272A] w-full px-4 py-2 rounded-lg m-auto font-medium text-[1rem] flex items-center">
-            <span class="font-semibold">US Economic Indicator</span>
+            <span class="font-semibold">US Economic Indicators</span>
           </a>
           <div class="absolute top-[-1.2rem] -right-5 sm:-right-8 rotate-[7deg]">
             <span class="bg-[#FBCE3C] text-black text-sm sm:text-[0.9rem] rounded-xl font-semibold sm:me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
@@ -376,6 +376,7 @@ onMount( async() => {
                 </div>
               </Card.Header>
               <Card.Content>
+                {#if data?.getDashboard?.recentDividends?.length !== 0}
                 <ul style="padding-left: 5px;">
                   {#each data?.getDashboard?.recentDividends as item}
                   <strong>{item?.name}</strong> (<a href="/stocks/{item?.symbol}" class="sm:hover:text-white text-blue-400">{item?.symbol}</a>) has announced its upcoming dividend details as of {convertTimestamp(item?.updated)}:
@@ -398,6 +399,9 @@ onMount( async() => {
 
                   {/each}
               </ul>
+              {:else}
+                Currently, there are no dividend announcement reports available.
+              {/if}
              
               </Card.Content>
             </Card.Root>
@@ -486,6 +490,7 @@ onMount( async() => {
                   </div>
                 </Card.Header>
                 <Card.Content>
+                  {#if data?.getDasboard?.recentEarnings?.length !== 0}
                   <ul style="padding-left: 5px;">
                     {#each data?.getDashboard?.recentEarnings as item}
                     <strong>{item?.name}</strong> (<a href="/stocks/{item?.symbol}" class="sm:hover:text-white text-blue-400">{item?.symbol}</a>) has released its quarterly earnings at {formatTime(item?.time)}:
@@ -500,7 +505,9 @@ onMount( async() => {
 
                     {/each}
                 </ul>
-               
+                {:else}
+                Currently, there are no recent earnings reports available.
+                {/if}
                 </Card.Content>
               </Card.Root>
               
