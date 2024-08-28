@@ -53,7 +53,7 @@ export const actions = {
 		}
 
 
-		redirect(301, '/home');
+		redirect(301, '/pricing');
 	},
 	
     register: async ({ locals, request }) => {
@@ -107,7 +107,7 @@ export const actions = {
 			error(err.status, err.message);
 		}
 
-		redirect(301, "/home");
+		redirect(301, "/pricing");
 	},
 	
 
@@ -157,7 +157,7 @@ export const actions = {
 			maxAge: 60*60
 		});
 
-		cookies.set('path', "/home", {httpOnly: true,
+		cookies.set('path', "/pricing", {httpOnly: true,
 			sameSite: 'lax',
 			secure: true,
 			path: '/',
