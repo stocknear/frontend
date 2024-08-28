@@ -26,7 +26,7 @@ export let similarstock;
   
   <div class="space-y-3 sm:pt-5 hidden lg:block lg:{similarstock?.length !== 0 ? '' : 'hidden'}">  
   
-  <div class="sm:rounded-lg shadow-lg bg-[#000] sm:bg-[#09090B] sm:border sm:border-slate-800 h-auto {$screenWidth < 640 ? 'w-screen pt-16' : ''} md:w-[420px]">
+  <div class="sm:rounded-lg shadow-lg bg-[#000] sm:bg-[#09090B] sm:border sm:border-slate-800 h-auto {$screenWidth < 640 ? 'w-screen pt-16' : ''} md:w-[420px] xl:w-[450px]">
   
     <div class="w-auto lg:w-full p-1 flex flex-col m-auto pb-14 sm:pb-10 px-2 sm:px-0">
       <h2 class="text-start text-2xl font-semibold text-white p-3 mt-3 ml-1">

@@ -83,7 +83,7 @@ $: {
 </script>
 
 <div class="sm:space-y-3">  
-    <div class="sm:rounded-lg lg:border lg:border-slate-800 bg-[#000] lg:bg-[#09090B] h-auto w-screen pt-16 sm:w-full md:w-[420px] lg:pt-0">
+    <div class="sm:rounded-lg lg:border lg:border-slate-800 bg-[#000] lg:bg-[#09090B] h-auto w-screen pt-16 sm:w-full md:w-[420px] xl:w-[450px] lg:pt-0">
 
       <!--Start Header-->
       <div class="sm:rounded-t-lg w-full h-[130px] bg-[#000] p-3 flex flex-col bg-cover bg-center bg-no-repeat" style="background-image: url({`${cloudFrontUrl}/stocks/cover/${$stockTicker?.toUpperCase()}.jpg`});">
@@ -115,12 +115,14 @@ $: {
         <div class="flex justify-center items-center w-full m-auto">
           <table class="table table-sm table-compact">
             <tbody>
+              <!--
               <tr class="text-white border-b border-[#27272A]">
                 <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">CEO</td>
                 <td class="text-center sm:text-end bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-normal font-semibold">{ceoName}</td>
                 <td class="text-start sm:text-end lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Country</td>
                 <td class="text-start sm:text-end bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-normal font-semibold">{country}</td>
               </tr>
+              -->
               <tr class="text-white border-b border-[#27272A]">
                 <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Mkt Cap</td>
                 <td class="text-center sm:text-end bg-[#000] lg:bg-[#09090B]">{abbreviateNumber(data?.getStockQuote?.marketCap,true)}</td>
