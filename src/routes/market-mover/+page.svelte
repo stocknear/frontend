@@ -4,9 +4,11 @@ import { screenWidth, numberOfUnreadNotification } from '$lib/store';
 import logo from '$lib/images/top_winner_logo.png';
 import { abbreviateNumber } from '$lib/utils';
 import MiniPlot from '$lib/components/MiniPlot.svelte';
+import { onMount } from 'svelte';
+import ArrowLogo from "lucide-svelte/icons/move-up-right";
 
 export let data;
-
+let isLoaded = false;
 const rawData = data?.getMiniPlotsIndex;
 
 let priceDataSP500;
@@ -191,6 +193,9 @@ function selectTimeInterval(interval) {
     
   }
 
+onMount( () => {
+  isLoaded = true;
+})
 
   $: {
   if(order)
@@ -246,22 +251,26 @@ $: charNumber = $screenWidth < 640 ? 20 : 30;
 
 </svelte:head>
   
-<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
-    
-
+<section class="w-full max-w-3xl sm:max-w-screen-2xl overflow-hidden min-h-screen pt-5 pb-40 lg:px-3">
+          
   <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
     <ul>
-      <li><a href="/" class="text-gray-300">Home</a></li> 
-      <li class="text-gray-300">
-        Market Movers
-      </li>
+      <li><a href="/" class="text-gray-300">Home</a></li>
+      <li class="text-gray-300">Market Movers</li>
     </ul>
   </div>
+          
+  <div class="w-full overflow-hidden m-auto mt-5">
+    
+    <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden ">
+        <div class="relative flex justify-center items-start overflow-hidden w-full">
 
 
+            <main class="w-full lg:w-3/4 lg:pr-5">
 
-  <div class="w-full m-auto sm:bg-[#27272A] sm:rounded-xl h-auto sm:p-10 mt-8 mb-4 sm:mb-8">
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
+
+              <div class="w-full  m-auto sm:bg-[#27272A] sm:rounded-xl h-auto pl-10 pr-10 pt-5 sm:pb-10 sm:pt-10 mt-3 mb-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
   
       <!-- Start Column -->
       <div>
@@ -304,12 +313,14 @@ $: charNumber = $screenWidth < 640 ? 20 : 30;
 
   </div>
 
+  {#if isLoaded}
+
   <div class="text-white text-xs sm:text-sm pb-5 sm:pb-2 pl-3 sm:pl-0">
     Stock Indexes - {getCurrentDateFormatted()}
   </div>
 
   <div class="w-full -mt-4 sm:mt-0 mb-8 m-auto flex justify-start sm:justify-center items-center p-3 sm:p-0">
-    <div class="w-full grid grid-cols-2 md:grid-cols-4 gap-y-3 lg:gap-y-0 gap-x-3 ">
+    <div class="w-full grid grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-3 ">
     <MiniPlot title="S&P500" priceData = {priceDataSP500} changesPercentage={changeSP500} previousClose={previousCloseSP500}/>
     <MiniPlot title="Nasdaq" priceData = {priceDataNasdaq} changesPercentage={changeNasdaq} previousClose={previousCloseNasdaq}/>
     <MiniPlot title="Dow" priceData = {priceDataDowJones} changesPercentage={changeDowJones} previousClose={previousCloseDowJones}/>
@@ -433,19 +444,82 @@ $: charNumber = $screenWidth < 640 ? 20 : 30;
 
 
 
-<!--
-    {#if !fullList}
-    <label on:click={showFullList} class="mt-10 btn btn-sm btn-outline btn-ghost text-white text-xs m-auto normal-case ">
-        Show more
-    </label>
-    {/if}
--->
-
   </div>
+
+  {:else}
+  <div class="flex justify-center items-center h-80">
+    <div class="relative">
+    <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <span class="loading loading-spinner loading-md"></span>
+    </label>
+    </div>
+</div>
+
+  {/if}
+
+
+</main>
+
+
+<aside class="hidden lg:block relative fixed w-1/4 ml-4">        
+
+  {#if data?.user?.tier !== 'Pro' || data?.user?.freeTrial}
+  <div on:click={() => goto('/pricing')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 mt-4 cursor-pointer">
+      <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
+          <div class="w-full flex justify-between items-center p-3 mt-3">
+          <h2 class="text-start text-xl font-semibold text-white ml-3">
+          Pro Subscription
+          </h2>
+          <ArrowLogo class="w-8 h-8 mr-3 flex-shrink-0"/>
+          </div>
+          <span class="text-white p-3 ml-3 mr-3">
+              Upgrade now for unlimited access to all data and tools.
+          </span>
+      </div>
+  </div>
+  {/if}
+
+  <div on:click={() => goto('/analysts')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 mt-4 cursor-pointer">
+      <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
+          <div class="w-full flex justify-between items-center p-3 mt-3">
+          <h2 class="text-start text-xl font-semibold text-white ml-3">
+          Wallstreet Analyst
+          </h2>
+          <ArrowLogo class="w-8 h-8 mr-3 flex-shrink-0"/>
+          </div>
+          <span class="text-white p-3 ml-3 mr-3">
+              Get the latest top Wall Street analyst ratings.
+          </span>
+      </div>
+  </div>
+
+  <div on:click={() => goto('/politicians')} class="w-full bg-[#141417] duration-100 ease-out sm:hover:text-white text-gray-400 sm:hover:border-gray-700 border border-gray-800 rounded-lg h-fit pb-4 mt-4 cursor-pointer">
+      <div class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0">
+          <div class="w-full flex justify-between items-center p-3 mt-3">
+          <h2 class="text-start text-xl font-semibold text-white ml-3">
+          Congress Trading
+          </h2>
+          <ArrowLogo class="w-8 h-8 mr-3 flex-shrink-0"/>
+          </div>
+          <span class="text-white p-3 ml-3 mr-3">
+              Get the latest top Congress trading insights.
+          </span>
+      </div>
+  </div>
+
+</aside>
+
+</div>
+</div>
+
+
+</div>
 
 
 
 </section>
+
+
 
 
 
