@@ -30,6 +30,20 @@ let filterRule = 'annual';
 let timePeriod = 'threeYears';
 const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+const treasuryLabel = {
+  'month1': '1-Month',
+  'month2': '2-Month',
+  'month3': '3-Month',
+  'month6': '6-Month',
+  'year1': '1-Year',
+  'year2': '2-Year',
+  'year3': '3-Year',
+  'year5': '5-Year',
+  'year7': '7-Year',
+  'year10': '10-Year',
+  'year20': '20-Year',
+  'year30': '30-Year',
+}
 
 function filterEndOfYearDates(data) {
     // Step 1: Group data by year
@@ -165,7 +179,7 @@ async function plotData() {
     // Convert seriesData to the format required by the series property
     let series = Object?.keys(seriesData).map(key => {
         return {
-            name: key,
+            name: treasuryLabel[key],
             data: seriesData[key],
             type: 'line',
             smooth: true,
@@ -690,17 +704,18 @@ onMount(async () => {
                     <thead>
                       <tr class="border border-slate-800">
                         <th class="text-white font-semibold text-start text-sm sm:text-[1rem]">Date</th>
-                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Month 1</th>
-                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Month 2</th>
-                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Month 3</th>
-                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Month 6</th>
-                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Year 1</th>
-                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Year 2</th>
-                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Year 3</th>
-                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Year 5</th>
-                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Year 10</th>
-                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Year 20</th>
-                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">Year 30</th>
+                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">1-Month</th>
+                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">2-Month</th>
+                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">3-Month</th>
+                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">6-Month</th>
+                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">1-Year</th>
+                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">2-Year</th>
+                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">3-Year</th>
+                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">5-Year</th>
+                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">7-Year</th>
+                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">10-Year</th>
+                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">20-Year</th>
+                        <th class="text-white font-semibold text-end text-sm sm:text-[1rem]">30-Year</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -734,6 +749,9 @@ onMount(async () => {
                               </td>
                               <td class="text-white font-medium text-sm sm:text-[1rem] text-end whitespace-nowrap border-b-[#09090B]">
                                 {item?.year5}
+                              </td>
+                              <td class="text-white font-medium text-sm sm:text-[1rem] text-end whitespace-nowrap border-b-[#09090B]">
+                                {item?.year7}
                               </td>
                               <td class="text-white font-medium text-sm sm:text-[1rem] text-end whitespace-nowrap border-b-[#09090B]">
                                 {item?.year10}
