@@ -159,7 +159,7 @@ async function plotData() {
     const { dates, seriesData } = filterDataByTimePeriod(rawData, timePeriod);
 
     // Convert seriesData to the format required by the series property
-    let series = Object.keys(seriesData).map(key => {
+    let series = Object?.keys(seriesData).map(key => {
         return {
             name: key,
             data: seriesData[key],
