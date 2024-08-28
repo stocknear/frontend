@@ -14,7 +14,6 @@
             dividendHistoryList = dividendList?.history;
 
             dividendYield = dividendList?.dividendYield;
-            console.log(dividendList)
 
         }
 }

@@ -6,27 +6,21 @@
     import { goto } from '$app/navigation';
     import defaultImage from '$lib/images/etf/cover/default.jpg';
     
-    export let logoUrl;
     export let etfProfile;
-  
+    export let data;
   
     let info;
-    let imageUrl;
-  
-    let tierList = 'S';
     let assetClass = '-';
     let aum = '-';
     let avgVolume = '-';
     let inceptionDate = '-';
     let holdingsCount = '-';
-    let exchange = '-';
     let provider = '-';
     let sectorExposed;
     let country;
     let description = '';
     let website = '-';
     let snippet;
-  
 
 let showFullText = false;
   
@@ -92,35 +86,45 @@ let showFullText = false;
         <div class="w-full flex flex-wrap border-t border-slate-800">
           <h2 class="text-start ml-4 text-2xl font-bold text-white pb-2 mt-3">ETF Info</h2>
           <div class="flex items-center w-full">
-            <table class="table table-md table-compact">
+            <table class="table table-sm table-compact">
               <tbody>
-                <!-- row 1 -->
-                <tr class="text-white border-b border-[#27272A]" style="font-size: 0.8rem">
-                  <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-medium">Name</td>
-                  <td class="bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B]">{$displayCompanyName?.length > 30 ? $displayCompanyName?.slice(0,30) + '...' : $displayCompanyName}</td>
-                  <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-medium">Ticker</td>
-                  <td class="bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B]">{$etfTicker}</td>
+              
+     
+                <tr class="text-white border-b border-[#27272A]">
+                  <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Provider</td>
+                  <td on:click={() => goto(`/etf/etf-providers/${provider}`)} class="text-center sm:text-end text-blue-400 lg:hover:text-white cursor-pointer bg-[#000] lg:bg-[#09090B]">{formatETFName(provider)}</td>
+                  <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap ">Country</td>
+                  <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] whitespace-nowrap ">{country?.length !== 0 ? country : '-'}</td>
                 </tr>
-                 <!-- row 3 -->
-                 <tr class="text-white border-b border-[#27272A]" style="font-size: 0.8rem">
-                  <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-medium">Provider</td>
-                  <td on:click={() => goto(`/etf/etf-providers/${provider}`)} class="text-blue-400 lg:border-b lg:border-[#27272A] lg:hover:text-white cursor-pointer bg-[#000] lg:bg-[#09090B]">{formatETFName(provider)}</td>
-                  <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-medium">Country</td>
-                  <td class="bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B]">{country?.length !== 0 ? country : '-'}</td>
+                <tr class="text-white border-b border-[#27272A]">
+                  <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">AUM</td>
+                  <td class="text-center sm:text-end bg-[#000] lg:bg-[#09090B]">{abbreviateNumber(aum,true)}</td>
+                  <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap ">Vol</td>
+                  <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] whitespace-nowrap ">{abbreviateNumber(data?.getStockQuote?.volume)}</td>
                 </tr>
-                <!-- row 2 -->
-                <tr class="text-white border-b border-[#27272A]" style="font-size: 0.8rem">
-                  <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-medium">Value</td>
-                  <td class="bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-normal">{abbreviateNumber(aum,true)}</td>
-                  <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-medium">Volume</td>
-                  <td class="bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-normal">{abbreviateNumber(avgVolume)}</td>
+                <tr class="text-white border-b border-[#27272A]">
+                  <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Shares Out.</td>
+                  <td class="text-center sm:text-end bg-[#000] lg:bg-[#09090B]">{abbreviateNumber(data?.getStockQuote?.sharesOutstanding)}</td>
+                  <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap ">Avg. Vol</td>
+                  <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] whitespace-nowrap ">{abbreviateNumber(avgVolume)}</td>
                 </tr>
-                <!-- row 3 -->
-                <tr class="text-white border-b border-[#27272A]" style="font-size: 0.8rem">
-                  <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-medium">Holdings</td>
-                  <td class="bg-[#000] lg:bg-[#09090B]">{holdingsCount} Assets</td>
-                  <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-medium">Inception</td>
-                  <td class="bg-[#000] lg:bg-[#09090B]">{inceptionDate}</td>
+                <tr class="text-white border-b border-[#27272A]">
+                  <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Open</td>
+                  <td class="text-center sm:text-end bg-[#000] lg:bg-[#09090B]">{data?.getStockQuote?.open?.toFixed(2)}</td>
+                  <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap ">Prev. Close</td>
+                  <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] whitespace-nowrap ">{data?.getStockQuote?.previousClose?.toFixed(2)}</td>
+                </tr>
+                <tr class="text-white border-b border-[#27272A]">
+                  <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">EPS (ttm)</td>
+                  <td class="text-center sm:text-end bg-[#000] lg:bg-[#09090B]">{data?.getStockQuote?.eps?.toFixed(2)}</td>
+                  <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">PE Ratio (ttm)</td>
+                  <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B]">{data?.getStockQuote?.pe?.toFixed(2)}</td>
+                </tr>
+                <tr class="text-white border-b border-[#27272A]">
+                  <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Holdings</td>
+                  <td class="text-center sm:text-end bg-[#000] lg:bg-[#09090B]">{holdingsCount} Assets</td>
+                  <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Inception</td>
+                  <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B]">{inceptionDate}</td>
                 </tr>
               </tbody>
             </table>

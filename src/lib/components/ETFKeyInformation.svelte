@@ -72,7 +72,7 @@
   
   <div class="w-screen overflow-y-scroll" >
 
-    <ETFProfileCard etfProfile = {etfProfile}/>
+    <ETFProfileCard data={data} etfProfile = {etfProfile}/>
 
         
   </div>
