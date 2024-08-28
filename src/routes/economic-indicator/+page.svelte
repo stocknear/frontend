@@ -334,7 +334,7 @@ onMount(async () => {
                     <div>
                       <div class="flex flex-row justify-center items-center">
                         <h1 class="text-3xl sm:text-4xl text-white text-center font-bold mb-5">
-                            Economic Indicator
+                            Economic Indicators
                         </h1>
                       </div>
             
