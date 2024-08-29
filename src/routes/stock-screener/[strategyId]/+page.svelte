@@ -114,6 +114,8 @@ const getStockScreenerData = async (rules) => {
     quickRatio:  (ruleOfList?.find(item => item.name === "quickRatio") || { condition: 'above' }).condition,
     debtEquityRatio:  (ruleOfList?.find(item => item.name === "debtEquityRatio") || { condition: 'above' }).condition,
     debtRatio:  (ruleOfList?.find(item => item.name === "debtRatio") || { condition: 'above' }).condition,
+    returnOnAssets:  (ruleOfList?.find(item => item.name === "returnOnAssets") || { condition: 'above' }).condition,
+    returnOnEquity:  (ruleOfList?.find(item => item.name === "returnOnEquity") || { condition: 'above' }).condition,
 
   };
 
@@ -181,6 +183,8 @@ const getStockScreenerData = async (rules) => {
     { rule: 'quickRatio', label: 'Quick Ratio',category: 'fund' },
     { rule: 'debtEquityRatio', label: 'Debt Equity Ratio',category: 'fund' },
     { rule: 'debtRatio', label: 'Debt Ratio',category: 'fund' },
+    { rule: 'returnOnAssets', label: 'Return on Assets',category: 'fund' },
+    { rule: 'returnOnEquity', label: 'Return on Equity',category: 'fund' },
 
   ];
 
@@ -243,6 +247,8 @@ const getStockScreenerData = async (rules) => {
       let valueQuickRatio = (ruleOfList?.find(item => item.name === "quickRatio") || { value: 1 }).value;
       let valueDebtEquityRatio = (ruleOfList?.find(item => item.name === "debtEquityRatio") || { value: 1 }).value;
       let valueDebtRatio = (ruleOfList?.find(item => item.name === "debtRatio") || { value: 1 }).value;
+      let valueReturnOnAssets = (ruleOfList?.find(item => item.name === "returnOnAssets") || { value: 0 }).value;
+      let valueReturnOnEquity = (ruleOfList?.find(item => item.name === "returnOnEquity") || { value: 0 }).value;
 
       let valueEPS = (ruleOfList?.find(item => item.name === "eps") || { value: 2 }).value;
       let valueGrowthEPS = (ruleOfList?.find(item => item.name === "growthEPS") || { value: 10 }).value;
@@ -358,6 +364,8 @@ const valueMappings = {
   quickRatio: valueQuickRatio,
   debtEquityRatio: valueDebtEquityRatio,
   debtRatio: valueDebtRatio,
+  returnOnAssets: valueReturnOnAssets,
+  returnOnEquity: valueReturnOnEquity,
 };
     
 const conditions = {
@@ -800,6 +808,12 @@ $: {
           break;
         case 'debtRatio':
           ruleToUpdate.value = valueDebtRatio;
+          break;
+        case 'returnOnAssets':
+          ruleToUpdate.value = valueReturnOnAssets;
+          break;
+        case 'returnOnEquity':
+          ruleToUpdate.value = valueReturnOnEquity;
           break;
         default:
           // Handle any case not explicitly mentioned
@@ -1683,6 +1697,55 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
        
                {/if}
                 
+               {#if ruleName === 'returnOnAssets'}
+              
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
+                 Return on Assets {ruleCondition[ruleName]} {valueReturnOnAssets}
+       
+                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
+                   <span class="label-text text-white">Below</span> 
+                 </label>
+                 <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
+                   <span class="label-text text-white">Above</span> 
+                 </label>
+       
+               </div>
+       
+                 
+                 <div class="w-full pt-5">
+                   <input type="range" min="-5" max="5" step="0.1" bind:value={valueReturnOnAssets} class="range range-secondary" />
+       
+                 </div>
+       
+               {/if}
+
+
+               {#if ruleName === 'returnOnEquity'}
+              
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
+                 Return on Equity {ruleCondition[ruleName]} {valueReturnOnEquity}
+       
+                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
+                   <span class="label-text text-white">Below</span> 
+                 </label>
+                 <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
+                   <span class="label-text text-white">Above</span> 
+                 </label>
+       
+               </div>
+       
+                 
+                 <div class="w-full pt-5">
+                   <input type="range" min="-5" max="5" step="0.1" bind:value={valueReturnOnEquity} class="range range-secondary" />
+       
+                 </div>
+       
+               {/if}
+
                {#if ruleName === 'debtRatio'}
               
                <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
