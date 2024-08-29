@@ -111,7 +111,7 @@ async function purchasePlan(subscriptionType:string='') {
 
 
 
-<section class="bg-[#09090B] min-h-screen mb-40 w-full max-w-3xl sm:max-w-screen-xl pt-10 pb-40 m-auto">
+<section class="bg-[#09090B] min-h-screen mb-40 w-full max-w-3xl sm:max-w-screen-lg pt-10 pb-40 m-auto">
     <div class="px-3">
         <div class="mx-auto text-center mb-8 ">
             
@@ -372,7 +372,7 @@ async function purchasePlan(subscriptionType:string='') {
 
 
              <!--Start Pricing Card-->
-             
+             <!--
              <div class="sm:h-[660px] sm:order-2 box sm:-mt-10 flex flex-col p-6 lg:p-8 mx-auto ring-[1px] ring-gray-400 rounded-lg w-full text-center text-white">
 
                 <div class="absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-2xl flex flex-row border-l border-r border-b border-gray-400 items-center p-2">
@@ -441,7 +441,7 @@ async function purchasePlan(subscriptionType:string='') {
                 {/if}
                
             </div>
-        
+            -->
             <!--End Pricing Card-->
 
 
