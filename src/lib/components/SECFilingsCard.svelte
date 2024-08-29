@@ -1,5 +1,6 @@
 <script lang="ts">
 import {userRegion, secFilingsClicked, stockTicker, clientSideCache, } from '$lib/store';
+import * as Tabs from "$lib/components/shadcn/tabs/index.js";
 
 import { fade } from 'svelte/transition';
   
@@ -21,24 +22,19 @@ if (usRegion?.includes(value)) {
 
 
 let displayList = [];
-let secType = '8K';
 let accordionOpen = {};
 let newData;
 let isLoaded = false;
 
-function changeSECType(index) {
-    activeIdx = index;
-    switch (activeIdx) {
-        case 0:
-            secType = '8K';
+function changeSECType(secType) {
+    switch (secType) {
+        case '8-K':
             prepareData(secFilingsList?.eightK);
             break;
-        case 1:
-            secType = '10K';
+        case '10-K':
             prepareData(secFilingsList?.tenK);
             break;
-        case 2:
-            secType = '10Q';
+        case '10-Q':
             prepareData(secFilingsList?.tenQ);
             break;
         // Default case in case changeType doesn't match any of the specified cases
@@ -116,27 +112,12 @@ async function fetchData() {
 };
 
 
-const tabs = [
-    {
-      title: "8-K",
-    },
-    {
-      title: "10-K",
-    },
-    {
-      title: "10-Q"
-    }
-  ];
-let activeIdx = 0;
-
 
 $: {
 
   if($stockTicker && typeof window !== 'undefined' && $secFilingsClicked === true) {
     isLoaded = false;
     $secFilingsClicked = false;
-    activeIdx = 0;
-    secType = '8K';
     accordionOpen = {}
 
     const asyncFunctions = [
@@ -173,40 +154,14 @@ $: {
       <div class="w-11/12 mt-5">
         <div class="relative right-0 bg-[#27272A] rounded-lg">
 
-          <div class="relative flex flex-row items-center p-1 list-none rounded-lg">
-              {#each tabs as item, i}
-                <button
-                  on:click={() => changeSECType(i)}
-                  class="group relative z-[1] rounded-lg px-6 py-1 border z-30 flex items-center justify-center w-full px-0 py-1 mb-0 border-0 bg-inherit {activeIdx === i
-                    ? 'z-0'
-                    : ''} "
-                  >
-                  {#if activeIdx === i}
-                      <div
-                        class="absolute inset-0 rounded-lg sm:rounded-lg {[0,1,2]?.includes(activeIdx) ? 'bg-[#00C806]' : 'bg-[#E02424]'}"
-                      ></div>
-                  {/if}
-                  
-                  {#if item?.title === '8-K'}
-                  <span
-                    class="relative block font-medium duration-200 {secType === '8K' ? 'text-black' : 'text-white'}">
-                    {item.title}
-                  </span>
-                  {:else if item?.title === '10-K'}
-                  <span
-                    class="relative block font-medium duration-200 {secType === '10K' ? 'text-black' : 'text-white'}">
-                    {item.title}
-                  </span>
-                  {:else}
-                  <span
-                    class="relative block font-medium duration-200 {secType === '10Q' ? 'text-black' : 'text-white'}">
-                    {item.title}
-                  </span>
-                  {/if}
-
-                </button>
-              {/each}
-          </div>
+          <Tabs.Root value="eightK" class="w-full">
+            <Tabs.List class="grid w-full grid-cols-3 bg-[#27272A]">
+              <Tabs.Trigger on:click={() => changeSECType('8-K')} value="eightK">8-K</Tabs.Trigger>
+              <Tabs.Trigger on:click={() => changeSECType('10-K')} value="tenK">10-K</Tabs.Trigger>
+              <Tabs.Trigger on:click={() => changeSECType('10-Q')} value="tenQ">10-Q</Tabs.Trigger>
+            </Tabs.List>
+          </Tabs.Root>
+          
 
         </div>
       </div>
