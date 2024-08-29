@@ -5,6 +5,7 @@ import logo from '$lib/images/top_winner_logo.png';
 import { abbreviateNumber } from '$lib/utils';
 import MiniPlot from '$lib/components/MiniPlot.svelte';
 import { onMount } from 'svelte';
+import * as Tabs from "$lib/components/shadcn/tabs/index.js";
 import ArrowLogo from "lucide-svelte/icons/move-up-right";
 
 export let data;
@@ -18,6 +19,7 @@ let priceDataRussel2000;
 
 let changeSP500, changeNasdaq, changeDowJones, changeRussel2000;
 let previousCloseSP500, previousCloseNasdaq, previousCloseDowJones, previousCloseRussel2000;
+
 
 
 function getCurrentDateFormatted() {
@@ -78,11 +80,11 @@ rawData?.forEach(({ symbol, priceData, changesPercentage, previousClose }) => {
 });
 
 
-let timePeriod = '1D';
 let outputList = data?.getDailyGainerLoserActive;
-let gainerLoserActive = outputList?.gainers[timePeriod]
+let gainerLoserActive = outputList?.gainers['1D']
 let displaySection = 'gainer'
 let order = 'highToLow';
+let sortBy = ''; // Default sorting by change percentage
 
 
 let buttonText = 'Top Winners';
@@ -98,7 +100,7 @@ function changeOrder(state:string) {
     }
   }
 
-const sortByHighestChange = (tickerList) => {
+const sortByChange = (tickerList) => {
     return tickerList?.sort(function(a, b) {
       if(order === 'highToLow')
       {
@@ -110,15 +112,15 @@ const sortByHighestChange = (tickerList) => {
        
       });
   }
-/*
-const sortByLowestChange = (tickerList) => {
+
+const sortByPrice = (tickerList) => {
     return tickerList?.sort(function(a, b) {
       if(order === 'highToLow')
       {
-        return a?.changesPercentage - b?.changesPercentage;
+        return a?.price - b?.price;
       }
       else {
-        return b?.changesPercentage - a?.changesPercentage;
+        return b?.price - a?.price;
       }
        
       });
@@ -136,7 +138,7 @@ const sortByVolume = (tickerList) => {
        
       });
   }
-*/
+
 const sortByMarketCap = (tickerList) => {
   return tickerList?.sort(function(a, b) {
     if(order === 'highToLow')
@@ -153,7 +155,9 @@ const sortByMarketCap = (tickerList) => {
 function changeSection(state) {
 
     displaySection = state;
-    timePeriod = '1D';
+    const timePeriod = '1D';
+    sortBy = '';
+    order = '';
     
     if (state === 'gainer')
     {
@@ -175,8 +179,12 @@ function changeSection(state) {
 
 
 
-function selectTimeInterval(interval) {
-    timePeriod = interval;
+function selectTimeInterval(event) {
+    sortBy = '';
+    order = '';
+   
+    const timePeriod = event.target.value === 'oneDay' ? '1D' : event.target.value === 'oneWeek' ? '1W' : event.target.value === 'oneMonth' ? '1M' : event.target.value === 'threeMonths' ? '3M' : '6M';
+
 
     if (buttonText === 'Top Winners')
     {
@@ -200,27 +208,23 @@ onMount( () => {
   $: {
   if(order)
   {
-    if(displaySection === 'gainer')
-    {
-      gainerLoserActive = sortByHighestChange(outputList?.gainers[timePeriod]);
-    }
-    else if(displaySection === 'loser')
-    {
-      gainerLoserActive = sortByHighestChange(outputList?.losers[timePeriod]);
-    }
-    else if(displaySection === 'active')
-    {
-      gainerLoserActive = sortByHighestChange(outputList?.active[timePeriod]);
-    }
-    
+     
     // Add this condition for market cap sorting
     if (sortBy === 'marketCap') {
       gainerLoserActive = sortByMarketCap(gainerLoserActive);
     }
+    else if (sortBy === 'change') {
+      gainerLoserActive = sortByChange(gainerLoserActive);
+    }
+    else if (sortBy === 'price') {
+      gainerLoserActive = sortByPrice(gainerLoserActive);
+    }
+    else if (sortBy === 'volume') {
+      gainerLoserActive = sortByVolume(gainerLoserActive);
+    }
   }
 }
 
-let sortBy = 'change'; // Default sorting by change percentage
 
 $: charNumber = $screenWidth < 640 ? 20 : 30;
 
@@ -280,7 +284,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 30;
           </h1>
         </div>
 
-        <span class="hidden sm:block text-white text-md font-medium text-center flex justify-center items-center ">
+        <span class="hidden sm:block text-white text-md font-semibold text-center flex justify-center items-center ">
           Explore top-performing, underperforming & most active traded stocks across different time frames.
         </span>
 
@@ -334,20 +338,13 @@ $: charNumber = $screenWidth < 640 ? 20 : 30;
       
 
         <div class="tabs flex flex-row justify-between sm:justify-start items-center w-full pl-3 pr-3 sm:pl-0 sm:pr-0">
-          <button class="w-fit text-xl mr-0 sm:mr-10 rounded-md transition font-semibold hover:text-white {displaySection === 'gainer' ? ' text-white' : 'text-[#9A9996]'}" on:click={() => (changeSection('gainer'))} >
-            Gainers
-            <div class="{displaySection === 'gainer' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[5rem] rounded-full" />
-          </button> 
-          
-          <button class="w-fit text-xl mr-0 sm:mr-10 rounded-md transition font-semibold hover:text-white {displaySection === 'loser' ? ' text-white' : 'text-[#9A9996]'}" on:click={() => (changeSection('loser'))} >
-            Losers
-            <div class="{displaySection === 'loser' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[5rem] rounded-full" />
-          </button> 
-          
-          <button class="w-fit text-xl mr-0 sm:mr-10 rounded-md transition font-semibold hover:text-white {displaySection === 'active' ? ' text-white' : 'text-[#9A9996]'}" on:click={() => (changeSection('active'))} >
-            Active
-            <div class="{displaySection === 'active' ? 'bg-[#75D377]' : 'bg-[#09090B]'} mt-1 h-[3px] rounded-full w-[5rem] rounded-full" />
-          </button> 
+          <Tabs.Root value="gainers" class="w-[400px]">
+            <Tabs.List class="grid w-full grid-cols-3 bg-[#27272A]">
+              <Tabs.Trigger on:click={() => (changeSection('gainer'))} value="gainers">Gainers</Tabs.Trigger>
+              <Tabs.Trigger on:click={() => (changeSection('loser'))} value="losers">Losers</Tabs.Trigger>
+              <Tabs.Trigger on:click={() => (changeSection('active'))} value="active">Active</Tabs.Trigger>
+            </Tabs.List>
+          </Tabs.Root>
         </div>
 
       </div>
@@ -358,24 +355,21 @@ $: charNumber = $screenWidth < 640 ? 20 : 30;
       
 
         
-      <div class="pl-2 sm:pl-0 flex justify-start items-center mb-10 w-full">
-        <label for="timePeriodModal" class="px-4 py-3 rounded-lg cursor-pointer bg-[#27272A] flex flex-row items-center">
-          <span class="text-white text-sm sm:text-md mr-2">
-            Time Period: 
+      <div class="w-full flex justify-start sm:justify-end items-center mb-10 ml-5 sm:ml-0">
+        <div class="relative flex flex-col items-start">
+          <span class="sm:hidden text-white text-sm mb-3">
+            Time Period:
           </span>
-            <div class="flex flex-row items-center">
-                <span class="text-sm sm:text-md m-auto font-medium text-white">
-                  {timePeriod}
-                </span>
-                <svg class="inline-block w-4 h-4 ml-1 mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
-                    <g transform="rotate(180 512 512)">
-                        <path fill="#fff" d="m488.832 344.32l-339.84 356.672a32 32 0 0 0 0 44.16l.384.384a29.44 29.44 0 0 0 42.688 0l320-335.872l319.872 335.872a29.44 29.44 0 0 0 42.688 0l.384-.384a32 32 0 0 0 0-44.16L535.168 344.32a32 32 0 0 0-46.336 0z"/>
-                    </g>
-                </svg>
-            </div>
-          </label>
-
-      </div>
+        <select class="w-32 text-white select select-bordered select-sm p-0 pl-5 overflow-y-auto bg-[#2A303C]" on:change={selectTimeInterval}>
+            <option disabled>Choose a time period</option>
+            <option value="oneDay" selected>1 Day</option>
+            <option value="oneWeek">1 Week</option>
+            <option value="oneMonth">1 Month</option>
+            <option value="threeMonths">3 Months</option>
+            <option value="sixMonths">6 Months</option>                                    
+        </select>
+        </div>
+    </div>
     
 
 
@@ -383,17 +377,23 @@ $: charNumber = $screenWidth < 640 ? 20 : 30;
       <table class="table table-sm table-compact rounded-none sm:rounded-md w-full bg-[#09090B] border-bg-[#09090B]">
         <thead>
           <tr>
-            <th class="text-white font-semibold text-sm whitespace-nowrap">Company</th>
-            <th on:click={() => { sortBy = 'change'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm text-end">
+            <th class="text-white font-semibold text-[1rem] whitespace-nowrap">Company</th>
+            <th on:click={() => { sortBy = 'change'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-[1rem] text-end">
               % Change
-              <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'change' ? '' : 'rotate-180'}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+              <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'change' ? 'rotate-180' : ''}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
             </th>
-            <th class="text-white font-semibold text-end text-sm">Price</th>
-            <th on:click={() => { sortBy = 'marketCap'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm text-end">
+            <th on:click={() => { sortBy = 'price'; changeOrder(order); }} class="cursor-pointer text-white font-semibold text-end text-[1rem]">
+              Price
+              <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'price' ? 'rotate-180' : ''}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </th>
+            <th on:click={() => { sortBy = 'marketCap'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-[1rem] text-end">
               Market Cap
               <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'marketCap' ? 'rotate-180' : ''}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
             </th>
-            <th class="text-white font-semibold text-sm text-end ">Volume</th>
+            <th on:click={() => { sortBy = 'volume'; changeOrder(order); }} class="cursor-pointer text-white font-semibold text-[1rem] text-end">
+              Volume
+              <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'volume' ? 'rotate-180' : ''}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -402,16 +402,16 @@ $: charNumber = $screenWidth < 640 ? 20 : 30;
     
           <td class="border-b-[#09090B] text-sm sm:text-[1rem] whitespace-nowrap">
             <div class="flex flex-col">
-              <span class="text-blue-400 font-medium">
+              <span class="text-blue-400 font-semibold">
                 {item?.symbol}
               </span>
-              <span class="text-white font-medium border-b-[#09090B]">
+              <span class="text-white text-sm font-semibold border-b-[#09090B]">
                 {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
               </span>
             </div>
           </td>
 
-          <td class="text-white text-end text-sm sm:text-[1rem] font-medium border-b-[#09090B]">
+          <td class="text-white text-end text-sm sm:text-[1rem] font-semibold border-b-[#09090B]">
               {#if item?.changesPercentage >=0}
                 <span class="text-[#10DB06]">+{item?.changesPercentage >= 1000 ? abbreviateNumber(item?.changesPercentage) : item?.changesPercentage?.toFixed(2)}%</span>
               {:else}
@@ -419,15 +419,15 @@ $: charNumber = $screenWidth < 640 ? 20 : 30;
               {/if}
           </td>
 
-          <td class="text-white font-medium text-sm sm:text-[1rem] text-end border-b-[#09090B]">
+          <td class="text-white font-semibold text-sm sm:text-[1rem] text-end border-b-[#09090B]">
             ${item?.price?.toFixed(2)}
           </td>
 
-          <td class="text-white text-sm sm:text-[1rem] font-medium border-b-[#09090B] text-end">
+          <td class="text-white text-sm sm:text-[1rem] font-semibold border-b-[#09090B] text-end">
             {item?.marketCap !== null ? abbreviateNumber(item?.marketCap, true) : '-'}
           </td>
 
-          <td class="text-white text-sm sm:text-[1rem] font-medium border-b-[#09090B] text-end">
+          <td class="text-white text-sm sm:text-[1rem] font-semibold border-b-[#09090B] text-end">
             {item?.volume !== null ? abbreviateNumber(item?.volume) : '-'}
           </td>
 
@@ -518,133 +518,4 @@ $: charNumber = $screenWidth < 640 ? 20 : 30;
 
 
 </section>
-
-
-
-
-
-
-
-  <!--Start Time Period Modal-->
-  <input type="checkbox" id="timePeriodModal" class="modal-toggle" />
-      
-  <dialog id="timePeriodModal" class="modal modal-bottom sm:modal-middle ">
-  
-  
-    <label id="timePeriodModal" for="timePeriodModal"  class="cursor-pointer modal-backdrop bg-[#09090B] bg-opacity-[0.5]"></label>
-    
-    
-    <div class="modal-box w-full bg-[#09090B] sm:border sm:border-slate-800">
-  
-  
-  
-    <label for="timePeriodModal" class="cursor-pointer absolute right-5 top-2 bg-[#09090B] text-[1.8rem] text-white">
-      ✕
-    </label>
-  
-      <div class="text-white">
-        <h3 class="font-medium text-lg sm:text-2xl mb-10">
-          Time Period
-        </h3>
-  
-  
-        <div class="flex flex-col items-center w-full max-w-3xl bg-[#09090B]">
-  
-
-          <label for="timePeriodModal" on:click={() => selectTimeInterval('1D')} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
-  
-            <div class="flex flex-row items-center w-full bg-[#303030] p-3 rounded-lg {timePeriod === '1D' ? 'ring-2 ring-[#04E000]' : ''}">
-              
-              <span class="ml-1 text-white font-medium mr-auto">
-                1 Day
-              </span>
-
-              <div class="rounded-full w-8 h-8 relative border border-[#737373]">
-                {#if timePeriod === '1D'}
-                  <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#09090B000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
-                {/if}
-              </div>
-
-            </div>
-           
-        </label>
-  
-          <label for="timePeriodModal" on:click={() => selectTimeInterval('1W')} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
-  
-              <div class="flex flex-row items-center w-full bg-[#303030] p-3 rounded-lg {timePeriod === '1W' ? 'ring-2 ring-[#04E000]' : ''}">
-                
-                <span class="ml-1 text-white font-medium mr-auto">
-                  1 Week
-                </span>
-  
-                <div class="rounded-full w-8 h-8 relative border border-[#737373]">
-                  {#if timePeriod === '1W'}
-                    <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#09090B000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
-                  {/if}
-                </div>
-  
-              </div>
-             
-          </label>
-  
-  
-          <label for="timePeriodModal" on:click={() => selectTimeInterval('1M')} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
-  
-            <div class="flex flex-row items-center w-full bg-[#303030] p-3 rounded-lg {timePeriod === '1M' ? 'ring-2 ring-[#04E000]' : ''}">
-              
-              <span class="ml-1 text-white font-medium mr-auto">
-                1 Month
-              </span>
-  
-              <div class="rounded-full w-8 h-8 relative border border-[#737373]">
-                {#if timePeriod === '1M'}
-                <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#09090B000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
-                {/if}
-              </div>
-  
-            </div>
-           
-          </label>
-  
-      
-  
-  
-          <label for="timePeriodModal" on:click={() => selectTimeInterval('3M')} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
-            <div class="flex flex-row items-center w-full bg-[#303030] p-3 rounded-lg {timePeriod === '3M' ? 'ring-2 ring-[#04E000]' : ''}">
-              <span class="ml-1 text-white font-medium mr-auto">
-                3 Months
-              </span>
-              <div class="rounded-full w-8 h-8 relative border border-[#737373]">
-                {#if timePeriod === '3M'}
-                  <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#09090B000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
-                {/if}
-              </div>
-            </div>
-          </label>
-  
-          <label for="timePeriodModal" on:click={() => selectTimeInterval('6M')} class="cursor-pointer w-full flex flex-row justify-start items-center mb-5">
-            <div class="flex flex-row items-center w-full bg-[#303030] p-3 rounded-lg {timePeriod === '6M' ? 'ring-2 ring-[#04E000]' : ''}">
-              <span class="ml-1 text-white font-medium mr-auto">
-                6 Months
-              </span>
-              <div class="rounded-full w-8 h-8 relative border border-[#737373]">
-                {#if timePeriod === '6M'}
-                <svg class="w-full h-full rounded-full" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#09090B000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --> <title>ic_fluent_checkmark_circle_48_filled</title> <desc>Created with Sketch.</desc> <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="ic_fluent_checkmark_circle_48_filled" fill="#04E000" fill-rule="nonzero"> <path d="M24,4 C35.045695,4 44,12.954305 44,24 C44,35.045695 35.045695,44 24,44 C12.954305,44 4,35.045695 4,24 C4,12.954305 12.954305,4 24,4 Z M32.6338835,17.6161165 C32.1782718,17.1605048 31.4584514,17.1301307 30.9676119,17.5249942 L30.8661165,17.6161165 L20.75,27.732233 L17.1338835,24.1161165 C16.6457281,23.6279612 15.8542719,23.6279612 15.3661165,24.1161165 C14.9105048,24.5717282 14.8801307,25.2915486 15.2749942,25.7823881 L15.3661165,25.8838835 L19.8661165,30.3838835 C20.3217282,30.8394952 21.0415486,30.8698693 21.5323881,30.4750058 L21.6338835,30.3838835 L32.6338835,19.3838835 C33.1220388,18.8957281 33.1220388,18.1042719 32.6338835,17.6161165 Z" id="🎨-Color"> </path> </g> </g> </g></svg>
-              {/if}
-              </div>
-  
-            </div>
-           
-          </label>
-  
-  
-        </div>
-         
-      </div>
-  
-  
-          
-        </div>
-    </dialog>
-  <!--End Time Period Modal-->
 
