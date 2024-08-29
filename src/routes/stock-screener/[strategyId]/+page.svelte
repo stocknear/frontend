@@ -18,13 +18,10 @@
   const title = data?.getStrategy?.title;
 
   let stockScreenerData = data?.getStockScreenerData?.filter(item => 
-    item?.ratingRecommendation !== null &&
-    item?.trendAnalysis?.accuracy !== null &&
-    item?.fundamentalAnalysis?.accuracy !== null &&
-    item?.dividendYield !== null &&
-    item?.annualDividend !== null &&
-    item?.dividendGrowth !== null &&
-    item?.payoutRatio !== null
+  Object?.values(item)?.every(value => 
+    value !== null && value !== undefined && 
+    (typeof value !== 'object' || Object?.values(value)?.every(subValue => subValue !== null && subValue !== undefined))
+  )
 );
 
 
@@ -113,6 +110,11 @@ const getStockScreenerData = async (rules) => {
     var: (ruleOfList?.find(item => item.name === "var") || { condition: 'above' }).condition,
     trendAnalysis: (ruleOfList?.find(item => item.name === "trendAnalysis") || { condition: 'above' }).condition,
     fundamentalAnalysis: (ruleOfList?.find(item => item.name === "fundamentalAnalysis") || { condition: 'above' }).condition,
+    currentRatio:  (ruleOfList?.find(item => item.name === "currentRatio") || { condition: 'above' }).condition,
+    quickRatio:  (ruleOfList?.find(item => item.name === "quickRatio") || { condition: 'above' }).condition,
+    debtEquityRatio:  (ruleOfList?.find(item => item.name === "debtEquityRatio") || { condition: 'above' }).condition,
+    debtRatio:  (ruleOfList?.find(item => item.name === "debtRatio") || { condition: 'above' }).condition,
+
   };
 
   let ruleTrend = {
@@ -174,7 +176,12 @@ const getStockScreenerData = async (rules) => {
     { rule: 'var', label: 'Value at Risk (VaR)', category: 'fund' },
     { rule: 'trendAnalysis', label: 'AI Trend Analysis (Bullish)', category: 'ai' },
     { rule: 'fundamentalAnalysis', label: 'AI Fundamental Analysis (Bullish)', category: 'ai' },
-    { rule: 'ratingRecommendation', label: 'Analyst Rating', category: 'fund'}
+    { rule: 'ratingRecommendation', label: 'Analyst Rating', category: 'fund'},
+    { rule: 'currentRatio', label: 'Current Ratio',category: 'fund' },
+    { rule: 'quickRatio', label: 'Quick Ratio',category: 'fund' },
+    { rule: 'debtEquityRatio', label: 'Debt Equity Ratio',category: 'fund' },
+    { rule: 'debtRatio', label: 'Debt Ratio',category: 'fund' },
+
   ];
 
   // Creating the ruleMappings object from allRows
@@ -231,6 +238,11 @@ const getStockScreenerData = async (rules) => {
       let valueAnnualDividend = (ruleOfList?.find(item => item.name === "annualDividend") || { value: 1 }).value;
       let valueDividendGrowth = (ruleOfList?.find(item => item.name === "dividendGrowth") || { value: 5 }).value;
       let valuePayoutRatio = (ruleOfList?.find(item => item.name === "payoutRatio") || { value: 20 }).value;
+
+      let valueCurrentRatio = (ruleOfList?.find(item => item.name === "currentRatio") || { value: 1 }).value;
+      let valueQuickRatio = (ruleOfList?.find(item => item.name === "quickRatio") || { value: 1 }).value;
+      let valueDebtEquityRatio = (ruleOfList?.find(item => item.name === "debtEquityRatio") || { value: 1 }).value;
+      let valueDebtRatio = (ruleOfList?.find(item => item.name === "debtRatio") || { value: 1 }).value;
 
       let valueEPS = (ruleOfList?.find(item => item.name === "eps") || { value: 2 }).value;
       let valueGrowthEPS = (ruleOfList?.find(item => item.name === "growthEPS") || { value: 10 }).value;
@@ -342,6 +354,10 @@ const valueMappings = {
   var: valueVaR,
   trendAnalysis: valueTrendAnalysis,
   fundamentalAnalysis: valueFundamentalAnalysis,
+  currentRatio: valueCurrentRatio,
+  quickRatio: valueQuickRatio,
+  debtEquityRatio: valueDebtEquityRatio,
+  debtRatio: valueDebtRatio,
 };
     
 const conditions = {
@@ -394,6 +410,11 @@ const conditions = {
   var: ruleCondition.var,
   trendAnalysis: ruleCondition.trendAnalysis,
   fundamentalAnalysis: ruleCondition.fundamentalAnalysis,
+  currentRatio: ruleCondition.currentRatio,
+  quickRatio: ruleCondition.quickRatio,
+  debtEquityRatio: ruleCondition.debtEquityRatio,
+  debtRatio: ruleCondition.debtRatio,
+
 };    
 
 
@@ -453,14 +474,11 @@ async function updateStockScreenerData() {
   try {
     const newData = await getStockScreenerData(ruleOfList);
     stockScreenerData = newData?.filter(item => 
-      item?.ratingRecommendation !== null &&
-      item?.trendAnalysis?.accuracy !== null &&
-      item?.fundamentalAnalysis?.accuracy !== null &&
-      item?.dividendYield !== null &&
-      item?.annualDividend !== null &&
-      item?.dividendGrowth !== null &&
-      item?.payoutRatio !== null
-    );
+    Object.values(item).every(value => 
+      value !== null && value !== undefined && 
+      (typeof value !== 'object' || Object.values(value).every(subValue => subValue !== null && subValue !== undefined))
+    )
+  );
 
     filteredData = filterStockScreenerData();
     displayResults = filteredData?.slice(0, 50);
@@ -771,6 +789,18 @@ $: {
         case 'fundamentalAnalysis':
           ruleToUpdate.value = valueFundamentalAnalysis;
           break;
+        case 'currentRatio':
+          ruleToUpdate.value = valueCurrentRatio;
+          break;
+        case 'quickRatio':
+          ruleToUpdate.value = valueQuickRatio;
+          break;
+        case 'debtEquityRatio':
+          ruleToUpdate.value = valueDebtEquityRatio;
+          break;
+        case 'debtRatio':
+          ruleToUpdate.value = valueDebtRatio;
+          break;
         default:
           // Handle any case not explicitly mentioned
           break;
@@ -852,7 +882,7 @@ function filterStockScreenerData() {
 }
 
 let order = 'highToLow';
-let sortBy = 'change'; // Default sorting by change percentage
+let sortBy = ''; // Default sorting by change percentage
 
 function changeOrder(state:string) {
     if (state === 'highToLow')
@@ -1605,7 +1635,103 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                {/if}
                <!--End Market Cap Rule-->
     
+               {#if ruleName === 'currentRatio'}
               
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
+                 Current Ratio {ruleCondition[ruleName]} {valueCurrentRatio}
+       
+                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
+                   <span class="label-text text-white">Below</span> 
+                 </label>
+                 <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
+                   <span class="label-text text-white">Above</span> 
+                 </label>
+       
+               </div>
+       
+                 
+                 <div class="w-full pt-5">
+                   <input type="range" min="0" max="50" step="0.5" bind:value={valueCurrentRatio} class="range range-secondary" />
+       
+                 </div>
+       
+               {/if}
+
+               {#if ruleName === 'quickRatio'}
+              
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
+                 Quick Ratio {ruleCondition[ruleName]} {valueQuickRatio}
+       
+                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
+                   <span class="label-text text-white">Below</span> 
+                 </label>
+                 <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
+                   <span class="label-text text-white">Above</span> 
+                 </label>
+       
+               </div>
+       
+                 
+                 <div class="w-full pt-5">
+                   <input type="range" min="0" max="50" step="0.5" bind:value={valueQuickRatio} class="range range-secondary" />
+       
+                 </div>
+       
+               {/if}
+                
+               {#if ruleName === 'debtRatio'}
+              
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
+                 Debt Ratio {ruleCondition[ruleName]} {valueDebtRatio}
+       
+                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
+                   <span class="label-text text-white">Below</span> 
+                 </label>
+                 <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
+                   <span class="label-text text-white">Above</span> 
+                 </label>
+       
+               </div>
+       
+                 
+                 <div class="w-full pt-5">
+                   <input type="range" min="0" max="50" step="0.5" bind:value={valueDebtRatio} class="range range-secondary" />
+       
+                 </div>
+       
+               {/if}
+
+
+               {#if ruleName === 'debtEquityRatio'}
+              
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
+                 Debt Equity Ratio {ruleCondition[ruleName]} {valueDebtEquityRatio}
+       
+                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
+                   <span class="label-text text-white">Below</span> 
+                 </label>
+                 <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
+                   <span class="label-text text-white">Above</span> 
+                 </label>
+       
+               </div>
+       
+                 
+                 <div class="w-full pt-5">
+                   <input type="range" min="0" max="50" step="0.5" bind:value={valueDebtEquityRatio} class="range range-secondary" />
+       
+                 </div>
+       
+               {/if}
+
               <!--Start Rule-->
               {#if ruleName === 'payoutRatio'}
               
