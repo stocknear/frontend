@@ -20,23 +20,14 @@ $: {
   if ($stockTicker && typeof window !== 'undefined' && typeof stockDeck !== 'undefined' && stockDeck?.length !== 0)
   {
    
-    info = stockDeck[0]
-
-
+    info = stockDeck?.at(0)
     esgScore = info?.esgScore !== 'n/a' ? Math.round(info?.esgScore.toFixed(1)) : 'n/a';
     socialScore = info?.socialScore !== 'n/a' ? Math.round(info?.socialScore.toFixed(1)) : 'n/a';
-    environmentalScore = info?.environmentalScore !== 'n/a' ? Math.round(info?.environmentalScore.toFixed(1)) : 'n/a';
-    governanceScore =  info?.governanceScore !== 'n/a' ? Math.round(info?.governanceScore.toFixed(1)) : 'n/a';
+    environmentalScore = info?.environmentalScore !== 'n/a' ? Math.round(info?.environmentalScore?.toFixed(1)) : 'n/a';
+    governanceScore =  info?.governanceScore !== 'n/a' ? Math.round(info?.governanceScore?.toFixed(1)) : 'n/a';
     esgRiskRating = info?.esgRiskRating;
   
     };
-    /*
-    if (esgRatingCircleContainer)
-    {
-      esgRatingAcc(esgScore/100);
-    }
-    */
-
   }
 
 
@@ -146,20 +137,16 @@ $: {
   <div class="bg-[#000] h-auto w-screen">
   
     <!--Start Header-->
-    <div class="bg-[#27272A] w-full  p-1 flex flex-col items-center pb-5 h-auto rounded-b-[30px]">
-      <h2 class="text-center m-auto text-[1.1rem] font-medium text-white mt-5">
+    <div class="w-full p-1 flex flex-col items-center pb-5 h-auto">
+      <h2 class="text-center m-auto text-[1.1rem] font-semibold text-white mt-5">
         ESG Score
       </h2>
 
-      <div class="flex flex-col items-center mt-10 w-full">
-        <span class="text-white text-center text-md text-opacity-[0.8]">
+      <div class="flex flex-col items-center mt-10 mb-5 w-full px-3">
+        <span class="text-white text-center text-md">
           Gain valuable insights into a company's sustainability by evaluating its ESG (Environmental, Social, and Governance) scores.
         </span>
 
-        <div class="flex flex-row justify-center items-center w-full mt-5">
-
-        
-        </div>
       </div>
     </div>
     <!--End Header-->
