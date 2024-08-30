@@ -32,7 +32,7 @@
   let optionsMode = 'premium';
 
 
-  function compareTimes(time1, time2) {
+function compareTimes(time1, time2) {
   const [hours1, minutes1] = time1.split(':').map(Number);
   const [hours2, minutes2] = time2.split(':').map(Number);
   

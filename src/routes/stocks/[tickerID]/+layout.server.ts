@@ -51,7 +51,7 @@ export const load = async ({ params, locals, cookies, setHeaders }) => {
 
   const endpoints = [
     '/similar-stocks', '/stockdeck', '/analyst-summary-rating', '/stock-quote',
-    '/bull-bear-say', '/wiim', '/top-etf-ticker-holder', '/one-day-price'
+    '/bull-bear-say','/wiim', '/top-etf-ticker-holder', '/one-day-price','/next-earnings'
   ];
 
   const promises = [
@@ -63,7 +63,7 @@ export const load = async ({ params, locals, cookies, setHeaders }) => {
 
   const [
     getSimilarStock, getStockDeck, getAnalystRating, getStockQuote,
-    getBullBearSay, getWhyPriceMoved, getTopETFHolder, getOneDayPrice,
+    getBullBearSay, getWhyPriceMoved, getTopETFHolder, getOneDayPrice,  getNextEarnings,
     getUserWatchlist, getCommunitySentiment
   ] = await Promise.all(promises);
 
@@ -78,6 +78,7 @@ export const load = async ({ params, locals, cookies, setHeaders }) => {
     getWhyPriceMoved,
     getTopETFHolder,
     getOneDayPrice,
+    getNextEarnings,
     getUserWatchlist,
     getCommunitySentiment,
     companyName: cleanString(getStockDeck?.at(0)?.companyName),

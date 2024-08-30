@@ -6,6 +6,7 @@
   import {getCache, setCache, corporateLobbyingComponent, taRatingComponent, swapComponent, analystInsightComponent, governmentContractComponent, optionsNetFlowComponent, borrowedShareComponent, clinicalTrialComponent, optionComponent, failToDeliverComponent, marketMakerComponent, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
   import { onDestroy, onMount } from 'svelte';
   import BullBearSay from '$lib/components/BullBearSay.svelte';
+  import NextEarnings from '$lib/components/NextEarnings.svelte';
   import CommunitySentiment from '$lib/components/CommunitySentiment.svelte';
   import Lazy from '$lib/components/Lazy.svelte';
     
@@ -1173,7 +1174,9 @@ function changeChartType() {
                                   {/if}
 
                                
-                                
+                                  <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(data?.getNextEarnings || {})?.length !== 0 ? '' : 'hidden'}">
+                                    <NextEarnings data={data}/>
+                                  </div>
 
                                 <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(data?.getBullBearSay || {})?.length !== 0 ? '' : 'hidden'}">
                                   <BullBearSay data={data}/>
