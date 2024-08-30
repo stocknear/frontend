@@ -339,7 +339,7 @@ onMount( async() => {
                   </div>
                   <Card.Description class="mt-2 text-sm sm:text-[1rem]">Recent hedge fund options with the highest ...</Card.Description>
                   <Tabs.Root value="premium" class="w-fit mt-5 ">
-                    <Tabs.List class="grid w-full grid-cols-3 bg-[#27272A]">
+                    <Tabs.List class="grid w-full grid-cols-3 bg-[#313131]">
                       <Tabs.Trigger on:click={() => changeTable('premium')} value="premium" class="text-sm">Premium</Tabs.Trigger>
                       <Tabs.Trigger on:click={() => changeTable('volume')} value="volume" class="text-sm">Volume</Tabs.Trigger>
                       <Tabs.Trigger on:click={() => changeTable('openInterest')} value="openInterest" class="text-sm">{$screenWidth < 640 ? 'OI' : 'Open Interest'}</Tabs.Trigger>
