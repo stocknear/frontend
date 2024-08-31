@@ -105,7 +105,6 @@ const getStockScreenerData = async (rules) => {
     growthOperatingExpenses:  (ruleOfList?.find(item => item.name === "growthOperatingExpense") || { condition: 'above' }).condition,
     operatingIncome:  (ruleOfList?.find(item => item.name === "operatingIncome") || { condition: 'above' }).condition,
     growthOperatingIncome:  (ruleOfList?.find(item => item.name === "growthOperatingIncome") || { condition: 'above' }).condition,
-    esgScore:  (ruleOfList?.find(item => item.name === "esgScore") || { condition: 'above' }).condition,
     marketCap:  (ruleOfList?.find(item => item.name === "marketCap") || { condition: 'above' }).condition,
     var: (ruleOfList?.find(item => item.name === "var") || { condition: 'above' }).condition,
     trendAnalysis: (ruleOfList?.find(item => item.name === "trendAnalysis") || { condition: 'above' }).condition,
@@ -174,14 +173,13 @@ const getStockScreenerData = async (rules) => {
     { rule: 'beta', label: 'Beta', category: 'fund'},
     { rule: 'ebitda', label: 'Earnings Before Interests, Taxes, Depreciation & Amortisation (EBITDA)', category: 'fund'},
     { rule: 'growthEBITDA', label: 'EBITDA Growth [%]', category: 'fund'},
-    { rule: 'esgScore', label: 'ESG Score', category: 'fund' },
     { rule: 'var', label: 'Value at Risk (VaR)', category: 'fund' },
     { rule: 'trendAnalysis', label: 'AI Trend Analysis (Bullish)', category: 'ai' },
     { rule: 'fundamentalAnalysis', label: 'AI Fundamental Analysis (Bullish)', category: 'ai' },
     { rule: 'ratingRecommendation', label: 'Analyst Rating', category: 'fund'},
     { rule: 'currentRatio', label: 'Current Ratio',category: 'fund' },
     { rule: 'quickRatio', label: 'Quick Ratio',category: 'fund' },
-    { rule: 'debtEquityRatio', label: 'Debt Equity Ratio',category: 'fund' },
+    { rule: 'debtEquityRatio', label: 'Debt / Equity',category: 'fund' },
     { rule: 'debtRatio', label: 'Debt Ratio',category: 'fund' },
     { rule: 'returnOnAssets', label: 'Return on Assets',category: 'fund' },
     { rule: 'returnOnEquity', label: 'Return on Equity',category: 'fund' },
@@ -258,7 +256,6 @@ const getStockScreenerData = async (rules) => {
       let valuePriceToBookRatio = (ruleOfList?.find(item => item.name === "priceToBookRatio") || { value: 5 }).value;
       let valuePriceToSalesRatio = (ruleOfList?.find(item => item.name === "priceToSalesRatio") || { value: 10 }).value;
       let valueBeta = (ruleOfList?.find(item => item.name === "beta") || { value: 1 }).value;
-      let valueESGScore = (ruleOfList?.find(item => item.name === "esgScore") || { value: 60 }).value;
       let valueMarketCap = (ruleOfList?.find(item => item.name === "marketCap") || { value: 50 }).value;
       let valueAnalyst = (ruleOfList?.find(item => item.name === "ratingRecommendation") || { value: 1 }).value;
       let valueRSI = (ruleOfList?.find(item => item.name === "rsi") || { value: 40 }).value;
@@ -339,7 +336,6 @@ const valueMappings = {
   beta: valueBeta,
   ebitda: valueEBITDA,
   growthEBITDA: valueGrowthEBITDA,
-  esgScore: valueESGScore,
   marketCap: valueMarketCap,
   rsi: valueRSI,
   stochRSI: valueStochRSI,
@@ -397,7 +393,6 @@ const conditions = {
   beta: ruleCondition.beta,
   ebitda: ruleCondition.ebitda,
   growthEBITDA: ruleCondition.growthEBITDA,
-  esgScore: ruleCondition.esgScore,
   marketCap: ruleCondition.marketCap,
   rsi: ruleCondition.rsi,
   stochRSI: ruleCondition.stochRSI,
@@ -608,227 +603,82 @@ async function handleUpdateRule(rule) {
 }
 
 
-  
-/*
-$: {
-    if (ruleOfList) {
-      const ruleToUpdate = ruleOfList?.find(rule => rule.name === ruleName);
-
-      // Check if the rule exists and if the name is in the valueMappings
-      if (ruleToUpdate && valueMappings?.hasOwnProperty(ruleToUpdate.name)) {
-        // Update the rule's value from the mappings
-        ruleToUpdate.value = valueMappings[ruleToUpdate.name];
-        ruleToUpdate.condition = ruleCondition[ruleToUpdate.name];
-
-        // Trigger Svelte's reactivity by reassigning the array.
-        ruleOfList = [...ruleOfList];
-      }
-
-      filteredData = filterStockScreenerData();
-    }
-  }
-
-*/
-
 $: {
   if (ruleOfList) {
-    
-    const ruleToUpdate = ruleOfList?.find(rule => rule.name === ruleName);
+    const ruleToUpdate = ruleOfList.find(rule => rule.name === ruleName);
     if (ruleToUpdate) {
-      switch (ruleToUpdate.name) {
-        case 'payoutRatio':
-          ruleToUpdate.value = valuePayoutRatio;
-          break;
-        case 'dividendGrowth':
-          ruleToUpdate.value = valueDividendGrowth;
-          break;
-        case 'dividendYield':
-          ruleToUpdate.value = valueDividendYield;
-          break;
-        case 'annualDividend':
-          ruleToUpdate.value = valueAnnualDividend;
-          break;
-        case 'eps':
-          ruleToUpdate.value = valueEPS;
-          break;
-        case 'growthEPS':
-          ruleToUpdate.value = valueGrowthEPS;
-          break;
-        case 'marketCap':
-          ruleToUpdate.value = valueMarketCap;
-          break;
-        case 'beta':
-          ruleToUpdate.value = valueBeta;
-          break;
-        case 'pe':
-          ruleToUpdate.value = valuePE;
-          break;
-        case 'forwardPE':
-          ruleToUpdate.value = valueForwardPE;
-          break;
-        case 'priceToBookRatio':
-          ruleToUpdate.value = valuePriceToBookRatio;
-          break;
-        case 'priceToSalesRatio':
-          ruleToUpdate.value = valuePriceToSalesRatio;
-          break;
-        case 'interestIncome':
-          ruleToUpdate.value = valueInterestIncome;
-          break;
-        case 'esgScore':
-          ruleToUpdate.value = valueESGScore;
-          break;
-        case 'ratingRecommendation':
-          ruleToUpdate.value = valueAnalyst //ruleTrend[ruleName];
-          break;
-        case 'revenue':
-          ruleToUpdate.value = valueRevenue;
-          break;
-        case 'growthRevenue':
-          ruleToUpdate.value = valueGrowthRevenue;
-          break;
-        case 'ebitda':
-          ruleToUpdate.value = valueEBITDA;
-          break;
-        case 'growthEBITDA':
-          ruleToUpdate.value = valueGrowthEBITDA;
-          break;
-        case 'operatingExpenses':
-          ruleToUpdate.value = valueOperatingExpenses;
-          break;
-        case 'growthOperatingExpenses':
-          ruleToUpdate.value = valueGrowthOperatingExpenses;
-          break;
-        case 'costOfRevenue':
-          ruleToUpdate.value = valueCostOfRevenue;
-          break;
-        case 'growthCostOfRevenue':
-          ruleToUpdate.value = valueGrowthCostOfRevenue;
-          break;
-        case 'costAndExpenses':
-          ruleToUpdate.value = valueCostAndExpenses;
-          break;
-        case 'growthCostAndExpenses':
-          ruleToUpdate.value = valueGrowthCostAndExpenses;
-          break;
-        case 'netIncome':
-          ruleToUpdate.value = valueNetIncome;
-          break;
-        case 'growthNetIncome':
-          ruleToUpdate.value = valueGrowthNetIncome;
-          break;
-        case 'grossProfit':
-          ruleToUpdate.value = valueGrossProfit;
-          break;
-        case 'growthGrossProfit':
-          ruleToUpdate.value = valueGrowthGrossProfit;
-          break;
-        case 'researchAndDevelopmentExpenses':
-          ruleToUpdate.value = valueResearchAndDevelopmentExpenses;
-          break;
-        case 'growthResearchAndDevelopmentExpenses':
-          ruleToUpdate.value = valueGrowthResearchAndDevelopmentExpenses;
-          break;
-        case 'interestExpense':
-          ruleToUpdate.value = valueInterestExpenses;
-          break;
-        case 'growthInterestExpense':
-          ruleToUpdate.value = valueGrowthInterestExpenses;
-          break;
-        case 'operatingIncome':
-          ruleToUpdate.value = valueOperatingIncome;
-          break;
-        case 'growthOperatingIncome':
-          ruleToUpdate.value = valueGrowthOperatingIncome;
-          break;
-        case 'rsi':
-          ruleToUpdate.value = valueRSI;
-          break;
-        case 'stochRSI':
-          ruleToUpdate.value = valueStochRSI;
-          break;
-        case 'mfi':
-          ruleToUpdate.value = valueMFI;
-          break;
-        case 'cci':
-          ruleToUpdate.value = valueCCI;
-          break;
-        case 'atr':
-          ruleToUpdate.value = valueATR;
-          break;
-        case 'sma50':
-          ruleToUpdate.value = valueSMA50;
-          break;
-        case 'sma200':
-          ruleToUpdate.value = valueSMA200;
-          break;
-        case 'ema50':
-          ruleToUpdate.value = valueEMA50;
-          break;
-        case 'ema200':
-          ruleToUpdate.value = valueEMA200;
-          break;
-        case 'change1W':
-          ruleToUpdate.value = valueChange1W;
-          break;
-        case 'change1M':
-          ruleToUpdate.value = valueChange1M;
-          break;
-        case 'change3M':
-          ruleToUpdate.value = valueChange3M;
-          break;
-        case 'change6M':
-          ruleToUpdate.value = valueChange6M;
-          break;
-        case 'change1Y':
-          ruleToUpdate.value = valueChange1Y;
-          break;
-        case 'change3Y':
-          ruleToUpdate.value = valueChange3Y;
-        case 'avgVolume':
-          ruleToUpdate.value = valueAvgVolume;
-          break;
-        case 'var':
-          ruleToUpdate.value = valueVaR;
-          break;
-        case 'trendAnalysis':
-          ruleToUpdate.value = valueTrendAnalysis;
-          break;
-        case 'fundamentalAnalysis':
-          ruleToUpdate.value = valueFundamentalAnalysis;
-          break;
-        case 'currentRatio':
-          ruleToUpdate.value = valueCurrentRatio;
-          break;
-        case 'quickRatio':
-          ruleToUpdate.value = valueQuickRatio;
-          break;
-        case 'debtEquityRatio':
-          ruleToUpdate.value = valueDebtEquityRatio;
-          break;
-        case 'debtRatio':
-          ruleToUpdate.value = valueDebtRatio;
-          break;
-        case 'returnOnAssets':
-          ruleToUpdate.value = valueReturnOnAssets;
-          break;
-        case 'returnOnEquity':
-          ruleToUpdate.value = valueReturnOnEquity;
-          break;
-        default:
-          // Handle any case not explicitly mentioned
-          break;
-      }
+      const valueMap = {
+        payoutRatio: valuePayoutRatio,
+        dividendGrowth: valueDividendGrowth,
+        dividendYield: valueDividendYield,
+        annualDividend: valueAnnualDividend,
+        eps: valueEPS,
+        growthEPS: valueGrowthEPS,
+        marketCap: valueMarketCap,
+        beta: valueBeta,
+        pe: valuePE,
+        forwardPE: valueForwardPE,
+        priceToBookRatio: valuePriceToBookRatio,
+        priceToSalesRatio: valuePriceToSalesRatio,
+        interestIncome: valueInterestIncome,
+        ratingRecommendation: valueAnalyst,
+        revenue: valueRevenue,
+        growthRevenue: valueGrowthRevenue,
+        ebitda: valueEBITDA,
+        growthEBITDA: valueGrowthEBITDA,
+        operatingExpenses: valueOperatingExpenses,
+        growthOperatingExpenses: valueGrowthOperatingExpenses,
+        costOfRevenue: valueCostOfRevenue,
+        growthCostOfRevenue: valueGrowthCostOfRevenue,
+        costAndExpenses: valueCostAndExpenses,
+        growthCostAndExpenses: valueGrowthCostAndExpenses,
+        netIncome: valueNetIncome,
+        growthNetIncome: valueGrowthNetIncome,
+        grossProfit: valueGrossProfit,
+        growthGrossProfit: valueGrowthGrossProfit,
+        researchAndDevelopmentExpenses: valueResearchAndDevelopmentExpenses,
+        growthResearchAndDevelopmentExpenses: valueGrowthResearchAndDevelopmentExpenses,
+        interestExpense: valueInterestExpenses,
+        growthInterestExpense: valueGrowthInterestExpenses,
+        operatingIncome: valueOperatingIncome,
+        growthOperatingIncome: valueGrowthOperatingIncome,
+        rsi: valueRSI,
+        stochRSI: valueStochRSI,
+        mfi: valueMFI,
+        cci: valueCCI,
+        atr: valueATR,
+        sma50: valueSMA50,
+        sma200: valueSMA200,
+        ema50: valueEMA50,
+        ema200: valueEMA200,
+        change1W: valueChange1W,
+        change1M: valueChange1M,
+        change3M: valueChange3M,
+        change6M: valueChange6M,
+        change1Y: valueChange1Y,
+        change3Y: valueChange3Y,
+        avgVolume: valueAvgVolume,
+        var: valueVaR,
+        trendAnalysis: valueTrendAnalysis,
+        fundamentalAnalysis: valueFundamentalAnalysis,
+        currentRatio: valueCurrentRatio,
+        quickRatio: valueQuickRatio,
+        debtEquityRatio: valueDebtEquityRatio,
+        debtRatio: valueDebtRatio,
+        returnOnAssets: valueReturnOnAssets,
+        returnOnEquity: valueReturnOnEquity,
+      };
+
+      ruleToUpdate.value = valueMap[ruleToUpdate.name] ?? ruleToUpdate.value;
       ruleToUpdate.condition = ruleCondition[ruleToUpdate.name];
-      ruleOfList = [...ruleOfList]; // This is common for all cases, so it's moved out of the switch.
+      ruleOfList = [...ruleOfList];
     }
 
     filteredData = filterStockScreenerData();
     
-    if(ruleOfList?.some(item => item.name === 'ratingRecommendation')) {
-      filteredData = filteredData?.filter(item => item?.ratingRecommendation === valueAnalyst)
+    if (ruleOfList?.some(item => item?.name === 'ratingRecommendation')) {
+      filteredData = filteredData?.filter(item => item?.ratingRecommendation === valueAnalyst);
     }
-    
   }
 }
 
@@ -2149,31 +1999,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
     
     
     
-               <!--Start ESGScore Rule-->
-               {#if ruleName === 'esgScore'}
-       
-                <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                 ESG Score {ruleCondition[ruleName]} {valueESGScore}
-       
-                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                   <span class="label-text text-white">Below</span> 
-                 </label>
-                 <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                   <span class="label-text text-white">Above</span> 
-                 </label>
-       
-               </div>
-       
-                 
-                 <div class="w-full pt-5">
-                   <input type="range" min="10" max="100" step="10" bind:value={valueESGScore} class="range range-secondary" />
-       
-                 </div>
-       
-               {/if}
-               <!--End ESGScore Rule-->
+        
 
                 <!--Start RSI Rule-->
                 {#if ruleName === 'rsi'}
@@ -2505,46 +2331,45 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
   
                   <!--End Adding Rules-->
   
-  
                   <!--Start Rules Preview -->
-                
-  
-                    <div id="step-3" class="m-auto w-5/6 bg-[#09090B] sm:ml-10 h-auto max-h-[400px] no-scrollbar overflow-hidden overflow-y-scroll p-5 sm:rounded-lg border-b sm:border sm:hover:border-slate-700 border-slate-800 pb-10">
-                      <div class="flex flex-row items-center pb-5 sm:pb-0">
-                        <div class="text-white font-bold text-xl sm:text-2xl flex justify-start items-center">
-                          {ruleOfList.length} Rules Preview
-                        </div>
-                        <label on:click={handleResetAll} class="ml-auto cursor-pointer transition duration-100 bg-purple-600 sm:hover:bg-purple-700 border border-slate-800 py-2 px-3 rounded-lg text-white text-sm">
-                          Reset All
+                                
+                  
+                  <div id="step-3" class="m-auto w-5/6 bg-[#09090B] sm:ml-10 h-auto max-h-[400px] no-scrollbar overflow-hidden overflow-y-scroll p-5 sm:rounded-lg border-b sm:border sm:hover:border-slate-700 border-slate-800 pb-10">
+                    <div class="flex flex-row items-center pb-5 sm:pb-0">
+                      <div class="text-white font-bold text-xl sm:text-2xl flex justify-start items-center">
+                        {ruleOfList.length} Rules Preview
+                      </div>
+                      <label on:click={handleResetAll} class="ml-auto cursor-pointer transition duration-100 bg-purple-600 sm:hover:bg-purple-700 border border-slate-800 py-2 px-3 rounded-lg text-white text-sm">
+                        Reset All
+                      </label>
+                    </div>
+                    {#if ruleOfList.length === 0}
+                    <div class="text-slate-300 font-medium text-sm sm:text-md flex flex-row justify-start items-center mt-4">
+                      <svg class="w-3 h-3 sm:w-4 sm:h-4 inline-block mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="#ffcc4d" d="M19.59 15.86L12.007 1.924C11.515 1.011 10.779.5 9.989.5c-.79 0-1.515.521-2.016 1.434L.409 15.861c-.49.901-.544 1.825-.138 2.53c.405.707 1.216 1.109 2.219 1.109h15.02c1.003 0 1.814-.402 2.22-1.108c.405-.706.351-1.619-.14-2.531ZM10 4.857c.395 0 .715.326.715.728v6.583c0 .402-.32.728-.715.728a.721.721 0 0 1-.715-.728V5.584c0-.391.32-.728.715-.728Zm0 11.624c-.619 0-1.11-.51-1.11-1.14c0-.63.502-1.141 1.11-1.141c.619 0 1.11.51 1.11 1.14c0 .63-.502 1.141-1.11 1.141Z"/></svg>
+                      At least 1 rule is required 
+                    </div>
+
+                  {:else}
+                  
+                  {#each ruleOfList as rule}
+                      <div class="flex flex-row mt-4">
+
+                      <label on:click={() => handleUpdateRule(rule)} class=" cursor-pointer text-slate-300 sm:font-medium text-sm sm:text-md">
+
+                        <svg class="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 text-green-400 inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+
+                        {ruleMappings[rule.name] || rule.name} · {formatRuleValue(rule)}
+                        </label>
+
+                        <label on:click={() => handleDeleteRule(rule.name)} class="text-sm text-[#FF3131] cursor-pointer ml-auto sm:ml-0">
+                          <svg class="h-6 w-6 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M7 21q-.825 0-1.413-.588T5 19V6q-.425 0-.713-.288T4 5q0-.425.288-.713T5 4h4q0-.425.288-.713T10 3h4q.425 0 .713.288T15 4h4q.425 0 .713.288T20 5q0 .425-.288.713T19 6v13q0 .825-.588 1.413T17 21H7ZM7 6v13h10V6H7Zm2 10q0 .425.288.713T10 17q.425 0 .713-.288T11 16V9q0-.425-.288-.713T10 8q-.425 0-.713.288T9 9v7Zm4 0q0 .425.288.713T14 17q.425 0 .713-.288T15 16V9q0-.425-.288-.713T14 8q-.425 0-.713.288T13 9v7ZM7 6v13V6Z"/></svg>  
                         </label>
                       </div>
-                      {#if ruleOfList.length === 0}
-                      <div class="text-slate-300 font-medium text-sm sm:text-md flex flex-row justify-start items-center mt-4">
-                        <svg class="w-3 h-3 sm:w-4 sm:h-4 inline-block mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="#ffcc4d" d="M19.59 15.86L12.007 1.924C11.515 1.011 10.779.5 9.989.5c-.79 0-1.515.521-2.016 1.434L.409 15.861c-.49.901-.544 1.825-.138 2.53c.405.707 1.216 1.109 2.219 1.109h15.02c1.003 0 1.814-.402 2.22-1.108c.405-.706.351-1.619-.14-2.531ZM10 4.857c.395 0 .715.326.715.728v6.583c0 .402-.32.728-.715.728a.721.721 0 0 1-.715-.728V5.584c0-.391.32-.728.715-.728Zm0 11.624c-.619 0-1.11-.51-1.11-1.14c0-.63.502-1.141 1.11-1.141c.619 0 1.11.51 1.11 1.14c0 .63-.502 1.141-1.11 1.141Z"/></svg>
-                        At least 1 rule is required 
-                      </div>
-            
-                    {:else}
-                    
-                    {#each ruleOfList as rule}
-                        <div class="flex flex-row mt-4">
-  
-                        <label on:click={() => handleUpdateRule(rule)} class=" cursor-pointer text-slate-300 sm:font-medium text-sm sm:text-md">
-  
-                          <svg class="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 text-green-400 inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-  
-                          {ruleMappings[rule.name] || rule.name} · {formatRuleValue(rule)}
-                          </label>
-  
-                          <label on:click={() => handleDeleteRule(rule.name)} class="text-sm text-[#FF3131] cursor-pointer ml-auto sm:ml-0">
-                            <svg class="h-6 w-6 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M7 21q-.825 0-1.413-.588T5 19V6q-.425 0-.713-.288T4 5q0-.425.288-.713T5 4h4q0-.425.288-.713T10 3h4q.425 0 .713.288T15 4h4q.425 0 .713.288T20 5q0 .425-.288.713T19 6v13q0 .825-.588 1.413T17 21H7ZM7 6v13h10V6H7Zm2 10q0 .425.288.713T10 17q.425 0 .713-.288T11 16V9q0-.425-.288-.713T10 8q-.425 0-.713.288T9 9v7Zm4 0q0 .425.288.713T14 17q.425 0 .713-.288T15 16V9q0-.425-.288-.713T14 8q-.425 0-.713.288T13 9v7ZM7 6v13V6Z"/></svg>  
-                          </label>
-                        </div>
-                      {/each}
-                    {/if}
-                  </div>
-  
-                  <!--End Rules Preview-->
+                    {/each}
+                  {/if}
+                </div>
+
+                <!--End Rules Preview-->
   
             </div>
             <!--End Build Strategy-->

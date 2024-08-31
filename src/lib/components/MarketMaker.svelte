@@ -356,11 +356,11 @@ else {
                   </td>
               
                   <td class="text-white text-end text-sm sm:text-[1rem] font-medium whitespace-nowrap">
-                      {abbreviateNumber(item?.avgWeeklyTradeCount)}
+                      {abbreviateNumber(Math.floor(item?.avgWeeklyTradeCount))}
                   </td>
 
                   <td class="text-white text-end text-sm sm:text-[1rem] font-medium whitespace-nowrap">
-                      {abbreviateNumber(item?.avgWeeklyShareQuantity)}
+                      {abbreviateNumber(Math.floor(item?.avgWeeklyShareQuantity))}
                   </td>
               
                   <td class="text-white text-end text-sm sm:text-[1rem] font-medium whitespace-nowrap">
