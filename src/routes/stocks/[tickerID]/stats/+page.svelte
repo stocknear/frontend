@@ -3,21 +3,12 @@
   import ReturnCard from "$lib/components/ReturnCard.svelte";
   import { numberOfUnreadNotification, displayCompanyName, screenWidth, stockTicker, revenueSegmentationComponent } from "$lib/store";
   import { abbreviateNumber } from "$lib/utils";
+  import RevenueSegmentation from "$lib/components/RevenueSegmentation.svelte";
 
   export let data;
 
   let quantStats = {};
-  let stockQuote;
 
-  let marketCap = "-";
-
-  let currentPrice = 0;
-  let previousClose = "-";
-  let volume = "-";
-  let eps = "-";
-  let pe = "-";
-  let alpha = "-";
-  let beta = "-";
 
   // Function to check if a date is today or yesterday, adjusting for weekends
   function ongoingDD(dateString: string) {
@@ -75,7 +66,6 @@ if (progressYearPriceValue < currentPrice) {
         
 
 
-  stockQuote = data?.getStockQuote;
   quantStats = data?.getQuantStats ?? {};
 
 
@@ -218,9 +208,7 @@ updateYearRange()
         <!--Start RevenueSegmentation-->
         <Lazy>
           <div class="w-full pt-10 sm:pb-6 sm:pt-6 m-auto {!$revenueSegmentationComponent ? 'hidden' : ''}">
-            {#await import("$lib/components/RevenueSegmentation.svelte") then { default: Comp }}
-              <svelte:component this={Comp} apiURL={data?.apiURL} apiKey={data?.apiKey} userTier={data?.user?.tier} />
-            {/await}
+              <RevenueSegmentation apiURL={data?.apiURL} apiKey={data?.apiKey} userTier={data?.user?.tier} />
           </div>
         </Lazy>
         <!--End RevenueSegmentation-->
@@ -230,7 +218,7 @@ updateYearRange()
              
 
           {#if $stockTicker in quantStats && Object.keys(quantStats[$stockTicker]).length > 0}
-            <h3 class="text-start w-full mt-8 mb-2 text-lg sm:text-2xl font-bold text-white">
+            <h3 class="text-start w-full mb-2 text-lg sm:text-2xl font-bold text-white">
               Worst 10 Drawdowns of {$stockTicker}
             </h3>
             <div class="w-full overflow-x-scroll">

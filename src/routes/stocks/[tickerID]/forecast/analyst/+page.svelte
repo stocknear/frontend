@@ -190,7 +190,7 @@ changeTab(0)
                           {/if}
                       </div> 
                   </div>
-              </div>
+                </div>
 
                   
 
