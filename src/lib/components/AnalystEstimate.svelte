@@ -50,36 +50,6 @@ function findIndex(data) {
   let tableDataActual = [];
   let tableDataForecast = [];
 
-  const getAnalystEstimate = async (ticker) => {
-    // Get cached data for the specific tickerID
-    const cachedData = getCache(ticker, "getAnalystEstimate");
-    if (cachedData) {
-      analystEstimateList = cachedData;
-    } else {
-      const postData = { ticker: ticker };
-
-      const response = await fetch(data?.apiURL + "/analyst-estimate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-API-KEY": data?.apiKey,
-        },
-        body: JSON.stringify(postData),
-      });
-
-      analystEstimateList = await response?.json();
-      analystEstimateList = analystEstimateList?.filter((item) => !item.date.toString().startsWith("19"));
-
-      // Cache the data for this specific tickerID with a specific name 'getAnalystEstimate'
-      setCache(ticker, analystEstimateList, "getAnalystEstimate");
-    }
-
-    if (analystEstimateList?.length !== 0) {
-      $analystEstimateComponent = true;
-    } else {
-      $analystEstimateComponent = false;
-    }
-  };
 
   function getPlotOptions() {
     let dates = [];
@@ -289,17 +259,15 @@ function findIndex(data) {
   $: {
     if ($stockTicker && displayData && typeof window !== "undefined") {
       isLoaded = false;
-
-      const asyncFunctions = [getAnalystEstimate($stockTicker)];
-      Promise.all(asyncFunctions)
-        .then((results) => {
-          //prepareData(analystEstimateList)
-          optionsData = getPlotOptions();
-          prepareData();
-        })
-        .catch((error) => {
-          console.error("An error occurred:", error);
-        });
+      analystEstimateList = [];
+      analystEstimateList = data?.getAnalystEstimate || [];
+      if (analystEstimateList?.length !== 0) {
+        $analystEstimateComponent = true;
+        optionsData = getPlotOptions();
+        prepareData();
+      } else {
+        $analystEstimateComponent = false;
+      }
       isLoaded = true;
     }
   }

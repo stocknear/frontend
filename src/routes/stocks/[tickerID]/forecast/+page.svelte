@@ -1,18 +1,9 @@
 <script lang="ts">
   import { numberOfUnreadNotification, displayCompanyName, stockTicker, analystEstimateComponent } from "$lib/store";
   import { abbreviateNumber } from "$lib/utils";
-  import InfoModal from "$lib/components/InfoModal.svelte";
 
-  import { Chart } from "svelte-echarts";
-  import { init, use } from "echarts/core";
-  import { LineChart } from "echarts/charts";
-  import { GridComponent, TooltipComponent } from "echarts/components";
-  import { CanvasRenderer } from "echarts/renderers";
-  
   export let data;
-  use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 
-  
 function findIndex(data) {
     const currentYear = new Date().getFullYear();
     return data.findIndex(item => item.date >= currentYear && item.revenue === null);
@@ -136,7 +127,7 @@ const changeEPS = abbreviateNumber(((data?.getAnalystEstimate[index-1]?.estimate
           </div>
 
 
-
+          
       </div>
     </div>
   </div>
