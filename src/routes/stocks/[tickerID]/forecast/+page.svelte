@@ -66,7 +66,7 @@ if(data?.getAnalystEstimate?.length !== 0) {
                         </div>
                         <div class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-semibold md:mt-2 lg:mt-0 bg-green-100 text-green-800 dark:bg-green-700 dark:text-dark-100">
                           <svg class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center {changeRevenue > 0 ? 'text-green-500' : 'text-red-500 rotate-180'}" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="max-width:40px" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path></svg>
-                          {abbreviateNumber(changeRevenue)}%
+                          {abbreviateNumber(changeRevenue?.toFixed(1))}%
                         </div>
                       </div>
                     <div class="ml-0.5 mt-1.5 text-sm font-semibold text-white/60 lg:block">

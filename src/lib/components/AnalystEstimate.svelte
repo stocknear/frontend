@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { analystEstimateComponent, stockTicker, screenWidth, getCache, setCache } from "$lib/store";
+  import { analystEstimateComponent, stockTicker } from "$lib/store";
   import InfoModal from "$lib/components/InfoModal.svelte";
 
   import { Chart } from "svelte-echarts";
@@ -71,11 +71,10 @@ function findIndex(data) {
       switch (displayData) {
         case "Revenue":
           valueList.push(isBeforeStopIndex ? item.revenue : null);
-          avgList.push(isAfterStartIndex ? item.estimatedRevenueAvg : null);
-          lowList.push(isAfterStartIndex ? item.estimatedRevenueLow : null);
-          highList.push(isAfterStartIndex ? item.estimatedRevenueHigh : null);
-          break;
-
+        avgList.push(isAfterStartIndex ? item.estimatedRevenueAvg : null);
+        lowList.push(isAfterStartIndex ? item.estimatedRevenueLow : null);
+        highList.push(isAfterStartIndex ? item.estimatedRevenueHigh : null);
+        break;
         case "Net Income":
           valueList.push(isBeforeStopIndex ? item.netIncome : null);
           avgList.push(isAfterStartIndex ? item.estimatedNetIncomeAvg : null);
@@ -99,8 +98,18 @@ function findIndex(data) {
           break;
       }
     });
-  }
 
+  }
+    try {
+       const lastValue = valueList[stopIndex-2];
+      avgList[stopIndex-2] = lastValue;
+      lowList[stopIndex-2] = lastValue;
+      highList[stopIndex-2] = lastValue;
+    } catch(e) {
+      console.log(e)
+    }
+   
+ 
 
     // Normalize the data if needed (not required in this case, but leaving it here for reference)
     const { unit, denominator } = normalizer(Math.max(...valueList, ...avgList) ?? 0);
@@ -204,7 +213,6 @@ function findIndex(data) {
     let filteredData = analystEstimateList?.filter((item) => item.date >= 2015) ?? [];
 
     xData = filteredData?.map(({ date }) => Number(String(date)?.slice(-2)));
-
     if (displayData === "Revenue") {
       filteredData?.forEach((item) => {
         tableDataActual?.push({
