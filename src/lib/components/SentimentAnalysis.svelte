@@ -169,7 +169,7 @@ $: {
                             <div class="flex flex-col items-center">
                                 <span class="text-white font-medium text-[1rem] mb-4">
                                     {#if data?.user?.tier === 'Pro'}
-                                    {item?.value}
+                                    {item?.value !== 0 ? item?.value : '-'}
                                     {:else if ['1M','1Y']?.includes(item?.label)}
                                         {item?.value}
                                     {:else}
@@ -185,7 +185,7 @@ $: {
                                     <div class="bg-[#2F2F2F] w-2 rounded-t-full" style="height: {(100)}%;"></div>
                                     {/if}
                                 </div>
-                                <span class="text-gray-400 font-medium text-sm mt-4">
+                                <span class="text-white font-medium text-sm mt-4">
                                     {item?.label}
                                 </span>
                             </div>

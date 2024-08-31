@@ -111,7 +111,7 @@ async function purchasePlan(subscriptionType:string='') {
 
 
 
-<section class="bg-[#09090B] min-h-screen mb-40 w-full max-w-3xl sm:max-w-screen-xl pt-10 pb-40 m-auto">
+<section class="bg-[#09090B] min-h-screen mb-40 w-full max-w-3xl sm:max-w-screen-lg pt-10 pb-40 m-auto">
     <div class="px-3">
         <div class="mx-auto text-center mb-8 ">
             
@@ -127,7 +127,7 @@ async function purchasePlan(subscriptionType:string='') {
 
             
             <div class="flex flex-row items-center justify-center mt-6 pb-5">
-                <span class="text-sm font-medium text-white text-opacity-[0.6] mr-3">
+                <span class="text-sm font-semibold text-white mr-3">
                     Pay Monthly
                 </span>
     
@@ -138,7 +138,7 @@ async function purchasePlan(subscriptionType:string='') {
                 </label>
                 
                 <div class="ml-3 -mb-4 flex flex-col items-start">
-                    <span class="text-sm font-medium text-white text-opacity-[0.6]">
+                    <span class="text-sm font-semibold text-white">
                         Pay Yearly
                     </span>
                     <span class="text-[#FBCE3C] text-sm font-semibold">
@@ -372,12 +372,12 @@ async function purchasePlan(subscriptionType:string='') {
 
 
              <!--Start Pricing Card-->
-             
+             <!--
              <div class="sm:h-[660px] sm:order-2 box sm:-mt-10 flex flex-col p-6 lg:p-8 mx-auto ring-[1px] ring-gray-400 rounded-lg w-full text-center text-white">
 
                 <div class="absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-2xl flex flex-row border-l border-r border-b border-gray-400 items-center p-2">
                     <span class="text-white text-md font-semibold px-3">
-                        Best Support
+                        Limited Offer
                     </span>
                 </div>          
 
@@ -441,7 +441,7 @@ async function purchasePlan(subscriptionType:string='') {
                 {/if}
                
             </div>
-            
+            -->
             <!--End Pricing Card-->
 
 
@@ -465,9 +465,9 @@ async function purchasePlan(subscriptionType:string='') {
                     <div class="space-y-4 mb-12">
                         <!-- Table (Tidy Essential) -->
                         <div class="overflow-x-auto" data-aos="fade-up">
-                            <table class="table-auto w-full border-b border-slate-400">
+                            <table class="table table-sm table-compact w-full">
                                 <!-- Table header -->
-                                <thead>
+                                <thead class="border-b border-gray-800">
                                     <tr class="text-base sm:text-lg text-white">
                                         <th class="text-xl md:text-2xl whitespace-nowrap font-bold text-left pr-2 py-4 min-w-[10rem] md:min-w-[24rem]">Plan</th>
                                         <th class="text-bold text-center px-2 py-4">Free</th>
@@ -477,7 +477,7 @@ async function purchasePlan(subscriptionType:string='') {
                                 <!-- Table body -->
                                 <tbody>
                                     <!-- Row -->
-                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                    <tr class="border-t first:border-t-2 border-gray-800">
                                         <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
                                             <div class="flex items-center justify-between max-w-xs">
                                                 <div>Unusual Options Activity</div>
@@ -491,7 +491,7 @@ async function purchasePlan(subscriptionType:string='') {
                                         </td>
                                     </tr>
                                     <!-- Row -->
-                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                    <tr class="border-t first:border-t-2 border-gray-800">
                                         <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
                                             <div class="flex items-center justify-between max-w-xs">
                                                 <div>Retail Trader Activity</div>
@@ -505,7 +505,7 @@ async function purchasePlan(subscriptionType:string='') {
                                         </td>
                                     </tr>
                                     <!-- Row -->
-                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                    <tr class="border-t first:border-t-2 border-gray-800">
                                         <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
                                             <div class="flex items-center justify-between max-w-xs">
                                                 <div>Dark Pool Data</div>
@@ -519,7 +519,7 @@ async function purchasePlan(subscriptionType:string='') {
                                         </td>
                                     </tr>
                                     <!-- Row -->
-                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                    <tr class="border-t first:border-t-2 border-gray-800">
                                         <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
                                             <div class="flex items-center justify-between max-w-xs">
                                                 <div>AI Predictions</div>
@@ -533,7 +533,7 @@ async function purchasePlan(subscriptionType:string='') {
                                         </td>
                                     </tr>
                                     <!-- Row -->
-                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                    <tr class="border-t first:border-t-2 border-gray-800">
                                         <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
                                             <div class="flex items-center justify-between max-w-xs">
                                                 <div>Wallstreet Analyst Database</div>
@@ -547,7 +547,7 @@ async function purchasePlan(subscriptionType:string='') {
                                         </td>
                                     </tr>
                                      <!-- Row -->
-                                     <tr class="border-t first:border-t-2 border-slate-400">
+                                     <tr class="border-t first:border-t-2 border-gray-800">
                                         <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
                                             <div class="flex items-center justify-between max-w-xs">
                                                 <div>Hedge Fund Database</div>
@@ -561,7 +561,7 @@ async function purchasePlan(subscriptionType:string='') {
                                         </td>
                                     </tr>
                                     <!-- Row -->
-                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                    <tr class="border-t first:border-t-2 border-gray-800">
                                         <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
                                             <div class="flex items-center justify-between max-w-xs">
                                                 <div>Congress Database</div>
@@ -575,7 +575,7 @@ async function purchasePlan(subscriptionType:string='') {
                                         </td>
                                     </tr>
                                     <!-- Row -->
-                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                    <tr class="border-t first:border-t-2 border-gray-800">
                                         <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
                                             <div class="flex items-center justify-between max-w-xs">
                                                 <div>Financial History</div>
@@ -589,7 +589,7 @@ async function purchasePlan(subscriptionType:string='') {
                                         </td>
                                     </tr>
                                     <!-- Row -->
-                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                    <tr class="border-t first:border-t-2 border-gray-800">
                                         <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
                                             <div class="flex items-center justify-between max-w-xs">
                                                 <div>Watchlist</div>
@@ -603,7 +603,7 @@ async function purchasePlan(subscriptionType:string='') {
                                         </td>
                                     </tr>
                                     <!-- Row -->
-                                    <tr class="border-t first:border-t-2 border-slate-400">
+                                    <tr class="border-t first:border-t-2 border-gray-800">
                                         <td class="text-sm sm:text-base font-medium text-white pr-2 py-4">
                                             <div class="flex items-center justify-between max-w-xs">
                                                 <div class="flex items-center space-x-2">
@@ -653,7 +653,7 @@ async function purchasePlan(subscriptionType:string='') {
                     </div>
 
                     <!-- Faqs -->
-                    <ul class="mx-auto divide-y divide-slate-400">
+                    <ul class="mx-auto divide-y divide-gray-800">
                         <li>
                             <details class="collapse collapse-arrow">
                                 <summary class="collapse-title text-white font-semibold text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5">What are the advantages of Stocknear Service?</summary>

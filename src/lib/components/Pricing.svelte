@@ -25,7 +25,7 @@ onMount(async () => {
 
 </script>
 
-<section class="bg-[#09090B] min-h-screen max-w-3xl sm:max-w-screen-xl w-full pt-24 m-auto">
+<section class="bg-[#09090B] min-h-screen max-w-3xl sm:max-w-screen-lg w-full pt-24 m-auto">
     <div class="px-3">
         <div class="mx-auto text-center mb-8 ">
             
@@ -273,12 +273,12 @@ onMount(async () => {
 
 
              <!--Start Pricing Card-->
-             
+             <!--
              <div class="sm:h-[660px] sm:order-2 box sm:-mt-10 flex flex-col p-6 lg:p-8 mx-auto ring-[1px] ring-gray-400 rounded-lg w-full text-center text-white">
 
                 <div class="absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-2xl flex flex-row border-l border-r border-b border-gray-400 items-center p-2">
                     <span class="text-white text-md font-semibold px-3">
-                        Best Support
+                        Limited Offer
                     </span>
                 </div>          
 
@@ -342,7 +342,7 @@ onMount(async () => {
                 {/if}
                
             </div>
-            
+            -->
             <!--End Pricing Card-->
 
 

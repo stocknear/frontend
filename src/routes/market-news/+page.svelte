@@ -96,7 +96,7 @@ function checkIfYoutubeVideo(link) {
 </svelte:head>
 
 
-<section class="w-full max-w-5xl overflow-hidden m-auto mt-10">
+<section class="w-full  overflow-hidden m-auto mt-10">
   
   <div class="flex justify-center w-full m-auto overflow-hidden">
       <div class="relative flex justify-center items-center overflow-hidden">
@@ -105,7 +105,7 @@ function checkIfYoutubeVideo(link) {
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       {#if news.length !== 0}
                       {#each news as item}
-                          <div class="flex flex-col w-full mt-5 bg-[#27272A] shadow-lg h-auto sm:h-[430px] pb-10 sm:pb-5 rounded-none sm:rounded-lg m-auto">
+                          <div class="flex flex-col w-full mt-5 bg-[#141417] shadow-lg h-auto sm:h-[450px] xl:h-[430px] pb-10 sm:pb-5 rounded-none sm:rounded-lg m-auto">
                             {#if videoId = checkIfYoutubeVideo(item.url)}
                                 <iframe
                                     class="w-full h-60 rounded-none sm:rounded-lg"

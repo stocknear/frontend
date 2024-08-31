@@ -22,7 +22,7 @@
       
       <div class="space-y-3 sm:pt-5 hidden lg:block lg:{topETFHolder?.length !== 0 ? '' : 'hidden'}">  
       
-      <div class="sm:rounded-lg shadow-lg bg-[#000] sm:bg-[#09090B] sm:border sm:border-slate-800 h-auto {$screenWidth < 640 ? 'w-screen pt-16' : ''} md:w-[420px]">
+      <div class="sm:rounded-lg shadow-lg bg-[#000] sm:bg-[#09090B] sm:border sm:border-slate-800 h-auto {$screenWidth < 640 ? 'w-screen pt-16' : ''} md:w-[420px] xl:w-[450px]">
       
         <div class="w-auto lg:w-full p-1 flex flex-col m-auto pb-14 sm:pb-10 px-2 sm:px-0">
             <h2 class="text-start text-2xl font-semibold text-white p-3 mt-3 ml-1">
@@ -101,18 +101,15 @@
       <div class="bg-[#000] h-auto w-screen">
       
        <!--Start Header-->
-       <div class="bg-[#27272A] w-full p-1 flex flex-col items-center pb-5 h-auto rounded-b-[30px]">
-        <h2 class="text-center m-auto text-[1.1rem] font-medium text-white mt-5">
+       <div class="w-full p-1 flex flex-col items-center pb-5 h-auto">
+        <h2 class="text-center m-auto text-lg font-semibold text-white mt-5">
           Top ETFs Holder
         </h2>
-        <div class="flex flex-col items-center mt-10 w-full">
-          <span class="text-white text-center text-md text-opacity-[0.8] pl-8 pr-8">
+        <div class="flex flex-col items-center mt-10 mb-5 w-full px-8">
+          <span class="text-white text-center text-md">
             Find the ETFs with the highest portfolio weights for this stock. 
           </span>
-    
-          <div class="flex flex-row justify-center items-center w-full mt-5">
-          </div>
-    
+
         </div>
     
       </div>
@@ -123,9 +120,9 @@
           <table class="table table-sm table-compact mt-3 text-start flex justify-start items-center w-full px-3 m-auto">
             <thead>
               <tr>
-                <th class="text-white font-bold text-sm text-start bg-[#000]">Company</th>
-                <th class="text-white font-bold text-sm text-center bg-[#000]">Total Assets</th>
-                <th class="text-white font-bold text-sm text-end bg-[#000]">% of Fund</th>
+                <th class="text-white font-semibold text-sm text-start bg-[#000]">Company</th>
+                <th class="text-white font-semibold text-sm text-end bg-[#000]">Total Assets</th>
+                <th class="text-white font-semibold text-sm text-end bg-[#000]">% of Fund</th>
               </tr>
             </thead>
             <tbody>
@@ -133,13 +130,13 @@
               <tr on:click={() => etfSelector(item?.symbol)} class="text-white cursor-pointer bg-[#000] border-b border-[#000]">
                 {#if index <=6}
                
-                  <td class="text-gray-200">
+                  <td class="text-white whitespace-nowrap">
                     <div class="flex flex-row items-center">
                       <div class="flex flex-col w-full">
                         <span class="text-blue-400 text-sm font-medium">{item?.symbol}</span>
                         <span class="text-white text-xs">
                           {#if typeof item?.name !== 'undefined'}
-                            {item?.name?.length > 15 ? item?.name?.slice(0,15) + "..." : item?.name}
+                            {item?.name?.length > 20 ? item?.name?.slice(0,20) + "..." : item?.name}
                           {:else}
                             n/a
                           {/if}
@@ -150,7 +147,7 @@
                     
                   </td>
               
-                <td class="text-white text-center font-medium ">
+                <td class="text-white text-end font-medium ">
                   {item?.totalAssets !== null ? abbreviateNumber(item?.totalAssets,true) : '-'}
                 </td>
               

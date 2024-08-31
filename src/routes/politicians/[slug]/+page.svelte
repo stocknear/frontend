@@ -226,7 +226,6 @@ use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
               itemStyle: {
                       color: '#22C55E' // Change bar color to white
                 },
-              barWidth: '25%',
             },
             
           {   
@@ -234,9 +233,8 @@ use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
               data: soldList,
               type: 'bar',
               itemStyle: {
-                  color: '#E11D48' // Change bar color to white
+                  color: '#F71F4F' // Change bar color to white
               },
-              barWidth: '25%',
           },
       ]
       };
@@ -471,7 +469,7 @@ use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
                   </div>
                       <div class="flex flex-col sm:flex-row items-center ml-3 sm:ml-0 w-1/2 justify-center">
                           <div class="h-full bg-[#313131] transform -translate-x-1/2 " aria-hidden="true"></div>
-                          <div class="w-3 h-3 bg-[#E11D48] border-4 box-content border-[#313131] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
+                          <div class="w-3 h-3 bg-[#F71F4F] border-4 box-content border-[#313131] rounded-full transform sm:-translate-x-1/2" aria-hidden="true"></div>
                           <span class="mt-2 sm:mt-0 text-white text-xs sm:text-md sm:font-medium inline-block">
                           Sold
                           </span>

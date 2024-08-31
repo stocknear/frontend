@@ -4,10 +4,10 @@ import InfoModal from '$lib/components/InfoModal.svelte';
 import { Chart } from 'svelte-echarts'
 import { abbreviateNumber, formatString } from "$lib/utils";
 import { init, use } from 'echarts/core'
-import { LineChart } from 'echarts/charts'
+import { BarChart } from 'echarts/charts'
 import { GridComponent, TooltipComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-use([LineChart, GridComponent, TooltipComponent, CanvasRenderer])
+use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
 
     export let data;
 
@@ -147,6 +147,7 @@ function getPlotOptions() {
         ],
     series: [
         {
+        name: '# of Trials',
         data: valueList,
         type: 'bar',
         itemStyle: {

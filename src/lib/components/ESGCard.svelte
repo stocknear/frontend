@@ -20,23 +20,14 @@ $: {
   if ($stockTicker && typeof window !== 'undefined' && typeof stockDeck !== 'undefined' && stockDeck?.length !== 0)
   {
    
-    info = stockDeck[0]
-
-
+    info = stockDeck?.at(0)
     esgScore = info?.esgScore !== 'n/a' ? Math.round(info?.esgScore.toFixed(1)) : 'n/a';
     socialScore = info?.socialScore !== 'n/a' ? Math.round(info?.socialScore.toFixed(1)) : 'n/a';
-    environmentalScore = info?.environmentalScore !== 'n/a' ? Math.round(info?.environmentalScore.toFixed(1)) : 'n/a';
-    governanceScore =  info?.governanceScore !== 'n/a' ? Math.round(info?.governanceScore.toFixed(1)) : 'n/a';
+    environmentalScore = info?.environmentalScore !== 'n/a' ? Math.round(info?.environmentalScore?.toFixed(1)) : 'n/a';
+    governanceScore =  info?.governanceScore !== 'n/a' ? Math.round(info?.governanceScore?.toFixed(1)) : 'n/a';
     esgRiskRating = info?.esgRiskRating;
   
     };
-    /*
-    if (esgRatingCircleContainer)
-    {
-      esgRatingAcc(esgScore/100);
-    }
-    */
-
   }
 
 
@@ -50,7 +41,7 @@ $: {
 
 <!--Start ESG Card -->
 <div class="space-y-3 lg:pt-5 hidden lg:block lg:{esgScore && esgRiskRating && environmentalScore && governanceScore !== 'n/a' ? '' : 'hidden'}">  
-  <div class="sm:rounded-lg shadow-lg bg-[#000] sm:bg-[#09090B] sm:border sm:border-slate-800 h-auto sm:h-[470px] {$screenWidth < 640 ? 'w-screen pt-16' : ''} md:w-[420px] -mx-1 sm:mx-0">
+  <div class="sm:rounded-lg shadow-lg bg-[#000] sm:bg-[#09090B] sm:border sm:border-slate-800 h-auto sm:h-[470px] {$screenWidth < 640 ? 'w-screen pt-16' : ''} md:w-[420px] xl:w-[450px] -mx-1 sm:mx-0">
    
     <!--Start Content-->
     <div class="w-auto lg:w-full p-1 flex flex-col m-auto pb-14 sm:pb-10 px-2 sm:px-0">
@@ -146,20 +137,16 @@ $: {
   <div class="bg-[#000] h-auto w-screen">
   
     <!--Start Header-->
-    <div class="bg-[#27272A] w-full  p-1 flex flex-col items-center pb-5 h-auto rounded-b-[30px]">
-      <h2 class="text-center m-auto text-[1.1rem] font-medium text-white mt-5">
+    <div class="w-full p-1 flex flex-col items-center pb-5 h-auto">
+      <h2 class="text-center m-auto text-[1.1rem] font-semibold text-white mt-5">
         ESG Score
       </h2>
 
-      <div class="flex flex-col items-center mt-10 w-full">
-        <span class="text-white text-center text-md text-opacity-[0.8]">
+      <div class="flex flex-col items-center mt-10 mb-5 w-full px-3">
+        <span class="text-white text-center text-md">
           Gain valuable insights into a company's sustainability by evaluating its ESG (Environmental, Social, and Governance) scores.
         </span>
 
-        <div class="flex flex-row justify-center items-center w-full mt-5">
-
-        
-        </div>
       </div>
     </div>
     <!--End Header-->

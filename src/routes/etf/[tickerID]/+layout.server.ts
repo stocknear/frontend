@@ -69,6 +69,6 @@ export const load = async ({ params, locals, setHeaders }) => {
     getWhyPriceMoved,
     getOneDayPrice,
     getUserWatchlist,
-    companyName: cleanString(getETFProfile?.[0]?.name),
+    companyName: cleanString(getETFProfile?.at(0)?.name),
   };
 };

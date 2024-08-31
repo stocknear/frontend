@@ -74,7 +74,7 @@ $: {
     website = info?.website;
     snippet= description?.slice(0, 150) + "...";
     forwardPE = info?.forwardPE;
-    beta = info?.beta;
+    beta = info?.beta?.toFixed(2);
   }
 
 }
@@ -83,7 +83,7 @@ $: {
 </script>
 
 <div class="sm:space-y-3">  
-    <div class="sm:rounded-lg lg:border lg:border-slate-800 bg-[#000] lg:bg-[#09090B] h-auto w-screen pt-16 sm:w-full md:w-[420px] lg:pt-0">
+    <div class="sm:rounded-lg lg:border lg:border-slate-800 bg-[#000] lg:bg-[#09090B] h-auto w-screen pt-16 sm:w-full md:w-[420px] xl:w-[450px] lg:pt-0">
 
       <!--Start Header-->
       <div class="sm:rounded-t-lg w-full h-[130px] bg-[#000] p-3 flex flex-col bg-cover bg-center bg-no-repeat" style="background-image: url({`${cloudFrontUrl}/stocks/cover/${$stockTicker?.toUpperCase()}.jpg`});">
@@ -110,66 +110,70 @@ $: {
       </div>
      <!--End Header-->
       <!--Start Content-->
-      <div class="w-full flex flex-wrap border-t border-slate-800 px-2 lg:px-0">
+      <div class="w-full flex flex-wrap border-t border-slate-800 px-2">
         <h2 class="text-start ml-2 text-2xl font-bold text-white pb-2 mt-3">Company Info</h2>
         <div class="flex justify-center items-center w-full m-auto">
           <table class="table table-sm table-compact">
             <tbody>
-              <tr class="text-white border-b border-[#27272A]" style="font-size: 0.75rem">
+              <!--
+              <tr class="text-white border-b border-[#27272A]">
                 <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">CEO</td>
-                <td class="text-center bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-normal font-semibold">{ceoName}</td>
-                <td class="text-start sm:text-center lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Country</td>
+                <td class="text-center sm:text-end bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-normal font-semibold">{ceoName}</td>
+                <td class="text-start sm:text-end lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Country</td>
                 <td class="text-start sm:text-end bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-normal font-semibold">{country}</td>
               </tr>
-              <tr class="text-white border-b border-[#27272A]" style="font-size: 0.75rem">
-                <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Market Cap</td>
-                <td class="text-center bg-[#000] lg:bg-[#09090B] font-semibold">{abbreviateNumber(data?.getStockQuote?.marketCap,true)}</td>
-                <td class="text-start sm:text-center bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Volume</td>
-                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] font-semibold">{abbreviateNumber(data?.getStockQuote?.volume)}</td>
+              -->
+              <tr class="text-white border-b border-[#27272A]">
+                <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Mkt Cap</td>
+                <td class="text-center sm:text-end bg-[#000] lg:bg-[#09090B]">{abbreviateNumber(data?.getStockQuote?.marketCap,true)}</td>
+                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Vol</td>
+                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B]">{abbreviateNumber(data?.getStockQuote?.volume)}</td>
               </tr>
-              <tr class="text-white border-b border-[#27272A]" style="font-size: 0.75rem">
+              <tr class="text-white border-b border-[#27272A]">
                 <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Beta</td>
-                <td class="text-center bg-[#000] lg:bg-[#09090B] font-semibold">{beta}</td>
-                <td class="text-start sm:text-center bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Avg. Volume</td>
-                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] font-semibold">{abbreviateNumber(data?.getStockQuote?.avgVolume)}</td>
+                <td class="text-center sm:text-end bg-[#000] lg:bg-[#09090B]">{beta}</td>
+                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Avg. Vol</td>
+                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B]">{abbreviateNumber(data?.getStockQuote?.avgVolume)}</td>
               </tr>
-              <tr class="text-white " style="font-size: 0.75rem">
+              <!--
+              <tr class="text-white ">
                 <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white whitespace-pre-line font-semibold whitespace-nowrap">Sector</td>
                 <td class="text-center bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-pre-line font-semibold">{sector}</td>
                 <td class="text-start sm:text-center lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Employees</td>
                 <td class="text-start sm:text-end bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] font-semibold">{employees}</td>
               </tr>
-              <tr class="text-white border-b border-[#27272A]" style="font-size: 0.75rem">
+              <tr class="text-white border-b border-[#27272A]">
                 <td class="text-start lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Industry</td>
                 <td class="text-center bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] whitespace-normal font-semibold">{industry}</td>
                 <td class="text-start sm:text-center lg:border-b lg:border-[#27272A] bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Exchange</td>
                 <td class="text-start sm:text-end bg-[#000] lg:border-b lg:border-[#27272A] lg:bg-[#09090B] font-semibold">{exchange}</td>
               </tr>
-              <tr class="text-white border-b border-[#27272A]" style="font-size: 0.75rem">
+              -->
+              <tr class="text-white border-b border-[#27272A]">
                 <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Open</td>
-                <td class="text-center bg-[#000] lg:bg-[#09090B] font-semibold">{data?.getStockQuote?.open}</td>
-                <td class="text-start sm:text-center bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap ">Previous Close</td>
-                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] font-semibold whitespace-nowrap ">{data?.getStockQuote?.previousClose}</td>
+                <td class="text-center sm:text-end bg-[#000] lg:bg-[#09090B]">{data?.getStockQuote?.open?.toFixed(2)}</td>
+                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap ">Prev. Close</td>
+                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] whitespace-nowrap ">{data?.getStockQuote?.previousClose?.toFixed(2)}</td>
               </tr>
               {#if $screenWidth > 640}
-              <tr class="text-white border-b border-[#27272A]" style="font-size: 0.75rem">
+              <tr class="text-white border-b border-[#27272A]">
                 <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Day's Range</td>
-                <td class="text-center bg-[#000] lg:bg-[#09090B] font-semibold">{data?.getStockQuote?.dayLow} - {data?.getStockQuote?.dayHigh}</td>
-                <td class="text-start sm:text-center bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap ">52-Week Range</td>
-                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] font-semibold whitespace-nowrap ">{data?.getStockQuote?.yearLow} - {data?.getStockQuote?.yearHigh}</td>
+                <td class="text-center sm:text-end bg-[#000] lg:bg-[#09090B]">{data?.getStockQuote?.dayLow?.toFixed(2)} - {data?.getStockQuote?.dayHigh?.toFixed(2)}</td>
+                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap ">52-Week Range</td>
+                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] whitespace-nowrap ">{data?.getStockQuote?.yearLow?.toFixed(2)} - {data?.getStockQuote?.yearHigh?.toFixed(2)}</td>
               </tr>
               {/if}
-              <tr class="text-white border-b border-[#27272A]" style="font-size: 0.75rem">
+              <tr class="text-white border-b border-[#27272A]">
                 <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">EPS (ttm)</td>
-                <td class="text-center bg-[#000] lg:bg-[#09090B] font-semibold">{data?.getStockQuote?.eps}</td>
-                <td class="text-start sm:text-center bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">PE Ratio (ttm)</td>
-                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] font-semibold">{data?.getStockQuote?.pe}</td>
+                <td class="text-center sm:text-end bg-[#000] lg:bg-[#09090B]">{data?.getStockQuote?.eps}</td>
+                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">PE Ratio (ttm)</td>
+                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B]">{data?.getStockQuote?.pe}</td>
               </tr>
-              <tr class="text-white border-b border-[#27272A]" style="font-size: 0.75rem">
+              <tr class="text-white border-b border-[#27272A]">
                 <td class="text-start bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap">Shares Out.</td>
-                <td class="text-center bg-[#000] lg:bg-[#09090B] font-semibold">{abbreviateNumber(data?.getStockQuote?.sharesOutstanding)}</td>
-                <td class="text-start sm:text-center bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap ">Forward PE</td>
-                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] font-semibold whitespace-nowrap ">{forwardPE === undefined ? '-' : forwardPE}</td>
+                <td class="text-center sm:text-end bg-[#000] lg:bg-[#09090B]">{abbreviateNumber(data?.getStockQuote?.sharesOutstanding)}</td>
+                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] text-white font-semibold whitespace-nowrap ">Forward PE</td>
+                <td class="text-start sm:text-end bg-[#000] lg:bg-[#09090B] whitespace-nowrap ">{forwardPE === undefined ? '-' : forwardPE}</td>
               </tr>
             </tbody>
           </table>

@@ -10,8 +10,9 @@
   import Crown from "lucide-svelte/icons/crown";
   import Activity from "lucide-svelte/icons/activity";
   import { abbreviateNumber, formatDate } from '$lib/utils';
-  
-  import {  numberOfUnreadNotification} from '$lib/store';
+  import * as Tabs from "$lib/components/shadcn/tabs/index.js";
+
+  import { screenWidth, numberOfUnreadNotification} from '$lib/store';
 
   /*
   import { Chart } from 'svelte-echarts'
@@ -28,9 +29,10 @@
   export let data;
   let isLoaded = false;
   const quickInfo = data?.getDashboard?.quickInfo;
+  let optionsMode = 'premium';
 
 
-  function compareTimes(time1, time2) {
+function compareTimes(time1, time2) {
   const [hours1, minutes1] = time1.split(':').map(Number);
   const [hours2, minutes2] = time2.split(':').map(Number);
   
@@ -156,8 +158,18 @@ function latestInfoDate(inputDate) {
     return differenceInDays <=1;
 }
 
+let optionsTable = data?.getDashboard?.optionsFlow?.premium || [];
 
-
+function changeTable(state) {
+  optionsMode = state;
+  if (optionsMode === 'premium') {
+    optionsTable = data?.getDashboard?.optionsFlow?.premium || [];
+  } else if (optionsMode === 'volume') {
+    optionsTable = data?.getDashboard?.optionsFlow?.volume || [];
+  } else {
+    optionsTable = data?.getDashboard?.optionsFlow?.openInterest || [];
+  }
+}
 let Feedback;
 
 onMount( async() => {
@@ -202,10 +214,10 @@ onMount( async() => {
           <Feedback data={data} />
         {/if}
         
-        <!--
+        
         <div class="text-center mb-10 relative w-fit flex justify-center m-auto">
-          <a href="/corporate-lobbying-tracker" class="text-white antialiased bg-[#27272A] w-full px-4 py-2 rounded-lg m-auto font-medium text-[1rem] flex items-center">
-            <span class="font-semibold">Corporate Lobbying Tracker</span>
+          <a href="/economic-indicator" class="text-white antialiased bg-[#27272A] w-full px-4 py-2 rounded-lg m-auto font-medium text-[1rem] flex items-center">
+            <span class="font-semibold">US Economic Indicators</span>
           </a>
           <div class="absolute top-[-1.2rem] -right-5 sm:-right-8 rotate-[7deg]">
             <span class="bg-[#FBCE3C] text-black text-sm sm:text-[0.9rem] rounded-xl font-semibold sm:me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
@@ -213,7 +225,7 @@ onMount( async() => {
             </span>
           </div>
         </div>
-      -->
+      
 
         <h1 class="text-white text-3xl font-semibold text-start w-full pl-4 pb-4 sm:pb-2">
           Dashboard
@@ -325,37 +337,44 @@ onMount( async() => {
                       <ArrowUpRight class="hidden sm:inline-block h-4 w-4 shrink-0 -mt-1 ml-0.5" />
                     </a>
                   </div>
-                  <Card.Description class="mt-2 text-sm sm:text-[1rem]">Recent hedge fund options with the highest premiums.</Card.Description>
+                  <Card.Description class="mt-2 text-sm sm:text-[1rem]">Recent hedge fund options with the highest ...</Card.Description>
+                  <Tabs.Root value="premium" class="w-fit mt-5 ">
+                    <Tabs.List class="grid w-full grid-cols-3 bg-[#313131]">
+                      <Tabs.Trigger on:click={() => changeTable('premium')} value="premium" class="text-sm">Premium</Tabs.Trigger>
+                      <Tabs.Trigger on:click={() => changeTable('volume')} value="volume" class="text-sm">Volume</Tabs.Trigger>
+                      <Tabs.Trigger on:click={() => changeTable('openInterest')} value="openInterest" class="text-sm">{$screenWidth < 640 ? 'OI' : 'Open Interest'}</Tabs.Trigger>
+                    </Tabs.List>
+                  </Tabs.Root>
                 </div>
               </Card.Header>
               <Card.Content>
                 <Table.Root class="overflow-x-scroll w-full">
                   <Table.Header>
                     <Table.Row>
-                      <Table.Head class="text-white">Symbol</Table.Head>
-                      <Table.Head class="text-white">Prem.</Table.Head>
-                      <Table.Head class="text-white">Strike</Table.Head>
-                      <Table.Head class="text-white">Sent.</Table.Head>
-                      <Table.Head class="text-white">C/P</Table.Head>
-                      <Table.Head class="text-right text-white">Expiry</Table.Head>
+                      <Table.Head class="text-white font-semibold">Symbol</Table.Head>
+                      <Table.Head class="text-white text-right font-semibold">Prem</Table.Head>
+                      <Table.Head class="text-white text-right font-semibold">Strike</Table.Head>
+                      <Table.Head class="text-white text-right font-semibold">{optionsMode === 'openInterest' ? 'OI' : 'Vol'}</Table.Head>
+                      <Table.Head class="text-white text-right font-semibold">C/P</Table.Head>
+                      <Table.Head class="text-right text-white font-semibold">Expiry</Table.Head>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
-                    {#each data?.getDashboard?.optionsFlow as item}
+                    {#each optionsTable as item}
                     <Table.Row>
                       <Table.Cell>
                         <a href={item?.assetType === 'stock' ? `/stocks/${item?.ticker}` : `/etf/${item?.ticker}`} class="text-sm sm:text-[1rem] font-medium text-blue-400 sm:hover:text-white transition duration-100">{item?.ticker}</a>
                       </Table.Cell>
-                      <Table.Cell class="xl:table.-column text-sm sm:text-[1rem] {item?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
+                      <Table.Cell class="text-right xl:table.-column text-sm sm:text-[1rem] {item?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
                         {abbreviateNumber(item?.cost_basis,true)}
                       </Table.Cell>
-                      <Table.Cell class="xl:table.-column text-sm sm:text-[1rem]">
+                      <Table.Cell class="text-right xl:table.-column text-sm sm:text-[1rem]">
                         ${item?.strike_price}
                       </Table.Cell>
-                      <Table.Cell class="md:table.-cell xl:table.-column text-sm sm:text-[1rem] {item?.sentiment === 'Bullish' ? 'text-[#00FC50]' : item?.sentiment === 'Bearish' ? 'text-[#FC2120]' : 'text-[#C6A755]'}">
-                        {item?.sentiment}
+                      <Table.Cell class="text-right md:table.-cell xl:table.-column text-sm sm:text-[1rem] text-white">
+                        {abbreviateNumber(optionsMode === 'openInterest' ? item?.open_interest : item?.volume)}
                       </Table.Cell>
-                      <Table.Cell class="md:table.-cell xl:table.-column text-sm sm:text-[1rem] {item?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
+                      <Table.Cell class="text-right md:table.-cell xl:table.-column text-sm sm:text-[1rem] {item?.put_call === 'Calls' ? 'text-[#00FC50]' : 'text-[#FC2120]'}">
                         {item?.put_call}
                       </Table.Cell>
                       
@@ -367,7 +386,7 @@ onMount( async() => {
               </Card.Content>
             </Card.Root>
             
-            <Card.Root class="overflow-x-scroll overflow-hidden overflow-y-scroll no-scrollbar sm:max-h-[400px]">
+            <Card.Root class="overflow-x-scroll overflow-hidden overflow-y-scroll no-scrollbar sm:max-h-[470px]">
               <Card.Header class="flex flex-row items-center">
                 <div class="flex flex-col items-start w-full">
                   <div class="flex flex-row w-full items-center">
@@ -376,6 +395,7 @@ onMount( async() => {
                 </div>
               </Card.Header>
               <Card.Content>
+                {#if data?.getDashboard?.recentDividends?.length !== 0}
                 <ul style="padding-left: 5px;">
                   {#each data?.getDashboard?.recentDividends as item}
                   <strong>{item?.name}</strong> (<a href="/stocks/{item?.symbol}" class="sm:hover:text-white text-blue-400">{item?.symbol}</a>) has announced its upcoming dividend details as of {convertTimestamp(item?.updated)}:
@@ -398,6 +418,9 @@ onMount( async() => {
 
                   {/each}
               </ul>
+              {:else}
+                Currently, there are no dividend announcement reports available.
+              {/if}
              
               </Card.Content>
             </Card.Root>
@@ -486,6 +509,7 @@ onMount( async() => {
                   </div>
                 </Card.Header>
                 <Card.Content>
+                  {#if data?.getDasboard?.recentEarnings?.length !== 0}
                   <ul style="padding-left: 5px;">
                     {#each data?.getDashboard?.recentEarnings as item}
                     <strong>{item?.name}</strong> (<a href="/stocks/{item?.symbol}" class="sm:hover:text-white text-blue-400">{item?.symbol}</a>) has released its quarterly earnings at {formatTime(item?.time)}:
@@ -500,7 +524,9 @@ onMount( async() => {
 
                     {/each}
                 </ul>
-               
+                {:else}
+                Currently, there are no recent earnings reports available.
+                {/if}
                 </Card.Content>
               </Card.Root>
               

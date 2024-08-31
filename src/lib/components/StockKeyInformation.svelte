@@ -4,7 +4,7 @@
   import ExecutiveCard from '$lib/components/ExecutiveCard.svelte';
 
   import SimilarTickerCard from '$lib/components/SimilarTickerCard.svelte';
-  import ESGCard from '$lib/components/ESGCard.svelte';
+  //import ESGCard from '$lib/components/ESGCard.svelte';
   import SECFilingsCard from '$lib/components/SECFilingsCard.svelte';
   import TopETFTickerHolder from '$lib/components/TopETFTickerHolder.svelte';
 
@@ -44,9 +44,11 @@ $: {
     <label on:click={() => $secFilingsClicked = true} for="secFilingModal" class="w-auto border border-gray-300 flex px-4 py-2 mb-2 justify-center items-center text-xs font-medium rounded-xl text-gray-200">
       SEC Filings
     </label>
+    <!--
     <label for="esgModal" class="w-auto border border-gray-300 flex px-4 py-2 mb-2 justify-center items-center text-xs font-medium rounded-xl text-gray-200">
       ESG Score
     </label>
+    -->
     <label for="similarTickerModal" class="w-auto border border-gray-300 flex px-4 py-2 mb-2 justify-center items-center text-xs font-medium rounded-xl text-gray-200">
       Similar
     </label>
@@ -145,6 +147,7 @@ $: {
   
 
 <!--Start ESG Modal-->
+<!--
 <div class="drawer drawer-end z-40 overflow-hidden w-screen">
   <input id="esgModal" type="checkbox" class="drawer-toggle"/>
   <div class="drawer-side overflow-hidden">
@@ -164,6 +167,7 @@ $: {
     </div>
   </div>
 </div>
+-->
 <!--End ESG Modal-->
 
   

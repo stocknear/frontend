@@ -15,7 +15,7 @@
   const bottomLineColor = '#FF7070';
   const bottomFillColor1 = 'rgba(239, 83, 80, 0.2)';
 
-  let width = $screenWidth < 640 ? 80 : $screenWidth < 1200 ? 150 : 180 //= ($screenWidth <= 1200 && $screenWidth > 900) ? 360 : ($screenWidth <= 900 && $screenWidth > 700) ? 260 : ($screenWidth <= 700 && $screenWidth >=600 ) ? 200 : ($screenWidth < 600 && $screenWidth >=500 ) ? 150 : 80;
+  let width = $screenWidth < 640 ? 80 : $screenWidth < 1500 ? 150 : 220 //= ($screenWidth <= 1200 && $screenWidth > 900) ? 360 : ($screenWidth <= 900 && $screenWidth > 700) ? 260 : ($screenWidth <= 700 && $screenWidth >=600 ) ? 200 : ($screenWidth < 600 && $screenWidth >=500 ) ? 150 : 80;
 
   
   //Initial height of graph

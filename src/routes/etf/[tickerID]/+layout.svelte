@@ -763,6 +763,7 @@ $: {
                                 <!--Start Company Info -->
                                 
                                 <ETFProfileCard
+                                  data = {data}
                                   etfProfile = {etfProfile}
                                 />
 

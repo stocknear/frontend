@@ -1,3 +1,6 @@
-# https://www.robotstxt.org/robotstxt.html
+# Allow all web crawlers full access to all content
 User-agent: *
-Disallow: /
+Disallow:
+
+# Sitemap for better indexing
+Sitemap: https://stocknear.com/sitemap.xml

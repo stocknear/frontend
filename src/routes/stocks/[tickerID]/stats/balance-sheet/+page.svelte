@@ -609,22 +609,26 @@ $: {
                                                       </td>
           
                                                       <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-end border-b-[#09090B]">
-                                                          {#if index+1-tableList?.length === 0}
-                                                          -
-                                                          {:else}
-                                                          {#if (item?.value- tableList[index+1]?.value) > 0}
-                                                          <span class="text-[#10DB06]">
-                                                            +{(((item?.value-tableList[index+1]?.value) / item?.value) * 100 )?.toFixed(2)}%
-                                                          </span>
-                                                          {:else if (item?.value - tableList[index+1]?.value ) < 0}
-                                                          <span class="text-[#FF2F1F]">
-                                                            -{(Math?.abs((tableList[index+1]?.value - item?.value) / item?.value) * 100 )?.toFixed(2)}%
-                                                          </span>
-                                                          {:else}
-                                                          -
-                                                          {/if}
-                                                          {/if}
-                                                      </td>
+                                                        {#if index + 1 - tableList?.length === 0}
+                                                            -
+                                                        {:else}
+                                                            {#if (item?.value === 0 && tableList[index+1]?.value < 0)}
+                                                                <span class="text-[#FF2F1F]">-100.00%</span>
+                                                            {:else if (item?.value === 0 && tableList[index+1]?.value > 0)}
+                                                                <span class="text-[#10DB06]">100.00%</span>
+                                                            {:else if ((item?.value - tableList[index+1]?.value) > 0)}
+                                                                <span class="text-[#10DB06]">
+                                                                    {(((item?.value - tableList[index+1]?.value) / Math.abs(item?.value)) * 100)?.toFixed(2)}%
+                                                                </span>
+                                                            {:else if ((item?.value - tableList[index+1]?.value) < 0)}
+                                                                <span class="text-[#FF2F1F]">
+                                                                    -{(Math?.abs((tableList[index+1]?.value - item?.value) / Math.abs(item?.value)) * 100)?.toFixed(2)}%
+                                                                </span>
+                                                            {:else}
+                                                                -
+                                                            {/if}
+                                                        {/if}
+                                                    </td>
           
                                                   </tr>
                                                   {/each}

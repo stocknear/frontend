@@ -519,41 +519,46 @@ $: {
                                   </thead>
                                   <tbody>
                                     {#each tableList as item, index}
-                                        <!-- row -->
-                                        <tr class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
+                                    <!-- row -->
+                                    <tr class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] odd:bg-[#27272A] border-b-[#09090B] shake-ticker cursor-pointer">
+                                    
+                                        <td class="text-white font-medium text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B]">
+                                        {item?.date}
+                                        </td>
+
+                                        <td class="text-white text-sm sm:text-[1rem] text-right whitespace-nowrap border-b-[#09090B]">
+                                        {abbreviateNumber(item?.value)}
+                                        </td>
+
+                                        <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-end border-b-[#09090B]">
+                                            {item?.value-tableList[index+1]?.value !== 0 ? abbreviateNumber((item?.value-tableList[index+1]?.value)?.toFixed(2)) : '-'}
+                                        </td>
+
+                                        <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-end border-b-[#09090B]">
+                                            {#if index + 1 - tableList?.length === 0}
+                                                -
+                                            {:else}
+                                                {#if (item?.value === 0 && tableList[index+1]?.value < 0)}
+                                                    <span class="text-[#FF2F1F]">-100.00%</span>
+                                                {:else if (item?.value === 0 && tableList[index+1]?.value > 0)}
+                                                    <span class="text-[#10DB06]">100.00%</span>
+                                                {:else if ((item?.value - tableList[index+1]?.value) > 0)}
+                                                    <span class="text-[#10DB06]">
+                                                        {(((item?.value - tableList[index+1]?.value) / Math.abs(item?.value)) * 100)?.toFixed(2)}%
+                                                    </span>
+                                                {:else if ((item?.value - tableList[index+1]?.value) < 0)}
+                                                    <span class="text-[#FF2F1F]">
+                                                        -{(Math?.abs((tableList[index+1]?.value - item?.value) / Math.abs(item?.value)) * 100)?.toFixed(2)}%
+                                                    </span>
+                                                {:else}
+                                                    -
+                                                {/if}
+                                            {/if}
+                                        </td>
                                         
-                                            <td class="text-white font-medium text-sm sm:text-[1rem] whitespace-nowrap border-b-[#09090B]">
-                                            {item?.date}
-                                            </td>
 
-                                            <td class="text-white text-sm sm:text-[1rem] text-right whitespace-nowrap border-b-[#09090B]">
-                                            {abbreviateNumber(item?.value)}
-                                            </td>
-
-                                            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-end border-b-[#09090B]">
-                                                {item?.value-tableList[index+1]?.value !== 0 ? abbreviateNumber((item?.value-tableList[index+1]?.value)?.toFixed(2)) : '-'}
-                                            </td>
-
-                                            <td class="text-white text-sm sm:text-[1rem] whitespace-nowrap font-medium text-end border-b-[#09090B]">
-                                                {#if index+1-tableList?.length === 0}
-                                                -
-                                                {:else}
-                                                {#if (item?.value- tableList[index+1]?.value) > 0}
-                                                <span class="text-[#10DB06]">
-                                                  +{(((item?.value-tableList[index+1]?.value) / item?.value) * 100 )?.toFixed(2)}%
-                                                </span>
-                                                {:else if (item?.value - tableList[index+1]?.value ) < 0}
-                                                <span class="text-[#FF2F1F]">
-                                                  -{(Math?.abs((tableList[index+1]?.value - item?.value) / item?.value) * 100 )?.toFixed(2)}%
-                                                </span>
-                                                {:else}
-                                                -
-                                                {/if}
-                                                {/if}
-                                            </td>
-
-                                        </tr>
-                                        {/each}
+                                    </tr>
+                                    {/each}
 
                                   </tbody>
                                 </table>

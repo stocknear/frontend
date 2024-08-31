@@ -14,7 +14,6 @@
             dividendHistoryList = dividendList?.history;
 
             dividendYield = dividendList?.dividendYield;
-            console.log(dividendList)
 
         }
 }
@@ -25,7 +24,7 @@
           
           <div class="space-y-3 lg:pt-5 lg:{dividendHistoryList?.length !== 0 ? '' : 'hidden'}">  
           
-          <div class="sm:rounded-lg shadow-lg bg-[#000] lg:bg-[#09090B] lg:border lg:border-slate-800 h-auto {$screenWidth <= 800 ? 'w-screen pt-16' : ''} md:w-[420px]">
+          <div class="sm:rounded-lg shadow-lg bg-[#000] lg:bg-[#09090B] lg:border lg:border-slate-800 h-auto {$screenWidth <= 800 ? 'w-screen pt-16' : ''} md:w-[420px] xl:w-[450px]">
           
             <div class="w-auto lg:w-full p-1 flex-1 flex flex-wrap pb-5">
               <div class="flex flex-row items-center w-full ml-2 pb-2 p-3">

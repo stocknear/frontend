@@ -214,7 +214,7 @@ let charNumber = 30;
                     </div>
                 </div>
 
-                
+                {#if putCallRatio !== 0}
                 <h1 class="text-white font-semibold text-xl sm:text-2xl mb-3 mt-5 sm:-mt-5">
                     Options Activity
                 </h1>
@@ -315,6 +315,7 @@ let charNumber = 30;
               
                       </div>
                 </div>
+                {/if}
 
 
 
