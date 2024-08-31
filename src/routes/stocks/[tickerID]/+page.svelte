@@ -1,23 +1,59 @@
 <script lang="ts">
+  import { AreaSeries, Chart, PriceLine, CandlestickSeries } from "svelte-lightweight-charts";
 
-  import {AreaSeries, Chart, PriceLine, CandlestickSeries} from 'svelte-lightweight-charts';
-  
-  import { TrackingModeExitMode } from 'lightweight-charts';
-  import {getCache, setCache, corporateLobbyingComponent, taRatingComponent, swapComponent, analystInsightComponent, governmentContractComponent, optionsNetFlowComponent, borrowedShareComponent, clinicalTrialComponent, optionComponent, failToDeliverComponent, marketMakerComponent, analystEstimateComponent, sentimentComponent, screenWidth, displayCompanyName, numberOfUnreadNotification, globalForm, varComponent, shareStatisticsComponent, enterpriseComponent, darkPoolComponent, retailVolumeComponent, shareholderComponent, trendAnalysisComponent,  revenueSegmentationComponent, priceAnalysisComponent, fundamentalAnalysisComponent, isCrosshairMoveActive, realtimePrice, priceIncrease, currentPortfolioPrice, stockTicker, isOpen, isBeforeMarketOpen, isWeekend} from '$lib/store';
-  import { onDestroy, onMount } from 'svelte';
-  import BullBearSay from '$lib/components/BullBearSay.svelte';
-  import NextEarnings from '$lib/components/NextEarnings.svelte';
-  import CommunitySentiment from '$lib/components/CommunitySentiment.svelte';
-  import Lazy from '$lib/components/Lazy.svelte';
-    
-  
-    export let data;
-    export let form;
-  
-    let displayChartType = 'line';
-  
-    let prePostData = {};
-    let communitySentiment = {};
+  import { TrackingModeExitMode } from "lightweight-charts";
+  import {
+    getCache,
+    setCache,
+    corporateLobbyingComponent,
+    taRatingComponent,
+    swapComponent,
+    analystInsightComponent,
+    governmentContractComponent,
+    optionsNetFlowComponent,
+    borrowedShareComponent,
+    clinicalTrialComponent,
+    optionComponent,
+    failToDeliverComponent,
+    marketMakerComponent,
+    analystEstimateComponent,
+    sentimentComponent,
+    screenWidth,
+    displayCompanyName,
+    numberOfUnreadNotification,
+    globalForm,
+    varComponent,
+    shareStatisticsComponent,
+    enterpriseComponent,
+    darkPoolComponent,
+    retailVolumeComponent,
+    shareholderComponent,
+    trendAnalysisComponent,
+    revenueSegmentationComponent,
+    priceAnalysisComponent,
+    fundamentalAnalysisComponent,
+    isCrosshairMoveActive,
+    realtimePrice,
+    priceIncrease,
+    currentPortfolioPrice,
+    stockTicker,
+    isOpen,
+    isBeforeMarketOpen,
+    isWeekend,
+  } from "$lib/store";
+  import { onDestroy, onMount } from "svelte";
+  import BullBearSay from "$lib/components/BullBearSay.svelte";
+  import NextEarnings from "$lib/components/NextEarnings.svelte";
+  import CommunitySentiment from "$lib/components/CommunitySentiment.svelte";
+  import Lazy from "$lib/components/Lazy.svelte";
+
+  export let data;
+  export let form;
+
+  let displayChartType = "line";
+
+  let prePostData = {};
+  let communitySentiment = {};
 
   $: previousClose = data?.getStockQuote?.previousClose;
 
@@ -602,560 +638,373 @@
               </div>
             </div>
 
-                                      <div class="ml-auto">
-                                      {#if Object?.keys(prePostData)?.length !== 0 && prePostData?.price !== 0}
-                                      <div class="flex flex-col justify-end items-end">
-                                        <div class="flex flex-row items-center justify-end">
-                                        <span class="text-white text-lg sm:text-2xl font-bold">
-                                          ${prePostData?.price}
-                                        </span>
-                                        {#if prePostData?.changesPercentage >= 0}
-                                        <span class="ml-1 items-center justify-start text-[#10DB06] font-medium text-xs sm:text-sm">({prePostData?.changesPercentage}%)</span> 
-                                        {:else if prePostData?.changesPercentage < 0}
-                                        <span class="ml-1 items-center justify-start text-[#FF2F1F] font-medium text-xs sm:text-sm">({prePostData?.changesPercentage}%)</span> 
-                                        {/if}
-                                        </div>
-                                        {#if $isBeforeMarketOpen && !$isOpen && !$isWeekend}
-                                        <div class="flex flex-row items-center justify-end text-white text-[0.65rem] sm:text-sm font-normal text-end w-24">
-                                          <span>Pre-market:</span>
-                                            <svg class="ml-1 w-4 h-4 inline-block"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#EA9703" d="M120 40V16a8 8 0 0 1 16 0v24a8 8 0 0 1-16 0m72 88a64 64 0 1 1-64-64a64.07 64.07 0 0 1 64 64m-16 0a48 48 0 1 0-48 48a48.05 48.05 0 0 0 48-48M58.34 69.66a8 8 0 0 0 11.32-11.32l-16-16a8 8 0 0 0-11.32 11.32Zm0 116.68l-16 16a8 8 0 0 0 11.32 11.32l16-16a8 8 0 0 0-11.32-11.32M192 72a8 8 0 0 0 5.66-2.34l16-16a8 8 0 0 0-11.32-11.32l-16 16A8 8 0 0 0 192 72m5.66 114.34a8 8 0 0 0-11.32 11.32l16 16a8 8 0 0 0 11.32-11.32ZM48 128a8 8 0 0 0-8-8H16a8 8 0 0 0 0 16h24a8 8 0 0 0 8-8m80 80a8 8 0 0 0-8 8v24a8 8 0 0 0 16 0v-24a8 8 0 0 0-8-8m112-88h-24a8 8 0 0 0 0 16h24a8 8 0 0 0 0-16"/></svg>
-                                        </div>
-                                        {:else}
-                                        <div class="flex flex-row items-center justify-end text-white text-[0.65rem] sm:text-sm font-normal text-end w-28">
-                                          <span>Post-market:</span>
-                                            <svg class="ml-1 w-4 h-4 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#70A1EF" d="M232.13 143.64a6 6 0 0 0-6-1.49a90.07 90.07 0 0 1-112.27-112.3a6 6 0 0 0-7.49-7.48a102.88 102.88 0 0 0-51.89 36.31a102 102 0 0 0 142.84 142.84a102.88 102.88 0 0 0 36.31-51.89a6 6 0 0 0-1.5-5.99m-42 48.29a90 90 0 0 1-126-126a90.9 90.9 0 0 1 35.52-28.27a102.06 102.06 0 0 0 118.69 118.69a90.9 90.9 0 0 1-28.24 35.58Z"/></svg>
-                                        </div>
-                                        {/if}
+            <div class="ml-auto">
+              {#if Object?.keys(prePostData)?.length !== 0 && prePostData?.price !== 0}
+                <div class="flex flex-col justify-end items-end">
+                  <div class="flex flex-row items-center justify-end">
+                    <span class="text-white text-lg sm:text-2xl font-bold">
+                      ${prePostData?.price}
+                    </span>
+                    {#if prePostData?.changesPercentage >= 0}
+                      <span class="ml-1 items-center justify-start text-[#10DB06] font-medium text-xs sm:text-sm">({prePostData?.changesPercentage}%)</span>
+                    {:else if prePostData?.changesPercentage < 0}
+                      <span class="ml-1 items-center justify-start text-[#FF2F1F] font-medium text-xs sm:text-sm">({prePostData?.changesPercentage}%)</span>
+                    {/if}
+                  </div>
+                  {#if $isBeforeMarketOpen && !$isOpen && !$isWeekend}
+                    <div class="flex flex-row items-center justify-end text-white text-[0.65rem] sm:text-sm font-normal text-end w-24">
+                      <span>Pre-market:</span>
+                      <svg class="ml-1 w-4 h-4 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
+                        ><path
+                          fill="#EA9703"
+                          d="M120 40V16a8 8 0 0 1 16 0v24a8 8 0 0 1-16 0m72 88a64 64 0 1 1-64-64a64.07 64.07 0 0 1 64 64m-16 0a48 48 0 1 0-48 48a48.05 48.05 0 0 0 48-48M58.34 69.66a8 8 0 0 0 11.32-11.32l-16-16a8 8 0 0 0-11.32 11.32Zm0 116.68l-16 16a8 8 0 0 0 11.32 11.32l16-16a8 8 0 0 0-11.32-11.32M192 72a8 8 0 0 0 5.66-2.34l16-16a8 8 0 0 0-11.32-11.32l-16 16A8 8 0 0 0 192 72m5.66 114.34a8 8 0 0 0-11.32 11.32l16 16a8 8 0 0 0 11.32-11.32ZM48 128a8 8 0 0 0-8-8H16a8 8 0 0 0 0 16h24a8 8 0 0 0 8-8m80 80a8 8 0 0 0-8 8v24a8 8 0 0 0 16 0v-24a8 8 0 0 0-8-8m112-88h-24a8 8 0 0 0 0 16h24a8 8 0 0 0 0-16"
+                        /></svg
+                      >
+                    </div>
+                  {:else}
+                    <div class="flex flex-row items-center justify-end text-white text-[0.65rem] sm:text-sm font-normal text-end w-28">
+                      <span>Post-market:</span>
+                      <svg class="ml-1 w-4 h-4 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
+                        ><path
+                          fill="#70A1EF"
+                          d="M232.13 143.64a6 6 0 0 0-6-1.49a90.07 90.07 0 0 1-112.27-112.3a6 6 0 0 0-7.49-7.48a102.88 102.88 0 0 0-51.89 36.31a102 102 0 0 0 142.84 142.84a102.88 102.88 0 0 0 36.31-51.89a6 6 0 0 0-1.5-5.99m-42 48.29a90 90 0 0 1-126-126a90.9 90.9 0 0 1 35.52-28.27a102.06 102.06 0 0 0 118.69 118.69a90.9 90.9 0 0 1-28.24 35.58Z"
+                        /></svg
+                      >
+                    </div>
+                  {/if}
+                </div>
+              {/if}
+            </div>
+          </div>
+          <!-----End-Header-CandleChart-Indicators------>
+          <!--Start Time Interval-->
+          <div class="hidden sm:flex flex-row items-center pl-1 sm:pl-6 w-full mt-4">
+            <div class="flex flex-col items-center mr-4">
+              <button on:click={() => changeData("1D")} class="text-sm font-medium text-gray-400 {displayData === '1D' ? 'text-white ' : 'bg-[#09090B]'}"> 1D </button>
+              <div class="{displayData === '1D' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem] rounded-full" />
+            </div>
+            <div class="flex flex-col items-center mr-4">
+              <button on:click={() => changeData("1W")} class="w-full text-sm font-medium text-gray-400 {displayData === '1W' ? 'text-white ' : 'bg-[#09090B]'}"> 1W </button>
+              <div class="{displayData === '1W' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
+            </div>
+            <div class="flex flex-col items-center mr-4">
+              <button on:click={() => changeData("1M")} class="text-sm font-medium text-gray-400 {displayData === '1M' ? 'text-white ' : 'bg-[#09090B]'}"> 1M </button>
+              <div class="{displayData === '1M' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
+            </div>
+            <div class="flex flex-col items-center mr-4">
+              <button on:click={() => changeData("6M")} class="text-sm font-medium text-gray-400 {displayData === '6M' ? 'text-white ' : 'bg-[#09090B]'}"> 6M </button>
+              <div class="{displayData === '6M' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
+            </div>
+            <div class="flex flex-col items-center mr-4">
+              <button on:click={() => changeData("1Y")} class="text-sm font-medium text-gray-400 {displayData === '1Y' ? 'text-white ' : 'bg-[#09090B]'}"> 1Y </button>
+              <div class="{displayData === '1Y' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
+            </div>
 
-                                      </div>
-                                      {/if}
-                                      
-                                    </div>
-                                
-                                </div>
-                                <!-----End-Header-CandleChart-Indicators------>
-                                   <!--Start Time Interval-->
-                                   <div class="hidden sm:flex flex-row items-center pl-1 sm:pl-6 w-full mt-4">
-                                    <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => changeData('1D')} class="text-sm font-medium text-gray-400 {displayData === '1D' ? 'text-white ' : 'bg-[#09090B]'}">
-                                        1D
-                                    </button>
-                                    <div class="{displayData === '1D' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem] rounded-full" />
-                                    </div>
-                                    <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => (changeData('1W'))} class="w-full text-sm font-medium text-gray-400 {displayData === '1W' ? 'text-white ' : 'bg-[#09090B]'}">
-                                        1W
-                                    </button>
-                                    <div class="{displayData === '1W' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                    </div>
-                                    <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => (changeData('1M'))} class="text-sm font-medium text-gray-400 {displayData === '1M' ? 'text-white ' : 'bg-[#09090B]'}">
-                                        1M
-                                    </button>
-                                    <div class="{displayData === '1M' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                    </div>
-                                    <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => changeData('6M')} class="text-sm font-medium text-gray-400 {displayData === '6M' ? 'text-white ' : 'bg-[#09090B]'}">
-                                        6M
-                                    </button>
-                                    <div class="{displayData === '6M' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                    </div>
-                                  <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => changeData('1Y')} class="text-sm font-medium text-gray-400 {displayData === '1Y' ? 'text-white ' : 'bg-[#09090B]'}">
-                                        1Y
-                                    </button>
-                                    <div class="{displayData === '1Y' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                  </div>
-                                  
-                                  <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => changeData('MAX')} class="text-sm font-medium text-gray-400 {displayData === 'MAX' ? 'text-white ' : 'bg-[#09090B]'}">
-                                        MAX
-                                    </button>
-                                    <div class="{displayData === 'MAX' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                  
-                                  </div>
+            <div class="flex flex-col items-center mr-4">
+              <button on:click={() => changeData("MAX")} class="text-sm font-medium text-gray-400 {displayData === 'MAX' ? 'text-white ' : 'bg-[#09090B]'}"> MAX </button>
+              <div class="{displayData === 'MAX' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
+            </div>
 
+            <label on:click={changeChartType} class="ml-auto -mt-3 block cursor-pointer bg-[#27272A] sm:hover:bg-[#303030] duratiion-100 transition ease-in-out px-3 py-1 rounded-lg shadow-sm">
+              {#if displayChartType === "line"}
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M7 20v-2H5V6h2V4h2v2h2v12H9v2zm8 0v-5h-2V8h2V4h2v4h2v7h-2v5z" /></svg>
+              {:else}
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 16.5L9 10l4 6l8-9.5" /></svg>
+              {/if}
+            </label>
+          </div>
+          <!--End Time Interval-->
 
-  
-                                  <label on:click={changeChartType} class="ml-auto -mt-3 block cursor-pointer bg-[#27272A] sm:hover:bg-[#303030] duratiion-100 transition ease-in-out px-3 py-1 rounded-lg shadow-sm">
-                                    {#if displayChartType === 'line'}
-                                      <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M7 20v-2H5V6h2V4h2v2h2v12H9v2zm8 0v-5h-2V8h2V4h2v4h2v7h-2v5z"/></svg>
-                                      {:else}
-                                      <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 16.5L9 10l4 6l8-9.5"/></svg>
-                                      {/if}
-                                </label>
-                                  
-                                </div>
-                                  <!--End Time Interval-->
-                                
-                                  <!--End Ticker Section-->
-                                <!-- Start Graph -->
-  
-                                {#if output !== null}
-                                  <div class ="w-full sm:pl-7 ml-auto max-w-5xl mb-10">
-                                    {#if displayData === '1D' && oneDayPrice?.length === 0}
-                                    <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
-                                      No data available
-                                    </h2>
-                                    {:else if displayData === '1W' && oneWeekPrice?.length === 0}
-                                    <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
-                                      No data available
-                                    </h2>
-                                    {:else if displayData === '1M' && oneMonthPrice?.length === 0}
-                                    <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
-                                      No data available
-                                    </h2>
-                                    {:else if displayData === '6M' && sixMonthPrice?.length === 0}
-                                    <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
-                                      No data available
-                                    </h2>
-                                    {:else if displayData === '1Y' && oneYearPrice?.length === 0}
-                                    <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
-                                      No data available
-                                    </h2>
-                                    {:else if displayData === 'MAX' && threeYearPrice?.length === 0}
-                                    <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">
-                                      No data available
-                                    </h2>
-                                    {:else}
-  
-                                    <Chart {...options} autoSize={true} ref={(ref) => chart = ref} on:crosshairMove={handleCrosshairMove} >
-                                    
-                                    {#if displayData === '1D'}
-                                      {#if displayChartType === 'line'}
-                                      <AreaSeries 
-                                        data={oneDayPrice?.map(({ time, close }) => ({ time, value: close }))}
-                                        lineWidth={1.5}
-                                        priceScaleId="left"
-                                        lineColor={colorChange}
-                                        topColor={topColorChange}
-                                        bottomColor={bottomColorChange}
-                                        crosshairMarkerVisible={false}
-                                        ref={handleSeriesReference}
-                                        priceLineVisible= {false}
-                                        lastPriceAnimation={1}
-                                        >
-                                        <PriceLine
-                                          price={oneDayPrice?.at(0)?.close}
-                                          lineWidth = {1}
-                                          color="#fff"
-                                        />
-                                      </AreaSeries>
-                                      {:else}
-                                      <CandlestickSeries
-                                          data={oneDayPrice}
-                                          crosshairMarkerVisible={false}
-                                          ref={handleSeriesReference}
-                                          priceLineVisible= {false}
-                                          >
-                                        <PriceLine
-                                          price={oneDayPrice?.at(0)?.close}
-                                          lineWidth = {1}
-                                          color="#fff"
-                                        />
-                                    </CandlestickSeries>
-                                      {/if}
-                                      {:else if displayData === '1W'}
-                                      {#if displayChartType === 'line'}
-                                      <AreaSeries 
-                                        data={oneWeekPrice?.map(({ time, close }) => ({ time, value: close }))}
-                                        lineWidth={1.5}
-                                        priceScaleId="left"
-                                        lineColor={colorChange}
-                                        topColor={topColorChange}
-                                        bottomColor={bottomColorChange}
-                                        crosshairMarkerVisible={false}
-                                        ref={handleSeriesReference}
-                                        priceLineVisible= {false}
-                                        lastPriceAnimation={1}
-                                        >
-                                        <PriceLine
-                                          price={oneWeekPrice?.at(0)?.close}
-                                          lineWidth = {1}
-                                          color="#fff"
-                                        />
-                                      </AreaSeries>
-                                      {:else}
-                                      <CandlestickSeries
-                                          data={oneWeekPrice}
-                                          crosshairMarkerVisible={false}
-                                          ref={handleSeriesReference}
-                                          priceLineVisible= {false}
-                                          >
-                                        <PriceLine
-                                          price={oneWeekPrice?.at(0)?.close}
-                                          lineWidth = {1}
-                                          color="#fff"
-                                        />
-                                    </CandlestickSeries>
-                                      {/if}
-  
-                                      {:else if displayData === '1M'}
-                                      {#if displayChartType === 'line'}
-                                      <AreaSeries 
-                                        data={oneMonthPrice?.map(({ time, close }) => ({ time, value: close }))}
-                                        lineWidth={1.5}
-                                        priceScaleId="left"
-                                        lineColor={colorChange}
-                                        topColor={topColorChange}
-                                        bottomColor={bottomColorChange}
-                                        crosshairMarkerVisible={false}
-                                        ref={handleSeriesReference}
-                                        priceLineVisible= {false}
-                                        lastPriceAnimation={1}
-                                        >
-                                        <PriceLine
-                                          price={oneMonthPrice?.at(0)?.close}
-                                          lineWidth = {1}
-                                          color="#fff"
-                                        />
-                                      </AreaSeries>
-                                      {:else}
-                                      <CandlestickSeries
-                                          data={oneMonthPrice}
-                                          crosshairMarkerVisible={false}
-                                          ref={handleSeriesReference}
-                                          priceLineVisible= {false}
-                                          >
-                                        <PriceLine
-                                          price={oneMonthPrice?.at(0)?.close}
-                                          lineWidth = {1}
-                                          color="#fff"
-                                        />
-                                    </CandlestickSeries>
-                                      {/if}
-  
-  
-                                      {:else if displayData === '6M'}
-                                      {#if displayChartType === 'line'}
-                                      <AreaSeries 
-                                      data={sixMonthPrice?.map(({ time, close }) => ({ time, value: close }))}
-                                        lineWidth={1.5}
-                                        priceScaleId="left"
-                                        lineColor={colorChange}
-                                        topColor={topColorChange}
-                                        bottomColor={bottomColorChange}
-                                        crosshairMarkerVisible={false}
-                                        ref={handleSeriesReference}
-                                        priceLineVisible= {false}
-                                        lastPriceAnimation={1}
-                                        >
-                                        <PriceLine
-                                          price={sixMonthPrice?.at(0)?.close}
-                                          lineWidth = {1}
-                                          color="#fff"
-                                        />
-                                      </AreaSeries>
-                                      {:else}
-                                      <CandlestickSeries
-                                          data={sixMonthPrice}
-                                          crosshairMarkerVisible={false}
-                                          ref={handleSeriesReference}
-                                          priceLineVisible= {false}
-                                          >
-                                        <PriceLine
-                                          price={sixMonthPrice?.at(0)?.close}
-                                          lineWidth = {1}
-                                          color="#fff"
-                                        />
-                                    </CandlestickSeries>
-                                      {/if}
-  
-  
-  
-                                      {:else if displayData === '1Y'}
-                                      {#if displayChartType === 'line'}
-                                      <AreaSeries 
-                                      data={oneYearPrice?.map(({ time, close }) => ({ time, value: close }))}
-                                        lineWidth={1.5}
-                                        priceScaleId="left"
-                                        lineColor={colorChange}
-                                        topColor={topColorChange}
-                                        bottomColor={bottomColorChange}
-                                        crosshairMarkerVisible={false}
-                                        ref={handleSeriesReference}
-                                        priceLineVisible= {false}
-                                        lastPriceAnimation={1}
-                                        >
-                                        <PriceLine
-                                          price={oneYearPrice?.at(0)?.close}
-                                          lineWidth = {1}
-                                          color="#fff"
-                                        />
-                                      </AreaSeries>
-                                      {:else}
-                                      <CandlestickSeries
-                                          data={oneYearPrice}
-                                          crosshairMarkerVisible={false}
-                                          ref={handleSeriesReference}
-                                          priceLineVisible= {false}
-                                          >
-                                        <PriceLine
-                                          price={oneYearPrice?.at(0)?.close}
-                                          lineWidth = {1}
-                                          color="#fff"
-                                        />
-                                    </CandlestickSeries>
-                                      {/if}
-  
-  
-  
-                                      {:else if displayData === 'MAX'}
-                                      {#if displayChartType === 'line'}
-                                      <AreaSeries 
-                                        data={threeYearPrice?.map(({ time, close }) => ({ time, value: close }))}
-                                        lineWidth={1.5}
-                                        priceScaleId="left"
-                                        lineColor={colorChange}
-                                        topColor={topColorChange}
-                                        bottomColor={bottomColorChange}
-                                        crosshairMarkerVisible={false}
-                                        ref={handleSeriesReference}
-                                        priceLineVisible= {false}
-                                        lastPriceAnimation={1}
-                                        >
-                                        <PriceLine
-                                          price={threeYearPrice?.at(0)?.close}
-                                          lineWidth = {1}
-                                          color="#fff"
-                                        />
-                                      </AreaSeries>
-                                      {:else}
-                                      <CandlestickSeries
-                                          data={threeYearPrice}
-                                          crosshairMarkerVisible={false}
-                                          ref={handleSeriesReference}
-                                          priceLineVisible= {false}
-                                          >
-                                        <PriceLine
-                                          price={threeYearPrice?.at(0)?.close}
-                                          lineWidth = {1}
-                                          color="#fff"
-                                        />
-                                    </CandlestickSeries>
-                                      {/if}
-  
-  
-                                    {/if}
-                                    </Chart>
-                                    {/if}
-  
-                                  </div>
-                                  {:else}
-                                  <!-- else output not loaded yet-->
-                                    <div class="flex justify-center w-full sm:w-[650px] h-80 sm:w-[600px] items-center">
-                                        <div class="relative">
-                                          <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                                            <span class="loading loading-spinner loading-md"></span>
-                                          </label>
-                                      </div>  
-                                    </div>
-                                  {/if}
-                                  
-                                  <!--End Graph-->
-  
-                                    <!--Start Time Interval-->
-                                    <div class="pl-1 w-screen sm:hidden flex flex-row items-center">
-                                    <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => changeData('1D')} class="text-sm font-medium text-gray-400 {displayData === '1D' ? 'text-white ' : 'bg-[#09090B]'}">
-                                        1D
-                                    </button>
-                                    <div class="{displayData === '1D' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem] rounded-full" />
-                                    </div>
-                                    <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => (changeData('1W'))} class="w-full text-sm font-medium text-gray-400 {displayData === '1W' ? 'text-white ' : 'bg-[#09090B]'}">
-                                        1W
-                                    </button>
-                                    <div class="{displayData === '1W' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                    </div>
-                                    <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => (changeData('1M'))} class="text-sm font-medium text-gray-400 {displayData === '1M' ? 'text-white ' : 'bg-[#09090B]'}">
-                                        1M
-                                    </button>
-                                    <div class="{displayData === '1M' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                    </div>
-                                    <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => changeData('6M')} class="text-sm font-medium text-gray-400 {displayData === '6M' ? 'text-white ' : 'bg-[#09090B]'}">
-                                        6M
-                                    </button>
-                                    <div class="{displayData === '6M' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                    </div>
-                                  <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => changeData('1Y')} class="text-sm font-medium text-gray-400 {displayData === '1Y' ? 'text-white ' : 'bg-[#09090B]'}">
-                                        1Y
-                                    </button>
-                                    <div class="{displayData === '1Y' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                  </div>
-                                  
-                                  <div class="flex flex-col items-center mr-4">
-                                    <button on:click={() => changeData('MAX')} class="text-sm font-medium text-gray-400 {displayData === 'MAX' ? 'text-white ' : 'bg-[#09090B]'}">
-                                        MAX
-                                    </button>
-                                    <div class="{displayData === 'MAX' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
-                                  </div>
+          <!--End Ticker Section-->
+          <!-- Start Graph -->
 
-                                    
-                                    </div>
-                                    <!--End Time Interval-->
+          {#if output !== null}
+            <div class="w-full sm:pl-7 ml-auto max-w-5xl mb-10">
+              {#if displayData === "1D" && oneDayPrice?.length === 0}
+                <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">No data available</h2>
+              {:else if displayData === "1W" && oneWeekPrice?.length === 0}
+                <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">No data available</h2>
+              {:else if displayData === "1M" && oneMonthPrice?.length === 0}
+                <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">No data available</h2>
+              {:else if displayData === "6M" && sixMonthPrice?.length === 0}
+                <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">No data available</h2>
+              {:else if displayData === "1Y" && oneYearPrice?.length === 0}
+                <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">No data available</h2>
+              {:else if displayData === "MAX" && threeYearPrice?.length === 0}
+                <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">No data available</h2>
+              {:else}
+                <Chart {...options} autoSize={true} ref={(ref) => (chart = ref)} on:crosshairMove={handleCrosshairMove}>
+                  {#if displayData === "1D"}
+                    {#if displayChartType === "line"}
+                      <AreaSeries
+                        data={oneDayPrice?.map(({ time, close }) => ({ time, value: close }))}
+                        lineWidth={1.5}
+                        priceScaleId="left"
+                        lineColor={colorChange}
+                        topColor={topColorChange}
+                        bottomColor={bottomColorChange}
+                        crosshairMarkerVisible={false}
+                        ref={handleSeriesReference}
+                        priceLineVisible={false}
+                        lastPriceAnimation={1}
+                      >
+                        <PriceLine price={oneDayPrice?.at(0)?.close} lineWidth={1} color="#fff" />
+                      </AreaSeries>
+                    {:else}
+                      <CandlestickSeries data={oneDayPrice} crosshairMarkerVisible={false} ref={handleSeriesReference} priceLineVisible={false}>
+                        <PriceLine price={oneDayPrice?.at(0)?.close} lineWidth={1} color="#fff" />
+                      </CandlestickSeries>
+                    {/if}
+                  {:else if displayData === "1W"}
+                    {#if displayChartType === "line"}
+                      <AreaSeries
+                        data={oneWeekPrice?.map(({ time, close }) => ({ time, value: close }))}
+                        lineWidth={1.5}
+                        priceScaleId="left"
+                        lineColor={colorChange}
+                        topColor={topColorChange}
+                        bottomColor={bottomColorChange}
+                        crosshairMarkerVisible={false}
+                        ref={handleSeriesReference}
+                        priceLineVisible={false}
+                        lastPriceAnimation={1}
+                      >
+                        <PriceLine price={oneWeekPrice?.at(0)?.close} lineWidth={1} color="#fff" />
+                      </AreaSeries>
+                    {:else}
+                      <CandlestickSeries data={oneWeekPrice} crosshairMarkerVisible={false} ref={handleSeriesReference} priceLineVisible={false}>
+                        <PriceLine price={oneWeekPrice?.at(0)?.close} lineWidth={1} color="#fff" />
+                      </CandlestickSeries>
+                    {/if}
+                  {:else if displayData === "1M"}
+                    {#if displayChartType === "line"}
+                      <AreaSeries
+                        data={oneMonthPrice?.map(({ time, close }) => ({ time, value: close }))}
+                        lineWidth={1.5}
+                        priceScaleId="left"
+                        lineColor={colorChange}
+                        topColor={topColorChange}
+                        bottomColor={bottomColorChange}
+                        crosshairMarkerVisible={false}
+                        ref={handleSeriesReference}
+                        priceLineVisible={false}
+                        lastPriceAnimation={1}
+                      >
+                        <PriceLine price={oneMonthPrice?.at(0)?.close} lineWidth={1} color="#fff" />
+                      </AreaSeries>
+                    {:else}
+                      <CandlestickSeries data={oneMonthPrice} crosshairMarkerVisible={false} ref={handleSeriesReference} priceLineVisible={false}>
+                        <PriceLine price={oneMonthPrice?.at(0)?.close} lineWidth={1} color="#fff" />
+                      </CandlestickSeries>
+                    {/if}
+                  {:else if displayData === "6M"}
+                    {#if displayChartType === "line"}
+                      <AreaSeries
+                        data={sixMonthPrice?.map(({ time, close }) => ({ time, value: close }))}
+                        lineWidth={1.5}
+                        priceScaleId="left"
+                        lineColor={colorChange}
+                        topColor={topColorChange}
+                        bottomColor={bottomColorChange}
+                        crosshairMarkerVisible={false}
+                        ref={handleSeriesReference}
+                        priceLineVisible={false}
+                        lastPriceAnimation={1}
+                      >
+                        <PriceLine price={sixMonthPrice?.at(0)?.close} lineWidth={1} color="#fff" />
+                      </AreaSeries>
+                    {:else}
+                      <CandlestickSeries data={sixMonthPrice} crosshairMarkerVisible={false} ref={handleSeriesReference} priceLineVisible={false}>
+                        <PriceLine price={sixMonthPrice?.at(0)?.close} lineWidth={1} color="#fff" />
+                      </CandlestickSeries>
+                    {/if}
+                  {:else if displayData === "1Y"}
+                    {#if displayChartType === "line"}
+                      <AreaSeries
+                        data={oneYearPrice?.map(({ time, close }) => ({ time, value: close }))}
+                        lineWidth={1.5}
+                        priceScaleId="left"
+                        lineColor={colorChange}
+                        topColor={topColorChange}
+                        bottomColor={bottomColorChange}
+                        crosshairMarkerVisible={false}
+                        ref={handleSeriesReference}
+                        priceLineVisible={false}
+                        lastPriceAnimation={1}
+                      >
+                        <PriceLine price={oneYearPrice?.at(0)?.close} lineWidth={1} color="#fff" />
+                      </AreaSeries>
+                    {:else}
+                      <CandlestickSeries data={oneYearPrice} crosshairMarkerVisible={false} ref={handleSeriesReference} priceLineVisible={false}>
+                        <PriceLine price={oneYearPrice?.at(0)?.close} lineWidth={1} color="#fff" />
+                      </CandlestickSeries>
+                    {/if}
+                  {:else if displayData === "MAX"}
+                    {#if displayChartType === "line"}
+                      <AreaSeries
+                        data={threeYearPrice?.map(({ time, close }) => ({ time, value: close }))}
+                        lineWidth={1.5}
+                        priceScaleId="left"
+                        lineColor={colorChange}
+                        topColor={topColorChange}
+                        bottomColor={bottomColorChange}
+                        crosshairMarkerVisible={false}
+                        ref={handleSeriesReference}
+                        priceLineVisible={false}
+                        lastPriceAnimation={1}
+                      >
+                        <PriceLine price={threeYearPrice?.at(0)?.close} lineWidth={1} color="#fff" />
+                      </AreaSeries>
+                    {:else}
+                      <CandlestickSeries data={threeYearPrice} crosshairMarkerVisible={false} ref={handleSeriesReference} priceLineVisible={false}>
+                        <PriceLine price={threeYearPrice?.at(0)?.close} lineWidth={1} color="#fff" />
+                      </CandlestickSeries>
+                    {/if}
+                  {/if}
+                </Chart>
+              {/if}
+            </div>
+          {:else}
+            <!-- else output not loaded yet-->
+            <div class="flex justify-center w-full sm:w-[650px] h-80 sm:w-[600px] items-center">
+              <div class="relative">
+                <label class="bg-[#09090B] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <span class="loading loading-spinner loading-md"></span>
+                </label>
+              </div>
+            </div>
+          {/if}
 
+          <!--End Graph-->
 
-                                  <div class="w-full mt-14 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
-                                      <CommunitySentiment communitySentiment={communitySentiment}/>
-                                  </div>
+          <!--Start Time Interval-->
+          <div class="pl-1 w-screen sm:hidden flex flex-row items-center">
+            <div class="flex flex-col items-center mr-4">
+              <button on:click={() => changeData("1D")} class="text-sm font-medium text-gray-400 {displayData === '1D' ? 'text-white ' : 'bg-[#09090B]'}"> 1D </button>
+              <div class="{displayData === '1D' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem] rounded-full" />
+            </div>
+            <div class="flex flex-col items-center mr-4">
+              <button on:click={() => changeData("1W")} class="w-full text-sm font-medium text-gray-400 {displayData === '1W' ? 'text-white ' : 'bg-[#09090B]'}"> 1W </button>
+              <div class="{displayData === '1W' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
+            </div>
+            <div class="flex flex-col items-center mr-4">
+              <button on:click={() => changeData("1M")} class="text-sm font-medium text-gray-400 {displayData === '1M' ? 'text-white ' : 'bg-[#09090B]'}"> 1M </button>
+              <div class="{displayData === '1M' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
+            </div>
+            <div class="flex flex-col items-center mr-4">
+              <button on:click={() => changeData("6M")} class="text-sm font-medium text-gray-400 {displayData === '6M' ? 'text-white ' : 'bg-[#09090B]'}"> 6M </button>
+              <div class="{displayData === '6M' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
+            </div>
+            <div class="flex flex-col items-center mr-4">
+              <button on:click={() => changeData("1Y")} class="text-sm font-medium text-gray-400 {displayData === '1Y' ? 'text-white ' : 'bg-[#09090B]'}"> 1Y </button>
+              <div class="{displayData === '1Y' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
+            </div>
 
+            <div class="flex flex-col items-center mr-4">
+              <button on:click={() => changeData("MAX")} class="text-sm font-medium text-gray-400 {displayData === 'MAX' ? 'text-white ' : 'bg-[#09090B]'}"> MAX </button>
+              <div class="{displayData === 'MAX' ? `bg-[${colorChange}]` : 'bg-[#09090B]'} mt-1 h-[3px] w-[1.5rem]" />
+            </div>
+          </div>
+          <!--End Time Interval-->
 
-                                {#if $screenWidth <= 1022} <!--BUG: Dont remove since when changing ETF symbol display freezes-->
-                               
-                                <div class="w-full mt-10 m-auto sm:p-6 lg:hidden ">
-                                  <Lazy>
-                                    <h3 class="cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
-                                      Key Information
-                                    </h3>
-                                    {#await import('$lib/components/StockKeyInformation.svelte') then {default: Comp}}
-                                      <svelte:component this={Comp}
-                                        data={data} />
-                                    {/await}
-                                  </Lazy>
+          <div class="w-full mt-14 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6">
+            <CommunitySentiment {communitySentiment} />
+          </div>
 
-                                  </div>
-                                  {/if}
+          {#if $screenWidth <= 1022}
+            <!--BUG: Dont remove since when changing ETF symbol display freezes-->
 
-                               
-                                  <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(data?.getNextEarnings || {})?.length !== 0 ? '' : 'hidden'}">
-                                    <NextEarnings data={data}/>
-                                  </div>
+            <div class="w-full mt-10 m-auto sm:p-6 lg:hidden">
+              <Lazy>
+                <h3 class="cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">Key Information</h3>
+                {#await import("$lib/components/StockKeyInformation.svelte") then { default: Comp }}
+                  <svelte:component this={Comp} {data} />
+                {/await}
+              </Lazy>
+            </div>
+          {/if}
 
-                                <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(data?.getBullBearSay || {})?.length !== 0 ? '' : 'hidden'}">
-                                  <BullBearSay data={data}/>
-                                </div>
+          <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(data?.getNextEarnings || {})?.length !== 0 ? '' : 'hidden'}">
+            <NextEarnings {data} />
+          </div>
 
-                                <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {data?.getWhyPriceMoved?.length !== 0  ? '' : 'hidden'}">
-                                  {#await import('$lib/components/WIIM.svelte') then {default: Comp}}
-                                    <svelte:component this={Comp} data={data} />
-                                  {/await}
-                                </div>
-                                </Lazy>
+          <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {Object?.keys(data?.getBullBearSay || {})?.length !== 0 ? '' : 'hidden'}">
+            <BullBearSay {data} />
+          </div>
 
+          <Lazy>
+            <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {data?.getWhyPriceMoved?.length !== 0 ? '' : 'hidden'}">
+              {#await import("$lib/components/WIIM.svelte") then { default: Comp }}
+                <svelte:component this={Comp} {data} />
+              {/await}
+            </div>
+          </Lazy>
 
-                                <Lazy>
-                                  <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pt-6 {!$analystInsightComponent ? 'hidden' : ''}">
-                                  {#await import('$lib/components/AnalystInsight.svelte') then {default: Comp}}
-                                    <svelte:component this={Comp} data={data} />
-                                  {/await}
-                                </div>
-                                </Lazy>
+          <Lazy>
+            <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$clinicalTrialComponent ? 'hidden' : ''}">
+              {#await import("$lib/components/ClinicalTrial.svelte") then { default: Comp }}
+                <svelte:component this={Comp} {data} />
+              {/await}
+            </div>
+          </Lazy>
 
-                                <Lazy>
-                                  <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$clinicalTrialComponent ? 'hidden' : ''}">
-                                  {#await import('$lib/components/ClinicalTrial.svelte') then {default: Comp}}
-                                    <svelte:component this={Comp} data={data} />
-                                  {/await}
-                                </div>
-                                </Lazy>
+          <Lazy>
+            <div class="w-full sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$varComponent ? 'hidden' : ''}">
+              {#await import("$lib/components/VaR.svelte") then { default: Comp }}
+                <svelte:component this={Comp} {data} />
+              {/await}
+            </div>
+          </Lazy>
 
+          <Lazy>
+            <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pt-6 {!$governmentContractComponent ? 'hidden' : ''}">
+              {#await import("$lib/components/GovernmentContract.svelte") then { default: Comp }}
+                <svelte:component this={Comp} {data} />
+              {/await}
+            </div>
+          </Lazy>
 
-                                <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$priceAnalysisComponent ? 'hidden' : ''}">
-                                  {#await import('$lib/components/PriceAnalysis.svelte') then {default: Comp}}
-                                    <svelte:component this={Comp} data={data} />
-                                  {/await}
-                                </div>
-                                </Lazy>
-                                
-                                <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$trendAnalysisComponent ? 'hidden' : ''}">
-                                  {#await import('$lib/components/TrendAnalysis.svelte') then {default: Comp}}
-                                    <svelte:component this={Comp} data={data} />
-                                  {/await}
-                                </div>
-                                </Lazy>
+          <Lazy>
+            <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$corporateLobbyingComponent ? 'hidden' : ''}">
+              {#await import("$lib/components/CorporateLobbying.svelte") then { default: Comp }}
+                <svelte:component this={Comp} {data} />
+              {/await}
+            </div>
+          </Lazy>
 
-                                <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$fundamentalAnalysisComponent ? 'hidden' : ''}">
-                                  {#await import('$lib/components/FundamentalAnalysis.svelte') then {default: Comp}}
-                                    <svelte:component this={Comp} data={data} />
-                                  {/await}
-                                </div>
-                                </Lazy>
+          <Lazy>
+            <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$swapComponent ? 'hidden' : ''}">
+              {#await import("$lib/components/Swap.svelte") then { default: Comp }}
+                <svelte:component this={Comp} {data} />
+              {/await}
+            </div>
+          </Lazy>
 
-                                <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$sentimentComponent ? 'hidden' : ''}">
-                                  {#await import('$lib/components/SentimentAnalysis.svelte') then {default: Comp}}
-                                    <svelte:component this={Comp} data={data} />
-                                  {/await}
-                                </div>
-                                </Lazy>
+          <Lazy>
+            <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$enterpriseComponent ? 'hidden' : ''}">
+              {#await import("$lib/components/Enterprise.svelte") then { default: Comp }}
+                <svelte:component this={Comp} {data} />
+              {/await}
+            </div>
+          </Lazy>
 
+          <Lazy>
+            <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$optionComponent ? 'hidden' : ''}">
+              {#await import("$lib/components/OptionsData.svelte") then { default: Comp }}
+                <svelte:component this={Comp} {data} />
+              {/await}
+            </div>
+          </Lazy>
 
-                                <Lazy>
-                                  <div class="w-full sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$varComponent ? 'hidden' : ''}">
-                                  {#await import('$lib/components/VaR.svelte') then {default: Comp}}
-                                    <svelte:component this={Comp} data={data} />
-                                  {/await}
-                                </div>
-                                </Lazy>
-                                
-                              
+          <Lazy>
+            <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$optionsNetFlowComponent ? 'hidden' : ''}">
+              {#await import("$lib/components/OptionsNetFlow.svelte") then { default: Comp }}
+                <svelte:component this={Comp} {data} />
+              {/await}
+            </div>
+          </Lazy>
 
-                                <Lazy>
-                                  <div class="w-full m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$analystEstimateComponent ? 'hidden' : ''}">
-                                  {#await import('$lib/components/AnalystEstimate.svelte') then {default: Comp}}
-                                    <svelte:component this={Comp} data={data}/>
-                                  {/await}
-                                  </div>
-                                </Lazy>
-
-                                
-                                <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pt-6 {!$governmentContractComponent ? 'hidden' : ''}">
-                                  {#await import('$lib/components/GovernmentContract.svelte') then {default: Comp}}
-                                    <svelte:component this={Comp} data={data} />
-                                  {/await}
-                                </div>
-                                </Lazy>
-
-                                <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$corporateLobbyingComponent ? 'hidden' : ''}">
-                                    {#await import('$lib/components/CorporateLobbying.svelte') then {default: Comp}}
-                                      <svelte:component this={Comp} data={data} />
-                                    {/await}
-                                  </div>
-                                </Lazy>
-
-                                <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$swapComponent ? 'hidden' : ''}">
-                                    {#await import('$lib/components/Swap.svelte') then {default: Comp}}
-                                      <svelte:component this={Comp} data={data} />
-                                    {/await}
-                                  </div>
-                                </Lazy>
-
-                                  <Lazy>
-                                    <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$enterpriseComponent ? 'hidden' : ''}">
-                                    {#await import('$lib/components/Enterprise.svelte') then {default: Comp}}
-                                      <svelte:component this={Comp} data={data} />
-                                    {/await}
-                                  </div>
-                                  </Lazy>
-
-                                  <Lazy>
-                                    <div class="w-full mt-10 sm:mt-0 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$optionComponent ? 'hidden' : ''}">
-                                    {#await import('$lib/components/OptionsData.svelte') then {default: Comp}}
-                                      <svelte:component this={Comp} data={data} />
-                                    {/await}
-                                  </div>
-                                  </Lazy>
-
-                                  <Lazy>
-                                    <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$optionsNetFlowComponent ? 'hidden' : ''}">
-                                      {#await import('$lib/components/OptionsNetFlow.svelte') then {default: Comp}}
-                                        <svelte:component this={Comp} data={data} />
-                                      {/await}
-                                    </div>
-                                  </Lazy>
-                                
-                                  <!--
+          <!--
                                   <Lazy>
                                     <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$impliedVolatilityComponent ? 'hidden' : ''}">
                                       {#await import('$lib/components/ImpliedVolatility.svelte') then {default: Comp}}
@@ -1164,95 +1013,74 @@
                                     </div>
                                   </Lazy>
                                   -->
-                                
 
-                                 <!--Start RevenueSegmentation-->
-                                  <Lazy>
-                                    <div class="w-full pt-10 sm:pl-6 sm:pb-6 sm:pt-6 m-auto {!$revenueSegmentationComponent ? 'hidden' : ''}">
-                                    {#await import('$lib/components/RevenueSegmentation.svelte') then {default: Comp}}
-                                      <svelte:component this={Comp} apiURL={data?.apiURL} apiKey={data?.apiKey} userTier={data?.user?.tier}/>
-                                    {/await}
-                                    </div>
-                                    </Lazy>
-                               <!--End RevenueSegmentation-->
-                              
-                              <Lazy>
-                                <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$failToDeliverComponent ? 'hidden' : ''}">
-                                  {#await import('$lib/components/FailToDeliver.svelte') then {default: Comp}}
-                                    <svelte:component this={Comp} data={data} />
-                                  {/await}
-                                </div>
-                              </Lazy>
+          <Lazy>
+            <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$failToDeliverComponent ? 'hidden' : ''}">
+              {#await import("$lib/components/FailToDeliver.svelte") then { default: Comp }}
+                <svelte:component this={Comp} {data} />
+              {/await}
+            </div>
+          </Lazy>
 
-                              <Lazy>
-                                <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$borrowedShareComponent ? 'hidden' : ''}">
-                                  {#await import('$lib/components/BorrowedShare.svelte') then {default: Comp}}
-                                    <svelte:component this={Comp} data={data} />
-                                  {/await}
-                                </div>
-                              </Lazy>
-                              
+          <Lazy>
+            <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$borrowedShareComponent ? 'hidden' : ''}">
+              {#await import("$lib/components/BorrowedShare.svelte") then { default: Comp }}
+                <svelte:component this={Comp} {data} />
+              {/await}
+            </div>
+          </Lazy>
 
-                              <Lazy>
-                                <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$marketMakerComponent ? 'hidden' : ''}">
-                                  {#await import('$lib/components/MarketMaker.svelte') then {default: Comp}}
-                                    <svelte:component this={Comp} data={data} />
-                                  {/await}
-                                </div>
-                              </Lazy>
-                              
-                              
-                               <Lazy>
-                                <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$darkPoolComponent ? 'hidden' : ''}">
-                                {#await import('$lib/components/DarkPool.svelte') then {default: Comp}}
-                                  <svelte:component this={Comp} data={data} />
-                                {/await}
-                              </div>
-                              </Lazy>
+          <Lazy>
+            <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$marketMakerComponent ? 'hidden' : ''}">
+              {#await import("$lib/components/MarketMaker.svelte") then { default: Comp }}
+                <svelte:component this={Comp} {data} />
+              {/await}
+            </div>
+          </Lazy>
 
+          <Lazy>
+            <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$darkPoolComponent ? 'hidden' : ''}">
+              {#await import("$lib/components/DarkPool.svelte") then { default: Comp }}
+                <svelte:component this={Comp} {data} />
+              {/await}
+            </div>
+          </Lazy>
 
-                               <Lazy>
-                                <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$retailVolumeComponent ? 'hidden' : ''}">
-                                {#await import('$lib/components/RetailVolume.svelte') then {default: Comp}}
-                                  <svelte:component this={Comp} data={data} />
-                                {/await}
-                              </div>
-                              </Lazy>
+          <Lazy>
+            <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$retailVolumeComponent ? 'hidden' : ''}">
+              {#await import("$lib/components/RetailVolume.svelte") then { default: Comp }}
+                <svelte:component this={Comp} {data} />
+              {/await}
+            </div>
+          </Lazy>
 
+          <Lazy>
+            <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$shareStatisticsComponent ? 'hidden' : ''}">
+              {#await import("$lib/components/ShareStatistics.svelte") then { default: Comp }}
+                <svelte:component this={Comp} {data} />
+              {/await}
+            </div>
+          </Lazy>
 
-                                <Lazy>
-                                  <div class="w-full mt-10 sm:mt-5 m-auto sm:pl-6 sm:pb-6 sm:pt-6 {!$shareStatisticsComponent ? 'hidden' : ''}">
-                                  {#await import('$lib/components/ShareStatistics.svelte') then {default: Comp}}
-                                    <svelte:component this={Comp} data={data}/>
-                                  {/await}
-                                </div>
-                                </Lazy>
+          <!--Start Shareholders-->
+          <Lazy>
+            <div class="w-full sm:pl-6 sm:pb-6 sm:pt-6 m-auto mb-5 {!$shareholderComponent ? 'hidden' : ''}">
+              {#await import("$lib/components/ShareHolders.svelte") then { default: Comp }}
+                <svelte:component this={Comp} {data} />
+              {/await}
+            </div>
+          </Lazy>
+          <!--End Shareholders-->
 
-                                  
-                                   <!--Start Shareholders-->
-                                   <Lazy>
-                                    <div class="w-full sm:pl-6 sm:pb-6 sm:pt-6 m-auto mb-5 {!$shareholderComponent ? 'hidden' : ''}">
-                                    {#await import('$lib/components/ShareHolders.svelte') then {default: Comp}}
-                                      <svelte:component this={Comp} data={data}/>
-                                    {/await}
-                                    </div>
-                                    </Lazy>
-                                   <!--End Shareholders-->
+          <Lazy>
+            <div class="w-full pt-10 m-auto sm:pl-6 sm:pb-6 sm:pt-6 rounded-2xl {!$taRatingComponent ? 'hidden' : ''}">
+              {#await import("$lib/components/TARating.svelte") then { default: Comp }}
+                <svelte:component this={Comp} {data} />
+              {/await}
+            </div>
+          </Lazy>
 
-  
-                                 
-                              
-                                  <Lazy>
-                                    <div class="w-full pt-10 m-auto sm:pl-6 sm:pb-6 sm:pt-6 rounded-2xl {!$taRatingComponent ? 'hidden' : ''}">
-                                      {#await import('$lib/components/TARating.svelte') then {default: Comp}}
-                                        <svelte:component this={Comp} data={data}/>
-                                      {/await}
-                                    </div>
-                                  </Lazy>
-
-  
-                  
-                                  <!--
+          <!--
                                   <Lazy>
                                   <div class="w-full pt-10 sm:pl-6 sm:pb-6 sm:pt-6 m-auto {!$dcfComponent ? 'hidden' : ''}">
                                     {#await import('$lib/components/DCF.svelte') then {default: Comp}}
@@ -1269,36 +1097,22 @@
                                   </div>
                                   -->
 
-                                  <Lazy>
-                                    <div class="w-full pt-10 sm:pl-6 sm:pb-6 sm:pt-6 m-auto {data?.getStockDeck?.at(0)?.stockSplits?.length === 0 ? 'hidden' : ''}">
-                                      {#await import('$lib/components/StockSplits.svelte') then {default: Comp}}
-                                        <svelte:component this={Comp} stockDeck={data?.getStockDeck}/>
-                                      {/await}
-                                  </div>
-                                </Lazy>
-  
-
-                              
-  
-  
-                      
-  
-                            </div>
-          </div>
+          <Lazy>
+            <div class="w-full pt-10 sm:pl-6 sm:pb-6 sm:pt-6 m-auto {data?.getStockDeck?.at(0)?.stockSplits?.length === 0 ? 'hidden' : ''}">
+              {#await import("$lib/components/StockSplits.svelte") then { default: Comp }}
+                <svelte:component this={Comp} stockDeck={data?.getStockDeck} />
+              {/await}
+            </div>
+          </Lazy>
+        </div>
+      </div>
     </div>
-  </section>
-  
-  
-  
-  
-  
-  
-  <!--End-Indicator-Modal-->
-  
-  
-  <style lang='scss'>
-     
-  
+  </div>
+</section>
+
+<!--End-Indicator-Modal-->
+
+<style lang="scss">
   canvas {
     width: 100%;
     height: 100%;

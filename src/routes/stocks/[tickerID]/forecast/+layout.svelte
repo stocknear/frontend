@@ -1,5 +1,6 @@
 <script lang="ts">
   import { stockTicker, screenWidth } from "$lib/store";
+  import { onDestroy } from "svelte";
   import { page } from "$app/stores";
 
   let displaySubSection = "overview";
@@ -24,6 +25,9 @@
       analyst: "/forecast/analyst",
     };
 
+    console.log(state);
+    console.log(subSectionMap[state]);
+
     if (state !== "overview" && subSectionMap[state]) {
       displaySubSection = state;
       //goto(`/stocks/${$stockTicker}${subSectionMap[state]}`);
@@ -32,6 +36,17 @@
       //goto(`/stocks/${$stockTicker}/stats`);
     }
   }
+
+  const unsubscribe = page.subscribe(($page) => {
+    const splitRoute = $page.url.pathname.split("/");
+    const routeState = splitRoute[splitRoute.length - 1] !== "forecast" ? splitRoute[splitRoute.length - 1] : "overview";
+
+    changeSubSection(routeState);
+  });
+
+  onDestroy(() => {
+    unsubscribe();
+  });
 </script>
 
 <section class="w-auto max-w-5xl bg-[#09090B] overflow-hidden text-black h-full mb-40">
