@@ -1,10 +1,18 @@
 <script lang="ts">
   import { numberOfUnreadNotification, displayCompanyName, stockTicker, analystEstimateComponent } from "$lib/store";
   import { abbreviateNumber } from "$lib/utils";
-  import Lazy from "$lib/components/Lazy.svelte";
+  import InfoModal from "$lib/components/InfoModal.svelte";
 
+  import { Chart } from "svelte-echarts";
+  import { init, use } from "echarts/core";
+  import { LineChart } from "echarts/charts";
+  import { GridComponent, TooltipComponent } from "echarts/components";
+  import { CanvasRenderer } from "echarts/renderers";
+  
   export let data;
+  use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 
+  
 function findIndex(data) {
     const currentYear = new Date().getFullYear();
     return data.findIndex(item => item.date >= currentYear && item.revenue === null);
@@ -121,13 +129,14 @@ const changeEPS = abbreviateNumber(((data?.getAnalystEstimate[index-1]?.estimate
 
 
 
-        <Lazy>
           <div class="w-full m-auto sm:pb-6 sm:pt-6 {!$analystEstimateComponent ? 'hidden' : ''}">
             {#await import("$lib/components/AnalystEstimate.svelte") then { default: Comp }}
               <svelte:component this={Comp} {data} />
             {/await}
           </div>
-        </Lazy>
+
+
+
       </div>
     </div>
   </div>

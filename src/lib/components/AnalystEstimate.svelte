@@ -98,7 +98,6 @@ function findIndex(data) {
       const isBeforeStopIndex = index < stopIndex - 1;
       const isAfterStartIndex = index >= stopIndex - 2;
       dates.push(`FY${date}`);
-
       switch (displayData) {
         case "Revenue":
           valueList.push(isBeforeStopIndex ? item.revenue : null);
@@ -311,7 +310,7 @@ function findIndex(data) {
     <div class="w-full m-auto mt-5 sm:mt-0">
       <div class="flex flex-row items-center">
         <label for="predictiveFundamentalsInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
-          Revenue Forecast
+          {displayData} Forecast
         </label>
         <InfoModal
           title={"Predictive Fundamentals"}
