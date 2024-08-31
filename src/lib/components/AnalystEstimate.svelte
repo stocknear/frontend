@@ -4,13 +4,13 @@
 
   import { Chart } from "svelte-echarts";
   import { init, use } from "echarts/core";
-  import { ScatterChart } from "echarts/charts";
+  import { LineChart } from "echarts/charts";
   import { GridComponent, TooltipComponent } from "echarts/components";
   import { CanvasRenderer } from "echarts/renderers";
   import { abbreviateNumber } from "$lib/utils";
 
   export let data;
-  use([ScatterChart, GridComponent, TooltipComponent, CanvasRenderer]);
+  use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 
   let analystEstimateList = [];
   let isLoaded = false;
@@ -20,7 +20,12 @@
   let xData = [];
   let optionsData;
 
-  let displayData = "Revenue";
+let displayData = "Revenue";
+
+function findIndex(data) {
+    const currentYear = new Date().getFullYear();
+    return data.findIndex(item => item.date >= currentYear && item.revenue === null);
+}
 
   function changeStatement(event) {
     displayData = event.target.value;
@@ -79,39 +84,57 @@
   function getPlotOptions() {
     let dates = [];
     let valueList = [];
-    let estimatedValueList = [];
+    let avgList = [];
+    let lowList = [];
+    let highList = [];
 
-    let filteredData = analystEstimateList?.filter((item) => item.date >= 2015) ?? [];
 
-    // Iterate over the data and extract required information
-    if (displayData === "Revenue") {
-      filteredData?.slice(-20)?.forEach((item) => {
-        dates.push(`FY${item?.date?.toString()?.slice(-2)}`);
-        valueList.push(item?.revenue); // Handle null values by using 0 or any placeholder value
-        estimatedValueList.push(item?.estimatedRevenueAvg);
-      });
-    } else if (displayData === "Net Income") {
-      filteredData?.slice(-20)?.forEach((item) => {
-        dates.push(`FY${item?.date?.toString()?.slice(-2)}`);
-        valueList.push(item?.netIncome); // Handle null values by using 0 or any placeholder value
-        estimatedValueList.push(item?.estimatedNetIncomeAvg);
-      });
-    } else if (displayData === "EBITDA") {
-      filteredData?.slice(-20)?.forEach((item) => {
-        dates.push(`FY${item?.date?.toString()?.slice(-2)}`);
-        valueList.push(item?.ebitda); // Handle null values by using 0 or any placeholder value
-        estimatedValueList.push(item?.estimatedEbitdaAvg);
-      });
-    } else if (displayData === "EPS") {
-      filteredData?.slice(-20)?.forEach((item) => {
-        dates.push(`FY${item?.date?.toString()?.slice(-2)}`);
-        valueList.push(item?.eps); // Handle null values by using 0 or any placeholder value
-        estimatedValueList.push(item?.estimatedEpsAvg);
-      });
-    }
+    let filteredData = analystEstimateList?.filter((item) => item.date >= 2019) ?? [];
+    const stopIndex = findIndex(filteredData);
+    
+    if (filteredData) { 
+    filteredData.forEach((item, index) => {
+      const date = item.date?.toString().slice(-2);
+      const isBeforeStopIndex = index < stopIndex - 1;
+      const isAfterStartIndex = index >= stopIndex - 2;
+      dates.push(`FY${date}`);
+
+      switch (displayData) {
+        case "Revenue":
+          valueList.push(isBeforeStopIndex ? item.revenue : null);
+          avgList.push(isAfterStartIndex ? item.estimatedRevenueAvg : null);
+          lowList.push(isAfterStartIndex ? item.estimatedRevenueLow : null);
+          highList.push(isAfterStartIndex ? item.estimatedRevenueHigh : null);
+          break;
+
+        case "Net Income":
+          valueList.push(isBeforeStopIndex ? item.netIncome : null);
+          avgList.push(isAfterStartIndex ? item.estimatedNetIncomeAvg : null);
+          lowList.push(isAfterStartIndex ? item.estimatedNetIncomeLow : null);
+          highList.push(isAfterStartIndex ? item.estimatedNetIncomeHigh : null);
+          break;
+        case "EBITDA":
+          valueList.push(isBeforeStopIndex ? item.ebitda : null);
+          avgList.push(isAfterStartIndex ? item.estimatedEbitdaAvg : null);
+          lowList.push(isAfterStartIndex ? item.estimatedEbitdaLow : null);
+          highList.push(isAfterStartIndex ? item.estimatedEbitdaHigh : null);
+          break;
+        case "EPS":
+          valueList.push(isBeforeStopIndex ? item.eps : null);
+          avgList.push(isAfterStartIndex ? item.estimatedEpsAvg : null);
+          lowList.push(isAfterStartIndex ? item.estimatedEpsLow : null);
+          highList.push(isAfterStartIndex ? item.estimatedEpsHigh : null);
+          break;
+
+        default:
+          break;
+      }
+    });
+  }
+
 
     // Normalize the data if needed (not required in this case, but leaving it here for reference)
-    const { unit, denominator } = normalizer(Math.max(...valueList, ...estimatedValueList) ?? 0);
+    const { unit, denominator } = normalizer(Math.max(...valueList, ...avgList) ?? 0);
 
     const option = {
       silent: true,
@@ -156,20 +179,47 @@
         {
           name: "Actual",
           data: valueList,
-          type: "scatter",
+          type: "line",
           itemStyle: {
-            color: "#fff", // Change scatter plot color to white
+            color: "#fff", // Change line plot color to white
           },
-          showSymbol: true, // Show symbols for scatter plot points
+          showSymbol: false, // Show symbols for line plot points
         },
         {
-          name: "Forecast",
-          data: estimatedValueList,
-          type: "scatter",
+          name: "Avg",
+          data: avgList,
+          type: "line",
           itemStyle: {
-            color: "#E11D48", // Change scatter plot color to green
+            color: "#fff", // Change line plot color to green
           },
-          showSymbol: true, // Show symbols for scatter plot points
+          lineStyle: {
+            type: "dashed" // Set the line type to dashed
+          },
+          showSymbol: false, // Show symbols for line plot points
+        },
+        {
+          name: "Low",
+          data: lowList,
+          type: "line",
+           itemStyle: {
+            color: "#3CB2EF", // Change line plot color to green
+          },
+          lineStyle: {
+            type: "dashed" // Set the line type to dashed
+          },
+          showSymbol: false, // Show symbols for line plot points
+        },
+        {
+          name: "High",
+          data: highList,
+          type: "line",
+          itemStyle: {
+            color: "#3CB2EF", // Change line plot color to green
+          },
+          lineStyle: {
+            type: "dashed" // Set the line type to dashed
+          },
+          showSymbol: false, // Show symbols for line plot points
         },
       ],
     };
@@ -260,7 +310,9 @@
   <main class="overflow-hidden">
     <div class="w-full m-auto mt-5 sm:mt-0">
       <div class="flex flex-row items-center">
-        <label for="predictiveFundamentalsInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold"> Predictive Fundamentals </label>
+        <label for="predictiveFundamentalsInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-xl sm:text-3xl font-bold">
+          Revenue Forecast
+        </label>
         <InfoModal
           title={"Predictive Fundamentals"}
           content={`If quarterly earnings for a year are incomplete, we offer a summarized view based on available data. For instance, if the Q4 report is missing, we display revenue as X, reflecting the sum of Q1-Q3 only. Q4 data will be added later when available.`}
