@@ -21,6 +21,7 @@ if(data?.getAnalystEstimate?.length !== 0) {
   changeEBITDA = ((data?.getAnalystEstimate[index-1]?.estimatedEbitdaAvg/data?.getAnalystEstimate[index-2]?.ebitda-1)*100)
   changeEPS = ((data?.getAnalystEstimate[index-1]?.estimatedEpsAvg/data?.getAnalystEstimate[index-2]?.eps-1)*100)
 }
+
 </script>
 
 <svelte:head>
@@ -53,7 +54,7 @@ if(data?.getAnalystEstimate?.length !== 0) {
         <h2 class="mt-5 text-xl sm:text-2xl text-gray-200 font-bold mb-4">
             Financial Forecast this Year
         </h2>
-        {#if data?.getAnalstEstimate?.length !== 0}
+        {#if data?.getAnalystEstimate?.length !== 0}
         <div class="mb-4 grid grid-cols-2 grid-rows-1 divide-gray-500 rounded-lg border border-gray-600 bg-[#272727] shadow md:grid-cols-4 md:grid-rows-1 md:divide-x">
                   <div class="p-4 bp:p-5 sm:p-6">
                     <label class="mr-1 cursor-pointer flex flex-row items-center text-white text-[1rem]  font-semibold">
@@ -132,6 +133,11 @@ if(data?.getAnalystEstimate?.length !== 0) {
               <svelte:component this={Comp} {data} />
             {/await}
           </div>
+        {:else}
+        <div class="text-white p-3 sm:p-5 mb-10 rounded-lg sm:flex sm:flex-row sm:items-center border border-slate-800 text-sm sm:text-[1rem]">
+            <svg class="w-6 h-6 flex-shrink-0 inline-block sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
+            No analyst forecast available for {$displayCompanyName}.
+        </div>
         {/if}
 
           
