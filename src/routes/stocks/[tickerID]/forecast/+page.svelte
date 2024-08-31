@@ -3,17 +3,24 @@
   import { abbreviateNumber } from "$lib/utils";
 
   export let data;
-
+  let index = 0;
+  let changeRevenue = 0;
+  let changeNetIncome = 0;
+  let changeEBITDA = 0;
+  let changeEPS = 0;
 function findIndex(data) {
     const currentYear = new Date().getFullYear();
-    return data.findIndex(item => item.date >= currentYear && item.revenue === null);
+    return data?.findIndex(item => item?.date >= currentYear && item?.revenue === null);
 }
-const index = findIndex(data?.getAnalystEstimate);
-const changeRevenue = abbreviateNumber(((data?.getAnalystEstimate[index-1]?.estimatedRevenueAvg/data?.getAnalystEstimate[index-2]?.revenue-1)*100))?.toFixed(1)
-const changeNetIncome = abbreviateNumber(((data?.getAnalystEstimate[index-1]?.estimatedNetIncomeAvg/data?.getAnalystEstimate[index-2]?.netIncome-1)*100))?.toFixed(1)
-const changeEBITDA = abbreviateNumber(((data?.getAnalystEstimate[index-1]?.estimatedEbitdaAvg/data?.getAnalystEstimate[index-2]?.ebitda-1)*100)?.toFixed(1))
-const changeEPS = abbreviateNumber(((data?.getAnalystEstimate[index-1]?.estimatedEpsAvg/data?.getAnalystEstimate[index-2]?.eps-1)*100))?.toFixed(1)
 
+
+if(data?.getAnalystEstimate?.length !== 0) {
+  index = findIndex(data?.getAnalystEstimate);
+  changeRevenue = ((data?.getAnalystEstimate[index-1]?.estimatedRevenueAvg/data?.getAnalystEstimate[index-2]?.revenue-1)*100)
+  changeNetIncome = ((data?.getAnalystEstimate[index-1]?.estimatedNetIncomeAvg/data?.getAnalystEstimate[index-2]?.netIncome-1)*100)
+  changeEBITDA = ((data?.getAnalystEstimate[index-1]?.estimatedEbitdaAvg/data?.getAnalystEstimate[index-2]?.ebitda-1)*100)
+  changeEPS = ((data?.getAnalystEstimate[index-1]?.estimatedEpsAvg/data?.getAnalystEstimate[index-2]?.eps-1)*100)
+}
 </script>
 
 <svelte:head>
@@ -46,7 +53,7 @@ const changeEPS = abbreviateNumber(((data?.getAnalystEstimate[index-1]?.estimate
         <h2 class="mt-5 text-xl sm:text-2xl text-gray-200 font-bold mb-4">
             Financial Forecast this Year
         </h2>
-        
+        {#if data?.getAnalstEstimate?.length !== 0}
         <div class="mb-4 grid grid-cols-2 grid-rows-1 divide-gray-500 rounded-lg border border-gray-600 bg-[#272727] shadow md:grid-cols-4 md:grid-rows-1 md:divide-x">
                   <div class="p-4 bp:p-5 sm:p-6">
                     <label class="mr-1 cursor-pointer flex flex-row items-center text-white text-[1rem]  font-semibold">
@@ -58,7 +65,7 @@ const changeEPS = abbreviateNumber(((data?.getAnalystEstimate[index-1]?.estimate
                         </div>
                         <div class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-semibold md:mt-2 lg:mt-0 bg-green-100 text-green-800 dark:bg-green-700 dark:text-dark-100">
                           <svg class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center {changeRevenue > 0 ? 'text-green-500' : 'text-red-500 rotate-180'}" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="max-width:40px" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path></svg>
-                          {changeRevenue}%
+                          {abbreviateNumber(changeRevenue)}%
                         </div>
                       </div>
                     <div class="ml-0.5 mt-1.5 text-sm font-semibold text-white/60 lg:block">
@@ -75,7 +82,7 @@ const changeEPS = abbreviateNumber(((data?.getAnalystEstimate[index-1]?.estimate
                         </div>
                         <div class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-semibold md:mt-2 lg:mt-0 bg-green-100 text-green-800 dark:bg-green-700 dark:text-dark-100">
                           <svg class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center {changeNetIncome > 0 ? 'text-green-500' : 'text-red-500 rotate-180'}" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="max-width:40px" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path></svg>
-                          {changeNetIncome}%
+                          {abbreviateNumber(changeNetIncome?.toFixed(1))}%
                         </div>
                       </div>
                     <div class="ml-0.5 mt-1.5 text-sm font-semibold text-white/60 lg:block">
@@ -92,7 +99,7 @@ const changeEPS = abbreviateNumber(((data?.getAnalystEstimate[index-1]?.estimate
                         </div>
                         <div class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-semibold md:mt-2 lg:mt-0 bg-green-100 text-green-800 dark:bg-green-700 dark:text-dark-100">
                           <svg class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center {changeEBITDA > 0 ? 'text-green-500' : 'text-red-500 rotate-180'}" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="max-width:40px" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path></svg>
-                          {changeEBITDA}%
+                          {abbreviateNumber(changeEBITDA?.toFixed(2))}%
                         </div>
                       </div>
                     <div class="ml-0.5 mt-1.5 text-sm font-semibold text-white/60 lg:block">
@@ -109,14 +116,14 @@ const changeEPS = abbreviateNumber(((data?.getAnalystEstimate[index-1]?.estimate
                         </div>
                         <div class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-semibold md:mt-2 lg:mt-0 bg-green-100 text-green-800 dark:bg-green-700 dark:text-dark-100">
                           <svg class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center {changeEPS > 0 ? 'text-green-500' : 'text-red-500 rotate-180'}" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="max-width:40px" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path></svg>
-                          {changeEPS}%
+                          {abbreviateNumber(changeEPS?.toFixed(1))}%
                         </div>
                       </div>
                     <div class="ml-0.5 mt-1.5 text-sm font-semibold text-white/60 lg:block">
                       from {data?.getAnalystEstimate[index-2]?.eps}
                     </div>
                   </div>
-                </div>
+        </div>
 
 
 
@@ -125,7 +132,7 @@ const changeEPS = abbreviateNumber(((data?.getAnalystEstimate[index-1]?.estimate
               <svelte:component this={Comp} {data} />
             {/await}
           </div>
-
+        {/if}
 
           
       </div>
