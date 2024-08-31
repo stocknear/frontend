@@ -113,8 +113,12 @@ const getStockScreenerData = async (rules) => {
     quickRatio:  (ruleOfList?.find(item => item.name === "quickRatio") || { condition: 'above' }).condition,
     debtEquityRatio:  (ruleOfList?.find(item => item.name === "debtEquityRatio") || { condition: 'above' }).condition,
     debtRatio:  (ruleOfList?.find(item => item.name === "debtRatio") || { condition: 'above' }).condition,
-    returnOnAssets:  (ruleOfList?.find(item => item.name === "returnOnAssets") || { condition: 'above' }).condition,
-    returnOnEquity:  (ruleOfList?.find(item => item.name === "returnOnEquity") || { condition: 'above' }).condition,
+    returnOnAssets: (ruleOfList?.find(item => item.name === "returnOnAssets") || { condition: 'above' }).condition,
+    returnOnEquity: (ruleOfList?.find(item => item.name === "returnOnEquity") || { condition: 'above' }).condition,
+    enterpriseValue: (ruleOfList?.find(item => item.name === "enterpriseValue") || { condition: 'above' }).condition,
+    freeCashFlowPerShare: (ruleOfList?.find(item => item.name === "freeCashFlowPerShare") || { condition: 'above' }).condition,
+    cashPerShare: (ruleOfList?.find(item => item.name === "cashPerShare") || { condition: 'above' }).condition,
+    priceToFreeCashFlowsRatio: (ruleOfList?.find(item => item.name === "priceToFreeCashFlowsRatio") || { condition: 'above' }).condition,
 
   };
 
@@ -183,6 +187,10 @@ const getStockScreenerData = async (rules) => {
     { rule: 'debtRatio', label: 'Debt Ratio',category: 'fund' },
     { rule: 'returnOnAssets', label: 'Return on Assets',category: 'fund' },
     { rule: 'returnOnEquity', label: 'Return on Equity',category: 'fund' },
+    { rule: 'enterpriseValue', label: 'Enterprise Value',category: 'fund' },
+    { rule: 'freeCashFlowPerShare', label: 'FCF / Share', category: 'fund' },
+    { rule: 'cashPerShare', label: 'Cash / Share', category: 'fund' },
+    { rule: 'priceToFreeCashFlowsRatio', label: 'Price / FCF', category: 'fund' },
 
   ];
 
@@ -277,6 +285,10 @@ const getStockScreenerData = async (rules) => {
       let valueVaR = (ruleOfList?.find(item => item.name === "var") || { value: -10 }).value;
       let valueTrendAnalysis = (ruleOfList?.find(item => item.name === "trendAnalysis") || { value: 50 }).value;
       let valueFundamentalAnalysis = (ruleOfList?.find(item => item.name === "fundamentalAnalysis") || { value: 50 }).value;
+      let valueEnterpriseValue = (ruleOfList?.find(item => item.name === "enterpriseValue") || { value: 50 }).value;
+      let valueFCFShare = (ruleOfList?.find(item => item.name === "freeCashFlowPerShare") || { value: 1 }).value;
+      let valueCashShare = (ruleOfList?.find(item => item.name === "cashPerShare") || { value: 1 }).value;
+      let valuePriceFCF = (ruleOfList?.find(item => item.name === "priceToFreeCashFlowsRatio") || { value: 1 }).value;
 
     
       const ratingRecommendations = [
@@ -362,6 +374,10 @@ const valueMappings = {
   debtRatio: valueDebtRatio,
   returnOnAssets: valueReturnOnAssets,
   returnOnEquity: valueReturnOnEquity,
+  enterpriseValue: valueEnterpriseValue,
+  freeCashFlowPerShare: valueFCFShare,
+  cashPerShare: valueCashShare,
+  priceToFreeCashFlowsRatio: valuePriceFCF,
 };
     
 const conditions = {
@@ -417,7 +433,10 @@ const conditions = {
   quickRatio: ruleCondition.quickRatio,
   debtEquityRatio: ruleCondition.debtEquityRatio,
   debtRatio: ruleCondition.debtRatio,
-
+  enterpriseValue: ruleCondition.enterpriseValue,
+  freeCashFlowPerShare: ruleCondition.freeCashFlowPerShare,
+  cashPerShare: ruleCondition.cashPerShare,
+  priceToFreeCashFlowsRatio: ruleCondition.priceToFreeCashFlowsRatio,
 };    
 
 
@@ -667,6 +686,11 @@ $: {
         debtRatio: valueDebtRatio,
         returnOnAssets: valueReturnOnAssets,
         returnOnEquity: valueReturnOnEquity,
+        enterpriseValue: valueEnterpriseValue,
+        freeCashFlowPerShare: valueFCFShare,
+        cashPerShare: valueCashShare,
+        priceToFreeCashFlowsRatio: valuePriceFCF,
+
       };
 
       ruleToUpdate.value = valueMap[ruleToUpdate.name] ?? ruleToUpdate.value;
@@ -686,7 +710,19 @@ $: {
 function filterStockScreenerData() {
   return stockScreenerData?.filter(item => {
     for (const rule of ruleOfList) {
-      if (rule.name === 'researchAndDevelopmentExpenses' || rule.name === 'operatingIncome' || rule.name === 'operatingExpenses' || rule.name === 'netIncome' || rule.name === 'revenue' || rule.name === 'marketCap' || rule.name === 'costAndExpenses' || rule.name === 'costOfRevenue' || rule.name === 'ebitda' || rule.name === 'grossProfit')
+      if ([
+          'researchAndDevelopmentExpenses',
+          'operatingIncome',
+          'operatingExpenses',
+          'netIncome',
+          'revenue',
+          'marketCap',
+          'enterpriseValue',
+          'costAndExpenses',
+          'costOfRevenue',
+          'ebitda',
+          'grossProfit'
+      ]?.includes(rule.name))
       {
         if (rule.condition === "above"  && item[rule.name] !== null && item[rule.name] <= rule.value * 10**(9)) {
           return false;
@@ -947,7 +983,76 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                 {/if}
                 <!--End AI Trend Analysis Rule-->
 
-                  <!--Start Revenue Rule-->
+              {#if ruleName === 'freeCashFlowPerShare'}
+      
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
+                FCF / Share {ruleCondition[ruleName]} {valueFCFShare}
+      
+                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
+                  <input type="radio" name="radio-revenue-below" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
+                  <span class="label-text text-white">Below</span> 
+                </label>
+                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                  <input type="radio" name="radio-revenue-above" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
+                  <span class="label-text text-white">Above</span> 
+                </label>
+      
+              </div>
+      
+                
+                <div class="w-full pt-5">
+                  <input type="range" min="-20" max="20" step="0.5" bind:value={valueFCFShare} class="range range-secondary" />
+                </div>
+      
+              {/if}
+
+              {#if ruleName === 'cashPerShare'}
+      
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
+                Cash / Share {ruleCondition[ruleName]} {valueCashShare}
+      
+                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
+                  <input type="radio" name="radio-revenue-below" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
+                  <span class="label-text text-white">Below</span> 
+                </label>
+                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                  <input type="radio" name="radio-revenue-above" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
+                  <span class="label-text text-white">Above</span> 
+                </label>
+      
+              </div>
+      
+                
+                <div class="w-full pt-5">
+                  <input type="range" min="-50" max="50" step="1" bind:value={valueCashShare} class="range range-secondary" />
+                </div>
+      
+              {/if}
+
+              {#if ruleName === 'priceToFreeCashFlowsRatio'}
+      
+              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
+                Price / FCF {ruleCondition[ruleName]} {valuePriceFCF}
+      
+                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
+                  <input type="radio" name="radio-revenue-below" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
+                  <span class="label-text text-white">Below</span> 
+                </label>
+                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                  <input type="radio" name="radio-revenue-above" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
+                  <span class="label-text text-white">Above</span> 
+                </label>
+      
+              </div>
+      
+                
+                <div class="w-full pt-5">
+                  <input type="range" min="-100" max="100" step="2" bind:value={valuePriceFCF} class="range range-secondary" />
+                </div>
+      
+              {/if}
+
+
               {#if ruleName === 'revenue'}
       
               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
@@ -971,7 +1076,6 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                 </div>
       
               {/if}
-              <!--End Revenue Rule-->
     
               <!--Start Growth Of Revenue Rule-->
               {#if ruleName === 'growthRevenue'}
@@ -1471,9 +1575,32 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
        
                {/if}
                <!--End Analyst Rule-->
+                
+              {#if ruleName === 'enterpriseValue'}
+       
+               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
+                 Enterprise Val {ruleCondition[ruleName]} ${valueEnterpriseValue} Bn
+       
+                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
+                   <span class="label-text text-white">Below</span> 
+                 </label>
+                 <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
+                   <span class="label-text text-white">Above</span> 
+                 </label>
+       
+               </div>
+       
+                 
+                 <div class="w-full pt-5">
+                   <input type="range" min="10" max="800" step="10" bind:value={valueEnterpriseValue} class="range range-secondary" />
+       
+                 </div>
+       
+               {/if}
+
     
-    
-               <!--Start Market Cap Rule-->
                {#if ruleName === 'marketCap'}
        
                <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
@@ -1497,7 +1624,6 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                  </div>
        
                {/if}
-               <!--End Market Cap Rule-->
     
                {#if ruleName === 'currentRatio'}
               
