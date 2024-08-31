@@ -4,7 +4,7 @@
   import { screenWidth, strategyId, numberOfUnreadNotification, getCache, setCache} from '$lib/store';
   import toast from 'svelte-french-toast';
   import { abbreviateNumber, formatRuleValue } from '$lib/utils';
-
+  import RuleControl from '$lib/components/RuleControl.svelte';
     
   //const userConfirmation = confirm('Unsaved changes detected. Leaving now will discard your strategy. Continue?');
 
@@ -128,16 +128,16 @@ const getStockScreenerData = async (rules) => {
     
     
   let allRows = [
-    { rule: 'avgVolume', label: 'Average Volume',category: 'fund' },
+    { rule: 'avgVolume', label: 'Avg Volume', category: 'fund' },
     { rule: 'rsi', label: 'Relative Strength Index (RSI)',category: 'ta' },
     { rule: 'stochRSI', label: 'Stochastic RSI Fast',category: 'ta' },
     { rule: 'mfi', label: 'Money Flow Index',category: 'ta' },
     { rule: 'cci', label: 'Commodity Channel Index',category: 'ta' },
     { rule: 'atr', label: 'Average True Range (ATR)',category: 'ta' },
-    { rule: 'sma50', label: '50-Day Simple Moving Average (SMA-50)',category: 'ta' },
-    { rule: 'sma200', label: '200-Day Simple Moving Average (SMA-200)',category: 'ta' },
-    { rule: 'ema50', label: '50-Day Exponential Moving Average (EMA-50)',category: 'ta' },
-    { rule: 'ema200', label: '200-Day Exponential Moving Average (EMA-200)',category: 'ta' },
+    { rule: 'sma50', label: 'SMA-50', max: "500", min:"0", step:"10", category: 'ta' },
+    { rule: 'sma200', label: 'SMA-200', max: "500", min:"0", step:"10", category: 'ta' },
+    { rule: 'ema50', label: 'EMA-50', max: "500", min:"0", step:"10", category: 'ta' },
+    { rule: 'ema200', label: 'EMA-200', max: "500", min:"0", step:"10",category: 'ta' },
     { rule: 'change1W', label: 'Price Change 1W [%]',category: 'ta' },
     { rule: 'change1M', label: 'Price Change 1M [%]',category: 'ta' },
     { rule: 'change3M', label: 'Price Change 3M [%]',category: 'ta' },
@@ -188,9 +188,9 @@ const getStockScreenerData = async (rules) => {
     { rule: 'returnOnAssets', label: 'Return on Assets',category: 'fund' },
     { rule: 'returnOnEquity', label: 'Return on Equity',category: 'fund' },
     { rule: 'enterpriseValue', label: 'Enterprise Value',category: 'fund' },
-    { rule: 'freeCashFlowPerShare', label: 'FCF / Share', category: 'fund' },
-    { rule: 'cashPerShare', label: 'Cash / Share', category: 'fund' },
-    { rule: 'priceToFreeCashFlowsRatio', label: 'Price / FCF', category: 'fund' },
+    { rule: 'freeCashFlowPerShare', label: 'FCF / Share', max: "20", min:"-20", step:"0.5",category: 'fund' },
+    { rule: 'cashPerShare', label: 'Cash / Share', max: "50", min:"-50", step:"1", category: 'fund' },
+    { rule: 'priceToFreeCashFlowsRatio', label: 'Price / FCF', max: "100", min:"-100", step:"2", category: 'fund' },
 
   ];
 
@@ -819,6 +819,8 @@ const sortByMarketCap = (tickerList) => {
   });
 }
 
+
+
 $: {
   if(order)
   {
@@ -850,6 +852,209 @@ $: isSaved = !ruleOfList;
 $: charNumber = $screenWidth < 640 ? 20 : 40;
 
 
+function handleChangeCondition(event) {
+    ruleCondition[event.detail.rule] = event.detail.condition;
+  }
+
+function handleChangeValue(event) {
+  const { rule, value } = event.detail;
+  if (rule in valueMappings) {
+    valueMappings[rule] = value;
+    // If you need to keep the separate variables in sync:
+    switch (rule) {
+      case 'payoutRatio':
+          valuePayoutRatio;
+          break;
+        case 'dividendGrowth':
+          valueDividendGrowth = value;
+          break;
+        case 'dividendYield':
+          valueDividendYield = value;
+          break;
+        case 'annualDividend':
+          valueAnnualDividend = value;
+          break;
+        case 'eps':
+          valueEPS = value;
+          break;
+        case 'growthEPS':
+          valueGrowthEPS = value;
+          break;
+        case 'marketCap':
+          valueMarketCap = value;
+          break;
+        case 'beta':
+          valueBeta = value;
+          break;
+        case 'pe':
+          valuePE = value;
+          break;
+        case 'forwardPE':
+          valueForwardPE = value;
+          break;
+        case 'priceToBookRatio':
+          valuePriceToBookRatio = value;
+          break;
+        case 'priceToSalesRatio':
+          valuePriceToSalesRatio = value;
+          break;
+        case 'interestIncome':
+          valueInterestIncome = value;
+          break;
+        case 'esgScore':
+          valueESGScore = value;
+          break;
+        case 'ratingRecommendation':
+          valueAnalyst //ruleTrend[ruleName] = value;
+          break;
+        case 'revenue':
+          valueRevenue = value;
+          break;
+        case 'growthRevenue':
+          valueGrowthRevenue = value;
+          break;
+        case 'ebitda':
+          valueEBITDA = value;
+          break;
+        case 'growthEBITDA':
+          valueGrowthEBITDA = value;
+          break;
+        case 'operatingExpenses':
+          valueOperatingExpenses = value;
+          break;
+        case 'growthOperatingExpenses':
+          valueGrowthOperatingExpenses = value;
+          break;
+        case 'costOfRevenue':
+          valueCostOfRevenue = value;
+          break;
+        case 'growthCostOfRevenue':
+          valueGrowthCostOfRevenue = value;
+          break;
+        case 'costAndExpenses':
+          valueCostAndExpenses = value;
+          break;
+        case 'growthCostAndExpenses':
+          valueGrowthCostAndExpenses = value;
+          break;
+        case 'netIncome':
+          valueNetIncome = value;
+          break;
+        case 'growthNetIncome':
+          valueGrowthNetIncome = value;
+          break;
+        case 'grossProfit':
+          valueGrossProfit = value;
+          break;
+        case 'growthGrossProfit':
+          valueGrowthGrossProfit = value;
+          break;
+        case 'researchAndDevelopmentExpenses':
+          valueResearchAndDevelopmentExpenses = value;
+          break;
+        case 'growthResearchAndDevelopmentExpenses':
+          valueGrowthResearchAndDevelopmentExpenses = value;
+          break;
+        case 'interestExpense':
+          valueInterestExpenses = value;
+          break;
+        case 'growthInterestExpense':
+          valueGrowthInterestExpenses = value;
+          break;
+        case 'operatingIncome':
+          valueOperatingIncome = value;
+          break;
+        case 'growthOperatingIncome':
+          valueGrowthOperatingIncome = value;
+          break;
+        case 'rsi':
+          valueRSI = value;
+          break;
+        case 'stochRSI':
+          valueStochRSI = value;
+          break;
+        case 'mfi':
+          valueMFI = value;
+          break;
+        case 'cci':
+          valueCCI = value;
+          break;
+        case 'atr':
+          valueATR = value;
+          break;
+        case 'sma50':
+          valueSMA50 = value;
+          break;
+        case 'sma200':
+          valueSMA200 = value;
+          break;
+        case 'ema50':
+          valueEMA50 = value;
+          break;
+        case 'ema200':
+          valueEMA200 = value;
+          break;
+        case 'change1W':
+          valueChange1W = value;
+          break;
+        case 'change1M':
+          valueChange1M = value;
+          break;
+        case 'change3M':
+          valueChange3M = value;
+          break;
+        case 'change6M':
+          valueChange6M = value;
+          break;
+        case 'change1Y':
+          valueChange1Y = value;
+          break;
+        case 'change3Y':
+          valueChange3Y = value;
+        case 'avgVolume':
+          valueAvgVolume = value;
+          break;
+        case 'var':
+          valueVaR = value;
+          break;
+        case 'trendAnalysis':
+          valueTrendAnalysis = value;
+          break;
+        case 'fundamentalAnalysis':
+          valueFundamentalAnalysis = value;
+          break;
+        case 'currentRatio':
+          valueCurrentRatio = value;
+          break;
+        case 'quickRatio':
+          valueQuickRatio = value;
+          break;
+        case 'debtEquityRatio':
+          valueDebtEquityRatio = value;
+          break;
+        case 'debtRatio':
+          valueDebtRatio = value;
+          break;
+        case 'returnOnAssets':
+          valueReturnOnAssets = value;
+          break;
+        case 'returnOnEquity':
+          valueReturnOnEquity = value;
+          break;
+      case 'freeCashFlowPerShare':
+        valueFCFShare = value;
+        break;
+      case 'cashPerShare':
+        valueCashShare = value;
+        break;
+      case 'priceToFreeCashFlowsRatio':
+        valuePriceFCF = value;
+    }
+  } else {
+    console.warn(`Unhandled rule: ${rule}`);
+    // Optionally handle unknown rules here
+  }
+}
 </script>
   
   
@@ -983,74 +1188,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
                 {/if}
                 <!--End AI Trend Analysis Rule-->
 
-              {#if ruleName === 'freeCashFlowPerShare'}
-      
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                FCF / Share {ruleCondition[ruleName]} {valueFCFShare}
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" name="radio-revenue-below" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" name="radio-revenue-above" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-      
-              </div>
-      
-                
-                <div class="w-full pt-5">
-                  <input type="range" min="-20" max="20" step="0.5" bind:value={valueFCFShare} class="range range-secondary" />
-                </div>
-      
-              {/if}
-
-              {#if ruleName === 'cashPerShare'}
-      
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                Cash / Share {ruleCondition[ruleName]} {valueCashShare}
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" name="radio-revenue-below" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" name="radio-revenue-above" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-      
-              </div>
-      
-                
-                <div class="w-full pt-5">
-                  <input type="range" min="-50" max="50" step="1" bind:value={valueCashShare} class="range range-secondary" />
-                </div>
-      
-              {/if}
-
-              {#if ruleName === 'priceToFreeCashFlowsRatio'}
-      
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                Price / FCF {ruleCondition[ruleName]} {valuePriceFCF}
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" name="radio-revenue-below" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" name="radio-revenue-above" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-      
-              </div>
-      
-                
-                <div class="w-full pt-5">
-                  <input type="range" min="-100" max="100" step="2" bind:value={valuePriceFCF} class="range range-secondary" />
-                </div>
-      
-              {/if}
+    
 
 
               {#if ruleName === 'revenue'}
@@ -2234,106 +2372,27 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
               {/if}
               <!--End ATR Rule-->
 
-               <!--Start SMA-50 Rule-->
-               {#if ruleName === 'sma50'}
-       
-               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                 SMA-50 {ruleCondition[ruleName]} {valueSMA50}
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-      
-              </div>
-      
-                
-                <div class="w-full pt-5">
-                  <input type="range" min="0" max="500" step="10" bind:value={valueSMA50} class="range range-secondary" />
-                </div>
-      
-              {/if}
-              <!--End SMA-50 Rule-->
+            
 
-               <!--Start SMA-200 Rule-->
-               {#if ruleName === 'sma200'}
-       
-               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                 SMA-200 {ruleCondition[ruleName]} {valueSMA200}
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-      
-              </div>
-      
-                
-                <div class="w-full pt-5">
-                  <input type="range" min="0" max="500" step="10" bind:value={valueSMA200} class="range range-secondary" />
-                </div>
-      
-              {/if}
-              <!--End SMA-200 Rule-->
+             {#if allRows.some(row => row.rule === ruleName)}
+              {#each allRows as row (row.rule)}
+                {#if ruleName === row.rule}
+                  <RuleControl 
+                    ruleName={row.rule}
+                    title={row.label}
+                    min={row.min}
+                    max={row.max}
+                    step={row.step}
+                    bind:value={valueMappings[row.rule]}
+                    bind:condition={conditions[row.rule]}
+                    on:changeCondition={handleChangeCondition}
+                    on:changeValue={handleChangeValue}
+                  />
+                {/if}
+              {/each}
+            {/if}
 
 
-              <!--Start EMA-50 Rule-->
-              {#if ruleName === 'ema50'}
-       
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                EMA-50 {ruleCondition[ruleName]} {valueEMA50}
-     
-               <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                 <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                 <span class="label-text text-white">Below</span> 
-               </label>
-               <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                 <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                 <span class="label-text text-white">Above</span> 
-               </label>
-     
-             </div>
-     
-               
-               <div class="w-full pt-5">
-                 <input type="range" min="0" max="500" step="10" bind:value={valueEMA50} class="range range-secondary" />
-               </div>
-     
-             {/if}
-             <!--End SMA-50 Rule-->
-
-              <!--Start SMA-200 Rule-->
-              {#if ruleName === 'ema200'}
-      
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                EMA-200 {ruleCondition[ruleName]} {valueEMA200}
-     
-               <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                 <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                 <span class="label-text text-white">Below</span> 
-               </label>
-               <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                 <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                 <span class="label-text text-white">Above</span> 
-               </label>
-     
-             </div>
-     
-               
-               <div class="w-full pt-5">
-                 <input type="range" min="0" max="500" step="10" bind:value={valueEMA200} class="range range-secondary" />
-               </div>
-     
-             {/if}
-             <!--End SMA-200 Rule-->
 
              <!--Start Change 1W Rule-->
              {#if ruleName === 'change1W'}
