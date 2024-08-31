@@ -156,7 +156,7 @@
           I think this website is {rating?.length !== 0 ? `"${rating}"` : ''}
       </span>
   
-      <button on:click={() => sendFeedback()} class="mb-4 btn bg-purple-600 hover:bg-purple-500 {rating?.length !== 0 && inputValue?.length !== 0 ? 'opacity-100 cursor-pointer' : 'opacity-60 cursor-default'} btn-md w-full rounded-full m-auto text-white font-bold text-md">
+      <button on:click={() => sendFeedback()} class="mb-4 px-3 py-2 bg-purple-600 smhover:bg-purple-700 {rating?.length !== 0 && inputValue?.length !== 0 ? 'opacity-100 cursor-pointer' : 'opacity-60 cursor-default'} w-11/12 rounded-lg m-auto text-white font-semibold text-md">
           Send Feedback
       </button>
       

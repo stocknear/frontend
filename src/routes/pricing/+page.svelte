@@ -680,6 +680,21 @@ async function purchasePlan(subscriptionType:string='') {
                             </details>
                           
                         </li>
+                         <li>
+                            <details class="collapse collapse-arrow">
+                                <summary class="collapse-title text-white font-semibold text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5">
+                                    Do you offer a Lifetime Deal?
+                                </summary>
+                                <div class="collapse-content"> 
+                                    <p class="text-sm sm:text-[1rem] pb-5 text-gray-200 overflow-hidden transition-all duration-300 ease-in-out">
+                                        Yes, we do offer a special limited life time deal for <strong>$599</strong>.
+                                        <br>
+                                        You might be wondering why this price is higher than our standard subscription. The reason is that while I can't guarantee our current pricing will remain the same, purchasing lifetime access locks in your deal—you pay once and never again. This offer includes all features from the Pro Tier. If you're interested, feel free to email me at <a href={`mailto:${emailAddress}`} class="text-blue-400 underline">{emailAddress}</a>.
+                                    </p>
+                                </div>
+                            </details>
+                          
+                        </li>
                         <li>
                             <details class="collapse collapse-arrow">
                                 <summary class="collapse-title text-white font-semibold text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5">
