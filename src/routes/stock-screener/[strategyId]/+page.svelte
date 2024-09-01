@@ -131,7 +131,7 @@ const getStockScreenerData = async (rules) => {
     
     
   let allRows = [
-    { rule: 'avgVolume', label: 'Avg Volume', max: "50", min:"1", step:"0.5", unit: 'Mio', category: 'fund' },
+    { rule: 'avgVolume', label: 'Avg Volume', step: [100,50,20,10,5,1], unit: 'M', category: 'fund' },
     { rule: 'rsi', label: 'RSI', step: [90,80,70,60,50,40,30,20], unit: '', category: 'ta' },
     { rule: 'stochRSI', label: 'Stoch RSI Fast', step: [90,80,70,60,50,40,30,20], unit: '', category: 'ta' },
     { rule: 'mfi', label: 'MFI', step: [90,80,70,60,50,40,30,20], unit: '', category: 'ta' },
