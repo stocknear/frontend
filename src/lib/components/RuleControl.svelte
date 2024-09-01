@@ -1,4 +1,4 @@
-<script>
+<script lang='ts'>
   import { createEventDispatcher } from 'svelte';
 
   export let ruleName;
@@ -7,6 +7,7 @@
   export let min;
   export let max;
   export let step;
+  export let unit = '';
   export let condition;
 
   const dispatch = createEventDispatcher();
@@ -21,7 +22,7 @@
 </script>
 
 <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-  {title} {condition} {value}
+  {title?.replace('[%]','')} {condition} {value} {unit}
 
   <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
     <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" 

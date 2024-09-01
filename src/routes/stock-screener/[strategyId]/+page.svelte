@@ -138,45 +138,45 @@ const getStockScreenerData = async (rules) => {
     { rule: 'sma200', label: 'SMA-200', max: "500", min:"0", step:"10", category: 'ta' },
     { rule: 'ema50', label: 'EMA-50', max: "500", min:"0", step:"10", category: 'ta' },
     { rule: 'ema200', label: 'EMA-200', max: "500", min:"0", step:"10",category: 'ta' },
-    { rule: 'change1W', label: 'Price Change 1W [%]',category: 'ta' },
-    { rule: 'change1M', label: 'Price Change 1M [%]',category: 'ta' },
-    { rule: 'change3M', label: 'Price Change 3M [%]',category: 'ta' },
-    { rule: 'change6M', label: 'Price Change 6M [%]',category: 'ta' },
-    { rule: 'change1Y', label: 'Price Change 1Y [%]',category: 'ta' },
-    { rule: 'change3Y', label: 'Price Change 3Y [%]',category: 'ta' },
-    { rule: 'marketCap', label: 'Market Capitalization', category: 'fund'},
-    { rule: 'revenue', label: 'Revenue',category: 'fund' },
-    { rule: 'growthRevenue', label: 'Revenue Growth [%]',category: 'fund' },
-    { rule: 'costOfRevenue', label: 'Cost of Revenue',category: 'fund' },
-    { rule: 'growthCostOfRevenue', label: 'Cost of Revenue Growth [%]',category: 'fund' },
-    { rule: 'costAndExpenses', label: 'Cost & Expenses',category: 'fund' },
-    { rule: 'growthCostAndExpenses', label: 'Cost & Expenses Growth [%]',category: 'fund' },
-    { rule: 'netIncome', label: 'Net Income', category: 'fund'},
-    { rule: 'growthNetIncome', label: 'Net Income Growth [%]', category: 'fund'},
-    { rule: 'grossProfit', label: 'Gross Profit', category: 'fund'},
-    { rule: 'growthGrossProfit', label: 'Gross Profit Growth [%]', category: 'fund'},
+    { rule: 'change1W', label: 'Price Change 1W [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
+    { rule: 'change1M', label: 'Price Change 1M [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
+    { rule: 'change3M', label: 'Price Change 3M [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
+    { rule: 'change6M', label: 'Price Change 6M [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
+    { rule: 'change1Y', label: 'Price Change 1Y [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
+    { rule: 'change3Y', label: 'Price Change 3Y [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
+    { rule: 'marketCap', label: 'Market Capitalization', max: "800", min:"10", step:"10", unit: 'Bn', category: 'fund'},
+    { rule: 'revenue', label: 'Revenue', max: "800", min:"-100", step:"10", unit: 'Bn', category: 'fund' },
+    { rule: 'growthRevenue', label: 'Revenue Growth [%]', max: "200", min:"-100", step:"2", unit: '%', category: 'fund' },
+    { rule: 'costOfRevenue', label: 'Cost of Revenue', max: "800", min:"-100", step:"10", unit: 'Bn', category: 'fund' },
+    { rule: 'growthCostOfRevenue', label: 'Cost of Revenue Growth [%]', max: "200", min:"-100", step:"2", unit: '%', category: 'fund' },
+    { rule: 'costAndExpenses', label: 'Cost & Expenses', max: "800", min:"-100", step:"10", unit: 'Bn', category: 'fund' },
+    { rule: 'growthCostAndExpenses', label: 'Cost & Expenses Growth [%]', max: "200", min:"-100", step:"2", unit: '%', category: 'fund' },
+    { rule: 'netIncome', label: 'Net Income', max: "800", min:"-100", step:"10", unit: 'Bn', category: 'fund'},
+    { rule: 'growthNetIncome', label: 'Net Income Growth [%]', max: "200", min:"-100", step:"2", unit: '%', category: 'fund'},
+    { rule: 'grossProfit', label: 'Gross Profit', max: "800", min:"-100", step:"10", unit: 'Bn', category: 'fund'},
+    { rule: 'growthGrossProfit', label: 'Gross Profit Growth [%]', max: "200", min:"-100", step:"2", unit: '%', category: 'fund'},
     { rule: 'researchAndDevelopmentExpenses', label: 'Research & Development (R&D) Expenses', category: 'fund'},
-    { rule: 'growthResearchAndDevelopmentExpenses', label: 'R&D Expenses Growth [%]', category: 'fund'},
+    { rule: 'growthResearchAndDevelopmentExpenses', label: 'R&D Expenses Growth [%]', max: "200", min:"-100", step:"2", unit: '%', category: 'fund'},
     { rule: 'payoutRatio', label: 'Payout Ratio [%]',category: 'fund' },
     { rule: 'dividendYield', label: 'Dividend Yield [%]',category: 'fund' },
     { rule: 'annualDividend', label: 'Annual Dividend',category: 'fund' },
     { rule: 'dividendGrowth', label: 'Dividend Growth [%]',category: 'fund' },
-    { rule: 'eps', label: 'Earnings Per Share (EPS)',category: 'fund' },
-    { rule: 'growthEPS', label: 'EPS Growth [%]',category: 'fund' },
+    { rule: 'eps', label: 'EPS', max: "10", min:"-10", step:"0.1", category: 'fund' },
+    { rule: 'growthEPS', label: 'EPS Growth [%]', max: "200", min:"-100", step:"2", unit: '%', category: 'fund' },
     { rule: 'interestIncome', label: 'Interest Income',category: 'fund' },
-    { rule: 'interestExpense', label: 'Interest Expenses',category: 'fund' },
-    { rule: 'growthInterestExpense', label: 'Interest Expenses Growth [%]',category: 'fund' },
+    { rule: 'interestExpense', label: 'Interest Expenses', category: 'fund' },
+    { rule: 'growthInterestExpense', label: 'Interest Expenses Growth [%]', max: "200", min:"-100", step:"2", unit: '%', category: 'fund' },
     { rule: 'operatingExpenses', label: 'Operating Expenses',category: 'fund' },
-    { rule: 'growthOperatingExpenses', label: 'Operating Expenses Growth [%]',category: 'fund' },
+    { rule: 'growthOperatingExpenses', label: 'Operating Expenses Growth [%]', max: "200", min:"-100", step:"2", unit: '%', category: 'fund' },
     { rule: 'operatingIncome', label: 'Operating Income',category: 'fund' },
-    { rule: 'growthOperatingIncome', label: 'Operating Income Growth [%]',category: 'fund' },
+    { rule: 'growthOperatingIncome', label: 'Operating Income Growth [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'fund' },
     { rule: 'pe', label: 'Price per Earnings (PE)', category: 'fund'},
     { rule: 'forwardPE', label: 'Forward PE', category: 'fund'},
     { rule: 'priceToBookRatio', label: 'Price to Book Ratio (PB)', category: 'fund'},
     { rule: 'priceToSalesRatio', label: 'Price to Sales Ratio (PS)', category: 'fund'},
     { rule: 'beta', label: 'Beta', category: 'fund'},
     { rule: 'ebitda', label: 'Earnings Before Interests, Taxes, Depreciation & Amortisation (EBITDA)', category: 'fund'},
-    { rule: 'growthEBITDA', label: 'EBITDA Growth [%]', category: 'fund'},
+    { rule: 'growthEBITDA', label: 'EBITDA Growth [%]', max: "200", min:"-100", step:"2", unit: '%', category: 'fund'},
     { rule: 'var', label: 'Value at Risk (VaR)', category: 'fund' },
     { rule: 'trendAnalysis', label: 'AI Trend Analysis (Bullish)', category: 'ai' },
     { rule: 'fundamentalAnalysis', label: 'AI Fundamental Analysis (Bullish)', category: 'ai' },
@@ -187,7 +187,7 @@ const getStockScreenerData = async (rules) => {
     { rule: 'debtRatio', label: 'Debt Ratio',category: 'fund' },
     { rule: 'returnOnAssets', label: 'Return on Assets',category: 'fund' },
     { rule: 'returnOnEquity', label: 'Return on Equity',category: 'fund' },
-    { rule: 'enterpriseValue', label: 'Enterprise Value',category: 'fund' },
+    { rule: 'enterpriseValue', label: 'Enterprise Value', max: "800", min:"10", step:"10", unit: 'Bn', category: 'fund' },
     { rule: 'freeCashFlowPerShare', label: 'FCF / Share', max: "20", min:"-20", step:"0.5",category: 'fund' },
     { rule: 'cashPerShare', label: 'Cash / Share', max: "50", min:"-50", step:"1", category: 'fund' },
     { rule: 'priceToFreeCashFlowsRatio', label: 'Price / FCF', max: "100", min:"-100", step:"2", category: 'fund' },
@@ -901,9 +901,6 @@ function handleChangeValue(event) {
         case 'interestIncome':
           valueInterestIncome = value;
           break;
-        case 'esgScore':
-          valueESGScore = value;
-          break;
         case 'ratingRecommendation':
           valueAnalyst //ruleTrend[ruleName] = value;
           break;
@@ -1049,6 +1046,8 @@ function handleChangeValue(event) {
         break;
       case 'priceToFreeCashFlowsRatio':
         valuePriceFCF = value;
+      case 'enterpriseValue':
+        valueEnterpriseValue = value;
     }
   } else {
     console.warn(`Unhandled rule: ${rule}`);
@@ -1188,252 +1187,7 @@ function handleChangeValue(event) {
                 {/if}
                 <!--End AI Trend Analysis Rule-->
 
-    
-
-
-              {#if ruleName === 'revenue'}
       
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                Revenue {ruleCondition[ruleName]} ${valueRevenue} Bn
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" name="radio-revenue-below" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" name="radio-revenue-above" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-      
-              </div>
-      
-                
-                <div class="w-full pt-5">
-                  <input type="range" min="-100" max="800" step="10" bind:value={valueRevenue} class="range range-secondary" />
-      
-                </div>
-      
-              {/if}
-    
-              <!--Start Growth Of Revenue Rule-->
-              {#if ruleName === 'growthRevenue'}
-      
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                Revenue Growth {ruleCondition[ruleName]} {valueGrowthRevenue} %
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-              </div>
-                <div class="w-full pt-5">
-                  <input type="range" min="0" max="100" step="5" bind:value={valueGrowthRevenue} class="range range-secondary" />
-      
-                </div>
-              {/if}
-              <!--End Growth Of Revenue Rule-->
-    
-              <!--Start Cost Of Revenue Rule-->
-              {#if ruleName === 'costOfRevenue'}
-      
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                Cost of Revenue {ruleCondition[ruleName]} ${valueCostOfRevenue} Bn
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio"  class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-      
-              </div>
-                <div class="w-full pt-5">
-                  <input type="range" min="-100" max="800" step="10" bind:value={valueCostOfRevenue} class="range range-secondary" />
-      
-                </div>
-              {/if}
-              <!--End Cost Of Revenue Rule-->
-  
-              <!--Start Growth Of Cost Of Revenue Rule-->
-              {#if ruleName === 'growthCostOfRevenue'}
-      
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                Cost of Revenue Growth {ruleCondition[ruleName]} {valueGrowthCostOfRevenue} %
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-              </div>
-                <div class="w-full pt-5">
-                  <input type="range" min="0" max="100" step="5" bind:value={valueGrowthCostOfRevenue} class="range range-secondary" />
-                </div>
-              {/if}
-              <!--End Growth Of Cost Of Revenue Rule-->
-    
-               <!--Start CostAndExpenses Rule-->
-               {#if ruleName === 'costAndExpenses'}
-       
-               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                 Cost & Expenses {ruleCondition[ruleName]} ${valueCostAndExpenses} Bn
-       
-                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                   <span class="label-text text-white">Below</span> 
-                 </label>
-                 <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                   <span class="label-text text-white">Above</span> 
-                 </label>
-       
-               </div>
-       
-                 
-                 <div class="w-full pt-5">
-                   <input type="range" min="-100" max="800" step="10" bind:value={valueCostAndExpenses} class="range range-secondary" />
-       
-                 </div>
-       
-               {/if}
-               <!--End CostAndExpenses Rule-->
-    
-              <!--Start Growth Of Cost and Expenses Rule-->
-              {#if ruleName === 'growthCostAndExpenses'}
-
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                Cost & Expenses Growth {ruleCondition[ruleName]} {valueGrowthCostAndExpenses} %
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-      
-              </div>
-      
-                
-                <div class="w-full pt-5">
-                  <input type="range" min="0" max="100" step="5" bind:value={valueGrowthCostAndExpenses} class="range range-secondary" />
-      
-                </div>
-      
-              {/if}
-              <!--End Growth Of Cost and Expenses Rule-->
-    
-              <!--Start Net Income Rule-->
-              {#if ruleName === 'netIncome'}
-      
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                Net Income {ruleCondition[ruleName]} ${valueNetIncome} Bn
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-      
-              </div>
-      
-                
-                <div class="w-full pt-5">
-                  <input type="range" min="0" max="100" step="5" bind:value={valueNetIncome} class="range range-secondary" />
-      
-                </div>
-      
-              {/if}
-              <!--End Net Income Rule-->
-  
-  
-              <!--Start Growth Net Income Rule-->
-              {#if ruleName === 'growthNetIncome'}
-
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                Net Income Growth {ruleCondition[ruleName]} {valueGrowthNetIncome} %
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-      
-              </div>
-      
-                
-                <div class="w-full pt-5">
-                  <input type="range" min="0" max="100" step="5" bind:value={valueGrowthNetIncome} class="range range-secondary" />
-      
-                </div>
-      
-              {/if}
-              <!--End Growth Net Income Rule-->
-    
-    
-              <!--Start Gross Profit Rule-->
-              {#if ruleName === 'grossProfit'}
-
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                Gross Profit {ruleCondition[ruleName]} ${valueGrossProfit} Bn
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-              </div>
-                <div class="w-full pt-5">
-                  <input type="range" min="-100" max="800" step="10" bind:value={valueGrossProfit} class="range range-secondary" />
-                </div>    
-              {/if}
-              <!--End Gross Profit Rule-->
-  
-  
-              <!--Start Growth Of Gross Profit Rule-->
-              {#if ruleName === 'growthGrossProfit'}
-
-      
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                Gross Profit Growth {ruleCondition[ruleName]} {valueGrowthGrossProfit} %
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-      
-              </div>
-      
-                
-                <div class="w-full pt-5">
-                  <input type="range" min="0" max="100" step="5" bind:value={valueGrowthGrossProfit} class="range range-secondary" />
-      
-                </div>
-              {/if}
-              <!--End Growth Of Gross Profit Rule-->
   
   
               <!--Start Research & Development Expenses Rule-->
@@ -1462,30 +1216,7 @@ function handleChangeValue(event) {
               {/if}
               <!--End Research & Development Expenses Rule-->
   
-              <!--Start Growth Of R&D Expenses-->
-              {#if ruleName === 'growthResearchAndDevelopmentExpenses'}
-      
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                R&D Growth {ruleCondition[ruleName]} {valueGrowthResearchAndDevelopmentExpenses} %
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-      
-              </div>
-      
-                
-                <div class="w-full pt-5">
-                  <input type="range" min="0" max="100" step="5" bind:value={valueGrowthResearchAndDevelopmentExpenses} class="range range-secondary" />
-      
-                </div>
-              {/if}
-              <!--End Growth Of R&D Expenses-->
+  
     
     
   
@@ -1562,30 +1293,6 @@ function handleChangeValue(event) {
                 <!--End Avg. Volume Rule-->
   
   
-                <!--Start Growth Of Interest Expenses-->
-              {#if ruleName === 'growthInterestExpense'}
-      
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                Interest Expenses Growth {ruleCondition[ruleName]} {valueGrowthInterestExpenses} %
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-      
-              </div>
-      
-                
-                <div class="w-full pt-5">
-                  <input type="range" min="-100" max="200" step="10" bind:value={valueGrowthInterestExpenses} class="range range-secondary" />
-      
-                </div>
-              {/if}
-              <!--End Growth Of Interest Expenses-->
   
   
   
@@ -1612,31 +1319,7 @@ function handleChangeValue(event) {
                <!--End Operating Expenses Rule-->
   
   
-                 <!--Start Growth Of Operating Expenses-->
-                {#if ruleName === 'growthOperatingExpenses'}
-        
-                <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                  Operating Expenses Growth {ruleCondition[ruleName]} {valueGrowthOperatingExpenses} %
-        
-                  <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                    <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                    <span class="label-text text-white">Below</span> 
-                  </label>
-                  <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                    <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                    <span class="label-text text-white">Above</span> 
-                  </label>
-        
-                </div>
-        
-                  
-                  <div class="w-full pt-5">
-                    <input type="range" min="0" max="100" step="5" bind:value={valueGrowthOperatingExpenses} class="range range-secondary" />
-        
-                  </div>
-                {/if}
-                <!--End Growth Of Operating Expenses-->
-  
+
   
   
   
@@ -1663,33 +1346,7 @@ function handleChangeValue(event) {
                <!--End Operating Income Rule-->
   
   
-  
-               <!--Start Growth Of Operating Income-->
-               {#if ruleName === 'growthOperatingIncome'}
-       
-               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                 Operating Income Growth {ruleCondition[ruleName]} {valueGrowthOperatingIncome} %
-       
-                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                   <span class="label-text text-white">Below</span> 
-                 </label>
-                 <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                   <span class="label-text text-white">Above</span> 
-                 </label>
-       
-               </div>
-       
-                 
-                 <div class="w-full pt-5">
-                   <input type="range" min="0" max="100" step="5" bind:value={valueGrowthOperatingIncome} class="range range-secondary" />
-       
-                 </div>
-               {/if}
-               <!--End Growth Of Operating Income-->
-  
-  
+
                <!--Start Analyst Rule-->
                {#if ruleName === 'ratingRecommendation'}
        
@@ -1714,54 +1371,7 @@ function handleChangeValue(event) {
                {/if}
                <!--End Analyst Rule-->
                 
-              {#if ruleName === 'enterpriseValue'}
-       
-               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                 Enterprise Val {ruleCondition[ruleName]} ${valueEnterpriseValue} Bn
-       
-                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                   <span class="label-text text-white">Below</span> 
-                 </label>
-                 <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                   <span class="label-text text-white">Above</span> 
-                 </label>
-       
-               </div>
-       
-                 
-                 <div class="w-full pt-5">
-                   <input type="range" min="10" max="800" step="10" bind:value={valueEnterpriseValue} class="range range-secondary" />
-       
-                 </div>
-       
-               {/if}
-
-    
-               {#if ruleName === 'marketCap'}
-       
-               <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                 Market Cap {ruleCondition[ruleName]} ${valueMarketCap} Bn
-       
-                 <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                   <span class="label-text text-white">Below</span> 
-                 </label>
-                 <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                   <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                   <span class="label-text text-white">Above</span> 
-                 </label>
-       
-               </div>
-       
-                 
-                 <div class="w-full pt-5">
-                   <input type="range" min="10" max="800" step="10" bind:value={valueMarketCap} class="range range-secondary" />
-       
-                 </div>
-       
-               {/if}
+  
     
                {#if ruleName === 'currentRatio'}
               
@@ -2015,58 +1625,6 @@ function handleChangeValue(event) {
                {/if}
                <!--End Rule-->
 
-              <!--Start EPS Rule-->
-              {#if ruleName === 'eps'}
-              
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                EPS {ruleCondition[ruleName]} ${valueEPS}
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-      
-              </div>
-      
-                
-                <div class="w-full pt-5">
-                  <input type="range" min="1" max="10" step="1" bind:value={valueEPS} class="range range-secondary" />
-      
-                </div>
-      
-              {/if}
-              <!--End EPS Rule-->
-    
-              <!--Start Growth of EPS Rule-->
-              {#if ruleName === 'growthEPS'}
-      
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                EPS Growth {ruleCondition[ruleName]} {valueGrowthEPS} %
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-      
-              </div>
-      
-                
-                <div class="w-full pt-5">
-                  <input type="range" min="-100" max="200" step="10" bind:value={valueGrowthEPS} class="range range-secondary" />
-      
-                </div>
-      
-              {/if}
-              <!--End Growth of EPS Rule-->
-    
     
                <!--Start PE Rule-->
                {#if ruleName === 'pe'}       
@@ -2235,34 +1793,7 @@ function handleChangeValue(event) {
                 {/if}
                 <!--End EBITDA Rule-->
     
-                 <!--Start Growth of EBITDA Rule-->
-              {#if ruleName === 'growthEBITDA'}
-      
-              <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-                EBITDA Growth {ruleCondition[ruleName]} {valueGrowthEBITDA} %
-      
-                <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                  <span class="label-text text-white">Below</span> 
-                </label>
-                <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                  <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                  <span class="label-text text-white">Above</span> 
-                </label>
-      
-              </div>
-      
-                
-                <div class="w-full pt-5">
-                  <input type="range" min="0" max="100" step="5" bind:value={valueGrowthEBITDA} class="range range-secondary" />
-      
-                </div>
-      
-              {/if}
-              <!--End Growth of EBITDA Rule-->
-    
-    
-    
+  
         
 
                 <!--Start RSI Rule-->
@@ -2383,6 +1914,7 @@ function handleChangeValue(event) {
                     min={row.min}
                     max={row.max}
                     step={row.step}
+                    unit={row?.unit}
                     bind:value={valueMappings[row.rule]}
                     bind:condition={conditions[row.rule]}
                     on:changeCondition={handleChangeCondition}
@@ -2394,123 +1926,7 @@ function handleChangeValue(event) {
 
 
 
-             <!--Start Change 1W Rule-->
-             {#if ruleName === 'change1W'}
-             <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-               Change 1W {ruleCondition[ruleName]} {valueChange1W}%
-              <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                <span class="label-text text-white">Below</span> 
-              </label>
-              <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                <span class="label-text text-white">Above</span> 
-              </label>
-              </div>
-              <div class="w-full pt-5">
-                <input type="range" min="-20" max="20" step="1" bind:value={valueChange1W} class="range range-secondary" />
-              </div>
-            {/if}
-            <!--End Change 1W Rule-->
-
-             <!--Start Change 1M Rule-->
-             {#if ruleName === 'change1M'}
-             <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-               Change 1M {ruleCondition[ruleName]} {valueChange1M}%
-              <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                <span class="label-text text-white">Below</span> 
-              </label>
-              <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                <span class="label-text text-white">Above</span> 
-              </label>
-              </div>
-              <div class="w-full pt-5">
-                <input type="range" min="-50" max="50" step="5" bind:value={valueChange1M} class="range range-secondary" />
-              </div>
-            {/if}
-            <!--End Change 1M Rule-->
-
-             <!--Start Change 3M Rule-->
-             {#if ruleName === 'change3M'}
-             <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-               Change 3M {ruleCondition[ruleName]} {valueChange3M}%
-              <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                <span class="label-text text-white">Below</span> 
-              </label>
-              <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                <span class="label-text text-white">Above</span> 
-              </label>
-              </div>
-              <div class="w-full pt-5">
-                <input type="range" min="-100" max="100" step="5" bind:value={valueChange3M} class="range range-secondary" />
-              </div>
-            {/if}
-            <!--End Change 3M Rule-->
-
-             <!--Start Change 6M Rule-->
-             {#if ruleName === 'change6M'}
-             <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-               Change 6M {ruleCondition[ruleName]} {valueChange6M}%
-              <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                <span class="label-text text-white">Below</span> 
-              </label>
-              <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                <span class="label-text text-white">Above</span> 
-              </label>
-              </div>
-              <div class="w-full pt-5">
-                <input type="range" min="-100" max="100" step="5" bind:value={valueChange6M} class="range range-secondary" />
-              </div>
-            {/if}
-            <!--End Change 6M Rule-->
-
-             <!--Start Change 1Y Rule-->
-             {#if ruleName === 'change1Y'}
-             <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-               Change 1Y {ruleCondition[ruleName]} {valueChange1Y}%
-              <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                <span class="label-text text-white">Below</span> 
-              </label>
-              <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                <span class="label-text text-white">Above</span> 
-              </label>
-              </div>
-              <div class="w-full pt-5">
-                <input type="range" min="-300" max="300" step="10" bind:value={valueChange1Y} class="range range-secondary" />
-              </div>
-            {/if}
-            <!--End Change 1Y Rule-->
-
-             <!--Start Change 3Y Rule-->
-             {#if ruleName === 'change3Y'}
-             <div class="w-full max-w-xl text-white font-medium text-sm sm:text-[1rem] flex flex-row justify-center items-center">
-               Change 3Y {ruleCondition[ruleName]} {valueChange3Y}%
-              <label on:click={() => changeRuleCondition('below')} class="ml-5 cursor-pointer flex flex-row mr-2 justify-center items-center">
-                <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'below'} />
-                <span class="label-text text-white">Below</span> 
-              </label>
-              <label on:click={() => changeRuleCondition('above')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
-                <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" checked={ruleCondition[ruleName] === 'above'} />
-                <span class="label-text text-white">Above</span> 
-              </label>
-              </div>
-              <div class="w-full pt-5">
-                <input type="range" min="-500" max="500" step="10" bind:value={valueChange3Y} class="range range-secondary" />
-              </div>
-            {/if}
-            <!--End Change 3Y Rule-->
-             
-              
-              
-              
+          
   
                 </div>
   
