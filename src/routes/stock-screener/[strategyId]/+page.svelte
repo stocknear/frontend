@@ -68,12 +68,14 @@ const getStockScreenerData = async (rules) => {
     sma200:  (ruleOfList?.find(item => item.name === "sma200") || { condition: 'over' }).condition,
     ema50:  (ruleOfList?.find(item => item.name === "ema50") || { condition: 'over' }).condition,
     ema200:  (ruleOfList?.find(item => item.name === "ema200") || { condition: 'over' }).condition,
+    /*
     change1W: (ruleOfList?.find(item => item.name === "change1W") || { condition: 'over' }).condition,
     change1M: (ruleOfList?.find(item => item.name === "change1M") || { condition: 'over' }).condition,
     change3M: (ruleOfList?.find(item => item.name === "change3M") || { condition: 'over' }).condition,
     change6M: (ruleOfList?.find(item => item.name === "change6M") || { condition: 'over' }).condition,
     change1Y: (ruleOfList?.find(item => item.name === "change1Y") || { condition: 'over' }).condition,
     change3Y: (ruleOfList?.find(item => item.name === "change3Y") || { condition: 'over' }).condition,
+    */
     payoutRatio:  (ruleOfList?.find(item => item.name === "payoutRatio") || { condition: 'over' }).condition,
     annualDividend:  (ruleOfList?.find(item => item.name === "annualDividend") || { condition: 'over' }).condition,
     dividendYield:  (ruleOfList?.find(item => item.name === "dividendYield") || { condition: 'over' }).condition,
@@ -130,21 +132,23 @@ const getStockScreenerData = async (rules) => {
     
   let allRows = [
     { rule: 'avgVolume', label: 'Avg Volume', max: "50", min:"1", step:"0.5", unit: 'Mio', category: 'fund' },
-    { rule: 'rsi', label: 'RSI', max: "100", min:"0", step:"2", category: 'ta' },
-    { rule: 'stochRSI', label: 'Stoch RSI Fast', max: "100", min:"0", step:"2",category: 'ta' },
-    { rule: 'mfi', label: 'MFI', max: "100", min:"0", step:"2", category: 'ta' },
+    { rule: 'rsi', label: 'RSI', step: [90,80,70,60,50,40,30,20], unit: '', category: 'ta' },
+    { rule: 'stochRSI', label: 'Stoch RSI Fast', step: [90,80,70,60,50,40,30,20],category: 'ta' },
+    { rule: 'mfi', label: 'MFI', step: [90,80,70,60,50,40,30,20], category: 'ta' },
     { rule: 'cci', label: 'CCI',  max: "300", min:"-300", step:"10",category: 'ta' },
     { rule: 'atr', label: 'ATR', max: "20", min:"0", step:"0.5",category: 'ta' },
     { rule: 'sma50', label: 'SMA-50', max: "500", min:"0", step:"10", category: 'ta' },
     { rule: 'sma200', label: 'SMA-200', max: "500", min:"0", step:"10", category: 'ta' },
     { rule: 'ema50', label: 'EMA-50', max: "500", min:"0", step:"10", category: 'ta' },
     { rule: 'ema200', label: 'EMA-200', max: "500", min:"0", step:"10",category: 'ta' },
-    { rule: 'change1W', label: 'Price Change 1W [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
-    { rule: 'change1M', label: 'Price Change 1M [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
-    { rule: 'change3M', label: 'Price Change 3M [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
-    { rule: 'change6M', label: 'Price Change 6M [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
-    { rule: 'change1Y', label: 'Price Change 1Y [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
-    { rule: 'change3Y', label: 'Price Change 3Y [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
+    /*
+    { rule: 'change1W', label: 'Price Change 1W [%]', step: [20,10,5,1], unit: '%',category: 'ta' },
+    { rule: 'change1M', label: 'Price Change 1M [%]', step: [100,50,20,10,5,1], unit: '%',category: 'ta' },
+    { rule: 'change3M', label: 'Price Change 3M [%]', step: [100,50,20,10,5,1], unit: '%',category: 'ta' },
+    { rule: 'change6M', label: 'Price Change 6M [%]', step: [100,50,20,10,5,1], unit: '%',category: 'ta' },
+    { rule: 'change1Y', label: 'Price Change 1Y [%]', step: [100,50,20,10,5,1], unit: '%',category: 'ta' },
+    { rule: 'change3Y', label: 'Price Change 3Y [%]', step: [100,50,20,10,5,1], unit: '%',category: 'ta' },
+     */
     { rule: 'marketCap', label: 'Market Cap', step: [100,50,10,1], unit: 'B', category: 'fund'},
     { rule: 'revenue', label: 'Revenue', max: "800", min:"-100", step:"10", unit: 'Bn', category: 'fund' },
     { rule: 'growthRevenue', label: 'Revenue Growth [%]', max: "200", min:"-100", step:"2", unit: '%', category: 'fund' },
@@ -211,73 +215,75 @@ const getStockScreenerData = async (rules) => {
       
       // Define your default values
 
-      let valueRevenue = (ruleOfList?.find(item => item.name === "revenue") || { value: 50 }).value;
-      let valueGrowthRevenue = (ruleOfList?.find(item => item.name === "growthRevenue") || { value: 10 }).value;
-      let valueCostOfRevenue = (ruleOfList?.find(item => item.name === "costOfRevenue") || { value: 30 }).value;
-      let valueGrowthCostOfRevenue = (ruleOfList?.find(item => item.name === "growthCostAndExpenses") || { value: 10 }).value;
-      let valueCostAndExpenses = (ruleOfList?.find(item => item.name === "costAndExpenses") || { value: 50 }).value;
-      let valueGrowthCostAndExpenses= (ruleOfList?.find(item => item.name === "growthCostAndExpenses") || { value: 10 }).value;
-      let valueResearchAndDevelopmentExpenses = (ruleOfList?.find(item => item.name === "researchAndDevelopmentExpenses") || { value: 10 }).value;
-      let valueGrowthResearchAndDevelopmentExpenses = (ruleOfList?.find(item => item.name === "growthResearchAndDevelopmentExpenses") || { value: 10 }).value;
-      let valueInterestIncome = (ruleOfList?.find(item => item.name === "interestIncome") || { value: 500 }).value;
+      let valueRevenue = (ruleOfList?.find(item => item.name === "revenue") || { value: 'any' }).value;
+      let valueGrowthRevenue = (ruleOfList?.find(item => item.name === "growthRevenue") || { value: 'any'}).value;
+      let valueCostOfRevenue = (ruleOfList?.find(item => item.name === "costOfRevenue") || { value:'any'}).value;
+      let valueGrowthCostOfRevenue = (ruleOfList?.find(item => item.name === "growthCostAndExpenses") || { value: 'any'}).value;
+      let valueCostAndExpenses = (ruleOfList?.find(item => item.name === "costAndExpenses") || { value: 'any'}).value;
+      let valueGrowthCostAndExpenses= (ruleOfList?.find(item => item.name === "growthCostAndExpenses") || { value: 'any'}).value;
+      let valueResearchAndDevelopmentExpenses = (ruleOfList?.find(item => item.name === "researchAndDevelopmentExpenses") || { value: 'any'}).value;
+      let valueGrowthResearchAndDevelopmentExpenses = (ruleOfList?.find(item => item.name === "growthResearchAndDevelopmentExpenses") || { value: 'any'}).value;
+      let valueInterestIncome = (ruleOfList?.find(item => item.name === "interestIncome") || { value: 'any'}).value;
     
-      let valueInterestExpenses = (ruleOfList?.find(item => item.name === "interestExpenses") || { value: 500 }).value;
+      let valueInterestExpenses = (ruleOfList?.find(item => item.name === "interestExpenses") || { value: 'any'}).value;
       let valueGrowthInterestExpenses = (ruleOfList?.find(item => item.name === "growthInterestExpenses") || { value: 10 }).value;
-      let valueEBITDA = (ruleOfList?.find(item => item.name === "ebitda") || { value: 50 }).value;
-      let valueGrowthEBITDA = (ruleOfList?.find(item => item.name === "growthEBITDA") || { value: 10 }).value;
-      let valueOperatingExpenses = (ruleOfList?.find(item => item.name === "operatingExpenses") || { value: 50 }).value;
-      let valueGrowthOperatingExpenses = (ruleOfList?.find(item => item.name === "growthOperatingExpenses") || { value: 10 }).value;
-      let valueOperatingIncome = (ruleOfList?.find(item => item.name === "operatingIncome") || { value: 50 }).value;
-      let valueGrowthOperatingIncome = (ruleOfList?.find(item => item.name === "growthOperatingIncome") || { value: 10 }).value;
-      let valueNetIncome = (ruleOfList?.find(item => item.name === "netIncome") || { value: 30 }).value;
-      let valueGrowthNetIncome = (ruleOfList?.find(item => item.name === "growthNetIncome") || { value: 10 }).value;
-      let valueGrossProfit = (ruleOfList?.find(item => item.name === "grossProfit") || { value: 50 }).value;
-      let valueGrowthGrossProfit = (ruleOfList?.find(item => item.name === "growthGrossProfit") || { value: 10 }).value;
-      let valueDividendYield = (ruleOfList?.find(item => item.name === "dividendYield") || { value: 20 }).value;
-      let valueAnnualDividend = (ruleOfList?.find(item => item.name === "annualDividend") || { value: 1 }).value;
-      let valueDividendGrowth = (ruleOfList?.find(item => item.name === "dividendGrowth") || { value: 5 }).value;
-      let valuePayoutRatio = (ruleOfList?.find(item => item.name === "payoutRatio") || { value: 20 }).value;
+      let valueEBITDA = (ruleOfList?.find(item => item.name === "ebitda") || { value: 'any'}).value;
+      let valueGrowthEBITDA = (ruleOfList?.find(item => item.name === "growthEBITDA") || { value: 'any'}).value;
+      let valueOperatingExpenses = (ruleOfList?.find(item => item.name === "operatingExpenses") || { value: 'any'}).value;
+      let valueGrowthOperatingExpenses = (ruleOfList?.find(item => item.name === "growthOperatingExpenses") || { value: 'any'}).value;
+      let valueOperatingIncome = (ruleOfList?.find(item => item.name === "operatingIncome") || { value: 'any'}).value;
+      let valueGrowthOperatingIncome = (ruleOfList?.find(item => item.name === "growthOperatingIncome") || { value: 'any'}).value;
+      let valueNetIncome = (ruleOfList?.find(item => item.name === "netIncome") || { value: 'any'}).value;
+      let valueGrowthNetIncome = (ruleOfList?.find(item => item.name === "growthNetIncome") || { value: 'any'}).value;
+      let valueGrossProfit = (ruleOfList?.find(item => item.name === "grossProfit") || { value:'any'}).value;
+      let valueGrowthGrossProfit = (ruleOfList?.find(item => item.name === "growthGrossProfit") || { value: 'any'}).value;
+      let valueDividendYield = (ruleOfList?.find(item => item.name === "dividendYield") || { value: 'any'}).value;
+      let valueAnnualDividend = (ruleOfList?.find(item => item.name === "annualDividend") || { value: 'any'}).value;
+      let valueDividendGrowth = (ruleOfList?.find(item => item.name === "dividendGrowth") || { value: 'any'}).value;
+      let valuePayoutRatio = (ruleOfList?.find(item => item.name === "payoutRatio") || { value: 'any'}).value;
 
-      let valueCurrentRatio = (ruleOfList?.find(item => item.name === "currentRatio") || { value: 1 }).value;
-      let valueQuickRatio = (ruleOfList?.find(item => item.name === "quickRatio") || { value: 1 }).value;
-      let valueDebtEquityRatio = (ruleOfList?.find(item => item.name === "debtEquityRatio") || { value: 1 }).value;
-      let valueDebtRatio = (ruleOfList?.find(item => item.name === "debtRatio") || { value: 1 }).value;
-      let valueReturnOnAssets = (ruleOfList?.find(item => item.name === "returnOnAssets") || { value: 0 }).value;
-      let valueReturnOnEquity = (ruleOfList?.find(item => item.name === "returnOnEquity") || { value: 0 }).value;
+      let valueCurrentRatio = (ruleOfList?.find(item => item.name === "currentRatio") || { value: 'any'}).value;
+      let valueQuickRatio = (ruleOfList?.find(item => item.name === "quickRatio") || { value: 'any'}).value;
+      let valueDebtEquityRatio = (ruleOfList?.find(item => item.name === "debtEquityRatio") || { value: 'any'}).value;
+      let valueDebtRatio = (ruleOfList?.find(item => item.name === "debtRatio") || { value: 'any' }).value;
+      let valueReturnOnAssets = (ruleOfList?.find(item => item.name === "returnOnAssets") || { value: 'any' }).value;
+      let valueReturnOnEquity = (ruleOfList?.find(item => item.name === "returnOnEquity") || { value: 'any' }).value;
 
-      let valueEPS = (ruleOfList?.find(item => item.name === "eps") || { value: 2 }).value;
-      let valueGrowthEPS = (ruleOfList?.find(item => item.name === "growthEPS") || { value: 10 }).value;
-      let valuePE = (ruleOfList?.find(item => item.name === "pe") || { value: 10 }).value;
-      let valueForwardPE = (ruleOfList?.find(item => item.name === "forwardPE") || { value: 10 }).value;
+      let valueEPS = (ruleOfList?.find(item => item.name === "eps") || { value: 'any'}).value;
+      let valueGrowthEPS = (ruleOfList?.find(item => item.name === "growthEPS") || { value: 'any'}).value;
+      let valuePE = (ruleOfList?.find(item => item.name === "pe") || { value: 'any'}).value;
+      let valueForwardPE = (ruleOfList?.find(item => item.name === "forwardPE") || { value: 'any'}).value;
 
-      let valuePriceToBookRatio = (ruleOfList?.find(item => item.name === "priceToBookRatio") || { value: 5 }).value;
-      let valuePriceToSalesRatio = (ruleOfList?.find(item => item.name === "priceToSalesRatio") || { value: 10 }).value;
-      let valueBeta = (ruleOfList?.find(item => item.name === "beta") || { value: 1 }).value;
-      let valueMarketCap = (ruleOfList?.find(item => item.name === "marketCap") || { value: 50 }).value;
-      let valueAnalyst = (ruleOfList?.find(item => item.name === "ratingRecommendation") || { value: 1 }).value;
-      let valueRSI = (ruleOfList?.find(item => item.name === "rsi") || { value: 40 }).value;
-      let valueStochRSI = (ruleOfList?.find(item => item.name === "stochRSI") || { value: 40 }).value;
-      let valueMFI = (ruleOfList?.find(item => item.name === "mfi") || { value: 40 }).value;
-      let valueCCI = (ruleOfList?.find(item => item.name === "cci") || { value: 0 }).value;
-      let valueATR = (ruleOfList?.find(item => item.name === "atr") || { value: 2 }).value;
-      let valueSMA50 =  (ruleOfList?.find(item => item.name === "sma50") || { value: 50 }).value;
-      let valueSMA200 = (ruleOfList?.find(item => item.name === "sma200") || { value: 100 }).value;
-      let valueEMA50 =  (ruleOfList?.find(item => item.name === "ema50") || { value: 50 }).value;
-      let valueEMA200 = (ruleOfList?.find(item => item.name === "ema200") || { value: 100 }).value;
-      let valueChange1W = (ruleOfList?.find(item => item.name === "change1W") || { value: 0 }).value;
-      let valueChange1M = (ruleOfList?.find(item => item.name === "change1M") || { value: 0 }).value;
-      let valueChange3M = (ruleOfList?.find(item => item.name === "change3M") || { value: 0 }).value;
-      let valueChange6M = (ruleOfList?.find(item => item.name === "change6M") || { value: 0 }).value;
-      let valueChange1Y = (ruleOfList?.find(item => item.name === "change1Y") || { value: 0 }).value;
-      let valueChange3Y = (ruleOfList?.find(item => item.name === "change3Y") || { value: 0 }).value;
-      let valueAvgVolume = (ruleOfList?.find(item => item.name === "avgVolume") || { value: 10 }).value;
-      let valueVaR = (ruleOfList?.find(item => item.name === "var") || { value: -10 }).value;
-      let valueTrendAnalysis = (ruleOfList?.find(item => item.name === "trendAnalysis") || { value: 50 }).value;
-      let valueFundamentalAnalysis = (ruleOfList?.find(item => item.name === "fundamentalAnalysis") || { value: 50 }).value;
-      let valueEnterpriseValue = (ruleOfList?.find(item => item.name === "enterpriseValue") || { value: 50 }).value;
-      let valueFCFShare = (ruleOfList?.find(item => item.name === "freeCashFlowPerShare") || { value: 1 }).value;
-      let valueCashShare = (ruleOfList?.find(item => item.name === "cashPerShare") || { value: 1 }).value;
-      let valuePriceFCF = (ruleOfList?.find(item => item.name === "priceToFreeCashFlowsRatio") || { value: 1 }).value;
+      let valuePriceToBookRatio = (ruleOfList?.find(item => item.name === "priceToBookRatio") || { value: 'any'}).value;
+      let valuePriceToSalesRatio = (ruleOfList?.find(item => item.name === "priceToSalesRatio") || { value: 'any'}).value;
+      let valueBeta = (ruleOfList?.find(item => item.name === "beta") || { value: 'any' }).value;
+      let valueMarketCap = (ruleOfList?.find(item => item.name === "marketCap") || { value: 'any' }).value;
+      let valueAnalyst = (ruleOfList?.find(item => item.name === "ratingRecommendation") || { value: 'any'}).value;
+      let valueRSI = (ruleOfList?.find(item => item.name === "rsi") || { value: 'any' }).value;
+      let valueStochRSI = (ruleOfList?.find(item => item.name === "stochRSI") || { value: 'any'}).value;
+      let valueMFI = (ruleOfList?.find(item => item.name === "mfi") || { value: 'any'}).value;
+      let valueCCI = (ruleOfList?.find(item => item.name === "cci") || { value: 'any'}).value;
+      let valueATR = (ruleOfList?.find(item => item.name === "atr") || { value: 'any'}).value;
+      let valueSMA50 =  (ruleOfList?.find(item => item.name === "sma50") || { value: 'any'}).value;
+      let valueSMA200 = (ruleOfList?.find(item => item.name === "sma200") || { value: 'any'}).value;
+      let valueEMA50 =  (ruleOfList?.find(item => item.name === "ema50") || { value: 'any'}).value;
+      let valueEMA200 = (ruleOfList?.find(item => item.name === "ema200") || { value: 'any'}).value;
+      /*
+      let valueChange1W = (ruleOfList?.find(item => item.name === "change1W") || { value: 'any' }).value;
+      let valueChange1M = (ruleOfList?.find(item => item.name === "change1M") || { value: 'any' }).value;
+      let valueChange3M = (ruleOfList?.find(item => item.name === "change3M") || { value: 'any' }).value;
+      let valueChange6M = (ruleOfList?.find(item => item.name === "change6M") || { value: 'any' }).value;
+      let valueChange1Y = (ruleOfList?.find(item => item.name === "change1Y") || { value: 'any' }).value;
+      let valueChange3Y = (ruleOfList?.find(item => item.name === "change3Y") || { value: 'any' }).value;
+      */
+      let valueAvgVolume = (ruleOfList?.find(item => item.name === "avgVolume") || { value: 'any'}).value;
+      let valueVaR = (ruleOfList?.find(item => item.name === "var") || { value: 'any'}).value;
+      let valueTrendAnalysis = (ruleOfList?.find(item => item.name === "trendAnalysis") || { value: 'any'}).value;
+      let valueFundamentalAnalysis = (ruleOfList?.find(item => item.name === "fundamentalAnalysis") || { value: 'any'}).value;
+      let valueEnterpriseValue = (ruleOfList?.find(item => item.name === "enterpriseValue") || { value: 'any'}).value;
+      let valueFCFShare = (ruleOfList?.find(item => item.name === "freeCashFlowPerShare") || { value: 'any'}).value;
+      let valueCashShare = (ruleOfList?.find(item => item.name === "cashPerShare") || { value: 'any'}).value;
+      let valuePriceFCF = (ruleOfList?.find(item => item.name === "priceToFreeCashFlowsRatio") || { value: 'any'}).value;
 
     
       const ratingRecommendations = [
@@ -347,12 +353,14 @@ const valueMappings = {
   sma200: valueSMA200,
   ema50: valueEMA50,
   ema200: valueEMA200,
+  /*
   change1W: valueChange1W,
   change1M: valueChange1M,
   change3M: valueChange3M,
   change6M: valueChange6M,
   change1Y: valueChange1Y,
   change3Y: valueChange3Y,
+  */
   avgVolume: valueAvgVolume,
   var: valueVaR,
   trendAnalysis: valueTrendAnalysis,
@@ -497,6 +505,7 @@ async function updateStockScreenerData() {
     )
   );
 
+    displayRules = allRows.filter(row => ruleOfList.some(rule => rule.name === row.rule));
     filteredData = filterStockScreenerData();
     displayResults = filteredData?.slice(0, 50);
   } catch (error) {
@@ -665,12 +674,14 @@ $: {
         sma200: valueSMA200,
         ema50: valueEMA50,
         ema200: valueEMA200,
+        /*
         change1W: valueChange1W,
         change1M: valueChange1M,
         change3M: valueChange3M,
         change6M: valueChange6M,
         change1Y: valueChange1Y,
         change3Y: valueChange3Y,
+        */
         avgVolume: valueAvgVolume,
         var: valueVaR,
         trendAnalysis: valueTrendAnalysis,
@@ -706,78 +717,61 @@ $: {
 function filterStockScreenerData() {
   return stockScreenerData?.filter(item => {
     for (const rule of ruleOfList) {
+
       if ([
-          'researchAndDevelopmentExpenses',
-          'operatingIncome',
-          'operatingExpenses',
-          'netIncome',
-          'revenue',
-          'marketCap',
-          'enterpriseValue',
-          'costAndExpenses',
-          'costOfRevenue',
-          'ebitda',
-          'grossProfit'
-      ]?.includes(rule.name))
-      {
+        'researchAndDevelopmentExpenses',
+        'operatingIncome',
+        'operatingExpenses',
+        'netIncome',
+        'revenue',
+        'marketCap',
+        'enterpriseValue',
+        'costAndExpenses',
+        'costOfRevenue',
+        'ebitda',
+        'grossProfit'
+      ].includes(rule.name)) {
         if (rule.condition === "over" && item[rule.name] !== null && item[rule.name] <= rule.value * 10**(9)) {
-          //console.log('over filter', rule)
+          return false;
+        } else if (rule.condition === "under" && item[rule.name] !== null && item[rule.name] > rule.value * 10**(9)) {
           return false;
         }
-        else if (rule.condition === "under" && item[rule.name] !== null && item[rule.name] > rule.value * 10**(9)) {
-          //console.log('under filter', rule)
+      } else if (rule.name === 'interestIncome' || rule.name === 'interestExpense') {
+        if (rule.condition === "over" && item[rule.name] !== null && item[rule.name] <= rule.value * 10**(6)) {
+          return false;
+        } else if (rule.condition === "under" && item[rule.name] !== null && item[rule.name] > rule.value * 10**(6)) {
           return false;
         }
-      }
-      else if (rule.name === 'interestIncome' || rule.name === 'interestExpense') {
-        if (rule.condition === "over"  && item[rule.name] !== null && item[rule.name] <= rule.value * 10**(6)) {
+      } else if (rule.name === 'avgVolume') {
+        if (rule.condition === "over" && item[rule.name] <= rule.value * 10**(6)) {
+          return false;
+        } else if (rule.condition === "under" && item[rule.name] > rule.value * 10**(6)) {
           return false;
         }
-      else if (rule.condition === "under" && item[rule.name] !== null && item[rule.name] > rule.value * 10**(6)) {
+      } else if (rule.name === 'trendAnalysis') {
+        if (rule.condition === "over" && item[rule.name]?.accuracy <= rule.value) {
+          return false;
+        } else if (rule.condition === "under" && item[rule.name]?.accuracy > rule.value) {
           return false;
         }
-      }
-      else if (rule.name === 'avgVolume') {
-        if (rule.condition === "over"  && item[rule.name] <= rule.value * 10**(6)) {
+      } else if (rule.name === 'fundamentalAnalysis') {
+        if (rule.condition === "over" && item[rule.name]?.accuracy <= rule.value) {
+          return false;
+        } else if (rule.condition === "under" && item[rule.name]?.accuracy > rule.value) {
           return false;
         }
-      else if (rule.condition === "under"  && item[rule.name] > rule.value * 10**(6)) {
+      } else {
+        if (rule.condition === "over" && item[rule.name] !== null && item[rule.name] <= rule.value) {
           return false;
-        }
-      }
-      
-      else if (rule.name === 'trendAnalysis') {
-        if (rule.condition === "over"  &&  item[rule.name]?.accuracy <= rule.value ) {
-          return false;
-        }
-      else if (rule.condition === "under" && item[rule.name]?.accuracy > rule.value ) {
-          return false;
-        }
-      }
-
-      else if (rule.name === 'fundamentalAnalysis') {
-        if (rule.condition === "over"  &&  item[rule.name]?.accuracy <= rule.value ) {
-          return false;
-        }
-      else if (rule.condition === "under" && item[rule.name]?.accuracy > rule.value ) {
+        } else if (rule.condition === "under" && item[rule.name] !== null && item[rule.name] > rule.value) {
           return false;
         }
       }
-
-
-      else {
-        if (rule.condition === "over"  && item[rule.name] !== null && item[rule.name] <= rule.value) {
-          return false;
-        }
-        else if (rule.condition === "under"  && item[rule.name] !== null && item[rule.name] > rule.value) {
-          return false;
-        }
-      }
-    
     }
     return true;
   });
 }
+
 
 let order = 'highToLow';
 let sortBy = ''; // Default sorting by change percentage
@@ -852,7 +846,6 @@ $: charNumber = $screenWidth < 640 ? 20 : 40;
 function changeRuleCondition(name:string, state: string) {
   ruleName = name;
   ruleCondition[ruleName] = state;
-
 }
 
 
@@ -992,6 +985,7 @@ function handleChangeValue(value) {
         case 'ema200':
           valueEMA200 = value;
           break;
+        /*
         case 'change1W':
           valueChange1W = value;
           break;
@@ -1009,6 +1003,7 @@ function handleChangeValue(value) {
           break;
         case 'change3Y':
           valueChange3Y = value;
+        */
         case 'avgVolume':
           valueAvgVolume = value;
           break;
@@ -1133,13 +1128,13 @@ function handleChangeValue(value) {
                         <div>Add Filters</div>
                     </label>
 
-                    <label on:click={() => handleSave(true)} class="ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-md border border-transparent bg-blue-brand_light py-2 pl-3 pr-4 text-base font-semibold text-white shadow-sm bg-[#000] focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-smaller">
+                    <label on:click={() => handleSave(true)} class="sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-md border border-transparent bg-blue-brand_light py-2 pl-3 pr-4 text-base font-semibold text-white shadow-sm bg-[#000] focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-smaller">
                       <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#fff" d="M5 5v22h22V9.594l-.281-.313l-4-4L22.406 5zm2 2h3v6h12V7.437l3 3V25h-2v-9H9v9H7zm5 0h4v2h2V7h2v4h-8zm-1 11h10v7H11z"/></svg>
                         <div>Save</div>
                     </label>
 
                     {#if ruleOfList?.length !== 0}
-                    <label on:click={handleResetAll} class="ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-md border border-transparent bg-blue-brand_light py-2 pl-3 pr-4 text-base font-semibold text-white shadow-sm bg-[#000] focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-smaller">
+                    <label on:click={handleResetAll} class="sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-md border border-transparent bg-blue-brand_light py-2 pl-3 pr-4 text-base font-semibold text-white shadow-sm bg-[#000] focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-smaller">
                         <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 21"><g fill="none" fill-rule="evenodd" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><path d="M3.578 6.487A8 8 0 1 1 2.5 10.5"/><path d="M7.5 6.5h-4v-4"/></g></svg>
                         <div>Reset All</div>
                     </label>
@@ -1169,7 +1164,7 @@ function handleChangeValue(value) {
                           {row?.label?.replace('[%]','')}
                       </div> 
                       <div class="flex items-center">
-                          <button class="mr-1.5 cursor-pointer text-gray-300 sm:hover:text-red-500 focus:outline-none" title="Remove filter">
+                          <button on:click={() => handleDeleteRule(row?.rule)} class="mr-1.5 cursor-pointer text-gray-300 sm:hover:text-red-500 focus:outline-none" title="Remove filter">
                               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="CurrentColor" style="max-width:40px">
                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                               </svg>
@@ -1178,7 +1173,7 @@ function handleChangeValue(value) {
                             <div on:click={() => ruleName = row?.rule} class="dropdown dropdown-end">
                               <button tabindex="0" class="bg-[#000] h-[33px] flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 text-white rounded-lg truncate">
                                   <span class="truncate ml-2">
-                                    {#if valueMappings[row?.rule] === '' || conditions[row?.rule] === ''} 
+                                    {#if valueMappings[row?.rule] === 'any'} 
                                     Any
                                     {:else}
                                     {conditions[row?.rule]} {valueMappings[row?.rule]}{row?.unit}
@@ -1213,7 +1208,7 @@ function handleChangeValue(value) {
                                     {#each row?.step as newValue}
                                       <button on:click={() => {handleChangeValue(newValue)}} class="block w-full border-b border-gray-600 px-4 py-2 text-left text-sm text-white last:border-0 sm:hover:bg-gray-100 sm:hover:text-gray-900 
                                                       focus:bg-blue-100 focus:text-gray-900 focus:outline-none">
-                                        {conditions[row?.rule]} {newValue}{row?.unit}
+                                        {ruleCondition[row?.rule]} {newValue}{row?.unit}
                                       </button>
                                     {/each}
                                 </div>
