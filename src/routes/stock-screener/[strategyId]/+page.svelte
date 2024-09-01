@@ -4,7 +4,6 @@
   import { screenWidth, strategyId, numberOfUnreadNotification, getCache, setCache} from '$lib/store';
   import toast from 'svelte-french-toast';
   import { abbreviateNumber, formatRuleValue } from '$lib/utils';
-  import RuleControl from '$lib/components/RuleControl.svelte';
     
   //const userConfirmation = confirm('Unsaved changes detected. Leaving now will discard your strategy. Continue?');
 
@@ -13,7 +12,7 @@
   
   $strategyId = data?.getStrategyId;
   let ruleOfList = data?.getStrategy?.rules ?? [];
-
+  let displayRules = [];
   
   const title = data?.getStrategy?.title;
 
@@ -125,6 +124,8 @@ const getStockScreenerData = async (rules) => {
   let ruleTrend = {
     ratingRecommendation: 'Hold',
   };
+
+
     
     
   let allRows = [
@@ -144,7 +145,7 @@ const getStockScreenerData = async (rules) => {
     { rule: 'change6M', label: 'Price Change 6M [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
     { rule: 'change1Y', label: 'Price Change 1Y [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
     { rule: 'change3Y', label: 'Price Change 3Y [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
-    { rule: 'marketCap', label: 'Market Cap', max: "800", min:"10", step:"10", unit: 'Bn', category: 'fund'},
+    { rule: 'marketCap', label: 'Market Cap', step: [100,50,10,1], unit: 'B', category: 'fund'},
     { rule: 'revenue', label: 'Revenue', max: "800", min:"-100", step:"10", unit: 'Bn', category: 'fund' },
     { rule: 'growthRevenue', label: 'Revenue Growth [%]', max: "200", min:"-100", step:"2", unit: '%', category: 'fund' },
     { rule: 'costOfRevenue', label: 'Cost of Revenue', max: "800", min:"-100", step:"10", unit: 'Bn', category: 'fund' },
@@ -174,7 +175,7 @@ const getStockScreenerData = async (rules) => {
     { rule: 'forwardPE', label: 'Forward PE', max: "100", min:"-100", step:"2", category: 'fund'},
     { rule: 'priceToBookRatio', label: 'P/B', max: "50", min:"0", step:"0.5", category: 'fund'},
     { rule: 'priceToSalesRatio', label: 'P/S', max: "50", min:"0", step:"0.5", category: 'fund'},
-    { rule: 'beta', label: 'Beta', max: "10", min:"-10", step:"0.1", category: 'fund'},
+    { rule: 'beta', label: 'Beta', step: [10,5,1,-5, -10], unit:'', category: 'fund'},
     { rule: 'ebitda', label: 'EBITDA', max: "800", min:"-100", step:"10", unit: 'Bn', category: 'fund'},
     { rule: 'growthEBITDA', label: 'EBITDA Growth [%]', max: "200", min:"-100", step:"2", unit: '%', category: 'fund'},
     { rule: 'var', label: 'VaR', max: "0", min:"-20", step:"1", unit: '%', category: 'fund' },
@@ -193,13 +194,8 @@ const getStockScreenerData = async (rules) => {
     { rule: 'priceToFreeCashFlowsRatio', label: 'Price / FCF', max: "100", min:"-100", step:"2", category: 'fund' },
   ];
 
-  // Creating the ruleMappings object from allRows
-  const ruleMappings = allRows.reduce((acc, row) => {
-        acc[row.rule] = row.label;
-        return acc;
-    }, {});
-  
-    
+ 
+
       allRows?.sort((a, b) => a.label.localeCompare(b.label));
       let filteredRows;
       let searchTerm = '';
@@ -210,14 +206,8 @@ const getStockScreenerData = async (rules) => {
       taRows?.sort((a, b) => a.label.localeCompare(b.label));
       fundRows?.sort((a, b) => a.label.localeCompare(b.label));
       */
-
-      function changeRuleCondition(state: string) {
-        ruleCondition[ruleName] = state;
-      }
-    
-      
   
-      let ruleName = '';
+      let ruleName = 'marketCap';
       
       // Define your default values
 
@@ -703,6 +693,7 @@ $: {
       ruleOfList = [...ruleOfList];
     }
 
+    displayRules = allRows.filter(row => ruleOfList.some(rule => rule.name === row.rule));
     filteredData = filterStockScreenerData();
     
     if (ruleOfList?.some(item => item?.name === 'ratingRecommendation')) {
@@ -729,10 +720,12 @@ function filterStockScreenerData() {
           'grossProfit'
       ]?.includes(rule.name))
       {
-        if (rule.condition === "over"  && item[rule.name] !== null && item[rule.name] <= rule.value * 10**(9)) {
+        if (rule.condition === "over" && item[rule.name] !== null && item[rule.name] <= rule.value * 10**(9)) {
+          //console.log('over filter', rule)
           return false;
         }
         else if (rule.condition === "under" && item[rule.name] !== null && item[rule.name] > rule.value * 10**(9)) {
+          //console.log('under filter', rule)
           return false;
         }
       }
@@ -856,12 +849,16 @@ $: isSaved = !ruleOfList;
 
 $: charNumber = $screenWidth < 640 ? 20 : 40;
 
-function handleChangeCondition(event) {
-    ruleCondition[event.detail.rule] = event.detail.condition;
-  }
+function changeRuleCondition(name:string, state: string) {
+  ruleName = name;
+  ruleCondition[ruleName] = state;
 
-function handleChangeValue(event) {
-  const { rule, value } = event.detail;
+}
+
+
+function handleChangeValue(value) {
+  const rule = ruleName
+
   if (rule in valueMappings) {
     valueMappings[rule] = value;
     // If you need to keep the separate variables in sync:
@@ -1058,6 +1055,8 @@ function handleChangeValue(event) {
     // Optionally handle unknown rules here
   }
 }
+
+
 </script>
   
   
@@ -1127,40 +1126,103 @@ function handleChangeValue(event) {
                     </div>
                 </div> 
                 <div class="mt-3 flex flex-col gap-y-2.5 sm:flex-row lg:gap-y-2 pb-1">
-                    <button class="inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-md border border-transparent bg-blue-brand_light py-2 pl-3 pr-4 text-base font-semibold text-white shadow-sm bg-[#000] focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-smaller">
+                    <label for="ruleModal" class="inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded-md border border-transparent bg-blue-brand_light py-2 pl-3 pr-4 text-base font-semibold text-white shadow-sm bg-[#000] focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-smaller">
                         <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px" aria-hidden="true">
                             <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
                         </svg> 
                         <div>Add Filters</div>
-                    </button>  
+                    </label>
+
+                    <label on:click={() => handleSave(true)} class="ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-md border border-transparent bg-blue-brand_light py-2 pl-3 pr-4 text-base font-semibold text-white shadow-sm bg-[#000] focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-smaller">
+                      <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#fff" d="M5 5v22h22V9.594l-.281-.313l-4-4L22.406 5zm2 2h3v6h12V7.437l3 3V25h-2v-9H9v9H7zm5 0h4v2h2V7h2v4h-8zm-1 11h10v7H11z"/></svg>
+                        <div>Save</div>
+                    </label>
+
+                    {#if ruleOfList?.length !== 0}
+                    <label on:click={handleResetAll} class="ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-md border border-transparent bg-blue-brand_light py-2 pl-3 pr-4 text-base font-semibold text-white shadow-sm bg-[#000] focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-smaller">
+                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 21"><g fill="none" fill-rule="evenodd" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><path d="M3.578 6.487A8 8 0 1 1 2.5 10.5"/><path d="M7.5 6.5h-4v-4"/></g></svg>
+                        <div>Reset All</div>
+                    </label>
+                    {/if}
+
+                    <!--
                     <div class="relative sm:ml-2">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-2.5">
                             <svg class="h-4 w-4 text-gray-400 xs:h-5 xs:w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" stroke="currentColor" viewBox="0 0 24 24" style="max-width: 40px" aria-hidden="true">
                                 <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
-                        </div> 
+                        </div>
+                        
                         <input type="text" placeholder="Search {allRows?.length} filters..." class="controls-input rounded-lg w-full py-2 pl-10 placeholder:text-gray-300 bg-[#313131] sm:w-72"> 
                         <div class="absolute inset-y-0 right-0 flex items-center pr-2"></div> 
+                      
                     </div> 
+                  -->
                 </div> 
 
 
                 <div class="sm:grid sm:grid-cols-2 sm:gap-x-2.5 lg:grid-cols-3 w-full mt-5 border-b border-gray-400">
-                 {#each allRows as row (row.rule)}
-                  {#if ruleOfList.some(rule => rule.name === row.rule)}
-                    <RuleControl 
-                      ruleName={row.rule}
-                      title={row.label}
-                      min={row.min}
-                      max={row.max}
-                      step={row.step}
-                      unit={row?.unit}
-                      bind:value={valueMappings[row.rule]}
-                      bind:condition={conditions[row.rule]}
-                      on:changeCondition={handleChangeCondition}
-                      on:changeValue={handleChangeValue}
-                    />
-                  {/if}
+                  {#each displayRules as row (row?.rule)}
+                    <!--Start Added Rules-->
+                    <div class="flex items-center justify-between space-x-2 px-1 py-1.5 text-smaller leading-tight text-default">
+                      <div class="text-white text-[1rem]">
+                          {row?.label?.replace('[%]','')}
+                      </div> 
+                      <div class="flex items-center">
+                          <button class="mr-1.5 cursor-pointer text-gray-300 sm:hover:text-red-500 focus:outline-none" title="Remove filter">
+                              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="CurrentColor" style="max-width:40px">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                              </svg>
+                          </button> 
+                          <div class="relative inline-block text-left">
+                            <div on:click={() => ruleName = row?.rule} class="dropdown dropdown-end">
+                              <button tabindex="0" class="bg-[#000] h-[33px] flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 text-white rounded-lg truncate">
+                                  <span class="truncate ml-2">
+                                    {#if valueMappings[row?.rule] === '' || conditions[row?.rule] === ''} 
+                                    Any
+                                    {:else}
+                                    {conditions[row?.rule]} {valueMappings[row?.rule]}{row?.unit}
+                                    {/if}
+                                  </span> 
+                                  <svg class=" ml-1 h-6 w-6 xs:ml-2 inline-block" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px" aria-hidden="true">
+                                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                  </svg>
+                              </button> 
+                              
+                              <div class="dropdown-content absolute z-40 mt-2 rounded-md bg-[#181C1F] py-1 shadow-lg border border-gray-600 focus:outline-none" tabindex="0" role="menu">
+
+                                <div class="select-none space-y-1 p-1 pb-2 pr-2 text-sm">
+                                    <div class="flex items-center justify-start gap-x-1">
+                                        <div class="relative inline-block flex flex-row items-center justify-center m-auto">
+                                            <label on:click={() => changeRuleCondition(row?.rule, 'under')} class="cursor-pointer flex flex-row mr-2 justify-center items-center">
+                                              <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" 
+                                                  checked={conditions[row?.rule] === 'under'} name={row?.rule} />
+                                              <span class="label-text text-white">Under</span> 
+                                            </label>
+                                            <label on:click={() => changeRuleCondition(row?.rule, 'over')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
+                                              <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2"
+                                                checked={conditions[row?.rule] === 'over'} name={row?.rule} />
+                                              <span class="label-text text-white">Over</span> 
+                                            </label>
+                                        </div>
+                                    </div> 
+                                </div> 
+
+                                <div class="thin-scrollbar dark:styled-scrollbar dark:right-scrollbar max-h-[250px] overflow-y-auto overflow-x-hidden overscroll-contain border-t border-gray-600 
+                                    dark:border-dark-500 xl:max-h-[297px]">
+                                    {#each row?.step as newValue}
+                                      <button on:click={() => {handleChangeValue(newValue)}} class="block w-full border-b border-gray-600 px-4 py-2 text-left text-sm text-white last:border-0 sm:hover:bg-gray-100 sm:hover:text-gray-900 
+                                                      focus:bg-blue-100 focus:text-gray-900 focus:outline-none">
+                                        {conditions[row?.rule]} {newValue}{row?.unit}
+                                      </button>
+                                    {/each}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <!--End Added Rules-->
                 {/each}
                 </div>
 
@@ -1308,15 +1370,6 @@ function handleChangeValue(event) {
 
     
 
-<div class="sm:hidden fixed z-40 bottom-8 sm:bottom-10 right-8 sm:right-16">
-  <label on:click={() => handleSave(true)} class="inline-flex items-center justify-center w-12 h-12 sm:w-full sm:h-10 font-medium bg-purple-600 ml-1 mr-0 sm:mr-2 rounded-full cursor-pointer">
-    <svg class="w-6 h-6 text-white inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <path fill="white" d="M21 7v12q0 .825-.588 1.413T19 21H5q-.825 0-1.413-.588T3 19V5q0-.825.588-1.413T5 3h12l4 4Zm-9 11q1.25 0 2.125-.875T15 15q0-1.25-.875-2.125T12 12q-1.25 0-2.125.875T9 15q0 1.25.875 2.125T12 18Zm-6-8h9V6H6v4Z"/>
-    </svg>
-  </label>
-</div>
-
-
   <!--
   <div class="tabs w-screen mb-5 ">
     <label on:click={() => handleRuleTab('all')} class="tab mr-2 text-white font-medium transition duration-150 ease-out hover:ease-in rounded-md hover:bg-[#333333] {displayTab === 'all' ? 'bg-[#333333]' : ''}">
@@ -1348,7 +1401,7 @@ function handleChangeValue(event) {
 
     
       <div class="text-white text-3xl font-semibold mb-5">
-        Choose Rules
+        Add Filters
       </div>
 
       <!--Start Search bar-->

@@ -10,15 +10,15 @@
   export let unit = '';
   export let condition;
 
-  console.log(condition)
   const dispatch = createEventDispatcher();
 
   function changeRuleCondition(newCondition) {
+    condition = newCondition
     dispatch('changeCondition', { rule: ruleName, condition: newCondition });
   }
 
-  function changeValue(event) {
-    dispatch('changeValue', { rule: ruleName, value: Number(event.target.value) });
+  function changeValue(val) {
+    dispatch('changeValue', { rule: ruleName, value: val });
   }
 </script>
 
@@ -57,8 +57,14 @@
       </button> 
       <div class="relative inline-block text-left">
         <div class="dropdown dropdown-end">
-          <button tabindex="0" class="bg-[#000] h-[33px] flex flex-row justify-between items-center w-[125px] xs:w-[140px] sm:w-[125px] px-3 text-white rounded-lg truncate">
-              <span class="truncate ml-2">Any</span> 
+          <button tabindex="0" class="bg-[#000] h-[33px] flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 text-white rounded-lg truncate">
+              <span class="truncate ml-2">
+                {#if value === '' || condition === ''} 
+                Any
+                {:else}
+                {condition} {value}{unit}
+                {/if}
+              </span> 
               <svg class=" ml-1 h-6 w-6 xs:ml-2 inline-block" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px" aria-hidden="true">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
               </svg>
@@ -85,30 +91,12 @@
 
             <div class="thin-scrollbar dark:styled-scrollbar dark:right-scrollbar max-h-[250px] overflow-y-auto overflow-x-hidden overscroll-contain border-t border-gray-600 
                 dark:border-dark-500 xl:max-h-[297px]">
-                <button class="block w-full border-b border-gray-600 px-4 py-2 text-left text-sm text-white last:border-0 hover:bg-gray-100 hover:text-gray-900 
-                    focus:bg-blue-100 focus:text-gray-900 focus:outline-none">
-                    100B 
-                </button>
-                <button class="block w-full border-b border-gray-600 px-4 py-2 text-left text-sm text-white last:border-0 hover:bg-gray-100 hover:text-gray-900 
-                    focus:bg-blue-100 focus:text-gray-900 focus:outline-none">
-                    50B 
-                </button>
-                <button class="block w-full border-b border-gray-600 px-4 py-2 text-left text-sm text-white last:border-0 hover:bg-gray-100 hover:text-gray-900 
-                    focus:bg-blue-100 focus:text-gray-900 focus:outline-none">
-                    10B 
-                </button>
-                <button class="block w-full border-b border-gray-600 px-4 py-2 text-left text-sm text-white last:border-0 hover:bg-gray-100 hover:text-gray-900 
-                    focus:bg-blue-100 focus:text-gray-900 focus:outline-none">
-                    1B 
-                </button>
-                <button class="block w-full border-b border-gray-600 px-4 py-2 text-left text-sm text-white last:border-0 hover:bg-gray-100 hover:text-gray-900 
-                    focus:bg-blue-100 focus:text-gray-900 focus:outline-none">
-                    300M 
-                </button>
-                <button class="block w-full border-b border-gray-600 px-4 py-2 text-left text-sm text-white last:border-0 hover:bg-gray-100 hover:text-gray-900 
-                    focus:bg-blue-100 focus:text-gray-900 focus:outline-none">
-                    100M 
-                </button>
+                {#each step as newValue}
+                  <button on:click={() => changeValue(newValue)} class="block w-full border-b border-gray-600 px-4 py-2 text-left text-sm text-white last:border-0 sm:hover:bg-gray-100 sm:hover:text-gray-900 
+                                  focus:bg-blue-100 focus:text-gray-900 focus:outline-none">
+                    {condition} {newValue}{unit}
+                  </button>
+                {/each}
             </div>
           </div>
         </div>
