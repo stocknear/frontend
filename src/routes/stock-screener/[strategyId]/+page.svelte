@@ -14,7 +14,7 @@
   $strategyId = data?.getStrategyId;
   let ruleOfList = data?.getStrategy?.rules ?? [];
 
-
+  
   const title = data?.getStrategy?.title;
 
   let stockScreenerData = data?.getStockScreenerData?.filter(item => 
@@ -57,68 +57,68 @@ const getStockScreenerData = async (rules) => {
   let displayResults = [];
   let isSaved = false;
   let ruleCondition = {
-    avgVolume: (ruleOfList?.find(item => item.name === "avgVolume") || { condition: 'above' }).condition,
-    priceToBookRatio: (ruleOfList?.find(item => item.name === "priceToBookRati") || { condition: 'above' }).condition,
-    priceToSalesRatio: (ruleOfList?.find(item => item.name === "priceToSalesRatio") || { condition: 'above' }).condition,
-    rsi: (ruleOfList?.find(item => item.name === "rsi") || { condition: 'above' }).condition,
-    stochRSI: (ruleOfList?.find(item => item.name === "stochRSI") || { condition: 'above' }).condition,
-    mfi: (ruleOfList?.find(item => item.name === "mfi") || { condition: 'above' }).condition,
-    cci: (ruleOfList?.find(item => item.name === "cci") || { condition: 'above' }).condition,
-    atr:  (ruleOfList?.find(item => item.name === "atr") || { condition: 'above' }).condition,
-    sma50:  (ruleOfList?.find(item => item.name === "sma50") || { condition: 'above' }).condition,
-    sma200:  (ruleOfList?.find(item => item.name === "sma200") || { condition: 'above' }).condition,
-    ema50:  (ruleOfList?.find(item => item.name === "ema50") || { condition: 'above' }).condition,
-    ema200:  (ruleOfList?.find(item => item.name === "ema200") || { condition: 'above' }).condition,
-    change1W: (ruleOfList?.find(item => item.name === "change1W") || { condition: 'above' }).condition,
-    change1M: (ruleOfList?.find(item => item.name === "change1M") || { condition: 'above' }).condition,
-    change3M: (ruleOfList?.find(item => item.name === "change3M") || { condition: 'above' }).condition,
-    change6M: (ruleOfList?.find(item => item.name === "change6M") || { condition: 'above' }).condition,
-    change1Y: (ruleOfList?.find(item => item.name === "change1Y") || { condition: 'above' }).condition,
-    change3Y: (ruleOfList?.find(item => item.name === "change3Y") || { condition: 'above' }).condition,
-    payoutRatio:  (ruleOfList?.find(item => item.name === "payoutRatio") || { condition: 'above' }).condition,
-    annualDividend:  (ruleOfList?.find(item => item.name === "annualDividend") || { condition: 'above' }).condition,
-    dividendYield:  (ruleOfList?.find(item => item.name === "dividendYield") || { condition: 'above' }).condition,
-    dividendGrowth:  (ruleOfList?.find(item => item.name === "dividendGrowth") || { condition: 'above' }).condition,
-    eps:  (ruleOfList?.find(item => item.name === "eps") || { condition: 'above' }).condition,
-    growthEPS:  (ruleOfList?.find(item => item.name === "growthEPS") || { condition: 'above' }).condition,
-    pe:  (ruleOfList?.find(item => item.name === "pe") || { condition: 'above' }).condition,
-    forwardPE:  (ruleOfList?.find(item => item.name === "forwardPE") || { condition: 'above' }).condition,
-    beta:  (ruleOfList?.find(item => item.name === "beta") || { condition: 'above' }).condition,
-    ebitda:  (ruleOfList?.find(item => item.name === "ebitda") || { condition: 'above' }).condition,
-    growthEBITDA:  (ruleOfList?.find(item => item.name === "growthEBITDA") || { condition: 'above' }).condition,
-    revenue:  (ruleOfList?.find(item => item.name === "revenue") || { condition: 'above' }).condition,
-    growthRevenue:  (ruleOfList?.find(item => item.name === "growthRevenue") || { condition: 'above' }).condition,
-    costOfRevenue:  (ruleOfList?.find(item => item.name === "costOfRevenue") || { condition: 'above' }).condition,
-    growthCostOfRevenue:  (ruleOfList?.find(item => item.name === "growthCostOfRevenue") || { condition: 'above' }).condition,
-    costAndExpenses:  (ruleOfList?.find(item => item.name === "costAndExpenses") || { condition: 'above' }).condition,
-    growthCostAndExpenses:  (ruleOfList?.find(item => item.name === "growthCostAndExpenses") || { condition: 'above' }).condition,
-    netIncome:  (ruleOfList?.find(item => item.name === "netIncome") || { condition: 'above' }).condition,
-    growthNetIncome:  (ruleOfList?.find(item => item.name === "growthNetIncome") || { condition: 'above' }).condition,
-    researchAndDevelopmentExpenses:  (ruleOfList?.find(item => item.name === "researchAndDevelopmentExpenses") || { condition: 'above' }).condition,
-    growthResearchAndDevelopmentExpenses:  (ruleOfList?.find(item => item.name === "growthResearchAndDevelopmentExpenses") || { condition: 'above' }).condition,
-    grossProfit:  (ruleOfList?.find(item => item.name === "grossProfit") || { condition: 'above' }).condition,
-    growthGrossProfit:  (ruleOfList?.find(item => item.name === "growthGrossProfit") || { condition: 'above' }).condition,
-    interestIncome:  (ruleOfList?.find(item => item.name === "interestIncome") || { condition: 'above' }).condition,
-    interestExpense:  (ruleOfList?.find(item => item.name === "interestExpense") || { condition: 'above' }).condition,
-    growthInterestExpense:  (ruleOfList?.find(item => item.name === "growthInterestExpense") || { condition: 'above' }).condition,
-    operatingExpenses:  (ruleOfList?.find(item => item.name === "operatingExpense") || { condition: 'above' }).condition,
-    growthOperatingExpenses:  (ruleOfList?.find(item => item.name === "growthOperatingExpense") || { condition: 'above' }).condition,
-    operatingIncome:  (ruleOfList?.find(item => item.name === "operatingIncome") || { condition: 'above' }).condition,
-    growthOperatingIncome:  (ruleOfList?.find(item => item.name === "growthOperatingIncome") || { condition: 'above' }).condition,
-    marketCap:  (ruleOfList?.find(item => item.name === "marketCap") || { condition: 'above' }).condition,
-    var: (ruleOfList?.find(item => item.name === "var") || { condition: 'above' }).condition,
-    trendAnalysis: (ruleOfList?.find(item => item.name === "trendAnalysis") || { condition: 'above' }).condition,
-    fundamentalAnalysis: (ruleOfList?.find(item => item.name === "fundamentalAnalysis") || { condition: 'above' }).condition,
-    currentRatio:  (ruleOfList?.find(item => item.name === "currentRatio") || { condition: 'above' }).condition,
-    quickRatio:  (ruleOfList?.find(item => item.name === "quickRatio") || { condition: 'above' }).condition,
-    debtEquityRatio:  (ruleOfList?.find(item => item.name === "debtEquityRatio") || { condition: 'above' }).condition,
-    debtRatio:  (ruleOfList?.find(item => item.name === "debtRatio") || { condition: 'above' }).condition,
-    returnOnAssets: (ruleOfList?.find(item => item.name === "returnOnAssets") || { condition: 'above' }).condition,
-    returnOnEquity: (ruleOfList?.find(item => item.name === "returnOnEquity") || { condition: 'above' }).condition,
-    enterpriseValue: (ruleOfList?.find(item => item.name === "enterpriseValue") || { condition: 'above' }).condition,
-    freeCashFlowPerShare: (ruleOfList?.find(item => item.name === "freeCashFlowPerShare") || { condition: 'above' }).condition,
-    cashPerShare: (ruleOfList?.find(item => item.name === "cashPerShare") || { condition: 'above' }).condition,
-    priceToFreeCashFlowsRatio: (ruleOfList?.find(item => item.name === "priceToFreeCashFlowsRatio") || { condition: 'above' }).condition,
+    avgVolume: (ruleOfList?.find(item => item.name === "avgVolume") || { condition: 'over' }).condition,
+    priceToBookRatio: (ruleOfList?.find(item => item.name === "priceToBookRati") || { condition: 'over' }).condition,
+    priceToSalesRatio: (ruleOfList?.find(item => item.name === "priceToSalesRatio") || { condition: 'over' }).condition,
+    rsi: (ruleOfList?.find(item => item.name === "rsi") || { condition: 'over' }).condition,
+    stochRSI: (ruleOfList?.find(item => item.name === "stochRSI") || { condition: 'over' }).condition,
+    mfi: (ruleOfList?.find(item => item.name === "mfi") || { condition: 'over' }).condition,
+    cci: (ruleOfList?.find(item => item.name === "cci") || { condition: 'over' }).condition,
+    atr:  (ruleOfList?.find(item => item.name === "atr") || { condition: 'over' }).condition,
+    sma50:  (ruleOfList?.find(item => item.name === "sma50") || { condition: 'over' }).condition,
+    sma200:  (ruleOfList?.find(item => item.name === "sma200") || { condition: 'over' }).condition,
+    ema50:  (ruleOfList?.find(item => item.name === "ema50") || { condition: 'over' }).condition,
+    ema200:  (ruleOfList?.find(item => item.name === "ema200") || { condition: 'over' }).condition,
+    change1W: (ruleOfList?.find(item => item.name === "change1W") || { condition: 'over' }).condition,
+    change1M: (ruleOfList?.find(item => item.name === "change1M") || { condition: 'over' }).condition,
+    change3M: (ruleOfList?.find(item => item.name === "change3M") || { condition: 'over' }).condition,
+    change6M: (ruleOfList?.find(item => item.name === "change6M") || { condition: 'over' }).condition,
+    change1Y: (ruleOfList?.find(item => item.name === "change1Y") || { condition: 'over' }).condition,
+    change3Y: (ruleOfList?.find(item => item.name === "change3Y") || { condition: 'over' }).condition,
+    payoutRatio:  (ruleOfList?.find(item => item.name === "payoutRatio") || { condition: 'over' }).condition,
+    annualDividend:  (ruleOfList?.find(item => item.name === "annualDividend") || { condition: 'over' }).condition,
+    dividendYield:  (ruleOfList?.find(item => item.name === "dividendYield") || { condition: 'over' }).condition,
+    dividendGrowth:  (ruleOfList?.find(item => item.name === "dividendGrowth") || { condition: 'over' }).condition,
+    eps:  (ruleOfList?.find(item => item.name === "eps") || { condition: 'over' }).condition,
+    growthEPS:  (ruleOfList?.find(item => item.name === "growthEPS") || { condition: 'over' }).condition,
+    pe:  (ruleOfList?.find(item => item.name === "pe") || { condition: 'over' }).condition,
+    forwardPE:  (ruleOfList?.find(item => item.name === "forwardPE") || { condition: 'over' }).condition,
+    beta:  (ruleOfList?.find(item => item.name === "beta") || { condition: 'over' }).condition,
+    ebitda:  (ruleOfList?.find(item => item.name === "ebitda") || { condition: 'over' }).condition,
+    growthEBITDA:  (ruleOfList?.find(item => item.name === "growthEBITDA") || { condition: 'over' }).condition,
+    revenue:  (ruleOfList?.find(item => item.name === "revenue") || { condition: 'over' }).condition,
+    growthRevenue:  (ruleOfList?.find(item => item.name === "growthRevenue") || { condition: 'over' }).condition,
+    costOfRevenue:  (ruleOfList?.find(item => item.name === "costOfRevenue") || { condition: 'over' }).condition,
+    growthCostOfRevenue:  (ruleOfList?.find(item => item.name === "growthCostOfRevenue") || { condition: 'over' }).condition,
+    costAndExpenses:  (ruleOfList?.find(item => item.name === "costAndExpenses") || { condition: 'over' }).condition,
+    growthCostAndExpenses:  (ruleOfList?.find(item => item.name === "growthCostAndExpenses") || { condition: 'over' }).condition,
+    netIncome:  (ruleOfList?.find(item => item.name === "netIncome") || { condition: 'over' }).condition,
+    growthNetIncome:  (ruleOfList?.find(item => item.name === "growthNetIncome") || { condition: 'over' }).condition,
+    researchAndDevelopmentExpenses:  (ruleOfList?.find(item => item.name === "researchAndDevelopmentExpenses") || { condition: 'over' }).condition,
+    growthResearchAndDevelopmentExpenses:  (ruleOfList?.find(item => item.name === "growthResearchAndDevelopmentExpenses") || { condition: 'over' }).condition,
+    grossProfit:  (ruleOfList?.find(item => item.name === "grossProfit") || { condition: 'over' }).condition,
+    growthGrossProfit:  (ruleOfList?.find(item => item.name === "growthGrossProfit") || { condition: 'over' }).condition,
+    interestIncome:  (ruleOfList?.find(item => item.name === "interestIncome") || { condition: 'over' }).condition,
+    interestExpense:  (ruleOfList?.find(item => item.name === "interestExpense") || { condition: 'over' }).condition,
+    growthInterestExpense:  (ruleOfList?.find(item => item.name === "growthInterestExpense") || { condition: 'over' }).condition,
+    operatingExpenses:  (ruleOfList?.find(item => item.name === "operatingExpense") || { condition: 'over' }).condition,
+    growthOperatingExpenses:  (ruleOfList?.find(item => item.name === "growthOperatingExpense") || { condition: 'over' }).condition,
+    operatingIncome:  (ruleOfList?.find(item => item.name === "operatingIncome") || { condition: 'over' }).condition,
+    growthOperatingIncome:  (ruleOfList?.find(item => item.name === "growthOperatingIncome") || { condition: 'over' }).condition,
+    marketCap:  (ruleOfList?.find(item => item.name === "marketCap") || { condition: 'over' }).condition,
+    var: (ruleOfList?.find(item => item.name === "var") || { condition: 'over' }).condition,
+    trendAnalysis: (ruleOfList?.find(item => item.name === "trendAnalysis") || { condition: 'over' }).condition,
+    fundamentalAnalysis: (ruleOfList?.find(item => item.name === "fundamentalAnalysis") || { condition: 'over' }).condition,
+    currentRatio:  (ruleOfList?.find(item => item.name === "currentRatio") || { condition: 'over' }).condition,
+    quickRatio:  (ruleOfList?.find(item => item.name === "quickRatio") || { condition: 'over' }).condition,
+    debtEquityRatio:  (ruleOfList?.find(item => item.name === "debtEquityRatio") || { condition: 'over' }).condition,
+    debtRatio:  (ruleOfList?.find(item => item.name === "debtRatio") || { condition: 'over' }).condition,
+    returnOnAssets: (ruleOfList?.find(item => item.name === "returnOnAssets") || { condition: 'over' }).condition,
+    returnOnEquity: (ruleOfList?.find(item => item.name === "returnOnEquity") || { condition: 'over' }).condition,
+    enterpriseValue: (ruleOfList?.find(item => item.name === "enterpriseValue") || { condition: 'over' }).condition,
+    freeCashFlowPerShare: (ruleOfList?.find(item => item.name === "freeCashFlowPerShare") || { condition: 'over' }).condition,
+    cashPerShare: (ruleOfList?.find(item => item.name === "cashPerShare") || { condition: 'over' }).condition,
+    priceToFreeCashFlowsRatio: (ruleOfList?.find(item => item.name === "priceToFreeCashFlowsRatio") || { condition: 'over' }).condition,
 
   };
 
@@ -144,7 +144,7 @@ const getStockScreenerData = async (rules) => {
     { rule: 'change6M', label: 'Price Change 6M [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
     { rule: 'change1Y', label: 'Price Change 1Y [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
     { rule: 'change3Y', label: 'Price Change 3Y [%]', max: "200", min:"-100", step:"2", unit: '%',category: 'ta' },
-    { rule: 'marketCap', label: 'Market Capitalization', max: "800", min:"10", step:"10", unit: 'Bn', category: 'fund'},
+    { rule: 'marketCap', label: 'Market Cap', max: "800", min:"10", step:"10", unit: 'Bn', category: 'fund'},
     { rule: 'revenue', label: 'Revenue', max: "800", min:"-100", step:"10", unit: 'Bn', category: 'fund' },
     { rule: 'growthRevenue', label: 'Revenue Growth [%]', max: "200", min:"-100", step:"2", unit: '%', category: 'fund' },
     { rule: 'costOfRevenue', label: 'Cost of Revenue', max: "800", min:"-100", step:"10", unit: 'Bn', category: 'fund' },
@@ -729,54 +729,54 @@ function filterStockScreenerData() {
           'grossProfit'
       ]?.includes(rule.name))
       {
-        if (rule.condition === "above"  && item[rule.name] !== null && item[rule.name] <= rule.value * 10**(9)) {
+        if (rule.condition === "over"  && item[rule.name] !== null && item[rule.name] <= rule.value * 10**(9)) {
           return false;
         }
-        else if (rule.condition === "below" && item[rule.name] !== null && item[rule.name] > rule.value * 10**(9)) {
+        else if (rule.condition === "under" && item[rule.name] !== null && item[rule.name] > rule.value * 10**(9)) {
           return false;
         }
       }
       else if (rule.name === 'interestIncome' || rule.name === 'interestExpense') {
-        if (rule.condition === "above"  && item[rule.name] !== null && item[rule.name] <= rule.value * 10**(6)) {
+        if (rule.condition === "over"  && item[rule.name] !== null && item[rule.name] <= rule.value * 10**(6)) {
           return false;
         }
-      else if (rule.condition === "below" && item[rule.name] !== null && item[rule.name] > rule.value * 10**(6)) {
+      else if (rule.condition === "under" && item[rule.name] !== null && item[rule.name] > rule.value * 10**(6)) {
           return false;
         }
       }
       else if (rule.name === 'avgVolume') {
-        if (rule.condition === "above"  && item[rule.name] <= rule.value * 10**(6)) {
+        if (rule.condition === "over"  && item[rule.name] <= rule.value * 10**(6)) {
           return false;
         }
-      else if (rule.condition === "below"  && item[rule.name] > rule.value * 10**(6)) {
+      else if (rule.condition === "under"  && item[rule.name] > rule.value * 10**(6)) {
           return false;
         }
       }
       
       else if (rule.name === 'trendAnalysis') {
-        if (rule.condition === "above"  &&  item[rule.name]?.accuracy <= rule.value ) {
+        if (rule.condition === "over"  &&  item[rule.name]?.accuracy <= rule.value ) {
           return false;
         }
-      else if (rule.condition === "below" && item[rule.name]?.accuracy > rule.value ) {
+      else if (rule.condition === "under" && item[rule.name]?.accuracy > rule.value ) {
           return false;
         }
       }
 
       else if (rule.name === 'fundamentalAnalysis') {
-        if (rule.condition === "above"  &&  item[rule.name]?.accuracy <= rule.value ) {
+        if (rule.condition === "over"  &&  item[rule.name]?.accuracy <= rule.value ) {
           return false;
         }
-      else if (rule.condition === "below" && item[rule.name]?.accuracy > rule.value ) {
+      else if (rule.condition === "under" && item[rule.name]?.accuracy > rule.value ) {
           return false;
         }
       }
 
 
       else {
-        if (rule.condition === "above"  && item[rule.name] !== null && item[rule.name] <= rule.value) {
+        if (rule.condition === "over"  && item[rule.name] !== null && item[rule.name] <= rule.value) {
           return false;
         }
-        else if (rule.condition === "below"  && item[rule.name] !== null && item[rule.name] > rule.value) {
+        else if (rule.condition === "under"  && item[rule.name] !== null && item[rule.name] > rule.value) {
           return false;
         }
       }
@@ -855,7 +855,6 @@ $: displayResults = filteredData?.slice(0, 50);
 $: isSaved = !ruleOfList;
 
 $: charNumber = $screenWidth < 640 ? 20 : 40;
-
 
 function handleChangeCondition(event) {
     ruleCondition[event.detail.rule] = event.detail.condition;
@@ -1089,11 +1088,11 @@ function handleChangeValue(event) {
 <svelte:window on:scroll={handleScroll} />
 
 
-<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40">
+<section class="w-full max-w-3xl sm:max-w-screen-xl overflow-hidden min-h-screen pt-5 pb-40 px-5">
 
                     
             
-    <div class="text-sm sm:text-[1rem] breadcrumbs ml-4">
+    <div class="text-sm sm:text-[1rem] breadcrumbs">
       <ul>
         <li><a href="/" class="text-gray-300">Home</a></li> 
         <li><a href="/stock-screener" class="text-gray-300">Stock Screener</a></li>
@@ -1104,72 +1103,76 @@ function handleChangeValue(event) {
 
             
             <!--Start Build Strategy-->
-            <div class="bg-[#09090B] mt-5 sm:rounded-lg sm:border sm:hover:border-slate-700 sm:border-slate-800 pb-10">
+            <div class="mt-5 sm:rounded-lg">
       
-              <div class="text-slate-300 font-bold text-2xl flex flex-row justify-center sm:justify-start items-center pt-10 pb-5 ml-3 sm:ml-10">
-                Build Strategy
-
-
-              <label for="userLogin" on:click={() => handleSave(true)} class="hidden sm:inline-flex ml-5 sm:hover:bg-purple-700 bg-purple-600 transition duration-100 cursor-pointer font-medium text-center text-white rounded-lg px-4 py-1 text-sm border border-slate-800">
-                Save
-              </label>
-    
-                
+              <div class="flex flex-row items-center mb-5">
+                <h1 class="text-white text-3xl font-semibold">
+                  Stock Screener
+                </h1>
+                <span class="text-sm font-semibold text-white ml-2 mt-3">
+                  {ruleOfList?.length !== 0 ? filteredData?.length : 0} Matches Found
+                </span>
               </div>
 
-             
-  
-                      
-              <div class="mt-3 sm:mt-0 m-auto w-5/6 flex flex-col justify-center sm:flex-row sm:justify-between items-center sm:ml-10">
-                <label id="step-1" for="ruleModal" class="w-full text-white text-sm bg-[#09090B] border border-slate-800 p-1.5 rounded-lg cursor-pointer">
-                  <div class="flex justify-between items-center py-2 px-3">
-                    {#if ruleName === ''}
-                      Choose a rule
-                    {:else}
-                      {#each allRows as row}
-                        {#if row.rule === ruleName}
-                          <p >
-                            {row.label}
-                          </p>
-                        {/if}
-                      {/each}
-                    {/if}
-                  <svg class="w-3 h-3 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><g transform="rotate(180 512 512)"><path fill="white" d="M8.2 751.4c0 8.6 3.4 17.401 10 24.001c13.2 13.2 34.8 13.2 48 0l451.8-451.8l445.2 445.2c13.2 13.2 34.8 13.2 48 0s13.2-34.8 0-48L542 251.401c-13.2-13.2-34.8-13.2-48 0l-475.8 475.8c-6.8 6.8-10 15.4-10 24.2z"/></g></svg>
-                  </div>
-                  
-                </label>
-  
-        
-              </div>
-  
-                <!--Start Adding Rules-->
-                <div class="flex flex-col space-y-2 pt-6 pb-6 justify-center items-center m-auto w-3/4 sm:w-full max-w-xl ">
-                  {#if allRows.some(row => row.rule === ruleName)}
-                    {#each allRows as row (row.rule)}
-                      {#if ruleName === row.rule}
-                        <RuleControl 
-                          ruleName={row.rule}
-                          title={row.label}
-                          min={row.min}
-                          max={row.max}
-                          step={row.step}
-                          unit={row?.unit}
-                          bind:value={valueMappings[row.rule]}
-                          bind:condition={conditions[row.rule]}
-                          on:changeCondition={handleChangeCondition}
-                          on:changeValue={handleChangeValue}
-                        />
-                      {/if}
-                    {/each}
+
+              <div class="rounded-lg border border-gray-700 bg-[#262626] p-2">
+                <div class="items-end border-b border-gray-400">
+                    <div class="mr-1 flex items-center justify-between lg:mr-2 mb-1.5">
+                        <button class="flex cursor-pointer items-center text-lg sm:text-xl font-semibold text-gray-200" title="Hide Filter Area">
+                            <svg class="-mb-0.5 h-6 w-6" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                            </svg>
+                            Filters
+                        </button> 
+                    </div>
+                </div> 
+                <div class="mt-3 flex flex-col gap-y-2.5 sm:flex-row lg:gap-y-2 pb-1">
+                    <button class="inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-md border border-transparent bg-blue-brand_light py-2 pl-3 pr-4 text-base font-semibold text-white shadow-sm bg-[#000] focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-smaller">
+                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
+                        </svg> 
+                        <div>Add Filters</div>
+                    </button>  
+                    <div class="relative sm:ml-2">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-2.5">
+                            <svg class="h-4 w-4 text-gray-400 xs:h-5 xs:w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" stroke="currentColor" viewBox="0 0 24 24" style="max-width: 40px" aria-hidden="true">
+                                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div> 
+                        <input type="text" placeholder="Search {allRows?.length} filters..." class="controls-input rounded-lg w-full py-2 pl-10 placeholder:text-gray-300 bg-[#313131] sm:w-72"> 
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-2"></div> 
+                    </div> 
+                </div> 
+
+
+                <div class="sm:grid sm:grid-cols-2 sm:gap-x-2.5 lg:grid-cols-3 w-full mt-5 border-b border-gray-400">
+                 {#each allRows as row (row.rule)}
+                  {#if ruleOfList.some(rule => rule.name === row.rule)}
+                    <RuleControl 
+                      ruleName={row.rule}
+                      title={row.label}
+                      min={row.min}
+                      max={row.max}
+                      step={row.step}
+                      unit={row?.unit}
+                      bind:value={valueMappings[row.rule]}
+                      bind:condition={conditions[row.rule]}
+                      on:changeCondition={handleChangeCondition}
+                      on:changeValue={handleChangeValue}
+                    />
                   {/if}
-
+                {/each}
                 </div>
+
+
+                
+            </div>
   
                   <!--End Adding Rules-->
   
                   <!--Start Rules Preview -->
                                 
-                  
+                  <!--
                   <div id="step-3" class="m-auto w-5/6 bg-[#09090B] sm:ml-10 h-auto max-h-[400px] no-scrollbar overflow-hidden overflow-y-scroll p-5 sm:rounded-lg border-b sm:border sm:hover:border-slate-700 border-slate-800 pb-10">
                     <div class="flex flex-row items-center pb-5 sm:pb-0">
                       <div class="text-white font-bold text-xl sm:text-2xl flex justify-start items-center">
@@ -1204,7 +1207,7 @@ function handleChangeValue(event) {
                     {/each}
                   {/if}
                 </div>
-
+                  -->
                 <!--End Rules Preview-->
   
             </div>
@@ -1235,17 +1238,17 @@ function handleChangeValue(event) {
                     <table class="table table-sm table-compact w-full bg-[#09090B] border-bg-[#09090B]">
                       <thead>
                         <tr class="border-b-[#1A1A27]">
-                          <th class="text-white bg-[#09090B] text-sm border-b-[#09090B]">Symbol</th>
-                          <th class="text-white hidden sm:table-cell bg-[#09090B] text-sm border-b-[#09090B]">Company Name</th>
-                          <th on:click={() => { sortBy = 'marketCap'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm text-center">
+                          <th class="text-white bg-[#09090B] text-sm sm:text-[1rem] font-semibold border-b-[#09090B]">Symbol</th>
+                          <th class="text-white hidden sm:table-cell bg-[#09090B] text-sm sm:text-[1rem] font-semibold border-b-[#09090B]">Company Name</th>
+                          <th on:click={() => { sortBy = 'marketCap'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm sm:text-[1rem] font-semibold text-center">
                             Market Cap
                             <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'marketCap' ? 'rotate-180' : ''}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                           </th>
-                          <th on:click={() => { sortBy = 'change'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm text-center">
+                          <th on:click={() => { sortBy = 'change'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm sm:text-[1rem] font-semibold text-center">
                             % Change
                             <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'change' ? '' : 'rotate-180'}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                           </th>
-                          <th class="text-white bg-[#09090B] text-end text-sm border-b-[#09090B]">Price</th>
+                          <th class="text-white bg-[#09090B] text-end text-sm sm:text-[1rem] font-semibold border-b-[#09090B]">Price</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1259,7 +1262,7 @@ function handleChangeValue(event) {
                             
                           </td>
                           
-                          <td class="hidden sm:table-cell text-white border-b-[#09090B]">
+                          <td class="hidden sm:table-cell whitespace-nowrap text-[1rem] text-white border-b-[#09090B]">
                             {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
                           </td>
                           

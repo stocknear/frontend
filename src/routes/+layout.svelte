@@ -18,7 +18,7 @@
   //import DiscountBanner from '$lib/components/DiscountBanner.svelte';
   
   import { beforeNavigate, afterNavigate } from '$app/navigation';
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { clearCache, showCookieConsent,  newAvatar, userRegion, screenWidth, stockTicker, etfTicker, loginData, numberOfUnreadNotification, cachedPosts, currentPagePosition, clientSideCache, twitchStatus } from '$lib/store';
 
   import { Button } from "$lib/components/shadcn/button/index.ts";
@@ -197,7 +197,9 @@ onMount(async () => {
     
 })
 
-
+onDestroy( () => {
+  clearCache()
+})
 
 beforeNavigate(async () => {
       NProgress.start();
