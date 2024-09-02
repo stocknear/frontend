@@ -124,15 +124,11 @@ const getStockScreenerData = async (rules) => {
     shortRatio: (ruleOfList?.find(item => item.name === "shortRatio") || { condition: 'over' }).condition,
     shortFloatPercent: (ruleOfList?.find(item => item.name === "shortFloatPercent") || { condition: 'over' }).condition,
     shortOutStandingPercent: (ruleOfList?.find(item => item.name === "shortOutStandingPercent") || { condition: 'over' }).condition,
+    failToDeliver: (ruleOfList?.find(item => item.name === "failToDeliver") || { condition: 'over' }).condition,
 
   };
 
-  let ruleTrend = {
-    ratingRecommendation: 'Hold',
-  };
 
-
-    
   let allRows = [
     { rule: 'avgVolume', label: 'Avg Volume', step: [100,50,20,10,5,1], unit: 'M', category: 'fund' },
     { rule: 'rsi', label: 'RSI', step: [90,80,70,60,50,40,30,20], unit: '', category: 'ta' },
@@ -186,7 +182,7 @@ const getStockScreenerData = async (rules) => {
     { rule: 'var', label: 'Value at Risk', step: [-1,-5,-10,-15,-20], unit: '%', category: 'fund' },
     { rule: 'trendAnalysis', label: 'AI Trend Analysis (Bullish)', step: [90,80,70,60,50], unit: '%', category: 'ai' },
     { rule: 'fundamentalAnalysis', label: 'AI Fundamental Analysis (Bullish)', step: [90,80,70,60,50], unit: '%', category: 'ai' },
-    //{ rule: 'ratingRecommendation', label: 'Analyst Rating', max: "2", min:"0", step:"1", category: 'fund'},
+    { rule: 'analystRating', label: 'Analyst Rating', step: ['Buy', 'Hold', 'Sell'], unit:'', category: 'fund'},
     { rule: 'currentRatio', label: 'Current Ratio', step: [50,40,30,20,10,5,1], unit: '',  category: 'fund' },
     { rule: 'quickRatio', label: 'Quick Ratio', step: [50,40,30,20,10,5,1], unit: '',  category: 'fund' },
     { rule: 'debtEquityRatio', label: 'Debt / Equity', step: [50,40,30,20,10,5,1], unit: '', category: 'fund' },
@@ -201,6 +197,7 @@ const getStockScreenerData = async (rules) => {
     { rule: 'shortRatio', label: 'Short Ratio', step: [10,5,3,2,1,0], unit: '',category: 'fund' },
     { rule: 'shortFloatPercent', label: 'Short % Float', step: [50,30,20,10,5,1,0], unit: '%',category: 'fund' },
     { rule: 'shortOutStandingPercent', label: 'Short % Shares', step: [50,30,20,10,5,1,0], unit: '%',category: 'fund' },
+    { rule: 'failToDeliver', label: 'Fail to Deliver', step: [500,200,100,50,20,10,5], unit: 'K',category: 'fund' },
 
   ];
 
@@ -264,7 +261,7 @@ const getStockScreenerData = async (rules) => {
       let valuePriceToSalesRatio = (ruleOfList?.find(item => item.name === "priceToSalesRatio") || { value: 'any'}).value;
       let valueBeta = (ruleOfList?.find(item => item.name === "beta") || { value: 'any' }).value;
       let valueMarketCap = (ruleOfList?.find(item => item.name === "marketCap") || { value: 'any' }).value;
-      let valueAnalyst = (ruleOfList?.find(item => item.name === "ratingRecommendation") || { value: 'any'}).value;
+      let valueAnalystRating = (ruleOfList?.find(item => item.name === "analystRating") || { value: 'any'}).value;
       let valueRSI = (ruleOfList?.find(item => item.name === "rsi") || { value: 'any' }).value;
       let valueStochRSI = (ruleOfList?.find(item => item.name === "stochRSI") || { value: 'any'}).value;
       let valueMFI = (ruleOfList?.find(item => item.name === "mfi") || { value: 'any'}).value;
@@ -292,20 +289,9 @@ const getStockScreenerData = async (rules) => {
       let valueShortRatio = (ruleOfList?.find(item => item.name === "shortRatio") || { value: 'any'}).value;
       let valueShortFloatPercent = (ruleOfList?.find(item => item.name === "shortFloatPercent") || { value: 'any'}).value;
       let valueShortOutStandingPercent = (ruleOfList?.find(item => item.name === "shortOutStandingPercent") || { value: 'any'}).value;
+      let valueFailToDeliver = (ruleOfList?.find(item => item.name === "failToDeliver") || { value: 'any'}).value;
 
-  
-      const ratingRecommendations = [
-        'Sell',
-        'Hold',
-        'Buy',
-      ];
-    
-      $: {
-        if (ruleTrend['ratingRecommendation'])
-        {
-          ruleTrend['ratingRecommendation'] = ratingRecommendations[valueAnalyst];
-        }
-      }
+
     
     
 function changeRule(state: string)  
@@ -386,6 +372,8 @@ const valueMappings = {
   shortRatio: valueShortRatio,
   shortFloatPercent: valueShortFloatPercent,
   shortOutStandingPercent: valueShortOutStandingPercent,
+  analystRating: valueAnalystRating,
+  failToDeliver: valueFailToDeliver,
 
 };
     
@@ -456,6 +444,7 @@ const conditions = {
   shortRatio: ruleCondition.shortRatio,
   shortFloatPercent: ruleCondition.shortFloatPercent,
   shortOutStandingPercent: ruleCondition.shortOutStandingPercent,
+  failToDeliver: ruleCondition.failToDeliver,
 
 };    
 
@@ -472,8 +461,8 @@ function handleAddRule() {
     let newRule;
   
     switch (ruleName) {
-      case 'ratingRecommendation':
-        newRule = { name: ruleName, value: valueAnalyst  }; //ruleTrend[ruleName]
+      case 'analystRating':
+        newRule = { name: ruleName, value:  valueAnalystRating }; //ruleTrend[ruleName]
         handleRule(newRule);
         break;
       default:
@@ -659,7 +648,7 @@ $: {
         priceToBookRatio: valuePriceToBookRatio,
         priceToSalesRatio: valuePriceToSalesRatio,
         interestIncome: valueInterestIncome,
-        ratingRecommendation: valueAnalyst,
+        analystRating: valueAnalystRating,
         revenue: valueRevenue,
         growthRevenue: valueGrowthRevenue,
         ebitda: valueEBITDA,
@@ -713,6 +702,7 @@ $: {
         shortRatio: valueShortRatio,
         shortFloatPercent: valueShortFloatPercent,
         shortOutStandingPercent: valueShortOutStandingPercent,
+        failToDeliver: valueFailToDeliver,
 
       };
       ruleToUpdate.value = valueMap[ruleToUpdate.name] ?? ruleToUpdate.value;
@@ -724,8 +714,8 @@ $: {
     displayRules = allRows?.filter(row => ruleOfList.some(rule => rule.name === row.rule));
     filteredData = filterStockScreenerData();
     
-    if (ruleOfList?.some(item => item?.name === 'ratingRecommendation')) {
-      filteredData = filteredData?.filter(item => item?.ratingRecommendation === valueAnalyst);
+    if (ruleOfList?.some(item => item?.name === 'analystRating')) {
+      filteredData = filteredData?.filter(item => item?.analystRating === valueAnalystRating);
     }
   }
 }
@@ -763,6 +753,12 @@ function filterStockScreenerData() {
         if (rule.condition === "over" && item[rule.name] <= rule.value * 10**(6)) {
           return false;
         } else if (rule.condition === "under" && item[rule.name] > rule.value * 10**(6)) {
+          return false;
+        }
+      } else if (['failToDeliver']?.includes(rule.name)) {
+        if (rule.condition === "over" && item[rule.name] <= rule.value * 10**(3)) {
+          return false;
+        } else if (rule.condition === "under" && item[rule.name] > rule.value * 10**(3)) {
           return false;
         }
       } else if (rule.name === 'trendAnalysis') {
@@ -912,8 +908,8 @@ function handleChangeValue(value) {
         case 'interestIncome':
           valueInterestIncome = value;
           break;
-        case 'ratingRecommendation':
-          valueAnalyst = value;
+        case 'analystRating':
+          valueAnalystRating = value;
           break;
         case 'revenue':
           valueRevenue = value;
@@ -1049,24 +1045,26 @@ function handleChangeValue(value) {
         case 'returnOnEquity':
           valueReturnOnEquity = value;
           break;
-      case 'freeCashFlowPerShare':
-        valueFCFShare = value;
-        break;
-      case 'cashPerShare':
-        valueCashShare = value;
-        break;
-      case 'priceToFreeCashFlowsRatio':
-        valuePriceFCF = value;
-      case 'enterpriseValue':
-        valueEnterpriseValue = value;
-      case 'sharesShort':
-        valueSharesShort = value;
-      case 'shortRatio':
-          valueShortRatio = value;
-      case 'shortFloatPercent':
-          valueShortFloatPercent = value;
-      case 'shortOutStandingPercent':
-          valueShortOutStandingPercent = value;
+        case 'freeCashFlowPerShare':
+          valueFCFShare = value;
+          break;
+        case 'cashPerShare':
+          valueCashShare = value;
+          break;
+        case 'priceToFreeCashFlowsRatio':
+          valuePriceFCF = value;
+        case 'enterpriseValue':
+          valueEnterpriseValue = value;
+        case 'sharesShort':
+          valueSharesShort = value;
+        case 'shortRatio':
+            valueShortRatio = value;
+        case 'shortFloatPercent':
+            valueShortFloatPercent = value;
+        case 'shortOutStandingPercent':
+            valueShortOutStandingPercent = value;
+        case 'failToDeliver':
+          valueFailToDeliver = value;
     }
   } else {
     console.warn(`Unhandled rule: ${rule}`);
@@ -1320,12 +1318,12 @@ async function popularStrategy(state: string) {
                             <div on:click={() => ruleName = row?.rule}>
                               <DropdownMenu.Root>
                                 <DropdownMenu.Trigger asChild let:builder>
-                                  <Button builders={[builder]}  class="bg-[#000] h-[33px] flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 text-white rounded-lg truncate">
+                                  <Button builders={[builder]}  class="bg-[#000] h-[40px] flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 text-white rounded-lg truncate">
                                     <span class="truncate ml-2 text-sm sm:text-[1rem]">
                                       {#if valueMappings[row?.rule] === 'any'} 
                                       Any
                                       {:else}
-                                      {ruleCondition[row?.rule]} {valueMappings[row?.rule]}{row?.unit}
+                                      {ruleCondition[row?.rule] !== undefined ? ruleCondition[row?.rule] : ''} {valueMappings[row?.rule]}{row?.unit}
                                       {/if}
                                     </span> 
                                     <svg class=" ml-1 h-6 w-6 xs:ml-2 inline-block" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px" aria-hidden="true">
@@ -1334,6 +1332,7 @@ async function popularStrategy(state: string) {
                                   </Button>
                                 </DropdownMenu.Trigger>
                                 <DropdownMenu.Content class="w-56 h-fit max-h-72 overflow-y-auto scroller">
+                                  {#if row?.rule !== 'analystRating'}
                                   <DropdownMenu.Label>
                                     <div class="flex items-center justify-start gap-x-1">
                                         <div class="relative inline-block flex flex-row items-center justify-center">
@@ -1350,14 +1349,15 @@ async function popularStrategy(state: string) {
                                         </div>
                                     </div> 
                                   </DropdownMenu.Label>
+                                  {/if}
                                   <DropdownMenu.Separator />
                                   <DropdownMenu.Group>
                                     {#each row?.step as newValue}
                                       <DropdownMenu.Item>
 
-                                      <button on:click={() => {handleChangeValue(newValue)}} class="block w-full border-b border-gray-600 px-4 py-2 text-left text-sm text-white last:border-0 sm:hover:bg-gray-100 sm:hover:text-gray-900 
+                                      <button on:click={() => {handleChangeValue(newValue)}} class="block w-full border-b border-gray-600 px-4 py-2 text-left text-sm sm:text-[1rem] text-white last:border-0 sm:hover:bg-gray-100 sm:hover:text-gray-900 
                                                       focus:bg-blue-100 focus:text-gray-900 focus:outline-none">
-                                        {ruleCondition[row?.rule]} {newValue}{row?.unit}
+                                        {ruleCondition[row?.rule] !== undefined ? ruleCondition[row?.rule] : ''} {newValue}{row?.unit}
                                       </button>
                                       </DropdownMenu.Item>      
                                     {/each}                          
