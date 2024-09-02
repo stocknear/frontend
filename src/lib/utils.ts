@@ -1,19 +1,15 @@
-
-import { formatDistanceToNow } from 'date-fns';
-
+import { formatDistanceToNow } from "date-fns";
 
 let pbCloudImage = import.meta.env.VITE_IMAGE_POCKETBASE_URL; // Set a default API URL
-
 
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { cubicOut } from "svelte/easing";
 import type { TransitionConfig } from "svelte/transition";
- 
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-
 
 type FlyAndScaleParams = {
   y?: number;
@@ -21,7 +17,7 @@ type FlyAndScaleParams = {
   start?: number;
   duration?: number;
 };
- 
+
 export const flyAndScale = (
   node: Element,
   params: FlyAndScaleParams = { y: -8, x: 0, start: 0.95, duration: 0 }
@@ -77,7 +73,6 @@ export const flyAndScale = (
   };
 };
 
-
 export const formatDateRange = (lastDateStr) => {
   // Convert lastDateStr to Date object
   const lastDate = new Date(lastDateStr);
@@ -86,54 +81,58 @@ export const formatDateRange = (lastDateStr) => {
   const firstDate = new Date(lastDate.getFullYear(), lastDate.getMonth(), 1);
 
   // Format first and last dates
-  const firstDateFormatted = firstDate.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', day: '2-digit' });
-  const lastDateFormatted = lastDate.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', day: '2-digit' });
+  const firstDateFormatted = firstDate.toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    day: "2-digit",
+  });
+  const lastDateFormatted = lastDate.toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    day: "2-digit",
+  });
   // Construct and return the formatted date range string
   return `${firstDateFormatted} - ${lastDateFormatted}`;
-}
-
+};
 
 export const serializeNonPOJOs = (obj) => {
-	return structuredClone(obj);
+  return structuredClone(obj);
 };
 
 export const generateUsername = (name) => {
-	const randomHex = Math.floor(Math.random() * 65536).toString(16);
-	const id = randomHex.padStart(4, '0');
-	return `${name.slice(0, 5)}${id}`;
-  };
-
-
-
-export const getImageURL = (collectionId, recordId, fileName, size = '0x0') => {
-	//For development or local storage or S3 bucket without CDN Cloudfront
-	if(pbCloudImage === 'http://localhost:8090')
-	{
-		return `${pbCloudImage}/api/files/${collectionId}/${recordId}/${fileName}?thumb=${size}`;	
-	}
-	return `${pbCloudImage}/${collectionId}/${recordId}/${fileName}?thumb=${size}`;
+  const randomHex = Math.floor(Math.random() * 65536).toString(16);
+  const id = randomHex.padStart(4, "0");
+  return `${name.slice(0, 5)}${id}`;
 };
 
+export const getImageURL = (collectionId, recordId, fileName, size = "0x0") => {
+  //For development or local storage or S3 bucket without CDN Cloudfront
+  if (pbCloudImage === "http://localhost:8090") {
+    return `${pbCloudImage}/api/files/${collectionId}/${recordId}/${fileName}?thumb=${size}`;
+  }
+  return `${pbCloudImage}/${collectionId}/${recordId}/${fileName}?thumb=${size}`;
+};
 
 export const validateData = async (formData, schema) => {
-	const body = Object.fromEntries(formData)
+  const body = Object.fromEntries(formData);
 
-	try {
-		const data = schema.parse(body);
-		return {
-			formData: data,
-			errors: null
-		}
-	} catch(err) {
-		console.log('Error: ', err)
-		const errors = err.flatten()
-		return {
-			formData: body,
-			errors
-		}
-	}
-}
-
+  try {
+    const data = schema.parse(body);
+    return {
+      formData: data,
+      errors: null,
+    };
+  } catch (err) {
+    console.log("Error: ", err);
+    const errors = err.flatten();
+    return {
+      formData: body,
+      errors,
+    };
+  }
+};
 
 export function sumQuarterlyResultsByYear(quarterlyResults, namingList) {
   const yearlySummaries = {};
@@ -143,21 +142,31 @@ export function sumQuarterlyResultsByYear(quarterlyResults, namingList) {
 
   // Define a Set of keys to exclude from summing
   // FMP sucks since these keys are up to date for every quarter hence no summation required
-  const excludeKeys = new Set(['totalDebt','priceToEarnings', 'weightedAverageShsOut', 'weightedAverageShsOutDil']);
+  const excludeKeys = new Set([
+    "totalDebt",
+    "priceToEarnings",
+    "weightedAverageShsOut",
+    "weightedAverageShsOutDil",
+  ]);
 
   // Function to get the quarter number from the period string
   function getQuarterNumber(period) {
     switch (period) {
-      case 'Q1': return 1;
-      case 'Q2': return 2;
-      case 'Q3': return 3;
-      case 'Q4': return 4;
-      default: return 0;
+      case "Q1":
+        return 1;
+      case "Q2":
+        return 2;
+      case "Q3":
+        return 3;
+      case "Q4":
+        return 4;
+      default:
+        return 0;
     }
   }
 
   // Iterate over each quarterly result
-  quarterlyResults?.forEach(quarter => {
+  quarterlyResults?.forEach((quarter) => {
     // Extract year and quarter from the data
     const year = quarter?.calendarYear;
     const quarterNum = getQuarterNumber(quarter?.period);
@@ -167,7 +176,7 @@ export function sumQuarterlyResultsByYear(quarterlyResults, namingList) {
       yearlySummaries[year] = {
         calendarYear: `${year}`, // Use end of the year date
         lastQuarterProcessed: 0, // Keep track of the last quarter processed
-        date: quarter?.date // Copy the 'date' field unchanged
+        date: quarter?.date, // Copy the 'date' field unchanged
       };
       quarterCounts[year] = 0;
     }
@@ -183,9 +192,14 @@ export function sumQuarterlyResultsByYear(quarterlyResults, namingList) {
     }
 
     // Sum up the numeric fields for the year, excluding specific keys
-    Object?.keys(quarter)?.forEach(key => {
-      if (typeof quarter[key] === 'number' && !excludeKeys?.has(key) && !lastQuarterKeys.has(key)) {
-        yearlySummaries[year][key] = (yearlySummaries[year][key] || 0) + quarter[key];
+    Object?.keys(quarter)?.forEach((key) => {
+      if (
+        typeof quarter[key] === "number" &&
+        !excludeKeys?.has(key) &&
+        !lastQuarterKeys.has(key)
+      ) {
+        yearlySummaries[year][key] =
+          (yearlySummaries[year][key] || 0) + quarter[key];
       } else if (excludeKeys.has(key)) {
         // Directly copy the last quarter value for these keys
         yearlySummaries[year][key] = quarter[key];
@@ -197,8 +211,10 @@ export function sumQuarterlyResultsByYear(quarterlyResults, namingList) {
   });
 
   // Filter out years with less than 4 quarters
-  const validYears = Object?.keys(quarterCounts)?.filter(year => quarterCounts[year] === 4);
-  const annualResults = validYears?.map(year => yearlySummaries[year]);
+  const validYears = Object?.keys(quarterCounts)?.filter(
+    (year) => quarterCounts[year] === 4
+  );
+  const annualResults = validYears?.map((year) => yearlySummaries[year]);
 
   // Sort the results by year in descending order
   annualResults.sort((a, b) => b?.calendarYear?.localeCompare(a?.calendarYear));
@@ -206,172 +222,212 @@ export function sumQuarterlyResultsByYear(quarterlyResults, namingList) {
   return annualResults;
 }
 
-
-
-
-
 export const sortPostsByDate = (posts) => {
-	return posts.sort(function(a, b) {
-	  return new Date(b.created) - new Date(a.created);
-	});
-  }
-
+  return posts.sort(function (a, b) {
+    return new Date(b.created) - new Date(a.created);
+  });
+};
 
 export function capitalizeFirstLetter(string) {
-	return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
-
-
-  export function formatString(inputString) {
-    // Split the input string into words using space as a delimiter
-    const words = inputString?.split(' ');
-    
-    // Capitalize the first letter of each word and convert the rest to lowercase
-    const formattedWords = words?.map((word, index) => {
-      if (word.length > 0) {
-        // Check if the word is "LTG" or "LLC" and keep them uppercase
-        const excludedList = ['n/a','CEO','U.S.','NGL','ETF','SPDR','S&P','USD','US','JPMORGAN','SRS','AQR','XN','TIG','HAP','AB','AKRE','LTG', 'LLC','JVL', 'NJ', 'FMR', 'LP', 'NNS','BPS','BNP','PCG','CTC','IMC', 'PLC','WIT'];
-        
-        // Check if the word is "black-rock" and format it accordingly
-        if (index < words?.length - 1 && word?.toLowerCase() === 'black' && words[index + 1]?.toLowerCase() === 'rock') {
-          return 'Black Rock';
-        }
-        else if (excludedList?.includes(word)) {
-          return word;
-        } else {
-          return word?.charAt(0)?.toUpperCase() + word?.slice(1)?.toLowerCase();
-        }
-      }
-      return word; // Handle empty words if any
-    });
-    
-    // Join the formatted words back together with spaces
-    const formattedString = formattedWords?.join(' ');
-    
-    return formattedString;
-  }
-  
-
-
-
-  export function abbreviateNumber(number, addDollarSign = false) {
-    const negative = number < 0;
-
-    // Handle special case for exactly 1000
-    if (Math.abs(number) === 1000) {
-      return addDollarSign ? (negative ? '-$1K' : '$1K') : (negative ? '-1K' : '1K');
-    }
-
-    if (Math.abs(number) !== 0 && Math.abs(number) > 1000) {
-        const suffixes = ["", "K", "M", "B", "T", "Q", "Qu", "S", "O", "N", "D"];
-        const magnitude = Math.floor(Math.log10(Math.abs(number)));
-        let index = Math.min(Math.floor(magnitude / 3), suffixes.length - 1);
-        let abbreviation = Math.abs(number) / Math.pow(10, index * 3);
-
-        if (abbreviation >= 1000) {
-            abbreviation = abbreviation.toFixed(1);
-            index++;
-        } else {
-            abbreviation = abbreviation.toFixed(2);
-        }
-
-        abbreviation = abbreviation.toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 });
-
-        if (Math.abs(number) % 1000 === 0) {
-            abbreviation = abbreviation.replace('-', '');
-        }
-
-        if (abbreviation?.slice(-3) === '.00') {
-            abbreviation = abbreviation.slice(0, -3);
-        }
-
-        const formattedNumber = abbreviation + suffixes[index];
-        
-        if (addDollarSign) {
-            return (negative ? '-$' : '$') + formattedNumber;
-        } else {
-            return negative ? '-' + formattedNumber : formattedNumber;
-        }
-    }
-    else if (Math.abs(number) >= 0 && Math.abs(number) < 1000) {
-        if (addDollarSign) {
-            return (negative ? '-$' : '$') + number;
-        } else {
-            return number;
-        }
-    } 
-   
-    else {
-        return addDollarSign ? '$0' : '0';
-    }
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+export function formatString(inputString) {
+  // Split the input string into words using space as a delimiter
+  const words = inputString?.split(" ");
 
+  // Capitalize the first letter of each word and convert the rest to lowercase
+  const formattedWords = words?.map((word, index) => {
+    if (word.length > 0) {
+      // Check if the word is "LTG" or "LLC" and keep them uppercase
+      const excludedList = [
+        "n/a",
+        "CEO",
+        "U.S.",
+        "NGL",
+        "ETF",
+        "SPDR",
+        "S&P",
+        "USD",
+        "US",
+        "JPMORGAN",
+        "SRS",
+        "AQR",
+        "XN",
+        "TIG",
+        "HAP",
+        "AB",
+        "AKRE",
+        "LTG",
+        "LLC",
+        "JVL",
+        "NJ",
+        "FMR",
+        "LP",
+        "NNS",
+        "BPS",
+        "BNP",
+        "PCG",
+        "CTC",
+        "IMC",
+        "PLC",
+        "WIT",
+      ];
+
+      // Check if the word is "black-rock" and format it accordingly
+      if (
+        index < words?.length - 1 &&
+        word?.toLowerCase() === "black" &&
+        words[index + 1]?.toLowerCase() === "rock"
+      ) {
+        return "Black Rock";
+      } else if (excludedList?.includes(word)) {
+        return word;
+      } else {
+        return word?.charAt(0)?.toUpperCase() + word?.slice(1)?.toLowerCase();
+      }
+    }
+    return word; // Handle empty words if any
+  });
+
+  // Join the formatted words back together with spaces
+  const formattedString = formattedWords?.join(" ");
+
+  return formattedString;
+}
+
+export function abbreviateNumber(number, addDollarSign = false) {
+  const negative = number < 0;
+
+  // Handle special case for exactly 1000
+  if (Math.abs(number) === 1000) {
+    return addDollarSign
+      ? negative
+        ? "-$1K"
+        : "$1K"
+      : negative
+        ? "-1K"
+        : "1K";
+  }
+
+  if (Math.abs(number) !== 0 && Math.abs(number) > 1000) {
+    const suffixes = ["", "K", "M", "B", "T", "Q", "Qu", "S", "O", "N", "D"];
+    const magnitude = Math.floor(Math.log10(Math.abs(number)));
+    let index = Math.min(Math.floor(magnitude / 3), suffixes.length - 1);
+    let abbreviation = Math.abs(number) / Math.pow(10, index * 3);
+
+    if (abbreviation >= 1000) {
+      abbreviation = abbreviation.toFixed(1);
+      index++;
+    } else {
+      abbreviation = abbreviation.toFixed(2);
+    }
+
+    abbreviation = abbreviation.toLocaleString("en-US", {
+      maximumFractionDigits: 2,
+      minimumFractionDigits: 2,
+    });
+
+    if (Math.abs(number) % 1000 === 0) {
+      abbreviation = abbreviation.replace("-", "");
+    }
+
+    if (abbreviation?.slice(-3) === ".00") {
+      abbreviation = abbreviation.slice(0, -3);
+    }
+
+    const formattedNumber = abbreviation + suffixes[index];
+
+    if (addDollarSign) {
+      return (negative ? "-$" : "$") + formattedNumber;
+    } else {
+      return negative ? "-" + formattedNumber : formattedNumber;
+    }
+  } else if (Math.abs(number) >= 0 && Math.abs(number) < 1000) {
+    if (addDollarSign) {
+      return (negative ? "-$" : "$") + number;
+    } else {
+      return number;
+    }
+  } else {
+    return addDollarSign ? "$0" : "0";
+  }
+}
 
 export const formatDate = (dateString) => {
-	const date = new Date(dateString)
-	return formatDistanceToNow(date, { addSuffix: false, includeSeconds: false })?.replace(/about /i, '')
-  }
+  const date = new Date(dateString);
+  return formatDistanceToNow(date, {
+    addSuffix: false,
+    includeSeconds: false,
+  })?.replace(/about /i, "");
+};
 
 export const formatRuleValue = (rule) => {
-    if (['interestIncome', 'interestExpenses'].includes(rule.name)) {
-        return `$${rule.value === 1000 ? `${rule.value / 1000} Bn` : `${rule.value} Mio`}`;
-    } else if (['revenue', 'costOfRevenue', 'costAndExpenses', 'netIncome', 'grossProfit', 'researchAndDevelopmentExpenses', 'marketCap', 'operatingExpenses', 'operatingIncome', 'ebitda'].includes(rule.name)) {
-        return `${rule.condition} $${rule.value} Bn`;
-    } else if (rule.name === 'aiSignal') {
-      return `${rule.value === '2' ? 'Buy' : rule.value === '1' ? 'Hold' : rule.value === '0' ? 'Sell' : 'n/a'} Signal`;
-    }
-    else if (['avgVolume'].includes(rule.name)) {
-      return `${rule.condition} ${rule.value} Mio`;
-    }
-    else if (['var'].includes(rule.name)) {
-      return `${rule.condition} ${rule.value}%`;
-    }
-    else if (['ratingRecommendation'].includes(rule.name)) {
-      return rule.value === 2 ? 'Buy' : rule.value === 1 ? 'Hold' : 'Sell';
-    } 
-    else if (['trendAnalysis','fundamentalAnalysis'].includes(rule.name)) {
-      return `${rule.condition} ${rule.value}% Accuracy`;
-    } 
-    else {
-        return `${rule.condition} ${rule.value}${rule.name.includes('Growth') ? ' %' : ''}`;
-    }
-}
-
+  if (["interestIncome", "interestExpenses"].includes(rule.name)) {
+    return `$${rule.value === 1000 ? `${rule.value / 1000} Bn` : `${rule.value} Mio`}`;
+  } else if (
+    [
+      "revenue",
+      "costOfRevenue",
+      "costAndExpenses",
+      "netIncome",
+      "grossProfit",
+      "researchAndDevelopmentExpenses",
+      "marketCap",
+      "operatingExpenses",
+      "operatingIncome",
+      "ebitda",
+    ].includes(rule.name)
+  ) {
+    return `${rule.condition} $${rule.value} Bn`;
+  } else if (rule.name === "aiSignal") {
+    return `${rule.value === "2" ? "Buy" : rule.value === "1" ? "Hold" : rule.value === "0" ? "Sell" : "n/a"} Signal`;
+  } else if (["avgVolume"].includes(rule.name)) {
+    return `${rule.condition} ${rule.value} Mio`;
+  } else if (["var"].includes(rule.name)) {
+    return `${rule.condition} ${rule.value}%`;
+  } else if (["ratingRecommendation"].includes(rule.name)) {
+    return rule.value === 2 ? "Buy" : rule.value === 1 ? "Hold" : "Sell";
+  } else if (["trendAnalysis", "fundamentalAnalysis"].includes(rule.name)) {
+    return `${rule.condition} ${rule.value}% Accuracy`;
+  } else {
+    return `${rule.condition} ${rule.value}${rule.name.includes("Growth") ? " %" : ""}`;
+  }
+};
 
 export function formatETFName(inputString) {
   // Define special cases
   const specialCases = {
-      "etf-mg": "ETFMG",
-      "ark": "ARK",
-      "index-iq": "IndexIQ",
-      "bny-mellon": "BNY Mellon",
-      "ssc": "SS&C",
-      "pgim": "PGIM",
-      "jpmorgan-chase": "JPMorgan Chase",
-      "us-global-investors": "US Global Investors"
-      // Add more special cases as needed
+    "etf-mg": "ETFMG",
+    ark: "ARK",
+    "index-iq": "IndexIQ",
+    "bny-mellon": "BNY Mellon",
+    ssc: "SS&C",
+    pgim: "PGIM",
+    "jpmorgan-chase": "JPMorgan Chase",
+    "us-global-investors": "US Global Investors",
+    // Add more special cases as needed
   };
 
   // Check if the input string is a special case
   const lowerCaseInput = inputString?.toLowerCase();
   if (specialCases?.hasOwnProperty(lowerCaseInput)) {
-      return specialCases[lowerCaseInput];
+    return specialCases[lowerCaseInput];
   }
 
   // Split the input string into an array of words
-  const words = inputString?.split('-');
+  const words = inputString?.split("-");
 
   // Capitalize the first letter of each word
-  const capitalizedWords = words?.map(word => word.charAt(0)?.toUpperCase() + word?.slice(1));
+  const capitalizedWords = words?.map(
+    (word) => word.charAt(0)?.toUpperCase() + word?.slice(1)
+  );
 
   // Join the words back together with a space between them
-  const formattedString = capitalizedWords?.join(' ');
+  const formattedString = capitalizedWords?.join(" ");
 
   return formattedString;
 }
-
 
 // Function to add days to a given date
 export function addDays(data, days, state) {
@@ -381,19 +437,20 @@ export function addDays(data, days, state) {
   result = new Date(createdDate);
   result.setDate(result.getDate() + days);
 
-  if(state === 'date') {
+  if (state === "date") {
     return result;
   } else {
     const differenceInTime = result - createdDate;
-    const differenceInDays = Math.round(differenceInTime / (1000 * 60 * 60 * 24));
+    const differenceInDays = Math.round(
+      differenceInTime / (1000 * 60 * 60 * 24)
+    );
     return Math.abs(differenceInDays);
   }
 }
 
 export function pageTransitionIn(node, { duration, screenWidth }) {
-  if (screenWidth >= 640)
-  {
-    return
+  if (screenWidth >= 640) {
+    return;
   }
   return {
     duration,
@@ -408,7 +465,7 @@ export function pageTransitionIn(node, { duration, screenWidth }) {
         z-index: 9999;
         transition: transform ${duration}ms ease-out;
       `;
-    }
+    },
   };
 }
 
@@ -419,7 +476,7 @@ export function pageTransitionOut(node, { duration }) {
       const eased = cubicOut(t);
 
       return `
-      transform: translateX(${(1-eased) * 100}%);
+      transform: translateX(${(1 - eased) * 100}%);
         opacity: 1;
         width: 100%;
         height: 100%;
@@ -429,7 +486,6 @@ export function pageTransitionOut(node, { duration }) {
     },
   };
 }
-
 
 /*
 function convertNYTimeToLocalTime(nyTimeString) {
@@ -714,16 +770,14 @@ export function getPartyForPoliticians(name) {
     "Buddy Carter": "Republican",
     "John Fetterman": "Democratic",
     "Sharice Davids": "Democratic",
+    "Jake Auchincloss": "Democratic",
+  };
 
-};
-
-// Combine first and last name to form the key
+  // Combine first and last name to form the key
   const nameKey = `${name}`?.trim();
   // Return the party, or 'Unknown' if not found
   return senatorPartyMap[nameKey] || "Other";
 }
-
-
 
 export const listOfCountries = [
   "Afghanistan",
@@ -921,5 +975,5 @@ export const listOfCountries = [
   "Vietnam",
   "Yemen",
   "Zambia",
-  "Zimbabwe"
+  "Zimbabwe",
 ];
