@@ -173,7 +173,7 @@
                     
                     
                     <div class="z-1 absolute top-0">
-                      <img class="w-20 ml-5" src={logo} alt="logo" loading="lazy">
+                      <img class="w-24 ml-5" src={logo} alt="logo" loading="lazy">
                     </div>
                   </div>
                   <!-- End Column -->
@@ -199,14 +199,14 @@
                     {#each (filterList?.length === 0 ? weekday : weekdayFiltered) as day,index}
                     
                     <div class="w-full {index === selectedWeekday ? '' : 'hidden sm:block'}">
-                            <label on:click={() => toggleDate(index)} class="w-11/12 m-auto sm:w-full cursor-pointer h-16 {index === selectedWeekday ? 'bg-[#27272A]' : ''} rounded-lg sm:rounded-none flex bg-[#09090B] border border-gray-600 mb-3">
+                            <label on:click={() => toggleDate(index)} class="w-11/12 m-auto sm:w-full cursor-pointer h-16 {index === selectedWeekday ? 'bg-purple-600 sm:hover:bg-purple-700' : ''} rounded sm:rounded-none flex bg-[#09090B] sm:hover:bg-purple-600 transition duration-50 border border-gray-600 mb-3">
                               <div class=" flex flex-row justify-center items-center w-full">
                                 <label on:click={() => clickWeekday('previous', index) } class="sm:hidden ml-auto">
                                   <svg class="w-8 h-8 inline-block rotate-180 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"/></svg>
                                 </label>
-                                <div class="flex flex-col text-white truncate m-auto p-1">
+                                <div class="flex flex-col items-center text-white truncate m-auto p-1">
                                   <span class="font-medium text-md">{formattedWeekday[index]}</span>
-                                  <span class="text-sm m-auto pt-1 pb-1"> {day.length} Events</span>
+                                  <span class="text-[1rem] sm:text-sm m-auto pt-1 pb-1"> {day?.length} Events</span>
                                 </div>
                                 <label on:click={() => clickWeekday('next', index) } class="sm:hidden mr-auto">
                                   <svg class="w-8 h-8 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"/></svg>
@@ -358,9 +358,10 @@
    
     
                         {:else}
-                        <h2 class="m-auto mt-20 flex justify-center items-center text-3xl font-bold text-slate-700 mb-5 m-auto">
-                          No data available
-                        </h2>
+                        <div class="text-white p-5 mt-5 w-fit m-auto rounded-lg sm:flex sm:flex-row sm:items-center border border-slate-800 text-[1rem]">
+                          <svg class="w-6 h-6 flex-shrink-0 inline-block sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
+                          No Events available for the day.
+                        </div>
                       {/if}
                     {/if}
         {/each}

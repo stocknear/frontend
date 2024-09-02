@@ -405,7 +405,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 30;
               <span class="text-blue-400 font-semibold">
                 {item?.symbol}
               </span>
-              <span class="text-white text-sm font-semibold border-b-[#09090B]">
+              <span class="text-white text-sm border-b-[#09090B]">
                 {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
               </span>
             </div>
