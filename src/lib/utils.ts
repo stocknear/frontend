@@ -487,6 +487,19 @@ export function pageTransitionOut(node, { duration }) {
   };
 }
 
+export function convertTimestamp(timestamp) {
+  const date = new Date(timestamp * 1000); // Convert seconds to milliseconds
+
+  return date.toLocaleString("en-US", {
+    year: "numeric", // e.g., "2024"
+    month: "short", // e.g., "Aug"
+    day: "2-digit", // e.g., "23"
+    hour: "numeric", // e.g., "3"
+    minute: "2-digit", // e.g., "59"
+    hour12: true, // e.g., "PM"
+  });
+}
+
 /*
 function convertNYTimeToLocalTime(nyTimeString) {
     // New York Time Zone

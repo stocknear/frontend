@@ -469,7 +469,6 @@ $: {
 
 </script>
          
-<svelte:options immutable={true} />
   
   <svelte:head>
   

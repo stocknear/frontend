@@ -8,7 +8,6 @@
     corporateLobbyingComponent,
     taRatingComponent,
     swapComponent,
-    analystInsightComponent,
     governmentContractComponent,
     optionsNetFlowComponent,
     borrowedShareComponent,
@@ -16,8 +15,6 @@
     optionComponent,
     failToDeliverComponent,
     marketMakerComponent,
-    analystEstimateComponent,
-    sentimentComponent,
     screenWidth,
     displayCompanyName,
     numberOfUnreadNotification,
@@ -28,10 +25,6 @@
     darkPoolComponent,
     retailVolumeComponent,
     shareholderComponent,
-    trendAnalysisComponent,
-    revenueSegmentationComponent,
-    priceAnalysisComponent,
-    fundamentalAnalysisComponent,
     isCrosshairMoveActive,
     realtimePrice,
     priceIncrease,
@@ -46,6 +39,7 @@
   import NextEarnings from "$lib/components/NextEarnings.svelte";
   import CommunitySentiment from "$lib/components/CommunitySentiment.svelte";
   import Lazy from "$lib/components/Lazy.svelte";
+  import { convertTimestamp } from '$lib/utils';
 
   export let data;
   export let form;
@@ -83,7 +77,7 @@
           }
         }
       } else if (displayData === "6M") {
-        currentDataRow = sixMonthPrice?.slice(-1)[0];
+        currentDataRow = sixMonthPrice?.slice(-1)?.at(0);
       }
 
       //currentDataRow = oneWeekPrice.slice(-1)[0]
@@ -100,9 +94,19 @@
       };
 
       //const formattedDate = (displayData === '1D' || displayData === '1W' || displayData === '1M') ? date.toLocaleString('en-GB', options).replace(/\//g, '.') : date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '.');
-      const formattedDate = displayData === "1D" || displayData === "1W" || displayData === "1M" ? date.toLocaleString("en-US", options) : date.toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" });
+      const formattedDate = displayData === "1D" || displayData === "1W" || displayData === "1M"
+      ? date.toLocaleString("en-US", options)
+      : date.toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" });
 
-      displayLegend = { close: currentDataRow?.close ?? currentDataRow?.value, date: formattedDate, change: change };
+      const safeFormattedDate = formattedDate === "Invalid Date" ? convertTimestamp(data?.getStockQuote?.timestamp) : formattedDate;
+      displayLegend = {
+        close: currentDataRow?.value === '-' && currentDataRow?.close === undefined 
+            ? data?.getStockQuote?.price 
+            : (currentDataRow?.close ?? currentDataRow?.value),
+        date: safeFormattedDate,
+        change: change
+    };
+
     }
   }
 
@@ -533,6 +537,16 @@
     }
   }
 
+  $: dataMapping = {
+    "1D": oneDayPrice,
+    "1W": oneWeekPrice,
+    "1M": oneMonthPrice,
+    "6M": sixMonthPrice,
+    "1Y": oneYearPrice,
+    "MAX": threeYearPrice,
+  };
+
+
   $: {
     if ($stockTicker && typeof window !== "undefined") {
       // add a check to see if running on client-side
@@ -720,18 +734,13 @@
 
           {#if output !== null}
             <div class="w-full sm:pl-7 ml-auto max-w-5xl mb-10">
-              {#if displayData === "1D" && oneDayPrice?.length === 0}
-                <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">No data available</h2>
-              {:else if displayData === "1W" && oneWeekPrice?.length === 0}
-                <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">No data available</h2>
-              {:else if displayData === "1M" && oneMonthPrice?.length === 0}
-                <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">No data available</h2>
-              {:else if displayData === "6M" && sixMonthPrice?.length === 0}
-                <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">No data available</h2>
-              {:else if displayData === "1Y" && oneYearPrice?.length === 0}
-                <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">No data available</h2>
-              {:else if displayData === "MAX" && threeYearPrice?.length === 0}
-                <h2 class=" mt-20 flex h-[240px] justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto">No data available</h2>
+              {#if dataMapping[displayData]?.length === 0}
+                <div class="mt-20 flex h-[240px] justify-center items-center mb-20 m-auto">
+                    <div class="text-white p-5 mt-5 w-fit m-auto rounded-lg sm:flex sm:flex-row sm:items-center border border-slate-800 text-[1rem]">
+                      <svg class="w-6 h-6 flex-shrink-0 inline-block sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
+                      No {displayData} chart data available
+                  </div>
+                </div>
               {:else}
                 <Chart {...options} autoSize={true} ref={(ref) => (chart = ref)} on:crosshairMove={handleCrosshairMove}>
                   {#if displayData === "1D"}
