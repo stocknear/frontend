@@ -1216,7 +1216,7 @@ async function popularStrategy(state: string) {
                                     </svg>
                                   </Button>
                                 </DropdownMenu.Trigger>
-                                <DropdownMenu.Content class="w-56">
+                                <DropdownMenu.Content class="w-56 h-fit max-h-72 overflow-y-auto scroller">
                                   <DropdownMenu.Label class="text-gray-400">
                                     Popular Strategies
                                   </DropdownMenu.Label>
@@ -1333,7 +1333,7 @@ async function popularStrategy(state: string) {
                                     </svg>
                                   </Button>
                                 </DropdownMenu.Trigger>
-                                <DropdownMenu.Content class="w-56">
+                                <DropdownMenu.Content class="w-56 h-fit max-h-72 overflow-y-auto scroller">
                                   <DropdownMenu.Label>
                                     <div class="flex items-center justify-start gap-x-1">
                                         <div class="relative inline-block flex flex-row items-center justify-center">
@@ -1695,8 +1695,29 @@ async function popularStrategy(state: string) {
 
 
 <style>
+
 .scroller {
   scrollbar-width: thin;
 }
+
+.scrollbar {
+    display: grid;
+    grid-gap: 90px;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    grid-auto-flow: column;
+    overflow-x: auto;
+    scrollbar-width: thin; /* Hide the default scrollbar in Firefox */
+    scrollbar-color: transparent transparent; /* Hide the default scrollbar in Firefox */
+  }
+
+  /* Custom scrollbar for Webkit (Chrome, Safari) */
+  .scrollbar::-webkit-scrollbar {
+    width: 0; /* Hide the width of the scrollbar */
+    height: 0; /* Hide the height of the scrollbar */
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: transparent; /* Make the thumb transparent */
+  }
 
 </style>

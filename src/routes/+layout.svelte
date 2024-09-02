@@ -290,7 +290,7 @@ $: {
                 <span class="sr-only">Toggle Menu</span>
               </Button>
             </Sheet.Trigger>
-            <Sheet.Content side="left" class="max-w-screen w-full sm:max-w-xs bg-[#141417] overflow-y-scroll text-white">
+            <Sheet.Content side="left" class="max-w-screen w-full sm:max-w-xs bg-[#141417] overflow-y-auto text-white">
               <nav class=" grid gap-6 text-lg font-medium bg-[#141417]">
                 <a
                 href="/"
