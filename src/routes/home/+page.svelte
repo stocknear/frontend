@@ -419,7 +419,10 @@ onMount( async() => {
                   {/each}
               </ul>
               {:else}
-                Currently, there are no dividend announcement reports available.
+                <div class="text-left text-white sm:p-5 w-fit rounded-lg flex flex-row items-center sm:border sm:border-slate-800 text-[1rem]">
+                  <svg class="hidden sm:inline-block w-6 h-6 flex-shrink-0  sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
+                  Currently, there are no dividend announcement reports available.
+                </div>
               {/if}
              
               </Card.Content>
@@ -495,7 +498,10 @@ onMount( async() => {
                     {/each}
                   </ul>
                   {:else}
-                  Currently, there are no upcoming earnings reports available that include the latest analyst estimates.
+                  <div class="text-left text-white sm:p-5 w-fit rounded-lg flex flex-row items-center sm:border sm:border-slate-800 text-[1rem]">
+                    <svg class="hidden sm:inline-block w-6 h-6 flex-shrink-0  sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
+                    Currently, there are no upcoming earnings reports available that include the latest analyst estimates.
+                  </div>
                   {/if}
                 </Card.Content>
               </Card.Root>
@@ -509,7 +515,7 @@ onMount( async() => {
                   </div>
                 </Card.Header>
                 <Card.Content>
-                  {#if data?.getDasboard?.recentEarnings?.length !== 0}
+                  {#if data?.getDashboard?.recentEarnings?.length !== 0}
                   <ul style="padding-left: 5px;">
                     {#each data?.getDashboard?.recentEarnings as item}
                     <strong>{item?.name}</strong> (<a href="/stocks/{item?.symbol}" class="sm:hover:text-white text-blue-400">{item?.symbol}</a>) has released its quarterly earnings at {formatTime(item?.time)}:
@@ -521,11 +527,13 @@ onMount( async() => {
                     EPS of ${item?.eps} {item?.epsSurprise > 0 ? 'exceeds' : 'misses'} estimates by ${item?.epsSurprise?.toFixed(2)}, with {((item?.eps/item?.epsPrior-1)*100)?.toFixed(2)}% YoY {(item?.eps/item?.epsPrior-1) < 0 ? 'decline' : 'growth'}.
                 </li>
 
-
                     {/each}
                 </ul>
                 {:else}
-                Currently, there are no recent earnings reports available.
+                <div class="text-left text-white sm:p-5 w-fit rounded-lg flex flex-row items-center sm:border sm:border-slate-800 text-[1rem]">
+                  <svg class="hidden sm:inline-block w-6 h-6 flex-shrink-0  sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
+                  Currently, there are no recent earnings reports available.
+                </div>
                 {/if}
                 </Card.Content>
               </Card.Root>
