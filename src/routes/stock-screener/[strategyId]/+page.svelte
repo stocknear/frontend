@@ -14,7 +14,7 @@
   $strategyId = data?.getStrategyId;
   let ruleOfList = data?.getStrategy?.rules ?? [];
   let displayRules = [];
-  
+  let selectedPopularStrategy = ''; 
   const title = data?.getStrategy?.title;
 
   let stockScreenerData = data?.getStockScreenerData?.filter(item => 
@@ -217,7 +217,7 @@ const getStockScreenerData = async (rules) => {
       fundRows?.sort((a, b) => a.label.localeCompare(b.label));
       */
   
-      let ruleName = 'marketCap';
+      let ruleName = '';
       
       // Define your default values
 
@@ -308,15 +308,16 @@ const getStockScreenerData = async (rules) => {
       }
     
     
-      function changeRule(state: string)  
-      {
-        searchTerm = '';
-        ruleName = state;
-        handleAddRule()
+function changeRule(state: string)  
+{
+  searchTerm = '';
+  selectedPopularStrategy = '';
+  ruleName = state;
+  handleAddRule()
 
-        //const closePopup = document.getElementById("ruleModal");
-        //closePopup?.dispatchEvent(new MouseEvent('click'))
-      }
+  //const closePopup = document.getElementById("ruleModal");
+  //closePopup?.dispatchEvent(new MouseEvent('click'))
+}
 
 const valueMappings = {
   revenue: valueRevenue,
@@ -536,16 +537,17 @@ async function updateStockScreenerData() {
 }
       
 async function handleResetAll() {
+  selectedPopularStrategy = '';
   ruleOfList = [];
   ruleOfList = [...ruleOfList];
   ruleName = '';
   filteredData = [];
   displayResults = [];
   await handleSave(false);
-
 }
 
 async function handleDeleteRule(state) {
+  selectedPopularStrategy = '';
   for (let i = 0; i < ruleOfList.length; i++) {
     if (ruleOfList[i].name === state) {
       ruleOfList.splice(i, 1); // Remove the element at index i from the ruleOfList
@@ -1073,40 +1075,74 @@ function handleChangeValue(value) {
 }
 
 
-async function preSelectStrategy(state:string) {
-  //To-do: Piece of shit code needs to be optimized better
-  if(state === 'dividendGrowth') {
+async function popularStrategy(state: string) {
+    const strategies = {
+        dividendGrowth: {
+            name: 'Dividend Growth',
+            rules: [
+                { condition: "over", name: "dividendGrowth", value: 5 },
+                { condition: "over", name: "dividendYield", value: 1 },
+                { condition: "under", name: "payoutRatio", value: 60 },
+                { condition: "over", name: "growthRevenue", value: 5 }
+            ]
+        },
+        topGainers1Y: {
+            name: 'Top Gainers 1Y',
+            rules: [
+                { condition: "over", name: "change1Y", value: 50 },
+                { condition: "over", name: "marketCap", value: 10 },
+                { condition: "over", name: "eps", value: 5 }
+            ]
+        },
+        topShortedStocks: {
+            name: 'Top Shorted Stocks',
+            rules: [
+                { condition: "over", name: "shortFloatPercent", value: 20 },
+                { condition: "over", name: "shortRatio", value: 1 },
+                { condition: "over", name: "shortOutStandingPercent", value: 10 },
+                { condition: "over", name: "sharesShort", value: 20 },
+                { condition: "over", name: "marketCap", value: 1 }
+            ]
+        },
+        momentumTAStocks: {
+            name: 'Momentum TA Stocks',
+            rules: [
+                { condition: "under", name: "rsi", value: 40 },
+                { condition: "under", name: "stochRSI", value: 40 },
+                { condition: "over", name: "marketCap", value: 1 },
+                { condition: "under", name: "mfi", value: 40 }
+            ]
+        },
+        topAIStocks: {
+            name: 'Top AI Stocks',
+            rules: [
+                { condition: "over", name: "fundamentalAnalysis", value: 70 },
+                { condition: "over", name: "trendAnalysis", value: 60 },
+                { condition: "over", name: "marketCap", value: 1 }
+            ]
+        },
+        underValuedStocks: {
+            name: 'Undervalued Stocks',
+            rules: [
+                { condition: "under", name: "marketCap", value: 1 },
+                { condition: "over", name: "debtEquityRatio", value: 1 },
+                { condition: "over", name: "debtRatio", value: 1 },
+                { condition: "over", name: "eps", value: 0 }
+            ]
+        },
+    };
 
-    ruleOfList = [
-      {
-        "condition": "over",
-        "name": "dividendGrowth",
-        "value": 5
-      },
-      {
-        "condition": "over",
-        "name": "dividendYield",
-        "value": 1
-      },
-      {
-        "condition": "under",
-        "name": "payoutRatio",
-        "value": 60
-      },
-      {
-        "condition": "over",
-        "name": "growthRevenue",
-        "value": 5
-      }
-    
-    ];
-    ruleOfList?.forEach(row => {
-      ruleName = row?.name
-      ruleCondition[ruleName] = row?.condition;
-      handleChangeValue(row?.value);
-    })
-    await updateStockScreenerData();
-  }
+    const strategy = strategies[state];
+    if (strategy) {
+        selectedPopularStrategy = strategy.name;
+        ruleOfList = strategy?.rules;
+        ruleOfList?.forEach(row => {
+            ruleName = row.name;
+            ruleCondition[ruleName] = row.condition;
+            handleChangeValue(row.value);
+        });
+        await updateStockScreenerData();
+    }
 }
 
 
@@ -1174,7 +1210,7 @@ async function preSelectStrategy(state:string) {
                           <DropdownMenu.Root>
                                 <DropdownMenu.Trigger asChild let:builder>
                                   <Button builders={[builder]}  class="border-gray-600 border bg-[#09090B] flex flex-row justify-between items-center px-3 py-2 text-white rounded-lg truncate">
-                                    <span class="truncate text-white">Select popular</span>
+                                    <span class="truncate text-white">{selectedPopularStrategy?.length !== 0 ? selectedPopularStrategy : 'Select popular'}</span>
                                     <svg class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px" aria-hidden="true">
                                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                     </svg>
@@ -1186,9 +1222,24 @@ async function preSelectStrategy(state:string) {
                                   </DropdownMenu.Label>
                                   <DropdownMenu.Separator />
                                   <DropdownMenu.Group>
-                                      <DropdownMenu.Item on:click={() => preSelectStrategy('dividendGrowth')} class="cursor-pointer">
+                                      <DropdownMenu.Item on:click={() => popularStrategy('dividendGrowth')} class="cursor-pointer">
                                         Dividend Growth
-                                      </DropdownMenu.Item>      
+                                      </DropdownMenu.Item>
+                                      <DropdownMenu.Item on:click={() => popularStrategy('topGainers1Y')} class="cursor-pointer">
+                                        Top Gainers 1Y
+                                      </DropdownMenu.Item>
+                                      <DropdownMenu.Item on:click={() => popularStrategy('topShortedStocks')} class="cursor-pointer">
+                                        Top Shorted Stocks
+                                      </DropdownMenu.Item>
+                                      <DropdownMenu.Item on:click={() => popularStrategy('topAIStocks')} class="cursor-pointer">
+                                        Top AI Stocks
+                                      </DropdownMenu.Item>
+                                      <DropdownMenu.Item on:click={() => popularStrategy('momentumTAStocks')} class="cursor-pointer">
+                                        Momentum TA Stocks
+                                      </DropdownMenu.Item>
+                                      <DropdownMenu.Item on:click={() => popularStrategy('underValuedStocks')} class="cursor-pointer">
+                                        Undervalued Stocks
+                                      </DropdownMenu.Item>  
                                   </DropdownMenu.Group>
                                 </DropdownMenu.Content>
                               </DropdownMenu.Root>
