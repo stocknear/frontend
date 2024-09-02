@@ -178,6 +178,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                   Explore High Quality Datasets
                                 </h1>
                                
+                                <!--
                                 <div class="relative mb-4">
                                   <div class="absolute top-0 flex w-full justify-center">
                                     <div
@@ -191,12 +192,13 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
                                   </div>
                                   
 
-
+                                  
                                   <div class="overlay m-auto flex justify-center z-20 items-center w-fit sm:w-[820px] h-full">
                                     <img class="w-full" src={cloudFrontUrl+"/assets/showcase-stock.png"} alt="logo">
                                   </div>
+                                
                                 </div>
-
+                              -->
                                 
 
 
