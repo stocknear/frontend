@@ -3,7 +3,7 @@
   import { goto} from '$app/navigation';
   import { screenWidth, strategyId, numberOfUnreadNotification, getCache, setCache} from '$lib/store';
   import toast from 'svelte-french-toast';
-  import { abbreviateNumber, formatRuleValue } from '$lib/utils';
+  import { abbreviateNumber } from '$lib/utils';
     
   //const userConfirmation = confirm('Unsaved changes detected. Leaving now will discard your strategy. Continue?');
 
@@ -68,14 +68,12 @@ const getStockScreenerData = async (rules) => {
     sma200:  (ruleOfList?.find(item => item.name === "sma200") || { condition: 'over' }).condition,
     ema50:  (ruleOfList?.find(item => item.name === "ema50") || { condition: 'over' }).condition,
     ema200:  (ruleOfList?.find(item => item.name === "ema200") || { condition: 'over' }).condition,
-    /*
     change1W: (ruleOfList?.find(item => item.name === "change1W") || { condition: 'over' }).condition,
     change1M: (ruleOfList?.find(item => item.name === "change1M") || { condition: 'over' }).condition,
     change3M: (ruleOfList?.find(item => item.name === "change3M") || { condition: 'over' }).condition,
     change6M: (ruleOfList?.find(item => item.name === "change6M") || { condition: 'over' }).condition,
     change1Y: (ruleOfList?.find(item => item.name === "change1Y") || { condition: 'over' }).condition,
     change3Y: (ruleOfList?.find(item => item.name === "change3Y") || { condition: 'over' }).condition,
-    */
     payoutRatio:  (ruleOfList?.find(item => item.name === "payoutRatio") || { condition: 'over' }).condition,
     annualDividend:  (ruleOfList?.find(item => item.name === "annualDividend") || { condition: 'over' }).condition,
     dividendYield:  (ruleOfList?.find(item => item.name === "dividendYield") || { condition: 'over' }).condition,
@@ -141,14 +139,12 @@ const getStockScreenerData = async (rules) => {
     { rule: 'sma200', label: 'SMA-200', step: [500,250,100,50,10,1], unit: '',category: 'ta' },
     { rule: 'ema50', label: 'EMA-50', step: [500,250,100,50,10,1], unit: '',category: 'ta' },
     { rule: 'ema200', label: 'EMA-200', step: [500,250,100,50,10,1],unit: '',category: 'ta' },
-    /*
     { rule: 'change1W', label: 'Price Change 1W [%]', step: [20,10,5,1], unit: '%',category: 'ta' },
     { rule: 'change1M', label: 'Price Change 1M [%]', step: [100,50,20,10,5,1], unit: '%',category: 'ta' },
     { rule: 'change3M', label: 'Price Change 3M [%]', step: [100,50,20,10,5,1], unit: '%',category: 'ta' },
     { rule: 'change6M', label: 'Price Change 6M [%]', step: [100,50,20,10,5,1], unit: '%',category: 'ta' },
     { rule: 'change1Y', label: 'Price Change 1Y [%]', step: [100,50,20,10,5,1], unit: '%',category: 'ta' },
     { rule: 'change3Y', label: 'Price Change 3Y [%]', step: [100,50,20,10,5,1], unit: '%',category: 'ta' },
-     */
     { rule: 'marketCap', label: 'Market Cap', step: [100,50,10,1], unit: 'B', category: 'fund'},
     { rule: 'revenue', label: 'Revenue', step: [200,100,50,20,10,1], unit: 'B', category: 'fund' },
     { rule: 'growthRevenue', label: 'Revenue Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund' },
@@ -268,14 +264,12 @@ const getStockScreenerData = async (rules) => {
       let valueSMA200 = (ruleOfList?.find(item => item.name === "sma200") || { value: 'any'}).value;
       let valueEMA50 =  (ruleOfList?.find(item => item.name === "ema50") || { value: 'any'}).value;
       let valueEMA200 = (ruleOfList?.find(item => item.name === "ema200") || { value: 'any'}).value;
-      /*
       let valueChange1W = (ruleOfList?.find(item => item.name === "change1W") || { value: 'any' }).value;
       let valueChange1M = (ruleOfList?.find(item => item.name === "change1M") || { value: 'any' }).value;
       let valueChange3M = (ruleOfList?.find(item => item.name === "change3M") || { value: 'any' }).value;
       let valueChange6M = (ruleOfList?.find(item => item.name === "change6M") || { value: 'any' }).value;
       let valueChange1Y = (ruleOfList?.find(item => item.name === "change1Y") || { value: 'any' }).value;
       let valueChange3Y = (ruleOfList?.find(item => item.name === "change3Y") || { value: 'any' }).value;
-      */
       let valueAvgVolume = (ruleOfList?.find(item => item.name === "avgVolume") || { value: 'any'}).value;
       let valueVaR = (ruleOfList?.find(item => item.name === "var") || { value: 'any'}).value;
       let valueTrendAnalysis = (ruleOfList?.find(item => item.name === "trendAnalysis") || { value: 'any'}).value;
@@ -353,14 +347,12 @@ const valueMappings = {
   sma200: valueSMA200,
   ema50: valueEMA50,
   ema200: valueEMA200,
-  /*
   change1W: valueChange1W,
   change1M: valueChange1M,
   change3M: valueChange3M,
   change6M: valueChange6M,
   change1Y: valueChange1Y,
   change3Y: valueChange3Y,
-  */
   avgVolume: valueAvgVolume,
   var: valueVaR,
   trendAnalysis: valueTrendAnalysis,
@@ -674,14 +666,12 @@ $: {
         sma200: valueSMA200,
         ema50: valueEMA50,
         ema200: valueEMA200,
-        /*
         change1W: valueChange1W,
         change1M: valueChange1M,
         change3M: valueChange3M,
         change6M: valueChange6M,
         change1Y: valueChange1Y,
         change3Y: valueChange3Y,
-        */
         avgVolume: valueAvgVolume,
         var: valueVaR,
         trendAnalysis: valueTrendAnalysis,
@@ -985,7 +975,6 @@ function handleChangeValue(value) {
         case 'ema200':
           valueEMA200 = value;
           break;
-        /*
         case 'change1W':
           valueChange1W = value;
           break;
@@ -1003,7 +992,6 @@ function handleChangeValue(value) {
           break;
         case 'change3Y':
           valueChange3Y = value;
-        */
         case 'avgVolume':
           valueAvgVolume = value;
           break;
