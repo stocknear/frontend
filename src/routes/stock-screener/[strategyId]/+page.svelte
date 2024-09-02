@@ -118,6 +118,10 @@ const getStockScreenerData = async (rules) => {
     freeCashFlowPerShare: (ruleOfList?.find(item => item.name === "freeCashFlowPerShare") || { condition: 'over' }).condition,
     cashPerShare: (ruleOfList?.find(item => item.name === "cashPerShare") || { condition: 'over' }).condition,
     priceToFreeCashFlowsRatio: (ruleOfList?.find(item => item.name === "priceToFreeCashFlowsRatio") || { condition: 'over' }).condition,
+    sharesShort: (ruleOfList?.find(item => item.name === "sharesShort") || { condition: 'over' }).condition,
+    shortRatio: (ruleOfList?.find(item => item.name === "shortRatio") || { condition: 'over' }).condition,
+    shortFloatPercent: (ruleOfList?.find(item => item.name === "shortFloatPercent") || { condition: 'over' }).condition,
+    shortOutStandingPercent: (ruleOfList?.find(item => item.name === "shortOutStandingPercent") || { condition: 'over' }).condition,
 
   };
 
@@ -126,7 +130,6 @@ const getStockScreenerData = async (rules) => {
   };
 
 
-    
     
   let allRows = [
     { rule: 'avgVolume', label: 'Avg Volume', step: [100,50,20,10,5,1], unit: 'M', category: 'fund' },
@@ -192,6 +195,11 @@ const getStockScreenerData = async (rules) => {
     { rule: 'freeCashFlowPerShare', label: 'FCF / Share', step: [10,8,6,4,2,1,0], unit: '',category: 'fund' },
     { rule: 'cashPerShare', label: 'Cash / Share', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], unit: '',category: 'fund' },
     { rule: 'priceToFreeCashFlowsRatio', label: 'Price / FCF', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], unit: '',category: 'fund' },
+    { rule: 'sharesShort', label: 'Short Interest', step: [50,20,10,5,1,0], unit: 'M',category: 'fund' },
+    { rule: 'shortRatio', label: 'Short Ratio', step: [10,5,3,2,1,0], unit: '',category: 'fund' },
+    { rule: 'shortFloatPercent', label: 'Short % Float', step: [50,30,20,10,5,1,0], unit: '%',category: 'fund' },
+    { rule: 'shortOutStandingPercent', label: 'Short % Shares', step: [50,30,20,10,5,1,0], unit: '%',category: 'fund' },
+
   ];
 
  
@@ -278,8 +286,12 @@ const getStockScreenerData = async (rules) => {
       let valueFCFShare = (ruleOfList?.find(item => item.name === "freeCashFlowPerShare") || { value: 'any'}).value;
       let valueCashShare = (ruleOfList?.find(item => item.name === "cashPerShare") || { value: 'any'}).value;
       let valuePriceFCF = (ruleOfList?.find(item => item.name === "priceToFreeCashFlowsRatio") || { value: 'any'}).value;
+      let valueSharesShort = (ruleOfList?.find(item => item.name === "sharesShort") || { value: 'any'}).value;
+      let valueShortRatio = (ruleOfList?.find(item => item.name === "shortRatio") || { value: 'any'}).value;
+      let valueShortFloatPercent = (ruleOfList?.find(item => item.name === "shortFloatPercent") || { value: 'any'}).value;
+      let valueShortOutStandingPercent = (ruleOfList?.find(item => item.name === "shortOutStandingPercent") || { value: 'any'}).value;
 
-    
+  
       const ratingRecommendations = [
         'Sell',
         'Hold',
@@ -367,6 +379,11 @@ const valueMappings = {
   freeCashFlowPerShare: valueFCFShare,
   cashPerShare: valueCashShare,
   priceToFreeCashFlowsRatio: valuePriceFCF,
+  sharesShort: valueSharesShort,
+  shortRatio: valueShortRatio,
+  shortFloatPercent: valueShortFloatPercent,
+  shortOutStandingPercent: valueShortOutStandingPercent,
+
 };
     
 const conditions = {
@@ -432,6 +449,11 @@ const conditions = {
   freeCashFlowPerShare: ruleCondition.freeCashFlowPerShare,
   cashPerShare: ruleCondition.cashPerShare,
   priceToFreeCashFlowsRatio: ruleCondition.priceToFreeCashFlowsRatio,
+  sharesShort: ruleCondition.sharesShort,
+  shortRatio: ruleCondition.shortRatio,
+  shortFloatPercent: ruleCondition.shortFloatPercent,
+  shortOutStandingPercent: ruleCondition.shortOutStandingPercent,
+
 };    
 
 
@@ -686,6 +708,10 @@ $: {
         freeCashFlowPerShare: valueFCFShare,
         cashPerShare: valueCashShare,
         priceToFreeCashFlowsRatio: valuePriceFCF,
+        sharesShort: valueSharesShort,
+        shortRatio: valueShortRatio,
+        shortFloatPercent: valueShortFloatPercent,
+        shortOutStandingPercent: valueShortOutStandingPercent,
 
       };
 
@@ -732,7 +758,7 @@ function filterStockScreenerData() {
         } else if (rule.condition === "under" && item[rule.name] !== null && item[rule.name] > rule.value * 10**(6)) {
           return false;
         }
-      } else if (rule.name === 'avgVolume') {
+      } else if (['avgVolume','sharesShort']?.includes(rule.name)) {
         if (rule.condition === "over" && item[rule.name] <= rule.value * 10**(6)) {
           return false;
         } else if (rule.condition === "under" && item[rule.name] > rule.value * 10**(6)) {
@@ -1032,6 +1058,14 @@ function handleChangeValue(value) {
         valuePriceFCF = value;
       case 'enterpriseValue':
         valueEnterpriseValue = value;
+      case 'sharesShort':
+        valueSharesShort = value;
+      case 'shortRatio':
+          valueShortRatio = value;
+      case 'shortFloatPercent':
+          valueShortFloatPercent = value;
+      case 'shortOutStandingPercent':
+          valueShortOutStandingPercent = value;
     }
   } else {
     console.warn(`Unhandled rule: ${rule}`);
@@ -1116,7 +1150,7 @@ function handleChangeValue(value) {
                         <div>Add Filters</div>
                     </label>
 
-                    <label on:click={() => handleSave(true)} class="sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-md border border-transparent bg-blue-brand_light py-2 pl-3 pr-4 text-base font-semibold text-white shadow-sm bg-[#000] focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-smaller">
+                    <label for={!data?.user ? 'userLogin' : ''} on:click={() => handleSave(true)} class="sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-md border border-transparent bg-blue-brand_light py-2 pl-3 pr-4 text-base font-semibold text-white shadow-sm bg-[#000] focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-smaller">
                       <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#fff" d="M5 5v22h22V9.594l-.281-.313l-4-4L22.406 5zm2 2h3v6h12V7.437l3 3V25h-2v-9H9v9H7zm5 0h4v2h2V7h2v4h-8zm-1 11h10v7H11z"/></svg>
                         <div>Save</div>
                     </label>
@@ -1401,7 +1435,7 @@ function handleChangeValue(value) {
               type="search"
               id="search"
               class="placeholder-gray-300 block w-full p-2 ps-10 text-sm text-gray-200 border border-gray-300 rounded-lg bg-[#404040] border border-blue-500"
-              placeholder="Search"
+              placeholder="Search {allRows?.length} filters..."
               bind:value={searchTerm}
               />
         </div>
