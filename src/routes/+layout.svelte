@@ -31,7 +31,7 @@
 
   import Home from "lucide-svelte/icons/house";
   import Menu from "lucide-svelte/icons/menu";
-  import Stock from "lucide-svelte/icons/candlestick-chart";
+  import Stock from "lucide-svelte/icons/chart-candlestick";
   import Calendar from "lucide-svelte/icons/calendar";
   import Option from "lucide-svelte/icons/waves";
   import HandShake from "lucide-svelte/icons/handshake";

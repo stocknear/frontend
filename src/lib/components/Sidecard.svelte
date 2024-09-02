@@ -28,4 +28,4 @@ export let analystRating
 
 <SimilarTickerCard similarstock={similarstock}/>
 
-<TopETFTickerHolder topETFHolder={topETFHolder}/>
+<!--<TopETFTickerHolder topETFHolder={topETFHolder}/>-->
