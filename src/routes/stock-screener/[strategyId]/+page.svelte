@@ -4,7 +4,8 @@
   import { screenWidth, strategyId, numberOfUnreadNotification, getCache, setCache} from '$lib/store';
   import toast from 'svelte-french-toast';
   import { abbreviateNumber } from '$lib/utils';
-    
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
   //const userConfirmation = confirm('Unsaved changes detected. Leaving now will discard your strategy. Continue?');
 
   export let data;
@@ -22,6 +23,7 @@
     (typeof value !== 'object' || Object?.values(value)?.every(subValue => subValue !== null && subValue !== undefined))
   )
 );
+
 
 
 const getStockScreenerData = async (rules) => {
@@ -509,6 +511,9 @@ async function handleRule(newRule) {
   }
 }
 
+
+}
+
 async function updateStockScreenerData() {
   try {
     const newData = await getStockScreenerData(ruleOfList);
@@ -519,7 +524,7 @@ async function updateStockScreenerData() {
     )
   );
 
-    displayRules = allRows.filter(row => ruleOfList.some(rule => rule.name === row.rule));
+    displayRules = allRows?.filter(row => ruleOfList?.some(rule => rule.name === row.rule));
     filteredData = filterStockScreenerData();
     displayResults = filteredData?.slice(0, 50);
   } catch (error) {
@@ -529,9 +534,6 @@ async function updateStockScreenerData() {
     });
   }
 }
-
-}
-    
       
 async function handleResetAll() {
   ruleOfList = [];
@@ -635,14 +637,11 @@ async function handleSave(printToast) {
   }  
 }
   
-async function handleUpdateRule(rule) {
-  ruleName = rule.name;
-}
 
 
 $: {
   if (ruleOfList) {
-    const ruleToUpdate = ruleOfList.find(rule => rule.name === ruleName);
+    const ruleToUpdate = ruleOfList?.find(rule => rule.name === ruleName);
     if (ruleToUpdate) {
       const valueMap = {
         payoutRatio: valuePayoutRatio,
@@ -714,13 +713,13 @@ $: {
         shortOutStandingPercent: valueShortOutStandingPercent,
 
       };
-
       ruleToUpdate.value = valueMap[ruleToUpdate.name] ?? ruleToUpdate.value;
       ruleToUpdate.condition = ruleCondition[ruleToUpdate.name];
       ruleOfList = [...ruleOfList];
     }
 
-    displayRules = allRows.filter(row => ruleOfList.some(rule => rule.name === row.rule));
+    console.log('yes here')
+    displayRules = allRows?.filter(row => ruleOfList.some(rule => rule.name === row.rule));
     filteredData = filterStockScreenerData();
     
     if (ruleOfList?.some(item => item?.name === 'ratingRecommendation')) {
@@ -1074,6 +1073,43 @@ function handleChangeValue(value) {
 }
 
 
+async function preSelectStrategy(state:string) {
+  //To-do: Piece of shit code needs to be optimized better
+  if(state === 'dividendGrowth') {
+
+    ruleOfList = [
+      {
+        "condition": "over",
+        "name": "dividendGrowth",
+        "value": 5
+      },
+      {
+        "condition": "over",
+        "name": "dividendYield",
+        "value": 1
+      },
+      {
+        "condition": "under",
+        "name": "payoutRatio",
+        "value": 60
+      },
+      {
+        "condition": "over",
+        "name": "growthRevenue",
+        "value": 5
+      }
+    
+    ];
+    ruleOfList?.forEach(row => {
+      ruleName = row?.name
+      ruleCondition[ruleName] = row?.condition;
+      handleChangeValue(row?.value);
+    })
+    await updateStockScreenerData();
+  }
+}
+
+
 </script>
   
   
@@ -1121,13 +1157,49 @@ function handleChangeValue(value) {
             <!--Start Build Strategy-->
             <div class="mt-5 sm:rounded-lg">
       
-              <div class="flex flex-row items-center mb-5">
+              <div class="flex flex-col sm:flex-row items-start sm:items-center mb-5">
+                <div class="w-full flex flex-row items-center sm:mt-4">
                 <h1 class="text-white text-3xl font-semibold">
                   Stock Screener
                 </h1>
-                <span class="text-sm font-semibold text-white ml-2 mt-3">
+                <span class="inline-block text-xs sm:text-sm font-semibold text-white ml-2 mt-3">
                   {ruleOfList?.length !== 0 ? filteredData?.length : 0} Matches Found
                 </span>
+              </div>
+                <div class="flex w-[50%] md:block md:w-auto mt-5 sm:ml-auto">
+                      <div class="hidden text-sm sm:text-[1rem] font-semibold sm:font-normal text-white sm:block sm:mb-1">
+                          Popular Screens
+                      </div>
+                      <div class="relative inline-block text-left grow">
+                          <DropdownMenu.Root>
+                                <DropdownMenu.Trigger asChild let:builder>
+                                  <Button builders={[builder]}  class="border-gray-600 border bg-[#09090B] flex flex-row justify-between items-center px-3 py-2 text-white rounded-lg truncate">
+                                    <span class="truncate text-white">Select popular</span>
+                                    <svg class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                    </svg>
+                                  </Button>
+                                </DropdownMenu.Trigger>
+                                <DropdownMenu.Content class="w-56">
+                                  <DropdownMenu.Label class="text-gray-400">
+                                    Popular Strategies
+                                  </DropdownMenu.Label>
+                                  <DropdownMenu.Separator />
+                                  <DropdownMenu.Group>
+                                      <DropdownMenu.Item on:click={() => preSelectStrategy('dividendGrowth')} class="cursor-pointer">
+                                        Dividend Growth
+                                      </DropdownMenu.Item>      
+                                  </DropdownMenu.Group>
+                                </DropdownMenu.Content>
+                              </DropdownMenu.Root>
+
+
+                      </div>
+                  </div>
+
+
+
+
               </div>
 
 
@@ -1135,10 +1207,12 @@ function handleChangeValue(value) {
                 <div class="items-end border-b border-gray-400">
                     <div class="mr-1 flex items-center justify-between lg:mr-2 mb-1.5">
                         <button class="flex cursor-pointer items-center text-lg sm:text-xl font-semibold text-gray-200" title="Hide Filter Area">
-                            <svg class="-mb-0.5 h-6 w-6" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px">
+                          <!--  
+                          <svg class="-mb-0.5 h-6 w-6" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px">
                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                             </svg>
-                            Filters
+                          -->
+                            {ruleOfList?.length} Filters
                         </button> 
                     </div>
                 </div> 
@@ -1192,49 +1266,53 @@ function handleChangeValue(value) {
                               </svg>
                           </button> 
                           <div class="relative inline-block text-left">
-                            <div on:click={() => ruleName = row?.rule} class="dropdown dropdown-end">
-                              <button tabindex="0" class="bg-[#000] h-[33px] flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 text-white rounded-lg truncate">
-                                  <span class="truncate ml-2">
-                                    {#if valueMappings[row?.rule] === 'any'} 
-                                    Any
-                                    {:else}
-                                    {conditions[row?.rule]} {valueMappings[row?.rule]}{row?.unit}
-                                    {/if}
-                                  </span> 
-                                  <svg class=" ml-1 h-6 w-6 xs:ml-2 inline-block" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px" aria-hidden="true">
-                                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                  </svg>
-                              </button> 
-                              
-                              <div class="dropdown-content absolute z-40 mt-2 rounded-md bg-[#181C1F] py-1 shadow-lg border border-gray-600 focus:outline-none" tabindex="0" role="menu">
-
-                                <div class="select-none space-y-1 p-1 pb-2 pr-2 text-sm">
+                            <div on:click={() => ruleName = row?.rule}>
+                              <DropdownMenu.Root>
+                                <DropdownMenu.Trigger asChild let:builder>
+                                  <Button builders={[builder]}  class="bg-[#000] h-[33px] flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 text-white rounded-lg truncate">
+                                    <span class="truncate ml-2 text-sm sm:text-[1rem]">
+                                      {#if valueMappings[row?.rule] === 'any'} 
+                                      Any
+                                      {:else}
+                                      {ruleCondition[row?.rule]} {valueMappings[row?.rule]}{row?.unit}
+                                      {/if}
+                                    </span> 
+                                    <svg class=" ml-1 h-6 w-6 xs:ml-2 inline-block" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                    </svg>
+                                  </Button>
+                                </DropdownMenu.Trigger>
+                                <DropdownMenu.Content class="w-56">
+                                  <DropdownMenu.Label>
                                     <div class="flex items-center justify-start gap-x-1">
-                                        <div class="relative inline-block flex flex-row items-center justify-center m-auto">
+                                        <div class="relative inline-block flex flex-row items-center justify-center">
                                             <label on:click={() => changeRuleCondition(row?.rule, 'under')} class="cursor-pointer flex flex-row mr-2 justify-center items-center">
                                               <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2" 
-                                                  checked={conditions[row?.rule] === 'under'} name={row?.rule} />
+                                                  checked={ruleCondition[row?.rule] === 'under'} name={row?.rule} />
                                               <span class="label-text text-white">Under</span> 
                                             </label>
                                             <label on:click={() => changeRuleCondition(row?.rule, 'over')} class="cursor-pointer flex flex-row ml-2 justify-center items-center">
                                               <input type="radio" class="radio checked:bg-purple-600 bg-[#09090B] border border-slate-800 mr-2"
-                                                checked={conditions[row?.rule] === 'over'} name={row?.rule} />
+                                                checked={ruleCondition[row?.rule] === 'over'} name={row?.rule} />
                                               <span class="label-text text-white">Over</span> 
                                             </label>
                                         </div>
                                     </div> 
-                                </div> 
-
-                                <div class="thin-scrollbar dark:styled-scrollbar dark:right-scrollbar max-h-[250px] overflow-y-auto overflow-x-hidden overscroll-contain border-t border-gray-600 
-                                    dark:border-dark-500 xl:max-h-[297px]">
+                                  </DropdownMenu.Label>
+                                  <DropdownMenu.Separator />
+                                  <DropdownMenu.Group>
                                     {#each row?.step as newValue}
+                                      <DropdownMenu.Item>
+
                                       <button on:click={() => {handleChangeValue(newValue)}} class="block w-full border-b border-gray-600 px-4 py-2 text-left text-sm text-white last:border-0 sm:hover:bg-gray-100 sm:hover:text-gray-900 
                                                       focus:bg-blue-100 focus:text-gray-900 focus:outline-none">
                                         {ruleCondition[row?.rule]} {newValue}{row?.unit}
                                       </button>
-                                    {/each}
-                                </div>
-                              </div>
+                                      </DropdownMenu.Item>      
+                                    {/each}                          
+                                  </DropdownMenu.Group>
+                                </DropdownMenu.Content>
+                              </DropdownMenu.Root>
                             </div>
                           </div>
                       </div>
