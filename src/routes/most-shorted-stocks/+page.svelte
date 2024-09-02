@@ -36,7 +36,7 @@
   })
   
   
-  $: charNumber = $screenWidth < 640 ? 15 : 40;
+  $: charNumber = $screenWidth < 640 ? 15 : 20;
 
         
   </script>
@@ -146,18 +146,17 @@
                             <th class="hidden sm:table-cell text-start bg-[#09090B] text-white text-[1rem] font-semibold">
                               Name
                             </th>
-  
-                            <th class="text-center bg-[#09090B] text-white text-[1rem] font-semibold">
+                            <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
+                              Short Ratio
+                            </th>
+                            <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
                               Short Interest
                             </th>
                             <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
-                              Float
+                              Short % Float
                             </th>
                             <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
-                              Outstd
-                            </th>
-                            <th class="text-end bg-[#09090B] text-white text-[1rem] font-semibold">
-                              Sector
+                              Short % of Shares Out
                             </th>
                           </tr>
                         </thead>
@@ -182,21 +181,21 @@
                                 {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
                             </td>
                           
-  
-                            <td class="text-center text-sm sm:text-[1rem] whtitespace-nowrap font-medium text-white">
-                                {item?.shortOutStandingPercent}%
-                            </td>
-
                             <td class="text-end text-sm sm:text-[1rem] whtitespace-nowrap font-medium text-white">
-                                {abbreviateNumber(item?.latestFloatShares)}
+                                {item?.shortRatio}
                             </td>
                             
                             <td class="text-end text-sm sm:text-[1rem] whtitespace-nowrap font-medium text-white">
-                              {abbreviateNumber(item?.latestOutstandingShares)}
+                              {abbreviateNumber(item?.sharesShort)}
+                            </td>
+
+
+                            <td class="text-end text-sm sm:text-[1rem] whtitespace-nowrap font-medium text-white">
+                                {item?.shortFloatPercent}%
                             </td>
 
                             <td class="text-end text-sm sm:text-[1rem] whtitespace-nowrap font-medium text-white">
-                              {item?.sector !== null ? item?.sector : '-'}
+                                {item?.shortOutStandingPercent}%
                             </td>
 
 
