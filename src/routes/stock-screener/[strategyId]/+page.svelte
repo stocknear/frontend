@@ -125,6 +125,7 @@ const getStockScreenerData = async (rules) => {
     shortFloatPercent: (ruleOfList?.find(item => item.name === "shortFloatPercent") || { condition: 'over' }).condition,
     shortOutStandingPercent: (ruleOfList?.find(item => item.name === "shortOutStandingPercent") || { condition: 'over' }).condition,
     failToDeliver: (ruleOfList?.find(item => item.name === "failToDeliver") || { condition: 'over' }).condition,
+    freeCashFlow: (ruleOfList?.find(item => item.name === "freeCashFlow") || { condition: 'over' }).condition,
 
   };
 
@@ -198,6 +199,7 @@ const getStockScreenerData = async (rules) => {
     { rule: 'shortFloatPercent', label: 'Short % Float', step: [50,30,20,10,5,1,0], unit: '%',category: 'fund' },
     { rule: 'shortOutStandingPercent', label: 'Short % Shares', step: [50,30,20,10,5,1,0], unit: '%',category: 'fund' },
     { rule: 'failToDeliver', label: 'Fail to Deliver', step: [500,200,100,50,20,10,5], unit: 'K',category: 'fund' },
+    { rule: 'freeCashFlow', label: 'Free Cash Flow', step: [500,200,100,50,20,10,1,0], unit: 'M',category: 'fund' },
 
   ];
 
@@ -290,7 +292,7 @@ const getStockScreenerData = async (rules) => {
       let valueShortFloatPercent = (ruleOfList?.find(item => item.name === "shortFloatPercent") || { value: 'any'}).value;
       let valueShortOutStandingPercent = (ruleOfList?.find(item => item.name === "shortOutStandingPercent") || { value: 'any'}).value;
       let valueFailToDeliver = (ruleOfList?.find(item => item.name === "failToDeliver") || { value: 'any'}).value;
-
+      let valueFreeCashFlow = (ruleOfList?.find(item => item.name === "freeCashFlow") || { value: 'any'}).value;
 
     
     
@@ -374,6 +376,7 @@ const valueMappings = {
   shortOutStandingPercent: valueShortOutStandingPercent,
   analystRating: valueAnalystRating,
   failToDeliver: valueFailToDeliver,
+  freeCashFlow: valueFreeCashFlow,
 
 };
     
@@ -445,6 +448,7 @@ const conditions = {
   shortFloatPercent: ruleCondition.shortFloatPercent,
   shortOutStandingPercent: ruleCondition.shortOutStandingPercent,
   failToDeliver: ruleCondition.failToDeliver,
+  freeCashFlow: ruleCondition.freeCashFlow,
 
 };    
 
@@ -703,6 +707,7 @@ $: {
         shortFloatPercent: valueShortFloatPercent,
         shortOutStandingPercent: valueShortOutStandingPercent,
         failToDeliver: valueFailToDeliver,
+        freeCashFlow: valueFreeCashFlow,
 
       };
       ruleToUpdate.value = valueMap[ruleToUpdate.name] ?? ruleToUpdate.value;
@@ -1065,6 +1070,8 @@ function handleChangeValue(value) {
             valueShortOutStandingPercent = value;
         case 'failToDeliver':
           valueFailToDeliver = value;
+        case 'freeCashFlow':
+          valueFreeCashFlow = value;
     }
   } else {
     console.warn(`Unhandled rule: ${rule}`);
@@ -1220,22 +1227,22 @@ async function popularStrategy(state: string) {
                                   </DropdownMenu.Label>
                                   <DropdownMenu.Separator />
                                   <DropdownMenu.Group>
-                                      <DropdownMenu.Item on:click={() => popularStrategy('dividendGrowth')} class="cursor-pointer">
+                                      <DropdownMenu.Item on:click={() => popularStrategy('dividendGrowth')} class="cursor-pointer hover:bg-[#27272A]">
                                         Dividend Growth
                                       </DropdownMenu.Item>
-                                      <DropdownMenu.Item on:click={() => popularStrategy('topGainers1Y')} class="cursor-pointer">
+                                      <DropdownMenu.Item on:click={() => popularStrategy('topGainers1Y')} class="cursor-pointer hover:bg-[#27272A]">
                                         Top Gainers 1Y
                                       </DropdownMenu.Item>
-                                      <DropdownMenu.Item on:click={() => popularStrategy('topShortedStocks')} class="cursor-pointer">
+                                      <DropdownMenu.Item on:click={() => popularStrategy('topShortedStocks')} class="cursor-pointer hover:bg-[#27272A]">
                                         Top Shorted Stocks
                                       </DropdownMenu.Item>
-                                      <DropdownMenu.Item on:click={() => popularStrategy('topAIStocks')} class="cursor-pointer">
+                                      <DropdownMenu.Item on:click={() => popularStrategy('topAIStocks')} class="cursor-pointer hover:bg-[#27272A]">
                                         Top AI Stocks
                                       </DropdownMenu.Item>
-                                      <DropdownMenu.Item on:click={() => popularStrategy('momentumTAStocks')} class="cursor-pointer">
+                                      <DropdownMenu.Item on:click={() => popularStrategy('momentumTAStocks')} class="cursor-pointer hover:bg-[#27272A]">
                                         Momentum TA Stocks
                                       </DropdownMenu.Item>
-                                      <DropdownMenu.Item on:click={() => popularStrategy('underValuedStocks')} class="cursor-pointer">
+                                      <DropdownMenu.Item on:click={() => popularStrategy('underValuedStocks')} class="cursor-pointer hover:bg-[#27272A]">
                                         Undervalued Stocks
                                       </DropdownMenu.Item>  
                                   </DropdownMenu.Group>
@@ -1253,7 +1260,7 @@ async function popularStrategy(state: string) {
 
 
               <div class="rounded-lg border border-gray-700 bg-[#262626] p-2">
-                <div class="items-end border-b border-gray-400">
+                <div class="items-end border-b border-gray-600">
                     <div class="mr-1 flex items-center justify-between lg:mr-2 mb-1.5">
                         <button class="flex cursor-pointer items-center text-lg sm:text-xl font-semibold text-gray-200" title="Hide Filter Area">
                           <!--  
@@ -1301,7 +1308,7 @@ async function popularStrategy(state: string) {
                 </div> 
 
 
-                <div class="sm:grid sm:grid-cols-2 sm:gap-x-2.5 lg:grid-cols-3 w-full mt-5 border-b border-gray-400">
+                <div class="sm:grid sm:grid-cols-2 sm:gap-x-2.5 lg:grid-cols-3 w-full mt-5 border-t border-b border-gray-600">
                   {#each displayRules as row (row?.rule)}
                     <!--Start Added Rules-->
                     <div class="flex items-center justify-between space-x-2 px-1 py-1.5 text-smaller leading-tight text-default">
@@ -1310,7 +1317,7 @@ async function popularStrategy(state: string) {
                       </div> 
                       <div class="flex items-center">
                           <button on:click={() => handleDeleteRule(row?.rule)} class="mr-1.5 cursor-pointer text-gray-300 sm:hover:text-red-500 focus:outline-none" title="Remove filter">
-                              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="CurrentColor" style="max-width:40px">
+                              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="CurrentColor" style="max-width:40px">
                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                               </svg>
                           </button> 
@@ -1355,7 +1362,7 @@ async function popularStrategy(state: string) {
                                     {#each row?.step as newValue}
                                       <DropdownMenu.Item>
 
-                                      <button on:click={() => {handleChangeValue(newValue)}} class="block w-full border-b border-gray-600 px-4 py-2 text-left text-sm sm:text-[1rem] text-white last:border-0 sm:hover:bg-gray-100 sm:hover:text-gray-900 
+                                      <button on:click={() => {handleChangeValue(newValue)}} class="block w-full border-b border-gray-600 px-4 py-1.5 text-left text-sm sm:text-[1rem] rounded text-white last:border-0 sm:hover:bg-[#27272A]
                                                       focus:bg-blue-100 focus:text-gray-900 focus:outline-none">
                                         {ruleCondition[row?.rule] !== undefined ? ruleCondition[row?.rule] : ''} {newValue}{row?.unit}
                                       </button>
