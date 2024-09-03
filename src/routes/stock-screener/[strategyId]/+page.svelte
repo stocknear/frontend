@@ -110,6 +110,7 @@ const allRules = {
   grossProfitMargin: { label: 'Gross Margin', step: ['80%','60%','50%','20%','10%','5%','1%','0.5%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   netProfitMargin: { label: 'Profit Margin', step: ['80%','60%','50%','20%','10%','5%','1%','0.5%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   pretaxProfitMargin: { label: 'Pretax Margin', step: ['80%','60%','50%','20%','10%','5%','1%','0.5%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  ebitdaMargin: { label: 'EBITDA Margin', step: ['80%','60%','50%','20%','10%','5%','1%','0.5%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   assetTurnover: { label: 'Asset Turnover', step: [5,3,2,1,0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   earningsYield: { label: 'Earnings Yield', step: ['20%','15%','10%','5%','0%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   freeCashFlowYield: { label: 'FCF Yield', step: ['20%','15%','10%','5%','0%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
@@ -119,6 +120,8 @@ const allRules = {
   employees: { label: 'Employees', step: ['500K','300K','200K','100K','10K','1K','100'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   revenuePerEmployee: { label: 'Revenue Per Employee', step: ['5M','3M','2M','1M','500K','100K',0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   profitPerEmployee: { label: 'Profit Per Employee', step: ['5M','3M','2M','1M','500K','100K',0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  totalLiabilities: { label: 'Total Liabilities', step: ['500B','200B','100B','50B','10B','1B','100M','10M','1M'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+
 };
 
 
@@ -579,28 +582,28 @@ async function popularStrategy(state: string) {
         dividendGrowth: {
             name: 'Dividend Growth',
             rules: [
-                { condition: "over", name: "dividendGrowth", value: 5 },
-                { condition: "over", name: "dividendYield", value: 1 },
-                { condition: "under", name: "payoutRatio", value: 60 },
-                { condition: "over", name: "growthRevenue", value: 5 }
+                { condition: "over", name: "dividendGrowth", value: '5%' },
+                { condition: "over", name: "dividendYield", value: '1%' },
+                { condition: "under", name: "payoutRatio", value: '60%' },
+                { condition: "over", name: "growthRevenue", value: '5%' }
             ]
         },
         topGainers1Y: {
             name: 'Top Gainers 1Y',
             rules: [
-                { condition: "over", name: "change1Y", value: 50 },
-                { condition: "over", name: "marketCap", value: 10 },
+                { condition: "over", name: "change1Y", value: '50%' },
+                { condition: "over", name: "marketCap", value: '10B' },
                 { condition: "over", name: "eps", value: 5 }
             ]
         },
         topShortedStocks: {
             name: 'Top Shorted Stocks',
             rules: [
-                { condition: "over", name: "shortFloatPercent", value: 20 },
+                { condition: "over", name: "shortFloatPercent", value: '20%' },
                 { condition: "over", name: "shortRatio", value: 1 },
-                { condition: "over", name: "shortOutStandingPercent", value: 10 },
-                { condition: "over", name: "sharesShort", value: 20 },
-                { condition: "over", name: "marketCap", value: 1 }
+                { condition: "over", name: "shortOutStandingPercent", value: '10%' },
+                { condition: "over", name: "sharesShort", value: '20M' },
+                { condition: "over", name: "marketCap", value: '100M' }
             ]
         },
         momentumTAStocks: {
@@ -608,22 +611,22 @@ async function popularStrategy(state: string) {
             rules: [
                 { condition: "under", name: "rsi", value: 40 },
                 { condition: "under", name: "stochRSI", value: 40 },
-                { condition: "over", name: "marketCap", value: 1 },
+                { condition: "over", name: "marketCap", value: '1B' },
                 { condition: "under", name: "mfi", value: 40 }
             ]
         },
         topAIStocks: {
             name: 'Best AI Forecast',
             rules: [
-                { condition: "over", name: "fundamentalAnalysis", value: 70 },
-                { condition: "over", name: "trendAnalysis", value: 60 },
-                { condition: "over", name: "marketCap", value: 1 }
+                { condition: "over", name: "fundamentalAnalysis", value: '70%' },
+                { condition: "over", name: "trendAnalysis", value: '60%' },
+                { condition: "over", name: "marketCap", value: '1B' }
             ]
         },
         underValuedStocks: {
             name: 'Undervalued Stocks',
             rules: [
-                { condition: "under", name: "marketCap", value: 1 },
+                { condition: "under", name: "marketCap", value: '100M' },
                 { condition: "over", name: "debtEquityRatio", value: 1 },
                 { condition: "over", name: "debtRatio", value: 1 },
                 { condition: "over", name: "eps", value: 0 }
@@ -632,12 +635,12 @@ async function popularStrategy(state: string) {
         strongCashFlow: {  // New Strategy Added
             name: 'Strong Cash Flow',
             rules: [
-                { condition: "over", name: "marketCap", value: 1 },
-                { condition: "over", name: "freeCashFlow", value: 500 },
+                { condition: "over", name: "marketCap", value: '1B' },
+                { condition: "over", name: "freeCashFlow", value: '50B' },
                 { condition: "over", name: "operatingCashFlowPerShare", value: 5 },
-                { condition: "over", name: "operatingCashFlow", value: 500 },
+                { condition: "over", name: "operatingCashFlow", value: '50B' },
                 { condition: "over", name: "freeCashFlowPerShare", value: 2 },
-                { condition: "over", name: "freeCashFlowMargin", value: 50 }
+                { condition: "over", name: "freeCashFlowMargin", value: '50%' }
             ]
         }
     };
