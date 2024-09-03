@@ -688,24 +688,24 @@ $: {
               </Button>
             </DropdownMenu.Trigger>
             <DropdownMenu.Content align="end">
-              <DropdownMenu.Item>
+              <DropdownMenu.Item class="sm:hover:bg-[#27272A]">
                 <a href="/community/profile">
                   My Account
                 </a>
               </DropdownMenu.Item>
               <DropdownMenu.Separator />
-              <DropdownMenu.Item>
+              <DropdownMenu.Item class="sm:hover:bg-[#27272A]">
                 <a href="/watchlist">
                   Watchlist
                 </a>
               </DropdownMenu.Item>
-              <DropdownMenu.Item>
+              <DropdownMenu.Item class="sm:hover:bg-[#27272A]">
                 <a href="/price-alert">
                  Price Alert
                 </a>
               </DropdownMenu.Item>
               <DropdownMenu.Separator />
-              <DropdownMenu.Item>
+              <DropdownMenu.Item class="sm:hover:bg-[#27272A]">
                 <form class="cursor-pointer" action="/logout" method="POST">
                   <button type="submit" class="w-full text-start">
                       <span class="text-start">Logout</span>
