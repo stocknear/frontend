@@ -79,7 +79,7 @@ const allRules = {
   var: { label: 'Value at Risk', step: [-1,-5,-10,-15,-20], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   trendAnalysis: { label: 'AI Trend Analysis (Bullish)', step: [90,80,70,60,50], unit: '%', category: 'ai', defaultCondition: 'over', defaultValue: 'any' },
   fundamentalAnalysis: { label: 'AI Fundamental Analysis (Bullish)', step: [90,80,70,60,50], unit: '%', category: 'ai', defaultCondition: 'over', defaultValue: 'any' },
-  analystRating: { label: 'Analyst Rating', step: ['Buy', 'Hold', 'Sell'], unit: '', category: 'fund', defaultCondition: 'equals', defaultValue: 'any' },
+  analystRating: { label: 'Analyst Rating', step: ['Buy', 'Hold', 'Sell'], unit: '', category: 'fund', defaultCondition: '', defaultValue: 'any' },
   currentRatio: { label: 'Current Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   quickRatio: { label: 'Quick Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   debtEquityRatio: { label: 'Debt / Equity', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
@@ -99,6 +99,19 @@ const allRules = {
   operatingCashFlow: { label: 'Operating Cash Flow', step: [500,200,100,20,10,1], unit: 'M', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   operatingCashFlowPerShare: { label: 'Operating Cash Flow / Share', step: [50,40,30,10,5,1], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   freeCashFlowMargin: { label: 'FCF Margin', step: [80,50,20,10,5,0,-5,-10,-20,-50], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  totalDebt: { label: 'Total Debt', step: [100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  cashFlowToDebtRatio: { label: 'Cash Flow / Debt', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  operatingCashFlowSalesRatio: { label: 'Operating Cash Flow / Sales', step: [5,3,1,0.5,0], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  priceCashFlowRatio: { label: 'Price / Cash Flow', step: [20,15,10,5,3,1,0], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  priceEarningsRatio: { label: 'Price / Earnings', step: [100,50,20,10,5,0], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  stockBasedCompensation: { label: 'Stock-Based Compensation', step: [10,5,1,0], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  totalStockholdersEquity: { label: 'Shareholders Equity', step: [100,50,20,10,5,1,0], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  grossProfitMargin: { label: 'Gross Margin', step: [80,50,20,10,5,0], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  netProfitMargin: { label: 'Profit Margin', step: [80,50,20,10,5,0], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  pretaxProfitMargin: { label: 'Pretax Margin', step: [80,50,20,10,5,0], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  assetTurnover: { label: 'Asset Turnover', step: [5,3,2,1,0], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  earningsYield: { label: 'Earnings Yield', step: [20,15,10,5,0], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  freeCashFlowYield: { label: 'FCF Yield', step: [20,15,10,5,0], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
 
 };
 
@@ -184,22 +197,32 @@ function changeRule(state: string)
 }
 
  
-
 function handleAddRule() {
-  if (ruleName === '') {
-    toast.error('Please select a rule', {
-      style: 'border-radius: 200px; background: #333; color: #fff;'
-    });
-    return;
-  }
+    
+    if (ruleName === '') {
+      toast.error('Please select a rule', {
+        style: 'border-radius: 200px; background: #333; color: #fff;'
+      });
+      return;
+    }
+  
+    let newRule;
+  
+    switch (ruleName) {
+      case 'analystRating':
+        newRule = { name: ruleName, value:  valueMappings[ruleName] }; //ruleTrend[ruleName]
+        break;
+      default:
+        // Handle other cases if needed
+        newRule ={ 
+          name: ruleName, 
+          condition: ruleCondition[ruleName], 
+          value: valueMappings[ruleName] 
+        };
+        break;
+    }
 
-  const newRule = { 
-    name: ruleName, 
-    condition: ruleCondition[ruleName], 
-    value: valueMappings[ruleName] 
-  };
-
-  handleRule(newRule);
+    handleRule(newRule);
 }
 
 async function handleRule(newRule) {
@@ -240,6 +263,8 @@ async function updateStockScreenerData() {
 
     displayRules = allRows?.filter(row => ruleOfList?.some(rule => rule.name === row.rule));
     filteredData = filterStockScreenerData();
+
+
     displayResults = filteredData?.slice(0, 50);
   } catch (error) {
     console.error('Error fetching new stock screener data:', error);
@@ -371,62 +396,67 @@ $: {
 
       
 function filterStockScreenerData() {
-  console.log(ruleOfList)
+  
   return stockScreenerData?.filter(item => {
+    // Iterate over each rule to apply filtering
     for (const rule of ruleOfList) {
-
+      const itemValue = item[rule.name];
+      
+      // Handling different cases based on rule name
       if ([
-        'researchAndDevelopmentExpenses',
-        'operatingIncome',
-        'operatingExpenses',
-        'netIncome',
-        'revenue',
-        'marketCap',
-        'enterpriseValue',
-        'costAndExpenses',
-        'costOfRevenue',
-        'ebitda',
-        'grossProfit'
+        'researchAndDevelopmentExpenses', 'operatingIncome', 'operatingExpenses',
+        'netIncome', 'revenue', 'marketCap', 'enterpriseValue',
+        'costAndExpenses', 'costOfRevenue', 'ebitda', 'grossProfit','stockBasedCompensation','totalDebt',
+        'totalStockholdersEquity',
       ].includes(rule.name)) {
-        if (rule.condition === "over" && item[rule.name] !== null && item[rule.name] <= rule.value * 10**(9)) {
+        if (rule.condition === "over" && itemValue !== null && itemValue <= rule.value * 10 ** 9) {
           return false;
-        } else if (rule.condition === "under" && item[rule.name] !== null && item[rule.name] > rule.value * 10**(9)) {
-          return false;
-        }
-      } else if (rule.name === 'interestIncome' || rule.name === 'interestExpense') {
-        if (rule.condition === "over" && item[rule.name] !== null && item[rule.name] <= rule.value * 10**(6)) {
-          return false;
-        } else if (rule.condition === "under" && item[rule.name] !== null && item[rule.name] > rule.value * 10**(6)) {
+        } else if (rule.condition === "under" && itemValue !== null && itemValue > rule.value * 10 ** 9) {
           return false;
         }
-      } else if (['avgVolume','sharesShort']?.includes(rule.name)) {
-        if (rule.condition === "over" && item[rule.name] <= rule.value * 10**(6)) {
+        
+      } else if (['interestIncome', 'interestExpense','freeCashFlow'].includes(rule.name)) {
+        if (rule.condition === "over" && itemValue !== null && itemValue <= rule.value * 10 ** 6) {
           return false;
-        } else if (rule.condition === "under" && item[rule.name] > rule.value * 10**(6)) {
-          return false;
-        }
-      } else if (['failToDeliver']?.includes(rule.name)) {
-        if (rule.condition === "over" && item[rule.name] <= rule.value * 10**(3)) {
-          return false;
-        } else if (rule.condition === "under" && item[rule.name] > rule.value * 10**(3)) {
+        } else if (rule.condition === "under" && itemValue !== null && itemValue > rule.value * 10 ** 6) {
           return false;
         }
-      } else if (rule.name === 'trendAnalysis') {
-        if (rule.condition === "over" && item[rule.name]?.accuracy <= rule.value) {
+        
+      } else if (['avgVolume', 'sharesShort','operatingCashFlow'].includes(rule.name)) {
+        if (rule.condition === "over" && itemValue <= rule.value * 10 ** 6) {
           return false;
-        } else if (rule.condition === "under" && item[rule.name]?.accuracy > rule.value) {
-          return false;
-        }
-      } else if (rule.name === 'fundamentalAnalysis') {
-        if (rule.condition === "over" && item[rule.name]?.accuracy <= rule.value) {
-          return false;
-        } else if (rule.condition === "under" && item[rule.name]?.accuracy > rule.value) {
+        } else if (rule.condition === "under" && itemValue > rule.value * 10 ** 6) {
           return false;
         }
+        
+      } else if (['failToDeliver'].includes(rule.name)) {
+        if (rule.condition === "over" && itemValue <= rule.value * 10 ** 3) {
+          return false;
+        } else if (rule.condition === "under" && itemValue > rule.value * 10 ** 3) {
+          return false;
+        }
+        
+      } else if (['trendAnalysis', 'fundamentalAnalysis'].includes(rule.name)) {
+        const accuracy = item[rule.name]?.accuracy;
+        if (rule.condition === "over" && accuracy <= rule.value) {
+          return false;
+        } else if (rule.condition === "under" && accuracy > rule.value) {
+          return false;
+        }
+        
+      } else if (rule.name === 'analystRating') {
+        // Ensure the rule value is one of the valid options
+        if (['Hold', 'Sell', 'Buy']?.includes(rule.value) && itemValue === rule.value) {
+          return true;
+        } else {
+          return false;
+        }
+        
       } else {
-        if (rule.condition === "over" && item[rule.name] !== null && item[rule.name] <= rule.value) {
+        // Handle default case
+        if (rule.condition === "over" && itemValue !== null && itemValue <= rule.value) {
           return false;
-        } else if (rule.condition === "under" && item[rule.name] !== null && item[rule.name] > rule.value) {
+        } else if (rule.condition === "under" && itemValue !== null && itemValue > rule.value) {
           return false;
         }
       }
@@ -582,7 +612,7 @@ async function popularStrategy(state: string) {
                 { condition: "over", name: "marketCap", value: 1 },
                 { condition: "over", name: "freeCashFlow", value: 500 },
                 { condition: "over", name: "operatingCashFlowPerShare", value: 5 },
-                { condition: "over", name: "operatingCashFlow", value: "any" },
+                { condition: "over", name: "operatingCashFlow", value: 500 },
                 { condition: "over", name: "freeCashFlowPerShare", value: 2 },
                 { condition: "over", name: "freeCashFlowMargin", value: 50 }
             ]
