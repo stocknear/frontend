@@ -46,16 +46,16 @@ const allRules = {
   marketCap: { label: 'Market Cap', step: [100,50,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   revenue: { label: 'Revenue', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   growthRevenue: { label: 'Revenue Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  costOfRevenue: { label: 'Cost of Revenue', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
-  growthCostOfRevenue: { label: 'Cost of Revenue Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
-  costAndExpenses: { label: 'Cost & Expenses', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
-  growthCostAndExpenses: { label: 'Cost & Expenses Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  costOfRevenue: { label: 'Cost of Revenue', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  growthCostOfRevenue: { label: 'Cost of Revenue Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  costAndExpenses: { label: 'Cost & Expenses', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  growthCostAndExpenses: { label: 'Cost & Expenses Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   netIncome: { label: 'Net Income', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   growthNetIncome: { label: 'Net Income Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   grossProfit: { label: 'Gross Profit', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   growthGrossProfit: { label: 'Gross Profit Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  researchAndDevelopmentExpenses: { label: 'R&D Expenses', step: [100,50,10,1], unit: 'B', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
-  growthResearchAndDevelopmentExpenses: { label: 'R&D Expenses Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  researchAndDevelopmentExpenses: { label: 'R&D Expenses', step: [100,50,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  growthResearchAndDevelopmentExpenses: { label: 'R&D Expenses Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   payoutRatio: { label: 'Payout Ratio [%]', step: [100,80,60,40,20,0,-20,-40], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   dividendYield: { label: 'Dividend Yield [%]', step: [50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   annualDividend: { label: 'Annual Dividend', step: [10,5,3,2,1,0], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
@@ -63,17 +63,17 @@ const allRules = {
   eps: { label: 'EPS', step: [20,15,10,5,3,2,1,0], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   growthEPS: { label: 'EPS Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   interestIncome: { label: 'Interest Income', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  interestExpense: { label: 'Interest Expenses', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
-  growthInterestExpense: { label: 'Interest Expenses Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
-  operatingExpenses: { label: 'Operating Expenses', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
-  growthOperatingExpenses: { label: 'Operating Expenses Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  interestExpense: { label: 'Interest Expenses', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  growthInterestExpense: { label: 'Interest Expenses Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  operatingExpenses: { label: 'Operating Expenses', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  growthOperatingExpenses: { label: 'Operating Expenses Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   operatingIncome: { label: 'Operating Income', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   growthOperatingIncome: { label: 'Operating Income Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  pe: { label: 'PE Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
-  forwardPE: { label: 'Forward PE', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
-  priceToBookRatio: { label: 'PB Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
-  priceToSalesRatio: { label: 'PS Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
-  beta: { label: 'Beta', step: [10,5,1,-5,-10], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  pe: { label: 'PE Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  forwardPE: { label: 'Forward PE', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  priceToBookRatio: { label: 'PB Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  priceToSalesRatio: { label: 'PS Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  beta: { label: 'Beta', step: [10,5,1,-5,-10], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   ebitda: { label: 'EBITDA', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   growthEBITDA: { label: 'EBITDA Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   var: { label: 'Value at Risk', step: [-1,-5,-10,-15,-20], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
@@ -82,20 +82,24 @@ const allRules = {
   analystRating: { label: 'Analyst Rating', step: ['Buy', 'Hold', 'Sell'], unit: '', category: 'fund', defaultCondition: 'equals', defaultValue: 'any' },
   currentRatio: { label: 'Current Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   quickRatio: { label: 'Quick Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  debtEquityRatio: { label: 'Debt / Equity', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
-  debtRatio: { label: 'Debt Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  debtEquityRatio: { label: 'Debt / Equity', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  debtRatio: { label: 'Debt Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   returnOnAssets: { label: 'Return on Assets', step: [10,8,6,4,2,1,0,-2,-4,-6,-8,-10], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   returnOnEquity: { label: 'Return on Equity', step: [10,8,6,4,2,1,0,-2,-4,-6,-8,-10], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   enterpriseValue: { label: 'Enterprise Value', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   freeCashFlowPerShare: { label: 'FCF / Share', step: [10,8,6,4,2,1,0], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   cashPerShare: { label: 'Cash / Share', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  priceToFreeCashFlowsRatio: { label: 'Price / FCF', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
-  sharesShort: { label: 'Short Interest', step: [50,20,10,5,1,0], unit: 'M', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
-  shortRatio: { label: 'Short Ratio', step: [10,5,3,2,1,0], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
-  shortFloatPercent: { label: 'Short % Float', step: [50,30,20,10,5,1,0], unit: '%', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
-  shortOutStandingPercent: { label: 'Short % Shares', step: [50,30,20,10,5,1,0], unit: '%', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
-  failToDeliver: { label: 'Fail to Deliver', step: [500,200,100,50,20,10,5], unit: 'K', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  priceToFreeCashFlowsRatio: { label: 'Price / FCF', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  sharesShort: { label: 'Short Interest', step: [50,20,10,5,1,0], unit: 'M', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  shortRatio: { label: 'Short Ratio', step: [10,5,3,2,1,0], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  shortFloatPercent: { label: 'Short % Float', step: [50,30,20,10,5,1,0], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  shortOutStandingPercent: { label: 'Short % Shares', step: [50,30,20,10,5,1,0], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  failToDeliver: { label: 'Fail to Deliver', step: [500,200,100,50,20,10,5], unit: 'K', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   freeCashFlow: { label: 'Free Cash Flow', step: [500,200,100,20,10,1], unit: 'M', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  operatingCashFlow: { label: 'Operating Cash Flow', step: [500,200,100,20,10,1], unit: 'M', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  operatingCashFlowPerShare: { label: 'Operating Cash Flow / Share', step: [50,40,30,10,5,1], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  freeCashFlowMargin: { label: 'FCF Margin', step: [80,50,20,10,5,0,-5,-10,-20,-50], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+
 };
 
 
@@ -556,7 +560,7 @@ async function popularStrategy(state: string) {
             ]
         },
         topAIStocks: {
-            name: 'Top AI Stocks',
+            name: 'Best AI Forecast',
             rules: [
                 { condition: "over", name: "fundamentalAnalysis", value: 70 },
                 { condition: "over", name: "trendAnalysis", value: 60 },
@@ -572,6 +576,17 @@ async function popularStrategy(state: string) {
                 { condition: "over", name: "eps", value: 0 }
             ]
         },
+        strongCashFlow: {  // New Strategy Added
+            name: 'Strong Cash Flow',
+            rules: [
+                { condition: "over", name: "marketCap", value: 1 },
+                { condition: "over", name: "freeCashFlow", value: 500 },
+                { condition: "over", name: "operatingCashFlowPerShare", value: 5 },
+                { condition: "over", name: "operatingCashFlow", value: "any" },
+                { condition: "over", name: "freeCashFlowPerShare", value: 2 },
+                { condition: "over", name: "freeCashFlowMargin", value: 50 }
+            ]
+        }
     };
 
     const strategy = strategies[state];
@@ -674,13 +689,16 @@ async function popularStrategy(state: string) {
                                         Top Shorted Stocks
                                       </DropdownMenu.Item>
                                       <DropdownMenu.Item on:click={() => popularStrategy('topAIStocks')} class="cursor-pointer hover:bg-[#27272A]">
-                                        Top AI Stocks
+                                        Best AI Forecast
                                       </DropdownMenu.Item>
                                       <DropdownMenu.Item on:click={() => popularStrategy('momentumTAStocks')} class="cursor-pointer hover:bg-[#27272A]">
                                         Momentum TA Stocks
                                       </DropdownMenu.Item>
                                       <DropdownMenu.Item on:click={() => popularStrategy('underValuedStocks')} class="cursor-pointer hover:bg-[#27272A]">
                                         Undervalued Stocks
+                                      </DropdownMenu.Item>
+                                       <DropdownMenu.Item on:click={() => popularStrategy('strongCashFlow')} class="cursor-pointer hover:bg-[#27272A]">
+                                        Strong Cash Flow
                                       </DropdownMenu.Item>  
                                   </DropdownMenu.Group>
                                 </DropdownMenu.Content>
