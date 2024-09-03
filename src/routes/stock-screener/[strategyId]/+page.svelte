@@ -27,7 +27,7 @@
 
 // Define all possible rules and their properties
 const allRules = {
-  avgVolume: { label: 'Avg Volume', step: [100,50,20,10,5,1], unit: 'M', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  avgVolume: { label: 'Avgerage Volume', step: [100,50,20,10,5,1], unit: 'M', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   rsi: { label: 'RSI', step: [90,80,70,60,50,40,30,20], unit: '', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
   stochRSI: { label: 'Stoch RSI Fast', step: [90,80,70,60,50,40,30,20], unit: '', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
   mfi: { label: 'MFI', step: [90,80,70,60,50,40,30,20], unit: '', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
@@ -104,6 +104,7 @@ const allRules = {
   operatingCashFlowSalesRatio: { label: 'Operating Cash Flow / Sales', step: [5,3,1,0.5,0], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   priceCashFlowRatio: { label: 'Price / Cash Flow', step: [20,15,10,5,3,1,0], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   priceEarningsRatio: { label: 'Price / Earnings', step: [100,50,20,10,5,0], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  priceEarningsToGrowthRatio: { label: 'Price / Earnings Growth', step: [10,5,3,2,1,0], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   stockBasedCompensation: { label: 'Stock-Based Compensation', step: [10,5,1,0], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   totalStockholdersEquity: { label: 'Shareholders Equity', step: [100,50,20,10,5,1,0], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   grossProfitMargin: { label: 'Gross Margin', step: [80,50,20,10,5,0], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
@@ -112,6 +113,13 @@ const allRules = {
   assetTurnover: { label: 'Asset Turnover', step: [5,3,2,1,0], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   earningsYield: { label: 'Earnings Yield', step: [20,15,10,5,0], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   freeCashFlowYield: { label: 'FCF Yield', step: [20,15,10,5,0], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  effectiveTaxRate: { label: 'Effective Tax Rate', step: [50,30,20,10,5,1,0], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  fixedAssetTurnover: { label: 'Fixed Asset Turnover', step: [10,5,3,2,1,0], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  sharesOutStanding: { label: 'Shares Outstanding', step: [10,5,3,2,1,0.5], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  employees: { label: 'Employees', step: [500,300,200,100,50,10,1], unit: 'K', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  revenuePerEmployee: { label: 'Revenue Per Employee', step: [10,5,3,2,1,0.5], unit: 'M', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  profitPerEmployee: { label: 'Profit Per Employee', step: [10,5,3,2,1,0.5], unit: 'M', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+
 
 };
 
@@ -149,10 +157,12 @@ const getStockScreenerData = async (rules) => {
   let isSaved = false;
 
   // Generate allRows from allRules
-$: allRows = Object.entries(allRules).map(([ruleName, ruleProps]) => ({
-  rule: ruleName,
-  ...ruleProps
-}));
+$: allRows = Object?.entries(allRules)
+  ?.sort(([, a], [, b]) => a.label.localeCompare(b.label))  // Sort by label
+  ?.map(([ruleName, ruleProps]) => ({
+    rule: ruleName,
+    ...ruleProps
+  }));
 
 
       allRows?.sort((a, b) => a.label.localeCompare(b.label));
@@ -407,7 +417,7 @@ function filterStockScreenerData() {
         'researchAndDevelopmentExpenses', 'operatingIncome', 'operatingExpenses',
         'netIncome', 'revenue', 'marketCap', 'enterpriseValue',
         'costAndExpenses', 'costOfRevenue', 'ebitda', 'grossProfit','stockBasedCompensation','totalDebt',
-        'totalStockholdersEquity',
+        'totalStockholdersEquity','sharesOutStanding'
       ].includes(rule.name)) {
         if (rule.condition === "over" && itemValue !== null && itemValue <= rule.value * 10 ** 9) {
           return false;
@@ -422,14 +432,14 @@ function filterStockScreenerData() {
           return false;
         }
         
-      } else if (['avgVolume', 'sharesShort','operatingCashFlow'].includes(rule.name)) {
+      } else if (['avgVolume', 'sharesShort','operatingCashFlow','revenuePerEmployee','profitPerEmployee'].includes(rule.name)) {
         if (rule.condition === "over" && itemValue <= rule.value * 10 ** 6) {
           return false;
         } else if (rule.condition === "under" && itemValue > rule.value * 10 ** 6) {
           return false;
         }
         
-      } else if (['failToDeliver'].includes(rule.name)) {
+      } else if (['failToDeliver','employees'].includes(rule.name)) {
         if (rule.condition === "over" && itemValue <= rule.value * 10 ** 3) {
           return false;
         } else if (rule.condition === "under" && itemValue > rule.value * 10 ** 3) {
@@ -690,7 +700,7 @@ async function popularStrategy(state: string) {
                 </span>
               </div>
                 <div class="flex w-[50%] md:block md:w-auto mt-5 sm:ml-auto">
-                      <div class="hidden text-sm sm:text-[1rem] font-semibold sm:font-normal text-white sm:block sm:mb-1">
+                      <div class="hidden text-sm sm:text-[1rem] font-semibold text-white sm:block sm:mb-1">
                           Popular Screens
                       </div>
                       <div class="relative inline-block text-left grow">
