@@ -25,6 +25,79 @@
 );
 
 
+// Define all possible rules and their properties
+const allRules = {
+  avgVolume: { label: 'Avg Volume', step: [100,50,20,10,5,1], unit: 'M', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  rsi: { label: 'RSI', step: [90,80,70,60,50,40,30,20], unit: '', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
+  stochRSI: { label: 'Stoch RSI Fast', step: [90,80,70,60,50,40,30,20], unit: '', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
+  mfi: { label: 'MFI', step: [90,80,70,60,50,40,30,20], unit: '', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
+  cci: { label: 'CCI', step: [250,200,100,50,20,0,-20,-50,-100,-200,-250], unit: '', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
+  atr: { label: 'ATR', step: [20,15,10,5,3,1], unit: '', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
+  sma50: { label: 'SMA-50', step: [500,250,100,50,10,1], unit: '', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
+  sma200: { label: 'SMA-200', step: [500,250,100,50,10,1], unit: '', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
+  ema50: { label: 'EMA-50', step: [500,250,100,50,10,1], unit: '', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
+  ema200: { label: 'EMA-200', step: [500,250,100,50,10,1], unit: '', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
+  change1W: { label: 'Price Change 1W [%]', step: [20,10,5,1], unit: '%', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
+  change1M: { label: 'Price Change 1M [%]', step: [100,50,20,10,5,1], unit: '%', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
+  change3M: { label: 'Price Change 3M [%]', step: [100,50,20,10,5,1], unit: '%', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
+  change6M: { label: 'Price Change 6M [%]', step: [100,50,20,10,5,1], unit: '%', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
+  change1Y: { label: 'Price Change 1Y [%]', step: [100,50,20,10,5,1], unit: '%', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
+  change3Y: { label: 'Price Change 3Y [%]', step: [100,50,20,10,5,1], unit: '%', category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
+  marketCap: { label: 'Market Cap', step: [100,50,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  revenue: { label: 'Revenue', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  growthRevenue: { label: 'Revenue Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  costOfRevenue: { label: 'Cost of Revenue', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  growthCostOfRevenue: { label: 'Cost of Revenue Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  costAndExpenses: { label: 'Cost & Expenses', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  growthCostAndExpenses: { label: 'Cost & Expenses Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  netIncome: { label: 'Net Income', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  growthNetIncome: { label: 'Net Income Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  grossProfit: { label: 'Gross Profit', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  growthGrossProfit: { label: 'Gross Profit Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  researchAndDevelopmentExpenses: { label: 'R&D Expenses', step: [100,50,10,1], unit: 'B', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  growthResearchAndDevelopmentExpenses: { label: 'R&D Expenses Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  payoutRatio: { label: 'Payout Ratio [%]', step: [100,80,60,40,20,0,-20,-40], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  dividendYield: { label: 'Dividend Yield [%]', step: [50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  annualDividend: { label: 'Annual Dividend', step: [10,5,3,2,1,0], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  dividendGrowth: { label: 'Dividend Growth [%]', step: [50,20,10,5,3,2,1,0], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  eps: { label: 'EPS', step: [20,15,10,5,3,2,1,0], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  growthEPS: { label: 'EPS Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  interestIncome: { label: 'Interest Income', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  interestExpense: { label: 'Interest Expenses', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  growthInterestExpense: { label: 'Interest Expenses Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  operatingExpenses: { label: 'Operating Expenses', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  growthOperatingExpenses: { label: 'Operating Expenses Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  operatingIncome: { label: 'Operating Income', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  growthOperatingIncome: { label: 'Operating Income Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  pe: { label: 'PE Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  forwardPE: { label: 'Forward PE', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  priceToBookRatio: { label: 'PB Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  priceToSalesRatio: { label: 'PS Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  beta: { label: 'Beta', step: [10,5,1,-5,-10], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  ebitda: { label: 'EBITDA', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  growthEBITDA: { label: 'EBITDA Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  var: { label: 'Value at Risk', step: [-1,-5,-10,-15,-20], unit: '%', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  trendAnalysis: { label: 'AI Trend Analysis (Bullish)', step: [90,80,70,60,50], unit: '%', category: 'ai', defaultCondition: 'over', defaultValue: 'any' },
+  fundamentalAnalysis: { label: 'AI Fundamental Analysis (Bullish)', step: [90,80,70,60,50], unit: '%', category: 'ai', defaultCondition: 'over', defaultValue: 'any' },
+  analystRating: { label: 'Analyst Rating', step: ['Buy', 'Hold', 'Sell'], unit: '', category: 'fund', defaultCondition: 'equals', defaultValue: 'any' },
+  currentRatio: { label: 'Current Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  quickRatio: { label: 'Quick Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  debtEquityRatio: { label: 'Debt / Equity', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  debtRatio: { label: 'Debt Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  returnOnAssets: { label: 'Return on Assets', step: [10,8,6,4,2,1,0,-2,-4,-6,-8,-10], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  returnOnEquity: { label: 'Return on Equity', step: [10,8,6,4,2,1,0,-2,-4,-6,-8,-10], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  enterpriseValue: { label: 'Enterprise Value', step: [200,100,50,20,10,1], unit: 'B', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  freeCashFlowPerShare: { label: 'FCF / Share', step: [10,8,6,4,2,1,0], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  cashPerShare: { label: 'Cash / Share', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], unit: '', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  priceToFreeCashFlowsRatio: { label: 'Price / FCF', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  sharesShort: { label: 'Short Interest', step: [50,20,10,5,1,0], unit: 'M', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  shortRatio: { label: 'Short Ratio', step: [10,5,3,2,1,0], unit: '', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  shortFloatPercent: { label: 'Short % Float', step: [50,30,20,10,5,1,0], unit: '%', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  shortOutStandingPercent: { label: 'Short % Shares', step: [50,30,20,10,5,1,0], unit: '%', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  failToDeliver: { label: 'Fail to Deliver', step: [500,200,100,50,20,10,5], unit: 'K', category: 'fund', defaultCondition: 'under', defaultValue: 'any' },
+  freeCashFlow: { label: 'Free Cash Flow', step: [500,200,100,20,10,1], unit: 'M', category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+};
+
 
 const getStockScreenerData = async (rules) => {
   const ruleNames = rules?.map(rule => rule?.name)?.sort()?.join(',');
@@ -57,153 +130,13 @@ const getStockScreenerData = async (rules) => {
   let filteredData = [];
   let displayResults = [];
   let isSaved = false;
-  let ruleCondition = {
-    avgVolume: (ruleOfList?.find(item => item.name === "avgVolume") || { condition: 'over' }).condition,
-    priceToBookRatio: (ruleOfList?.find(item => item.name === "priceToBookRati") || { condition: 'over' }).condition,
-    priceToSalesRatio: (ruleOfList?.find(item => item.name === "priceToSalesRatio") || { condition: 'over' }).condition,
-    rsi: (ruleOfList?.find(item => item.name === "rsi") || { condition: 'over' }).condition,
-    stochRSI: (ruleOfList?.find(item => item.name === "stochRSI") || { condition: 'over' }).condition,
-    mfi: (ruleOfList?.find(item => item.name === "mfi") || { condition: 'over' }).condition,
-    cci: (ruleOfList?.find(item => item.name === "cci") || { condition: 'over' }).condition,
-    atr:  (ruleOfList?.find(item => item.name === "atr") || { condition: 'over' }).condition,
-    sma50:  (ruleOfList?.find(item => item.name === "sma50") || { condition: 'over' }).condition,
-    sma200:  (ruleOfList?.find(item => item.name === "sma200") || { condition: 'over' }).condition,
-    ema50:  (ruleOfList?.find(item => item.name === "ema50") || { condition: 'over' }).condition,
-    ema200:  (ruleOfList?.find(item => item.name === "ema200") || { condition: 'over' }).condition,
-    change1W: (ruleOfList?.find(item => item.name === "change1W") || { condition: 'over' }).condition,
-    change1M: (ruleOfList?.find(item => item.name === "change1M") || { condition: 'over' }).condition,
-    change3M: (ruleOfList?.find(item => item.name === "change3M") || { condition: 'over' }).condition,
-    change6M: (ruleOfList?.find(item => item.name === "change6M") || { condition: 'over' }).condition,
-    change1Y: (ruleOfList?.find(item => item.name === "change1Y") || { condition: 'over' }).condition,
-    change3Y: (ruleOfList?.find(item => item.name === "change3Y") || { condition: 'over' }).condition,
-    payoutRatio:  (ruleOfList?.find(item => item.name === "payoutRatio") || { condition: 'over' }).condition,
-    annualDividend:  (ruleOfList?.find(item => item.name === "annualDividend") || { condition: 'over' }).condition,
-    dividendYield:  (ruleOfList?.find(item => item.name === "dividendYield") || { condition: 'over' }).condition,
-    dividendGrowth:  (ruleOfList?.find(item => item.name === "dividendGrowth") || { condition: 'over' }).condition,
-    eps:  (ruleOfList?.find(item => item.name === "eps") || { condition: 'over' }).condition,
-    growthEPS:  (ruleOfList?.find(item => item.name === "growthEPS") || { condition: 'over' }).condition,
-    pe:  (ruleOfList?.find(item => item.name === "pe") || { condition: 'over' }).condition,
-    forwardPE:  (ruleOfList?.find(item => item.name === "forwardPE") || { condition: 'over' }).condition,
-    beta:  (ruleOfList?.find(item => item.name === "beta") || { condition: 'over' }).condition,
-    ebitda:  (ruleOfList?.find(item => item.name === "ebitda") || { condition: 'over' }).condition,
-    growthEBITDA:  (ruleOfList?.find(item => item.name === "growthEBITDA") || { condition: 'over' }).condition,
-    revenue:  (ruleOfList?.find(item => item.name === "revenue") || { condition: 'over' }).condition,
-    growthRevenue:  (ruleOfList?.find(item => item.name === "growthRevenue") || { condition: 'over' }).condition,
-    costOfRevenue:  (ruleOfList?.find(item => item.name === "costOfRevenue") || { condition: 'over' }).condition,
-    growthCostOfRevenue:  (ruleOfList?.find(item => item.name === "growthCostOfRevenue") || { condition: 'over' }).condition,
-    costAndExpenses:  (ruleOfList?.find(item => item.name === "costAndExpenses") || { condition: 'over' }).condition,
-    growthCostAndExpenses:  (ruleOfList?.find(item => item.name === "growthCostAndExpenses") || { condition: 'over' }).condition,
-    netIncome:  (ruleOfList?.find(item => item.name === "netIncome") || { condition: 'over' }).condition,
-    growthNetIncome:  (ruleOfList?.find(item => item.name === "growthNetIncome") || { condition: 'over' }).condition,
-    researchAndDevelopmentExpenses:  (ruleOfList?.find(item => item.name === "researchAndDevelopmentExpenses") || { condition: 'over' }).condition,
-    growthResearchAndDevelopmentExpenses:  (ruleOfList?.find(item => item.name === "growthResearchAndDevelopmentExpenses") || { condition: 'over' }).condition,
-    grossProfit:  (ruleOfList?.find(item => item.name === "grossProfit") || { condition: 'over' }).condition,
-    growthGrossProfit:  (ruleOfList?.find(item => item.name === "growthGrossProfit") || { condition: 'over' }).condition,
-    interestIncome:  (ruleOfList?.find(item => item.name === "interestIncome") || { condition: 'over' }).condition,
-    interestExpense:  (ruleOfList?.find(item => item.name === "interestExpense") || { condition: 'over' }).condition,
-    growthInterestExpense:  (ruleOfList?.find(item => item.name === "growthInterestExpense") || { condition: 'over' }).condition,
-    operatingExpenses:  (ruleOfList?.find(item => item.name === "operatingExpense") || { condition: 'over' }).condition,
-    growthOperatingExpenses:  (ruleOfList?.find(item => item.name === "growthOperatingExpense") || { condition: 'over' }).condition,
-    operatingIncome:  (ruleOfList?.find(item => item.name === "operatingIncome") || { condition: 'over' }).condition,
-    growthOperatingIncome:  (ruleOfList?.find(item => item.name === "growthOperatingIncome") || { condition: 'over' }).condition,
-    marketCap:  (ruleOfList?.find(item => item.name === "marketCap") || { condition: 'over' }).condition,
-    var: (ruleOfList?.find(item => item.name === "var") || { condition: 'over' }).condition,
-    trendAnalysis: (ruleOfList?.find(item => item.name === "trendAnalysis") || { condition: 'over' }).condition,
-    fundamentalAnalysis: (ruleOfList?.find(item => item.name === "fundamentalAnalysis") || { condition: 'over' }).condition,
-    currentRatio:  (ruleOfList?.find(item => item.name === "currentRatio") || { condition: 'over' }).condition,
-    quickRatio:  (ruleOfList?.find(item => item.name === "quickRatio") || { condition: 'over' }).condition,
-    debtEquityRatio:  (ruleOfList?.find(item => item.name === "debtEquityRatio") || { condition: 'over' }).condition,
-    debtRatio:  (ruleOfList?.find(item => item.name === "debtRatio") || { condition: 'over' }).condition,
-    returnOnAssets: (ruleOfList?.find(item => item.name === "returnOnAssets") || { condition: 'over' }).condition,
-    returnOnEquity: (ruleOfList?.find(item => item.name === "returnOnEquity") || { condition: 'over' }).condition,
-    enterpriseValue: (ruleOfList?.find(item => item.name === "enterpriseValue") || { condition: 'over' }).condition,
-    freeCashFlowPerShare: (ruleOfList?.find(item => item.name === "freeCashFlowPerShare") || { condition: 'over' }).condition,
-    cashPerShare: (ruleOfList?.find(item => item.name === "cashPerShare") || { condition: 'over' }).condition,
-    priceToFreeCashFlowsRatio: (ruleOfList?.find(item => item.name === "priceToFreeCashFlowsRatio") || { condition: 'over' }).condition,
-    sharesShort: (ruleOfList?.find(item => item.name === "sharesShort") || { condition: 'over' }).condition,
-    shortRatio: (ruleOfList?.find(item => item.name === "shortRatio") || { condition: 'over' }).condition,
-    shortFloatPercent: (ruleOfList?.find(item => item.name === "shortFloatPercent") || { condition: 'over' }).condition,
-    shortOutStandingPercent: (ruleOfList?.find(item => item.name === "shortOutStandingPercent") || { condition: 'over' }).condition,
-    failToDeliver: (ruleOfList?.find(item => item.name === "failToDeliver") || { condition: 'over' }).condition,
-    freeCashFlow: (ruleOfList?.find(item => item.name === "freeCashFlow") || { condition: 'over' }).condition,
 
-  };
+  // Generate allRows from allRules
+$: allRows = Object.entries(allRules).map(([ruleName, ruleProps]) => ({
+  rule: ruleName,
+  ...ruleProps
+}));
 
-
-  let allRows = [
-    { rule: 'avgVolume', label: 'Avg Volume', step: [100,50,20,10,5,1], unit: 'M', category: 'fund' },
-    { rule: 'rsi', label: 'RSI', step: [90,80,70,60,50,40,30,20], unit: '', category: 'ta' },
-    { rule: 'stochRSI', label: 'Stoch RSI Fast', step: [90,80,70,60,50,40,30,20], unit: '', category: 'ta' },
-    { rule: 'mfi', label: 'MFI', step: [90,80,70,60,50,40,30,20], unit: '', category: 'ta' },
-    { rule: 'cci', label: 'CCI',  step: [250,200,100,50,20,0,-20,-50,-100,-200,-250], unit: '', category: 'ta' },
-    { rule: 'atr', label: 'ATR', step: [20,15,10,5,3,1],unit: '', category: 'ta' },
-    { rule: 'sma50', label: 'SMA-50', step: [500,250,100,50,10,1], unit: '',category: 'ta' },
-    { rule: 'sma200', label: 'SMA-200', step: [500,250,100,50,10,1], unit: '',category: 'ta' },
-    { rule: 'ema50', label: 'EMA-50', step: [500,250,100,50,10,1], unit: '',category: 'ta' },
-    { rule: 'ema200', label: 'EMA-200', step: [500,250,100,50,10,1],unit: '',category: 'ta' },
-    { rule: 'change1W', label: 'Price Change 1W [%]', step: [20,10,5,1], unit: '%',category: 'ta' },
-    { rule: 'change1M', label: 'Price Change 1M [%]', step: [100,50,20,10,5,1], unit: '%',category: 'ta' },
-    { rule: 'change3M', label: 'Price Change 3M [%]', step: [100,50,20,10,5,1], unit: '%',category: 'ta' },
-    { rule: 'change6M', label: 'Price Change 6M [%]', step: [100,50,20,10,5,1], unit: '%',category: 'ta' },
-    { rule: 'change1Y', label: 'Price Change 1Y [%]', step: [100,50,20,10,5,1], unit: '%',category: 'ta' },
-    { rule: 'change3Y', label: 'Price Change 3Y [%]', step: [100,50,20,10,5,1], unit: '%',category: 'ta' },
-    { rule: 'marketCap', label: 'Market Cap', step: [100,50,10,1], unit: 'B', category: 'fund'},
-    { rule: 'revenue', label: 'Revenue', step: [200,100,50,20,10,1], unit: 'B', category: 'fund' },
-    { rule: 'growthRevenue', label: 'Revenue Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund' },
-    { rule: 'costOfRevenue', label: 'Cost of Revenue', step: [200,100,50,20,10,1], unit: 'B', category: 'fund' },
-    { rule: 'growthCostOfRevenue', label: 'Cost of Revenue Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund' },
-    { rule: 'costAndExpenses', label: 'Cost & Expenses', step: [200,100,50,20,10,1], unit: 'B', category: 'fund' },
-    { rule: 'growthCostAndExpenses', label: 'Cost & Expenses Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund' },
-    { rule: 'netIncome', label: 'Net Income', step: [200,100,50,20,10,1], unit: 'B', category: 'fund'},
-    { rule: 'growthNetIncome', label: 'Net Income Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund'},
-    { rule: 'grossProfit', label: 'Gross Profit', step: [200,100,50,20,10,1], unit: 'B', category: 'fund'},
-    { rule: 'growthGrossProfit', label: 'Gross Profit Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund'},
-    { rule: 'researchAndDevelopmentExpenses', label: 'R&D Expenses', step: [100,50,10,1], unit: 'B', category: 'fund'},
-    { rule: 'growthResearchAndDevelopmentExpenses', label: 'R&D Expenses Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund'},
-    { rule: 'payoutRatio', label: 'Payout Ratio [%]', step: [100,80,60,40,20,0,-20,-40], unit: '%', category: 'fund' },
-    { rule: 'dividendYield', label: 'Dividend Yield [%]', step: [50,20,10,5,1], unit: '%',category: 'fund' },
-    { rule: 'annualDividend', label: 'Annual Dividend', step: [10,5,3,2,1,0], unit: '', category: 'fund' },
-    { rule: 'dividendGrowth', label: 'Dividend Growth [%]', step: [50,20,10,5,3,2,1,0], unit: '%',category: 'fund' },
-    { rule: 'eps', label: 'EPS', step: [20,15,10,5,3,2,1,0], unit: '', category: 'fund' },
-    { rule: 'growthEPS', label: 'EPS Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund' },
-    { rule: 'interestIncome', label: 'Interest Income',  step: [200,100,50,20,10,1], unit: 'B', category: 'fund' },
-    { rule: 'interestExpense', label: 'Interest Expenses', step: [200,100,50,20,10,1], unit: 'B', category: 'fund' },
-    { rule: 'growthInterestExpense', label: 'Interest Expenses Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund' },
-    { rule: 'operatingExpenses', label: 'Operating Expenses',  step: [200,100,50,20,10,1], unit: 'B', category: 'fund' },
-    { rule: 'growthOperatingExpenses', label: 'Operating Expenses Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund' },
-    { rule: 'operatingIncome', label: 'Operating Income',  step: [200,100,50,20,10,1], unit: 'B', category: 'fund' },
-    { rule: 'growthOperatingIncome', label: 'Operating Income Growth [%]', step: [200,100,50,20,10,5,1], unit: '%',category: 'fund' },
-    { rule: 'pe', label: 'PE Ratio', step: [50,40,30,20,10,5,1], unit: '', category: 'fund'},
-    { rule: 'forwardPE', label: 'Forward PE', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], unit: '', category: 'fund'},
-    { rule: 'priceToBookRatio', label: 'PB Ratio', step: [50,40,30,20,10,5,1], unit: '',  category: 'fund'},
-    { rule: 'priceToSalesRatio', label: 'PS Ratio', step: [50,40,30,20,10,5,1], unit: '',  category: 'fund'},
-    { rule: 'beta', label: 'Beta', step: [10,5,1,-5, -10], unit:'', category: 'fund'},
-    { rule: 'ebitda', label: 'EBITDA', step: [200,100,50,20,10,1], unit: 'B', category: 'fund'},
-    { rule: 'growthEBITDA', label: 'EBITDA Growth [%]', step: [200,100,50,20,10,5,1], unit: '%', category: 'fund'},
-    { rule: 'var', label: 'Value at Risk', step: [-1,-5,-10,-15,-20], unit: '%', category: 'fund' },
-    { rule: 'trendAnalysis', label: 'AI Trend Analysis (Bullish)', step: [90,80,70,60,50], unit: '%', category: 'ai' },
-    { rule: 'fundamentalAnalysis', label: 'AI Fundamental Analysis (Bullish)', step: [90,80,70,60,50], unit: '%', category: 'ai' },
-    { rule: 'analystRating', label: 'Analyst Rating', step: ['Buy', 'Hold', 'Sell'], unit:'', category: 'fund'},
-    { rule: 'currentRatio', label: 'Current Ratio', step: [50,40,30,20,10,5,1], unit: '',  category: 'fund' },
-    { rule: 'quickRatio', label: 'Quick Ratio', step: [50,40,30,20,10,5,1], unit: '',  category: 'fund' },
-    { rule: 'debtEquityRatio', label: 'Debt / Equity', step: [50,40,30,20,10,5,1], unit: '', category: 'fund' },
-    { rule: 'debtRatio', label: 'Debt Ratio', step: [50,40,30,20,10,5,1], unit: '',  category: 'fund' },
-    { rule: 'returnOnAssets', label: 'Return on Assets', step: [10,8,6,4,2,1,0,-2,-4,-6,-8,-10], unit: '', category: 'fund' },
-    { rule: 'returnOnEquity', label: 'Return on Equity', step: [10,8,6,4,2,1,0,-2,-4,-6,-8,-10], unit: '',category: 'fund' },
-    { rule: 'enterpriseValue', label: 'Enterprise Value', step: [200,100,50,20,10,1], unit: 'B', category: 'fund' },
-    { rule: 'freeCashFlowPerShare', label: 'FCF / Share', step: [10,8,6,4,2,1,0], unit: '',category: 'fund' },
-    { rule: 'cashPerShare', label: 'Cash / Share', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], unit: '',category: 'fund' },
-    { rule: 'priceToFreeCashFlowsRatio', label: 'Price / FCF', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], unit: '',category: 'fund' },
-    { rule: 'sharesShort', label: 'Short Interest', step: [50,20,10,5,1,0], unit: 'M',category: 'fund' },
-    { rule: 'shortRatio', label: 'Short Ratio', step: [10,5,3,2,1,0], unit: '',category: 'fund' },
-    { rule: 'shortFloatPercent', label: 'Short % Float', step: [50,30,20,10,5,1,0], unit: '%',category: 'fund' },
-    { rule: 'shortOutStandingPercent', label: 'Short % Shares', step: [50,30,20,10,5,1,0], unit: '%',category: 'fund' },
-    { rule: 'failToDeliver', label: 'Fail to Deliver', step: [500,200,100,50,20,10,5], unit: 'K',category: 'fund' },
-    { rule: 'freeCashFlow', label: 'Free Cash Flow', step: [500,200,100,50,20,10,1,0], unit: 'M',category: 'fund' },
-
-  ];
-
- 
 
       allRows?.sort((a, b) => a.label.localeCompare(b.label));
       let filteredRows;
@@ -220,81 +153,20 @@ const getStockScreenerData = async (rules) => {
       
       // Define your default values
 
-      let valueRevenue = (ruleOfList?.find(item => item.name === "revenue") || { value: 'any' }).value;
-      let valueGrowthRevenue = (ruleOfList?.find(item => item.name === "growthRevenue") || { value: 'any'}).value;
-      let valueCostOfRevenue = (ruleOfList?.find(item => item.name === "costOfRevenue") || { value:'any'}).value;
-      let valueGrowthCostOfRevenue = (ruleOfList?.find(item => item.name === "growthCostAndExpenses") || { value: 'any'}).value;
-      let valueCostAndExpenses = (ruleOfList?.find(item => item.name === "costAndExpenses") || { value: 'any'}).value;
-      let valueGrowthCostAndExpenses= (ruleOfList?.find(item => item.name === "growthCostAndExpenses") || { value: 'any'}).value;
-      let valueResearchAndDevelopmentExpenses = (ruleOfList?.find(item => item.name === "researchAndDevelopmentExpenses") || { value: 'any'}).value;
-      let valueGrowthResearchAndDevelopmentExpenses = (ruleOfList?.find(item => item.name === "growthResearchAndDevelopmentExpenses") || { value: 'any'}).value;
-      let valueInterestIncome = (ruleOfList?.find(item => item.name === "interestIncome") || { value: 'any'}).value;
-    
-      let valueInterestExpenses = (ruleOfList?.find(item => item.name === "interestExpenses") || { value: 'any'}).value;
-      let valueGrowthInterestExpenses = (ruleOfList?.find(item => item.name === "growthInterestExpenses") || { value: 10 }).value;
-      let valueEBITDA = (ruleOfList?.find(item => item.name === "ebitda") || { value: 'any'}).value;
-      let valueGrowthEBITDA = (ruleOfList?.find(item => item.name === "growthEBITDA") || { value: 'any'}).value;
-      let valueOperatingExpenses = (ruleOfList?.find(item => item.name === "operatingExpenses") || { value: 'any'}).value;
-      let valueGrowthOperatingExpenses = (ruleOfList?.find(item => item.name === "growthOperatingExpenses") || { value: 'any'}).value;
-      let valueOperatingIncome = (ruleOfList?.find(item => item.name === "operatingIncome") || { value: 'any'}).value;
-      let valueGrowthOperatingIncome = (ruleOfList?.find(item => item.name === "growthOperatingIncome") || { value: 'any'}).value;
-      let valueNetIncome = (ruleOfList?.find(item => item.name === "netIncome") || { value: 'any'}).value;
-      let valueGrowthNetIncome = (ruleOfList?.find(item => item.name === "growthNetIncome") || { value: 'any'}).value;
-      let valueGrossProfit = (ruleOfList?.find(item => item.name === "grossProfit") || { value:'any'}).value;
-      let valueGrowthGrossProfit = (ruleOfList?.find(item => item.name === "growthGrossProfit") || { value: 'any'}).value;
-      let valueDividendYield = (ruleOfList?.find(item => item.name === "dividendYield") || { value: 'any'}).value;
-      let valueAnnualDividend = (ruleOfList?.find(item => item.name === "annualDividend") || { value: 'any'}).value;
-      let valueDividendGrowth = (ruleOfList?.find(item => item.name === "dividendGrowth") || { value: 'any'}).value;
-      let valuePayoutRatio = (ruleOfList?.find(item => item.name === "payoutRatio") || { value: 'any'}).value;
+      let ruleCondition = {};
+      let valueMappings = {};
 
-      let valueCurrentRatio = (ruleOfList?.find(item => item.name === "currentRatio") || { value: 'any'}).value;
-      let valueQuickRatio = (ruleOfList?.find(item => item.name === "quickRatio") || { value: 'any'}).value;
-      let valueDebtEquityRatio = (ruleOfList?.find(item => item.name === "debtEquityRatio") || { value: 'any'}).value;
-      let valueDebtRatio = (ruleOfList?.find(item => item.name === "debtRatio") || { value: 'any' }).value;
-      let valueReturnOnAssets = (ruleOfList?.find(item => item.name === "returnOnAssets") || { value: 'any' }).value;
-      let valueReturnOnEquity = (ruleOfList?.find(item => item.name === "returnOnEquity") || { value: 'any' }).value;
+      Object.keys(allRules).forEach(ruleName => {
+        ruleCondition[ruleName] = allRules[ruleName].defaultCondition;
+        valueMappings[ruleName] = allRules[ruleName].defaultValue;
+      });
 
-      let valueEPS = (ruleOfList?.find(item => item.name === "eps") || { value: 'any'}).value;
-      let valueGrowthEPS = (ruleOfList?.find(item => item.name === "growthEPS") || { value: 'any'}).value;
-      let valuePE = (ruleOfList?.find(item => item.name === "pe") || { value: 'any'}).value;
-      let valueForwardPE = (ruleOfList?.find(item => item.name === "forwardPE") || { value: 'any'}).value;
+      // Update ruleCondition and valueMappings based on existing rules
+      ruleOfList.forEach(rule => {
+        ruleCondition[rule.name] = rule.condition || allRules[rule.name].defaultCondition;
+        valueMappings[rule.name] = rule.value || allRules[rule.name].defaultValue;
+      });
 
-      let valuePriceToBookRatio = (ruleOfList?.find(item => item.name === "priceToBookRatio") || { value: 'any'}).value;
-      let valuePriceToSalesRatio = (ruleOfList?.find(item => item.name === "priceToSalesRatio") || { value: 'any'}).value;
-      let valueBeta = (ruleOfList?.find(item => item.name === "beta") || { value: 'any' }).value;
-      let valueMarketCap = (ruleOfList?.find(item => item.name === "marketCap") || { value: 'any' }).value;
-      let valueAnalystRating = (ruleOfList?.find(item => item.name === "analystRating") || { value: 'any'}).value;
-      let valueRSI = (ruleOfList?.find(item => item.name === "rsi") || { value: 'any' }).value;
-      let valueStochRSI = (ruleOfList?.find(item => item.name === "stochRSI") || { value: 'any'}).value;
-      let valueMFI = (ruleOfList?.find(item => item.name === "mfi") || { value: 'any'}).value;
-      let valueCCI = (ruleOfList?.find(item => item.name === "cci") || { value: 'any'}).value;
-      let valueATR = (ruleOfList?.find(item => item.name === "atr") || { value: 'any'}).value;
-      let valueSMA50 =  (ruleOfList?.find(item => item.name === "sma50") || { value: 'any'}).value;
-      let valueSMA200 = (ruleOfList?.find(item => item.name === "sma200") || { value: 'any'}).value;
-      let valueEMA50 =  (ruleOfList?.find(item => item.name === "ema50") || { value: 'any'}).value;
-      let valueEMA200 = (ruleOfList?.find(item => item.name === "ema200") || { value: 'any'}).value;
-      let valueChange1W = (ruleOfList?.find(item => item.name === "change1W") || { value: 'any' }).value;
-      let valueChange1M = (ruleOfList?.find(item => item.name === "change1M") || { value: 'any' }).value;
-      let valueChange3M = (ruleOfList?.find(item => item.name === "change3M") || { value: 'any' }).value;
-      let valueChange6M = (ruleOfList?.find(item => item.name === "change6M") || { value: 'any' }).value;
-      let valueChange1Y = (ruleOfList?.find(item => item.name === "change1Y") || { value: 'any' }).value;
-      let valueChange3Y = (ruleOfList?.find(item => item.name === "change3Y") || { value: 'any' }).value;
-      let valueAvgVolume = (ruleOfList?.find(item => item.name === "avgVolume") || { value: 'any'}).value;
-      let valueVaR = (ruleOfList?.find(item => item.name === "var") || { value: 'any'}).value;
-      let valueTrendAnalysis = (ruleOfList?.find(item => item.name === "trendAnalysis") || { value: 'any'}).value;
-      let valueFundamentalAnalysis = (ruleOfList?.find(item => item.name === "fundamentalAnalysis") || { value: 'any'}).value;
-      let valueEnterpriseValue = (ruleOfList?.find(item => item.name === "enterpriseValue") || { value: 'any'}).value;
-      let valueFCFShare = (ruleOfList?.find(item => item.name === "freeCashFlowPerShare") || { value: 'any'}).value;
-      let valueCashShare = (ruleOfList?.find(item => item.name === "cashPerShare") || { value: 'any'}).value;
-      let valuePriceFCF = (ruleOfList?.find(item => item.name === "priceToFreeCashFlowsRatio") || { value: 'any'}).value;
-      let valueSharesShort = (ruleOfList?.find(item => item.name === "sharesShort") || { value: 'any'}).value;
-      let valueShortRatio = (ruleOfList?.find(item => item.name === "shortRatio") || { value: 'any'}).value;
-      let valueShortFloatPercent = (ruleOfList?.find(item => item.name === "shortFloatPercent") || { value: 'any'}).value;
-      let valueShortOutStandingPercent = (ruleOfList?.find(item => item.name === "shortOutStandingPercent") || { value: 'any'}).value;
-      let valueFailToDeliver = (ruleOfList?.find(item => item.name === "failToDeliver") || { value: 'any'}).value;
-      let valueFreeCashFlow = (ruleOfList?.find(item => item.name === "freeCashFlow") || { value: 'any'}).value;
-
-    
     
 function changeRule(state: string)  
 {
@@ -307,179 +179,27 @@ function changeRule(state: string)
   //closePopup?.dispatchEvent(new MouseEvent('click'))
 }
 
-const valueMappings = {
-  revenue: valueRevenue,
-  growthRevenue: valueGrowthRevenue,
-  costOfRevenue: valueCostOfRevenue,
-  growthCostOfRevenue: valueGrowthCostOfRevenue,
-  costAndExpenses: valueCostAndExpenses,
-  growthCostAndExpenses: valueGrowthCostAndExpenses,
-  netIncome: valueNetIncome,
-  growthNetIncome: valueGrowthNetIncome,
-  grossProfit: valueGrossProfit,
-  growthGrossProfit: valueGrowthGrossProfit,
-  researchAndDevelopmentExpenses: valueResearchAndDevelopmentExpenses,
-  growthResearchAndDevelopmentExpenses: valueGrowthResearchAndDevelopmentExpenses,
-  eps: valueEPS,
-  dividendYield: valueDividendYield,
-  annualDividend: valueAnnualDividend,
-  dividendGrowth: valueDividendGrowth,
-  payoutRatio: valuePayoutRatio,
-  growthEPS: valueGrowthEPS,
-  interestIncome: valueInterestIncome,
-  interestExpense: valueInterestExpenses,
-  growthInterestExpense: valueGrowthInterestExpenses,
-  operatingExpenses: valueOperatingExpenses,
-  growthOperatingExpenses: valueGrowthOperatingExpenses,
-  operatingIncome: valueOperatingIncome,
-  growthOperatingIncome: valueGrowthOperatingIncome,
-  pe: valuePE,
-  forwardPE: valueForwardPE,
-  priceToBookRatio: valuePriceToBookRatio,
-  priceToSalesRatio: valuePriceToSalesRatio,
-  beta: valueBeta,
-  ebitda: valueEBITDA,
-  growthEBITDA: valueGrowthEBITDA,
-  marketCap: valueMarketCap,
-  rsi: valueRSI,
-  stochRSI: valueStochRSI,
-  mfi: valueMFI,
-  cci: valueCCI,
-  atr: valueATR,
-  sma50: valueSMA50,
-  sma200: valueSMA200,
-  ema50: valueEMA50,
-  ema200: valueEMA200,
-  change1W: valueChange1W,
-  change1M: valueChange1M,
-  change3M: valueChange3M,
-  change6M: valueChange6M,
-  change1Y: valueChange1Y,
-  change3Y: valueChange3Y,
-  avgVolume: valueAvgVolume,
-  var: valueVaR,
-  trendAnalysis: valueTrendAnalysis,
-  fundamentalAnalysis: valueFundamentalAnalysis,
-  currentRatio: valueCurrentRatio,
-  quickRatio: valueQuickRatio,
-  debtEquityRatio: valueDebtEquityRatio,
-  debtRatio: valueDebtRatio,
-  returnOnAssets: valueReturnOnAssets,
-  returnOnEquity: valueReturnOnEquity,
-  enterpriseValue: valueEnterpriseValue,
-  freeCashFlowPerShare: valueFCFShare,
-  cashPerShare: valueCashShare,
-  priceToFreeCashFlowsRatio: valuePriceFCF,
-  sharesShort: valueSharesShort,
-  shortRatio: valueShortRatio,
-  shortFloatPercent: valueShortFloatPercent,
-  shortOutStandingPercent: valueShortOutStandingPercent,
-  analystRating: valueAnalystRating,
-  failToDeliver: valueFailToDeliver,
-  freeCashFlow: valueFreeCashFlow,
-
-};
-    
-const conditions = {
-  revenue: ruleCondition.revenue,
-  growthRevenue: ruleCondition.growthRevenue,
-  costOfRevenue: ruleCondition.costOfRevenue,
-  growthCostOfRevenue: ruleCondition.growthCostOfRevenue,
-  costAndExpenses: ruleCondition.costAndExpenses,
-  growthCostAndExpenses: ruleCondition.growthCostAndExpenses,
-  netIncome: ruleCondition.netIncome,
-  growthNetIncome: ruleCondition.growthNetIncome,
-  grossProfit: ruleCondition.grossProfit,
-  growthGrossProfit: ruleCondition.growthGrossProfit,
-  researchAndDevelopmentExpenses: ruleCondition.researchAndDevelopmentExpenses,
-  growthResearchAndDevelopmentExpenses: ruleCondition.growthResearchAndDevelopmentExpenses,
-  eps: ruleCondition.eps,
-  growthEPS: ruleCondition.growthEPS,
-  interestIncome: ruleCondition.interestIncome,
-  interestExpense: ruleCondition.interestExpense,
-  growthInterestExpense: ruleCondition.growthInterestExpense,
-  operatingExpenses: ruleCondition.operatingExpenses,
-  growthOperatingExpenses: ruleCondition.growthOperatingExpenses,
-  operatingIncome: ruleCondition.operatingIncome,
-  growthOperatingIncome: ruleCondition.growthOperatingIncome,
-  pe: ruleCondition.pe,
-  forwardPE: ruleCondition.forwardPE,
-  priceToBookRatio: ruleCondition.priceToBookRatio,
-  priceToSalesRatio: ruleCondition.priceToSalesRatio,
-  beta: ruleCondition.beta,
-  ebitda: ruleCondition.ebitda,
-  growthEBITDA: ruleCondition.growthEBITDA,
-  marketCap: ruleCondition.marketCap,
-  rsi: ruleCondition.rsi,
-  stochRSI: ruleCondition.stochRSI,
-  mfi: ruleCondition.mfi,
-  cci: ruleCondition.cci,
-  atr: ruleCondition.atr,
-  sma50: ruleCondition.sma50,
-  sma200: ruleCondition.sma200,
-  ema50: ruleCondition.ema50,
-  ema200: ruleCondition.ema200,
-  change1W: ruleCondition.change1W,
-  change1M: ruleCondition.change1M,
-  change3M: ruleCondition.change3M,
-  change6M: ruleCondition.change6M,
-  change1Y: ruleCondition.change1Y,
-  change3Y: ruleCondition.change3Y,
-  avgVolume: ruleCondition.avgVolume,
-  var: ruleCondition.var,
-  trendAnalysis: ruleCondition.trendAnalysis,
-  fundamentalAnalysis: ruleCondition.fundamentalAnalysis,
-  dividendGrowth: ruleCondition.dividendGrowth,
-  dividendYield: ruleCondition.dividendYield,
-  payoutRatio: ruleCondition.payoutRatio,
-  annualDividend: ruleCondition.annualDividend,
-  currentRatio: ruleCondition.currentRatio,
-  quickRatio: ruleCondition.quickRatio,
-  debtEquityRatio: ruleCondition.debtEquityRatio,
-  debtRatio: ruleCondition.debtRatio,
-  returnOnAssets: ruleCondition.returnOnAssets,
-  returnOnEquity: ruleCondition.returnOnEquity,
-  enterpriseValue: ruleCondition.enterpriseValue,
-  freeCashFlowPerShare: ruleCondition.freeCashFlowPerShare,
-  cashPerShare: ruleCondition.cashPerShare,
-  priceToFreeCashFlowsRatio: ruleCondition.priceToFreeCashFlowsRatio,
-  sharesShort: ruleCondition.sharesShort,
-  shortRatio: ruleCondition.shortRatio,
-  shortFloatPercent: ruleCondition.shortFloatPercent,
-  shortOutStandingPercent: ruleCondition.shortOutStandingPercent,
-  failToDeliver: ruleCondition.failToDeliver,
-  freeCashFlow: ruleCondition.freeCashFlow,
-
-};    
-
+ 
 
 function handleAddRule() {
-    
-    if (ruleName === '') {
-      toast.error('Please select a rule', {
-        style: 'border-radius: 200px; background: #333; color: #fff;'
-      });
-      return;
-    }
-  
-    let newRule;
-  
-    switch (ruleName) {
-      case 'analystRating':
-        newRule = { name: ruleName, value:  valueAnalystRating }; //ruleTrend[ruleName]
-        handleRule(newRule);
-        break;
-      default:
-        // Handle other cases if needed
-        newRule = { name: ruleName, condition: conditions[ruleName], value: valueMappings[ruleName] };
-        handleRule(newRule);
-        break;
-    }
-    
-    
-    
+  if (ruleName === '') {
+    toast.error('Please select a rule', {
+      style: 'border-radius: 200px; background: #333; color: #fff;'
+    });
+    return;
+  }
+
+  const newRule = { 
+    name: ruleName, 
+    condition: ruleCondition[ruleName], 
+    value: valueMappings[ruleName] 
+  };
+
+  handleRule(newRule);
+}
+
 async function handleRule(newRule) {
-  const existingRuleIndex = ruleOfList.findIndex(rule => rule.name === ruleName);
+  const existingRuleIndex = ruleOfList.findIndex(rule => rule.name === newRule.name);
   if (existingRuleIndex !== -1) {
     const existingRule = ruleOfList[existingRuleIndex];
     if (existingRule.value === newRule.value && existingRule.condition === newRule.condition) {
@@ -499,13 +219,9 @@ async function handleRule(newRule) {
     toast.success('Rule added', {
       style: 'border-radius: 200px; background: #333; color: #fff;'
     });
-
     await updateStockScreenerData();
     await handleSave(false);
   }
-}
-
-
 }
 
 async function updateStockScreenerData() {
@@ -638,95 +354,20 @@ $: {
   if (ruleOfList) {
     const ruleToUpdate = ruleOfList?.find(rule => rule.name === ruleName);
     if (ruleToUpdate) {
-      const valueMap = {
-        payoutRatio: valuePayoutRatio,
-        dividendGrowth: valueDividendGrowth,
-        dividendYield: valueDividendYield,
-        annualDividend: valueAnnualDividend,
-        eps: valueEPS,
-        growthEPS: valueGrowthEPS,
-        marketCap: valueMarketCap,
-        beta: valueBeta,
-        pe: valuePE,
-        forwardPE: valueForwardPE,
-        priceToBookRatio: valuePriceToBookRatio,
-        priceToSalesRatio: valuePriceToSalesRatio,
-        interestIncome: valueInterestIncome,
-        analystRating: valueAnalystRating,
-        revenue: valueRevenue,
-        growthRevenue: valueGrowthRevenue,
-        ebitda: valueEBITDA,
-        growthEBITDA: valueGrowthEBITDA,
-        operatingExpenses: valueOperatingExpenses,
-        growthOperatingExpenses: valueGrowthOperatingExpenses,
-        costOfRevenue: valueCostOfRevenue,
-        growthCostOfRevenue: valueGrowthCostOfRevenue,
-        costAndExpenses: valueCostAndExpenses,
-        growthCostAndExpenses: valueGrowthCostAndExpenses,
-        netIncome: valueNetIncome,
-        growthNetIncome: valueGrowthNetIncome,
-        grossProfit: valueGrossProfit,
-        growthGrossProfit: valueGrowthGrossProfit,
-        researchAndDevelopmentExpenses: valueResearchAndDevelopmentExpenses,
-        growthResearchAndDevelopmentExpenses: valueGrowthResearchAndDevelopmentExpenses,
-        interestExpense: valueInterestExpenses,
-        growthInterestExpense: valueGrowthInterestExpenses,
-        operatingIncome: valueOperatingIncome,
-        growthOperatingIncome: valueGrowthOperatingIncome,
-        rsi: valueRSI,
-        stochRSI: valueStochRSI,
-        mfi: valueMFI,
-        cci: valueCCI,
-        atr: valueATR,
-        sma50: valueSMA50,
-        sma200: valueSMA200,
-        ema50: valueEMA50,
-        ema200: valueEMA200,
-        change1W: valueChange1W,
-        change1M: valueChange1M,
-        change3M: valueChange3M,
-        change6M: valueChange6M,
-        change1Y: valueChange1Y,
-        change3Y: valueChange3Y,
-        avgVolume: valueAvgVolume,
-        var: valueVaR,
-        trendAnalysis: valueTrendAnalysis,
-        fundamentalAnalysis: valueFundamentalAnalysis,
-        currentRatio: valueCurrentRatio,
-        quickRatio: valueQuickRatio,
-        debtEquityRatio: valueDebtEquityRatio,
-        debtRatio: valueDebtRatio,
-        returnOnAssets: valueReturnOnAssets,
-        returnOnEquity: valueReturnOnEquity,
-        enterpriseValue: valueEnterpriseValue,
-        freeCashFlowPerShare: valueFCFShare,
-        cashPerShare: valueCashShare,
-        priceToFreeCashFlowsRatio: valuePriceFCF,
-        sharesShort: valueSharesShort,
-        shortRatio: valueShortRatio,
-        shortFloatPercent: valueShortFloatPercent,
-        shortOutStandingPercent: valueShortOutStandingPercent,
-        failToDeliver: valueFailToDeliver,
-        freeCashFlow: valueFreeCashFlow,
-
-      };
-      ruleToUpdate.value = valueMap[ruleToUpdate.name] ?? ruleToUpdate.value;
+      ruleToUpdate.value = valueMappings[ruleToUpdate.name];
       ruleToUpdate.condition = ruleCondition[ruleToUpdate.name];
       ruleOfList = [...ruleOfList];
     }
 
-    console.log('yes here')
     displayRules = allRows?.filter(row => ruleOfList.some(rule => rule.name === row.rule));
     filteredData = filterStockScreenerData();
-    
-    if (ruleOfList?.some(item => item?.name === 'analystRating')) {
-      filteredData = filteredData?.filter(item => item?.analystRating === valueAnalystRating);
-    }
   }
 }
+  
 
-
+      
 function filterStockScreenerData() {
+  console.log(ruleOfList)
   return stockScreenerData?.filter(item => {
     for (const rule of ruleOfList) {
 
@@ -861,221 +502,17 @@ $: isSaved = !ruleOfList;
 
 $: charNumber = $screenWidth < 640 ? 20 : 40;
 
-function changeRuleCondition(name:string, state: string) {
+
+function changeRuleCondition(name: string, state: string) {
   ruleName = name;
   ruleCondition[ruleName] = state;
 }
 
-
 function handleChangeValue(value) {
-  const rule = ruleName
-
-  if (rule in valueMappings) {
-    valueMappings[rule] = value;
-    // If you need to keep the separate variables in sync:
-    switch (rule) {
-      case 'payoutRatio':
-          valuePayoutRatio = value;
-          break;
-        case 'dividendGrowth':
-          valueDividendGrowth = value;
-          break;
-        case 'dividendYield':
-          valueDividendYield = value;
-          break;
-        case 'annualDividend':
-          valueAnnualDividend = value;
-          break;
-        case 'eps':
-          valueEPS = value;
-          break;
-        case 'growthEPS':
-          valueGrowthEPS = value;
-          break;
-        case 'marketCap':
-          valueMarketCap = value;
-          break;
-        case 'beta':
-          valueBeta = value;
-          break;
-        case 'pe':
-          valuePE = value;
-          break;
-        case 'forwardPE':
-          valueForwardPE = value;
-          break;
-        case 'priceToBookRatio':
-          valuePriceToBookRatio = value;
-          break;
-        case 'priceToSalesRatio':
-          valuePriceToSalesRatio = value;
-          break;
-        case 'interestIncome':
-          valueInterestIncome = value;
-          break;
-        case 'analystRating':
-          valueAnalystRating = value;
-          break;
-        case 'revenue':
-          valueRevenue = value;
-          break;
-        case 'growthRevenue':
-          valueGrowthRevenue = value;
-          break;
-        case 'ebitda':
-          valueEBITDA = value;
-          break;
-        case 'growthEBITDA':
-          valueGrowthEBITDA = value;
-          break;
-        case 'operatingExpenses':
-          valueOperatingExpenses = value;
-          break;
-        case 'growthOperatingExpenses':
-          valueGrowthOperatingExpenses = value;
-          break;
-        case 'costOfRevenue':
-          valueCostOfRevenue = value;
-          break;
-        case 'growthCostOfRevenue':
-          valueGrowthCostOfRevenue = value;
-          break;
-        case 'costAndExpenses':
-          valueCostAndExpenses = value;
-          break;
-        case 'growthCostAndExpenses':
-          valueGrowthCostAndExpenses = value;
-          break;
-        case 'netIncome':
-          valueNetIncome = value;
-          break;
-        case 'growthNetIncome':
-          valueGrowthNetIncome = value;
-          break;
-        case 'grossProfit':
-          valueGrossProfit = value;
-          break;
-        case 'growthGrossProfit':
-          valueGrowthGrossProfit = value;
-          break;
-        case 'researchAndDevelopmentExpenses':
-          valueResearchAndDevelopmentExpenses = value;
-          break;
-        case 'growthResearchAndDevelopmentExpenses':
-          valueGrowthResearchAndDevelopmentExpenses = value;
-          break;
-        case 'interestExpense':
-          valueInterestExpenses = value;
-          break;
-        case 'growthInterestExpense':
-          valueGrowthInterestExpenses = value;
-          break;
-        case 'operatingIncome':
-          valueOperatingIncome = value;
-          break;
-        case 'growthOperatingIncome':
-          valueGrowthOperatingIncome = value;
-          break;
-        case 'rsi':
-          valueRSI = value;
-          break;
-        case 'stochRSI':
-          valueStochRSI = value;
-          break;
-        case 'mfi':
-          valueMFI = value;
-          break;
-        case 'cci':
-          valueCCI = value;
-          break;
-        case 'atr':
-          valueATR = value;
-          break;
-        case 'sma50':
-          valueSMA50 = value;
-          break;
-        case 'sma200':
-          valueSMA200 = value;
-          break;
-        case 'ema50':
-          valueEMA50 = value;
-          break;
-        case 'ema200':
-          valueEMA200 = value;
-          break;
-        case 'change1W':
-          valueChange1W = value;
-          break;
-        case 'change1M':
-          valueChange1M = value;
-          break;
-        case 'change3M':
-          valueChange3M = value;
-          break;
-        case 'change6M':
-          valueChange6M = value;
-          break;
-        case 'change1Y':
-          valueChange1Y = value;
-          break;
-        case 'change3Y':
-          valueChange3Y = value;
-        case 'avgVolume':
-          valueAvgVolume = value;
-          break;
-        case 'var':
-          valueVaR = value;
-          break;
-        case 'trendAnalysis':
-          valueTrendAnalysis = value;
-          break;
-        case 'fundamentalAnalysis':
-          valueFundamentalAnalysis = value;
-          break;
-        case 'currentRatio':
-          valueCurrentRatio = value;
-          break;
-        case 'quickRatio':
-          valueQuickRatio = value;
-          break;
-        case 'debtEquityRatio':
-          valueDebtEquityRatio = value;
-          break;
-        case 'debtRatio':
-          valueDebtRatio = value;
-          break;
-        case 'returnOnAssets':
-          valueReturnOnAssets = value;
-          break;
-        case 'returnOnEquity':
-          valueReturnOnEquity = value;
-          break;
-        case 'freeCashFlowPerShare':
-          valueFCFShare = value;
-          break;
-        case 'cashPerShare':
-          valueCashShare = value;
-          break;
-        case 'priceToFreeCashFlowsRatio':
-          valuePriceFCF = value;
-        case 'enterpriseValue':
-          valueEnterpriseValue = value;
-        case 'sharesShort':
-          valueSharesShort = value;
-        case 'shortRatio':
-            valueShortRatio = value;
-        case 'shortFloatPercent':
-            valueShortFloatPercent = value;
-        case 'shortOutStandingPercent':
-            valueShortOutStandingPercent = value;
-        case 'failToDeliver':
-          valueFailToDeliver = value;
-        case 'freeCashFlow':
-          valueFreeCashFlow = value;
-    }
+  if (ruleName in valueMappings) {
+    valueMappings[ruleName] = value;
   } else {
-    console.warn(`Unhandled rule: ${rule}`);
-    // Optionally handle unknown rules here
+    console.warn(`Unhandled rule: ${ruleName}`);
   }
 }
 
