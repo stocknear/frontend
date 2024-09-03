@@ -389,7 +389,7 @@ onMount(async () => {
         <div class="p-5 grid grid-cols-2 gap-10 flex justify-center items-center mb-2">
           <!--Start Column Title-->
           <div class="flex flex-col">
-            <span class="text-white font-bold text-sm">
+            <span class="text-white font-semibold text-[1rem]">
               Strategy Name
             </span>
             <span class="text-white text-sm">
@@ -400,7 +400,7 @@ onMount(async () => {
 
           <!--Start Column Title-->
           <div class="flex flex-col">
-            <span class="text-white font-bold text-sm">
+            <span class="text-white font-semibold text-[1rem]">
               Number of Rules
             </span>
             <span class="text-white text-sm">
@@ -419,65 +419,65 @@ onMount(async () => {
 
       <div class="relative p-2 sm:hidden -mt-2">
         {#each strategyList as item, index}
-          <div class="bg-[#09090B] shadow-lg rounded-lg border border-slate-800 h-fit pb-2 pl-4 pr-4 pt-4 mb-7">
+          <div class="bg-[#09090B] shadow-lg rounded-lg border border-gray-600 h-fit pb-2 pl-4 pr-4 pt-4 mb-7">
               <div class="flex flex-row items-center">
                 <label class="font-medium cursor-pointer flex flex-col w-40">
                   <span class="text-slate-300">No. Strategy</span>
-                  <span class="text-slate-300 text-sm">{index+1}</span>
+                  <span class="text-slate-300 text-[1rem]">{index+1}</span>
                 </label>
 
-                <div class="font-medium text-sm text-white flex flex-col justify-end items-end ml-auto">
+                <div class="font-medium text-white flex flex-col justify-end items-end ml-auto">
                   <span class="text-end">Last updated</span>
-                  <span class="text-end">
+                  <span class="text-end text-sm">
                     {formatDate(item?.updated)} ago
                   </span>
                 </div>
               </div>
-              <div class="border-1 border-b border-slate-800 w-full mt-5 mb-5" />
+              <div class="border-1 border-b border-gray-600 w-full mt-5 mb-5" />
 
               <div class="flex flex-row items-center">
                 <div class="flex flex-col w-40">
                   <span class="font-medium text-slate-300">Title</span>
-                  <span class="text-white text-sm font-medium">
+                  <span class="text-white text-[1rem] font-medium">
                     {item?.title}
                   </span>
                 </div>
 
                 <div class="flex flex-col justify-end items-end ml-auto">
                   <span class="font-medium text-slate-300 text-ends">Total Rules</span>
-                  <span class="text-white font-medium text-sm text-end">
+                  <span class="text-white font-medium text-[1rem] text-end">
                     {item?.rules?.length}
                   </span>
                 </div>
               </div>
 
-              <div class="border-1 border-b border-slate-800 w-full mt-5 mb-5" />
+              <div class="border-1 border-b border-gray-600 w-full mt-5 mb-5" />
 
 
               <div class="sm:hidden w-1/2 mt-5 m-auto flex flex-row justify-center items-center">
                 <div class="flex flex-col justify-center items-center mr-5">
-                  <label on:click|stopPropagation={() => handleView(item?.rules,item?.title)} for="viewStrategy" class="cursor-pointer w-12 h-12 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] hover:bg-purple-600 bg-purple-600 bg-opacity-[0.6] duration-150 font-medium text-center text-white rounded-full">
+                  <label on:click|stopPropagation={() => handleView(item?.rules,item?.title)} for="viewStrategy" class="cursor-pointer w-12 h-12 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] bg-purple-600 duration-100 font-medium text-center text-white rounded-full">
                     <svg class="w-10 h-10 hover:w-11 hover:h-11 ease-in-out duration-200 m-auto pt-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="12" r="3" stroke="#fff" stroke-width="1"></circle> <path d="M21 12C21 12 20 4 12 4C4 4 3 12 3 12" stroke="#fff" stroke-width="1"></path> </g></svg>
                   </label>
-                  <span class="text-white text-xs mt-1">
+                  <span class="text-white text-sm mt-1">
                     Rules
                   </span>
                 </div>
           
                 <div class=" flex flex-col justify-center items-center ml-5 mr-5">
-                  <label on:click|stopPropagation={() => goto("/stock-screener/"+item?.id)} class="cursor-pointer w-12 h-12 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] hover:bg-purple-600 bg-purple-600 bg-opacity-[0.6] duration-150 font-medium text-center text-white rounded-full">
+                  <label on:click|stopPropagation={() => goto("/stock-screener/"+item?.id)} class="cursor-pointer w-12 h-12 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] bg-purple-600 duration-100 font-medium text-center text-white rounded-full">
                     <svg class="h-8 w-8 hover:w-9 hover:h-9 ease-in-out duration-200 m-auto pt-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="m19.3 8.925l-4.25-4.2l1.4-1.4q.575-.575 1.413-.575t1.412.575l1.4 1.4q.575.575.6 1.388t-.55 1.387L19.3 8.925ZM17.85 10.4L7.25 21H3v-4.25l10.6-10.6l4.25 4.25Z"/></svg>
                   </label>
-                  <span class="text-white text-xs mt-1">
+                  <span class="text-white text-sm mt-1">
                     Open
                   </span>
                 </div>
           
                 <div class=" flex flex-col justify-center items-center ml-5">
-                  <label on:click|stopPropagation={() => deleteStrategyId= item?.id} for="deleteStrategy" class="cursor-pointer w-12 h-12 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] hover:bg-purple-600 bg-purple-600 bg-opacity-[0.6] duration-150 font-medium text-center text-white rounded-full">
+                  <label on:click|stopPropagation={() => deleteStrategyId= item?.id} for="deleteStrategy" class="cursor-pointer w-12 h-12 bg-[#0A59F5] hover:bg-[#0844BC] hover:ring-[1px] bg-purple-600 duration-100 font-medium text-center text-white rounded-full">
                     <svg class="h-8 w-8 hover:w-9 hover:h-9 ease-in-out duration-200 m-auto pt-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="white" d="M864 256H736v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zm-200 0H360v-72h304v72z"/></svg>
                   </label>
-                  <span class="text-white text-xs mt-1">
+                  <span class="text-white text-sm mt-1">
                     Delete
                   </span>
                 </div>
@@ -503,7 +503,7 @@ onMount(async () => {
     <div class="{!data?.user ? 'hidden' : ''} sm:hidden fixed z-50 w-full h-16 max-w-3xl -right-5 bottom-5">
       <div class="h-full max-w-3xl mx-auto">        
         <div class="flex items-center justify-end mr-10">
-          <label for="addStrategy" class="inline-flex items-center justify-center w-14 h-14 font-medium bg-purple-600 bg-opacity-[0.6] rounded-full cursor-pointer">
+          <label for="addStrategy" class="inline-flex items-center justify-center w-14 h-14 font-medium bg-purple-600 rounded-full cursor-pointer">
             <svg class="w-8 h-8 text-white inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z"/></svg>
           </label>
         </div>
@@ -532,7 +532,7 @@ onMount(async () => {
     <label for="addStrategy"  class="cursor-pointer modal-backdrop bg-[#000] bg-opacity-[0.5]"></label>
     
     
-    <div class="modal-box w-full bg-[#09090B] border border-gray-800" >
+    <div class="modal-box w-full bg-[#27272A] border border-gray-600" >
   
         <h1 class="text-white text-2xl font-bold">
           New Strategy
@@ -554,7 +554,7 @@ onMount(async () => {
         />
       
 
-        <button type="submit" class="mt-10 btn bg-purple-600 hover:bg-purple-500 btn-md w-full rounded-lg m-auto text-white font-bold text-md">
+        <button type="submit" class="mt-10 btn bg-purple-600 sm:hover:bg-purple-700 duration-100 btn-md w-full rounded-lg m-auto text-white font-bold text-md">
           Create Strategy
         </button>
       
