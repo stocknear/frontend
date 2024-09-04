@@ -15,6 +15,7 @@
   let ruleOfList = data?.getStrategy?.rules ?? [];
   let displayRules = [];
   let selectedPopularStrategy = ''; 
+  let displayTableTab = 'general';
   const title = data?.getStrategy?.title;
 
   let stockScreenerData = data?.getStockScreenerData?.filter(item => 
@@ -276,7 +277,6 @@ async function updateStockScreenerData() {
     displayRules = allRows?.filter(row => ruleOfList?.some(rule => rule.name === row.rule));
     filteredData = filterStockScreenerData();
 
-
     displayResults = filteredData?.slice(0, 50);
   } catch (error) {
     console.error('Error fetching new stock screener data:', error);
@@ -288,6 +288,7 @@ async function updateStockScreenerData() {
       
 async function handleResetAll() {
   selectedPopularStrategy = '';
+  displayTableTab = 'general';
   ruleOfList = [];
   ruleOfList = [...ruleOfList];
   ruleName = '';
@@ -459,7 +460,6 @@ function convertUnitToValue(input: string | number): number {
 }
 
 
-      
 function filterStockScreenerData() {
   return stockScreenerData?.filter(item => {
     for (const rule of ruleOfList) {
@@ -546,7 +546,7 @@ $: {
 }
 
 $: displayResults = filteredData?.slice(0, 50);
-
+  console.log(displayResults)
 $: isSaved = !ruleOfList;
 
 $: charNumber = $screenWidth < 640 ? 20 : 40;
@@ -931,7 +931,7 @@ async function popularStrategy(state: string) {
              
               
 
-                  <div class="mt-10 sm:mt-6 grid-cols-2 items-center border-gray-600 sm:grid sm:border-t lg:flex lg:space-x-1 lg:overflow-visible lg:px-1 lg:py-2">
+                  <div class="mt-10 sm:mt-6 grid-cols-2 items-center sm:grid lg:flex lg:space-x-1 lg:overflow-visible lg:px-1 lg:py-2">
                     <h2 class="mb-1 whitespace-nowrap text-xl font-semibold text-white bp:text-[1.3rem] sm:mb-0">
                         {filteredData?.length} Stocks
                     </h2>
@@ -939,12 +939,12 @@ async function popularStrategy(state: string) {
                         <nav class="grow py-2.5 sm:py-3 lg:py-1">
                             <ul class="flex flex-row items-center space-x-2 whitespace-nowrap text-base">
                                 <li>
-                                    <button class="text-lg block text-white rounded-md px-2 py-1 focus:outline-none bg-[#27272A] font-semibold">
+                                    <button on:click={() => displayTableTab = 'general'} class="text-lg block text-white rounded-md px-2 py-1 focus:outline-none sm:hover:bg-[#27272A] {displayTableTab === 'general' ? 'font-semibold bg-[#27272A]' : ''}">
                                         General
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="text-lg flex flex-row items-center relative block rounded-md px-1.5 py-1 focus:outline-none">
+                                    <button on:click={() => displayTableTab = 'filters'} class="text-lg flex flex-row items-center relative block rounded-md px-2 py-1 sm:hover:bg-[#27272A] {displayTableTab === 'filters' ? 'font-semibold bg-[#27272A]' : ''} focus:outline-none">
                                       <span class="text-white">Filters</span>
                                       <span class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-white text-center flex-shrink-0 
                                                   flex items-center justify-center {ruleOfList?.length !== 0 ? 'bg-red-500' : 'bg-gray-600'}">
@@ -988,6 +988,7 @@ async function popularStrategy(state: string) {
               
                 {#if displayResults?.length !== 0}
                 
+                  {#if displayTableTab === 'general'}
                   <div class="w-full rounded-lg overflow-x-scroll ">
                     <table class="table table-sm table-compact w-full bg-[#09090B] border-bg-[#09090B]">
                       <thead>
@@ -1064,6 +1065,56 @@ async function popularStrategy(state: string) {
                       </tbody>
                     </table>
                   </div>
+                  {:else if displayTableTab === 'filters'}
+                  <div class="w-full rounded-lg overflow-x-scroll ">
+                   <table class="table table-sm table-compact w-full bg-[#09090B] border-bg-[#09090B]">
+                    <thead>
+                      <tr class="border-b-[#1A1A27]">
+                        <th class="text-white bg-[#09090B] text-sm sm:text-[1rem] font-semibold border-b-[#09090B]">Symbol</th>
+                        <th class="text-white hidden sm:table-cell bg-[#09090B] text-sm sm:text-[1rem] font-semibold border-b-[#09090B]">Company Name</th>
+                        <th class="text-white text-end bg-[#09090B] text-sm sm:text-[1rem] font-semibold border-b-[#09090B]">Market Cap</th>
+                        {#each displayRules as row (row?.rule)}
+                          {#if row?.rule !== 'marketCap'}
+                            <th class="text-white text-end bg-[#09090B] text-sm sm:text-[1rem] font-semibold border-b-[#09090B]">{row?.label}</th>
+                          {/if}
+                        {/each}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {#each displayResults as item (item?.symbol)}
+                      <tr on:click={() => {handleSave(false); goto("/stocks/"+item?.symbol)}} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#09090B] border-b-[#09090B] odd:bg-[#27272A] cursor-pointer">
+                        <td class="border-b-[#09090B] whitespace-nowrap">
+                          <div class="flex flex-col items-start">
+                            <span class="text-blue-400 text-sm sm:text-[1rem]">{item?.symbol}</span>
+                            <span class="text-white text-xs sm:hidden">{item?.name?.length > charNumber ? item?.name?.slice(0, charNumber) + "..." : item?.name}</span>
+                          </div>
+                        </td>
+                        <td class="hidden sm:table-cell whitespace-nowrap text-[1rem] text-white border-b-[#09090B]">
+                          {item?.name?.length > charNumber ? item?.name?.slice(0, charNumber) + "..." : item?.name}
+                        </td>
+                        <td class="whitespace-nowrap text-sm sm:text-[1rem] text-end text-white border-b-[#09090B]">
+                          {abbreviateNumber(item?.marketCap, true)}
+                        </td>
+                        {#each displayRules as row (row?.rule)}
+                          {#if row?.rule !== 'marketCap'}
+                            <td class="whitespace-nowrap text-sm sm:text-[1rem] text-end text-white border-b-[#09090B]">
+                              {#if row?.rule === 'analystRating'}
+                              {item?.analystRating}
+                              {:else if ['fundamentalAnalysis','trendAnalysis']?.includes(row?.rule)}
+                              {item[row?.rule]?.accuracy}%
+                              {:else}
+                              {abbreviateNumber(item[row?.rule])}
+                              {/if}
+                            </td>
+                          {/if}
+                        {/each}
+                      </tr>
+                      {/each}
+                    </tbody>
+                  </table>
+
+                  </div>
+                  {/if}
 
 
                   {:else}
