@@ -784,6 +784,8 @@ export function getPartyForPoliticians(name) {
     "John Fetterman": "Democratic",
     "Sharice Davids": "Democratic",
     "Jake Auchincloss": "Democratic",
+    "John James": "Republican",
+    "Greg Landsman": "Democratic",
   };
 
   // Combine first and last name to form the key

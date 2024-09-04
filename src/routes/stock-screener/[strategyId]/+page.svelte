@@ -851,7 +851,7 @@ async function popularStrategy(state: string) {
                                 </DropdownMenu.Trigger>
                                 <DropdownMenu.Content class="w-56 h-fit max-h-72 overflow-y-auto scroller">
                                   {#if row?.rule !== 'analystRating'}
-                                  <DropdownMenu.Label>
+                                  <DropdownMenu.Label class="absolute mt-2 h-11 border-gray-800 border-b -top-1 z-20 fixed sticky bg-[#09090B]">
                                     <div class="flex items-center justify-start gap-x-1">
                                         <div class="relative inline-block flex flex-row items-center justify-center">
                                             <label on:click={() => changeRuleCondition(row?.rule, 'under')} class="cursor-pointer flex flex-row mr-2 justify-center items-center">
@@ -868,7 +868,6 @@ async function popularStrategy(state: string) {
                                     </div> 
                                   </DropdownMenu.Label>
                                   {/if}
-                                  <DropdownMenu.Separator />
                                   <DropdownMenu.Group>
                                     {#each row?.step as newValue}
                                       <DropdownMenu.Item class="sm:hover:bg-[#27272A]">
