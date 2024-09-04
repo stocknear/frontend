@@ -498,17 +498,18 @@ $: {
 
  
 
-  <section class="w-full max-w-screen sm:max-w-6xl xl:max-w-7xl flex justify-center items-center pt-5 bg-[#09090B] ">
+  <section class="w-full max-w-screen sm:max-w-6xl xl:max-w-7xl flex justify-center items-center  bg-[#09090B] ">
       
     
-      <div class="w-full m-auto mb-10 pl-3 pr-3">
-
+      <div class="w-full m-auto pl-3 pr-3">
+        <!--
         <div class="text-sm sm:text-[1rem] breadcrumbs mb-5">
           <ul>
             <li><a href="/" class="text-gray-300">Home</a></li>
             <li class="text-gray-300">Options Flow</li>
           </ul>
         </div>
+        -->
 
         {#if !$isOpen}
           <div class="text-white text-sm sm:text-[1rem] italic text-center sm:text-start w-full ml-2 mb-3">
