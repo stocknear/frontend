@@ -10,7 +10,8 @@
 
   export let data;
   export let form;
-  
+  let isLoaded = false;
+
   $strategyId = data?.getStrategyId;
   let ruleOfList = data?.getStrategy?.rules ?? [];
   let displayRules = [];
@@ -265,6 +266,7 @@ async function handleRule(newRule) {
 }
 
 async function updateStockScreenerData() {
+  isLoaded = false;
   try {
     const newData = await getStockScreenerData(ruleOfList);
     stockScreenerData = newData?.filter(item => 
@@ -284,6 +286,7 @@ async function updateStockScreenerData() {
       style: 'border-radius: 200px; background: #333; color: #fff;'
     });
   }
+  isLoaded = true;
 }
       
 async function handleResetAll() {
@@ -394,6 +397,7 @@ async function handleSave(printToast) {
 
 $: {
   if (ruleOfList) {
+    isLoaded = false;
     const ruleToUpdate = ruleOfList?.find(rule => rule.name === ruleName);
     if (ruleToUpdate) {
       ruleToUpdate.value = valueMappings[ruleToUpdate.name];
@@ -545,8 +549,13 @@ $: {
   }
 }
 
-$: displayResults = filteredData?.slice(0, 50);
-  console.log(displayResults)
+$: {
+  if(displayResults && typeof window !== 'undefined' && isLoaded === false) {
+    displayResults = filteredData?.slice(0, 50);
+    isLoaded = true;
+  }
+}
+
 $: isSaved = !ruleOfList;
 
 $: charNumber = $screenWidth < 640 ? 20 : 40;
@@ -985,7 +994,7 @@ async function popularStrategy(state: string) {
                   </div>
                   
                 <!--Start Matching Preview-->
-              
+              {#if isLoaded}
                 {#if displayResults?.length !== 0}
                 
                   {#if displayTableTab === 'general'}
@@ -1116,7 +1125,7 @@ async function popularStrategy(state: string) {
                   </div>
                   {/if}
 
-
+                {/if}
                   {:else}
                   <div class="flex justify-center items-center h-80">
                     <div class="relative">
