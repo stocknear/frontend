@@ -28,6 +28,7 @@
 // Define all possible rules and their properties
 const allRules = {
   avgVolume: { label: 'Avgerage Volume', step: ['100M','10M','1M','100K','10K','1K','0'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  volume: { label: 'Volume', step: ['100M','10M','1M','100K','10K','1K','0'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   rsi: { label: 'RSI', step: [90,80,70,60,50,40,30,20], category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
   stochRSI: { label: 'Stoch RSI Fast', step: [90,80,70,60,50,40,30,20], category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
   mfi: { label: 'MFI', step: [90,80,70,60,50,40,30,20], category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
@@ -79,7 +80,7 @@ const allRules = {
   var: { label: 'Value-at-Risk', step: ['-1%','-5%','-10%','-15%','-20%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   trendAnalysis: { label: 'AI Trend Analysis (Bullish)', step: ['90%','80%','70%','60%','50%'], category: 'ai', defaultCondition: 'over', defaultValue: 'any' },
   fundamentalAnalysis: { label: 'AI Fundamental Analysis (Bullish)', step: ['90%','80%','70%','60%','50%'], category: 'ai', defaultCondition: 'over', defaultValue: 'any' },
-  analystRating: { label: 'Analyst Rating', step: ['Buy', 'Hold', 'Sell'], category: 'fund', defaultCondition: '', defaultValue: 'any' },
+  analystRating: { label: 'Analyst Rating', step: ['Buy', 'Hold', 'Sell'], category: 'fund', defaultCondition: '', defaultValue: 'Buy' },
   currentRatio: { label: 'Current Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   quickRatio: { label: 'Quick Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   debtEquityRatio: { label: 'Debt / Equity', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
@@ -492,61 +493,49 @@ function filterStockScreenerData() {
 }
 
 
-let order = 'highToLow';
-let sortBy = ''; // Default sorting by change percentage
-
-function changeOrder(state:string) {
-    if (state === 'highToLow')
-    {
-      order = 'lowToHigh';
-    }
-    else {
-      order = 'highToLow';
-    }
-  }
-
-const sortByHighestChange = (tickerList) => {
-  return tickerList?.sort(function(a, b) {
-    if(order === 'highToLow')
-    {
-      return b?.changesPercentage - a?.changesPercentage;
-    }
-    else {
-      return a?.changesPercentage - b?.changesPercentage;
-    }
-      
-    });
+enum Order {
+  HighToLow = 'highToLow',
+  LowToHigh = 'lowToHigh'
 }
 
-const sortByMarketCap = (tickerList) => {
-  return tickerList?.sort(function(a, b) {
-    if(order === 'highToLow')
-    {
-      return b?.marketCap - a?.marketCap;
-    }
-    else {
-      return a?.marketCap - b?.marketCap;
-    }
+enum SortBy {
+  Change = 'change',
+  MarketCap = 'marketCap',
+  PE = 'pe', // Add new sorting criteria here
+  Volume = 'volume' // Add new sorting criteria here
+
+}
+
+// Mapping of SortBy enum to actual data keys
+const sortByKeys: Record<SortBy, string> = {
+  [SortBy.Change]: 'changesPercentage',
+  [SortBy.MarketCap]: 'marketCap',
+  [SortBy.PE]: 'pe',
+  [SortBy.Volume]: 'volume', // Add new key here
+
+};
+
+let order = Order.HighToLow;
+let sortBy = SortBy.Change; // Default sorting by change percentage
+
+function changeOrder(state: Order) {
+  order = state === Order.HighToLow ? Order.LowToHigh : Order.HighToLow;
+}
+
+const sortItems = (tickerList: any[], key: string) => {
+  return tickerList?.sort((a, b) => {
+    const aValue = a[key] ?? 0;
+    const bValue = b[key] ?? 0;
+    return order === Order.HighToLow ? bValue - aValue : aValue - bValue;
   });
 }
 
-
-
 $: {
-  if(order)
-  {
-    if(sortBy === 'change')
-    {
-      displayResults = sortByHighestChange(filteredData)?.slice(0,50);
-    }
-    else if(sortBy === 'marketCap')
-    {
-      displayResults = sortByMarketCap(filteredData)?.slice(0,50);
-    }
-    
+  if (order) {
+    const key = sortByKeys[sortBy]; // Use the mapping to get the key
+    displayResults = sortItems(filteredData, key)?.slice(0, 50);
   }
 }
-
 
 
 $: {
@@ -940,13 +929,10 @@ async function popularStrategy(state: string) {
   
   
              
-               <!--Start Running Mode Preview-->    
-               <div class="bg-[#09090B] sm:border border-slate-800 sm:hover:border-slate-700 mt-5 sm:rounded-2xl ">
-                
-                
+              
                  <!--Start Number of Matches-->
   
-                  <div class="text-slate-300 font-bold text-xl flex justify-center sm:justify-start items-center ml-3 sm:ml-5 pt-5 pb-5">
+                  <div class="text-slate-300 font-bold text-xl flex justify-center sm:justify-start items-center pt-8 pb-5">
                     {ruleOfList?.length !== 0 ? filteredData?.length : 0} Matches Found
                       <label for="modeInfo" class="cursor-pointer">
                         <!--<svg class="w-6 h-6 inline-block ml-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#09090B000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="info-circle"> <g> <circle cx="12" cy="12" data-name="--Circle" fill="none" id="_--Circle" r="10" stroke="#B46266" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle> <line fill="none" stroke="#B46266" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="12" y2="16"></line> <line fill="none" stroke="#B46266" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="8" y2="8"></line> </g> </g> </g> </g></svg>-->
@@ -959,21 +945,31 @@ async function popularStrategy(state: string) {
               
                 {#if displayResults?.length !== 0 && ruleOfList?.length !== 0}
                 
-                  <div class="w-full rounded-lg overflow-x-scroll p-0 sm:p-3">
+                  <div class="w-full rounded-lg overflow-x-scroll ">
                     <table class="table table-sm table-compact w-full bg-[#09090B] border-bg-[#09090B]">
                       <thead>
                         <tr class="border-b-[#1A1A27]">
                           <th class="text-white bg-[#09090B] text-sm sm:text-[1rem] font-semibold border-b-[#09090B]">Symbol</th>
                           <th class="text-white hidden sm:table-cell bg-[#09090B] text-sm sm:text-[1rem] font-semibold border-b-[#09090B]">Company Name</th>
-                          <th on:click={() => { sortBy = 'marketCap'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm sm:text-[1rem] font-semibold text-center">
+                          <th on:click={() => { sortBy = 'marketCap'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm sm:text-[1rem] font-semibold text-end">
                             Market Cap
                             <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'marketCap' ? 'rotate-180' : ''}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                           </th>
-                          <th on:click={() => { sortBy = 'change'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm sm:text-[1rem] font-semibold text-center">
+                          <th on:click={() => { sortBy = 'change'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm sm:text-[1rem] font-semibold text-end">
                             % Change
                             <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'change' ? '' : 'rotate-180'}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                           </th>
-                          <th class="text-white bg-[#09090B] text-end text-sm sm:text-[1rem] font-semibold border-b-[#09090B]">Price</th>
+                          <th class="text-white bg-[#09090B] text-end text-sm sm:text-[1rem] font-semibold border-b-[#09090B]">
+                            Price
+                          </th>
+                          <th on:click={() => { sortBy = 'volume'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm sm:text-[1rem] font-semibold text-end">
+                            Volume
+                            <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'volume' ? '' : 'rotate-180'}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                          </th>
+                          <th on:click={() => { sortBy = 'pe'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm sm:text-[1rem] font-semibold text-end">
+                            PE Ratio
+                            <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'pe' ? '' : 'rotate-180'}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -991,7 +987,7 @@ async function popularStrategy(state: string) {
                             {item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}
                           </td>
                           
-                          <td class="text-white text-sm sm:text-[1rem] text-center border-b-[#09090B]">
+                          <td class="text-white text-sm sm:text-[1rem] text-end border-b-[#09090B]">
                               {#if item?.symbol?.includes('.DE') || item?.symbol?.includes('.F')}
                                 €{item?.marketCap < 100 ? '< $100' : abbreviateNumber(item?.marketCap)}
                               {:else}
@@ -999,7 +995,7 @@ async function popularStrategy(state: string) {
                               {/if}
                           </td>
 
-                          <td class="text-white text-center text-sm sm:text-[1rem] font-medium border-b-[#09090B]">
+                          <td class="text-white text-end text-sm sm:text-[1rem] font-medium border-b-[#09090B]">
                             {#if item?.changesPercentage >=0}
                               <span class="text-[#10DB06]">+{item?.changesPercentage >= 1000 ? abbreviateNumber(item?.changesPercentage) : item?.changesPercentage?.toFixed(2)}%</span>
                             {:else}
@@ -1008,8 +1004,16 @@ async function popularStrategy(state: string) {
                           </td>
 
                           <td class="text-white text-sm sm:text-[1rem] text-end border-b-[#09090B]">
-                            {item.price < 0.01 ? '< $0.01' :item.price?.toFixed(2)}
-                        </td>                   
+                            {item?.price < 0.01 ? '< $0.01' : item?.price?.toFixed(2)}
+                          </td>
+
+                           <td class="text-white text-sm sm:text-[1rem] text-end border-b-[#09090B]">
+                            {item?.volume === 0 ? '-' : abbreviateNumber(item?.volume)}
+                          </td> 
+
+                          <td class="text-white text-sm sm:text-[1rem] text-end border-b-[#09090B]">
+                            {item?.pe?.toFixed(2)}
+                          </td>               
                         </tr>
                         
                         
@@ -1021,8 +1025,7 @@ async function popularStrategy(state: string) {
                 {/if}
               
                   <!--End Matching Preview-->
-              </div>
-      
+             
       
 
 
