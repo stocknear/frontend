@@ -516,7 +516,7 @@ const sortByKeys: Record<SortBy, string> = {
 };
 
 let order = Order.HighToLow;
-let sortBy = SortBy.Change; // Default sorting by change percentage
+let sortBy = SortBy.MarketCap; // Default sorting by change percentage
 
 function changeOrder(state: Order) {
   order = state === Order.HighToLow ? Order.LowToHigh : Order.HighToLow;
@@ -930,20 +930,63 @@ async function popularStrategy(state: string) {
   
              
               
-                 <!--Start Number of Matches-->
-  
-                  <div class="text-slate-300 font-bold text-xl flex justify-center sm:justify-start items-center pt-8 pb-5">
-                    {ruleOfList?.length !== 0 ? filteredData?.length : 0} Matches Found
-                      <label for="modeInfo" class="cursor-pointer">
-                        <!--<svg class="w-6 h-6 inline-block ml-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#09090B000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="info-circle"> <g> <circle cx="12" cy="12" data-name="--Circle" fill="none" id="_--Circle" r="10" stroke="#B46266" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle> <line fill="none" stroke="#B46266" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="12" y2="16"></line> <line fill="none" stroke="#B46266" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12" x2="12" y1="8" y2="8"></line> </g> </g> </g> </g></svg>-->
-                      </label>
+
+                  <div class="mt-10 sm:mt-6 grid-cols-2 items-center border-gray-600 sm:grid sm:border-t lg:flex lg:space-x-1 lg:overflow-visible lg:px-1 lg:py-2">
+                    <h2 class="mb-1 whitespace-nowrap text-xl font-semibold text-white bp:text-[1.3rem] sm:mb-0">
+                        {filteredData?.length} Stocks
+                    </h2>
+                    <div class="hide-scroll col-span-2 overflow-x-auto border-t border-gray-600 lg:order-2 lg:grow lg:border-0 lg:pl-1 xl:pl-3">
+                        <nav class="grow py-2.5 sm:py-3 lg:py-1">
+                            <ul class="flex flex-row items-center space-x-2 whitespace-nowrap text-base">
+                                <li>
+                                    <button class="text-lg block text-white rounded-md px-2 py-1 focus:outline-none bg-[#27272A] font-semibold">
+                                        General
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="text-lg flex flex-row items-center relative block rounded-md px-1.5 py-1 focus:outline-none">
+                                      <span class="text-white">Filters</span>
+                                      <span class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-white text-center flex-shrink-0 
+                                                  flex items-center justify-center {ruleOfList?.length !== 0 ? 'bg-red-500' : 'bg-gray-600'}">
+                                          {ruleOfList?.length}
+                                      </span>
+                                  </button>
+                                </li>
+                                <!--
+                                <li>
+                                    <button class="dont-move block rounded-md px-1.5 py-1 focus:outline-none">
+                                        Performance
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dont-move block rounded-md px-1.5 py-1 focus:outline-none">
+                                        Analysts
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dont-move block rounded-md px-1.5 py-1 focus:outline-none">
+                                        Dividends
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dont-move block rounded-md px-1.5 py-1 focus:outline-none">
+                                        Financials
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dont-move block rounded-md px-1.5 py-1 focus:outline-none">
+                                        Valuation
+                                    </button>
+                                </li>
+                                -->
+                            </ul>
+                        </nav>
+                    </div>
                   </div>
-  
-                <!--End Number of Matches-->
                   
                 <!--Start Matching Preview-->
               
-                {#if displayResults?.length !== 0 && ruleOfList?.length !== 0}
+                {#if displayResults?.length !== 0}
                 
                   <div class="w-full rounded-lg overflow-x-scroll ">
                     <table class="table table-sm table-compact w-full bg-[#09090B] border-bg-[#09090B]">
@@ -953,22 +996,22 @@ async function popularStrategy(state: string) {
                           <th class="text-white hidden sm:table-cell bg-[#09090B] text-sm sm:text-[1rem] font-semibold border-b-[#09090B]">Company Name</th>
                           <th on:click={() => { sortBy = 'marketCap'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm sm:text-[1rem] font-semibold text-end">
                             Market Cap
-                            <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'marketCap' ? 'rotate-180' : ''}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'marketCap' ? '' : 'rotate-180'}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                           </th>
                           <th on:click={() => { sortBy = 'change'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm sm:text-[1rem] font-semibold text-end">
                             % Change
-                            <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'change' ? '' : 'rotate-180'}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'change' ? 'rotate-180' : ''}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                           </th>
                           <th class="text-white bg-[#09090B] text-end text-sm sm:text-[1rem] font-semibold border-b-[#09090B]">
                             Price
                           </th>
                           <th on:click={() => { sortBy = 'volume'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm sm:text-[1rem] font-semibold text-end">
                             Volume
-                            <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'volume' ? '' : 'rotate-180'}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'volume' ? 'rotate-180' : ''}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                           </th>
                           <th on:click={() => { sortBy = 'pe'; changeOrder(order); }} class="whitespace-nowrap cursor-pointer text-white font-semibold text-sm sm:text-[1rem] font-semibold text-end">
                             PE Ratio
-                            <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'pe' ? '' : 'rotate-180'}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            <svg class="w-5 h-5 inline-block {order === 'highToLow' && sortBy === 'pe' ? 'rotate-180' : ''}" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                           </th>
                         </tr>
                       </thead>
@@ -977,7 +1020,7 @@ async function popularStrategy(state: string) {
                         <tr on:click={() => {handleSave(false); goto("/stocks/"+item?.symbol)}} class="sm:hover:bg-[#245073] sm:hover:bg-opacity-[0.2] bg-[#09090B] border-b-[#09090B] odd:bg-[#27272A] cursor-pointer">
                           <td class="border-b-[#09090B] whitespace-nowrap">
                             <div class="flex flex-col items-start">
-                              <span class="text-blue-400">{item?.symbol}</span>
+                              <span class="text-blue-400 text-sm sm:text-[1rem]">{item?.symbol}</span>
                               <span class="text-white text-xs sm:hidden">{item?.name?.length > charNumber ? item?.name?.slice(0,charNumber) + "..." : item?.name}</span>
                             </div>
                             
@@ -1022,6 +1065,15 @@ async function popularStrategy(state: string) {
                     </table>
                   </div>
 
+
+                  {:else}
+                  <div class="flex justify-center items-center h-80">
+                    <div class="relative">
+                    <label class="bg-[#262626] rounded-xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <span class="loading loading-spinner loading-md"></span>
+                    </label>
+                    </div>
+                  </div>
                 {/if}
               
                   <!--End Matching Preview-->
