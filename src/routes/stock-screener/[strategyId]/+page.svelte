@@ -128,20 +128,13 @@ const allRules = {
   revenuePerEmployee: { label: 'Revenue Per Employee', step: ['5M','3M','2M','1M','500K','100K',0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
   profitPerEmployee: { label: 'Profit Per Employee', step: ['5M','3M','2M','1M','500K','100K',0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
   totalLiabilities: { label: 'Total Liabilities', step: ['500B','200B','100B','50B','10B','1B','100M','10M','1M'], category: 'fund', defaultCondition: 'over', defaultValue: '1M' },
-  sector: { label: 'Sector', step: sectorList, category: 'fund', defaultCondition: '', defaultValue: 'Technology' },
+  sector: { label: 'Sector', step: sectorList, category: 'fund', defaultCondition: '', defaultValue: 'any' },
 
 };
 
 
 const getStockScreenerData = async (rules) => {
-  const ruleNames = rules?.map(rule => rule?.name)?.sort()?.join(',');
-  const cachedData = getCache(ruleNames, 'getStockScreenerData');
-  
-  if (cachedData) {
-    console.log('Using cached data');
-    return cachedData;
-  }
-
+ 
   console.log('Fetching new data from API');
   const postData = { ruleOfList: rules?.map(rule => rule.name) };
   const response = await fetch(data?.apiURL + '/stock-screener-data', {
@@ -154,12 +147,8 @@ const getStockScreenerData = async (rules) => {
   });
   const output = await response.json();
   
-  // Cache the new data
-  setCache(ruleNames, output, 'getStockScreenerData');
-  
   return output;
 };
-
 
   let filteredData = [];
   let displayResults = [];
@@ -221,7 +210,6 @@ const handleMessage = (event) => {
     displayRules = allRows?.filter(row => ruleOfList.some(rule => rule.name === row.rule));
     filteredData = event.data?.filteredData ?? [];
     displayResults = filteredData?.slice(0, 50);
-    console.log(filteredData)
 
 };
 
@@ -281,7 +269,6 @@ async function handleRule(newRule) {
       toast.success('Rule updated', {
         style: 'border-radius: 200px; background: #333; color: #fff;'
       });
-      await updateStockScreenerData();
     }
   } else {
     ruleOfList = [...ruleOfList, newRule];
@@ -289,7 +276,7 @@ async function handleRule(newRule) {
       style: 'border-radius: 200px; background: #333; color: #fff;'
     });
     await updateStockScreenerData();
-    await handleSave(false);
+    //await handleSave(false);
   }
 }
 
@@ -297,13 +284,12 @@ async function updateStockScreenerData() {
   try {
     const newData = await getStockScreenerData(ruleOfList);
     stockScreenerData = newData?.filter(item => 
-    Object.values(item).every(value => 
+    Object?.values(item)?.every(value => 
       value !== null && value !== undefined && 
-      (typeof value !== 'object' || Object.values(value).every(subValue => subValue !== null && subValue !== undefined))
+      (typeof value !== 'object' || Object.values(value)?.every(subValue => subValue !== null && subValue !== undefined))
     )
   );
 
-    displayRules = allRows?.filter(row => ruleOfList?.some(rule => rule.name === row.rule));
     shouldLoadWorker.set(true);
 
   } catch (error) {
@@ -442,10 +428,8 @@ $: {
       ruleOfList = [...ruleOfList];
     }
     shouldLoadWorker.set(true);
-    
   }
 }
-  
 
 
 
@@ -523,6 +507,7 @@ function handleChangeValue(value) {
 
 
 async function popularStrategy(state: string) {
+  ruleOfList = [];
     const strategies = {
         dividendGrowth: {
             name: 'Dividend Growth',
@@ -595,10 +580,11 @@ async function popularStrategy(state: string) {
         selectedPopularStrategy = strategy.name;
         ruleOfList = strategy?.rules;
         ruleOfList?.forEach(row => {
-            ruleName = row.name;
-            ruleCondition[ruleName] = row.condition;
-            handleChangeValue(row.value);
+            ruleName = row?.name;
+            ruleCondition[ruleName] = row?.condition;
+            handleChangeValue(row?.value);
         });
+        
         await updateStockScreenerData();
     }
 }
