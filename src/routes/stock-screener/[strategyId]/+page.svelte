@@ -90,7 +90,6 @@ const allRules = {
   var: { label: 'Value-at-Risk', step: ['-1%','-5%','-10%','-15%','-20%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
   trendAnalysis: { label: 'AI Trend Analysis (Bullish)', step: ['80%','70%','60%','50%'], category: 'ai', defaultCondition: 'over', defaultValue: '50%' },
   fundamentalAnalysis: { label: 'AI Fundamental Analysis (Bullish)', step: ['80%','70%','60%','50%'], category: 'ai', defaultCondition: 'over', defaultValue: '50%' },
-  analystRating: { label: 'Analyst Rating', step: ['Buy', 'Hold', 'Sell'], category: 'fund', defaultCondition: '', defaultValue: 'Buy' },
   currentRatio: { label: 'Current Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
   quickRatio: { label: 'Quick Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
   debtEquityRatio: { label: 'Debt / Equity', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
@@ -132,6 +131,7 @@ const allRules = {
   revenuePerEmployee: { label: 'Revenue Per Employee', step: ['5M','3M','2M','1M','500K','100K',0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
   profitPerEmployee: { label: 'Profit Per Employee', step: ['5M','3M','2M','1M','500K','100K',0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
   totalLiabilities: { label: 'Total Liabilities', step: ['500B','200B','100B','50B','10B','1B','100M','10M','1M'], category: 'fund', defaultCondition: 'over', defaultValue: '1M' },
+  analystRating: { label: 'Analyst Rating', step: ['Buy', 'Hold', 'Sell'], category: 'fund', defaultCondition: '', defaultValue: 'any' },
   sector: { label: 'Sector', step: sectorList, category: 'fund', defaultCondition: '', defaultValue: 'any' },
   country: { label: 'Country', step: listOfRelevantCountries, category: 'fund', defaultCondition: '', defaultValue: 'any' },
 
@@ -243,8 +243,6 @@ function handleAddRule() {
    switch (ruleName) {
       case 'analystRating':
       case 'sector':
-        newRule = { name: ruleName, value: valueMappings[ruleName] };
-        break;
       case 'country':
         newRule = { name: ruleName, value: Array.isArray(valueMappings[ruleName]) ? valueMappings[ruleName] : [valueMappings[ruleName]] }; // Ensure value is an array
         break;
@@ -503,8 +501,9 @@ function changeRuleCondition(name: string, state: string) {
 
 async function handleChangeValue(value) {
   // Check if the current rule is "country"
-  if (ruleName === "country") {
+  if (['analystRating','sector','country']?.includes(ruleName)) {
     // Ensure valueMappings[ruleName] is initialized as an array
+    searchQuery = '';
     if (!Array.isArray(valueMappings[ruleName])) {
       valueMappings[ruleName] = []; // Initialize as an empty array if not already
     }
@@ -626,13 +625,14 @@ function handleInput(event) {
         testList = [];
 
         if (searchQuery.length > 0) {
-            testList = listOfRelevantCountries?.filter(item => {
-                const country = item?.toLowerCase();
+          
+          const rawList = ruleName === 'country' ? listOfRelevantCountries : ruleName === 'sector' ? sectorList : ['Buy','Hold','Sell'];
+            testList = rawList?.filter(item => {
+                const index = item?.toLowerCase();
                 // Check if country starts with searchQuery
-                return country.startsWith(searchQuery);
+                return index?.startsWith(searchQuery);
             }) || [];
         }
-        console.log(testList);
     }, 50);
 }
 
@@ -857,7 +857,7 @@ function handleInput(event) {
                                   </div>
                                   {/if}
                                   <DropdownMenu.Group class="min-h-10 mt-2">
-                                    {#if row?.rule !== 'country'}
+                                    {#if !['analystRating','sector','country']?.includes(row?.rule)}
                                       {#each row?.step as newValue}
                                         <DropdownMenu.Item class="sm:hover:bg-[#27272A]">
 
@@ -868,16 +868,16 @@ function handleInput(event) {
                                         </DropdownMenu.Item>      
                                       {/each}
                                     {:else}
-                                      {#each (testList.length > 0 && searchQuery?.length > 0 ? testList : searchQuery?.length > 0 && testList?.length === 0 ? [] : listOfRelevantCountries) as item}
+                                      {#each (testList.length > 0 && searchQuery?.length > 0 ? testList : searchQuery?.length > 0 && testList?.length === 0 ? [] : (row?.rule === 'country' ? listOfRelevantCountries : row?.rule === 'sector' ? sectorList : ['Buy','Hold','Sell'])) as item}
                                         <DropdownMenu.Item class="sm:hover:bg-[#27272A]">
                                           <div class="flex items-center">
                                             <label on:click={() => {handleChangeValue(item)}} class="cursor-pointer text-white" for={item}>
                                               <input type="checkbox" checked={ruleOfList?.some(rule => 
-                                                rule?.name === 'country' && 
+                                                rule?.name === row?.rule && 
                                                 Array?.isArray(rule?.value) && 
                                                 rule?.value.includes(item))}
                                                 class="h-4 w-4 rounded bg-dark-500 border border-gray-500 text-blue-600 focus:ring-blue-500" id={ruleOfList?.some(rule => 
-                                                rule?.name === 'country' && 
+                                                rule?.name === row?.rule && 
                                                 Array?.isArray(rule?.value) && 
                                                 rule?.value.includes(item))}>
                                               <span class="ml-2">{item}</span>

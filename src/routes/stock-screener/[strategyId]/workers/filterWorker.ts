@@ -83,19 +83,13 @@ async function filterStockScreenerData(stockScreenerData, ruleOfList) {
         } else if (rule.condition === "under" && accuracy > ruleValue) {
           return false;
         }
-      } else if (rule.name === "analystRating") {
-        if (
-          ["Buy", "Hold", "Sell"]?.includes(rule.value) &&
-          itemValue !== rule.value
-        ) {
-          return false;
+      } else if (["analystRating", "sector", "country"].includes(rule.name)) {
+        if (rule.value === "any") {
+          // Skip filtering if the value is "any"
+          continue;
         }
-      } else if (rule.name === "sector") {
-        if (sectorList?.includes(rule.value) && itemValue !== rule.value) {
-          return false;
-        }
-      } else if (rule.name === "country") {
-        // Handle the case where rule.value can be a list of countries
+
+        // Handle the case where rule.value can be a list of items
         if (Array.isArray(ruleValue) && !ruleValue.includes(itemValue)) {
           return false;
         } else if (!Array.isArray(ruleValue) && itemValue !== ruleValue) {
