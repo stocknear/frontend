@@ -1,16 +1,12 @@
 import { sectorList, listOfRelevantCountries } from "$lib/utils";
 
+// Convert the input to a value or return it as-is if it's already an array
 function convertUnitToValue(
   input: string | number | string[]
 ): number | string[] {
-  // Handle arrays directly
-  if (Array.isArray(input)) {
-    return input; // Return the array as-is, conversion not needed
-  }
+  if (Array.isArray(input)) return input;
 
-  if (typeof input === "number") {
-    return input; // If it's already a number, return it directly.
-  }
+  if (typeof input === "number") return input;
 
   if (typeof input !== "string") {
     throw new TypeError(
@@ -18,50 +14,37 @@ function convertUnitToValue(
     );
   }
 
-  // Handle specific non-numeric cases
-  if (
-    input.toLowerCase() === "any" ||
-    [
-      ...sectorList,
-      ...listOfRelevantCountries,
-      "Hold",
-      "Sell",
-      "Buy",
-    ]?.includes(input)
-  ) {
-    return "any"; // Return a special value for "any" that represents a non-restrictive filter
-  }
+  const lowerInput = input.toLowerCase();
 
-  // Handle percentage values by stripping the "%" sign and converting to a number
+  // Pre-compute the set for quick lookups
+  const nonNumericValues = new Set([
+    "any",
+    ...sectorList,
+    ...listOfRelevantCountries,
+    "hold",
+    "sell",
+    "buy",
+  ]);
+
+  if (nonNumericValues.has(lowerInput)) return "any";
+
   if (input.endsWith("%")) {
     const numericValue = parseFloat(input.slice(0, -1));
     if (isNaN(numericValue)) {
       throw new Error(`Unable to convert ${input} to a number`);
     }
-    return numericValue; // Convert percentage to a decimal
+    return numericValue;
   }
 
-  const units = {
-    B: 1_000_000_000,
-    M: 1_000_000,
-    K: 1_000,
-  };
-
+  const units = { B: 1_000_000_000, M: 1_000_000, K: 1_000 };
   const match = input.match(/^(\d+(\.\d+)?)([BMK])?$/);
+
   if (match) {
     const value = parseFloat(match[1]);
     const unit = match[3] as keyof typeof units;
-
-    // If there's a unit, multiply the value by the unit's multiplier
-    if (unit) {
-      return value * units[unit];
-    } else {
-      // If no unit, return the value directly
-      return value;
-    }
+    return unit ? value * units[unit] : value;
   }
 
-  // If input can't be parsed, throw an error
   const numericValue = parseFloat(input);
   if (isNaN(numericValue)) {
     throw new Error(`Unable to convert ${input} to a number`);
@@ -70,54 +53,44 @@ function convertUnitToValue(
   return numericValue;
 }
 
+// Filter the stock screener data based on the provided rules
 async function filterStockScreenerData(stockScreenerData, ruleOfList) {
   return stockScreenerData?.filter((item) => {
-    for (const rule of ruleOfList) {
+    return ruleOfList.every((rule) => {
       const itemValue = item[rule.name];
       const ruleValue = convertUnitToValue(rule.value);
 
       if (["trendAnalysis", "fundamentalAnalysis"].includes(rule.name)) {
         const accuracy = item[rule.name]?.accuracy;
-        if (rule.condition === "over" && accuracy <= ruleValue) {
-          return false;
-        } else if (rule.condition === "under" && accuracy > ruleValue) {
-          return false;
-        }
+        if (rule.condition === "over" && accuracy <= ruleValue) return false;
+        if (rule.condition === "under" && accuracy > ruleValue) return false;
       } else if (["analystRating", "sector", "country"].includes(rule.name)) {
-        if (rule.value === "any") {
-          // Skip filtering if the value is "any"
-          continue;
-        }
+        if (rule.value === "any") return true;
 
-        // Handle the case where rule.value can be a list of items
-        if (Array.isArray(ruleValue) && !ruleValue.includes(itemValue)) {
+        if (Array.isArray(ruleValue) && !ruleValue.includes(itemValue))
           return false;
-        } else if (!Array.isArray(ruleValue) && itemValue !== ruleValue) {
-          return false;
-        }
+        if (!Array.isArray(ruleValue) && itemValue !== ruleValue) return false;
       } else {
         if (
           rule.condition === "over" &&
           itemValue !== null &&
           itemValue <= ruleValue
-        ) {
+        )
           return false;
-        } else if (
+        if (
           rule.condition === "under" &&
           itemValue !== null &&
           itemValue > ruleValue
-        ) {
+        )
           return false;
-        }
       }
-    }
-    return true;
+      return true;
+    });
   });
 }
 
 onmessage = async (event: MessageEvent) => {
-  const stockScreenerData = event.data?.stockScreenerData;
-  const ruleOfList = event.data?.ruleOfList;
+  const { stockScreenerData, ruleOfList } = event.data || {};
 
   const filteredData = await filterStockScreenerData(
     stockScreenerData,
@@ -125,9 +98,6 @@ onmessage = async (event: MessageEvent) => {
   );
 
   postMessage({ message: "success", filteredData });
-
-  // Sending data back to the main thread
-  //postMessage({ message: 'Data received in the worker', ticker, apiURL });
 };
 
 export {};
