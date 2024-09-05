@@ -1,4 +1,4 @@
-import { sectorList } from "$lib/utils";
+import { sectorList, listOfRelevantCountries } from "$lib/utils";
 
 function convertUnitToValue(input: string | number): number {
   if (typeof input === "number") {
@@ -14,7 +14,13 @@ function convertUnitToValue(input: string | number): number {
   // Handle specific non-numeric cases
   if (
     input.toLowerCase() === "any" ||
-    [...sectorList, "Hold", "Sell", "Buy"]?.includes(input)
+    [
+      ...sectorList,
+      ...listOfRelevantCountries,
+      "Hold",
+      "Sell",
+      "Buy",
+    ]?.includes(input)
   ) {
     return "any"; // Return a special value for "any" that represents a non-restrictive filter
   }
@@ -78,6 +84,13 @@ async function filterStockScreenerData(stockScreenerData, ruleOfList) {
         }
       } else if (rule.name === "sector") {
         if (sectorList?.includes(rule.value) && itemValue !== rule.value) {
+          return false;
+        }
+      } else if (rule.name === "country") {
+        if (
+          listOfRelevantCountries?.includes(rule.value) &&
+          itemValue !== rule.value
+        ) {
           return false;
         }
       } else {

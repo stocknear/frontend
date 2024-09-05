@@ -1,12 +1,13 @@
 <script lang='ts'>
   import { onMount, onDestroy } from 'svelte';
   import { goto} from '$app/navigation';
-  import { screenWidth, strategyId, numberOfUnreadNotification, getCache, setCache} from '$lib/store';
+  import { screenWidth, strategyId, numberOfUnreadNotification} from '$lib/store';
   import toast from 'svelte-french-toast';
-  import { abbreviateNumber, sectorList } from '$lib/utils';
+  import { abbreviateNumber, sectorList, listOfRelevantCountries } from '$lib/utils';
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   //const userConfirmation = confirm('Unsaved changes detected. Leaving now will discard your strategy. Continue?');
+
   import { writable } from 'svelte/store';
 
   let shouldLoadWorker = writable(false);
@@ -129,6 +130,7 @@ const allRules = {
   profitPerEmployee: { label: 'Profit Per Employee', step: ['5M','3M','2M','1M','500K','100K',0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
   totalLiabilities: { label: 'Total Liabilities', step: ['500B','200B','100B','50B','10B','1B','100M','10M','1M'], category: 'fund', defaultCondition: 'over', defaultValue: '1M' },
   sector: { label: 'Sector', step: sectorList, category: 'fund', defaultCondition: '', defaultValue: 'any' },
+  country: { label: 'Country', step: listOfRelevantCountries, category: 'fund', defaultCondition: '', defaultValue: 'any' },
 
 };
 
@@ -240,6 +242,9 @@ function handleAddRule() {
         newRule = { name: ruleName, value:  valueMappings[ruleName] }; //ruleTrend[ruleName]
         break;
       case 'sector':
+        newRule = { name: ruleName, value:  valueMappings[ruleName] }; //ruleTrend[ruleName]
+        break;
+      case 'country':
         newRule = { name: ruleName, value:  valueMappings[ruleName] }; //ruleTrend[ruleName]
         break;
       default:
@@ -781,7 +786,7 @@ async function popularStrategy(state: string) {
                                   </Button>
                                 </DropdownMenu.Trigger>
                                 <DropdownMenu.Content class="w-56 h-fit max-h-72 overflow-y-auto scroller">
-                                  {#if !['analystRating','sector']?.includes(row?.rule)}
+                                  {#if !['analystRating','sector','country']?.includes(row?.rule)}
                                   <DropdownMenu.Label class="absolute mt-2 h-11 border-gray-800 border-b -top-1 z-20 fixed sticky bg-[#09090B]">
                                     <div class="flex items-center justify-start gap-x-1">
                                         <div class="relative inline-block flex flex-row items-center justify-center">
@@ -1043,6 +1048,8 @@ async function popularStrategy(state: string) {
                               {item?.analystRating}
                               {:else if row?.rule === 'sector'}
                               {item?.sector}
+                              {:else if row?.rule === 'country'}
+                              {item?.country}
                               {:else if ['fundamentalAnalysis','trendAnalysis']?.includes(row?.rule)}
                               {item[row?.rule]?.accuracy}%
                               {:else}
