@@ -240,26 +240,22 @@ function handleAddRule() {
   
     let newRule;
   
-    switch (ruleName) {
+   switch (ruleName) {
       case 'analystRating':
-        newRule = { name: ruleName, value:  valueMappings[ruleName] }; //ruleTrend[ruleName]
-        break;
       case 'sector':
-        newRule = { name: ruleName, value:  valueMappings[ruleName] }; //ruleTrend[ruleName]
+        newRule = { name: ruleName, value: valueMappings[ruleName] };
         break;
       case 'country':
-        newRule = { name: ruleName, value:  valueMappings[ruleName] }; //ruleTrend[ruleName]
+        newRule = { name: ruleName, value: Array.isArray(valueMappings[ruleName]) ? valueMappings[ruleName] : [valueMappings[ruleName]] }; // Ensure value is an array
         break;
       default:
-        // Handle other cases if needed
-        newRule ={ 
+        newRule = { 
           name: ruleName, 
           condition: ruleCondition[ruleName], 
           value: valueMappings[ruleName] 
         };
         break;
     }
-
     handleRule(newRule);
 }
 
@@ -505,13 +501,38 @@ function changeRuleCondition(name: string, state: string) {
   ruleCondition[ruleName] = state;
 }
 
-function handleChangeValue(value) {
-  if (ruleName in valueMappings) {
+async function handleChangeValue(value) {
+  // Check if the current rule is "country"
+  if (ruleName === "country") {
+    // Ensure valueMappings[ruleName] is initialized as an array
+    if (!Array.isArray(valueMappings[ruleName])) {
+      valueMappings[ruleName] = []; // Initialize as an empty array if not already
+    }
+
+    const index = valueMappings[ruleName].indexOf(value);
+    if (index === -1) {
+      // Add the country if it's not already selected
+      valueMappings[ruleName].push(value);
+    } else {
+      // Remove the country if it's already selected (deselect)
+      valueMappings[ruleName].splice(index, 1);
+    }
+
+    // If no countries are selected, set value to "any"
+    if (valueMappings[ruleName].length === 0) {
+      valueMappings[ruleName] = "any";
+    }
+
+    await updateStockScreenerData();
+  } else if (ruleName in valueMappings) {
+    // Handle non-country rules as single values
     valueMappings[ruleName] = value;
   } else {
     console.warn(`Unhandled rule: ${ruleName}`);
   }
 }
+
+
 
 
 async function popularStrategy(state: string) {
@@ -850,8 +871,15 @@ function handleInput(event) {
                                       {#each (testList.length > 0 && searchQuery?.length > 0 ? testList : searchQuery?.length > 0 && testList?.length === 0 ? [] : listOfRelevantCountries) as item}
                                         <DropdownMenu.Item class="sm:hover:bg-[#27272A]">
                                           <div class="flex items-center">
-                                            <label on:click={() => {handleChangeValue(item)}} class="text-white" for={item}>
-                                              <input type="checkbox" checked={ruleOfList?.some(rule => rule?.value === item)} class="h-4 w-4 rounded bg-dark-500 border border-gray-500 text-blue-600 focus:ring-blue-500" id={item}>
+                                            <label on:click={() => {handleChangeValue(item)}} class="cursor-pointer text-white" for={item}>
+                                              <input type="checkbox" checked={ruleOfList?.some(rule => 
+                                                rule?.name === 'country' && 
+                                                Array?.isArray(rule?.value) && 
+                                                rule?.value.includes(item))}
+                                                class="h-4 w-4 rounded bg-dark-500 border border-gray-500 text-blue-600 focus:ring-blue-500" id={ruleOfList?.some(rule => 
+                                                rule?.name === 'country' && 
+                                                Array?.isArray(rule?.value) && 
+                                                rule?.value.includes(item))}>
                                               <span class="ml-2">{item}</span>
                                             </label>
                                           </div>

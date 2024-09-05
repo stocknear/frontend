@@ -1,6 +1,13 @@
 import { sectorList, listOfRelevantCountries } from "$lib/utils";
 
-function convertUnitToValue(input: string | number): number {
+function convertUnitToValue(
+  input: string | number | string[]
+): number | string[] {
+  // Handle arrays directly
+  if (Array.isArray(input)) {
+    return input; // Return the array as-is, conversion not needed
+  }
+
   if (typeof input === "number") {
     return input; // If it's already a number, return it directly.
   }
@@ -68,6 +75,7 @@ async function filterStockScreenerData(stockScreenerData, ruleOfList) {
     for (const rule of ruleOfList) {
       const itemValue = item[rule.name];
       const ruleValue = convertUnitToValue(rule.value);
+
       if (["trendAnalysis", "fundamentalAnalysis"].includes(rule.name)) {
         const accuracy = item[rule.name]?.accuracy;
         if (rule.condition === "over" && accuracy <= ruleValue) {
@@ -87,10 +95,10 @@ async function filterStockScreenerData(stockScreenerData, ruleOfList) {
           return false;
         }
       } else if (rule.name === "country") {
-        if (
-          listOfRelevantCountries?.includes(rule.value) &&
-          itemValue !== rule.value
-        ) {
+        // Handle the case where rule.value can be a list of countries
+        if (Array.isArray(ruleValue) && !ruleValue.includes(itemValue)) {
+          return false;
+        } else if (!Array.isArray(ruleValue) && itemValue !== ruleValue) {
           return false;
         }
       } else {
