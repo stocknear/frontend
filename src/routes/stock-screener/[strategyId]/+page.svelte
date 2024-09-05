@@ -91,7 +91,7 @@ const allRules = {
   currentRatio: { label: 'Current Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
   quickRatio: { label: 'Quick Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
   debtEquityRatio: { label: 'Debt / Equity', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
-  debtRatio: { label: 'Debt Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
+  debtRatio: { label: 'Debt Ratio', step: [1,0.5,0,-0.5,-1], category: 'fund', defaultCondition: 'over', defaultValue: -0.5 },
   returnOnAssets: { label: 'Return on Assets', step: [10,8,6,4,2,1,0,-2,-4,-6,-8,-10], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
   returnOnEquity: { label: 'Return on Equity', step: [10,8,6,4,2,1,0,-2,-4,-6,-8,-10], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
   enterpriseValue: { label: 'Enterprise Value', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: '10M' },
@@ -563,7 +563,7 @@ async function popularStrategy(state: string) {
             rules: [
                 { condition: "under", name: "marketCap", value: '100M' },
                 { condition: "over", name: "debtEquityRatio", value: 1 },
-                { condition: "over", name: "debtRatio", value: 1 },
+                { condition: "over", name: "debtRatio", value: -0.5 },
                 { condition: "over", name: "eps", value: 0 }
             ]
         },
