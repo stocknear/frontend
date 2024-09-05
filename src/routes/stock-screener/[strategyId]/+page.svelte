@@ -3,7 +3,7 @@
   import { goto} from '$app/navigation';
   import { screenWidth, strategyId, numberOfUnreadNotification, getCache, setCache} from '$lib/store';
   import toast from 'svelte-french-toast';
-  import { abbreviateNumber } from '$lib/utils';
+  import { abbreviateNumber, sectorList } from '$lib/utils';
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   //const userConfirmation = confirm('Unsaved changes detected. Leaving now will discard your strategy. Continue?');
@@ -124,6 +124,7 @@ const allRules = {
   revenuePerEmployee: { label: 'Revenue Per Employee', step: ['5M','3M','2M','1M','500K','100K',0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   profitPerEmployee: { label: 'Profit Per Employee', step: ['5M','3M','2M','1M','500K','100K',0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   totalLiabilities: { label: 'Total Liabilities', step: ['500B','200B','100B','50B','10B','1B','100M','10M','1M'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  sector: { label: 'Sector', step: sectorList, category: 'fund', defaultCondition: '', defaultValue: 'Technology' },
 
 };
 
@@ -224,6 +225,9 @@ function handleAddRule() {
   
     switch (ruleName) {
       case 'analystRating':
+        newRule = { name: ruleName, value:  valueMappings[ruleName] }; //ruleTrend[ruleName]
+        break;
+      case 'sector':
         newRule = { name: ruleName, value:  valueMappings[ruleName] }; //ruleTrend[ruleName]
         break;
       default:
@@ -421,7 +425,7 @@ function convertUnitToValue(input: string | number): number {
   }
 
   // Handle specific non-numeric cases
-  if (input.toLowerCase() === 'any' || ['Hold','Sell','Buy']?.includes(input)) {
+  if (input.toLowerCase() === 'any' || [...sectorList, 'Hold','Sell','Buy']?.includes(input)) {
     return 'any'; // Return a special value for "any" that represents a non-restrictive filter
   }
 
@@ -478,12 +482,14 @@ function filterStockScreenerData() {
         }
         
       } else if (rule.name === 'analystRating') {
-        if (['Hold', 'Sell', 'Buy']?.includes(rule.value) && itemValue === rule.value) {
-          return true;
-        } else {
+        if (['Buy', 'Hold', 'Sell']?.includes(rule.value) && itemValue !== rule.value) {
           return false;
-        }
-        
+        } 
+      } 
+      else if (rule.name === 'sector') {
+        if (sectorList?.includes(rule.value) && itemValue !== rule.value) {
+          return false;
+        } 
       } else {
         if (rule.condition === "over" && itemValue !== null && itemValue <= ruleValue) {
           return false;
@@ -848,7 +854,7 @@ async function popularStrategy(state: string) {
                                   </Button>
                                 </DropdownMenu.Trigger>
                                 <DropdownMenu.Content class="w-56 h-fit max-h-72 overflow-y-auto scroller">
-                                  {#if row?.rule !== 'analystRating'}
+                                  {#if !['analystRating','sector']?.includes(row?.rule)}
                                   <DropdownMenu.Label class="absolute mt-2 h-11 border-gray-800 border-b -top-1 z-20 fixed sticky bg-[#09090B]">
                                     <div class="flex items-center justify-start gap-x-1">
                                         <div class="relative inline-block flex flex-row items-center justify-center">
@@ -1109,6 +1115,8 @@ async function popularStrategy(state: string) {
                             <td class="whitespace-nowrap text-sm sm:text-[1rem] text-end text-white border-b-[#09090B]">
                               {#if row?.rule === 'analystRating'}
                               {item?.analystRating}
+                              {:else if row?.rule === 'sector'}
+                              {item?.sector}
                               {:else if ['fundamentalAnalysis','trendAnalysis']?.includes(row?.rule)}
                               {item[row?.rule]?.accuracy}%
                               {:else}

@@ -992,3 +992,17 @@ export const listOfCountries = [
   "Zambia",
   "Zimbabwe",
 ];
+
+export const sectorList = [
+  "Basic Materials",
+  "Communication Services",
+  "Consumer Cyclical",
+  "Consumer Defensive",
+  "Energy",
+  "Financial Services",
+  "Healthcare",
+  "Industrials",
+  "Real Estate",
+  "Technology",
+  "Utilities",
+];
