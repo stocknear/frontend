@@ -1246,7 +1246,7 @@ async function popularStrategy(state: string) {
             <!-- head -->
             <tbody>
               {#each (searchTerm?.length !== 0 ? filteredRows : allRows) as row, index}
-                <tr on:click={() => changeRule(row?.rule)} class="hover:bg-[#333333] border-b border-slate-800 cursor-pointer">
+                <tr on:click={() => changeRule(row?.rule)} class="border-b border-slate-800 cursor-pointer">
                   <td class="w-6">{index+1}</td>
                   <td class="w-3">
                     {#if ruleOfList.find((rule) => rule?.name === row?.rule)}

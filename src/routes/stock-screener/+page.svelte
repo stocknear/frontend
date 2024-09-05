@@ -419,11 +419,11 @@ onMount(async () => {
 
       <div class="relative p-2 sm:hidden -mt-2">
         {#each strategyList as item, index}
-          <div class="bg-[#09090B] shadow-lg rounded-lg border border-gray-600 h-fit pb-2 pl-4 pr-4 pt-4 mb-7">
+          <div class="bg-[#09090B] shadow-lg border-t border-b border-gray-600 h-fit pb-2 px-2 pt-4 mb-7">
               <div class="flex flex-row items-center">
                 <label class="font-medium cursor-pointer flex flex-col w-40">
-                  <span class="text-slate-300">No. Strategy</span>
-                  <span class="text-slate-300 text-[1rem]">{index+1}</span>
+                  <span class="text-white">No. Strategy</span>
+                  <span class="text-white text-[1rem]">{index+1}</span>
                 </label>
 
                 <div class="font-medium text-white flex flex-col justify-end items-end ml-auto">
@@ -437,14 +437,14 @@ onMount(async () => {
 
               <div class="flex flex-row items-center">
                 <div class="flex flex-col w-40">
-                  <span class="font-medium text-slate-300">Title</span>
+                  <span class="font-medium text-white">Title</span>
                   <span class="text-white text-[1rem] font-medium">
                     {item?.title}
                   </span>
                 </div>
 
                 <div class="flex flex-col justify-end items-end ml-auto">
-                  <span class="font-medium text-slate-300 text-ends">Total Rules</span>
+                  <span class="font-medium text-white text-ends">Total Rules</span>
                   <span class="text-white font-medium text-[1rem] text-end">
                     {item?.rules?.length}
                   </span>

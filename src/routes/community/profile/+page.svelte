@@ -570,7 +570,7 @@ onDestroy(async () => {
 
             <div class="w-full flex flex-row">
             <!--Start Profile Pic-->
-            <div class="flex items-center justify-start mb-5 w-screen sm:w-full bg-[#141417] h-48 sm:rounded-xl border border-gray-700 sm:hover:border-gray-600">
+            <div class="flex items-center justify-start mb-5 w-screen sm:w-full sm:bg-[#141417] h-48 sm:rounded-xl sm:border sm:border-gray-700 sm:hover:border-gray-600">
               <form 
                 on:submit={handleAvatar}
                 class="ml-5"
@@ -614,11 +614,12 @@ onDestroy(async () => {
                       Joined on {new Date(data?.user?.created ?? null)?.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', daySuffix: '2-digit' })}
                     </span>
                 </div>
+                
               
               
             </div>
 
-                      <!-- Sidebar -->
+            <!-- Sidebar -->
             <aside class="hidden lg:inline-block h-sh lg:w-1/3 lg:pr-2 xl:pr-0">
               <div class="lg:pl-5 z-20 h-full">
             
@@ -709,6 +710,8 @@ onDestroy(async () => {
         </div>
     
               <!--End Profile Pic-->
+
+           <div class="sm:hidden h-2 w-full -mt-10 mb-6 bg-[#27272A]" />
 
               
 
