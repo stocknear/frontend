@@ -1,5 +1,5 @@
 <script lang='ts'>
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { goto} from '$app/navigation';
   import { screenWidth, strategyId, numberOfUnreadNotification, getCache, setCache} from '$lib/store';
   import toast from 'svelte-french-toast';
@@ -7,10 +7,14 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   //const userConfirmation = confirm('Unsaved changes detected. Leaving now will discard your strategy. Continue?');
+  import { writable } from 'svelte/store';
+
+  let shouldLoadWorker = writable(false);
 
   export let data;
   export let form;
   let isLoaded = false;
+  let syncWorker: Worker | undefined;
 
   $strategyId = data?.getStrategyId;
   let ruleOfList = data?.getStrategy?.rules ?? [];
@@ -29,101 +33,101 @@
 
 // Define all possible rules and their properties
 const allRules = {
-  avgVolume: { label: 'Average Volume', step: ['100M','10M','1M','100K','10K','1K','0'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  volume: { label: 'Volume', step: ['100M','10M','1M','100K','10K','1K','0'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  rsi: { label: 'RSI', step: [90,80,70,60,50,40,30,20], category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
-  stochRSI: { label: 'Stoch RSI Fast', step: [90,80,70,60,50,40,30,20], category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
-  mfi: { label: 'MFI', step: [90,80,70,60,50,40,30,20], category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
-  cci: { label: 'CCI', step: [250,200,100,50,20,0,-20,-50,-100,-200,-250], category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
-  atr: { label: 'ATR', step: [20,15,10,5,3,1], category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
-  sma50: { label: 'SMA-50', step: [500,250,100,50,10,1], category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
-  sma200: { label: 'SMA-200', step: [500,250,100,50,10,1], category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
-  ema50: { label: 'EMA-50', step: [500,250,100,50,10,1], category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
-  ema200: { label: 'EMA-200', step: [500,250,100,50,10,1], category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
-  change1W: { label: 'Price Change 1W [%]', step: ['20%','10%','5%','1%','-1%','-5%','-10%','-20%'], category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
-  change1M: { label: 'Price Change 1M [%]', step: ['100%','50%','20%','10%','5%','1%','-1%','-5%','-10%','-20%','-50%'],category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
-  change3M: { label: 'Price Change 3M [%]', step: ['100%','50%','20%','10%','5%','1%','-1%','-5%','-10%','-20%','-50%'],category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
-  change6M: { label: 'Price Change 6M [%]', step: ['100%','50%','20%','10%','5%','1%','-1%','-5%','-10%','-20%','-50%'],category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
-  change1Y: { label: 'Price Change 1Y [%]', step: ['100%','50%','20%','10%','5%','1%','-1%','-5%','-10%','-20%','-50%'],category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
-  change3Y: { label: 'Price Change 3Y [%]', step: ['100%','50%','20%','10%','5%','1%','-1%','-5%','-10%','-20%','-50%'],category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
-  marketCap: { label: 'Market Cap', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  revenue: { label: 'Revenue', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  growthRevenue: { label: 'Revenue Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  costOfRevenue: { label: 'Cost of Revenue', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  growthCostOfRevenue: { label: 'Cost of Revenue Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  costAndExpenses: { label: 'Cost & Expenses', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  growthCostAndExpenses: { label: 'Cost & Expenses Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  netIncome: { label: 'Net Income', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  growthNetIncome: { label: 'Net Income Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  grossProfit: { label: 'Gross Profit', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  growthGrossProfit: { label: 'Gross Profit Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  researchAndDevelopmentExpenses: { label: 'Research & Development', step: ['10B','1B','100M','10M','1M',0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  growthResearchAndDevelopmentExpenses: { label: 'R&D Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  payoutRatio: { label: 'Payout Ratio [%]', step: ['100%','80%','60%','40%','20%','0%','-20%','-40%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  dividendYield: { label: 'Dividend Yield [%]', step: ['50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  annualDividend: { label: 'Annual Dividend', step: [10,5,3,2,1,0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  dividendGrowth: { label: 'Dividend Growth [%]', step: ['50%','20%','10%','5%','3%','2%','1%','0%'],category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  eps: { label: 'EPS', step: [20,15,10,5,3,2,1,0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  growthEPS: { label: 'EPS Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  interestIncome: { label: 'Interest Income', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  interestExpense: { label: 'Interest Expenses', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  growthInterestExpense: { label: 'Interest Expenses Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  operatingExpenses: { label: 'Operating Expenses', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  growthOperatingExpenses: { label: 'Operating Expenses Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  operatingIncome: { label: 'Operating Income', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  growthOperatingIncome: { label: 'Operating Income Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  pe: { label: 'PE Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  forwardPE: { label: 'Forward PE', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  priceToBookRatio: { label: 'PB Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  priceToSalesRatio: { label: 'PS Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  beta: { label: 'Beta', step: [10,5,1,-5,-10], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  ebitda: { label: 'EBITDA', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  growthEBITDA: { label: 'EBITDA Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  var: { label: 'Value-at-Risk', step: ['-1%','-5%','-10%','-15%','-20%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  trendAnalysis: { label: 'AI Trend Analysis (Bullish)', step: ['90%','80%','70%','60%','50%'], category: 'ai', defaultCondition: 'over', defaultValue: 'any' },
-  fundamentalAnalysis: { label: 'AI Fundamental Analysis (Bullish)', step: ['90%','80%','70%','60%','50%'], category: 'ai', defaultCondition: 'over', defaultValue: 'any' },
+  avgVolume: { label: 'Average Volume', step: ['100M','10M','1M','100K','10K','1K','0'], category: 'fund', defaultCondition: 'over', defaultValue: 0 },
+  volume: { label: 'Volume', step: ['100M','10M','1M','100K','10K','1K','0'], category: 'fund', defaultCondition: 'over', defaultValue: 0 },
+  rsi: { label: 'RSI', step: [90,80,70,60,50,40,30,20], category: 'ta', defaultCondition: 'over', defaultValue: 40 },
+  stochRSI: { label: 'Stoch RSI Fast', step: [90,80,70,60,50,40,30,20], category: 'ta', defaultCondition: 'over', defaultValue: 40 },
+  mfi: { label: 'MFI', step: [90,80,70,60,50,40,30,20], category: 'ta', defaultCondition: 'over', defaultValue: 40 },
+  cci: { label: 'CCI', step: [250,200,100,50,20,0,-20,-50,-100,-200,-250], category: 'ta', defaultCondition: 'over', defaultValue: 0 },
+  atr: { label: 'ATR', step: [20,15,10,5,3,1], category: 'ta', defaultCondition: 'over', defaultValue: 10 },
+  sma50: { label: 'SMA-50', step: [500,250,100,50,10,1], category: 'ta', defaultCondition: 'over', defaultValue: 10 },
+  sma200: { label: 'SMA-200', step: [500,250,100,50,10,1], category: 'ta', defaultCondition: 'over', defaultValue: 10 },
+  ema50: { label: 'EMA-50', step: [500,250,100,50,10,1], category: 'ta', defaultCondition: 'over', defaultValue: 10 },
+  ema200: { label: 'EMA-200', step: [500,250,100,50,10,1], category: 'ta', defaultCondition: 'over', defaultValue: 10 },
+  change1W: { label: 'Price Change 1W [%]', step: ['20%','10%','5%','1%','-1%','-5%','-10%','-20%'], category: 'ta', defaultCondition: 'over', defaultValue: '1%' },
+  change1M: { label: 'Price Change 1M [%]', step: ['100%','50%','20%','10%','5%','1%','-1%','-5%','-10%','-20%','-50%'],category: 'ta', defaultCondition: 'over', defaultValue: '10%' },
+  change3M: { label: 'Price Change 3M [%]', step: ['100%','50%','20%','10%','5%','1%','-1%','-5%','-10%','-20%','-50%'],category: 'ta', defaultCondition: 'over', defaultValue: '10%' },
+  change6M: { label: 'Price Change 6M [%]', step: ['100%','50%','20%','10%','5%','1%','-1%','-5%','-10%','-20%','-50%'],category: 'ta', defaultCondition: 'over', defaultValue: '10%' },
+  change1Y: { label: 'Price Change 1Y [%]', step: ['100%','50%','20%','10%','5%','1%','-1%','-5%','-10%','-20%','-50%'],category: 'ta', defaultCondition: 'over', defaultValue: '10%' },
+  change3Y: { label: 'Price Change 3Y [%]', step: ['100%','50%','20%','10%','5%','1%','-1%','-5%','-10%','-20%','-50%'],category: 'ta', defaultCondition: 'over', defaultValue: '10%' },
+  marketCap: { label: 'Market Cap', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: '10M' },
+  revenue: { label: 'Revenue', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: '10M' },
+  growthRevenue: { label: 'Revenue Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  costOfRevenue: { label: 'Cost of Revenue', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: '10M' },
+  growthCostOfRevenue: { label: 'Cost of Revenue Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  costAndExpenses: { label: 'Cost & Expenses', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: '10M' },
+  growthCostAndExpenses: { label: 'Cost & Expenses Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  netIncome: { label: 'Net Income', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: '10M' },
+  growthNetIncome: { label: 'Net Income Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  grossProfit: { label: 'Gross Profit', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: '10M' },
+  growthGrossProfit: { label: 'Gross Profit Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  researchAndDevelopmentExpenses: { label: 'Research & Development', step: ['10B','1B','100M','10M','1M',0], category: 'fund', defaultCondition: 'over', defaultValue: 0 },
+  growthResearchAndDevelopmentExpenses: { label: 'R&D Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  payoutRatio: { label: 'Payout Ratio [%]', step: ['100%','80%','60%','40%','20%','0%','-20%','-40%'], category: 'fund', defaultCondition: 'over', defaultValue: '0%' },
+  dividendYield: { label: 'Dividend Yield [%]', step: ['50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  annualDividend: { label: 'Annual Dividend', step: [10,5,3,2,1,0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  dividendGrowth: { label: 'Dividend Growth [%]', step: ['50%','20%','10%','5%','3%','2%','1%','0%'],category: 'fund', defaultCondition: 'over', defaultValue: 0 },
+  eps: { label: 'EPS', step: [20,15,10,5,3,2,1,0], category: 'fund', defaultCondition: 'over', defaultValue: 0 },
+  growthEPS: { label: 'EPS Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  interestIncome: { label: 'Interest Income', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: '10M' },
+  interestExpense: { label: 'Interest Expenses', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: '10M' },
+  growthInterestExpense: { label: 'Interest Expenses Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  operatingExpenses: { label: 'Operating Expenses', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: '10M' },
+  growthOperatingExpenses: { label: 'Operating Expenses Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  operatingIncome: { label: 'Operating Income', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: '10M' },
+  growthOperatingIncome: { label: 'Operating Income Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  pe: { label: 'PE Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
+  forwardPE: { label: 'Forward PE', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], category: 'fund', defaultCondition: 'over', defaultValue: 0 },
+  priceToBookRatio: { label: 'PB Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
+  priceToSalesRatio: { label: 'PS Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
+  beta: { label: 'Beta', step: [10,5,1,-5,-10], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
+  ebitda: { label: 'EBITDA', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: '10M' },
+  growthEBITDA: { label: 'EBITDA Growth [%]', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  var: { label: 'Value-at-Risk', step: ['-1%','-5%','-10%','-15%','-20%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  trendAnalysis: { label: 'AI Trend Analysis (Bullish)', step: ['80%','70%','60%','50%'], category: 'ai', defaultCondition: 'over', defaultValue: '50%' },
+  fundamentalAnalysis: { label: 'AI Fundamental Analysis (Bullish)', step: ['80%','70%','60%','50%'], category: 'ai', defaultCondition: 'over', defaultValue: '50%' },
   analystRating: { label: 'Analyst Rating', step: ['Buy', 'Hold', 'Sell'], category: 'fund', defaultCondition: '', defaultValue: 'Buy' },
-  currentRatio: { label: 'Current Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  quickRatio: { label: 'Quick Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  debtEquityRatio: { label: 'Debt / Equity', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  debtRatio: { label: 'Debt Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  returnOnAssets: { label: 'Return on Assets', step: [10,8,6,4,2,1,0,-2,-4,-6,-8,-10], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  returnOnEquity: { label: 'Return on Equity', step: [10,8,6,4,2,1,0,-2,-4,-6,-8,-10], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  enterpriseValue: { label: 'Enterprise Value', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  freeCashFlowPerShare: { label: 'FCF / Share', step: [10,8,6,4,2,1,0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  cashPerShare: { label: 'Cash / Share', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  priceToFreeCashFlowsRatio: { label: 'Price / FCF', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  sharesShort: { label: 'Short Interest', step: ['50M','20M','10M','5M','1M','500K'],category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  shortRatio: { label: 'Short Ratio', step: [10,5,3,2,1,0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  shortFloatPercent: { label: 'Short % Float', step: ['50%','30%','20%','10%','5%','1%','0%'], category:'fund', defaultCondition: 'over', defaultValue: 'any' },
-  shortOutStandingPercent: { label: 'Short % Shares', step: ['50%','30%','20%','10%','5%','1%','0%'], category:'fund', defaultCondition: 'over', defaultValue: 'any' },
-  failToDeliver: { label: 'Fail to Deliver', step: ['1M','500K','200K','100K','50K','10K','1K'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  freeCashFlow: { label: 'Free Cash Flow', step: ['50B','10B','1B','100M','10M','1M',0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  operatingCashFlow: { label: 'Operating Cash Flow', step: ['50B','10B','1B','100M','10M','1M',0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  operatingCashFlowPerShare: { label: 'Operating Cash Flow / Share', step: [50,40,30,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  freeCashFlowMargin: { label: 'FCF Margin', step: ['80%','50%','20%','10%','5%','0%','-5%','-10%','-20%','-50%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  totalDebt: { label: 'Total Debt', step: ['200B','100B','50B','10B','1B','100M','10M','1M'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  cashFlowToDebtRatio: { label: 'Cash Flow / Debt', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  operatingCashFlowSalesRatio: { label: 'Operating Cash Flow / Sales', step: [5,3,1,0.5,0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  priceCashFlowRatio: { label: 'Price / Cash Flow', step: [20,15,10,5,3,1,0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  priceEarningsRatio: { label: 'Price / Earnings', step: [100,50,20,10,5,0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  priceEarningsToGrowthRatio: { label: 'Price / Earnings Growth', step: [10,5,3,2,1,0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  stockBasedCompensation: { label: 'Stock-Based Compensation', step: ['10B','1B','100M','10M','1M',0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  totalStockholdersEquity: { label: 'Shareholders Equity', step: ['100B','50B','10B','1B','100M','50M','10M','1M',0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  grossProfitMargin: { label: 'Gross Margin', step: ['80%','60%','50%','20%','10%','5%','1%','0.5%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  netProfitMargin: { label: 'Profit Margin', step: ['80%','60%','50%','20%','10%','5%','1%','0.5%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  pretaxProfitMargin: { label: 'Pretax Margin', step: ['80%','60%','50%','20%','10%','5%','1%','0.5%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  ebitdaMargin: { label: 'EBITDA Margin', step: ['80%','60%','50%','20%','10%','5%','1%','0.5%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  assetTurnover: { label: 'Asset Turnover', step: [5,3,2,1,0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  earningsYield: { label: 'Earnings Yield', step: ['20%','15%','10%','5%','0%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  freeCashFlowYield: { label: 'FCF Yield', step: ['20%','15%','10%','5%','0%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  effectiveTaxRate: { label: 'Effective Tax Rate', step: ['20%','15%','10%','5%','0%'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  fixedAssetTurnover: { label: 'Fixed Asset Turnover', step: [10,5,3,2,1,0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  sharesOutStanding: { label: 'Shares Outstanding', step: ['10B','5B','1B','100M','50M','10M','1M'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  employees: { label: 'Employees', step: ['500K','300K','200K','100K','10K','1K','100'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  revenuePerEmployee: { label: 'Revenue Per Employee', step: ['5M','3M','2M','1M','500K','100K',0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  profitPerEmployee: { label: 'Profit Per Employee', step: ['5M','3M','2M','1M','500K','100K',0], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
-  totalLiabilities: { label: 'Total Liabilities', step: ['500B','200B','100B','50B','10B','1B','100M','10M','1M'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  currentRatio: { label: 'Current Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
+  quickRatio: { label: 'Quick Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
+  debtEquityRatio: { label: 'Debt / Equity', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
+  debtRatio: { label: 'Debt Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
+  returnOnAssets: { label: 'Return on Assets', step: [10,8,6,4,2,1,0,-2,-4,-6,-8,-10], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  returnOnEquity: { label: 'Return on Equity', step: [10,8,6,4,2,1,0,-2,-4,-6,-8,-10], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  enterpriseValue: { label: 'Enterprise Value', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: '10M' },
+  freeCashFlowPerShare: { label: 'FCF / Share', step: [10,8,6,4,2,1,0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  cashPerShare: { label: 'Cash / Share', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  priceToFreeCashFlowsRatio: { label: 'Price / FCF', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  sharesShort: { label: 'Short Interest', step: ['50M','20M','10M','5M','1M','500K'],category: 'fund', defaultCondition: 'over', defaultValue: '500K' },
+  shortRatio: { label: 'Short Ratio', step: [10,5,3,2,1,0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  shortFloatPercent: { label: 'Short % Float', step: ['50%','30%','20%','10%','5%','1%','0%'], category:'fund', defaultCondition: 'over', defaultValue: '0%' },
+  shortOutStandingPercent: { label: 'Short % Shares', step: ['50%','30%','20%','10%','5%','1%','0%'], category:'fund', defaultCondition: 'over', defaultValue: '0%' },
+  failToDeliver: { label: 'Fail to Deliver', step: ['1M','500K','200K','100K','50K','10K','1K'], category: 'fund', defaultCondition: 'over', defaultValue: '1K' },
+  freeCashFlow: { label: 'Free Cash Flow', step: ['50B','10B','1B','100M','10M','1M',0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  operatingCashFlow: { label: 'Operating Cash Flow', step: ['50B','10B','1B','100M','10M','1M',0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  operatingCashFlowPerShare: { label: 'Operating Cash Flow / Share', step: [50,40,30,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: '1' },
+  freeCashFlowMargin: { label: 'FCF Margin', step: ['80%','50%','20%','10%','5%','0%','-5%','-10%','-20%','-50%'], category: 'fund', defaultCondition: 'over', defaultValue: '0%' },
+  totalDebt: { label: 'Total Debt', step: ['200B','100B','50B','10B','1B','100M','10M','1M'], category: 'fund', defaultCondition: 'over', defaultValue: '1M' },
+  cashFlowToDebtRatio: { label: 'Cash Flow / Debt', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: '1' },
+  operatingCashFlowSalesRatio: { label: 'Operating Cash Flow / Sales', step: [5,3,1,0.5,0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  priceCashFlowRatio: { label: 'Price / Cash Flow', step: [20,15,10,5,3,1,0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  priceEarningsRatio: { label: 'Price / Earnings', step: [100,50,20,10,5,0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  priceEarningsToGrowthRatio: { label: 'Price / Earnings Growth', step: [10,5,3,2,1,0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  stockBasedCompensation: { label: 'Stock-Based Compensation', step: ['10B','1B','100M','10M','1M',0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  totalStockholdersEquity: { label: 'Shareholders Equity', step: ['100B','50B','10B','1B','100M','50M','10M','1M',0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  grossProfitMargin: { label: 'Gross Margin', step: ['80%','60%','50%','20%','10%','5%','1%','0.5%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  netProfitMargin: { label: 'Profit Margin', step: ['80%','60%','50%','20%','10%','5%','1%','0.5%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  pretaxProfitMargin: { label: 'Pretax Margin', step: ['80%','60%','50%','20%','10%','5%','1%','0.5%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  ebitdaMargin: { label: 'EBITDA Margin', step: ['80%','60%','50%','20%','10%','5%','1%','0.5%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  assetTurnover: { label: 'Asset Turnover', step: [5,3,2,1,0], category: 'fund', defaultCondition: 'over', defaultValue: 0 },
+  earningsYield: { label: 'Earnings Yield', step: ['20%','15%','10%','5%','0%'], category: 'fund', defaultCondition: 'over', defaultValue: '0%' },
+  freeCashFlowYield: { label: 'FCF Yield', step: ['20%','15%','10%','5%','0%'], category: 'fund', defaultCondition: 'over', defaultValue: '0%' },
+  effectiveTaxRate: { label: 'Effective Tax Rate', step: ['20%','15%','10%','5%','0%'], category: 'fund', defaultCondition: 'over', defaultValue: '0%' },
+  fixedAssetTurnover: { label: 'Fixed Asset Turnover', step: [10,5,3,2,1,0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  sharesOutStanding: { label: 'Shares Outstanding', step: ['10B','5B','1B','100M','50M','10M','1M'], category: 'fund', defaultCondition: 'over', defaultValue: '1M' },
+  employees: { label: 'Employees', step: ['500K','300K','200K','100K','10K','1K','100'], category: 'fund', defaultCondition: 'over', defaultValue: '100K' },
+  revenuePerEmployee: { label: 'Revenue Per Employee', step: ['5M','3M','2M','1M','500K','100K',0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  profitPerEmployee: { label: 'Profit Per Employee', step: ['5M','3M','2M','1M','500K','100K',0], category: 'fund', defaultCondition: 'over', defaultValue: '0' },
+  totalLiabilities: { label: 'Total Liabilities', step: ['500B','200B','100B','50B','10B','1B','100M','10M','1M'], category: 'fund', defaultCondition: 'over', defaultValue: '1M' },
   sector: { label: 'Sector', step: sectorList, category: 'fund', defaultCondition: '', defaultValue: 'Technology' },
 
 };
@@ -211,6 +215,26 @@ function changeRule(state: string)
   //closePopup?.dispatchEvent(new MouseEvent('click'))
 }
 
+
+
+const handleMessage = (event) => {
+    displayRules = allRows?.filter(row => ruleOfList.some(rule => rule.name === row.rule));
+    filteredData = event.data?.filteredData ?? [];
+    displayResults = filteredData?.slice(0, 50);
+    console.log(filteredData)
+
+};
+
+const loadWorker = async () => {
+    if (!syncWorker) {
+        const SyncWorker = await import('./workers/filterWorker?worker');
+        syncWorker = new SyncWorker.default();
+        syncWorker.onmessage = handleMessage;
+    }
+    syncWorker.postMessage({ stockScreenerData, ruleOfList });
+};
+
+
  
 function handleAddRule() {
     
@@ -270,7 +294,6 @@ async function handleRule(newRule) {
 }
 
 async function updateStockScreenerData() {
-  isLoaded = false;
   try {
     const newData = await getStockScreenerData(ruleOfList);
     stockScreenerData = newData?.filter(item => 
@@ -281,16 +304,14 @@ async function updateStockScreenerData() {
   );
 
     displayRules = allRows?.filter(row => ruleOfList?.some(rule => rule.name === row.rule));
-    filteredData = filterStockScreenerData();
+    shouldLoadWorker.set(true);
 
-    displayResults = filteredData?.slice(0, 50);
   } catch (error) {
     console.error('Error fetching new stock screener data:', error);
     toast.error('Failed to update stock data. Please try again.', {
       style: 'border-radius: 200px; background: #333; color: #fff;'
     });
   }
-  isLoaded = true;
 }
       
 async function handleResetAll() {
@@ -354,13 +375,27 @@ const handleKeyDown = (event) => {
 let LoginPopup;
 
 onMount(async () => {
-    
+  
   if(!data?.user) {
     LoginPopup = (await import('$lib/components/LoginPopup.svelte')).default;
   }
 
+    shouldLoadWorker.subscribe(async (value) => {
+    if (value) {
+      isLoaded = false;
+      await loadWorker();
+      shouldLoadWorker.set(false); // Reset after worker is loaded
+      isLoaded = true;
+    }
+  });
+  
 });
 
+
+onDestroy(() => {
+    syncWorker?.terminate();
+    syncWorker = undefined;
+});
 
   
 async function handleSave(printToast) {
@@ -398,109 +433,20 @@ async function handleSave(printToast) {
 }
   
 
-
 $: {
   if (ruleOfList) {
-    isLoaded = false;
     const ruleToUpdate = ruleOfList?.find(rule => rule.name === ruleName);
     if (ruleToUpdate) {
       ruleToUpdate.value = valueMappings[ruleToUpdate.name];
       ruleToUpdate.condition = ruleCondition[ruleToUpdate.name];
       ruleOfList = [...ruleOfList];
     }
-
-    displayRules = allRows?.filter(row => ruleOfList.some(rule => rule.name === row.rule));
-    filteredData = filterStockScreenerData();
+    shouldLoadWorker.set(true);
+    
   }
 }
   
 
-function convertUnitToValue(input: string | number): number {
-  if (typeof input === 'number') {
-    return input; // If it's already a number, return it directly.
-  }
-
-  if (typeof input !== 'string') {
-    throw new TypeError(`Expected a string or number, but received ${typeof input}`);
-  }
-
-  // Handle specific non-numeric cases
-  if (input.toLowerCase() === 'any' || [...sectorList, 'Hold','Sell','Buy']?.includes(input)) {
-    return 'any'; // Return a special value for "any" that represents a non-restrictive filter
-  }
-
-  // Handle percentage values by stripping the "%" sign and converting to a number
-  if (input.endsWith('%')) {
-    const numericValue = parseFloat(input.slice(0, -1));
-    if (isNaN(numericValue)) {
-      throw new Error(`Unable to convert ${input} to a number`);
-    }
-    return numericValue; // Convert percentage to a decimal
-  }
-
-  const units = {
-    'B': 1_000_000_000,
-    'M': 1_000_000,
-    'K': 1_000,
-  };
-
-  const match = input.match(/^(\d+(\.\d+)?)([BMK])?$/);
-  if (match) {
-    const value = parseFloat(match[1]);
-    const unit = match[3] as keyof typeof units;
-
-    // If there's a unit, multiply the value by the unit's multiplier
-    if (unit) {
-      return value * units[unit];
-    } else {
-      // If no unit, return the value directly
-      return value;
-    }
-  }
-
-  // If input can't be parsed, throw an error
-  const numericValue = parseFloat(input);
-  if (isNaN(numericValue)) {
-    throw new Error(`Unable to convert ${input} to a number`);
-  }
-
-  return numericValue;
-}
-
-
-function filterStockScreenerData() {
-  return stockScreenerData?.filter(item => {
-    for (const rule of ruleOfList) {
-      const itemValue = item[rule.name];
-      const ruleValue = convertUnitToValue(rule.value);
-      if (['trendAnalysis', 'fundamentalAnalysis'].includes(rule.name)) {
-        const accuracy = item[rule.name]?.accuracy;
-        if (rule.condition === "over" && accuracy <= ruleValue) {
-          return false;
-        } else if (rule.condition === "under" && accuracy > ruleValue) {
-          return false;
-        }
-        
-      } else if (rule.name === 'analystRating') {
-        if (['Buy', 'Hold', 'Sell']?.includes(rule.value) && itemValue !== rule.value) {
-          return false;
-        } 
-      } 
-      else if (rule.name === 'sector') {
-        if (sectorList?.includes(rule.value) && itemValue !== rule.value) {
-          return false;
-        } 
-      } else {
-        if (rule.condition === "over" && itemValue !== null && itemValue <= ruleValue) {
-          return false;
-        } else if (rule.condition === "under" && itemValue !== null && itemValue > ruleValue) {
-          return false;
-        }
-      }
-    }
-    return true;
-  });
-}
 
 
 enum Order {
@@ -555,12 +501,7 @@ $: {
   }
 }
 
-$: {
-  if(displayResults && typeof window !== 'undefined' && isLoaded === false) {
-    displayResults = filteredData?.slice(0, 50);
-    isLoaded = true;
-  }
-}
+
 
 $: isSaved = !ruleOfList;
 
@@ -1001,8 +942,7 @@ async function popularStrategy(state: string) {
                   
                 <!--Start Matching Preview-->
               {#if isLoaded}
-                {#if displayResults?.length !== 0}
-                
+                {#if filteredData?.length !== 0}
                   {#if displayTableTab === 'general'}
                   <div class="w-full rounded-lg overflow-x-scroll ">
                     <table class="table table-sm table-compact w-full bg-[#09090B] border-bg-[#09090B]">
@@ -1132,7 +1072,11 @@ async function popularStrategy(state: string) {
 
                   </div>
                   {/if}
-
+                {:else}
+                <div class="text-white p-3 sm:p-5 mb-10 rounded-lg sm:flex sm:flex-row sm:items-center border border-slate-800 text-sm sm:text-[1rem]">      
+                  <svg class="w-6 h-6 flex-shrink-0 inline-block sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="#a474f6" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"/></svg>
+                  Looks like your taste is one-of-a-kind! No matches found... yet!
+              </div>
                 {/if}
                   {:else}
                   <div class="flex justify-center items-center h-80">
