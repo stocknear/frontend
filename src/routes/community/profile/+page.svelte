@@ -793,7 +793,7 @@ onDestroy(async () => {
                               {#if settingsTab ==='personalData'}
                               <form
                                 on:submit={updatePersonalData}
-                                class="flex flex-col space-y-2 w-full"
+                                class="flex flex-col space-y-2 w-full max-w-lg"
                               >
                                     <Input
                                     id="username"
@@ -822,7 +822,7 @@ onDestroy(async () => {
                               {:else}
                               <form
                               on:submit={updatePassword}
-                              class="flex flex-col space-y-2 w-full"
+                              class="flex flex-col space-y-2 w-full max-w-lg"
                               >
                               <Input
                                     id="oldPassword"
