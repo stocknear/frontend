@@ -824,19 +824,18 @@ function handleInput(event) {
                                     </div> 
                                   </DropdownMenu.Label>
                                   {:else}
-                                  <div class="relative z-40 focus:outline-none top-0 "
+                                  <div class="relative sticky z-40 focus:outline-none -top-1"
                                       tabindex="0" role="menu" style="">
                                   <input bind:value={searchQuery}
                                       on:input={handleInput}
                                       autocomplete="off"
-                                      class="absolute fixed sticky top-0 w-full border-0 bg-[#09090B] border-b border-gray-200 
+                                      class="absolute fixed sticky w-full border-0 bg-[#09090B] border-b border-gray-200 
                                       focus:border-gray-200 focus:ring-0 text-white placeholder:text-gray-300" 
-                                      ref={(node) => node?.focus()}
                                       type="search" 
                                       placeholder="Search...">
                                   </div>
                                   {/if}
-                                  <DropdownMenu.Group class="min-h-10">
+                                  <DropdownMenu.Group class="min-h-10 mt-2">
                                     {#if row?.rule !== 'country'}
                                       {#each row?.step as newValue}
                                         <DropdownMenu.Item class="sm:hover:bg-[#27272A]">
@@ -850,9 +849,12 @@ function handleInput(event) {
                                     {:else}
                                       {#each (testList.length > 0 && searchQuery?.length > 0 ? testList : searchQuery?.length > 0 && testList?.length === 0 ? [] : listOfRelevantCountries) as item}
                                         <DropdownMenu.Item class="sm:hover:bg-[#27272A]">
-                                          <button on:click={() => {handleChangeValue(item)}} class="block w-full border-b border-gray-600 px-4 py-1.5 text-left text-sm sm:text-[1rem] rounded text-white last:border-0 sm:hover:bg-[#27272A] focus:bg-blue-100 focus:text-gray-900 focus:outline-none">
-                                            {item}
-                                          </button>
+                                          <div class="flex items-center">
+                                            <label on:click={() => {handleChangeValue(item)}} class="text-white" for={item}>
+                                              <input type="checkbox" checked={ruleOfList?.some(rule => rule?.value === item)} class="h-4 w-4 rounded bg-dark-500 border border-gray-500 text-blue-600 focus:ring-blue-500" id={item}>
+                                              <span class="ml-2">{item}</span>
+                                            </label>
+                                          </div>
                                         </DropdownMenu.Item>
                                       {/each}
 

@@ -997,7 +997,7 @@ export const listOfRelevantCountries = [
   "United States", // By far the most companies listed on the NYSE
   "China",
   "Canada",
-  "UK",
+  "United Kingdom",
   "Japan",
   "Israel",
   "Brazil",
