@@ -29,7 +29,7 @@
 
 // Define all possible rules and their properties
 const allRules = {
-  avgVolume: { label: 'Avgerage Volume', step: ['100M','10M','1M','100K','10K','1K','0'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
+  avgVolume: { label: 'Average Volume', step: ['100M','10M','1M','100K','10K','1K','0'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   volume: { label: 'Volume', step: ['100M','10M','1M','100K','10K','1K','0'], category: 'fund', defaultCondition: 'over', defaultValue: 'any' },
   rsi: { label: 'RSI', step: [90,80,70,60,50,40,30,20], category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
   stochRSI: { label: 'Stoch RSI Fast', step: [90,80,70,60,50,40,30,20], category: 'ta', defaultCondition: 'over', defaultValue: 'any' },
