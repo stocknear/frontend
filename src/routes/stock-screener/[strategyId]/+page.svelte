@@ -7,6 +7,7 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   //const userConfirmation = confirm('Unsaved changes detected. Leaving now will discard your strategy. Continue?');
+  import { compareTwoStrings } from 'string-similarity';
 
   import { writable } from 'svelte/store';
 
@@ -16,6 +17,8 @@
   export let form;
   let isLoaded = false;
   let syncWorker: Worker | undefined;
+  let searchQuery = '';
+  $: testList = [];
 
   $strategyId = data?.getStrategyId;
   let ruleOfList = data?.getStrategy?.rules ?? [];
@@ -595,6 +598,23 @@ async function popularStrategy(state: string) {
 }
 
 
+function handleInput(event) {
+    const searchQuery = event.target.value?.toLowerCase() || '';
+  
+    setTimeout(() => {
+        testList = [];
+
+        if (searchQuery.length > 0) {
+            testList = listOfRelevantCountries?.filter(item => {
+                const country = item?.toLowerCase();
+                // Check if country starts with searchQuery
+                return country.startsWith(searchQuery);
+            }) || [];
+        }
+        console.log(testList);
+    }, 50);
+}
+
 </script>
   
   
@@ -803,17 +823,40 @@ async function popularStrategy(state: string) {
                                         </div>
                                     </div> 
                                   </DropdownMenu.Label>
+                                  {:else}
+                                  <div class="relative z-40 focus:outline-none top-0 "
+                                      tabindex="0" role="menu" style="">
+                                  <input bind:value={searchQuery}
+                                      on:input={handleInput}
+                                      autocomplete="off"
+                                      class="absolute fixed sticky top-0 w-full border-0 bg-[#09090B] border-b border-gray-200 
+                                      focus:border-gray-200 focus:ring-0 text-white placeholder:text-gray-300" 
+                                      ref={(node) => node?.focus()}
+                                      type="search" 
+                                      placeholder="Search...">
+                                  </div>
                                   {/if}
-                                  <DropdownMenu.Group>
-                                    {#each row?.step as newValue}
-                                      <DropdownMenu.Item class="sm:hover:bg-[#27272A]">
+                                  <DropdownMenu.Group class="min-h-10">
+                                    {#if row?.rule !== 'country'}
+                                      {#each row?.step as newValue}
+                                        <DropdownMenu.Item class="sm:hover:bg-[#27272A]">
 
-                                      <button on:click={() => {handleChangeValue(newValue)}} class="block w-full border-b border-gray-600 px-4 py-1.5 text-left text-sm sm:text-[1rem] rounded text-white last:border-0 sm:hover:bg-[#27272A]
-                                                      focus:bg-blue-100 focus:text-gray-900 focus:outline-none">
-                                        {ruleCondition[row?.rule] !== undefined ? ruleCondition[row?.rule] : ''} {newValue}
-                                      </button>
-                                      </DropdownMenu.Item>      
-                                    {/each}                          
+                                        <button on:click={() => {handleChangeValue(newValue)}} class="block w-full border-b border-gray-600 px-4 py-1.5 text-left text-sm sm:text-[1rem] rounded text-white last:border-0 sm:hover:bg-[#27272A]
+                                                        focus:bg-blue-100 focus:text-gray-900 focus:outline-none">
+                                            {ruleCondition[row?.rule] !== undefined ? ruleCondition[row?.rule] : ''} {newValue}
+                                        </button>
+                                        </DropdownMenu.Item>      
+                                      {/each}
+                                    {:else}
+                                      {#each (testList.length > 0 && searchQuery?.length > 0 ? testList : searchQuery?.length > 0 && testList?.length === 0 ? [] : listOfRelevantCountries) as item}
+                                        <DropdownMenu.Item class="sm:hover:bg-[#27272A]">
+                                          <button on:click={() => {handleChangeValue(item)}} class="block w-full border-b border-gray-600 px-4 py-1.5 text-left text-sm sm:text-[1rem] rounded text-white last:border-0 sm:hover:bg-[#27272A] focus:bg-blue-100 focus:text-gray-900 focus:outline-none">
+                                            {item}
+                                          </button>
+                                        </DropdownMenu.Item>
+                                      {/each}
+
+                                    {/if}                      
                                   </DropdownMenu.Group>
                                 </DropdownMenu.Content>
                               </DropdownMenu.Root>
