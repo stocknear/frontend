@@ -7,7 +7,6 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   //const userConfirmation = confirm('Unsaved changes detected. Leaving now will discard your strategy. Continue?');
-  import { compareTwoStrings } from 'string-similarity';
 
   import { writable } from 'svelte/store';
 
@@ -86,6 +85,11 @@ const allRules = {
   growthTotalLiabilities: { label: 'Total Liabilities Growth', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
   growthTotalDebt: { label: 'Total Debt Growth', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
   growthTotalStockholdersEquity: { label: 'Shareholders Equity Growth', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  cagr3YearRevenue: { label: 'Revenue CAGR 3Y', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  cagr5YearRevenue: { label: 'Revenue CAGR 5Y', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  cagr3YearEPS: { label: 'EPS CAGR 3Y', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  cagr5YearEPS: { label: 'EPS CAGR 5Y', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+
 
   pe: { label: 'PE Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
   forwardPE: { label: 'Forward PE', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], category: 'fund', defaultCondition: 'over', defaultValue: 0 },
