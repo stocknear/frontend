@@ -179,12 +179,12 @@ $: {
           </table>
         </div>
 
-        <h2 class="text-start sm:ml-4 text-xl font-bold text-white pb-2 pt-5 sm:pt-3">
+        <h2 class="text-start sm:ml-4 text-xl font-bold text-white pb-2 pt-5 sm:pt-3 p-1 sm:p-0">
           Description
         </h2>
 
 
-        <p class="text-gray-100 sm:ml-2 text-sm whitespace-normal sm:p-2">
+        <p class="text-gray-100 sm:ml-2 text-sm whitespace-normal p-1 sm:p-2">
           {#if showFullText}
           <div transition:fade={{ delay: 0, duration: 80 }} in={showFullText}>
             {description}
