@@ -73,7 +73,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
     
     
     <div class="flex flex-col w-full justify-center items-center">
-      <div class="text-center w-full">                
+      <div class="text-center w-full pb-20 sm:pb-10">                
 
         <section>
           <div class="relative w-full mx-auto overflow-hidden">
@@ -494,44 +494,6 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
   
 
 </div>
-
-
-
-
-
-    <section class="bg-[#27272A] w-full max-w-screen ">
-      <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-          <div class="flex flex-col sm:flex-row items-center mt-10 mb-10 mx-auto justify-center">
-              <div class="m-auto sm:mx-8 text-center sm:text-start">
-              <h2 class="mb-4 text-4xl tracking-tight font-bold leading-tight text-white">Start your free trial today</h2>
-              <p class="mb-8 font-light font-medium text-white md:text-[1rem]">Try Stocknear Platform for 30 days. No credit card required.</p>
-              
-              <a href='/register'
-              class="animate-shine w-fit m-auto group relative grid overflow-hidden rounded-xl px-6 py-3 shadow-[0_1000px_0_0_hsl(0_0%_20%)_inset] transition-colors"
-            >
-              <span>
-                <span
-                  class="spark mask-gradient animate-flip before:animate-kitrotate absolute inset-0 h-[100%] w-[100%] overflow-hidden rounded-xl [mask:linear-gradient(white,_transparent_50%)] before:absolute before:aspect-square before:w-[200%] before:rotate-[-90deg] before:bg-[conic-gradient(from_0deg,transparent_0_340deg,white_360deg)] before:content-[''] before:[inset:0_auto_auto_50%] before:[translate:-50%_-15%]"
-                />
-              </span>
-              <span
-                class="backdrop absolute inset-px rounded-[11px] bg-purple-600 transition-colors duration-100 sm:group-hover:bg-purple-700"
-              />
-              <span class="z-10 text-white text-[1rem] sm:text-lg font-semibold">
-                <slot>Free trial for 30 days</slot>
-              </span>
-              
-            </a>
-
-
-            </div>
-              <!--<img class="w-72 sm:w-[450px] -my-8 mt-8 sm:mt-0 sm:-my-16" src={test} alt="logo">-->
-            </div>
-      </div>
-    </section>
-
-
-
 
 
 
