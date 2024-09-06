@@ -98,7 +98,7 @@ const allRules = {
   beta: { label: 'Beta', step: [10,5,1,-5,-10], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
   ebitda: { label: 'EBITDA', step: ['100B','50B','10B','1B','300M','100M','10M'], category: 'fund', defaultCondition: 'over', defaultValue: '10M' },
   growthEBITDA: { label: 'EBITDA Growth', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
-  var: { label: 'Value-at-Risk', step: ['-1%','-5%','-10%','-15%','-20%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  var: { label: 'Value-at-Risk', step: ['-1%','-5%','-10%','-15%','-20%'], category: 'fund', defaultCondition: 'over', defaultValue: '-5%' },
   trendAnalysis: { label: 'AI Trend Analysis (Bullish)', step: ['80%','70%','60%','50%'], category: 'ai', defaultCondition: 'over', defaultValue: '50%' },
   fundamentalAnalysis: { label: 'AI Fundamental Analysis (Bullish)', step: ['80%','70%','60%','50%'], category: 'ai', defaultCondition: 'over', defaultValue: '50%' },
   currentRatio: { label: 'Current Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
