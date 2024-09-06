@@ -83,6 +83,10 @@ const allRules = {
   growthFreeCashFlow: { label: 'Free Cash Flow Growth', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
   growthOperatingCashFlow: { label: 'Operating Cash Flow Growth', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
   growthStockBasedCompensation: { label: 'Stock-Based Compensation Growth', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  growthTotalLiabilities: { label: 'Total Liabilities Growth', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  growthTotalDebt: { label: 'Total Debt Growth', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  growthTotalStockholdersEquity: { label: 'Shareholders Equity Growth', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+
   pe: { label: 'PE Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
   forwardPE: { label: 'Forward PE', step: [50,20,10,5,1,0,-1,-5,-10,-20,-50], category: 'fund', defaultCondition: 'over', defaultValue: 0 },
   priceToBookRatio: { label: 'PB Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },

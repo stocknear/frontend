@@ -182,12 +182,8 @@ changeTab(0)
                       />
                     </label>      
 
-                      <div class="mt-1 break-words font-semibold leading-8 text-light text-xl">
-                        {#if changesPercentage >=0}
-                            <span class="text-[#10DB06]">+{changesPercentage}</span>
-                          {:else}
-                            <span class="text-[#FF2F1F]">{changesPercentage}</span> 
-                          {/if}
+                      <div class="mt-1 break-words font-semibold leading-8 text-light text-xl {changesPercentage >= 0 ? 'text-[#10DB06]' : changesPercentage < 0 ? 'text-[#FF2F1F]' : 'text-white'}">
+                        {changesPercentage > 0 ? '+' : ''}{changesPercentage}
                       </div> 
                   </div>
                 </div>

@@ -171,7 +171,7 @@ class="hidden sm:block [mask-image:linear-gradient(to_bottom_right,white,transpa
 
             
 
-                                <h1 class="text-white w-5/6 sm:w-full m-auto text-3xl sm:text-4xl font-bold mt-14 mb-5">
+                                <h1 class="text-white w-5/6 sm:w-full m-auto text-3xl sm:text-4xl font-bold mt-14 mb-10">
                                   Explore High Quality Datasets
                                 </h1>
                                
