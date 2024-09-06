@@ -34,9 +34,9 @@ function changeTab(index) {
   if(Object?.keys(analystRating)?.length !== 0) {
 
     numOfAnalyst = analystRating?.numOfAnalyst;
-    priceTarget = analystRating?.priceTarget
+    priceTarget = analystRating?.priceTarget !== ('n/a' && 0) ? analystRating?.priceTarget : '-'
     consensusRating = analystRating?.consensusRating;
-    changesPercentage = ((priceTarget/$currentPortfolioPrice -1)*100)?.toFixed(2) ?? 0;
+    changesPercentage = analystRating?.priceTarget !== ('n/a' && 0) ? ((priceTarget/$currentPortfolioPrice -1)*100)?.toFixed(2) : '-';
 
     }
     if (activeIdx === 1) {
@@ -169,12 +169,12 @@ changeTab(0)
                     </label>    
                    
                       <div class="mt-1 break-words font-semibold leading-8 text-light text-xl">
-                        ${priceTarget}
+                        {priceTarget}
                       </div> 
                   </div>
                   <div class="p-4 bp:p-5 sm:p-6 border-t border-contrast md:border-0 border-l border-contrast md:border-0">
                     <label for="upsideInfo" class="mr-1 cursor-pointer flex flex-row items-center text-white text-[1rem]">
-                      Upside 
+                      Upside [%]
                       <InfoModal
                       title={"Upside"}
                       content={"The average price target's percentage difference from the current stock price."}
@@ -184,9 +184,9 @@ changeTab(0)
 
                       <div class="mt-1 break-words font-semibold leading-8 text-light text-xl">
                         {#if changesPercentage >=0}
-                            <span class="text-[#10DB06]">+{changesPercentage}%</span>
+                            <span class="text-[#10DB06]">+{changesPercentage}</span>
                           {:else}
-                            <span class="text-[#FF2F1F]">{changesPercentage}% </span> 
+                            <span class="text-[#FF2F1F]">{changesPercentage}</span> 
                           {/if}
                       </div> 
                   </div>
@@ -208,7 +208,7 @@ changeTab(0)
                         </div>
 
 
-                        <div class="flex flex-col items-end w-full">
+                        <div class="flex flex-col items-end w-full pt-10">
                           <InfoModal
                           title={"Top Analysts"}
                           content={"Filter for analysts rated 4+ stars focusing on their win rate and average return per rating. Analysts with 4+ stars typically exhibit both high accuracy and high return per rating."}

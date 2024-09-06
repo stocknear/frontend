@@ -20,9 +20,9 @@
       buyCount = ((analystRating?.Buy / numOfAnalyst) * 100)?.toFixed(2);
       holdCount = ((analystRating?.Hold / numOfAnalyst) * 100)?.toFixed(2);
       sellCount = ((analystRating?.Sell / numOfAnalyst) * 100)?.toFixed(2);
-      priceTarget = analystRating?.priceTarget;
+      priceTarget = analystRating?.priceTarget !== ('n/a' && 0) ?  analystRating?.priceTarget : '-';
       consensusRating = analystRating?.consensusRating;
-      console.log(lastPrice);
+
       try {
         changesPercentage = ((priceTarget / lastPrice - 1) * 100)?.toFixed(2) ?? 0;
       } catch (e) {
@@ -60,11 +60,7 @@
           {/if}
 
           <span class="mr-5 mt-2 font-semibold text-xl text-white">
-            {#if priceTarget !== "n/a"}
-              ${priceTarget}
-            {:else}
-              -
-            {/if}
+            {priceTarget}
           </span>
         </div>
       </div>
@@ -126,9 +122,9 @@
 <!--End Analyst Card-->
 
 <!--Start Mobile Analyst Card-->
+<!--
 <div class="space-y-3 sm:pt-5 sm:hidden">
   <div class="bg-[#000] h-auto w-screen">
-    <!--Start Header-->
     <div class="bg-[#09090B] w-full p-1 flex flex-col items-center pb-5 h-auto rounded-b-[30px]">
       <h2 class="text-center m-auto text-[1.1rem] font-medium text-white mt-5">Analyst Rating</h2>
 
@@ -158,11 +154,7 @@
           <div class="flex flex-col items-start mr-5">
             <span class="text-white ml-auto text-lg font-medium inline-block"> Price Target: </span>
             <span class="text-white ml-auto text-2xl font-medium inline-block">
-              {#if priceTarget !== "n/a"}
-                ${priceTarget}
-              {:else}
-                -
-              {/if}
+               {priceTarget}
             </span>
           </div>
         </div>
@@ -182,7 +174,6 @@
         {/if}
       </div>
     </div>
-    <!--End Header-->
 
     {#if numOfAnalyst !== 0}
       <div class="mt-5 flex flex-col m-auto items-center rounded-lg w-full mb-16 p-3">
@@ -239,4 +230,5 @@
     {/if}
   </div>
 </div>
+-->
 <!--End Mobile Analyst Card-->
