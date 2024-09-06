@@ -7,10 +7,10 @@
   import { onMount } from 'svelte'
   import UpgradeToPro from '$lib/components/UpgradeToPro.svelte';
   import { init, use } from 'echarts/core'
-  import { BarChart } from 'echarts/charts'
+  import { BarChart,LineChart } from 'echarts/charts'
   import { GridComponent, TooltipComponent } from 'echarts/components'
   import { CanvasRenderer } from 'echarts/renderers'
-  use([BarChart, GridComponent, TooltipComponent, CanvasRenderer])
+  use([BarChart,LineChart, GridComponent, TooltipComponent, CanvasRenderer])
   
   
     export let data;
@@ -22,6 +22,7 @@
     let optionsPlotData = data?.getOptionsPlotData?.plot;
     let displayData = 'volume';
     let options;
+    let optionsGEX;
     let rawData = data?.getOptionsFlowData
     let optionList = rawData?.slice(0,30);
     let flowSentiment = 'n/a';
@@ -55,7 +56,22 @@
     
     let displayTimePeriod = 'threeMonths'
 
-    
+function normalizer(value) {
+  if (Math?.abs(value) >= 1e18) {
+    return { unit: 'Q', denominator: 1e18 };
+  } else if (Math?.abs(value) >= 1e12) {
+    return { unit: 'T', denominator: 1e12 };
+  } else if (Math?.abs(value) >= 1e9) {
+    return { unit: 'B', denominator: 1e9 };
+  } else if (Math?.abs(value) >= 1e6) {
+    return { unit: 'M', denominator: 1e6 };
+  } else if (Math?.abs(value) >= 1e5) {
+    return { unit: 'K', denominator: 1e5 };
+  } else {
+    return { unit: '', denominator: 1 };
+  }
+}
+
     function formatDate(dateStr) {
       // Parse the input date string (YYYY-mm-dd)
       var date = new Date(dateStr);
@@ -105,79 +121,191 @@
     
     
     
-    function plotData(callData, putData) {
-        const options = {
-          animation: false,
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                type: 'shadow'
-                }
-            },
-            silent: true,
-            grid: {
-                left: $screenWidth < 640 ? '5%' : '2%',
-                right: $screenWidth < 640 ? '5%' : '2%',
-                bottom: '20%',
-                containLabel: true
-            },
-            xAxis: [
-                {
-                type: 'category',
-                data: dateList,
-                axisLabel: {
-                  formatter: function (value) {
-                      // Assuming dates are in the format 'yyyy-mm-dd'
-                      const dateParts = value.split('-');
-                      const monthIndex = parseInt(dateParts[1]) - 1; // Months are zero-indexed in JavaScript Date objects
-                      const year = parseInt(dateParts[0]);
-                      const day = parseInt(dateParts[2])
-                      return `${day} ${monthNames[monthIndex]} ${year}`;
-                  }
-              }
-                }
-            ],
-            yAxis: [
+function plotData(callData, putData) {
+    const options = {
+      animation: false,
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+            type: 'shadow'
+            }
+        },
+        silent: true,
+        grid: {
+            left: $screenWidth < 640 ? '5%' : '2%',
+            right: $screenWidth < 640 ? '5%' : '2%',
+            bottom: '20%',
+            containLabel: true
+        },
+        xAxis: [
             {
-                type: 'value',
-                splitLine: {
-                    show: false,
-                },
-                axisLabel: {
-                    show: false // Hide the y-axis label
-                }
+            type: 'category',
+            data: dateList,
+            axisLabel: {
+              formatter: function (value) {
+                  // Assuming dates are in the format 'yyyy-mm-dd'
+                  const dateParts = value.split('-');
+                  const monthIndex = parseInt(dateParts[1]) - 1; // Months are zero-indexed in JavaScript Date objects
+                  const year = parseInt(dateParts[0]);
+                  const day = parseInt(dateParts[2])
+                  return `${day} ${monthNames[monthIndex]} ${year}`;
+              }
+          }
             }
         ],
-            series: [
-                {
-                name: 'Call',
-                type: 'bar',
-                stack: 'Put-Call Ratio',
-                emphasis: {
-                    focus: 'series'
+        yAxis: [
+        {
+            type: 'value',
+            splitLine: {
+                show: false,
+            },
+            axisLabel: {
+                show: false // Hide the y-axis label
+            }
+        }
+    ],
+        series: [
+            {
+            name: 'Call',
+            type: 'bar',
+            stack: 'Put-Call Ratio',
+            emphasis: {
+                focus: 'series'
+            },
+            data: callData,
+            itemStyle: {
+                color: '#00FC50'
                 },
-                data: callData,
-                itemStyle: {
-                    color: '#00FC50'
-                    },
+            },
+            {
+            name: 'Put',
+            type: 'bar',
+            stack: 'Put-Call Ratio',
+            emphasis: {
+                focus: 'series'
+            },
+            data: putData,
+            itemStyle: {
+                color: '#EE5365' //'#7A1C16'
                 },
-                {
-                name: 'Put',
-                type: 'bar',
-                stack: 'Put-Call Ratio',
-                emphasis: {
-                    focus: 'series'
-                },
-                data: putData,
-                itemStyle: {
-                    color: '#EE5365' //'#7A1C16'
-                    },
-                },
-            ]
-        };
-        return options;
-    }
-    
+            },
+        ]
+    };
+    return options;
+}
+
+function getGEXPlot() {
+  let dates = [];
+  let gexList = [];
+  let priceList = [];
+  
+  data?.getOptionsGexData?.forEach(item => {
+
+  dates?.push(item?.date);
+  gexList?.push(item?.gex);
+  priceList?.push(item?.close)
+
+  });
+
+    const {unit, denominator } = normalizer(Math.max(...gexList) ?? 0)
+
+
+    const option = {
+    silent: true,
+    animation: false,
+    tooltip: {
+        trigger: 'axis',
+        hideDelay: 100, // Set the delay in milliseconds
+    },
+    grid: {
+        left: '0%',
+        right: '0%',
+        bottom: '0%',
+        top: '5%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: dates,
+        axisLabel: {
+        color: '#fff',
+        formatter: function (value) {
+            // Assuming dates are in the format 'yyyy-mm-dd'
+            // Extract the month and day from the date string and convert the month to its abbreviated name
+            const dateParts = value.split('-');
+            const day = dateParts[2].substring(0); // Extracting the last two digits of the year
+            const monthIndex = parseInt(dateParts[1]) - 1; // Months are zero-indexed in JavaScript Date objects
+            return `${day} ${monthNames[monthIndex]}`;
+        }
+        }
+    },
+    yAxis: [
+      {
+      type: 'value',
+      splitLine: {
+            show: false, // Disable x-axis grid lines
+      },
+      position: 'left',
+      axisLabel: {
+        color: '#fff',
+          formatter: function (value, index) {
+            if (index % 2 === 0) {
+              return value?.toFixed(2); // Format the sentiment value
+            } else {
+                  return ''; // Hide this tick
+              }
+          }
+      }
+    },
+    { 
+      position: 'right',
+        type: 'value',
+        splitLine: {
+            show: false, // Disable x-axis grid lines
+        },
+        axisLabel: {
+            color: '#fff', // Change label color to white
+            formatter: function (value, index) {
+                // Display every second tick
+                if (index % 2 === 0) {
+                    value = Math.max(value, 0);
+                    return (value / denominator)?.toFixed(1) + unit; // Format value in millions
+                } else {
+                    return ''; // Hide this tick
+                }
+            }
+        },
+    },
+    ],
+    series: [
+        {
+          name: 'Price',
+            data: priceList,
+            type: 'line',
+            yAxisIndex: 0,
+            itemStyle: {
+                color: '#fff' // Change bar color to white
+            },
+            showSymbol: false
+        },
+        {
+            name: 'GEX',
+            data: gexList,
+            type: 'bar',
+            yAxisIndex: 1,
+            itemStyle: {
+                color: '#8e53f4' // Change bar color to white
+            },
+            
+        },
+    ]
+    };
+
+
+return option;
+}
+
     function calculateStats() {
         const currentPrice = parseFloat(data?.getStockQuote?.price);
         
@@ -309,7 +437,11 @@ function processPlotData(filteredList: any[]) {
     
 onMount(async () => {
   calculateStats();
+  if(data?.getOptionsGexData?.length !== 0) {
+    optionsGEX = getGEXPlot();
+  }
   
+
   if(data?.user?.tier === 'Pro') {
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -478,6 +610,17 @@ $: {
                                   {/if}
                                 </div>
                                 
+
+                                {#if data?.getOptionsGexData?.length !== 0}  
+                                <h3 class="text-2xl sm:text-2xl text-gray-200 font-bold mb-4 text-center sm:text-start">
+                                    Daily Gamma Exposure (GEX)
+                                </h3>
+
+                                <div class="app w-full bg-[#09090B] rounded-xl mb-24">
+                                  
+                                  <Chart {init} options={optionsGEX} class="chart" />
+                                </div>
+                                {/if}
     
                                 
                                 <h3 class="text-2xl sm:text-3xl text-gray-200 font-bold mb-4 text-center sm:text-start">
