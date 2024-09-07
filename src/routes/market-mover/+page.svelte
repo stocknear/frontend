@@ -323,7 +323,7 @@ $: charNumber = $screenWidth < 640 ? 20 : 30;
     Stock Indexes - {getCurrentDateFormatted()}
   </div>
 
-  <div class="w-full -mt-4 sm:mt-0 mb-8 m-auto flex justify-start sm:justify-center items-center p-3 sm:p-0">
+  <div class="w-full sm:hidden -mt-4 sm:mt-0 mb-8 m-auto flex justify-start sm:justify-center items-center p-3 sm:p-0">
     <div class="w-full grid grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-3 ">
     <MiniPlot title="S&P500" priceData = {priceDataSP500} changesPercentage={changeSP500} previousClose={previousCloseSP500}/>
     <MiniPlot title="Nasdaq" priceData = {priceDataNasdaq} changesPercentage={changeNasdaq} previousClose={previousCloseNasdaq}/>
