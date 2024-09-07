@@ -1,3 +1,4 @@
+/*
 import { getCache, setCache } from '$lib/store';
 
 
@@ -37,3 +38,4 @@ export const load = async ({parent}) => {
     getMiniPlotsIndex: await getMiniPlotsIndex(),
   };
 };
+*/

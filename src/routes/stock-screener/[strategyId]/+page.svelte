@@ -89,6 +89,7 @@ const allRules = {
   cagr5YearRevenue: { label: 'Revenue CAGR 5Y', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
   cagr3YearEPS: { label: 'EPS CAGR 3Y', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
   cagr5YearEPS: { label: 'EPS CAGR 5Y', step: ['200%','100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
+  returnOnInvestedCapital: { label: 'Return On Capital', step: ['100%','50%','20%','10%','5%','1%'], category: 'fund', defaultCondition: 'over', defaultValue: '1%' },
 
 
   pe: { label: 'PE Ratio', step: [50,40,30,20,10,5,1], category: 'fund', defaultCondition: 'over', defaultValue: 1 },
