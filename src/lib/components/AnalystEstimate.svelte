@@ -20,12 +20,12 @@
   let xData = [];
   let optionsData;
 
-let displayData = "Revenue";
+  let displayData = "Revenue";
 
-function findIndex(data) {
+  function findIndex(data) {
     const currentYear = new Date().getFullYear();
-    return data.findIndex(item => item.date >= currentYear && item.revenue === null);
-}
+    return data.findIndex((item) => item.date >= currentYear && item.revenue === null);
+  }
 
   function changeStatement(event) {
     displayData = event.target.value;
@@ -50,7 +50,6 @@ function findIndex(data) {
   let tableDataActual = [];
   let tableDataForecast = [];
 
-
   function getPlotOptions() {
     let dates = [];
     let valueList = [];
@@ -58,58 +57,54 @@ function findIndex(data) {
     let lowList = [];
     let highList = [];
 
-
     let filteredData = analystEstimateList?.filter((item) => item.date >= 2019) ?? [];
     const stopIndex = findIndex(filteredData);
-    
-    if (filteredData) { 
-    filteredData.forEach((item, index) => {
-      const date = item.date?.toString().slice(-2);
-      const isBeforeStopIndex = index < stopIndex - 1;
-      const isAfterStartIndex = index >= stopIndex - 2;
-      dates.push(`FY${date}`);
-      switch (displayData) {
-        case "Revenue":
-          valueList.push(isBeforeStopIndex ? item.revenue : null);
-        avgList.push(isAfterStartIndex ? item.estimatedRevenueAvg : null);
-        lowList.push(isAfterStartIndex ? item.estimatedRevenueLow : null);
-        highList.push(isAfterStartIndex ? item.estimatedRevenueHigh : null);
-        break;
-        case "Net Income":
-          valueList.push(isBeforeStopIndex ? item.netIncome : null);
-          avgList.push(isAfterStartIndex ? item.estimatedNetIncomeAvg : null);
-          lowList.push(isAfterStartIndex ? item.estimatedNetIncomeLow : null);
-          highList.push(isAfterStartIndex ? item.estimatedNetIncomeHigh : null);
-          break;
-        case "EBITDA":
-          valueList.push(isBeforeStopIndex ? item.ebitda : null);
-          avgList.push(isAfterStartIndex ? item.estimatedEbitdaAvg : null);
-          lowList.push(isAfterStartIndex ? item.estimatedEbitdaLow : null);
-          highList.push(isAfterStartIndex ? item.estimatedEbitdaHigh : null);
-          break;
-        case "EPS":
-          valueList.push(isBeforeStopIndex ? item.eps : null);
-          avgList.push(isAfterStartIndex ? item.estimatedEpsAvg : null);
-          lowList.push(isAfterStartIndex ? item.estimatedEpsLow : null);
-          highList.push(isAfterStartIndex ? item.estimatedEpsHigh : null);
-          break;
 
-        default:
-          break;
-      }
-    });
+    if (filteredData) {
+      filteredData.forEach((item, index) => {
+        const date = item.date?.toString().slice(-2);
+        const isBeforeStopIndex = index < stopIndex - 1;
+        const isAfterStartIndex = index >= stopIndex - 2;
+        dates.push(`FY${date}`);
+        switch (displayData) {
+          case "Revenue":
+            valueList.push(isBeforeStopIndex ? item.revenue : null);
+            avgList.push(isAfterStartIndex ? item.estimatedRevenueAvg : null);
+            lowList.push(isAfterStartIndex ? item.estimatedRevenueLow : null);
+            highList.push(isAfterStartIndex ? item.estimatedRevenueHigh : null);
+            break;
+          case "Net Income":
+            valueList.push(isBeforeStopIndex ? item.netIncome : null);
+            avgList.push(isAfterStartIndex ? item.estimatedNetIncomeAvg : null);
+            lowList.push(isAfterStartIndex ? item.estimatedNetIncomeLow : null);
+            highList.push(isAfterStartIndex ? item.estimatedNetIncomeHigh : null);
+            break;
+          case "EBITDA":
+            valueList.push(isBeforeStopIndex ? item.ebitda : null);
+            avgList.push(isAfterStartIndex ? item.estimatedEbitdaAvg : null);
+            lowList.push(isAfterStartIndex ? item.estimatedEbitdaLow : null);
+            highList.push(isAfterStartIndex ? item.estimatedEbitdaHigh : null);
+            break;
+          case "EPS":
+            valueList.push(isBeforeStopIndex ? item.eps : null);
+            avgList.push(isAfterStartIndex ? item.estimatedEpsAvg : null);
+            lowList.push(isAfterStartIndex ? item.estimatedEpsLow : null);
+            highList.push(isAfterStartIndex ? item.estimatedEpsHigh : null);
+            break;
 
-  }
-    try {
-       const lastValue = valueList[stopIndex-2];
-      avgList[stopIndex-2] = lastValue;
-      lowList[stopIndex-2] = lastValue;
-      highList[stopIndex-2] = lastValue;
-    } catch(e) {
-      console.log(e)
+          default:
+            break;
+        }
+      });
     }
-   
- 
+    try {
+      const lastValue = valueList[stopIndex - 2];
+      avgList[stopIndex - 2] = lastValue;
+      lowList[stopIndex - 2] = lastValue;
+      highList[stopIndex - 2] = lastValue;
+    } catch (e) {
+      console.log(e);
+    }
 
     // Normalize the data if needed (not required in this case, but leaving it here for reference)
     const { unit, denominator } = normalizer(Math.max(...valueList, ...avgList) ?? 0);
@@ -171,7 +166,7 @@ function findIndex(data) {
             color: "#fff", // Change line plot color to green
           },
           lineStyle: {
-            type: "dashed" // Set the line type to dashed
+            type: "dashed", // Set the line type to dashed
           },
           showSymbol: false, // Show symbols for line plot points
         },
@@ -179,11 +174,11 @@ function findIndex(data) {
           name: "Low",
           data: lowList,
           type: "line",
-           itemStyle: {
+          itemStyle: {
             color: "#3CB2EF", // Change line plot color to green
           },
           lineStyle: {
-            type: "dashed" // Set the line type to dashed
+            type: "dashed", // Set the line type to dashed
           },
           showSymbol: false, // Show symbols for line plot points
         },
@@ -195,7 +190,7 @@ function findIndex(data) {
             color: "#3CB2EF", // Change line plot color to green
           },
           lineStyle: {
-            type: "dashed" // Set the line type to dashed
+            type: "dashed", // Set the line type to dashed
           },
           showSymbol: false, // Show symbols for line plot points
         },
@@ -238,16 +233,35 @@ function findIndex(data) {
         });
       });
     } else if (displayData === "EPS") {
+      let forwardPeStart = false;
       filteredData?.forEach((item) => {
+        const fy = Number(String(item?.date)?.slice(-2));
+        const actualVal = item?.eps ?? null;
+        const forecastVal = item?.estimatedEpsAvg;
+
         tableDataActual?.push({
-          FY: Number(String(item?.date)?.slice(-2)),
-          val: item?.eps ?? null,
+          FY: fy,
+          val: actualVal,
         });
-        tableDataForecast?.push({
-          FY: Number(String(item?.date)?.slice(-2)),
-          val: item?.estimatedEpsAvg,
+
+        if (actualVal === null) {
+          forwardPeStart = true;
+        }
+
+        const forecastEntry: any = {
+          FY: fy,
+          val: forecastVal,
           numOfAnalysts: item?.numOfAnalysts,
-        });
+        };
+
+        // Add forwardPe if the condition is met
+        if (forwardPeStart && forecastVal !== null) {
+          forecastEntry.forwardPe = Math.round((data.getStockQuote.price / forecastVal) * 100) / 100;
+        } else {
+          forecastEntry.forwardPe = null;
+        }
+
+        tableDataForecast?.push(forecastEntry);
       });
     } else if (displayData === "EBITDA") {
       filteredData?.forEach((item) => {
@@ -387,6 +401,17 @@ function findIndex(data) {
                       </td>
                     {/each}
                   </tr>
+
+                  {#if displayData === "EPS"}
+                    <tr class="bg-[#09090B] border-b-[#09090B]">
+                      <th class="text-white whitespace-nowrap text-sm sm:text-[1rem] text-start font-medium bg-[#09090B] border-b border-[#09090B]">Forward PE</th>
+                      {#each tableDataForecast as item}
+                        <td class="text-white text-sm sm:text-[1rem] text-end font-medium border-b border-[#09090B]">
+                          {item?.forwardPe === "0.00" || item?.forwardPe === null || item?.forwardPe === 0 ? "-" : abbreviateNumber(item.forwardPe)}
+                        </td>
+                      {/each}
+                    </tr>
+                  {/if}
 
                   <tr class="bg-[#27272A] border-b-[#27272A]">
                     <th class="bg-[#27272A] whitespace-nowrap text-sm sm:text-[1rem] text-white text-start font-medium bg-[#27272A] border-b border-[#27272A]"> No. Analysts </th>
