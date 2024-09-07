@@ -8,7 +8,7 @@ import { Drawer } from "vaul-svelte";
 import Input from '$lib/components/Input.svelte';
 import WatchListCard from '$lib/components/WatchListCard.svelte';
 import {screenWidth, switchWatchList } from '$lib/store';
-import MiniPlot from '$lib/components/MiniPlot.svelte';
+//import MiniPlot from '$lib/components/MiniPlot.svelte';
 import { goto } from '$app/navigation';
 import ArrowLogo from "lucide-svelte/icons/move-up-right";
 
@@ -43,7 +43,7 @@ function getCurrentDateFormatted() {
     return `${month} ${day}, ${year}`;
 }
 
-
+/*
 let priceDataSP500;
 let priceDataNasdaq;
 let priceDataDowJones;
@@ -83,6 +83,7 @@ rawData?.forEach(({ symbol, priceData, changesPercentage, previousClose }) => {
       break;
   }
 });
+*/
 
     let isLoaded = false;
 
@@ -452,7 +453,7 @@ onDestroy( () => {
     
 
     {#if isLoaded}
-
+    <!--
     <div class="text-white text-xs sm:text-sm pb-5 sm:pb-2 pl-3 sm:pl-0">
       Stock Indexes - {getCurrentDateFormatted()}
     </div>
@@ -465,6 +466,7 @@ onDestroy( () => {
       <MiniPlot title="Russel" priceData = {priceDataRussel2000} changesPercentage={changeRussel2000} previousClose={previousCloseRussel2000}/>
       </div>
     </div>
+    -->
 
     {#if allList?.length !== 0}
       <div class="flex flex-row items-center w-full">
