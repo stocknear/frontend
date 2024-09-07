@@ -403,24 +403,33 @@
                   </tr>
 
                   {#if displayData === "EPS"}
-                    <tr class="bg-[#09090B] border-b-[#09090B]">
-                      <th class="text-white whitespace-nowrap text-sm sm:text-[1rem] text-start font-medium bg-[#09090B] border-b border-[#09090B]">Forward PE</th>
+                    <tr class="bg-[#27272A] border-b-[#27272A]">
+                      <th class="bg-[#27272A] text-sm sm:text-[1rem] whitespace-nowrap text-white text-start font-medium bg-[#27272A] border-b border-[#27272A]">Forward PE</th>
                       {#each tableDataForecast as item}
-                        <td class="text-white text-sm sm:text-[1rem] text-end font-medium border-b border-[#09090B]">
+                        <td class="text-white text-sm sm:text-[1rem] text-end font-medium bg-[#27272A]">
                           {item?.forwardPe === "0.00" || item?.forwardPe === null || item?.forwardPe === 0 ? "-" : abbreviateNumber(item.forwardPe)}
                         </td>
                       {/each}
                     </tr>
-                  {/if}
 
-                  <tr class="bg-[#27272A] border-b-[#27272A]">
-                    <th class="bg-[#27272A] whitespace-nowrap text-sm sm:text-[1rem] text-white text-start font-medium bg-[#27272A] border-b border-[#27272A]"> No. Analysts </th>
-                    {#each tableDataForecast as item}
-                      <td class="text-white text-sm sm:text-[1rem] text-end font-medium bg-[#27272A]">
-                        {item?.numOfAnalysts === (null || 0) ? "-" : item?.numOfAnalysts}
-                      </td>
-                    {/each}
-                  </tr>
+                    <tr class="odd:bg-[#09090B] border-b-[#09090B]">
+                      <th class="text-white whitespace-nowrap text-sm sm:text-[1rem] text-start font-medium bg-[#09090B] border-b border-[#09090B]">No. Analysts</th>
+                      {#each tableDataForecast as item}
+                        <td class="text-white text-sm sm:text-[1rem] text-end font-medium border-b border-[#09090B]">
+                          {item?.numOfAnalysts === (null || 0) ? "-" : item?.numOfAnalysts}
+                        </td>
+                      {/each}
+                    </tr>
+                  {:else}
+                    <tr class="bg-[#27272A] border-b-[#27272A]">
+                      <th class="bg-[#27272A] whitespace-nowrap text-sm sm:text-[1rem] text-white text-start font-medium bg-[#27272A] border-b border-[#27272A]"> No. Analysts </th>
+                      {#each tableDataForecast as item}
+                        <td class="text-white text-sm sm:text-[1rem] text-end font-medium bg-[#27272A]">
+                          {item?.numOfAnalysts === (null || 0) ? "-" : item?.numOfAnalysts}
+                        </td>
+                      {/each}
+                    </tr>
+                  {/if}
                 </tbody>
               </table>
             </div>
