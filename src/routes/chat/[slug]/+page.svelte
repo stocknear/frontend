@@ -356,6 +356,7 @@
       let updateBuffer = [];
       let batchTimeout = null;
       let sourcesCollected = []; // Track sources for this response
+      let currentThoughts = ""; // Track thoughts for this response
 
       isLoading = false;
 
@@ -378,6 +379,17 @@
               break;
             }
 
+            // Handle thoughts event - update immediately without batching
+            if (json?.thoughts) {
+              currentThoughts = json?.thoughts;
+              // Update the message with thoughts immediately
+              if (messages[idx]) {
+                messages[idx].thoughts = currentThoughts;
+                // Use immediate update for thoughts (no setTimeout/requestAnimationFrame)
+                messages = [...messages];
+              }
+            }
+
             // Handle sources event
             if (json?.event === "sources" && json?.sources) {
               sourcesCollected = json.sources;
@@ -398,9 +410,18 @@
               }
             }
 
-            if (json?.content) {
-              assistantText = json?.content;
+            // Handle response content event
+            if (json?.event === "response" && json?.content) {
+              assistantText += json?.content;
               pendingContent = assistantText;
+
+              // Clear thoughts immediately when content starts arriving
+              if (messages[idx] && messages[idx].thoughts) {
+                console.log("🔄 Clearing thoughts, content started");
+                messages[idx].thoughts = null;
+                // Trigger reactivity immediately
+                messages = [...messages];
+              }
 
               // Batch updates for smoother rendering
               updateBuffer.push(assistantText);
@@ -1096,7 +1117,7 @@
 
                 <label
                   for={!data?.user ? "userLogin" : ""}
-                  on:click={() => (data?.user ? createChat() : "")}
+                  on:click={() => (data?.user ? llmChat() : "")}
                   class="{editorText?.trim()?.length > 0
                     ? 'cursor-pointer'
                     : 'cursor-not-allowed opacity-60'} py-2 text-white dark:text-black text-[1rem] rounded border border-gray-300 dark:border-gray-700 bg-black dark:bg-white px-3 transition-colors duration-200"

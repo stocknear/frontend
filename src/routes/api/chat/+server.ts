@@ -94,17 +94,19 @@ export const POST: RequestHandler = async ({ request, locals }) => {
             
             // Accumulate full response for server-side saving
             try {
-              // Try to parse each chunk as JSON to extract content and sources
+              // Try to parse each chunk as JSON to extract content, thoughts, and sources
               const lines = chunk.split('\n');
               for (const line of lines) {
                 if (line.trim()) {
                   try {
                     const parsed = JSON.parse(line);
+                    
+               
                     if (parsed.content) {
-                      fullResponse = parsed.content; // Keep updating with latest content
+                      fullResponse = parsed?.content; // Keep updating with latest content
                     }
-                    if (parsed.event === 'sources' && parsed.sources) {
-                      collectedSources = parsed.sources; // Capture sources
+                    if (parsed.event === 'sources' && parsed?.sources) {
+                      collectedSources = parsed?.sources; // Capture sources
                     }
                   } catch (e) {
                     // Ignore parse errors for individual lines
