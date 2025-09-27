@@ -201,34 +201,20 @@
           : 'mr-auto w-fit border-b rounded-none border-gray-300 dark:border-gray-700'}"
     >
       {#if isLoading || (isStreaming && !message?.content)}
-        {#if message?.thoughtSteps && message?.thoughtSteps.length > 0}
-          <!-- Show Thoughts component only when we have actual thought steps -->
-          <Thoughts
-            thoughtSteps={message?.thoughtSteps}
-            currentTitle={typeof message?.thoughts === "string"
+        <!-- Show shimmer text for thought title -->
+        <div class="py-3">
+          <div
+            class="text-sm sm:text-[1rem] text-gray-500 dark:text-gray-400 shimmer-text"
+          >
+            {typeof message?.thoughts === "string"
               ? message?.thoughts
-              : message?.thoughts?.title || "Planning"}
-          />
-        {:else if message?.thoughts}
-          <!-- Show shimmer text for title-only thoughts (legacy format) -->
-          <div class="py-3">
-            <div
-              class="text-sm sm:text-[1rem] text-gray-500 dark:text-gray-400 shimmer-text"
-            >
-              {typeof message?.thoughts === "string"
-                ? message?.thoughts
-                : (message?.thoughts?.title ?? "Gathering relevant data...")}
-            </div>
+              : (message?.thoughts?.title ?? "Gathering relevant data...")}
           </div>
-        {:else}
-          <!-- Default loading state when no thoughts yet -->
-          <div class="py-3">
-            <div
-              class="text-sm sm:text-[1rem] text-gray-500 dark:text-gray-400 shimmer-text"
-            >
-              Gathering relevant data...
-            </div>
-          </div>
+        </div>
+
+        <!-- Show Thoughts component only when we have actual thought steps -->
+        {#if message?.thoughtSteps && message?.thoughtSteps.length > 0}
+          <Thoughts thoughtSteps={message?.thoughtSteps} />
         {/if}
       {:else}
         <div class="w-full">
