@@ -12,7 +12,7 @@
         in:fade={{ duration: 200 }}
     >
         <div
-            class="rounded-[5px] py-5 pt-4 pb-0 border border-neutral-200 dark:border-[#313131] max-h-[300px] flex flex-col relative transition-all duration-300"
+            class="rounded-[5px] py-5 pt-4 pb-0 border border-gray-300 dark:border-gray-700 max-h-[300px] flex flex-col relative transition-all duration-300"
         >
             <div class="flex items-center justify-between px-5 mb-2">
                 <div class="flex items-center gap-x-2">
@@ -56,7 +56,7 @@
                             {#if step.content}
                                 <div
                                     class="flex items-start"
-                                    in:fly={{ y: 20, duration: 300, delay: 50 }}
+                                    in:fly={{ y: 20, duration: 100, delay: 50 }}
                                 >
                                     <div class="mt-2 mr-3">
                                         <div
@@ -68,9 +68,9 @@
                                             class="prose prose-sm max-w-none dark:prose-invert"
                                         >
                                             <p
-                                                class="mb-3 text-[14px] text-neutral-600 dark:text-neutral-400 leading-relaxed"
+                                                class="mb-3 text-[14px] text-gray-700 dark:text-gray-300 leading-relaxed"
                                             >
-                                                {step.content}
+                                                {step?.content}
                                             </p>
                                         </div>
                                     </div>
