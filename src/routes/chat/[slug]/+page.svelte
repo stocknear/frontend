@@ -356,7 +356,8 @@
       let updateBuffer = [];
       let batchTimeout = null;
       let sourcesCollected = []; // Track sources for this response
-      let currentThoughts = ""; // Track thoughts for this response
+      let currentThoughts = ""; // Track thoughts title for this response
+      let thoughtStepsList = []; // Track thought steps for this response
 
       isLoading = false;
 
@@ -381,12 +382,33 @@
 
             // Handle thoughts event - update immediately without batching
             if (json?.thoughts) {
-              currentThoughts = json?.thoughts;
-              // Update the message with thoughts immediately
-              if (messages[idx]) {
-                messages[idx].thoughts = currentThoughts;
-                // Use immediate update for thoughts (no setTimeout/requestAnimationFrame)
-                messages = [...messages];
+              // Check if thoughts is an object with title and content or just a string
+              if (typeof json.thoughts === 'object') {
+                // New format with title and content
+                if (json.thoughts.title) {
+                  currentThoughts = json.thoughts.title;
+                }
+                // Add to thought steps
+                thoughtStepsList.push({
+                  title: json.thoughts.title || '',
+                  content: json.thoughts.content || ''
+                });
+                
+                // Update the message with both title and steps
+                if (messages[idx]) {
+                  messages[idx].thoughts = currentThoughts;
+                  messages[idx].thoughtSteps = [...thoughtStepsList];
+                  messages = [...messages];
+                }
+              } else {
+                // Old format - just a string title
+                currentThoughts = json.thoughts;
+                // Update the message with thoughts immediately
+                if (messages[idx]) {
+                  messages[idx].thoughts = currentThoughts;
+                  // Use immediate update for thoughts (no setTimeout/requestAnimationFrame)
+                  messages = [...messages];
+                }
               }
             }
 
@@ -416,9 +438,10 @@
               pendingContent = assistantText;
 
               // Clear thoughts immediately when content starts arriving
-              if (messages[idx] && messages[idx].thoughts) {
+              if (messages[idx] && (messages[idx].thoughts || messages[idx].thoughtSteps)) {
                 console.log("🔄 Clearing thoughts, content started");
                 messages[idx].thoughts = null;
+                messages[idx].thoughtSteps = null;
                 // Trigger reactivity immediately
                 messages = [...messages];
               }

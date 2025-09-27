@@ -9,6 +9,7 @@
   import TickerGraph from "$lib/components/Plot/TickerGraph.svelte";
   import SourcesSection from "$lib/components/Chat/SourcesSection.svelte";
   import Related from "$lib/components/Chat/Related.svelte";
+  import Thoughts from "$lib/components/Chat/Thoughts.svelte";
 
   export let message: {
     content: string;
@@ -22,6 +23,10 @@
     }>;
     relatedQuestions?: string[];
     thoughts?: string;
+    thoughtSteps?: Array<{
+      title?: string;
+      content?: string;
+    }>;
   };
   export let isLoading = false;
   export let isStreaming = false;
@@ -195,14 +200,36 @@
           ? 'mr-auto w-full'
           : 'mr-auto w-fit border-b rounded-none border-gray-300 dark:border-gray-700'}"
     >
-      {#if isLoading || (isStreaming && message?.thoughts && !message?.content)}
-        <div class="py-3">
-          <div
-            class="text-sm sm:text-[1rem] text-gray-500 dark:text-gray-400 shimmer-text"
-          >
-            {message?.thoughts ?? "Gathering relevant data..."}
+      {#if isLoading || (isStreaming && !message?.content)}
+        {#if message?.thoughtSteps && message?.thoughtSteps.length > 0}
+          <!-- Show Thoughts component only when we have actual thought steps -->
+          <Thoughts
+            thoughtSteps={message?.thoughtSteps}
+            currentTitle={typeof message?.thoughts === "string"
+              ? message?.thoughts
+              : message?.thoughts?.title || "Planning"}
+          />
+        {:else if message?.thoughts}
+          <!-- Show shimmer text for title-only thoughts (legacy format) -->
+          <div class="py-3">
+            <div
+              class="text-sm sm:text-[1rem] text-gray-500 dark:text-gray-400 shimmer-text"
+            >
+              {typeof message?.thoughts === "string"
+                ? message?.thoughts
+                : (message?.thoughts?.title ?? "Gathering relevant data...")}
+            </div>
           </div>
-        </div>
+        {:else}
+          <!-- Default loading state when no thoughts yet -->
+          <div class="py-3">
+            <div
+              class="text-sm sm:text-[1rem] text-gray-500 dark:text-gray-400 shimmer-text"
+            >
+              Gathering relevant data...
+            </div>
+          </div>
+        {/if}
       {:else}
         <div class="w-full">
           {#if message?.role === "user" && isEditMode}

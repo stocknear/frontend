@@ -1,0 +1,104 @@
+<script lang="ts">
+    import { fade, fly } from "svelte/transition";
+
+    export let thoughtSteps = [];
+    export let currentTitle = "";
+
+    let showThoughts = true;
+    let scrollContainer;
+
+    // Auto-scroll to bottom when new thoughts are added
+    $: if (thoughtSteps && scrollContainer) {
+        setTimeout(() => {
+            if (scrollContainer) {
+                scrollContainer.scrollTop = scrollContainer.scrollHeight;
+            }
+        }, 50);
+    }
+</script>
+
+{#if showThoughts && (thoughtSteps?.length > 0 || currentTitle)}
+    <div
+        class="mx-0 mb-4 transition-all duration-300 opacity-100 overflow-hidden"
+        in:fade={{ duration: 200 }}
+    >
+        <div
+            class="rounded-[5px] py-5 pt-4 pb-0 border border-neutral-200 dark:border-[#313131] max-h-[300px] flex flex-col relative transition-all duration-300"
+        >
+            <div class="flex items-center justify-between px-5 mb-2">
+                <div class="flex items-center gap-x-2">
+                    <div class="relative">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="w-5 h-5 text-amber-500 dark:text-amber-500 stroke-black dark:stroke-white animate-pulse"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+                            ></path>
+                            <path d="M9 18h6"></path>
+                            <path d="M10 22h4"></path>
+                        </svg>
+                    </div>
+                    <span
+                        class="text-center text-base font-medium text-neutral-950 dark:text-white"
+                    >
+                        {currentTitle || "Planning"}
+                    </span>
+                </div>
+            </div>
+
+            <div
+                bind:this={scrollContainer}
+                class="px-5 pl-6 mb-5 overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-300 dark:scrollbar-thumb-neutral-700 scrollbar-track-transparent hover:scrollbar-thumb-neutral-400 dark:hover:scrollbar-thumb-neutral-600 flex-1"
+                style="scrollbar-width: thin; scrollbar-gutter: stable;"
+            >
+                {#if thoughtSteps && thoughtSteps.length > 0}
+                    <!-- Display thought steps -->
+                    <div class="space-y-2">
+                        {#each thoughtSteps as step, index (index)}
+                            <div
+                                class="flex items-start"
+                                in:fly={{ y: 20, duration: 300, delay: 50 }}
+                            >
+                                <div class="mt-2 mr-3">
+                                    <div
+                                        class="w-2.5 h-2.5 rounded-full bg-neutral-900 dark:bg-neutral-100"
+                                    ></div>
+                                </div>
+                                <div class="flex-1">
+                                    <div
+                                        class="prose prose-sm max-w-none dark:prose-invert"
+                                    >
+                                        {#if step.title}
+                                            <p
+                                                class="mb-1 text-[15px] font-medium text-neutral-800 dark:text-neutral-200"
+                                            >
+                                                {step.title}
+                                            </p>
+                                        {/if}
+                                        {#if step.content}
+                                            <p
+                                                class="mb-3 text-[14px] text-neutral-600 dark:text-neutral-400 leading-relaxed"
+                                            >
+                                                {step.content}
+                                            </p>
+                                        {/if}
+                                    </div>
+                                </div>
+                            </div>
+                        {/each}
+                    </div>
+                {/if}
+            </div>
+        </div>
+    </div>
+{/if}
