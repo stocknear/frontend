@@ -1989,12 +1989,6 @@ export function getCreditFromQuery(query, agentOptions) {
 
 export let defaultChats = [
   {
-    label: "Summarize Pelosi's trading moves",
-    query:
-      "Summarize Nancy Pelosi’s most recent stock trades and provide a sentiment analysis (bullish or bearish) for each company involved, based on the nature and timing of the transactions.",
-    type: "Stocks",
-  },
-  {
     label: "Highlights of options flow orders today",
     query:
       "Provide an overview of today's notable options flow, focusing on large block trades, unusual volume spikes, and directional sentiment.",
