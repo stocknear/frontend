@@ -456,6 +456,8 @@
       let updateBuffer = [];
       let batchTimeout = null;
       let sourcesCollected = [];
+      let currentThoughts = "";
+      let thoughtStepsList = [];
 
       isLoading = false;
 
@@ -478,6 +480,38 @@
               break;
             }
 
+            // Handle thoughts event - update immediately without batching
+            if (json?.thoughts) {
+              // Check if thoughts is an object with title and content or just a string
+              if (typeof json.thoughts === 'object') {
+                // New format with title and content
+                if (json.thoughts.title) {
+                  currentThoughts = json.thoughts.title;
+                }
+                // Add to thought steps
+                thoughtStepsList.push({
+                  title: json.thoughts.title || '',
+                  content: json.thoughts.content || ''
+                });
+                
+                // Update the message with both title and steps
+                if (messages[idx]) {
+                  messages[idx].thoughts = currentThoughts;
+                  messages[idx].thoughtSteps = [...thoughtStepsList];
+                  messages = [...messages];
+                }
+              } else {
+                // Old format - just a string title
+                currentThoughts = json.thoughts;
+                // Update the message with thoughts immediately
+                if (messages[idx]) {
+                  messages[idx].thoughts = currentThoughts;
+                  // Use immediate update for thoughts (no setTimeout/requestAnimationFrame)
+                  messages = [...messages];
+                }
+              }
+            }
+
             // Handle sources event - Skip for Assistant
             // if (json?.event === "sources" && json?.sources) {
             //   sourcesCollected = json.sources;
@@ -496,10 +530,21 @@
             //   }
             // }
 
-            // Handle content updates
-            if (json?.content) {
-              assistantText = json.content;
+            // Handle response content event
+            if (json?.event === "response" && json?.content) {
+              assistantText += json?.content;
               pendingContent = assistantText;
+
+              // Clear thoughts immediately when content starts arriving
+              if (messages[idx] && (messages[idx].thoughts || messages[idx].thoughtSteps)) {
+                console.log("🔄 Clearing thoughts, content started");
+                messages[idx].thoughts = null;
+                messages[idx].thoughtSteps = null;
+                // Trigger reactivity immediately
+                messages = [...messages];
+              }
+
+              // Batch updates for smoother rendering
               updateBuffer.push(assistantText);
 
               if (batchTimeout) clearTimeout(batchTimeout);
