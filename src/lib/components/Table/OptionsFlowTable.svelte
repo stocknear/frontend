@@ -207,7 +207,7 @@
               if (json.thoughts) {
                 optionsInsightThoughts = json.thoughts;
               }
-              
+
               if (json.content) {
                 optionsInsightContent = json.content;
                 finalContent = json.content; // Store for caching
@@ -835,24 +835,33 @@
         <!-- Apply gradient overlay for options -->
         {#if displayedData[index]}
           {@const item = displayedData[index]}
-          {@const isBullishCall = item?.put_call === 'Calls' && 
-            (item?.execution_estimate === 'At Ask' || item?.execution_estimate === 'Above Ask')}
-          {@const isBearishCall = item?.put_call === 'Calls' && 
-            (item?.execution_estimate === 'At Bid' || item?.execution_estimate === 'Below Bid')}
-          {@const isPut = item?.put_call === 'Puts'}
-          {@const isSweep = item?.option_activity_type === 'Sweep'}
-          
+          {@const isBullishCall =
+            item?.put_call === "Calls" &&
+            (item?.execution_estimate === "At Ask" ||
+              item?.execution_estimate === "Above Ask")}
+          {@const isBearishCall =
+            item?.put_call === "Calls" &&
+            (item?.execution_estimate === "At Bid" ||
+              item?.execution_estimate === "Below Bid")}
+          {@const isPut = item?.put_call === "Puts"}
+          {@const isSweep = item?.option_activity_type === "Sweep"}
+
           {#if isBullishCall || isBearishCall || isPut}
-            {@const baseColor = $mode === 'light' 
-              ? (index % 2 === 0 ? '#ffffff' : '#F6F7F8')
-              : (index % 2 === 0 ? '#09090B' : '#121217')}
-            
-            <div 
+            {@const baseColor =
+              $mode === "light"
+                ? index % 2 === 0
+                  ? "#ffffff"
+                  : "#F6F7F8"
+                : index % 2 === 0
+                  ? "#09090B"
+                  : "#121217"}
+
+            <div
               class="absolute inset-0 pointer-events-none z-0"
               style="background: {(() => {
                 if ($mode === 'light') {
                   if (isBullishCall) {
-                    return isSweep 
+                    return isSweep
                       ? `linear-gradient(90deg, ${baseColor} 0%, rgba(34, 197, 94, 0.1) 70%, rgba(34, 197, 94, 0.2) 100%)`
                       : `linear-gradient(90deg, ${baseColor} 0%, rgba(34, 197, 94, 0.05) 70%, rgba(34, 197, 94, 0.1) 100%)`;
                   }
@@ -889,7 +898,9 @@
             ></div>
           {/if}
         {/if}
-        <div class="p-2 text-end text-xs sm:text-sm whitespace-nowrap relative z-10">
+        <div
+          class="p-2 text-end text-xs sm:text-sm whitespace-nowrap relative z-10"
+        >
           {formatTime(displayedData[index]?.time)}
         </div>
         <div
@@ -936,17 +947,23 @@
           >
         </div>
 -->
-        <div class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10">
+        <div
+          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+        >
           {reformatDate(displayedData[index]?.date_expiration)}
         </div>
 
-        <div class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10">
+        <div
+          class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+        >
           {displayedData[index]?.dte < 0
             ? "expired"
             : displayedData[index]?.dte + "d"}
         </div>
 
-        <div class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10">
+        <div
+          class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+        >
           {displayedData[index]?.strike_price}
         </div>
 
@@ -972,15 +989,21 @@
           {displayedData[index]?.sentiment}
         </div>
 
-        <div class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10">
+        <div
+          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+        >
           {displayedData[index]?.underlying_price}
         </div>
 
-        <div class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10">
+        <div
+          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+        >
           {displayedData[index]?.price}
         </div>
 
-        <div class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10">
+        <div
+          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+        >
           {@html abbreviateNumber(
             displayedData[index]?.cost_basis,
             false,
@@ -1017,21 +1040,27 @@
             ?.replace("Midpoint", "Mid")}
         </div>
 
-        <div class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10">
+        <div
+          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+        >
           {new Intl.NumberFormat("en", {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           }).format(displayedData[index]?.size)}
         </div>
 
-        <div class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10">
+        <div
+          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+        >
           {new Intl.NumberFormat("en", {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           }).format(displayedData[index]?.volume)}
         </div>
 
-        <div class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10">
+        <div
+          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
+        >
           {new Intl.NumberFormat("en", {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
@@ -1091,29 +1120,29 @@
           {#if isStreaming && !optionsInsightContent && !optionsInsightThoughts}
             <div class="flex items-center gap-3 w-full">
               <img
-                class="w-8 h-8 rounded-full shrink-0 animate-pulse"
+                class="w-8 h-8 rounded-full shrink-0"
                 src="/pwa-192x192.png"
                 alt="Stocknear Logo"
                 loading="lazy"
               />
               <div
-                class="flex text-sm sm:text-[1rem] items-center space-x-2 py-2 animate-pulse"
+                class="flex text-sm sm:text-[1rem] items-center space-x-2 py-2 shimmer-text"
               >
                 Analyzing options flow order...
               </div>
             </div>
           {/if}
-          
+
           {#if isStreaming && optionsInsightThoughts && !optionsInsightContent}
             <div class="flex items-center gap-3 w-full">
               <img
-                class="w-8 h-8 rounded-full shrink-0 animate-pulse"
+                class="w-8 h-8 rounded-full shrink-0"
                 src="/pwa-192x192.png"
                 alt="Stocknear Logo"
                 loading="lazy"
               />
               <div
-                class="flex text-sm sm:text-[1rem] items-center space-x-2 py-2 animate-pulse"
+                class="flex text-sm sm:text-[1rem] items-center space-x-2 py-2 shimmer-text"
               >
                 {optionsInsightThoughts}
               </div>
@@ -1134,9 +1163,7 @@
                 </div>
                 {#if isStreaming && optionsInsightContent}
                   <div class="mt-2 flex items-center">
-                    <div
-                      class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"
-                    ></div>
+                    <div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     <span
                       class="ml-1.5 text-xs text-gray-500 dark:text-gray-400"
                       >Analyzing...</span
