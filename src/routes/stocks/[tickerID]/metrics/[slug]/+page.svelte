@@ -1,5 +1,10 @@
 <script lang="ts">
-  import { displayCompanyName, stockTicker, screenWidth } from "$lib/store";
+  import {
+    displayCompanyName,
+    stockTicker,
+    screenWidth,
+    selectedTimePeriod,
+  } from "$lib/store";
   import SEO from "$lib/components/SEO.svelte";
   import BusinessMetricsTable from "$lib/components/Table/BusinessMetricsTable.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
@@ -8,11 +13,11 @@
   import { mode } from "mode-watcher";
 
   export let data;
+  $selectedTimePeriod = "ttm";
 
   let categorySlug = data?.getParams;
   let categoryMetrics = [];
   let categoryName = "";
-  let selectedTimePeriod = "ttm";
   let config = null;
 
   function slugToCategory(slug: string): string {
@@ -105,12 +110,9 @@
       },
 
       title: {
-        text: categoryName,
-        style: {
-          color: $mode === "light" ? "#000" : "#fff",
-          fontSize: "18px",
-          fontWeight: "bold",
-        },
+        text: `<h3 class="mt-3 mb-1 text-[1rem] sm:text-lg">${categoryName}</h3>`,
+        useHTML: true,
+        style: { color: $mode === "light" ? "black" : "white" },
       },
 
       xAxis: {
@@ -240,8 +242,8 @@
     };
   }
 
-  $: if ($stockTicker && data?.getData?.[selectedTimePeriod] && categorySlug) {
-    const metricsData = data.getData[selectedTimePeriod];
+  $: if ($stockTicker && data?.getData?.[$selectedTimePeriod] && categorySlug) {
+    const metricsData = data.getData[$selectedTimePeriod];
     const slugLower = categorySlug.toLowerCase();
 
     if (slugLower === "operating-metrics") {
@@ -292,7 +294,7 @@
   // Regenerate chart when mode or period changes
   $: if (
     categoryMetrics.length > 0 &&
-    data?.getData?.[selectedTimePeriod] &&
+    data?.getData?.[$selectedTimePeriod] &&
     $mode !== undefined &&
     data?.getParams
   ) {
@@ -338,11 +340,9 @@
               <BusinessMetricsTable
                 title={categoryName}
                 first={true}
-                {selectedTimePeriod}
                 metrics={categoryMetrics}
                 showGrowth={true}
                 {data}
-                on:periodChange={(e) => (selectedTimePeriod = e.detail)}
               />
             {:else}
               <Infobox

@@ -1,7 +1,11 @@
 <script lang="ts">
   import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
   import DownloadData from "$lib/components/DownloadData.svelte";
-  import { displayCompanyName, stockTicker } from "$lib/store";
+  import {
+    displayCompanyName,
+    stockTicker,
+    selectedTimePeriod,
+  } from "$lib/store";
   import { createEventDispatcher } from "svelte";
 
   export let data;
@@ -9,7 +13,6 @@
   export let metrics = [];
   export let showGrowth = true;
   export let first = false;
-  export let selectedTimePeriod = "ttm";
 
   const dispatch = createEventDispatcher();
   const isSubscribed = ["Pro", "Plus"]?.includes(data?.user?.tier);
@@ -18,11 +21,10 @@
 
   let tabs = ["Quarterly", "TTM"];
 
-  $: activeIdx = selectedTimePeriod === "quarterly" ? 0 : 1;
+  $: activeIdx = $selectedTimePeriod === "quarterly" ? 0 : 1;
 
   function handleTabClick(index: number) {
-    const period = index === 0 ? "quarterly" : "ttm";
-    dispatch("periodChange", period);
+    $selectedTimePeriod = index === 0 ? "quarterly" : "ttm";
   }
 
   // Pre-compute everything in one reactive block

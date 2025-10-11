@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { displayCompanyName, stockTicker } from "$lib/store";
+  import {
+    displayCompanyName,
+    stockTicker,
+    selectedTimePeriod,
+  } from "$lib/store";
   import { removeCompanyStrings } from "$lib/utils";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -7,7 +11,7 @@
 
   export let data;
 
-  let selectedTimePeriod = "ttm";
+  $selectedTimePeriod = "ttm";
   let orderedCategories = [];
   let categorizedMetrics = {};
 
@@ -76,15 +80,15 @@
   }
 
   // Single reactive block with caching
-  $: if ($stockTicker && data?.getData?.[selectedTimePeriod]) {
-    const cacheKey = `${$stockTicker}-${selectedTimePeriod}`;
+  $: if ($stockTicker && data?.getData?.[$selectedTimePeriod]) {
+    const cacheKey = `${$stockTicker}-${$selectedTimePeriod}`;
 
     if (cache.has(cacheKey)) {
       const cached = cache.get(cacheKey);
       categorizedMetrics = cached.categorized;
       orderedCategories = cached.ordered;
     } else {
-      const metricsData = data.getData[selectedTimePeriod];
+      const metricsData = data.getData[$selectedTimePeriod];
       const processed = processMetrics(metricsData);
 
       categorizedMetrics = processed.categorized;
@@ -114,11 +118,9 @@
             <BusinessMetricsTable
               title={category}
               first={index === 0}
-              {selectedTimePeriod}
               metrics={categorizedMetrics[category]}
               showGrowth={true}
               {data}
-              on:periodChange={(e) => (selectedTimePeriod = e.detail)}
             />
           {/each}
         {:else}
