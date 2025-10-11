@@ -45,10 +45,35 @@
     }
   }
 
-  // Get all available categories with Operating Metrics first, then alphabetically
+  // Get all available categories with smart ordering
   $: orderedCategories = Object.keys(categorizedMetrics).sort((a, b) => {
+    // Operating Metrics always first
     if (a === "Operating Metrics") return -1;
     if (b === "Operating Metrics") return 1;
+
+    // Geography categories always last
+    const aHasGeography = a.includes("Geography");
+    const bHasGeography = b.includes("Geography");
+    if (aHasGeography && !bHasGeography) return 1;
+    if (!aHasGeography && bHasGeography) return -1;
+
+    // Extract the main category prefix (first significant words)
+    const getPrefixPriority = (name) => {
+      if (name.startsWith("Revenue")) return "1-Revenue";
+      if (name.startsWith("Gross")) return "2-Gross";
+      if (name.startsWith("Operating")) return "3-Operating";
+      if (name.startsWith("Vehicles")) return "4-Vehicles";
+      if (name.startsWith("Energy")) return "5-Energy";
+      return "9-" + name.split(" ")[0]; // Use first word for others
+    };
+
+    const prefixA = getPrefixPriority(a);
+    const prefixB = getPrefixPriority(b);
+
+    // First sort by prefix, then by full name
+    if (prefixA !== prefixB) {
+      return prefixA.localeCompare(prefixB);
+    }
     return a.localeCompare(b);
   });
 </script>

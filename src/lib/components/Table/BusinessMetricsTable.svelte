@@ -11,6 +11,7 @@
     return isNaN(date)
       ? "n/a"
       : date.toLocaleString("en-US", {
+          day: "2-digit",
           month: "short",
           year: "numeric",
           timeZone: "UTC",
