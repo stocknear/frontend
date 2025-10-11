@@ -129,7 +129,7 @@
       <div class="m-auto">
         {#if subsectionTitles.length > 0}
           <nav
-            class="sm:ml-4 pt-1 text-sm sm:text-[1rem] whitespace-nowrap overflow-x-auto"
+            class="sm:ml-4 pt-1 text-sm sm:text-[1rem] whitespace-nowrap overflow-x-auto scrollbar-thin"
           >
             <ul class="flex flex-row items-center w-full">
               {#each subsectionTitles as title (title)}
@@ -154,24 +154,3 @@
     <slot />
   </div>
 </section>
-
-<style>
-  .scrollbar {
-    display: grid;
-    grid-gap: 18px;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-    grid-auto-flow: column;
-    overflow-x: auto;
-    scrollbar-width: thin;
-    scrollbar-color: transparent transparent;
-  }
-
-  .scrollbar::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-  }
-
-  .scrollbar::-webkit-scrollbar-thumb {
-    background: transparent;
-  }
-</style>
