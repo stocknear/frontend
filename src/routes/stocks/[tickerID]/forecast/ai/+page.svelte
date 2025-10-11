@@ -611,9 +611,9 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                    class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
                   >
-                    Unlock Pro <svg
+                    Upgrade <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -637,9 +637,9 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                    class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
                   >
-                    Unlock Pro <svg
+                    Upgrade <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -661,9 +661,9 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                    class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
                   >
-                    Unlock Pro <svg
+                    Upgrade <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -690,9 +690,9 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                    class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
                   >
-                    Unlock Pro <svg
+                    Upgrade <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -715,9 +715,9 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                    class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
                   >
-                    Unlock Pro <svg
+                    Upgrade <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -755,7 +755,7 @@
                           href="/pricing"
                           class="sm:hover:text-default dark:sm:hover:text-white dark:text-white flex flex-row items-center"
                         >
-                          <span>Upgrade to Pro</span>
+                          <span>Upgrade</span>
                           <svg
                             class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
                             xmlns="http://www.w3.org/2000/svg"
@@ -816,9 +816,9 @@
                               {:else}
                                 <a
                                   href="/pricing"
-                                  class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                                  class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
                                 >
-                                  Pro
+                                  Upgrade
                                   <svg
                                     class="w-4 h-4 mb-1 inline-block"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -850,9 +850,9 @@
                               {:else}
                                 <a
                                   href="/pricing"
-                                  class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                                  class="text-sm sm:hover:text-default dark:sm:hover:text-blue-400"
                                 >
-                                  Pro
+                                  Upgrade
                                   <svg
                                     class="w-4 h-4 mb-1 inline-block"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -891,9 +891,9 @@
                               {:else}
                                 <a
                                   href="/pricing"
-                                  class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                                  class="text-sm sm:hover:text-default dark:sm:hover:text-blue-400"
                                 >
-                                  Pro
+                                  Upgrade
                                   <svg
                                     class="w-4 h-4 mb-1 inline-block"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -935,9 +935,9 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                      class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
                     >
-                      Unlock Pro <svg
+                      Upgrade <svg
                         class="w-4 h-4 mb-1 inline-block"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -956,9 +956,9 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                      class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
                     >
-                      Unlock Pro <svg
+                      Upgrade <svg
                         class="w-4 h-4 mb-1 inline-block"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -978,9 +978,9 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                      class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
                     >
-                      Unlock Pro <svg
+                      Upgrade <svg
                         class="w-4 h-4 mb-1 inline-block"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -1009,9 +1009,9 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                      class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
                     >
-                      Unlock Pro <svg
+                      Upgrade <svg
                         class="w-4 h-4 mb-1 inline-block"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -1031,9 +1031,9 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                      class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
                     >
-                      Unlock Pro <svg
+                      Upgrade <svg
                         class="w-4 h-4 mb-1 inline-block"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -1072,7 +1072,7 @@
                           href="/pricing"
                           class="sm:hover:text-default dark:sm:hover:text-white dark:text-white flex flex-row items-center"
                         >
-                          <span>Upgrade to Pro</span>
+                          <span>Upgrade</span>
                           <svg
                             class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
                             xmlns="http://www.w3.org/2000/svg"
@@ -1112,8 +1112,8 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="sm:hover:text-default dark:sm:hover:text-blue-400"
-                                >Pro <svg
+                                class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                                >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -1128,8 +1128,8 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="sm:hover:text-default dark:sm:hover:text-blue-400"
-                                >Pro <svg
+                                class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                                >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -1144,8 +1144,8 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="sm:hover:text-default dark:sm:hover:text-blue-400"
-                                >Pro <svg
+                                class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                                >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -1160,8 +1160,8 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="sm:hover:text-default dark:sm:hover:text-blue-400"
-                                >Pro <svg
+                                class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                                >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -1187,9 +1187,9 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                                class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
                               >
-                                Pro
+                                Upgrade
                                 <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
@@ -1205,8 +1205,8 @@
                             <td class="whitespace-nowrap"
                               ><a
                                 href="/pricing"
-                                class="sm:hover:text-default dark:sm:hover:text-blue-400"
-                                >Pro <svg
+                                class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                                >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -1221,8 +1221,8 @@
                             <td class="whitespace-nowrap"
                               ><a
                                 href="/pricing"
-                                class="sm:hover:text-default dark:sm:hover:text-blue-400"
-                                >Pro <svg
+                                class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                                >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -1237,8 +1237,8 @@
                             <td class="whitespace-nowrap"
                               ><a
                                 href="/pricing"
-                                class="sm:hover:text-default dark:sm:hover:text-blue-400"
-                                >Pro <svg
+                                class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                                >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"

@@ -694,7 +694,7 @@
                           href="/pricing"
                           class="sm:hover:text-blue-800 dark:sm:hover:text-white dark:text-white flex flex-row items-center"
                         >
-                          <span>Upgrade to Pro</span>
+                          <span>Upgrade</span>
                           <svg
                             class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
                             xmlns="http://www.w3.org/2000/svg"

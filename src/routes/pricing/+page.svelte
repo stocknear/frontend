@@ -1446,7 +1446,7 @@
             on:click={() => purchasePlan("pro")}
             class="cursor-pointer w-full py-3 px-4 bg-white rounded-[3px] font-semibold sm:hover:bg-gray-100 dark:sm:hover:bg-gray-100 text-black transition duration-100 flex items-center justify-center"
             >{data?.user?.freeTrial
-              ? "Unlock Pro Access"
+              ? "Upgrade Access"
               : "Start Free 7 Day Trial"}<svg
               class="w-5 h-5 ml-2"
               fill="none"

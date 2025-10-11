@@ -527,9 +527,7 @@
                       <th
                         class="font-semibold text-start text-sm sm:text-[1rem]"
                       >
-                        {$selectedTimePeriod === "quarterly"
-                          ? "Quarter Ended"
-                          : "Period Ended"}
+                        Date
                       </th>
                       {#each categoryMetrics as metric}
                         <th
@@ -546,13 +544,13 @@
                         class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
                       >
                         <td class="text-sm sm:text-[1rem] whitespace-nowrap">
-                          {row.formattedDate}
+                          {row?.formattedDate}
                         </td>
                         {#each categoryMetrics as metric}
                           <td
                             class="text-sm sm:text-[1rem] text-right whitespace-nowrap"
                           >
-                            {row.metrics[metric.name]?.formatted || "-"}
+                            {row?.metrics[metric.name]?.formatted || "-"}
                           </td>
                         {/each}
                       </tr>

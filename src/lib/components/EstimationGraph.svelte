@@ -47,7 +47,7 @@
                   {#if index !== 0}
                     {#if !["Pro", "Plus"]?.includes(userTier) && index >= highDataList?.length - 2}
                       <a class="inline-block ml-0.5" href="/pricing"
-                        >Pro<svg
+                        >Upgrade<svg
                           class="w-4 h-4 ml-0.5 mb-1 inline-block"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -71,7 +71,7 @@
                   {#if index !== 0}
                     {#if !["Pro", "Plus"]?.includes(userTier) && index >= avgDataList?.length - 2}
                       <a class="inline-block ml-0.5" href="/pricing"
-                        >Pro<svg
+                        >Upgrade<svg
                           class="w-4 h-4 ml-0.5 mb-1 inline-block"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -95,7 +95,7 @@
                   {#if index !== 0}
                     {#if !["Pro", "Plus"]?.includes(userTier) && index >= lowDataList?.length - 2}
                       <a class="inline-block ml-0.5" href="/pricing"
-                        >Pro<svg
+                        >Upgrade<svg
                           class="w-4 h-4 ml-0.5 mb-1 inline-block"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -150,7 +150,7 @@
                   {#if index !== 0}
                     {#if !["Pro", "Plus"]?.includes(userTier) && index >= highDataList?.length - 2}
                       <a class="inline-block ml-0.5" href="/pricing"
-                        >Pro<svg
+                        >Upgrade<svg
                           class="w-4 h-4 ml-0.5 mb-1 inline-block"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -184,7 +184,7 @@
                   {#if index !== 0}
                     {#if !["Pro", "Plus"]?.includes(userTier) && index >= avgDataList?.length - 2}
                       <a class="inline-block ml-0.5" href="/pricing"
-                        >Pro<svg
+                        >Upgrade<svg
                           class="w-4 h-4 ml-0.5 mb-1 inline-block"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -218,7 +218,7 @@
                   {#if index !== 0}
                     {#if !["Pro", "Plus"]?.includes(userTier) && index >= lowDataList?.length - 2}
                       <a class="inline-block ml-0.5" href="/pricing"
-                        >Pro<svg
+                        >Upgrade<svg
                           class="w-4 h-4 ml-0.5 mb-1 inline-block"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
