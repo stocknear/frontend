@@ -6,18 +6,28 @@
     selectedTimePeriod,
   } from "$lib/store";
   import SEO from "$lib/components/SEO.svelte";
-  import BusinessMetricsTable from "$lib/components/Table/BusinessMetricsTable.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
   import highcharts from "$lib/highcharts.ts";
-  import { abbreviateNumber } from "$lib/utils";
+  import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
   import { mode } from "mode-watcher";
 
   export let data;
   $selectedTimePeriod = "ttm";
 
+  const MAX_DATES = 12;
+
   let categoryMetrics = [];
   let categoryName = "";
   let config = null;
+  let tableData = [];
+
+  let tabs = ["Quarterly", "TTM"];
+  $: activeIdx = $selectedTimePeriod === "quarterly" ? 0 : 1;
+
+  function handleTabClick(index: number) {
+    $selectedTimePeriod = index === 0 ? "quarterly" : "ttm";
+  }
 
   // Make categorySlug reactive to route changes
   $: categorySlug = data?.getParams;
@@ -39,6 +49,7 @@
       day: "2-digit",
       month: "short",
       year: "numeric",
+      timeZone: "UTC",
     });
   }
 
@@ -343,10 +354,73 @@
 
     // Generate chart config after metrics are set
     config = plot(categoryMetrics);
+
+    // Build table data - dates as rows, metrics as columns
+    if (categoryMetrics && categoryMetrics.length > 0) {
+      // Collect all unique dates
+      const dateSet = new Set();
+      for (const metric of categoryMetrics) {
+        for (const v of metric.values) {
+          dateSet.add(v.date);
+        }
+      }
+
+      // Sort dates descending (most recent first) and limit
+      const sortedDates = Array.from(dateSet)
+        .sort()
+        .reverse()
+        .slice(0, MAX_DATES);
+
+      // Build rows where each row is a date/period
+      tableData = sortedDates.map((date, index) => {
+        const rowData = {
+          date,
+          formattedDate: formatDate(date),
+          metrics: {},
+        };
+
+        // For each metric, get the value at this date
+        for (const metric of categoryMetrics) {
+          const valueObj = metric.values.find((v) => v.date === date);
+          const value = valueObj?.val ?? null;
+          const valueType =
+            valueObj?.valueType || metric.values[0]?.valueType || "NUMBER";
+
+          // Format value
+          let formatted = "-";
+          if (value !== null && value !== undefined) {
+            switch (valueType) {
+              case "CURRENCY":
+                formatted = abbreviateNumber(value, false, true);
+                break;
+              case "PERCENT":
+                formatted = value.toFixed(2) + "%";
+                break;
+              case "NUMBER":
+                formatted = abbreviateNumber(value, false, false);
+                break;
+              default:
+                formatted = value.toString();
+            }
+          }
+
+          rowData.metrics[metric.name] = {
+            value,
+            formatted,
+            valueType,
+          };
+        }
+
+        return rowData;
+      });
+    } else {
+      tableData = [];
+    }
   } else {
     categoryMetrics = [];
     categoryName = "";
     config = null;
+    tableData = [];
   }
 
   // Regenerate chart when mode or period changes
@@ -375,13 +449,48 @@
       >
         <main class="w-full">
           <div class="sm:pl-7 sm:pb-7 sm:pt-7 pt-3 m-auto mt-2 sm:mt-0 w-full">
-            <div class="mb-3">
-              <h1 class="text-xl sm:text-2xl font-bold">
-                {categoryName}
-              </h1>
-            </div>
-
             {#if categoryMetrics?.length > 0}
+              <div class="items-center lg:overflow-visible">
+                <div
+                  class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1"
+                >
+                  <h2
+                    class="text-start whitespace-nowrap text-xl sm:text-2xl font-bold py-1 w-full"
+                  >
+                    {removeCompanyStrings($displayCompanyName)}
+                    {categoryName}
+                  </h2>
+                  <div
+                    class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+                  >
+                    <div class="ml-auto">
+                      <div class="inline-flex">
+                        <div class="inline-flex rounded-lg shadow-sm">
+                          {#each tabs as item, i (item)}
+                            <button
+                              on:click={() => handleTabClick(i)}
+                              class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
+                                      {i === 0 ? 'rounded-l border' : ''}
+                                      {i === tabs?.length - 1
+                                ? 'rounded-r border-t border-r border-b'
+                                : ''}
+                                      {i !== 0 && i !== tabs?.length - 1
+                                ? 'border-t border-b'
+                                : ''}
+                                      {activeIdx === i
+                                ? 'bg-black dark:bg-white text-white dark:text-black'
+                                : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
+                            >
+                              {item}
+                            </button>
+                          {/each}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               {#if config}
                 <div>
                   <div class="grow mt-3">
@@ -395,13 +504,62 @@
                 </div>
               {/if}
 
-              <BusinessMetricsTable
-                title={categoryName}
-                first={true}
-                metrics={categoryMetrics}
-                showGrowth={true}
-                {data}
-              />
+              <div
+                class="history-driver mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-300 dark:border-gray-800 py-2"
+              >
+                <h3 class="text-xl sm:text-2xl font-bold">History</h3>
+
+                <div class="ml-2">
+                  <DownloadData
+                    {data}
+                    rawData={categoryMetrics}
+                    title={`${$stockTicker}_metric_data`}
+                  />
+                </div>
+              </div>
+
+              <div class="w-full overflow-x-auto">
+                <table
+                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto mt-4"
+                >
+                  <thead class="bg-default text-white">
+                    <tr>
+                      <th
+                        class="font-semibold text-start text-sm sm:text-[1rem]"
+                      >
+                        {$selectedTimePeriod === "quarterly"
+                          ? "Quarter Ended"
+                          : "Period Ended"}
+                      </th>
+                      {#each categoryMetrics as metric}
+                        <th
+                          class="font-semibold text-end text-sm sm:text-[1rem]"
+                        >
+                          {metric.name}
+                        </th>
+                      {/each}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {#each tableData as row}
+                      <tr
+                        class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
+                      >
+                        <td class="text-sm sm:text-[1rem] whitespace-nowrap">
+                          {row.formattedDate}
+                        </td>
+                        {#each categoryMetrics as metric}
+                          <td
+                            class="text-sm sm:text-[1rem] text-right whitespace-nowrap"
+                          >
+                            {row.metrics[metric.name]?.formatted || "-"}
+                          </td>
+                        {/each}
+                      </tr>
+                    {/each}
+                  </tbody>
+                </table>
+              </div>
             {:else}
               <Infobox
                 text={`Currently, there are no metrics available for ${categoryName}.`}

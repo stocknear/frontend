@@ -6,7 +6,6 @@
     stockTicker,
     selectedTimePeriod,
   } from "$lib/store";
-  import { createEventDispatcher } from "svelte";
 
   export let data;
   export let title = "";
@@ -14,7 +13,6 @@
   export let showGrowth = true;
   export let first = false;
 
-  const dispatch = createEventDispatcher();
   const isSubscribed = ["Pro", "Plus"]?.includes(data?.user?.tier);
   const limit = 6;
   const MAX_DATES = 12; // Limit to 12 most recent periods
