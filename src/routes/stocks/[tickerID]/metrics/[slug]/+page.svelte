@@ -162,7 +162,7 @@
         type: usePercentChart ? "spline" : "column",
         data: data,
         color: colors[index % colors.length],
-        borderRadius: usePercentChart ? undefined : "3px",
+        borderRadius: usePercentChart ? undefined : "5px",
         animation: false,
         marker: usePercentChart
           ? {
@@ -547,6 +547,19 @@
       config = null;
     }
   }
+
+  // Transform tableData for download - matches table display format
+  $: downloadData = tableData.map(row => {
+    const downloadRow: Record<string, any> = {
+      Date: row.formattedDate
+    };
+
+    categoryMetrics.forEach(metric => {
+      downloadRow[metric.name] = row.metrics[metric.name]?.formatted || "-";
+    });
+
+    return downloadRow;
+  });
 </script>
 
 <SEO
@@ -706,8 +719,8 @@
                 <div class="ml-2">
                   <DownloadData
                     {data}
-                    rawData={categoryMetrics}
-                    title={`${$stockTicker}_metric_data`}
+                    rawData={downloadData}
+                    title={`${$stockTicker}_${normalizeSlug(categoryName)}_metrics`}
                   />
                 </div>
               </div>
