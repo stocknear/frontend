@@ -15,10 +15,12 @@
   export let data;
   $selectedTimePeriod = "ttm";
 
-  let categorySlug = data?.getParams;
   let categoryMetrics = [];
   let categoryName = "";
   let config = null;
+
+  // Make categorySlug reactive to route changes
+  $: categorySlug = data?.getParams;
 
   function slugToCategory(slug: string): string {
     return slug
@@ -50,17 +52,26 @@
   function plot(metrics) {
     if (!metrics || metrics.length === 0) return null;
 
-    // Filter out percentage metrics - only show non-percentage values
+    // Separate percentage and non-percentage metrics
+    const percentMetrics = metrics.filter((metric) => {
+      const valueType = metric.values?.[0]?.valueType;
+      return valueType === "PERCENT";
+    });
+
     const nonPercentMetrics = metrics.filter((metric) => {
       const valueType = metric.values?.[0]?.valueType;
       return valueType && valueType !== "PERCENT";
     });
 
-    if (nonPercentMetrics.length === 0) return null;
+    // Determine which type of chart to create
+    const usePercentChart = percentMetrics.length > 0;
+    const metricsToPlot = usePercentChart ? percentMetrics : nonPercentMetrics;
+
+    if (metricsToPlot.length === 0) return null;
 
     // Collect all unique dates from all metrics
     const dateSet = new Set();
-    for (const metric of nonPercentMetrics) {
+    for (const metric of metricsToPlot) {
       for (const v of metric.values) {
         dateSet.add(v.date);
       }
@@ -81,7 +92,7 @@
       "#84cc16",
     ];
 
-    const series = nonPercentMetrics.map((metric, index) => {
+    const series = metricsToPlot.map((metric, index) => {
       const valueMap = new Map();
       for (const v of metric.values) {
         valueMap.set(v.date, v.val);
@@ -91,19 +102,27 @@
 
       return {
         name: metric.name,
-        type: "column",
+        type: usePercentChart ? "spline" : "column",
         data: data,
         color: colors[index % colors.length],
-        borderRadius: "3px",
+        borderRadius: usePercentChart ? undefined : "3px",
         animation: false,
+        marker: usePercentChart
+          ? {
+              enabled: true,
+              radius: 4,
+              symbol: "circle",
+            }
+          : undefined,
+        lineWidth: usePercentChart ? 2 : undefined,
       };
     });
 
     // Build the Highcharts options
-    return {
+    const baseConfig = {
       credits: { enabled: false },
       chart: {
-        type: "column",
+        type: usePercentChart ? "spline" : "column",
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
         animation: false,
         height: $screenWidth < 640 ? 360 : 500,
@@ -137,53 +156,20 @@
         labels: {
           style: { color: $mode === "light" ? "#545454" : "#fff" },
           formatter: function () {
+            if (usePercentChart) {
+              return this.value.toFixed(1) + "%";
+            }
             return abbreviateNumber(this.value, false, true);
-          },
-        },
-        stackLabels: {
-          enabled: true,
-          style: {
-            color: $mode === "light" ? "#000" : "#fff",
-            fontWeight: "bold",
-          },
-          formatter: function () {
-            return abbreviateNumber(this.total, false, true);
           },
         },
       },
 
       plotOptions: {
-        column: {
-          stacking: "normal",
-          dataLabels: {
-            enabled: true,
-            inside: true,
-            verticalAlign: "middle",
-            style: {
-              color: "#eeeeee",
-              textOutline: "none",
-              fontSize: "12px",
-              fontWeight: "600",
-            },
-            formatter: function () {
-              // Only show label if value is significant enough
-              const total = this.point.stackTotal;
-              const percentage = (this.y / total) * 100;
-              if (percentage < 5) return null; // Hide if less than 5% of total
-              return abbreviateNumber(this.y, false, true);
-            },
-          },
-          borderWidth: 1,
-          borderColor: $mode === "light" ? "#eeeeee" : "#09090B",
-          animation: false,
-          pointPadding: 0.05,
-          groupPadding: 0.05,
-        },
         series: {
           animation: false,
           states: {
             hover: {
-              enabled: false,
+              enabled: true,
             },
           },
         },
@@ -202,34 +188,6 @@
         },
         borderRadius: 8,
         outside: false,
-        formatter: function () {
-          let total = 0;
-          let content = `<div style="min-width: 250px; max-width: 400px;">`;
-          content += `<div style="font-weight: 600; margin-bottom: 5px; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px;">${formatDate(this.x)}</div>`;
-          content += `<div style="display: grid; gap: 6px;">`;
-
-          this.points.forEach((point) => {
-            if (point.y !== null) {
-              total += point.y;
-              content += `
-                <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 5px; align-items: center;">
-                  <span style="color: ${point.color}; font-size: 14px;">●</span>
-                  <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px;">${point.series.name}</span>
-                  <span style="font-weight: 600; white-space: nowrap; font-size: 14px;">${abbreviateNumber(point.y, false, true)}</span>
-                </div>`;
-            }
-          });
-
-          content += `</div>`;
-          content += `
-            <div style="margin-top: 12px; padding-top: 5px; border-top: 1px solid rgba(255,255,255,0.3); display: flex; justify-content: space-between; font-size: 14px;">
-              <span style="font-weight: 600; font-size: 14px;">Total:</span>
-              <span style="font-weight: 700; font-size: 14px;">${abbreviateNumber(total, false, true)}</span>
-            </div>`;
-          content += `</div>`;
-
-          return content;
-        },
       },
 
       series: series,
@@ -240,6 +198,106 @@
         itemHoverStyle: { color: $mode === "light" ? "#374151" : "#d1d5db" },
       },
     };
+
+    // Add specific configurations for column charts
+    if (!usePercentChart) {
+      baseConfig.yAxis.stackLabels = {
+        enabled: true,
+        style: {
+          color: $mode === "light" ? "#000" : "#fff",
+          fontWeight: "bold",
+        },
+        formatter: function () {
+          return abbreviateNumber(this.total, false, true);
+        },
+      };
+
+      baseConfig.plotOptions.column = {
+        stacking: "normal",
+        dataLabels: {
+          enabled: true,
+          inside: true,
+          verticalAlign: "middle",
+          style: {
+            color: "#eeeeee",
+            textOutline: "none",
+            fontSize: "12px",
+            fontWeight: "600",
+          },
+          formatter: function () {
+            // Only show label if value is significant enough
+            const total = this.point.stackTotal;
+            const percentage = (this.y / total) * 100;
+            if (percentage < 5) return null; // Hide if less than 5% of total
+            return abbreviateNumber(this.y, false, true);
+          },
+        },
+        borderWidth: 1,
+        borderColor: $mode === "light" ? "#eeeeee" : "#09090B",
+        animation: false,
+        pointPadding: 0.05,
+        groupPadding: 0.05,
+      };
+
+      baseConfig.tooltip.formatter = function () {
+        let total = 0;
+        let content = `<div style="min-width: 250px; max-width: 400px;">`;
+        content += `<div style="font-weight: 600; margin-bottom: 5px; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px;">${formatDate(this.x)}</div>`;
+        content += `<div style="display: grid; gap: 6px;">`;
+
+        this.points.forEach((point) => {
+          if (point.y !== null) {
+            total += point.y;
+            content += `
+              <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 5px; align-items: center;">
+                <span style="color: ${point.color}; font-size: 14px;">●</span>
+                <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px;">${point.series.name}</span>
+                <span style="font-weight: 600; white-space: nowrap; font-size: 14px;">${abbreviateNumber(point.y, false, true)}</span>
+              </div>`;
+          }
+        });
+
+        content += `</div>`;
+        content += `
+          <div style="margin-top: 12px; padding-top: 5px; border-top: 1px solid rgba(255,255,255,0.3); display: flex; justify-content: space-between; font-size: 14px;">
+            <span style="font-weight: 600; font-size: 14px;">Total:</span>
+            <span style="font-weight: 700; font-size: 14px;">${abbreviateNumber(total, false, true)}</span>
+          </div>`;
+        content += `</div>`;
+
+        return content;
+      };
+    } else {
+      // Spline chart specific tooltip
+      baseConfig.plotOptions.spline = {
+        dataLabels: {
+          enabled: false,
+        },
+        animation: false,
+      };
+
+      baseConfig.tooltip.formatter = function () {
+        let content = `<div style="min-width: 250px; max-width: 400px;">`;
+        content += `<div style="font-weight: 600; margin-bottom: 5px; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px;">${formatDate(this.x)}</div>`;
+        content += `<div style="display: grid; gap: 6px;">`;
+
+        this.points.forEach((point) => {
+          if (point.y !== null) {
+            content += `
+              <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 5px; align-items: center;">
+                <span style="color: ${point.color}; font-size: 14px;">●</span>
+                <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px;">${point.series.name}</span>
+                <span style="font-weight: 600; white-space: nowrap; font-size: 14px;">${point.y.toFixed(2)}%</span>
+              </div>`;
+          }
+        });
+
+        content += `</div></div>`;
+        return content;
+      };
+    }
+
+    return baseConfig;
   }
 
   $: if ($stockTicker && data?.getData?.[$selectedTimePeriod] && categorySlug) {
