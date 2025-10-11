@@ -87,6 +87,7 @@
         data: data,
         color: colors[index % colors.length],
         borderRadius: 0,
+        animation: false,
       };
     });
 
@@ -151,6 +152,15 @@
           stacking: "normal",
           dataLabels: { enabled: false },
           borderWidth: 0,
+          animation: false,
+        },
+        series: {
+          animation: false,
+          states: {
+            hover: {
+              enabled: false,
+            },
+          },
         },
       },
 
