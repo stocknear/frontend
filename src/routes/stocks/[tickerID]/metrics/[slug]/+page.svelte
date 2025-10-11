@@ -11,12 +11,13 @@
   import highcharts from "$lib/highcharts.ts";
   import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
   import { mode } from "mode-watcher";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
 
   export let data;
   $selectedTimePeriod = "ttm";
 
-  const MAX_DATES = 12;
-
+  let selectedInterval = "5Y";
   let categoryMetrics = [];
   let categoryName = "";
   let config = null;
@@ -27,6 +28,32 @@
 
   function handleTabClick(index: number) {
     $selectedTimePeriod = index === 0 ? "quarterly" : "ttm";
+  }
+
+  function changeStatement(interval: string) {
+    selectedInterval = interval;
+  }
+
+  function filterDataByYears(dates: string[], interval: string) {
+    const now = new Date();
+    let thresholdDate: Date;
+
+    switch (interval) {
+      case "5Y":
+        thresholdDate = new Date(now);
+        thresholdDate.setFullYear(now.getFullYear() - 5);
+        break;
+      case "10Y":
+        thresholdDate = new Date(now);
+        thresholdDate.setFullYear(now.getFullYear() - 10);
+        break;
+      case "MAX":
+      default:
+        thresholdDate = new Date(0); // Earliest possible date
+        break;
+    }
+
+    return dates?.filter((date) => new Date(date) >= thresholdDate);
   }
 
   // Make categorySlug reactive to route changes
@@ -89,7 +116,13 @@
     }
 
     // Sort dates (most recent first, then reverse for chart)
-    const dates = Array.from(dateSet).sort().reverse().slice(0, 12).reverse();
+    let allDates = Array.from(dateSet).sort().reverse();
+
+    // Filter by selected interval
+    allDates = filterDataByYears(allDates, selectedInterval);
+
+    // Limit to 12 most recent and reverse for chart
+    const dates = allDates.reverse();
 
     // Create series data for each metric
     const colors = [
@@ -311,7 +344,12 @@
     return baseConfig;
   }
 
-  $: if ($stockTicker && data?.getData?.[$selectedTimePeriod] && categorySlug) {
+  $: if (
+    $stockTicker &&
+    data?.getData?.[$selectedTimePeriod] &&
+    categorySlug &&
+    selectedInterval
+  ) {
     const metricsData = data.getData[$selectedTimePeriod];
     const slugLower = categorySlug.toLowerCase();
 
@@ -352,9 +390,6 @@
       categoryName = foundCategoryName || slugToCategory(categorySlug);
     }
 
-    // Generate chart config after metrics are set
-    config = plot(categoryMetrics);
-
     // Build table data - dates as rows, metrics as columns
     if (categoryMetrics && categoryMetrics.length > 0) {
       // Collect all unique dates
@@ -365,11 +400,11 @@
         }
       }
 
-      // Sort dates descending (most recent first) and limit
-      const sortedDates = Array.from(dateSet)
-        .sort()
-        .reverse()
-        .slice(0, MAX_DATES);
+      // Sort dates descending (most recent first)
+      let sortedDates = Array.from(dateSet).sort().reverse();
+
+      // Filter by selected interval
+      sortedDates = filterDataByYears(sortedDates, selectedInterval);
 
       // Build rows where each row is a date/period
       tableData = sortedDates.map((date, index) => {
@@ -423,13 +458,10 @@
     tableData = [];
   }
 
-  // Regenerate chart when mode or period changes
-  $: if (
-    categoryMetrics.length > 0 &&
-    data?.getData?.[$selectedTimePeriod] &&
-    $mode !== undefined &&
-    data?.getParams
-  ) {
+  // Regenerate chart when dependencies change
+  $: if (categoryMetrics && categoryMetrics.length > 0) {
+    // Reference all dependencies to ensure reactivity
+    const _ = [selectedInterval, $mode, data?.getParams];
     config = plot(categoryMetrics);
   }
 </script>
@@ -464,6 +496,70 @@
                     class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
                   >
                     <div class="ml-auto">
+                      <div
+                        class="timeframe-toggle-driver relative inline-block text-left grow mr-2"
+                      >
+                        <DropdownMenu.Root>
+                          <DropdownMenu.Trigger asChild let:builder>
+                            <Button
+                              builders={[builder]}
+                              class="w-full  border-gray-300 dark:border-gray-600 border bg-black text-white sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary ease-out  flex flex-row justify-between items-center px-3 py-2  rounded truncate"
+                            >
+                              <span class="truncate text-xs sm:text-sm"
+                                >{selectedInterval}</span
+                              >
+                              <svg
+                                class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                style="max-width:40px"
+                                aria-hidden="true"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                  clip-rule="evenodd"
+                                ></path>
+                              </svg>
+                            </Button>
+                          </DropdownMenu.Trigger>
+                          <DropdownMenu.Content
+                            side="bottom"
+                            align="end"
+                            sideOffset={10}
+                            alignOffset={0}
+                            class="w-56 h-fit max-h-72 overflow-y-auto scroller"
+                          >
+                            <DropdownMenu.Label
+                              class="text-muted dark:text-gray-400 font-normal"
+                            >
+                              Select time frame
+                            </DropdownMenu.Label>
+                            <DropdownMenu.Separator />
+                            <DropdownMenu.Group>
+                              <DropdownMenu.Item
+                                on:click={() => changeStatement("5Y")}
+                                class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                              >
+                                5Y
+                              </DropdownMenu.Item>
+                              <DropdownMenu.Item
+                                on:click={() => changeStatement("10Y")}
+                                class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                              >
+                                10Y
+                              </DropdownMenu.Item>
+                              <DropdownMenu.Item
+                                on:click={() => changeStatement("MAX")}
+                                class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                              >
+                                MAX
+                              </DropdownMenu.Item>
+                            </DropdownMenu.Group>
+                          </DropdownMenu.Content>
+                        </DropdownMenu.Root>
+                      </div>
+
                       <div class="inline-flex">
                         <div class="inline-flex rounded-lg shadow-sm">
                           {#each tabs as item, i (item)}
