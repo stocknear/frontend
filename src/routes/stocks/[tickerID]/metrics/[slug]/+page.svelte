@@ -688,7 +688,7 @@
 
               {#if config}
                 <div>
-                  <div class="grow mt-3">
+                  <div class="grow">
                     <div class="relative">
                       <div
                         class="mt-5 shadow-xs sm:mt-0 sm:border sm:border-gray-300 dark:border-gray-800 rounded"
@@ -700,7 +700,7 @@
               {/if}
 
               <div
-                class="history-driver mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-300 dark:border-gray-800 py-2"
+                class=" mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-300 dark:border-gray-800 py-2"
               >
                 <h3 class="text-xl sm:text-2xl font-bold">History</h3>
                 <div class="ml-2">
