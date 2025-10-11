@@ -54,7 +54,7 @@
     metrics.forEach((metric) => {
       metric.values.forEach((v) => dates.add(v.date));
     });
-    return Array?.from(dates).sort().reverse().slice(0, 8); // Show last 8 quarters
+    return Array?.from(dates).sort().reverse(); // Show all available quarters
   })();
 
   // Get value for a specific metric and date
