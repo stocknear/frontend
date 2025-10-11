@@ -4,12 +4,11 @@
 
   export let data;
 
-  let names;
+  let categories = [];
   let subsectionTitles;
-
   let sectionMap;
-
   let displaySubSection;
+
   function convertToTitleCase(str) {
     return str
       ?.split("-") // Split the string by hyphen
@@ -20,9 +19,6 @@
 
   function changeSubSection(state) {
     displaySubSection = state;
-    const path =
-      state === "overview" ? "/metrics" : `/metrics/${sectionMap[state]}`;
-    // Navigate programmatically using SvelteKit's goto function
   }
 
   function getHref(section) {
@@ -49,10 +45,42 @@
   }
 
   $: {
-    if ($stockTicker) {
-      names = data?.getBusinessMetrics?.revenue?.names || [];
-      subsectionTitles = ["Overview", ...names];
-      console.log(subsectionTitles);
+    if ($stockTicker && data?.getData) {
+      const metricsData = Array.isArray(data.getData) ? data.getData : [];
+
+      // Group metrics by category to determine which should be combined
+      const tempCategorized = metricsData.reduce((acc, metric) => {
+        const category = metric.category || "Other";
+        if (!acc[category]) {
+          acc[category] = [];
+        }
+        acc[category].push(metric);
+        return acc;
+      }, {});
+
+      // Determine final categories (combining single-metric categories)
+      const finalCategories = [];
+      let hasOperatingMetrics = false;
+
+      for (const [category, metrics] of Object.entries(tempCategorized)) {
+        if (metrics.length === 1) {
+          hasOperatingMetrics = true;
+        } else {
+          finalCategories.push(category);
+        }
+      }
+
+      if (hasOperatingMetrics) {
+        finalCategories.push("Operating Metrics");
+      }
+
+      // Sort with Operating Metrics first, then alphabetically
+      categories = finalCategories.sort((a, b) => {
+        if (a === "Operating Metrics") return -1;
+        if (b === "Operating Metrics") return 1;
+        return a.localeCompare(b);
+      });
+      subsectionTitles = ["Overview", ...categories];
 
       sectionMap = Object?.fromEntries(
         subsectionTitles?.map((title) => {
@@ -72,13 +100,11 @@
   }
 </script>
 
-<!-- Rest of the component remains the same -->
-
 <section class="w-full overflow-hidden h-full">
   <div class="m-auto h-full overflow-hidden">
     <main class="w-full">
       <div class="m-auto">
-        {#if names?.length > 0}
+        {#if categories?.length > 0}
           <nav
             class="sm:ml-4 pt-1 text-sm sm:text-[1rem] whitespace-nowrap overflow-x-auto whitespace-nowrap"
           >
