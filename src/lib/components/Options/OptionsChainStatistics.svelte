@@ -1106,7 +1106,7 @@ Lower volume today than average suggests less activity or fading interest."
             </p>
 
             <div
-              class="flex justify-start items-center m-auto overflow-x-auto mt-5"
+              class="flex justify-start items-center m-auto overflow-x-auto mt-1"
             >
               <table
                 class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto mt-3"
