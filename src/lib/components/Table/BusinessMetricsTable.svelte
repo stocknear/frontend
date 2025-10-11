@@ -12,10 +12,10 @@
   export let metrics = [];
   export let showGrowth = true;
   export let first = false;
+  export let overrideDownloadData = null; // For overview page to pass combined data
 
   const isSubscribed = ["Pro", "Plus"]?.includes(data?.user?.tier);
   const limit = 6;
-  const MAX_DATES = 12; // Limit to 12 most recent periods
 
   let tabs = ["Quarterly", "TTM"];
 
@@ -41,7 +41,7 @@
       }
 
       // Sort and limit to most recent
-      const allDates = Array.from(dateSet).sort().reverse().slice(0, MAX_DATES);
+      const allDates = Array.from(dateSet).sort().reverse();
 
       // Pre-format dates once
       const formattedDates = allDates.map((d) => {
@@ -126,6 +126,48 @@
       tableData = { dates: allDates, formattedDates, rows };
     }
   }
+
+  // Transform tableData for download - matches table display format
+  $: downloadData = (() => {
+    // Use override data if provided (for overview page with all categories)
+    if (overrideDownloadData && overrideDownloadData.length > 0) {
+      return overrideDownloadData;
+    }
+
+    if (!tableData.formattedDates || tableData.formattedDates.length === 0) {
+      return [];
+    }
+
+    // Create array of objects where each object is a column (date period)
+    return tableData.formattedDates.map((formattedDate, dateIndex) => {
+      const downloadRow: Record<string, any> = {
+        "Period Ending": formattedDate,
+      };
+
+      // Add each metric's value for this date
+      tableData.rows.forEach((row) => {
+        const cell = row.cells[dateIndex];
+        if (cell && !cell.isPremium) {
+          downloadRow[row.name] = cell.formatted;
+          if (showGrowth && cell.growth !== "-") {
+            downloadRow[`${row.name} Growth`] = cell.growth;
+          }
+        } else if (cell?.isPremium) {
+          downloadRow[row.name] = "Premium";
+          if (showGrowth) {
+            downloadRow[`${row.name} Growth`] = "Premium";
+          }
+        } else {
+          downloadRow[row.name] = "-";
+          if (showGrowth) {
+            downloadRow[`${row.name} Growth`] = "-";
+          }
+        }
+      });
+
+      return downloadRow;
+    });
+  })();
 </script>
 
 <section class="my-5 pb-5">
@@ -171,8 +213,10 @@
           <div class="ml-2">
             <DownloadData
               {data}
-              rawData={metrics}
-              title={`${$stockTicker}_metric_data`}
+              rawData={downloadData}
+              title={overrideDownloadData
+                ? `${$stockTicker}_all_business_metrics_overview`
+                : `${$stockTicker}_${title?.toLowerCase().replace(/\s+/g, "_")}_metrics`}
             />
           </div>
         </div>

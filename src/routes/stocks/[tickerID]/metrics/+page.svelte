@@ -4,7 +4,7 @@
     stockTicker,
     selectedTimePeriod,
   } from "$lib/store";
-  import { removeCompanyStrings } from "$lib/utils";
+  import { removeCompanyStrings, abbreviateNumber } from "$lib/utils";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import BusinessMetricsTable from "$lib/components/Table/BusinessMetricsTable.svelte";
@@ -100,6 +100,80 @@
     categorizedMetrics = {};
     orderedCategories = [];
   }
+
+  // Create comprehensive download data for all categories combined
+  $: downloadData = (() => {
+    if (!orderedCategories.length || !categorizedMetrics) {
+      return [];
+    }
+
+    // Collect all unique dates across all metrics
+    const dateSet = new Set();
+    const allMetrics = [];
+
+    for (const category of orderedCategories) {
+      const metrics = categorizedMetrics[category] || [];
+      for (const metric of metrics) {
+        allMetrics.push({ ...metric, category });
+        for (const v of metric.values) {
+          dateSet.add(v.date);
+        }
+      }
+    }
+
+    // Sort dates (most recent first)
+    const sortedDates = Array.from(dateSet).sort().reverse();
+
+    // Format dates
+    const formatDate = (dateStr: string) => {
+      const date = new Date(dateStr);
+      return isNaN(date.getTime())
+        ? "n/a"
+        : date.toLocaleDateString("en-US", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            timeZone: "UTC",
+          });
+    };
+
+    // Build download data (one row per date period)
+    return sortedDates.map((date) => {
+      const row: Record<string, any> = {
+        "Period Ending": formatDate(date),
+      };
+
+      // Add all metrics as columns
+      for (const metricData of allMetrics) {
+        const valueObj = metricData.values.find((v) => v.date === date);
+        const value = valueObj?.val;
+        const valueType = valueObj?.valueType || "NUMBER";
+
+        let formatted = "-";
+        if (value !== null && value !== undefined) {
+          switch (valueType) {
+            case "CURRENCY":
+              formatted = abbreviateNumber(value, false, true);
+              break;
+            case "PERCENT":
+              formatted = value.toFixed(2) + "%";
+              break;
+            case "NUMBER":
+              formatted = abbreviateNumber(value, false, false);
+              break;
+            default:
+              formatted = value.toString();
+          }
+        }
+
+        // Use category prefix to make metric names unique
+        const columnName = `${metricData.category} - ${metricData.name}`;
+        row[columnName] = formatted;
+      }
+
+      return row;
+    });
+  })();
 </script>
 
 <SEO
@@ -121,6 +195,7 @@
               metrics={categorizedMetrics[category]}
               showGrowth={true}
               {data}
+              overrideDownloadData={index === 0 ? downloadData : null}
             />
           {/each}
         {:else}
