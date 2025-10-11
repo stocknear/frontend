@@ -103,7 +103,7 @@
       return null;
 
     // Create cache key - include timePeriod and slug to ensure uniqueness
-    const cacheKey = `${timePeriod}-${slug}-${metrics.map((m) => m.name).join(",")}-${dates.slice(0, 12).join(",")}-${isDarkMode}-${isSmallScreen}`;
+    const cacheKey = `${timePeriod}-${slug}-${metrics.map((m) => m.name).join(",")}-${dates?.join(",")}-${isDarkMode}-${isSmallScreen}`;
 
     // Check plot cache
     if (plotCache.has(cacheKey)) {
@@ -134,7 +134,7 @@
     if (metricsToPlot.length === 0) return null;
 
     // Limit to 12 most recent and reverse for chart (oldest to newest for display)
-    const chartDates = dates.slice(0, 12).reverse();
+    const chartDates = dates?.reverse();
 
     // Create series data for each metric
     const colors = [
