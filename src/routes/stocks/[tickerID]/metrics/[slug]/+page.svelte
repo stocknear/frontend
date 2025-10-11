@@ -35,6 +35,13 @@
     });
   }
 
+  function formatDateShort(dateStr: string): string {
+    const date = new Date(dateStr);
+    const month = date.toLocaleDateString("en-US", { month: "short" });
+    const year = date.getFullYear().toString().slice(-2);
+    return `${month} '${year}`;
+  }
+
   function plot(metrics) {
     if (!metrics || metrics.length === 0) return null;
 
@@ -48,7 +55,6 @@
 
     // Determine if we should use currency formatting (check first metric)
     const firstValueType = nonPercentMetrics[0]?.values?.[0]?.valueType;
-    const isCurrency = firstValueType === "CURRENCY";
 
     // Collect all unique dates from all metrics
     const dateSet = new Set();
@@ -120,7 +126,7 @@
         labels: {
           style: { color: $mode === "light" ? "#000" : "#fff" },
           formatter: function () {
-            return formatDate(this.value);
+            return formatDateShort(this.value);
           },
         },
       },
@@ -170,29 +176,38 @@
         backgroundColor: "rgba(0, 0, 0, 0.85)",
         borderColor: "rgba(255, 255, 255, 0.2)",
         borderWidth: 1,
-        style: { color: "#fff", fontSize: "14px" },
-        borderRadius: 4,
+        style: {
+          color: "#fff",
+          fontSize: "15px",
+          padding: "12px 16px",
+        },
+        borderRadius: 8,
+        outside: false,
         formatter: function () {
           let total = 0;
-          let content = `<div style="font-weight: 600; margin-bottom: 8px;">${formatDate(this.x)}</div>`;
+          let content = `<div style="min-width: 250px; max-width: 400px;">`;
+          content += `<div style="font-weight: 600; margin-bottom: 5px; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px;">${formatDate(this.x)}</div>`;
+          content += `<div style="display: grid; gap: 6px;">`;
 
           this.points.forEach((point) => {
             if (point.y !== null) {
               total += point.y;
               content += `
-                <div style="margin-bottom: 4px;">
-                  <span style="color: ${point.color};">●</span>
-                  <span style="margin-left: 6px;">${point.series.name}:</span>
-                  <span style="float: right; margin-left: 12px; font-weight: 600;">${abbreviateNumber(point.y, false, true)}</span>
+                <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 5px; align-items: center;">
+                  <span style="color: ${point.color}; font-size: 14px;">●</span>
+                  <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px;">${point.series.name}</span>
+                  <span style="font-weight: 600; white-space: nowrap; font-size: 14px;">${abbreviateNumber(point.y, false, true)}</span>
                 </div>`;
             }
           });
 
+          content += `</div>`;
           content += `
-            <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.2);">
-              <span>Total:</span>
-              <span style="float: right; font-weight: 700;">${abbreviateNumber(total, false, true)}</span>
+            <div style="margin-top: 12px; padding-top: 5px; border-top: 1px solid rgba(255,255,255,0.3); display: flex; justify-content: space-between; font-size: 14px;">
+              <span style="font-weight: 600; font-size: 14px;">Total:</span>
+              <span style="font-weight: 700; font-size: 14px;">${abbreviateNumber(total, false, true)}</span>
             </div>`;
+          content += `</div>`;
 
           return content;
         },
@@ -258,7 +273,12 @@
   }
 
   // Regenerate chart when mode or period changes
-  $: if (categoryMetrics.length > 0 && $mode !== undefined) {
+  $: if (
+    categoryMetrics.length > 0 &&
+    data?.getData?.[selectedTimePeriod] &&
+    $mode !== undefined &&
+    data?.getParams
+  ) {
     config = plot(categoryMetrics);
   }
 </script>
@@ -268,49 +288,53 @@
   description={`Detailed ${categoryName} metrics for ${$displayCompanyName} (${$stockTicker}). Track historical trends and performance indicators.`}
 />
 
-<section class="w-full overflow-hidden h-full">
-  <div class="w-full flex justify-center w-full sm-auto h-full overflow-hidden">
+{#key data?.getParams}
+  <section class="w-full overflow-hidden h-full">
     <div
-      class="w-full relative flex justify-center items-center overflow-hidden"
+      class="w-full flex justify-center w-full sm-auto h-full overflow-hidden"
     >
-      <main class="w-full">
-        <div class="sm:pl-7 sm:pb-7 sm:pt-7 pt-3 m-auto mt-2 sm:mt-0 w-full">
-          <div class="mb-3">
-            <h1 class="text-xl sm:text-2xl font-bold">
-              {categoryName}
-            </h1>
-          </div>
+      <div
+        class="w-full relative flex justify-center items-center overflow-hidden"
+      >
+        <main class="w-full">
+          <div class="sm:pl-7 sm:pb-7 sm:pt-7 pt-3 m-auto mt-2 sm:mt-0 w-full">
+            <div class="mb-3">
+              <h1 class="text-xl sm:text-2xl font-bold">
+                {categoryName}
+              </h1>
+            </div>
 
-          {#if categoryMetrics?.length > 0}
-            {#if config}
-              <div>
-                <div class="grow mt-3">
-                  <div class="relative">
-                    <div
-                      class="mt-5 shadow-xs sm:mt-0 sm:border sm:border-gray-300 dark:border-gray-800 rounded"
-                      use:highcharts={config}
-                    ></div>
+            {#if categoryMetrics?.length > 0}
+              {#if config}
+                <div>
+                  <div class="grow mt-3">
+                    <div class="relative">
+                      <div
+                        class="mt-5 shadow-xs sm:mt-0 sm:border sm:border-gray-300 dark:border-gray-800 rounded"
+                        use:highcharts={config}
+                      ></div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            {/if}
+              {/if}
 
-            <BusinessMetricsTable
-              title={categoryName}
-              first={true}
-              {selectedTimePeriod}
-              metrics={categoryMetrics}
-              showGrowth={true}
-              {data}
-              on:periodChange={(e) => (selectedTimePeriod = e.detail)}
-            />
-          {:else}
-            <Infobox
-              text={`Currently, there are no metrics available for ${categoryName}.`}
-            />
-          {/if}
-        </div>
-      </main>
+              <BusinessMetricsTable
+                title={categoryName}
+                first={true}
+                {selectedTimePeriod}
+                metrics={categoryMetrics}
+                showGrowth={true}
+                {data}
+                on:periodChange={(e) => (selectedTimePeriod = e.detail)}
+              />
+            {:else}
+              <Infobox
+                text={`Currently, there are no metrics available for ${categoryName}.`}
+              />
+            {/if}
+          </div>
+        </main>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+{/key}

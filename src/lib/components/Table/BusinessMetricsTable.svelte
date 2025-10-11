@@ -219,11 +219,11 @@
                 {#if cell.isPremium && cell.value !== null}
                   <a
                     href="/pricing"
-                    class="inline-flex items-center justify-end text-sm font-semibold text-muted hover:text-default"
+                    class="inline-flex items-center justify-end text-sm font-semibold"
                   >
                     Upgrade
                     <svg
-                      class="ml-1 mt-px size-3.5 text-muted"
+                      class="ml-1 mt-px size-3.5"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                       style="max-width:40px"
@@ -255,11 +255,11 @@
                   {#if cell.isPremium && cell.growth !== "-"}
                     <a
                       href="/pricing"
-                      class="inline-flex items-center justify-end text-sm font-semibold text-muted hover:text-default"
+                      class="inline-flex items-center justify-end text-sm font-semibold text-muted dark:text-white"
                     >
                       Upgrade
                       <svg
-                        class="ml-1 mt-px size-3.5 text-muted"
+                        class="ml-1 mt-px size-3.5"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         style="max-width:40px"
