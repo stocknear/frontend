@@ -6,86 +6,126 @@
 
   export let data;
   export let title = "";
-  export let metrics = []; // Array of metric objects from the new data structure
+  export let metrics = [];
   export let showGrowth = true;
   export let first = false;
-  export let selectedTimePeriod = "quarterly";
+  export let selectedTimePeriod = "ttm";
 
   const dispatch = createEventDispatcher();
+  const isSubscribed = ["Pro", "Plus"]?.includes(data?.user?.tier);
+  const limit = 6;
+  const MAX_DATES = 12; // Limit to 12 most recent periods
 
-  let tabs = ["Quarterly", "Annual"];
+  let tabs = ["Quarterly", "TTM"];
 
   $: activeIdx = selectedTimePeriod === "quarterly" ? 0 : 1;
 
   function handleTabClick(index: number) {
-    const period = index === 0 ? "quarterly" : "annual";
+    const period = index === 0 ? "quarterly" : "ttm";
     dispatch("periodChange", period);
   }
 
-  const isSubscribed = ["Pro", "Plus"]?.includes(data?.user?.tier);
-  const limit = 7;
-  // Helper to format dates consistently.
-  const formatDate = (d) => {
-    const date = new Date(d);
-    return isNaN(date)
-      ? "n/a"
-      : date.toLocaleString("en-US", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-          timeZone: "UTC",
+  // Pre-compute everything in one reactive block
+  let tableData = { dates: [], formattedDates: [], rows: [] };
+
+  $: {
+    if (!metrics || metrics.length === 0) {
+      tableData = { dates: [], formattedDates: [], rows: [] };
+    } else {
+      // Collect all dates
+      const dateSet = new Set();
+      for (const metric of metrics) {
+        for (const v of metric.values) {
+          dateSet.add(v.date);
+        }
+      }
+
+      // Sort and limit to most recent
+      const allDates = Array.from(dateSet).sort().reverse().slice(0, MAX_DATES);
+
+      // Pre-format dates once
+      const formattedDates = allDates.map((d) => {
+        const date = new Date(d);
+        return isNaN(date)
+          ? "n/a"
+          : date.toLocaleString("en-US", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+              timeZone: "UTC",
+            });
+      });
+
+      // Pre-compute all row data
+      const rows = metrics.map((metric) => {
+        const valueMap = new Map();
+        let valueType = "NUMBER";
+
+        // Build value map
+        for (const v of metric.values) {
+          valueMap.set(v.date, v.val);
+          if (v.valueType) valueType = v.valueType;
+        }
+
+        // Pre-compute all cells
+        const cells = allDates.map((date, i) => {
+          const value = valueMap.get(date) ?? null;
+
+          // Format value
+          let formatted = "-";
+          if (value !== null && value !== undefined) {
+            switch (valueType) {
+              case "CURRENCY":
+                formatted = abbreviateNumber(value, false, true);
+                break;
+              case "PERCENT":
+                formatted = value.toFixed(2) + "%";
+                break;
+              case "NUMBER":
+                formatted = abbreviateNumber(value, false, false);
+                break;
+              default:
+                formatted = value.toString();
+            }
+          }
+
+          // Calculate growth
+          let growth = "-";
+          let growthNum = 0;
+          let growthClass = "";
+
+          if (showGrowth && i < allDates.length - 1) {
+            const prevValue = valueMap.get(allDates[i + 1]) ?? null;
+            if (value !== null && prevValue !== null && prevValue !== 0) {
+              growthNum = ((value - prevValue) / prevValue) * 100;
+              growth = (growthNum > 0 ? "+" : "") + growthNum.toFixed(2) + "%";
+              growthClass =
+                growthNum > 0
+                  ? "text-green-800 dark:text-[#00FC50]"
+                  : growthNum < 0
+                    ? "text-red-800 dark:text-[#FF2F1F]"
+                    : "";
+            }
+          }
+
+          return {
+            value,
+            formatted,
+            growth,
+            growthClass,
+            isPremium: !isSubscribed && i > limit,
+          };
         });
-  };
 
-  // Format a growth value for display.
-  const formatGrowth = (current, previous) => {
-    if (
-      current === null ||
-      current === undefined ||
-      previous === null ||
-      previous === undefined ||
-      previous === 0
-    ) {
-      return "-";
+        return {
+          name: metric.name,
+          cells,
+        };
+      });
+
+      tableData = { dates: allDates, formattedDates, rows };
     }
-    const growth = ((current - previous) / previous) * 100;
-    return (growth > 0 ? "+" : "") + growth?.toFixed(2) + "%";
-  };
-
-  // Format value based on valueType
-  const formatValue = (value, valueType) => {
-    if (value === null || value === undefined) return "-";
-
-    switch (valueType) {
-      case "CURRENCY":
-        return abbreviateNumber(value, false, true);
-      case "PERCENT":
-        return value?.toFixed(2) + "%";
-      case "NUMBER":
-        return abbreviateNumber(value, false, false);
-      default:
-        return value.toString();
-    }
-  };
-
-  // Get all unique dates from all metrics
-  $: allDates = (() => {
-    const dates = new Set();
-    metrics.forEach((metric) => {
-      metric.values.forEach((v) => dates.add(v.date));
-    });
-    return Array?.from(dates).sort().reverse(); // Show all available quarters
-  })();
-
-  // Get value for a specific metric and date
-  const getValue = (metric, date) => {
-    const item = metric.values.find((v) => v.date === date);
-    return item ? item.val : null;
-  };
-
-  const getValueType = (metric) => {
-    return metric.values[0]?.valueType || "NUMBER";
-  };
+  }
 </script>
 
 <section class="my-5 pb-5">
@@ -105,18 +145,18 @@
           <div class="ml-auto">
             <div class="inline-flex">
               <div class="inline-flex rounded-lg shadow-sm">
-                {#each tabs as item, i}
+                {#each tabs as item, i (item)}
                   <button
                     on:click={() => handleTabClick(i)}
                     class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
-                          {i === 0 ? 'rounded-l border' : ''}
-                          {i === tabs?.length - 1
+                            {i === 0 ? 'rounded-l border' : ''}
+                            {i === tabs?.length - 1
                       ? 'rounded-r border-t border-r border-b'
                       : ''}
-                          {i !== 0 && i !== tabs?.length - 1
+                            {i !== 0 && i !== tabs?.length - 1
                       ? 'border-t border-b'
                       : ''}
-                          {activeIdx === i
+                            {activeIdx === i
                       ? 'bg-black dark:bg-white text-white dark:text-black'
                       : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
                   >
@@ -154,48 +194,48 @@
           >
             Period Ending
           </th>
-          {#each allDates as date}
+          {#each tableData.formattedDates as formattedDate (formattedDate)}
             <th
               class="z-20 border-b border-r min-w-[120px] border-gray-800 font-semibold text-sm text-end"
             >
-              {formatDate(date)}
+              {formattedDate}
             </th>
           {/each}
         </tr>
       </thead>
       <tbody class="shadow">
-        {#each metrics as metric}
+        {#each tableData.rows as row (row.name)}
           <tr class="odd:bg-[#F6F7F8] dark:odd:bg-odd">
             <th
               class="whitespace-nowrap text-sm sm:text-[1rem] font-normal text-start border-b border-r border-gray-300 dark:border-gray-800"
             >
-              {metric?.name}
+              {row.name}
             </th>
-            {#each allDates as date, index}
-              {@const value = getValue(metric, date)}
+            {#each row.cells as cell, i}
               <td
                 class="whitespace-nowrap text-sm sm:text-[1rem] text-end border-b border-r border-gray-300 dark:border-gray-800"
               >
-                {#if isSubscribed}
-                  {formatValue(value, getValueType(metric))}
-                {:else if index <= limit}
-                  {formatValue(value, getValueType(metric))}
-                {:else}
+                {#if cell.isPremium && cell.value !== null}
                   <a
                     href="/pricing"
                     class="inline-flex items-center justify-end text-sm font-semibold text-muted hover:text-default"
-                    >Upgrade <!--[--><!----><svg
+                  >
+                    Upgrade
+                    <svg
                       class="ml-1 mt-px size-3.5 text-muted"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                       style="max-width:40px"
-                      ><path
+                    >
+                      <path
                         fill-rule="evenodd"
                         d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
                         clip-rule="evenodd"
-                      ></path></svg
-                    >
+                      />
+                    </svg>
                   </a>
+                {:else}
+                  {cell.formatted}
                 {/if}
               </td>
             {/each}
@@ -205,65 +245,35 @@
               <td
                 class="whitespace-nowrap text-sm sm:text-[1rem] font-normal text-start border-b border-r border-gray-300 dark:border-gray-800"
               >
-                <span class="ml-2">{metric.name} Growth</span>
+                <span class="ml-2">{row.name} Growth</span>
               </td>
-              {#each allDates as date, dateIndex}
-                {@const currentValue = getValue(metric, date)}
-                {@const previousValue =
-                  dateIndex < allDates.length - 1
-                    ? getValue(metric, allDates[dateIndex + 1])
-                    : null}
-                {@const growth = formatGrowth(currentValue, previousValue)}
-                {@const growthNum =
-                  currentValue && previousValue
-                    ? ((currentValue - previousValue) / previousValue) * 100
-                    : 0}
-
-                {#if isSubscribed}
-                  <td
-                    class="text-sm sm:text-[1rem] text-end
-                  {growthNum > 0
-                      ? 'text-green-800 dark:text-[#00FC50]'
-                      : growthNum < 0
-                        ? 'text-red-800 dark:text-[#FF2F1F]'
-                        : ''}
-                  border-b border-r border-gray-300 dark:border-gray-800"
-                  >
-                    {growth}
-                  </td>
-                {:else if dateIndex <= limit}
-                  <td
-                    class="text-sm sm:text-[1rem] text-end
-                  {growthNum > 0
-                      ? 'text-green-800 dark:text-[#00FC50]'
-                      : growthNum < 0
-                        ? 'text-red-800 dark:text-[#FF2F1F]'
-                        : ''}
-                  border-b border-r border-gray-300 dark:border-gray-800"
-                  >
-                    {growth}
-                  </td>
-                {:else}
-                  <td
-                    class="whitespace-nowrap text-sm sm:text-[1rem] text-end border-b border-r border-gray-300 dark:border-gray-800"
-                  >
+              {#each row.cells as cell, i}
+                <td
+                  class="text-sm sm:text-[1rem] text-end border-b border-r border-gray-300 dark:border-gray-800 {cell.growthClass}"
+                >
+                  {#if cell.isPremium && cell.growth !== "-"}
                     <a
                       href="/pricing"
                       class="inline-flex items-center justify-end text-sm font-semibold text-muted hover:text-default"
-                      >Upgrade <!--[--><!----><svg
+                    >
+                      Upgrade
+                      <svg
                         class="ml-1 mt-px size-3.5 text-muted"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         style="max-width:40px"
-                        ><path
+                      >
+                        <path
                           fill-rule="evenodd"
                           d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
                           clip-rule="evenodd"
-                        ></path></svg
-                      >
+                        />
+                      </svg>
                     </a>
-                  </td>
-                {/if}
+                  {:else}
+                    {cell.growth}
+                  {/if}
+                </td>
               {/each}
             </tr>
           {/if}

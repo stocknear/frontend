@@ -8,67 +8,64 @@
   export let data;
 
   let categorySlug = data?.getParams;
-  let metricsData = [];
   let categoryMetrics = [];
   let categoryName = "";
   let selectedTimePeriod = "quarterly";
 
-  function slugToCategory(slug) {
+  function slugToCategory(slug: string): string {
     return slug
       ?.split("-")
       ?.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       ?.join(" ");
   }
 
-  $: {
-    if ($stockTicker && data?.getData && categorySlug) {
-      metricsData = Array?.isArray(data?.getData[selectedTimePeriod])
-        ? data?.getData[selectedTimePeriod]
-        : [];
+  function normalizeSlug(category: string): string {
+    return category?.toLowerCase().replace(/\s+/g, "-").replace(/&/g, "");
+  }
 
-      // Check if this is "Operating Metrics" (combined single-metric categories)
-      if (categorySlug.toLowerCase() === "operating-metrics") {
-        categoryName = "Operating Metrics";
+  $: if ($stockTicker && data?.getData?.[selectedTimePeriod] && categorySlug) {
+    const metricsData = data.getData[selectedTimePeriod];
+    const slugLower = categorySlug.toLowerCase();
 
-        // Group metrics by category
-        const tempCategorized = metricsData.reduce((acc, metric) => {
-          const category = metric.category || "Other";
-          if (!acc[category]) {
-            acc[category] = [];
-          }
-          acc[category].push(metric);
-          return acc;
-        }, {});
+    if (slugLower === "operating-metrics") {
+      categoryName = "Operating Metrics";
 
-        // Get all single-metric categories
-        categoryMetrics = [];
-        for (const [category, metrics] of Object.entries(tempCategorized)) {
-          if (metrics.length === 1) {
-            categoryMetrics.push(...metrics);
+      // Group metrics by category in single pass
+      const tempCategorized = {};
+      for (const metric of metricsData) {
+        const category = metric.category || "Other";
+        if (!tempCategorized[category]) {
+          tempCategorized[category] = [];
+        }
+        tempCategorized[category].push(metric);
+      }
+
+      // Get all single-metric categories
+      categoryMetrics = [];
+      for (const metrics of Object.values(tempCategorized)) {
+        if (metrics.length === 1) {
+          categoryMetrics.push(...metrics);
+        }
+      }
+    } else {
+      // Regular category - filter in single pass
+      categoryMetrics = [];
+      let foundCategoryName = "";
+
+      for (const metric of metricsData) {
+        if (normalizeSlug(metric.category) === slugLower) {
+          categoryMetrics.push(metric);
+          if (!foundCategoryName) {
+            foundCategoryName = metric.category;
           }
         }
-      } else {
-        // Regular category - find matching metrics
-        const matchingMetric = metricsData.find(
-          (metric) =>
-            metric.category
-              ?.toLowerCase()
-              .replace(/\s+/g, "-")
-              .replace(/&/g, "") === categorySlug.toLowerCase(),
-        );
-
-        categoryName = matchingMetric?.category || slugToCategory(categorySlug);
-
-        // Filter metrics by category
-        categoryMetrics = metricsData.filter((metric) => {
-          const metricSlug = metric.category
-            ?.toLowerCase()
-            .replace(/\s+/g, "-")
-            .replace(/&/g, "");
-          return metricSlug === categorySlug.toLowerCase();
-        });
       }
+
+      categoryName = foundCategoryName || slugToCategory(categorySlug);
     }
+  } else {
+    categoryMetrics = [];
+    categoryName = "";
   }
 </script>
 

@@ -7,79 +7,95 @@
 
   export let data;
 
-  let metricsData = [];
+  let selectedTimePeriod = "ttm";
+  let orderedCategories = [];
   let categorizedMetrics = {};
 
-  let selectedTimePeriod = "annual";
+  // Cache processed data per period to avoid re-processing
+  const cache = new Map();
 
-  $: {
-    if ($stockTicker && data?.getData) {
-      metricsData = Array?.isArray(data?.getData[selectedTimePeriod])
-        ? data?.getData[selectedTimePeriod]
-        : [];
-
-      // Group metrics by category
-      const tempCategorized = metricsData?.reduce((acc, metric) => {
-        const category = metric?.category || "Other";
-        if (!acc[category]) {
-          acc[category] = [];
-        }
-        acc[category].push(metric);
-        return acc;
-      }, {});
-
-      // Combine single-metric categories into "Operating Metrics"
-      categorizedMetrics = {};
-      const operatingMetrics = [];
-
-      for (const [category, metrics] of Object.entries(tempCategorized)) {
-        if (metrics.length === 1) {
-          // Single metric - add to Operating Metrics
-          operatingMetrics.push(...metrics);
-        } else {
-          // Multiple metrics - keep as separate category
-          categorizedMetrics[category] = metrics;
-        }
-      }
-
-      // Add Operating Metrics category if there are any single-metric categories
-      if (operatingMetrics.length > 0) {
-        categorizedMetrics["Operating Metrics"] = operatingMetrics;
-      }
-    }
+  // Helper function for category sorting (defined once, not recreated)
+  function getPrefixPriority(name: string): string {
+    if (name.startsWith("Revenue")) return "1-Revenue";
+    if (name.startsWith("Gross")) return "2-Gross";
+    if (name.startsWith("Operating")) return "3-Operating";
+    if (name.startsWith("Vehicles")) return "4-Vehicles";
+    if (name.startsWith("Energy")) return "5-Energy";
+    return "9-" + name.split(" ")[0];
   }
 
-  // Get all available categories with smart ordering
-  $: orderedCategories = Object.keys(categorizedMetrics).sort((a, b) => {
-    // Operating Metrics always first
+  function sortCategories(a: string, b: string): number {
     if (a === "Operating Metrics") return -1;
     if (b === "Operating Metrics") return 1;
 
-    // Geography categories always last
     const aHasGeography = a.includes("Geography");
     const bHasGeography = b.includes("Geography");
     if (aHasGeography && !bHasGeography) return 1;
     if (!aHasGeography && bHasGeography) return -1;
 
-    // Extract the main category prefix (first significant words)
-    const getPrefixPriority = (name) => {
-      if (name.startsWith("Revenue")) return "1-Revenue";
-      if (name.startsWith("Gross")) return "2-Gross";
-      if (name.startsWith("Operating")) return "3-Operating";
-      if (name.startsWith("Vehicles")) return "4-Vehicles";
-      if (name.startsWith("Energy")) return "5-Energy";
-      return "9-" + name.split(" ")[0]; // Use first word for others
-    };
-
     const prefixA = getPrefixPriority(a);
     const prefixB = getPrefixPriority(b);
 
-    // First sort by prefix, then by full name
     if (prefixA !== prefixB) {
       return prefixA.localeCompare(prefixB);
     }
     return a.localeCompare(b);
-  });
+  }
+
+  function processMetrics(metricsData) {
+    // Categorize metrics in a single pass
+    const tempCategorized = {};
+    const operatingMetrics = [];
+
+    for (const metric of metricsData) {
+      const category = metric?.category || "Other";
+      if (!tempCategorized[category]) {
+        tempCategorized[category] = [];
+      }
+      tempCategorized[category].push(metric);
+    }
+
+    // Build final categorized metrics
+    const result = {};
+    for (const [category, metrics] of Object.entries(tempCategorized)) {
+      if (metrics.length === 1) {
+        operatingMetrics.push(...metrics);
+      } else {
+        result[category] = metrics;
+      }
+    }
+
+    if (operatingMetrics.length > 0) {
+      result["Operating Metrics"] = operatingMetrics;
+    }
+
+    return {
+      categorized: result,
+      ordered: Object.keys(result).sort(sortCategories),
+    };
+  }
+
+  // Single reactive block with caching
+  $: if ($stockTicker && data?.getData?.[selectedTimePeriod]) {
+    const cacheKey = `${$stockTicker}-${selectedTimePeriod}`;
+
+    if (cache.has(cacheKey)) {
+      const cached = cache.get(cacheKey);
+      categorizedMetrics = cached.categorized;
+      orderedCategories = cached.ordered;
+    } else {
+      const metricsData = data.getData[selectedTimePeriod];
+      const processed = processMetrics(metricsData);
+
+      categorizedMetrics = processed.categorized;
+      orderedCategories = processed.ordered;
+
+      cache.set(cacheKey, processed);
+    }
+  } else {
+    categorizedMetrics = {};
+    orderedCategories = [];
+  }
 </script>
 
 <SEO
@@ -93,11 +109,11 @@
       class="relative flex justify-center items-center overflow-hidden w-full"
     >
       <div class="sm:pl-7 sm:pb-7 w-full m-auto mt-2 sm:mt-0">
-        {#if metricsData?.length > 0}
-          {#each orderedCategories as category, index}
+        {#if orderedCategories.length > 0}
+          {#each orderedCategories as category, index (category)}
             <BusinessMetricsTable
               title={category}
-              first={index === 0 ? true : false}
+              first={index === 0}
               {selectedTimePeriod}
               metrics={categorizedMetrics[category]}
               showGrowth={true}
