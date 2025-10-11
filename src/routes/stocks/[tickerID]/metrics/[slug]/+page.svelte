@@ -53,9 +53,6 @@
 
     if (nonPercentMetrics.length === 0) return null;
 
-    // Determine if we should use currency formatting (check first metric)
-    const firstValueType = nonPercentMetrics[0]?.values?.[0]?.valueType;
-
     // Collect all unique dates from all metrics
     const dateSet = new Set();
     for (const metric of nonPercentMetrics) {
@@ -69,10 +66,10 @@
 
     // Create series data for each metric
     const colors = [
-      "#3b82f6",
-      "#10b981",
-      "#f59e0b",
-      "#ef4444",
+      "#2d6289",
+      "#5369a2",
+      "#8668ae",
+      "#ea6094",
       "#8b5cf6",
       "#ec4899",
       "#06b6d4",
@@ -92,7 +89,7 @@
         type: "column",
         data: data,
         color: colors[index % colors.length],
-        borderRadius: 0,
+        borderRadius: "3px",
         animation: false,
       };
     });
@@ -156,9 +153,29 @@
       plotOptions: {
         column: {
           stacking: "normal",
-          dataLabels: { enabled: false },
-          borderWidth: 0,
+          dataLabels: {
+            enabled: true,
+            inside: true,
+            verticalAlign: "middle",
+            style: {
+              color: "#eeeeee",
+              textOutline: "none",
+              fontSize: "12px",
+              fontWeight: "600",
+            },
+            formatter: function () {
+              // Only show label if value is significant enough
+              const total = this.point.stackTotal;
+              const percentage = (this.y / total) * 100;
+              if (percentage < 5) return null; // Hide if less than 5% of total
+              return abbreviateNumber(this.y, false, true);
+            },
+          },
+          borderWidth: 1,
+          borderColor: $mode === "light" ? "#eeeeee" : "#09090B",
           animation: false,
+          pointPadding: 0.05,
+          groupPadding: 0.05,
         },
         series: {
           animation: false,
