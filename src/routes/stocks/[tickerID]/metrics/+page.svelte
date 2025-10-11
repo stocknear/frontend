@@ -10,13 +10,17 @@
   let metricsData = [];
   let categorizedMetrics = {};
 
+  let selectedTimePeriod = "annual";
+
   $: {
     if ($stockTicker && data?.getData) {
-      metricsData = Array.isArray(data.getData) ? data.getData : [];
+      metricsData = Array?.isArray(data?.getData[selectedTimePeriod])
+        ? data?.getData[selectedTimePeriod]
+        : [];
 
       // Group metrics by category
-      const tempCategorized = metricsData.reduce((acc, metric) => {
-        const category = metric.category || "Other";
+      const tempCategorized = metricsData?.reduce((acc, metric) => {
+        const category = metric?.category || "Other";
         if (!acc[category]) {
           acc[category] = [];
         }
@@ -90,11 +94,15 @@
     >
       <div class="sm:pl-7 sm:pb-7 w-full m-auto mt-2 sm:mt-0">
         {#if metricsData?.length > 0}
-          {#each orderedCategories as category}
+          {#each orderedCategories as category, index}
             <BusinessMetricsTable
               title={category}
+              first={index === 0 ? true : false}
+              {selectedTimePeriod}
               metrics={categorizedMetrics[category]}
               showGrowth={true}
+              {data}
+              on:periodChange={(e) => (selectedTimePeriod = e.detail)}
             />
           {/each}
         {:else}

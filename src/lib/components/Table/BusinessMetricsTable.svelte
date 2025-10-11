@@ -1,13 +1,29 @@
 <script lang="ts">
   import { abbreviateNumber } from "$lib/utils";
+  import DownloadData from "$lib/components/DownloadData.svelte";
+  import { displayCompanyName, stockTicker } from "$lib/store";
+  import { createEventDispatcher } from "svelte";
 
   export let data;
   export let title = "";
   export let metrics = []; // Array of metric objects from the new data structure
   export let showGrowth = true;
+  export let first = false;
+  export let selectedTimePeriod = "quarterly";
+
+  const dispatch = createEventDispatcher();
+
+  let tabs = ["Quarterly", "Annual"];
+
+  $: activeIdx = selectedTimePeriod === "quarterly" ? 0 : 1;
+
+  function handleTabClick(index: number) {
+    const period = index === 0 ? "quarterly" : "annual";
+    dispatch("periodChange", period);
+  }
 
   const isSubscribed = ["Pro", "Plus"]?.includes(data?.user?.tier);
-  const limit = 5;
+  const limit = 7;
   // Helper to format dates consistently.
   const formatDate = (d) => {
     const date = new Date(d);
@@ -30,7 +46,7 @@
       previous === undefined ||
       previous === 0
     ) {
-      return "n/a";
+      return "-";
     }
     const growth = ((current - previous) / previous) * 100;
     return (growth > 0 ? "+" : "") + growth?.toFixed(2) + "%";
@@ -38,7 +54,7 @@
 
   // Format value based on valueType
   const formatValue = (value, valueType) => {
-    if (value === null || value === undefined) return "n/a";
+    if (value === null || value === undefined) return "-";
 
     switch (valueType) {
       case "CURRENCY":
@@ -73,10 +89,60 @@
 </script>
 
 <section class="my-5 pb-5">
-  <h2 class="mt-5 text-xl sm:text-2xl font-bold mb-4">{title}</h2>
+  {#if first}
+    <div class="items-center lg:overflow-visible">
+      <div
+        class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1"
+      >
+        <h2
+          class="text-start whitespace-nowrap text-xl sm:text-2xl font-bold py-1 border-b border-gray-300 dark:border-gray-800 lg:border-none w-full"
+        >
+          {title}
+        </h2>
+        <div
+          class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+        >
+          <div class="ml-auto">
+            <div class="inline-flex">
+              <div class="inline-flex rounded-lg shadow-sm">
+                {#each tabs as item, i}
+                  <button
+                    on:click={() => handleTabClick(i)}
+                    class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
+                          {i === 0 ? 'rounded-l border' : ''}
+                          {i === tabs?.length - 1
+                      ? 'rounded-r border-t border-r border-b'
+                      : ''}
+                          {i !== 0 && i !== tabs?.length - 1
+                      ? 'border-t border-b'
+                      : ''}
+                          {activeIdx === i
+                      ? 'bg-black dark:bg-white text-white dark:text-black'
+                      : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
+                  >
+                    {item}
+                  </button>
+                {/each}
+              </div>
+            </div>
+          </div>
+
+          <div class="ml-2">
+            <DownloadData
+              {data}
+              rawData={metrics}
+              title={`${$stockTicker}_metric_data`}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  {:else}
+    <h2 class="mt-5 text-xl font-bold mb-4">{title}</h2>
+  {/if}
 
   <div
-    class="flex justify-start items-center w-screen sm:w-full mt-6 m-auto overflow-x-auto pr-5 sm:pr-0"
+    class="flex justify-start items-center w-screen sm:w-full mt-2 m-auto overflow-x-auto pr-5 sm:pr-0"
   >
     <table
       class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
@@ -117,19 +183,18 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400"
-                  >
-                    Pro
-                    <svg
-                      class="w-4 h-4 mb-1 inline-block"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
+                    class="inline-flex items-center justify-end text-sm font-semibold text-muted hover:text-default"
+                    >Upgrade <!--[--><!----><svg
+                      class="ml-1 mt-px size-3.5 text-muted"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      ><path
+                        fill-rule="evenodd"
+                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                        clip-rule="evenodd"
+                      ></path></svg
                     >
-                      <path
-                        fill="currentColor"
-                        d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                      />
-                    </svg>
                   </a>
                 {/if}
               </td>
@@ -184,19 +249,18 @@
                   >
                     <a
                       href="/pricing"
-                      class="sm:hover:text-default dark:sm:hover:text-blue-400"
-                    >
-                      Pro
-                      <svg
-                        class="w-4 h-4 mb-1 inline-block"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
+                      class="inline-flex items-center justify-end text-sm font-semibold text-muted hover:text-default"
+                      >Upgrade <!--[--><!----><svg
+                        class="ml-1 mt-px size-3.5 text-muted"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width:40px"
+                        ><path
+                          fill-rule="evenodd"
+                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                          clip-rule="evenodd"
+                        ></path></svg
                       >
-                        <path
-                          fill="currentColor"
-                          d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                        />
-                      </svg>
                     </a>
                   </td>
                 {/if}

@@ -11,6 +11,7 @@
   let metricsData = [];
   let categoryMetrics = [];
   let categoryName = "";
+  let selectedTimePeriod = "quarterly";
 
   function slugToCategory(slug) {
     return slug
@@ -21,7 +22,9 @@
 
   $: {
     if ($stockTicker && data?.getData && categorySlug) {
-      metricsData = Array.isArray(data.getData) ? data.getData : [];
+      metricsData = Array?.isArray(data?.getData[selectedTimePeriod])
+        ? data?.getData[selectedTimePeriod]
+        : [];
 
       // Check if this is "Operating Metrics" (combined single-metric categories)
       if (categorySlug.toLowerCase() === "operating-metrics") {
@@ -90,8 +93,12 @@
           {#if categoryMetrics?.length > 0}
             <BusinessMetricsTable
               title={categoryName}
+              first={true}
+              {selectedTimePeriod}
               metrics={categoryMetrics}
               showGrowth={true}
+              {data}
+              on:periodChange={(e) => (selectedTimePeriod = e.detail)}
             />
           {:else}
             <Infobox
