@@ -78,12 +78,12 @@
     const valueList = filteredData.map((item) => item[key]);
 
     // Calculate highest and lowest value
-    let highestValue = null;
-    let lowestValue = null;
-    let highestValueDate = null;
-    let lowestValueDate = null;
+    highestValue = null;
+    lowestValue = null;
+    highestValueDate = null;
+    lowestValueDate = null;
 
-    if (valueList.length > 0) {
+    if (valueList?.length > 0) {
       highestValue = Math.max(...valueList);
       lowestValue = Math.min(...valueList);
 
@@ -95,7 +95,7 @@
     }
 
     // Calculate last 5 years growth
-    let fiveYearsGrowth = null;
+    fiveYearsGrowth = null;
     if (valueList?.length >= 5) {
       const firstValue = valueList[valueList.length - 5];
       const lastValue = valueList[valueList.length - 1];
@@ -358,10 +358,12 @@
       in <strong>{highestValueDate}</strong>
       and hit its lowest at
       <strong>{abbreviateNumber(lowestValue?.toFixed(2))}</strong>
-      in <strong>{lowestValueDate}</strong>. Over the past five years, it has {fiveYearsGrowth >=
-      0
-        ? "grown"
-        : "declined"} by <strong>{fiveYearsGrowth?.toFixed(2)}%</strong>.
+      in <strong>{lowestValueDate}</strong>.
+      {#if fiveYearsGrowth}
+        Over the past five years, it has {fiveYearsGrowth >= 0
+          ? "grown"
+          : "declined"} by <strong>{fiveYearsGrowth?.toFixed(2)}%</strong>.
+      {/if}
     </p>
 
     <div class="border-t border-gray-300 dark:border-gray-600 mt-2 w-full">
