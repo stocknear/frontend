@@ -1,10 +1,13 @@
 <script lang="ts">
   import { abbreviateNumber } from "$lib/utils";
 
+  export let data;
   export let title = "";
   export let metrics = []; // Array of metric objects from the new data structure
   export let showGrowth = true;
 
+  const isSubscribed = ["Pro", "Plus"]?.includes(data?.user?.tier);
+  const limit = 5;
   // Helper to format dates consistently.
   const formatDate = (d) => {
     const date = new Date(d);
@@ -95,19 +98,40 @@
         </tr>
       </thead>
       <tbody class="shadow">
-        {#each metrics as metric, index}
+        {#each metrics as metric}
           <tr class="odd:bg-[#F6F7F8] dark:odd:bg-odd">
             <th
               class="whitespace-nowrap text-sm sm:text-[1rem] font-normal text-start border-b border-r border-gray-300 dark:border-gray-800"
             >
-              {metric.name}
+              {metric?.name}
             </th>
-            {#each allDates as date}
+            {#each allDates as date, index}
               {@const value = getValue(metric, date)}
               <td
                 class="whitespace-nowrap text-sm sm:text-[1rem] text-end border-b border-r border-gray-300 dark:border-gray-800"
               >
-                {formatValue(value, getValueType(metric))}
+                {#if isSubscribed}
+                  {formatValue(value, getValueType(metric))}
+                {:else if index <= limit}
+                  {formatValue(value, getValueType(metric))}
+                {:else}
+                  <a
+                    href="/pricing"
+                    class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                  >
+                    Pro
+                    <svg
+                      class="w-4 h-4 mb-1 inline-block"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                      />
+                    </svg>
+                  </a>
+                {/if}
               </td>
             {/each}
           </tr>
@@ -129,17 +153,53 @@
                   currentValue && previousValue
                     ? ((currentValue - previousValue) / previousValue) * 100
                     : 0}
-                <td
-                  class="text-sm sm:text-[1rem] text-end
+
+                {#if isSubscribed}
+                  <td
+                    class="text-sm sm:text-[1rem] text-end
                   {growthNum > 0
-                    ? 'text-green-800 dark:text-[#00FC50]'
-                    : growthNum < 0
-                      ? 'text-red-800 dark:text-[#FF2F1F]'
-                      : ''}
+                      ? 'text-green-800 dark:text-[#00FC50]'
+                      : growthNum < 0
+                        ? 'text-red-800 dark:text-[#FF2F1F]'
+                        : ''}
                   border-b border-r border-gray-300 dark:border-gray-800"
-                >
-                  {growth}
-                </td>
+                  >
+                    {growth}
+                  </td>
+                {:else if dateIndex <= limit}
+                  <td
+                    class="text-sm sm:text-[1rem] text-end
+                  {growthNum > 0
+                      ? 'text-green-800 dark:text-[#00FC50]'
+                      : growthNum < 0
+                        ? 'text-red-800 dark:text-[#FF2F1F]'
+                        : ''}
+                  border-b border-r border-gray-300 dark:border-gray-800"
+                  >
+                    {growth}
+                  </td>
+                {:else}
+                  <td
+                    class="whitespace-nowrap text-sm sm:text-[1rem] text-end border-b border-r border-gray-300 dark:border-gray-800"
+                  >
+                    <a
+                      href="/pricing"
+                      class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                    >
+                      Pro
+                      <svg
+                        class="w-4 h-4 mb-1 inline-block"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                        />
+                      </svg>
+                    </a>
+                  </td>
+                {/if}
               {/each}
             </tr>
           {/if}
