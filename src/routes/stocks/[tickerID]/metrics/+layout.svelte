@@ -4,124 +4,122 @@
 
   export let data;
 
-  let categories = [];
-  let subsectionTitles;
-  let sectionMap;
-  let displaySubSection;
+  let subsectionTitles = [];
+  let sectionMap = {};
+  let displaySubSection = "overview";
 
-  function convertToTitleCase(str) {
+  // Helper functions (defined once, not recreated)
+  function convertToTitleCase(str: string): string {
     return str
-      ?.split("-") // Split the string by hyphen
-      ?.map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize the first letter of each word
+      ?.split("-")
+      ?.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       ?.join(" ")
       ?.replace("Oem", "OEM");
   }
 
-  function changeSubSection(state) {
+  function changeSubSection(state: string) {
     displaySubSection = state;
   }
 
-  function getHref(section) {
+  function getHref(section: string): string {
     const path =
       section === "overview" ? "/metrics" : `/metrics/${sectionMap[section]}`;
     return `/stocks/${$stockTicker}${path}`;
   }
 
-  $: {
-    if ($page?.url?.pathname) {
-      const parts = $page.url.pathname.split("/");
-
-      // Filter out empty strings from URL parts and look for the section
-      const foundSection = parts?.find(
-        (part) => part && Object?.values(sectionMap)?.includes(part),
-      );
-
-      // If a valid section is found in the URL, update the displaySubSection
-      displaySubSection =
-        Object?.keys(sectionMap)?.find(
-          (key) => sectionMap[key] === foundSection,
-        ) || "overview";
-    }
+  function getPrefixPriority(name: string): string {
+    if (name.startsWith("Revenue")) return "1-Revenue";
+    if (name.startsWith("Gross")) return "2-Gross";
+    if (name.startsWith("Operating")) return "3-Operating";
+    if (name.startsWith("Vehicles")) return "4-Vehicles";
+    if (name.startsWith("Energy")) return "5-Energy";
+    return "9-" + name.split(" ")[0];
   }
 
-  $: {
-    if ($stockTicker && data?.getData) {
-      const metricsData = Array.isArray(data.getData) ? data.getData : [];
+  function sortCategories(a: string, b: string): number {
+    if (a === "Operating Metrics") return -1;
+    if (b === "Operating Metrics") return 1;
 
-      // Group metrics by category to determine which should be combined
-      const tempCategorized = metricsData.reduce((acc, metric) => {
-        const category = metric.category || "Other";
-        if (!acc[category]) {
-          acc[category] = [];
-        }
-        acc[category].push(metric);
-        return acc;
-      }, {});
+    const aHasGeography = a.includes("Geography");
+    const bHasGeography = b.includes("Geography");
+    if (aHasGeography && !bHasGeography) return 1;
+    if (!aHasGeography && bHasGeography) return -1;
 
-      // Determine final categories (combining single-metric categories)
-      const finalCategories = [];
-      let hasOperatingMetrics = false;
+    const prefixA = getPrefixPriority(a);
+    const prefixB = getPrefixPriority(b);
 
-      for (const [category, metrics] of Object.entries(tempCategorized)) {
-        if (metrics.length === 1) {
-          hasOperatingMetrics = true;
-        } else {
-          finalCategories.push(category);
-        }
-      }
-
-      if (hasOperatingMetrics) {
-        finalCategories.push("Operating Metrics");
-      }
-
-      // Sort with smart ordering to group similar categories
-      categories = finalCategories.sort((a, b) => {
-        // Operating Metrics always first
-        if (a === "Operating Metrics") return -1;
-        if (b === "Operating Metrics") return 1;
-
-        // Geography categories always last
-        const aHasGeography = a.includes("Geography");
-        const bHasGeography = b.includes("Geography");
-        if (aHasGeography && !bHasGeography) return 1;
-        if (!aHasGeography && bHasGeography) return -1;
-
-        // Extract the main category prefix (first significant words)
-        const getPrefixPriority = (name) => {
-          if (name.startsWith("Revenue")) return "1-Revenue";
-          if (name.startsWith("Gross")) return "2-Gross";
-          if (name.startsWith("Operating")) return "3-Operating";
-          if (name.startsWith("Vehicles")) return "4-Vehicles";
-          if (name.startsWith("Energy")) return "5-Energy";
-          return "9-" + name.split(" ")[0]; // Use first word for others
-        };
-
-        const prefixA = getPrefixPriority(a);
-        const prefixB = getPrefixPriority(b);
-
-        // First sort by prefix, then by full name
-        if (prefixA !== prefixB) {
-          return prefixA.localeCompare(prefixB);
-        }
-        return a.localeCompare(b);
-      });
-      subsectionTitles = ["Overview", ...categories];
-
-      sectionMap = Object?.fromEntries(
-        subsectionTitles?.map((title) => {
-          const key = title
-            ?.toLowerCase()
-            ?.replace(/&/g, "") // Remove & symbol
-            ?.replace(/\s+/g, "-") // Replace spaces with dash
-            ?.replace(/-{2,}/g, "-") // Replace multiple dashes with single dash
-            ?.replace(/^-|-$/g, "") // Remove leading/trailing dashes
-            ?.trim();
-          return [key, key === "overview" ? "" : key];
-        }),
-      );
-
-      displaySubSection = "overview";
+    if (prefixA !== prefixB) {
+      return prefixA.localeCompare(prefixB);
     }
+    return a.localeCompare(b);
+  }
+
+  function createSlug(title: string): string {
+    return title
+      ?.toLowerCase()
+      ?.replace(/&/g, "")
+      ?.replace(/\s+/g, "-")
+      ?.replace(/-{2,}/g, "-")
+      ?.replace(/^-|-$/g, "")
+      ?.trim();
+  }
+
+  // Track current path for active section
+  $: if ($page?.url?.pathname && sectionMap) {
+    const parts = $page.url.pathname.split("/");
+    const foundSection = parts?.find(
+      (part) => part && Object?.values(sectionMap)?.includes(part),
+    );
+    displaySubSection =
+      Object?.keys(sectionMap)?.find(
+        (key) => sectionMap[key] === foundSection,
+      ) || "overview";
+  }
+
+  // Process metrics data - use TTM as default for navigation
+  $: if ($stockTicker && data?.getData?.ttm) {
+    const metricsData = data.getData.ttm;
+
+    // Categorize metrics in single pass
+    const tempCategorized = {};
+    const operatingMetrics = [];
+
+    for (const metric of metricsData) {
+      const category = metric?.category || "Other";
+      if (!tempCategorized[category]) {
+        tempCategorized[category] = [];
+      }
+      tempCategorized[category].push(metric);
+    }
+
+    // Build final categories
+    const finalCategories = [];
+    for (const [category, metrics] of Object.entries(tempCategorized)) {
+      if (metrics?.length === 1) {
+        operatingMetrics.push(...metrics);
+      } else {
+        finalCategories.push(category);
+      }
+    }
+
+    if (operatingMetrics.length > 0) {
+      finalCategories.push("Operating Metrics");
+    }
+
+    // Sort categories and filter out Operating Metrics
+    const sortedCategories = finalCategories
+      ?.sort(sortCategories)
+      ?.filter((cat) => cat !== "Operating Metrics");
+
+    subsectionTitles = ["Overview", ...sortedCategories];
+
+    // Create section map
+    sectionMap = Object.fromEntries(
+      subsectionTitles.map((title) => {
+        const key = createSlug(title);
+        return [key, key === "overview" ? "" : key];
+      }),
+    );
   }
 </script>
 
@@ -129,19 +127,13 @@
   <div class="m-auto h-full overflow-hidden">
     <main class="w-full">
       <div class="m-auto">
-        {#if categories?.length > 0}
+        {#if subsectionTitles.length > 0}
           <nav
-            class="sm:ml-4 pt-1 text-sm sm:text-[1rem] whitespace-nowrap overflow-x-auto whitespace-nowrap"
+            class="sm:ml-4 pt-1 text-sm sm:text-[1rem] whitespace-nowrap overflow-x-auto"
           >
             <ul class="flex flex-row items-center w-full">
-              {#each subsectionTitles as title}
-                {@const sectionKey = title
-                  ?.toLowerCase()
-                  ?.replace(/&/g, "") // Remove & symbol
-                  ?.replace(/\s+/g, "-") // Replace spaces with dash
-                  ?.replace(/-{2,}/g, "-") // Replace multiple dashes with single dash
-                  ?.replace(/^-|-$/g, "") // Remove leading/trailing dashes
-                  ?.trim()}
+              {#each subsectionTitles as title (title)}
+                {@const sectionKey = createSlug(title)}
                 <a
                   href={getHref(sectionKey)}
                   on:click={() => changeSubSection(sectionKey)}

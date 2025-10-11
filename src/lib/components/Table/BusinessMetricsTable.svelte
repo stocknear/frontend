@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { abbreviateNumber } from "$lib/utils";
+  import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
   import DownloadData from "$lib/components/DownloadData.svelte";
   import { displayCompanyName, stockTicker } from "$lib/store";
   import { createEventDispatcher } from "svelte";
@@ -135,8 +135,9 @@
         class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1"
       >
         <h2
-          class="text-start whitespace-nowrap text-xl sm:text-2xl font-bold py-1 border-b border-gray-300 dark:border-gray-800 lg:border-none w-full"
+          class="text-start whitespace-nowrap text-xl sm:text-2xl font-bold py-1 w-full"
         >
+          {removeCompanyStrings($displayCompanyName)}
           {title}
         </h2>
         <div

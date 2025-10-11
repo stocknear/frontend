@@ -1,16 +1,19 @@
 <script lang="ts">
-  import { displayCompanyName, stockTicker } from "$lib/store";
-  import { removeCompanyStrings } from "$lib/utils";
+  import { displayCompanyName, stockTicker, screenWidth } from "$lib/store";
   import SEO from "$lib/components/SEO.svelte";
   import BusinessMetricsTable from "$lib/components/Table/BusinessMetricsTable.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
+  import highcharts from "$lib/highcharts.ts";
+  import { abbreviateNumber } from "$lib/utils";
+  import { mode } from "mode-watcher";
 
   export let data;
 
   let categorySlug = data?.getParams;
   let categoryMetrics = [];
   let categoryName = "";
-  let selectedTimePeriod = "quarterly";
+  let selectedTimePeriod = "ttm";
+  let config = null;
 
   function slugToCategory(slug: string): string {
     return slug
@@ -21,6 +24,178 @@
 
   function normalizeSlug(category: string): string {
     return category?.toLowerCase().replace(/\s+/g, "-").replace(/&/g, "");
+  }
+
+  function formatDate(dateStr: string): string {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("en-US", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  }
+
+  function plot(metrics) {
+    if (!metrics || metrics.length === 0) return null;
+
+    // Filter out percentage metrics - only show non-percentage values
+    const nonPercentMetrics = metrics.filter((metric) => {
+      const valueType = metric.values?.[0]?.valueType;
+      return valueType && valueType !== "PERCENT";
+    });
+
+    if (nonPercentMetrics.length === 0) return null;
+
+    // Determine if we should use currency formatting (check first metric)
+    const firstValueType = nonPercentMetrics[0]?.values?.[0]?.valueType;
+    const isCurrency = firstValueType === "CURRENCY";
+
+    // Collect all unique dates from all metrics
+    const dateSet = new Set();
+    for (const metric of nonPercentMetrics) {
+      for (const v of metric.values) {
+        dateSet.add(v.date);
+      }
+    }
+
+    // Sort dates (most recent first, then reverse for chart)
+    const dates = Array.from(dateSet).sort().reverse().slice(0, 12).reverse();
+
+    // Create series data for each metric
+    const colors = [
+      "#3b82f6",
+      "#10b981",
+      "#f59e0b",
+      "#ef4444",
+      "#8b5cf6",
+      "#ec4899",
+      "#06b6d4",
+      "#84cc16",
+    ];
+
+    const series = nonPercentMetrics.map((metric, index) => {
+      const valueMap = new Map();
+      for (const v of metric.values) {
+        valueMap.set(v.date, v.val);
+      }
+
+      const data = dates.map((date) => valueMap.get(date) ?? null);
+
+      return {
+        name: metric.name,
+        type: "column",
+        data: data,
+        color: colors[index % colors.length],
+        borderRadius: 0,
+      };
+    });
+
+    // Build the Highcharts options
+    return {
+      credits: { enabled: false },
+      chart: {
+        type: "column",
+        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        animation: false,
+        height: $screenWidth < 640 ? 360 : 500,
+      },
+
+      title: {
+        text: categoryName,
+        style: {
+          color: $mode === "light" ? "#000" : "#fff",
+          fontSize: "18px",
+          fontWeight: "bold",
+        },
+      },
+
+      xAxis: {
+        categories: dates,
+        crosshair: {
+          color: $mode === "light" ? "#000" : "#fff",
+          width: 1,
+          dashStyle: "Solid",
+        },
+        labels: {
+          style: { color: $mode === "light" ? "#000" : "#fff" },
+          formatter: function () {
+            return formatDate(this.value);
+          },
+        },
+      },
+
+      yAxis: {
+        min: 0,
+        title: { text: null },
+        gridLineColor: $mode === "light" ? "#e5e7eb" : "#1f2937",
+        labels: {
+          style: { color: $mode === "light" ? "#545454" : "#fff" },
+          formatter: function () {
+            return abbreviateNumber(this.value, false, true);
+          },
+        },
+        stackLabels: {
+          enabled: true,
+          style: {
+            color: $mode === "light" ? "#000" : "#fff",
+            fontWeight: "bold",
+          },
+          formatter: function () {
+            return abbreviateNumber(this.total, false, true);
+          },
+        },
+      },
+
+      plotOptions: {
+        column: {
+          stacking: "normal",
+          dataLabels: { enabled: false },
+          borderWidth: 0,
+        },
+      },
+
+      tooltip: {
+        shared: true,
+        useHTML: true,
+        backgroundColor: "rgba(0, 0, 0, 0.85)",
+        borderColor: "rgba(255, 255, 255, 0.2)",
+        borderWidth: 1,
+        style: { color: "#fff", fontSize: "14px" },
+        borderRadius: 4,
+        formatter: function () {
+          let total = 0;
+          let content = `<div style="font-weight: 600; margin-bottom: 8px;">${formatDate(this.x)}</div>`;
+
+          this.points.forEach((point) => {
+            if (point.y !== null) {
+              total += point.y;
+              content += `
+                <div style="margin-bottom: 4px;">
+                  <span style="color: ${point.color};">●</span>
+                  <span style="margin-left: 6px;">${point.series.name}:</span>
+                  <span style="float: right; margin-left: 12px; font-weight: 600;">${abbreviateNumber(point.y, false, true)}</span>
+                </div>`;
+            }
+          });
+
+          content += `
+            <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.2);">
+              <span>Total:</span>
+              <span style="float: right; font-weight: 700;">${abbreviateNumber(total, false, true)}</span>
+            </div>`;
+
+          return content;
+        },
+      },
+
+      series: series,
+
+      legend: {
+        enabled: true,
+        itemStyle: { color: $mode === "light" ? "#000" : "#fff" },
+        itemHoverStyle: { color: $mode === "light" ? "#374151" : "#d1d5db" },
+      },
+    };
   }
 
   $: if ($stockTicker && data?.getData?.[selectedTimePeriod] && categorySlug) {
@@ -63,9 +238,18 @@
 
       categoryName = foundCategoryName || slugToCategory(categorySlug);
     }
+
+    // Generate chart config after metrics are set
+    config = plot(categoryMetrics);
   } else {
     categoryMetrics = [];
     categoryName = "";
+    config = null;
+  }
+
+  // Regenerate chart when mode or period changes
+  $: if (categoryMetrics.length > 0 && $mode !== undefined) {
+    config = plot(categoryMetrics);
   }
 </script>
 
@@ -88,6 +272,19 @@
           </div>
 
           {#if categoryMetrics?.length > 0}
+            {#if config}
+              <div>
+                <div class="grow mt-3">
+                  <div class="relative">
+                    <div
+                      class="mt-5 shadow-xs sm:mt-0 sm:border sm:border-gray-300 dark:border-gray-800 rounded"
+                      use:highcharts={config}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            {/if}
+
             <BusinessMetricsTable
               title={categoryName}
               first={true}
