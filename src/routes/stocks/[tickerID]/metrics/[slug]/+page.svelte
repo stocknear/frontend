@@ -23,7 +23,13 @@
   let categoryName = "";
   let config = null;
   let tableData = [];
+  let filteredDates = [];
   let isSubscribed = ["Plus", "Pro"].includes(data?.user?.tier);
+
+  // Cache for computed values
+  const computeCache = new Map();
+  const plotCache = new Map();
+  let plotCacheKey = null;
 
   let tabs = ["Quarterly", "TTM"];
   $: activeIdx = $selectedTimePeriod === "quarterly" ? 0 : 1;
@@ -55,14 +61,13 @@
         break;
       case "MAX":
       default:
-        thresholdDate = new Date(0); // Earliest possible date
+        thresholdDate = new Date(0);
         break;
     }
 
-    return dates?.filter((date) => new Date(date) >= thresholdDate);
+    return dates.filter((date) => new Date(date) >= thresholdDate);
   }
 
-  // Make categorySlug reactive to route changes
   $: categorySlug = data?.getParams;
 
   function slugToCategory(slug: string): string {
@@ -93,42 +98,43 @@
     return `${month} '${year}`;
   }
 
-  function plot(metrics) {
-    if (!metrics || metrics.length === 0) return null;
+  function plot(metrics, dates, isDarkMode, isSmallScreen, timePeriod, slug) {
+    if (!metrics || metrics.length === 0 || !dates || dates.length === 0)
+      return null;
+
+    // Create cache key - include timePeriod and slug to ensure uniqueness
+    const cacheKey = `${timePeriod}-${slug}-${metrics.map((m) => m.name).join(",")}-${dates.slice(0, 12).join(",")}-${isDarkMode}-${isSmallScreen}`;
+
+    // Check plot cache
+    if (plotCache.has(cacheKey)) {
+      return plotCache.get(cacheKey);
+    }
 
     // Separate percentage and non-percentage metrics
-    const percentMetrics = metrics.filter((metric) => {
+    let usePercentChart = false;
+    let metricsToPlot = [];
+
+    for (const metric of metrics) {
       const valueType = metric.values?.[0]?.valueType;
-      return valueType === "PERCENT";
-    });
-
-    const nonPercentMetrics = metrics.filter((metric) => {
-      const valueType = metric.values?.[0]?.valueType;
-      return valueType && valueType !== "PERCENT";
-    });
-
-    // Determine which type of chart to create
-    const usePercentChart = percentMetrics.length > 0;
-    const metricsToPlot = usePercentChart ? percentMetrics : nonPercentMetrics;
-
-    if (metricsToPlot.length === 0) return null;
-
-    // Collect all unique dates from all metrics
-    const dateSet = new Set();
-    for (const metric of metricsToPlot) {
-      for (const v of metric.values) {
-        dateSet.add(v.date);
+      if (valueType === "PERCENT") {
+        usePercentChart = true;
+        metricsToPlot.push(metric);
+      } else if (valueType && !usePercentChart) {
+        metricsToPlot.push(metric);
       }
     }
 
-    // Sort dates (most recent first, then reverse for chart)
-    let allDates = Array.from(dateSet).sort().reverse();
+    // If we found percent metrics, filter out non-percent
+    if (usePercentChart) {
+      metricsToPlot = metrics.filter(
+        (m) => m.values?.[0]?.valueType === "PERCENT",
+      );
+    }
 
-    // Filter by selected interval
-    allDates = filterDataByYears(allDates, selectedInterval);
+    if (metricsToPlot.length === 0) return null;
 
-    // Limit to 12 most recent and reverse for chart
-    const dates = allDates.reverse();
+    // Limit to 12 most recent and reverse for chart (oldest to newest for display)
+    const chartDates = dates.slice(0, 12).reverse();
 
     // Create series data for each metric
     const colors = [
@@ -143,12 +149,13 @@
     ];
 
     const series = metricsToPlot.map((metric, index) => {
+      // Pre-build value map for O(1) lookups
       const valueMap = new Map();
       for (const v of metric.values) {
-        valueMap?.set(v.date, v.val);
+        valueMap.set(v.date, v.val);
       }
 
-      const data = dates?.map((date) => valueMap.get(date) ?? null);
+      const data = chartDates.map((date) => valueMap.get(date) ?? null);
 
       return {
         name: metric.name,
@@ -168,43 +175,43 @@
       };
     });
 
+    // Pre-format dates for faster rendering
+    const formattedDates = chartDates.map((date) => formatDateShort(date));
+
     // Build the Highcharts options
     const baseConfig = {
       credits: { enabled: false },
       chart: {
         type: usePercentChart ? "spline" : "column",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: isDarkMode ? "#09090B" : "#fff",
         animation: false,
-        height: $screenWidth < 640 ? 360 : 500,
+        height: isSmallScreen ? 360 : 500,
       },
 
       title: {
         text: `<h3 class="mt-3 mb-1 text-[1rem] sm:text-lg">${categoryName}</h3>`,
         useHTML: true,
-        style: { color: $mode === "light" ? "black" : "white" },
+        style: { color: isDarkMode ? "white" : "black" },
       },
 
       xAxis: {
-        categories: dates,
+        categories: formattedDates,
         crosshair: {
-          color: $mode === "light" ? "#000" : "#fff",
+          color: isDarkMode ? "#fff" : "#000",
           width: 1,
           dashStyle: "Solid",
         },
         labels: {
-          style: { color: $mode === "light" ? "#000" : "#fff" },
-          formatter: function () {
-            return formatDateShort(this.value);
-          },
+          style: { color: isDarkMode ? "#fff" : "#000" },
         },
       },
 
       yAxis: {
         min: 0,
         title: { text: null },
-        gridLineColor: $mode === "light" ? "#e5e7eb" : "#1f2937",
+        gridLineColor: isDarkMode ? "#1f2937" : "#e5e7eb",
         labels: {
-          style: { color: $mode === "light" ? "#545454" : "#fff" },
+          style: { color: isDarkMode ? "#fff" : "#545454" },
           formatter: function () {
             if (usePercentChart) {
               return this.value.toFixed(1) + "%";
@@ -234,7 +241,7 @@
         style: {
           color: "#fff",
           fontSize: "15px",
-          padding: "11px 16px",
+          padding: "12px 16px",
         },
         borderRadius: 8,
         outside: false,
@@ -244,17 +251,23 @@
 
       legend: {
         enabled: true,
-        itemStyle: { color: $mode === "light" ? "#000" : "#fff" },
-        itemHoverStyle: { color: $mode === "light" ? "#374151" : "#d1d5db" },
+        itemStyle: { color: isDarkMode ? "#fff" : "#000" },
+        itemHoverStyle: { color: isDarkMode ? "#d1d5db" : "#374151" },
       },
     };
+
+    // Pre-compute formatted dates for tooltip
+    const dateMap = new Map();
+    chartDates.forEach((date, idx) => {
+      dateMap.set(formattedDates[idx], formatDate(date));
+    });
 
     // Add specific configurations for column charts
     if (!usePercentChart) {
       baseConfig.yAxis.stackLabels = {
         enabled: true,
         style: {
-          color: $mode === "light" ? "#000" : "#fff",
+          color: isDarkMode ? "#fff" : "#000",
           fontWeight: "bold",
         },
         formatter: function () {
@@ -275,15 +288,14 @@
             fontWeight: "600",
           },
           formatter: function () {
-            // Only show label if value is significant enough
             const total = this.point.stackTotal;
             const percentage = (this.y / total) * 100;
-            if (percentage < 5) return null; // Hide if less than 5% of total
+            if (percentage < 5) return null;
             return abbreviateNumber(this.y, false, true);
           },
         },
         borderWidth: 1,
-        borderColor: $mode === "light" ? "#eeeeee" : "#09090B",
+        borderColor: isDarkMode ? "#09090B" : "#eeeeee",
         animation: false,
         pointPadding: 0.05,
         groupPadding: 0.05,
@@ -291,20 +303,25 @@
 
       baseConfig.tooltip.formatter = function () {
         let total = 0;
+        const formattedDate = dateMap.get(this.x) || this.x;
+
+        // Pre-calculate all values
+        const points = this.points.filter((p) => p.y !== null);
+        points.forEach((p) => {
+          total += p.y;
+        });
+
         let content = `<div style="min-width: 250px; max-width: 400px;">`;
-        content += `<div style="font-weight: 600; margin-bottom: 5px; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px;">${formatDate(this.x)}</div>`;
+        content += `<div style="font-weight: 600; margin-bottom: 5px; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px;">${formattedDate}</div>`;
         content += `<div style="display: grid; gap: 6px;">`;
 
-        this.points.forEach((point) => {
-          if (point.y !== null) {
-            total += point.y;
-            content += `
-              <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 5px; align-items: center;">
-                <span style="color: ${point.color}; font-size: 14px;">●</span>
-                <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px;">${point.series.name}</span>
-                <span style="font-weight: 600; white-space: nowrap; font-size: 14px;">${abbreviateNumber(point.y, false, true)}</span>
-              </div>`;
-          }
+        points.forEach((point) => {
+          content += `
+            <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 5px; align-items: center;">
+              <span style="color: ${point.color}; font-size: 14px;">●</span>
+              <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px;">${point.series.name}</span>
+              <span style="font-weight: 600; white-space: nowrap; font-size: 14px;">${abbreviateNumber(point.y, false, true)}</span>
+            </div>`;
         });
 
         content += `</div>`;
@@ -327,19 +344,20 @@
       };
 
       baseConfig.tooltip.formatter = function () {
+        const formattedDate = dateMap.get(this.x) || this.x;
+        const points = this.points.filter((p) => p.y !== null);
+
         let content = `<div style="min-width: 250px; max-width: 400px;">`;
-        content += `<div style="font-weight: 600; margin-bottom: 5px; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px;">${formatDate(this.x)}</div>`;
+        content += `<div style="font-weight: 600; margin-bottom: 5px; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px;">${formattedDate}</div>`;
         content += `<div style="display: grid; gap: 6px;">`;
 
-        this.points.forEach((point) => {
-          if (point.y !== null) {
-            content += `
-              <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 5px; align-items: center;">
-                <span style="color: ${point.color}; font-size: 14px;">●</span>
-                <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px;">${point.series.name}</span>
-                <span style="font-weight: 600; white-space: nowrap; font-size: 14px;">${point.y.toFixed(2)}%</span>
-              </div>`;
-          }
+        points.forEach((point) => {
+          content += `
+            <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 5px; align-items: center;">
+              <span style="color: ${point.color}; font-size: 14px;">●</span>
+              <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px;">${point.series.name}</span>
+              <span style="font-weight: 600; white-space: nowrap; font-size: 14px;">${point.y.toFixed(2)}%</span>
+            </div>`;
         });
 
         content += `</div></div>`;
@@ -347,58 +365,83 @@
       };
     }
 
+    // Cache the result before returning
+    plotCache.set(cacheKey, baseConfig);
+
+    // Limit cache size to prevent memory issues
+    if (plotCache.size > 50) {
+      const firstKey = plotCache.keys().next().value;
+      plotCache.delete(firstKey);
+    }
+
     return baseConfig;
   }
 
-  $: if (
-    $stockTicker &&
-    data?.getData?.[$selectedTimePeriod] &&
-    categorySlug &&
-    selectedInterval
-  ) {
+  // Extract category metrics (only when data or category changes)
+  $: if ($stockTicker && data?.getData?.[$selectedTimePeriod] && categorySlug) {
     const metricsData = data.getData[$selectedTimePeriod];
     const slugLower = categorySlug.toLowerCase();
 
-    if (slugLower === "operating-metrics") {
-      categoryName = "Operating Metrics";
+    // Create cache key for category extraction
+    const categoryCacheKey = `${$stockTicker}-${$selectedTimePeriod}-${slugLower}`;
 
-      // Group metrics by category in single pass
-      const tempCategorized = {};
-      for (const metric of metricsData) {
-        const category = metric.category || "Other";
-        if (!tempCategorized[category]) {
-          tempCategorized[category] = [];
-        }
-        tempCategorized[category].push(metric);
-      }
-
-      // Get all single-metric categories
-      categoryMetrics = [];
-      for (const metrics of Object.values(tempCategorized)) {
-        if (metrics.length === 1) {
-          categoryMetrics.push(...metrics);
-        }
-      }
+    if (computeCache.has(categoryCacheKey)) {
+      const cached = computeCache.get(categoryCacheKey);
+      categoryMetrics = cached.categoryMetrics;
+      categoryName = cached.categoryName;
     } else {
-      // Regular category - filter in single pass
-      categoryMetrics = [];
-      let foundCategoryName = "";
+      if (slugLower === "operating-metrics") {
+        categoryName = "Operating Metrics";
 
-      for (const metric of metricsData) {
-        if (normalizeSlug(metric.category) === slugLower) {
-          categoryMetrics.push(metric);
-          if (!foundCategoryName) {
-            foundCategoryName = metric.category;
+        const tempCategorized = {};
+        for (const metric of metricsData) {
+          const category = metric.category || "Other";
+          if (!tempCategorized[category]) {
+            tempCategorized[category] = [];
+          }
+          tempCategorized[category].push(metric);
+        }
+
+        categoryMetrics = [];
+        for (const metrics of Object.values(tempCategorized)) {
+          if (metrics.length === 1) {
+            categoryMetrics.push(...metrics);
           }
         }
+      } else {
+        categoryMetrics = [];
+        let foundCategoryName = "";
+
+        for (const metric of metricsData) {
+          if (normalizeSlug(metric.category) === slugLower) {
+            categoryMetrics.push(metric);
+            if (!foundCategoryName) {
+              foundCategoryName = metric.category;
+            }
+          }
+        }
+
+        categoryName = foundCategoryName || slugToCategory(categorySlug);
       }
 
-      categoryName = foundCategoryName || slugToCategory(categorySlug);
+      // Cache the category extraction result
+      computeCache.set(categoryCacheKey, { categoryMetrics, categoryName });
     }
+  } else {
+    categoryMetrics = [];
+    categoryName = "";
+  }
 
-    // Build table data - dates as rows, metrics as columns
-    if (categoryMetrics && categoryMetrics.length > 0) {
-      // Collect all unique dates
+  // Process filtered dates and table data (when interval or metrics change)
+  $: if (categoryMetrics.length > 0 && selectedInterval) {
+    const cacheKey = `${$selectedTimePeriod}-${categorySlug}-${selectedInterval}`;
+
+    if (computeCache.has(cacheKey)) {
+      const cached = computeCache.get(cacheKey);
+      filteredDates = cached.filteredDates;
+      tableData = cached.tableData;
+    } else {
+      // Collect unique dates
       const dateSet = new Set();
       for (const metric of categoryMetrics) {
         for (const v of metric.values) {
@@ -406,69 +449,103 @@
         }
       }
 
-      // Sort dates descending (most recent first)
-      let sortedDates = Array.from(dateSet).sort().reverse();
+      // Sort and filter dates
+      const sortedDates = Array.from(dateSet).sort().reverse();
+      filteredDates = filterDataByYears(sortedDates, selectedInterval);
 
-      // Filter by selected interval
-      sortedDates = filterDataByYears(sortedDates, selectedInterval);
+      // Pre-build value maps for all metrics (O(1) lookups)
+      const metricValueMaps = new Map();
+      for (const metric of categoryMetrics) {
+        const valueMap = new Map();
+        for (const v of metric.values) {
+          valueMap.set(v.date, { val: v.val, valueType: v.valueType });
+        }
+        metricValueMaps.set(metric.name, valueMap);
+      }
 
-      // Build rows where each row is a date/period
-      tableData = sortedDates.map((date, index) => {
-        const rowData = {
-          date,
-          formattedDate: formatDate(date),
-          metrics: {},
-        };
+      // Build table data - optimized version
+      const numDates = filteredDates.length;
+      const numMetrics = categoryMetrics.length;
+      tableData = new Array(numDates);
 
-        // For each metric, get the value at this date
-        for (const metric of categoryMetrics) {
-          const valueObj = metric.values.find((v) => v.date === date);
-          const value = valueObj?.val ?? null;
-          const valueType =
-            valueObj?.valueType || metric.values[0]?.valueType || "NUMBER";
+      for (let i = 0; i < numDates; i++) {
+        const date = filteredDates[i];
+        const metrics = {};
 
-          // Format value
-          let formatted = "-";
-          if (value !== null && value !== undefined) {
-            switch (valueType) {
-              case "CURRENCY":
-                formatted = abbreviateNumber(value, false, true);
-                break;
-              case "PERCENT":
-                formatted = value.toFixed(2) + "%";
-                break;
-              case "NUMBER":
-                formatted = abbreviateNumber(value, false, false);
-                break;
-              default:
-                formatted = value.toString();
+        for (let j = 0; j < numMetrics; j++) {
+          const metric = categoryMetrics[j];
+          const valueMap = metricValueMaps.get(metric.name);
+          const valueObj = valueMap.get(date);
+
+          if (valueObj) {
+            const value = valueObj.val;
+            const valueType = valueObj.valueType;
+
+            let formatted;
+            if (value === null || value === undefined) {
+              formatted = "-";
+            } else if (valueType === "PERCENT") {
+              formatted = value.toFixed(2) + "%";
+            } else if (valueType === "CURRENCY") {
+              formatted = abbreviateNumber(value, false, true);
+            } else if (valueType === "NUMBER") {
+              formatted = abbreviateNumber(value, false, false);
+            } else {
+              formatted = value.toString();
             }
-          }
 
-          rowData.metrics[metric.name] = {
-            value,
-            formatted,
-            valueType,
-          };
+            metrics[metric.name] = { value, formatted, valueType };
+          } else {
+            metrics[metric.name] = {
+              value: null,
+              formatted: "-",
+              valueType: "NUMBER",
+            };
+          }
         }
 
-        return rowData;
-      });
-    } else {
-      tableData = [];
+        tableData[i] = {
+          date,
+          formattedDate: formatDate(date),
+          metrics,
+        };
+      }
+
+      // Cache the results
+      computeCache.set(cacheKey, { filteredDates, tableData });
+
+      // Limit cache size to prevent memory issues
+      if (computeCache.size > 100) {
+        const firstKey = computeCache.keys().next().value;
+        computeCache.delete(firstKey);
+      }
     }
   } else {
-    categoryMetrics = [];
-    categoryName = "";
-    config = null;
+    filteredDates = [];
     tableData = [];
   }
 
-  // Regenerate chart when dependencies change
-  $: if (categoryMetrics && categoryMetrics.length > 0) {
-    // Reference all dependencies to ensure reactivity
-    const _ = [selectedInterval, $mode, data?.getParams];
-    config = plot(categoryMetrics);
+  // Generate chart (only when necessary)
+  $: {
+    if (
+      categoryMetrics.length > 0 &&
+      filteredDates.length > 0 &&
+      $mode &&
+      $screenWidth !== undefined
+    ) {
+      const isDarkMode = $mode === "dark";
+      const isSmallScreen = $screenWidth < 640;
+      config = plot(
+        categoryMetrics,
+        filteredDates,
+        isDarkMode,
+        isSmallScreen,
+        $selectedTimePeriod,
+        categorySlug,
+      );
+    } else {
+      config = null;
+    }
   }
 </script>
 
@@ -502,99 +579,6 @@
                     class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
                   >
                     <div class="ml-auto">
-                      <div
-                        class="timeframe-toggle-driver relative inline-block text-left grow mr-2"
-                      >
-                        <DropdownMenu.Root>
-                          <DropdownMenu.Trigger asChild let:builder>
-                            <Button
-                              builders={[builder]}
-                              class="w-full  border-gray-300 dark:border-gray-600 border bg-black text-white sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary ease-out  flex flex-row justify-between items-center px-3 py-2  rounded truncate"
-                            >
-                              <span class="truncate text-xs sm:text-sm"
-                                >{selectedInterval}</span
-                              >
-                              <svg
-                                class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                style="max-width:40px"
-                                aria-hidden="true"
-                              >
-                                <path
-                                  fill-rule="evenodd"
-                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                  clip-rule="evenodd"
-                                ></path>
-                              </svg>
-                            </Button>
-                          </DropdownMenu.Trigger>
-                          <DropdownMenu.Content
-                            side="bottom"
-                            align="end"
-                            sideOffset={10}
-                            alignOffset={0}
-                            class="w-36 h-fit max-h-72 overflow-y-auto scroller"
-                          >
-                            <DropdownMenu.Label
-                              class="text-muted dark:text-gray-400 font-normal"
-                            >
-                              Select time frame
-                            </DropdownMenu.Label>
-                            <DropdownMenu.Separator />
-                            <DropdownMenu.Group>
-                              <DropdownMenu.Item
-                                on:click={() => changeStatement("5Y")}
-                                class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
-                              >
-                                5Y
-                              </DropdownMenu.Item>
-
-                              <DropdownMenu.Item
-                                on:click={() => changeStatement("10Y")}
-                                class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
-                              >
-                                10Y
-                                {#if !isSubscribed}
-                                  <svg
-                                    class="ml-1 mt-px size-3.5"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                    style="max-width:40px"
-                                  >
-                                    <path
-                                      fill-rule="evenodd"
-                                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                      clip-rule="evenodd"
-                                    />
-                                  </svg>
-                                {/if}
-                              </DropdownMenu.Item>
-                              <DropdownMenu.Item
-                                on:click={() => changeStatement("MAX")}
-                                class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
-                              >
-                                MAX
-                                {#if !isSubscribed}
-                                  <svg
-                                    class="ml-1 mt-px size-3.5"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                    style="max-width:40px"
-                                  >
-                                    <path
-                                      fill-rule="evenodd"
-                                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                      clip-rule="evenodd"
-                                    />
-                                  </svg>
-                                {/if}
-                              </DropdownMenu.Item>
-                            </DropdownMenu.Group>
-                          </DropdownMenu.Content>
-                        </DropdownMenu.Root>
-                      </div>
-
                       <div class="inline-flex">
                         <div class="inline-flex rounded-lg shadow-sm">
                           {#each tabs as item, i (item)}
@@ -618,6 +602,86 @@
                         </div>
                       </div>
                     </div>
+
+                    <div class="ml-1 relative inline-block">
+                      <DropdownMenu.Root>
+                        <DropdownMenu.Trigger asChild let:builder>
+                          <Button
+                            builders={[builder]}
+                            class="flex-shrink-0 w-full sm:w-fit border border-gray-300 dark:border-gray-800 bg-black sm:hover:bg-default text-white dark:bg-primary dark:sm:hover:bg-secondary ease-out flex flex-row justify-between items-center px-3 py-1.5 rounded truncate"
+                          >
+                            <span class="truncate">{selectedInterval}</span>
+                            <svg
+                              class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              style="max-width:40px"
+                              aria-hidden="true"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"
+                              ></path>
+                            </svg>
+                          </Button>
+                        </DropdownMenu.Trigger>
+                        <DropdownMenu.Content
+                          side="bottom"
+                          align="end"
+                          sideOffset={10}
+                          alignOffset={0}
+                          class="h-fit max-h-72 overflow-y-auto scroller"
+                        >
+                          <DropdownMenu.Group>
+                            <DropdownMenu.Item
+                              on:click={() => changeStatement("5Y")}
+                              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                            >
+                              5Y
+                            </DropdownMenu.Item>
+                            <DropdownMenu.Item
+                              on:click={() => changeStatement("10Y")}
+                              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary flex flex-row items-center"
+                            >
+                              10Y
+                              {#if !isSubscribed}
+                                <svg
+                                  class="w-3 h-3 ml-auto inline-block"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                >
+                                  <path
+                                    fill-rule="evenodd"
+                                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                    clip-rule="evenodd"
+                                  />
+                                </svg>
+                              {/if}
+                            </DropdownMenu.Item>
+                            <DropdownMenu.Item
+                              on:click={() => changeStatement("MAX")}
+                              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary flex flex-row items-center"
+                            >
+                              Max
+                              {#if !isSubscribed}
+                                <svg
+                                  class="w-3 h-3 ml-auto inline-block"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                >
+                                  <path
+                                    fill-rule="evenodd"
+                                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                    clip-rule="evenodd"
+                                  />
+                                </svg>
+                              {/if}
+                            </DropdownMenu.Item>
+                          </DropdownMenu.Group>
+                        </DropdownMenu.Content>
+                      </DropdownMenu.Root>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -639,7 +703,6 @@
                 class="history-driver mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-300 dark:border-gray-800 py-2"
               >
                 <h3 class="text-xl sm:text-2xl font-bold">History</h3>
-
                 <div class="ml-2">
                   <DownloadData
                     {data}
@@ -658,7 +721,9 @@
                       <th
                         class="font-semibold text-start text-sm sm:text-[1rem]"
                       >
-                        Date
+                        {$selectedTimePeriod === "quarterly"
+                          ? "Quarter Ended"
+                          : "Period Ended"}
                       </th>
                       {#each categoryMetrics as metric}
                         <th
@@ -675,13 +740,13 @@
                         class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
                       >
                         <td class="text-sm sm:text-[1rem] whitespace-nowrap">
-                          {row?.formattedDate}
+                          {row.formattedDate}
                         </td>
                         {#each categoryMetrics as metric}
                           <td
                             class="text-sm sm:text-[1rem] text-right whitespace-nowrap"
                           >
-                            {row?.metrics[metric.name]?.formatted || "-"}
+                            {row.metrics[metric.name]?.formatted || "-"}
                           </td>
                         {/each}
                       </tr>
