@@ -13,6 +13,7 @@
   import { mode } from "mode-watcher";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
+  import { goto } from "$app/navigation";
 
   export let data;
   $selectedTimePeriod = "ttm";
@@ -22,6 +23,7 @@
   let categoryName = "";
   let config = null;
   let tableData = [];
+  let isSubscribed = ["Plus", "Pro"].includes(data?.user?.tier);
 
   let tabs = ["Quarterly", "TTM"];
   $: activeIdx = $selectedTimePeriod === "quarterly" ? 0 : 1;
@@ -31,7 +33,11 @@
   }
 
   function changeStatement(interval: string) {
-    selectedInterval = interval;
+    if (isSubscribed === false && interval !== "5Y") {
+      goto("/pricing");
+    } else {
+      selectedInterval = interval;
+    }
   }
 
   function filterDataByYears(dates: string[], interval: string) {
@@ -139,10 +145,10 @@
     const series = metricsToPlot.map((metric, index) => {
       const valueMap = new Map();
       for (const v of metric.values) {
-        valueMap.set(v.date, v.val);
+        valueMap?.set(v.date, v.val);
       }
 
-      const data = dates.map((date) => valueMap.get(date) ?? null);
+      const data = dates?.map((date) => valueMap.get(date) ?? null);
 
       return {
         name: metric.name,
@@ -228,7 +234,7 @@
         style: {
           color: "#fff",
           fontSize: "15px",
-          padding: "12px 16px",
+          padding: "11px 16px",
         },
         borderRadius: 8,
         outside: false,
@@ -528,7 +534,7 @@
                             align="end"
                             sideOffset={10}
                             alignOffset={0}
-                            class="w-56 h-fit max-h-72 overflow-y-auto scroller"
+                            class="w-36 h-fit max-h-72 overflow-y-auto scroller"
                           >
                             <DropdownMenu.Label
                               class="text-muted dark:text-gray-400 font-normal"
@@ -543,17 +549,46 @@
                               >
                                 5Y
                               </DropdownMenu.Item>
+
                               <DropdownMenu.Item
                                 on:click={() => changeStatement("10Y")}
                                 class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
                               >
                                 10Y
+                                {#if !isSubscribed}
+                                  <svg
+                                    class="ml-1 mt-px size-3.5"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                    style="max-width:40px"
+                                  >
+                                    <path
+                                      fill-rule="evenodd"
+                                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                      clip-rule="evenodd"
+                                    />
+                                  </svg>
+                                {/if}
                               </DropdownMenu.Item>
                               <DropdownMenu.Item
                                 on:click={() => changeStatement("MAX")}
                                 class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
                               >
                                 MAX
+                                {#if !isSubscribed}
+                                  <svg
+                                    class="ml-1 mt-px size-3.5"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                    style="max-width:40px"
+                                  >
+                                    <path
+                                      fill-rule="evenodd"
+                                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                      clip-rule="evenodd"
+                                    />
+                                  </svg>
+                                {/if}
                               </DropdownMenu.Item>
                             </DropdownMenu.Group>
                           </DropdownMenu.Content>

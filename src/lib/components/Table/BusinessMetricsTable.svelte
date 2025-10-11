@@ -216,7 +216,7 @@
               <td
                 class="whitespace-nowrap text-sm sm:text-[1rem] text-end border-b border-r border-gray-300 dark:border-gray-800"
               >
-                {#if cell.isPremium && cell.value !== null}
+                {#if cell?.isPremium && cell?.value !== null}
                   <a
                     href="/pricing"
                     class="inline-flex items-center justify-end text-sm font-semibold"
