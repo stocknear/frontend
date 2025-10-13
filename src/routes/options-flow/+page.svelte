@@ -516,7 +516,7 @@
 
     if (strategyList?.length > 0) {
       // update local strategyList
-      strategyList.find((item) => item.id === selectedStrategy).rules =
+      strategyList?.find((item) => item.id === selectedStrategy).rules =
         ruleOfList;
 
       const postData = {
