@@ -36,7 +36,7 @@
   let strategyList = data?.getAllStrategies || [];
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
 
-  let ruleOfList = [];
+  let ruleOfList = strategyList?.at(0)?.rules ?? [];
   const checkedRules = [
     "put_call",
     "assetType",
@@ -222,12 +222,10 @@
           value: defaultValue,
         };
         ruleOfList = [...ruleOfList]; // Trigger reactivity
-        saveRuleOfListToLocalStorage();
       } else {
         // If already at defaults, remove the rule
         ruleOfList.splice(index, 1);
         ruleOfList = [...ruleOfList];
-        saveRuleOfListToLocalStorage();
 
         // Reset checkedItems for multi-select rules
         if (checkedItems.has(state)) {
@@ -247,7 +245,6 @@
         ruleOfList?.some((rule) => rule.name === row.rule),
       );
       shouldLoadWorker.set(true);
-      saveRuleOfListToLocalStorage();
     }
   }
 
@@ -257,7 +254,7 @@
     ruleOfList = [...ruleOfList];
     ruleName = "";
     filterQuery = "";
-    checkedItems = new Set();
+    checkedItems = new Map();
     Object?.keys(allRules).forEach((ruleName) => {
       ruleCondition[ruleName] = allRules[ruleName].defaultCondition;
       valueMappings[ruleName] = allRules[ruleName].defaultValue;
@@ -266,7 +263,6 @@
       ruleOfList.some((rule) => rule.name === row.rule),
     );
     displayedData = [...rawData];
-    saveRuleOfListToLocalStorage();
   }
 
   function changeRule(state: string) {
@@ -293,20 +289,30 @@
 
     if (ruleOfList?.length === 0) {
       filteredData = [];
-      displayResults = [];
+      displayedData = [];
     }
-    //await updateStockScreenerData();
+
+    // Update displayed rules
+    displayRules = allRows?.filter((row) =>
+      ruleOfList?.some((rule) => rule.name === row.rule),
+    );
+
     checkedItems = new Map(
       ruleOfList
         ?.filter((rule) => checkedRules?.includes(rule.name)) // Only include specific rules
         ?.map((rule) => [rule.name, new Set(rule.value)]), // Create Map from filtered rules
     );
+
+    // Trigger the filter system
+    shouldLoadWorker.set(true);
   }
 
   async function handleCreateStrategy() {
     if (["Pro"]?.includes(data?.user?.tier)) {
-      const closePopup = document.getElementById("addStrategy");
-      closePopup?.dispatchEvent(new MouseEvent("click"));
+      const modalCheckbox = document.getElementById("addStrategy");
+      if (modalCheckbox instanceof HTMLInputElement) {
+        modalCheckbox.checked = true;
+      }
     } else {
       toast.info("Available only to Pro Member", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
@@ -449,7 +455,23 @@
 
       if (removeList) {
         removeList = false;
-        ruleOfList = [];
+        ruleOfList = [
+          { name: "cost_basis", value: "any" },
+          { name: "date_expiration", value: "any" },
+        ];
+
+        // Reset all rule conditions and values to defaults
+        Object.keys(allRules).forEach((ruleName) => {
+          ruleCondition[ruleName] = allRules[ruleName].defaultCondition;
+          valueMappings[ruleName] = allRules[ruleName].defaultValue;
+        });
+
+        // Update displayed rules and data
+        displayRules = allRows?.filter((row) =>
+          ruleOfList.some((rule) => rule.name === row.rule),
+        );
+        filteredData = [];
+        checkedItems = new Map();
       }
 
       // trigger a save without toasting again
@@ -570,7 +592,6 @@
         // Remove the rule instead of showing an error
         ruleOfList.splice(existingRuleIndex, 1);
         ruleOfList = [...ruleOfList]; // Trigger reactivity
-        saveRuleOfListToLocalStorage();
         Object.keys(allRules).forEach((ruleName) => {
           ruleCondition[ruleName] = allRules[ruleName].defaultCondition;
           valueMappings[ruleName] = allRules[ruleName].defaultValue;
@@ -581,11 +602,9 @@
       } else {
         ruleOfList[existingRuleIndex] = newRule;
         ruleOfList = [...ruleOfList]; // Trigger reactivity
-        saveRuleOfListToLocalStorage();
       }
     } else {
       ruleOfList = [...ruleOfList, newRule];
-      saveRuleOfListToLocalStorage();
 
       shouldLoadWorker.set(true);
     }
@@ -621,10 +640,15 @@
     await handleChangeValue(valueMappings[ruleName]);
   }
 
-  let checkedItems = new Set(ruleOfList.flatMap((rule) => rule.value));
+  let checkedItems = new Map(
+    ruleOfList
+      ?.filter((rule) => checkedRules?.includes(rule.name))
+      ?.map((rule) => [rule.name, new Set(rule.value)]),
+  );
 
   function isChecked(item) {
-    return checkedItems.has(item);
+    const itemSet = checkedItems.get(ruleName);
+    return itemSet ? itemSet.has(item) : false;
   }
 
   function parseValue(val) {
@@ -654,11 +678,15 @@
   }
 
   async function handleChangeValue(value, { shouldSort = true } = {}) {
-    // Toggle checkedItems logic
-    if (checkedItems.has(value)) {
-      checkedItems.delete(value);
+    // Toggle checkedItems logic - handle Map structure
+    if (!checkedItems.has(ruleName)) {
+      checkedItems.set(ruleName, new Set());
+    }
+    const itemSet = checkedItems.get(ruleName);
+    if (itemSet.has(value)) {
+      itemSet.delete(value);
     } else {
-      checkedItems.add(value);
+      itemSet.add(value);
     }
 
     // Specific rule handling for options-related rules
@@ -706,9 +734,8 @@
       ruleOfList = [...ruleOfList];
     }
 
-    // Trigger worker load and save cookie
+    // Trigger worker load
     shouldLoadWorker.set(true);
-    saveRuleOfListToLocalStorage();
   }
 
   async function stepSizeValue(value, condition) {
@@ -996,23 +1023,7 @@
     return daysLeft;
   }
 
-  function saveRuleOfListToLocalStorage() {
-    localStorage.setItem("optionsFlowFilterRules", JSON.stringify(ruleOfList));
-  }
-
   onMount(async () => {
-    // Load filter rules from localStorage with default fallback
-    const savedRules = localStorage.getItem("optionsFlowFilterRules");
-    if (savedRules) {
-      ruleOfList = [...JSON?.parse(savedRules)];
-    } else {
-      // Set default rules if no saved rules exist
-      ruleOfList = [
-        { name: "cost_basis", value: "any" },
-        { name: "date_expiration", value: "any" },
-      ];
-    }
-
     ruleOfList?.forEach((rule) => {
       ruleCondition[rule.name] =
         rule.condition || allRules[rule.name].defaultCondition;
@@ -1234,7 +1245,6 @@
         ruleToUpdate.value = valueMappings[ruleToUpdate.name];
         ruleToUpdate.condition = ruleCondition[ruleToUpdate.name];
         ruleOfList = [...ruleOfList];
-        saveRuleOfListToLocalStorage();
         //shouldLoadWorker.set(true);
       }
     }
@@ -1696,9 +1706,17 @@
 
                 {#if strategyList?.length > 0}
                   <label
-                    for={!data?.user ? "userLogin" : ""}
+                    for={!data?.user
+                      ? "userLogin"
+                      : ["Pro"]?.includes(data?.user?.tier)
+                        ? "addStrategy"
+                        : ""}
                     on:click={() => {
-                      handleCreateStrategy();
+                      if (!["Pro"]?.includes(data?.user?.tier) && data?.user) {
+                        toast.info("Available only to Pro Member", {
+                          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+                        });
+                      }
                     }}
                     class="text-[0.95rem] sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
                   >

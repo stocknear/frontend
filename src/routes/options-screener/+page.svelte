@@ -221,8 +221,10 @@
 
   async function handleCreateStrategy() {
     if (["Pro"]?.includes(data?.user?.tier)) {
-      const closePopup = document.getElementById("addStrategy");
-      closePopup?.dispatchEvent(new MouseEvent("click"));
+      const modalCheckbox = document.getElementById("addStrategy");
+      if (modalCheckbox instanceof HTMLInputElement) {
+        modalCheckbox.checked = true;
+      }
     } else {
       toast.info("Available only to Pro Member", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
@@ -1508,9 +1510,13 @@
 
             {#if strategyList?.length > 0}
               <label
-                for={!data?.user ? "userLogin" : ""}
+                for={!data?.user ? "userLogin" : ["Pro"]?.includes(data?.user?.tier) ? "addStrategy" : ""}
                 on:click={() => {
-                  handleCreateStrategy();
+                  if (!["Pro"]?.includes(data?.user?.tier) && data?.user) {
+                    toast.info("Available only to Pro Member", {
+                      style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+                    });
+                  }
                 }}
                 class="text-[0.95rem] sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
               >
