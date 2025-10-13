@@ -10,7 +10,7 @@
         ><h2
             class="mb-2 text-xl font-bold leading-tight bp:text-2xl bp:leading-tight sm:hover:underline sm:hover:underline-offset-4"
         >
-            Market News
+            News Flow
         </h2>
         <svg
             class="h-5 w-5"
@@ -47,7 +47,7 @@
                                 {#each item?.symbolList as symbol}
                                     <a
                                         href={`/${item?.assetType}/${symbol}`}
-                                        class="inline-block rounded badge border border-gray-300 dark:border-gray-800 shadow-xs duration-0 bg-blue-100 dark:bg-primary font-semibold dark:font-normal rounded-sm ml-1 px-2 m-auto text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted"
+                                        class="inline-block rounded badge border border-gray-300 dark:border-gray-800 shadow-xs duration-0 bg-blue-100 dark:bg-primary font-semibold dark:font-normal rounded-sm ml-1 mb-1 px-2 m-auto text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted"
                                         >{symbol}</a
                                     >
                                 {/each}

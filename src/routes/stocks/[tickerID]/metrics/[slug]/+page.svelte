@@ -28,8 +28,6 @@
 
   // Cache for computed values
   const computeCache = new Map();
-  const plotCache = new Map();
-  let plotCacheKey = null;
 
   let tabs = ["Quarterly", "TTM"];
   $: activeIdx = $selectedTimePeriod === "quarterly" ? 0 : 1;
@@ -102,14 +100,6 @@
     if (!metrics || metrics.length === 0 || !dates || dates.length === 0)
       return null;
 
-    // Create cache key - include timePeriod and slug to ensure uniqueness
-    const cacheKey = `${timePeriod}-${slug}-${metrics.map((m) => m.name).join(",")}-${dates?.join(",")}-${isDarkMode}-${isSmallScreen}`;
-
-    // Check plot cache
-    if (plotCache.has(cacheKey)) {
-      return plotCache.get(cacheKey);
-    }
-
     // Separate percentage and non-percentage metrics
     let usePercentChart = false;
     let metricsToPlot = [];
@@ -134,7 +124,7 @@
     if (metricsToPlot.length === 0) return null;
 
     // Limit to 12 most recent and reverse for chart (oldest to newest for display)
-    const chartDates = dates?.reverse();
+    const chartDates = [...dates].reverse();
 
     // Create series data for each metric
     const colors = [
@@ -363,15 +353,6 @@
         content += `</div></div>`;
         return content;
       };
-    }
-
-    // Cache the result before returning
-    plotCache.set(cacheKey, baseConfig);
-
-    // Limit cache size to prevent memory issues
-    if (plotCache.size > 50) {
-      const firstKey = plotCache.keys().next().value;
-      plotCache.delete(firstKey);
     }
 
     return baseConfig;

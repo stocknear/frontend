@@ -267,7 +267,7 @@
                         {#each item?.symbolList as symbol}
                           <a
                             href={`/${item?.assetType}/${symbol}`}
-                            class="inline-block rounded badge border border-gray-300 dark:border-gray-800 shadow-xs duration-0 bg-blue-100 dark:bg-secondary font-semibold dark:font-normal rounded-sm ml-1 px-2 m-auto text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted"
+                            class="inline-block rounded badge border border-gray-300 dark:border-gray-800 shadow-xs duration-0 bg-blue-100 dark:bg-secondary font-semibold dark:font-normal rounded-sm ml-1 mb-1 px-2 m-auto text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted"
                           >
                             {symbol}
                           </a>
@@ -275,7 +275,7 @@
                       {:else if item?.symbol}
                         <a
                           href={`/${item?.assetType}/${item?.symbol}`}
-                          class="inline-block rounded badge border border-gray-300 dark:border-gray-800 shadow-xs duration-0 bg-blue-100 dark:bg-secondary font-semibold dark:font-normal rounded-sm ml-1 px-2 m-auto text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted"
+                          class="inline-block rounded badge border border-gray-300 dark:border-gray-800 shadow-xs duration-0 bg-blue-100 dark:bg-secondary font-semibold dark:font-normal rounded-sm ml-1 mb-1 px-2 m-auto text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted"
                         >
                           {item?.symbol}
                         </a>
