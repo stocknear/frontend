@@ -398,7 +398,13 @@
 
     const formData = new FormData(event.target);
     formData.append("user", data?.user?.id);
-    formData.append("rules", "[]");
+
+    // If removeList is true (New Filter), use empty rules
+    // Otherwise (Save/Save as New), use current ruleOfList
+    const rulesToSave = removeList ? [] : ruleOfList;
+
+    formData.append("rules", JSON.stringify(rulesToSave));
+
     let title = formData.get("title");
 
     if (!title || title.length === 0) {
@@ -457,10 +463,13 @@
 
       selectedStrategy = output.id;
       strategyList?.unshift(output);
-      ruleOfList = [];
-      // Handle "New Screen" vs "Save as New"
+
+      // Sync ruleOfList with what was just created
       if (removeList) {
+        // "New Filter" path: Set ruleOfList to empty (clean slate)
         removeList = false;
+
+        ruleOfList = [];
 
         // Reset all rule conditions and values to defaults
         Object.keys(allRules).forEach((ruleName) => {
@@ -473,21 +482,22 @@
         displayedData = [];
         checkedItems = new Map();
       }
+      // else: "Save" or "Save as New" - ruleOfList already matches what was saved
 
-      // Update displayed rules based on current ruleOfList
+      // Update displayed rules
       displayRules = allRows?.filter((row) =>
         ruleOfList?.some((rule) => rule.name === row.rule),
       );
 
-      // Update checkedItems based on current ruleOfList
+      // Update checkedItems
       checkedItems = new Map(
         ruleOfList
           ?.filter((rule) => checkedRules?.includes(rule.name))
           ?.map((rule) => [rule.name, new Set(rule.value)]),
       );
-      ruleOfList = [...ruleOfList];
+
+      // Trigger the filter system
       shouldLoadWorker.set(true);
-      await handleSave(false);
 
       return output;
     })();
@@ -512,11 +522,11 @@
 
     if (strategyList?.length === 0) {
       handleCreateStrategy();
+      return; // Don't continue, let createStrategy handle the save
     }
 
     if (strategyList?.length > 0) {
-      // update local strategyList
-      strategyList?.find((item) => item.id === selectedStrategy).rules =
+      strategyList.find((item) => item.id === selectedStrategy).rules =
         ruleOfList;
 
       const postData = {
@@ -1399,7 +1409,7 @@
                               clip-rule="evenodd"
                             ></path>
                           </svg>
-                          <div class="text-sm text-start">New Screen</div>
+                          <div class="text-sm text-start">New Filter</div>
                         </Button>
                       </DropdownMenu.Trigger>
                     </DropdownMenu.Label>
