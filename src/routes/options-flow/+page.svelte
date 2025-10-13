@@ -1339,7 +1339,7 @@
               Realtime Options Flow
             </h1>
             <span
-              class="inline-block text-xs sm:text-sm font-semibold ml-2 mt-3"
+              class="hidden sm:inline-block text-xs sm:text-sm font-semibold ml-2 mt-3"
             >
               {displayedData?.length?.toLocaleString("en-US")} Contracts Found
             </span>
