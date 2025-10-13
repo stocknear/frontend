@@ -44,8 +44,8 @@
 
   function plotData(metric, valueType, showGrowth = false) {
     // Extract dates and values from metric
-    let sortedValues = [...metric.values].sort((a, b) =>
-      new Date(a.date).getTime() - new Date(b.date).getTime()
+    let sortedValues = [...metric.values].sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
     );
 
     // Limit to last 3 years if not subscribed
@@ -53,7 +53,7 @@
       const threeYearsAgo = new Date();
       threeYearsAgo.setFullYear(threeYearsAgo.getFullYear() - 3);
       sortedValues = sortedValues.filter(
-        (item) => new Date(item.date) >= threeYearsAgo
+        (item) => new Date(item.date) >= threeYearsAgo,
       );
     }
 
@@ -181,9 +181,10 @@
         formatter: function () {
           let tooltipContent = `<span class="text-white text-[1rem] font-[501]">${this?.x}</span><br>`;
           this.points.forEach((point) => {
-            const formattedValue = (showGrowth || valueType === "PERCENT")
-              ? point.y?.toFixed(2) + "%"
-              : abbreviateNumber(point.y?.toFixed(2));
+            const formattedValue =
+              showGrowth || valueType === "PERCENT"
+                ? point.y?.toFixed(2) + "%"
+                : abbreviateNumber(point.y?.toFixed(2));
             tooltipContent += `<span class="text-white font-semibold text-sm">${point.series.name}:</span>
           <span class="text-white font-normal text-sm">${formattedValue}</span><br>`;
           });
@@ -513,9 +514,9 @@
           {#if showGrowth}
             <tr>
               <td
-                class="min-w-96 w-full whitespace-nowrap flex flex-row justify-between items-center text-sm sm:text-[1rem] font-normal text-start border-r border-gray-300 dark:border-gray-800"
+                class="min-w-auto md:min-w-96 w-full whitespace-nowrap flex flex-row justify-between items-center text-sm sm:text-[1rem] font-normal text-start border-r border-gray-300 dark:border-gray-800"
               >
-                <span class="ml-2">{row.name} Growth</span>
+                <span class="ml-2 mr-5 md:mr-0">{row.name} Growth</span>
                 <label
                   for="financialPlotModal"
                   on:click={() => handleChart(metrics[rowIndex], true)}
@@ -607,14 +608,14 @@
     <p class="text-sm mb-6">
       {modalLabel}{isGrowthChart ? " Growth" : ""} peaked at
       <strong
-        >{(isGrowthChart || currentValueType === "PERCENT")
+        >{isGrowthChart || currentValueType === "PERCENT"
           ? highestValue?.toFixed(2) + "%"
           : abbreviateNumber(highestValue?.toFixed(2))}</strong
       >
       in <strong>{highestValueDate}</strong>
       and hit its lowest at
       <strong
-        >{(isGrowthChart || currentValueType === "PERCENT")
+        >{isGrowthChart || currentValueType === "PERCENT"
           ? lowestValue?.toFixed(2) + "%"
           : abbreviateNumber(lowestValue?.toFixed(2))}</strong
       >
