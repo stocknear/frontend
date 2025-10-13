@@ -358,16 +358,22 @@
 
       if (ruleOfList.length === 0) {
         filteredData = [];
-        displayResults = [];
+        displayedData = [];
       }
 
-      //await updateStockScreenerData();
+      // Update displayed rules
+      displayRules = allRows?.filter((row) =>
+        ruleOfList?.some((rule) => rule.name === row.rule),
+      );
 
       checkedItems = new Map(
         ruleOfList
           ?.filter((rule) => checkedRules?.includes(rule.name))
           ?.map((rule) => [rule.name, new Set(rule.value)]),
       );
+
+      // Trigger the filter system
+      shouldLoadWorker.set(true);
 
       // return something if you need to chain further
       return true;
@@ -451,14 +457,10 @@
 
       selectedStrategy = output.id;
       strategyList?.unshift(output);
-      selectedPopularStrategy = "";
-
+      ruleOfList = [];
+      // Handle "New Screen" vs "Save as New"
       if (removeList) {
         removeList = false;
-        ruleOfList = [
-          { name: "cost_basis", value: "any" },
-          { name: "date_expiration", value: "any" },
-        ];
 
         // Reset all rule conditions and values to defaults
         Object.keys(allRules).forEach((ruleName) => {
@@ -466,15 +468,25 @@
           valueMappings[ruleName] = allRules[ruleName].defaultValue;
         });
 
-        // Update displayed rules and data
-        displayRules = allRows?.filter((row) =>
-          ruleOfList.some((rule) => rule.name === row.rule),
-        );
+        // Clear data
         filteredData = [];
+        displayedData = [];
         checkedItems = new Map();
       }
 
-      // trigger a save without toasting again
+      // Update displayed rules based on current ruleOfList
+      displayRules = allRows?.filter((row) =>
+        ruleOfList?.some((rule) => rule.name === row.rule),
+      );
+
+      // Update checkedItems based on current ruleOfList
+      checkedItems = new Map(
+        ruleOfList
+          ?.filter((rule) => checkedRules?.includes(rule.name))
+          ?.map((rule) => [rule.name, new Set(rule.value)]),
+      );
+      ruleOfList = [...ruleOfList];
+      shouldLoadWorker.set(true);
       await handleSave(false);
 
       return output;
