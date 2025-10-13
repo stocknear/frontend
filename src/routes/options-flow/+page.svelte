@@ -6,7 +6,6 @@
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import { goto } from "$app/navigation";
-  import Tutorial from "$lib/components/Tutorial.svelte";
 
   import { DateFormatter, type DateValue } from "@internationalized/date";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
@@ -18,6 +17,8 @@
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import InfoModal from "$lib/components/InfoModal.svelte";
+  import Input from "$lib/components/Input.svelte";
+  import Copy from "lucide-svelte/icons/copy";
 
   import { page } from "$app/stores";
 
@@ -29,10 +30,21 @@
 
   let timeoutId = null;
   let isComponentDestroyed = false;
+  let removeList = false;
 
   let optionsWatchlist = data?.getOptionsWatchlist;
+  let strategyList = data?.getAllStrategies || [];
+  let selectedStrategy = strategyList?.at(0)?.id ?? "";
 
   let ruleOfList = [];
+  const checkedRules = [
+    "put_call",
+    "assetType",
+    "option_activity_type",
+    "moneyness",
+    "sentiment",
+    "execution_estimate",
+  ];
 
   let displayRules = [];
   let filteredData = [];
@@ -264,6 +276,251 @@
 
     //const closePopup = document.getElementById("ruleModal");
     //closePopup?.dispatchEvent(new MouseEvent('click'))
+  }
+
+  async function switchStrategy(item) {
+    ruleName = "";
+    selectedStrategy = item?.id ?? "";
+
+    ruleOfList =
+      strategyList?.find((item) => item.id === selectedStrategy)?.rules ?? [];
+
+    ruleOfList.forEach((rule) => {
+      ruleCondition[rule.name] =
+        rule.condition || allRules[rule.name].defaultCondition;
+      valueMappings[rule.name] = rule.value || allRules[rule.name].defaultValue;
+    });
+
+    if (ruleOfList?.length === 0) {
+      filteredData = [];
+      displayResults = [];
+    }
+    //await updateStockScreenerData();
+    checkedItems = new Map(
+      ruleOfList
+        ?.filter((rule) => checkedRules?.includes(rule.name)) // Only include specific rules
+        ?.map((rule) => [rule.name, new Set(rule.value)]), // Create Map from filtered rules
+    );
+  }
+
+  async function handleCreateStrategy() {
+    if (["Pro"]?.includes(data?.user?.tier)) {
+      const closePopup = document.getElementById("addStrategy");
+      closePopup?.dispatchEvent(new MouseEvent("click"));
+    } else {
+      toast.info("Available only to Pro Member", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+    }
+  }
+
+  async function handleDeleteStrategy() {
+    const deletePromise = (async () => {
+      const postData = {
+        strategyId: selectedStrategy,
+        type: "optionsFlow",
+      };
+
+      const response = await fetch("/api/delete-strategy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Network error: ${response.status}`);
+      }
+
+      const output = await response.json();
+      if (output !== "success") {
+        throw new Error("Server returned failure");
+      }
+
+      // ——— SUCCESS: run your state‐update logic ———
+      strategyList =
+        strategyList?.filter((item) => item.id !== selectedStrategy) ?? [];
+      selectedStrategy = strategyList?.at(0)?.id ?? "";
+      ruleOfList =
+        strategyList?.find((item) => item.id === selectedStrategy)?.rules ?? [];
+
+      ruleOfList.forEach((rule) => {
+        ruleCondition[rule.name] =
+          rule.condition || allRules[rule.name].defaultCondition;
+        valueMappings[rule.name] =
+          rule.value || allRules[rule.name].defaultValue;
+      });
+
+      if (ruleOfList.length === 0) {
+        filteredData = [];
+        displayResults = [];
+      }
+
+      //await updateStockScreenerData();
+
+      checkedItems = new Map(
+        ruleOfList
+          ?.filter((rule) => checkedRules?.includes(rule.name))
+          ?.map((rule) => [rule.name, new Set(rule.value)]),
+      );
+
+      // return something if you need to chain further
+      return true;
+    })();
+
+    return toast?.promise(deletePromise, {
+      loading: "Deleting filter",
+      success: "Filter deleted successfully!",
+      error: "Delete failed. Please try again.",
+      style: `
+          border-radius: 5px;
+          background: #fff;
+          color: #000;
+          border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"};
+          font-size: 15px;
+        `,
+    });
+  }
+
+  async function createStrategy(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    formData.append("user", data?.user?.id);
+    formData.append("rules", "[]");
+    let title = formData.get("title");
+
+    if (!title || title.length === 0) {
+      title = "My Filter";
+    }
+
+    if (title?.length > 100) {
+      toast.error("Title is too long. Please keep it under 100 characters.", {
+        style: `
+          border-radius: 5px;
+          background: #fff;
+          color: #000;
+          border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"};
+          font-size: 15px;
+        `,
+      });
+      return;
+    }
+
+    // build postData object
+    const postData = { type: "optionsFlow" };
+    for (const [key, value] of formData.entries()) {
+      postData[key] = value;
+    }
+
+    // wrap the fetch + response check + state updates in a promise
+    const createPromise = (async () => {
+      const response = await fetch("/api/create-strategy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Network error: ${response.status}`);
+      }
+
+      const output = await response.json();
+      if (!output?.id) {
+        throw new Error("Server did not return a new strategy ID");
+      }
+
+      toast.success("Filter created successfully!", {
+        style: `
+          border-radius: 5px;
+          background: #fff;
+          color: #000;
+          border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"};
+          font-size: 15px;
+        `,
+      });
+
+      // close modal
+      const closePopup = document.getElementById("addStrategy");
+      closePopup?.dispatchEvent(new MouseEvent("click"));
+
+      selectedStrategy = output.id;
+      strategyList?.unshift(output);
+      selectedPopularStrategy = "";
+
+      if (removeList) {
+        removeList = false;
+        ruleOfList = [];
+      }
+
+      // trigger a save without toasting again
+      await handleSave(false);
+
+      return output;
+    })();
+
+    // show loading / success / error around the whole operation
+    return toast.promise(createPromise, {
+      loading: "Creating filter...",
+      success: () => "", // we already show success inside the promise
+      error: "Something went wrong. Please try again later!",
+      style: `
+          border-radius: 5px;
+          background: #fff;
+          color: #000;
+          border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"};
+          font-size: 15px;
+        `,
+    });
+  }
+
+  async function handleSave(showMessage) {
+    if (!data?.user) return;
+
+    if (strategyList?.length === 0) {
+      handleCreateStrategy();
+    }
+
+    if (strategyList?.length > 0) {
+      // update local strategyList
+      strategyList.find((item) => item.id === selectedStrategy).rules =
+        ruleOfList;
+
+      const postData = {
+        strategyId: selectedStrategy,
+        rules: ruleOfList,
+        type: "optionsFlow",
+      };
+
+      const savePromise = (async () => {
+        const response = await fetch("/api/save-strategy", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(postData),
+        });
+        if (!response.ok) {
+          throw new Error(`Server responded with ${response.status}`);
+        }
+        return response;
+      })();
+
+      if (showMessage) {
+        return toast.promise(savePromise, {
+          loading: "Saving filteres...",
+          success: "Filters saved!",
+          error: "Save failed. Please try again.",
+          style: `
+              border-radius: 5px;
+              background: #fff;
+              color: #000;
+              border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"};
+              font-size: 15px;
+            `,
+        });
+      } else {
+        // just await without toast
+        await savePromise;
+      }
+    }
   }
 
   function handleAddRule() {
@@ -982,80 +1239,6 @@
       }
     }
   }
-
-  let steps = [
-    {
-      popover: {
-        title: "Realtime Options Flow",
-        description: `See exactly where big hedge funds and institutions are placing their bets—spot early momentum shifts and align your own entries and exits with professional order flow in real time.`,
-        side: "center",
-        align: "center",
-      },
-    },
-    {
-      element: ".mute-driver",
-      popover: {
-        title: "Mute Alerts",
-        description: `Silence the audio feed when you need uninterrupted time to review your strategy—unmute anytime to catch fresh flow that can validate or reshape your thesis.`,
-        side: "left",
-        align: "start",
-      },
-    },
-    {
-      element: ".live-flow-driver",
-      popover: {
-        title: "Toggle Live Flow",
-        description: `Freeze incoming trades and lock the table to analyze a snapshot of flow against your watchlist—unpause when you’re ready to jump back into live, actionable order data.`,
-        side: "bottom",
-        align: "start",
-      },
-    },
-    {
-      element: ".search-driver",
-      popover: {
-        title: "Search Specific Tickers",
-        description: `Prioritize the symbols that matter to your portfolio or watchlist by adding the tickers you intend to trade.`,
-        side: "right",
-        align: "start",
-      },
-    },
-    {
-      element: ".date-picker-driver",
-      popover: {
-        title: "Pick a Date",
-        description: `Pull up historical flow to backtest how institutional activity aligned with market moves—validate your edge on past data before you deploy new strategies.`,
-        side: "bottom",
-        align: "start",
-      },
-    },
-    {
-      element: ".filter-driver",
-      popover: {
-        title: "Apply Filters",
-        description: `Drill into the exact conditions you trade—filter by expiry, DTE, strike, trade type or minimum size to reveal the specific opportunity sets you care about.`,
-        side: "right",
-        align: "start",
-      },
-    },
-
-    {
-      element: ".table-driver",
-      popover: {
-        title: "Options Flow Table",
-        description: `Examine each trade’s time, strike, size, premium, execution side and more—use these granular details to refine your entry points, position sizing, and risk management.`,
-        side: "center",
-        align: "start",
-      },
-    },
-    {
-      popover: {
-        title: "You’re All Set!",
-        description: `Armed with live and historical flow insights, you can now fine-tune your timing, confirm bias and execute trades with the confidence of knowing where the big money is moving.`,
-        side: "center",
-        align: "center",
-      },
-    },
-  ];
 </script>
 
 <SEO
@@ -1117,948 +1300,1116 @@
           </ul>
         </div>
         -->
-      <div class="w-full flex flex-row items-center justify-between mb-3">
-        <h1 class="text-xl sm:text-2xl font-bold">Realtime Options Flow</h1>
-        <Tutorial {steps} />
-      </div>
-
-      <div
-        class="rounded border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-100 dark:bg-primary p-2"
-      >
-        <div
-          class="flex flex-col sm:flex-row items-center pt-3 sm:pt-1 pb-3 sm:border-b sm:border-gray-300 dark:border-gray-600"
-        >
-          <div
-            class="flex flex-row items-center justify-center sm:justify-start"
-          >
-            <label
-              data-tip="Audio Preference"
-              on:click={() => {
-                muted = !muted;
-                localStorage.setItem("optionsFlowMuted", JSON.stringify(muted));
-              }}
-              class="mute-driver xl:tooltip xl:tooltip-bottom flex flex-col items-center mr-3 cursor-pointer"
-            >
-              <div
-                class="rounded-full w-10 h-10 relative text-white bg-[#000] flex items-center justify-center"
-              >
-                {#if !muted}
-                  <svg
-                    class="w-4 h-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    ><path
-                      fill="currentColor"
-                      d="M9 2.5a.5.5 0 0 0-.849-.358l-2.927 2.85H3.5a1.5 1.5 0 0 0-1.5 1.5v2.99a1.5 1.5 0 0 0 1.5 1.5h1.723l2.927 2.875A.5.5 0 0 0 9 13.5zm1.111 2.689a.5.5 0 0 1 .703-.08l.002.001l.002.002l.005.004l.015.013l.046.04c.036.034.085.08.142.142c.113.123.26.302.405.54c.291.48.573 1.193.573 2.148c0 .954-.282 1.668-.573 2.148a3.394 3.394 0 0 1-.405.541a2.495 2.495 0 0 1-.202.196l-.008.007h-.001s-.447.243-.703-.078a.5.5 0 0 1 .075-.7l.002-.002l-.001.001l.002-.001h-.001l.018-.016c.018-.017.048-.045.085-.085a2.4 2.4 0 0 0 .284-.382c.21-.345.428-.882.428-1.63c0-.747-.218-1.283-.428-1.627a2.382 2.382 0 0 0-.368-.465a.5.5 0 0 1-.096-.717m1.702-2.08a.5.5 0 1 0-.623.782l.011.01l.052.045c.047.042.116.107.201.195c.17.177.4.443.63.794c.46.701.92 1.733.92 3.069a5.522 5.522 0 0 1-.92 3.065c-.23.35-.46.614-.63.79a3.922 3.922 0 0 1-.252.24l-.011.01h-.001a.5.5 0 0 0 .623.782l.033-.027l.075-.065c.063-.057.15-.138.253-.245a6.44 6.44 0 0 0 .746-.936a6.522 6.522 0 0 0 1.083-3.614a6.542 6.542 0 0 0-1.083-3.618a6.517 6.517 0 0 0-.745-.938a4.935 4.935 0 0 0-.328-.311l-.023-.019l-.007-.006l-.002-.002zM10.19 5.89l-.002-.001Z"
-                    /></svg
-                  >
-                {:else}
-                  <svg
-                    class="w-4 h-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    ><path
-                      fill="currentColor"
-                      d="M3.28 2.22a.75.75 0 1 0-1.06 1.06L6.438 7.5H4.25A2.25 2.25 0 0 0 2 9.749v4.497a2.25 2.25 0 0 0 2.25 2.25h3.68a.75.75 0 0 1 .498.19l4.491 3.994c.806.716 2.081.144 2.081-.934V16.06l5.72 5.72a.75.75 0 0 0 1.06-1.061zm13.861 11.74l1.138 1.137A6.974 6.974 0 0 0 19 12a6.973 6.973 0 0 0-.84-3.328a.75.75 0 0 0-1.32.714c.42.777.66 1.666.66 2.614c0 .691-.127 1.351-.359 1.96m2.247 2.246l1.093 1.094A9.956 9.956 0 0 0 22 12a9.959 9.959 0 0 0-1.96-5.946a.75.75 0 0 0-1.205.892A8.459 8.459 0 0 1 20.5 12a8.458 8.458 0 0 1-1.112 4.206M9.52 6.338l5.48 5.48V4.25c0-1.079-1.274-1.65-2.08-.934z"
-                    /></svg
-                  >
-                {/if}
-              </div>
-            </label>
-
+      <div class="sm:rounded">
+        <div class="flex flex-col md:flex-row items-start md:items-center mb-5">
+          <div class="w-full flex flex-row items-center sm:mt-4">
+            <h1 class="text-2xl sm:text-3xl font-semibold">
+              Realtime Options Flow
+            </h1>
             <span
-              class=" text-xs sm:text-sm sm:text-lg {!mode
-                ? ''
-                : 'text-muted dark:text-gray-400'} mr-3"
+              class="inline-block text-xs sm:text-sm font-semibold ml-2 mt-3"
             >
-              {$isOpen ? "Paused" : "Market Closed"}
+              {displayedData?.length?.toLocaleString("en-US")} Contracts Found
             </span>
-
-            <label
-              on:click={() => {
-                if (!$isOpen) {
-                  toast?.error(`Market is closed`, {
-                    style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-                  });
-                }
-              }}
-              class="live-flow-driver inline-flex items-center cursor-pointer focus-none focus:outline-hidden"
-            >
-              <input
-                on:click={(e) => {
-                  toggleMode();
-                }}
-                type="checkbox"
-                checked={modeStatus}
-                value={modeStatus}
-                disabled={!$isOpen}
-                class="sr-only peer"
-              />
-
-              <div
-                class="relative w-11 h-6 bg-gray-600 focus:outline-hidden peer-focus:outline-hidden peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:rtl:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#00A96E]"
-              ></div>
-            </label>
-
-            <div class=" ml-3 flex flex-col items-start">
-              <span
-                class="text-xs sm:text-sm sm:text-lg {modeStatus
-                  ? ''
-                  : 'text-muted dark:text-gray-400'}"
-              >
-                Live Flow
-              </span>
-            </div>
           </div>
 
-          <div class="sm:ml-auto w-full sm:w-fit pt-5">
-            <div class="relative flex flex-col sm:flex-row items-center">
+          <div class="flex flex-row items-center w-full mt-5 justify-end">
+            <div class="flex w-full sm:w-[50%] sm:ml-3 md:block md:w-auto">
               <div
-                class="relative w-full sm:w-fit pl-3 sm:mr-5 mb-4 sm:mb-0 flex-auto text-center shadow-xs bg-white dark:bg-secondary rounded border border-gray-300 dark:border-gray-600"
+                class="hidden text-sm sm:text-[1rem] font-semibold md:block sm:mb-1"
               >
-                <label class="search-driver flex flex-row items-center">
-                  <input
-                    id="modal-search"
-                    class="focus:outline-none sm:ml-2 text-[1rem] placeholder-gray-500 dark:placeholder-gray-300 border-transparent bg-white dark:bg-secondary focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1.5"
-                    placeholder="Find..."
-                    bind:value={filterQuery}
-                    on:input={debouncedHandleInput}
-                    autocomplete="off"
-                  />
-                  {#if filterQuery?.length > 0}
-                    <label
-                      class="cursor-pointer"
-                      on:click={() => {
-                        filterQuery = "";
-                        shouldLoadWorker.set(true);
-                      }}
+                Saved Filters
+              </div>
+              <div class="relative inline-block text-left grow">
+                <DropdownMenu.Root>
+                  <DropdownMenu.Trigger asChild let:builder>
+                    <Button
+                      builders={[builder]}
+                      class="min-w-[110px]  w-full border-gray-300 dark:border-gray-600 border bg-black dark:bg-default sm:hover:bg-default dark:sm:hover:bg-primary text-white ease-out flex flex-row justify-between items-center px-3 py-2  rounded truncate"
                     >
-                      <svg
-                        class="ml-auto h-6 w-6 inline-block mr-3"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        ><path
-                          fill="currentColor"
-                          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                        /></svg
+                      <span class="truncate max-w-48"
+                        >{selectedStrategy?.length !== 0
+                          ? strategyList?.find(
+                              (item) => item.id === selectedStrategy,
+                            )?.title
+                          : "Select screen"}</span
                       >
-                    </label>
+                      <svg
+                        class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width:40px"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </Button>
+                  </DropdownMenu.Trigger>
+                  <DropdownMenu.Content
+                    class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller"
+                  >
+                    <DropdownMenu.Label
+                      class="text-muted dark:text-gray-400 font-normal"
+                    >
+                      <DropdownMenu.Trigger asChild let:builder>
+                        <Button
+                          on:click={() => {
+                            removeList = true;
+                            handleCreateStrategy();
+                          }}
+                          builders={[builder]}
+                          class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap   bg-[#0909B] focus:outline-hidden "
+                        >
+                          <svg
+                            class="h-4 w-4"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            style="max-width:40px"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                              clip-rule="evenodd"
+                            ></path>
+                          </svg>
+                          <div class="text-sm text-start">New Screen</div>
+                        </Button>
+                      </DropdownMenu.Trigger>
+                    </DropdownMenu.Label>
+                    <DropdownMenu.Separator />
+                    <DropdownMenu.Group>
+                      {#each strategyList as item}
+                        <DropdownMenu.Item
+                          on:click={(e) => {
+                            e.preventDefault();
+                            switchStrategy(item);
+                          }}
+                          class="whitespace-nowrap {item?.id ===
+                          selectedStrategy
+                            ? 'bg-gray-300 dark:bg-primary'
+                            : ''} cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                        >
+                          {item?.title?.length > 20
+                            ? item?.title?.slice(0, 20) + "..."
+                            : item?.title} ({item?.rules?.length})
+
+                          <label
+                            for="deleteStrategy"
+                            class="ml-auto inline-block cursor-pointer sm:hover:text-red-500"
+                          >
+                            <svg
+                              class="size-5"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              style="max-width:40px"
+                              ><path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              ></path></svg
+                            >
+                          </label>
+                        </DropdownMenu.Item>
+                      {/each}
+                    </DropdownMenu.Group>
+                  </DropdownMenu.Content>
+                </DropdownMenu.Root>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="rounded border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-100 dark:bg-primary p-2"
+        >
+          <div
+            class="flex flex-col sm:flex-row items-center pt-3 sm:pt-1 pb-3 sm:border-b sm:border-gray-300 dark:border-gray-600"
+          >
+            <div
+              class="flex flex-row items-center justify-center sm:justify-start"
+            >
+              <label
+                data-tip="Audio Preference"
+                on:click={() => {
+                  muted = !muted;
+                  localStorage.setItem(
+                    "optionsFlowMuted",
+                    JSON.stringify(muted),
+                  );
+                }}
+                class="mute-driver xl:tooltip xl:tooltip-bottom flex flex-col items-center mr-3 cursor-pointer"
+              >
+                <div
+                  class="rounded-full w-10 h-10 relative text-white bg-[#000] flex items-center justify-center"
+                >
+                  {#if !muted}
+                    <svg
+                      class="w-4 h-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      ><path
+                        fill="currentColor"
+                        d="M9 2.5a.5.5 0 0 0-.849-.358l-2.927 2.85H3.5a1.5 1.5 0 0 0-1.5 1.5v2.99a1.5 1.5 0 0 0 1.5 1.5h1.723l2.927 2.875A.5.5 0 0 0 9 13.5zm1.111 2.689a.5.5 0 0 1 .703-.08l.002.001l.002.002l.005.004l.015.013l.046.04c.036.034.085.08.142.142c.113.123.26.302.405.54c.291.48.573 1.193.573 2.148c0 .954-.282 1.668-.573 2.148a3.394 3.394 0 0 1-.405.541a2.495 2.495 0 0 1-.202.196l-.008.007h-.001s-.447.243-.703-.078a.5.5 0 0 1 .075-.7l.002-.002l-.001.001l.002-.001h-.001l.018-.016c.018-.017.048-.045.085-.085a2.4 2.4 0 0 0 .284-.382c.21-.345.428-.882.428-1.63c0-.747-.218-1.283-.428-1.627a2.382 2.382 0 0 0-.368-.465a.5.5 0 0 1-.096-.717m1.702-2.08a.5.5 0 1 0-.623.782l.011.01l.052.045c.047.042.116.107.201.195c.17.177.4.443.63.794c.46.701.92 1.733.92 3.069a5.522 5.522 0 0 1-.92 3.065c-.23.35-.46.614-.63.79a3.922 3.922 0 0 1-.252.24l-.011.01h-.001a.5.5 0 0 0 .623.782l.033-.027l.075-.065c.063-.057.15-.138.253-.245a6.44 6.44 0 0 0 .746-.936a6.522 6.522 0 0 0 1.083-3.614a6.542 6.542 0 0 0-1.083-3.618a6.517 6.517 0 0 0-.745-.938a4.935 4.935 0 0 0-.328-.311l-.023-.019l-.007-.006l-.002-.002zM10.19 5.89l-.002-.001Z"
+                      /></svg
+                    >
                   {:else}
                     <svg
-                      class="ml-auto h-7 w-7 sm:h-8 sm:w-8 inline-block mr-5"
+                      class="w-4 h-4"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       ><path
                         fill="currentColor"
-                        d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37"
+                        d="M3.28 2.22a.75.75 0 1 0-1.06 1.06L6.438 7.5H4.25A2.25 2.25 0 0 0 2 9.749v4.497a2.25 2.25 0 0 0 2.25 2.25h3.68a.75.75 0 0 1 .498.19l4.491 3.994c.806.716 2.081.144 2.081-.934V16.06l5.72 5.72a.75.75 0 0 0 1.06-1.061zm13.861 11.74l1.138 1.137A6.974 6.974 0 0 0 19 12a6.973 6.973 0 0 0-.84-3.328a.75.75 0 0 0-1.32.714c.42.777.66 1.666.66 2.614c0 .691-.127 1.351-.359 1.96m2.247 2.246l1.093 1.094A9.956 9.956 0 0 0 22 12a9.959 9.959 0 0 0-1.96-5.946a.75.75 0 0 0-1.205.892A8.459 8.459 0 0 1 20.5 12a8.458 8.458 0 0 1-1.112 4.206M9.52 6.338l5.48 5.48V4.25c0-1.079-1.274-1.65-2.08-.934z"
                       /></svg
                     >
                   {/if}
-                </label>
-                {#if notFound === true}
-                  <span
-                    class="absolute left-1 -bottom-6 label-text text-error text-[0.65rem] mt-2"
-                  >
-                    No Results Found
-                  </span>
-                {/if}
-              </div>
-
-              <Popover.Root>
-                <Popover.Trigger asChild let:builder>
-                  <Button
-                    class="date-picker-driver w-full sm:w-[160px] truncate sm:mr-3 py-3 shadow-xs text-white bg-[#000] border-gray-300 justify-center sm:justify-start text-center sm:text-left  border-none rounded"
-                    builders={[builder]}
-                  >
-                    <CalendarIcon class="mr-2 h-4 w-4" />
-                    <span class="text-[1rem] sm:text-sm font-semibold">
-                      {selectedDate
-                        ? df.format(selectedDate?.toDate())
-                        : "Pick a date"}
-                    </span>
-                  </Button>
-                </Popover.Trigger>
-                <Popover.Content
-                  side="bottom"
-                  align="end"
-                  sideOffset={10}
-                  alignOffset={0}
-                  class="w-auto p-0 border-gray-500 text-muted dark:text-white bg-white dark:bg-[#000]"
-                >
-                  <Calendar
-                    class=" "
-                    bind:value={selectedDate}
-                    initialFocus
-                    onValueChange={getHistoricalFlow}
-                  />
-                </Popover.Content>
-              </Popover.Root>
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="mr-1 flex items-center justify-between lg:mr-2 pb-1.5 border-b border-gray-300 dark:border-gray-600 mt-1.5"
-        >
-          <button
-            on:click={() => (showFilters = !showFilters)}
-            class="flex cursor-pointer items-center text-lg sm:text-xl font-semibold"
-            title="Hide Filter Area"
-          >
-            <svg
-              class="-mb-0.5 h-6 w-6 {showFilters ? '' : '-rotate-90'} "
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              style="max-width:40px"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-            {ruleOfList?.length} Filters
-          </button>
-        </div>
-
-        {#if showFilters}
-          <div class="mt-3 flex flex-col gap-y-2.5 sm:flex-row lg:gap-y-2 pb-1">
-            <label
-              for="ruleModal"
-              class="filter-driver inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none py-2 pl-3 pr-4 font-semibold shadow-xs bg-default text-white sm:hover:bg-black dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden focus:ring-2 focus:ring-blue-500"
-            >
-              <svg
-                class="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                style="max-width:40px"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              <div>Add Filters</div>
-            </label>
-
-            {#if ruleOfList?.length !== 0}
-              <label
-                on:click={handleResetAll}
-                class="sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none py-2 pl-3 pr-4 font-semibold shadow-xs bg-white sm:hover:bg-gray-100 dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden focus:ring-2 focus:ring-blue-500"
-              >
-                <svg
-                  class="h-4 w-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 21 21"
-                  ><g
-                    fill="none"
-                    fill-rule="evenodd"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    ><path d="M3.578 6.487A8 8 0 1 1 2.5 10.5" /><path
-                      d="M7.5 6.5h-4v-4"
-                    /></g
-                  ></svg
-                >
-                <div>Reset All</div>
+                </div>
               </label>
-            {/if}
+
+              <span
+                class=" text-xs sm:text-sm sm:text-lg {!mode
+                  ? ''
+                  : 'text-muted dark:text-gray-400'} mr-3"
+              >
+                {$isOpen ? "Paused" : "Market Closed"}
+              </span>
+
+              <label
+                on:click={() => {
+                  if (!$isOpen) {
+                    toast?.error(`Market is closed`, {
+                      style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+                    });
+                  }
+                }}
+                class="live-flow-driver inline-flex items-center cursor-pointer focus-none focus:outline-hidden"
+              >
+                <input
+                  on:click={(e) => {
+                    toggleMode();
+                  }}
+                  type="checkbox"
+                  checked={modeStatus}
+                  value={modeStatus}
+                  disabled={!$isOpen}
+                  class="sr-only peer"
+                />
+
+                <div
+                  class="relative w-11 h-6 bg-gray-600 focus:outline-hidden peer-focus:outline-hidden peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:rtl:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#00A96E]"
+                ></div>
+              </label>
+
+              <div class=" ml-3 flex flex-col items-start">
+                <span
+                  class="text-xs sm:text-sm sm:text-lg {modeStatus
+                    ? ''
+                    : 'text-muted dark:text-gray-400'}"
+                >
+                  Live Flow
+                </span>
+              </div>
+            </div>
+
+            <div class="sm:ml-auto w-full sm:w-fit pt-5">
+              <div class="relative flex flex-col sm:flex-row items-center">
+                <div
+                  class="relative w-full sm:w-fit pl-3 sm:mr-5 mb-4 sm:mb-0 flex-auto text-center shadow-xs bg-white dark:bg-secondary rounded border border-gray-300 dark:border-gray-600"
+                >
+                  <label class="search-driver flex flex-row items-center">
+                    <input
+                      id="modal-search"
+                      class="focus:outline-none sm:ml-2 text-[1rem] placeholder-gray-500 dark:placeholder-gray-300 border-transparent bg-white dark:bg-secondary focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1.5"
+                      placeholder="Find..."
+                      bind:value={filterQuery}
+                      on:input={debouncedHandleInput}
+                      autocomplete="off"
+                    />
+                    {#if filterQuery?.length > 0}
+                      <label
+                        class="cursor-pointer"
+                        on:click={() => {
+                          filterQuery = "";
+                          shouldLoadWorker.set(true);
+                        }}
+                      >
+                        <svg
+                          class="ml-auto h-6 w-6 inline-block mr-3"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          ><path
+                            fill="currentColor"
+                            d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                          /></svg
+                        >
+                      </label>
+                    {:else}
+                      <svg
+                        class="ml-auto h-7 w-7 sm:h-8 sm:w-8 inline-block mr-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        ><path
+                          fill="currentColor"
+                          d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37"
+                        /></svg
+                      >
+                    {/if}
+                  </label>
+                  {#if notFound === true}
+                    <span
+                      class="absolute left-1 -bottom-6 label-text text-error text-[0.65rem] mt-2"
+                    >
+                      No Results Found
+                    </span>
+                  {/if}
+                </div>
+
+                <Popover.Root>
+                  <Popover.Trigger asChild let:builder>
+                    <Button
+                      class="date-picker-driver w-full sm:w-[160px] truncate sm:mr-3 py-3 shadow-xs text-white bg-[#000] border-gray-300 justify-center sm:justify-start text-center sm:text-left  border-none rounded"
+                      builders={[builder]}
+                    >
+                      <CalendarIcon class="mr-2 h-4 w-4" />
+                      <span class="text-[1rem] sm:text-sm font-semibold">
+                        {selectedDate
+                          ? df.format(selectedDate?.toDate())
+                          : "Pick a date"}
+                      </span>
+                    </Button>
+                  </Popover.Trigger>
+                  <Popover.Content
+                    side="bottom"
+                    align="end"
+                    sideOffset={10}
+                    alignOffset={0}
+                    class="w-auto p-0 border-gray-500 text-muted dark:text-white bg-white dark:bg-[#000]"
+                  >
+                    <Calendar
+                      class=" "
+                      bind:value={selectedDate}
+                      initialFocus
+                      onValueChange={getHistoricalFlow}
+                    />
+                  </Popover.Content>
+                </Popover.Root>
+              </div>
+            </div>
           </div>
 
           <div
-            class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-b border-gray-300 dark:border-gray-600"
+            class="mr-1 flex items-center justify-between lg:mr-2 pb-1.5 border-b border-gray-300 dark:border-gray-600 mt-1.5"
           >
-            {#each displayRules as row (row?.rule)}
-              <!--Start Added Rules-->
-              <div
-                class="flex items-center justify-between space-x-2 px-1 py-1.5 text-[0.95rem] leading-tight"
+            <button
+              on:click={() => (showFilters = !showFilters)}
+              class="flex cursor-pointer items-center text-lg sm:text-xl font-semibold"
+              title="Hide Filter Area"
+            >
+              <svg
+                class="-mb-0.5 h-6 w-6 {showFilters ? '' : '-rotate-90'} "
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
               >
-                <div class=" flex flex-row items-start sm:items-end">
-                  {row?.label?.length > 20
-                    ? row?.label?.slice(0, 20)?.replace("[%]", "") + "..."
-                    : row?.label?.replace("[%]", "")}
-                  <InfoModal
-                    id={row?.rule}
-                    title={row?.label?.replace("[%]", "")}
-                    callAPI={true}
-                    parameter={row?.rule}
-                  />
-                </div>
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              {ruleOfList?.length} Filters
+            </button>
+          </div>
 
-                <div class="flex items-center">
-                  <button
-                    on:click={() => handleDeleteRule(row?.rule)}
-                    class="mr-1.5 cursor-pointer text-muted dark:text-gray-300 sm:hover:text-red-800 dark:sm:hover:text-red-400 focus:outline-hidden"
-                    title="Remove filter"
-                  >
-                    <svg
-                      class="w-6 h-6"
+          {#if showFilters}
+            <div
+              class="mt-3 flex flex-col gap-y-2.5 sm:flex-row lg:gap-y-2 pb-1"
+            >
+              <label
+                for="ruleModal"
+                class="filter-driver inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none py-2 pl-3 pr-4 font-semibold shadow-xs bg-default text-white sm:hover:bg-black dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+              >
+                <svg
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  style="max-width:40px"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <div>Add Filters</div>
+              </label>
+
+              {#if ruleOfList?.length !== 0}
+                <label
+                  on:click={handleResetAll}
+                  class="sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none py-2 pl-3 pr-4 font-semibold shadow-xs bg-white sm:hover:bg-gray-100 dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                >
+                  <svg
+                    class="h-4 w-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 21 21"
+                    ><g
                       fill="none"
-                      viewBox="0 0 24 24"
+                      fill-rule="evenodd"
                       stroke="currentColor"
-                      style="max-width:40px"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><path d="M3.578 6.487A8 8 0 1 1 2.5 10.5" /><path
+                        d="M7.5 6.5h-4v-4"
+                      /></g
+                    ></svg
+                  >
+                  <div>Reset All</div>
+                </label>
+              {/if}
+
+              {#if data?.user}
+                <label
+                  for={!data?.user ? "userLogin" : ""}
+                  on:click={() => handleSave(true)}
+                  class="text-[0.95rem] sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+                >
+                  <svg
+                    class="w-4 h-4 mr-2 inline-block cursor-pointer shrink-0"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    ><path
+                      fill="currentColor"
+                      d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+                    /></svg
+                  >
+                  <div>Save</div>
+                </label>
+
+                {#if strategyList?.length > 0}
+                  <label
+                    for={!data?.user ? "userLogin" : ""}
+                    on:click={() => {
+                      handleCreateStrategy();
+                    }}
+                    class="text-[0.95rem] sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+                  >
+                    <Copy class="w-4 h-4 inline-block mr-2" />
+                    <div>Save as New</div>
+                  </label>
+                {/if}
+              {/if}
+            </div>
+
+            <div
+              class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-b border-gray-300 dark:border-gray-600"
+            >
+              {#each displayRules as row (row?.rule)}
+                <!--Start Added Rules-->
+                <div
+                  class="flex items-center justify-between space-x-2 px-1 py-1.5 text-[0.95rem] leading-tight"
+                >
+                  <div class=" flex flex-row items-start sm:items-end">
+                    {row?.label?.length > 20
+                      ? row?.label?.slice(0, 20)?.replace("[%]", "") + "..."
+                      : row?.label?.replace("[%]", "")}
+                    <InfoModal
+                      id={row?.rule}
+                      title={row?.label?.replace("[%]", "")}
+                      callAPI={true}
+                      parameter={row?.rule}
+                    />
+                  </div>
+
+                  <div class="flex items-center">
+                    <button
+                      on:click={() => handleDeleteRule(row?.rule)}
+                      class="mr-1.5 cursor-pointer text-muted dark:text-gray-300 sm:hover:text-red-800 dark:sm:hover:text-red-400 focus:outline-hidden"
+                      title="Remove filter"
                     >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path>
-                    </svg>
-                  </button>
-                  <div class="relative inline-block text-left">
-                    <div on:click={() => (ruleName = row?.rule)}>
-                      <DropdownMenu.Root>
-                        <DropdownMenu.Trigger asChild let:builder>
-                          <Button
-                            builders={[builder]}
-                            class="shadow-xs h-[40px] bg-default sm:hover:bg-black text-white flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 rounded truncate"
-                          >
-                            <span class="truncate ml-2 text-sm">
-                              {#if valueMappings[row?.rule] === "any"}
-                                Any
-                              {:else if ruleCondition[row?.rule] === "between"}
-                                {Array.isArray(valueMappings[row?.rule])
-                                  ? `${valueMappings[row?.rule][0]}-${valueMappings[row?.rule][1] ?? "Any"}`
-                                  : "Any"}
-                              {:else}
-                                {ruleCondition[row?.rule]
-                                  ?.replace("under", "Under")
-                                  ?.replace("over", "Over")
-                                  ?.replace("exactly", "Exactly") ?? ""}
-                                {valueMappings[row?.rule]}
-                              {/if}
-                            </span>
-                            <svg
-                              class=" ml-1 h-6 w-6 xs:ml-2 inline-block"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                              style="max-width:40px"
-                              aria-hidden="true"
+                      <svg
+                        class="w-6 h-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        style="max-width:40px"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        ></path>
+                      </svg>
+                    </button>
+                    <div class="relative inline-block text-left">
+                      <div on:click={() => (ruleName = row?.rule)}>
+                        <DropdownMenu.Root>
+                          <DropdownMenu.Trigger asChild let:builder>
+                            <Button
+                              builders={[builder]}
+                              class="shadow-xs h-[40px] bg-default sm:hover:bg-black text-white flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 rounded truncate"
                             >
-                              <path
-                                fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"
-                              ></path>
-                            </svg>
-                          </Button>
-                        </DropdownMenu.Trigger>
-                        <DropdownMenu.Content
-                          side="bottom"
-                          align="end"
-                          sideOffset={10}
-                          alignOffset={0}
-                          class="w-64 min-h-auto max-h-72 overflow-y-auto scroller"
-                        >
-                          {#if !categoricalRules?.includes(row?.rule)}
-                            <DropdownMenu.Label
-                              class="absolute mt-2 h-11 border-gray-300 dark:border-gray-800 border-b -top-1 z-20 fixed sticky bg-white dark:bg-default"
-                            >
-                              <div
-                                class="flex items-center justify-start gap-x-1"
-                              >
-                                <!--Start Dropdown for Condition-->
-                                <div
-                                  class="-ml-2 relative inline-block text-left"
-                                >
-                                  <DropdownMenu.Root>
-                                    <DropdownMenu.Trigger asChild let:builder
-                                      ><Button
-                                        builders={[builder]}
-                                        class="w-fit -mt-1 -ml-2  flex flex-row justify-between items-center "
-                                      >
-                                        <span
-                                          class="truncate ml-2 text-sm sm:text-[1rem]"
-                                        >
-                                          {ruleCondition[ruleName]
-                                            ?.replace("under", "Under")
-                                            ?.replace("over", "Over")
-                                            ?.replace("between", "Between")
-                                            ?.replace("exactly", "Exactly")}
-                                        </span>
-                                        <svg
-                                          class="mt-1 -mr-1 ml-1 h-5 w-5 xs:ml-2 ml-0! sm:ml-0 inline-block"
-                                          viewBox="0 0 20 20"
-                                          fill="currentColor"
-                                          style="max-width:40px"
-                                          aria-hidden="true"
-                                          ><path
-                                            fill-rule="evenodd"
-                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                            clip-rule="evenodd"
-                                          ></path></svg
-                                        >
-                                      </Button>
-                                    </DropdownMenu.Trigger>
-                                    <DropdownMenu.Content>
-                                      <DropdownMenu.Group>
-                                        {#each ["Over", "Under", "Between", "Exactly"] as item}
-                                          <DropdownMenu.Item
-                                            on:click={() =>
-                                              changeRuleCondition(
-                                                row?.rule,
-                                                item,
-                                              )}
-                                            class="cursor-pointer text-[1rem] font-normal"
-                                            >{item}</DropdownMenu.Item
-                                          >
-                                        {/each}
-                                      </DropdownMenu.Group>
-                                    </DropdownMenu.Content>
-                                  </DropdownMenu.Root>
-                                </div>
-
-                                {#if ruleCondition[row?.rule] === "between"}
-                                  <div class="flex gap-x-1 -ml-2 z-10 -mt-1">
-                                    <input
-                                      type="text"
-                                      placeholder="Min"
-                                      value={Array.isArray(
-                                        valueMappings[row?.rule],
-                                      )
-                                        ? (valueMappings[row?.rule][0] ?? "")
-                                        : ""}
-                                      on:input={(e) =>
-                                        handleValueInput(e, row?.rule, 0)}
-                                      class="ios-zoom-fix block max-w-[3.5rem] rounded-sm placeholder:text-muted dark:placeholder:text-gray-400 dark:text-gray-200 font-normal p-1 text-sm shadow-xs focus:border-blue-500 focus:ring-blue-500 bg-gray-100 dark:bg-primary"
-                                    />
-                                    <span class=" text-[1rem] font-normal mt-1">
-                                      &
-                                    </span>
-                                    <input
-                                      type="text"
-                                      placeholder="Max"
-                                      value={Array.isArray(
-                                        valueMappings[row?.rule],
-                                      )
-                                        ? (valueMappings[row?.rule][1] ?? "")
-                                        : ""}
-                                      on:input={(e) =>
-                                        handleValueInput(e, row?.rule, 1)}
-                                      class="ios-zoom-fix block max-w-[3.5rem] rounded-sm placeholder:text-muted dark:placeholder:text-gray-400 dark:text-gray-200 font-normal p-1 text-sm shadow-xs focus:border-blue-500 focus:ring-blue-500 bg-gray-100 dark:bg-primary"
-                                    />
-                                  </div>
+                              <span class="truncate ml-2 text-sm">
+                                {#if valueMappings[row?.rule] === "any"}
+                                  Any
+                                {:else if ruleCondition[row?.rule] === "between"}
+                                  {Array.isArray(valueMappings[row?.rule])
+                                    ? `${valueMappings[row?.rule][0]}-${valueMappings[row?.rule][1] ?? "Any"}`
+                                    : "Any"}
                                 {:else}
-                                  <input
-                                    type="text"
-                                    placeholder="Value"
-                                    value={valueMappings[row?.rule] === "any"
-                                      ? ""
-                                      : valueMappings[row?.rule]}
-                                    on:input={(e) =>
-                                      handleValueInput(e, row?.rule)}
-                                    class="ios-zoom-fix block max-w-[4.8rem] rounded-sm placeholder:text-muted dark:placeholder:text-gray-400 dark:placeholder:text-gray-200 font-normal p-1 text-sm shadow-xs focus:border-blue-500 focus:ring-blue-500 bg-gray-100 dark:bg-primary"
-                                  />
+                                  {ruleCondition[row?.rule]
+                                    ?.replace("under", "Under")
+                                    ?.replace("over", "Over")
+                                    ?.replace("exactly", "Exactly") ?? ""}
+                                  {valueMappings[row?.rule]}
                                 {/if}
-
-                                {#if ["over", "under", "exactly"]?.includes(ruleCondition[ruleName]?.toLowerCase())}
-                                  <div
-                                    class="ml-2 flex touch-manipulation flex-row items-center gap-x-1.5"
-                                  >
-                                    <button
-                                      on:click={() =>
-                                        stepSizeValue(
-                                          valueMappings[row?.rule],
-                                          "add",
-                                        )}
-                                      ><svg
-                                        class="size-6 cursor-pointer"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        style="max-width:40px"
-                                        ><path
-                                          stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                          stroke-width="2"
-                                          d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                        ></path></svg
-                                      ></button
-                                    >
-                                    <button
-                                      on:click={() =>
-                                        stepSizeValue(
-                                          valueMappings[row?.rule],
-                                          "minus",
-                                        )}
-                                      ><svg
-                                        class="size-6 cursor-pointer"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        style="max-width:40px"
-                                        ><path
-                                          stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                          stroke-width="2"
-                                          d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                        ></path></svg
-                                      ></button
-                                    >
-                                  </div>
-                                {/if}
-                                <!--End Dropdown for Condition-->
-                              </div>
-                            </DropdownMenu.Label>
-                          {:else}
-                            <div
-                              class="relative sticky z-40 focus:outline-hidden -top-1"
-                              tabindex="0"
-                              role="menu"
-                              style=""
-                            ></div>
-                          {/if}
-                          <DropdownMenu.Group class="min-h-10 mt-2">
+                              </span>
+                              <svg
+                                class=" ml-1 h-6 w-6 xs:ml-2 inline-block"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                style="max-width:40px"
+                                aria-hidden="true"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                  clip-rule="evenodd"
+                                ></path>
+                              </svg>
+                            </Button>
+                          </DropdownMenu.Trigger>
+                          <DropdownMenu.Content
+                            side="bottom"
+                            align="end"
+                            sideOffset={10}
+                            alignOffset={0}
+                            class="w-64 min-h-auto max-h-72 overflow-y-auto scroller"
+                          >
                             {#if !categoricalRules?.includes(row?.rule)}
-                              {#each row?.step as newValue, index}
-                                {#if ruleCondition[row?.rule] === "between"}
-                                  {#if newValue && row?.step[index + 1]}
+                              <DropdownMenu.Label
+                                class="absolute mt-2 h-11 border-gray-300 dark:border-gray-800 border-b -top-1 z-20 fixed sticky bg-white dark:bg-default"
+                              >
+                                <div
+                                  class="flex items-center justify-start gap-x-1"
+                                >
+                                  <!--Start Dropdown for Condition-->
+                                  <div
+                                    class="-ml-2 relative inline-block text-left"
+                                  >
+                                    <DropdownMenu.Root>
+                                      <DropdownMenu.Trigger asChild let:builder
+                                        ><Button
+                                          builders={[builder]}
+                                          class="w-fit -mt-1 -ml-2  flex flex-row justify-between items-center "
+                                        >
+                                          <span
+                                            class="truncate ml-2 text-sm sm:text-[1rem]"
+                                          >
+                                            {ruleCondition[ruleName]
+                                              ?.replace("under", "Under")
+                                              ?.replace("over", "Over")
+                                              ?.replace("between", "Between")
+                                              ?.replace("exactly", "Exactly")}
+                                          </span>
+                                          <svg
+                                            class="mt-1 -mr-1 ml-1 h-5 w-5 xs:ml-2 ml-0! sm:ml-0 inline-block"
+                                            viewBox="0 0 20 20"
+                                            fill="currentColor"
+                                            style="max-width:40px"
+                                            aria-hidden="true"
+                                            ><path
+                                              fill-rule="evenodd"
+                                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                              clip-rule="evenodd"
+                                            ></path></svg
+                                          >
+                                        </Button>
+                                      </DropdownMenu.Trigger>
+                                      <DropdownMenu.Content>
+                                        <DropdownMenu.Group>
+                                          {#each ["Over", "Under", "Between", "Exactly"] as item}
+                                            <DropdownMenu.Item
+                                              on:click={() =>
+                                                changeRuleCondition(
+                                                  row?.rule,
+                                                  item,
+                                                )}
+                                              class="cursor-pointer text-[1rem] font-normal"
+                                              >{item}</DropdownMenu.Item
+                                            >
+                                          {/each}
+                                        </DropdownMenu.Group>
+                                      </DropdownMenu.Content>
+                                    </DropdownMenu.Root>
+                                  </div>
+
+                                  {#if ruleCondition[row?.rule] === "between"}
+                                    <div class="flex gap-x-1 -ml-2 z-10 -mt-1">
+                                      <input
+                                        type="text"
+                                        placeholder="Min"
+                                        value={Array.isArray(
+                                          valueMappings[row?.rule],
+                                        )
+                                          ? (valueMappings[row?.rule][0] ?? "")
+                                          : ""}
+                                        on:input={(e) =>
+                                          handleValueInput(e, row?.rule, 0)}
+                                        class="ios-zoom-fix block max-w-[3.5rem] rounded-sm placeholder:text-muted dark:placeholder:text-gray-400 dark:text-gray-200 font-normal p-1 text-sm shadow-xs focus:border-blue-500 focus:ring-blue-500 bg-gray-100 dark:bg-primary"
+                                      />
+                                      <span
+                                        class=" text-[1rem] font-normal mt-1"
+                                      >
+                                        &
+                                      </span>
+                                      <input
+                                        type="text"
+                                        placeholder="Max"
+                                        value={Array.isArray(
+                                          valueMappings[row?.rule],
+                                        )
+                                          ? (valueMappings[row?.rule][1] ?? "")
+                                          : ""}
+                                        on:input={(e) =>
+                                          handleValueInput(e, row?.rule, 1)}
+                                        class="ios-zoom-fix block max-w-[3.5rem] rounded-sm placeholder:text-muted dark:placeholder:text-gray-400 dark:text-gray-200 font-normal p-1 text-sm shadow-xs focus:border-blue-500 focus:ring-blue-500 bg-gray-100 dark:bg-primary"
+                                      />
+                                    </div>
+                                  {:else}
+                                    <input
+                                      type="text"
+                                      placeholder="Value"
+                                      value={valueMappings[row?.rule] === "any"
+                                        ? ""
+                                        : valueMappings[row?.rule]}
+                                      on:input={(e) =>
+                                        handleValueInput(e, row?.rule)}
+                                      class="ios-zoom-fix block max-w-[4.8rem] rounded-sm placeholder:text-muted dark:placeholder:text-gray-400 dark:placeholder:text-gray-200 font-normal p-1 text-sm shadow-xs focus:border-blue-500 focus:ring-blue-500 bg-gray-100 dark:bg-primary"
+                                    />
+                                  {/if}
+
+                                  {#if ["over", "under", "exactly"]?.includes(ruleCondition[ruleName]?.toLowerCase())}
+                                    <div
+                                      class="ml-2 flex touch-manipulation flex-row items-center gap-x-1.5"
+                                    >
+                                      <button
+                                        on:click={() =>
+                                          stepSizeValue(
+                                            valueMappings[row?.rule],
+                                            "add",
+                                          )}
+                                        ><svg
+                                          class="size-6 cursor-pointer"
+                                          fill="none"
+                                          viewBox="0 0 24 24"
+                                          stroke="currentColor"
+                                          style="max-width:40px"
+                                          ><path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                          ></path></svg
+                                        ></button
+                                      >
+                                      <button
+                                        on:click={() =>
+                                          stepSizeValue(
+                                            valueMappings[row?.rule],
+                                            "minus",
+                                          )}
+                                        ><svg
+                                          class="size-6 cursor-pointer"
+                                          fill="none"
+                                          viewBox="0 0 24 24"
+                                          stroke="currentColor"
+                                          style="max-width:40px"
+                                          ><path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                          ></path></svg
+                                        ></button
+                                      >
+                                    </div>
+                                  {/if}
+                                  <!--End Dropdown for Condition-->
+                                </div>
+                              </DropdownMenu.Label>
+                            {:else}
+                              <div
+                                class="relative sticky z-40 focus:outline-hidden -top-1"
+                                tabindex="0"
+                                role="menu"
+                                style=""
+                              ></div>
+                            {/if}
+                            <DropdownMenu.Group class="min-h-10 mt-2">
+                              {#if !categoricalRules?.includes(row?.rule)}
+                                {#each row?.step as newValue, index}
+                                  {#if ruleCondition[row?.rule] === "between"}
+                                    {#if newValue && row?.step[index + 1]}
+                                      <DropdownMenu.Item
+                                        class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                                      >
+                                        <button
+                                          on:click={() => {
+                                            handleChangeValue([
+                                              row?.step[index],
+                                              row?.step[index + 1],
+                                            ]);
+                                          }}
+                                          class="block w-full cursor-pointer border-b border-gray-300 dark:border-gray-600 px-4 py-1.5 text-left text-sm rounded last:border-0 focus:outline-hidden"
+                                        >
+                                          {ruleCondition[row?.rule]?.replace(
+                                            "between",
+                                            "Between",
+                                          )}
+                                          {row?.step[index + 1]} - {row?.step[
+                                            index
+                                          ]}
+                                        </button>
+                                      </DropdownMenu.Item>
+                                    {/if}
+                                  {:else}
                                     <DropdownMenu.Item
                                       class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
                                     >
                                       <button
                                         on:click={() => {
-                                          handleChangeValue([
-                                            row?.step[index],
-                                            row?.step[index + 1],
-                                          ]);
+                                          handleChangeValue(newValue);
                                         }}
                                         class="block w-full cursor-pointer border-b border-gray-300 dark:border-gray-600 px-4 py-1.5 text-left text-sm rounded last:border-0 focus:outline-hidden"
                                       >
-                                        {ruleCondition[row?.rule]?.replace(
-                                          "between",
-                                          "Between",
-                                        )}
-                                        {row?.step[index + 1]} - {row?.step[
-                                          index
-                                        ]}
+                                        {ruleCondition[row?.rule]
+                                          ?.replace("under", "Under")
+                                          ?.replace("over", "Over")
+                                          ?.replace("exactly", "Exactly")}
+                                        {newValue}
                                       </button>
                                     </DropdownMenu.Item>
                                   {/if}
-                                {:else}
+                                {/each}
+                              {:else if categoricalRules?.includes(row?.rule)}
+                                {#each row?.step as item}
                                   <DropdownMenu.Item
                                     class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
                                   >
-                                    <button
-                                      on:click={() => {
-                                        handleChangeValue(newValue);
-                                      }}
-                                      class="block w-full cursor-pointer border-b border-gray-300 dark:border-gray-600 px-4 py-1.5 text-left text-sm rounded last:border-0 focus:outline-hidden"
+                                    <div
+                                      class="flex items-center"
+                                      on:click|capture={(event) =>
+                                        event.preventDefault()}
                                     >
-                                      {ruleCondition[row?.rule]
-                                        ?.replace("under", "Under")
-                                        ?.replace("over", "Over")
-                                        ?.replace("exactly", "Exactly")}
-                                      {newValue}
-                                    </button>
+                                      <label
+                                        on:click={() => {
+                                          handleChangeValue(item);
+                                        }}
+                                        class="cursor-pointer"
+                                        for={item}
+                                      >
+                                        <input
+                                          type="checkbox"
+                                          class="rounded"
+                                          checked={isChecked(item)}
+                                        />
+                                        <span class="ml-2">{item}</span>
+                                      </label>
+                                    </div>
                                   </DropdownMenu.Item>
-                                {/if}
-                              {/each}
-                            {:else if categoricalRules?.includes(row?.rule)}
-                              {#each row?.step as item}
-                                <DropdownMenu.Item
-                                  class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
-                                >
-                                  <div
-                                    class="flex items-center"
-                                    on:click|capture={(event) =>
-                                      event.preventDefault()}
-                                  >
-                                    <label
-                                      on:click={() => {
-                                        handleChangeValue(item);
-                                      }}
-                                      class="cursor-pointer"
-                                      for={item}
-                                    >
-                                      <input
-                                        type="checkbox"
-                                        class="rounded"
-                                        checked={isChecked(item)}
-                                      />
-                                      <span class="ml-2">{item}</span>
-                                    </label>
-                                  </div>
-                                </DropdownMenu.Item>
-                              {/each}
-                            {/if}
-                          </DropdownMenu.Group>
-                        </DropdownMenu.Content>
-                      </DropdownMenu.Root>
+                                {/each}
+                              {/if}
+                            </DropdownMenu.Group>
+                          </DropdownMenu.Content>
+                        </DropdownMenu.Root>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <!--End Added Rules-->
+              {/each}
+            </div>
+          {/if}
+        </div>
+
+        {#if isLoaded}
+          {#if displayedData?.length > 0}
+            <div class="w-full mt-5 m-auto flex justify-center items-center">
+              <div
+                class="w-full grid grid-cols-1 lg:grid-cols-4 gap-y-3 gap-x-3"
+              >
+                <!--Start Flow Sentiment-->
+                <div
+                  class="sentiment-driver shadow-xs flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                >
+                  <div class="flex flex-col items-start">
+                    <span
+                      class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
+                      >Flow Sentiment</span
+                    >
+                    {#if data?.user?.tier === "Pro"}
+                      <span
+                        class="text-start text-[1rem] font-semibold {flowSentiment ===
+                        'Bullish'
+                          ? 'text-green-800 dark:text-[#00FC50]'
+                          : flowSentiment === 'Bearish'
+                            ? 'text-red-800 dark:text-[#FF2F1F]'
+                            : flowSentiment === 'Neutral'
+                              ? 'text-[#fff]'
+                              : ''}">{flowSentiment}</span
+                      >
+                    {:else}
+                      <a href="/pricing" class="flex mt-2">
+                        <svg
+                          class="size-5 text-muted dark:text-[#fff]"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
+                  </div>
+                </div>
+                <!--End Flow Sentiment-->
+                <!--Start Put/Call-->
+                <div
+                  class="put-call-driver shadow-xs flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                >
+                  <div class="flex flex-col items-start">
+                    <span
+                      class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
+                      >Put/Call</span
+                    >
+                    {#if data?.user?.tier === "Pro"}
+                      <span class="text-start text-[1rem] font-semibold">
+                        {putCallRatio?.toFixed(3)}
+                      </span>
+                    {:else}
+                      <a href="/pricing" class="flex mt-2">
+                        <svg
+                          class="size-5 text-muted dark:text-[#fff]"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
+                  </div>
+                  <!-- Circular Progress -->
+                  <div class="relative size-14 ml-auto">
+                    <svg
+                      class="size-full w-14 h-14"
+                      viewBox="0 0 36 36"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <!-- Background Circle -->
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="16"
+                        fill="none"
+                        class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
+                        stroke-width="3"
+                      ></circle>
+                      <!-- Progress Circle inside a group with rotation -->
+                      <g class="origin-center -rotate-90 transform">
+                        <circle
+                          cx="18"
+                          cy="18"
+                          r="16"
+                          fill="none"
+                          class="stroke-current"
+                          stroke-width="3"
+                          stroke-dasharray="100"
+                          stroke-dashoffset={data?.user?.tier === "Pro"
+                            ? putCallRatio >= 1
+                              ? 0
+                              : 100 - (putCallRatio * 100)?.toFixed(2)
+                            : 100}
+                        ></circle>
+                      </g>
+                    </svg>
+                    <!-- Percentage Text -->
+                    <div
+                      class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
+                    >
+                      {#if data?.user?.tier === "Pro"}
+                        <span class="text-center text-sm"
+                          >{putCallRatio?.toFixed(2)}</span
+                        >
+                      {:else}
+                        <a href="/pricing" class="flex">
+                          <svg
+                            class="size-4 text-muted dark:text-[#fff]"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            style="max-width: 40px;"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                              clip-rule="evenodd"
+                            >
+                            </path>
+                          </svg>
+                        </a>
+                      {/if}
+                    </div>
+                  </div>
+                  <!-- End Circular Progress -->
+                </div>
+                <!--End Put/Call-->
+                <!--Start Call Flow-->
+                <div
+                  class="call-flow-driver shadow-xs flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                >
+                  <div class="flex flex-col items-start">
+                    <span
+                      class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
+                      >Call Flow</span
+                    >
+                    {#if data?.user?.tier === "Pro"}
+                      <span class="text-start text-[1rem] font-semibold">
+                        {new Intl.NumberFormat("en", {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 0,
+                        }).format(displayCallVolume)}
+                      </span>
+                    {:else}
+                      <a href="/pricing" class="flex mt-2">
+                        <svg
+                          class="size-5 text-muted dark:text-[#fff]"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
+                  </div>
+                  <!-- Circular Progress -->
+                  <div class="relative size-14 ml-auto">
+                    <svg
+                      class="size-full w-14 h-14"
+                      viewBox="0 0 36 36"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <!-- Background Circle -->
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="16"
+                        fill="none"
+                        class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
+                        stroke-width="3"
+                      ></circle>
+                      <!-- Progress Circle inside a group with rotation -->
+                      <g class="origin-center -rotate-90 transform">
+                        <circle
+                          cx="18"
+                          cy="18"
+                          r="16"
+                          fill="none"
+                          class="stroke-current text-green-800 dark:text-[#00FC50]"
+                          stroke-width="3"
+                          stroke-dasharray="100"
+                          stroke-dashoffset={data?.user?.tier === "Pro"
+                            ? 100 - callPercentage?.toFixed(2)
+                            : 100}
+                        ></circle>
+                      </g>
+                    </svg>
+                    <!-- Percentage Text -->
+                    <div
+                      class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
+                    >
+                      {#if data?.user?.tier === "Pro"}
+                        <span class="text-center text-sm"
+                          >{callPercentage}%</span
+                        >
+                      {:else}
+                        <a href="/pricing" class="flex">
+                          <svg
+                            class="size-4 text-muted dark:text-[#fff]"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            style="max-width: 40px;"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                              clip-rule="evenodd"
+                            >
+                            </path>
+                          </svg>
+                        </a>
+                      {/if}
+                    </div>
+                  </div>
+                  <!-- End Circular Progress -->
+                </div>
+                <!--End Call Flow-->
+                <!--Start Put Flow-->
+                <div
+                  class="put-flow-driver shadow-xs flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                >
+                  <div class="flex flex-col items-start">
+                    <span
+                      class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
+                      >Put Flow</span
+                    >
+                    {#if data?.user?.tier === "Pro"}
+                      <span class="text-start text-[1rem] font-semibold">
+                        {new Intl.NumberFormat("en", {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 0,
+                        }).format(displayPutVolume)}
+                      </span>
+                    {:else}
+                      <a href="/pricing" class="flex mt-2">
+                        <svg
+                          class="size-5 text-muted dark:text-[#fff]"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
+                  </div>
+                  <!-- Circular Progress -->
+                  <div class="relative size-14 ml-auto">
+                    <svg
+                      class="size-full w-14 h-14"
+                      viewBox="0 0 36 36"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <!-- Background Circle -->
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="16"
+                        fill="none"
+                        class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
+                        stroke-width="3"
+                      ></circle>
+                      <!-- Progress Circle inside a group with rotation -->
+                      <g class="origin-center -rotate-90 transform">
+                        <circle
+                          cx="18"
+                          cy="18"
+                          r="16"
+                          fill="none"
+                          class="stroke-current text-[#EE5365]"
+                          stroke-width="3"
+                          stroke-dasharray="100"
+                          stroke-dashoffset={data?.user?.tier === "Pro"
+                            ? 100 - putPercentage?.toFixed(2)
+                            : 100}
+                        ></circle>
+                      </g>
+                    </svg>
+                    <!-- Percentage Text -->
+                    <div
+                      class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
+                    >
+                      {#if data?.user?.tier === "Pro"}
+                        <span class="text-center text-sm">{putPercentage}%</span
+                        >
+                      {:else}
+                        <a href="/pricing" class="flex">
+                          <svg
+                            class="size-4 text-muted dark:text-[#fff]"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            style="max-width: 40px;"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                              clip-rule="evenodd"
+                            >
+                            </path>
+                          </svg>
+                        </a>
+                      {/if}
+                    </div>
+                  </div>
+                  <!-- End Circular Progress -->
+                </div>
               </div>
-              <!--End Added Rules-->
-            {/each}
+            </div>
+
+            <!-- Page wrapper -->
+            <div class="flex w-full m-auto h-full overflow-hidden">
+              <div
+                class="mt-8 w-full overflow-x-auto h-[900px] overflow-hidden"
+              >
+                <OptionsFlowTable
+                  {data}
+                  {optionsWatchlist}
+                  {displayedData}
+                  {filteredData}
+                  {rawData}
+                />
+                <UpgradeToPro {data} display={true} />
+              </div>
+            </div>
+          {:else}
+            <Infobox
+              text={`No data found based on filter(s) selected. Please adjust your filters and try again.`}
+            />
+          {/if}
+        {:else}
+          <div class="flex justify-center items-center h-80">
+            <div class="relative">
+              <label
+                class="shadow-xs bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              >
+                <span
+                  class="loading loading-spinner loading-md text-white dark:text-white"
+                ></span>
+              </label>
+            </div>
           </div>
         {/if}
       </div>
-
-      {#if isLoaded}
-        {#if displayedData?.length > 0}
-          <div class="w-full mt-5 m-auto flex justify-center items-center">
-            <div class="w-full grid grid-cols-1 lg:grid-cols-4 gap-y-3 gap-x-3">
-              <!--Start Flow Sentiment-->
-              <div
-                class="sentiment-driver shadow-xs flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
-              >
-                <div class="flex flex-col items-start">
-                  <span
-                    class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
-                    >Flow Sentiment</span
-                  >
-                  {#if data?.user?.tier === "Pro"}
-                    <span
-                      class="text-start text-[1rem] font-semibold {flowSentiment ===
-                      'Bullish'
-                        ? 'text-green-800 dark:text-[#00FC50]'
-                        : flowSentiment === 'Bearish'
-                          ? 'text-red-800 dark:text-[#FF2F1F]'
-                          : flowSentiment === 'Neutral'
-                            ? 'text-[#fff]'
-                            : ''}">{flowSentiment}</span
-                    >
-                  {:else}
-                    <a href="/pricing" class="flex mt-2">
-                      <svg
-                        class="size-5 text-muted dark:text-[#fff]"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        style="max-width: 40px;"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                          clip-rule="evenodd"
-                        >
-                        </path>
-                      </svg>
-                    </a>
-                  {/if}
-                </div>
-              </div>
-              <!--End Flow Sentiment-->
-              <!--Start Put/Call-->
-              <div
-                class="put-call-driver shadow-xs flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
-              >
-                <div class="flex flex-col items-start">
-                  <span
-                    class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
-                    >Put/Call</span
-                  >
-                  {#if data?.user?.tier === "Pro"}
-                    <span class="text-start text-[1rem] font-semibold">
-                      {putCallRatio?.toFixed(3)}
-                    </span>
-                  {:else}
-                    <a href="/pricing" class="flex mt-2">
-                      <svg
-                        class="size-5 text-muted dark:text-[#fff]"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        style="max-width: 40px;"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                          clip-rule="evenodd"
-                        >
-                        </path>
-                      </svg>
-                    </a>
-                  {/if}
-                </div>
-                <!-- Circular Progress -->
-                <div class="relative size-14 ml-auto">
-                  <svg
-                    class="size-full w-14 h-14"
-                    viewBox="0 0 36 36"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <!-- Background Circle -->
-                    <circle
-                      cx="18"
-                      cy="18"
-                      r="16"
-                      fill="none"
-                      class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
-                      stroke-width="3"
-                    ></circle>
-                    <!-- Progress Circle inside a group with rotation -->
-                    <g class="origin-center -rotate-90 transform">
-                      <circle
-                        cx="18"
-                        cy="18"
-                        r="16"
-                        fill="none"
-                        class="stroke-current"
-                        stroke-width="3"
-                        stroke-dasharray="100"
-                        stroke-dashoffset={data?.user?.tier === "Pro"
-                          ? putCallRatio >= 1
-                            ? 0
-                            : 100 - (putCallRatio * 100)?.toFixed(2)
-                          : 100}
-                      ></circle>
-                    </g>
-                  </svg>
-                  <!-- Percentage Text -->
-                  <div
-                    class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
-                  >
-                    {#if data?.user?.tier === "Pro"}
-                      <span class="text-center text-sm"
-                        >{putCallRatio?.toFixed(2)}</span
-                      >
-                    {:else}
-                      <a href="/pricing" class="flex">
-                        <svg
-                          class="size-4 text-muted dark:text-[#fff]"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          style="max-width: 40px;"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                            clip-rule="evenodd"
-                          >
-                          </path>
-                        </svg>
-                      </a>
-                    {/if}
-                  </div>
-                </div>
-                <!-- End Circular Progress -->
-              </div>
-              <!--End Put/Call-->
-              <!--Start Call Flow-->
-              <div
-                class="call-flow-driver shadow-xs flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
-              >
-                <div class="flex flex-col items-start">
-                  <span
-                    class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
-                    >Call Flow</span
-                  >
-                  {#if data?.user?.tier === "Pro"}
-                    <span class="text-start text-[1rem] font-semibold">
-                      {new Intl.NumberFormat("en", {
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0,
-                      }).format(displayCallVolume)}
-                    </span>
-                  {:else}
-                    <a href="/pricing" class="flex mt-2">
-                      <svg
-                        class="size-5 text-muted dark:text-[#fff]"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        style="max-width: 40px;"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                          clip-rule="evenodd"
-                        >
-                        </path>
-                      </svg>
-                    </a>
-                  {/if}
-                </div>
-                <!-- Circular Progress -->
-                <div class="relative size-14 ml-auto">
-                  <svg
-                    class="size-full w-14 h-14"
-                    viewBox="0 0 36 36"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <!-- Background Circle -->
-                    <circle
-                      cx="18"
-                      cy="18"
-                      r="16"
-                      fill="none"
-                      class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
-                      stroke-width="3"
-                    ></circle>
-                    <!-- Progress Circle inside a group with rotation -->
-                    <g class="origin-center -rotate-90 transform">
-                      <circle
-                        cx="18"
-                        cy="18"
-                        r="16"
-                        fill="none"
-                        class="stroke-current text-green-800 dark:text-[#00FC50]"
-                        stroke-width="3"
-                        stroke-dasharray="100"
-                        stroke-dashoffset={data?.user?.tier === "Pro"
-                          ? 100 - callPercentage?.toFixed(2)
-                          : 100}
-                      ></circle>
-                    </g>
-                  </svg>
-                  <!-- Percentage Text -->
-                  <div
-                    class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
-                  >
-                    {#if data?.user?.tier === "Pro"}
-                      <span class="text-center text-sm">{callPercentage}%</span>
-                    {:else}
-                      <a href="/pricing" class="flex">
-                        <svg
-                          class="size-4 text-muted dark:text-[#fff]"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          style="max-width: 40px;"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                            clip-rule="evenodd"
-                          >
-                          </path>
-                        </svg>
-                      </a>
-                    {/if}
-                  </div>
-                </div>
-                <!-- End Circular Progress -->
-              </div>
-              <!--End Call Flow-->
-              <!--Start Put Flow-->
-              <div
-                class="put-flow-driver shadow-xs flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
-              >
-                <div class="flex flex-col items-start">
-                  <span
-                    class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
-                    >Put Flow</span
-                  >
-                  {#if data?.user?.tier === "Pro"}
-                    <span class="text-start text-[1rem] font-semibold">
-                      {new Intl.NumberFormat("en", {
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0,
-                      }).format(displayPutVolume)}
-                    </span>
-                  {:else}
-                    <a href="/pricing" class="flex mt-2">
-                      <svg
-                        class="size-5 text-muted dark:text-[#fff]"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        style="max-width: 40px;"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                          clip-rule="evenodd"
-                        >
-                        </path>
-                      </svg>
-                    </a>
-                  {/if}
-                </div>
-                <!-- Circular Progress -->
-                <div class="relative size-14 ml-auto">
-                  <svg
-                    class="size-full w-14 h-14"
-                    viewBox="0 0 36 36"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <!-- Background Circle -->
-                    <circle
-                      cx="18"
-                      cy="18"
-                      r="16"
-                      fill="none"
-                      class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
-                      stroke-width="3"
-                    ></circle>
-                    <!-- Progress Circle inside a group with rotation -->
-                    <g class="origin-center -rotate-90 transform">
-                      <circle
-                        cx="18"
-                        cy="18"
-                        r="16"
-                        fill="none"
-                        class="stroke-current text-[#EE5365]"
-                        stroke-width="3"
-                        stroke-dasharray="100"
-                        stroke-dashoffset={data?.user?.tier === "Pro"
-                          ? 100 - putPercentage?.toFixed(2)
-                          : 100}
-                      ></circle>
-                    </g>
-                  </svg>
-                  <!-- Percentage Text -->
-                  <div
-                    class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
-                  >
-                    {#if data?.user?.tier === "Pro"}
-                      <span class="text-center text-sm">{putPercentage}%</span>
-                    {:else}
-                      <a href="/pricing" class="flex">
-                        <svg
-                          class="size-4 text-muted dark:text-[#fff]"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          style="max-width: 40px;"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                            clip-rule="evenodd"
-                          >
-                          </path>
-                        </svg>
-                      </a>
-                    {/if}
-                  </div>
-                </div>
-                <!-- End Circular Progress -->
-              </div>
-            </div>
-          </div>
-
-          <!-- Page wrapper -->
-          <div class="flex w-full m-auto h-full overflow-hidden">
-            <div class="mt-8 w-full overflow-x-auto h-[900px] overflow-hidden">
-              <OptionsFlowTable
-                {data}
-                {optionsWatchlist}
-                {displayedData}
-                {filteredData}
-                {rawData}
-              />
-              <UpgradeToPro {data} display={true} />
-            </div>
-          </div>
-        {:else}
-          <Infobox
-            text="Looks like your taste is one-of-a-kind! No matches found... yet!"
-          />
-        {/if}
-      {:else}
-        <div class="flex justify-center items-center h-80">
-          <div class="relative">
-            <label
-              class="shadow-xs bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-            >
-              <span
-                class="loading loading-spinner loading-md text-white dark:text-white"
-              ></span>
-            </label>
-          </div>
-        </div>
-      {/if}
     </div>
   </div>
 </section>
@@ -2085,7 +2436,7 @@
       >
         <div class="flex flex-row items-center justify-between mb-2">
           <h1 class=" text-[1rem] sm:text-xl font-semibold">
-            Select screener filters ({allRows?.length} total)
+            Select filters ({allRows?.length} total)
           </h1>
           <label
             for="ruleModal"
@@ -2217,3 +2568,96 @@
 <!--End Choose Rule Modal-->
 
 <!--Start Options Detail Desktop Modal-->
+
+<!--Start Add Strategy Modal-->
+<input type="checkbox" id="addStrategy" class="modal-toggle" />
+
+<dialog id="addStrategy" class="modal modal-bottom sm:modal-middle">
+  <label for="addStrategy" class="cursor-pointer modal-backdrop"></label>
+
+  <div
+    class="modal-box w-full p-6 rounded border
+        bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+  >
+    <h1 class="text-2xl font-bold">New Filter</h1>
+
+    <form
+      on:submit={createStrategy}
+      method="POST"
+      class="space-y-2 pt-5 pb-10 sm:pb-5"
+    >
+      <Input
+        id="title"
+        type="text"
+        errors=""
+        label="Filter Name"
+        required={true}
+      />
+
+      <button
+        type="submit"
+        class="cursor-pointer mt-2 py-2.5 bg-black dark:bg-[#fff] dark:sm:hover:bg-gray-300 duration-100 w-full rounded m-auto text-white dark:text-black font-semibold text-md"
+      >
+        Create Filter
+      </button>
+    </form>
+  </div>
+</dialog>
+
+<!--End Add Strategy Modal-->
+
+<!--Start Delete Strategy Modal-->
+<input type="checkbox" id="deleteStrategy" class="modal-toggle" />
+
+<dialog id="deleteStrategy" class="modal modal-bottom sm:modal-middle">
+  <label for="deleteStrategy" class="cursor-pointer modal-backdrop"></label>
+
+  <div
+    class="modal-box w-full p-6 rounded border
+          bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+  >
+    <h3 class="text-lg font-medium mb-2">Delete Filter</h3>
+    <p class="text-sm mb-6">
+      Are you sure you want to delete this filter? This action cannot be undone.
+    </p>
+    <div class="flex justify-end space-x-3">
+      <label
+        for="deleteStrategy"
+        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
+              transition-colors duration-100
+              bg-gray-600 text-white dark:bg-white dark:text-black"
+        tabindex="0">Cancel</label
+      ><label
+        for="deleteStrategy"
+        on:click={handleDeleteStrategy}
+        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
+              transition-colors duration-100 flex items-center
+              bg-red-600 text-white sm:hover:bg-red-700
+              "
+        tabindex="0"
+        ><svg
+          stroke="currentColor"
+          fill="none"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-4 h-4 mr-2"
+          height="1em"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+          ><polyline points="3 6 5 6 21 6"></polyline><path
+            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+          ></path><line x1="10" y1="11" x2="10" y2="17"></line><line
+            x1="14"
+            y1="11"
+            x2="14"
+            y2="17"
+          ></line></svg
+        >Delete Filter</label
+      >
+    </div>
+  </div>
+</dialog>
+
+<!--End Delete Strategy Modal-->

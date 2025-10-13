@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import { goto } from "$app/navigation";
-  import { clearCache, screenWidth, getCache, setCache } from "$lib/store";
+  import { clearCache, screenWidth } from "$lib/store";
   import Copy from "lucide-svelte/icons/copy";
 
   import { toast } from "svelte-sonner";
