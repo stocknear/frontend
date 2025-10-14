@@ -620,11 +620,6 @@
           : abbreviateNumber(lowestValue?.toFixed(2))}</strong
       >
       in <strong>{lowestValueDate}</strong>.
-      {#if fiveYearsGrowth && !isGrowthChart}
-        Over the past five periods, it has {fiveYearsGrowth >= 0
-          ? "grown"
-          : "declined"} by <strong>{fiveYearsGrowth?.toFixed(2)}%</strong>.
-      {/if}
     </p>
 
     <div class="border-t border-gray-300 dark:border-gray-600 mt-2 w-full">

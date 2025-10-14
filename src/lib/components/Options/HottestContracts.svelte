@@ -15,9 +15,6 @@
   let isLoaded = false;
   let config = null;
 
-  let optionHistoryList = [];
-  let selectGraphType = "Vol/OI";
-  let container;
   let rawDataHistory = [];
 
   let rawData = [];
@@ -49,7 +46,6 @@
   }
 
   function initialize() {
-    selectGraphType = "Vol/OI";
     rawDataHistory = [];
     if (type === "oi") {
       rawData = data?.getData?.openInterest?.map((item) => ({
@@ -67,22 +63,6 @@
 
       tableData = rawData;
     }
-  }
-  function formatDate(dateStr) {
-    // Convert the input date string to a Date object in New York time
-    let date = new Date(dateStr + "T00:00:00Z"); // Assume input is in UTC
-
-    // Convert to New York Time Zone
-    let options = {
-      timeZone: "UTC",
-      month: "2-digit",
-      day: "2-digit",
-      year: "2-digit",
-    };
-
-    let formatter = new Intl.DateTimeFormat("en-US", options);
-
-    return formatter?.format(date);
   }
 
   function computeOTM(strikePrice, optionType) {
@@ -132,7 +112,7 @@
     { key: "high", label: "Low-High", align: "right" },
     { key: "volume", label: "Volume", align: "right" },
     { key: "open_interest", label: "OI", align: "right" },
-    { key: "open_interest_change", label: "OI Change", align: "right" },
+    { key: "changeOI", label: "OI Change", align: "right" },
     { key: "iv", label: "IV", align: "right" },
     { key: "total_premium", label: "Prem", align: "right" },
     { key: "option_symbol", label: "Option Symbol", align: "right" },
@@ -146,7 +126,7 @@
     high: { order: "none", type: "number" },
     volume: { order: "none", type: "number" },
     open_interest: { order: "none", type: "number" },
-    open_interest_change: { order: "none", type: "number" },
+    changeOI: { order: "none", type: "number" },
     iv: { order: "none", type: "number" },
     total_premium: { order: "none", type: "number" },
     option_symbol: { order: "none", type: "string" },
