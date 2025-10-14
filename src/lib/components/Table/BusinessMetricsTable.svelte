@@ -7,10 +7,6 @@
     selectedTimePeriod,
   } from "$lib/store";
   import { mode } from "mode-watcher";
-  import highcharts from "$lib/highcharts.ts";
-  import { Button } from "$lib/components/shadcn/button/index.js";
-  import BarChart from "lucide-svelte/icons/chart-column-increasing";
-  import LineChart from "lucide-svelte/icons/chart-spline";
 
   export let data;
   export let title = "";
@@ -22,208 +18,12 @@
   const isSubscribed = ["Pro", "Plus"]?.includes(data?.user?.tier);
   const limit = 6;
 
-  let config = null;
-  let chartMode = "bar";
-  let modalLabel;
-  let highestValue;
-  let highestValueDate;
-  let lowestValueDate;
-  let lowestValue;
-  let fiveYearsGrowth;
-  let currentMetric;
-  let currentValueType;
-  let isGrowthChart = false;
-
   let tabs = ["Quarterly", "TTM"];
 
   $: activeIdx = $selectedTimePeriod === "quarterly" ? 0 : 1;
 
   function handleTabClick(index: number) {
     $selectedTimePeriod = index === 0 ? "quarterly" : "ttm";
-  }
-
-  function plotData(metric, valueType, showGrowth = false) {
-    // Extract dates and values from metric
-    let sortedValues = [...metric.values].sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-    );
-
-    // Limit to last 3 years if not subscribed
-    if (!isSubscribed) {
-      const threeYearsAgo = new Date();
-      threeYearsAgo.setFullYear(threeYearsAgo.getFullYear() - 3);
-      sortedValues = sortedValues.filter(
-        (item) => new Date(item.date) >= threeYearsAgo,
-      );
-    }
-
-    const dateList = sortedValues.map((item) => {
-      const date = new Date(item.date);
-      const month = date.toLocaleDateString("en-US", { month: "short" });
-      const year = date.getFullYear().toString().slice(-2);
-      return `${month} '${year}`;
-    });
-
-    let valueList;
-
-    // Calculate growth percentages if needed
-    if (showGrowth) {
-      valueList = sortedValues.map((item, index) => {
-        if (index === 0) return null; // No previous value for first item
-        const currentVal = item.val;
-        const prevVal = sortedValues[index - 1].val;
-        if (prevVal === null || prevVal === 0) return null;
-        return ((currentVal - prevVal) / prevVal) * 100;
-      });
-      // Remove first null value and corresponding date
-      valueList.shift();
-      dateList.shift();
-    } else {
-      valueList = sortedValues.map((item) => item.val);
-    }
-
-    // Calculate highest and lowest value
-    highestValue = null;
-    lowestValue = null;
-    highestValueDate = null;
-    lowestValueDate = null;
-
-    if (valueList?.length > 0) {
-      highestValue = Math.max(...valueList);
-      lowestValue = Math.min(...valueList);
-
-      const highestValueIndex = valueList.indexOf(highestValue);
-      const lowestValueIndex = valueList.indexOf(lowestValue);
-
-      highestValueDate = dateList[highestValueIndex] || null;
-      lowestValueDate = dateList[lowestValueIndex] || null;
-    }
-
-    // Calculate last 5 periods growth
-    fiveYearsGrowth = null;
-    if (valueList?.length >= 5) {
-      const firstValue = valueList[valueList.length - 5];
-      const lastValue = valueList[valueList.length - 1];
-      if (firstValue !== 0) {
-        fiveYearsGrowth =
-          ((lastValue - firstValue) / Math.abs(firstValue)) * 100;
-      }
-    }
-
-    const options = {
-      chart: {
-        type: chartMode === "bar" ? "column" : "spline",
-        backgroundColor: $mode === "light" ? "#fff" : "#2A2E39",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#2A2E39",
-        height: 360,
-        animation: false,
-      },
-      credits: { enabled: false },
-      legend: { enabled: false },
-      plotOptions: {
-        series: {
-          color: "white",
-          animation: false,
-          dataLabels: {
-            enabled: false,
-            color: "white",
-            style: { fontSize: "13px", fontWeight: "bold" },
-            formatter: function () {
-              if (showGrowth || valueType === "PERCENT") {
-                return this?.y?.toFixed(2) + "%";
-              }
-              return abbreviateNumber(this?.y);
-            },
-          },
-        },
-      },
-      title: {
-        text: `<h3 class="mt-3 mb-1 sm:text-lg">${$stockTicker} ${metric.name}${showGrowth ? " Growth" : ""}</h3>`,
-        useHTML: true,
-        style: { color: $mode === "light" ? "black" : "white" },
-      },
-      xAxis: {
-        categories: dateList,
-        crosshair: {
-          color: $mode === "light" ? "black" : "white",
-          width: 1,
-          dashStyle: "Solid",
-        },
-        labels: {
-          style: { color: $mode === "light" ? "#545454" : "white" },
-          rotation: -45,
-          distance: 10,
-        },
-      },
-      yAxis: {
-        gridLineWidth: 1,
-        gridLineColor: $mode === "light" ? "#e5e7eb" : "#404657",
-        labels: {
-          style: { color: $mode === "light" ? "black" : "white" },
-          formatter: function () {
-            if (showGrowth || valueType === "PERCENT") {
-              return this.value.toFixed(1) + "%";
-            }
-            return abbreviateNumber(this.value);
-          },
-        },
-        title: { text: null },
-        opposite: true,
-      },
-      tooltip: {
-        shared: true,
-        useHTML: true,
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
-        borderColor: "rgba(255, 255, 255, 0.2)",
-        borderWidth: 1,
-        style: { color: "#fff", fontSize: "16px", padding: "10px" },
-        borderRadius: 4,
-        formatter: function () {
-          let tooltipContent = `<span class="text-white text-[1rem] font-[501]">${this?.x}</span><br>`;
-          this.points.forEach((point) => {
-            const formattedValue =
-              showGrowth || valueType === "PERCENT"
-                ? point.y?.toFixed(2) + "%"
-                : abbreviateNumber(point.y?.toFixed(2));
-            tooltipContent += `<span class="text-white font-semibold text-sm">${point.series.name}:</span>
-          <span class="text-white font-normal text-sm">${formattedValue}</span><br>`;
-          });
-          return tooltipContent;
-        },
-      },
-      series: [
-        {
-          name: metric.name,
-          data: valueList,
-          color: $mode === "light" ? "#2C6288" : "white",
-          borderColor: $mode === "light" ? "#2C6288" : "white",
-          borderRadius: "1px",
-          animation: false,
-        },
-      ],
-    };
-
-    return options;
-  }
-
-  function handleChart(metric, showGrowthChart = false) {
-    modalLabel = metric.name;
-    currentMetric = metric;
-    currentValueType = metric.values?.[0]?.valueType || "NUMBER";
-    isGrowthChart = showGrowthChart;
-    config = plotData(metric, currentValueType, showGrowthChart);
-  }
-
-  function toggleMode() {
-    if (chartMode === "bar") {
-      chartMode = "line";
-    } else {
-      chartMode = "bar";
-    }
-    // Re-render the chart with the new mode
-    if (currentMetric) {
-      config = plotData(currentMetric, currentValueType, isGrowthChart);
-    }
   }
 
   // Pre-compute everything in one reactive block
@@ -456,6 +256,7 @@
               class="whitespace-nowrap flex flex-row justify-between items-center text-sm sm:text-[1rem] font-normal text-start border-r border-gray-300 dark:border-gray-800"
             >
               {row.name}
+              <!--
               <label
                 for="financialPlotModal"
                 on:click={() => handleChart(metrics[rowIndex], false)}
@@ -481,6 +282,7 @@
                   </g></svg
                 >
               </label>
+              -->
             </th>
             {#each row.cells as cell, i}
               <td
@@ -517,6 +319,7 @@
                 class="min-w-auto md:min-w-96 w-full whitespace-nowrap flex flex-row justify-between items-center text-sm sm:text-[1rem] font-normal text-start border-r border-gray-300 dark:border-gray-800"
               >
                 <span class="ml-2 mr-5 md:mr-0">{row.name} Growth</span>
+                <!--
                 <label
                   for="financialPlotModal"
                   on:click={() => handleChart(metrics[rowIndex], true)}
@@ -542,6 +345,7 @@
                     </g></svg
                   >
                 </label>
+                -->
               </td>
               {#each row.cells as cell, i}
                 <td
@@ -578,57 +382,3 @@
     </table>
   </div>
 </section>
-
-<input type="checkbox" id="financialPlotModal" class="modal-toggle" />
-<dialog id="financialPlotModal" class="modal px-3">
-  <label for="financialPlotModal" class="cursor-pointer modal-backdrop"></label>
-
-  <div
-    class="modal-box w-full max-w-3xl p-6 rounded shadow-lg border
-        bg-white dark:bg-secondary border border-gray-600 dark:border-gray-800"
-  >
-    {#if config}
-      <div class="flex justify-end items-center w-full">
-        <Button
-          on:click={toggleMode}
-          class="w-fit border-gray-300 dark:border-gray-600 border bg-black sm:hover:bg-default text-white dark:text-black dark:bg-white dark:sm:hover:bg-gray-100 ease-out  flex flex-row justify-between items-center px-3 py-1.5  rounded truncate"
-        >
-          {#if chartMode === "bar"}
-            <LineChart class="w-4.5 h-4.5" />
-            <span class="ml-1 mr-auto text-sm"> Line Chart </span>
-          {:else}
-            <BarChart class="w-4.5 h-4.5" />
-            <span class="ml-1 mr-auto text-sm"> Bar Chart </span>
-          {/if}</Button
-        >
-      </div>
-
-      <div class="mt-2" use:highcharts={config}></div>
-    {/if}
-    <p class="text-sm mb-6">
-      {modalLabel}{isGrowthChart ? " Growth" : ""} peaked at
-      <strong
-        >{isGrowthChart || currentValueType === "PERCENT"
-          ? highestValue?.toFixed(2) + "%"
-          : abbreviateNumber(highestValue?.toFixed(2))}</strong
-      >
-      in <strong>{highestValueDate}</strong>
-      and hit its lowest at
-      <strong
-        >{isGrowthChart || currentValueType === "PERCENT"
-          ? lowestValue?.toFixed(2) + "%"
-          : abbreviateNumber(lowestValue?.toFixed(2))}</strong
-      >
-      in <strong>{lowestValueDate}</strong>.
-    </p>
-
-    <div class="border-t border-gray-300 dark:border-gray-600 mt-2 w-full">
-      <label
-        for="financialPlotModal"
-        class="mt-4 font-semibold text-xl m-auto flex justify-center cursor-pointer"
-      >
-        Close
-      </label>
-    </div>
-  </div>
-</dialog>
