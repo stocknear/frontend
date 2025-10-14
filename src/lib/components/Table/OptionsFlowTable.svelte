@@ -1109,7 +1109,7 @@
         </div>
 
         <div
-          class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {displayedData[
+          class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
             index
           ]?.put_call === 'Calls'
             ? 'text-green-800 dark:text-[#00FC50]'
@@ -1119,7 +1119,7 @@
         </div>
 
         <div
-          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {displayedData[
+          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
             index
           ]?.sentiment === 'Bullish'
             ? 'text-green-800 dark:text-[#00FC50]'
@@ -1153,7 +1153,7 @@
         </div>
 
         <div
-          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {displayedData[
+          class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
             index
           ]?.option_activity_type === 'Sweep'
             ? 'text-muted dark:text-[#C6A755]'
@@ -1174,11 +1174,10 @@
               ? 'text-muted dark:text-[#8F82FE]'
               : 'text-muted dark:text-[#A98184]'}"
         >
-          {sortedDisplayData[index]?.execution_estimate
-            ?.replace("At", "")
-            ?.replace("Above", "")
-            ?.replace("Below", "")
-            ?.replace("Midpoint", "Mid")}
+          {sortedDisplayData[index]?.execution_estimate?.replace(
+            "Midpoint",
+            "Mid",
+          )}
         </div>
 
         <div
