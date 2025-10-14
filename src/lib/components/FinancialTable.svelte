@@ -23,7 +23,6 @@
   let highestValueDate;
   let lowestValueDate;
   let lowestValue;
-  let fiveYearsGrowth;
 
   let currentLabel;
   let currentKey;
@@ -94,15 +93,9 @@
       lowestValueDate = dateList[lowestValueIndex] || null;
     }
 
-    // Calculate last 5 years growth
-    fiveYearsGrowth = null;
     if (valueList?.length >= 5) {
       const firstValue = valueList[valueList.length - 5];
       const lastValue = valueList[valueList.length - 1];
-      if (firstValue !== 0) {
-        fiveYearsGrowth =
-          ((lastValue - firstValue) / Math.abs(firstValue)) * 100;
-      }
     }
 
     const options = {
@@ -359,11 +352,6 @@
       and hit its lowest at
       <strong>{abbreviateNumber(lowestValue?.toFixed(2))}</strong>
       in <strong>{lowestValueDate}</strong>.
-      {#if fiveYearsGrowth}
-        Over the past five years, it has {fiveYearsGrowth >= 0
-          ? "grown"
-          : "declined"} by <strong>{fiveYearsGrowth?.toFixed(2)}%</strong>.
-      {/if}
     </p>
 
     <div class="border-t border-gray-300 dark:border-gray-600 mt-2 w-full">
