@@ -1364,7 +1364,7 @@
                           ? strategyList?.find(
                               (item) => item.id === selectedStrategy,
                             )?.title
-                          : "Select screen"}</span
+                          : "Select Filter"}</span
                       >
                       <svg
                         class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
