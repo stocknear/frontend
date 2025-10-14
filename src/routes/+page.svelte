@@ -130,7 +130,7 @@
               class="flex items-center justify-center sm:hover:text-muted dark:sm:hover:text-white text-blue-800 dark:text-blue-400"
             >
               <div class="text-lg sm:text-xl font-semibold">
-                Improved Business Metrics
+                Business Metrics
               </div>
               <div
                 class="-mt-2 ml-1 -rotate-6 rounded-[3px] bg-red-500 px-1 py-0.5 text-xs font-semibold text-white"
