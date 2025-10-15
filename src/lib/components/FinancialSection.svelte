@@ -445,6 +445,57 @@
                     </tbody>
                   </table>
                 </div>
+                <div
+                  class="sm:flex sm:justify-between text-sm text-gray-600 dark:text-gray-300"
+                >
+                  <div>
+                    Source: Financial Modeling Prep. <a
+                      class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+                      href="/data-disclaimer/">Financial Sources.</a
+                    >
+                  </div>
+                  <div class="mt-2 sm:-mt-2 text-xs flex items-center gap-x-2">
+                    SEC Filings: <a
+                      class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white flex items-center"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`https://www.sec.gov/cgi-bin/browse-edgar?CIK=${data?.getProfileData?.cik}&amp;type=10-K`}
+                      >10-K <svg
+                        class="size-3.5 ml-0.5 mt-px"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        style="max-width:40px"
+                        ><path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        ></path></svg
+                      ></a
+                    >
+                    ·
+                    <a
+                      class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white flex items-center"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`https://www.sec.gov/cgi-bin/browse-edgar?CIK=${data?.getProfileData?.cik}&amp;type=10-Q`}
+                      >10-Q <svg
+                        class="size-3.5 ml-0.5 mt-px"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        style="max-width:40px"
+                        ><path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        ></path></svg
+                      ></a
+                    >
+                  </div>
+                </div>
               {/if}
             {/if}
           </div>
