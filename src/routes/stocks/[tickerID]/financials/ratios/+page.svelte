@@ -13,6 +13,11 @@
       text: "The price-to-earnings (P/E) ratio is a valuation metric that shows how expensive a stock is relative to earnings.",
     },
     {
+      propertyName: "forwardPE",
+      label: "Forward PE Ratio",
+      text: "The forward price-to-earnings (P/E) ratio uses estimated earnings for the next fiscal year instead of historical earnings, providing insight into expected valuation based on future profitability.",
+    },
+    {
       propertyName: "priceToEarningsGrowthRatio",
       label: "PEG Ratio",
       text: "The price/earnings to growth (PEG) ratio is calculated by dividing a company's PE ratio by its expected earnings growth next year.",
