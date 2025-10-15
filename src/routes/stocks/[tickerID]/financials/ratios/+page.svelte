@@ -15,7 +15,7 @@
     {
       propertyName: "priceToEarningsGrowthRatio",
       label: "PEG Ratio",
-      text: "The price-to-earnings (P/E) ratio is a valuation metric that shows how expensive a stock is relative to earnings.",
+      text: "The price/earnings to growth (PEG) ratio is calculated by dividing a company's PE ratio by its expected earnings growth next year.",
     },
     {
       propertyName: "priceToSalesRatio",
@@ -38,14 +38,34 @@
       text: "The price to operating cash flow (P/OCF) ratio measures the price of a stock relative to operating cash flow.",
     },
     {
-      propertyName: "operatingCashFlowSalesRatio",
-      label: "OCF/S Ratio",
-      text: "The operating cash flow to sales (OCF/S) Ratio assesses how well sales convert to cash. It's the operating cash flow divided by net sales, indicating cash efficiency.",
+      propertyName: "priceToFairValue",
+      label: "Price to Fair Value",
+      text: "The price to fair value ratio compares the current stock price to an estimated fair value based on fundamental analysis.",
     },
     {
       propertyName: "debtToEquityRatio",
       label: "Debt / Equity Ratio",
       text: "The debt-to-equity ratio measures a company's debt levels relative to its shareholders' equity or book value. A high ratio implies that a company has a lot of debt.",
+    },
+    {
+      propertyName: "debtToAssetsRatio",
+      label: "Debt to Assets Ratio",
+      text: "The debt-to-assets ratio shows what percentage of a company's assets are financed through debt. It indicates the company's financial leverage.",
+    },
+    {
+      propertyName: "debtToCapitalRatio",
+      label: "Debt to Capital Ratio",
+      text: "The debt-to-capital ratio measures a company's financial leverage by comparing total debt to total capital (debt plus equity).",
+    },
+    {
+      propertyName: "longTermDebtToCapitalRatio",
+      label: "LT Debt to Capital Ratio",
+      text: "The long-term debt to capital ratio measures the portion of a company's capital that is financed by long-term debt.",
+    },
+    {
+      propertyName: "debtToMarketCap",
+      label: "Debt to Market Cap",
+      text: "The debt to market capitalization ratio compares a company's total debt to its market value, showing leverage relative to market valuation.",
     },
     {
       propertyName: "quickRatio",
@@ -58,14 +78,59 @@
       text: "The current ratio is used to measure a company's short-term liquidity. A low number can indicate that a company will have trouble paying its upcoming liabilities.",
     },
     {
+      propertyName: "cashRatio",
+      label: "Cash Ratio",
+      text: "The cash ratio is the most conservative liquidity ratio, measuring only cash and cash equivalents against current liabilities.",
+    },
+    {
+      propertyName: "solvencyRatio",
+      label: "Solvency Ratio",
+      text: "The solvency ratio measures a company's ability to meet its long-term obligations and indicates long-term financial stability.",
+    },
+    {
       propertyName: "assetTurnover",
       label: "Asset Turnover",
       text: "The asset turnover ratio measures the amount of sales relative to a company's assets. It indicates how efficiently the company uses its assets to generate revenue.",
     },
     {
+      propertyName: "receivablesTurnover",
+      label: "Receivables Turnover",
+      text: "The receivables turnover ratio measures how efficiently a company collects revenue from its credit customers.",
+    },
+    {
+      propertyName: "payablesTurnover",
+      label: "Payables Turnover",
+      text: "The payables turnover ratio measures how quickly a company pays off its suppliers and vendors.",
+    },
+    {
+      propertyName: "inventoryTurnover",
+      label: "Inventory Turnover",
+      text: "The inventory turnover ratio shows how many times a company has sold and replaced inventory during a period, indicating inventory management efficiency.",
+    },
+    {
+      propertyName: "fixedAssetTurnover",
+      label: "Fixed Asset Turnover",
+      text: "The fixed asset turnover ratio measures how efficiently a company uses its fixed assets (property, plant, and equipment) to generate sales.",
+    },
+    {
+      propertyName: "workingCapitalTurnoverRatio",
+      label: "Working Capital Turnover",
+      text: "The working capital turnover ratio measures how efficiently a company uses its working capital to generate sales.",
+    },
+    {
+      propertyName: "financialLeverageRatio",
+      label: "Financial Leverage Ratio",
+      text: "The financial leverage ratio measures the degree to which a company uses debt to finance its assets.",
+    },
+    {
       propertyName: "interestCoverageRatio",
       label: "Interest Coverage",
       text: "The interest coverage ratio is a measure of the ability of a company to pay its interest expenses. It is calculated by dividing the company's Earnings Before Interest and Taxes (EBIT) by its interest expenses.",
+    },
+    {
+      propertyName: "debtServiceCoverageRatio",
+      label: "Debt Service Coverage",
+      text: "The debt service coverage ratio measures a company's ability to service its debt with its operating income.",
     },
     {
       propertyName: "returnOnEquity",
@@ -83,9 +148,49 @@
       text: `Return on invested capital (ROIC) measures how effective a company is at investing its capital in order to increase profits. It is calculated by dividing the NOPAT (Net Operating Profit After Tax) by the invested capital.`,
     },
     {
+      propertyName: "operatingCashFlowRatio",
+      label: "OCF Ratio",
+      text: "The operating cash flow ratio measures a company's ability to cover current liabilities with cash generated from operations.",
+    },
+    {
+      propertyName: "operatingCashFlowSalesRatio",
+      label: "OCF/S Ratio",
+      text: "The operating cash flow to sales (OCF/S) Ratio assesses how well sales convert to cash. It's the operating cash flow divided by net sales, indicating cash efficiency.",
+    },
+    {
+      propertyName: "freeCashFlowOperatingCashFlowRatio",
+      label: "FCF/OCF Ratio",
+      text: "The free cash flow to operating cash flow ratio shows what percentage of operating cash flow remains as free cash flow after capital expenditures.",
+    },
+    {
+      propertyName: "shortTermOperatingCashFlowCoverageRatio",
+      label: "ST OCF Coverage",
+      text: "The short-term operating cash flow coverage ratio measures the ability of operating cash flow to cover short-term obligations.",
+    },
+    {
+      propertyName: "operatingCashFlowCoverageRatio",
+      label: "OCF Coverage Ratio",
+      text: "The operating cash flow coverage ratio measures how well operating cash flow can cover total debt obligations.",
+    },
+    {
+      propertyName: "capitalExpenditureCoverageRatio",
+      label: "CapEx Coverage Ratio",
+      text: "The capital expenditure coverage ratio measures how well operating cash flow covers capital expenditures needed to maintain and grow the business.",
+    },
+    {
+      propertyName: "dividendPaidAndCapexCoverageRatio",
+      label: "Dividend & CapEx Coverage",
+      text: "This ratio measures the ability of operating cash flow to cover both dividend payments and capital expenditures.",
+    },
+    {
       propertyName: "dividendYield",
       label: "Dividend Yield",
       text: "The dividend yield is how much a stock pays in dividends each year, as a percentage of the stock price.",
+    },
+    {
+      propertyName: "dividendYieldPercentage",
+      label: "Dividend Yield %",
+      text: "The dividend yield expressed as a percentage, showing the annual dividend payment relative to the stock price.",
     },
     {
       propertyName: "dividendPayoutRatio",
@@ -93,19 +198,24 @@
       text: "The dividend payout ratio is the percentage of a company's profits that are paid out as dividends. A high ratio implies that the dividend payments may not be sustainable.",
     },
     {
+      propertyName: "dividendPerShare",
+      label: "Dividend Per Share",
+      text: "The dividend per share is the total amount of dividends paid out to shareholders divided by the number of outstanding shares.",
+    },
+    {
       propertyName: "grossProfitMargin",
       label: "Gross Profit Margin",
       text: "Gross Profit Margin is the percentage of revenue left as gross profits, after subtracting cost of goods sold from the revenue.",
     },
     {
-      propertyName: "netProfitMargin",
-      label: "Net Profit Margin",
-      text: "Net Profit Margin is the percentage of revenue left as net income, or profits, after subtracting all costs and expenses from the revenue.",
+      propertyName: "ebitMargin",
+      label: "EBIT Margin",
+      text: "EBIT margin is the percentage of revenue left as earnings before interest and taxes (EBIT), measuring operating profitability.",
     },
     {
-      propertyName: "pretaxProfitMargin",
-      label: "Pretax Profit Margin",
-      text: "Pretax margin is the percentage of revenue left as profits before subtracting taxes.",
+      propertyName: "ebitdaMargin",
+      label: "EBITDA Margin",
+      text: "EBITDA margin is the percentage of revenue left as EBITDA, after subtracting all expenses except interest, taxes, depreciation and amortization from revenue.",
     },
     {
       propertyName: "operatingProfitMargin",
@@ -113,14 +223,99 @@
       text: "Operating margin is the percentage of revenue left as operating income, after subtracting cost of revenue and all operating expenses from the revenue.",
     },
     {
+      propertyName: "pretaxProfitMargin",
+      label: "Pretax Profit Margin",
+      text: "Pretax margin is the percentage of revenue left as profits before subtracting taxes.",
+    },
+    {
+      propertyName: "continuousOperationsProfitMargin",
+      label: "Continuous Operations Margin",
+      text: "The continuous operations profit margin measures profitability from ongoing business operations, excluding discontinued operations.",
+    },
+    {
+      propertyName: "netProfitMargin",
+      label: "Net Profit Margin",
+      text: "Net Profit Margin is the percentage of revenue left as net income, or profits, after subtracting all costs and expenses from the revenue.",
+    },
+    {
+      propertyName: "bottomLineProfitMargin",
+      label: "Bottom Line Profit Margin",
+      text: "The bottom line profit margin represents the final profit margin after all expenses, taxes, and costs have been deducted from revenue.",
+    },
+    {
       propertyName: "freeCashFlowMargin",
       label: "FCF Margin",
       text: "FCF margin is the percentage of revenue left as free cash flow. FCF is calculated by subtracting capital expenditures (CapEx) from the operating cash flow (OCF). Both CapEx and OCF are shown on the cash flow statement.",
     },
     {
-      propertyName: "ebitdaMargin",
-      label: "EBITDA Margin",
-      text: "EBITDA margin is the percentage of revenue left as EBITDA, after subtracting all expenses except interest, taxes, depreciation and amortization from revenue.",
+      propertyName: "revenuePerShare",
+      label: "Revenue Per Share",
+      text: "Revenue per share is the total revenue divided by the number of outstanding shares, showing how much revenue is generated per share.",
+    },
+    {
+      propertyName: "netIncomePerShare",
+      label: "Net Income Per Share",
+      text: "Net income per share (EPS) is the portion of a company's profit allocated to each outstanding share of common stock.",
+    },
+    {
+      propertyName: "interestDebtPerShare",
+      label: "Interest Debt Per Share",
+      text: "Interest-bearing debt per share shows the amount of debt that incurs interest expense divided by the number of outstanding shares.",
+    },
+    {
+      propertyName: "cashPerShare",
+      label: "Cash Per Share",
+      text: "Cash per share is the total cash and cash equivalents divided by the number of outstanding shares.",
+    },
+    {
+      propertyName: "bookValuePerShare",
+      label: "Book Value Per Share",
+      text: "Book value per share is the shareholders' equity divided by the number of outstanding shares, representing the net asset value per share.",
+    },
+    {
+      propertyName: "tangibleBookValuePerShare",
+      label: "Tangible Book Value Per Share",
+      text: "Tangible book value per share is the book value per share excluding intangible assets like goodwill.",
+    },
+    {
+      propertyName: "shareholdersEquityPerShare",
+      label: "Shareholders' Equity Per Share",
+      text: "Shareholders' equity per share represents the total equity attributable to shareholders divided by the number of outstanding shares.",
+    },
+    {
+      propertyName: "operatingCashFlowPerShare",
+      label: "Operating Cash Flow Per Share",
+      text: "Operating cash flow per share is the cash generated from operations divided by the number of outstanding shares.",
+    },
+    {
+      propertyName: "capexPerShare",
+      label: "CapEx Per Share",
+      text: "Capital expenditures per share shows the amount spent on fixed assets divided by the number of outstanding shares.",
+    },
+    {
+      propertyName: "freeCashFlowPerShare",
+      label: "Free Cash Flow Per Share",
+      text: "Free cash flow per share is the free cash flow (operating cash flow minus capital expenditures) divided by the number of outstanding shares.",
+    },
+    {
+      propertyName: "netIncomePerEBT",
+      label: "Net Income / EBT",
+      text: "The net income to earnings before tax ratio shows what percentage of pre-tax earnings remains after taxes are paid.",
+    },
+    {
+      propertyName: "ebtPerEbit",
+      label: "EBT / EBIT",
+      text: "The earnings before tax to EBIT ratio shows the impact of interest expenses on operating earnings.",
+    },
+    {
+      propertyName: "effectiveTaxRate",
+      label: "Effective Tax Rate",
+      text: "The effective tax rate is the average rate at which a company's pre-tax profits are taxed.",
+    },
+    {
+      propertyName: "enterpriseValueMultiple",
+      label: "EV Multiple",
+      text: "The enterprise value multiple (EV/EBITDA) is a valuation metric that compares a company's enterprise value to its EBITDA.",
     },
   ];
 </script>
