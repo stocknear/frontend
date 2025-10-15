@@ -46,11 +46,13 @@
   function plotData(row: any, isGrowth: boolean) {
     // Get the current category's table data to access dates
     let currentFormattedDates = [];
+    let currentRawDates = [];
 
     // Find the dates from categoryTableData
     for (const [category, data] of categoryTableData.entries()) {
       if (data.rows.some((r) => r.name === row.name)) {
         currentFormattedDates = data.formattedDates;
+        currentRawDates = data.dates;
         break;
       }
     }
@@ -68,16 +70,18 @@
       }
     });
 
-    // Filter out premium values and nulls
+    // Filter out premium values and nulls, and include raw date for sorting
     const filteredData = allValues
       .map((val, index) => ({
         value: val,
-        date: currentFormattedDates[index],
+        formattedDate: currentFormattedDates[index],
+        rawDate: currentRawDates[index],
         isPremium: row.cells[index].isPremium,
       }))
-      .filter((item) => !item.isPremium && item.value !== null);
+      .filter((item) => !item.isPremium && item.value !== null)
+      .sort((a, b) => new Date(a.rawDate).getTime() - new Date(b.rawDate).getTime());
 
-    const dateList = filteredData.map((item) => item.date);
+    const dateList = filteredData.map((item) => item.formattedDate);
     const valueList = filteredData.map((item) => item.value);
 
     // Calculate highest and lowest value
