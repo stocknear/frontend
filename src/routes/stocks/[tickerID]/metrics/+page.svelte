@@ -8,6 +8,11 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
+  import { mode } from "mode-watcher";
+  import highcharts from "$lib/highcharts.ts";
+  import { Button } from "$lib/components/shadcn/button/index.js";
+  import BarChart from "lucide-svelte/icons/chart-column-increasing";
+  import LineChart from "lucide-svelte/icons/chart-spline";
 
   export let data;
 
@@ -25,6 +30,183 @@
 
   function handleTabClick(index: number) {
     $selectedTimePeriod = index === 0 ? "quarterly" : "ttm";
+  }
+
+  // Chart modal state
+  let config = null;
+  let chartMode = "bar";
+  let modalLabel = "";
+  let highestValue = null;
+  let highestValueDate = null;
+  let lowestValue = null;
+  let lowestValueDate = null;
+  let currentRow = null;
+  let currentIsGrowth = false;
+
+  function plotData(row: any, isGrowth: boolean) {
+    // Get the current category's table data to access dates
+    let currentFormattedDates = [];
+
+    // Find the dates from categoryTableData
+    for (const [category, data] of categoryTableData.entries()) {
+      if (data.rows.some((r) => r.name === row.name)) {
+        currentFormattedDates = data.formattedDates;
+        break;
+      }
+    }
+
+    // Extract values based on whether it's growth or regular values
+    const allValues = row.cells.map((cell) => {
+      if (cell.isPremium) return null;
+
+      if (isGrowth) {
+        // Parse growth percentage (e.g., "+5.23%" -> 5.23)
+        if (cell.growth === "-") return null;
+        return parseFloat(cell.growth.replace(/[+%]/g, ""));
+      } else {
+        return cell.value;
+      }
+    });
+
+    // Filter out premium values and nulls
+    const filteredData = allValues
+      .map((val, index) => ({
+        value: val,
+        date: currentFormattedDates[index],
+        isPremium: row.cells[index].isPremium,
+      }))
+      .filter((item) => !item.isPremium && item.value !== null);
+
+    const dateList = filteredData.map((item) => item.date);
+    const valueList = filteredData.map((item) => item.value);
+
+    // Calculate highest and lowest value
+    highestValue = null;
+    lowestValue = null;
+    highestValueDate = null;
+    lowestValueDate = null;
+
+    if (valueList?.length > 0) {
+      highestValue = Math.max(...valueList);
+      lowestValue = Math.min(...valueList);
+
+      const highestValueIndex = valueList.indexOf(highestValue);
+      const lowestValueIndex = valueList.indexOf(lowestValue);
+
+      highestValueDate = dateList[highestValueIndex] || null;
+      lowestValueDate = dateList[lowestValueIndex] || null;
+    }
+
+    const label = isGrowth ? `${row.name} Growth` : row.name;
+
+    const options = {
+      chart: {
+        type: chartMode === "bar" ? "column" : "spline",
+        backgroundColor: $mode === "light" ? "#fff" : "#2A2E39",
+        plotBackgroundColor: $mode === "light" ? "#fff" : "#2A2E39",
+        height: 360,
+        animation: false,
+      },
+      credits: { enabled: false },
+      legend: { enabled: false },
+      plotOptions: {
+        series: {
+          color: "white",
+          animation: false,
+          dataLabels: {
+            enabled: false,
+            color: "white",
+            style: { fontSize: "13px", fontWeight: "bold" },
+            formatter: function () {
+              return abbreviateNumber(this?.y);
+            },
+          },
+        },
+      },
+      title: {
+        text: `<h3 class="mt-3 mb-1 sm:text-lg">${$stockTicker} ${label}</h3>`,
+        useHTML: true,
+        style: { color: $mode === "light" ? "black" : "white" },
+      },
+      xAxis: {
+        categories: dateList,
+        crosshair: {
+          color: $mode === "light" ? "black" : "white",
+          width: 1,
+          dashStyle: "Solid",
+        },
+        labels: {
+          style: { color: $mode === "light" ? "#545454" : "white" },
+          rotation: -45,
+          distance: 10,
+        },
+      },
+      yAxis: {
+        gridLineWidth: 1,
+        gridLineColor: $mode === "light" ? "#e5e7eb" : "#404657",
+        labels: {
+          style: { color: $mode === "light" ? "black" : "white" },
+          formatter: function () {
+            return isGrowth
+              ? this.value.toFixed(2) + "%"
+              : abbreviateNumber(this.value);
+          },
+        },
+        title: { text: null },
+        opposite: true,
+      },
+      tooltip: {
+        shared: true,
+        useHTML: true,
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        borderColor: "rgba(255, 255, 255, 0.2)",
+        borderWidth: 1,
+        style: { color: "#fff", fontSize: "16px", padding: "10px" },
+        borderRadius: 4,
+        formatter: function () {
+          let tooltipContent = `<span class="text-white text-[1rem] font-[501]">${this?.x}</span><br>`;
+          this.points.forEach((point) => {
+            const formattedValue = isGrowth
+              ? point.y?.toFixed(2) + "%"
+              : abbreviateNumber(point.y?.toFixed(2));
+            tooltipContent += `<span class="text-white font-semibold text-sm">${point.series.name}:</span>
+          <span class="text-white font-normal text-sm">${formattedValue}</span><br>`;
+          });
+          return tooltipContent;
+        },
+      },
+      series: [
+        {
+          name: label,
+          data: valueList,
+          color: $mode === "light" ? "#2C6288" : "white",
+          borderColor: $mode === "light" ? "#2C6288" : "white",
+          borderRadius: "1px",
+          animation: false,
+        },
+      ],
+    };
+
+    return options;
+  }
+
+  function handleChart(row: any, isGrowth: boolean) {
+    currentRow = row;
+    currentIsGrowth = isGrowth;
+    modalLabel = isGrowth ? `${row.name} Growth` : row.name;
+    config = plotData(row, isGrowth);
+  }
+
+  function toggleMode() {
+    if (chartMode === "bar") {
+      chartMode = "line";
+    } else {
+      chartMode = "bar";
+    }
+    // Re-render the chart with the new mode
+    if (currentRow) {
+      config = plotData(currentRow, currentIsGrowth);
+    }
   }
 
   // Cache processed data per period to avoid re-processing
@@ -445,6 +627,31 @@
                           class="whitespace-nowrap flex flex-row justify-between items-center text-sm sm:text-[1rem] font-normal text-start border-r border-gray-300 dark:border-gray-800"
                         >
                           {row.name}
+                          <label
+                            for="financialPlotModal"
+                            on:click={() => handleChart(row, false)}
+                            class="cursor-pointer inline-block border-none"
+                          >
+                            <svg
+                              class="w-5 h-5 text-gray-500 dark:text-gray-300"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
+                                id="SVGRepo_tracerCarrier"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              ></g><g id="SVGRepo_iconCarrier">
+                                <path
+                                  d="M9 12H4.6C4.03995 12 3.75992 12 3.54601 12.109C3.35785 12.2049 3.20487 12.3578 3.10899 12.546C3 12.7599 3 13.0399 3 13.6V19.4C3 19.9601 3 20.2401 3.10899 20.454C3.20487 20.6422 3.35785 20.7951 3.54601 20.891C3.75992 21 4.03995 21 4.6 21H9M9 21H15M9 21L9 8.6C9 8.03995 9 7.75992 9.10899 7.54601C9.20487 7.35785 9.35785 7.20487 9.54601 7.10899C9.75992 7 10.0399 7 10.6 7H13.4C13.9601 7 14.2401 7 14.454 7.10899C14.6422 7.20487 14.7951 7.35785 14.891 7.54601C15 7.75992 15 8.03995 15 8.6V21M15 21H19.4C19.9601 21 20.2401 21 20.454 20.891C20.6422 20.7951 20.7951 20.6422 20.891 20.454C21 20.2401 21 19.9601 21 19.4V4.6C21 4.03995 21 3.75992 20.891 3.54601C20.7951 3.35785 20.6422 3.20487 20.454 3.10899C20.2401 3 19.9601 3 19.4 3H16.6C16.0399 3 15.7599 3 15.546 3.10899C15.3578 3.20487 15.2049 3.35785 15.109 3.54601C15 3.75992 15 4.03995 15 4.6V8"
+                                  stroke="currentColor"
+                                  stroke-width="1.8"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                ></path>
+                              </g></svg
+                            >
+                          </label>
                         </th>
                         {#each row.cells as cell}
                           <td
@@ -482,6 +689,31 @@
                           <span class="ml-2 mr-5 md:mr-0"
                             >{row.name} Growth</span
                           >
+                          <label
+                            for="financialPlotModal"
+                            on:click={() => handleChart(row, true)}
+                            class="cursor-pointer inline-block border-none"
+                          >
+                            <svg
+                              class="w-5 h-5 text-gray-500 dark:text-gray-300"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
+                                id="SVGRepo_tracerCarrier"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              ></g><g id="SVGRepo_iconCarrier">
+                                <path
+                                  d="M9 12H4.6C4.03995 12 3.75992 12 3.54601 12.109C3.35785 12.2049 3.20487 12.3578 3.10899 12.546C3 12.7599 3 13.0399 3 13.6V19.4C3 19.9601 3 20.2401 3.10899 20.454C3.20487 20.6422 3.35785 20.7951 3.54601 20.891C3.75992 21 4.03995 21 4.6 21H9M9 21H15M9 21L9 8.6C9 8.03995 9 7.75992 9.10899 7.54601C9.20487 7.35785 9.35785 7.20487 9.54601 7.10899C9.75992 7 10.0399 7 10.6 7H13.4C13.9601 7 14.2401 7 14.454 7.10899C14.6422 7.20487 14.7951 7.35785 14.891 7.54601C15 7.75992 15 8.03995 15 8.6V21M15 21H19.4C19.9601 21 20.2401 21 20.454 20.891C20.6422 20.7951 20.7951 20.6422 20.891 20.454C21 20.2401 21 19.9601 21 19.4V4.6C21 4.03995 21 3.75992 20.891 3.54601C20.7951 3.35785 20.6422 3.20487 20.454 3.10899C20.2401 3 19.9601 3 19.4 3H16.6C16.0399 3 15.7599 3 15.546 3.10899C15.3578 3.20487 15.2049 3.35785 15.109 3.54601C15 3.75992 15 4.03995 15 4.6V8"
+                                  stroke="currentColor"
+                                  stroke-width="1.8"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                ></path>
+                              </g></svg
+                            >
+                          </label>
                         </td>
                         {#each row.cells as cell}
                           <td
@@ -527,3 +759,57 @@
     </div>
   </div>
 </section>
+
+<input type="checkbox" id="financialPlotModal" class="modal-toggle" />
+<dialog id="financialPlotModal" class="modal px-3">
+  <label for="financialPlotModal" class="cursor-pointer modal-backdrop"></label>
+
+  <div
+    class="modal-box w-full max-w-3xl p-6 rounded shadow-lg border
+        bg-white dark:bg-secondary border border-gray-600 dark:border-gray-800"
+  >
+    {#if config}
+      <div class="flex justify-end items-center w-full">
+        <Button
+          on:click={toggleMode}
+          class="w-fit border-gray-300 dark:border-gray-600 border bg-black sm:hover:bg-default text-white dark:text-black dark:bg-white dark:sm:hover:bg-gray-100 ease-out  flex flex-row justify-between items-center px-3 py-1.5  rounded truncate"
+        >
+          {#if chartMode === "bar"}
+            <LineChart class="w-4.5 h-4.5" />
+            <span class="ml-1 mr-auto text-sm"> Line Chart </span>
+          {:else}
+            <BarChart class="w-4.5 h-4.5" />
+            <span class="ml-1 mr-auto text-sm"> Bar Chart </span>
+          {/if}</Button
+        >
+      </div>
+
+      <div class="mt-2" use:highcharts={config}></div>
+    {/if}
+    <p class="text-sm mb-6">
+      {modalLabel} peaked at
+      <strong
+        >{currentIsGrowth
+          ? highestValue?.toFixed(2) + "%"
+          : abbreviateNumber(highestValue?.toFixed(2))}</strong
+      >
+      in <strong>{highestValueDate}</strong>
+      and hit its lowest at
+      <strong
+        >{currentIsGrowth
+          ? lowestValue?.toFixed(2) + "%"
+          : abbreviateNumber(lowestValue?.toFixed(2))}</strong
+      >
+      in <strong>{lowestValueDate}</strong>.
+    </p>
+
+    <div class="border-t border-gray-300 dark:border-gray-600 mt-2 w-full">
+      <label
+        for="financialPlotModal"
+        class="mt-4 font-semibold text-xl m-auto flex justify-center cursor-pointer"
+      >
+        Close
+      </label>
+    </div>
+  </div>
+</dialog>
