@@ -7,6 +7,7 @@
     selectedTimePeriod,
   } from "$lib/store";
   import { mode } from "mode-watcher";
+  import { onMount } from "svelte";
 
   export let data;
   export let title = "";
@@ -14,9 +15,14 @@
   export let showGrowth = true;
   export let first = false;
   export let overrideDownloadData = null; // For overview page to pass combined data
+  export let lazy = false; // Enable lazy loading for this table
 
   const isSubscribed = ["Pro", "Plus"]?.includes(data?.user?.tier);
   const limit = 6;
+
+  // Lazy loading state
+  let isVisible = !lazy || first; // First table always visible, others lazy load
+  let containerElement: HTMLElement;
 
   let tabs = ["Quarterly", "TTM"];
 
@@ -24,6 +30,51 @@
 
   function handleTabClick(index: number) {
     $selectedTimePeriod = index === 0 ? "quarterly" : "ttm";
+  }
+
+  // Setup IntersectionObserver for lazy loading
+  onMount(() => {
+    if (lazy && !first && containerElement) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              isVisible = true;
+              observer.disconnect();
+            }
+          });
+        },
+        {
+          rootMargin: "200px", // Start loading 200px before visible
+          threshold: 0.01,
+        }
+      );
+
+      observer.observe(containerElement);
+
+      return () => {
+        observer.disconnect();
+      };
+    }
+  });
+
+  // Memoized date formatter
+  const dateFormatterCache = new Map();
+  function formatDateForTable(dateStr: string): string {
+    if (dateFormatterCache.has(dateStr)) {
+      return dateFormatterCache.get(dateStr);
+    }
+    const date = new Date(dateStr);
+    const formatted = isNaN(date.getTime())
+      ? "n/a"
+      : date.toLocaleString("en-US", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+          timeZone: "UTC",
+        });
+    dateFormatterCache.set(dateStr, formatted);
+    return formatted;
   }
 
   // Pre-compute everything in one reactive block
@@ -44,18 +95,8 @@
       // Sort and limit to most recent
       const allDates = Array.from(dateSet).sort().reverse();
 
-      // Pre-format dates once
-      const formattedDates = allDates.map((d) => {
-        const date = new Date(d);
-        return isNaN(date)
-          ? "n/a"
-          : date.toLocaleString("en-US", {
-              day: "2-digit",
-              month: "short",
-              year: "numeric",
-              timeZone: "UTC",
-            });
-      });
+      // Pre-format dates once using memoized formatter
+      const formattedDates = allDates.map(formatDateForTable);
 
       // Pre-compute all row data
       const rows = metrics.map((metric) => {
@@ -128,52 +169,56 @@
     }
   }
 
-  // Transform tableData for download - matches table display format
-  $: downloadData = (() => {
+  let downloadData = [];
+  $: {
     // Use override data if provided (for overview page with all categories)
     if (overrideDownloadData && overrideDownloadData.length > 0) {
-      return overrideDownloadData;
-    }
+      downloadData = overrideDownloadData;
+    } else if (!tableData.formattedDates || tableData.formattedDates.length === 0) {
+      downloadData = [];
+    } else {
+      // Create array of objects where each object is a column (date period)
+      downloadData = tableData.formattedDates.map((formattedDate, dateIndex) => {
+        const downloadRow: Record<string, any> = {
+          "Period Ending": formattedDate,
+        };
 
-    if (!tableData.formattedDates || tableData.formattedDates.length === 0) {
-      return [];
-    }
+        // Add each metric's value for this date
+        tableData.rows.forEach((row) => {
+          const cell = row.cells[dateIndex];
+          if (cell && !cell.isPremium) {
+            downloadRow[row.name] = cell.formatted;
+            if (showGrowth && cell.growth !== "-") {
+              downloadRow[`${row.name} Growth`] = cell.growth;
+            }
+          } else if (cell?.isPremium) {
+            downloadRow[row.name] = "Premium";
+            if (showGrowth) {
+              downloadRow[`${row.name} Growth`] = "Premium";
+            }
+          } else {
+            downloadRow[row.name] = "-";
+            if (showGrowth) {
+              downloadRow[`${row.name} Growth`] = "-";
+            }
+          }
+        });
 
-    // Create array of objects where each object is a column (date period)
-    return tableData.formattedDates.map((formattedDate, dateIndex) => {
-      const downloadRow: Record<string, any> = {
-        "Period Ending": formattedDate,
-      };
-
-      // Add each metric's value for this date
-      tableData.rows.forEach((row) => {
-        const cell = row.cells[dateIndex];
-        if (cell && !cell.isPremium) {
-          downloadRow[row.name] = cell.formatted;
-          if (showGrowth && cell.growth !== "-") {
-            downloadRow[`${row.name} Growth`] = cell.growth;
-          }
-        } else if (cell?.isPremium) {
-          downloadRow[row.name] = "Premium";
-          if (showGrowth) {
-            downloadRow[`${row.name} Growth`] = "Premium";
-          }
-        } else {
-          downloadRow[row.name] = "-";
-          if (showGrowth) {
-            downloadRow[`${row.name} Growth`] = "-";
-          }
-        }
+        return downloadRow;
       });
-
-      return downloadRow;
-    });
-  })();
+    }
+  }
 </script>
 
-<section class="my-5 pb-5">
-  {#if first}
-    <div class="items-center lg:overflow-visible">
+<section class="my-5 pb-5" bind:this={containerElement}>
+  {#if !isVisible}
+    <!-- Lazy loading placeholder -->
+    <div class="min-h-[300px] flex items-center justify-center">
+      <div class="text-sm text-gray-500">Loading {title}...</div>
+    </div>
+  {:else}
+    {#if first}
+      <div class="items-center lg:overflow-visible">
       <div
         class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1"
       >
@@ -381,4 +426,5 @@
       </tbody>
     </table>
   </div>
+  {/if}
 </section>
