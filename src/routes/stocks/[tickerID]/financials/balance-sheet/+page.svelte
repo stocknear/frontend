@@ -9,114 +9,215 @@
   const statementConfig = [
     {
       propertyName: "cashAndCashEquivalents",
-      growthPropertyName: "growthCashAndCashEquivalents",
       label: "Cash & Equivalents",
     },
     {
       propertyName: "shortTermInvestments",
-      growthPropertyName: "growthShortTermInvestments",
       label: "Short-Term Investments",
     },
     {
-      propertyName: "longTermInvestments",
-      growthPropertyName: "growthLongTermInvestments",
-      label: "Long-Term Investments",
-    },
-    {
-      propertyName: "otherNonCurrentAssets",
-      growthPropertyName: "growthOtherNonCurrentAssets",
-      label: "Other Long-Term Assets",
+      propertyName: "cashAndShortTermInvestments",
+      label: "Cash & Short-Term Investments",
     },
     {
       propertyName: "netReceivables",
-      growthPropertyName: "growthNetReceivables",
       label: "Receivables",
     },
     {
+      propertyName: "accountsReceivables",
+      label: "Accounts Receivables",
+    },
+    {
+      propertyName: "otherReceivables",
+      label: "Other Receivables",
+    },
+    {
       propertyName: "inventory",
-      growthPropertyName: "growthInventory",
       label: "Inventory",
     },
     {
+      propertyName: "prepaids",
+      label: "Prepaid Expenses",
+    },
+    {
       propertyName: "otherCurrentAssets",
-      growthPropertyName: "growthOtherCurrentAssets",
       label: "Other Current Assets",
     },
     {
       propertyName: "totalCurrentAssets",
-      growthPropertyName: "growthTotalCurrentAssets",
       label: "Total Current Assets",
     },
     {
       propertyName: "propertyPlantEquipmentNet",
-      growthPropertyName: "growthPropertyPlantEquipmentNet",
       label: "Property-Plant & Equipment",
     },
     {
+      propertyName: "goodwill",
+      label: "Goodwill",
+    },
+    {
+      propertyName: "intangibleAssets",
+      label: "Intangible Assets",
+    },
+    {
       propertyName: "goodwillAndIntangibleAssets",
-      growthPropertyName: "growthGoodwillAndIntangibleAssets",
       label: "Goodwill & Intangibles",
     },
     {
+      propertyName: "longTermInvestments",
+      label: "Long-Term Investments",
+    },
+    {
+      propertyName: "taxAssets",
+      label: "Tax Assets",
+    },
+    {
+      propertyName: "otherNonCurrentAssets",
+      label: "Other Long-Term Assets",
+    },
+    {
       propertyName: "totalNonCurrentAssets",
-      growthPropertyName: "growthTotalNonCurrentAssets",
       label: "Total Long-Term Assets",
     },
     {
+      propertyName: "otherAssets",
+      label: "Other Assets",
+    },
+    {
       propertyName: "totalAssets",
-      growthPropertyName: "growthTotalAssets",
       label: "Total Assets",
     },
     {
+      propertyName: "totalPayables",
+      label: "Total Payables",
+    },
+    {
       propertyName: "accountPayables",
-      growthPropertyName: "growthAccountPayables",
       label: "Account Payables",
     },
     {
-      propertyName: "deferredRevenue",
-      growthPropertyName: "growthDeferredRevenue",
-      label: "Deferred Revenue",
+      propertyName: "otherPayables",
+      label: "Other Payables",
+    },
+    {
+      propertyName: "accruedExpenses",
+      label: "Accrued Expenses",
     },
     {
       propertyName: "shortTermDebt",
-      growthPropertyName: "growthShortTermDebt",
       label: "Short-Term Debt",
-      text: "Current debt is company debt that needs to be paid within one year. It also includes the portion of long-term debt that is due within a year.",
+    },
+    {
+      propertyName: "capitalLeaseObligationsCurrent",
+      label: "Current Capital Lease Obligations",
+    },
+    {
+      propertyName: "taxPayables",
+      label: "Tax Payables",
+    },
+    {
+      propertyName: "deferredRevenue",
+      label: "Deferred Revenue",
     },
     {
       propertyName: "otherCurrentLiabilities",
-      growthPropertyName: "growthOtherCurrentLiabilities",
       label: "Other Current Liabilities",
     },
     {
       propertyName: "totalCurrentLiabilities",
-      growthPropertyName: "growthTotalCurrentLiabilities",
       label: "Total Current Liabilities",
     },
     {
       propertyName: "longTermDebt",
-      growthPropertyName: "growthLongTermDebt",
       label: "Long-Term Debt",
     },
     {
+      propertyName: "capitalLeaseObligationsNonCurrent",
+      label: "Non-Current Capital Lease Obligations",
+    },
+    {
+      propertyName: "deferredRevenueNonCurrent",
+      label: "Non-Current Deferred Revenue",
+    },
+    {
+      propertyName: "deferredTaxLiabilitiesNonCurrent",
+      label: "Non-Current Deferred Tax Liabilities",
+    },
+    {
       propertyName: "otherNonCurrentLiabilities",
-      growthPropertyName: "growthOtherNonCurrentLiabilities",
       label: "Other Long-Term Liabilities",
     },
     {
       propertyName: "totalNonCurrentLiabilities",
-      growthPropertyName: "growthTotalNonCurrentLiabilities",
       label: "Total Long-Term Liabilities",
     },
     {
+      propertyName: "otherLiabilities",
+      label: "Other Liabilities",
+    },
+    {
+      propertyName: "capitalLeaseObligations",
+      label: "Capital Lease Obligations",
+    },
+    {
       propertyName: "totalLiabilities",
-      growthPropertyName: "growthTotalLiabilities",
       label: "Total Liabilities",
     },
     {
+      propertyName: "treasuryStock",
+      label: "Treasury Stock",
+    },
+    {
+      propertyName: "preferredStock",
+      label: "Preferred Stock",
+    },
+    {
+      propertyName: "commonStock",
+      label: "Common Stock",
+    },
+    {
+      propertyName: "retainedEarnings",
+      label: "Retained Earnings",
+    },
+    {
+      propertyName: "additionalPaidInCapital",
+      label: "Additional Paid-In Capital",
+    },
+    {
+      propertyName: "accumulatedOtherComprehensiveIncomeLoss",
+      label: "Comprehensive Income",
+    },
+    {
+      propertyName: "otherTotalStockholdersEquity",
+      label: "Other Stockholders Equity",
+    },
+    {
+      propertyName: "totalStockholdersEquity",
+      label: "Shareholders Equity",
+    },
+    {
+      propertyName: "totalEquity",
+      label: "Total Equity",
+    },
+    {
+      propertyName: "minorityInterest",
+      label: "Minority Interest",
+    },
+    {
+      propertyName: "totalLiabilitiesAndTotalEquity",
+      label: "Total Liabilities & Equity",
+    },
+    {
+      propertyName: "totalInvestments",
+      label: "Total Investments",
+    },
+    {
       propertyName: "totalDebt",
-      growthPropertyName: "growthTotalDebt",
       label: "Total Debt",
+    },
+    {
+      propertyName: "netDebt",
+      label: "Net Debt",
     },
     {
       propertyName: "bookValue",
@@ -125,31 +226,6 @@
     {
       propertyName: "bookValuePerShare",
       label: "Book Value Per Share",
-    },
-    {
-      propertyName: "commonStock",
-      growthPropertyName: "growthCommonStock",
-      label: "Common Stock",
-    },
-    {
-      propertyName: "retainedEarnings",
-      growthPropertyName: "growthRetainedEarnings",
-      label: "Retained Earnings",
-    },
-    {
-      propertyName: "accumulatedOtherComprehensiveIncomeLoss",
-      growthPropertyName: "growthAccumulatedOtherComprehensiveIncomeLoss",
-      label: "Comprehensive Income",
-    },
-    {
-      propertyName: "totalStockholdersEquity",
-      growthPropertyName: "growthTotalStockholdersEquity",
-      label: "Shareholders Equity",
-    },
-    {
-      propertyName: "totalInvestments",
-      growthPropertyName: "growthTotalInvestments",
-      label: "Total Investments",
     },
   ];
 </script>

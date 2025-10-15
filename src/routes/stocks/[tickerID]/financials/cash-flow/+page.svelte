@@ -16,8 +16,28 @@
       label: "Depreciation & Amortization",
     },
     {
+      propertyName: "deferredIncomeTax",
+      label: "Deferred Income Tax",
+    },
+    {
       propertyName: "stockBasedCompensation",
       label: "Stock-Based Compensation",
+    },
+    {
+      propertyName: "changeInWorkingCapital",
+      label: "Change in Working Capital",
+    },
+    {
+      propertyName: "accountsReceivables",
+      label: "Accounts Receivables",
+    },
+    {
+      propertyName: "inventory",
+      label: "Inventory",
+    },
+    {
+      propertyName: "accountsPayables",
+      label: "Accounts Payables",
     },
     {
       propertyName: "otherWorkingCapital",
@@ -28,16 +48,16 @@
       label: "Other Non-Cash Items",
     },
     {
-      propertyName: "deferredIncomeTax",
-      label: "Deferred Income Tax",
-    },
-    {
-      propertyName: "changeInWorkingCapital",
-      label: "Change in Working Capital",
-    },
-    {
       propertyName: "netCashProvidedByOperatingActivities",
+      label: "Net Cash from Operating Activities",
+    },
+    {
+      propertyName: "operatingCashFlow",
       label: "Operating Cash Flow",
+    },
+    {
+      propertyName: "investmentsInPropertyPlantAndEquipment",
+      label: "PP&E Investments",
     },
     {
       propertyName: "capitalExpenditure",
@@ -53,43 +73,95 @@
     },
     {
       propertyName: "salesMaturitiesOfInvestments",
-      label: "Sales Maturities Of Investments",
+      label: "Sales Maturities of Investments",
     },
     {
       propertyName: "otherInvestingActivities",
-      label: "Other Investing Acitivies",
+      label: "Other Investing Activities",
     },
     {
       propertyName: "netCashProvidedByInvestingActivities",
-      label: "Investing Cash Flow",
+      label: "Net Cash from Investing Activities",
     },
     {
       propertyName: "netDebtIssuance",
-      label: "Debt Repayment",
+      label: "Net Debt Issuance",
+    },
+    {
+      propertyName: "longTermNetDebtIssuance",
+      label: "Long-Term Net Debt Issuance",
+    },
+    {
+      propertyName: "shortTermNetDebtIssuance",
+      label: "Short-Term Net Debt Issuance",
+    },
+    {
+      propertyName: "netStockIssuance",
+      label: "Net Stock Issuance",
+    },
+    {
+      propertyName: "netCommonStockIssuance",
+      label: "Net Common Stock Issuance",
+    },
+    {
+      propertyName: "commonStockIssuance",
+      label: "Common Stock Issuance",
     },
     {
       propertyName: "commonStockRepurchased",
       label: "Common Stock Repurchased",
     },
     {
+      propertyName: "netPreferredStockIssuance",
+      label: "Net Preferred Stock Issuance",
+    },
+    {
       propertyName: "netDividendsPaid",
-      label: "Dividend Paid",
+      label: "Net Dividends Paid",
+    },
+    {
+      propertyName: "commonDividendsPaid",
+      label: "Common Dividends Paid",
+    },
+    {
+      propertyName: "preferredDividendsPaid",
+      label: "Preferred Dividends Paid",
     },
     {
       propertyName: "otherFinancingActivities",
-      label: "Other Financial Acitivies",
+      label: "Other Financing Activities",
     },
     {
       propertyName: "netCashProvidedByFinancingActivities",
-      label: "Financial Cash Flow",
+      label: "Net Cash from Financing Activities",
+    },
+    {
+      propertyName: "effectOfForexChangesOnCash",
+      label: "Effect of Forex Changes on Cash",
     },
     {
       propertyName: "netChangeInCash",
-      label: "Net Cash Flow",
+      label: "Net Change in Cash",
+    },
+    {
+      propertyName: "cashAtEndOfPeriod",
+      label: "Cash at End of Period",
+    },
+    {
+      propertyName: "cashAtBeginningOfPeriod",
+      label: "Cash at Beginning of Period",
     },
     {
       propertyName: "freeCashFlow",
       label: "Free Cash Flow",
+    },
+    {
+      propertyName: "incomeTaxesPaid",
+      label: "Income Taxes Paid",
+    },
+    {
+      propertyName: "interestPaid",
+      label: "Interest Paid",
     },
   ];
 </script>
