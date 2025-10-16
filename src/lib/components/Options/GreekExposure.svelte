@@ -715,63 +715,133 @@
   </div>
 
   {#if data?.user?.tier === "Pro" && displayList?.length > 0 && totalPages > 0}
-    <div
-      class="w-full flex flex-col sm:flex-row justify-between items-center mt-4 mb-8"
-    >
-      <div class="flex items-center">
+    <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
+      <!-- Previous button -->
+      <div class="flex items-center gap-2">
         <Button
           on:click={() => goToPage(currentPage - 1)}
           disabled={currentPage === 1}
-          variant="outline"
-          size="sm"
-          class="rounded-lg"
+          class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
         >
-          Previous
+          <svg
+            class="h-5 w-5 inline-block shrink-0 rotate-90"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            style="max-width:40px"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span class="hidden sm:inline">Previous</span>
         </Button>
-        <span class="mx-4 text-sm">
-          Page {currentPage} of {totalPages}
-        </span>
-        <Button
-          on:click={() => goToPage(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          variant="outline"
-          size="sm"
-          class="rounded-lg"
-        >
-          Next
-        </Button>
-        <span class="sm:hidden ml-4">
-          <Button on:click={scrollToTop} variant="outline" size="sm">
-            Back to Top
-          </Button>
-        </span>
       </div>
 
-      <div class="flex items-center mt-4 sm:mt-0">
-        <span class="mr-2 text-sm">Rows per page:</span>
+      <!-- Page info and rows selector in center -->
+      <div class="flex flex-row items-center gap-4">
+        <span class="text-sm sm:text-[1rem]">
+          Page {currentPage} of {totalPages}
+        </span>
+
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild let:builder>
-            <Button builders={[builder]} variant="outline" size="sm">
-              {rowsPerPage}
+            <Button
+              builders={[builder]}
+              class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 rounded truncate"
+            >
+              <span class="truncate text-[0.85rem] sm:text-sm"
+                >{rowsPerPage} Rows</span
+              >
+              <svg
+                class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
             </Button>
           </DropdownMenu.Trigger>
-          <DropdownMenu.Content>
-            <DropdownMenu.Group>
-              {#each rowsPerPageOptions as option}
-                <DropdownMenu.Item on:click={() => changeRowsPerPage(option)}>
-                  {option}
+
+          <DropdownMenu.Content
+            side="bottom"
+            align="end"
+            sideOffset={10}
+            alignOffset={0}
+            class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative"
+          >
+            <!-- Dropdown items -->
+            <DropdownMenu.Group class="pb-2">
+              {#each rowsPerPageOptions as item}
+                <DropdownMenu.Item
+                  class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                >
+                  <label
+                    on:click={() => changeRowsPerPage(item)}
+                    class="inline-flex justify-between w-full items-center cursor-pointer"
+                  >
+                    <span class="text-sm">{item} Rows</span>
+                  </label>
                 </DropdownMenu.Item>
               {/each}
             </DropdownMenu.Group>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
-
-        <span class="hidden sm:block ml-4">
-          <Button on:click={scrollToTop} variant="outline" size="sm">
-            Back to Top
-          </Button>
-        </span>
       </div>
+
+      <!-- Next button -->
+      <div class="flex items-center gap-2">
+        <Button
+          on:click={() => goToPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+        >
+          <span class="hidden sm:inline">Next</span>
+          <svg
+            class="h-5 w-5 inline-block shrink-0 -rotate-90"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            style="max-width:40px"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </Button>
+      </div>
+    </div>
+
+    <!-- Back to Top button -->
+    <div class="flex justify-center mt-4">
+      <button
+        on:click={scrollToTop}
+        class="cursor-pointer sm:hover:text-muted text-blue-800 dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem] font-medium"
+      >
+        Back to Top <svg
+          class="h-5 w-5 inline-block shrink-0 rotate-180"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          style="max-width:40px"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </button>
     </div>
   {/if}
 
