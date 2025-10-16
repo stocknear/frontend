@@ -617,6 +617,15 @@
     }
   }
 
+  // Reactive statement to update pagination when rawData changes
+  $: if (rawData?.length > 0) {
+    // Ensure sortedData is in sync with rawData
+    if (sortedData?.length === 0) {
+      sortedData = [...rawData];
+    }
+    updatePaginatedData();
+  }
+
   // Reactive statement to load pagination settings when page changes
   $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
     pagePathName = $page?.url?.pathname;
@@ -823,7 +832,12 @@
                 <div class="ml-auto">
                   <DownloadData
                     {data}
-                    rawData={rawData}
+                    rawData={rawData?.map(item => ({
+                      expiration: item?.expiration,
+                      maxPain: item?.maxPain,
+                      change: item?.change,
+                      changesPercentage: item?.changesPercentage,
+                    }))}
                     title={`${ticker}_max_pain`}
                   />
                 </div>
