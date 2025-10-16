@@ -24,6 +24,9 @@
   let chartConfig = null;
   let syncWorker: Worker | undefined;
   let searchWorker: Worker | undefined;
+  let totalTransaction = (
+    rawData?.filter((item) => item?.price > 0)?.length || 0
+  )?.toLocaleString("en-US");
 
   let inputValue = "";
   let transactionList = [
@@ -503,18 +506,10 @@
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
-
-    // Create chart configuration with server data
-    createChartConfig();
   });
 
   // Reactive statements for chart updates
-  $: if ($mode && historicalData?.length) {
-    createChartConfig();
-  }
-
-  // Update chart when rawData changes (filtering)
-  $: if (rawData && historicalData?.length) {
+  $: if (($mode && historicalData?.length) || rawData) {
     createChartConfig();
   }
 
@@ -715,8 +710,7 @@
 
         <p class="mt-4">
           We track
-          <strong>{rawData?.length?.toLocaleString("en-US")}</strong> insider
-          transactions spanning
+          <strong>{totalTransaction}</strong> insider transactions spanning
           <strong
             >{rawData
               ?.filter((item) => item?.transactionType?.includes("P"))
@@ -831,9 +825,7 @@
             <h2
               class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold py-1 border-b border-gray-300 dark:border-gray-800 lg:border-none w-full"
             >
-              {(
-                originalData?.filter((item) => item?.price > 0)?.length || 0
-              )?.toLocaleString("en-US")} Transactions
+              {totalTransaction} Transactions
             </h2>
             <div
               class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
