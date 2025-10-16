@@ -1,10 +1,6 @@
 <script lang="ts">
   import { displayCompanyName, stockTicker, screenWidth } from "$lib/store";
-  import {
-    formatString,
-    abbreviateNumber,
-    removeCompanyStrings,
-  } from "$lib/utils";
+  import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import highcharts from "$lib/highcharts.ts";
@@ -55,11 +51,12 @@
 
   // Create chart configuration with insider trading markers
   function createChartConfig() {
-    if (!historicalData?.length || !rawData?.length) return;
+    if (!historicalData?.length || !originalData?.length) return;
 
-    // Find insider trading date range first
+    // Find insider trading date range from ORIGINAL data (not filtered)
+    // This ensures stock price always shows the full range
     const insiderDates =
-      rawData
+      originalData
         ?.filter(
           (item) =>
             item?.price > 0 &&
@@ -513,6 +510,11 @@
 
   // Reactive statements for chart updates
   $: if ($mode && historicalData?.length) {
+    createChartConfig();
+  }
+
+  // Update chart when rawData changes (filtering)
+  $: if (rawData && historicalData?.length) {
     createChartConfig();
   }
 
