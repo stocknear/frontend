@@ -2,9 +2,10 @@
   import { displayCompanyName } from "$lib/store";
   import Infobox from "$lib/components/Infobox.svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
-
   import DownloadData from "$lib/components/DownloadData.svelte";
-
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
+  import { page } from "$app/stores";
   import { onMount } from "svelte";
 
   export let data;
@@ -12,7 +13,8 @@
 
   let dateDistance;
   let rawData = data?.getStockDividend;
-  let stockList = rawData?.history?.slice(0, 50);
+  let sortedData = [];
+  let stockList = [];
   let exDividendDate;
   let dividendYield;
   let annualDividend;
@@ -20,17 +22,64 @@
   let payoutRatio;
   let dividendGrowth;
 
-  async function handleScroll() {
-    const scrollThreshold = document.body.offsetHeight * 0.8; // 80% of the website height
-    const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
-    if (isBottom && stockList?.length !== rawData?.history?.length) {
-      const nextIndex = stockList?.length;
-      const filteredNewResults = rawData?.history?.slice(
-        nextIndex,
-        nextIndex + 50,
+  // Pagination state
+  let currentPage = 1;
+  let rowsPerPage = 20;
+  let rowsPerPageOptions = [20, 50, 100];
+  let totalPages = 1;
+  let pagePathName = $page?.url?.pathname;
+
+  function updatePaginatedData() {
+    const start = (currentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    stockList = sortedData?.slice(start, end);
+    totalPages = Math.ceil(sortedData?.length / rowsPerPage);
+  }
+
+  function goToPage(page) {
+    currentPage = page;
+    updatePaginatedData();
+  }
+
+  function changeRowsPerPage(newRowsPerPage) {
+    rowsPerPage = newRowsPerPage;
+    currentPage = 1;
+    updatePaginatedData();
+    saveRowsPerPage();
+  }
+
+  function saveRowsPerPage() {
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem(
+        `dividends_rowsPerPage_${pagePathName}`,
+        rowsPerPage.toString(),
       );
-      stockList = [...stockList, ...filteredNewResults];
     }
+  }
+
+  function loadRowsPerPage() {
+    if (typeof localStorage !== "undefined") {
+      const savedRowsPerPage = localStorage.getItem(
+        `dividends_rowsPerPage_${pagePathName}`,
+      );
+      if (savedRowsPerPage) {
+        rowsPerPage = parseInt(savedRowsPerPage, 10);
+      }
+    }
+  }
+
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
+  function initialize() {
+    sortedData = [...(rawData?.history || [])];
+    loadRowsPerPage();
+    currentPage = 1;
+    updatePaginatedData();
   }
 
   function generateDividendInfoHTML() {
@@ -82,11 +131,14 @@
   let htmlOutput = `No dividend history available for ${$displayCompanyName}.`;
 
   onMount(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    initialize();
   });
+
+  $: {
+    if (pagePathName) {
+      initialize();
+    }
+  }
 
   let columns = [
     { key: "date", label: "Ex-Dividend Date", align: "left" },
@@ -115,8 +167,6 @@
     // Cycle through 'none', 'asc', 'desc' for the clicked key
     const orderCycle = ["none", "asc", "desc"];
 
-    let originalData = rawData?.history;
-
     const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
     sortOrders[key].order =
       orderCycle[(currentOrderIndex + 1) % orderCycle.length];
@@ -124,7 +174,9 @@
 
     // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
-      stockList = [...originalData]?.slice(0, 50); // Reset to original data (spread to avoid mutation)
+      sortedData = [...(rawData?.history || [])];
+      currentPage = 1;
+      updatePaginatedData();
       return;
     }
 
@@ -159,12 +211,12 @@
     };
 
     // Sort using the generic comparison function
-    stockList = [...originalData].sort(compareValues)?.slice(0, 50);
+    sortedData = [...(rawData?.history || [])].sort(compareValues);
+    currentPage = 1;
+    updatePaginatedData();
   };
 
   rawData = data?.getStockDividend;
-  stockList = rawData?.history?.slice(0, 50);
-
   exDividendDate = rawData?.history?.at(0)?.date;
   dividendYield = rawData?.dividendYield;
   annualDividend = rawData?.annualDividend;
@@ -364,7 +416,142 @@
                 </tbody>
               </table>
             </div>
-            <span class="text-gray-800 dark:text-gray-200 text-sm italic">
+
+            <!-- Pagination controls -->
+            {#if stockList?.length > 0 && totalPages > 0}
+              <div
+                class="flex flex-row items-center justify-between mt-8 sm:mt-5"
+              >
+                <!-- Previous button -->
+                <div class="flex items-center gap-2">
+                  <Button
+                    on:click={() => goToPage(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                  >
+                    <svg
+                      class="h-5 w-5 inline-block shrink-0 rotate-90"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                    <span class="hidden sm:inline">Previous</span>
+                  </Button>
+                </div>
+
+                <!-- Page info and rows selector in center -->
+                <div class="flex flex-row items-center gap-4">
+                  <span class="text-sm sm:text-[1rem]">
+                    Page {currentPage} of {totalPages}
+                  </span>
+
+                  <DropdownMenu.Root>
+                    <DropdownMenu.Trigger asChild let:builder>
+                      <Button
+                        builders={[builder]}
+                        class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 rounded truncate"
+                      >
+                        <span class="truncate text-[0.85rem] sm:text-sm"
+                          >{rowsPerPage} Rows</span
+                        >
+                        <svg
+                          class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width:40px"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                      </Button>
+                    </DropdownMenu.Trigger>
+
+                    <DropdownMenu.Content
+                      side="bottom"
+                      align="end"
+                      sideOffset={10}
+                      alignOffset={0}
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative"
+                    >
+                      <!-- Dropdown items -->
+                      <DropdownMenu.Group class="pb-2">
+                        {#each rowsPerPageOptions as item}
+                          <DropdownMenu.Item
+                            class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                          >
+                            <label
+                              on:click={() => changeRowsPerPage(item)}
+                              class="inline-flex justify-between w-full items-center cursor-pointer"
+                            >
+                              <span class="text-sm">{item} Rows</span>
+                            </label>
+                          </DropdownMenu.Item>
+                        {/each}
+                      </DropdownMenu.Group>
+                    </DropdownMenu.Content>
+                  </DropdownMenu.Root>
+                </div>
+
+                <!-- Next button -->
+                <div class="flex items-center gap-2">
+                  <Button
+                    on:click={() => goToPage(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                  >
+                    <span class="hidden sm:inline">Next</span>
+                    <svg
+                      class="h-5 w-5 inline-block shrink-0 -rotate-90"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </Button>
+                </div>
+              </div>
+
+              <!-- Back to Top button -->
+              <div class="flex justify-center mt-4">
+                <button
+                  on:click={scrollToTop}
+                  class="cursor-pointer sm:hover:text-muted text-blue-800 dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem] font-medium"
+                >
+                  Back to Top <svg
+                    class="h-5 w-5 inline-block shrink-0 rotate-180"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style="max-width:40px"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            {/if}
+
+            <span class="text-gray-800 dark:text-gray-200 text-sm italic mt-4">
               * Dividend amounts are adjusted for stock splits when applicable.
             </span>
           {:else}
