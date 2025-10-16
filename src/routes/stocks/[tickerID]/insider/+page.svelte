@@ -16,15 +16,20 @@
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
 
   export let data;
 
-  let rawData = data?.getInsiderTrading;
+  let originalData = data?.getInsiderTrading;
+  let rawData = originalData;
   let filterList = [];
   let checkedItems = new Set();
   let historicalData = data?.getHistoricalPrice || [];
   let chartConfig = null;
   let syncWorker: Worker | undefined;
+  let searchWorker: Worker | undefined;
+
+  let inputValue = "";
   let transactionList = [
     "P-Purchase",
     "A-Award",
@@ -131,7 +136,7 @@
           x,
           y,
           z: Math.max(value / 1000, 5), // Size based on transaction value, minimum size 5
-          name: transaction.reportingName,
+          name: transaction.name,
           shares: transaction.securitiesTransacted,
           price: transaction.price,
           value: value,
@@ -327,7 +332,8 @@
   // Pagination functions
   function updatePaginatedData() {
     // Filter data to only include items with price > 0 before pagination
-    const filteredData = rawData?.filter((item) => item?.price > 0) || [];
+    const dataSource = inputValue?.length > 0 ? rawData : originalData;
+    const filteredData = dataSource?.filter((item) => item?.price > 0) || [];
 
     const startIndex = (currentPage - 1) * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
@@ -389,6 +395,45 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  async function resetTableSearch() {
+    inputValue = "";
+    rawData = originalData;
+    currentPage = 1; // Reset to first page
+    updatePaginatedData();
+  }
+
+  async function search() {
+    inputValue = inputValue?.toLowerCase();
+
+    setTimeout(async () => {
+      if (inputValue?.length > 0) {
+        await loadSearchWorker();
+      } else {
+        // Reset to original data if filter is empty
+        rawData = originalData;
+        currentPage = 1; // Reset to first page
+        updatePaginatedData();
+      }
+    }, 100);
+  }
+
+  const loadSearchWorker = async () => {
+    if (searchWorker && originalData?.length > 0) {
+      searchWorker.postMessage({
+        rawData: originalData,
+        inputValue: inputValue,
+      });
+    }
+  };
+
+  const handleSearchMessage = (event) => {
+    if (event.data?.message === "success") {
+      rawData = event.data?.output ?? [];
+      currentPage = 1; // Reset to first page after search
+      updatePaginatedData();
+    }
+  };
+
   async function handleChangeValue(value) {
     if (checkedItems.has(value)) {
       checkedItems.delete(value);
@@ -402,7 +447,7 @@
     if (filterList.length > 0) {
       await loadWorker();
     } else {
-      rawData = [...data?.getInsiderTrading];
+      rawData = [...originalData];
       currentPage = 1; // Reset to first page
       updatePaginatedData();
     }
@@ -420,7 +465,7 @@
   // Tell the web worker to filter our data
   const loadWorker = async () => {
     syncWorker?.postMessage({
-      rawData: data?.getInsiderTrading,
+      rawData: originalData,
       filterList: filterList,
     });
   };
@@ -454,6 +499,14 @@
       syncWorker.onmessage = handleMessage;
     }
 
+    if (!searchWorker) {
+      const SearchWorker = await import(
+        "$lib/workers/tableSearchWorker?worker"
+      );
+      searchWorker = new SearchWorker.default();
+      searchWorker.onmessage = handleSearchMessage;
+    }
+
     // Create chart configuration with server data
     createChartConfig();
   });
@@ -463,8 +516,11 @@
     createChartConfig();
   }
 
-  // Update pagination when rawData changes
-  $: if (rawData && rawData.length >= 0) {
+  // Update pagination when originalData or rawData changes
+  $: if (
+    (originalData && originalData.length > 0) ||
+    (rawData && inputValue?.length > 0)
+  ) {
     updatePaginatedData();
   }
 
@@ -476,7 +532,7 @@
   }
 
   let columns = [
-    { key: "reportingName", label: "Name", align: "left" },
+    { key: "name", label: "Name", align: "left" },
     { key: "transactionDate", label: "Transaction Date", align: "right" },
     { key: "securitiesTransacted", label: "Shares", align: "right" },
     { key: "price", label: "Price", align: "right" },
@@ -485,7 +541,7 @@
   ];
 
   let sortOrders = {
-    reportingName: { order: "none", type: "string" },
+    name: { order: "none", type: "string" },
     transactionDate: { order: "none", type: "date" },
     securitiesTransacted: { order: "none", type: "number" },
     price: { order: "none", type: "number" },
@@ -504,8 +560,6 @@
     // Cycle through 'none', 'asc', 'desc' for the clicked key
     const orderCycle = ["none", "asc", "desc"];
 
-    let originalData = rawData;
-
     const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
     sortOrders[key].order =
       orderCycle[(currentOrderIndex + 1) % orderCycle.length];
@@ -513,9 +567,15 @@
 
     // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
-      rawData = [...originalData]; // Reset to original data
-      currentPage = 1; // Reset to first page
-      updatePaginatedData();
+      if (inputValue?.length > 0) {
+        // If filtering, don't change rawData
+        updatePaginatedData();
+      } else {
+        originalData = [...data?.getInsiderTrading]; // Reset originalData
+        rawData = originalData;
+        currentPage = 1; // Reset to first page
+        updatePaginatedData(); // Reset displayed data
+      }
       return;
     }
 
@@ -550,7 +610,15 @@
     };
 
     // Sort using the generic comparison function
-    rawData = [...originalData].sort(compareValues);
+    if (inputValue?.length > 0) {
+      // If filtering, sort the filtered data
+      rawData = [...rawData].sort(compareValues);
+    } else {
+      // If not filtering, sort the original data
+      originalData = [...originalData].sort(compareValues);
+      rawData = originalData;
+    }
+
     currentPage = 1; // Reset to first page when sorting
     updatePaginatedData();
   };
@@ -691,13 +759,7 @@
           among company executives and key stakeholders.
         </p>
 
-        <div
-          class="w-full flex flex-row justify-between items-center pb-2 pt-3"
-        >
-          <h3 class="transactions-count-driver text-xl font-semibold">
-            {(rawData?.length || 0)?.toLocaleString("en-US")} Transactions
-          </h3>
-
+        <div class="w-full flex flex-row justify-end items-center pb-2 pt-3">
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild let:builder>
               <Button
@@ -760,6 +822,62 @@
           ></div>
         {/if}
 
+        <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
+          <div
+            class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+          >
+            <h2
+              class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold py-1 border-b border-gray-300 dark:border-gray-800 lg:border-none w-full"
+            >
+              {(
+                originalData?.filter((item) => item?.price > 0)?.length || 0
+              )?.toLocaleString("en-US")} Transactions
+            </h2>
+            <div
+              class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+            >
+              <div class="relative lg:ml-auto w-full lg:w-fit">
+                <div
+                  class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+                >
+                  {#if inputValue?.length > 0}
+                    <label
+                      class="cursor-pointer"
+                      on:click={() => resetTableSearch()}
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        ><path
+                          fill="currentColor"
+                          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                        /></svg
+                      >
+                    </label>
+                  {/if}
+                </div>
+
+                <input
+                  bind:value={inputValue}
+                  on:input={search}
+                  type="text"
+                  placeholder="Find..."
+                  class=" py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full sm:min-w-56 lg:max-w-14"
+                />
+              </div>
+
+              <div class="ml-2">
+                <DownloadData
+                  {data}
+                  rawData={originalData}
+                  title={`${$stockTicker}_insider_trading`}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
         {#if displayList?.length > 0}
           <div
             class="mt-3 flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-4 overflow-x-auto"
@@ -771,18 +889,13 @@
                 <TableHeader {columns} {sortOrders} {sortData} />
               </thead>
               <tbody>
-                {#each displayList as item, index}
+                {#each displayList as item}
                   <tr
                     class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
                   >
                     <td class=" text-sm sm:text-[1rem] ] whitespace-nowrap">
                       <div class="flex flex-col">
-                        <span class=""
-                          >{formatString(item?.reportingName)?.replace(
-                            "/de/",
-                            "",
-                          )}</span
-                        >
+                        <span class="">{item?.name}</span>
                         <span class="text-sm"
                           >{extractOfficeInfo(item?.typeOfOwner)}</span
                         >
@@ -963,6 +1076,10 @@
               </button>
             </div>
           {/if}
+        {:else if displayList?.length === 0 && inputValue?.length > 0}
+          <div class="w-full flex items-center justify-start text-start">
+            <Infobox text={`No results found for "${inputValue}" `} />
+          </div>
         {:else if displayList?.length === 0 && filterList?.length > 0}
           <Infobox
             text={`No Transaction Type found for ${removeCompanyStrings($displayCompanyName)}. Try a different filter...`}

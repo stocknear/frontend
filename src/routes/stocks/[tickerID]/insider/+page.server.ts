@@ -1,7 +1,9 @@
 import { error, fail, redirect } from "@sveltejs/kit";
 import { validateData } from "$lib/utils";
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
-
+ import {
+    formatString
+  } from "$lib/utils";
 
 
 
@@ -26,8 +28,11 @@ export const load = async ({ locals, params }) => {
     let output = await response.json();
 
     //output = !['Pro','Plus']?.includes(user?.tier) ? output?.slice(0, 6) : output;
-  
-  
+    output = output?.map(({ reportingName, ...rest }) => ({
+      ...rest,
+      name: formatString(rest.name ?? reportingName)?.replace("/de/", "")
+    }));
+
     output?.sort(
     (a, b) => new Date(b?.transactionDate) - new Date(a?.transactionDate),
   );
