@@ -454,7 +454,7 @@
                       href="/data-disclaimer/">Financial Sources.</a
                     >
                   </div>
-                  <div class="mt-2 sm:-mt-2 text-xs flex items-center gap-x-2">
+                  <div class="mt-2 sm:-mt-2 flex items-center gap-x-2">
                     SEC Filings: <a
                       class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white flex items-center"
                       target="_blank"

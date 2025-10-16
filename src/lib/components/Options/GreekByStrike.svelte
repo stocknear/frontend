@@ -2,8 +2,10 @@
   import { abbreviateNumber } from "$lib/utils";
   import { onMount } from "svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
+  import { page } from "$app/stores";
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
   import { goto } from "$app/navigation";
@@ -62,7 +64,15 @@
   let selectedDTEsText = "All"; // Text to display in the dropdown
 
   let rawData = [];
+  let sortedData = [];
   let displayList = [];
+
+  // Pagination state
+  let currentPage = 1;
+  let rowsPerPage = 20;
+  let rowsPerPageOptions = [20, 50, 100];
+  let totalPages = 1;
+  let pagePathName = $page?.url?.pathname;
 
   // Calculate metrics for insight paragraph
   $: totalCallExposure =
@@ -205,8 +215,56 @@
       }
     });
 
-    displayList = rawData?.slice(0, 20);
+    sortedData = [...rawData];
+    currentPage = 1;
+    updatePaginatedData();
     config = plotData() || null;
+  }
+
+  function updatePaginatedData() {
+    const start = (currentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    displayList = sortedData?.slice(start, end);
+    totalPages = Math.ceil(sortedData?.length / rowsPerPage);
+  }
+
+  function goToPage(page) {
+    currentPage = page;
+    updatePaginatedData();
+  }
+
+  function changeRowsPerPage(newRowsPerPage) {
+    rowsPerPage = newRowsPerPage;
+    currentPage = 1;
+    updatePaginatedData();
+    saveRowsPerPage();
+  }
+
+  function saveRowsPerPage() {
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem(
+        `greekByStrike_rowsPerPage_${pagePathName}`,
+        rowsPerPage.toString(),
+      );
+    }
+  }
+
+  function loadRowsPerPage() {
+    if (typeof localStorage !== "undefined") {
+      const savedRowsPerPage = localStorage.getItem(
+        `greekByStrike_rowsPerPage_${pagePathName}`,
+      );
+      if (savedRowsPerPage) {
+        rowsPerPage = parseInt(savedRowsPerPage, 10);
+      }
+    }
+  }
+
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }
   function aggregateDict(data) {
     const map = new Map();
@@ -415,24 +473,17 @@
     return options;
   }
 
-  async function handleScroll() {
-    const scrollThreshold = document.body.offsetHeight * 0.8; // 80% of the website height
-    const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
+  onMount(() => {
+    loadRowsPerPage();
+    updateDataForSelectedDTEs(); // Initialize data
+  });
 
-    if (isBottom && displayList?.length !== rawData?.length) {
-      const nextIndex = displayList?.length;
-      const filteredNewResults = rawData?.slice(nextIndex, nextIndex + 50);
-      displayList = [...displayList, ...filteredNewResults];
+  $: {
+    if (pagePathName) {
+      loadRowsPerPage();
+      updatePaginatedData();
     }
   }
-
-  onMount(() => {
-    window.addEventListener("scroll", handleScroll);
-    updateDataForSelectedDTEs(); // Initialize data
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  });
 
   $: columns = [
     { key: "strike", label: "Strike Price", align: "left" },
@@ -476,7 +527,6 @@
 
     // Cycle through 'none', 'asc', 'desc' for the clicked key
     const orderCycle = ["none", "asc", "desc"];
-    let originalData = rawData;
     const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
     sortOrders[key].order =
       orderCycle[(currentOrderIndex + 1) % orderCycle.length];
@@ -484,8 +534,9 @@
 
     // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
-      originalData = [...rawData]; // Reset originalData to rawDataVolume
-      displayList = originalData;
+      sortedData = [...rawData];
+      currentPage = 1;
+      updatePaginatedData();
       return;
     }
 
@@ -520,7 +571,9 @@
     };
 
     // Sort using the generic comparison function
-    displayList = [...originalData].sort(compareValues);
+    sortedData = [...rawData].sort(compareValues);
+    currentPage = 1;
+    updatePaginatedData();
   };
 
   let config = null;
@@ -718,9 +771,47 @@
     {/if}
   </div>
 
-  <h3 class="text-xl sm:text-2xl font-bold mt-5">
-    {title === "Gamma" ? "GEX" : "DEX"} Table
-  </h3>
+  <div class="items-center lg:overflow-visible px-1 py-1 mt-10">
+    <div
+      class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+    >
+      <h2
+        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold w-full"
+      >
+        {title === "Gamma" ? "GEX" : "DEX"} Table
+      </h2>
+      <div
+        class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+      >
+        <div class="ml-auto">
+          <DownloadData
+            {data}
+            rawData={rawData?.map((item) => {
+              if (title === "Gamma") {
+                return {
+                  strike: item?.strike,
+                  call_gex: item?.call_gex,
+                  put_gex: item?.put_gex,
+                  net_gex: item?.net_gex,
+                  put_call_ratio: item?.put_call_ratio,
+                };
+              } else {
+                return {
+                  strike: item?.strike,
+                  call_dex: item?.call_dex,
+                  put_dex: item?.put_dex,
+                  net_dex: item?.net_dex,
+                  put_call_ratio: item?.put_call_ratio,
+                };
+              }
+            })}
+            title={`${ticker}_${title === "Gamma" ? "gex" : "dex"}_by_strike`}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="w-full overflow-x-auto mt-3">
     <table
       class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
@@ -771,4 +862,136 @@
       </tbody>
     </table>
   </div>
+
+  <!-- Pagination controls -->
+  {#if displayList?.length > 0 && totalPages > 0}
+    <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
+      <!-- Previous button -->
+      <div class="flex items-center gap-2">
+        <Button
+          on:click={() => goToPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+        >
+          <svg
+            class="h-5 w-5 inline-block shrink-0 rotate-90"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            style="max-width:40px"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span class="hidden sm:inline">Previous</span>
+        </Button>
+      </div>
+
+      <!-- Page info and rows selector in center -->
+      <div class="flex flex-row items-center gap-4">
+        <span class="text-sm sm:text-[1rem]">
+          Page {currentPage} of {totalPages}
+        </span>
+
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild let:builder>
+            <Button
+              builders={[builder]}
+              class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 rounded truncate"
+            >
+              <span class="truncate text-[0.85rem] sm:text-sm"
+                >{rowsPerPage} Rows</span
+              >
+              <svg
+                class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </Button>
+          </DropdownMenu.Trigger>
+
+          <DropdownMenu.Content
+            side="bottom"
+            align="end"
+            sideOffset={10}
+            alignOffset={0}
+            class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative"
+          >
+            <!-- Dropdown items -->
+            <DropdownMenu.Group class="pb-2">
+              {#each rowsPerPageOptions as item}
+                <DropdownMenu.Item
+                  class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                >
+                  <label
+                    on:click={() => changeRowsPerPage(item)}
+                    class="inline-flex justify-between w-full items-center cursor-pointer"
+                  >
+                    <span class="text-sm">{item} Rows</span>
+                  </label>
+                </DropdownMenu.Item>
+              {/each}
+            </DropdownMenu.Group>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+      </div>
+
+      <!-- Next button -->
+      <div class="flex items-center gap-2">
+        <Button
+          on:click={() => goToPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+        >
+          <span class="hidden sm:inline">Next</span>
+          <svg
+            class="h-5 w-5 inline-block shrink-0 -rotate-90"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            style="max-width:40px"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </Button>
+      </div>
+    </div>
+
+    <!-- Back to Top button -->
+    <div class="flex justify-center mt-4">
+      <button
+        on:click={scrollToTop}
+        class="cursor-pointer sm:hover:text-muted text-blue-800 dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem] font-medium"
+      >
+        Back to Top <svg
+          class="h-5 w-5 inline-block shrink-0 rotate-180"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          style="max-width:40px"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </button>
+    </div>
+  {/if}
 </div>
