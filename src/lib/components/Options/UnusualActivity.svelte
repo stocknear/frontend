@@ -367,7 +367,6 @@
     if (page >= 1 && page <= totalPages) {
       currentPage = page;
       updatePaginatedData();
-      scrollToTop();
     }
   }
 
