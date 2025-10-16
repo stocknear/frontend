@@ -22,7 +22,7 @@ export const load = async ({ locals, params }) => {
 
     let output = await response.json();
 
-    output.shareholders = !['Plus','Pro']?.includes(user?.tier) ? output.shareholders?.slice(0, 3) : output.shareholders;
+    //output.shareholders = !['Plus','Pro']?.includes(user?.tier) ? output.shareholders?.slice(0, 3) : output.shareholders;
 
    
     return output;
