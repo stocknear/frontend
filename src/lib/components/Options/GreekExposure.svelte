@@ -1,8 +1,12 @@
 <script lang="ts">
-  import { abbreviateNumber } from "$lib/utils";
   import { onMount } from "svelte";
+  import { abbreviateNumber } from "$lib/utils";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
+  import { page } from "$app/stores";
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
 
@@ -33,8 +37,17 @@
     }
   });
 
-  let displayList = rawData?.slice(0, 150);
+  // Track the currently sorted data separately
+  let sortedData = [];
+  let displayList = [];
   let timePeriod = "3M";
+
+  // Pagination state
+  let currentPage = 1;
+  let rowsPerPage = 20;
+  let rowsPerPageOptions = [20, 50, 100];
+  let totalPages = 1;
+  let pagePathName = $page?.url?.pathname;
 
   // Calculate metrics for insight paragraph
   $: currentExposure = rawData?.[0]
@@ -345,22 +358,68 @@
     let formatter = new Intl.DateTimeFormat("en-US", options);
     return formatter.format(date);
   }
-  async function handleScroll() {
-    const scrollThreshold = document.body.offsetHeight * 0.8; // 80% of the website height
-    const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
 
-    if (isBottom && displayList?.length !== rawData?.length) {
-      const nextIndex = displayList?.length;
-      const filteredNewResults = rawData?.slice(nextIndex, nextIndex + 50);
-      displayList = [...displayList, ...filteredNewResults];
+  function updatePaginatedData() {
+    const start = (currentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    displayList = sortedData?.slice(start, end);
+    totalPages = Math.ceil(sortedData?.length / rowsPerPage);
+  }
+
+  function goToPage(page) {
+    currentPage = page;
+    updatePaginatedData();
+  }
+
+  function changeRowsPerPage(newRowsPerPage) {
+    rowsPerPage = newRowsPerPage;
+    currentPage = 1;
+    updatePaginatedData();
+    saveRowsPerPage();
+  }
+
+  function saveRowsPerPage() {
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem(
+        `greekExposure_rowsPerPage_${pagePathName}`,
+        rowsPerPage.toString(),
+      );
+    }
+  }
+
+  function loadRowsPerPage() {
+    if (typeof localStorage !== "undefined") {
+      const savedRowsPerPage = localStorage.getItem(
+        `greekExposure_rowsPerPage_${pagePathName}`,
+      );
+      if (savedRowsPerPage) {
+        rowsPerPage = parseInt(savedRowsPerPage, 10);
+      }
+    }
+  }
+
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
+  function initialize() {
+    sortedData = [...rawData];
+    loadRowsPerPage();
+    currentPage = 1;
+    updatePaginatedData();
+  }
+
+  $: {
+    if (pagePathName) {
+      initialize();
     }
   }
 
   onMount(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    initialize();
   });
 
   $: columns =
@@ -407,7 +466,6 @@
 
     // Cycle through 'none', 'asc', 'desc' for the clicked key
     const orderCycle = ["none", "asc", "desc"];
-    let originalData = rawData;
     const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
     sortOrders[key].order =
       orderCycle[(currentOrderIndex + 1) % orderCycle.length];
@@ -415,8 +473,12 @@
 
     // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
-      originalData = [...rawData]; // Reset originalData to rawDataVolume
-      displayList = originalData;
+      // Reset to original data sorted by date descending (latest first)
+      sortedData = [...rawData]?.sort(
+        (a, b) => new Date(b?.date) - new Date(a?.date),
+      );
+      currentPage = 1;
+      updatePaginatedData();
       return;
     }
 
@@ -451,7 +513,9 @@
     };
 
     // Sort using the generic comparison function
-    displayList = [...originalData].sort(compareValues);
+    sortedData = [...rawData].sort(compareValues);
+    currentPage = 1;
+    updatePaginatedData();
   };
 
   $: {
@@ -553,9 +617,46 @@
     {/if}
   </div>
 
-  <h3 class="text-xl sm:text-2xl font-bold mt-5">
-    {title === "Gamma" ? "GEX" : "DEX"} History
-  </h3>
+  <div class="items-center lg:overflow-visible px-1 py-1 mt-10">
+    <div
+      class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+    >
+      <h2
+        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold w-full"
+      >
+        {title === "Gamma" ? "GEX" : "DEX"} History
+      </h2>
+      <div
+        class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+      >
+        <div class="ml-auto">
+          <DownloadData
+            {data}
+            rawData={rawData?.map((item) => {
+              if (title === "Gamma") {
+                return {
+                  date: item?.date,
+                  call_gex: item?.call_gex,
+                  put_gex: item?.put_gex,
+                  netGex: item?.netGex,
+                  putCallRatio: item?.putCallRatio,
+                };
+              } else {
+                return {
+                  date: item?.date,
+                  call_dex: item?.call_dex,
+                  put_dex: item?.put_dex,
+                  netDex: item?.netDex,
+                  putCallRatio: item?.putCallRatio,
+                };
+              }
+            })}
+            title={`${ticker}_${title === "Gamma" ? "gex" : "dex"}_history`}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="mt-3 w-full overflow-x-auto">
     <table
@@ -612,6 +713,67 @@
       </tbody>
     </table>
   </div>
+
+  {#if data?.user?.tier === "Pro" && displayList?.length > 0 && totalPages > 0}
+    <div
+      class="w-full flex flex-col sm:flex-row justify-between items-center mt-4 mb-8"
+    >
+      <div class="flex items-center">
+        <Button
+          on:click={() => goToPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          variant="outline"
+          size="sm"
+          class="rounded-lg"
+        >
+          Previous
+        </Button>
+        <span class="mx-4 text-sm">
+          Page {currentPage} of {totalPages}
+        </span>
+        <Button
+          on:click={() => goToPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          variant="outline"
+          size="sm"
+          class="rounded-lg"
+        >
+          Next
+        </Button>
+        <span class="sm:hidden ml-4">
+          <Button on:click={scrollToTop} variant="outline" size="sm">
+            Back to Top
+          </Button>
+        </span>
+      </div>
+
+      <div class="flex items-center mt-4 sm:mt-0">
+        <span class="mr-2 text-sm">Rows per page:</span>
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild let:builder>
+            <Button builders={[builder]} variant="outline" size="sm">
+              {rowsPerPage}
+            </Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content>
+            <DropdownMenu.Group>
+              {#each rowsPerPageOptions as option}
+                <DropdownMenu.Item on:click={() => changeRowsPerPage(option)}>
+                  {option}
+                </DropdownMenu.Item>
+              {/each}
+            </DropdownMenu.Group>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+
+        <span class="hidden sm:block ml-4">
+          <Button on:click={scrollToTop} variant="outline" size="sm">
+            Back to Top
+          </Button>
+        </span>
+      </div>
+    </div>
+  {/if}
 
   <UpgradeToPro {data} display={true} />
 </div>
