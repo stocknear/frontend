@@ -175,6 +175,18 @@
   function initialize() {
     currentPrice = Number(data?.getStockQuote?.price?.toFixed(2));
     rawData = data?.getData;
+
+    // Calculate change and changesPercentage for each item
+    rawData = rawData?.map((item) => {
+      const change = item?.maxPain - currentPrice;
+      const changesPercentage = ((item?.maxPain - currentPrice) / currentPrice) * 100;
+      return {
+        ...item,
+        change,
+        changesPercentage,
+      };
+    });
+
     dateList = rawData?.map((item) => item?.expiration);
     selectedDate = dateList?.at(0);
     selectedMaxPain = rawData?.at(0)?.maxPain;
