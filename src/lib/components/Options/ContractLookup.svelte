@@ -13,6 +13,7 @@
   import { deferFunction } from "$lib/utils";
   import { browser } from "$app/environment";
   import { goto } from "$app/navigation";
+  import InfoModal from "$lib/components/InfoModal.svelte";
 
   import { onMount } from "svelte";
 
@@ -606,32 +607,18 @@
               <div
                 class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-gray-300 dark:border-gray-600"
               >
-                <div class=" mb-1">
+                <div class="flex flex-row items-center">
                   Date Expiration
-                  <span class="relative" role="tooltip"
-                    ><label
-                      for="mobileTooltip"
-                      on:click={() =>
-                        getInfoText("dateExpiration", "Date Expiration")}
-                      class="relative"
-                      role="tooltip"
-                    >
-                      <span
-                        class="absolute -right-[15px] -top-[3px] cursor-pointer p-1 text-gray-500 dark:text-gray-300 dark:sm:hover:text-white"
-                      >
-                        <svg
-                          class="h-[10.5px] w-[10.5px]"
-                          viewBox="0 0 4 16"
-                          fill="currentColor"
-                          style="max-width:20px"
-                          ><path
-                            d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"
-                          ></path></svg
-                        >
-                      </span>
-                    </label></span
-                  >
+                  <div class="">
+                    <InfoModal
+                      id="dateExpiration"
+                      title="Date Expiration"
+                      callAPI={true}
+                      parameter="dateExpiration"
+                    />
+                  </div>
                 </div>
+
                 <DropdownMenu.Root>
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
@@ -708,32 +695,18 @@
               <div
                 class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-gray-300 dark:border-gray-600"
               >
-                <div class=" mb-1">
+                <div class="flex flex-row items-center">
                   Strike Price
-                  <span class="relative" role="tooltip"
-                    ><label
-                      for="mobileTooltip"
-                      on:click={() =>
-                        getInfoText("strikePrice", "Strike Price")}
-                      class="relative"
-                      role="tooltip"
-                    >
-                      <span
-                        class="absolute -right-[15px] -top-[3px] cursor-pointer p-1 text-gray-500 dark:text-gray-300 dark:sm:hover:text-white"
-                      >
-                        <svg
-                          class="h-[10.5px] w-[10.5px]"
-                          viewBox="0 0 4 16"
-                          fill="currentColor"
-                          style="max-width:20px"
-                          ><path
-                            d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"
-                          ></path></svg
-                        >
-                      </span>
-                    </label></span
-                  >
+                  <div class="">
+                    <InfoModal
+                      id="strikePrice"
+                      title="Strike Price"
+                      callAPI={true}
+                      parameter="strikePrice"
+                    />
+                  </div>
                 </div>
+
                 <DropdownMenu.Root>
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
@@ -787,31 +760,18 @@
               <div
                 class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-gray-300 dark:border-gray-600"
               >
-                <div class=" mb-1">
+                <div class="flex flex-row items-center">
                   Option Type
-                  <span class="relative" role="tooltip"
-                    ><label
-                      for="mobileTooltip"
-                      on:click={() => getInfoText("optionType", "Option Type")}
-                      class="relative"
-                      role="tooltip"
-                    >
-                      <span
-                        class="absolute -right-[15px] -top-[3px] cursor-pointer p-1 text-gray-500 dark:text-gray-300 dark:sm:hover:text-white"
-                      >
-                        <svg
-                          class="h-[10.5px] w-[10.5px]"
-                          viewBox="0 0 4 16"
-                          fill="currentColor"
-                          style="max-width:20px"
-                          ><path
-                            d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"
-                          ></path></svg
-                        >
-                      </span>
-                    </label></span
-                  >
+                  <div class="">
+                    <InfoModal
+                      id="optionType"
+                      title="Option Type"
+                      callAPI={true}
+                      parameter="optionType"
+                    />
+                  </div>
                 </div>
+
                 <DropdownMenu.Root>
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
@@ -1120,7 +1080,7 @@
                       <DownloadData
                         {data}
                         rawData={rawDataHistory}
-                        title={`${ticker}_${optionSymbol}_contract_history`}
+                        title={`${optionSymbol}_contract_history`}
                       />
                     </div>
                   </div>

@@ -1,6 +1,10 @@
 <script lang="ts">
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
+  import { page } from "$app/stores";
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
 
@@ -26,6 +30,13 @@
   let displayList = sortedData?.slice(0, 50) || [];
   let currentSortKey = null;
   let currentSortOrder = "none";
+
+  // Pagination state
+  let currentPage = 1;
+  let rowsPerPage = 20;
+  let rowsPerPageOptions = [20, 50, 100];
+  let totalPages = 1;
+  let pagePathName = $page?.url?.pathname;
 
   let config = null;
 
@@ -344,22 +355,75 @@
     return options;
   }
 */
-  async function handleScroll() {
-    const scrollThreshold = document.body.offsetHeight * 0.8; // 80% of the website height
-    const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
-    if (isBottom && displayList?.length !== sortedData?.length) {
-      const nextIndex = displayList?.length;
-      // Use sortedData instead of rawData to maintain sort order
-      const filteredNewResults = sortedData?.slice(nextIndex, nextIndex + 50);
-      displayList = [...displayList, ...filteredNewResults];
+  // Pagination functions
+  function updatePaginatedData() {
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    displayList = sortedData?.slice(startIndex, endIndex) || [];
+    totalPages = Math.ceil((sortedData?.length || 0) / rowsPerPage);
+  }
+
+  function goToPage(page) {
+    if (page >= 1 && page <= totalPages) {
+      currentPage = page;
+      updatePaginatedData();
+      scrollToTop();
     }
   }
 
+  function changeRowsPerPage(newRowsPerPage) {
+    rowsPerPage = newRowsPerPage;
+    currentPage = 1; // Reset to first page when changing rows per page
+    updatePaginatedData();
+    saveRowsPerPage(); // Save to localStorage
+  }
+
+  // Save rows per page preference to localStorage
+  function saveRowsPerPage() {
+    if (!pagePathName || typeof localStorage === "undefined") return;
+
+    try {
+      const paginationKey = `${pagePathName}_rowsPerPage`;
+      localStorage.setItem(paginationKey, String(rowsPerPage));
+    } catch (e) {
+      console.warn("Failed to save rows per page preference:", e);
+    }
+  }
+
+  // Load rows per page preference from localStorage
+  function loadRowsPerPage() {
+    const currentPath = pagePathName || $page?.url?.pathname;
+
+    if (!currentPath || typeof localStorage === "undefined") {
+      rowsPerPage = 20; // Default value
+      return;
+    }
+
+    try {
+      const paginationKey = `${currentPath}_rowsPerPage`;
+      const savedRows = localStorage.getItem(paginationKey);
+
+      if (savedRows && rowsPerPageOptions.includes(Number(savedRows))) {
+        rowsPerPage = Number(savedRows);
+      } else {
+        rowsPerPage = 20; // Default if invalid or not found
+      }
+    } catch (e) {
+      console.warn("Failed to load rows per page preference:", e);
+      rowsPerPage = 20; // Default on error
+    }
+  }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   onMount(async () => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    // Load pagination preference
+    loadRowsPerPage();
+
+    // Initialize pagination
+    updatePaginatedData();
   });
 
   $: columns = [
@@ -410,7 +474,8 @@
     // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
       sortedData = [...rawData];
-      displayList = sortedData?.slice(0, 50); // Start with 50 items
+      currentPage = 1; // Reset to first page
+      updatePaginatedData();
       return;
     }
 
@@ -453,10 +518,17 @@
 
     // Sort all data and store it
     sortedData = [...rawData].sort(compareValues);
-    // Display the first batch of sorted data (preserve current display count)
-    const currentDisplayCount = Math.min(displayList.length, 50);
-    displayList = sortedData?.slice(0, currentDisplayCount);
+    // Reset to first page and update pagination
+    currentPage = 1;
+    updatePaginatedData();
   };
+
+  // Reactive statement to load pagination settings when page changes
+  $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
+    pagePathName = $page?.url?.pathname;
+    loadRowsPerPage(); // Load pagination preference for new page
+    updatePaginatedData(); // Update display with loaded preference
+  }
 
   /*
   $: {
@@ -563,7 +635,30 @@
           </div>
         {/if}
 
-        <div class="w-full overflow-x-auto mt-5">
+        <div class="items-center lg:overflow-visible px-1 py-1 mt-5">
+          <div
+            class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+          >
+            <h2
+              class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold w-full"
+            >
+              {(rawData?.length || 0)?.toLocaleString("en-US")} Activity
+            </h2>
+            <div
+              class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+            >
+              <div class="ml-auto">
+                <DownloadData
+                  {data}
+                  rawData={rawData}
+                  title={`${ticker}_unusual_activity`}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full overflow-x-auto">
           <table
             class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto mt-4"
           >
@@ -702,6 +797,138 @@
             </tbody>
           </table>
         </div>
+
+        <!-- Pagination controls -->
+        {#if displayList?.length > 0 && totalPages > 0}
+          <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
+            <!-- Previous button -->
+            <div class="flex items-center gap-2">
+              <Button
+                on:click={() => goToPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+              >
+                <svg
+                  class="h-5 w-5 inline-block shrink-0 rotate-90"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  style="max-width:40px"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <span class="hidden sm:inline">Previous</span>
+              </Button>
+            </div>
+
+            <!-- Page info and rows selector in center -->
+            <div class="flex flex-row items-center gap-4">
+              <span class="text-sm sm:text-[1rem]">
+                Page {currentPage} of {totalPages}
+              </span>
+
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild let:builder>
+                  <Button
+                    builders={[builder]}
+                    class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 rounded truncate"
+                  >
+                    <span class="truncate text-[0.85rem] sm:text-sm"
+                      >{rowsPerPage} Rows</span
+                    >
+                    <svg
+                      class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </Button>
+                </DropdownMenu.Trigger>
+
+                <DropdownMenu.Content
+                  side="bottom"
+                  align="end"
+                  sideOffset={10}
+                  alignOffset={0}
+                  class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative"
+                >
+                  <!-- Dropdown items -->
+                  <DropdownMenu.Group class="pb-2">
+                    {#each rowsPerPageOptions as item}
+                      <DropdownMenu.Item
+                        class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                      >
+                        <label
+                          on:click={() => changeRowsPerPage(item)}
+                          class="inline-flex justify-between w-full items-center cursor-pointer"
+                        >
+                          <span class="text-sm">{item} Rows</span>
+                        </label>
+                      </DropdownMenu.Item>
+                    {/each}
+                  </DropdownMenu.Group>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            </div>
+
+            <!-- Next button -->
+            <div class="flex items-center gap-2">
+              <Button
+                on:click={() => goToPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+              >
+                <span class="hidden sm:inline">Next</span>
+                <svg
+                  class="h-5 w-5 inline-block shrink-0 -rotate-90"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  style="max-width:40px"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </Button>
+            </div>
+          </div>
+
+          <!-- Back to Top button -->
+          <div class="flex justify-center mt-4">
+            <button
+              on:click={scrollToTop}
+              class="cursor-pointer sm:hover:text-muted text-blue-800 dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem] font-medium"
+            >
+              Back to Top <svg
+                class="h-5 w-5 inline-block shrink-0 rotate-180"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        {/if}
 
         <UpgradeToPro {data} display={true} />
       </div>
