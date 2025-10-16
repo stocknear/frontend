@@ -9,6 +9,7 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import Infobox from "$lib/components/Infobox.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
+  import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import { page } from "$app/stores";
   import { deferFunction } from "$lib/utils";
   import { browser } from "$app/environment";
@@ -42,6 +43,8 @@
   let displayList = [];
   let selectGraphType = "Vol/OI";
   let rawDataHistory = [];
+  // Track the currently sorted data separately
+  let sortedData = [];
   let infoText = {};
   let tooltipTitle;
 
@@ -53,6 +56,36 @@
   let pagePathName = $page?.url?.pathname;
 
   let optionQuery = $page.url.searchParams.get("query") || "";
+
+  // Define columns for sorting
+  $: columns = [
+    { key: "date", label: "Date", align: "left" },
+    { key: "volume", label: "Vol", align: "right" },
+    { key: "open_interest", label: "OI", align: "right" },
+    { key: "changeOI", label: "OI Change", align: "right" },
+    { key: "changesPercentageOI", label: "% Change OI", align: "right" },
+    { key: "close", label: "Last Price", align: "right" },
+    { key: "mark", label: "Avg Price", align: "right" },
+    { key: "implied_volatility", label: "IV", align: "right" },
+    { key: "total_premium", label: "Total Prem", align: "right" },
+    { key: "gex", label: "GEX", align: "right" },
+    { key: "dex", label: "DEX", align: "right" },
+  ];
+
+  // Define sort orders for each column
+  $: sortOrders = {
+    date: { order: "none", type: "date" },
+    volume: { order: "none", type: "number" },
+    open_interest: { order: "none", type: "number" },
+    changeOI: { order: "none", type: "number" },
+    changesPercentageOI: { order: "none", type: "number" },
+    close: { order: "none", type: "number" },
+    mark: { order: "none", type: "number" },
+    implied_volatility: { order: "none", type: "number" },
+    total_premium: { order: "none", type: "number" },
+    gex: { order: "none", type: "number" },
+    dex: { order: "none", type: "number" },
+  };
 
   function setDefault() {
     selectedOptionType = "Call";
@@ -414,12 +447,73 @@
     return output;
   };
 
+  // Sorting function
+  const sortData = (key) => {
+    // Reset all other keys to 'none' except the current key
+    for (const k in sortOrders) {
+      if (k !== key) {
+        sortOrders[k].order = "none";
+      }
+    }
+
+    // Cycle through 'none', 'asc', 'desc' for the clicked key
+    const orderCycle = ["none", "asc", "desc"];
+    const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
+    sortOrders[key].order =
+      orderCycle[(currentOrderIndex + 1) % orderCycle.length];
+    const sortOrder = sortOrders[key].order;
+
+    // Reset to original data when 'none' and stop further sorting
+    if (sortOrder === "none") {
+      sortedData = [...rawDataHistory];
+      currentPage = 1; // Reset to first page
+      updatePaginatedData();
+      return;
+    }
+
+    // Define a generic comparison function
+    const compareValues = (a, b) => {
+      const { type } = sortOrders[key];
+      let valueA, valueB;
+
+      switch (type) {
+        case "date":
+          valueA = new Date(a[key]);
+          valueB = new Date(b[key]);
+          break;
+        case "string":
+          valueA = a[key]?.toUpperCase() || "";
+          valueB = b[key]?.toUpperCase() || "";
+          return sortOrder === "asc"
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        case "number":
+        default:
+          valueA = parseFloat(a[key]) || 0;
+          valueB = parseFloat(b[key]) || 0;
+          break;
+      }
+
+      // Default comparison for numbers and dates
+      if (valueA < valueB) return sortOrder === "asc" ? -1 : 1;
+      if (valueA > valueB) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    };
+
+    // Sort all data and store it
+    sortedData = [...rawDataHistory].sort(compareValues);
+    // Reset to first page and update pagination
+    currentPage = 1;
+    updatePaginatedData();
+  };
+
   // Pagination functions
   function updatePaginatedData() {
+    const dataSource = sortedData?.length > 0 ? sortedData : rawDataHistory;
     const startIndex = (currentPage - 1) * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
-    displayList = rawDataHistory?.slice(startIndex, endIndex) || [];
-    totalPages = Math.ceil((rawDataHistory?.length || 0) / rowsPerPage);
+    displayList = dataSource?.slice(startIndex, endIndex) || [];
+    totalPages = Math.ceil((dataSource?.length || 0) / rowsPerPage);
   }
 
   function goToPage(page) {
@@ -496,6 +590,11 @@
       displayList = [];
       rawDataHistory = [];
 
+      // Reset sort orders
+      for (const key in sortOrders) {
+        sortOrders[key].order = "none";
+      }
+
       optionSymbol = buildOptionSymbol(
         ticker,
         selectedDate,
@@ -523,6 +622,8 @@
         rawDataHistory = rawDataHistory?.sort(
           (a, b) => new Date(b?.date) - new Date(a?.date),
         );
+        // Initialize sortedData with raw data
+        sortedData = [...rawDataHistory];
         // Reset to first page and update pagination
         currentPage = 1;
         updatePaginatedData();
@@ -1092,24 +1193,8 @@
                 <table
                   class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto mt-4"
                 >
-                  <thead class="text-white bg-default">
-                    <tr class="">
-                      <td class=" font-semibold text-sm text-start">Date</td>
-                      <td class=" font-semibold text-sm text-end">Vol</td>
-                      <td class=" font-semibold text-sm text-end">OI</td>
-                      <td class=" font-semibold text-sm text-end">OI Change</td>
-                      <td class=" font-semibold text-sm text-end"
-                        >% Change OI</td
-                      >
-                      <td class=" font-semibold text-sm text-end">Last Price</td
-                      >
-                      <td class=" font-semibold text-sm text-end">Avg Price</td>
-                      <td class=" font-semibold text-sm text-end">IV</td>
-                      <td class=" font-semibold text-sm text-end">Total Prem</td
-                      >
-                      <td class=" font-semibold text-sm text-end">GEX</td>
-                      <td class=" font-semibold text-sm text-end">DEX</td>
-                    </tr>
+                  <thead>
+                    <TableHeader {columns} {sortOrders} {sortData} />
                   </thead>
                   <tbody>
                     {#each displayList as item, index}
