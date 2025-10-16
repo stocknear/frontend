@@ -371,7 +371,6 @@
     return formatter.format(date); // e.g., April 11, 2025
   }
 
-
   $: columns = [
     { key: "date", label: "Date", align: "left" },
     {
@@ -433,7 +432,10 @@
 
     // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
-      sortedData = [...rawData];
+      // Reset to original data sorted by date descending (latest first)
+      sortedData = [...rawData]?.sort(
+        (a, b) => new Date(b?.date) - new Date(a?.date),
+      );
       currentPage = 1; // Reset to first page
       updatePaginatedData();
       return;
@@ -559,7 +561,7 @@
         <div class="ml-auto">
           <DownloadData
             {data}
-            rawData={rawData}
+            {rawData}
             title={`${ticker}_volatility_history`}
           />
         </div>
@@ -567,7 +569,7 @@
     </div>
   </div>
 
-  <div class="w-full overflow-x-auto mt-5">
+  <div class="w-full overflow-x-auto">
     <table
       class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto mt-4"
     >
