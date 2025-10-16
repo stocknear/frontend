@@ -7,9 +7,9 @@
   } from "$lib/utils";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
-  import Tutorial from "$lib/components/Tutorial.svelte";
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
+  import { page } from "$app/stores";
 
   import { onMount } from "svelte";
 
@@ -39,6 +39,14 @@
   ];
 
   let displayList = rawData?.slice(0, 50);
+
+  // Pagination state
+  let currentPage = 1;
+  let rowsPerPage = 20;
+  let rowsPerPageOptions = [20, 50, 100];
+  let totalPages = 1;
+
+  let pagePathName = $page?.url?.pathname;
 
   // Create chart configuration with insider trading markers
   function createChartConfig() {
@@ -316,6 +324,71 @@
     chartConfig = options;
   }
 
+  // Pagination functions
+  function updatePaginatedData() {
+    // Filter data to only include items with price > 0 before pagination
+    const filteredData = rawData?.filter((item) => item?.price > 0) || [];
+
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    displayList = filteredData?.slice(startIndex, endIndex) || [];
+    totalPages = Math.ceil((filteredData?.length || 0) / rowsPerPage);
+  }
+
+  function goToPage(page) {
+    if (page >= 1 && page <= totalPages) {
+      currentPage = page;
+      updatePaginatedData();
+    }
+  }
+
+  function changeRowsPerPage(newRowsPerPage) {
+    rowsPerPage = newRowsPerPage;
+    currentPage = 1; // Reset to first page when changing rows per page
+    updatePaginatedData();
+    saveRowsPerPage(); // Save to localStorage
+  }
+
+  // Save rows per page preference to localStorage
+  function saveRowsPerPage() {
+    if (!pagePathName || typeof localStorage === "undefined") return;
+
+    try {
+      const paginationKey = `${pagePathName}_rowsPerPage`;
+      localStorage.setItem(paginationKey, String(rowsPerPage));
+    } catch (e) {
+      console.warn("Failed to save rows per page preference:", e);
+    }
+  }
+
+  // Load rows per page preference from localStorage
+  function loadRowsPerPage() {
+    const currentPath = pagePathName || $page?.url?.pathname;
+
+    if (!currentPath || typeof localStorage === "undefined") {
+      rowsPerPage = 20; // Default value
+      return;
+    }
+
+    try {
+      const paginationKey = `${currentPath}_rowsPerPage`;
+      const savedRows = localStorage.getItem(paginationKey);
+
+      if (savedRows && rowsPerPageOptions.includes(Number(savedRows))) {
+        rowsPerPage = Number(savedRows);
+      } else {
+        rowsPerPage = 20; // Default if invalid or not found
+      }
+    } catch (e) {
+      console.warn("Failed to load rows per page preference:", e);
+      rowsPerPage = 20; // Default on error
+    }
+  }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   async function handleChangeValue(value) {
     if (checkedItems.has(value)) {
       checkedItems.delete(value);
@@ -330,8 +403,8 @@
       await loadWorker();
     } else {
       rawData = [...data?.getInsiderTrading];
-
-      displayList = rawData?.slice(0, 50) ?? [];
+      currentPage = 1; // Reset to first page
+      updatePaginatedData();
     }
 
     transactionList = [...transactionList];
@@ -340,12 +413,8 @@
   // Handle messages from our filtering web worker.
   const handleMessage = (event) => {
     rawData = event.data?.output || [];
-    if (filterList?.length > 0) {
-      displayList = rawData?.slice(0, 50) || [];
-    } else {
-      rawData = data?.getInsiderTrading;
-      displayList = rawData?.slice(0, 50) || [];
-    }
+    currentPage = 1; // Reset to first page after filtering
+    updatePaginatedData();
   };
 
   // Tell the web worker to filter our data
@@ -372,17 +441,13 @@
     }
   }
 
-  async function handleScroll() {
-    const scrollThreshold = document.body.offsetHeight * 0.8; // 80% of the website height
-    const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
-    if (isBottom && displayList?.length !== rawData?.length) {
-      const nextIndex = displayList?.length;
-      const filteredNewResults = rawData?.slice(nextIndex, nextIndex + 50);
-      displayList = [...displayList, ...filteredNewResults];
-    }
-  }
-
   onMount(async () => {
+    // Load pagination preference
+    loadRowsPerPage();
+
+    // Initialize pagination
+    updatePaginatedData();
+
     if (!syncWorker) {
       const SyncWorker = await import("./workers/filterWorker?worker");
       syncWorker = new SyncWorker.default();
@@ -391,16 +456,23 @@
 
     // Create chart configuration with server data
     createChartConfig();
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
   });
 
   // Reactive statements for chart updates
   $: if ($mode && historicalData?.length) {
     createChartConfig();
+  }
+
+  // Update pagination when rawData changes
+  $: if (rawData && rawData.length >= 0) {
+    updatePaginatedData();
+  }
+
+  // Reactive statement to load pagination settings when page changes
+  $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
+    pagePathName = $page?.url?.pathname;
+    loadRowsPerPage(); // Load pagination preference for new page
+    updatePaginatedData(); // Update display with loaded preference
   }
 
   let columns = [
@@ -441,7 +513,9 @@
 
     // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
-      displayList = [...originalData]?.slice(0, 50); // Reset to original data (spread to avoid mutation)
+      rawData = [...originalData]; // Reset to original data
+      currentPage = 1; // Reset to first page
+      updatePaginatedData();
       return;
     }
 
@@ -476,59 +550,14 @@
     };
 
     // Sort using the generic comparison function
-    displayList = [...originalData].sort(compareValues)?.slice(0, 50);
+    rawData = [...originalData].sort(compareValues);
+    currentPage = 1; // Reset to first page when sorting
+    updatePaginatedData();
   };
 
   function isChecked(item) {
     return checkedItems.has(item);
   }
-
-  let steps = [
-    {
-      popover: {
-        title: "Insider Trading",
-        description: `This dashboard aggregates every insider stock transaction filed for ${$stockTicker}. Use these to spot insider buying or selling trends that may signal executive confidence (or concern) in the stock.`,
-        side: "center",
-        align: "center",
-      },
-    },
-    {
-      element: ".transactions-count-driver",
-      popover: {
-        title: "Total Transactions",
-        description: `The total number of insider trades recorded. A high count can indicate active insider buying or selling over time.`,
-        side: "bottom",
-        align: "start",
-      },
-    },
-    {
-      element: ".filter-type-driver",
-      popover: {
-        title: "Filter Type",
-        description: `Filter by transaction type (e.g. “S-Sale” for scheduled sales, “P-Purchase,” or “F-InKind”). Use this to hone in on buys versus sells or other special transactions.`,
-        side: "left",
-        align: "start",
-      },
-    },
-    {
-      element: ".insider-table-driver",
-      popover: {
-        title: "Transactions Table",
-        description: `Lists each insider transaction with key details. Scroll or filter to quickly zero in on the trades you care about.`,
-        side: "right",
-        align: "start",
-      },
-    },
-
-    {
-      popover: {
-        title: "You’re All Set!",
-        description: `Now you know how to read this page and filter insider trades. Use this to monitor insider activity and be up-to-date with your trading decisions.`,
-        side: "center",
-        align: "center",
-      },
-    },
-  ];
 </script>
 
 <SEO
@@ -612,7 +641,6 @@
           <h1 class="text-xl sm:text-2xl font-bold">
             {$stockTicker} Insider Trading
           </h1>
-          <Tutorial {steps} />
         </div>
 
         <p class="mt-4">
@@ -744,65 +772,197 @@
               </thead>
               <tbody>
                 {#each displayList as item, index}
-                  {#if item?.price > 0}
-                    <tr
-                      class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
+                  <tr
+                    class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
+                  >
+                    <td class=" text-sm sm:text-[1rem] ] whitespace-nowrap">
+                      <div class="flex flex-col">
+                        <span class=""
+                          >{formatString(item?.reportingName)?.replace(
+                            "/de/",
+                            "",
+                          )}</span
+                        >
+                        <span class="text-sm"
+                          >{extractOfficeInfo(item?.typeOfOwner)}</span
+                        >
+                      </div>
+                    </td>
+
+                    <td
+                      class="text-end text-sm sm:text-[1rem] whitespace-nowrap ]"
                     >
-                      <td class=" text-sm sm:text-[1rem] ] whitespace-nowrap">
-                        <div class="flex flex-col">
-                          <span class=""
-                            >{formatString(item?.reportingName)?.replace(
-                              "/de/",
-                              "",
-                            )}</span
-                          >
-                          <span class="text-sm"
-                            >{extractOfficeInfo(item?.typeOfOwner)}</span
-                          >
-                        </div>
-                      </td>
+                      {new Date(item?.transactionDate)?.toLocaleString(
+                        "en-US",
+                        {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                          daySuffix: "2-digit",
+                          timeZone: "UTC",
+                        },
+                      )}
+                    </td>
 
-                      <td
-                        class="text-end text-sm sm:text-[1rem] whitespace-nowrap ]"
-                      >
-                        {new Date(item?.transactionDate)?.toLocaleString(
-                          "en-US",
-                          {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                            daySuffix: "2-digit",
-                            timeZone: "UTC",
-                          },
-                        )}
-                      </td>
-
-                      <td
-                        class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                      >
-                        {item?.securitiesTransacted?.toLocaleString("en-US")}
-                      </td>
-                      <td
-                        class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                      >
-                        ${item?.price?.toFixed(2)}
-                      </td>
-                      <td
-                        class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                      >
-                        ${item?.value?.toLocaleString("en-US")}
-                      </td>
-                      <td
-                        class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                      >
-                        {item?.transactionType}
-                      </td>
-                    </tr>
-                  {/if}
+                    <td
+                      class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                    >
+                      {item?.securitiesTransacted?.toLocaleString("en-US")}
+                    </td>
+                    <td
+                      class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                    >
+                      ${item?.price?.toFixed(2)}
+                    </td>
+                    <td
+                      class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                    >
+                      ${item?.value?.toLocaleString("en-US")}
+                    </td>
+                    <td
+                      class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                    >
+                      {item?.transactionType}
+                    </td>
+                  </tr>
                 {/each}
               </tbody>
             </table>
           </div>
+
+          <!-- Pagination controls -->
+          {#if displayList?.length > 0 && totalPages > 0}
+            <div
+              class="flex flex-row items-center justify-between mt-8 sm:mt-5"
+            >
+              <!-- Previous button -->
+              <div class="flex items-center gap-2">
+                <Button
+                  on:click={() => goToPage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                >
+                  <svg
+                    class="h-5 w-5 inline-block shrink-0 rotate-90"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style="max-width:40px"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                  <span class="hidden sm:inline">Previous</span>
+                </Button>
+              </div>
+
+              <!-- Page info and rows selector in center -->
+              <div class="flex flex-row items-center gap-4">
+                <span class="text-sm sm:text-[1rem]">
+                  Page {currentPage} of {totalPages}
+                </span>
+
+                <DropdownMenu.Root>
+                  <DropdownMenu.Trigger asChild let:builder>
+                    <Button
+                      builders={[builder]}
+                      class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 rounded truncate"
+                    >
+                      <span class="truncate text-[0.85rem] sm:text-sm"
+                        >{rowsPerPage} Rows</span
+                      >
+                      <svg
+                        class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width:40px"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </Button>
+                  </DropdownMenu.Trigger>
+
+                  <DropdownMenu.Content
+                    side="bottom"
+                    align="end"
+                    sideOffset={10}
+                    alignOffset={0}
+                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative"
+                  >
+                    <!-- Dropdown items -->
+                    <DropdownMenu.Group class="pb-2">
+                      {#each rowsPerPageOptions as item}
+                        <DropdownMenu.Item
+                          class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                        >
+                          <label
+                            on:click={() => changeRowsPerPage(item)}
+                            class="inline-flex justify-between w-full items-center cursor-pointer"
+                          >
+                            <span class="text-sm">{item} Rows</span>
+                          </label>
+                        </DropdownMenu.Item>
+                      {/each}
+                    </DropdownMenu.Group>
+                  </DropdownMenu.Content>
+                </DropdownMenu.Root>
+              </div>
+
+              <!-- Next button -->
+              <div class="flex items-center gap-2">
+                <Button
+                  on:click={() => goToPage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                >
+                  <span class="hidden sm:inline">Next</span>
+                  <svg
+                    class="h-5 w-5 inline-block shrink-0 -rotate-90"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style="max-width:40px"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </Button>
+              </div>
+            </div>
+
+            <!-- Back to Top button -->
+            <div class="flex justify-center mt-4">
+              <button
+                on:click={scrollToTop}
+                class="cursor-pointer sm:hover:text-muted text-blue-800 dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem] font-medium"
+              >
+                Back to Top <svg
+                  class="h-5 w-5 inline-block shrink-0 rotate-180"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  style="max-width:40px"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          {/if}
         {:else if displayList?.length === 0 && filterList?.length > 0}
           <Infobox
             text={`No Transaction Type found for ${removeCompanyStrings($displayCompanyName)}. Try a different filter...`}
