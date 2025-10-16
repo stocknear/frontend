@@ -5,7 +5,6 @@
     abbreviateNumber,
     removeCompanyStrings,
   } from "$lib/utils";
-  import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import Tutorial from "$lib/components/Tutorial.svelte";
@@ -744,15 +743,10 @@
                 <TableHeader {columns} {sortOrders} {sortData} />
               </thead>
               <tbody>
-                {#each ["Plus", "Pro"]?.includes(data?.user?.tier) ? displayList : displayList?.slice(0, 6) as item, index}
+                {#each displayList as item, index}
                   {#if item?.price > 0}
                     <tr
-                      class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd {index +
-                        1 ===
-                        displayList?.slice(0, 6)?.length &&
-                      !['Pro', 'Plus']?.includes(data?.user?.tier)
-                        ? 'opacity-[0.1]'
-                        : ''}"
+                      class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
                     >
                       <td class=" text-sm sm:text-[1rem] ] whitespace-nowrap">
                         <div class="flex flex-col">
@@ -809,8 +803,6 @@
               </tbody>
             </table>
           </div>
-
-          <UpgradeToPro {data} />
         {:else if displayList?.length === 0 && filterList?.length > 0}
           <Infobox
             text={`No Transaction Type found for ${removeCompanyStrings($displayCompanyName)}. Try a different filter...`}
