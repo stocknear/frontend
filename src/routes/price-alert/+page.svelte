@@ -62,7 +62,7 @@
       title: "News",
     },
     {
-      title: "Earnings",
+      title: "Earnings Release",
     },
   ];
 
@@ -425,7 +425,7 @@
             {#if priceAlertList?.length > 0}
               <div class="w-full rounded overflow-hidden overflow-x-auto">
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full bg-white dark:bg-table border border-gray-300 dark:border-gray-800 m-auto mt-4"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto mt-4"
                 >
                   <!-- head -->
                   <thead class="text-white bg-default">
@@ -545,53 +545,32 @@
                   class="inline-flex justify-center w-full rounded sm:w-auto mb-3"
                 >
                   <div
-                    class="bg-default text-white dark:bg-secondary w-full min-w-24 sm:w-fit relative flex flex-wrap items-center justify-center rounded p-1 mt-4"
+                    class=" flex flex-col sm:flex-row items-start sm:items-center w-full justify-between"
                   >
-                    {#each tabs as item, i}
-                      {#if !["Pro", "Plus"]?.includes(data?.user?.tier) && i > 0}
-                        <button
-                          on:click={() => goto("/pricing")}
-                          class="cursor-pointer group relative z-1 rounded-full w-1/2 min-w-24 md:w-auto px-5 py-1"
-                        >
-                          <span
-                            class="relative text-sm sm:text-[1rem] block font-semibold"
-                          >
-                            {item.title}
-                            <svg
-                              class="inline-block ml-0.5 -mt-1 w-3.5 h-3.5"
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              ><path
-                                fill="currentColor"
-                                d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                              /></svg
+                    <div class="">
+                      <div class="inline-flex">
+                        <div class="inline-flex rounded-lg shadow-sm">
+                          {#each tabs as item, i}
+                            <button
+                              on:click={() => changeTab(i)}
+                              class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
+                          {i === 0 ? 'rounded-l border' : ''}
+                          {i === tabs?.length - 1
+                                ? 'rounded-r border-t border-r border-b'
+                                : ''}
+                          {i !== 0 && i !== tabs?.length - 1
+                                ? 'border-t border-b'
+                                : ''}
+                          {activeIdx === i
+                                ? 'bg-black dark:bg-white text-white dark:text-black'
+                                : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
                             >
-                          </span>
-                        </button>
-                      {:else}
-                        <button
-                          on:click={() => changeTab(i)}
-                          class="cursor-pointer group relative z-1 rounded-full w-1/2 min-w-24 md:w-auto px-5 py-1 {activeIdx ===
-                          i
-                            ? 'z-0'
-                            : ''} "
-                        >
-                          {#if activeIdx === i}
-                            <div
-                              class="absolute inset-0 rounded bg-[#fff]"
-                            ></div>
-                          {/if}
-                          <span
-                            class="relative text-sm sm:text-[1rem] block font-semibold {activeIdx ===
-                            i
-                              ? 'text-black'
-                              : ''}"
-                          >
-                            {item.title}
-                          </span>
-                        </button>
-                      {/if}
-                    {/each}
+                              {item.title}
+                            </button>
+                          {/each}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 {#if activeIdx === 0}
