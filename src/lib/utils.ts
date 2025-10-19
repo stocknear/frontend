@@ -2067,6 +2067,16 @@ export let defaultChats = [
     query: "@FundamentalData how healthy is Gamestop?",
     type: "Stocks",
   },
+  {
+    label: "Is SPY bullish right now?",
+    query: "Is SPY bullish right now?",
+    type: "ETF",
+  },
+  {
+    label: "Nvidia options flow",
+    query: "@OptionsFlow Nvidia options flow",
+    type: "Stocks",
+  },
 ];
 
 
