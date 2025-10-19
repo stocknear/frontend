@@ -22,7 +22,6 @@ export const load = async ({ locals }) => {
 
   // Make sure to return a promise
   return {
-    //getMiniPlotsIndex: await getMiniPlotsIndex(),
     getData: await getData(),
   };
 };

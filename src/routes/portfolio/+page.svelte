@@ -44,10 +44,13 @@
 
   const tabs = [
     {
-      title: "News",
+      title: "AI Insights",
     },
     {
-      title: "Earnings Release",
+      title: "Risk Analysis",
+    },
+    {
+      title: "Earnings Releases",
     },
   ];
 
@@ -148,8 +151,8 @@
 
     // Use toast.promise to display a loading toast, then a success or error message
     toast.promise(promise, {
-      loading: "Creating watchlist...",
-      success: "Watchlist created successfully!",
+      loading: "Creating portfolio...",
+      success: "Portfolio created successfully!",
       error: (err) => err.message || "Something went wrong. Please try again!",
     });
 
@@ -168,7 +171,7 @@
       clicked?.dispatchEvent(new MouseEvent("click"));
 
       const anchor = document.createElement("a");
-      anchor.href = "/watchlist/stocks";
+      anchor.href = "/portfolio";
       anchor.dispatchEvent(new MouseEvent("click"));
     } catch (error) {
       console.error("Error creating watchlist:", error);
@@ -521,7 +524,7 @@
 </script>
 
 <SEO
-  title="Portfolio - Real-Time & AI Insights | Track Stocks & ETFs"
+  title="Portfolio Tracker& AI Analysis"
   description="Build and monitor your portfolio with real-time prices, AI-driven insights, and smart alerts. Track stocks, ETFs, and performance with predictive analytics, sentiment signals, and anomaly detection — all in one free portfolio tracker."
   keywords="portfolio tracker, real-time portfolio, AI insights, stock portfolio, ETF tracker, investment tracker, stock alerts, predictive analytics, sentiment analysis, anomaly detection, performance analytics, portfolio management"
   structuredData={{
@@ -605,7 +608,7 @@
                         <span class="truncate font-medium text-sm"
                           >{displayWatchList?.title !== undefined
                             ? displayWatchList?.title
-                            : "Create Watchlist"}</span
+                            : "Create Portfolio"}</span
                         >
                         <svg
                           class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -653,7 +656,7 @@
                                 ></path>
                               </svg>
                               <div class="text-sm text-start">
-                                New Watchlist
+                                New Portfolio
                               </div>
                             </label>
                           </Button>
@@ -817,12 +820,14 @@
             </div>
 
             {#if allList.length === 0}
-              <div class="flex flex-col justify-center items-center m-auto z-0">
+              <div
+                class="flex flex-col justify-center items-center m-auto z-0 pt-5"
+              >
                 <span class=" font-bold text-xl sm:text-3xl">
-                  Empty Watchlist
+                  Create Portfolio
                 </span>
 
-                <span class=" text-sm sm:text-lg m-auto p-4 text-center">
+                <span class=" text-sm sm:text-[1rem] m-auto p-4 text-center">
                   Fill it up with your favorite stocks and get realtime data and
                   the latest news in one place!
                 </span>
@@ -1079,11 +1084,11 @@
                     class="flex flex-col justify-center items-center m-auto pt-5 z-0"
                   >
                     <span class=" font-bold text-xl sm:text-3xl">
-                      Empty Watchlist
+                      Create Portfolio
                     </span>
 
                     <span
-                      class=" text-sm sm:text-lg pt-5 m-auto p-4 text-center"
+                      class=" text-sm sm:text-[1rem] pt-5 m-auto p-4 text-center"
                     >
                       Fill it up with your favorite stocks and get realtime data
                       and the latest news in one place!
@@ -1112,7 +1117,7 @@
   </div>
 </section>
 
-<!--Start Create Watchlist Modal-->
+<!--Start Create Portfolio Modal-->
 
 <!-- Desktop modal using dialog component -->
 <input type="checkbox" id="addWatchlist" class="modal-toggle" />
@@ -1126,7 +1131,7 @@
     class="modal-box w-full bg-white dark:bg-secondary rounded border-gray-300 shadow"
   >
     <div class="mb-5">
-      <h3 class="font-bold text-2xl mb-5">New Watchlist</h3>
+      <h3 class="font-bold text-2xl mb-5">New Portfolio</h3>
 
       <form on:submit={createWatchList} class="space-y-2 w-full m-auto">
         <Input
@@ -1144,13 +1149,13 @@
           type="submit"
           class="cursor-pointer mt-2 py-3 bg-black text-white dark:text-black sm:hover:bg-muted dark:bg-[#fff] dark:sm:hover:bg-gray-100 btn-md w-full rounded m-auto font-semibold text-md"
         >
-          Create Watchlist
+          Create Portfolio
         </button>
       </form>
     </div>
   </div>
 </dialog>
-<!--End Create Watchlist Modal-->
+<!--End Create Portfolio Modal-->
 
 <!--Start Delete Strategy Modal-->
 
@@ -1164,7 +1169,7 @@
     class="modal-box w-full p-6 rounded border
         bg-white dark:bg-secondary border border-gray-300 dark:border-gray-600"
   >
-    <h3 class="text-lg font-medium mb-2">Delete Watchlist</h3>
+    <h3 class="text-lg font-medium mb-2">Delete Portfolio</h3>
     <p class="text-sm mb-6">
       Are you sure you want to delete this watchlist? This action cannot be
       undone.
@@ -1203,7 +1208,7 @@
             x2="14"
             y2="17"
           ></line></svg
-        >Delete Watchlist</label
+        >Delete Portfolio</label
       >
     </div>
   </div>
