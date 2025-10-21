@@ -33,7 +33,7 @@
   export let data;
   export let form;
 
-  let stockDeck = data?.getStockDeck;
+  let stockDeck = null;
   let quoteVolume = data?.getStockQuote?.volume;
 
   $: previousClose = data?.getStockQuote?.previousClose;
@@ -794,6 +794,7 @@
       config = null;
 
       stockDeck = data?.getETFProfile?.at(0);
+      console.log(data?.getStockQuote);
       initializePrice();
     }
   }
@@ -1011,6 +1012,20 @@
                     class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-sm sm:text-[0.9rem]"
+                      >Beta</td
+                    >
+                    <td
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
+                      >{stockDeck?.beta && stockDeck?.beta !== null
+                        ? stockDeck?.beta
+                        : "n/a"}</td
+                    ></tr
+                  >
+
+                  <tr
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    ><td
+                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-sm sm:text-[0.9rem]"
                       >EPS (ttm)</td
                     >
                     <td
@@ -1096,6 +1111,19 @@
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{Math.floor(quoteVolume)?.toLocaleString("en-us")}</td
+                    ></tr
+                  >
+                  <tr
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    ><td
+                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-sm sm:text-[0.9rem]"
+                      >Avg. Volume (20D)</td
+                    >
+                    <td
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
+                      >{data?.getStockQuote?.avgVolume?.toLocaleString(
+                        "en-us",
+                      )}</td
                     ></tr
                   >
                   <tr

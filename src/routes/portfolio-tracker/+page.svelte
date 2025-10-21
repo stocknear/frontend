@@ -862,6 +862,134 @@
             {:else}
               <!--Start Table of Watchlist-->
               {#key watchList}
+                <!--Adding plots here-->
+
+                <section
+                  class="rounded-2xl bg-zinc-900/40 ring-1 ring-zinc-800 shadow-xl p-6 md:p-8 w-1/2"
+                >
+                  <!-- Top: Title, Value, Delta, Refresh -->
+                  <div class="flex items-start justify-between gap-4">
+                    <div>
+                      <p class="text-zinc-400 text-lg">Net Worth</p>
+                      <div class="mt-1 flex items-baseline flex-wrap gap-3">
+                        <h2
+                          class="text-2xl md:text-4xl font-semibold tracking-tight"
+                        >
+                          $2,068,973
+                        </h2>
+                        <span
+                          class="inline-flex items-center rounded-md bg-red-500/10 text-red-400 ring-1 ring-inset ring-red-500/20 px-2 py-1 text-sm font-medium"
+                        >
+                          -$1,452,654
+                        </span>
+                        <span
+                          class="inline-flex items-center rounded-md bg-red-500/10 text-red-400 ring-1 ring-inset ring-red-500/20 px-2 py-1 text-sm font-medium"
+                        >
+                          -41.23%
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      class="shrink-0 rounded-full p-2 ring-1 ring-zinc-800 hover:bg-zinc-800 transition"
+                      aria-label="Refresh"
+                    >
+                      <!-- Heroicons: Arrow Path -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        class="w-6 h-6 text-zinc-400"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12 4.5a7.5 7.5 0 1 0 7.357 9.013.75.75 0 0 1 1.473.224A9 9 0 1 1 12 3v1.5Zm8.03-1.78a.75.75 0 0 1 .22.53v4.5a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1 0-1.5h2.69l-1.653-1.653a.75.75 0 1 1 1.06-1.06L18.72 5.94V3.25a.75.75 0 0 1 1.31-.53Z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <!-- Middle: Claimable / Assets / Liabilities -->
+                  <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div>
+                      <p class="text-zinc-400">Claimable</p>
+                      <p class="mt-1 text-2xl font-semibold">$0</p>
+                    </div>
+                    <div>
+                      <p class="text-zinc-400">Total Assets</p>
+                      <p class="mt-1 text-2xl font-semibold">$2,068,973</p>
+                    </div>
+                    <div>
+                      <p class="text-zinc-400">Total Liabilities</p>
+                      <p class="mt-1 text-2xl font-semibold">$0</p>
+                    </div>
+                  </div>
+
+                  <!-- Risk Profile -->
+                  <div class="mt-10">
+                    <p class="text-zinc-400">Risk Profile</p>
+                    <!-- Segmented bar -->
+                    <div
+                      class="mt-3 h-6 w-full rounded-full bg-zinc-800 ring-1 ring-inset ring-zinc-700 overflow-hidden flex"
+                    >
+                      <!-- Large-cap 71.42% -->
+                      <div class="bg-teal-400/90" style="width:71.42%"></div>
+                      <!-- Small-cap 23.85% -->
+                      <div class="bg-purple-400/90" style="width:23.85%"></div>
+                      <!-- Mid-cap 4.65% -->
+                      <div class="bg-amber-300/90" style="width:4.65%"></div>
+                      <!-- Stablecoins 0.07% -->
+                      <div class="bg-indigo-400/90" style="width:0.07%"></div>
+                      <!-- Micro-cap <0.01% (drawn as a hairline) -->
+                      <div class="bg-yellow-300/90" style="width:0.01%"></div>
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+                      <div class="flex items-center gap-2">
+                        <span
+                          class="inline-block size-3 rounded-full bg-teal-400"
+                        ></span>
+                        <span class="text-sm text-zinc-300">Large-cap</span>
+                        <span class="ml-auto text-sm text-zinc-400">71.42%</span
+                        >
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <span
+                          class="inline-block size-3 rounded-full bg-purple-400"
+                        ></span>
+                        <span class="text-sm text-zinc-300">Small-cap</span>
+                        <span class="ml-auto text-sm text-zinc-400">23.85%</span
+                        >
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <span
+                          class="inline-block size-3 rounded-full bg-amber-300"
+                        ></span>
+                        <span class="text-sm text-zinc-300">Mid-cap</span>
+                        <span class="ml-auto text-sm text-zinc-400">4.65%</span>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <span
+                          class="inline-block size-3 rounded-full bg-indigo-400"
+                        ></span>
+                        <span class="text-sm text-zinc-300">Stablecoins</span>
+                        <span class="ml-auto text-sm text-zinc-400">0.07%</span>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <span
+                          class="inline-block size-3 rounded-full bg-yellow-300"
+                        ></span>
+                        <span class="text-sm text-zinc-300">Micro-cap</span>
+                        <span class="ml-auto text-sm text-zinc-400"
+                          >&lt;0.01%</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <!--Starting Table-->
                 {#if watchList?.length > 0}
                   <div class="w-full">
                     <Table
