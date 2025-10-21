@@ -1,7 +1,12 @@
 import { error, fail, redirect } from "@sveltejs/kit";
 import { validateData, checkDisposableEmail, validateReturnUrl } from "$lib/utils";
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
+ import {
+    formatString
+  } from "$lib/utils";
 
+
+  
 export const load = async ({ locals, params }) => {
   const { apiURL, apiKey, user } = locals;
 
@@ -23,7 +28,10 @@ export const load = async ({ locals, params }) => {
     let output = await response.json();
 
     //output.shareholders = !['Plus','Pro']?.includes(user?.tier) ? output.shareholders?.slice(0, 3) : output.shareholders;
-
+      output.shareholders = output?.shareholders?.map(({ investorName, ...rest }) => ({
+      ...rest,
+      name: formatString(rest.name ?? investorName)
+    }));
    
     return output;
   };

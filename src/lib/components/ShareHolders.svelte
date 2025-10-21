@@ -9,6 +9,9 @@
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
+  import { page } from "$app/stores";
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
 
@@ -23,10 +26,20 @@
   let putCallRatio;
 
   let shareholderList = rawData?.shareholders;
-  let displayList = shareholderList?.slice(0, 50);
+  let filteredData = [];
+  let displayList = [];
   let config;
 
   let topHolders = 0;
+  let inputValue = "";
+  let searchWorker: Worker | undefined;
+
+  // Pagination state
+  let currentPage = 1;
+  let rowsPerPage = 20;
+  let rowsPerPageOptions = [20, 50, 100];
+  let totalPages = 1;
+  let pagePathName = $page?.url?.pathname;
 
   function plotData() {
     let institutionalOwner =
@@ -137,28 +150,122 @@
 
   let charNumber = 30;
 
-  async function handleScroll() {
-    const scrollThreshold = document.body.offsetHeight * 0.8; // 80% of the website height
-    const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
-    if (isBottom && displayList?.length !== shareholderList?.length) {
-      const nextIndex = displayList?.length;
-      const filteredNewResults = shareholderList?.slice(
-        nextIndex,
-        nextIndex + 50,
+  function updatePaginatedData() {
+    const start = (currentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    displayList = filteredData?.slice(start, end);
+    totalPages = Math.ceil(filteredData?.length / rowsPerPage);
+  }
+
+  function goToPage(page) {
+    currentPage = page;
+    updatePaginatedData();
+  }
+
+  function changeRowsPerPage(newRowsPerPage) {
+    rowsPerPage = newRowsPerPage;
+    currentPage = 1;
+    updatePaginatedData();
+    saveRowsPerPage();
+  }
+
+  function saveRowsPerPage() {
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem(
+        `shareholders_rowsPerPage_${pagePathName}`,
+        rowsPerPage.toString(),
       );
-      displayList = [...displayList, ...filteredNewResults];
     }
   }
 
+  function loadRowsPerPage() {
+    if (typeof localStorage !== "undefined") {
+      const savedRowsPerPage = localStorage.getItem(
+        `shareholders_rowsPerPage_${pagePathName}`,
+      );
+      if (savedRowsPerPage) {
+        rowsPerPage = parseInt(savedRowsPerPage, 10);
+      }
+    }
+  }
+
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
+  async function resetTableSearch() {
+    inputValue = "";
+    filteredData = [...(shareholderList || [])];
+    currentPage = 1;
+    updatePaginatedData();
+  }
+
+  async function search() {
+    const searchValue = inputValue?.toLowerCase();
+
+    setTimeout(async () => {
+      if (searchValue?.length > 0) {
+        await loadSearchWorker();
+      } else {
+        // Reset to original data if filter is empty
+        filteredData = [...(shareholderList || [])];
+        currentPage = 1;
+        updatePaginatedData();
+      }
+    }, 100);
+  }
+
+  const loadSearchWorker = async () => {
+    if (searchWorker && shareholderList?.length > 0) {
+      searchWorker.postMessage({
+        rawData: shareholderList,
+        inputValue: inputValue?.toLowerCase(),
+      });
+    }
+  };
+
+  const handleSearchMessage = (event) => {
+    if (event.data?.message === "success") {
+      filteredData = event.data?.output ?? [];
+      currentPage = 1;
+      updatePaginatedData();
+    }
+  };
+
+  function initialize() {
+    filteredData = [...(shareholderList || [])];
+    loadRowsPerPage();
+    currentPage = 1;
+    updatePaginatedData();
+  }
+
   onMount(async () => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    // Load pagination preference
+    loadRowsPerPage();
+
+    // Initialize pagination
+    initialize();
+
+    if (!searchWorker) {
+      const SearchWorker = await import(
+        "$lib/workers/tableSearchWorker?worker"
+      );
+      searchWorker = new SearchWorker.default();
+      searchWorker.onmessage = handleSearchMessage;
+    }
   });
 
+  $: {
+    if (pagePathName) {
+      initialize();
+    }
+  }
+
   let columns = [
-    { key: "investorName", label: "Institute", align: "left" },
+    { key: "name", label: "Institute", align: "left" },
     { key: "ownership", label: "Ownership", align: "right" },
     { key: "sharesNumber", label: "Shares", align: "right" },
     {
@@ -172,7 +279,7 @@
   ];
 
   let sortOrders = {
-    investorName: { order: "none", type: "string" },
+    name: { order: "none", type: "string" },
     ownership: { order: "none", type: "number" },
     sharesNumber: { order: "none", type: "number" },
     changeInSharesNumberPercentage: { order: "none", type: "number" },
@@ -192,15 +299,19 @@
     // Cycle through 'none', 'asc', 'desc' for the clicked key
     const orderCycle = ["none", "asc", "desc"];
 
-    let originalData = shareholderList;
     const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
     sortOrders[key].order =
       orderCycle[(currentOrderIndex + 1) % orderCycle.length];
     const sortOrder = sortOrders[key].order;
 
+    // Determine the data source based on search state
+    const dataToSort = inputValue?.length > 0 ? [...filteredData] : [...(shareholderList || [])];
+
     // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
-      displayList = [...originalData]?.slice(0, 50); // Reset to original data (spread to avoid mutation)
+      filteredData = dataToSort;
+      currentPage = 1;
+      updatePaginatedData();
       return;
     }
 
@@ -234,8 +345,10 @@
       }
     };
 
-    // Sort using the generic comparison function
-    displayList = [...originalData].sort(compareValues)?.slice(0, 50);
+    // Sort the data and update filteredData
+    filteredData = dataToSort.sort(compareValues);
+    currentPage = 1;
+    updatePaginatedData();
   };
 
   $: {
@@ -484,26 +597,55 @@
         </div>
       {/if}
 
-      <div class="flex flex-row items-center justify-between mb-3">
-        <h3 class=" font-semibold text-xl sm:text-2xl">Top Shareholders</h3>
-
-        {#if topHolders !== 0}
-          <span class=" text-[1rem">
-            The Top 10 shareholders collectively own <span class="font-semibold"
-              >{topHolders <= 0.01
-                ? "< 0.01%"
-                : topHolders?.toFixed(2) + "%"}</span
+      <div
+        class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+      >
+        <h2
+          class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold py-1 border-b border-gray-300 dark:border-gray-800 lg:border-none w-full"
+        >
+          Top Shareholders
+        </h2>
+        <div
+          class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+        >
+          <div class="relative lg:ml-auto w-full lg:w-fit">
+            <div
+              class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
             >
-            of the {$displayCompanyName}
-          </span>
-        {/if}
+              {#if inputValue?.length > 0}
+                <label
+                  class="cursor-pointer"
+                  on:click={() => resetTableSearch()}
+                >
+                  <svg
+                    class="w-5 h-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    ><path
+                      fill="currentColor"
+                      d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                    /></svg
+                  >
+                </label>
+              {/if}
+            </div>
 
-        <div class="flex justify-end items-end ml-auto w-fit">
-          <DownloadData
-            {data}
-            rawData={shareholderList}
-            title={`13-institute-${$stockTicker}`}
-          />
+            <input
+              bind:value={inputValue}
+              on:input={search}
+              type="text"
+              placeholder="Find..."
+              class=" py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full sm:min-w-56 lg:max-w-14"
+            />
+          </div>
+
+          <div class="ml-2">
+            <DownloadData
+              {data}
+              rawData={shareholderList}
+              title={`13-institute-${$stockTicker}`}
+            />
+          </div>
         </div>
       </div>
 
@@ -518,7 +660,7 @@
           </thead>
           <tbody>
             {#each displayList as item, index}
-              {#if item?.investorName?.length > 0}
+              {#if item?.name?.length > 0}
                 <tr
                   class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
                 >
@@ -527,11 +669,9 @@
                       href={"/hedge-funds/" + item?.cik}
                       class="sm:hover:underline sm:hover:underline-offset-4"
                     >
-                      {item?.investorName?.length > charNumber
-                        ? formatString(
-                            item?.investorName?.slice(0, charNumber),
-                          ) + "..."
-                        : formatString(item?.investorName)}
+                      {item?.name?.length > charNumber
+                        ? item?.name?.slice(0, charNumber) + "..."
+                        : item?.name}
                     </a>
                   </td>
 
@@ -603,6 +743,138 @@
           </tbody>
         </table>
       </div>
+
+      <!-- Pagination controls -->
+      {#if displayList?.length > 0 && totalPages > 0}
+        <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
+          <!-- Previous button -->
+          <div class="flex items-center gap-2">
+            <Button
+              on:click={() => goToPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+            >
+              <svg
+                class="h-5 w-5 inline-block shrink-0 rotate-90"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span class="hidden sm:inline">Previous</span>
+            </Button>
+          </div>
+
+          <!-- Page info and rows selector in center -->
+          <div class="flex flex-row items-center gap-4">
+            <span class="text-sm sm:text-[1rem]">
+              Page {currentPage} of {totalPages}
+            </span>
+
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger asChild let:builder>
+                <Button
+                  builders={[builder]}
+                  class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 rounded truncate"
+                >
+                  <span class="truncate text-[0.85rem] sm:text-sm"
+                    >{rowsPerPage} Rows</span
+                  >
+                  <svg
+                    class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style="max-width:40px"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </Button>
+              </DropdownMenu.Trigger>
+
+              <DropdownMenu.Content
+                side="bottom"
+                align="end"
+                sideOffset={10}
+                alignOffset={0}
+                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative"
+              >
+                <!-- Dropdown items -->
+                <DropdownMenu.Group class="pb-2">
+                  {#each rowsPerPageOptions as item}
+                    <DropdownMenu.Item
+                      class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                    >
+                      <label
+                        on:click={() => changeRowsPerPage(item)}
+                        class="inline-flex justify-between w-full items-center cursor-pointer"
+                      >
+                        <span class="text-sm">{item} Rows</span>
+                      </label>
+                    </DropdownMenu.Item>
+                  {/each}
+                </DropdownMenu.Group>
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
+          </div>
+
+          <!-- Next button -->
+          <div class="flex items-center gap-2">
+            <Button
+              on:click={() => goToPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+            >
+              <span class="hidden sm:inline">Next</span>
+              <svg
+                class="h-5 w-5 inline-block shrink-0 -rotate-90"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </Button>
+          </div>
+        </div>
+
+        <!-- Back to Top button -->
+        <div class="flex justify-center mt-4">
+          <button
+            on:click={scrollToTop}
+            class="cursor-pointer sm:hover:text-muted text-blue-800 dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem] font-medium"
+          >
+            Back to Top <svg
+              class="h-5 w-5 inline-block shrink-0 rotate-180"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              style="max-width:40px"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      {/if}
 
       <UpgradeToPro {data} />
     {/if}
