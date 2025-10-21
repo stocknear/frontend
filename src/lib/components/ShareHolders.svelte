@@ -42,95 +42,108 @@
   let pagePathName = $page?.url?.pathname;
 
   function plotData() {
-    let institutionalOwner =
-      rawData?.ownershipPercent > 100 ? 99.99 : rawData?.ownershipPercent || 0;
-    let otherOwner = institutionalOwner === 0 ? 0 : 100 - institutionalOwner;
+    // Get top 10 shareholders and calculate their ownership
+    const topShareholders = shareholderList?.slice(0, 10) || [];
+    const topShareholdersOwnership = topShareholders.reduce(
+      (acc, item) => acc + (item?.ownership || 0),
+      0
+    );
+
+    // Calculate others (rest of shareholders)
+    const othersOwnership = (rawData?.ownershipPercent || 0) - topShareholdersOwnership;
+
+    // Color palette
+    const colors = [
+      "#2B5F75", // Dark blue
+      "#4A7BA7", // Medium blue
+      "#8B5A9B", // Purple
+      "#C85A9B", // Pink-purple
+      "#E85A85", // Pink
+      "#F5756B", // Coral
+      "#F9A05C", // Orange
+      "#FFC04D", // Yellow
+      "#FFD93D", // Bright yellow
+      "#4A6B8A", // Blue-gray
+    ];
+
+    // Transform data for pie chart
+    const pieData = topShareholders.map((item, index) => ({
+      name: item?.name?.length > 30 ? item?.name?.slice(0, 30) + "..." : item?.name,
+      y: item?.ownership || 0,
+      color: colors[index % colors.length],
+    }));
+
+    // Add "Others" if there's remaining ownership
+    if (othersOwnership > 0) {
+      pieData.push({
+        name: "Others",
+        y: othersOwnership,
+        color: "#9B7BA7", // Light purple
+      });
+    }
 
     const options = {
+      credits: {
+        enabled: false,
+      },
       chart: {
-        type: "bar",
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
         plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        height: 360, // Set the maximum height for the chart
+        type: "pie",
+        height: 400,
         animation: false,
-      },
-      credits: { enabled: false },
-      legend: {
-        enabled: true,
-        animation: false,
-        itemStyle: { color: $mode === "light" ? "black" : "white" },
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-center">${removeCompanyStrings($displayCompanyName)} Ownership Distribution</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-center">${removeCompanyStrings($displayCompanyName)} Top Shareholders</h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "black" : "white" },
       },
-      xAxis: {
-        categories: [""],
-        animation: false,
-      },
-      yAxis: {
-        title: {
-          text: null,
-          style: { color: $mode === "light" ? "black" : "white" },
-        },
-        opposite: true,
-        gridLineWidth: 1,
-        gridLineColor: $mode === "light" ? "#e5e7eb" : "#111827",
-        labels: {
-          formatter: function () {
-            return this?.value + "%";
+      plotOptions: {
+        pie: {
+          allowPointSelect: false,
+          cursor: "pointer",
+          dataLabels: {
+            enabled: true,
+            distance: 20,
+            style: {
+              color: $mode === "light" ? "#333" : "#fff",
+              fontSize: "13px",
+              fontWeight: "500",
+              textOutline: "none",
+            },
+            formatter: function () {
+              return `<span style="font-weight: 600">${this.point.name}:</span> ${this.y.toFixed(2)}%`;
+            },
           },
-          style: { color: $mode === "light" ? "black" : "white" },
-        },
-        tickPositioner: function () {
-          // Create custom tick positions with wider spacing
-          const positions = [];
-          const info = this.getExtremes();
-          const tickCount = 3; // Reduce number of ticks displayed
-          const interval = Math.floor((info.max - info.min) / tickCount);
-
-          for (let i = 0; i <= tickCount; i++) {
-            positions.push(info.min + i * interval);
-          }
-          return positions;
+          showInLegend: false,
+          borderWidth: 0,
+          size: "85%",
+          innerSize: "0%",
+          animation: false,
+          enableMouseTracking: false,
+          states: {
+            hover: {
+              enabled: false,
+            },
+            inactive: {
+              enabled: false,
+            },
+          },
         },
       },
       tooltip: {
         enabled: false,
       },
-      plotOptions: {
-        series: {
-          color: $mode === "light" ? "black" : "white",
-          animation: false,
-          dataLabels: {
-            enabled: false,
-            color: $mode === "light" ? "black" : "white",
-            style: {
-              fontSize: "13px",
-              fontWeight: "bold",
-            },
-          },
-        },
-      },
       series: [
         {
-          name: "Institutional Owner",
-          data: [institutionalOwner],
+          name: "Ownership",
+          data: pieData,
           animation: false,
-          color: "#1E40AF",
-          borderColor: "#1E40AF",
-          borderRadius: "1px",
-        },
-        {
-          name: "Others",
-          data: [otherOwner],
-          animation: false,
-          color: "#D97706",
-          borderColor: "#D97706",
-          borderRadius: "1px",
         },
       ],
+      legend: {
+        enabled: false,
+      },
     };
 
     return options;

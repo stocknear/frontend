@@ -449,6 +449,7 @@
         {#if rawData?.length > 0}
           <Table
             {data}
+            title={`${rawData?.length?.toLocaleString("en-US")} Stocks`}
             {rawData}
             {excludedRules}
             {defaultList}
