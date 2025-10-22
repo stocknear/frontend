@@ -366,16 +366,23 @@ export const calculateChange = (oldList = [], newList = []) => {
       item.price = newPrice;
     }
 
-    const incrementalVolume = Number(newItem?.ls);
-    if (incrementalVolume > 0 && item?.volume != null) {
+    const incrementalVolumeRaw = newItem?.ls;
+    const incrementalVolume =
+      typeof incrementalVolumeRaw === "number"
+        ? incrementalVolumeRaw
+        : Number(String(incrementalVolumeRaw ?? "").replace(/,/g, ""));
+
+    if (incrementalVolume > 0 && Number.isFinite(incrementalVolume) && item?.volume != null) {
       const currentVolumeRaw = item.volume;
       const currentVolume =
         typeof currentVolumeRaw === "number"
           ? currentVolumeRaw
-          : Number(String(currentVolumeRaw).replace(/,/g, ""));
+          : Number(String(currentVolumeRaw ?? "").replace(/,/g, ""));
 
-      if (!Number.isNaN(currentVolume)) {
-        item.volume = currentVolume + incrementalVolume;
+      if (Number.isFinite(currentVolume)) {
+        const nextVolume =
+          Math.trunc(currentVolume) + Math.trunc(incrementalVolume);
+        item.volume = nextVolume;
       }
     }
 
