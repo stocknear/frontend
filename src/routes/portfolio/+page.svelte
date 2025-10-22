@@ -5,132 +5,42 @@
 
   export let data;
 
+  const defaultList = [
+    { name: "Price", rule: "price" },
+    { name: "% Change", rule: "changesPercentage" },
+    { name: "Shares", rule: "shares" },
+    { name: "Avg. Paid", rule: "avgPaid" },
+    { name: "Profit/Loss", rule: "profitLoss" },
+    { name: "Total Return", rule: "totalReturn" },
+  ];
+
+  const specificRows = [
+    { name: "Shares", rule: "shares", type: "decimal" },
+    { name: "Avg. Paid", rule: "avgPaid", type: "float" },
+    { name: "Profit/Loss", rule: "profitLoss", type: "int" },
+    { name: "Total Return", rule: "totalReturn", type: "percentSign" },
+  ];
+
   let rawData = [
     {
-      symbol: "SAP",
-      name: "Sap Se",
-      price: 272.89,
-      changesPercentage: 1.17,
-      marketCap: 318194271838,
-      revenue: 34176000000,
-      rank: 1,
+      symbol: "AMD",
+      name: "Advanced Micro Devices, Inc.",
+      shares: 100,
+      avgPaid: 30.5,
+      price: 45.5,
+      changesPercentage: 2.5,
+      profitLoss: 1500,
+      totalReturn: 15,
     },
     {
-      symbol: "DB",
-      name: "Deutsche Bank AG",
-      price: 33.58,
-      changesPercentage: -4.33,
-      marketCap: 64680213878,
-      revenue: 28263000000,
-      rank: 2,
-    },
-    {
-      symbol: "BNTX",
-      name: "BioNTech SE",
-      price: 105.14,
-      changesPercentage: 0.06,
-      marketCap: 25275521841,
-      revenue: 2751100000,
-      rank: 3,
-    },
-    {
-      symbol: "FMS",
-      name: "Fresenius Medical Care AG & Co. KGaA",
-      price: 27.14,
-      changesPercentage: 0.37,
-      marketCap: 15926482229,
-      revenue: 19335909000,
-      rank: 4,
-    },
-    {
-      symbol: "ATAI",
-      name: "Atai Life Sciences N.V.",
-      price: 6.45,
-      changesPercentage: 17.7,
-      marketCap: 1381322209,
-      revenue: 308000,
-      rank: 5,
-    },
-    {
-      symbol: "EVO",
-      name: "Evotec SE",
-      price: 3.88,
-      changesPercentage: -3,
-      marketCap: 1377799846,
-      revenue: 796967000,
-      rank: 6,
-    },
-    {
-      symbol: "NNNN",
-      name: "Anbio Biotechnology Class A Ordinary Shares",
-      price: 29,
-      changesPercentage: 4.62,
-      marketCap: 1272844800,
-      revenue: 8185146,
-      rank: 7,
-    },
-    {
-      symbol: "CVAC",
-      name: "CureVac N.V.",
-      price: 5.36,
-      changesPercentage: -0.19,
-      marketCap: 1206925935,
-      revenue: 535180000,
-      rank: 8,
-    },
-    {
-      symbol: "IMTX",
-      name: "Immatics N.V.",
-      price: 9.87,
-      changesPercentage: -3.24,
-      marketCap: 1199719276,
-      revenue: 155835000,
-      rank: 9,
-    },
-    {
-      symbol: "LUXE",
-      name: "LuxExperience B.V.",
-      price: 8.34,
-      changesPercentage: 2.08,
-      marketCap: 711118123,
-      revenue: 1255000000,
-      rank: 10,
-    },
-    {
-      symbol: "JMIA",
-      name: "Jumia Technologies AG",
-      price: 10.74,
-      changesPercentage: -9.6,
-      marketCap: 657625365,
-      revenue: 167486000,
-      rank: 11,
-    },
-    {
-      symbol: "TRVG",
-      name: "trivago N.V.",
-      price: 3.07,
-      changesPercentage: -0.32,
-      marketCap: 216149373,
-      revenue: 460849000,
-      rank: 12,
-    },
-    {
-      symbol: "IFRX",
-      name: "InflaRx N.V.",
-      price: 1.18,
-      changesPercentage: -4.84,
-      marketCap: 79941613,
-      revenue: 165789,
-      rank: 13,
-    },
-    {
-      symbol: "MYNZ",
-      name: "Mainz Biomed B.V.",
-      price: 1.49,
-      changesPercentage: 5.67,
-      marketCap: 6097414,
-      revenue: 893991,
-      rank: 14,
+      symbol: "TSLA",
+      name: "Tesla, Inc.",
+      shares: 50,
+      avgPaid: 500.5,
+      price: 400.5,
+      changesPercentage: -1.2,
+      profitLoss: -5000,
+      totalReturn: -20,
     },
   ];
 
@@ -537,6 +447,16 @@
           {data}
           {rawData}
           title={rawData?.length?.toLocaleString("en-US") + " " + "Stocks"}
+          {defaultList}
+          {specificRows}
+          excludedRules={new Set([
+            "shares",
+            "avgPaid",
+            "price",
+            "changesPercentage",
+            "profitLoss",
+            "totalReturn",
+          ])}
         />
       </div>
 
