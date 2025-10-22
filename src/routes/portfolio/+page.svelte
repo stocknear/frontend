@@ -1,13 +1,141 @@
 <script lang="ts">
   import highcharts from "$lib/highcharts";
+  import Sector from "$lib/components/Portfolio/Sector.svelte";
+  import Table from "$lib/components/Table/Table.svelte";
 
-  // --- Demo data (replace with your real data) ---
-  const netWorth = 557383;
-  const deltaToday = 1994;
+  export let data;
+
+  let rawData = [
+    {
+      symbol: "SAP",
+      name: "Sap Se",
+      price: 272.89,
+      changesPercentage: 1.17,
+      marketCap: 318194271838,
+      revenue: 34176000000,
+      rank: 1,
+    },
+    {
+      symbol: "DB",
+      name: "Deutsche Bank AG",
+      price: 33.58,
+      changesPercentage: -4.33,
+      marketCap: 64680213878,
+      revenue: 28263000000,
+      rank: 2,
+    },
+    {
+      symbol: "BNTX",
+      name: "BioNTech SE",
+      price: 105.14,
+      changesPercentage: 0.06,
+      marketCap: 25275521841,
+      revenue: 2751100000,
+      rank: 3,
+    },
+    {
+      symbol: "FMS",
+      name: "Fresenius Medical Care AG & Co. KGaA",
+      price: 27.14,
+      changesPercentage: 0.37,
+      marketCap: 15926482229,
+      revenue: 19335909000,
+      rank: 4,
+    },
+    {
+      symbol: "ATAI",
+      name: "Atai Life Sciences N.V.",
+      price: 6.45,
+      changesPercentage: 17.7,
+      marketCap: 1381322209,
+      revenue: 308000,
+      rank: 5,
+    },
+    {
+      symbol: "EVO",
+      name: "Evotec SE",
+      price: 3.88,
+      changesPercentage: -3,
+      marketCap: 1377799846,
+      revenue: 796967000,
+      rank: 6,
+    },
+    {
+      symbol: "NNNN",
+      name: "Anbio Biotechnology Class A Ordinary Shares",
+      price: 29,
+      changesPercentage: 4.62,
+      marketCap: 1272844800,
+      revenue: 8185146,
+      rank: 7,
+    },
+    {
+      symbol: "CVAC",
+      name: "CureVac N.V.",
+      price: 5.36,
+      changesPercentage: -0.19,
+      marketCap: 1206925935,
+      revenue: 535180000,
+      rank: 8,
+    },
+    {
+      symbol: "IMTX",
+      name: "Immatics N.V.",
+      price: 9.87,
+      changesPercentage: -3.24,
+      marketCap: 1199719276,
+      revenue: 155835000,
+      rank: 9,
+    },
+    {
+      symbol: "LUXE",
+      name: "LuxExperience B.V.",
+      price: 8.34,
+      changesPercentage: 2.08,
+      marketCap: 711118123,
+      revenue: 1255000000,
+      rank: 10,
+    },
+    {
+      symbol: "JMIA",
+      name: "Jumia Technologies AG",
+      price: 10.74,
+      changesPercentage: -9.6,
+      marketCap: 657625365,
+      revenue: 167486000,
+      rank: 11,
+    },
+    {
+      symbol: "TRVG",
+      name: "trivago N.V.",
+      price: 3.07,
+      changesPercentage: -0.32,
+      marketCap: 216149373,
+      revenue: 460849000,
+      rank: 12,
+    },
+    {
+      symbol: "IFRX",
+      name: "InflaRx N.V.",
+      price: 1.18,
+      changesPercentage: -4.84,
+      marketCap: 79941613,
+      revenue: 165789,
+      rank: 13,
+    },
+    {
+      symbol: "MYNZ",
+      name: "Mainz Biomed B.V.",
+      price: 1.49,
+      changesPercentage: 5.67,
+      marketCap: 6097414,
+      revenue: 893991,
+      rank: 14,
+    },
+  ];
 
   const seriesPerformance = [
-    { name: "E-Trade", data: [10, 12, 13, 15, 21, 29, 35, 42, 51.8] },
-    { name: "Robinhood", data: [5, 6, 7, 8, 9, 12, 14, 15.2, 16.9] },
+    { name: "Portfolio", data: [10, 12, 13, 15, 21, 29, 35, 42, 51.8] },
     { name: "S&P 500", data: [0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.3, 3.1] },
   ];
   const perfCategories = [
@@ -98,8 +226,8 @@
   const pct = (n: number) => `${n >= 0 ? "▲" : "▼"} ${Math.abs(n).toFixed(2)}%`;
 
   // --- Charts (reactive configs) ---
-  let perfConfig: Highcharts.Options | null = null;
-  let radarConfig: Highcharts.Options | null = null;
+  let perfConfig = null;
+  let radarConfig = null;
 
   function buildPerf() {
     perfConfig = {
@@ -148,7 +276,7 @@
         polar: true,
         type: "areaspline",
         backgroundColor: "transparent",
-        height: 280,
+        height: 240,
         spacing: [0, 0, 0, 0],
         events: {
           load: function () {
@@ -288,38 +416,32 @@
   <div class="mx-auto w-full">
     <!-- Top Nav Mimic -->
     <div class="flex items-center gap-2 text-sm text-zinc-300/80">
-      <span class="px-3 py-1 rounded-full bg-zinc-900/60 border border-zinc-800"
-        >Overview</span
+      <span class="px-3 py-1 rounded-full border border-zinc-800">Overview</span
       >
-      <span class="px-3 py-1 rounded-full bg-zinc-900/60 border border-zinc-800"
-        >AI Brief</span
-      >
+      <span class="px-3 py-1 rounded-full border border-zinc-800">Returns</span>
       <span
-        class="px-3 py-1 rounded-full bg-zinc-900/60 border border-zinc-800 ring-1 ring-zinc-700/50"
+        class="px-3 py-1 rounded-full border border-zinc-800 ring-1 ring-zinc-700/50"
         >Analysis</span
       >
-      <span class="px-3 py-1 rounded-full bg-zinc-900/60 border border-zinc-800"
-        >Insights</span
+      <span class="px-3 py-1 rounded-full border border-zinc-800">Updates</span>
+      <span class="px-3 py-1 rounded-full border border-zinc-800"
+        >Dividends</span
       >
-      <span class="px-3 py-1 rounded-full bg-zinc-900/60 border border-zinc-800"
-        >Behavior</span
-      >
-      <span class="px-3 py-1 rounded-full bg-zinc-900/60 border border-zinc-800"
-        >Ideas</span
+      <span class="px-3 py-1 rounded-full border border-zinc-800">Analysis</span
       >
     </div>
 
     <div class="flex flex-row items-start w-full space-x-3 mt-6">
       <!-- LEFT -->
-      <div class="space-y-5 w-[70%]">
+      <div class=" w-[70%]">
         <!-- Header -->
-        <div class="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5">
+        <div class="rounded-lg border border-zinc-800 p-5">
           <div class="w-full overflow-hidden">
             <header class="relative">
               <!-- soft top gradient -->
 
               <h2 class="relative m-0 text-[1rem] font-semibold">
-                Performance vs Market
+                Performance vs US Market
               </h2>
             </header>
 
@@ -405,82 +527,23 @@
             </div>
           </div>
 
-          <div
-            class="mt-4 rounded-xl border border-zinc-800/60 bg-zinc-950/50 p-2"
-          >
-            <div class="h-[260px]" use:highcharts={perfConfig}></div>
-          </div>
-
-          <!-- Legend badges -->
-          <div class="mt-3 flex items-center gap-3 text-xs">
-            <span class="inline-flex items-center gap-2"
-              ><span class="h-2 w-2 rounded-full bg-current"></span>S&P 500</span
-            >
-            <span class="inline-flex items-center gap-2"
-              ><span class="h-2 w-2 rounded-full bg-current"
-              ></span>E-Trade</span
-            >
-            <span class="inline-flex items-center gap-2"
-              ><span class="h-2 w-2 rounded-full bg-current"
-              ></span>Robinhood</span
-            >
+          <div class="mt-4">
+            <div use:highcharts={perfConfig}></div>
           </div>
         </div>
 
         <!-- Holdings table -->
-        <div class="rounded-2xl border border-zinc-800 bg-zinc-900/40">
-          <div class="px-5 pt-4 pb-3 flex items-center gap-3 text-sm">
-            <span class="inline-flex items-center gap-2"
-              ><span class="h-2 w-2 rounded-full bg-emerald-400"
-              ></span>E-Trade</span
-            >
-            <span class="inline-flex items-center gap-2 text-lime-400"
-              ><span class="h-2 w-2 rounded-full bg-lime-400"
-              ></span>Robinhood</span
-            >
-          </div>
-          <div class="overflow-x-auto">
-            <table class="min-w-full text-sm">
-              <thead>
-                <tr class=" border-y border-zinc-800">
-                  <th class="text-left font-medium px-5 py-2">Symbol</th>
-                  <th class="text-left font-medium px-5 py-2">Price</th>
-                  <th class="text-left font-medium px-5 py-2">Change</th>
-                  <th class="text-left font-medium px-5 py-2">Shares</th>
-                  <th class="text-left font-medium px-5 py-2">Value</th>
-                  <th class="text-left font-medium px-5 py-2">Gain/Loss</th>
-                </tr>
-              </thead>
-              <tbody>
-                {#each holdings as h, i}
-                  <tr class="border-b border-zinc-900/80 odd:bg-zinc-900/30">
-                    <td class="px-5 py-2 font-medium">{h.symbol}</td>
-                    <td class="px-5 py-2">${h.price.toFixed(1)}</td>
-                    <td class="px-5 py-2">
-                      <span class={h.change >= 0 ? "" : "text-rose-400"}
-                        >{pct(h.change)}</span
-                      >
-                    </td>
-                    <td class="px-5 py-2">{h.shares}</td>
-                    <td class="px-5 py-2">${h.value.toLocaleString()}</td>
-                    <td class="px-5 py-2">
-                      <span class={h.gain >= 0 ? "" : "text-rose-400"}
-                        >{h.gain >= 0 ? "↑" : "↓"}
-                        {Math.abs(h.gain).toFixed(2)}%</span
-                      >
-                    </td>
-                  </tr>
-                {/each}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <Table
+          {data}
+          {rawData}
+          title={rawData?.length?.toLocaleString("en-US") + " " + "Stocks"}
+        />
       </div>
 
       <!-- RIGHT -->
       <div class="space-y-5 w-[30%]">
         <!-- Health + Radar -->
-        <div class="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5">
+        <div class="rounded-lg border border-zinc-800 p-5">
           <h3 class="text-[1rem] font-semibold">
             Status: <span class="dark:text-green-400">Healthy</span>
           </h3>
@@ -489,35 +552,13 @@
             and your biggest risk is
             <span class="font-semibold">Fundamentals</span>.
           </p>
-          <div
-            class="mt-3 rounded-xl border border-zinc-800/60 bg-zinc-950/50 p-2"
-          >
-            <div class="h-[280px]" use:highcharts={radarConfig}></div>
+          <div class="mt-3">
+            <div use:highcharts={radarConfig}></div>
           </div>
         </div>
 
         <!-- Bull / Bear cases -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div class="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5">
-            <h4 class=" font-semibold mb-2">Bull Case</h4>
-            <p class="text-sm text-zinc-300 leading-6">
-              This portfolio demonstrates strong exposure to high-growth
-              technology and consumer cyclical sectors. Major allocations to
-              QQQ, QQQM, SPY, and leveraged ETFs like TQQQ and TSLL provide
-              access to leading tech companies driving recent market
-              outperformance…
-            </p>
-          </div>
-          <div class="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5">
-            <h4 class="text-rose-400 font-semibold mb-2">Bear Case</h4>
-            <p class="text-sm text-zinc-300 leading-6">
-              Portfolio concentration in technology and growth-leveraged ETFs
-              creates substantial sector risk and high volatility, with limited
-              exposure to defensive sectors. Significant use of leveraged ETFs
-              exposes the portfolio to amplified losses during downturns…
-            </p>
-          </div>
-        </div>
+        <Sector />
       </div>
     </div>
   </div>
