@@ -867,7 +867,7 @@
                         {
                           name: "Profit/Loss",
                           rule: "profitLoss",
-                          type: "int",
+                          type: "decimalSign",
                         },
                         {
                           name: "Total P&L",
@@ -877,7 +877,7 @@
                         {
                           name: "Today P&L",
                           rule: "todayReturn",
-                          type: "percentSign",
+                          type: "decimal",
                         },
                         { name: "% Weight", rule: "weight", type: "percent" },
                       ]}

@@ -94,7 +94,7 @@
     "Revenue Growth Next 5Y": "Rev Gr. Next 5Y",
     "Price Change 1D": "% Change",
     "Total Return": "% Total P/L",
-    "Today Return": "% Today P/L",
+    "Today Return": "Today P/L",
     Weight: "% Weight",
     "Profit Loss": "Profit / Loss",
   };

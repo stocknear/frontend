@@ -103,20 +103,28 @@
       const changesPercentage =
         parseFloat(row.changesPercentage as string) || 0;
 
-      // Only recalculate if avgPrice and shares are provided
-      if (avgPrice > 0 || shares > 0) {
-        // Calculate Profit/Loss: (current price - avg price) * shares
-        row.profitLoss = (currentPrice - avgPrice) * shares;
+      if (shares > 0) {
+        // Calculate Today P&L (dollar amount): (changesPercentage / 100) * currentPrice * shares
+        const todayPL = (changesPercentage / 100) * currentPrice * shares;
+        row.todayReturn = Math.round(todayPL * 100) / 100; // Round to 2 decimal places
 
-        // Calculate Total Return %: ((current price - avg price) / avg price) * 100
+        // Only calculate profit/loss and total return if avgPrice is provided
         if (avgPrice > 0) {
-          row.totalReturn = ((currentPrice - avgPrice) / avgPrice) * 100;
-        } else {
-          row.totalReturn = 0;
-        }
+          // Calculate Profit/Loss: (current price - avg price) * shares
+          const profitLoss = (currentPrice - avgPrice) * shares;
+          row.profitLoss = Math.round(profitLoss * 100) / 100; // Round to 2 decimal places
 
-        // Today's Return is the same as changesPercentage
-        row.todayReturn = changesPercentage;
+          // Calculate Total Return %: ((current price - avg price) / avg price) * 100
+          const totalReturn = ((currentPrice - avgPrice) / avgPrice) * 100;
+          row.totalReturn = Math.round(totalReturn * 100) / 100; // Round to 2 decimal places
+        } else {
+          row.profitLoss = null;
+          row.totalReturn = null;
+        }
+      } else {
+        row.profitLoss = null;
+        row.totalReturn = null;
+        row.todayReturn = null;
       }
     });
 
@@ -132,12 +140,16 @@
       data.forEach((item) => {
         const price = parseFloat(item.price as string) || 0;
         const shares = parseFloat(item.shares as string) || 0;
-        const positionValue = price * shares;
-        item.weight = (positionValue / totalValue) * 100;
+        if (shares > 0) {
+          const positionValue = price * shares;
+          item.weight = (positionValue / totalValue) * 100;
+        } else {
+          item.weight = null;
+        }
       });
     } else {
       data.forEach((item) => {
-        item.weight = 0;
+        item.weight = null;
       });
     }
   }
@@ -516,20 +528,29 @@
     const currentPrice = parseFloat(row.price as string) || 0;
     const changesPercentage = parseFloat(row.changesPercentage as string) || 0;
 
-    // Calculate Profit/Loss: (current price - avg price) * shares
-    const profitLoss = (currentPrice - avgPrice) * shares;
-    row.profitLoss = profitLoss;
+    if (shares > 0) {
+      // Calculate Today P&L (dollar amount): (changesPercentage / 100) * currentPrice * shares
+      const todayPL = (changesPercentage / 100) * currentPrice * shares;
+      row.todayReturn = Math.round(todayPL * 100) / 100; // Round to 2 decimal places
 
-    // Calculate Total Return %: ((current price - avg price) / avg price) * 100
-    if (avgPrice > 0) {
-      const totalReturn = ((currentPrice - avgPrice) / avgPrice) * 100;
-      row.totalReturn = totalReturn;
+      // Only calculate profit/loss and total return if avgPrice is provided
+      if (avgPrice > 0) {
+        // Calculate Profit/Loss: (current price - avg price) * shares
+        const profitLoss = (currentPrice - avgPrice) * shares;
+        row.profitLoss = Math.round(profitLoss * 100) / 100; // Round to 2 decimal places
+
+        // Calculate Total Return %: ((current price - avg price) / avg price) * 100
+        const totalReturn = ((currentPrice - avgPrice) / avgPrice) * 100;
+        row.totalReturn = Math.round(totalReturn * 100) / 100; // Round to 2 decimal places
+      } else {
+        row.profitLoss = null;
+        row.totalReturn = null;
+      }
     } else {
-      row.totalReturn = 0;
+      row.profitLoss = null;
+      row.totalReturn = null;
+      row.todayReturn = null;
     }
-
-    // Today's Return is the same as changesPercentage
-    row.todayReturn = changesPercentage;
 
     // Calculate portfolio weight - need to recalculate for all rows
     recalculatePortfolioWeights();
@@ -551,12 +572,16 @@
       originalData.forEach((item) => {
         const price = parseFloat(item.price as string) || 0;
         const shares = parseFloat(item.shares as string) || 0;
-        const positionValue = price * shares;
-        item.weight = (positionValue / totalValue) * 100;
+        if (shares > 0) {
+          const positionValue = price * shares;
+          item.weight = (positionValue / totalValue) * 100;
+        } else {
+          item.weight = null;
+        }
       });
     } else {
       originalData.forEach((item) => {
-        item.weight = 0;
+        item.weight = null;
       });
     }
 
@@ -565,8 +590,12 @@
       rawData.forEach((item) => {
         const price = parseFloat(item.price as string) || 0;
         const shares = parseFloat(item.shares as string) || 0;
-        const positionValue = price * shares;
-        item.weight = totalValue > 0 ? (positionValue / totalValue) * 100 : 0;
+        if (shares > 0 && totalValue > 0) {
+          const positionValue = price * shares;
+          item.weight = (positionValue / totalValue) * 100;
+        } else {
+          item.weight = null;
+        }
       });
     }
 
@@ -574,8 +603,12 @@
       stockList.forEach((item) => {
         const price = parseFloat(item.price as string) || 0;
         const shares = parseFloat(item.shares as string) || 0;
-        const positionValue = price * shares;
-        item.weight = totalValue > 0 ? (positionValue / totalValue) * 100 : 0;
+        if (shares > 0 && totalValue > 0) {
+          const positionValue = price * shares;
+          item.weight = (positionValue / totalValue) * 100;
+        } else {
+          item.weight = null;
+        }
       });
     }
   }
