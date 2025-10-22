@@ -794,7 +794,6 @@
       config = null;
 
       stockDeck = data?.getETFProfile?.at(0);
-      console.log(data?.getStockQuote);
       initializePrice();
     }
   }

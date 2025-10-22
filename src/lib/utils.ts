@@ -341,55 +341,69 @@ export const groupNews = (news, watchList) => {
 
 
 export const calculateChange = (oldList = [], newList = []) => {
-  if (!oldList.length || !newList.length) return [...oldList];
+  const oldLen = oldList.length;
+  const newLen = newList.length;
+  if (!oldLen || !newLen) return oldList.slice();
 
-  // Create a Map for fast lookups of new list items by symbol
-  const newListMap = new Map(newList.map((item) => [item.symbol, item]));
+  // Build a fast symbol -> item dictionary (faster than Map in hot paths)
+  const dict = Object.create(null);
+  for (let i = 0; i < newLen; i++) {
+    const n = newList[i];
+    // skip falsy or missing symbol to be safe
+    if (n && n.symbol != null) dict[n.symbol] = n;
+  }
 
-  return oldList.map((item) => {
-    const newItem = newListMap.get(item.symbol);
+  // tiny hot-path helpers (inlined & branch-light)
+  const parseNum = (v) => {
+    if (typeof v === "number") return v;
+    if (v == null) return NaN;
+    // Strip commas only if needed to avoid extra alloc on clean numbers
+    const s = typeof v === "string" ? v : String(v);
+    return s.indexOf(",") >= 0 ? +s.replace(/,/g, "") : +s;
+  };
 
-    if (!newItem || newItem.symbol !== item.symbol) {
-      return item;
-    }
+  for (let i = 0; i < oldLen; i++) {
+    const item = oldList[i];
+    if (!item) continue;
 
-    if (newItem.avgPrice != null) {
-      const { price, changesPercentage } = item;
-      const newPrice = newItem.avgPrice;
+    const newItem = dict[item.symbol];
+    if (!newItem) continue;
 
-      if (price != null && changesPercentage != null) {
-        const baseLine = price / (1 + Number(changesPercentage) / 100);
-        item.changesPercentage = (newPrice / baseLine - 1) * 100;
+    // Price/percentage update
+    const np = newItem.avgPrice;
+    if (np != null) {
+      const price = item.price;
+      const cp = item.changesPercentage;
+
+      if (price != null && cp != null) {
+        // changesPercentage might be string; ensure number
+        const cpNum = +cp;
+        if (cpNum === cpNum) { // NaN check
+          // baseLine = price / (1 + cp/100)
+          const baseLine = price / (1 + cpNum / 100);
+          // (newPrice / baseLine - 1) * 100
+          item.changesPercentage = (np / baseLine - 1) * 100;
+        }
       }
 
       item.previous = price;
-      item.price = newPrice;
+      item.price = np;
     }
 
-    const incrementalVolumeRaw = newItem?.ls;
-    const incrementalVolume =
-      typeof incrementalVolumeRaw === "number"
-        ? incrementalVolumeRaw
-        : Number(String(incrementalVolumeRaw ?? "").replace(/,/g, ""));
-
-    if (incrementalVolume > 0 && Number.isFinite(incrementalVolume) && item?.volume != null) {
-      const currentVolumeRaw = item.volume;
-      const currentVolume =
-        typeof currentVolumeRaw === "number"
-          ? currentVolumeRaw
-          : Number(String(currentVolumeRaw ?? "").replace(/,/g, ""));
-
-      if (Number.isFinite(currentVolume)) {
-        const nextVolume =
-          Math.trunc(currentVolume) + Math.trunc(incrementalVolume);
-        item.volume = nextVolume;
+    // Volume update (increment by newItem.ls if finite and > 0)
+    const incRaw = newItem.ls;
+    const inc = parseNum(incRaw);
+    if (inc > 0 && inc === inc) {
+      const cur = parseNum(item.volume);
+      if (cur === cur) {
+        // use trunc to mirror original semantics
+        item.volume = Math.trunc(cur) + Math.trunc(inc);
       }
     }
+  }
 
-    return item;
-  });
+  return oldList;
 };
-
 
 
 export function updateStockList(stockList = [], originalData = []) {
