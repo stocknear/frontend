@@ -610,42 +610,6 @@
 
                     <!--Start Ticker Section-->
 
-                    <nav
-                      class="sm:ml-4 border-b-[2px] border-[#2C6288] dark:border-white overflow-x-auto whitespace-nowrap"
-                    >
-                      <ul class="flex flex-row items-center w-full text-[1rem]">
-                        <a
-                          href={`/stocks/${$stockTicker}`}
-                          on:click={() => changeSection("overview")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
-                          'overview'
-                            ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
-                        >
-                          Overview
-                        </a>
-                        <a
-                          href={`/stocks/${$stockTicker}/financials`}
-                          on:click={() => changeSection("financials")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
-                          'financials'
-                            ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
-                        >
-                          AI Analysis
-                        </a>
-                        <a
-                          href={`/stocks/${$stockTicker}/statistics`}
-                          on:click={() => changeSection("statistics")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
-                          'statistics'
-                            ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
-                          >Risk Analysis</a
-                        >
-                      </ul>
-                    </nav>
-
                     <!--Start-Main Content-->
                     {#key $stockTicker}
                       <slot />
