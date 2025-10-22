@@ -92,7 +92,11 @@
     "EPS Growth Next 5Y": "EPS Gr. Next 5Y",
     "Revenue Growth Next 3Y": "Rev Gr. Next 3Y",
     "Revenue Growth Next 5Y": "Rev Gr. Next 5Y",
-    " Price Change 1D": "% Change",
+    "Price Change 1D": "% Change",
+    "Total Return": "% Total P/L",
+    "Today Return": "% Today P/L",
+    Weight: "% Weight",
+    "Profit Loss": "Profit / Loss",
   };
 
   function formatLabel(label: string): string {

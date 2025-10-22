@@ -853,6 +853,7 @@
                         "changesPercentage",
                         "marketCap",
                         "eps",
+                        "weight",
                       ])}
                       defaultList={[
                         { name: "Price", rule: "price", type: "float" },
@@ -869,10 +870,16 @@
                           type: "int",
                         },
                         {
-                          name: "Total Return",
+                          name: "Total P&L",
                           rule: "totalReturn",
                           type: "percentSign",
                         },
+                        {
+                          name: "Today P&L",
+                          rule: "todayReturn",
+                          type: "percentSign",
+                        },
+                        { name: "% Weight", rule: "weight", type: "percent" },
                       ]}
                       {editMode}
                       {deleteTickerList}
