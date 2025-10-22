@@ -185,6 +185,99 @@
     );
   }
 
+  const defaultStringKeys = new Set([
+    "symbol",
+    "name",
+    "ticker",
+    "slug",
+    "industry",
+    "sector",
+    "country",
+    "payoutFrequency",
+    "exchange",
+    "assetType",
+    "type",
+    "rankLabel",
+  ]);
+
+  function mapRowTypeToSortType(
+    rowType?: string,
+  ): "string" | "number" | "date" | "rating" {
+    switch (rowType) {
+      case "str":
+      case "string":
+        return "string";
+      case "rating":
+        return "rating";
+      case "date":
+        return "date";
+      default:
+        return "number";
+    }
+  }
+
+  function isPlaceholderDash(value: unknown): boolean {
+    return typeof value === "string" && value.trim() === "-";
+  }
+
+  function isMissingValue(value: unknown): boolean {
+    if (value === null || value === undefined) return true;
+    if (typeof value === "number") return Number.isNaN(value);
+    if (value instanceof Date) return Number.isNaN(value.getTime());
+    if (typeof value === "string") {
+      const trimmed = value.trim();
+      if (trimmed.length === 0) return true;
+      if (trimmed === "-") return true;
+      const lower = trimmed.toLowerCase();
+      return lower === "n/a" || lower === "na" || lower === "none";
+    }
+    return false;
+  }
+
+  function normalizeNumber(value: unknown): number {
+    if (typeof value === "number" && !Number.isNaN(value)) {
+      return value;
+    }
+
+    if (typeof value === "string") {
+      const cleaned = value.replace(/,/g, "");
+      const parsed = parseFloat(cleaned);
+      return Number.isNaN(parsed) ? 0 : parsed;
+    }
+
+    if (value instanceof Date && !Number.isNaN(value.getTime())) {
+      return value.getTime();
+    }
+
+    const converted = Number(value);
+    return Number.isNaN(converted) ? 0 : converted;
+  }
+
+  function normalizeString(value: unknown): string {
+    if (typeof value === "string") {
+      return value.trim();
+    }
+    if (value instanceof Date && !Number.isNaN(value.getTime())) {
+      return value.toISOString();
+    }
+    return value != null ? String(value) : "";
+  }
+
+  function pickSampleValue(
+    data: DataRow[] | undefined,
+    key: string,
+  ): unknown {
+    if (!data) return undefined;
+    for (const row of data) {
+      if (!row) continue;
+      const value = row[key];
+      if (!isMissingValue(value)) {
+        return value;
+      }
+    }
+    return undefined;
+  }
+
   // Pagination state
   let currentPage = 1;
   let rowsPerPage = 20;
@@ -1112,9 +1205,31 @@
 
     const orders: Record<string, { order: string; type: string }> = {};
     collectedKeys.forEach((key) => {
+      const metadataType = allRows?.find((row) => row.rule === key)?.type;
+      let resolvedType = mapRowTypeToSortType(metadataType);
+
+      if (defaultStringKeys.has(key) || stringKeys.has(key)) {
+        resolvedType = "string";
+      } else if (resolvedType === "number") {
+        const sample = pickSampleValue(data, key);
+        if (sample instanceof Date) {
+          resolvedType = "date";
+        } else if (typeof sample === "string") {
+          const trimmed = sample.trim();
+          const parsed = parseFloat(trimmed.replace(/,/g, ""));
+          if (
+            trimmed.length > 0 &&
+            !isPlaceholderDash(trimmed) &&
+            Number.isNaN(parsed)
+          ) {
+            resolvedType = "string";
+          }
+        }
+      }
+
       orders[key] = {
         order: "none",
-        type: stringKeys.has(key) ? "string" : "number",
+        type: resolvedType,
       };
     });
 
@@ -1172,41 +1287,50 @@
     // Generic comparison function
     const compareValues = (a, b) => {
       const { type } = sortOrders[key];
-      let valueA, valueB;
+      const rawA = a?.[key];
+      const rawB = b?.[key];
+
+      const missingA = isMissingValue(rawA);
+      const missingB = isMissingValue(rawB);
+
+      if (missingA && missingB) return 0;
+      if (missingA) return 1;
+      if (missingB) return -1;
+
+      let valueA;
+      let valueB;
+
       switch (type) {
-        case "date":
-          valueA = new Date(a[key]);
-          valueB = new Date(b[key]);
+        case "date": {
+          valueA = new Date(rawA).getTime();
+          valueB = new Date(rawB).getTime();
           break;
+        }
         case "rating":
-        case "string":
-          valueA = a[key];
-          valueB = b[key];
-          if (valueA == null && valueB == null) return 0;
-          if (valueA == null) return 1;
-          if (valueB == null) return -1;
-          valueA = valueA?.toUpperCase();
-          valueB = valueB?.toUpperCase();
-          return sortOrder === "asc"
-            ? valueA?.localeCompare(valueB)
-            : valueB?.localeCompare(valueA);
+        case "string": {
+          valueA = normalizeString(rawA).toUpperCase();
+          valueB = normalizeString(rawB).toUpperCase();
+          const comparison =
+            sortOrder === "asc"
+              ? valueA.localeCompare(valueB)
+              : valueB.localeCompare(valueA);
+          return comparison;
+        }
         case "number":
-        default:
-          valueA = parseFloat(a[key]);
-          valueB = parseFloat(b[key]);
+        default: {
+          valueA = normalizeNumber(rawA);
+          valueB = normalizeNumber(rawB);
           break;
+        }
       }
-      return sortOrder === "asc"
-        ? valueA < valueB
-          ? -1
-          : valueA > valueB
-            ? 1
-            : 0
-        : valueA > valueB
-          ? -1
-          : valueA < valueB
-            ? 1
-            : 0;
+
+      if (valueA === valueB) return 0;
+
+      if (sortOrder === "asc") {
+        return valueA < valueB ? -1 : 1;
+      }
+
+      return valueA > valueB ? -1 : 1;
     };
 
     // Get the data to sort and sort it
