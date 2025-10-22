@@ -856,30 +856,50 @@
                         "weight",
                       ])}
                       defaultList={[
-                        { name: "Price", rule: "price", type: "float" },
+                        { name: "Price", rule: "price" },
                         {
                           name: "% Change",
                           rule: "changesPercentage",
-                          type: "percentSign",
                         },
-                        { name: "Avg. Price", rule: "avgPrice", type: "float" },
+                        { name: "Avg. Price", rule: "avgPrice" },
                         { name: "Shares", rule: "shares", type: "decimal" },
                         {
                           name: "Profit/Loss",
                           rule: "profitLoss",
-                          type: "decimalSign",
                         },
                         {
                           name: "Total P&L",
+                          rule: "totalReturn",
+                        },
+                        {
+                          name: "Today P&L",
+                          rule: "todayReturn",
+                        },
+                        { name: "% Weight", rule: "weight", type: "percent" },
+                      ]}
+                      specificRows={[
+                        { name: "Shares", rule: "shares", type: "decimal" },
+                        { name: "Avg. Price", rule: "avgPrice", type: "float" },
+                        {
+                          name: "Profit / Loss",
+                          rule: "profitLoss",
+                          type: "decimalSign",
+                        },
+                        {
+                          name: "% Total P/L",
                           rule: "totalReturn",
                           type: "percentSign",
                         },
                         {
                           name: "Today P&L",
                           rule: "todayReturn",
-                          type: "decimal",
+                          type: "decimalSign",
                         },
-                        { name: "% Weight", rule: "weight", type: "percent" },
+                        {
+                          name: "% Weight",
+                          rule: "weight",
+                          type: "percent",
+                        },
                       ]}
                       {editMode}
                       {deleteTickerList}

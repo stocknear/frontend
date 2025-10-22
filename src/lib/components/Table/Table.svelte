@@ -2189,8 +2189,12 @@
                   {@html column.key === "marketCap" && item[column.key] === 0
                     ? "-"
                     : abbreviateNumber(item[column.key], false, true)}
+                {:else if column?.type === "float"}
+                  {item[column.key]?.toFixed(2)}
                 {:else if column?.type === "decimal"}
-                  {item[column.key]?.toLocaleString("en-US")}
+                  {typeof item[column.key] === "number"
+                    ? item[column.key]?.toLocaleString("en-US")
+                    : "-"}
                 {:else if column?.type === "decimalSign"}
                   {#if item[column.key] >= 0}
                     <span class="text-green-800 dark:text-[#00FC50]"
