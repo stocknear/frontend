@@ -104,6 +104,87 @@
   let downloadWorker: Worker | undefined;
   let checkedItems;
 
+  type DataRow = {
+    [key: string]: unknown;
+    symbol?: string;
+    ticker?: string;
+    id?: string;
+    name?: string;
+    slug?: string;
+    code?: string;
+  };
+
+  let rowKeyWeakMap = new WeakMap<object, string>();
+  let initialOrderMap = new Map<string, number>();
+  let initialOrderCounter = 0;
+  let generatedRowKeyCounter = 0;
+
+  function getRowIdentifier(
+    item: DataRow | undefined,
+    fallbackIndex = 0,
+  ): string {
+    if (!item || typeof item !== "object") {
+      return `__primitive_${fallbackIndex}`;
+    }
+
+    const stableKey =
+      (typeof item.symbol === "string" && item.symbol) ||
+      (typeof item.ticker === "string" && item.ticker) ||
+      (typeof item.id === "string" && item.id) ||
+      (typeof item.slug === "string" && item.slug) ||
+      (typeof item.name === "string" && item.name) ||
+      (typeof item.code === "string" && item.code);
+
+    if (stableKey) {
+      return stableKey;
+    }
+
+    if (!rowKeyWeakMap.has(item)) {
+      rowKeyWeakMap.set(item, `__row_${generatedRowKeyCounter++}`);
+    }
+
+    return rowKeyWeakMap.get(item) ?? `__row_${generatedRowKeyCounter++}`;
+  }
+
+  function registerInitialOrder(
+    data: DataRow[] | undefined,
+    reset = false,
+  ): void {
+    if (!data) return;
+
+    if (reset) {
+      initialOrderMap = new Map();
+      initialOrderCounter = 0;
+      generatedRowKeyCounter = 0;
+      rowKeyWeakMap = new WeakMap<object, string>();
+    }
+
+    data.forEach((item, index) => {
+      const key = getRowIdentifier(item, index);
+      if (!initialOrderMap.has(key)) {
+        initialOrderMap.set(key, initialOrderCounter++);
+      }
+    });
+  }
+
+  function getInitialOrderIndex(
+    item: DataRow | undefined,
+    fallbackIndex = 0,
+  ): number {
+    const key = getRowIdentifier(item, fallbackIndex);
+    if (!initialOrderMap.has(key)) {
+      initialOrderMap.set(key, initialOrderCounter++);
+    }
+    return initialOrderMap.get(key) ?? initialOrderCounter;
+  }
+
+  function sortByInitialOrder(data: DataRow[] | undefined): DataRow[] {
+    if (!data) return [];
+    return [...data].sort(
+      (a, b) => getInitialOrderIndex(a) - getInitialOrderIndex(b),
+    );
+  }
+
   // Pagination state
   let currentPage = 1;
   let rowsPerPage = 20;
@@ -765,6 +846,8 @@
 
   // Reactive statement to validate and clean rules when rawData changes
   $: if (rawData && rawData.length > 0 && !isSorting) {
+    registerInitialOrder(rawData, isInitialLoad);
+
     // Validate indicator rules but don't let it reset everything
     const wasCleanedUp = validateAndCleanRules(isInitialLoad);
 
@@ -773,8 +856,9 @@
     if (isInitialLoad) {
       sortOrders = generateSortOrders(rawData);
       // Preserve the initial unsorted data on first load
-      initialRawData = [...rawData];
-      originalData = [...rawData];
+      const initialOrdered = sortByInitialOrder(rawData);
+      initialRawData = [...initialOrdered];
+      originalData = [...initialOrdered];
     }
 
     // After the first reactive run, allow auto-saving
@@ -957,10 +1041,19 @@
       allRows?.map((row) => [row.rule, { name: row.name, type: row.type }]),
     );
 
-    // Get available keys from the data
-    const availableKeys = Object?.keys(data[0])?.filter(
-      (key) => key !== "type",
-    );
+    // Collect available keys from the entire dataset (preserve encounter order)
+    const availableKeys: string[] = [];
+    const seenKeys = new Set<string>();
+    data?.forEach((row) => {
+      if (!row) return;
+      Object.keys(row).forEach((key) => {
+        if (key === "type" || seenKeys.has(key)) {
+          return;
+        }
+        seenKeys.add(key);
+        availableKeys.push(key);
+      });
+    });
 
     // For predefined tabs, include all rules even if data is missing
     // For indicators tab (custom indicators), only include rules that exist in data
@@ -1004,13 +1097,28 @@
       "putCallShare",
     ]);
 
-    return Object?.keys(data[0])?.reduce((orders, key) => {
+    const collectedKeys: string[] = [];
+    const seenKeys = new Set<string>();
+    data?.forEach((row) => {
+      if (!row) return;
+      Object.keys(row).forEach((key) => {
+        if (key === "type" || seenKeys.has(key)) {
+          return;
+        }
+        seenKeys.add(key);
+        collectedKeys.push(key);
+      });
+    });
+
+    const orders: Record<string, { order: string; type: string }> = {};
+    collectedKeys.forEach((key) => {
       orders[key] = {
         order: "none",
-        type: stringKeys?.has(key) ? "string" : "number",
+        type: stringKeys.has(key) ? "string" : "number",
       };
-      return orders;
-    }, {});
+    });
+
+    return orders;
   }
 
   // Generate columns and sortOrders
@@ -1044,13 +1152,16 @@
     // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
       if (inputValue?.length > 0) {
-        // If searching, restore originalData first, then re-run the search
-        originalData = [...initialRawData];
+        // Restore the initial ordering, then re-run the search filter
+        const reordered = sortByInitialOrder(originalData);
+        originalData = [...reordered];
+        initialRawData = [...reordered];
         search();
       } else {
-        // Reset to original unsorted state using the truly initial data
-        originalData = [...initialRawData];
-        rawData = [...initialRawData];
+        const reordered = sortByInitialOrder(originalData);
+        originalData = [...reordered];
+        initialRawData = [...reordered];
+        rawData = [...reordered];
         currentPage = 1; // Reset to first page
         updatePaginatedData(); // Reset displayed data
       }
