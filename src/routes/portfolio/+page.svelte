@@ -95,13 +95,6 @@
     values: [62, 70, 60, 40, 58],
   };
 
-  // Helpers
-  const usd = (n: number) =>
-    n.toLocaleString("en-US", {
-      style: "currency",
-      currency: "USD",
-      maximumFractionDigits: 0,
-    });
   const pct = (n: number) => `${n >= 0 ? "▲" : "▼"} ${Math.abs(n).toFixed(2)}%`;
 
   // --- Charts (reactive configs) ---
@@ -148,41 +141,136 @@
       series: seriesPerformance.map((s) => ({ ...s, type: "line" })),
     };
   }
-
   function buildRadar() {
     radarConfig = {
       credits: { enabled: false },
       chart: {
         polar: true,
-        type: "area",
+        type: "areaspline",
         backgroundColor: "transparent",
         height: 280,
+        spacing: [0, 0, 0, 0],
+        events: {
+          load: function () {
+            // ---- draw circular (arced) text labels ----
+            const chart = this;
+            const ax = chart.xAxis[0];
+            const cats = ax.categories;
+            const n = cats.length;
+
+            // polar center & radius
+            const [cx, cy, r] = chart.series[0].center; // [x, y, radius, innerR]
+            const radius = r * 1.02; // just outside the grid
+            const sweepFrac = 0.6; // how wide each arc is (0..1 of its sector)
+
+            // ensure a <defs/> exists
+            const defs =
+              chart.renderer.defs || chart.renderer.createElement("defs").add();
+
+            // hide default labels
+            if (ax.labelGroup) ax.labelGroup.attr({ opacity: 0 });
+
+            for (let i = 0; i < n; i++) {
+              const mid = (i / n) * 2 * Math.PI; // center angle of the sector
+              const halfSweep = ((Math.PI * 2) / n) * (sweepFrac / 2);
+              const start = mid - halfSweep;
+              const end = mid + halfSweep;
+
+              const x1 = cx + radius * Math.cos(start);
+              const y1 = cy + radius * Math.sin(start);
+              const x2 = cx + radius * Math.cos(end);
+              const y2 = cy + radius * Math.sin(end);
+
+              // SVG arc path
+              const d = [
+                "M",
+                x1,
+                y1,
+                "A",
+                radius,
+                radius,
+                0,
+                end - start > Math.PI ? 1 : 0,
+                1,
+                x2,
+                y2,
+              ];
+
+              const id = `arc-${i}-${Date.now()}`;
+              chart.renderer.createElement("path").attr({ id, d }).add(defs);
+
+              const text = chart.renderer.text("").add(); // container for textPath
+              chart.renderer
+                .createElement("textPath")
+                .attr({
+                  href: `#${id}`,
+                  startOffset: "50%",
+                  "text-anchor": "middle",
+                })
+                .add(text)
+                .element.appendChild(document.createTextNode(cats[i]));
+
+              // style the text
+              text.css({
+                fontSize: "11px",
+                fontWeight: "600",
+                letterSpacing: "1px",
+                fill: "#E5E7EB",
+              });
+            }
+          },
+        },
       },
       title: { text: undefined },
-      pane: { size: "80%" },
+
+      // faint bands; keep or remove as you like
+      pane: {
+        size: "80%",
+        background: [
+          { outerRadius: "100%", backgroundColor: "rgba(255,255,255,0.02)" },
+          { outerRadius: "80%", backgroundColor: "rgba(255,255,255,0.00)" },
+          { outerRadius: "60%", backgroundColor: "rgba(255,255,255,0.02)" },
+          { outerRadius: "40%", backgroundColor: "rgba(255,255,255,0.00)" },
+          { outerRadius: "20%", backgroundColor: "rgba(255,255,255,0.02)" },
+        ],
+      },
+
       xAxis: {
         categories: radar.categories,
         tickmarkPlacement: "on",
         lineWidth: 0,
-        labels: { style: { color: "#E5E7EB" } },
+        labels: { enabled: false }, // hide; we draw custom arced labels
+        gridLineColor: "#2b323b",
+        gridLineWidth: 1,
       },
       yAxis: {
-        gridLineInterpolation: "polygon",
+        gridLineInterpolation: "circle",
         min: 0,
         max: 100,
         tickInterval: 20,
         labels: { enabled: false },
+        gridLineColor: "#2b323b",
+        gridLineWidth: 1,
       },
       legend: { enabled: false },
       tooltip: { enabled: false },
       plotOptions: {
-        series: { marker: { enabled: false }, animation: false },
+        series: {
+          marker: { enabled: false },
+          animation: false,
+          pointPlacement: "on",
+          linecap: "round",
+          states: { inactive: { opacity: 1 } },
+        },
       },
       series: [
         {
-          type: "area",
+          type: "areaspline",
           data: radar.values,
-          fillOpacity: 0.25,
+          color: "#F0E000",
+          lineColor: "#FFE84A",
+          lineWidth: 2,
+          fillOpacity: 0.45,
         },
       ],
     };
@@ -194,8 +282,10 @@
 </script>
 
 <!-- Page -->
-<section class="min-h-screen w-full bg-zinc-950 text-zinc-100">
-  <div class="mx-auto max-w-7xl py-6">
+<section
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-5 text-muted dark:text-white"
+>
+  <div class="mx-auto w-full">
     <!-- Top Nav Mimic -->
     <div class="flex items-center gap-2 text-sm text-zinc-300/80">
       <span class="px-3 py-1 rounded-full bg-zinc-900/60 border border-zinc-800"
@@ -219,26 +309,102 @@
       >
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+    <div class="flex flex-row items-start w-full space-x-3 mt-6">
       <!-- LEFT -->
-      <div class="space-y-5">
-        <!-- Net worth + line chart card -->
+      <div class="space-y-5 w-[70%]">
+        <!-- Header -->
         <div class="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5">
-          <div class="flex items-end justify-between">
-            <div>
-              <h2 class="text-zinc-400 text-sm">Net Worth</h2>
-              <div class="text-4xl font-extrabold tracking-tight">
-                ${usd(netWorth)}
-              </div>
-              <div class="text-emerald-400 text-sm mt-1">
-                + ${deltaToday.toLocaleString()} today
+          <div class="w-full overflow-hidden">
+            <header class="relative">
+              <!-- soft top gradient -->
+
+              <h2 class="relative m-0 text-[1rem] font-semibold">
+                Performance vs Market
+              </h2>
+            </header>
+
+            <div class=" pt-3">
+              <!-- KPI strip -->
+              <div class="min-h-[45px] lg:min-h-[50px]">
+                <ul
+                  role="list"
+                  class="flex flex-row flex-wrap items-end gap-6 text-slate-900 dark:text-slate-100"
+                >
+                  <!-- Total Value -->
+                  <li class="flex items-start gap-3">
+                    <div>
+                      <p
+                        class="m-0 text-xl font-semibold tracking-tight"
+                        data-testid="total-value"
+                      >
+                        $40,465
+                      </p>
+                      <p class="m-0 text-xs text-slate-500 dark:text-slate-400">
+                        <span
+                          class="underline decoration-dotted underline-offset-2"
+                          title="The total current value of your portfolio"
+                        >
+                          Total Value
+                        </span>
+                        • 1 holding
+                      </p>
+                    </div>
+                  </li>
+
+                  <!-- Unrealised Returns -->
+                  <li class="flex items-start gap-3">
+                    <div>
+                      <p
+                        class="m-0 text-xl font-semibold tracking-tight"
+                        data-testid="roi-value"
+                      >
+                        $25,165
+                      </p>
+                      <p class="m-0 text-xs text-slate-500 dark:text-slate-400">
+                        <span
+                          class="underline decoration-dotted underline-offset-2"
+                          title="Unrealised gains/losses on open positions"
+                        >
+                          Unrealised Returns
+                        </span>
+                        <span aria-hidden="true"> • </span>
+                        <span aria-label="Return percentage">164.5%</span>
+                      </p>
+                    </div>
+                  </li>
+
+                  <!-- Dividends -->
+                  <li class="flex items-start gap-3">
+                    <div>
+                      <div class="flex items-baseline gap-2">
+                        <p
+                          class="m-0 text-xl font-semibold tracking-tight"
+                          data-testid="dividend"
+                        >
+                          $0
+                        </p>
+                        <p
+                          class="m-0 text-sm font-medium text-slate-600 dark:text-slate-300"
+                        >
+                          /yr
+                        </p>
+                      </div>
+                      <p class="m-0 text-xs text-slate-500 dark:text-slate-400">
+                        <span
+                          class="underline decoration-dotted underline-offset-2"
+                          title="Estimated annual dividend income"
+                        >
+                          Est. Dividends
+                        </span>
+                        • 0% Yield
+                      </p>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </div>
-            <button
-              class="hidden sm:inline-flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-xs text-zinc-300"
-              >Connect Broker</button
-            >
           </div>
+
           <div
             class="mt-4 rounded-xl border border-zinc-800/60 bg-zinc-950/50 p-2"
           >
@@ -264,7 +430,7 @@
         <!-- Holdings table -->
         <div class="rounded-2xl border border-zinc-800 bg-zinc-900/40">
           <div class="px-5 pt-4 pb-3 flex items-center gap-3 text-sm">
-            <span class="inline-flex items-center gap-2 text-emerald-400"
+            <span class="inline-flex items-center gap-2"
               ><span class="h-2 w-2 rounded-full bg-emerald-400"
               ></span>E-Trade</span
             >
@@ -276,7 +442,7 @@
           <div class="overflow-x-auto">
             <table class="min-w-full text-sm">
               <thead>
-                <tr class="text-zinc-400 border-y border-zinc-800">
+                <tr class=" border-y border-zinc-800">
                   <th class="text-left font-medium px-5 py-2">Symbol</th>
                   <th class="text-left font-medium px-5 py-2">Price</th>
                   <th class="text-left font-medium px-5 py-2">Change</th>
@@ -291,19 +457,14 @@
                     <td class="px-5 py-2 font-medium">{h.symbol}</td>
                     <td class="px-5 py-2">${h.price.toFixed(1)}</td>
                     <td class="px-5 py-2">
-                      <span
-                        class={h.change >= 0
-                          ? "text-emerald-400"
-                          : "text-rose-400"}>{pct(h.change)}</span
+                      <span class={h.change >= 0 ? "" : "text-rose-400"}
+                        >{pct(h.change)}</span
                       >
                     </td>
                     <td class="px-5 py-2">{h.shares}</td>
                     <td class="px-5 py-2">${h.value.toLocaleString()}</td>
                     <td class="px-5 py-2">
-                      <span
-                        class={h.gain >= 0
-                          ? "text-emerald-400"
-                          : "text-rose-400"}
+                      <span class={h.gain >= 0 ? "" : "text-rose-400"}
                         >{h.gain >= 0 ? "↑" : "↓"}
                         {Math.abs(h.gain).toFixed(2)}%</span
                       >
@@ -317,16 +478,16 @@
       </div>
 
       <!-- RIGHT -->
-      <div class="space-y-5">
+      <div class="space-y-5 w-[30%]">
         <!-- Health + Radar -->
         <div class="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5">
-          <h3 class="text-xl font-semibold">Your portfolio is healthy</h3>
-          <p class="text-sm text-zinc-400 mt-1">
-            Your best strength is <span class="text-emerald-400 font-medium"
-              >Growth</span
-            >
+          <h3 class="text-[1rem] font-semibold">
+            Status: <span class="dark:text-green-400">Healthy</span>
+          </h3>
+          <p class="text-sm mt-1">
+            Your best strength is <span class=" font-semibold">Growth</span>
             and your biggest risk is
-            <span class="text-fuchsia-300 font-medium">Fundamentals</span>
+            <span class="font-semibold">Fundamentals</span>.
           </p>
           <div
             class="mt-3 rounded-xl border border-zinc-800/60 bg-zinc-950/50 p-2"
@@ -338,7 +499,7 @@
         <!-- Bull / Bear cases -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div class="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5">
-            <h4 class="text-emerald-400 font-semibold mb-2">Bull Case</h4>
+            <h4 class=" font-semibold mb-2">Bull Case</h4>
             <p class="text-sm text-zinc-300 leading-6">
               This portfolio demonstrates strong exposure to high-growth
               technology and consumer cyclical sectors. Major allocations to
