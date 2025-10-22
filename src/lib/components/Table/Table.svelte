@@ -5,7 +5,7 @@
     calculateChange,
     updateStockList,
   } from "$lib/utils";
-  import { onMount, afterUpdate, onDestroy } from "svelte";
+  import { onMount, afterUpdate, onDestroy, tick } from "svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
@@ -114,6 +114,25 @@
     code?: string;
   };
 
+  const inlineEditableColumns = new Set(["avgPrice", "shares"]);
+  let activeInlineCells = new Set<string>();
+
+  function formatEditableValue(value: unknown, key: string): string {
+    if (value === null || value === undefined) {
+      return "";
+    }
+
+    if (typeof value === "number" && Number.isFinite(value)) {
+      return key === "avgPrice" ? value.toFixed(2) : String(value);
+    }
+
+    if (typeof value === "string") {
+      return value;
+    }
+
+    return "";
+  }
+
   let rowKeyWeakMap = new WeakMap<object, string>();
   let initialOrderMap = new Map<string, number>();
   let initialOrderCounter = 0;
@@ -183,6 +202,135 @@
     return [...data].sort(
       (a, b) => getInitialOrderIndex(a) - getInitialOrderIndex(b),
     );
+  }
+
+  function getInlineRowKey(row: DataRow | undefined, rowIndex: number): string {
+    if (row && typeof row === "object") {
+      const stable =
+        (typeof row.symbol === "string" && row.symbol) ||
+        (typeof row.ticker === "string" && row.ticker) ||
+        (typeof row.id === "string" && row.id) ||
+        (typeof row.slug === "string" && row.slug) ||
+        (typeof row.name === "string" && row.name) ||
+        (typeof row.code === "string" && row.code);
+      if (stable) {
+        return stable;
+      }
+    }
+    return `row-${rowIndex}`;
+  }
+
+  function getInlineCellKey(
+    row: DataRow | undefined,
+    rowIndex: number,
+    columnKey: string,
+  ): string {
+    return `${getInlineRowKey(row, rowIndex)}::${columnKey}`;
+  }
+
+  function isCellInEditMode(
+    row: DataRow | undefined,
+    rowIndex: number,
+    columnKey: string,
+  ): boolean {
+    return activeInlineCells.has(getInlineCellKey(row, rowIndex, columnKey));
+  }
+
+  async function enableCellEditing(
+    row: DataRow | undefined,
+    rowIndex: number,
+    columnKey: string,
+  ): Promise<void> {
+    const key = getInlineCellKey(row, rowIndex, columnKey);
+    const next = new Set(activeInlineCells);
+    next.add(key);
+    activeInlineCells = next;
+    await tick();
+    const el = inlineInputRefs.get(key);
+    if (el) {
+      el.focus();
+      el.select?.();
+    }
+  }
+
+  function disableCellEditing(
+    row: DataRow | undefined,
+    rowIndex: number,
+    columnKey: string,
+  ): void {
+    const key = getInlineCellKey(row, rowIndex, columnKey);
+    if (activeInlineCells.has(key)) {
+      const next = new Set(activeInlineCells);
+      next.delete(key);
+      activeInlineCells = next;
+    }
+  }
+
+  let inlineInputRefs: Map<string, HTMLInputElement> = new Map();
+  let skipBlurValidation = false;
+
+  function inlineInputAction(node: HTMLInputElement, key: string) {
+    let currentKey = key;
+
+    if (currentKey) {
+      inlineInputRefs.set(currentKey, node);
+    }
+
+    return {
+      update(newKey: string) {
+        if (currentKey && currentKey !== newKey) {
+          inlineInputRefs.delete(currentKey);
+        }
+        currentKey = newKey;
+        if (currentKey) {
+          inlineInputRefs.set(currentKey, node);
+        }
+      },
+      destroy() {
+        if (currentKey) {
+          inlineInputRefs.delete(currentKey);
+        }
+      },
+    };
+  }
+
+  function handleInlineInputKeydown(
+    event: KeyboardEvent,
+    row: DataRow | undefined,
+    rowIndex: number,
+    columnKey: string,
+  ): void {
+    const inputElement = event.target as HTMLInputElement;
+    if (event.key === "Enter") {
+      skipBlurValidation = true;
+      validateAndApplyEditableValue(row, columnKey, inputElement);
+      inputElement.blur();
+      disableCellEditing(row, rowIndex, columnKey);
+      setTimeout(() => {
+        skipBlurValidation = false;
+      }, 0);
+    } else if (event.key === "Escape") {
+      skipBlurValidation = true;
+      inputElement.blur();
+      disableCellEditing(row, rowIndex, columnKey);
+      setTimeout(() => {
+        skipBlurValidation = false;
+      }, 0);
+    }
+  }
+
+  function handleInlineCellBlur(
+    row: DataRow | undefined,
+    rowIndex: number,
+    columnKey: string,
+    event: FocusEvent,
+  ): void {
+    if (skipBlurValidation) {
+      return;
+    }
+    const inputElement = event.target as HTMLInputElement;
+    validateAndApplyEditableValue(row, columnKey, inputElement);
+    disableCellEditing(row, rowIndex, columnKey);
   }
 
   const defaultStringKeys = new Set([
@@ -263,10 +411,7 @@
     return value != null ? String(value) : "";
   }
 
-  function pickSampleValue(
-    data: DataRow[] | undefined,
-    key: string,
-  ): unknown {
+  function pickSampleValue(data: DataRow[] | undefined, key: string): unknown {
     if (!data) return undefined;
     for (const row of data) {
       if (!row) continue;
@@ -276,6 +421,79 @@
       }
     }
     return undefined;
+  }
+
+  function applyEditableValue(
+    row: DataRow | undefined,
+    key: string,
+    value: string | null,
+  ): void {
+    if (!row) return;
+
+    const incoming = value === null ? null : value;
+    const currentValue = row[key];
+
+    if (currentValue === incoming) {
+      return;
+    }
+
+    row[key] = incoming;
+
+    if (Array.isArray(rawData)) {
+      rawData = [...rawData];
+    }
+
+    if (Array.isArray(originalData)) {
+      originalData = [...originalData];
+    }
+
+    if (Array.isArray(stockList)) {
+      stockList = [...stockList];
+    }
+  }
+
+  function handleEditableInput(
+    event: Event,
+    row: DataRow | undefined,
+    key: string,
+  ): void {
+    const target = event.target as HTMLInputElement | null;
+    if (!target) return;
+
+    const rawValue = target.value;
+    const trimmed = rawValue.trim();
+
+    if (trimmed.length === 0) {
+      applyEditableValue(row, key, null);
+      return;
+    }
+    applyEditableValue(row, key, trimmed);
+  }
+
+  function validateAndApplyEditableValue(
+    row: DataRow | undefined,
+    key: string,
+    inputElement: HTMLInputElement | null,
+  ): void {
+    if (!inputElement || !row) return;
+
+    const rawValue = inputElement.value;
+    const trimmed = rawValue.trim();
+
+    if (trimmed.length === 0) {
+      applyEditableValue(row, key, null);
+      return;
+    }
+
+    // Check if the value is a positive number
+    const numValue = parseFloat(trimmed);
+    if (!isNaN(numValue) && numValue > 0) {
+      applyEditableValue(row, key, trimmed);
+    } else {
+      // Invalid input - reset to null/empty
+      applyEditableValue(row, key, null);
+      inputElement.value = "";
+    }
   }
 
   // Pagination state
@@ -1702,7 +1920,62 @@
                 class:text-left={column.align === "left"}
                 class:text-right={column.align === "right"}
               >
-                {#if item[column.key] === null || item[column.key] === undefined}
+                {#if inlineEditableColumns.has(column.key)}
+                  {@const displayValue = formatEditableValue(
+                    item[column.key],
+                    column.key,
+                  )}
+                  {@const cellKey = getInlineCellKey(item, index, column.key)}
+                  {#if activeInlineCells.has(cellKey)}
+                    <input
+                      type="text"
+                      placeholder=""
+                      value={displayValue}
+                      on:input={(event) =>
+                        handleEditableInput(event, item, column.key)}
+                      on:keydown={(event) =>
+                        handleInlineInputKeydown(
+                          event,
+                          item,
+                          index,
+                          column.key,
+                        )}
+                      on:blur={(event) =>
+                        handleInlineCellBlur(item, index, column.key, event)}
+                      use:inlineInputAction={cellKey}
+                      class="border border-gray-300 dark:border-gray-500 rounded px-2 py-1 w-auto max-w-20 text-right text-sm bg-transparent text-muted dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-0"
+                    />
+                  {:else}
+                    <button
+                      type="button"
+                      class="flex h-full w-full items-center justify-end gap-1 text-sm font-semibold cursor-pointer focus:outline-hidden"
+                      on:click={() =>
+                        enableCellEditing(item, index, column.key)}
+                    >
+                      {#if displayValue.trim().length > 0}
+                        <span class="min-w-[6rem] text-right">
+                          {displayValue}
+                        </span>
+                      {:else}
+                        <svg
+                          class="h-3 w-3"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          style="max-width:40px"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                          ></path>
+                        </svg>
+                        <span>Add</span>
+                      {/if}
+                    </button>
+                  {/if}
+                {:else if item[column.key] === null || item[column.key] === undefined}
                   -
                 {:else if column.key === "symbol"}
                   {#if editMode}
