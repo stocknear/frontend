@@ -2115,12 +2115,12 @@
                       on:blur={(event) =>
                         handleInlineCellBlur(item, index, column.key, event)}
                       use:inlineInputAction={cellKey}
-                      class="border border-gray-300 dark:border-gray-500 rounded px-2 py-1 w-auto max-w-20 text-right text-sm bg-transparent text-muted dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-0"
+                      class="border border-gray-300 dark:border-gray-500 rounded px-2 py-1 w-auto max-w-20 text-right bg-transparent text-muted dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-0"
                     />
                   {:else}
                     <button
                       type="button"
-                      class="flex h-full w-full items-center justify-end gap-1 text-sm font-semibold cursor-pointer focus:outline-hidden"
+                      class="flex h-full w-full items-center justify-end gap-1 font-semibold cursor-pointer focus:outline-hidden"
                       on:click={() =>
                         enableCellEditing(item, index, column.key)}
                     >
@@ -2143,7 +2143,7 @@
                             d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                           ></path>
                         </svg>
-                        <span>Add</span>
+                        <span class="text-sm">Add</span>
                       {/if}
                     </button>
                   {/if}
