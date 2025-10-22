@@ -894,6 +894,9 @@
           if (newList?.length > 0) {
             if (originalData?.some((item) => "changesPercentage" in item)) {
               originalData = calculateChange(originalData, newList);
+              if (!inputValue?.length) {
+                rawData = [...originalData];
+              }
               stockList = updateStockList(stockList, originalData);
               setTimeout(() => {
                 stockList = stockList?.map((item) => ({

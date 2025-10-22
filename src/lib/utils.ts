@@ -349,19 +349,34 @@ export const calculateChange = (oldList = [], newList = []) => {
   return oldList.map((item) => {
     const newItem = newListMap.get(item.symbol);
 
-    // Check if the symbols match and the newItem has the necessary properties
-    if (newItem && newItem.symbol === item.symbol && newItem.avgPrice) {
+    if (!newItem || newItem.symbol !== item.symbol) {
+      return item;
+    }
+
+    if (newItem.avgPrice != null) {
       const { price, changesPercentage } = item;
       const newPrice = newItem.avgPrice;
 
-      // Only update the changesPercentage if both price and changesPercentage are defined
       if (price != null && changesPercentage != null) {
         const baseLine = price / (1 + Number(changesPercentage) / 100);
-        item.changesPercentage = ((newPrice / baseLine - 1) * 100);
+        item.changesPercentage = (newPrice / baseLine - 1) * 100;
       }
 
       item.previous = price;
       item.price = newPrice;
+    }
+
+    const incrementalVolume = Number(newItem?.ls);
+    if (incrementalVolume > 0 && item?.volume != null) {
+      const currentVolumeRaw = item.volume;
+      const currentVolume =
+        typeof currentVolumeRaw === "number"
+          ? currentVolumeRaw
+          : Number(String(currentVolumeRaw).replace(/,/g, ""));
+
+      if (!Number.isNaN(currentVolume)) {
+        item.volume = currentVolume + incrementalVolume;
+      }
     }
 
     return item;
@@ -388,6 +403,7 @@ export function updateStockList(stockList = [], originalData = []) {
         price: matchingStock.price,
         changesPercentage: matchingStock.changesPercentage,
         previous: matchingStock.previous ?? null,
+        volume: matchingStock.volume ?? stock.volume,
       });
     } else {
       // If no match, add the stock unchanged
