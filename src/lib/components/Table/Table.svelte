@@ -91,6 +91,57 @@
   let sortMode = false;
   let inputValue = "";
 
+  // Initialize portfolio calculations on data load
+  function initializePortfolioCalculations(data: DataRow[]): void {
+    if (!Array.isArray(data) || data.length === 0) return;
+
+    // First, calculate metrics for each row
+    data.forEach((row) => {
+      const avgPrice = parseFloat(row.avgPrice as string) || 0;
+      const shares = parseFloat(row.shares as string) || 0;
+      const currentPrice = parseFloat(row.price as string) || 0;
+      const changesPercentage =
+        parseFloat(row.changesPercentage as string) || 0;
+
+      // Only recalculate if avgPrice and shares are provided
+      if (avgPrice > 0 || shares > 0) {
+        // Calculate Profit/Loss: (current price - avg price) * shares
+        row.profitLoss = (currentPrice - avgPrice) * shares;
+
+        // Calculate Total Return %: ((current price - avg price) / avg price) * 100
+        if (avgPrice > 0) {
+          row.totalReturn = ((currentPrice - avgPrice) / avgPrice) * 100;
+        } else {
+          row.totalReturn = 0;
+        }
+
+        // Today's Return is the same as changesPercentage
+        row.todayReturn = changesPercentage;
+      }
+    });
+
+    // Then calculate weights
+    let totalValue = 0;
+    data.forEach((item) => {
+      const price = parseFloat(item.price as string) || 0;
+      const shares = parseFloat(item.shares as string) || 0;
+      totalValue += price * shares;
+    });
+
+    if (totalValue > 0) {
+      data.forEach((item) => {
+        const price = parseFloat(item.price as string) || 0;
+        const shares = parseFloat(item.shares as string) || 0;
+        const positionValue = price * shares;
+        item.weight = (positionValue / totalValue) * 100;
+      });
+    } else {
+      data.forEach((item) => {
+        item.weight = 0;
+      });
+    }
+  }
+
   const defaultRules = defaultList?.map((item) => item?.rule);
 
   let searchWorker: Worker | undefined;
@@ -439,6 +490,11 @@
 
     row[key] = incoming;
 
+    // Recalculate derived portfolio metrics when avgPrice or shares are edited
+    if (key === "avgPrice" || key === "shares") {
+      recalculatePortfolioMetrics(row);
+    }
+
     if (Array.isArray(rawData)) {
       rawData = [...rawData];
     }
@@ -449,6 +505,78 @@
 
     if (Array.isArray(stockList)) {
       stockList = [...stockList];
+    }
+  }
+
+  function recalculatePortfolioMetrics(row: DataRow | undefined): void {
+    if (!row) return;
+
+    const avgPrice = parseFloat(row.avgPrice as string) || 0;
+    const shares = parseFloat(row.shares as string) || 0;
+    const currentPrice = parseFloat(row.price as string) || 0;
+    const changesPercentage = parseFloat(row.changesPercentage as string) || 0;
+
+    // Calculate Profit/Loss: (current price - avg price) * shares
+    const profitLoss = (currentPrice - avgPrice) * shares;
+    row.profitLoss = profitLoss;
+
+    // Calculate Total Return %: ((current price - avg price) / avg price) * 100
+    if (avgPrice > 0) {
+      const totalReturn = ((currentPrice - avgPrice) / avgPrice) * 100;
+      row.totalReturn = totalReturn;
+    } else {
+      row.totalReturn = 0;
+    }
+
+    // Today's Return is the same as changesPercentage
+    row.todayReturn = changesPercentage;
+
+    // Calculate portfolio weight - need to recalculate for all rows
+    recalculatePortfolioWeights();
+  }
+
+  function recalculatePortfolioWeights(): void {
+    if (!Array.isArray(originalData) || originalData.length === 0) return;
+
+    // Calculate total portfolio value
+    let totalValue = 0;
+    originalData.forEach((item) => {
+      const price = parseFloat(item.price as string) || 0;
+      const shares = parseFloat(item.shares as string) || 0;
+      totalValue += price * shares;
+    });
+
+    // Calculate weight for each position
+    if (totalValue > 0) {
+      originalData.forEach((item) => {
+        const price = parseFloat(item.price as string) || 0;
+        const shares = parseFloat(item.shares as string) || 0;
+        const positionValue = price * shares;
+        item.weight = (positionValue / totalValue) * 100;
+      });
+    } else {
+      originalData.forEach((item) => {
+        item.weight = 0;
+      });
+    }
+
+    // Also update rawData and stockList if they exist
+    if (Array.isArray(rawData) && rawData.length > 0) {
+      rawData.forEach((item) => {
+        const price = parseFloat(item.price as string) || 0;
+        const shares = parseFloat(item.shares as string) || 0;
+        const positionValue = price * shares;
+        item.weight = totalValue > 0 ? (positionValue / totalValue) * 100 : 0;
+      });
+    }
+
+    if (Array.isArray(stockList) && stockList.length > 0) {
+      stockList.forEach((item) => {
+        const price = parseFloat(item.price as string) || 0;
+        const shares = parseFloat(item.shares as string) || 0;
+        const positionValue = price * shares;
+        item.weight = totalValue > 0 ? (positionValue / totalValue) * 100 : 0;
+      });
     }
   }
 
@@ -732,6 +860,10 @@
     // Trigger reactivity by creating a new reference
     originalData = [...updatedRawData];
     rawData = originalData;
+
+    // Recalculate portfolio metrics with updated data
+    initializePortfolioCalculations(originalData);
+
     updatePaginatedData();
 
     // Validate and clean rules after updating data
@@ -1112,6 +1244,10 @@
           if (newList?.length > 0) {
             if (originalData?.some((item) => "changesPercentage" in item)) {
               originalData = calculateChange(originalData, newList);
+
+              // Recalculate portfolio metrics with updated prices
+              initializePortfolioCalculations(originalData);
+
               if (!inputValue?.length) {
                 rawData = [...originalData];
               }
@@ -1168,6 +1304,9 @@
     // Always regenerate columns when data changes
     columns = generateColumns(rawData);
     if (isInitialLoad) {
+      // Initialize portfolio calculations on first load
+      initializePortfolioCalculations(rawData);
+
       sortOrders = generateSortOrders(rawData);
       // Preserve the initial unsorted data on first load
       const initialOrdered = sortByInitialOrder(rawData);
