@@ -23,10 +23,10 @@
     // Calculate period returns from price series
     function calculatePeriodReturns(prices) {
         const returns = [];
-        for (let i = 1; i < prices.length; i++) {
+        for (let i = 1; i < prices?.length; i++) {
             const periodReturn =
                 ((prices[i] - prices[i - 1]) / prices[i - 1]) * 100;
-            returns.push(periodReturn);
+            returns?.push(periodReturn);
         }
         return returns;
     }
@@ -49,11 +49,11 @@
 
         // Calculate means
         const portfolioMean =
-            portfolioReturns.reduce((a, b) => a + b, 0) /
-            portfolioReturns.length;
+            portfolioReturns?.reduce((a, b) => a + b, 0) /
+            portfolioReturns?.length;
         const benchmarkMean =
-            benchmarkReturns.reduce((a, b) => a + b, 0) /
-            benchmarkReturns.length;
+            benchmarkReturns?.reduce((a, b) => a + b, 0) /
+            benchmarkReturns?.length;
 
         // Calculate covariance
         let covariance = 0;
@@ -62,16 +62,16 @@
                 (portfolioReturns[i] - portfolioMean) *
                 (benchmarkReturns[i] - benchmarkMean);
         }
-        covariance /= portfolioReturns.length - 1;
+        covariance /= portfolioReturns?.length - 1;
 
         // Calculate variance of benchmark
         let variance = 0;
-        for (let i = 0; i < benchmarkReturns.length; i++) {
-            variance += Math.pow(benchmarkReturns[i] - benchmarkMean, 2);
+        for (let i = 0; i < benchmarkReturns?.length; i++) {
+            variance += Math?.pow(benchmarkReturns[i] - benchmarkMean, 2);
         }
-        variance /= benchmarkReturns.length - 1;
+        variance /= benchmarkReturns?.length - 1;
 
-        return variance !== 0 ? covariance / variance : null;
+        return variance !== 0 ? (covariance / variance)?.toFixed(2) : null;
     }
 
     let portfolioBeta = null;
@@ -351,7 +351,7 @@
                     states: { hover: { lineWidthPlus: 0 } },
                 },
             },
-            series: seriesPerformance.map((s) => ({
+            series: seriesPerformance?.map((s) => ({
                 ...s,
                 type: "line",
                 color: s.color || "#3B82F6", // Ensure color is applied
@@ -365,7 +365,7 @@
                 polar: true,
                 type: "areaspline",
                 backgroundColor: "transparent",
-                height: 250,
+                height: 300,
                 spacing: [20, 20, 20, 20],
                 animation: false,
                 events: {
@@ -409,7 +409,7 @@
 
             // Improved gradient bands
             pane: {
-                size: $screenWidth < 640 ? "70%" : "80%",
+                size: $screenWidth < 640 ? "60%" : "70%",
             },
 
             xAxis: {
@@ -719,6 +719,28 @@
                                                     Est. Dividends
                                                 </span>
                                                 • 0% Yield
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <div>
+                                            <div
+                                                class="flex items-baseline gap-2"
+                                            >
+                                                <p
+                                                    class="m-0 text-xl font-semibold tracking-tight"
+                                                    data-testid="dividend"
+                                                >
+                                                    {portfolioBeta}
+                                                </p>
+                                            </div>
+                                            <p class="m-0 text-xs">
+                                                <span
+                                                    class="underline decoration-dotted underline-offset-2"
+                                                    title="Estimated annual dividend income"
+                                                >
+                                                    Beta
+                                                </span>
                                             </p>
                                         </div>
                                     </li>

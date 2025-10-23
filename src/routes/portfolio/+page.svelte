@@ -650,27 +650,27 @@
 </script>
 
 <SEO
-  title="Stocknear Portfolio Tracker & AI Stock Analysis | Real-Time Prices & Alerts"
+  title="Portfolio Tracker & AI Stock Analysis"
   description="Track stocks and ETFs in real time, get AI insights and price alerts, and visualize performance, risk, and dividends. A fast, free portfolio tracker for investors."
   keywords="stock portfolio, portfolio tracker, stock tracker, ETF tracker, investment tracker, watchlist, price alerts, performance analytics, dividends, P&L, portfolio management"
   canonical="https://stocknear.com/portfolio/stocks"
   openGraph={{
     type: "website",
     url: "https://stocknear.com/portfolio/stocks",
-    title: "Stocknear Portfolio Tracker & AI Stock Analysis",
+    title: "Portfolio Tracker & AI Stock Analysis",
     description:
       "Real-time prices, AI insights, alerts, and performance analytics for your stock & ETF portfolio.",
   }}
   twitter={{
     card: "summary",
-    title: "Stocknear Portfolio Tracker & AI Stock Analysis",
+    title: "Portfolio Tracker & AI Stock Analysis",
     description:
       "Real-time prices, AI insights, alerts, and performance analytics for your stock & ETF portfolio.",
   }}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Stocknear Portfolio Tracker",
+    name: "Portfolio Tracker",
     alternateName: "Stock Portfolio Tracker",
     description:
       "Personal stock and ETF portfolio tracking tool with real-time prices, AI analysis, alerts, and performance analytics.",

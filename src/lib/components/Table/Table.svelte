@@ -2140,11 +2140,11 @@
                   {:else}
                     <button
                       type="button"
-                      class="flex h-full w-full items-center justify-end gap-1 font-semibold cursor-pointer focus:outline-hidden"
+                      class="flex h-full w-full items-center justify-end gap-1 cursor-pointer focus:outline-hidden"
                       on:click={() =>
                         enableCellEditing(item, index, column.key)}
                     >
-                      {#if displayValue.trim().length > 0}
+                      {#if displayValue?.trim()?.length > 0}
                         <span class="min-w-[6rem] text-right">
                           {displayValue}
                         </span>

@@ -10,7 +10,7 @@
   <div class="text-sm sm:text-[1rem] breadcrumbs">
     <ul>
       <li><a href="/" class="text-muted dark:text-gray-300">Home</a></li>
-      <li class="text-muted dark:text-gray-300">Portfolio</li>
+      <li class="text-muted dark:text-gray-300">Portfolio Tracker</li>
     </ul>
   </div>
 
@@ -20,7 +20,7 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <h1 class=" text-2xl sm:text-3xl font-bold">Portfolio</h1>
+          <h1 class=" text-2xl sm:text-3xl font-bold">Portfolio Tracker</h1>
           <!--
           <nav
             class="border-[#2C6288] dark:border-white border-b-[2px] overflow-x-auto whitespace-nowrap"
