@@ -651,22 +651,29 @@
       return;
     }
 
-    // Check if the value is a positive number
-    const numValue = parseFloat(trimmed);
-    if (!isNaN(numValue) && numValue > 0) {
-      applyEditableValue(row, key, trimmed);
-      // Trigger portfolio update callback
-      if (onPortfolioUpdate && (key === "avgPrice" || key === "shares")) {
-        onPortfolioUpdate(originalData);
+    // Strict validation: Only accept pure numeric values (no letters or mixed content)
+    // Regex matches: positive numbers with optional decimal point (e.g., "123", "123.45", "0.5")
+    const isValidNumber = /^[0-9]+\.?[0-9]*$/.test(trimmed);
+
+    if (isValidNumber) {
+      const numValue = parseFloat(trimmed);
+      // Additional check: must be a positive number
+      if (numValue > 0) {
+        applyEditableValue(row, key, trimmed);
+        // Trigger portfolio update callback
+        if (onPortfolioUpdate && (key === "avgPrice" || key === "shares")) {
+          onPortfolioUpdate(originalData);
+        }
+        return;
       }
-    } else {
-      // Invalid input - reset to null/empty
-      applyEditableValue(row, key, null);
-      inputElement.value = "";
-      // Trigger portfolio update callback
-      if (onPortfolioUpdate && (key === "avgPrice" || key === "shares")) {
-        onPortfolioUpdate(originalData);
-      }
+    }
+
+    // Invalid input - reset to null/empty
+    applyEditableValue(row, key, null);
+    inputElement.value = "";
+    // Trigger portfolio update callback
+    if (onPortfolioUpdate && (key === "avgPrice" || key === "shares")) {
+      onPortfolioUpdate(originalData);
     }
   }
 
