@@ -391,7 +391,7 @@
     $: {
         if (
             portfolioData &&
-            portfolioData.length > 0 &&
+            portfolioData?.length > 0 &&
             typeof window !== "undefined"
         ) {
             getPortfolioData();
@@ -410,34 +410,36 @@
 <section class="w-full overflow-hidden">
     <div class="mx-auto w-full">
         <!-- Top Nav Mimic -->
-        <div class="flex items-center gap-2 text-sm">
-            <span
-                class="px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 cursor-pointer bg-[#EEEEEE] dark:bg-secondary font-semibol"
-                >Overview</span
-            >
-            <span
-                class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
-                >Returns</span
-            >
-            <span
-                class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
-                >Analysis</span
-            >
-            <span
-                class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
-                >Updates</span
-            >
-            <span
-                class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
-                >Dividends</span
-            >
-            <span
-                class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
-                >Analysis</span
-            >
-        </div>
+        {#if portfolioData.length > 0}
+            <div class="flex items-center gap-2 text-sm mb-6">
+                <span
+                    class="px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 cursor-pointer bg-[#EEEEEE] dark:bg-secondary font-semibol"
+                    >Overview</span
+                >
+                <span
+                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
+                    >Returns</span
+                >
+                <span
+                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
+                    >Analysis</span
+                >
+                <span
+                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
+                    >Updates</span
+                >
+                <span
+                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
+                    >Dividends</span
+                >
+                <span
+                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
+                    >Analysis</span
+                >
+            </div>
+        {/if}
 
-        <div class="flex flex-row items-start w-full space-x-3 mt-6">
+        <div class="flex flex-row items-start w-full space-x-3">
             <!-- LEFT -->
             <div class="w-full">
                 <!-- Header -->
