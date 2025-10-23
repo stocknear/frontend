@@ -79,6 +79,8 @@
         categories: ["Moat", "Trend", "Growth", "Fundamentals", "Volatility"],
         values: [50, 50, 50, 50, 50], // Default values
     };
+    let annualDividends = 0;
+    let dividendYield = 0;
 
     // Process performance data from API
     function processPerformanceData(data) {
@@ -229,6 +231,13 @@
                         values: output.health.values || healthScores.values,
                     };
                     buildRadar(); // Rebuild radar chart with new health scores
+                }
+
+                if (performanceOutput?.dividends) {
+                    annualDividends =
+                        performanceOutput?.dividends?.annualDividends || 0;
+                    dividendYield =
+                        performanceOutput?.dividends?.dividendYield || 0;
                 }
 
                 // Rebuild the performance chart with new data
@@ -703,7 +712,9 @@
                                                     class="m-0 text-xl font-semibold tracking-tight"
                                                     data-testid="dividend"
                                                 >
-                                                    $0
+                                                    {formatCurrency(
+                                                        annualDividends,
+                                                    )}
                                                 </p>
                                                 <p
                                                     class="m-0 text-sm font-medium text-slate-600 dark:text-slate-300"
@@ -718,7 +729,8 @@
                                                 >
                                                     Est. Dividends
                                                 </span>
-                                                • 0% Yield
+                                                • {dividendYield?.toFixed(2)}%
+                                                Yield
                                             </p>
                                         </div>
                                     </li>
