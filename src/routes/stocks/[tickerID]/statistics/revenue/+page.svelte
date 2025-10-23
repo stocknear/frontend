@@ -13,7 +13,7 @@
   export let data;
 
   let config = null;
-
+  let currency = data?.getStockDeck?.currency ?? "USD";
   let rawData = data?.getHistoricalRevenue || {};
   let tableList = [];
 
@@ -292,7 +292,7 @@
           {#if Object?.keys(data?.getHistoricalRevenue)?.length > 0}
             <div class="grid grid-cols-1 gap-2">
               <Infobox
-                text={`${removeCompanyStrings($displayCompanyName)} reported an annual revenue of ${abbreviateNumber(rawData?.annual?.at(0)?.revenue, true)}, reflecting a ${rawData?.growthRevenue}% growth. For the quarter ending ${formatDate(rawData?.quarter?.at(0)?.date)}, ${removeCompanyStrings($displayCompanyName)} generated ${abbreviateNumber(rawData?.quarter?.at(0)?.revenue, true)} in revenue.`}
+                text={`${removeCompanyStrings($displayCompanyName)} reported an annual revenue of ${abbreviateNumber(rawData?.annual?.at(0)?.revenue)}, reflecting a ${rawData?.growthRevenue}% growth. For the quarter ending ${formatDate(rawData?.quarter?.at(0)?.date)}, ${removeCompanyStrings($displayCompanyName)} generated ${abbreviateNumber(rawData?.quarter?.at(0)?.revenue)} in revenue.`}
               />
 
               <div
@@ -306,7 +306,8 @@
                   </div>
                   <div class="flex items-baseline">
                     <span class="text-xl font-semibold">
-                      {abbreviateNumber(rawData?.revenue)}</span
+                      {abbreviateNumber(rawData?.revenue)}
+                      {currency !== "USD" ? currency : ""}</span
                     >
                   </div>
                 </div>
@@ -347,7 +348,8 @@
                   </div>
                   <div class="flex items-baseline">
                     <span class="text-xl font-semibold"
-                      >{abbreviateNumber(rawData?.revenuePerEmployee)}</span
+                      >{rawData?.revenuePerEmployee?.toLocaleString("en-US")}
+                      {currency !== "USD" ? currency : ""}</span
                     >
                   </div>
                 </div>
@@ -373,7 +375,8 @@
                   </div>
                   <div class="flex items-baseline">
                     <span class="text-xl font-semibold"
-                      >{abbreviateNumber(data?.getStockQuote?.marketCap)}</span
+                      >{abbreviateNumber(data?.getStockQuote?.marketCap)}
+                      {currency !== "USD" ? "USD" : ""}</span
                     >
                   </div>
                 </div>
@@ -466,6 +469,11 @@
                 class="chart-driver shadow-xs mt-5 sm:mt-0 border border-gray-300 dark:border-gray-800 rounded"
                 use:highcharts={config}
               ></div>
+              {#if currency !== "USD"}
+                <span class="text-sm text-gray-800 dark:text-gray-400"
+                  >* This company reports financials in DKK.</span
+                >
+              {/if}
 
               <div
                 class="history-driver mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-300 dark:border-gray-800 py-2"

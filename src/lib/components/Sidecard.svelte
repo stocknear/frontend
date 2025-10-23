@@ -31,6 +31,7 @@
   let consensusRating = "n/a";
   let changesPercentage = 0;
   let ipoDate = "n/a";
+  let currency = data?.getStockDeck?.currency ?? "USD";
 
   let configAnalyst = null;
   let configFinancial = null;
@@ -456,15 +457,15 @@
         <p class="dark:text-gray-200">
           In {financialPerformance?.history?.at(-1)?.date?.slice(0, 4)}, {removeCompanyStrings(
             $displayCompanyName,
-          )}'s revenue was ${abbreviateNumber(
+          )}'s revenue was {abbreviateNumber(
             financialPerformance?.history?.at(-1)?.revenue,
           )}, {financialPerformance?.changePercentageRevenue >= 0
             ? "an increase"
             : "a decrease"} of {financialPerformance?.changePercentageRevenue?.toLocaleString(
             "en-US",
-          )}% compared to the previous year's ${abbreviateNumber(
+          )}% compared to the previous year's {abbreviateNumber(
             financialPerformance?.history?.at(-2)?.revenue,
-          )}. Earnings were ${abbreviateNumber(
+          )}. Earnings were {abbreviateNumber(
             financialPerformance?.history?.at(-1)?.netIncome,
           )}, {financialPerformance?.changePercentageNetIncome >= 0
             ? "an increase"
@@ -479,7 +480,11 @@
             use:highcharts={configFinancial}
           ></div>
         {/if}
-
+        {#if currency !== "USD"}
+          <span class="text-sm text-gray-800 dark:text-gray-100 mt-2"
+            >Financial numbers in {currency}</span
+          >
+        {/if}
         <a
           href={`/stocks/${$stockTicker}/financials`}
           class="rounded-[2px] cursor-pointer w-full m-auto py-2 h-full mt-6 text-[1rem] sm:text-lg text-center font-semibold text-white dark:text-black sm:hover:bg-muted sm:hover:text-white dark:sm:hover:text-muted dark:sm:hover:bg-gray-300 bg-black dark:bg-[#ffff] transition duration-50"

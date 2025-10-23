@@ -274,7 +274,7 @@
     class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd whitespace-nowrap border"
   >
     <td
-      class="text-start min-w-[220px] sm:min-w-[320px] text-sm sm:text-[1rem] border-r border-gray-300 dark:border-gray-800 w-full flex flex-row items-center justify-between"
+      class="text-start max-w-96 text-sm sm:text-[1rem] border-r border-gray-300 dark:border-gray-800 w-full flex flex-row items-center justify-between"
     >
       <div
         bind:this={infoElements[key]}
