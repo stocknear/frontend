@@ -1,11 +1,10 @@
 <script lang="ts">
     import highcharts from "$lib/highcharts";
-    import Sector from "$lib/components/Portfolio/Sector.svelte";
+    import { onMount } from "svelte";
+    //import Sector from "$lib/components/Portfolio/Sector.svelte";
 
     export let data;
-
-    // Portfolio-specific data (stored in database)
-    let portfolioHoldings = [
+    export let portfolioData = [
         {
             symbol: "AMD",
             shares: 100,
@@ -50,28 +49,22 @@
 
     // Fetch market data for portfolio holdings
     async function getPortfolioData() {
-        // TODO: Replace with actual API call
-        // For now, using mock data
-        const mockMarketData = [
-            {
-                symbol: "AMD",
-                name: "Advanced Micro Devices, Inc.",
-                price: 45.5,
-                changesPercentage: 2.5,
+        const postData = {
+            portfolioData: portfolioData,
+        };
+        const response = await fetch("/api/portfolio-overview", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
             },
-            {
-                symbol: "TSLA",
-                name: "Tesla, Inc.",
-                price: 400.5,
-                changesPercentage: -1.2,
-            },
-        ];
+            body: JSON.stringify(postData),
+        });
 
-        rawData = enrichPortfolioData(portfolioHoldings, mockMarketData);
+        const output = await response?.json();
+
+        rawData = enrichPortfolioData(portfolioData, mockMarketData);
     }
 
-    // Initialize on mount
-    import { onMount } from "svelte";
     onMount(() => {
         getPortfolioData();
     });
@@ -375,9 +368,7 @@
 </script>
 
 <!-- Page -->
-<section
-    class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pt-5 text-muted dark:text-white"
->
+<section class="w-full overflow-hidden">
     <div class="mx-auto w-full">
         <!-- Top Nav Mimic -->
         <div class="flex items-center gap-2 text-sm">
@@ -409,7 +400,7 @@
 
         <div class="flex flex-row items-start w-full space-x-3 mt-6">
             <!-- LEFT -->
-            <div class=" w-[70%]">
+            <div class="w-full">
                 <!-- Header -->
                 <div class="rounded-lg border border-zinc-800 p-5">
                     <div class="w-full overflow-hidden">
@@ -421,7 +412,7 @@
                             </h2>
                         </header>
 
-                        <div class=" pt-3">
+                        <div class=" pt-3.5">
                             <!-- KPI strip -->
                             <div class="min-h-[45px] lg:min-h-[50px]">
                                 <ul
@@ -446,7 +437,7 @@
                                                 >
                                                     Total Value
                                                 </span>
-                                                • {rawData?.length?.toLocaleString(
+                                                • {portfolioData?.length?.toLocaleString(
                                                     "en-US",
                                                 )} assets
                                             </p>
@@ -525,20 +516,20 @@
             </div>
 
             <!-- RIGHT -->
-            <div class="space-y-5 w-[30%]">
+            <div class="w-fit">
                 <!-- Health + Radar -->
                 <div class="rounded-lg border border-zinc-800 p-5">
                     <h3 class="text-[1rem] font-semibold">
                         Status: <span class="dark:text-green-400">Healthy</span>
                     </h3>
-                    <p class="text-sm mt-1">
+                    <p class="text-sm">
                         Your best strength is <span class=" font-semibold"
                             >Growth</span
                         >
                         and your biggest risk is
                         <span class="font-semibold">Fundamentals</span>.
                     </p>
-                    <div class="mt-3">
+                    <div class="">
                         <div use:highcharts={radarConfig}></div>
                     </div>
                 </div>
