@@ -55,18 +55,19 @@
   let displayPortfolio;
 
   // Parse ticker field if it's a JSON string
-  let allList = data?.getAllPortfolio?.map((portfolio) => {
-    let ticker = portfolio?.ticker;
-    if (ticker && typeof ticker === 'string') {
-      try {
-        ticker = JSON.parse(ticker);
-      } catch (e) {
-        console.error('Failed to parse ticker:', e);
-        ticker = [];
+  let allList =
+    data?.getAllPortfolio?.map((portfolio) => {
+      let ticker = portfolio?.ticker;
+      if (ticker && typeof ticker === "string") {
+        try {
+          ticker = JSON.parse(ticker);
+        } catch (e) {
+          console.error("Failed to parse ticker:", e);
+          ticker = [];
+        }
       }
-    }
-    return { ...portfolio, ticker: ticker || [] };
-  }) || [];
+      return { ...portfolio, ticker: ticker || [] };
+    }) || [];
 
   async function getPortfolioData() {
     const postData = {
@@ -98,14 +99,15 @@
     });
 
     // Merge the shares and avgPrice into the API response data
-    portfolio = output?.data?.map((item) => {
-      const tickerData = tickerMap.get(item?.symbol);
-      return {
-        ...item,
-        shares: tickerData?.shares ?? null,
-        avgPrice: tickerData?.avgPrice ?? null,
-      };
-    }) || [];
+    portfolio =
+      output?.data?.map((item) => {
+        const tickerData = tickerMap.get(item?.symbol);
+        return {
+          ...item,
+          shares: tickerData?.shares ?? null,
+          avgPrice: tickerData?.avgPrice ?? null,
+        };
+      }) || [];
 
     originalData = portfolio;
 
@@ -187,19 +189,30 @@
     try {
       const output = await promise;
 
+      // Parse the ticker field to ensure it's an array
+      const newPortfolio = {
+        ...output,
+        ticker: parseTickerField(output.ticker),
+      };
+
+      // Add the new portfolio to allList
+      allList = [...allList, newPortfolio];
+
+      // Set the new portfolio as active
+      displayPortfolio = newPortfolio;
+
       try {
         localStorage.setItem("last-portfolio-id", JSON.stringify(output?.id));
       } catch (e) {
         console.log("Failed saving portfolio id: ", e);
       }
 
-      // Dispatch events to close the modal and navigate to the portfolio page
+      // Close the modal
       const clicked = document.getElementById("addPortfolio");
       clicked?.dispatchEvent(new MouseEvent("click"));
 
-      const anchor = document.createElement("a");
-      anchor.href = "/portfolio";
-      anchor.dispatchEvent(new MouseEvent("click"));
+      // Refresh portfolio data for the newly created portfolio
+      await getPortfolioData();
     } catch (error) {
       console.error("Error creating portfolio:", error);
       // No additional toast.error is needed here since toast.promise already handles errors.
@@ -533,12 +546,12 @@
   function parseTickerField(ticker) {
     if (!ticker) return [];
     if (Array.isArray(ticker)) return ticker;
-    if (typeof ticker === 'string') {
+    if (typeof ticker === "string") {
       try {
         const parsed = JSON.parse(ticker);
         return Array.isArray(parsed) ? parsed : [];
       } catch (e) {
-        console.error('Failed to parse ticker:', e);
+        console.error("Failed to parse ticker:", e);
         return [];
       }
     }
