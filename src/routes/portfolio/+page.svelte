@@ -53,7 +53,20 @@
 
   let isLoaded = false;
   let displayPortfolio;
-  let allList = data?.getAllPortfolio;
+
+  // Parse ticker field if it's a JSON string
+  let allList = data?.getAllPortfolio?.map((portfolio) => {
+    let ticker = portfolio?.ticker;
+    if (ticker && typeof ticker === 'string') {
+      try {
+        ticker = JSON.parse(ticker);
+      } catch (e) {
+        console.error('Failed to parse ticker:', e);
+        ticker = [];
+      }
+    }
+    return { ...portfolio, ticker: ticker || [] };
+  }) || [];
 
   async function getPortfolioData() {
     const postData = {
@@ -72,8 +85,29 @@
 
     const output = await response?.json();
 
-    portfolio = output?.data;
-    originalData = output?.data;
+    // Merge API data with PocketBase ticker data (shares, avgPrice)
+    const tickerMap = new Map();
+    const parsedTicker = parseTickerField(displayPortfolio?.ticker);
+    parsedTicker.forEach((item) => {
+      if (item?.symbol) {
+        tickerMap.set(item.symbol, {
+          shares: item.shares,
+          avgPrice: item.avgPrice,
+        });
+      }
+    });
+
+    // Merge the shares and avgPrice into the API response data
+    portfolio = output?.data?.map((item) => {
+      const tickerData = tickerMap.get(item?.symbol);
+      return {
+        ...item,
+        shares: tickerData?.shares ?? null,
+        avgPrice: tickerData?.avgPrice ?? null,
+      };
+    }) || [];
+
+    originalData = portfolio;
 
     news = output?.news;
     earnings = output?.earnings;
@@ -288,12 +322,19 @@
 
       deleteTickerList = [];
       numberOfChecked = 0;
+
+      // Update allList with the tickerData we already prepared
       allList = allList?.map((item) => {
         if (item?.id === displayPortfolio?.id) {
-          return { ...item, ticker: portfolio }; // Update ticker with portfolio
+          return { ...item, ticker: tickerData }; // Update ticker with proper structure
         }
         return item; // Return unchanged item if condition doesn't match
       });
+
+      // Update displayPortfolio to reflect the changes
+      displayPortfolio = allList?.find(
+        (item) => item?.id === displayPortfolio?.id,
+      );
 
       allList = [...allList];
       if (portfolio?.length > 0) {
@@ -343,10 +384,15 @@
           // Update the local state
           allList = allList?.map((item) => {
             if (item?.id === displayPortfolio?.id) {
-              return { ...item, ticker: output.ticker };
+              return { ...item, ticker: parseTickerField(output.ticker) };
             }
             return item;
           });
+
+          // Update displayPortfolio to reflect the saved data
+          displayPortfolio = allList?.find(
+            (item) => item?.id === displayPortfolio?.id,
+          );
         } else {
           toast.error(output?.error || "Failed to save portfolio changes", {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
@@ -418,7 +464,7 @@
 
       allList = allList?.map((item) => {
         if (item?.id === displayPortfolio?.id) {
-          return { ...item, ticker: updatedData.ticker };
+          return { ...item, ticker: parseTickerField(updatedData.ticker) };
         }
         return item;
       });
@@ -481,6 +527,22 @@
       // If JSON parsing fails, just return the original value
       return value;
     }
+  }
+
+  // Helper function to parse ticker field
+  function parseTickerField(ticker) {
+    if (!ticker) return [];
+    if (Array.isArray(ticker)) return ticker;
+    if (typeof ticker === 'string') {
+      try {
+        const parsed = JSON.parse(ticker);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+        console.error('Failed to parse ticker:', e);
+        return [];
+      }
+    }
+    return [];
   }
 
   onMount(async () => {
