@@ -1,10 +1,11 @@
+import { time } from "console";
 import type { RequestHandler } from "./$types";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
   const { apiURL, apiKey } = locals;
 
-  const postData = { portfolioData: data?.portfolioData };
+  const postData = { portfolioData: data?.portfolioData, timePeriod: data?.timePeriod };
   const response = await fetch(apiURL + "/portfolio-overview", {
     method: "POST",
     headers: {

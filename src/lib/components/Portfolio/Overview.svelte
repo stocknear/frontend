@@ -8,6 +8,9 @@
     let performanceData = [];
     let seriesPerformance = [];
     let perfCategories = [];
+    let selectedTimePeriod = "1Y"; // Default time period
+
+    const timePeriods = ["1W", "1M", "3M", "6M", "1Y"];
 
     // Format date to readable format (e.g., "Oct 15")
     function formatDate(dateString) {
@@ -16,6 +19,62 @@
         const day = date.getDate();
         return `${month} ${day}`;
     }
+
+    // Calculate period returns from price series
+    function calculatePeriodReturns(prices) {
+        const returns = [];
+        for (let i = 1; i < prices.length; i++) {
+            const periodReturn =
+                ((prices[i] - prices[i - 1]) / prices[i - 1]) * 100;
+            returns.push(periodReturn);
+        }
+        return returns;
+    }
+
+    // Calculate cumulative returns from initial value
+    function calculateCumulativeReturns(prices) {
+        if (prices.length === 0) return [];
+        const initial = prices[0];
+        return prices.map((price) => ((price - initial) / initial) * 100);
+    }
+
+    // Calculate beta (portfolio vs benchmark)
+    function calculateBeta(portfolioPrices, benchmarkPrices) {
+        if (portfolioPrices.length < 2 || benchmarkPrices.length < 2) {
+            return null;
+        }
+
+        const portfolioReturns = calculatePeriodReturns(portfolioPrices);
+        const benchmarkReturns = calculatePeriodReturns(benchmarkPrices);
+
+        // Calculate means
+        const portfolioMean =
+            portfolioReturns.reduce((a, b) => a + b, 0) /
+            portfolioReturns.length;
+        const benchmarkMean =
+            benchmarkReturns.reduce((a, b) => a + b, 0) /
+            benchmarkReturns.length;
+
+        // Calculate covariance
+        let covariance = 0;
+        for (let i = 0; i < portfolioReturns.length; i++) {
+            covariance +=
+                (portfolioReturns[i] - portfolioMean) *
+                (benchmarkReturns[i] - benchmarkMean);
+        }
+        covariance /= portfolioReturns.length - 1;
+
+        // Calculate variance of benchmark
+        let variance = 0;
+        for (let i = 0; i < benchmarkReturns.length; i++) {
+            variance += Math.pow(benchmarkReturns[i] - benchmarkMean, 2);
+        }
+        variance /= benchmarkReturns.length - 1;
+
+        return variance !== 0 ? covariance / variance : null;
+    }
+
+    let portfolioBeta = null;
 
     // Process performance data from API
     function processPerformanceData(data) {
@@ -37,28 +96,43 @@
             };
         }
 
-        // Extract categories (formatted dates) from portfolio data
-        const categories = portfolioData.map((item) => formatDate(item.date));
-        const portfolioValues = portfolioData.map(
-            (item) => parseFloat(item.totalReturnPercentage) || 0,
+        // Extract raw prices
+        const portfolioPrices = portfolioData.map(
+            (item) => parseFloat(item.value) || 0,
+        );
+        const benchmarkPrices = benchmarkData.map(
+            (item) => parseFloat(item.close) || 0,
         );
 
-        // Build series array
+        // Calculate cumulative returns for display
+        const portfolioCumulativeReturns =
+            calculateCumulativeReturns(portfolioPrices);
+        const benchmarkCumulativeReturns =
+            calculateCumulativeReturns(benchmarkPrices);
+
+        // Extract categories (formatted dates) from portfolio data
+        const categories = portfolioData.map((item) => formatDate(item.date));
+
+        // Build series array with cumulative returns
         const series = [
-            { name: "Portfolio", data: portfolioValues, color: "#3B82F6" },
+            {
+                name: "Portfolio",
+                data: portfolioCumulativeReturns,
+                color: "#3B82F6",
+            },
         ];
 
         // Add benchmark data if available
         if (benchmarkData.length > 0) {
-            const benchmarkValues = benchmarkData.map(
-                (item) => parseFloat(item.totalReturnPercentage) || 0,
-            );
             series.push({
                 name: "S&P 500",
-                data: benchmarkValues,
+                data: benchmarkCumulativeReturns,
                 color: "#10B981",
             });
         }
+
+        // Calculate beta
+        portfolioBeta = calculateBeta(portfolioPrices, benchmarkPrices);
 
         return {
             categories,
@@ -120,6 +194,7 @@
 
         const postData = {
             portfolioData: validPositions,
+            timePeriod: selectedTimePeriod,
         };
 
         try {
@@ -172,6 +247,7 @@
                 backgroundColor: "transparent",
                 height: 260,
                 spacing: [10, 10, 10, 10],
+                animation: false,
             },
             title: { text: undefined },
             xAxis: {
@@ -394,6 +470,7 @@
             portfolioData?.length > 0 &&
             typeof window !== "undefined"
         ) {
+            // Trigger fetch when portfolio or time period changes
             getPortfolioData();
         } else {
             // Reset chart if no portfolio data
@@ -401,6 +478,15 @@
             seriesPerformance = [];
             buildPerf();
         }
+    }
+
+    // React to time period changes
+    $: if (
+        selectedTimePeriod &&
+        portfolioData?.length > 0 &&
+        typeof window !== "undefined"
+    ) {
+        getPortfolioData();
     }
 
     buildRadar();
@@ -448,9 +534,29 @@
                         <header class="relative">
                             <!-- soft top gradient -->
 
-                            <h2 class="relative m-0 text-[1rem] font-semibold">
-                                Performance vs US Market
-                            </h2>
+                            <div class="flex items-center justify-between">
+                                <h2
+                                    class="relative m-0 text-[1rem] font-semibold"
+                                >
+                                    Performance vs US Market
+                                </h2>
+
+                                <!-- Time Period Selector -->
+                                <div class="flex items-center gap-1">
+                                    {#each timePeriods as period}
+                                        <button
+                                            on:click={() =>
+                                                (selectedTimePeriod = period)}
+                                            class="cursor-pointer px-2 py-1 text-xs rounded transition-all duration-50 {selectedTimePeriod ===
+                                            period
+                                                ? 'bg-black dark:bg-white text-white dark:text-black '
+                                                : ' bg-gray-100 dark:bg-table shadow'}"
+                                        >
+                                            {period}
+                                        </button>
+                                    {/each}
+                                </div>
+                            </div>
                         </header>
 
                         <div class=" pt-3.5">
