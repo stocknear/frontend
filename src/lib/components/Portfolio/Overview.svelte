@@ -1,6 +1,6 @@
 <script lang="ts">
     import highcharts from "$lib/highcharts";
-    import { onMount } from "svelte";
+    import { screenWidth } from "$lib/store.ts";
 
     export let data;
     export let portfolioData = [];
@@ -264,16 +264,19 @@
         if (avgScore >= 70) return "Excellent";
         if (avgScore >= 60) return "Healthy";
         if (avgScore >= 50) return "Neutral";
+        if (avgScore >= 30) return "Bad";
         return "Needs Attention";
     })();
 
     $: healthStatusColor = (() => {
         if (overallHealthStatus === "Excellent")
-            return "text-green-500 dark:text-green-400";
+            return "text-green-800 dark:text-green-400";
         if (overallHealthStatus === "Healthy")
-            return "text-green-600 dark:text-green-400";
+            return "text-green-800 dark:text-green-400";
         if (overallHealthStatus === "Neutral")
-            return "text-yellow-600 dark:text-yellow-400";
+            return "text-yellow-800 dark:text-yellow-400";
+        if (overallHealthStatus === "Bad")
+            return "text-red-800 dark:text-red-400";
         return "text-red-600 dark:text-red-400";
     })();
 
@@ -383,7 +386,7 @@
                             .css({
                                 fontSize: "28px",
                                 fontWeight: "700",
-                                fill: "#FFE84A",
+                                fill: "#c4af25",
                             })
                             .add();
 
@@ -406,31 +409,7 @@
 
             // Improved gradient bands
             pane: {
-                size: "85%",
-                background: [
-                    {
-                        outerRadius: "100%",
-                        backgroundColor: "rgba(255,232,74,0.03)",
-                        borderWidth: 1,
-                        borderColor: "rgba(255,232,74,0.15)",
-                    },
-                    {
-                        outerRadius: "80%",
-                        backgroundColor: "rgba(255,232,74,0.02)",
-                    },
-                    {
-                        outerRadius: "60%",
-                        backgroundColor: "rgba(255,232,74,0.03)",
-                    },
-                    {
-                        outerRadius: "40%",
-                        backgroundColor: "rgba(255,232,74,0.02)",
-                    },
-                    {
-                        outerRadius: "20%",
-                        backgroundColor: "rgba(255,232,74,0.05)",
-                    },
-                ],
+                size: $screenWidth < 640 ? "70%" : "80%",
             },
 
             xAxis: {
@@ -507,8 +486,8 @@
                 series: {
                     marker: {
                         enabled: true,
-                        radius: 5,
-                        fillColor: "#FFE84A",
+                        radius: 1,
+                        fillColor: "#c4af25",
                         lineWidth: 2,
                         lineColor: "#FFF",
                         symbol: "circle",
@@ -536,10 +515,10 @@
                     type: "areaspline",
                     name: "Portfolio Health",
                     data: healthScores.values,
-                    color: "rgba(255,232,74,0.3)",
-                    lineColor: "#FFE84A",
-                    lineWidth: 3,
-                    fillOpacity: 0.5,
+                    color: "#c4af25",
+                    lineColor: "#c4af25",
+                    lineWidth: 1,
+                    fillOpacity: 0.7,
                 },
             ],
         };
@@ -617,7 +596,9 @@
                         <header class="relative">
                             <!-- soft top gradient -->
 
-                            <div class="flex items-center justify-between">
+                            <div
+                                class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between"
+                            >
                                 <h2
                                     class="relative m-0 text-[1rem] font-semibold"
                                 >
@@ -625,7 +606,9 @@
                                 </h2>
 
                                 <!-- Time Period Selector -->
-                                <div class="flex items-center gap-1">
+                                <div
+                                    class="flex items-center gap-1 mt-3 sm:mt-0"
+                                >
                                     {#each timePeriods as period}
                                         <button
                                             on:click={() =>
@@ -647,7 +630,7 @@
                             <div class="min-h-[45px] lg:min-h-[50px]">
                                 <ul
                                     role="list"
-                                    class="flex flex-row flex-wrap items-end gap-6 text-slate-900 dark:text-slate-100"
+                                    class="flex flex-row flex-wrap items-end gap-6"
                                 >
                                     <!-- Total Value -->
                                     <li class="flex items-start gap-3">
@@ -658,9 +641,7 @@
                                             >
                                                 {formatCurrency(totalValue)}
                                             </p>
-                                            <p
-                                                class="m-0 text-xs text-slate-500 dark:text-slate-400"
-                                            >
+                                            <p class="m-0 text-xs">
                                                 <span
                                                     class="underline decoration-dotted underline-offset-2"
                                                     title="The total current value of your portfolio"
@@ -688,9 +669,7 @@
                                                     unrealizedReturns,
                                                 )}
                                             </p>
-                                            <p
-                                                class="m-0 text-xs text-slate-500 dark:text-slate-400"
-                                            >
+                                            <p class="m-0 text-xs">
                                                 <span
                                                     class="underline decoration-dotted underline-offset-2"
                                                     title="Unrealised gains/losses on open positions"
@@ -732,9 +711,7 @@
                                                     /yr
                                                 </p>
                                             </div>
-                                            <p
-                                                class="m-0 text-xs text-slate-500 dark:text-slate-400"
-                                            >
+                                            <p class="m-0 text-xs">
                                                 <span
                                                     class="underline decoration-dotted underline-offset-2"
                                                     title="Estimated annual dividend income"
@@ -783,7 +760,7 @@
                         and your biggest risk is
                         <span class="font-semibold">{biggestRisk}</span>.
                     </p>
-                    <div class="h-[300px]">
+                    <div class="sm:h-[300px]">
                         {#if radarConfig}
                             <div use:highcharts={radarConfig}></div>
                         {:else}
