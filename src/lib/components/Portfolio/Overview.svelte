@@ -382,15 +382,27 @@
                     color: "#F0E000",
                     lineColor: "#FFE84A",
                     lineWidth: 2,
-                    fillOpacity: 0.45,
+                    fillOpacity: 0.8,
                 },
             ],
         };
     }
 
-    onMount(async () => {
-        await getPortfolioData();
-    });
+    $: {
+        if (
+            portfolioData &&
+            portfolioData.length > 0 &&
+            typeof window !== "undefined"
+        ) {
+            getPortfolioData();
+        } else {
+            // Reset chart if no portfolio data
+            perfCategories = [];
+            seriesPerformance = [];
+            buildPerf();
+        }
+    }
+
     buildRadar();
 </script>
 

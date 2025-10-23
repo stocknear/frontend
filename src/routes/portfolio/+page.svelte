@@ -367,6 +367,7 @@
   async function savePortfolioData(updatedPortfolio) {
     // Clear any existing timeout
     portfolio = [...updatedPortfolio];
+
     clearTimeout(saveTimeoutId);
 
     // Set a new timeout to save after 1 second of no changes
@@ -968,7 +969,11 @@
             </div>
 
             {#if allList.length === 0}
-              <div class="flex flex-col justify-center items-center m-auto z-0">
+              <Overview {data} portfolioData={portfolio} />
+
+              <div
+                class="flex flex-col justify-center items-center m-auto z-0 pt-10"
+              >
                 <span class=" font-bold text-xl sm:text-3xl">
                   Empty Portfolio
                 </span>
@@ -1266,7 +1271,7 @@
                   </div>
                 {:else}
                   <div
-                    class="flex flex-col justify-center items-center m-auto pt-5 z-0"
+                    class="flex flex-col justify-center items-center m-auto pt-10 z-0"
                   >
                     <span class=" font-bold text-xl sm:text-3xl">
                       Empty Portfolio
