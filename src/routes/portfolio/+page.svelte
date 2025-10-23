@@ -23,7 +23,7 @@
   export let data;
   let timeoutId;
   let searchBarData = [];
-  let switchWatchlist = false;
+  let switchPortfolio = false;
   let editMode = false;
   let numberOfChecked = 0;
   let activeIdx = 0;
@@ -51,17 +51,17 @@
   ];
 
   let isLoaded = false;
-  let displayWatchList;
-  let allList = data?.getAllWatchlist;
+  let displayPortfolio;
+  let allList = data?.getAllPortfolio;
 
-  async function getWatchlistData() {
+  async function getPortfolioData() {
     const postData = {
-      watchListId: displayWatchList?.id,
+      portfolioId: displayPortfolio?.id,
       ruleOfList: [{ rule: "price" }, { rule: "changesPercentage" }]?.map(
         (item) => item?.rule,
       ),
     };
-    const response = await fetch("/api/get-watchlist", {
+    const response = await fetch("/api/get-portfolio", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -71,24 +71,24 @@
 
     const output = await response?.json();
 
-    watchList = output?.data;
+    portfolio = output?.data;
     originalData = output?.data;
 
     news = output?.news;
     earnings = output?.earnings;
 
     news = news?.map((item) => {
-      const match = watchList?.find((w) => w?.symbol === item?.symbol);
+      const match = portfolio?.find((w) => w?.symbol === item?.symbol);
       return match ? { ...item, type: match?.type } : { ...item };
     });
 
     earnings = earnings?.map((item) => {
-      const match = watchList?.find((w) => w?.symbol === item?.symbol);
+      const match = portfolio?.find((w) => w?.symbol === item?.symbol);
       return match ? { ...item, name: match?.name } : { ...item };
     });
-    if (watchList?.length > 0) {
+    if (portfolio?.length > 0) {
       groupedEarnings = groupEarnings(earnings);
-      groupedNews = groupNews(news, watchList);
+      groupedNews = groupNews(news, portfolio);
     } else {
       groupedEarnings = [];
       groupedNews = [];
@@ -96,7 +96,7 @@
     changeTab(0);
   }
 
-  async function createWatchList(event) {
+  async function createPortfolio(event) {
     event.preventDefault(); // Prevent the default form submission behavior
 
     const formData = new FormData(event.target); // Create a FormData object from the form
@@ -124,7 +124,7 @@
     }
 
     // Create a promise for the POST request
-    const promise = fetch("/api/create-watchlist", {
+    const promise = fetch("/api/create-portfolio", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -133,7 +133,7 @@
     }).then(async (response) => {
       const output = await response.json();
       if (!response.ok) {
-        // If the server returned an error (e.g. non‑Pro user already has a watchlist),
+        // If the server returned an error (e.g. non‑Pro user already has a portfolio),
         // throw an error to be caught by toast.promise.
         throw new Error(
           output.error || "Something went wrong. Please try again!",
@@ -144,49 +144,48 @@
 
     // Use toast.promise to display a loading toast, then a success or error message
     toast.promise(promise, {
-      loading: "Creating watchlist...",
-      success: "Watchlist created successfully!",
+      loading: "Creating portfolio...",
+      success: "Portfolio created successfully!",
       error: (err) => err.message || "Something went wrong. Please try again!",
     });
 
     try {
       const output = await promise;
 
-      // Save the watchlist ID to localStorage (optional)
       try {
-        localStorage.setItem("last-watchlist-id", JSON.stringify(output?.id));
+        localStorage.setItem("last-portfolio-id", JSON.stringify(output?.id));
       } catch (e) {
-        console.log("Failed saving watchlist id: ", e);
+        console.log("Failed saving portfolio id: ", e);
       }
 
-      // Dispatch events to close the modal and navigate to the watchlist page
-      const clicked = document.getElementById("addWatchlist");
+      // Dispatch events to close the modal and navigate to the portfolio page
+      const clicked = document.getElementById("addPortfolio");
       clicked?.dispatchEvent(new MouseEvent("click"));
 
       const anchor = document.createElement("a");
-      anchor.href = "/watchlist/stocks";
+      anchor.href = "/portfolio";
       anchor.dispatchEvent(new MouseEvent("click"));
     } catch (error) {
-      console.error("Error creating watchlist:", error);
+      console.error("Error creating portfolio:", error);
       // No additional toast.error is needed here since toast.promise already handles errors.
     }
   }
 
   function handleDeleteModal(event) {
     event?.preventDefault();
-    const clicked = document.getElementById("deleteWatchlist");
+    const clicked = document.getElementById("deletePortfolio");
     clicked.dispatchEvent(new MouseEvent("click"));
   }
 
-  async function deleteWatchlist(event) {
+  async function deletePortfolio(event) {
     event.preventDefault(); // prevent the default form submission behavior
 
     const postData = {
-      watchListId: displayWatchList?.id,
+      portfolioId: displayPortfolio?.id,
     };
 
     try {
-      const response = await fetch("/api/delete-watchlist", {
+      const response = await fetch("/api/delete-portfolio", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -197,17 +196,17 @@
       const output = await response.json();
 
       if (output === "success") {
-        toast.success("Watchlist deleted successfully!", {
+        toast.success("Portfolio deleted successfully!", {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
 
-        allList = allList?.filter((item) => item?.id !== displayWatchList?.id);
+        allList = allList?.filter((item) => item?.id !== displayPortfolio?.id);
         allList = [...allList];
 
-        displayWatchList = allList[0];
-        changeWatchList(displayWatchList);
+        displayPortfolio = allList[0];
+        changePortfolio(displayPortfolio);
 
-        const clicked = document.getElementById("deleteWatchlist");
+        const clicked = document.getElementById("deletePortfolio");
         clicked.dispatchEvent(new MouseEvent("click"));
       } else {
         toast.error("Something went wrong. Please try again!", {
@@ -251,11 +250,11 @@
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     } else {
-      watchList = watchList?.filter(
+      portfolio = portfolio?.filter(
         (item) => !deleteTickerList?.includes(item?.symbol),
       );
 
-      originalData = watchList;
+      originalData = portfolio;
 
       news = news?.filter((item) => !deleteTickerList?.includes(item?.symbol));
       earnings = earnings?.filter(
@@ -265,12 +264,12 @@
       deleteTickerList = [...deleteTickerList];
       editMode = false;
       const postData = {
-        ticker: watchList?.map((item) => item?.symbol),
-        watchListId: displayWatchList?.id,
+        ticker: portfolio?.map((item) => item?.symbol),
+        portfolioId: displayPortfolio?.id,
         mode: "delete",
       };
 
-      const response = await fetch("/api/update-watchlist", {
+      const response = await fetch("/api/update-portfolio", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -281,17 +280,17 @@
       deleteTickerList = [];
       numberOfChecked = 0;
       allList = allList?.map((item) => {
-        if (item?.id === displayWatchList?.id) {
-          return { ...item, ticker: watchList }; // Update ticker with watchlist
+        if (item?.id === displayPortfolio?.id) {
+          return { ...item, ticker: portfolio }; // Update ticker with portfolio
         }
         return item; // Return unchanged item if condition doesn't match
       });
 
       allList = [...allList];
-      if (watchList?.length > 0) {
-        columns = generateColumns(watchList);
-        sortOrders = generateSortOrders(watchList);
-        groupedNews = groupNews(news, watchList);
+      if (portfolio?.length > 0) {
+        columns = generateColumns(portfolio);
+        sortOrders = generateSortOrders(portfolio);
+        groupedNews = groupNews(news, portfolio);
         groupedEarnings = groupEarnings(earnings);
       } else {
         groupedEarnings = [];
@@ -311,9 +310,8 @@
   }
 
   async function handleAddTicker(event, ticker) {
-    // Check if the ticker is already in the watchlist.
-    if (watchList?.some((item) => item?.symbol === ticker)) {
-      toast.error("This symbol is already in your watchlist", {
+    if (portfolio?.some((item) => item?.symbol === ticker)) {
+      toast.error("This symbol is already in your portfolio", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       inputValue = "";
@@ -326,11 +324,11 @@
     // Prepare the data to send to the API.
     const postData = {
       ticker: ticker,
-      watchListId: displayWatchList?.id,
+      portfolioId: displayPortfolio?.id,
     };
 
     // Create a promise for the fetch request.
-    const promise = fetch("/api/update-watchlist", {
+    const promise = fetch("/api/update-portfolio", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -340,56 +338,53 @@
       const output = await response.json();
       // If the response is not OK, throw an error with the message from the API.
       if (!response.ok) {
-        throw new Error(output.error || "Failed to update watchlist");
+        throw new Error(output.error || "Failed to update portfolio");
       }
       return output;
     });
 
     // Use toast.promise to display notifications based on the promise's state.
     toast?.promise(promise, {
-      loading: "Updating watchlist...",
-      success: "Watchlist updated successfully!",
-      error: (err) => err.message || "Failed to update watchlist",
+      loading: "Updating portfolio...",
+      success: "Portfolio updated successfully!",
+      error: (err) => err.message || "Failed to update portfolio",
       style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
     });
 
     try {
-      // Await the promise, which returns the updated watchlist data.
       const updatedData = await promise;
 
-      // Update the local allList with the updated watchlist.
-      // (Assuming updatedData.ticker contains the new ticker list.)
       allList = allList?.map((item) => {
-        if (item?.id === displayWatchList?.id) {
+        if (item?.id === displayPortfolio?.id) {
           return { ...item, ticker: updatedData.ticker };
         }
         return item;
       });
 
-      // Refresh displayWatchList from the updated list.
-      displayWatchList = allList?.find(
-        (item) => item?.id === displayWatchList?.id,
+      // Refresh displayPortfolio from the updated list.
+      displayPortfolio = allList?.find(
+        (item) => item?.id === displayPortfolio?.id,
       );
 
-      // Refresh the watchlist data (UI or state refresh).
-      await getWatchlistData();
+      // Refresh the portfolio data (UI or state refresh).
+      await getPortfolioData();
 
       // Reset the input value.
       inputValue = "";
     } catch (error) {
-      console.error("Error updating watchlist:", error);
+      console.error("Error updating portfolio:", error);
       // Note: The error toast is already displayed by toast.promise.
     }
   }
 
-  function changeWatchList(newWatchList) {
-    displayWatchList = newWatchList;
-    switchWatchlist = true;
+  function changePortfolio(newportfolio) {
+    displayPortfolio = newportfolio;
+    switchPortfolio = true;
     try {
       // Save the version along with the rules
       localStorage?.setItem(
-        "last-watchlist-id",
-        JSON?.stringify(displayWatchList?.id),
+        "last-portfolio-id",
+        JSON?.stringify(displayPortfolio?.id),
       );
     } catch (e) {
       console.log("Failed saving indicator rules: ", e);
@@ -428,26 +423,25 @@
 
   onMount(async () => {
     try {
-      const savedLastWatchlistId = localStorage?.getItem("last-watchlist-id");
+      const savedLastportfolioId = localStorage?.getItem("last-portfolio-id");
 
-      // Safely parse savedLastWatchlistId using safeParse
-      let parsedLastWatchlistId = null;
-      if (savedLastWatchlistId && savedLastWatchlistId.length > 0) {
-        parsedLastWatchlistId = safeParse(savedLastWatchlistId);
+      // Safely parse savedLastportfolioId using safeParse
+      let parsedLastportfolioId = null;
+      if (savedLastportfolioId && savedLastportfolioId.length > 0) {
+        parsedLastportfolioId = safeParse(savedLastportfolioId);
       }
 
-      displayWatchList = allList?.find(
-        (item) => item?.id === parsedLastWatchlistId,
+      displayPortfolio = allList?.find(
+        (item) => item?.id === parsedLastportfolioId,
       );
 
-      // If no valid watchlist is found, default to the first element of allList
-      if (!displayWatchList && allList?.length > 0) {
-        displayWatchList = allList.at(0);
-      } else if (!displayWatchList) {
-        displayWatchList = {};
+      if (!displayPortfolio && allList?.length > 0) {
+        displayPortfolio = allList.at(0);
+      } else if (!displayPortfolio) {
+        displayPortfolio = {};
       }
 
-      await getWatchlistData();
+      await getPortfolioData();
 
       isLoaded = true;
     } catch (e) {
@@ -468,7 +462,7 @@
 
   afterUpdate(async () => {
     // Compare only the symbols to detect changes
-    const currentSymbols = watchList?.map((item) => item?.symbol).sort();
+    const currentSymbols = portfolio?.map((item) => item?.symbol).sort();
     const previousSymbols = previousList?.map((item) => item?.symbol).sort();
 
     // Check if symbols have changed
@@ -477,21 +471,21 @@
       typeof socket !== "undefined"
     ) {
       // Update previous list
-      previousList = watchList;
+      previousList = portfolio;
     }
   });
 
-  function handleWatchlistModal() {
-    const closePopup = document.getElementById("addWatchlist");
+  function handlePortfolioListModal() {
+    const closePopup = document.getElementById("addPortfolio");
     closePopup?.dispatchEvent(new MouseEvent("click"));
   }
 
   $: {
-    if (switchWatchlist && typeof window !== "undefined") {
+    if (switchPortfolio && typeof window !== "undefined") {
       isLoaded = false;
-      getWatchlistData();
+      getPortfolioData();
       isLoaded = true;
-      switchWatchlist = false;
+      switchPortfolio = false;
     }
   }
 
@@ -517,16 +511,53 @@
 </script>
 
 <SEO
-  title="Stock Watchlist - Track Your Portfolio & Monitor Stock Prices "
-  description="Create and manage your personal stock watchlist with real-time price tracking. Monitor your favorite stocks, ETFs, and investments with price alerts and performance analytics. Free stock portfolio tracker with advanced features."
-  keywords="stock watchlist, portfolio tracker, stock tracker, investment tracker, stock monitoring, price alerts, portfolio management, stock performance, investment watchlist"
+  title="Stocknear Portfolio Tracker & AI Stock Analysis | Real-Time Prices & Alerts"
+  description="Track stocks and ETFs in real time, get AI insights and price alerts, and visualize performance, risk, and dividends. A fast, free portfolio tracker for investors."
+  keywords="stock portfolio, portfolio tracker, stock tracker, ETF tracker, investment tracker, watchlist, price alerts, performance analytics, dividends, P&L, portfolio management"
+  canonical="https://stocknear.com/portfolio/stocks"
+  openGraph={{
+    type: "website",
+    url: "https://stocknear.com/portfolio/stocks",
+    title: "Stocknear Portfolio Tracker & AI Stock Analysis",
+    description:
+      "Real-time prices, AI insights, alerts, and performance analytics for your stock & ETF portfolio.",
+  }}
+  twitter={{
+    card: "summary",
+    title: "Stocknear Portfolio Tracker & AI Stock Analysis",
+    description:
+      "Real-time prices, AI insights, alerts, and performance analytics for your stock & ETF portfolio.",
+  }}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Stock Watchlist Tracker",
-    description: "Personal stock watchlist and portfolio tracking tool",
-    url: "https://stocknear.com/watchlist/stocks",
+    name: "Stocknear Portfolio Tracker",
+    alternateName: "Stock Portfolio Tracker",
+    description:
+      "Personal stock and ETF portfolio tracking tool with real-time prices, AI analysis, alerts, and performance analytics.",
+    url: "https://stocknear.com/portfolio/stocks",
+    isAccessibleForFree: true,
+    inLanguage: "en",
+    operatingSystem: "Web",
     applicationCategory: "FinanceApplication",
+    brand: {
+      "@type": "Brand",
+      name: "Stocknear",
+      url: "https://stocknear.com",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Stocknear",
+      url: "https://stocknear.com",
+    },
+    featureList: [
+      "Real-time price tracking",
+      "AI portfolio insights",
+      "Custom price alerts",
+      "Performance & P&L analytics",
+      "Dividend tracking",
+      "Watchlists & holdings import",
+    ],
     breadcrumb: {
       "@type": "BreadcrumbList",
       itemListElement: [
@@ -539,14 +570,14 @@
         {
           "@type": "ListItem",
           position: 2,
-          name: "Watchlist",
-          item: "https://stocknear.com/watchlist",
+          name: "Portfolio",
+          item: "https://stocknear.com/portfolio",
         },
         {
           "@type": "ListItem",
           position: 3,
           name: "Stocks",
-          item: "https://stocknear.com/watchlist/stocks",
+          item: "https://stocknear.com/portfolio/stocks",
         },
       ],
     },
@@ -555,6 +586,7 @@
       price: "0",
       priceCurrency: "USD",
     },
+    mainEntityOfPage: "https://stocknear.com/portfolio/stocks",
   }}
 />
 
@@ -584,9 +616,9 @@
                         class=" min-w-[110px] w-full sm:w-fit border-gray-300 bg-black sm:hover:bg-default text-white  dark:border-gray-600 border dark:bg-primary dark:sm:hover:bg-secondary ease-out flex flex-row justify-between items-center px-3 py-1.5 rounded truncate"
                       >
                         <span class="truncate font-medium text-sm"
-                          >{displayWatchList?.title !== undefined
-                            ? displayWatchList?.title
-                            : "Create Watchlist"}</span
+                          >{displayPortfolio?.title !== undefined
+                            ? displayPortfolio?.title
+                            : "Create Portfolio"}</span
                         >
                         <svg
                           class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -617,7 +649,7 @@
                             class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 bg-white dark:bg-default whitespace-nowrap focus:outline-hidden"
                           >
                             <label
-                              for="addWatchlist"
+                              for="addPortfolio"
                               class="flex flex-row items-center cursor-pointer"
                             >
                               <svg
@@ -634,7 +666,7 @@
                                 ></path>
                               </svg>
                               <div class="text-sm text-start">
-                                New Watchlist
+                                New Portfolio
                               </div>
                             </label>
                           </Button>
@@ -644,14 +676,14 @@
                       <DropdownMenu.Group>
                         {#each allList as item}
                           <DropdownMenu.Item
-                            on:click={() => changeWatchList(item)}
-                            class="text-sm {item?.id === displayWatchList?.id
+                            on:click={() => changePortfolio(item)}
+                            class="text-sm {item?.id === displayPortfolio?.id
                               ? 'bg-gray-200 dark:bg-primary'
                               : ''} cursor-pointer sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
                           >
                             {item?.title} ({item?.ticker?.length})
                             <label
-                              for="deleteWatchlist"
+                              for="deletePortfolio"
                               class="ml-auto inline-block cursor-pointer sm:hover:text-red-500"
                               on:click|capture={handleDeleteModal}
                             >
@@ -677,7 +709,7 @@
                 </div>
 
                 <div
-                  class="order-2 sm:order-1 w-full {displayWatchList?.title ===
+                  class="order-2 sm:order-1 w-full {displayPortfolio?.title ===
                   undefined
                     ? 'hidden'
                     : ''}"
@@ -741,7 +773,7 @@
                 </div>
 
                 <div
-                  class="order-1 sm:order-last w-full sm:w-fit flex justify-end sm:ml-3 {displayWatchList?.title ===
+                  class="order-1 sm:order-last w-full sm:w-fit flex justify-end sm:ml-3 {displayPortfolio?.title ===
                   undefined
                     ? 'hidden'
                     : ''}"
@@ -784,7 +816,7 @@
                       >
                       {#if !editMode}
                         <span class="ml-1 text-[0.85rem] sm:text-sm">
-                          Edit Watchlist
+                          Edit Portfolio
                         </span>
                       {:else}
                         <span class="ml-1 text-[0.85rem] sm:text-sm">
@@ -800,7 +832,7 @@
             {#if allList.length === 0}
               <div class="flex flex-col justify-center items-center m-auto z-0">
                 <span class=" font-bold text-xl sm:text-3xl">
-                  Empty Watchlist
+                  Empty Portfolio
                 </span>
 
                 <span class=" text-sm sm:text-lg m-auto p-4 text-center">
@@ -1013,7 +1045,7 @@
                           {/each}
                         {:else}
                           <span class="text-sm sm:text-[1rem]">
-                            No news yet. Add some stocks to the watchlist to see
+                            No news yet. Add some stocks to the portfolio to see
                             the latest news.
                           </span>
                         {/if}
@@ -1084,7 +1116,7 @@
                         <br />
                         <div class="mt-3 sm:mt-0">
                           <Infobox
-                            text="No earnings data available. Add some stocks to the watchlist to see
+                            text="No earnings data available. Add some stocks to the portfolio to see
                         the latest earnings data."
                           />
                         </div>
@@ -1096,7 +1128,7 @@
                     class="flex flex-col justify-center items-center m-auto pt-5 z-0"
                   >
                     <span class=" font-bold text-xl sm:text-3xl">
-                      Empty Watchlist
+                      Empty Portfolio
                     </span>
 
                     <span
@@ -1108,7 +1140,7 @@
                   </div>
                 {/if}
               {/key}
-              <!--End Table of Watchlist-->
+              <!--End Table of Portfolio-->
             {/if}
           {:else}
             <div class="flex justify-center items-center h-80">
@@ -1132,20 +1164,20 @@
 <!--Start Create Watchlist Modal-->
 
 <!-- Desktop modal using dialog component -->
-<input type="checkbox" id="addWatchlist" class="modal-toggle" />
+<input type="checkbox" id="addPortfolio" class="modal-toggle" />
 
-<dialog id="addWatchlist" class="modal modal-bottom sm:modal-middle">
+<dialog id="addPortfolio" class="modal modal-bottom sm:modal-middle">
   <!-- Modal backdrop for desktop -->
-  <label for="addWatchlist" class="cursor-pointer modal-backdrop"></label>
+  <label for="addPortfolio" class="cursor-pointer modal-backdrop"></label>
 
   <!-- Desktop modal content -->
   <div
     class="modal-box w-full bg-white dark:bg-secondary rounded border-gray-300 shadow"
   >
     <div class="mb-5">
-      <h3 class="font-bold text-2xl mb-5">New Watchlist</h3>
+      <h3 class="font-bold text-2xl mb-5">New Portfolio</h3>
 
-      <form on:submit={createWatchList} class="space-y-2 w-full m-auto">
+      <form on:submit={createPortfolio} class="space-y-2 w-full m-auto">
         <Input
           id="title"
           type="text"
@@ -1161,7 +1193,7 @@
           type="submit"
           class="cursor-pointer mt-2 py-3 bg-black text-white dark:text-black sm:hover:bg-muted dark:bg-[#fff] dark:sm:hover:bg-gray-100 btn-md w-full rounded m-auto font-semibold text-md"
         >
-          Create Watchlist
+          Create Portfolio
         </button>
       </form>
     </div>
@@ -1172,30 +1204,30 @@
 <!--Start Delete Strategy Modal-->
 
 <!--Start Delete Strategy Modal-->
-<input type="checkbox" id="deleteWatchlist" class="modal-toggle" />
+<input type="checkbox" id="deletePortfolio" class="modal-toggle" />
 
-<dialog id="deleteWatchlist" class="modal modal-middle p-3 sm:p-0">
-  <label for="deleteWatchlist" class="cursor-pointer modal-backdrop"></label>
+<dialog id="deletePortfolio" class="modal modal-middle p-3 sm:p-0">
+  <label for="deletePortfolio" class="cursor-pointer modal-backdrop"></label>
 
   <div
     class="modal-box w-full p-6 rounded border
         bg-white dark:bg-secondary border border-gray-300 dark:border-gray-600"
   >
-    <h3 class="text-lg font-medium mb-2">Delete Watchlist</h3>
+    <h3 class="text-lg font-medium mb-2">Delete Portfolio</h3>
     <p class="text-sm mb-6">
-      Are you sure you want to delete this watchlist? This action cannot be
+      Are you sure you want to delete this portfolio? This action cannot be
       undone.
     </p>
     <div class="flex justify-end space-x-3">
       <label
-        for="deleteWatchlist"
+        for="deletePortfolio"
         class="cursor-pointer px-4 py-2 rounded text-sm font-medium
             transition-colors duration-100
             bg-black text-white dark:bg-white dark:text-black"
         tabindex="0">Cancel</label
       ><label
-        for="deleteWatchlist"
-        on:click={deleteWatchlist}
+        for="deletePortfolio"
+        on:click={deletePortfolio}
         class="cursor-pointer px-4 py-2 rounded text-sm font-medium
             transition-colors duration-100 flex items-center
             bg-red-600 text-white
@@ -1220,7 +1252,7 @@
             x2="14"
             y2="17"
           ></line></svg
-        >Delete Watchlist</label
+        >Delete Portfolio</label
       >
     </div>
   </div>

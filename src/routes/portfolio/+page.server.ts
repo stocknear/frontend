@@ -1,11 +1,11 @@
 export const load = async ({ locals }) => {
  
 
-  const getAllWatchlist = async () => {
+  const getAllPortfolio = async () => {
     const { pb, user } = locals;
 
     try {
-      const output = await pb.collection("watchlist").getFullList({
+      const output = await pb.collection("portfolio").getFullList({
         filter: `user="${user?.id}"`,
         sort: "-updated",
       });
@@ -23,6 +23,6 @@ export const load = async ({ locals }) => {
   // Make sure to return a promise
   return {
     //getMiniPlotsIndex: await getMiniPlotsIndex(),
-    getAllWatchlist: await getAllWatchlist(),
+    getAllPortfolio: await getAllPortfolio(),
   };
 };
