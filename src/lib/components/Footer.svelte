@@ -342,9 +342,27 @@
           ></a
         >
       </div>
-      <p class="my-3 text-gray-400 dark:text-dark-400 md:order-2 md:my-0">
-        © 2025 Stocknear. All rights reserved.
+      <p
+        class="my-3 text-gray-400 dark:text-dark-400 md:order-2 md:my-0 flex flex-row items-center"
+      >
+        <!--© 2025 Stocknear. All rights reserved.-->
+        <a
+          href="https://github.com/stocknear"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block text-gray-400 hover:text-gray-300 dark:text-dark-400 dark:hover:text-dark-300"
+          aria-label="Follow on Gitub"
+        >
+          Stocknear is 100% Open Source ❤️
+        </a>
       </p>
     </div>
   </div>
+  <!--
+  <div class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8 lg:pb-8">
+    <p class="text-gray-400 dark:text-dark-400 md:order-2 md:my-0">
+      Stocknear is Proudly Open Source
+    </p>
+  </div>
+  -->
 </footer>

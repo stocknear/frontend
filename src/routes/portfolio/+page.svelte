@@ -57,12 +57,9 @@
   async function getWatchlistData() {
     const postData = {
       watchListId: displayWatchList?.id,
-      ruleOfList: [
-        { rule: "volume" },
-        { rule: "marketCap" },
-        { rule: "price" },
-        { rule: "changesPercentage" },
-      ]?.map((item) => item?.rule),
+      ruleOfList: [{ rule: "price" }, { rule: "changesPercentage" }]?.map(
+        (item) => item?.rule,
+      ),
     };
     const response = await fetch("/api/get-watchlist", {
       method: "POST",
