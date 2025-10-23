@@ -66,6 +66,38 @@
         };
     }
 
+    // Calculate portfolio metrics reactively
+    $: totalValue =
+        portfolioData?.reduce((sum, item) => {
+            const price = parseFloat(item?.price) || 0;
+            const shares = parseFloat(item?.shares) || 0;
+            return sum + price * shares;
+        }, 0) || 0;
+
+    $: totalCost =
+        portfolioData?.reduce((sum, item) => {
+            const avgPrice = parseFloat(item?.avgPrice) || 0;
+            const shares = parseFloat(item?.shares) || 0;
+            return sum + avgPrice * shares;
+        }, 0) || 0;
+
+    $: unrealizedReturns = totalValue - totalCost;
+
+    $: unrealizedReturnsPercentage =
+        totalCost > 0
+            ? ((unrealizedReturns / totalCost) * 100).toFixed(2)
+            : "0.00";
+
+    // Format currency
+    function formatCurrency(value) {
+        return new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(value);
+    }
+
     // Fetch market data for portfolio holdings
     async function getPortfolioData() {
         // Filter portfolio to only include positions with both shares and avgPrice
@@ -421,7 +453,7 @@
                                                 class="m-0 text-xl font-semibold tracking-tight"
                                                 data-testid="total-value"
                                             >
-                                                $40,465
+                                                {formatCurrency(totalValue)}
                                             </p>
                                             <p
                                                 class="m-0 text-xs text-slate-500 dark:text-slate-400"
@@ -443,10 +475,15 @@
                                     <li class="flex items-start gap-3">
                                         <div>
                                             <p
-                                                class="m-0 text-xl font-semibold tracking-tight"
+                                                class="m-0 text-xl font-semibold tracking-tight {unrealizedReturns >=
+                                                0
+                                                    ? 'text-green-600 dark:text-green-400'
+                                                    : 'text-red-600 dark:text-red-400'}"
                                                 data-testid="roi-value"
                                             >
-                                                $25,165
+                                                {formatCurrency(
+                                                    unrealizedReturns,
+                                                )}
                                             </p>
                                             <p
                                                 class="m-0 text-xs text-slate-500 dark:text-slate-400"
@@ -462,7 +499,13 @@
                                                 </span>
                                                 <span
                                                     aria-label="Return percentage"
-                                                    >164.5%</span
+                                                    class={unrealizedReturns >=
+                                                    0
+                                                        ? "text-green-600 dark:text-green-400"
+                                                        : "text-red-600 dark:text-red-400"}
+                                                    >{unrealizedReturns >= 0
+                                                        ? "+"
+                                                        : ""}{unrealizedReturnsPercentage}%</span
                                                 >
                                             </p>
                                         </div>
