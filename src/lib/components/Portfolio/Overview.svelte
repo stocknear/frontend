@@ -19,32 +19,65 @@
 
     // This will be enriched with market data
     let rawData = [];
+    let performanceData = [];
+    let seriesPerformance = [];
+    let perfCategories = [];
 
-    // Calculate portfolio metrics from holdings + market data
-    function enrichPortfolioData(holdings, marketData) {
-        return holdings.map((holding) => {
-            const market =
-                marketData.find((m) => m.symbol === holding.symbol) || {};
-            const currentPrice = market.price || 0;
-            const profitLoss =
-                (currentPrice - holding.avgPrice) * holding.shares;
-            const totalReturn =
-                holding.avgPrice > 0
-                    ? ((currentPrice - holding.avgPrice) / holding.avgPrice) *
-                      100
-                    : 0;
+    // Format date to readable format (e.g., "Oct 15")
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const month = date.toLocaleDateString("en-US", { month: "short" });
+        const day = date.getDate();
+        return `${month} ${day}`;
+    }
 
+    // Process performance data from API
+    function processPerformanceData(data) {
+        // Handle new structure with portfolio and benchmark
+        if (!data || typeof data !== "object") {
             return {
-                symbol: holding.symbol,
-                name: market.name || holding.symbol,
-                shares: holding.shares,
-                avgPrice: holding.avgPrice,
-                price: currentPrice,
-                changesPercentage: market.changesPercentage || 0,
-                profitLoss: profitLoss,
-                totalReturn: totalReturn,
+                categories: [],
+                series: [],
             };
-        });
+        }
+
+        const portfolioData = data.portfolio || [];
+        const benchmarkData = data.benchmark || [];
+
+        if (portfolioData.length === 0) {
+            return {
+                categories: [],
+                series: [],
+            };
+        }
+
+        // Extract categories (formatted dates) from portfolio data
+        const categories = portfolioData.map((item) => formatDate(item.date));
+        const portfolioValues = portfolioData.map(
+            (item) => parseFloat(item.totalReturnPercentage) || 0,
+        );
+
+        // Build series array
+        const series = [
+            { name: "Portfolio", data: portfolioValues, color: "#3B82F6" },
+        ];
+
+        // Add benchmark data if available
+        if (benchmarkData.length > 0) {
+            const benchmarkValues = benchmarkData.map(
+                (item) => parseFloat(item.totalReturnPercentage) || 0,
+            );
+            series.push({
+                name: "S&P 500",
+                data: benchmarkValues,
+                color: "#10B981",
+            });
+        }
+
+        return {
+            categories,
+            series,
+        };
     }
 
     // Fetch market data for portfolio holdings
@@ -52,38 +85,36 @@
         const postData = {
             portfolioData: portfolioData,
         };
-        const response = await fetch("/api/portfolio-overview", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(postData),
-        });
 
-        const output = await response?.json();
+        try {
+            const response = await fetch("/api/portfolio-overview", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(postData),
+            });
 
-        rawData = enrichPortfolioData(portfolioData, mockMarketData);
+            const output = await response?.json();
+
+            // Process the performance data
+            if (output && typeof output === "object") {
+                performanceData = output;
+                const processed = processPerformanceData(output);
+                perfCategories = processed.categories;
+                seriesPerformance = processed.series;
+
+                // Rebuild the chart with new data
+                buildPerf();
+            }
+        } catch (error) {
+            console.error("Error fetching portfolio data:", error);
+        }
     }
 
     onMount(() => {
         getPortfolioData();
     });
-
-    const seriesPerformance = [
-        { name: "Portfolio", data: [10, 12, 13, 15, 21, 29, 35, 42, 51.8] },
-        { name: "S&P 500", data: [0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.3, 3.1] },
-    ];
-    const perfCategories = [
-        "Aug 25",
-        "Aug 29",
-        "Sep 2",
-        "Sep 5",
-        "Sep 8",
-        "Sep 12",
-        "Sep 16",
-        "Sep 20",
-        "Sep 28",
-    ];
 
     type Holding = {
         symbol: string;
@@ -158,9 +189,6 @@
         values: [62, 70, 60, 40, 58],
     };
 
-    const pct = (n: number) =>
-        `${n >= 0 ? "▲" : "▼"} ${Math.abs(n).toFixed(2)}%`;
-
     // --- Charts (reactive configs) ---
     let perfConfig = null;
     let radarConfig = null;
@@ -184,15 +212,38 @@
             yAxis: {
                 title: { text: undefined },
                 gridLineColor: "#1f2937",
-                labels: { style: { color: "#9CA3AF" } },
+                labels: {
+                    style: { color: "#9CA3AF" },
+                    formatter: function () {
+                        return this.value + "%";
+                    },
+                },
             },
-            legend: { enabled: true, itemStyle: { color: "#E5E7EB" } },
+            legend: {
+                enabled: true,
+                itemStyle: { color: "#E5E7EB" },
+                itemHoverStyle: { color: "#FFF" },
+            },
             tooltip: {
                 shared: true,
                 valueSuffix: "%",
                 backgroundColor: "rgba(0,0,0,.85)",
                 borderWidth: 0,
                 style: { color: "#fff" },
+                formatter: function () {
+                    let s = "<b>" + this.x + "</b>";
+                    this.points.forEach((point) => {
+                        s +=
+                            '<br/><span style="color:' +
+                            point.color +
+                            '">●</span> ' +
+                            point.series.name +
+                            ": <b>" +
+                            point.y.toFixed(2) +
+                            "%</b>";
+                    });
+                    return s;
+                },
             },
             plotOptions: {
                 series: {
@@ -202,7 +253,11 @@
                     states: { hover: { lineWidthPlus: 0 } },
                 },
             },
-            series: seriesPerformance.map((s) => ({ ...s, type: "line" })),
+            series: seriesPerformance.map((s) => ({
+                ...s,
+                type: "line",
+                color: s.color || "#3B82F6", // Ensure color is applied
+            })),
         };
     }
     function buildRadar() {
