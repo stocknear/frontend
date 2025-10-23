@@ -47,7 +47,7 @@ export const POST = (async ({ request, locals }) => {
             JSON.stringify({
               error: isSubscribed
                 ? `You can only have up to ${tickerLimit} stocks in your portfolio.`
-                : `Want to add more stocks? Go Plus or Pro!`,
+                : `Upgrade your account to add more stocks!`,
             }),
             { status: 403 }
           );
@@ -78,7 +78,7 @@ export const POST = (async ({ request, locals }) => {
             JSON.stringify({
               error: isSubscribed
                 ? `You can only have up to ${tickerLimit} stocks in your portfolio.`
-                : `Want to add more stocks? Go Plus or Pro!`,
+                : `Upgrade your account to add more stocks!`,
             }),
             { status: 403 }
           );
@@ -97,7 +97,7 @@ export const POST = (async ({ request, locals }) => {
         JSON.stringify({
           error: isSubscribed
             ? `You can only have up to ${tickerLimit} stocks in your portfolio.`
-            : `Want to add more stocks? Go Plus or Pro!`,
+            : `Upgrade your account to add more stocks!`,
         }),
         { status: 403 }
       );
