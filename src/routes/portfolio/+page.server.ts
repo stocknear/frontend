@@ -9,7 +9,6 @@ export const load = async ({ locals }) => {
         filter: `user="${user?.id}"`,
         sort: "-updated",
       });
-
       return output;
 
 
@@ -20,9 +19,7 @@ export const load = async ({ locals }) => {
   };
 
 
-  // Make sure to return a promise
   return {
-    //getMiniPlotsIndex: await getMiniPlotsIndex(),
     getAllPortfolio: await getAllPortfolio(),
   };
 };

@@ -32,7 +32,7 @@
 
   let deleteTickerList = [];
 
-  let watchList: any[] = [];
+  let portfolio: any[] = [];
 
   let news = [];
   let earnings = [];
@@ -869,13 +869,13 @@
               </div>
             {:else}
               <!--Start Table of Watchlist-->
-              {#key watchList}
-                {#if watchList?.length > 0}
+              {#key portfolio}
+                {#if portfolio?.length > 0}
                   <div class="w-full">
                     <Table
                       {data}
-                      rawData={watchList}
-                      title="{watchList?.length} Stocks"
+                      rawData={portfolio}
+                      title="{portfolio?.length} Stocks"
                       excludedRules={new Set([
                         "volume",
                         "price",
