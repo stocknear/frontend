@@ -75,6 +75,10 @@
     }
 
     let portfolioBeta = null;
+    let healthScores = {
+        categories: ["Moat", "Trend", "Growth", "Fundamentals", "Volatility"],
+        values: [50, 50, 50, 50, 50], // Default values
+    };
 
     // Process performance data from API
     function processPerformanceData(data) {
@@ -208,14 +212,26 @@
 
             const output = await response?.json();
 
-            // Process the performance data
+            // Process the performance and health data
             if (output && typeof output === "object") {
-                performanceData = output;
-                const processed = processPerformanceData(output);
+                // Handle performance data
+                const performanceOutput = output.performance || output;
+                performanceData = performanceOutput;
+                const processed = processPerformanceData(performanceOutput);
                 perfCategories = processed.categories;
                 seriesPerformance = processed.series;
 
-                // Rebuild the chart with new data
+                // Handle health score data
+                if (output?.health) {
+                    healthScores = {
+                        categories:
+                            output.health.categories || healthScores.categories,
+                        values: output.health.values || healthScores.values,
+                    };
+                    buildRadar(); // Rebuild radar chart with new health scores
+                }
+
+                // Rebuild the performance chart with new data
                 buildPerf();
             }
         } catch (error) {
@@ -223,11 +239,43 @@
         }
     }
 
-    // Radar values (0-100)
-    const radar = {
-        categories: ["Moat", "Trend", "Growth", "Fundamentals", "Volatility"],
-        values: [62, 70, 60, 40, 58],
-    };
+    // Calculate portfolio health status dynamically
+    $: bestStrength = (() => {
+        if (!healthScores?.values?.length) return "Growth";
+        const maxIndex = healthScores.values.indexOf(
+            Math.max(...healthScores.values),
+        );
+        return healthScores.categories[maxIndex] || "Growth";
+    })();
+
+    $: biggestRisk = (() => {
+        if (!healthScores?.values?.length) return "Fundamentals";
+        const minIndex = healthScores.values.indexOf(
+            Math.min(...healthScores.values),
+        );
+        return healthScores.categories[minIndex] || "Fundamentals";
+    })();
+
+    $: overallHealthStatus = (() => {
+        if (!healthScores?.values?.length) return "Healthy";
+        const avgScore =
+            healthScores.values.reduce((a, b) => a + b, 0) /
+            healthScores.values.length;
+        if (avgScore >= 70) return "Excellent";
+        if (avgScore >= 60) return "Healthy";
+        if (avgScore >= 50) return "Neutral";
+        return "Needs Attention";
+    })();
+
+    $: healthStatusColor = (() => {
+        if (overallHealthStatus === "Excellent")
+            return "text-green-500 dark:text-green-400";
+        if (overallHealthStatus === "Healthy")
+            return "text-green-600 dark:text-green-400";
+        if (overallHealthStatus === "Neutral")
+            return "text-yellow-600 dark:text-yellow-400";
+        return "text-red-600 dark:text-red-400";
+    })();
 
     // --- Charts (reactive configs) ---
     let perfConfig = null;
@@ -314,151 +362,184 @@
                 polar: true,
                 type: "areaspline",
                 backgroundColor: "transparent",
-                height: 240,
-                spacing: [0, 0, 0, 0],
+                height: 250,
+                spacing: [20, 20, 20, 20],
+                animation: false,
                 events: {
                     load: function () {
-                        // ---- draw circular (arced) text labels ----
                         const chart = this;
-                        const ax = chart.xAxis[0];
-                        const cats = ax.categories;
-                        const n = cats.length;
+                        const [cx, cy] = chart.series[0].center;
 
-                        // polar center & radius
-                        const [cx, cy, r] = chart.series[0].center; // [x, y, radius, innerR]
-                        const radius = r * 1.02; // just outside the grid
-                        const sweepFrac = 0.6; // how wide each arc is (0..1 of its sector)
+                        // Add center score value
+                        const avgScore =
+                            healthScores.values.reduce((a, b) => a + b, 0) /
+                            healthScores.values.length;
+                        chart.renderer
+                            .text(Math.round(avgScore).toString(), cx, cy + 5)
+                            .attr({
+                                zIndex: 5,
+                                "text-anchor": "middle",
+                            })
+                            .css({
+                                fontSize: "28px",
+                                fontWeight: "700",
+                                fill: "#FFE84A",
+                            })
+                            .add();
 
-                        // ensure a <defs/> exists
-                        const defs =
-                            chart.renderer.defs ||
-                            chart.renderer.createElement("defs").add();
-
-                        // hide default labels
-                        if (ax.labelGroup) ax.labelGroup.attr({ opacity: 0 });
-
-                        for (let i = 0; i < n; i++) {
-                            const mid = (i / n) * 2 * Math.PI; // center angle of the sector
-                            const halfSweep =
-                                ((Math.PI * 2) / n) * (sweepFrac / 2);
-                            const start = mid - halfSweep;
-                            const end = mid + halfSweep;
-
-                            const x1 = cx + radius * Math.cos(start);
-                            const y1 = cy + radius * Math.sin(start);
-                            const x2 = cx + radius * Math.cos(end);
-                            const y2 = cy + radius * Math.sin(end);
-
-                            // SVG arc path
-                            const d = [
-                                "M",
-                                x1,
-                                y1,
-                                "A",
-                                radius,
-                                radius,
-                                0,
-                                end - start > Math.PI ? 1 : 0,
-                                1,
-                                x2,
-                                y2,
-                            ];
-
-                            const id = `arc-${i}-${Date.now()}`;
-                            chart.renderer
-                                .createElement("path")
-                                .attr({ id, d })
-                                .add(defs);
-
-                            const text = chart.renderer.text("").add(); // container for textPath
-                            chart.renderer
-                                .createElement("textPath")
-                                .attr({
-                                    href: `#${id}`,
-                                    startOffset: "50%",
-                                    "text-anchor": "middle",
-                                })
-                                .add(text)
-                                .element.appendChild(
-                                    document.createTextNode(cats[i]),
-                                );
-
-                            // style the text
-                            text.css({
+                        chart.renderer
+                            .text("Overall", cx, cy + 22)
+                            .attr({
+                                zIndex: 5,
+                                "text-anchor": "middle",
+                            })
+                            .css({
                                 fontSize: "11px",
-                                fontWeight: "600",
-                                letterSpacing: "1px",
-                                fill: "#E5E7EB",
-                            });
-                        }
+                                fontWeight: "500",
+                                fill: "#9CA3AF",
+                            })
+                            .add();
                     },
                 },
             },
             title: { text: undefined },
 
-            // faint bands; keep or remove as you like
+            // Improved gradient bands
             pane: {
-                size: "80%",
+                size: "85%",
                 background: [
                     {
                         outerRadius: "100%",
-                        backgroundColor: "rgba(255,255,255,0.02)",
+                        backgroundColor: "rgba(255,232,74,0.03)",
+                        borderWidth: 1,
+                        borderColor: "rgba(255,232,74,0.15)",
                     },
                     {
                         outerRadius: "80%",
-                        backgroundColor: "rgba(255,255,255,0.00)",
+                        backgroundColor: "rgba(255,232,74,0.02)",
                     },
                     {
                         outerRadius: "60%",
-                        backgroundColor: "rgba(255,255,255,0.02)",
+                        backgroundColor: "rgba(255,232,74,0.03)",
                     },
                     {
                         outerRadius: "40%",
-                        backgroundColor: "rgba(255,255,255,0.00)",
+                        backgroundColor: "rgba(255,232,74,0.02)",
                     },
                     {
                         outerRadius: "20%",
-                        backgroundColor: "rgba(255,255,255,0.02)",
+                        backgroundColor: "rgba(255,232,74,0.05)",
                     },
                 ],
             },
 
             xAxis: {
-                categories: radar.categories,
+                categories: healthScores.categories,
                 tickmarkPlacement: "on",
                 lineWidth: 0,
-                labels: { enabled: false }, // hide; we draw custom arced labels
-                gridLineColor: "#2b323b",
-                gridLineWidth: 1,
+                labels: {
+                    enabled: true,
+                    style: {
+                        color: "#E5E7EB",
+                        fontSize: "12px",
+                        fontWeight: "600",
+                    },
+                    distance: 15,
+                },
+                gridLineColor: "rgba(255,232,74,0.2)",
+                gridLineWidth: 1.5,
             },
             yAxis: {
                 gridLineInterpolation: "circle",
                 min: 0,
                 max: 100,
                 tickInterval: 20,
-                labels: { enabled: false },
-                gridLineColor: "#2b323b",
+                labels: {
+                    enabled: true,
+                    style: {
+                        color: "#6B7280",
+                        fontSize: "10px",
+                        fontWeight: "500",
+                    },
+                    y: 5,
+                },
+                gridLineColor: "rgba(255,232,74,0.15)",
                 gridLineWidth: 1,
             },
             legend: { enabled: false },
-            tooltip: { enabled: false },
+            tooltip: {
+                enabled: true,
+                backgroundColor: "rgba(0,0,0,0.9)",
+                borderWidth: 0,
+                borderRadius: 8,
+                padding: 12,
+                shadow: {
+                    color: "rgba(0,0,0,0.3)",
+                    offsetX: 0,
+                    offsetY: 2,
+                    opacity: 0.5,
+                    width: 4,
+                },
+                style: {
+                    color: "#fff",
+                    fontSize: "13px",
+                    fontWeight: "500",
+                },
+                useHTML: true,
+                formatter: function () {
+                    const category = this.x;
+                    const value = this.y;
+                    let color = "#10B981"; // green
+                    if (value < 40)
+                        color = "#EF4444"; // red
+                    else if (value < 60) color = "#F59E0B"; // yellow
+
+                    return `
+                        <div style="text-align: center;">
+                            <div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">${category}</div>
+                            <div style="font-size: 20px; font-weight: 700; color: ${color};">${value.toFixed(1)}</div>
+                            <div style="font-size: 11px; color: #9CA3AF; margin-top: 2px;">out of 100</div>
+                        </div>
+                    `;
+                },
+            },
             plotOptions: {
                 series: {
-                    marker: { enabled: false },
+                    marker: {
+                        enabled: true,
+                        radius: 5,
+                        fillColor: "#FFE84A",
+                        lineWidth: 2,
+                        lineColor: "#FFF",
+                        symbol: "circle",
+                        states: {
+                            hover: {
+                                enabled: true,
+                                radius: 7,
+                                lineWidth: 3,
+                            },
+                        },
+                    },
                     animation: false,
                     pointPlacement: "on",
                     linecap: "round",
-                    states: { inactive: { opacity: 1 } },
+                    states: {
+                        inactive: { opacity: 1 },
+                        hover: {
+                            lineWidthPlus: 1,
+                        },
+                    },
                 },
             },
             series: [
                 {
                     type: "areaspline",
-                    data: radar.values,
-                    color: "#F0E000",
+                    name: "Portfolio Health",
+                    data: healthScores.values,
+                    color: "rgba(255,232,74,0.3)",
                     lineColor: "#FFE84A",
-                    lineWidth: 2,
-                    fillOpacity: 0.8,
+                    lineWidth: 3,
+                    fillOpacity: 0.5,
                 },
             ],
         };
@@ -525,7 +606,9 @@
             </div>
         {/if}
 
-        <div class="flex flex-row items-start w-full space-x-3">
+        <div
+            class="flex flex-col sm:flex-row items-start w-full space-y-3 sm:space-x-3"
+        >
             <!-- LEFT -->
             <div class="w-full">
                 <!-- Header -->
@@ -685,21 +768,31 @@
             </div>
 
             <!-- RIGHT -->
-            <div class="w-fit">
+            <div class="w-full sm:w-[40%]">
                 <!-- Health + Radar -->
                 <div class="rounded-lg border border-zinc-800 p-5">
                     <h3 class="text-[1rem] font-semibold">
-                        Status: <span class="dark:text-green-400">Healthy</span>
+                        Status: <span class={healthStatusColor}
+                            >{overallHealthStatus}</span
+                        >
                     </h3>
                     <p class="text-sm">
                         Your best strength is <span class=" font-semibold"
-                            >Growth</span
+                            >{bestStrength}</span
                         >
                         and your biggest risk is
-                        <span class="font-semibold">Fundamentals</span>.
+                        <span class="font-semibold">{biggestRisk}</span>.
                     </p>
-                    <div class="">
-                        <div use:highcharts={radarConfig}></div>
+                    <div class="h-[300px]">
+                        {#if radarConfig}
+                            <div use:highcharts={radarConfig}></div>
+                        {:else}
+                            <div
+                                class=" flex items-center justify-center text-gray-500 dark:text-gray-400"
+                            >
+                                <p class="text-sm">Loading health scores...</p>
+                            </div>
+                        {/if}
                     </div>
                 </div>
 
