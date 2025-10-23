@@ -9,6 +9,7 @@
   } from "$lib/utils";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
+  import Overview from "$lib/components/Portfolio/Overview.svelte";
 
   import { onMount, afterUpdate } from "svelte";
   import Input from "$lib/components/Input.svelte";
@@ -1007,6 +1008,7 @@
             {:else}
               <!--Start Table of Watchlist-->
               {#key portfolio}
+                <Overview />
                 {#if portfolio?.length > 0}
                   <div class="w-full">
                     <Table
