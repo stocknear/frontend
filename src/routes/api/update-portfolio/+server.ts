@@ -5,9 +5,10 @@ export const POST = (async ({ request, locals }) => {
   const { user, pb } = locals;
   const data = await request.json();
 
-  // `tickerInput` can be a string (single ticker) or an array (list of tickers)
+  // `tickerInput` can be a string (single ticker) or an array (list of ticker objects)
   const tickerInput = data?.ticker || [];
-  const listId = data?.listId;
+  // Support both portfolioId and listId for backwards compatibility
+  const portfolioId = data?.portfolioId || data?.listId;
   let output;
 
 
@@ -15,9 +16,9 @@ export const POST = (async ({ request, locals }) => {
   const tickerLimit = user?.tier === "Pro" ? 300 : user?.tier === 'Plus' ? 100 : 5;
 
   try {
-    const portfolio = await pb.collection("portfolio").getOne(listId);
-    // Ensure current tickers are in an array.
-    let currentTickers = portfolio?.map(item => item?.symbol) || [];
+    const portfolio = await pb.collection("portfolio").getOne(portfolioId);
+    // Ensure current tickers are in an array of objects with {symbol, shares, avgPrice}
+    let currentTickers = portfolio?.ticker || [];
     if (typeof currentTickers === "string") {
       try {
         currentTickers = JSON.parse(currentTickers);
@@ -28,41 +29,50 @@ export const POST = (async ({ request, locals }) => {
     currentTickers = currentTickers || [];
 
     if (Array.isArray(tickerInput)) {
-      // When replacing the entire ticker list:
+      // When replacing the entire ticker list (delete mode or bulk update):
       if(data?.mode === 'delete') {
-         output = await pb.collection("portfolio").update(listId, {
+         output = await pb.collection("portfolio").update(portfolioId, {
         ticker: tickerInput,
       });
 
+      } else if (data?.mode === 'update') {
+        // Update mode: Update the entire ticker array with new shares/avgPrice values
+        output = await pb.collection("portfolio").update(portfolioId, {
+          ticker: tickerInput,
+        });
       } else {
+        // Regular mode: Validate ticker limit
+        if (tickerInput.length > tickerLimit) {
+          return new Response(
+            JSON.stringify({
+              error: isSubscribed
+                ? `You can only have up to ${tickerLimit} stocks in your portfolio.`
+                : `Want to add more stocks? Go Plus or Pro!`,
+            }),
+            { status: 403 }
+          );
+        }
 
-         if (tickerInput.length > tickerLimit) {
+        output = await pb.collection("portfolio").update(portfolioId, {
+          ticker: tickerInput,
+        });
+      }
+
+    } else {
+      // Single ticker update (add new ticker).
+      const symbolExists = currentTickers?.some((item) => item?.symbol === tickerInput);
+
+      if (symbolExists) {
+        // Ticker already exists, don't add duplicate
         return new Response(
           JSON.stringify({
-            error: isSubscribed
-              ? `You can only have up to ${tickerLimit} stocks in your portfolio.`
-              : `Want to add more stocks? Go Plus or Pro!`,
+            error: "This symbol is already in your portfolio",
           }),
-          { status: 403 }
+          { status: 400 }
         );
-      }
-      
-      output = await pb.collection("portfolio").update(listId, {
-        ticker: tickerInput,
-      });
-
-      
-      }
-     
-    } else {
-      // Single ticker update.
-      if (currentTickers?.includes(tickerInput)) {
-        // Remove the ticker if it's already present.
-        const newTickerList = currentTickers?.filter((item) => item !== tickerInput);
-        output = await pb.collection("portfolio").update(listId, { ticker: newTickerList });
       } else {
-        // Add the ticker if not already present.
-        const newTickerList = [...currentTickers, tickerInput];
+        // Add the ticker as a new object with symbol, shares: null, avgPrice: null
+        const newTickerList = [...currentTickers, { symbol: tickerInput, shares: null, avgPrice: null }];
         if (newTickerList.length > tickerLimit) {
           return new Response(
             JSON.stringify({
@@ -73,12 +83,15 @@ export const POST = (async ({ request, locals }) => {
             { status: 403 }
           );
         }
-        output = await pb.collection("portfolio").update(listId, { ticker: newTickerList });
+        output = await pb.collection("portfolio").update(portfolioId, { ticker: newTickerList });
       }
     }
   } catch (e) {
     // If the portfolio doesn't exist, create a new one.
-    const tickersArray = Array.isArray(tickerInput) ? tickerInput : [tickerInput];
+    const tickersArray = Array.isArray(tickerInput)
+      ? tickerInput
+      : [{ symbol: tickerInput, shares: null, avgPrice: null }];
+
     if (tickersArray.length > tickerLimit) {
       return new Response(
         JSON.stringify({

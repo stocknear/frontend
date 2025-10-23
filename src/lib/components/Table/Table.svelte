@@ -83,6 +83,7 @@
   export let editMode = false;
   export let deleteTickerList = [];
   export let onToggleDeleteTicker = null;
+  export let onPortfolioUpdate = null; // Callback for portfolio data changes
 
   let originalData = [...rawData]; // Unaltered copy of raw data
   let initialRawData = [...rawData]; // Store the truly initial data
@@ -643,6 +644,10 @@
 
     if (trimmed.length === 0) {
       applyEditableValue(row, key, null);
+      // Trigger portfolio update callback
+      if (onPortfolioUpdate && (key === "avgPrice" || key === "shares")) {
+        onPortfolioUpdate(originalData);
+      }
       return;
     }
 
@@ -650,10 +655,18 @@
     const numValue = parseFloat(trimmed);
     if (!isNaN(numValue) && numValue > 0) {
       applyEditableValue(row, key, trimmed);
+      // Trigger portfolio update callback
+      if (onPortfolioUpdate && (key === "avgPrice" || key === "shares")) {
+        onPortfolioUpdate(originalData);
+      }
     } else {
       // Invalid input - reset to null/empty
       applyEditableValue(row, key, null);
       inputElement.value = "";
+      // Trigger portfolio update callback
+      if (onPortfolioUpdate && (key === "avgPrice" || key === "shares")) {
+        onPortfolioUpdate(originalData);
+      }
     }
   }
 

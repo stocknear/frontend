@@ -22,6 +22,7 @@
 
   export let data;
   let timeoutId;
+  let saveTimeoutId; // Timeout for debounced save
   let searchBarData = [];
   let switchPortfolio = false;
   let editMode = false;
@@ -263,8 +264,16 @@
 
       deleteTickerList = [...deleteTickerList];
       editMode = false;
+
+      // Prepare ticker data as array of objects with symbol, shares, avgPrice
+      const tickerData = portfolio?.map((item) => ({
+        symbol: item?.symbol,
+        shares: item?.shares ?? null,
+        avgPrice: item?.avgPrice ?? null,
+      }));
+
       const postData = {
-        ticker: portfolio?.map((item) => item?.symbol),
+        ticker: tickerData,
         portfolioId: displayPortfolio?.id,
         mode: "delete",
       };
@@ -297,6 +306,59 @@
         groupedNews = [];
       }
     }
+  }
+
+  // Debounced save function for portfolio updates (shares/avgPrice changes)
+  async function savePortfolioData(updatedPortfolio) {
+    // Clear any existing timeout
+    clearTimeout(saveTimeoutId);
+
+    // Set a new timeout to save after 1 second of no changes
+    saveTimeoutId = setTimeout(async () => {
+      try {
+        // Prepare ticker data as array of objects with symbol, shares, avgPrice
+        const tickerData = updatedPortfolio?.map((item) => ({
+          symbol: item?.symbol,
+          shares: item?.shares ?? null,
+          avgPrice: item?.avgPrice ?? null,
+        }));
+
+        const postData = {
+          ticker: tickerData,
+          portfolioId: displayPortfolio?.id,
+          mode: "update",
+        };
+
+        const response = await fetch("/api/update-portfolio", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postData),
+        });
+
+        const output = await response.json();
+
+        if (response.ok) {
+          // Update the local state
+          allList = allList?.map((item) => {
+            if (item?.id === displayPortfolio?.id) {
+              return { ...item, ticker: output.ticker };
+            }
+            return item;
+          });
+        } else {
+          toast.error(output?.error || "Failed to save portfolio changes", {
+            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+          });
+        }
+      } catch (error) {
+        console.error("Error saving portfolio:", error);
+        toast.error("An error occurred while saving", {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        });
+      }
+    }, 1000); // 1 second debounce
   }
 
   function changeTab(i) {
@@ -933,6 +995,7 @@
                       {editMode}
                       {deleteTickerList}
                       onToggleDeleteTicker={handleFilter}
+                      onPortfolioUpdate={savePortfolioData}
                     />
 
                     <div
