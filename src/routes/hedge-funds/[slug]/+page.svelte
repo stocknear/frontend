@@ -14,7 +14,7 @@
     "changeInSharesNumberPercentage",
     "marketValue",
     "avgPricePaid",
-    "weight",
+    "weightPercentage",
     "putCallShare",
     "price",
     "changesPercentage",
@@ -27,7 +27,7 @@
     { name: "% Change Shares", rule: "changeInSharesNumberPercentage" },
     { name: "Market Value", rule: "marketValue" },
     { name: "Avg. Price Paid", rule: "avgPricePaid" },
-    { name: "% Weight", rule: "weight" },
+    { name: "% Weight", rule: "weightPercentage" },
     { name: "Asset Type", rule: "putCallShare" },
   ];
 
@@ -38,7 +38,7 @@
       rule: "changeInSharesNumberPercentage",
       type: "percentSign",
     },
-    { name: "% Weight", rule: "weight", type: "percent" },
+    { name: "% Weight", rule: "weightPercentage", type: "percent" },
     { name: "Asset Type", rule: "putCallShare", type: "string" },
     { name: "Filing Date", rule: "filingDate", type: "date" },
     { name: "Avg. Price Paid", rule: "avgPricePaid", type: "float" },
@@ -47,48 +47,59 @@
 </script>
 
 <SEO
-  title="{formatString(companyName)} Holdings & Portfolio - 13F Filings Analysis"
-  description="Detailed analysis of {formatString(companyName)} hedge fund holdings, portfolio positions, and investment strategy. Track their latest 13F filings, top stock picks, sector allocation, and performance metrics."
-  keywords="{formatString(companyName)?.toLowerCase()} holdings, {formatString(companyName)?.toLowerCase()} portfolio, {formatString(companyName)?.toLowerCase()} 13F filings, hedge fund positions, institutional investor holdings, {formatString(companyName)?.toLowerCase()} stock picks, hedge fund analysis"
+  title="{formatString(
+    companyName,
+  )} Holdings & Portfolio - 13F Filings Analysis"
+  description="Detailed analysis of {formatString(
+    companyName,
+  )} hedge fund holdings, portfolio positions, and investment strategy. Track their latest 13F filings, top stock picks, sector allocation, and performance metrics."
+  keywords="{formatString(companyName)?.toLowerCase()} holdings, {formatString(
+    companyName,
+  )?.toLowerCase()} portfolio, {formatString(
+    companyName,
+  )?.toLowerCase()} 13F filings, hedge fund positions, institutional investor holdings, {formatString(
+    companyName,
+  )?.toLowerCase()} stock picks, hedge fund analysis"
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "{formatString(companyName)} Holdings & Portfolio Analysis",
-    "description": "Comprehensive analysis of {formatString(companyName)} hedge fund holdings and investment positions",
-    "url": "https://stocknear.com/hedge-funds/{data?.getHedgeFundsData?.cik}",
-    "breadcrumb": {
+    name: "{formatString(companyName)} Holdings & Portfolio Analysis",
+    description:
+      "Comprehensive analysis of {formatString(companyName)} hedge fund holdings and investment positions",
+    url: "https://stocknear.com/hedge-funds/{data?.getHedgeFundsData?.cik}",
+    breadcrumb: {
       "@type": "BreadcrumbList",
-      "itemListElement": [
+      itemListElement: [
         {
           "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://stocknear.com"
+          position: 1,
+          name: "Home",
+          item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
-          "position": 2,
-          "name": "Hedge Funds",
-          "item": "https://stocknear.com/hedge-funds"
+          position: 2,
+          name: "Hedge Funds",
+          item: "https://stocknear.com/hedge-funds",
         },
         {
           "@type": "ListItem",
-          "position": 3,
-          "name": formatString(companyName),
-          "item": "https://stocknear.com/hedge-funds/{data?.getHedgeFundsData?.cik}"
-        }
-      ]
+          position: 3,
+          name: formatString(companyName),
+          item: "https://stocknear.com/hedge-funds/{data?.getHedgeFundsData?.cik}",
+        },
+      ],
     },
-    "mainEntity": {
+    mainEntity: {
       "@type": "Organization",
-      "name": formatString(companyName),
-      "identifier": data?.getHedgeFundsData?.cik,
-      "description": "Hedge fund and institutional investor portfolio analysis",
-      "hasCredential": {
+      name: formatString(companyName),
+      identifier: data?.getHedgeFundsData?.cik,
+      description: "Hedge fund and institutional investor portfolio analysis",
+      hasCredential: {
         "@type": "EducationalOccupationalCredential",
-        "credentialCategory": "13F Filing"
-      }
-    }
+        credentialCategory: "13F Filing",
+      },
+    },
   }}
 />
 
