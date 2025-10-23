@@ -1,24 +1,10 @@
 <script lang="ts">
     import highcharts from "$lib/highcharts";
     import { onMount } from "svelte";
-    //import Sector from "$lib/components/Portfolio/Sector.svelte";
 
     export let data;
-    export let portfolioData = [
-        {
-            symbol: "AMD",
-            shares: 100,
-            avgPrice: 30.5,
-        },
-        {
-            symbol: "TSLA",
-            shares: 50,
-            avgPrice: 500.5,
-        },
-    ];
+    export let portfolioData = [];
 
-    // This will be enriched with market data
-    let rawData = [];
     let performanceData = [];
     let seriesPerformance = [];
     let perfCategories = [];
@@ -82,8 +68,26 @@
 
     // Fetch market data for portfolio holdings
     async function getPortfolioData() {
+        // Filter portfolio to only include positions with both shares and avgPrice
+        const validPositions = portfolioData.filter(
+            (item) =>
+                item?.symbol &&
+                item?.shares != null &&
+                item?.avgPrice != null &&
+                parseFloat(item.shares) > 0 &&
+                parseFloat(item.avgPrice) > 0,
+        );
+
+        if (validPositions.length === 0) {
+            // Reset chart if no valid positions
+            perfCategories = [];
+            seriesPerformance = [];
+            buildPerf();
+            return;
+        }
+
         const postData = {
-            portfolioData: portfolioData,
+            portfolioData: validPositions,
         };
 
         try {
@@ -112,77 +116,6 @@
         }
     }
 
-    onMount(() => {
-        getPortfolioData();
-    });
-
-    type Holding = {
-        symbol: string;
-        price: number;
-        change: number;
-        shares: number;
-        value: number;
-        gain: number;
-    };
-    const holdings: Holding[] = [
-        {
-            symbol: "QQQ",
-            price: 596.2,
-            change: 0.49,
-            shares: 15,
-            value: 8579.6,
-            gain: 74.28,
-        },
-        {
-            symbol: "TSLL",
-            price: 20.7,
-            change: 7.71,
-            shares: 500,
-            value: 6400.0,
-            gain: 1.91,
-        },
-        {
-            symbol: "SPY",
-            price: 662.1,
-            change: 0.57,
-            shares: 6,
-            value: 3871.9,
-            gain: 55.82,
-        },
-        {
-            symbol: "QQQM",
-            price: 245.3,
-            change: 0.41,
-            shares: 7,
-            value: 1648.3,
-            gain: 66.55,
-        },
-        {
-            symbol: "EBAY",
-            price: 91.2,
-            change: -2.14,
-            shares: 10,
-            value: 992.2,
-            gain: 111.56,
-        },
-        {
-            symbol: "TQQQ",
-            price: 101.3,
-            change: 1.33,
-            shares: 10,
-            value: 903.8,
-            gain: 192.59,
-        },
-        {
-            symbol: "NIO",
-            price: 7.1,
-            change: -5.49,
-            shares: 19,
-            value: 120.5,
-            gain: -84.12,
-        },
-    ];
-
     // Radar values (0-100)
     const radar = {
         categories: ["Moat", "Trend", "Growth", "Fundamentals", "Volatility"],
@@ -194,6 +127,12 @@
     let radarConfig = null;
 
     function buildPerf() {
+        // Don't build chart if no categories or series data
+        if (!perfCategories || perfCategories.length === 0) {
+            perfConfig = null;
+            return;
+        }
+
         perfConfig = {
             credits: { enabled: false },
             chart: {
@@ -417,8 +356,9 @@
         };
     }
 
-    // init
-    buildPerf();
+    onMount(async () => {
+        await getPortfolioData();
+    });
     buildRadar();
 </script>
 
@@ -565,7 +505,18 @@
                     </div>
 
                     <div class="mt-4">
-                        <div use:highcharts={perfConfig}></div>
+                        {#if perfConfig}
+                            <div use:highcharts={perfConfig}></div>
+                        {:else}
+                            <div
+                                class="flex items-center justify-center h-[260px] text-gray-500 dark:text-gray-400"
+                            >
+                                <p class="text-sm">
+                                    Add shares and average price to view
+                                    performance chart
+                                </p>
+                            </div>
+                        {/if}
                     </div>
                 </div>
             </div>

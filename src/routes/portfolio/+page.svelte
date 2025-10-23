@@ -366,6 +366,7 @@
   // Debounced save function for portfolio updates (shares/avgPrice changes)
   async function savePortfolioData(updatedPortfolio) {
     // Clear any existing timeout
+    portfolio = [...updatedPortfolio];
     clearTimeout(saveTimeoutId);
 
     // Set a new timeout to save after 1 second of no changes
@@ -596,7 +597,6 @@
   });
 
   let previousList = [];
-  let reconnectionTimeout;
 
   afterUpdate(async () => {
     // Compare only the symbols to detect changes
@@ -1008,7 +1008,8 @@
             {:else}
               <!--Start Table of Watchlist-->
               {#key portfolio}
-                <Overview />
+                <Overview {data} portfolioData={portfolio} />
+
                 {#if portfolio?.length > 0}
                   <div class="w-full">
                     <Table
