@@ -2,6 +2,7 @@
     import highcharts from "$lib/highcharts";
     import { onMount } from "svelte";
     import { mode } from "mode-watcher";
+    import { screenWidth } from "$lib/store.ts";
 
     export let data;
 
@@ -80,10 +81,20 @@
         const sankeyData = [];
         const nodes = [];
 
+        // Define colors based on mode
+        const nodeColor =
+            $mode === "light"
+                ? "rgba(59, 130, 246, 0.6)"
+                : "rgba(59, 130, 246, 0.4)";
+        const linkColor =
+            $mode === "light"
+                ? "rgba(59, 130, 246, 0.5)"
+                : "rgba(59, 130, 246, 0.4)";
+
         // Add Portfolio node
         nodes.push({
             id: "Portfolio",
-            color: "rgba(59, 130, 246, 0.3)",
+            color: nodeColor,
             column: 0,
         });
 
@@ -112,7 +123,7 @@
         sectorMap.forEach((weight, sector) => {
             nodes.push({
                 id: sector,
-                color: "rgba(59, 130, 246, 0.3)",
+                color: nodeColor,
                 column: 1,
             });
             sankeyData.push(["Portfolio", sector, weight]);
@@ -137,23 +148,29 @@
             const industryKey = `${item.sector}-${item.industry}`;
             nodes.push({
                 id: item.symbol,
-                color: "rgba(59, 130, 246, 0.3)",
+                color: nodeColor,
                 column: 3,
             });
             sankeyData.push({
                 from: industryKey,
                 to: item.symbol,
                 weight: item.weight,
-                color: "rgba(59, 130, 246, 0.3)",
+                color: linkColor,
             });
         });
+
+        const isMobile = $screenWidth < 768;
+        const chartHeight = isMobile ? 500 : 650;
+        const fontSize = isMobile ? "10px" : "12px";
+        const nodePadding = isMobile ? 20 : 35;
+        const spacing = isMobile ? [20, 10, 20, 10] : [30, 20, 30, 20];
 
         sankeyConfig = {
             credits: { enabled: false },
             chart: {
                 backgroundColor: "transparent",
-                height: 650,
-                spacing: [30, 20, 30, 20],
+                height: chartHeight,
+                spacing: spacing,
                 animation: false,
             },
             title: {
@@ -203,8 +220,8 @@
                     dataLabels: {
                         enabled: true,
                         style: {
-                            color: $mode === "dark" ? "#E5E7EB" : "#1F2937",
-                            fontSize: "12px",
+                            color: $mode === "light" ? "#000" : "#fff",
+                            fontSize: fontSize,
                             fontWeight: "500",
                             textOutline: "none",
                         },
@@ -213,7 +230,7 @@
                     },
                     linkOpacity: 0.4,
                     nodeWidth: 0,
-                    nodePadding: 35,
+                    nodePadding: nodePadding,
                     minLinkWidth: 0,
                     states: {
                         hover: {
@@ -233,36 +250,26 @@
         buildSankeyChart();
     });
 
-    // Rebuild chart when mode changes
-    $: if ($mode && typeof window !== "undefined") {
+    // Rebuild chart when mode or screenWidth changes
+    $: if (($mode || $screenWidth) && typeof window !== "undefined") {
         buildSankeyChart();
     }
 </script>
 
 <section class="w-full overflow-hidden mt-5">
     <div class="mx-auto w-full">
-        <div class="rounded-lg border border-zinc-800 p-5">
-            <div class="mb-5">
-                <h2 class="text-2xl font-bold mb-2">Diversification</h2>
-                <h3 class="text-lg font-semibold flex items-center gap-2">
-                    Diversification across Industries
-                    <svg
-                        class="w-4 h-4 text-gray-400"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                    >
-                        <path
-                            fill-rule="evenodd"
-                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                            clip-rule="evenodd"
-                        />
-                    </svg>
-                </h3>
+        <div
+            class="rounded-lg border border-gray-300 dark:border-gray-800 p-3 sm:p-5"
+        >
+            <div class="mb-3 sm:mb-5">
+                <h2 class="text-xl sm:text-2xl font-bold mb-2">
+                    Diversification
+                </h2>
             </div>
 
             <!-- Column headers -->
             <div
-                class="grid grid-cols-4 gap-4 mb-3 text-sm font-medium text-gray-400"
+                class="grid grid-cols-4 gap-2 sm:gap-4 mb-3 text-xs sm:text-sm font-medium text-muted dark:text-gray-400"
             >
                 <div class="text-left">Portfolio</div>
                 <div class="text-center">Sector</div>
@@ -276,7 +283,7 @@
                     <div use:highcharts={sankeyConfig}></div>
                 {:else}
                     <div
-                        class="flex items-center justify-center h-[950px] text-gray-500 dark:text-gray-400"
+                        class="flex items-center justify-center h-[500px] sm:h-[650px] text-gray-500 dark:text-gray-400"
                     >
                         <p class="text-sm">Loading diversification chart...</p>
                     </div>

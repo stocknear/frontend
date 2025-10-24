@@ -30,7 +30,7 @@
             class="border-[#2C6288] dark:border-white border-b-[2px] overflow-x-auto whitespace-nowrap mt-3"
           >
             <ul
-              class="flex flex-row items-center w-full text-[1rem] sm:text-lg"
+              class="flex flex-row items-center w-full text-sm sm:text-[1rem]"
             >
               {#each tabs as item, i}
                 <a
