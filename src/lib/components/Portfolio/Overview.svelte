@@ -9,16 +9,26 @@
     let performanceData = [];
     let seriesPerformance = [];
     let perfCategories = [];
+    let rawDates = [];
     let selectedTimePeriod = "1Y"; // Default time period
 
     const timePeriods = ["1W", "1M", "3M", "6M", "1Y"];
 
-    // Format date to readable format (e.g., "Oct 15")
+    // Format date to readable format (e.g., "Sep 22")
     function formatDate(dateString) {
         const date = new Date(dateString);
         const month = date.toLocaleDateString("en-US", { month: "short" });
         const day = date.getDate();
         return `${month} ${day}`;
+    }
+
+    // Format date with year for tooltip (e.g., "Sep 22, '22")
+    function formatDateWithYear(dateString) {
+        const date = new Date(dateString);
+        const month = date.toLocaleDateString("en-US", { month: "short" });
+        const day = date.getDate();
+        const year = date.getFullYear().toString().slice(-2);
+        return `${month} ${day}, '${year}`;
     }
 
     // Calculate period returns from price series
@@ -90,6 +100,7 @@
             return {
                 categories: [],
                 series: [],
+                dates: [],
             };
         }
 
@@ -100,6 +111,7 @@
             return {
                 categories: [],
                 series: [],
+                dates: [],
             };
         }
 
@@ -119,6 +131,7 @@
 
         // Extract categories (formatted dates) from portfolio data
         const categories = portfolioData.map((item) => formatDate(item.date));
+        const dates = portfolioData.map((item) => item.date);
 
         // Build series array with cumulative returns
         const series = [
@@ -144,6 +157,7 @@
         return {
             categories,
             series,
+            dates,
         };
     }
 
@@ -195,6 +209,7 @@
             // Reset chart if no valid positions
             perfCategories = [];
             seriesPerformance = [];
+            rawDates = [];
             buildPerf();
             return;
         }
@@ -223,6 +238,7 @@
                 const processed = processPerformanceData(performanceOutput);
                 perfCategories = processed.categories;
                 seriesPerformance = processed.series;
+                rawDates = processed.dates || [];
 
                 // Handle health score data
                 if (output?.health) {
@@ -287,7 +303,7 @@
             return "text-yellow-800 dark:text-yellow-400";
         if (overallHealthStatus === "Bad")
             return "text-red-800 dark:text-red-400";
-        return "text-red-600 dark:text-red-400";
+        return "text-red-800 dark:text-red-400";
     })();
 
     // --- Charts (reactive configs) ---
@@ -340,7 +356,12 @@
                 borderWidth: 0,
                 style: { color: "#fff" },
                 formatter: function () {
-                    let s = "<b>" + this.x + "</b>";
+                    const pointIndex = this.points[0].point.index;
+                    const dateStr = rawDates[pointIndex];
+                    const formattedDate = dateStr
+                        ? formatDateWithYear(dateStr)
+                        : this.x;
+                    let s = "<b>" + formattedDate + "</b>";
                     this.points.forEach((point) => {
                         s +=
                             '<br/><span style="color:' +
@@ -567,6 +588,7 @@
             // Reset chart if no portfolio data
             perfCategories = [];
             seriesPerformance = [];
+            rawDates = [];
             buildPerf();
         }
     }
@@ -695,8 +717,8 @@
                                             <p
                                                 class="m-0 text-xl font-semibold tracking-tight {unrealizedReturns >=
                                                 0
-                                                    ? 'text-green-600 dark:text-green-400'
-                                                    : 'text-red-600 dark:text-red-400'}"
+                                                    ? 'text-green-800 dark:text-green-400'
+                                                    : 'text-red-800 dark:text-red-400'}"
                                                 data-testid="roi-value"
                                             >
                                                 {formatCurrency(
@@ -717,8 +739,8 @@
                                                     aria-label="Return percentage"
                                                     class={unrealizedReturns >=
                                                     0
-                                                        ? "text-green-600 dark:text-green-400"
-                                                        : "text-red-600 dark:text-red-400"}
+                                                        ? "text-green-800 dark:text-green-400"
+                                                        : "text-red-800 dark:text-red-400"}
                                                     >{unrealizedReturns >= 0
                                                         ? "+"
                                                         : ""}{unrealizedReturnsPercentage}%</span
