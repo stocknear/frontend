@@ -6,16 +6,7 @@
   let displaySection = "overview";
   function changeSection(state) {
     const sectionMap = {
-      insider: "/insider",
-      options: "/options",
-      "dark-pool": "/dark-pool",
-      dividends: "/dividends",
-      statistics: "/statistics",
-      metrics: "metrics",
-      forecast: "/forecast",
-      financials: "/financials",
-      history: "/history",
-      profile: "/profile",
+      analysis: "/analysis",
     };
 
     if (state !== "overview" && sectionMap[state]) {
@@ -59,7 +50,7 @@
       >
         <main class="w-full">
           <h1 class=" text-2xl sm:text-3xl font-bold">Portfolio Tracker</h1>
-
+          <!--
           <nav
             class="border-[#2C6288] dark:border-white border-b-[2px] overflow-x-auto whitespace-nowrap mt-3"
           >
@@ -86,6 +77,7 @@
               </a>
             </ul>
           </nav>
+          -->
 
           <slot />
         </main>

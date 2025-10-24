@@ -1148,6 +1148,14 @@
                   </a>
                   <DropdownMenu.Separator />
 
+                  <a href="/portfolio" class="cursor-pointer">
+                    <DropdownMenu.Item
+                      class="sm:hover:bg-gray-300 dark:sm:hover:bg-[#18181B] cursor-pointer"
+                    >
+                      Portfolio
+                    </DropdownMenu.Item>
+                  </a>
+
                   <a href="/watchlist/stocks" class="cursor-pointer">
                     <DropdownMenu.Item
                       class="sm:hover:bg-gray-300 dark:sm:hover:bg-[#18181B] cursor-pointer"

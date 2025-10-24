@@ -69,6 +69,12 @@
             <li>
               <a
                 class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                href="/portfolio/">Portfolio</a
+              >
+            </li>
+            <li>
+              <a
+                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
                 href="/learning-center/">Learning Center</a
               >
             </li>
