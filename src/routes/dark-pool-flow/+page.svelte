@@ -15,6 +15,7 @@
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import Input from "$lib/components/Input.svelte";
   import Copy from "lucide-svelte/icons/copy";
+  import InfoModal from "$lib/components/InfoModal.svelte";
 
   import { page } from "$app/stores";
   import SEO from "$lib/components/SEO.svelte";
@@ -47,6 +48,11 @@
   let searchTerm = "";
   let showFilters = true;
   let filteredRows = [];
+
+  let quickSearchTerm = "";
+  let quickSearchResults = [];
+  let showQuickSearchDropdown = false;
+  let selectedQuickSearchIndex = -1;
   const df = new DateFormatter("en-US", {
     day: "2-digit",
     month: "short",
@@ -483,6 +489,73 @@
         await savePromise;
       }
     }
+  }
+
+  function updateQuickSearchResults(term) {
+    if (term.length === 0) {
+      quickSearchResults = [];
+      showQuickSearchDropdown = false;
+      selectedQuickSearchIndex = -1;
+      return;
+    }
+
+    const lowerTerm = term.toLowerCase();
+    const availableRules = allRows?.filter(
+      (row) => !ruleOfList.some((rule) => rule.name === row.rule),
+    );
+
+    quickSearchResults = availableRules.filter((row) =>
+      row.label.toLowerCase().includes(lowerTerm),
+    );
+
+    showQuickSearchDropdown = quickSearchResults.length > 0;
+    selectedQuickSearchIndex = -1;
+  }
+
+  function handleQuickSearchInput(event) {
+    quickSearchTerm = event.target.value;
+    updateQuickSearchResults(quickSearchTerm);
+  }
+
+  function handleQuickSearchKeydown(event) {
+    if (!showQuickSearchDropdown) return;
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      selectedQuickSearchIndex = Math.min(
+        selectedQuickSearchIndex + 1,
+        quickSearchResults.length - 1,
+      );
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      selectedQuickSearchIndex = Math.max(selectedQuickSearchIndex - 1, 0);
+    } else if (event.key === "Enter") {
+      event.preventDefault();
+      if (
+        selectedQuickSearchIndex >= 0 &&
+        selectedQuickSearchIndex < quickSearchResults.length
+      ) {
+        selectQuickSearchRule(quickSearchResults[selectedQuickSearchIndex]);
+      }
+    } else if (event.key === "Escape") {
+      closeQuickSearchDropdown();
+    }
+  }
+
+  function selectQuickSearchRule(rule) {
+    ruleName = rule.rule;
+    handleAddRule();
+    quickSearchTerm = "";
+    quickSearchResults = [];
+    showQuickSearchDropdown = false;
+    selectedQuickSearchIndex = -1;
+  }
+
+  function closeQuickSearchDropdown() {
+    setTimeout(() => {
+      showQuickSearchDropdown = false;
+      selectedQuickSearchIndex = -1;
+    }, 150);
   }
 
   function changeRule(state: string) {
@@ -1248,92 +1321,202 @@
         </div>
 
         {#if showFilters}
-          <div
-            class="sm:mt-3 flex flex-col gap-y-2.5 sm:flex-row lg:gap-y-2 pb-1"
-          >
-            <label
-              for="ruleModal"
-              class="filter-driver inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none py-2 pl-3 pr-4 font-semibold shadow-xs bg-default text-white sm:hover:bg-black dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden focus:ring-2 focus:ring-blue-500"
-            >
-              <svg
-                class="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                style="max-width:40px"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              <div>Add Filters</div>
-            </label>
-
-            {#if data?.user}
+          <div class="sm:mt-3 pb-1 w-full">
+            <div class="flex flex-wrap items-center gap-2.5">
+              <!-- Add Filters Button -->
               <label
-                for={!data?.user ? "userLogin" : ""}
-                on:click={() => handleSave(true)}
-                class="text-[0.95rem] sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+                for="ruleModal"
+                class="filter-driver inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none py-2 pl-3 pr-4 font-semibold shadow-xs bg-default text-white sm:hover:bg-black dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden focus:ring-2 focus:ring-blue-500"
               >
                 <svg
-                  class="w-4 h-4 mr-2 inline-block cursor-pointer shrink-0"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  ><path
-                    fill="currentColor"
-                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
-                  /></svg
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  style="max-width:40px"
+                  aria-hidden="true"
                 >
-                <div>Save</div>
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <div>Add Filters</div>
               </label>
 
-              {#if strategyList?.length > 0}
+              <!-- Quick Search Input -->
+              <div class="relative">
+                <div class="relative">
+                  <div
+                    class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+                  >
+                    <svg
+                      class="w-4 h-4 text-muted dark:text-gray-200"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                      />
+                    </svg>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder={`Search ${allRows?.length} filters...`}
+                    bind:value={quickSearchTerm}
+                    on:input={handleQuickSearchInput}
+                    on:keydown={handleQuickSearchKeydown}
+                    on:focus={() => updateQuickSearchResults(quickSearchTerm)}
+                    on:blur={closeQuickSearchDropdown}
+                    class="block w-full lg:w-64 py-2 shadow bg-white placeholder:text-muted pl-10 text-[1rem] border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-[#2A2E39] dark:border-gray-800 dark:placeholder-gray-200 dark:text-white dark:focus:outline-none dark:focus:border-none"
+                  />
+
+                  <!-- Clear button -->
+                  {#if quickSearchTerm.length > 0}
+                    <button
+                      type="button"
+                      on:click={() => {
+                        quickSearchTerm = "";
+                        quickSearchResults = [];
+                        showQuickSearchDropdown = false;
+                      }}
+                      class="absolute inset-y-0 right-0 flex items-center pr-3"
+                    >
+                      <svg
+                        class="cursor-pointer w-4 h-4 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        ></path>
+                      </svg>
+                    </button>
+                  {/if}
+                </div>
+
+                <!-- Quick Search Dropdown -->
+                {#if showQuickSearchDropdown && quickSearchResults.length > 0}
+                  <div
+                    class="absolute z-50 w-full mt-1 bg-white dark:bg-[#2A2E39] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-64 overflow-y-auto"
+                  >
+                    {#each quickSearchResults as result, index}
+                      <button
+                        class="cursor-pointer w-full px-2 py-2 flex flex-row items-center sm:hover:bg-gray-100 dark:sm:hover:bg-gray-600 {index ===
+                        selectedQuickSearchIndex
+                          ? 'bg-gray-100 dark:bg-gray-600'
+                          : ''}"
+                        type="button"
+                        on:click={() => selectQuickSearchRule(result)}
+                      >
+                        <svg
+                          class="w-4 h-4 text-icon inline-block ml-1 mr-2"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width:40px"
+                          ><path
+                            fill-rule="evenodd"
+                            d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                            clip-rule="evenodd"
+                          ></path></svg
+                        >
+
+                        <label class="text-left text-sm sm:text-[0.9rem]">
+                          <div
+                            class="font-medium text-gray-900 dark:text-white"
+                          >
+                            {result?.label}
+                          </div>
+                        </label>
+                      </button>
+                    {/each}
+                  </div>
+                {/if}
+
+                <!-- No results message -->
+                {#if showQuickSearchDropdown && quickSearchTerm.length > 0 && quickSearchResults.length === 0}
+                  <div
+                    class="absolute z-50 w-full mt-1 bg-white dark:bg-[#2A2E39] border border-gray-300 dark:border-gray-600 rounded-md shadow-lg p-4 text-center text-sm text-gray-500 dark:text-gray-400"
+                  >
+                    No available filters found
+                  </div>
+                {/if}
+              </div>
+
+              {#if data?.user}
                 <label
-                  for={!data?.user
-                    ? "userLogin"
-                    : ["Pro"]?.includes(data?.user?.tier)
-                      ? "addStrategy"
-                      : ""}
-                  on:click={() => {
-                    if (!["Pro"]?.includes(data?.user?.tier) && data?.user) {
-                      toast.info("Available only to Pro Member", {
-                        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-                      });
-                    }
-                  }}
-                  class="text-[0.95rem] sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+                  for={!data?.user ? "userLogin" : ""}
+                  on:click={() => handleSave(true)}
+                  class="text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
                 >
-                  <Copy class="w-4 h-4 inline-block mr-2" />
-                  <div>Save as New</div>
+                  <svg
+                    class="w-4 h-4 mr-2 inline-block cursor-pointer shrink-0"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    ><path
+                      fill="currentColor"
+                      d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+                    /></svg
+                  >
+                  <div>Save</div>
+                </label>
+
+                {#if strategyList?.length > 0}
+                  <label
+                    for={!data?.user
+                      ? "userLogin"
+                      : ["Pro"]?.includes(data?.user?.tier)
+                        ? "addStrategy"
+                        : ""}
+                    on:click={() => {
+                      if (!["Pro"]?.includes(data?.user?.tier) && data?.user) {
+                        toast.info("Available only to Pro Member", {
+                          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+                        });
+                      }
+                    }}
+                    class="text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+                  >
+                    <Copy class="w-4 h-4 inline-block mr-2" />
+                    <div>Save as New</div>
+                  </label>
+                {/if}
+              {/if}
+
+              {#if ruleOfList?.length !== 0}
+                <label
+                  on:click={handleResetAll}
+                  class="text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:text-red-500 ease-out focus:outline-hidden"
+                >
+                  <svg
+                    class="h-4 w-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 21 21"
+                    ><g
+                      fill="none"
+                      fill-rule="evenodd"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><path d="M3.578 6.487A8 8 0 1 1 2.5 10.5" /><path
+                        d="M7.5 6.5h-4v-4"
+                      /></g
+                    ></svg
+                  >
+                  <div>Reset All</div>
                 </label>
               {/if}
-            {/if}
-
-            {#if ruleOfList?.length !== 0}
-              <label
-                on:click={handleResetAll}
-                class="text-[0.95rem] lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:text-red-500 ease-out focus:outline-hidden"
-              >
-                <svg
-                  class="h-4 w-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 21 21"
-                  ><g
-                    fill="none"
-                    fill-rule="evenodd"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    ><path d="M3.578 6.487A8 8 0 1 1 2.5 10.5" /><path
-                      d="M7.5 6.5h-4v-4"
-                    /></g
-                  ></svg
-                >
-                <div>Reset All</div>
-              </label>
-            {/if}
+            </div>
           </div>
 
           <div
@@ -1344,33 +1527,16 @@
               <div
                 class="flex items-center justify-between space-x-2 px-1 py-1.5 text-[0.95rem] leading-tight"
               >
-                <div class="">
+                <div class=" flex flex-row items-start sm:items-end">
                   {row?.label?.length > 20
                     ? row?.label?.slice(0, 20)?.replace("[%]", "") + "..."
                     : row?.label?.replace("[%]", "")}
-                  <span class="relative" role="tooltip"
-                    ><label
-                      for="mobileTooltip"
-                      on:click={() =>
-                        getInfoText(row?.rule, row?.label?.replace("[%]", ""))}
-                      class="relative"
-                      role="tooltip"
-                    >
-                      <span
-                        class="absolute -right-[15px] -top-[3px] cursor-pointer p-1 text-gray-500 dark:text-gray-300 dark:sm:hover:text-white"
-                      >
-                        <svg
-                          class="h-[10.5px] w-[10.5px]"
-                          viewBox="0 0 4 16"
-                          fill="currentColor"
-                          style="max-width:20px"
-                          ><path
-                            d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"
-                          ></path></svg
-                        >
-                      </span>
-                    </label></span
-                  >
+                  <InfoModal
+                    id={row?.rule}
+                    title={row?.label?.replace("[%]", "")}
+                    callAPI={true}
+                    parameter={row?.rule}
+                  />
                 </div>
 
                 <div class="flex items-center">
