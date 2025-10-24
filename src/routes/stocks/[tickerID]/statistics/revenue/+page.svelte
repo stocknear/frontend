@@ -306,7 +306,7 @@
                   </div>
                   <div class="flex items-baseline">
                     <span class="text-xl font-semibold">
-                      {abbreviateNumber(rawData?.revenue)}
+                      {abbreviateNumber(rawData?.revenueTTM)}
                       {currency !== "USD" ? currency : ""}</span
                     >
                   </div>

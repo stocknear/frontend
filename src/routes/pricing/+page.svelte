@@ -264,6 +264,22 @@
               ></path></svg
             ><span class="">1 Watchlist (up to 5 stocks)</span>
           </li>
+
+          <li class="flex items-start">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path></svg
+            ><span class="">1 Portfolio (up to 5 stocks)</span>
+          </li>
           <li class="flex items-start">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
@@ -950,6 +966,21 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
+            ><span class="">Unlimited Portfolio up to 100 stocks</span>
+          </li>
+          <li class="flex items-start">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path></svg
             ><span class="">Unlimited Price Alerts</span>
           </li>
           <li class="flex items-start">
@@ -1376,6 +1407,22 @@
                 d="M5 13l4 4L19 7"
               ></path></svg
             ><span class="">Watchlist with up to 300 stocks</span>
+          </li>
+
+          <li class="flex items-start text-white">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path></svg
+            ><span class="">Portfolio with up to 300 stocks</span>
           </li>
 
           <li class="flex items-start text-white">
