@@ -183,6 +183,12 @@
 
   let ruleName = "";
 
+  // Quick Search state variables
+  let quickSearchTerm = "";
+  let quickSearchResults = [];
+  let showQuickSearchDropdown = false;
+  let selectedQuickSearchIndex = -1;
+
   // Define your default values
 
   let ruleCondition = {};
@@ -600,6 +606,85 @@
 
       await updateStockScreenerData();
     }
+  }
+
+  // Quick Search functions
+  function updateQuickSearchResults(term) {
+    if (!term.trim()) {
+      quickSearchResults = [];
+      showQuickSearchDropdown = false;
+      return;
+    }
+
+    const lowerTerm = term.toLowerCase();
+    const availableRules = allRows?.filter(
+      (row) => !ruleOfList.some((rule) => rule.name === row.rule),
+    );
+
+    quickSearchResults = availableRules.filter((row) =>
+      row.label.toLowerCase().includes(lowerTerm),
+    );
+    showQuickSearchDropdown = quickSearchResults.length > 0 || term.length > 0;
+    selectedQuickSearchIndex = -1;
+  }
+
+  function handleQuickSearchInput(event) {
+    quickSearchTerm = event.target.value;
+    updateQuickSearchResults(quickSearchTerm);
+  }
+
+  function handleQuickSearchKeydown(event) {
+    if (!showQuickSearchDropdown || quickSearchResults.length === 0) {
+      if (event.key === "Escape") {
+        closeQuickSearchDropdown();
+      }
+      return;
+    }
+
+    switch (event.key) {
+      case "ArrowDown":
+        event.preventDefault();
+        selectedQuickSearchIndex = Math.min(
+          selectedQuickSearchIndex + 1,
+          quickSearchResults.length - 1,
+        );
+        break;
+      case "ArrowUp":
+        event.preventDefault();
+        selectedQuickSearchIndex = Math.max(selectedQuickSearchIndex - 1, -1);
+        break;
+      case "Enter":
+        event.preventDefault();
+        if (
+          selectedQuickSearchIndex >= 0 &&
+          selectedQuickSearchIndex < quickSearchResults.length
+        ) {
+          selectQuickSearchRule(quickSearchResults[selectedQuickSearchIndex]);
+        }
+        break;
+      case "Escape":
+        closeQuickSearchDropdown();
+        break;
+    }
+  }
+
+  function selectQuickSearchRule(rule) {
+    ruleName = rule.rule;
+    handleAddRule();
+
+    // Clear search state
+    quickSearchTerm = "";
+    quickSearchResults = [];
+    showQuickSearchDropdown = false;
+    selectedQuickSearchIndex = -1;
+  }
+
+  function closeQuickSearchDropdown() {
+    // Delay to allow click events to register
+    setTimeout(() => {
+      showQuickSearchDropdown = false;
+      selectedQuickSearchIndex = -1;
+    }, 150);
   }
 
   async function handleScroll() {
@@ -1247,7 +1332,7 @@
       <div class="w-full flex flex-row items-center sm:mt-4">
         <h1 class="text-2xl sm:text-3xl font-semibold">Options Screener</h1>
         <span class="inline-block text-xs sm:text-sm font-semibold ml-2 mt-3">
-          {filteredData?.length} Contracts Found
+          {filteredData?.length?.toLocaleString("en-US")} Contracts Found
         </span>
       </div>
 
@@ -1392,141 +1477,256 @@
         </div>
       </div>
       {#if showFilters}
-        <div class="mt-3 flex flex-col gap-y-2.5 sm:flex-row lg:gap-y-2">
-          <label
-            for="ruleModal"
-            class="text-[0.95rem] text-white inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold bg-default sm:hover:bg-black dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
-          >
-            <svg
-              class="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              style="max-width:40px"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-            <div>Add Filters</div>
-          </label>
-
-          <DropdownMenu.Root>
-            <DropdownMenu.Trigger asChild let:builder>
-              <Button
-                builders={[builder]}
-                class="sm:ml-2 h-10 w-full sm:w-fit border-none text-[0.95rem] text-white inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold  bg-default sm:hover:bg-black dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out"
-              >
-                <span class="truncate text-sm">{formatDate(selectedDate)}</span>
-                <svg
-                  class="-mr-1 ml-2 h-5 w-5 inline-block rotate-270 sm:rotate-0"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  style="max-width:40px"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </Button>
-            </DropdownMenu.Trigger>
-
-            <DropdownMenu.Content
-              side="bottom"
-              align="end"
-              sideOffset={10}
-              alignOffset={0}
-              class="min-w-48 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative"
-            >
-              <!-- Dropdown items -->
-              <DropdownMenu.Group class="pb-2"
-                >{#each expirationList as item, index}
-                  {#if data?.user?.tier === "Pro" || index == 0}
-                    <DropdownMenu.Item
-                      on:click={() => {
-                        selectedDate = item?.date;
-                        updateStockScreenerData();
-                      }}
-                      class="{selectedDate === item?.date
-                        ? 'bg-gray-200 dark:bg-primary'
-                        : ''}  sm:hover:bg-gray-200 dark:sm:hover:bg-primary cursor-pointer "
-                    >
-                      {formatDate(item?.date)}
-                      ({item?.contractLength?.toLocaleString("en-US")})
-                    </DropdownMenu.Item>
-                  {:else}
-                    <DropdownMenu.Item
-                      on:click={() => goto("/pricing")}
-                      class="cursor-pointer sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
-                    >
-                      <div class="flex flex-row items-center gap-x-2">
-                        <span>
-                          {formatDate(item?.date)}
-                          ({item?.contractLength?.toLocaleString("en-US")})
-                        </span>
-                        <svg
-                          class="size-4"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          style="max-width: 40px;"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                            clip-rule="evenodd"
-                          >
-                          </path>
-                        </svg>
-                      </div>
-                    </DropdownMenu.Item>
-                  {/if}
-                {/each}</DropdownMenu.Group
-              >
-            </DropdownMenu.Content>
-          </DropdownMenu.Root>
-
-          {#if data?.user}
+        <div class="mt-3 pb-1 w-full">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <!-- Add Filters Button -->
             <label
-              for={!data?.user ? "userLogin" : ""}
-              on:click={() => handleSave(true)}
-              class="text-[0.95rem] sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+              for="ruleModal"
+              class="w-full sm:w-fit text-[0.95rem] text-white inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold bg-default sm:hover:bg-black dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
             >
               <svg
-                class="w-4 h-4 mr-2 inline-block cursor-pointer shrink-0"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                ><path
-                  fill="currentColor"
-                  d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
-                /></svg
+                class="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
               >
-              <div>Save</div>
+                <path
+                  fill-rule="evenodd"
+                  d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <div>Add Filters</div>
             </label>
 
-            {#if strategyList?.length > 0}
-              <label
-                for={!data?.user ? "userLogin" : ["Pro"]?.includes(data?.user?.tier) ? "addStrategy" : ""}
-                on:click={() => {
-                  if (!["Pro"]?.includes(data?.user?.tier) && data?.user) {
-                    toast.info("Available only to Pro Member", {
-                      style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-                    });
-                  }
-                }}
-                class="text-[0.95rem] sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
-              >
-                <Copy class="w-4 h-4 inline-block mr-2" />
-                <div>Save as New</div>
-              </label>
-            {/if}
-          {/if}
+            <!-- Quick Search Input -->
+            <div class="w-full sm:w-fit relative">
+              <div class="relative">
+                <div
+                  class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+                >
+                  <svg
+                    class="w-4 h-4 text-muted dark:text-gray-200"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  placeholder={`Search ${allRows?.length} filters...`}
+                  bind:value={quickSearchTerm}
+                  on:input={handleQuickSearchInput}
+                  on:keydown={handleQuickSearchKeydown}
+                  on:focus={() => updateQuickSearchResults(quickSearchTerm)}
+                  on:blur={closeQuickSearchDropdown}
+                  class="block w-full lg:w-64 py-2 shadow bg-white placeholder:text-muted pl-10 text-[1rem] border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-[#2A2E39] dark:border-gray-800 dark:placeholder-gray-200 dark:text-white dark:focus:outline-none dark:focus:border-none"
+                />
 
-          <!--
+                <!-- Clear button -->
+                {#if quickSearchTerm.length > 0}
+                  <button
+                    type="button"
+                    on:click={() => {
+                      quickSearchTerm = "";
+                      quickSearchResults = [];
+                      showQuickSearchDropdown = false;
+                    }}
+                    class="absolute inset-y-0 right-0 flex items-center pr-3"
+                  >
+                    <svg
+                      class="cursor-pointer w-4 h-4 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      ></path>
+                    </svg>
+                  </button>
+                {/if}
+              </div>
+
+              <!-- Quick Search Dropdown -->
+              {#if showQuickSearchDropdown && quickSearchResults.length > 0}
+                <div
+                  class="absolute z-50 w-full mt-1 bg-white dark:bg-[#2A2E39] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-64 overflow-y-auto"
+                >
+                  {#each quickSearchResults as result, index}
+                    <button
+                      class="cursor-pointer w-full px-2 py-2 flex flex-row items-center sm:hover:bg-gray-100 dark:sm:hover:bg-gray-600 {index ===
+                      selectedQuickSearchIndex
+                        ? 'bg-gray-100 dark:bg-gray-600'
+                        : ''}"
+                      type="button"
+                      on:click={() => selectQuickSearchRule(result)}
+                    >
+                      <svg
+                        class="w-4 h-4 text-icon inline-block ml-1 mr-2"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width:40px"
+                        ><path
+                          fill-rule="evenodd"
+                          d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                          clip-rule="evenodd"
+                        ></path></svg
+                      >
+
+                      <label class="text-left text-sm sm:text-[0.9rem]">
+                        <div class="font-medium text-gray-900 dark:text-white">
+                          {result.label}
+                        </div>
+                      </label>
+                    </button>
+                  {/each}
+                </div>
+              {/if}
+
+              <!-- No results message -->
+              {#if showQuickSearchDropdown && quickSearchTerm.length > 0 && quickSearchResults.length === 0}
+                <div
+                  class="absolute z-50 w-full mt-1 bg-white dark:bg-[#2A2E39] border border-gray-300 dark:border-gray-600 rounded-md shadow-lg p-4 text-center text-sm text-gray-500 dark:text-gray-400"
+                >
+                  No available filters found
+                </div>
+              {/if}
+            </div>
+
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger asChild let:builder>
+                <Button
+                  builders={[builder]}
+                  class=" h-10 w-full sm:w-fit border-none text-[0.95rem] text-white inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold  bg-default sm:hover:bg-black dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out"
+                >
+                  <span class="truncate text-sm"
+                    >{formatDate(selectedDate)}</span
+                  >
+                  <svg
+                    class="-mr-1 ml-2 h-5 w-5 inline-block rotate-270 sm:rotate-0"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style="max-width:40px"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </Button>
+              </DropdownMenu.Trigger>
+
+              <DropdownMenu.Content
+                side="bottom"
+                align="end"
+                sideOffset={10}
+                alignOffset={0}
+                class="min-w-48 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative"
+              >
+                <!-- Dropdown items -->
+                <DropdownMenu.Group class="pb-2"
+                  >{#each expirationList as item, index}
+                    {#if data?.user?.tier === "Pro" || index == 0}
+                      <DropdownMenu.Item
+                        on:click={() => {
+                          selectedDate = item?.date;
+                          updateStockScreenerData();
+                        }}
+                        class="{selectedDate === item?.date
+                          ? 'bg-gray-200 dark:bg-primary'
+                          : ''}  sm:hover:bg-gray-200 dark:sm:hover:bg-primary cursor-pointer "
+                      >
+                        {formatDate(item?.date)}
+                        ({item?.contractLength?.toLocaleString("en-US")})
+                      </DropdownMenu.Item>
+                    {:else}
+                      <DropdownMenu.Item
+                        on:click={() => goto("/pricing")}
+                        class="cursor-pointer sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                      >
+                        <div class="flex flex-row items-center gap-x-2">
+                          <span>
+                            {formatDate(item?.date)}
+                            ({item?.contractLength?.toLocaleString("en-US")})
+                          </span>
+                          <svg
+                            class="size-4"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            style="max-width: 40px;"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                              clip-rule="evenodd"
+                            >
+                            </path>
+                          </svg>
+                        </div>
+                      </DropdownMenu.Item>
+                    {/if}
+                  {/each}</DropdownMenu.Group
+                >
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
+
+            {#if data?.user}
+              <label
+                for={!data?.user ? "userLogin" : ""}
+                on:click={() => handleSave(true)}
+                class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+              >
+                <svg
+                  class="w-4 h-4 mr-2 inline-block cursor-pointer shrink-0"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  ><path
+                    fill="currentColor"
+                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+                  /></svg
+                >
+                <div>Save</div>
+              </label>
+
+              {#if strategyList?.length > 0}
+                <label
+                  for={!data?.user
+                    ? "userLogin"
+                    : ["Pro"]?.includes(data?.user?.tier)
+                      ? "addStrategy"
+                      : ""}
+                  on:click={() => {
+                    if (!["Pro"]?.includes(data?.user?.tier) && data?.user) {
+                      toast.info("Available only to Pro Member", {
+                        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+                      });
+                    }
+                  }}
+                  class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+                >
+                  <Copy class="w-4 h-4 inline-block mr-2" />
+                  <div>Save as New</div>
+                </label>
+              {/if}
+            {/if}
+
+            <!--
           {#if data?.user}
             <label
               for={!data?.user ? "userLogin" : ""}
@@ -1560,29 +1760,30 @@
           {/if}
           -->
 
-          {#if ruleOfList?.length !== 0}
-            <label
-              on:click={handleResetAll}
-              class="text-white text-[0.95rem] sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold bg-black sm:hover:bg-default dark:bg-[#000] ease-out focus:outline-hidden"
-            >
-              <svg
-                class="h-4 w-4"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 21 21"
-                ><g
-                  fill="none"
-                  fill-rule="evenodd"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  ><path d="M3.578 6.487A8 8 0 1 1 2.5 10.5" /><path
-                    d="M7.5 6.5h-4v-4"
-                  /></g
-                ></svg
+            {#if ruleOfList?.length !== 0}
+              <label
+                on:click={handleResetAll}
+                class="w-full sm:w-fit text-white text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold bg-black sm:hover:bg-default dark:bg-[#000] ease-out focus:outline-hidden"
               >
-              <div>Reset All</div>
-            </label>
-          {/if}
+                <svg
+                  class="h-4 w-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 21 21"
+                  ><g
+                    fill="none"
+                    fill-rule="evenodd"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    ><path d="M3.578 6.487A8 8 0 1 1 2.5 10.5" /><path
+                      d="M7.5 6.5h-4v-4"
+                    /></g
+                  ></svg
+                >
+                <div>Reset All</div>
+              </label>
+            {/if}
+          </div>
         </div>
 
         <div

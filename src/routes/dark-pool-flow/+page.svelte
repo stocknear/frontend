@@ -1326,7 +1326,7 @@
               <!-- Add Filters Button -->
               <label
                 for="ruleModal"
-                class="filter-driver inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none py-2 pl-3 pr-4 font-semibold shadow-xs bg-default text-white sm:hover:bg-black dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                class="mt-3 sm:mt-0 w-full sm:w-fit inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none py-2 pl-3 pr-4 font-semibold shadow-xs bg-default text-white sm:hover:bg-black dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden focus:ring-2 focus:ring-blue-500"
               >
                 <svg
                   class="h-5 w-5"
@@ -1345,7 +1345,7 @@
               </label>
 
               <!-- Quick Search Input -->
-              <div class="relative">
+              <div class="w-full sm:w-fit relative">
                 <div class="relative">
                   <div
                     class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
@@ -1457,7 +1457,7 @@
                 <label
                   for={!data?.user ? "userLogin" : ""}
                   on:click={() => handleSave(true)}
-                  class="text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+                  class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
                 >
                   <svg
                     class="w-4 h-4 mr-2 inline-block cursor-pointer shrink-0"
@@ -1485,7 +1485,7 @@
                         });
                       }
                     }}
-                    class="text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+                    class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
                   >
                     <Copy class="w-4 h-4 inline-block mr-2" />
                     <div>Save as New</div>
@@ -1496,7 +1496,7 @@
               {#if ruleOfList?.length !== 0}
                 <label
                   on:click={handleResetAll}
-                  class="text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:text-red-500 ease-out focus:outline-hidden"
+                  class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:text-red-500 ease-out focus:outline-hidden"
                 >
                   <svg
                     class="h-4 w-4"
