@@ -2,6 +2,12 @@
   import { page } from "$app/stores";
 
   export let data;
+
+  let activeIdx = 0;
+  let tabs = [
+    { title: "Overview", path: "/portfolio" },
+    { title: "Analysis", path: "/portfolio/analysis" },
+  ];
 </script>
 
 <section
@@ -21,9 +27,9 @@
       >
         <main class="w-full">
           <h1 class=" text-2xl sm:text-3xl font-bold">Portfolio Tracker</h1>
-          <!--
+
           <nav
-            class="border-[#2C6288] dark:border-white border-b-[2px] overflow-x-auto whitespace-nowrap"
+            class="border-[#2C6288] dark:border-white border-b-[2px] overflow-x-auto whitespace-nowrap mt-3"
           >
             <ul
               class="flex flex-row items-center w-full text-[1rem] sm:text-lg"
@@ -40,7 +46,6 @@
               {/each}
             </ul>
           </nav>
-          -->
 
           <slot />
         </main>

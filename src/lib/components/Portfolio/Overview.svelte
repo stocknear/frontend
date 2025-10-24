@@ -85,7 +85,7 @@
         return variance !== 0 ? (covariance / variance)?.toFixed(2) : null;
     }
 
-    let portfolioBeta = null;
+    let portfolioBeta = 0;
     let healthScores = {
         categories: ["Moat", "Trend", "Growth", "Fundamentals", "Volatility"],
         values: [50, 50, 50, 50, 50], // Default values
@@ -335,6 +335,7 @@
                 },
             },
             yAxis: {
+                title: null,
                 gridLineWidth: 1,
                 gridLineColor: $mode === "light" ? "#e5e7eb" : "#111827",
                 labels: {
@@ -609,36 +610,6 @@
 <!-- Page -->
 <section class="w-full overflow-hidden">
     <div class="mx-auto w-full">
-        <!-- Top Nav Mimic -->
-        {#if portfolioData.length > 0}
-            <div class="flex items-center gap-2 text-sm mb-6">
-                <span
-                    class="px-3 py-1 rounded-full transition-all duration-50 ease-out border border-gray-300 dark:border-gray-800 cursor-pointer bg-[#EEEEEE] dark:bg-secondary font-semibold"
-                    >Overview</span
-                >
-                <span
-                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-gray-300 dark:border-gray-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
-                    >Returns</span
-                >
-                <span
-                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-gray-300 dark:border-gray-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
-                    >Analysis</span
-                >
-                <span
-                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-gray-300 dark:border-gray-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
-                    >Updates</span
-                >
-                <span
-                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-gray-300 dark:border-gray-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
-                    >Dividends</span
-                >
-                <span
-                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-gray-300 dark:border-gray-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
-                    >Analysis</span
-                >
-            </div>
-        {/if}
-
         <div
             class="flex flex-col sm:flex-row items-start w-full space-y-3 sm:space-x-3"
         >
@@ -813,7 +784,7 @@
                             <div use:highcharts={perfConfig}></div>
                         {:else}
                             <div
-                                class="flex items-center justify-center h-[260px] text-gray-500 dark:text-gray-400"
+                                class="flex items-center justify-center h-[235px] text-gray-500 dark:text-gray-400"
                             >
                                 <p class="text-sm">
                                     Add shares and average price to view
@@ -831,17 +802,23 @@
                 <div
                     class="rounded-lg border border-gray-300 dark:border-gray-800 p-5"
                 >
-                    <h3 class="text-[1rem] font-semibold">
-                        Status: <span class={healthStatusColor}
-                            >{overallHealthStatus}</span
-                        >
-                    </h3>
+                    {#if portfolioData.length > 0}
+                        <h3 class="text-[1rem] font-semibold">
+                            Status: <span class={healthStatusColor}
+                                >{overallHealthStatus}</span
+                            >
+                        </h3>
+                    {/if}
                     <p class="text-sm">
-                        Your best strength is <span class=" font-semibold"
-                            >{bestStrength}</span
-                        >
-                        and your biggest risk is
-                        <span class="font-semibold">{biggestRisk}</span>.
+                        {#if portfolioData.length === 0}
+                            Add assets to your portfolio to view health status.
+                        {:else}
+                            Your best strength is <span class=" font-semibold"
+                                >{bestStrength}</span
+                            >
+                            and your biggest risk is
+                            <span class="font-semibold">{biggestRisk}</span>.
+                        {/if}
                     </p>
                     <div class="sm:h-[300px]">
                         {#if radarConfig}
