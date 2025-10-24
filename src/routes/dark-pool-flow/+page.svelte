@@ -13,6 +13,8 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import CalendarIcon from "lucide-svelte/icons/calendar";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
+  import Input from "$lib/components/Input.svelte";
+  import Copy from "lucide-svelte/icons/copy";
 
   import { page } from "$app/stores";
   import SEO from "$lib/components/SEO.svelte";
@@ -24,10 +26,18 @@
   export let data;
   let shouldLoadWorker = writable(false);
 
-  let ruleOfList = [];
+  let timeoutId = null;
+  let isComponentDestroyed = false;
+  let removeList = false;
+
+  let strategyList = data?.getAllStrategies || [];
+  let selectedStrategy = strategyList?.at(0)?.id ?? "";
+
+  let ruleOfList = strategyList?.at(0)?.rules ?? [];
   let displayRules = [];
   let filteredData = [];
-  let filterQuery = $page.url.searchParams.get("query") || "";
+  let filterQuery =
+    data?.user?.tier === "Pro" ? $page.url.searchParams.get("query") || "" : "";
   let pagePathName = $page?.url?.pathname;
 
   let socket: WebSocket | null = null; // Initialize socket as null
@@ -114,25 +124,56 @@
   });
 
   async function handleDeleteRule(state) {
-    for (let i = 0; i < ruleOfList.length; i++) {
-      if (ruleOfList[i].name === state) {
-        ruleOfList.splice(i, 1); // Remove the element at index i from the ruleOfList
+    // Find the index of the rule to be deleted or updated
+    const index = ruleOfList?.findIndex((rule) => rule.name === state);
+    if (index !== -1) {
+      // Get the rule and its default values
+      const rule = ruleOfList[index];
+      const defaultCondition = allRules[state].defaultCondition;
+      const defaultValue = allRules[state].defaultValue;
+
+      // Check if current values differ from defaults
+      const isAtDefaultValues =
+        ruleCondition[state] === defaultCondition &&
+        (Array.isArray(valueMappings[state]) && Array.isArray(defaultValue)
+          ? JSON.stringify(valueMappings[state]) ===
+            JSON.stringify(defaultValue)
+          : valueMappings[state] === defaultValue);
+
+      if (!isAtDefaultValues) {
+        // If not at defaults, reset to defaults
+        ruleCondition[state] = defaultCondition;
+        valueMappings[state] = defaultValue;
+
+        // Update the rule in ruleOfList
+        ruleOfList[index] = {
+          ...rule,
+          condition: defaultCondition,
+          value: defaultValue,
+        };
+        ruleOfList = [...ruleOfList]; // Trigger reactivity
+      } else {
+        // If already at defaults, remove the rule
+        ruleOfList.splice(index, 1);
         ruleOfList = [...ruleOfList];
-        break; // Exit the loop after deleting the element
+
+        // Reset checkedItems for this rule
+        checkedItems.delete(state);
+
+        // Handle cases when the list is empty or matches the current rule name
+        if (ruleOfList?.length === 0) {
+          ruleName = "";
+          filteredData = [];
+        } else if (state === ruleName) {
+          ruleName = "";
+        }
       }
-    }
 
-    if (ruleOfList?.length === 0) {
-      ruleName = "";
-    } else if (state === ruleName) {
-      ruleName = "";
+      displayRules = allRows?.filter((row) =>
+        ruleOfList?.some((rule) => rule.name === row.rule),
+      );
+      shouldLoadWorker.set(true);
     }
-
-    displayRules = allRows?.filter((row) =>
-      ruleOfList?.some((rule) => rule.name === row.rule),
-    );
-    shouldLoadWorker.set(true);
-    saveRules();
   }
 
   async function handleResetAll() {
@@ -150,7 +191,298 @@
       ruleOfList.some((rule) => rule.name === row.rule),
     );
     displayedData = rawData;
-    saveRules();
+  }
+
+  async function switchStrategy(item) {
+    ruleName = "";
+    selectedStrategy = item?.id ?? "";
+
+    ruleOfList =
+      strategyList?.find((item) => item.id === selectedStrategy)?.rules ?? [];
+
+    ruleOfList.forEach((rule) => {
+      ruleCondition[rule.name] =
+        rule.condition || allRules[rule.name].defaultCondition;
+      valueMappings[rule.name] = rule.value || allRules[rule.name].defaultValue;
+    });
+
+    if (ruleOfList?.length === 0) {
+      filteredData = [];
+      displayedData = [];
+    }
+
+    // Update displayed rules
+    displayRules = allRows?.filter((row) =>
+      ruleOfList?.some((rule) => rule.name === row.rule),
+    );
+
+    checkedItems = new Set(
+      ruleOfList
+        ?.filter((rule) => categoricalRules?.includes(rule.name))
+        ?.flatMap((rule) => rule.value),
+    );
+
+    // Trigger the filter system
+    shouldLoadWorker.set(true);
+  }
+
+  async function handleCreateStrategy() {
+    if (["Pro"]?.includes(data?.user?.tier)) {
+      const modalCheckbox = document.getElementById("addStrategy");
+      if (modalCheckbox instanceof HTMLInputElement) {
+        modalCheckbox.checked = true;
+      }
+    } else {
+      toast.info("Available only to Pro Member", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+    }
+  }
+
+  async function handleDeleteStrategy() {
+    const deletePromise = (async () => {
+      const postData = {
+        strategyId: selectedStrategy,
+        type: "darkPoolFlow",
+      };
+
+      const response = await fetch("/api/delete-strategy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Network error: ${response.status}`);
+      }
+
+      const output = await response.json();
+      if (output !== "success") {
+        throw new Error("Server returned failure");
+      }
+
+      // ——— SUCCESS: run your state‐update logic ———
+      strategyList =
+        strategyList?.filter((item) => item.id !== selectedStrategy) ?? [];
+      selectedStrategy = strategyList?.at(0)?.id ?? "";
+      ruleOfList =
+        strategyList?.find((item) => item.id === selectedStrategy)?.rules ?? [];
+
+      ruleOfList.forEach((rule) => {
+        ruleCondition[rule.name] =
+          rule.condition || allRules[rule.name].defaultCondition;
+        valueMappings[rule.name] =
+          rule.value || allRules[rule.name].defaultValue;
+      });
+
+      if (ruleOfList.length === 0) {
+        filteredData = [];
+        displayedData = [];
+      }
+
+      // Update displayed rules
+      displayRules = allRows?.filter((row) =>
+        ruleOfList?.some((rule) => rule.name === row.rule),
+      );
+
+      checkedItems = new Set(
+        ruleOfList
+          ?.filter((rule) => categoricalRules?.includes(rule.name))
+          ?.flatMap((rule) => rule.value),
+      );
+
+      // Trigger the filter system
+      shouldLoadWorker.set(true);
+
+      return true;
+    })();
+
+    return toast?.promise(deletePromise, {
+      loading: "Deleting filter",
+      success: "Filter deleted successfully!",
+      error: "Delete failed. Please try again.",
+      style: `
+          border-radius: 5px;
+          background: #fff;
+          color: #000;
+          border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"};
+          font-size: 15px;
+        `,
+    });
+  }
+
+  async function createStrategy(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    formData.append("user", data?.user?.id);
+
+    // If removeList is true (New Filter), use empty rules
+    // Otherwise (Save/Save as New), use current ruleOfList
+    const rulesToSave = removeList ? [] : ruleOfList;
+
+    formData.append("rules", JSON.stringify(rulesToSave));
+
+    let title = formData.get("title");
+
+    if (!title || title.length === 0) {
+      title = "My Filter";
+    }
+
+    if (title?.length > 100) {
+      toast.error("Title is too long. Please keep it under 100 characters.", {
+        style: `
+          border-radius: 5px;
+          background: #fff;
+          color: #000;
+          border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"};
+          font-size: 15px;
+        `,
+      });
+      return;
+    }
+
+    // build postData object
+    const postData = { type: "darkPoolFlow" };
+    for (const [key, value] of formData.entries()) {
+      postData[key] = value;
+    }
+
+    // wrap the fetch + response check + state updates in a promise
+    const createPromise = (async () => {
+      const response = await fetch("/api/create-strategy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Network error: ${response.status}`);
+      }
+
+      const output = await response.json();
+      if (!output?.id) {
+        throw new Error("Server did not return a new strategy ID");
+      }
+
+      toast.success("Filter created successfully!", {
+        style: `
+          border-radius: 5px;
+          background: #fff;
+          color: #000;
+          border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"};
+          font-size: 15px;
+        `,
+      });
+
+      // close modal
+      const closePopup = document.getElementById("addStrategy");
+      closePopup?.dispatchEvent(new MouseEvent("click"));
+
+      selectedStrategy = output.id;
+      strategyList?.unshift(output);
+
+      // Sync ruleOfList with what was just created
+      if (removeList) {
+        // "New Filter" path: Set ruleOfList to empty (clean slate)
+        removeList = false;
+
+        ruleOfList = [];
+
+        // Reset all rule conditions and values to defaults
+        Object.keys(allRules).forEach((ruleName) => {
+          ruleCondition[ruleName] = allRules[ruleName].defaultCondition;
+          valueMappings[ruleName] = allRules[ruleName].defaultValue;
+        });
+
+        // Clear data
+        filteredData = [];
+        displayedData = [];
+        checkedItems = new Set();
+      }
+      // else: "Save" or "Save as New" - ruleOfList already matches what was saved
+
+      // Update displayed rules
+      displayRules = allRows?.filter((row) =>
+        ruleOfList?.some((rule) => rule.name === row.rule),
+      );
+
+      // Update checkedItems
+      checkedItems = new Set(
+        ruleOfList
+          ?.filter((rule) => categoricalRules?.includes(rule.name))
+          ?.flatMap((rule) => rule.value),
+      );
+
+      // Trigger the filter system
+      shouldLoadWorker.set(true);
+
+      return output;
+    })();
+
+    // show loading / success / error around the whole operation
+    return toast.promise(createPromise, {
+      loading: "Creating filter...",
+      success: () => "", // we already show success inside the promise
+      error: "Something went wrong. Please try again later!",
+      style: `
+          border-radius: 5px;
+          background: #fff;
+          color: #000;
+          border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"};
+          font-size: 15px;
+        `,
+    });
+  }
+
+  async function handleSave(showMessage) {
+    if (!data?.user) return;
+
+    if (strategyList?.length === 0) {
+      handleCreateStrategy();
+      return; // Don't continue, let createStrategy handle the save
+    }
+
+    if (strategyList?.length > 0) {
+      strategyList.find((item) => item.id === selectedStrategy).rules =
+        ruleOfList;
+
+      const postData = {
+        strategyId: selectedStrategy,
+        rules: ruleOfList,
+        type: "darkPoolFlow",
+      };
+
+      const savePromise = (async () => {
+        const response = await fetch("/api/save-strategy", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(postData),
+        });
+        if (!response.ok) {
+          throw new Error(`Server responded with ${response.status}`);
+        }
+        return response;
+      })();
+
+      if (showMessage) {
+        return toast.promise(savePromise, {
+          loading: "Saving filters...",
+          success: "Filters saved!",
+          error: "Save failed. Please try again.",
+          style: `
+              border-radius: 5px;
+              background: #fff;
+              color: #000;
+              border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"};
+              font-size: 15px;
+            `,
+        });
+      } else {
+        // just await without toast
+        await savePromise;
+      }
+    }
   }
 
   function changeRule(state: string) {
@@ -253,7 +585,11 @@
     await handleChangeValue(valueMappings[ruleName]);
   }
 
-  let checkedItems = new Set(ruleOfList.flatMap((rule) => rule.value));
+  let checkedItems = new Set(
+    ruleOfList
+      ?.filter((rule) => categoricalRules?.includes(rule.name))
+      ?.flatMap((rule) => rule.value),
+  );
 
   function isChecked(item) {
     return checkedItems.has(item);
@@ -358,9 +694,8 @@
       ruleOfList = [...ruleOfList];
     }
 
-    // Trigger worker load and save cookie
+    // Trigger worker load
     shouldLoadWorker.set(true);
-    saveRules();
   }
 
   async function stepSizeValue(value, condition) {
@@ -436,68 +771,34 @@
       });
     }
   }
-  function saveRules() {
-    try {
-      // Save the version along with the rules
-      localStorage?.setItem(pagePathName, JSON?.stringify(ruleOfList));
-    } catch (e) {
-      console.log("Failed saving indicator rules: ", e);
-    }
-  }
-
-  /*
-  $: if ($isOpen) {
-    websocketRealtimeData();
-  }
-  */
 
   onMount(async () => {
-    try {
-      const savedRules = localStorage?.getItem(pagePathName);
-
-      if (savedRules) {
-        const parsedRules = JSON.parse(savedRules);
-        // Compare and update ruleOfList based on allRows
-        ruleOfList = parsedRules.map((rule) => {
-          const matchingRow = allRows.find((row) => row.name === rule.name);
-          if (matchingRow && matchingRow.type !== rule.type) {
-            return { ...rule, type: matchingRow.type };
-          }
-          return rule;
-        });
-      }
-    } catch (e) {
-      ruleOfList = [];
-      console.warn(e);
-    }
-
-    // Update ruleCondition and valueMappings based on existing rules
     ruleOfList?.forEach((rule) => {
       ruleCondition[rule.name] =
         rule.condition || allRules[rule.name].defaultCondition;
       valueMappings[rule.name] = rule.value || allRules[rule.name].defaultValue;
     });
 
-    if (filterQuery?.length > 0) {
-      shouldLoadWorker.set(true);
-    }
-    if (ruleOfList?.length > 0) {
-      shouldLoadWorker.set(true);
-      console.log("initial filter");
-    }
-
     displayRules = allRows?.filter((row) =>
       ruleOfList?.some((rule) => rule?.name === row?.rule),
     );
 
     audio = new Audio(notifySound);
-    displayedData = rawData;
 
     if (!syncWorker) {
       const SyncWorker = await import("./workers/filterWorker?worker");
       syncWorker = new SyncWorker.default();
       syncWorker.onmessage = handleMessage;
     }
+
+    if (filterQuery?.length > 0 || ruleOfList?.length !== 0) {
+      // Use non-debounced version for immediate initial load
+    } else {
+      // If no initial filter, set displayedData directly and mark as loaded
+      displayedData = [...rawData];
+    }
+
+    await loadWorker();
 
     shouldLoadWorker.subscribe(async (value) => {
       if (value) {
@@ -656,7 +957,9 @@
         </div>
         -->
       <div class="flex flex-col md:flex-row items-start md:items-center mb-5">
-        <div class="w-full flex-col sm:flex flex-row items-center sm:mt-4">
+        <div
+          class="w-full flex flex-col sm:flex-row items-start sm:items-center sm:mt-4"
+        >
           <h1 class="text-2xl sm:text-3xl font-semibold">
             Realtime Dark-Pool Flow
           </h1>
@@ -665,6 +968,117 @@
           >
             {displayedData?.length?.toLocaleString("en-US")} Orders Found
           </span>
+        </div>
+
+        <div class="flex flex-row items-center w-full mt-5 justify-end">
+          <div class="flex w-full sm:w-[50%] sm:ml-3 md:block md:w-auto">
+            <div
+              class="hidden text-sm sm:text-[1rem] font-semibold md:block sm:mb-1"
+            >
+              Saved Filters
+            </div>
+            <div class="relative inline-block text-left grow">
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild let:builder>
+                  <Button
+                    builders={[builder]}
+                    class="min-w-[110px] w-full border-gray-300 dark:border-gray-600 border bg-black dark:bg-default sm:hover:bg-default dark:sm:hover:bg-primary text-white ease-out flex flex-row justify-between items-center px-3 py-2 rounded truncate"
+                  >
+                    <span class="truncate max-w-48"
+                      >{selectedStrategy?.length !== 0
+                        ? strategyList?.find(
+                            (item) => item.id === selectedStrategy,
+                          )?.title
+                        : "Select Filter"}</span
+                    >
+                    <svg
+                      class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </Button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content
+                  class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller"
+                >
+                  <DropdownMenu.Label
+                    class="text-muted dark:text-gray-400 font-normal"
+                  >
+                    <DropdownMenu.Trigger asChild let:builder>
+                      <Button
+                        on:click={() => {
+                          removeList = true;
+                          handleCreateStrategy();
+                        }}
+                        builders={[builder]}
+                        class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap bg-[#0909B] focus:outline-hidden"
+                      >
+                        <svg
+                          class="h-4 w-4"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width:40px"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                        <div class="text-sm text-start">New Filter</div>
+                      </Button>
+                    </DropdownMenu.Trigger>
+                  </DropdownMenu.Label>
+                  <DropdownMenu.Separator />
+                  <DropdownMenu.Group>
+                    {#each strategyList as item}
+                      <DropdownMenu.Item
+                        on:click={(e) => {
+                          e.preventDefault();
+                          switchStrategy(item);
+                        }}
+                        class="whitespace-nowrap {item?.id === selectedStrategy
+                          ? 'bg-gray-300 dark:bg-primary'
+                          : ''} cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                      >
+                        {item?.title?.length > 20
+                          ? item?.title?.slice(0, 20) + "..."
+                          : item?.title} ({item?.rules?.length})
+
+                        <label
+                          for="deleteStrategy"
+                          class="ml-auto inline-block cursor-pointer sm:hover:text-red-500"
+                        >
+                          <svg
+                            class="size-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            style="max-width:40px"
+                            ><path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            ></path></svg
+                          >
+                        </label>
+                      </DropdownMenu.Item>
+                    {/each}
+                  </DropdownMenu.Group>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -839,7 +1253,7 @@
           >
             <label
               for="ruleModal"
-              class="filter-driver inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none py-2 pl-3 pr-4 font-semibold shadow-xs bg-[#000] text-white dark:sm:hover:bg-default/60 transition duration-50 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+              class="filter-driver inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none py-2 pl-3 pr-4 font-semibold shadow-xs bg-default text-white sm:hover:bg-black dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden focus:ring-2 focus:ring-blue-500"
             >
               <svg
                 class="h-5 w-5"
@@ -857,13 +1271,53 @@
               <div>Add Filters</div>
             </label>
 
+            {#if data?.user}
+              <label
+                for={!data?.user ? "userLogin" : ""}
+                on:click={() => handleSave(true)}
+                class="text-[0.95rem] sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+              >
+                <svg
+                  class="w-4 h-4 mr-2 inline-block cursor-pointer shrink-0"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  ><path
+                    fill="currentColor"
+                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+                  /></svg
+                >
+                <div>Save</div>
+              </label>
+
+              {#if strategyList?.length > 0}
+                <label
+                  for={!data?.user
+                    ? "userLogin"
+                    : ["Pro"]?.includes(data?.user?.tier)
+                      ? "addStrategy"
+                      : ""}
+                  on:click={() => {
+                    if (!["Pro"]?.includes(data?.user?.tier) && data?.user) {
+                      toast.info("Available only to Pro Member", {
+                        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+                      });
+                    }
+                  }}
+                  class="text-[0.95rem] sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+                >
+                  <Copy class="w-4 h-4 inline-block mr-2" />
+                  <div>Save as New</div>
+                </label>
+              {/if}
+            {/if}
+
             {#if ruleOfList?.length !== 0}
               <label
                 on:click={handleResetAll}
-                class="sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-transparent bg-blue-brand_light py-2 pl-3 pr-4 font-semibold shadow-xs bg-[#000] text-white dark:sm:hover:bg-default/60 transition duration-50 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                class="text-[0.95rem] lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:text-red-500 ease-out focus:outline-hidden"
               >
                 <svg
-                  class="h-4 w-4 text-white"
+                  class="h-4 w-4"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 21 21"
                   ><g
@@ -1417,6 +1871,99 @@
   </div>
 </dialog>
 <!--End Choose Rule Modal-->
+
+<!--Start Add Strategy Modal-->
+<input type="checkbox" id="addStrategy" class="modal-toggle" />
+
+<dialog id="addStrategy" class="modal modal-bottom sm:modal-middle">
+  <label for="addStrategy" class="cursor-pointer modal-backdrop"></label>
+
+  <div
+    class="modal-box w-full p-6 rounded border
+        bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+  >
+    <h1 class="text-2xl font-bold">New Filter</h1>
+
+    <form
+      on:submit={createStrategy}
+      method="POST"
+      class="space-y-2 pt-5 pb-10 sm:pb-5"
+    >
+      <Input
+        id="title"
+        type="text"
+        errors=""
+        label="Filter Name"
+        required={true}
+      />
+
+      <button
+        type="submit"
+        class="cursor-pointer mt-2 py-2.5 bg-black dark:bg-[#fff] dark:sm:hover:bg-gray-300 duration-100 w-full rounded m-auto text-white dark:text-black font-semibold text-md"
+      >
+        Create Filter
+      </button>
+    </form>
+  </div>
+</dialog>
+
+<!--End Add Strategy Modal-->
+
+<!--Start Delete Strategy Modal-->
+<input type="checkbox" id="deleteStrategy" class="modal-toggle" />
+
+<dialog id="deleteStrategy" class="modal modal-bottom sm:modal-middle">
+  <label for="deleteStrategy" class="cursor-pointer modal-backdrop"></label>
+
+  <div
+    class="modal-box w-full p-6 rounded border
+          bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+  >
+    <h3 class="text-lg font-medium mb-2">Delete Filter</h3>
+    <p class="text-sm mb-6">
+      Are you sure you want to delete this filter? This action cannot be undone.
+    </p>
+    <div class="flex justify-end space-x-3">
+      <label
+        for="deleteStrategy"
+        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
+              transition-colors duration-100
+              bg-gray-600 text-white dark:bg-white dark:text-black"
+        tabindex="0">Cancel</label
+      ><label
+        for="deleteStrategy"
+        on:click={handleDeleteStrategy}
+        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
+              transition-colors duration-100 flex items-center
+              bg-red-600 text-white sm:hover:bg-red-700
+              "
+        tabindex="0"
+        ><svg
+          stroke="currentColor"
+          fill="none"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-4 h-4 mr-2"
+          height="1em"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+          ><polyline points="3 6 5 6 21 6"></polyline><path
+            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+          ></path><line x1="10" y1="11" x2="10" y2="17"></line><line
+            x1="14"
+            y1="11"
+            x2="14"
+            y2="17"
+          ></line></svg
+        >Delete Filter</label
+      >
+    </div>
+  </div>
+</dialog>
+
+<!--End Delete Strategy Modal-->
 
 <!--Start Options Detail Desktop Modal-->
 
