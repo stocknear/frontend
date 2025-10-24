@@ -1,11 +1,45 @@
 <script lang="ts">
+  import { page } from "$app/stores";
+
   export let data;
 
-  let activeIdx = 0;
-  let tabs = [
-    { title: "Overview", path: "/portfolio" },
-    { title: "Analysis", path: "/portfolio/analysis" },
-  ];
+  let displaySection = "overview";
+  function changeSection(state) {
+    const sectionMap = {
+      insider: "/insider",
+      options: "/options",
+      "dark-pool": "/dark-pool",
+      dividends: "/dividends",
+      statistics: "/statistics",
+      metrics: "metrics",
+      forecast: "/forecast",
+      financials: "/financials",
+      history: "/history",
+      profile: "/profile",
+    };
+
+    if (state !== "overview" && sectionMap[state]) {
+      displaySection = state;
+      //goto(`/stocks/${$stockTicker}${sectionMap[state]}`);
+    } else {
+      displaySection = "overview";
+      //goto(`/stocks/${$stockTicker}/`);
+    }
+  }
+
+  $: {
+    if ($page?.url?.pathname) {
+      const parts = $page?.url?.pathname?.split("/");
+      const sectionMap = {
+        overview: "overview",
+        analysis: "analysis",
+      };
+      displaySection =
+        sectionMap[
+          parts?.find((part) => Object?.keys(sectionMap)?.includes(part))
+        ] || "overview";
+    }
+  }
 </script>
 
 <section
@@ -32,16 +66,24 @@
             <ul
               class="flex flex-row items-center w-full text-sm sm:text-[1rem]"
             >
-              {#each tabs as item, i}
-                <a
-                  href={item?.path}
-                  class="p-2 px-5 cursor-pointer {activeIdx === i
-                    ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
-                    : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
-                >
-                  {item.title}
-                </a>
-              {/each}
+              <a
+                href={`/portfolio/`}
+                on:click={() => changeSection("overview")}
+                class="p-2 px-5 cursor-pointer {displaySection === 'overview'
+                  ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
+                  : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+              >
+                Overview
+              </a>
+              <a
+                href={`/portfolio/analysis`}
+                on:click={() => changeSection("analysis")}
+                class="p-2 px-5 cursor-pointer {displaySection === 'analysis'
+                  ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
+                  : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+              >
+                Analysis
+              </a>
             </ul>
           </nav>
 
