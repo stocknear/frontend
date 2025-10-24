@@ -69,9 +69,6 @@
             industry: "Semiconductors",
             weight: 2.2,
         },
-        { symbol: "PLTR", sector: "Tech", industry: "Software", weight: 7.1 },
-        { symbol: "CRWD", sector: "Tech", industry: "Software", weight: 7.1 },
-        { symbol: "IREN", sector: "Tech", industry: "Software", weight: 7.1 },
     ];
 
     let sankeyConfig = null;
@@ -86,7 +83,7 @@
         // Add Portfolio node
         nodes.push({
             id: "Portfolio",
-            color: "#3B82F6",
+            color: "rgba(59, 130, 246, 0.3)",
             column: 0,
         });
 
@@ -115,7 +112,7 @@
         sectorMap.forEach((weight, sector) => {
             nodes.push({
                 id: sector,
-                color: "#3B82F6",
+                color: "rgba(59, 130, 246, 0.3)",
                 column: 1,
             });
             sankeyData.push(["Portfolio", sector, weight]);
@@ -128,7 +125,7 @@
                 nodes.push({
                     id: industryKey,
                     name: item.industry,
-                    color: "#3B82F6",
+                    color: "transparent",
                     column: 2,
                 });
             }
@@ -140,18 +137,23 @@
             const industryKey = `${item.sector}-${item.industry}`;
             nodes.push({
                 id: item.symbol,
-                color: "#3B82F6",
+                color: "rgba(59, 130, 246, 0.3)",
                 column: 3,
             });
-            sankeyData.push([industryKey, item.symbol, item.weight]);
+            sankeyData.push({
+                from: industryKey,
+                to: item.symbol,
+                weight: item.weight,
+                color: "rgba(59, 130, 246, 0.3)",
+            });
         });
 
         sankeyConfig = {
             credits: { enabled: false },
             chart: {
                 backgroundColor: "transparent",
-                height: 700,
-                spacing: [20, 20, 20, 20],
+                height: 650,
+                spacing: [30, 20, 30, 20],
                 animation: false,
             },
             title: {
@@ -164,21 +166,31 @@
                 },
             },
             tooltip: {
-                backgroundColor: "rgba(0,0,0,0.9)",
-                borderWidth: 0,
-                borderRadius: 8,
-                style: {
-                    color: "#fff",
-                    fontSize: "13px",
-                },
-                headerFormat: null,
-                pointFormat:
-                    "{point.fromNode.name} \u2192 {point.toNode.name}: {point.weight:.1f}%",
-                nodeFormat: "{point.name}: {point.sum:.1f}%",
+                enabled: false,
             },
             plotOptions: {
                 sankey: {
                     animation: false,
+                    curveFactor: 0.6,
+                    states: {
+                        hover: {
+                            enabled: false,
+                        },
+                        inactive: {
+                            enabled: false,
+                        },
+                    },
+                },
+                series: {
+                    animation: false,
+                    states: {
+                        hover: {
+                            enabled: false,
+                        },
+                        inactive: {
+                            enabled: false,
+                        },
+                    },
                 },
             },
             series: [
@@ -199,9 +211,19 @@
                         nodeFormat: "{point.name} {point.sum:.1f}%",
                         format: undefined,
                     },
-                    linkOpacity: 0.5,
-                    nodeWidth: 20,
-                    nodePadding: 10,
+                    linkOpacity: 0.4,
+                    nodeWidth: 0,
+                    nodePadding: 35,
+                    minLinkWidth: 0,
+                    states: {
+                        hover: {
+                            enabled: false,
+                        },
+                        inactive: {
+                            enabled: false,
+                        },
+                    },
+                    enableMouseTracking: true,
                 },
             ],
         };
@@ -254,7 +276,7 @@
                     <div use:highcharts={sankeyConfig}></div>
                 {:else}
                     <div
-                        class="flex items-center justify-center h-[700px] text-gray-500 dark:text-gray-400"
+                        class="flex items-center justify-center h-[950px] text-gray-500 dark:text-gray-400"
                     >
                         <p class="text-sm">Loading diversification chart...</p>
                     </div>
