@@ -293,8 +293,6 @@
 
       allList = [...allList];
       if (watchList?.length > 0) {
-        columns = generateColumns(watchList);
-        sortOrders = generateSortOrders(watchList);
         groupedNews = groupNews(news, watchList);
         groupedEarnings = groupEarnings(earnings);
       } else {
