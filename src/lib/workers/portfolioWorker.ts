@@ -29,12 +29,12 @@ interface WorkerResponse {
  * Calculate portfolio metrics for each item
  */
 function calculatePortfolioMetrics(data: PortfolioItem[]): PortfolioItem[] {
-  if (!Array.isArray(data) || data.length === 0) {
+  if (!Array?.isArray(data) || data?.length === 0) {
     return data;
   }
 
   // First pass: Calculate individual metrics (profit/loss, total return, today return)
-  const processedData = data.map((row) => {
+  const processedData = data?.map((row) => {
     const avgPrice = parseFloat(String(row.avgPrice)) || 0;
     const shares = parseFloat(String(row.shares)) || 0;
     const currentPrice = parseFloat(String(row.price)) || 0;
@@ -46,17 +46,17 @@ function calculatePortfolioMetrics(data: PortfolioItem[]): PortfolioItem[] {
     if (shares > 0) {
       // Calculate Today P&L (dollar amount): (changesPercentage / 100) * currentPrice * shares
       const todayPL = (changesPercentage / 100) * currentPrice * shares;
-      updatedRow.todayReturn = Math.round(todayPL * 100) / 100; // Round to 2 decimal places
+      updatedRow.todayReturn = Math?.round(todayPL * 100) / 100; // Round to 2 decimal places
 
       // Only calculate profit/loss and total return if avgPrice is provided
       if (avgPrice > 0) {
         // Calculate Profit/Loss: (current price - avg price) * shares
         const profitLoss = (currentPrice - avgPrice) * shares;
-        updatedRow.profitLoss = Math.round(profitLoss * 100) / 100; // Round to 2 decimal places
+        updatedRow.profitLoss = Math?.round(profitLoss * 100) / 100; // Round to 2 decimal places
 
         // Calculate Total Return %: ((current price - avg price) / avg price) * 100
         const totalReturn = ((currentPrice - avgPrice) / avgPrice) * 100;
-        updatedRow.totalReturn = Math.round(totalReturn * 100) / 100; // Round to 2 decimal places
+        updatedRow.totalReturn = Math?.round(totalReturn * 100) / 100; // Round to 2 decimal places
       } else {
         updatedRow.profitLoss = null;
         updatedRow.totalReturn = null;
@@ -72,7 +72,7 @@ function calculatePortfolioMetrics(data: PortfolioItem[]): PortfolioItem[] {
 
   // Second pass: Calculate total portfolio value for weight calculation
   let totalValue = 0;
-  processedData.forEach((item) => {
+  processedData?.forEach((item) => {
     const price = parseFloat(String(item.price)) || 0;
     const shares = parseFloat(String(item.shares)) || 0;
     totalValue += price * shares;
@@ -80,7 +80,7 @@ function calculatePortfolioMetrics(data: PortfolioItem[]): PortfolioItem[] {
 
   // Third pass: Calculate and assign weights
   if (totalValue > 0) {
-    processedData.forEach((item) => {
+    processedData?.forEach((item) => {
       const price = parseFloat(String(item.price)) || 0;
       const shares = parseFloat(String(item.shares)) || 0;
       if (shares > 0) {
@@ -91,7 +91,7 @@ function calculatePortfolioMetrics(data: PortfolioItem[]): PortfolioItem[] {
       }
     });
   } else {
-    processedData.forEach((item) => {
+    processedData?.forEach((item) => {
       item.weight = null;
     });
   }

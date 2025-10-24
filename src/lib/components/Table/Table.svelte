@@ -93,12 +93,15 @@
   let inputValue = "";
 
   // Initialize portfolio calculations on data load using worker
-  async function initializePortfolioCalculations(data: DataRow[]): Promise<void> {
-    if (!Array.isArray(data) || data.length === 0) return;
+  async function initializePortfolioCalculations(
+    data: DataRow[],
+  ): Promise<void> {
+    if (!Array?.isArray(data) || data?.length === 0) return;
 
     // Check if data has portfolio-specific fields (shares, avgPrice)
-    const hasPortfolioFields = data.some(item =>
-      item.hasOwnProperty('shares') || item.hasOwnProperty('avgPrice')
+    const hasPortfolioFields = data.some(
+      (item) =>
+        item?.hasOwnProperty("shares") || item?.hasOwnProperty("avgPrice"),
     );
 
     if (!hasPortfolioFields || !portfolioWorker) {
@@ -481,7 +484,11 @@
     if (!row) return;
 
     // Trigger worker to recalculate all portfolio metrics for all data
-    if (portfolioWorker && Array.isArray(originalData) && originalData.length > 0) {
+    if (
+      portfolioWorker &&
+      Array?.isArray(originalData) &&
+      originalData.length > 0
+    ) {
       portfolioWorker.postMessage({ data: originalData });
     }
   }
@@ -743,7 +750,7 @@
       // Update originalData with calculated metrics
       originalData = calculatedData.map((calcItem) => {
         const existingItem = originalData.find(
-          (item) => item.symbol === calcItem.symbol
+          (item) => item.symbol === calcItem.symbol,
         );
         return existingItem ? { ...existingItem, ...calcItem } : calcItem;
       });
@@ -752,7 +759,7 @@
       if (Array.isArray(rawData) && rawData.length > 0) {
         rawData = rawData.map((item) => {
           const calcItem = calculatedData.find(
-            (calc) => calc.symbol === item.symbol
+            (calc) => calc.symbol === item.symbol,
           );
           return calcItem ? { ...item, ...calcItem } : item;
         });
@@ -762,7 +769,7 @@
       if (Array.isArray(stockList) && stockList.length > 0) {
         stockList = stockList.map((item) => {
           const calcItem = calculatedData.find(
-            (calc) => calc.symbol === item.symbol
+            (calc) => calc.symbol === item.symbol,
           );
           return calcItem ? { ...item, ...calcItem } : item;
         });
