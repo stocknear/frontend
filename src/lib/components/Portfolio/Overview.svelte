@@ -1,6 +1,7 @@
 <script lang="ts">
     import highcharts from "$lib/highcharts";
     import { screenWidth } from "$lib/store.ts";
+    import { mode } from "mode-watcher";
 
     export let data;
     export let portfolioData = [];
@@ -312,15 +313,16 @@
             title: { text: undefined },
             xAxis: {
                 categories: perfCategories,
-                lineColor: "#222",
-                tickColor: "#333",
-                labels: { style: { color: "#9CA3AF" } },
+                gridLineWidth: 0,
+                labels: {
+                    style: { color: $mode === "light" ? "#545454" : "white" },
+                },
             },
             yAxis: {
-                title: { text: undefined },
-                gridLineColor: "#1f2937",
+                gridLineWidth: 1,
+                gridLineColor: $mode === "light" ? "#e5e7eb" : "#111827",
                 labels: {
-                    style: { color: "#9CA3AF" },
+                    style: { color: $mode === "light" ? "#545454" : "white" },
                     formatter: function () {
                         return this.value + "%";
                     },
@@ -328,7 +330,7 @@
             },
             legend: {
                 enabled: true,
-                itemStyle: { color: "#E5E7EB" },
+                itemStyle: { color: $mode === "light" ? "#000" : "#E5E7EB" },
                 itemHoverStyle: { color: "#FFF" },
             },
             tooltip: {
@@ -428,13 +430,16 @@
                 labels: {
                     enabled: true,
                     style: {
-                        color: "#E5E7EB",
+                        color: $mode === "light" ? "#000" : "#E5E7EB",
                         fontSize: "12px",
                         fontWeight: "600",
                     },
                     distance: 15,
                 },
-                gridLineColor: "rgba(255,232,74,0.2)",
+                gridLineColor:
+                    $mode === "light"
+                        ? "rgba(0,0,0,0.4)"
+                        : "rgba(255,255,255,0.2)",
                 gridLineWidth: 1.5,
             },
             yAxis: {
@@ -445,14 +450,31 @@
                 labels: {
                     enabled: false,
                     style: {
-                        color: "#6B7280",
+                        color: $mode === "light" ? "#000" : "#6B7280",
                         fontSize: "10px",
                         fontWeight: "500",
                     },
                     y: 5,
                 },
-                gridLineColor: "rgba(255,232,74,0.15)",
+                gridLineColor:
+                    $mode === "light"
+                        ? "rgba(0,0,0,0.4)"
+                        : "rgba(255,255,255,0.2)",
                 gridLineWidth: 1,
+                plotBands: [
+                    {
+                        from: 80,
+                        to: 100,
+                        color:
+                            $mode === "light" ? "rgba(0,0,0,0.3)" : "#1e222d",
+                    },
+                    {
+                        from: 0,
+                        to: 20,
+                        color:
+                            $mode === "light" ? "rgba(0,0,0,0.3)" : "#1e222d",
+                    },
+                ],
             },
             legend: { enabled: false },
             tooltip: {
@@ -553,7 +575,8 @@
     $: if (
         selectedTimePeriod &&
         portfolioData?.length > 0 &&
-        typeof window !== "undefined"
+        typeof window !== "undefined" &&
+        $mode
     ) {
         getPortfolioData();
     }
@@ -568,27 +591,27 @@
         {#if portfolioData.length > 0}
             <div class="flex items-center gap-2 text-sm mb-6">
                 <span
-                    class="px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 cursor-pointer bg-[#EEEEEE] dark:bg-secondary font-semibol"
+                    class="px-3 py-1 rounded-full transition-all duration-50 ease-out border border-gray-300 dark:border-gray-800 cursor-pointer bg-[#EEEEEE] dark:bg-secondary font-semibold"
                     >Overview</span
                 >
                 <span
-                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
+                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-gray-300 dark:border-gray-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
                     >Returns</span
                 >
                 <span
-                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
+                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-gray-300 dark:border-gray-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
                     >Analysis</span
                 >
                 <span
-                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
+                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-gray-300 dark:border-gray-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
                     >Updates</span
                 >
                 <span
-                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
+                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-gray-300 dark:border-gray-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
                     >Dividends</span
                 >
                 <span
-                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-zinc-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
+                    class="cursor-pointer px-3 py-1 rounded-full transition-all duration-50 ease-out border border-gray-300 dark:border-gray-800 text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary"
                     >Analysis</span
                 >
             </div>
@@ -600,7 +623,9 @@
             <!-- LEFT -->
             <div class="w-full">
                 <!-- Header -->
-                <div class="rounded-lg border border-zinc-800 p-5">
+                <div
+                    class="rounded-lg border border-gray-300 dark:border-gray-800 p-5"
+                >
                     <div class="w-full overflow-hidden">
                         <header class="relative">
                             <!-- soft top gradient -->
@@ -781,7 +806,9 @@
             <!-- RIGHT -->
             <div class="w-full sm:w-[40%]">
                 <!-- Health + Radar -->
-                <div class="rounded-lg border border-zinc-800 p-5">
+                <div
+                    class="rounded-lg border border-gray-300 dark:border-gray-800 p-5"
+                >
                     <h3 class="text-[1rem] font-semibold">
                         Status: <span class={healthStatusColor}
                             >{overallHealthStatus}</span
