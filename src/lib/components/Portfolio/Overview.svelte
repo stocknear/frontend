@@ -646,13 +646,13 @@
 
                                 <!-- Time Period Selector -->
                                 <div
-                                    class="flex items-center gap-1 mt-3 sm:mt-0"
+                                    class="flex items-center gap-1 mt-3 sm:mt-0 mb-4 sm:mb-0"
                                 >
                                     {#each timePeriods as period}
                                         <button
                                             on:click={() =>
                                                 (selectedTimePeriod = period)}
-                                            class="cursor-pointer px-2 py-1 text-xs rounded transition-all duration-50 {selectedTimePeriod ===
+                                            class="shadow cursor-pointer px-2 py-1 text-xs rounded transition-all duration-50 {selectedTimePeriod ===
                                             period
                                                 ? 'bg-black dark:bg-white text-white dark:text-black '
                                                 : ' bg-gray-100 dark:bg-table shadow'}"
@@ -796,7 +796,7 @@
                             <div use:highcharts={perfConfig}></div>
                         {:else}
                             <div
-                                class="flex items-center justify-center h-[235px] text-gray-500 dark:text-gray-400"
+                                class="flex items-center justify-center h-[100px] sm:h-[235px] text-center"
                             >
                                 <p class="text-sm">
                                     Add shares and average price to view
