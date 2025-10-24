@@ -352,8 +352,6 @@
 
       allList = [...allList];
       if (portfolio?.length > 0) {
-        columns = generateColumns(portfolio);
-        sortOrders = generateSortOrders(portfolio);
         groupedNews = groupNews(news, portfolio);
         groupedEarnings = groupEarnings(earnings);
       } else {
@@ -373,12 +371,34 @@
     // Set a new timeout to save after 1 second of no changes
     saveTimeoutId = setTimeout(async () => {
       try {
-        // Prepare ticker data as array of objects with symbol, shares, avgPrice
-        const tickerData = updatedPortfolio?.map((item) => ({
-          symbol: item?.symbol,
-          shares: item?.shares ?? null,
-          avgPrice: item?.avgPrice ?? null,
-        }));
+        // Calculate total portfolio value for weight calculation
+        const totalValue = updatedPortfolio?.reduce((sum, item) => {
+          const price = parseFloat(item?.price) || 0;
+          const shares = parseFloat(item?.shares) || 0;
+          return sum + price * shares;
+        }, 0);
+
+        // Prepare ticker data with weight calculation and sort by weight (highest to lowest)
+        const tickerData = updatedPortfolio
+          ?.map((item) => {
+            const price = parseFloat(item?.price) || 0;
+            const shares = parseFloat(item?.shares) || 0;
+            const value = price * shares;
+            const weight = totalValue > 0 ? (value / totalValue) * 100 : 0;
+
+            return {
+              symbol: item?.symbol,
+              shares: item?.shares ?? null,
+              avgPrice: item?.avgPrice ?? null,
+              _weight: weight, // Temporary field for sorting
+            };
+          })
+          ?.sort((a, b) => (b._weight || 0) - (a._weight || 0)) // Sort by weight descending
+          ?.map(({ symbol, shares, avgPrice }) => ({
+            symbol,
+            shares,
+            avgPrice,
+          })); // Remove _weight
 
         const postData = {
           ticker: tickerData,
