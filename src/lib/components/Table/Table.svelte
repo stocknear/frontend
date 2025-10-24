@@ -92,72 +92,28 @@
   let sortMode = false;
   let inputValue = "";
 
-  // Initialize portfolio calculations on data load
-  function initializePortfolioCalculations(data: DataRow[]): void {
+  // Initialize portfolio calculations on data load using worker
+  async function initializePortfolioCalculations(data: DataRow[]): Promise<void> {
     if (!Array.isArray(data) || data.length === 0) return;
 
-    // First, calculate metrics for each row
-    data.forEach((row) => {
-      const avgPrice = parseFloat(row.avgPrice as string) || 0;
-      const shares = parseFloat(row.shares as string) || 0;
-      const currentPrice = parseFloat(row.price as string) || 0;
-      const changesPercentage =
-        parseFloat(row.changesPercentage as string) || 0;
+    // Check if data has portfolio-specific fields (shares, avgPrice)
+    const hasPortfolioFields = data.some(item =>
+      item.hasOwnProperty('shares') || item.hasOwnProperty('avgPrice')
+    );
 
-      if (shares > 0) {
-        // Calculate Today P&L (dollar amount): (changesPercentage / 100) * currentPrice * shares
-        const todayPL = (changesPercentage / 100) * currentPrice * shares;
-        row.todayReturn = Math.round(todayPL * 100) / 100; // Round to 2 decimal places
-
-        // Only calculate profit/loss and total return if avgPrice is provided
-        if (avgPrice > 0) {
-          // Calculate Profit/Loss: (current price - avg price) * shares
-          const profitLoss = (currentPrice - avgPrice) * shares;
-          row.profitLoss = Math.round(profitLoss * 100) / 100; // Round to 2 decimal places
-
-          // Calculate Total Return %: ((current price - avg price) / avg price) * 100
-          const totalReturn = ((currentPrice - avgPrice) / avgPrice) * 100;
-          row.totalReturn = Math.round(totalReturn * 100) / 100; // Round to 2 decimal places
-        } else {
-          row.profitLoss = null;
-          row.totalReturn = null;
-        }
-      } else {
-        row.profitLoss = null;
-        row.totalReturn = null;
-        row.todayReturn = null;
-      }
-    });
-
-    // Then calculate weights
-    let totalValue = 0;
-    data.forEach((item) => {
-      const price = parseFloat(item.price as string) || 0;
-      const shares = parseFloat(item.shares as string) || 0;
-      totalValue += price * shares;
-    });
-
-    if (totalValue > 0) {
-      data.forEach((item) => {
-        const price = parseFloat(item.price as string) || 0;
-        const shares = parseFloat(item.shares as string) || 0;
-        if (shares > 0) {
-          const positionValue = price * shares;
-          item.weight = (positionValue / totalValue) * 100;
-        } else {
-          item.weight = null;
-        }
-      });
-    } else {
-      data.forEach((item) => {
-        item.weight = null;
-      });
+    if (!hasPortfolioFields || !portfolioWorker) {
+      // Not a portfolio context or worker not ready, skip calculation
+      return;
     }
+
+    // Use the worker to calculate portfolio metrics
+    portfolioWorker.postMessage({ data });
   }
 
   const defaultRules = defaultList?.map((item) => item?.rule);
 
   let searchWorker: Worker | undefined;
+  let portfolioWorker: Worker | undefined;
 
   let pagePathName = $page?.url?.pathname;
 
@@ -524,93 +480,9 @@
   function recalculatePortfolioMetrics(row: DataRow | undefined): void {
     if (!row) return;
 
-    const avgPrice = parseFloat(row.avgPrice as string) || 0;
-    const shares = parseFloat(row.shares as string) || 0;
-    const currentPrice = parseFloat(row.price as string) || 0;
-    const changesPercentage = parseFloat(row.changesPercentage as string) || 0;
-
-    if (shares > 0) {
-      // Calculate Today P&L (dollar amount): (changesPercentage / 100) * currentPrice * shares
-      const todayPL = (changesPercentage / 100) * currentPrice * shares;
-      row.todayReturn = Math.round(todayPL * 100) / 100; // Round to 2 decimal places
-
-      // Only calculate profit/loss and total return if avgPrice is provided
-      if (avgPrice > 0) {
-        // Calculate Profit/Loss: (current price - avg price) * shares
-        const profitLoss = (currentPrice - avgPrice) * shares;
-        row.profitLoss = Math.round(profitLoss * 100) / 100; // Round to 2 decimal places
-
-        // Calculate Total Return %: ((current price - avg price) / avg price) * 100
-        const totalReturn = ((currentPrice - avgPrice) / avgPrice) * 100;
-        row.totalReturn = Math.round(totalReturn * 100) / 100; // Round to 2 decimal places
-      } else {
-        row.profitLoss = null;
-        row.totalReturn = null;
-      }
-    } else {
-      row.profitLoss = null;
-      row.totalReturn = null;
-      row.todayReturn = null;
-    }
-
-    // Calculate portfolio weight - need to recalculate for all rows
-    recalculatePortfolioWeights();
-  }
-
-  function recalculatePortfolioWeights(): void {
-    if (!Array.isArray(originalData) || originalData.length === 0) return;
-
-    // Calculate total portfolio value
-    let totalValue = 0;
-    originalData.forEach((item) => {
-      const price = parseFloat(item.price as string) || 0;
-      const shares = parseFloat(item.shares as string) || 0;
-      totalValue += price * shares;
-    });
-
-    // Calculate weight for each position
-    if (totalValue > 0) {
-      originalData.forEach((item) => {
-        const price = parseFloat(item.price as string) || 0;
-        const shares = parseFloat(item.shares as string) || 0;
-        if (shares > 0) {
-          const positionValue = price * shares;
-          item.weight = (positionValue / totalValue) * 100;
-        } else {
-          item.weight = null;
-        }
-      });
-    } else {
-      originalData.forEach((item) => {
-        item.weight = null;
-      });
-    }
-
-    // Also update rawData and stockList if they exist
-    if (Array.isArray(rawData) && rawData.length > 0) {
-      rawData.forEach((item) => {
-        const price = parseFloat(item.price as string) || 0;
-        const shares = parseFloat(item.shares as string) || 0;
-        if (shares > 0 && totalValue > 0) {
-          const positionValue = price * shares;
-          item.weight = (positionValue / totalValue) * 100;
-        } else {
-          item.weight = null;
-        }
-      });
-    }
-
-    if (Array.isArray(stockList) && stockList.length > 0) {
-      stockList.forEach((item) => {
-        const price = parseFloat(item.price as string) || 0;
-        const shares = parseFloat(item.shares as string) || 0;
-        if (shares > 0 && totalValue > 0) {
-          const positionValue = price * shares;
-          item.weight = (positionValue / totalValue) * 100;
-        } else {
-          item.weight = null;
-        }
-      });
+    // Trigger worker to recalculate all portfolio metrics for all data
+    if (portfolioWorker && Array.isArray(originalData) && originalData.length > 0) {
+      portfolioWorker.postMessage({ data: originalData });
     }
   }
 
@@ -862,6 +734,46 @@
   loadRowsPerPage();
 
   allRows = sortIndicatorCheckMarks(allRows);
+
+  // Handle portfolio worker messages
+  const handlePortfolioMessage = (event) => {
+    if (event.data?.message === "success" && event.data?.data) {
+      const calculatedData = event.data.data;
+
+      // Update originalData with calculated metrics
+      originalData = calculatedData.map((calcItem) => {
+        const existingItem = originalData.find(
+          (item) => item.symbol === calcItem.symbol
+        );
+        return existingItem ? { ...existingItem, ...calcItem } : calcItem;
+      });
+
+      // Update rawData if it's in use
+      if (Array.isArray(rawData) && rawData.length > 0) {
+        rawData = rawData.map((item) => {
+          const calcItem = calculatedData.find(
+            (calc) => calc.symbol === item.symbol
+          );
+          return calcItem ? { ...item, ...calcItem } : item;
+        });
+      }
+
+      // Update stockList for display
+      if (Array.isArray(stockList) && stockList.length > 0) {
+        stockList = stockList.map((item) => {
+          const calcItem = calculatedData.find(
+            (calc) => calc.symbol === item.symbol
+          );
+          return calcItem ? { ...item, ...calcItem } : item;
+        });
+      }
+
+      // Force reactivity
+      originalData = [...originalData];
+      if (Array.isArray(rawData)) rawData = [...rawData];
+      if (Array.isArray(stockList)) stockList = [...stockList];
+    }
+  };
 
   const handleDownloadMessage = (event) => {
     let updateData = event?.data?.rawData ?? [];
@@ -1461,6 +1373,14 @@
         searchWorker.onmessage = handleSearchMessage;
       }
 
+      if (!portfolioWorker) {
+        const PortfolioWorker = await import(
+          "$lib/workers/portfolioWorker?worker"
+        );
+        portfolioWorker = new PortfolioWorker.default();
+        portfolioWorker.onmessage = handlePortfolioMessage;
+      }
+
       await updateStockScreenerData();
 
       // Initialize pagination
@@ -1518,6 +1438,17 @@
       // Close the WebSocket connection
       if (socket) {
         socket.close(1000, "Page unloaded");
+      }
+
+      // Terminate workers
+      if (portfolioWorker) {
+        portfolioWorker.terminate();
+      }
+      if (searchWorker) {
+        searchWorker.terminate();
+      }
+      if (downloadWorker) {
+        downloadWorker.terminate();
       }
     } catch (e) {
       console.log(e);
