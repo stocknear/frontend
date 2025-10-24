@@ -443,7 +443,7 @@
                 max: 100,
                 tickInterval: 20,
                 labels: {
-                    enabled: true,
+                    enabled: false,
                     style: {
                         color: "#6B7280",
                         fontSize: "10px",
