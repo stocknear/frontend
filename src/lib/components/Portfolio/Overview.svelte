@@ -5,6 +5,7 @@
 
     export let data;
     export let portfolioData = [];
+    export let portfolioOverviewData = null; // Optional: pre-fetched overview data from parent
 
     let performanceData = [];
     let seriesPerformance = [];
@@ -193,6 +194,39 @@
         }).format(value);
     }
 
+    // Process portfolio overview data (from API or parent component)
+    function processOverviewData(output) {
+        if (output && typeof output === "object") {
+            // Handle performance data
+            const performanceOutput = output.performance || output;
+            performanceData = performanceOutput;
+            const processed = processPerformanceData(performanceOutput);
+            perfCategories = processed.categories;
+            seriesPerformance = processed.series;
+            rawDates = processed.dates || [];
+
+            // Handle health score data
+            if (output?.health) {
+                healthScores = {
+                    categories:
+                        output.health.categories || healthScores.categories,
+                    values: output.health.values || healthScores.values,
+                };
+                buildRadar(); // Rebuild radar chart with new health scores
+            }
+
+            if (performanceOutput?.dividends) {
+                annualDividends =
+                    performanceOutput?.dividends?.annualDividends || 0;
+                dividendYield =
+                    performanceOutput?.dividends?.dividendYield || 0;
+            }
+
+            // Rebuild the performance chart with new data
+            buildPerf();
+        }
+    }
+
     // Fetch market data for portfolio holdings
     async function getPortfolioData() {
         // Filter portfolio to only include positions with both shares and avgPrice
@@ -229,37 +263,7 @@
             });
 
             const output = await response?.json();
-
-            // Process the performance and health data
-            if (output && typeof output === "object") {
-                // Handle performance data
-                const performanceOutput = output.performance || output;
-                performanceData = performanceOutput;
-                const processed = processPerformanceData(performanceOutput);
-                perfCategories = processed.categories;
-                seriesPerformance = processed.series;
-                rawDates = processed.dates || [];
-
-                // Handle health score data
-                if (output?.health) {
-                    healthScores = {
-                        categories:
-                            output.health.categories || healthScores.categories,
-                        values: output.health.values || healthScores.values,
-                    };
-                    buildRadar(); // Rebuild radar chart with new health scores
-                }
-
-                if (performanceOutput?.dividends) {
-                    annualDividends =
-                        performanceOutput?.dividends?.annualDividends || 0;
-                    dividendYield =
-                        performanceOutput?.dividends?.dividendYield || 0;
-                }
-
-                // Rebuild the performance chart with new data
-                buildPerf();
-            }
+            processOverviewData(output);
         } catch (error) {
             console.error("Error fetching portfolio data:", error);
         }
@@ -577,15 +581,22 @@
         };
     }
 
+    // React to portfolioOverviewData from parent
+    $: if (portfolioOverviewData && typeof window !== "undefined") {
+        processOverviewData(portfolioOverviewData);
+    }
+
+    // Only fetch if portfolioOverviewData is not provided
     $: {
         if (
+            !portfolioOverviewData &&
             portfolioData &&
             portfolioData?.length > 0 &&
             typeof window !== "undefined"
         ) {
             // Trigger fetch when portfolio or time period changes
             getPortfolioData();
-        } else {
+        } else if (!portfolioOverviewData) {
             // Reset chart if no portfolio data
             perfCategories = [];
             seriesPerformance = [];
@@ -594,8 +605,9 @@
         }
     }
 
-    // React to time period changes
+    // React to time period changes (only if not using parent data)
     $: if (
+        !portfolioOverviewData &&
         selectedTimePeriod &&
         portfolioData?.length > 0 &&
         typeof window !== "undefined" &&
