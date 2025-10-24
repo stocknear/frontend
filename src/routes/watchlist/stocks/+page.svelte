@@ -813,7 +813,7 @@
                 </span>
                 {#if !data?.user}
                   <a
-                    class="w-64 flex mt-10 justify-center items-center m-auto btn text-black bg-[#fff] sm:hover:bg-gray-200 transition duration-150 ease-in-out group"
+                    class="w-64 flex mt-3 rounded justify-center items-center m-auto btn text-white dark:text-black bg-[#000] dark:bg-white sm:hover:bg-default dark:sm:hover:bg-gray-100 transition duration-50 ease-in-out group"
                     href="/register"
                   >
                     Get Started
