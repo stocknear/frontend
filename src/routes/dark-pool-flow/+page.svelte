@@ -6,7 +6,6 @@
   import { onMount, onDestroy } from "svelte";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
-  import Tutorial from "$lib/components/Tutorial.svelte";
 
   import { DateFormatter, type DateValue } from "@internationalized/date";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
@@ -610,80 +609,6 @@
       }
     }
   }
-
-  let steps = [
-    {
-      popover: {
-        title: "Dark Pool (15 min delayed)",
-        description: `Discover hidden institutional activity—see large block trades executed away from public exchanges. This provides a glimpse into where big money is positioning *before* the trend will be seen by other retail investors,
-        giving you a huge early advantage.`,
-        side: "center",
-        align: "center",
-      },
-    },
-    {
-      element: ".mute-driver",
-      popover: {
-        title: "Mute Alerts",
-        description: `Silence the audio feed when you need uninterrupted time to review your strategy—unmute anytime to catch fresh flow that can validate or reshape your thesis.`,
-        side: "left",
-        align: "start",
-      },
-    },
-    {
-      element: ".live-flow-driver",
-      popover: {
-        title: "Toggle Live Flow",
-        description: `Freeze incoming trades and lock the table to analyze a snapshot of flow against your watchlist—unpause when you’re ready to jump back into live, actionable order data.`,
-        side: "bottom",
-        align: "start",
-      },
-    },
-    {
-      element: ".search-driver",
-      popover: {
-        title: "Search Specific Tickers",
-        description: `Prioritize the symbols that matter to your portfolio or watchlist by adding the tickers you intend to trade.`,
-        side: "right",
-        align: "start",
-      },
-    },
-    {
-      element: ".date-picker-driver",
-      popover: {
-        title: "Pick a Date",
-        description: `Pull up historical flow to backtest how institutional activity aligned with market moves—validate your edge on past data before you deploy new strategies.`,
-        side: "bottom",
-        align: "start",
-      },
-    },
-    {
-      element: ".filter-driver", // Assuming a class like this exists for the filters button
-      popover: {
-        title: "Apply Filters",
-        description: `Refine the data based on criteria like size, volume percentages, or sector. Focus only on the most impactful or relevant institutional trades that align with your specific trading criteria.`,
-        side: "right", // Adjust side based on actual element position
-        align: "start",
-      },
-    },
-    {
-      element: ".table-driver", // Assuming a class like this exists for the main data table
-      popover: {
-        title: "Dark Pool Prints Table",
-        description: `Examine the details of each Dark Pool trade, including price, size (critical for identifying institutional activity), volume percentages, and asset type. Use this granular data to confirm the significance of the flow and inform potential entry/exit points.`,
-        side: "center", // Adjust side based on actual element position
-        align: "start",
-      },
-    },
-    {
-      popover: {
-        title: "You’re All Set!",
-        description: `By monitoring Realtime Dark Pool Flow, you gain a powerful edge by seeing the hidden hand of institutional trading. Use this data to confirm your bias, identify potential trend beginnings or reversals, and trade with greater confidence.`,
-        side: "center",
-        align: "center",
-      },
-    },
-  ];
 </script>
 
 <SEO
@@ -730,10 +655,17 @@
           </ul>
         </div>
         -->
-
-      <div class="w-full flex flex-row items-center justify-between mb-3">
-        <h1 class="text-xl sm:text-2xl font-bold">Realtime Dark Pool Flow</h1>
-        <Tutorial {steps} />
+      <div class="flex flex-col md:flex-row items-start md:items-center mb-5">
+        <div class="w-full flex-col sm:flex flex-row items-center sm:mt-4">
+          <h1 class="text-2xl sm:text-3xl font-semibold">
+            Realtime Dark-Pool Flow
+          </h1>
+          <span
+            class="inline-block text-xs sm:text-sm font-semibold sm:ml-2 mt-3"
+          >
+            {displayedData?.length?.toLocaleString("en-US")} Orders Found
+          </span>
+        </div>
       </div>
       <div
         class="rounded border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-100 dark:bg-primary p-2"

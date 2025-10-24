@@ -1420,12 +1420,14 @@
         -->
       <div class="sm:rounded">
         <div class="flex flex-col md:flex-row items-start md:items-center mb-5">
-          <div class="w-full flex flex-row items-center sm:mt-4">
+          <div
+            class="w-full flex flex-col sm:flex-row items-start sm:items-center sm:mt-4"
+          >
             <h1 class="text-2xl sm:text-3xl font-semibold">
               Realtime Options Flow
             </h1>
             <span
-              class="hidden sm:inline-block text-xs sm:text-sm font-semibold ml-2 mt-3"
+              class="inline-block text-xs sm:text-sm font-semibold sm:ml-2 mt-3"
             >
               {displayedData?.length?.toLocaleString("en-US")} Contracts Found
             </span>
