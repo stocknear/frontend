@@ -988,8 +988,8 @@
               </div>
             </div>
 
-            {#if allList.length === 0}
-              <Overview {data} portfolioData={portfolio} />
+            {#if allList?.length === 0}
+              <!--<Overview {data} portfolioData={portfolio} />-->
 
               <div
                 class="flex flex-col justify-center items-center m-auto z-0 pt-10"

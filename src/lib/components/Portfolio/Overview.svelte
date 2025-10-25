@@ -324,10 +324,9 @@
         perfConfig = {
             credits: { enabled: false },
             chart: {
-                type: "line",
+                type: "spline",
                 backgroundColor: "transparent",
                 height: 260,
-                spacing: [10, 10, 10, 10],
                 animation: false,
             },
             title: { text: undefined },
@@ -338,8 +337,8 @@
                     style: { color: $mode === "light" ? "#545454" : "white" },
                 },
             },
+
             yAxis: {
-                title: null,
                 gridLineWidth: 1,
                 gridLineColor: $mode === "light" ? "#e5e7eb" : "#111827",
                 labels: {
@@ -348,6 +347,8 @@
                         return this.value + "%";
                     },
                 },
+                title: { text: null },
+                opposite: true,
             },
             legend: {
                 enabled: true,
@@ -492,13 +493,13 @@
                         from: 80,
                         to: 100,
                         color:
-                            $mode === "light" ? "rgba(0,0,0,0.3)" : "#1e222d",
+                            $mode === "light" ? "rgba(0,0,0,0.1)" : "#1e222d",
                     },
                     {
                         from: 0,
                         to: 20,
                         color:
-                            $mode === "light" ? "rgba(0,0,0,0.3)" : "#1e222d",
+                            $mode === "light" ? "rgba(0,0,0,0.1)" : "#1e222d",
                     },
                 ],
             },
@@ -534,7 +535,7 @@
                         <div style="text-align: center;">
                             <div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">${category}</div>
                             <div style="font-size: 20px; font-weight: 700; color: ${color};">${value.toFixed(1)}</div>
-                            <div style="font-size: 11px; color: #9CA3AF; margin-top: 2px;">out of 100</div>
+                            <div class="text-gray-300" style="font-size: 11px; margin-top: 2px;">out of 100</div>
                         </div>
                     `;
                 },
@@ -544,15 +545,15 @@
                     marker: {
                         enabled: true,
                         radius: 1,
-                        fillColor: "#c4af25",
-                        lineWidth: 2,
+                        fillColor: "#a000f7",
+                        lineWidth: 1,
                         lineColor: "#FFF",
                         symbol: "circle",
                         states: {
                             hover: {
                                 enabled: true,
-                                radius: 7,
-                                lineWidth: 3,
+                                radius: 4,
+                                lineWidth: 1,
                             },
                         },
                     },
@@ -572,10 +573,10 @@
                     type: "areaspline",
                     name: "Portfolio Health",
                     data: healthScores.values,
-                    color: "#c4af25",
-                    lineColor: "#c4af25",
+                    color: $mode === "light" ? "#1e2939" : "#c4af25",
+                    lineColor: $mode === "light" ? "#1e2939" : "#c4af25",
                     lineWidth: 1,
-                    fillOpacity: 0.7,
+                    fillOpacity: 1,
                 },
             ],
         };
@@ -646,7 +647,7 @@
 
                                 <!-- Time Period Selector -->
                                 <div
-                                    class="flex items-center gap-1 mt-3 sm:mt-0 mb-4 sm:mb-0"
+                                    class="flex items-center gap-2 mt-3 sm:mt-0 mb-4 sm:mb-0"
                                 >
                                     {#each timePeriods as period}
                                         <button
@@ -669,7 +670,7 @@
                             <div class="min-h-[45px] lg:min-h-[50px]">
                                 <ul
                                     role="list"
-                                    class="flex flex-row flex-wrap items-end gap-6"
+                                    class="flex flex-row flex-wrap items-end gap-4 mb-3 sm:mb-0 sm:gap-6"
                                 >
                                     <!-- Total Value -->
                                     <li class="flex items-start gap-3">
@@ -822,7 +823,7 @@
                         </h3>
                     {/if}
                     <p class="text-sm">
-                        {#if portfolioData.length === 0}
+                        {#if portfolioData.length === 0 || bestStrength === biggestRisk}
                             Add assets to your portfolio to view health status.
                         {:else}
                             Your best strength is <span class=" font-semibold"
@@ -832,7 +833,7 @@
                             <span class="font-semibold">{biggestRisk}</span>.
                         {/if}
                     </p>
-                    <div class="sm:h-[300px]">
+                    <div class="h-[250px] sm:h-[300px]">
                         {#if radarConfig}
                             <div use:highcharts={radarConfig}></div>
                         {:else}
