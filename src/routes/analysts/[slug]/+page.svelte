@@ -8,6 +8,9 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
+  import { page } from "$app/stores";
 
   export let data;
 
@@ -15,11 +18,21 @@
 
   let rawData = processTickerData(data?.getData?.ratingsList);
   let originalData = [...rawData]; // Unaltered copy of raw data
+  let unsortedData = [...rawData]; // Preserve truly original unsorted order
+  let unsortedSearchData = []; // Preserve unsorted search results
 
-  let stockList = rawData?.slice(0, 50) ?? [];
+  let stockList = [];
 
   let inputValue = "";
   let searchWorker: Worker | undefined;
+
+  // Pagination state
+  let currentPage = 1;
+  let rowsPerPage = 20;
+  let rowsPerPageOptions = [20, 50, 100];
+  let totalPages = 1;
+
+  let pagePathName = $page?.url?.pathname;
 
   let analystScore = analystStats?.analystScore;
   let rank = analystStats?.rank;
@@ -61,20 +74,75 @@
     return Array.from(tickerMap.values());
   }
 
-  async function handleScroll() {
-    const scrollThreshold = document.body.offsetHeight * 0.8; // 80% of the website height
-    const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
+  // Pagination functions
+  function updatePaginatedData() {
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    const dataSource = inputValue?.length > 0 ? rawData : originalData;
+    stockList = dataSource?.slice(startIndex, endIndex) || [];
+    totalPages = Math.ceil((dataSource?.length || 0) / rowsPerPage);
+  }
 
-    if (isBottom && stockList?.length !== rawData?.length) {
-      const nextIndex = stockList?.length;
-      const filteredNewResults = rawData?.slice(nextIndex, nextIndex + 50);
-      stockList = [...stockList, ...filteredNewResults];
+  function goToPage(page) {
+    if (page >= 1 && page <= totalPages) {
+      currentPage = page;
+      updatePaginatedData();
     }
+  }
+
+  function changeRowsPerPage(newRowsPerPage) {
+    rowsPerPage = newRowsPerPage;
+    currentPage = 1; // Reset to first page when changing rows per page
+    updatePaginatedData();
+    saveRowsPerPage(); // Save to localStorage
+  }
+
+  // Save rows per page preference to localStorage
+  function saveRowsPerPage() {
+    if (!pagePathName || typeof localStorage === "undefined") return;
+
+    try {
+      const paginationKey = `${pagePathName}_rowsPerPage`;
+      localStorage.setItem(paginationKey, String(rowsPerPage));
+    } catch (e) {
+      console.warn("Failed to save rows per page preference:", e);
+    }
+  }
+
+  // Load rows per page preference from localStorage
+  function loadRowsPerPage() {
+    const currentPath = pagePathName || $page?.url?.pathname;
+
+    if (!currentPath || typeof localStorage === "undefined") {
+      rowsPerPage = 20; // Default value
+      return;
+    }
+
+    try {
+      const paginationKey = `${currentPath}_rowsPerPage`;
+      const savedRows = localStorage.getItem(paginationKey);
+
+      if (savedRows && rowsPerPageOptions.includes(Number(savedRows))) {
+        rowsPerPage = Number(savedRows);
+      } else {
+        rowsPerPage = 20; // Default if invalid or not found
+      }
+    } catch (e) {
+      console.warn("Failed to load rows per page preference:", e);
+      rowsPerPage = 20; // Default on error
+    }
+  }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   async function resetTableSearch() {
     inputValue = "";
-    search();
+    rawData = originalData;
+    unsortedSearchData = []; // Clear search results
+    currentPage = 1; // Reset to first page
+    updatePaginatedData();
   }
 
   async function search() {
@@ -86,7 +154,9 @@
       } else {
         // Reset to original data if filter is empty
         rawData = originalData || [];
-        stockList = rawData?.slice(0, 50);
+        unsortedSearchData = []; // Clear search results
+        currentPage = 1; // Reset to first page
+        updatePaginatedData();
       }
     }, 100);
   }
@@ -103,11 +173,19 @@
   const handleSearchMessage = (event) => {
     if (event.data?.message === "success") {
       rawData = event.data?.output ?? [];
-      stockList = rawData?.slice(0, 50);
+      unsortedSearchData = [...rawData]; // Preserve unsorted search results
+      currentPage = 1; // Reset to first page after search
+      updatePaginatedData();
     }
   };
 
   onMount(async () => {
+    // Load pagination preference
+    loadRowsPerPage();
+
+    // Initialize pagination
+    updatePaginatedData();
+
     if (!searchWorker) {
       const SearchWorker = await import(
         "$lib/workers/tableSearchWorker?worker"
@@ -115,15 +193,6 @@
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
-
-    window.addEventListener("scroll", handleScroll);
-    //window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      // Cleanup the event listeners when the component is unmounted
-      window.removeEventListener("scroll", handleScroll);
-      //window.removeEventListener('keydown', handleKeyDown);
-    };
   });
 
   $: checkedSymbol = "";
@@ -141,7 +210,8 @@
     ...($screenWidth > 1024
       ? [{ key: "chart", label: "", align: "right" }]
       : []),
-    { key: "ticker", label: "Name", align: "left" },
+    { key: "ticker", label: "Symbol", align: "left" },
+    { key: "name", label: "Name", align: "left" },
     { key: "rating_current", label: "Action", align: "left" },
     { key: "adjusted_pt_current", label: "Price Target", align: "right" },
     { key: "price", label: "Current", align: "right" },
@@ -153,6 +223,7 @@
   $: sortOrders = {
     chart: { order: "none", type: "string" },
     ticker: { order: "none", type: "string" },
+    name: { order: "none", type: "string" },
     rating_current: { order: "none", type: "string" },
     adjusted_pt_current: { order: "none", type: "number" },
     marketCap: { order: "none", type: "number" },
@@ -178,10 +249,17 @@
       orderCycle[(currentOrderIndex + 1) % orderCycle.length];
     const sortOrder = sortOrders[key].order;
 
+    const dataSource = inputValue?.length > 0 ? rawData : originalData;
+
     // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
-      originalData = [...rawData]; // Reset originalData to rawData
-      stockList = originalData?.slice(0, 50); // Reset displayed data
+      if (inputValue?.length > 0) {
+        rawData = [...unsortedSearchData]; // Restore from unsorted search results
+      } else {
+        originalData = [...unsortedData]; // Restore from truly original unsorted data
+      }
+      currentPage = 1;
+      updatePaginatedData();
       return;
     }
 
@@ -216,8 +294,27 @@
     };
 
     // Sort using the generic comparison function
-    stockList = [...originalData].sort(compareValues)?.slice(0, 50);
+    const sortedData = [...dataSource].sort(compareValues);
+    if (inputValue?.length > 0) {
+      rawData = sortedData;
+    } else {
+      originalData = sortedData;
+    }
+    currentPage = 1;
+    updatePaginatedData();
   };
+
+  // Update pagination when rawData changes
+  $: if (rawData && rawData.length >= 0) {
+    updatePaginatedData();
+  }
+
+  // Reactive statement to load pagination settings when page changes
+  $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
+    pagePathName = $page?.url?.pathname;
+    loadRowsPerPage(); // Load pagination preference for new page
+    updatePaginatedData(); // Update display with loaded preference
+  }
 </script>
 
 <SEO
@@ -572,57 +669,16 @@
                           <td
                             class="text-sm sm:text-[1rem] text-start whitespace-nowrap"
                           >
-                            {#if index >= 5 && !["Pro", "Plus"]?.includes(data?.user?.tier)}
-                              <a class="block relative" href="/pricing">
-                                <span
-                                  class=" font-semibold text-blue-link blur-sm group-hover:blur-[6px]"
-                                >
-                                  XXXX
-                                </span>
-
-                                <div
-                                  class="ml-px max-w-[130px] truncate text-sm blur-sm group-hover:blur-[6px] lg:max-w-[150px]"
-                                >
-                                  XXXXXXXXXXXXXXXX
-                                </div>
-
-                                <div class="absolute top-3 flex items-center">
-                                  <svg
-                                    class="size-5 text-muted dark:text-[#fff]"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                    style="max-width: 40px;"
-                                  >
-                                    <path
-                                      fill-rule="evenodd"
-                                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                      clip-rule="evenodd"
-                                    >
-                                    </path>
-                                  </svg>
-
-                                  <span
-                                    class="ml-1 font-semibold text-muted dark:text-gray-300"
-                                  >
-                                    Upgrade
-                                  </span>
-                                </div>
-                              </a>
-                            {:else}
-                              <div class="flex flex-col items-start">
-                                <HoverStockChart symbol={item?.ticker} />
-
-                                <span
-                                  class="text-sm text-gray-800 dark:text-gray-200"
-                                >
-                                  {item?.name?.length > charNumber
-                                    ? item?.name?.slice(0, charNumber) + "..."
-                                    : item?.name}
-                                </span>
-                              </div>
-                            {/if}
+                            <HoverStockChart symbol={item?.ticker} />
                           </td>
 
+                          <td
+                            class="text-sm sm:text-[1rem] text-start whitespace-nowrap"
+                          >
+                            {item?.name?.length > charNumber
+                              ? item?.name?.slice(0, charNumber) + "..."
+                              : item?.name}
+                          </td>
                           <td
                             class="text-sm sm:text-[1rem] text-start whitespace-nowrap"
                           >
@@ -737,6 +793,138 @@
                   </table>
                 </div>
               </div>
+
+              <!-- Pagination controls -->
+              <div
+                class="flex flex-row items-center justify-between mt-8 sm:mt-5"
+              >
+                <!-- Previous button -->
+                <div class="flex items-center gap-2">
+                  <Button
+                    on:click={() => goToPage(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center  sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                  >
+                    <svg
+                      class="h-5 w-5 inline-block shrink-0 rotate-90"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                    <span class="hidden sm:inline">Previous</span></Button
+                  >
+                </div>
+
+                <!-- Page info and rows selector in center -->
+                <div class="flex flex-row items-center gap-4">
+                  <span class="text-sm sm:text-[1rem]">
+                    Page {currentPage} of {totalPages}
+                  </span>
+
+                  <DropdownMenu.Root>
+                    <DropdownMenu.Trigger asChild let:builder>
+                      <Button
+                        builders={[builder]}
+                        class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary  flex flex-row justify-between items-center  sm:w-auto px-2 sm:px-3 rounded truncate"
+                      >
+                        <span class="truncate text-[0.85rem] sm:text-sm"
+                          >{rowsPerPage} Rows</span
+                        >
+                        <svg
+                          class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width:40px"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                      </Button>
+                    </DropdownMenu.Trigger>
+
+                    <DropdownMenu.Content
+                      side="bottom"
+                      align="end"
+                      sideOffset={10}
+                      alignOffset={0}
+                      class="w-auto min-w-40  max-h-[400px] overflow-y-auto scroller relative"
+                    >
+                      <!-- Dropdown items -->
+                      <DropdownMenu.Group class="pb-2">
+                        {#each rowsPerPageOptions as item}
+                          <DropdownMenu.Item
+                            class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                          >
+                            <label
+                              on:click={() => changeRowsPerPage(item)}
+                              class="inline-flex justify-between w-full items-center cursor-pointer"
+                            >
+                              <span class="text-sm">{item} Rows</span>
+                            </label>
+                          </DropdownMenu.Item>
+                        {/each}
+                      </DropdownMenu.Group>
+                    </DropdownMenu.Content>
+                  </DropdownMenu.Root>
+                </div>
+
+                <!-- Next button -->
+                <div class="flex items-center gap-2">
+                  <Button
+                    on:click={() => goToPage(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                  >
+                    <span class="hidden sm:inline">Next</span>
+                    <svg
+                      class="h-5 w-5 inline-block shrink-0 -rotate-90"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </Button>
+                </div>
+              </div>
+
+              <!-- Back to Top button -->
+              <div class="flex justify-center mt-4">
+                <button
+                  on:click={scrollToTop}
+                  class=" cursor-pointer sm:hover:text-muted text-blue-800 dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem] font-medium"
+                >
+                  Back to Top <svg
+                    class="h-5 w-5 inline-block shrink-0 rotate-180"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style="max-width:40px"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
             {:else if stockList?.length === 0 && inputValue?.length > 0}
               <div class="pt-5">
                 <Infobox text={`No data is available for "${inputValue}"`} />
@@ -754,3 +942,9 @@
     </div>
   </div>
 </section>
+
+<style>
+  .scroller {
+    scrollbar-width: thin;
+  }
+</style>
