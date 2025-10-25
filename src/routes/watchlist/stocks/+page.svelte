@@ -933,18 +933,11 @@
                                     })}
                                   </div>
                                   <div class="grow px-3 py-2 lg:py-1">
-                                    <a
-                                      href={items[0].url}
-                                      target="_blank"
-                                      rel="nofollow noopener noreferrer"
-                                      class="sm:hover:text-blue-800 dark:sm:hover:text-blue-400"
+                                    <h4
+                                      class="text-sm font-semibold lg:text-[1rem]"
                                     >
-                                      <h4
-                                        class="text-sm font-semibold lg:text-[1rem]"
-                                      >
-                                        {title}
-                                      </h4>
-                                    </a>
+                                      {title}
+                                    </h4>
                                     <div
                                       class="flex flex-wrap gap-x-2 pt-2 text-sm lg:pt-0.5"
                                     >
@@ -957,10 +950,6 @@
                                           hour12: true,
                                         })}
                                       </div>
-                                      <div class="">
-                                        {items[0].site}
-                                      </div>
-                                      &#183;
                                       <div class="flex flex-wrap gap-x-2">
                                         {#each symbols as symbol}
                                           <a
