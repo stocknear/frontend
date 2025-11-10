@@ -1027,7 +1027,7 @@
               <table class="w-[50%] text-sm sm:text-[1rem] lg:min-w-[250px]">
                 <tbody
                   ><tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Bid</td
@@ -1042,7 +1042,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       ><a
@@ -1062,7 +1062,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       ><a
@@ -1081,7 +1081,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Net Income (ttm)</td
@@ -1095,7 +1095,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >EPS (ttm)</td
@@ -1106,7 +1106,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >PE Ratio (ttm)</td
@@ -1117,7 +1117,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Forward PE</td
@@ -1129,7 +1129,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >P/B (ttm)</td
@@ -1143,7 +1143,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >P/S (ttm)</td
@@ -1157,7 +1157,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Total Assets (ttm)</td
@@ -1170,7 +1170,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Total Liabilities (ttm)</td
@@ -1185,7 +1185,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                     >
@@ -1205,7 +1205,7 @@
               <table class="w-[50%] text-sm lg:min-w-[250px]">
                 <tbody
                   ><tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Ask</td
@@ -1220,7 +1220,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Volume</td
@@ -1231,7 +1231,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Avg. Volume (20D)</td
@@ -1246,7 +1246,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Open</td
@@ -1259,7 +1259,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Previous Close</td
@@ -1272,7 +1272,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Day's Range</td
@@ -1287,7 +1287,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >52-Week Range</td
@@ -1302,7 +1302,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Beta</td
@@ -1316,7 +1316,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       ><a
@@ -1341,7 +1341,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       ><a
@@ -1367,7 +1367,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       ><a
@@ -1392,7 +1392,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Ex-Dividend Date</td
