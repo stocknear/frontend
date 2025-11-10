@@ -1136,11 +1136,9 @@
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-[1rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                      >{$wsBidPrice !== 0 && $wsBidPrice !== null
-                        ? $wsBidPrice
-                        : ((data?.getStockQuote?.bid !== 0
-                            ? data?.getStockQuote?.bid
-                            : "n/a") ?? "n/a")}</td
+                      >{stockDeck?.priceToBookRatioTTM
+                        ? stockDeck?.priceToBookRatioTTM?.toFixed(2)
+                        : "n/a"}</td
                     ></tr
                   >
 
@@ -1152,11 +1150,9 @@
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-[1rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                      >{$wsBidPrice !== 0 && $wsBidPrice !== null
-                        ? $wsBidPrice
-                        : ((data?.getStockQuote?.bid !== 0
-                            ? data?.getStockQuote?.bid
-                            : "n/a") ?? "n/a")}</td
+                      >{stockDeck?.priceToSalesRatioTTM
+                        ? stockDeck?.priceToSalesRatioTTM?.toFixed(2)
+                        : "n/a"}</td
                     ></tr
                   >
 
