@@ -66,6 +66,7 @@
     "returnOnEquity",
     "returnOnAssets",
     "returnOnInvestedCapital",
+    "returnOnCapitalEmployed",
   ]);
 
   const isGrowthField = (field?: { key?: string; growthOf?: string }) => {

@@ -75,6 +75,11 @@
     label: "Return on Invested Capital",
     text: `Return on invested capital (ROIC) measures how effective a company is at investing its capital in order to increase profits. It is calculated by dividing the NOPAT (Net Operating Profit After Tax) by the invested capital.`,
   },
+  {
+    propertyName: "returnOnCapitalEmployed",
+    label: "Return on Capital Employed",
+    text: `Return on capital employed (ROCE) evaluates how efficiently a company uses its total capital base (shareholder equity plus debt) to generate operating profits, typically measured as EBIT divided by capital employed.`,
+  },
 
   // Margin Profile
   {

@@ -4,7 +4,6 @@
     stockTicker,
     coolMode,
     selectedTimePeriod,
-    screenWidth,
   } from "$lib/store";
   import {
     removeCompanyStrings,
@@ -15,7 +14,6 @@
   import FinancialTable from "$lib/components/FinancialTable.svelte";
   //import FinancialChart from "$lib/components/FinancialChart.svelte";
 
-  import Download from "lucide-svelte/icons/download";
   import { goto } from "$app/navigation";
 
   export let data;
@@ -43,6 +41,7 @@
     "returnOnEquity",
     "returnOnAssets",
     "returnOnInvestedCapital",
+    "returnOnCapitalEmployed",
   ]);
   const PREMIUM_TIERS = new Set(["Pro", "Plus"]);
   const FREE_COLUMN_LIMIT = 5;
