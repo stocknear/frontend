@@ -1353,7 +1353,12 @@
                     </td>
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                      >{priceTarget} ({priceTargetUpside}%)</td
+                    >
+                      {#if priceTarget}
+                        {priceTarget} ({priceTargetUpside}%)
+                      {:else}
+                        n/a
+                      {/if}</td
                     ></tr
                   >
 
