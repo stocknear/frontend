@@ -1,0 +1,19 @@
+.DS_Store
+node_modules
+/build
+/builds
+/package
+*.svelte-kit
+vite.config.js.timestamp-*
+# Sentry Config File
+.sentryclirc
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+.npmrc
+.prettierignore
+.prettierrc
+.env*
+.vercel
+stats.html

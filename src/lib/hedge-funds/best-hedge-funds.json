@@ -1,0 +1,452 @@
+[
+  {
+    "cik": "0001352860",
+    "name": "Blue Bell Private Wealth Management ",
+    "numberOfStocks": 53,
+    "marketValue": 466105384,
+    "winRate": 96.23,
+    "turnover": 0.1108,
+    "performancePercentage3year": 18.541
+  },
+  {
+    "cik": "0001434165",
+    "name": "Atlas Capital Advisors ",
+    "numberOfStocks": 96,
+    "marketValue": 640309465,
+    "winRate": 95.83,
+    "turnover": 0.2169,
+    "performancePercentage3year": 57.9319
+  },
+  {
+    "cik": "0001695320",
+    "name": "Periscope Capital ",
+    "numberOfStocks": 51,
+    "marketValue": 395857954,
+    "winRate": 94.12,
+    "turnover": 0.4307,
+    "performancePercentage3year": 3.4996
+  },
+  {
+    "cik": "0001861158",
+    "name": "Ashford Advisors ",
+    "numberOfStocks": 16,
+    "marketValue": 396288130,
+    "winRate": 93.75,
+    "turnover": 0.0667,
+    "performancePercentage3year": 37.3724
+  },
+  {
+    "cik": "0001903035",
+    "name": "Keb Asset Management ",
+    "numberOfStocks": 61,
+    "marketValue": 292807346,
+    "winRate": 93.44,
+    "turnover": 0.029,
+    "performancePercentage3year": 24.5742
+  },
+  {
+    "cik": "0001682677",
+    "name": "Strategic Wealth Partners Group ",
+    "numberOfStocks": 64,
+    "marketValue": 906196928,
+    "winRate": 92.19,
+    "turnover": 0.0571,
+    "performancePercentage3year": 22.5911
+  },
+  {
+    "cik": "0001696209",
+    "name": "Fusion Family Wealth ",
+    "numberOfStocks": 46,
+    "marketValue": 964857341,
+    "winRate": 91.3,
+    "turnover": 0.0476,
+    "performancePercentage3year": 12.9803
+  },
+  {
+    "cik": "0001387761",
+    "name": "Twin Focus Capital Partners ",
+    "numberOfStocks": 91,
+    "marketValue": 525282068,
+    "winRate": 91.21,
+    "turnover": 0.6084,
+    "performancePercentage3year": 11.6037
+  },
+  {
+    "cik": "0001091370",
+    "name": "Thoroughbred Financial Services ",
+    "numberOfStocks": 95,
+    "marketValue": 1039600000,
+    "winRate": 90.53,
+    "turnover": 0.4148,
+    "performancePercentage3year": 71.575
+  },
+  {
+    "cik": "0001542300",
+    "name": "Goodhaven Capital Management ",
+    "numberOfStocks": 21,
+    "marketValue": 265740704,
+    "winRate": 90.48,
+    "turnover": 0.0,
+    "performancePercentage3year": 72.1104
+  },
+  {
+    "cik": "0001965796",
+    "name": "Main Street Group ",
+    "numberOfStocks": 72,
+    "marketValue": 229398757,
+    "winRate": 90.28,
+    "turnover": 0.5889,
+    "performancePercentage3year": 6.6976
+  },
+  {
+    "cik": "0001830819",
+    "name": "Kestra Advisory Services ",
+    "numberOfStocks": 92,
+    "marketValue": 14920784954,
+    "winRate": 90.22,
+    "turnover": 0.1527,
+    "performancePercentage3year": 24.6902
+  },
+  {
+    "cik": "0001766904",
+    "name": "Cary Street Partners Investment Advisory ",
+    "numberOfStocks": 90,
+    "marketValue": 2364361189,
+    "winRate": 90.0,
+    "turnover": 0.1176,
+    "performancePercentage3year": 170.2904
+  },
+  {
+    "cik": "0001900584",
+    "name": "Amplius Wealth Advisors ",
+    "numberOfStocks": 80,
+    "marketValue": 892179723,
+    "winRate": 90.0,
+    "turnover": 0.1236,
+    "performancePercentage3year": 6.5844
+  },
+  {
+    "cik": "0001447578",
+    "name": "Rivernorth Capital Management ",
+    "numberOfStocks": 30,
+    "marketValue": 2069195858,
+    "winRate": 90.0,
+    "turnover": 0.1961,
+    "performancePercentage3year": 13.1578
+  },
+  {
+    "cik": "0001760076",
+    "name": "Global Strategic Investment Solutions ",
+    "numberOfStocks": 89,
+    "marketValue": 861905057,
+    "winRate": 89.89,
+    "turnover": 0.1007,
+    "performancePercentage3year": -583.0537
+  },
+  {
+    "cik": "0000200724",
+    "name": "Smith Moore & Co",
+    "numberOfStocks": 89,
+    "marketValue": 938484622,
+    "winRate": 89.89,
+    "turnover": 0.1051,
+    "performancePercentage3year": 17.0937
+  },
+  {
+    "cik": "0000709428",
+    "name": "Cozad Asset Management ",
+    "numberOfStocks": 97,
+    "marketValue": 960435086,
+    "winRate": 89.69,
+    "turnover": 0.0865,
+    "performancePercentage3year": 32.9619
+  },
+  {
+    "cik": "0001905106",
+    "name": "Meteora Capital ",
+    "numberOfStocks": 57,
+    "marketValue": 587851846,
+    "winRate": 89.47,
+    "turnover": 0.5254,
+    "performancePercentage3year": 10.7225
+  },
+  {
+    "cik": "0001597878",
+    "name": "Capital Advisors  ",
+    "numberOfStocks": 95,
+    "marketValue": 767113000,
+    "winRate": 89.47,
+    "turnover": 0.1293,
+    "performancePercentage3year": 19.2021
+  },
+  {
+    "cik": "0001333986",
+    "name": "Equitable Holdings ",
+    "numberOfStocks": 94,
+    "marketValue": 8879092428,
+    "winRate": 89.36,
+    "turnover": 0.1206,
+    "performancePercentage3year": 26.4097
+  },
+  {
+    "cik": "0001765285",
+    "name": "Apexium Financial ",
+    "numberOfStocks": 94,
+    "marketValue": 1318722394,
+    "winRate": 89.36,
+    "turnover": 0.2832,
+    "performancePercentage3year": 248.5278
+  },
+  {
+    "cik": "0001642160",
+    "name": "Glassman Wealth Services",
+    "numberOfStocks": 93,
+    "marketValue": 495036886,
+    "winRate": 89.25,
+    "turnover": 8.8186,
+    "performancePercentage3year": 9.4582
+  },
+  {
+    "cik": "0001479844",
+    "name": "Diversified Trust Co",
+    "numberOfStocks": 91,
+    "marketValue": 3317795457,
+    "winRate": 89.01,
+    "turnover": 0.268,
+    "performancePercentage3year": 18.4787
+  },
+  {
+    "cik": "0001592579",
+    "name": "Trinity Street Asset Management L",
+    "numberOfStocks": 18,
+    "marketValue": 1250170649,
+    "winRate": 88.89,
+    "turnover": 0.0556,
+    "performancePercentage3year": 34.5234
+  },
+  {
+    "cik": "0001844716",
+    "name": "Dhjj Financial Advisors ",
+    "numberOfStocks": 72,
+    "marketValue": 226011612,
+    "winRate": 88.89,
+    "turnover": 0.0344,
+    "performancePercentage3year": 12.1701
+  },
+  {
+    "cik": "0001761013",
+    "name": "Cresset Asset Management ",
+    "numberOfStocks": 97,
+    "marketValue": 20776503509,
+    "winRate": 88.66,
+    "turnover": 0.1506,
+    "performancePercentage3year": 150.5043
+  },
+  {
+    "cik": "0001730630",
+    "name": "Investors Research Corp",
+    "numberOfStocks": 97,
+    "marketValue": 427654886,
+    "winRate": 88.66,
+    "turnover": 0.138,
+    "performancePercentage3year": 21.3694
+  },
+  {
+    "cik": "0000728100",
+    "name": "Lord Abbett & Co ",
+    "numberOfStocks": 96,
+    "marketValue": 30426764000,
+    "winRate": 88.54,
+    "turnover": 0.3333,
+    "performancePercentage3year": 11.2484
+  },
+  {
+    "cik": "0001767902",
+    "name": "Western Wealth Management ",
+    "numberOfStocks": 95,
+    "marketValue": 1286498442,
+    "winRate": 88.42,
+    "turnover": 0.2031,
+    "performancePercentage3year": 5.3803
+  },
+  {
+    "cik": "0001404763",
+    "name": "Jw Cole Advisors ",
+    "numberOfStocks": 95,
+    "marketValue": 1981614302,
+    "winRate": 88.42,
+    "turnover": 0.1623,
+    "performancePercentage3year": 142.5386
+  },
+  {
+    "cik": "0001626379",
+    "name": "Evanson Asset Management ",
+    "numberOfStocks": 77,
+    "marketValue": 1342841083,
+    "winRate": 88.31,
+    "turnover": 0.1368,
+    "performancePercentage3year": 23.8729
+  },
+  {
+    "cik": "0001469475",
+    "name": "Mesirow Financial Investment Management ",
+    "numberOfStocks": 93,
+    "marketValue": 4415657819,
+    "winRate": 88.17,
+    "turnover": 0.1774,
+    "performancePercentage3year": 842.0791
+  },
+  {
+    "cik": "0001632932",
+    "name": "Sunbelt Securities ",
+    "numberOfStocks": 84,
+    "marketValue": 896382105,
+    "winRate": 88.1,
+    "turnover": 0.1141,
+    "performancePercentage3year": 32.8257
+  },
+  {
+    "cik": "0002011195",
+    "name": "Apollon Financial ",
+    "numberOfStocks": 92,
+    "marketValue": 289505945,
+    "winRate": 88.04,
+    "turnover": 0.14,
+    "performancePercentage3year": 10.4712
+  },
+  {
+    "cik": "0002015822",
+    "name": "Mgb Wealth Management ",
+    "numberOfStocks": 92,
+    "marketValue": 246167033,
+    "winRate": 88.04,
+    "turnover": 0.0682,
+    "performancePercentage3year": 9.4286
+  },
+  {
+    "cik": "0001534653",
+    "name": "Skandinaviska Enskilda Banken Ab (Publ)",
+    "numberOfStocks": 100,
+    "marketValue": 20442162295,
+    "winRate": 88.0,
+    "turnover": 0.3461,
+    "performancePercentage3year": 30.6551
+  },
+  {
+    "cik": "0000729563",
+    "name": "Gill Capital Partners ",
+    "numberOfStocks": 75,
+    "marketValue": 247595238,
+    "winRate": 88.0,
+    "turnover": 0.0968,
+    "performancePercentage3year": 4.2963
+  },
+  {
+    "cik": "0001904425",
+    "name": "Cassady Schiller Wealth Management ",
+    "numberOfStocks": 99,
+    "marketValue": 224001790,
+    "winRate": 87.88,
+    "turnover": 0.2364,
+    "performancePercentage3year": 0.4597
+  },
+  {
+    "cik": "0000791490",
+    "name": "Carret Asset Management ",
+    "numberOfStocks": 99,
+    "marketValue": 849079052,
+    "winRate": 87.88,
+    "turnover": 0.0683,
+    "performancePercentage3year": 20.3287
+  },
+  {
+    "cik": "0001805250",
+    "name": "Consolidated Planning Corp",
+    "numberOfStocks": 90,
+    "marketValue": 584809804,
+    "winRate": 87.78,
+    "turnover": 0.2198,
+    "performancePercentage3year": 73.8996
+  },
+  {
+    "cik": "0001599863",
+    "name": "Northeast Financial Consultants ",
+    "numberOfStocks": 98,
+    "marketValue": 2037594656,
+    "winRate": 87.76,
+    "turnover": 0.1246,
+    "performancePercentage3year": 24.0698
+  },
+  {
+    "cik": "0001766506",
+    "name": "9258 Wealth Management ",
+    "numberOfStocks": 98,
+    "marketValue": 642082448,
+    "winRate": 87.76,
+    "turnover": 0.0865,
+    "performancePercentage3year": 37.7882
+  },
+  {
+    "cik": "0001642570",
+    "name": "River Wealth Advisors ",
+    "numberOfStocks": 98,
+    "marketValue": 687945414,
+    "winRate": 87.76,
+    "turnover": 0.1394,
+    "performancePercentage3year": 21.1295
+  },
+  {
+    "cik": "0001040197",
+    "name": "Mai Capital Management",
+    "numberOfStocks": 98,
+    "marketValue": 9652145018,
+    "winRate": 87.76,
+    "turnover": 0.1608,
+    "performancePercentage3year": 30.5361
+  },
+  {
+    "cik": "0001678953",
+    "name": "Nicholas Hoffman & Company ",
+    "numberOfStocks": 97,
+    "marketValue": 1970950552,
+    "winRate": 87.63,
+    "turnover": 0.0825,
+    "performancePercentage3year": 46.988
+  },
+  {
+    "cik": "0001776792",
+    "name": "Coastal Investment Advisors ",
+    "numberOfStocks": 96,
+    "marketValue": 485174275,
+    "winRate": 87.5,
+    "turnover": 0.1302,
+    "performancePercentage3year": 18.3832
+  },
+  {
+    "cik": "0001287618",
+    "name": "Dumont & Blake Investment Advisors ",
+    "numberOfStocks": 96,
+    "marketValue": 347441207,
+    "winRate": 87.5,
+    "turnover": 0.1313,
+    "performancePercentage3year": 13.1954
+  },
+  {
+    "cik": "0001849444",
+    "name": "Soa Wealth Advisors ",
+    "numberOfStocks": 96,
+    "marketValue": 482940553,
+    "winRate": 87.5,
+    "turnover": 0.0574,
+    "performancePercentage3year": 20.7222
+  },
+  {
+    "cik": "0001415201",
+    "name": "Spc Financial ",
+    "numberOfStocks": 95,
+    "marketValue": 1064249997,
+    "winRate": 87.37,
+    "turnover": 0.0833,
+    "performancePercentage3year": 13.0963
+  }
+]

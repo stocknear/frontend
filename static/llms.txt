@@ -1,0 +1,160 @@
+# Stocknear Site Navigation
+
+## Main Pages
+- `/` - Homepage
+- `/about` - About Stocknear
+- `/pricing` - Subscription plans
+- `/contact` - Contact us
+- `/support` - Support center
+- `/faq` - Frequently asked questions
+- `/faq/ai-agents` - AI features guide
+
+## Stock Analysis
+- `/stocks` - Stock discovery
+- `/stocks/[ticker]` - Individual stock analysis (e.g., /stocks/AAPL)
+- `/stocks/[ticker]/profile` - Company profile
+- `/stocks/[ticker]/statistics` - Stock statistics
+- `/stocks/[ticker]/financials` - Financial statements
+- `/stocks/[ticker]/financials/balance-sheet` - Balance sheet
+- `/stocks/[ticker]/financials/cash-flow` - Cash flow statement
+- `/stocks/[ticker]/financials/ratios` - Financial ratios
+- `/stocks/[ticker]/metrics` - Stock metrics
+- `/stocks/[ticker]/forecast` - Stock forecast
+- `/stocks/[ticker]/forecast/ai` - AI predictions
+- `/stocks/[ticker]/forecast/analyst` - Analyst forecasts
+- `/stocks/[ticker]/history` - Price history
+- `/stocks/[ticker]/dividends` - Dividend history
+- `/stocks/[ticker]/dark-pool` - Dark pool activity
+- `/stocks/[ticker]/insider` - Insider trading
+- `/stocks/[ticker]/insider/congress-trading` - Congressional trades
+- `/stocks/[ticker]/insider/institute` - Institutional holdings
+- `/stocks/[ticker]/insider/transcripts` - Earnings transcripts
+
+## Stock Options
+- `/stocks/[ticker]/options` - Options chain
+- `/stocks/[ticker]/options/unusual-activity` - Unusual options
+- `/stocks/[ticker]/options/hottest-contracts` - Most active contracts
+- `/stocks/[ticker]/options/max-pain` - Max pain analysis
+- `/stocks/[ticker]/options/gex` - Gamma exposure
+- `/stocks/[ticker]/options/dex` - Delta exposure
+- `/stocks/[ticker]/options/oi` - Open interest
+- `/stocks/[ticker]/options/volatility` - Implied volatility
+- `/stocks/[ticker]/options/contract-lookup` - Contract details
+
+## ETF Analysis
+- `/etf` - ETF screener
+- `/etf/[ticker]` - ETF analysis
+- `/etf/[ticker]/holdings` - ETF holdings
+- `/etf/[ticker]/dividends` - ETF dividends
+- `/etf/[ticker]/history` - ETF price history
+- `/etf/[ticker]/dark-pool` - ETF dark pool
+- `/etf/[ticker]/insider` - ETF insider activity
+- `/etf/[ticker]/options` - ETF options
+- `/etf/new-launches` - New ETF listings
+- `/etf/etf-providers` - ETF providers list
+
+## Index Tracking
+- `/index/[ticker]` - Index analysis (e.g., /index/SPY)
+- `/index/[ticker]/holdings` - Index components
+- `/index/[ticker]/history` - Index history
+- `/index/[ticker]/options` - Index options
+
+## Discovery Tools
+- `/stock-screener` - Advanced stock screener
+- `/options-screener` - Options scanner
+- `/options-flow` - Options flow tracker
+- `/market-flow` - Market flow analysis
+- `/dark-pool-flow` - Dark pool tracker
+
+## Market Movers
+- `/market-mover/gainers` - Top gainers
+- `/market-mover/losers` - Top losers  
+- `/market-mover/active` - Most active stocks
+- `/market-mover/premarket/gainers` - Pre-market gainers
+- `/market-mover/premarket/losers` - Pre-market losers
+- `/market-mover/afterhours/gainers` - After-hours gainers
+- `/market-mover/afterhours/losers` - After-hours losers
+
+## Calendars
+- `/earnings-calendar` - Earnings schedule
+- `/dividends-calendar` - Dividend calendar
+- `/economic-calendar` - Economic events
+- `/ipos` - IPO calendar
+- `/ipos/news` - IPO news
+- `/ipos/statistics` - IPO statistics
+
+## Trackers
+- `/insider-tracker` - Insider trading tracker
+- `/politicians` - Politicians trading
+- `/politicians/flow-data` - Political trade flow
+- `/potus-tracker` - Presidential portfolio
+- `/reddit-tracker` - Reddit mentions
+
+## Institutional
+- `/hedge-funds` - Hedge fund holdings
+- `/hedge-funds/[fund]` - Individual fund portfolio
+- `/analysts` - Analyst ratings
+- `/analysts/top-stocks` - Top analyst picks
+- `/analysts/analyst-flow` - Rating changes
+
+## Lists & Categories
+- `/list` - Stock lists directory
+- `/list/magnificent-seven` - Tech giants
+- `/list/bitcoin-etfs` - Bitcoin ETFs
+- `/list/ethereum-etfs` - Ethereum ETFs
+- `/list/monthly-dividend-stocks` - Monthly dividend stocks
+- `/list/penny-stocks` - Penny stocks
+- `/list/most-shorted-stocks` - Most shorted
+- `/list/overbought-stocks` - Overbought stocks
+- `/list/oversold-stocks` - Oversold stocks
+- `/list/dividend/[type]` - Dividend lists
+- `/list/sector/[sector]` - Sector lists
+- `/list/industry/[industry]` - Industry lists
+- `/list/country/[country]` - Country lists
+
+## Analysis Tools
+- `/heatmap` - Market heatmap
+- `/compare` - Stock comparison
+- `/backtesting` - Strategy backtesting
+- `/options-calculator` - Options calculator
+- `/industry` - Industry overview
+- `/industry/sectors` - Sector analysis
+
+## AI & Chat
+- `/chat` - AI chat assistant
+- `/chat/[conversation]` - Chat conversation
+
+## Educational
+- `/learning-center` - Education hub
+- `/learning-center/article/[topic]` - Educational articles
+- `/blog` - Market blog
+- `/blog/article/[post]` - Blog posts
+
+## User Account
+- `/login` - Login page
+- `/register` - Sign up
+- `/profile` - User profile
+- `/profile/verification` - Account verification
+- `/watchlist/stocks` - Stock watchlist
+- `/watchlist/options` - Options watchlist
+- `/price-alert` - Price alerts
+- `/notifications` - Notifications
+- `/customize` - Dashboard customization
+- `/reset-password` - Password reset
+- `/update-password` - Update password
+
+## Market News
+- `/market-news` - Latest news
+- `/market-news/general` - General news
+- `/market-news/press-releases` - Press releases
+
+## Legal & Company
+- `/privacy-policy` - Privacy policy
+- `/terms-of-use` - Terms of service  
+- `/data-disclaimer` - Data disclaimer
+- `/imprint` - Legal imprint
+- `/advertise` - Advertising
+- `/affiliate-program` - Affiliate program
+- `/donation` - Support us
+- `/newsletter` - Newsletter signup
+- `/sitemap` - Site map

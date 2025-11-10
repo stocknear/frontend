@@ -1,0 +1,936 @@
+<script lang="ts">
+  import TableHeader from "$lib/components/Table/TableHeader.svelte";
+  import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
+  import { page } from "$app/stores";
+  import highcharts from "$lib/highcharts.ts";
+  import { mode } from "mode-watcher";
+
+  import { onMount } from "svelte";
+
+  export let data;
+  export let ticker = null;
+  export let assetType = "stocks";
+
+  const currentTime = new Date(
+    new Date().toLocaleString("en-US", { timeZone: "UTC" }),
+  )?.getTime();
+
+  let rawData = data?.getData
+    ?.map((item) => ({
+      ...item,
+      dte: daysLeft(item?.expiry),
+    }))
+    ?.sort((a, b) => new Date(b?.date) - new Date(a?.date));
+
+  // Track the currently sorted data separately
+  let sortedData = [...rawData];
+  let displayList = sortedData?.slice(0, 50) || [];
+  let currentSortKey = null;
+  let currentSortOrder = "none";
+
+  // Pagination state
+  let currentPage = 1;
+  let rowsPerPage = 20;
+  let rowsPerPageOptions = [20, 50, 100];
+  let totalPages = 1;
+  let pagePathName = $page?.url?.pathname;
+
+  let config = null;
+
+  function daysLeft(targetDate) {
+    const targetTime = new Date(targetDate).getTime();
+    const difference = targetTime - currentTime;
+
+    const millisecondsPerDay = 1000 * 60 * 60 * 24;
+    const daysLeft = Math?.ceil(difference / millisecondsPerDay);
+
+    return daysLeft + "D";
+  }
+
+  function formatDate(dateStr) {
+    // Convert the input date string to a Date object in UTC
+    let date = new Date(dateStr + "T00:00:00Z"); // Assume input is in UTC
+    let options = {
+      timeZone: "UTC",
+      month: "short", // Changed from "2-digit" to "short" for "Jan"
+      day: "numeric", // Changed from "2-digit" to "numeric" for "17" (no leading zero)
+      year: "numeric", // Changed from "2-digit" to "numeric" for "2025"
+    };
+    let formatter = new Intl.DateTimeFormat("en-US", options);
+    return formatter.format(date);
+  }
+  /*
+  function plotData() {
+    let dates = [];
+    let priceList = [];
+
+    // Sort history by date
+    const history = rawData?.sort(
+      (a, b) => new Date(a?.date) - new Date(b?.date),
+    );
+
+    // Aggregate premiums for each date and track bubble data
+    const aggregatedData = {};
+    const callBubbleData = [];
+    const putBubbleData = [];
+
+    history?.forEach((item) => {
+      const { date, optionType, size, premium } = item;
+
+      if (!aggregatedData[date]) {
+        aggregatedData[date] = {
+          callPremiums: [],
+          putPremiums: [],
+        };
+      }
+
+      if (optionType === "Calls") {
+        aggregatedData[date].callPremiums.push({ size, premium });
+      } else if (optionType === "Puts") {
+        aggregatedData[date].putPremiums.push({ size, premium });
+      }
+    });
+
+    // Build dates array from aggregated data
+    dates = Object.keys(aggregatedData);
+
+    // Get historical prices for matching dates
+    priceList = dates?.map((date) => {
+      const matchingData = data?.getHistoricalPrice?.find(
+        (d) => d?.time === date,
+      );
+      return matchingData?.close || null;
+    });
+
+    // Calculate premium statistics for better visualization
+    const allPremiums = history?.map((item) => item.premium) || [];
+    const maxPremium = Math.max(...allPremiums, 0);
+    const minPremium = Math.min(...allPremiums.filter((p) => p > 0), 0);
+    const avgPremium =
+      allPremiums.reduce((sum, p) => sum + p, 0) / (allPremiums.length || 1);
+
+    // Optional: Set a minimum threshold if you want to filter out very small values
+    // Set to 0 to show all premiums, or to a small value to filter noise
+    const minimumPremiumToShow = 0; // Show all premiums
+
+    // Create bubble data for ALL options (or those above minimum)
+    dates.forEach((date, index) => {
+      const dateData = aggregatedData[date];
+      const price = priceList[index];
+
+      if (price) {
+        // Process call premiums
+        dateData.callPremiums.forEach(({ size, premium }) => {
+          // Include all premiums above the minimum threshold
+          if (premium >= minimumPremiumToShow) {
+            callBubbleData.push({
+              x: index,
+              y: price,
+              z: premium,
+              name: `Call: ${size.toLocaleString()} contracts`,
+              date: date,
+              // Add impact level for tooltip
+              impact:
+                premium > avgPremium * 2
+                  ? "Very High"
+                  : premium > avgPremium * 1.5
+                    ? "High"
+                    : premium > avgPremium
+                      ? "Above Average"
+                      : "Below Average",
+            });
+          }
+        });
+
+        // Process put premiums
+        dateData.putPremiums.forEach(({ size, premium }) => {
+          // Include all premiums above the minimum threshold
+          if (premium >= minimumPremiumToShow) {
+            putBubbleData.push({
+              x: index,
+              y: price,
+              z: premium,
+              name: `Put: ${size.toLocaleString()} contracts`,
+              date: date,
+              // Add impact level for tooltip
+              impact:
+                premium > avgPremium * 2
+                  ? "Very High"
+                  : premium > avgPremium * 1.5
+                    ? "High"
+                    : premium > avgPremium
+                      ? "Above Average"
+                      : "Below Average",
+            });
+          }
+        });
+      }
+    });
+
+    // Highcharts configuration
+    const options = {
+      credits: {
+        enabled: false,
+      },
+      plotOptions: {
+        series: {
+          animation: false,
+          states: {
+            hover: {
+              enabled: false,
+            },
+          },
+        },
+        bubble: {
+          // Increased minSize to ensure small premiums are visible
+          minSize: 1, // Increased from 8 to make small bubbles more visible
+          maxSize: 50,
+          // Optional: Use sizeBy to control how bubble size is calculated
+          sizeBy: "width", // Can be 'area' or 'width'
+          marker: {
+            fillOpacity: 0.6,
+            lineWidth: 2,
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          // Optional: Set a minimum bubble value to ensure visibility
+          // This ensures even the smallest premium gets the minSize bubble
+          zMin: minPremium > 0 ? minPremium : 1,
+          zMax: maxPremium,
+        },
+      },
+      chart: {
+        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        height: 360,
+        animation: false,
+      },
+      title: {
+        text: `<h3 class="mt-3 mb-1 text-[1rem] sm:text-lg">Unusual Options Activity</h3>`,
+        useHTML: true,
+        style: {
+          color: $mode === "light" ? "black" : "white",
+        },
+      },
+      xAxis: {
+        categories: dates,
+        crosshair: {
+          color: $mode === "light" ? "black" : "white",
+          width: 1,
+          dashStyle: "Solid",
+        },
+        labels: {
+          style: {
+            color: $mode === "light" ? "#545454" : "white",
+          },
+          formatter: function () {
+            // Only format if this.value is a valid date string
+            if (this.value && typeof this.value === "string") {
+              const date = new Date(this.value);
+              // Check if date is valid
+              if (!isNaN(date.getTime())) {
+                return date.toLocaleDateString("en-US", {
+                  month: "short",
+                  year: "numeric",
+                });
+              }
+            }
+            return "";
+          },
+          // Show fewer labels to avoid crowding
+          step: Math.ceil(dates.length / 5),
+        },
+      },
+      yAxis: {
+        gridLineWidth: 1,
+        gridLineColor: $mode === "light" ? "#e5e7eb" : "#111827",
+        labels: {
+          style: { color: $mode === "light" ? "#545454" : "white" },
+        },
+        title: { text: null },
+        opposite: true,
+      },
+      tooltip: {
+        shared: false,
+        useHTML: true,
+        backgroundColor: "rgba(0, 0, 0, 1)",
+        borderColor: "rgba(255, 255, 255, 0.2)",
+        borderWidth: 1,
+        style: {
+          color: "#fff",
+          fontSize: "16px",
+          padding: "10px",
+        },
+        borderRadius: 4,
+        formatter: function () {
+          let tooltipContent = "";
+
+          if (this.series.type === "bubble") {
+            const date = new Date(this.point.date);
+            tooltipContent = `<span class="m-auto text-[1rem] font-[501]">${date.toLocaleDateString(
+              "en-US",
+              {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                timeZone: "UTC",
+              },
+            )}</span><br>`;
+
+            tooltipContent += `<span class="font-semibold text-sm">${this.series.name}</span><br>`;
+            tooltipContent += `<span class="font-normal text-sm">Price: $${this.point.y?.toFixed(2)}</span><br>`;
+            tooltipContent += `<span class="font-normal text-sm">Premium: $${this.point.z?.toLocaleString("en-US")}</span><br>`;
+            tooltipContent += `<span class="font-normal text-xs">Impact: ${this.point.impact || "N/A"}</span>`;
+          } else {
+            // For spline series, use the category value directly
+            const dateStr = dates[this.point.index] || this.x;
+            const date = new Date(dateStr);
+
+            tooltipContent = `<span class="m-auto text-[1rem] font-[501]">${date.toLocaleDateString(
+              "en-US",
+              {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                timeZone: "UTC",
+              },
+            )}</span><br>`;
+
+            tooltipContent += `
+            <span style="display:inline-block; width:10px; height:10px; background-color:${this.color}; border-radius:50%; margin-right:5px;"></span>
+            <span class="font-semibold text-sm">${this.series.name}:</span> 
+            <span class="font-normal text-sm">$${this.y?.toFixed(2)}</span>`;
+          }
+
+          return tooltipContent;
+        },
+      },
+      series: [
+        {
+          name: "Stock Price",
+          type: "spline",
+          data: priceList,
+          marker: {
+            enabled: false,
+          },
+          color: $mode === "light" ? "#000" : "#fff",
+          lineWidth: 1.5,
+          zIndex: 2,
+        },
+        {
+          name: "Call Options", // Updated name to be more inclusive
+          type: "bubble",
+          data: callBubbleData,
+          color: "#00FC50",
+          zIndex: 3,
+          marker: {
+            lineColor: "rgba(0, 252, 80, 0.8)",
+          },
+        },
+        {
+          name: "Put Options", // Updated name to be more inclusive
+          type: "bubble",
+          data: putBubbleData,
+          color: "#EE5365",
+          zIndex: 3,
+          marker: {
+            lineColor: "rgba(238, 83, 101, 0.8)",
+          },
+        },
+      ],
+      legend: {
+        enabled: true,
+        align: "center",
+        verticalAlign: "top",
+        layout: "horizontal",
+        itemStyle: {
+          color: $mode === "light" ? "black" : "white",
+        },
+      },
+    };
+
+    return options;
+  }
+*/
+  // Pagination functions
+  function updatePaginatedData() {
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    displayList = sortedData?.slice(startIndex, endIndex) || [];
+    totalPages = Math.ceil((sortedData?.length || 0) / rowsPerPage);
+  }
+
+  function goToPage(page) {
+    if (page >= 1 && page <= totalPages) {
+      currentPage = page;
+      updatePaginatedData();
+    }
+  }
+
+  function changeRowsPerPage(newRowsPerPage) {
+    rowsPerPage = newRowsPerPage;
+    currentPage = 1; // Reset to first page when changing rows per page
+    updatePaginatedData();
+    saveRowsPerPage(); // Save to localStorage
+  }
+
+  // Save rows per page preference to localStorage
+  function saveRowsPerPage() {
+    if (!pagePathName || typeof localStorage === "undefined") return;
+
+    try {
+      const paginationKey = `${pagePathName}_rowsPerPage`;
+      localStorage.setItem(paginationKey, String(rowsPerPage));
+    } catch (e) {
+      console.warn("Failed to save rows per page preference:", e);
+    }
+  }
+
+  // Load rows per page preference from localStorage
+  function loadRowsPerPage() {
+    const currentPath = pagePathName || $page?.url?.pathname;
+
+    if (!currentPath || typeof localStorage === "undefined") {
+      rowsPerPage = 20; // Default value
+      return;
+    }
+
+    try {
+      const paginationKey = `${currentPath}_rowsPerPage`;
+      const savedRows = localStorage.getItem(paginationKey);
+
+      if (savedRows && rowsPerPageOptions.includes(Number(savedRows))) {
+        rowsPerPage = Number(savedRows);
+      } else {
+        rowsPerPage = 20; // Default if invalid or not found
+      }
+    } catch (e) {
+      console.warn("Failed to load rows per page preference:", e);
+      rowsPerPage = 20; // Default on error
+    }
+  }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  onMount(async () => {
+    // Load pagination preference
+    loadRowsPerPage();
+
+    // Initialize pagination
+    updatePaginatedData();
+  });
+
+  $: columns = [
+    { key: "optionType", label: "Type", align: "left" },
+    { key: "date", label: "Transaction Date", align: "right" },
+    { key: "dte", label: "DTE", align: "right" },
+    { key: "unusualType", label: "Type", align: "right" },
+    { key: "executionEst", label: "Exec", align: "right" },
+    { key: "sentiment", label: "Sent.", align: "right" },
+    { key: "size", label: "Size", align: "right" },
+    { key: "price", label: "Spot", align: "right" },
+    { key: "premium", label: "Prem", align: "right" },
+    { key: "optionSymbol", label: "Option Chain", align: "right" },
+  ];
+
+  $: sortOrders = {
+    optionType: { order: "none", type: "string" },
+    date: { order: "none", type: "date" },
+    optionSymbol: { order: "none", type: "string" },
+    unusualType: { order: "none", type: "string" },
+    executionEst: { order: "none", type: "string" },
+    dte: { order: "none", type: "number" },
+    sentiment: { order: "none", type: "sentiment" },
+    size: { order: "none", type: "number" },
+    price: { order: "none", type: "number" },
+    premium: { order: "none", type: "number" },
+  };
+
+  const sortData = (key) => {
+    // Reset all other keys to 'none' except the current key
+    for (const k in sortOrders) {
+      if (k !== key) {
+        sortOrders[k].order = "none";
+      }
+    }
+
+    // Cycle through 'none', 'asc', 'desc' for the clicked key
+    const orderCycle = ["none", "asc", "desc"];
+    const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
+    sortOrders[key].order =
+      orderCycle[(currentOrderIndex + 1) % orderCycle.length];
+    const sortOrder = sortOrders[key].order;
+
+    // Update tracking variables
+    currentSortKey = key;
+    currentSortOrder = sortOrder;
+
+    // Reset to original data when 'none' and stop further sorting
+    if (sortOrder === "none") {
+      sortedData = [...rawData];
+      currentPage = 1; // Reset to first page
+      updatePaginatedData();
+      return;
+    }
+
+    // Define a generic comparison function
+    const compareValues = (a, b) => {
+      const { type } = sortOrders[key];
+      let valueA, valueB;
+
+      switch (type) {
+        case "date":
+          valueA = new Date(a[key]);
+          valueB = new Date(b[key]);
+          break;
+        case "string":
+          valueA = a[key].toUpperCase();
+          valueB = b[key].toUpperCase();
+          return sortOrder === "asc"
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        case "sentiment":
+          const sentimentOrder = { BULLISH: 1, NEUTRAL: 2, BEARISH: 3 };
+          const sentimentA = sentimentOrder[a?.sentiment?.toUpperCase()] || 4;
+          const sentimentB = sentimentOrder[b?.sentiment?.toUpperCase()] || 4;
+          return sortOrder === "asc"
+            ? sentimentA - sentimentB
+            : sentimentB - sentimentA;
+
+        case "number":
+        default:
+          valueA = parseFloat(a[key]);
+          valueB = parseFloat(b[key]);
+          break;
+      }
+
+      // Default comparison for numbers and fallback case
+      if (valueA < valueB) return sortOrder === "asc" ? -1 : 1;
+      if (valueA > valueB) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    };
+
+    // Sort all data and store it
+    sortedData = [...rawData].sort(compareValues);
+    // Reset to first page and update pagination
+    currentPage = 1;
+    updatePaginatedData();
+  };
+
+  // Reactive statement to load pagination settings when page changes
+  $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
+    pagePathName = $page?.url?.pathname;
+    loadRowsPerPage(); // Load pagination preference for new page
+    updatePaginatedData(); // Update display with loaded preference
+  }
+
+  /*
+  $: {
+    if ($mode) {
+      config = plotData() || null;
+    }
+  }
+    */
+</script>
+
+<section class="w-full overflow-hidden min-h-screen pb-40">
+  <div class="w-full flex h-full overflow-hidden">
+    <div
+      class="w-full relative flex justify-center items-center overflow-hidden"
+    >
+      <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto mt-2 sm:mt-0">
+        <h2
+          class=" flex flex-row items-center text-xl sm:text-2xl font-bold w-fit mb-2 sm:mb-0"
+        >
+          {ticker} Unusual Activity
+        </h2>
+        <p class={rawData?.length > 0 ? "mt-4" : "mt-0"}>
+          {#if rawData?.length > 0}
+            {@const totalPremium = rawData.reduce(
+              (sum, item) => sum + (item.premium || 0),
+              0,
+            )}
+            {@const callCount = rawData.filter(
+              (item) => item.optionType === "Calls",
+            ).length}
+            {@const putCount = rawData.filter(
+              (item) => item.optionType === "Puts",
+            ).length}
+            {@const bullishCount = rawData.filter(
+              (item) => item.sentiment === "Bullish",
+            ).length}
+            {@const bearishCount = rawData.filter(
+              (item) => item.sentiment === "Bearish",
+            ).length}
+            {@const avgDTE = Math.round(
+              rawData.reduce((sum, item) => sum + parseInt(item.dte || 0), 0) /
+                rawData.length,
+            )}
+            {@const recentActivity = rawData.filter((item) => {
+              const daysDiff =
+                (currentTime - new Date(item.date).getTime()) /
+                (1000 * 60 * 60 * 24);
+              return daysDiff <= 7;
+            }).length}
+            {@const largestPremium = Math.max(
+              ...rawData.map((item) => item.premium || 0),
+            )}
+            {@const sweepCount = rawData?.filter(
+              (item) => item.unusualType === "Sweep",
+            ).length}
+
+            <strong>{ticker}</strong> has recorded
+            <strong>{rawData.length}</strong>
+            unusual options
+            {rawData.length === 1 ? "trade" : "trades"} with a total premium of
+            <strong>${totalPremium.toLocaleString("en-US")}</strong>. The
+            activity is split between <strong>{callCount}</strong> call
+            {callCount === 1 ? "order" : "orders"} ({(
+              (callCount / rawData.length) *
+              100
+            ).toFixed(1)}%) and
+            <strong>{putCount}</strong> put {putCount === 1
+              ? "order"
+              : "orders"}
+            ({((putCount / rawData.length) * 100).toFixed(1)}%),
+            {@html callCount > putCount
+              ? `showing a <strong class="text-green-800 dark:text-[#00FC50]">bullish skew</strong>`
+              : putCount > callCount
+                ? `showing a <strong class="text-red-800 dark:text-[#FF2F1F]">bearish skew</strong>`
+                : `showing <strong>balanced</strong> positioning`}. Sentiment
+            analysis reveals
+            <strong
+              >{((bullishCount / rawData.length) * 100).toFixed(0)}%</strong
+            >
+            bullish and
+            <strong
+              >{((bearishCount / rawData.length) * 100).toFixed(0)}%</strong
+            >
+            bearish positioning
+            {@html bullishCount > bearishCount * 1.5
+              ? ", indicating <strong>strong bullish conviction</strong>"
+              : bearishCount > bullishCount * 1.5
+                ? ", indicating <strong>strong bearish conviction</strong>"
+                : ", showing <strong>mixed market sentiment</strong>"}.
+          {/if}
+        </p>
+
+        {#if config}
+          <div>
+            <div class="grow mt-5">
+              <div class="relative">
+                <!-- Apply the blur class to the chart -->
+                <div
+                  class="mt-5 shadow sm:mt-0 sm:border sm:border-gray-300 dark:border-gray-800 rounded"
+                  use:highcharts={config}
+                ></div>
+              </div>
+            </div>
+          </div>
+        {/if}
+
+        <div class="items-center lg:overflow-visible px-1 py-1 mt-5">
+          <div
+            class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+          >
+            <h2
+              class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold w-full"
+            >
+              {(rawData?.length || 0)?.toLocaleString("en-US")} Activity
+            </h2>
+            <div
+              class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+            >
+              <div class="ml-auto">
+                <DownloadData
+                  {data}
+                  {rawData}
+                  title={`${ticker}_unusual_activity`}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full overflow-x-auto">
+          <table
+            class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto mt-4"
+          >
+            <thead>
+              <TableHeader {columns} {sortOrders} {sortData} />
+            </thead>
+            <tbody>
+              {#each data?.user?.tier !== "Pro" ? displayList?.slice(0, 3) : displayList as item, index}
+                {@const isCall = item?.optionType === "Calls"}
+                {@const isPut = item?.optionType === "Puts"}
+                {@const isBullish = item?.sentiment === "Bullish"}
+                {@const isBearish = item?.sentiment === "Bearish"}
+                {@const isNeutral = item?.sentiment === "Neutral"}
+                <tr
+                  class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd relative {index +
+                    1 ===
+                    rawData?.slice(0, 3)?.length &&
+                  !['Pro']?.includes(data?.user?.tier)
+                    ? 'opacity-[0.1]'
+                    : ''}"
+                  style="background: {(() => {
+                    const baseColor =
+                      $mode === 'light'
+                        ? index % 2 === 0
+                          ? '#ffffff'
+                          : '#F6F7F8'
+                        : index % 2 === 0
+                          ? '#09090B'
+                          : '#1A1A1F';
+
+                    if ($mode === 'light') {
+                      if (isCall && isBullish) {
+                        return `linear-gradient(90deg, ${baseColor} 0%, rgba(34, 197, 94, 0.15) 60%, rgba(34, 197, 94, 0.25) 100%)`;
+                      }
+                      if (isCall && isBearish) {
+                        return `linear-gradient(90deg, ${baseColor} 0%, rgba(239, 68, 68, 0.15) 60%, rgba(239, 68, 68, 0.25) 100%)`;
+                      }
+                      if (isPut) {
+                        return `linear-gradient(90deg, ${baseColor} 0%, rgba(238, 83, 101, 0.15) 60%, rgba(238, 83, 101, 0.25) 100%)`;
+                      }
+                      if (isNeutral) {
+                        return `linear-gradient(90deg, ${baseColor} 0%, rgba(251, 146, 60, 0.15) 60%, rgba(251, 146, 60, 0.25) 100%)`;
+                      }
+                    } else {
+                      // Dark mode
+                      if (isCall && isBullish) {
+                        return `linear-gradient(90deg, ${baseColor} 0%, rgba(0, 252, 80, 0.08) 60%, rgba(0, 252, 80, 0.15) 100%)`;
+                      }
+                      if (isCall && isBearish) {
+                        return `linear-gradient(90deg, ${baseColor} 0%, rgba(255, 47, 31, 0.08) 60%, rgba(255, 47, 31, 0.15) 100%)`;
+                      }
+                      if (isPut) {
+                        return `linear-gradient(90deg, ${baseColor} 0%, rgba(238, 83, 101, 0.08) 60%, rgba(238, 83, 101, 0.15) 100%)`;
+                      }
+                      if (isNeutral) {
+                        return `linear-gradient(90deg, ${baseColor} 0%, rgba(200, 163, 45, 0.08) 60%, rgba(200, 163, 45, 0.15) 100%)`;
+                      }
+                    }
+                    return baseColor;
+                  })()}"
+                >
+                  <td
+                    class=" text-sm sm:text-[1rem] text-start whitespace-nowrap flex flex-row items-center justify-between"
+                  >
+                    <span
+                      class={item?.optionType === "Calls"
+                        ? "dark:text-[#00FC50]"
+                        : "dark:text-[#FF2F1F]"}
+                    >
+                      {item?.optionType === "Calls" ? "Call" : "Put"}
+                      {" " + item?.strike}
+                    </span>
+                  </td>
+
+                  <td
+                    class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
+                  >
+                    {formatDate(item?.date)}
+                  </td>
+
+                  <td
+                    class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
+                  >
+                    {item?.dte}
+                  </td>
+
+                  <td
+                    class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
+                  >
+                    {item?.unusualType}
+                  </td>
+
+                  <td
+                    class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
+                  >
+                    {item?.executionEst?.replace("At Midpoint", "Midpoint")}
+                  </td>
+
+                  <td
+                    class="text-sm sm:text-[1rem] text-end whitespace-nowrap {item?.sentiment ===
+                    'Bullish'
+                      ? 'text-green-800 dark:text-[#00FC50]'
+                      : item?.sentiment === 'Bearish'
+                        ? 'text-red-800 dark:text-[#FF2F1F]'
+                        : 'text-orange-800 dark:text-[#C8A32D]'} "
+                  >
+                    {item?.sentiment}
+                  </td>
+                  <td
+                    class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
+                  >
+                    {item?.size?.toLocaleString("en-US")}
+                  </td>
+
+                  <td
+                    class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
+                  >
+                    {item?.price}
+                  </td>
+                  <td
+                    class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
+                  >
+                    ${item?.premium?.toLocaleString("en-US")}
+                  </td>
+
+                  <td class="text-sm sm:text-[1rem] text-end whitespace-nowrap">
+                    <a
+                      href={`/${["stocks", "stock"]?.includes(assetType) ? "stocks" : assetType === "etf" ? "etf" : "index"}/${ticker}/options/contract-lookup?query=${item?.optionSymbol}`}
+                      class="cursor-pointer text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+                    >
+                      {item?.optionSymbol}
+                    </a>
+                  </td>
+                </tr>
+              {/each}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination controls -->
+        {#if displayList?.length > 0 && totalPages > 0}
+          <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
+            <!-- Previous button -->
+            <div class="flex items-center gap-2">
+              <Button
+                on:click={() => goToPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+              >
+                <svg
+                  class="h-5 w-5 inline-block shrink-0 rotate-90"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  style="max-width:40px"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <span class="hidden sm:inline">Previous</span>
+              </Button>
+            </div>
+
+            <!-- Page info and rows selector in center -->
+            <div class="flex flex-row items-center gap-4">
+              <span class="text-sm sm:text-[1rem]">
+                Page {currentPage} of {totalPages}
+              </span>
+
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild let:builder>
+                  <Button
+                    builders={[builder]}
+                    class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 rounded truncate"
+                  >
+                    <span class="truncate text-[0.85rem] sm:text-sm"
+                      >{rowsPerPage} Rows</span
+                    >
+                    <svg
+                      class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </Button>
+                </DropdownMenu.Trigger>
+
+                <DropdownMenu.Content
+                  side="bottom"
+                  align="end"
+                  sideOffset={10}
+                  alignOffset={0}
+                  class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative"
+                >
+                  <!-- Dropdown items -->
+                  <DropdownMenu.Group class="pb-2">
+                    {#each rowsPerPageOptions as item}
+                      <DropdownMenu.Item
+                        class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                      >
+                        <label
+                          on:click={() => changeRowsPerPage(item)}
+                          class="inline-flex justify-between w-full items-center cursor-pointer"
+                        >
+                          <span class="text-sm">{item} Rows</span>
+                        </label>
+                      </DropdownMenu.Item>
+                    {/each}
+                  </DropdownMenu.Group>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            </div>
+
+            <!-- Next button -->
+            <div class="flex items-center gap-2">
+              <Button
+                on:click={() => goToPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+              >
+                <span class="hidden sm:inline">Next</span>
+                <svg
+                  class="h-5 w-5 inline-block shrink-0 -rotate-90"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  style="max-width:40px"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </Button>
+            </div>
+          </div>
+
+          <!-- Back to Top button -->
+          <div class="flex justify-center mt-4">
+            <button
+              on:click={scrollToTop}
+              class="cursor-pointer sm:hover:text-muted text-blue-800 dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem] font-medium"
+            >
+              Back to Top <svg
+                class="h-5 w-5 inline-block shrink-0 rotate-180"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        {/if}
+
+        <UpgradeToPro {data} display={true} />
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,871 @@
+<script lang="ts">
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
+  import TableHeader from "$lib/components/Table/TableHeader.svelte";
+  import ArrowLogo from "lucide-svelte/icons/move-up-right";
+  import Infobox from "$lib/components/Infobox.svelte";
+  import SEO from "$lib/components/SEO.svelte";
+
+  import { onMount } from "svelte";
+  import { page } from "$app/stores";
+
+  export let data;
+
+  let syncWorker: Worker | undefined;
+  let searchWorker: Worker | undefined;
+
+  let pagePathName = $page?.url?.pathname;
+
+  let originalData = data?.getAllPolitician;
+  let rawData = originalData;
+
+  let displayList = [];
+  let isLoaded = false;
+  let animationClass = "";
+  let animationId = "";
+  let favoriteList = [];
+  let inputValue = "";
+  let filterList = [];
+  let checkedItems: Set<any> = new Set();
+
+  // Pagination state
+  let currentPage = 1;
+  let rowsPerPage = 20;
+  let rowsPerPageOptions = [20, 50, 100];
+  let totalPages = 1;
+
+  // Pagination functions
+  function updatePaginatedData() {
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    const dataSource =
+      inputValue?.length > 0 || filterList?.length > 0 ? rawData : originalData;
+    displayList = dataSource?.slice(startIndex, endIndex) || [];
+    totalPages = Math.ceil((dataSource?.length || 0) / rowsPerPage);
+  }
+
+  function goToPage(page) {
+    if (page >= 1 && page <= totalPages) {
+      currentPage = page;
+      updatePaginatedData();
+    }
+  }
+
+  function changeRowsPerPage(newRowsPerPage) {
+    rowsPerPage = newRowsPerPage;
+    currentPage = 1; // Reset to first page when changing rows per page
+    updatePaginatedData();
+    saveRowsPerPage(); // Save to localStorage
+  }
+
+  // Save rows per page preference to localStorage
+  function saveRowsPerPage() {
+    if (!pagePathName || typeof localStorage === "undefined") return;
+
+    try {
+      const paginationKey = `${pagePathName}_rowsPerPage`;
+      localStorage.setItem(paginationKey, String(rowsPerPage));
+    } catch (e) {
+      console.warn("Failed to save rows per page preference:", e);
+    }
+  }
+
+  // Load rows per page preference from localStorage
+  function loadRowsPerPage() {
+    const currentPath = pagePathName || $page?.url?.pathname;
+
+    if (!currentPath || typeof localStorage === "undefined") {
+      rowsPerPage = 20; // Default value
+      return;
+    }
+
+    try {
+      const paginationKey = `${currentPath}_rowsPerPage`;
+      const savedRows = localStorage.getItem(paginationKey);
+
+      if (savedRows && rowsPerPageOptions.includes(Number(savedRows))) {
+        rowsPerPage = Number(savedRows);
+      } else {
+        rowsPerPage = 20; // Default if invalid or not found
+      }
+    } catch (e) {
+      console.warn("Failed to load rows per page preference:", e);
+      rowsPerPage = 20; // Default on error
+    }
+  }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // Handle messages from our filtering web worker.
+  const handleMessage = (event) => {
+    rawData = event.data?.output || [];
+    rawData?.sort((a, b) => {
+      // Check if each id is in the favoriteList
+      const aIsFavorite = favoriteList?.includes(a?.id);
+      const bIsFavorite = favoriteList?.includes(b?.id);
+
+      // If both are favorites or both are not, keep their order
+      if (aIsFavorite === bIsFavorite) return 0;
+
+      // If a is favorite and b is not, a comes first; otherwise, b comes first
+      return aIsFavorite ? -1 : 1;
+    });
+
+    currentPage = 1; // Reset to first page after filtering
+    updatePaginatedData();
+  };
+
+  // Tell the web worker to filter our data
+  const loadWorker = async () => {
+    syncWorker?.postMessage({
+      rawData: originalData,
+      filterList: filterList,
+    });
+  };
+
+  async function handleChangeValue(value) {
+    if (checkedItems.has(value)) {
+      checkedItems.delete(value);
+    } else {
+      checkedItems.add(value);
+    }
+    const filterSet = new Set(filterList);
+    filterSet.has(value) ? filterSet.delete(value) : filterSet.add(value);
+    filterList = Array.from(filterSet);
+
+    if (filterList.length > 0) {
+      await loadWorker();
+    } else {
+      rawData = [...originalData];
+      rawData?.sort((a, b) => {
+        // Check if each id is in the favoriteList
+        const aIsFavorite = favoriteList?.includes(a?.id);
+        const bIsFavorite = favoriteList?.includes(b?.id);
+
+        // If both are favorites or both are not, keep their order
+        if (aIsFavorite === bIsFavorite) return 0;
+
+        // If a is favorite and b is not, a comes first; otherwise, b comes first
+        return aIsFavorite ? -1 : 1;
+      });
+
+      currentPage = 1; // Reset to first page
+      updatePaginatedData();
+    }
+  }
+
+  onMount(async () => {
+    try {
+      const savedList = localStorage?.getItem(pagePathName);
+
+      if (savedList) {
+        favoriteList = JSON?.parse(savedList);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    // Load pagination preference
+    loadRowsPerPage();
+
+    // Initialize workers
+    if (!syncWorker) {
+      const SyncWorker = await import("./workers/filterWorker?worker");
+      syncWorker = new SyncWorker.default();
+      syncWorker.onmessage = handleMessage;
+    }
+
+    if (!searchWorker) {
+      const SearchWorker = await import(
+        "$lib/workers/tableSearchWorker?worker"
+      );
+      searchWorker = new SearchWorker.default();
+      searchWorker.onmessage = handleSearchMessage;
+    }
+
+    rawData?.sort((a, b) => {
+      // Check if each id is in the favoriteList
+      const aIsFavorite = favoriteList?.includes(a?.id);
+      const bIsFavorite = favoriteList?.includes(b?.id);
+
+      // If both are favorites or both are not, keep their order
+      if (aIsFavorite === bIsFavorite) return 0;
+
+      // If a is favorite and b is not, a comes first; otherwise, b comes first
+      return aIsFavorite ? -1 : 1;
+    });
+
+    // Initialize pagination
+    updatePaginatedData();
+    isLoaded = true;
+  });
+
+  // Reactive statement to load pagination settings when page changes
+  $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
+    pagePathName = $page?.url?.pathname;
+    loadRowsPerPage(); // Load pagination preference for new page
+    updatePaginatedData(); // Update display with loaded preference
+  }
+
+  async function resetTableSearch() {
+    inputValue = "";
+    if (filterList?.length === 0) {
+      rawData = originalData;
+    } else {
+      await loadWorker(); // Re-apply party filters
+    }
+    currentPage = 1; // Reset to first page
+    updatePaginatedData();
+  }
+
+  async function search() {
+    inputValue = inputValue?.toLowerCase();
+
+    setTimeout(async () => {
+      if (inputValue?.length > 0) {
+        await loadSearchWorker();
+      } else {
+        // Reset to original data or re-apply party filters if they exist
+        if (filterList?.length === 0) {
+          rawData = originalData || [];
+        } else {
+          await loadWorker(); // Re-apply party filters
+        }
+        currentPage = 1; // Reset to first page
+        updatePaginatedData();
+      }
+    }, 100);
+  }
+
+  const loadSearchWorker = async () => {
+    if (searchWorker) {
+      // Use the base data (original or party-filtered) for search
+      const baseData = filterList?.length > 0 ? rawData : originalData;
+      searchWorker.postMessage({
+        rawData: baseData,
+        inputValue: inputValue,
+      });
+    }
+  };
+
+  const handleSearchMessage = (event) => {
+    if (event.data?.message === "success") {
+      rawData = event.data?.output ?? [];
+      currentPage = 1; // Reset to first page after search
+      updatePaginatedData();
+    }
+  };
+
+  function saveList() {
+    try {
+      // Save the version along with the rules
+      localStorage?.setItem(pagePathName, JSON?.stringify(favoriteList));
+    } catch (e) {
+      console.log("Failed saving indicator rules: ", e);
+    }
+  }
+
+  async function addToFavorite(event, itemId) {
+    event?.preventDefault();
+    if (favoriteList.includes(itemId)) {
+      // Remove ticker from the watchlist.
+      favoriteList = favoriteList?.filter((item) => item !== itemId);
+    } else {
+      // Add ticker to the watchlist.
+      animationId = itemId;
+      animationClass = "heartbeat";
+      const removeAnimation = () => {
+        animationId = "";
+        animationClass = "";
+      };
+      favoriteList = [...favoriteList, itemId];
+      const heartbeatElement = document.getElementById(itemId);
+      if (heartbeatElement) {
+        // Only add listener if it's not already present
+        if (!heartbeatElement.classList.contains("animation-added")) {
+          heartbeatElement.addEventListener("animationend", removeAnimation);
+          heartbeatElement.classList.add("animation-added"); // Prevent re-adding listener
+        }
+      }
+    }
+
+    saveList();
+  }
+
+  let columns = [
+    { key: "representative", label: "Person", align: "left" },
+    { key: "party", label: "Party", align: "right" },
+    { key: "district", label: "District", align: "right" },
+    { key: "totalTrades", label: "Total Trades", align: "right" },
+    { key: "lastTrade", label: "Last Trade", align: "right" },
+  ];
+
+  let sortOrders = {
+    representative: { order: "none", type: "string" },
+    party: { order: "none", type: "string" },
+    district: { order: "none", type: "string" },
+    totalTrades: { order: "none", type: "number" },
+    lastTrade: { order: "none", type: "date" },
+  };
+
+  const sortData = (key) => {
+    // Reset all other keys to 'none' except the current key
+    for (const k in sortOrders) {
+      if (k !== key) {
+        sortOrders[k].order = "none";
+      }
+    }
+
+    // Cycle through 'none', 'asc', 'desc' for the clicked key
+    const orderCycle = ["none", "asc", "desc"];
+
+    const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
+    sortOrders[key].order =
+      orderCycle[(currentOrderIndex + 1) % orderCycle.length];
+    const sortOrder = sortOrders[key].order;
+
+    // Reset to original data when 'none' and stop further sorting
+    if (sortOrder === "none") {
+      if (inputValue?.length > 0) {
+        // If searching, re-run the search to get the original filtered order
+        search();
+      } else if (filterList?.length > 0) {
+        // If party filtering, re-run party filter to get original filtered order
+        loadWorker();
+      } else {
+        // Reset to original unsorted state with favorites prioritized
+        originalData = data?.getAllPolitician || [];
+        originalData?.sort((a, b) => {
+          const aIsFavorite = favoriteList?.includes(a?.id);
+          const bIsFavorite = favoriteList?.includes(b?.id);
+          if (aIsFavorite === bIsFavorite) return 0;
+          return aIsFavorite ? -1 : 1;
+        });
+        rawData = [...originalData];
+        currentPage = 1; // Reset to first page
+        updatePaginatedData(); // Reset displayed data
+      }
+      return;
+    }
+
+    // Define a generic comparison function
+    const compareValues = (a, b) => {
+      const { type } = sortOrders[key];
+      let valueA, valueB;
+
+      switch (type) {
+        case "date":
+          valueA = new Date(a[key]);
+          valueB = new Date(b[key]);
+          break;
+        case "string":
+          valueA = a[key].toUpperCase();
+          valueB = b[key].toUpperCase();
+          return sortOrder === "asc"
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        case "number":
+        default:
+          valueA = parseFloat(a[key]);
+          valueB = parseFloat(b[key]);
+          break;
+      }
+
+      if (sortOrder === "asc") {
+        return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
+      } else {
+        return valueA > valueB ? -1 : valueA < valueB ? 1 : 0;
+      }
+    };
+
+    // Get the data to sort and sort it
+    const dataToSort =
+      inputValue?.length > 0 || filterList?.length > 0 ? rawData : originalData;
+    const sortedData = [...dataToSort].sort(compareValues);
+
+    // Update the appropriate data source based on whether we're filtering or not
+    if (inputValue?.length > 0 || filterList?.length > 0) {
+      rawData = sortedData;
+    } else {
+      originalData = sortedData;
+      rawData = sortedData; // Keep rawData in sync for consistency
+    }
+
+    // Force reactivity by triggering the sortOrders reactivity
+    sortOrders = { ...sortOrders };
+
+    currentPage = 1; // Reset to first page when sorting
+    updatePaginatedData(); // Update the displayed data
+  };
+</script>
+
+<SEO
+  title="Congress Trading Tracker - Real-Time Politicians Stock Trades "
+  description="Track real-time stock trades by US Congress members, senators, and politicians. Monitor Nancy Pelosi trades, senate stock purchases, and congressional insider trading. Free politician trading tracker with detailed transaction history."
+  keywords="congress trading, nancy pelosi trades, politician stock trades, senate trades, congressional trading, insider trading congress, political stock tracker, us politicians trading, pelosi portfolio, congress stock trades"
+  structuredData={{
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Congress Trading Tracker",
+    description:
+      "Real-time tracking of stock trades by US politicians and congress members",
+    url: "https://stocknear.com/politicians",
+    applicationCategory: "FinanceApplication",
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://stocknear.com",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Politicians Trading",
+          item: "https://stocknear.com/politicians",
+        },
+      ],
+    },
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+  }}
+/>
+
+<section
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 px-3 pb-20"
+>
+  <div class="text-sm sm:text-[1rem] breadcrumbs">
+    <ul>
+      <li><a href="/" class="text-muted dark:text-gray-300">Home</a></li>
+      <li class="text-muted dark:text-gray-300">Politicians</li>
+    </ul>
+  </div>
+
+  <div class="w-full overflow-hidden m-auto mt-5">
+    <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
+      <div
+        class="relative flex justify-center items-start overflow-hidden w-full"
+      >
+        <main class="w-full lg:w-3/4 lg:pr-5">
+          <h1 class="text-2xl sm:text-3xl font-bold">All US Politicians</h1>
+          <div
+            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between w-full mt-5 text-muted sm:pt-2 sm:pb-2 dark:text-white sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-gray-800"
+          >
+            <div
+              class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
+            >
+              <h2
+                class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold"
+              >
+                {originalData?.length?.toLocaleString("en-US")} Members
+              </h2>
+            </div>
+
+            <div
+              class="flex items-center ml-auto border-t border-b border-gray-300 dark:border-gray-800 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 w-full"
+            >
+              <div class="relative ml-auto w-full sm:min-w-56 sm:max-w-14">
+                <div
+                  class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+                >
+                  {#if inputValue?.length > 0}
+                    <label
+                      class="cursor-pointer"
+                      on:click={() => resetTableSearch()}
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        ><path
+                          fill="currentColor"
+                          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                        /></svg
+                      >
+                    </label>
+                  {/if}
+                </div>
+
+                <input
+                  type="text"
+                  bind:value={inputValue}
+                  on:input={search}
+                  placeholder="Find..."
+                  class="py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full"
+                />
+              </div>
+
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild let:builder>
+                  <Button
+                    builders={[builder]}
+                    class="ml-2 transition-all min-w-fit sm:min-w-[110px] text-white dark:bg-primary dark:sm:hover:bg-secondary bg-black sm:hover:bg-default border border-gray-300 dark:border-gray-600 ease-out flex flex-row justify-between items-center px-3 py-2 rounded truncate"
+                  >
+                    <span class="truncate">Filter by Party</span>
+                    <svg
+                      class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </Button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content
+                  side="bottom"
+                  align="end"
+                  sideOffset={10}
+                  alignOffset={0}
+                  class="w-56 h-fit max-h-72 overflow-y-auto scroller"
+                >
+                  <DropdownMenu.Group>
+                    {#each ["Democratic", "Republican", "Other"] as item}
+                      <DropdownMenu.Item
+                        class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                      >
+                        <div class="flex items-center">
+                          <label
+                            class="cursor-pointer"
+                            on:click={() => handleChangeValue(item)}
+                            for={item}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={checkedItems.has(item)}
+                            />
+                            <span class="ml-2">{item}</span>
+                          </label>
+                        </div>
+                      </DropdownMenu.Item>
+                    {/each}
+                  </DropdownMenu.Group>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            </div>
+          </div>
+
+          <div class="w-full m-auto mt-4">
+            {#if displayList?.length > 0}
+              <div class="overflow-x-auto">
+                <table
+                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+                >
+                  <thead>
+                    <TableHeader {columns} {sortOrders} {sortData} />
+                  </thead>
+                  <tbody>
+                    {#each displayList as item}
+                      <tr
+                        class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
+                      >
+                        <td
+                          class="text-start text-sm sm:text-[1rem] whitespace-nowrap flex flex-row items-center justify-between w-full"
+                        >
+                          <a
+                            href={`/politicians/${item?.id}`}
+                            class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400"
+                            >{item?.representative?.replace("_", " ")}</a
+                          >
+
+                          <div
+                            id={item?.id}
+                            on:click|stopPropagation={(event) =>
+                              addToFavorite(event, item?.id)}
+                            class=" {favoriteList?.includes(item?.id)
+                              ? 'text-yellow-500 dark:text-[#FFA500]'
+                              : 'text-gray-400 dark:text-gray-300'}"
+                          >
+                            <svg
+                              class="{item?.id === animationId
+                                ? animationClass
+                                : ''} w-5 h-5 inline-block cursor-pointer shrink-0"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 16 16"
+                              ><path
+                                fill="currentColor"
+                                d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+                              /></svg
+                            >
+                          </div>
+                        </td>
+                        <td
+                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                        >
+                          {item?.party}
+                        </td>
+
+                        <td
+                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                        >
+                          {item?.district?.length > 0 ? item?.district : "n/a"}
+                        </td>
+
+                        <td
+                          class="text-end whitespace-nowrap text-sm sm:text-[1rem]"
+                        >
+                          {item?.totalTrades?.toLocaleString("en-US")}
+                        </td>
+
+                        <td
+                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                        >
+                          {new Date(item?.lastTrade)?.toLocaleString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                            daySuffix: "2-digit",
+                          })}
+                        </td>
+                      </tr>
+                    {/each}
+                  </tbody>
+                </table>
+              </div>
+            {:else if displayList?.length === 0 && inputValue?.length > 0}
+              <Infobox text={`No Congress Member found for "${inputValue}"`} />
+            {:else}
+              <Infobox
+                text="No results found for your search or filter criteria."
+              />
+            {/if}
+
+            <!-- Pagination controls -->
+            {#if displayList?.length > 0}
+              <div
+                class="flex flex-row items-center justify-between mt-8 sm:mt-5"
+              >
+                <!-- Previous button -->
+                <div class="flex items-center gap-2">
+                  <Button
+                    on:click={() => goToPage(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center  sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                  >
+                    <svg
+                      class="h-5 w-5 inline-block shrink-0 rotate-90"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                    <span class="hidden sm:inline">Previous</span></Button
+                  >
+                </div>
+
+                <!-- Page info and rows selector in center -->
+                <div class="flex flex-row items-center gap-4">
+                  <span class="text-sm sm:text-[1rem]">
+                    Page {currentPage} of {totalPages}
+                  </span>
+
+                  <DropdownMenu.Root>
+                    <DropdownMenu.Trigger asChild let:builder>
+                      <Button
+                        builders={[builder]}
+                        class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary  flex flex-row justify-between items-center  sm:w-auto px-2 sm:px-3 rounded truncate"
+                      >
+                        <span class="truncate text-[0.85rem] sm:text-sm"
+                          >{rowsPerPage} Rows</span
+                        >
+                        <svg
+                          class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width:40px"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                      </Button>
+                    </DropdownMenu.Trigger>
+
+                    <DropdownMenu.Content
+                      side="bottom"
+                      align="end"
+                      sideOffset={10}
+                      alignOffset={0}
+                      class="w-auto min-w-40  max-h-[400px] overflow-y-auto scroller relative"
+                    >
+                      <!-- Dropdown items -->
+                      <DropdownMenu.Group class="pb-2">
+                        {#each rowsPerPageOptions as item}
+                          <DropdownMenu.Item
+                            class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                          >
+                            <label
+                              on:click={() => changeRowsPerPage(item)}
+                              class="inline-flex justify-between w-full items-center cursor-pointer"
+                            >
+                              <span class="text-sm">{item} Rows</span>
+                            </label>
+                          </DropdownMenu.Item>
+                        {/each}
+                      </DropdownMenu.Group>
+                    </DropdownMenu.Content>
+                  </DropdownMenu.Root>
+                </div>
+
+                <!-- Next button -->
+                <div class="flex items-center gap-2">
+                  <Button
+                    on:click={() => goToPage(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                  >
+                    <span class="hidden sm:inline">Next</span>
+                    <svg
+                      class="h-5 w-5 inline-block shrink-0 -rotate-90"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </Button>
+                </div>
+              </div>
+
+              <!-- Back to Top button -->
+              <div class="flex justify-center mt-4">
+                <button
+                  on:click={scrollToTop}
+                  class=" cursor-pointer sm:hover:text-muted text-blue-800 dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem] font-medium"
+                >
+                  Back to Top <svg
+                    class="h-5 w-5 inline-block shrink-0 rotate-180"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style="max-width:40px"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            {/if}
+          </div>
+        </main>
+
+        <aside class="hidden lg:block relative fixed w-1/4 ml-4">
+          {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
+            <div
+              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            >
+              <a
+                href={"/pricing"}
+                class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+              >
+                <div class="w-full flex justify-between items-center p-3 mt-3">
+                  <h2 class="text-start text-xl font-bold ml-3">
+                    Pro Subscription
+                  </h2>
+                  <ArrowLogo
+                    class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:"
+                  />
+                </div>
+                <span class="p-3 ml-3 mr-3">
+                  Upgrade now for unlimited access to all data, tools and no
+                  ads.
+                </span>
+              </a>
+            </div>
+          {/if}
+
+          <div
+            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+          >
+            <a
+              href={"/politicians/flow-data"}
+              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+            >
+              <div class="w-full flex justify-between items-center p-3 mt-3">
+                <h2 class="text-start text-xl font-bold ml-3">
+                  Latest Congress Trading
+                </h2>
+                <ArrowLogo class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:" />
+              </div>
+              <span class="p-3 ml-3 mr-3">
+                Get detailed reports on latest Congress trading transactions.
+              </span>
+            </a>
+          </div>
+          <div
+            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+          >
+            <a
+              href={"/stock-screener"}
+              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+            >
+              <div class="w-full flex justify-between items-center p-3 mt-3">
+                <h2 class="text-start text-xl font-bold ml-3">
+                  Stock Screener
+                </h2>
+                <ArrowLogo class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:" />
+              </div>
+              <span class="p-3 ml-3 mr-3">
+                Build your Stock Screener to find profitable stocks.
+              </span>
+            </a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .heartbeat {
+    animation: heartbeat-animation 0.3s;
+    animation-timing-function: ease-in-out;
+  }
+
+  @keyframes heartbeat-animation {
+    0% {
+      transform: rotate(0deg) scale(0.95);
+    }
+    25% {
+      transform: rotate(10deg) scale(1.05);
+    }
+    50% {
+      transform: rotate(0deg) scale(1.2);
+    }
+    75% {
+      transform: rotate(-10deg) scale(1.05);
+    }
+    100% {
+      transform: rotate(0deg) scale(0.95);
+    }
+  }
+</style>

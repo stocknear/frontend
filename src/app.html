@@ -1,0 +1,93 @@
+<!doctype html>
+
+<html lang="en" data-theme="">
+  <head>
+    <!-- Basic Meta Tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    
+    <!-- Default SEO Meta Tags (will be overridden by page-specific ones) -->
+    <meta name="author" content= "Stocknear" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="bingbot" content="index, follow" />
+    
+    <!-- Canonical URL (will be set dynamically per page) -->
+    <link rel="canonical" href="https://stocknear.com" />
+    
+    <!-- Language and Region -->
+    <meta name="language" content="English" />
+    <meta name="geo.region" content="US" />
+    <meta name="geo.placename" content="United States" />
+    
+    <!-- Additional SEO Tags -->
+    <meta name="theme-color" content="#1f2937" />
+    <meta name="msapplication-navbutton-color" content="#1f2937" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+
+    <!-- Icons and Manifest -->
+    <link rel="icon" href="%sveltekit.assets%/favicon.png" />
+    <link rel="apple-touch-icon" href="%sveltekit.assets%/apple-touch-icon.png" />
+    <link rel="manifest" href="%sveltekit.assets%/manifest.json" />
+    
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://www.google-analytics.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
+
+
+      <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1862625670961244');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1862625670961244&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+     
+       <!-- Google Ads gtag.js -->
+        <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11328922950"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-11328922950');
+    </script>
+    -->
+    <!-- End Google Ads gtag.js -->
+     
+    %sveltekit.head%
+  </head>
+
+
+  
+  <!-- Global background color -->
+  <body
+    data-sveltekit-preload-data="hover"
+    class="overflow-x-hidden"
+  >
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NZBJ9W63"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+    <div>%sveltekit.body%</div>
+  </body>
+</html>

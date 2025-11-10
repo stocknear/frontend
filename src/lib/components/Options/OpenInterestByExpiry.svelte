@@ -1,0 +1,621 @@
+<script lang="ts">
+  import { abbreviateNumber } from "$lib/utils";
+  import TableHeader from "$lib/components/Table/TableHeader.svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
+  import { page } from "$app/stores";
+  import highcharts from "$lib/highcharts.ts";
+  import { mode } from "mode-watcher";
+
+  export let data;
+  export let ticker;
+
+  let rawData = data?.getData || [];
+
+  const today = new Date();
+
+  rawData = rawData?.reduce((result, item) => {
+    const itemDate = new Date(item?.expiry);
+    if (itemDate >= today) {
+      result.push({
+        ...item,
+        put_call_ratio:
+          item?.call_oi > 0
+            ? Math.abs((item?.put_oi || 0) / item.call_oi)
+            : null,
+      });
+    }
+    return result;
+  }, []);
+
+  // Track the currently sorted data separately
+  let sortedData = [];
+  let displayList = [];
+
+  // Pagination state
+  let currentPage = 1;
+  let rowsPerPage = 20;
+  let rowsPerPageOptions = [20, 50, 100];
+  let totalPages = 1;
+  let pagePathName = $page?.url?.pathname;
+
+  // Pagination functions
+  function updatePaginatedData() {
+    const dataSource = sortedData?.length > 0 ? sortedData : rawData;
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    displayList = dataSource?.slice(startIndex, endIndex) || [];
+    totalPages = Math.ceil((dataSource?.length || 0) / rowsPerPage);
+  }
+
+  function goToPage(page) {
+    if (page >= 1 && page <= totalPages) {
+      currentPage = page;
+      updatePaginatedData();
+    }
+  }
+
+  function changeRowsPerPage(newRowsPerPage) {
+    rowsPerPage = newRowsPerPage;
+    currentPage = 1; // Reset to first page when changing rows per page
+    updatePaginatedData();
+    saveRowsPerPage(); // Save to localStorage
+  }
+
+  // Save rows per page preference to localStorage
+  function saveRowsPerPage() {
+    if (!pagePathName || typeof localStorage === "undefined") return;
+
+    try {
+      const paginationKey = `${pagePathName}_rowsPerPage`;
+      localStorage.setItem(paginationKey, String(rowsPerPage));
+    } catch (e) {
+      console.warn("Failed to save rows per page preference:", e);
+    }
+  }
+
+  // Load rows per page preference from localStorage
+  function loadRowsPerPage() {
+    const currentPath = pagePathName || $page?.url?.pathname;
+
+    if (!currentPath || typeof localStorage === "undefined") {
+      rowsPerPage = 20; // Default value
+      return;
+    }
+
+    try {
+      const paginationKey = `${currentPath}_rowsPerPage`;
+      const savedRows = localStorage.getItem(paginationKey);
+
+      if (savedRows && rowsPerPageOptions.includes(Number(savedRows))) {
+        rowsPerPage = Number(savedRows);
+      } else {
+        rowsPerPage = 20; // Default if invalid or not found
+      }
+    } catch (e) {
+      console.warn("Failed to load rows per page preference:", e);
+      rowsPerPage = 20; // Default on error
+    }
+  }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function plotData() {
+    const processedData = rawData?.map((d) => ({
+      expiry: d?.expiry,
+      callValue: d?.call_oi,
+      putValue: d?.put_oi,
+    }));
+
+    const categories = processedData?.map((d) => d.expiry);
+    const callValues = processedData?.map(
+      (d) => parseFloat(d.callValue?.toFixed(2)) || 0,
+    );
+    const putValues = processedData?.map(
+      (d) => parseFloat(d.putValue?.toFixed(2)) || 0,
+    );
+
+    const options = {
+      chart: {
+        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        animation: false,
+        height: 360,
+      },
+      credits: { enabled: false },
+      legend: {
+        enabled: true,
+        align: "center", // Positions legend at the left edge
+        verticalAlign: "top", // Positions legend at the top
+        layout: "horizontal", // Align items horizontally (use 'vertical' if preferred)
+        itemStyle: {
+          color: $mode === "light" ? "black" : "white",
+        },
+        symbolWidth: 14, // Controls the width of the legend symbol
+        symbolRadius: 1, // Creates circular symbols (adjust radius as needed)
+        squareSymbol: true, // Ensures symbols are circular, not square
+      },
+      title: {
+        text: `<h3 class="mt-3 mb-1 text-[1rem] sm:text-lg">${ticker} Open Interest By Expiry</h3>`,
+        useHTML: true,
+        style: { color: $mode === "light" ? "black" : "white" },
+      },
+      xAxis: {
+        type: "category",
+        categories: categories,
+        crosshair: {
+          color: $mode === "light" ? "black" : "white",
+          width: 1,
+          dashStyle: "Solid",
+        },
+        labels: {
+          style: {
+            color: $mode === "light" ? "#545454" : "white",
+          },
+          distance: 10, // Adjust space between labels and axis
+          formatter: function () {
+            const date = new Date(this.value);
+            return date.toLocaleDateString("en-US", {
+              day: "2-digit",
+              month: "short", // "Jan", "Feb", etc.
+              year: "numeric",
+              timeZone: "UTC",
+            });
+          },
+        },
+        tickInterval: Math.max(1, Math.floor(categories.length / 5)), // Ensures better spacing
+        tickPositioner: function () {
+          const positions = [];
+          const tickCount = 5; // Reduce number of ticks displayed
+          const totalPoints = this.categories.length;
+          const interval = Math.max(1, Math.floor(totalPoints / tickCount));
+
+          for (let i = 0; i < totalPoints; i += interval) {
+            positions.push(i);
+          }
+          return positions;
+        },
+      },
+
+      yAxis: {
+        gridLineWidth: 1,
+        gridLineColor: $mode === "light" ? "#e5e7eb" : "#111827",
+        labels: {
+          style: { color: $mode === "light" ? "#545454" : "white" },
+        },
+        title: { text: null },
+        opposite: true,
+      },
+      tooltip: {
+        shared: true,
+        useHTML: true,
+        backgroundColor: "rgba(0, 0, 0, 1)", // Semi-transparent black
+        borderColor: "rgba(255, 255, 255, 0.2)", // Slightly visible white border
+        borderWidth: 1,
+        style: {
+          color: "#fff",
+          fontSize: "16px",
+          padding: "10px",
+        },
+        borderRadius: 4,
+        formatter: function () {
+          // Format the x value to display time in a custom format
+          let tooltipContent = `<span class="m-auto text-[1rem] font-[501]">${new Date(
+            this?.x,
+          ).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })}</span><br>`;
+
+          // Loop through each point in the shared tooltip
+          this.points.forEach((point) => {
+            tooltipContent += `
+        <span style="display:inline-block; width:10px; height:10px; background-color:${point.color}; border-radius:50%; margin-right:5px;"></span>
+        <span class="font-semibold text-sm">${point.series.name}:</span> 
+        <span class="font-normal text-sm">${point.y?.toLocaleString("en-US")}</span><br>`;
+          });
+
+          return tooltipContent;
+        },
+      },
+      plotOptions: {
+        animation: false,
+        column: {
+          grouping: true,
+          shadow: false,
+          borderWidth: 0,
+        },
+      },
+
+      series: [
+        {
+          name: "Put",
+          type: "column",
+          data: putValues,
+          color: "#CC2619",
+          borderColor: "#CC2619",
+          borderRadius: "1px",
+          animation: false,
+        },
+        {
+          name: "Call",
+          type: "column",
+          data: callValues,
+          color: "#00C440",
+          borderColor: "#00C440",
+          borderRadius: "1px",
+          animation: false,
+        },
+      ],
+    };
+
+    return options;
+  }
+
+  // Initialize pagination on mount
+  function initialize() {
+    // Initialize sortedData with raw data
+    sortedData = [...rawData];
+
+    // Load pagination preference
+    loadRowsPerPage();
+
+    // Reset to first page and update pagination
+    currentPage = 1;
+    updatePaginatedData();
+  }
+
+  initialize();
+
+  $: columns = [
+    { key: "expiry", label: "Expiry Date", align: "left" },
+    {
+      key: "call_oi",
+      label: `Call OI`,
+      align: "right",
+    },
+    {
+      key: "put_oi",
+      label: `Put OI`,
+      align: "right",
+    },
+    {
+      key: "put_call_ratio",
+      label: `P/C OI`,
+      align: "right",
+    },
+  ];
+
+  $: sortOrders = {
+    expiry: { order: "none", type: "date" },
+    call_oi: { order: "none", type: "number" },
+    put_oi: { order: "none", type: "number" },
+    put_call_ratio: { order: "none", type: "number" },
+  };
+
+  const sortData = (key) => {
+    // Reset all other keys to 'none' except the current key
+    for (const k in sortOrders) {
+      if (k !== key) {
+        sortOrders[k].order = "none";
+      }
+    }
+
+    // Cycle through 'none', 'asc', 'desc' for the clicked key
+    const orderCycle = ["none", "asc", "desc"];
+    const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
+    sortOrders[key].order =
+      orderCycle[(currentOrderIndex + 1) % orderCycle.length];
+    const sortOrder = sortOrders[key].order;
+
+    // Reset to original data when 'none' and stop further sorting
+    if (sortOrder === "none") {
+      sortedData = [...rawData];
+      currentPage = 1; // Reset to first page
+      updatePaginatedData();
+      return;
+    }
+
+    // Define a generic comparison function
+    const compareValues = (a, b) => {
+      const { type } = sortOrders[key];
+      let valueA, valueB;
+
+      switch (type) {
+        case "date":
+          valueA = new Date(a[key]);
+          valueB = new Date(b[key]);
+          break;
+        case "string":
+          valueA = (a[key] || "")?.toUpperCase();
+          valueB = (b[key] || "")?.toUpperCase();
+          return sortOrder === "asc"
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        case "number":
+        default:
+          valueA = parseFloat(a[key]) || 0;
+          valueB = parseFloat(b[key]) || 0;
+          break;
+      }
+
+      if (sortOrder === "asc") {
+        return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
+      } else {
+        return valueA > valueB ? -1 : valueA < valueB ? 1 : 0;
+      }
+    };
+
+    // Sort all data and store it
+    sortedData = [...rawData].sort(compareValues);
+    // Reset to first page and update pagination
+    currentPage = 1;
+    updatePaginatedData();
+  };
+
+  let config = null;
+
+  $: {
+    if ($mode) {
+      config = plotData() || null;
+    }
+  }
+
+  // Reactive statement to load pagination settings when page changes
+  $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
+    pagePathName = $page?.url?.pathname;
+    loadRowsPerPage(); // Load pagination preference for new page
+    updatePaginatedData(); // Update display with loaded preference
+  }
+</script>
+
+<div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto mt-2 sm:mt-0">
+  <h2 class=" flex flex-row items-center text-xl sm:text-2xl font-bold w-fit">
+    {ticker} Open Interest Chart
+  </h2>
+
+  <p class="mt-3 mb-2">
+    {#if rawData?.length > 0}
+      Open interest breakdown by expiration date for <strong>{ticker}</strong>
+      options contracts. Displaying data for <strong>{rawData?.length}</strong>
+      active expiration dates with future expiry.
+      {@const totalCallOI = rawData.reduce(
+        (sum, item) => sum + (item?.call_oi || 0),
+        0,
+      )}
+      {@const totalPutOI = rawData.reduce(
+        (sum, item) => sum + (item?.put_oi || 0),
+        0,
+      )}
+      {@const totalOI = totalCallOI + totalPutOI}
+
+      <br />
+      Total open interest across all expiries is
+      <strong>{totalOI.toLocaleString("en-US")}</strong>
+      contracts, with <strong>{totalCallOI.toLocaleString("en-US")}</strong>
+      call contracts and
+      <strong>{totalPutOI.toLocaleString("en-US")}</strong> put contracts.
+    {:else}
+      No active option expiration dates found with future expiry dates.
+    {/if}
+  </p>
+
+  <div class="w-full overflow-hidden m-auto mt-3 shadow">
+    {#if config !== null}
+      <div>
+        <div class="grow">
+          <div class="relative">
+            <!-- Apply the blur class to the chart -->
+            <div
+              class="mt-5 shadow sm:mt-0 sm:border sm:border-gray-300 dark:border-gray-800 rounded"
+              use:highcharts={config}
+            ></div>
+          </div>
+        </div>
+      </div>
+    {/if}
+  </div>
+
+  <div class="items-center lg:overflow-visible px-1 py-1 mt-10">
+    <div
+      class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+    >
+      <h2
+        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold w-full"
+      >
+        Open Interest Table
+      </h2>
+      <div
+        class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+      >
+        <div class="ml-auto">
+          <DownloadData
+            {data}
+            {rawData}
+            title={`${ticker}_open_interest_by_expiry`}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="w-full overflow-x-auto mt-2">
+    <table
+      class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+    >
+      <thead>
+        <TableHeader {columns} {sortOrders} {sortData} />
+      </thead>
+      <tbody>
+        {#each displayList as item, index}
+          <tr
+            class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
+          >
+            <td class="text-sm sm:text-[1rem] text-start whitespace-nowrap">
+              {new Date(item?.expiry).toLocaleDateString("en-US", {
+                month: "short", // Abbreviated month (e.g., Jan)
+                day: "numeric", // Numeric day (e.g., 10)
+                year: "numeric", // Full year (e.g., 2025)
+              })}
+            </td>
+            <td class="text-sm sm:text-[1rem] text-end whitespace-nowrap">
+              {item?.call_oi?.toLocaleString("en-US")}
+            </td>
+            <td class=" text-sm sm:text-[1rem] text-end whitespace-nowrap">
+              {item?.put_oi?.toLocaleString("en-US")}
+            </td>
+
+            <td class=" text-sm sm:text-[1rem] text-end whitespace-nowrap">
+              {#if item?.put_call_ratio <= 1 && item?.put_call_ratio !== null}
+                <span class="f text-green-800 dark:text-[#00FC50]"
+                  >{item?.put_call_ratio?.toFixed(2)}</span
+                >
+              {:else if item?.put_call_ratio > 1 && item?.put_call_ratio !== null}
+                <span class="f text-red-800 dark:text-[#FF2F1F]"
+                  >{item?.put_call_ratio?.toFixed(2)}</span
+                >
+              {:else}
+                n/a
+              {/if}
+            </td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination controls -->
+  {#if displayList?.length > 0 && totalPages > 0}
+    <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
+      <!-- Previous button -->
+      <div class="flex items-center gap-2">
+        <Button
+          on:click={() => goToPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+        >
+          <svg
+            class="h-5 w-5 inline-block shrink-0 rotate-90"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            style="max-width:40px"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span class="hidden sm:inline">Previous</span>
+        </Button>
+      </div>
+
+      <!-- Page info and rows selector in center -->
+      <div class="flex flex-row items-center gap-4">
+        <span class="text-sm sm:text-[1rem]">
+          Page {currentPage} of {totalPages}
+        </span>
+
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild let:builder>
+            <Button
+              builders={[builder]}
+              class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 rounded truncate"
+            >
+              <span class="truncate text-[0.85rem] sm:text-sm"
+                >{rowsPerPage} Rows</span
+              >
+              <svg
+                class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </Button>
+          </DropdownMenu.Trigger>
+
+          <DropdownMenu.Content
+            side="bottom"
+            align="end"
+            sideOffset={10}
+            alignOffset={0}
+            class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative"
+          >
+            <!-- Dropdown items -->
+            <DropdownMenu.Group class="pb-2">
+              {#each rowsPerPageOptions as item}
+                <DropdownMenu.Item
+                  class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                >
+                  <label
+                    on:click={() => changeRowsPerPage(item)}
+                    class="inline-flex justify-between w-full items-center cursor-pointer"
+                  >
+                    <span class="text-sm">{item} Rows</span>
+                  </label>
+                </DropdownMenu.Item>
+              {/each}
+            </DropdownMenu.Group>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+      </div>
+
+      <!-- Next button -->
+      <div class="flex items-center gap-2">
+        <Button
+          on:click={() => goToPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+        >
+          <span class="hidden sm:inline">Next</span>
+          <svg
+            class="h-5 w-5 inline-block shrink-0 -rotate-90"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            style="max-width:40px"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </Button>
+      </div>
+    </div>
+
+    <!-- Back to Top button -->
+    <div class="flex justify-center mt-4">
+      <button
+        on:click={scrollToTop}
+        class="cursor-pointer sm:hover:text-muted text-blue-800 dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem] font-medium"
+      >
+        Back to Top <svg
+          class="h-5 w-5 inline-block shrink-0 rotate-180"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          style="max-width:40px"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </button>
+    </div>
+  {/if}
+</div>

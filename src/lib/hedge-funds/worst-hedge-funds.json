@@ -1,0 +1,452 @@
+[
+  {
+    "cik": "0001810873",
+    "name": "Elequin Securities ",
+    "numberOfStocks": 91,
+    "marketValue": 1125075917,
+    "winRate": 2.2,
+    "turnover": 3.3819,
+    "performancePercentage3year": 8.2637
+  },
+  {
+    "cik": "0001718858",
+    "name": "Qvr ",
+    "numberOfStocks": 40,
+    "marketValue": 587657034,
+    "winRate": 2.5,
+    "turnover": 1.0833,
+    "performancePercentage3year": -19.3646
+  },
+  {
+    "cik": "0001535588",
+    "name": "Twin Tree Management ",
+    "numberOfStocks": 92,
+    "marketValue": 45325166977,
+    "winRate": 3.26,
+    "turnover": 1.6566,
+    "performancePercentage3year": 17.1362
+  },
+  {
+    "cik": "0001944332",
+    "name": "Vinland Capital Management Gestora De Recursos A",
+    "numberOfStocks": 66,
+    "marketValue": 399957924,
+    "winRate": 4.55,
+    "turnover": 1.0536,
+    "performancePercentage3year": -16.3817
+  },
+  {
+    "cik": "0001903573",
+    "name": "Fj Investments ",
+    "numberOfStocks": 97,
+    "marketValue": 1146179085,
+    "winRate": 5.15,
+    "turnover": 84.4,
+    "performancePercentage3year": 6.0942
+  },
+  {
+    "cik": "0001484165",
+    "name": "Cavalry Management Group ",
+    "numberOfStocks": 17,
+    "marketValue": 724563800,
+    "winRate": 5.88,
+    "turnover": 0.8824,
+    "performancePercentage3year": -16.2921
+  },
+  {
+    "cik": "0001218749",
+    "name": "Endeavour Capital Advisors ",
+    "numberOfStocks": 32,
+    "marketValue": 289287145,
+    "winRate": 6.25,
+    "turnover": 0.0857,
+    "performancePercentage3year": -9.1441
+  },
+  {
+    "cik": "0001767803",
+    "name": "Fourthstone ",
+    "numberOfStocks": 59,
+    "marketValue": 307013289,
+    "winRate": 6.78,
+    "turnover": 1.3103,
+    "performancePercentage3year": -26.806
+  },
+  {
+    "cik": "0001445893",
+    "name": "Ctc ",
+    "numberOfStocks": 100,
+    "marketValue": 194201514466,
+    "winRate": 7.0,
+    "turnover": 1.6111,
+    "performancePercentage3year": -23.3562
+  },
+  {
+    "cik": "0001841767",
+    "name": "Coulter & Justus Financial Services ",
+    "numberOfStocks": 95,
+    "marketValue": 450287538,
+    "winRate": 7.37,
+    "turnover": 1.2688,
+    "performancePercentage3year": 9.4135
+  },
+  {
+    "cik": "0001656187",
+    "name": "Mufg Securities (Canada) ",
+    "numberOfStocks": 38,
+    "marketValue": 790695772,
+    "winRate": 7.89,
+    "turnover": 0.9286,
+    "performancePercentage3year": 17.1091
+  },
+  {
+    "cik": "0001753271",
+    "name": "Portfolio Strategies ",
+    "numberOfStocks": 96,
+    "marketValue": 805028917,
+    "winRate": 8.33,
+    "turnover": 1.1795,
+    "performancePercentage3year": -9.2649
+  },
+  {
+    "cik": "0001562668",
+    "name": "Js Capital Management ",
+    "numberOfStocks": 23,
+    "marketValue": 240278159,
+    "winRate": 8.7,
+    "turnover": 24.0,
+    "performancePercentage3year": -24.0798
+  },
+  {
+    "cik": "0001546790",
+    "name": "Dynamo Internacional Gestao De Recursos A",
+    "numberOfStocks": 22,
+    "marketValue": 614827692,
+    "winRate": 9.09,
+    "turnover": 1.7778,
+    "performancePercentage3year": 20.671
+  },
+  {
+    "cik": "0001665077",
+    "name": "Sand Grove Capital Management L",
+    "numberOfStocks": 22,
+    "marketValue": 437146000,
+    "winRate": 9.09,
+    "turnover": 0.9091,
+    "performancePercentage3year": 1.5393
+  },
+  {
+    "cik": "0001909126",
+    "name": "Seven Grand Managers ",
+    "numberOfStocks": 44,
+    "marketValue": 204245976,
+    "winRate": 9.09,
+    "turnover": 1.2273,
+    "performancePercentage3year": 37.7982
+  },
+  {
+    "cik": "0001029311",
+    "name": "Banc Funds Co ",
+    "numberOfStocks": 54,
+    "marketValue": 884708000,
+    "winRate": 9.26,
+    "turnover": 0.1119,
+    "performancePercentage3year": 28.4864
+  },
+  {
+    "cik": "0001910321",
+    "name": "Troluce Capital Advisors ",
+    "numberOfStocks": 66,
+    "marketValue": 826956677,
+    "winRate": 10.61,
+    "turnover": 0.9759,
+    "performancePercentage3year": 22.4872
+  },
+  {
+    "cik": "0001019231",
+    "name": "University Of Texas/Texas Am Investment Managment Co",
+    "numberOfStocks": 45,
+    "marketValue": 240921000,
+    "winRate": 11.11,
+    "turnover": 2.9231,
+    "performancePercentage3year": -13.0245
+  },
+  {
+    "cik": "0001222765",
+    "name": "Water Island Capital ",
+    "numberOfStocks": 34,
+    "marketValue": 883660000,
+    "winRate": 11.76,
+    "turnover": 1.0,
+    "performancePercentage3year": -7.6066
+  },
+  {
+    "cik": "0001964631",
+    "name": "Aine Investment Management ",
+    "numberOfStocks": 17,
+    "marketValue": 868036267,
+    "winRate": 11.76,
+    "turnover": 1.2143,
+    "performancePercentage3year": -1.9779
+  },
+  {
+    "cik": "0001838556",
+    "name": "Murchinson ",
+    "numberOfStocks": 71,
+    "marketValue": 1256256483,
+    "winRate": 12.68,
+    "turnover": 0.8515,
+    "performancePercentage3year": -24.4183
+  },
+  {
+    "cik": "0001358253",
+    "name": "Tig Advisors ",
+    "numberOfStocks": 62,
+    "marketValue": 1032168779,
+    "winRate": 12.9,
+    "turnover": 1.2083,
+    "performancePercentage3year": -2.2258
+  },
+  {
+    "cik": "0001502287",
+    "name": "Stepstone Group ",
+    "numberOfStocks": 21,
+    "marketValue": 471580850,
+    "winRate": 14.29,
+    "turnover": 0.619,
+    "performancePercentage3year": -15920.2404
+  },
+  {
+    "cik": "0001581655",
+    "name": "Aine Global Management ",
+    "numberOfStocks": 63,
+    "marketValue": 397731879,
+    "winRate": 14.29,
+    "turnover": 1.1325,
+    "performancePercentage3year": 5.4491
+  },
+  {
+    "cik": "0001897144",
+    "name": "Win Advisors ",
+    "numberOfStocks": 89,
+    "marketValue": 227000205,
+    "winRate": 14.61,
+    "turnover": 1.3148,
+    "performancePercentage3year": -5.8678
+  },
+  {
+    "cik": "0001534949",
+    "name": "Mkp Capital Management Llc",
+    "numberOfStocks": 20,
+    "marketValue": 1078718054,
+    "winRate": 15.0,
+    "turnover": 2.1429,
+    "performancePercentage3year": 13.9473
+  },
+  {
+    "cik": "0001738071",
+    "name": "Yong Rong (Hk) Asset Management ",
+    "numberOfStocks": 20,
+    "marketValue": 375810000,
+    "winRate": 15.0,
+    "turnover": 0.65,
+    "performancePercentage3year": -6.5411
+  },
+  {
+    "cik": "0001703301",
+    "name": "Spiderrock Advisors ",
+    "numberOfStocks": 100,
+    "marketValue": 4016621652,
+    "winRate": 15.0,
+    "turnover": 0.8274,
+    "performancePercentage3year": 6861.3464
+  },
+  {
+    "cik": "0001609008",
+    "name": "Smi Advisory Services ",
+    "numberOfStocks": 73,
+    "marketValue": 356273184,
+    "winRate": 15.07,
+    "turnover": 1.2778,
+    "performancePercentage3year": 13.3558
+  },
+  {
+    "cik": "0001396835",
+    "name": "Aine Associates Management ",
+    "numberOfStocks": 33,
+    "marketValue": 2565882682,
+    "winRate": 15.15,
+    "turnover": 1.075,
+    "performancePercentage3year": -0.7823
+  },
+  {
+    "cik": "0001983313",
+    "name": "Cutter Capital Management ",
+    "numberOfStocks": 33,
+    "marketValue": 259345671,
+    "winRate": 15.15,
+    "turnover": 0.88,
+    "performancePercentage3year": -2.5787
+  },
+  {
+    "cik": "0000801166",
+    "name": "Power Corp Of Canada",
+    "numberOfStocks": 98,
+    "marketValue": 999764198,
+    "winRate": 15.31,
+    "turnover": 53.6667,
+    "performancePercentage3year": -1163.8496
+  },
+  {
+    "cik": "0001986035",
+    "name": "Altitude Crest Partners ",
+    "numberOfStocks": 25,
+    "marketValue": 233587645,
+    "winRate": 16.0,
+    "turnover": 0.8667,
+    "performancePercentage3year": -4.2114
+  },
+  {
+    "cik": "0001096978",
+    "name": "Mariner Investment Group ",
+    "numberOfStocks": 31,
+    "marketValue": 321882752,
+    "winRate": 16.13,
+    "turnover": 0.9643,
+    "performancePercentage3year": 95.8401
+  },
+  {
+    "cik": "0001856405",
+    "name": "Sona Asset Management (Us) ",
+    "numberOfStocks": 31,
+    "marketValue": 2987489440,
+    "winRate": 16.13,
+    "turnover": 0.6286,
+    "performancePercentage3year": 78.4704
+  },
+  {
+    "cik": "0001989869",
+    "name": "Christopher J Hasenberg ",
+    "numberOfStocks": 91,
+    "marketValue": 203658388,
+    "winRate": 16.48,
+    "turnover": 0.8257,
+    "performancePercentage3year": 7.7952
+  },
+  {
+    "cik": "0001974312",
+    "name": "Torno Capital ",
+    "numberOfStocks": 91,
+    "marketValue": 1562388050,
+    "winRate": 16.48,
+    "turnover": 1.3191,
+    "performancePercentage3year": 7.2102
+  },
+  {
+    "cik": "0001542108",
+    "name": "Verity & Verity ",
+    "numberOfStocks": 97,
+    "marketValue": 879949462,
+    "winRate": 16.49,
+    "turnover": 1.4091,
+    "performancePercentage3year": -3.7223
+  },
+  {
+    "cik": "0001701717",
+    "name": "First Beijing Investment ",
+    "numberOfStocks": 24,
+    "marketValue": 519494598,
+    "winRate": 16.67,
+    "turnover": 2.7143,
+    "performancePercentage3year": 51.7145
+  },
+  {
+    "cik": "0001595077",
+    "name": "Waterfront Capital Partners ",
+    "numberOfStocks": 52,
+    "marketValue": 1112703633,
+    "winRate": 17.31,
+    "turnover": 0.9474,
+    "performancePercentage3year": -1.7905
+  },
+  {
+    "cik": "0001952142",
+    "name": "Stempoint Capital ",
+    "numberOfStocks": 75,
+    "marketValue": 378329825,
+    "winRate": 17.33,
+    "turnover": 1.1774,
+    "performancePercentage3year": 11.9354
+  },
+  {
+    "cik": "0001061768",
+    "name": "Baupost Group /Ma",
+    "numberOfStocks": 17,
+    "marketValue": 3650776000,
+    "winRate": 17.65,
+    "turnover": 0.5909,
+    "performancePercentage3year": 43.7145
+  },
+  {
+    "cik": "0001785545",
+    "name": "Esl Trust Services ",
+    "numberOfStocks": 96,
+    "marketValue": 382000535,
+    "winRate": 17.71,
+    "turnover": 0.8421,
+    "performancePercentage3year": 5.8323
+  },
+  {
+    "cik": "0001698461",
+    "name": "Counterpoint Mutual Funds ",
+    "numberOfStocks": 94,
+    "marketValue": 407940404,
+    "winRate": 18.09,
+    "turnover": 0.9398,
+    "performancePercentage3year": 4.3742
+  },
+  {
+    "cik": "0001834011",
+    "name": "Legacy Financial Group ",
+    "numberOfStocks": 92,
+    "marketValue": 493942707,
+    "winRate": 18.48,
+    "turnover": 0.0561,
+    "performancePercentage3year": -0.8554
+  },
+  {
+    "cik": "0001803158",
+    "name": "Fourth Sail Capital ",
+    "numberOfStocks": 27,
+    "marketValue": 335318630,
+    "winRate": 18.52,
+    "turnover": 0.7826,
+    "performancePercentage3year": 4.564
+  },
+  {
+    "cik": "0001693745",
+    "name": "Anatole Investment Management ",
+    "numberOfStocks": 16,
+    "marketValue": 323673914,
+    "winRate": 18.75,
+    "turnover": 1.5,
+    "performancePercentage3year": -18.3263
+  },
+  {
+    "cik": "0001974915",
+    "name": "Vestal Point Capital ",
+    "numberOfStocks": 69,
+    "marketValue": 1209215773,
+    "winRate": 18.84,
+    "turnover": 0.8621,
+    "performancePercentage3year": 3.0675
+  },
+  {
+    "cik": "0001825214",
+    "name": "Ghisallo Capital Management ",
+    "numberOfStocks": 53,
+    "marketValue": 877457207,
+    "winRate": 18.87,
+    "turnover": 1.0609,
+    "performancePercentage3year": 1578.6589
+  }
+]

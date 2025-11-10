@@ -1,0 +1,72 @@
+# StockNear Robots.txt - Optimized for SEO and Performance
+User-agent: *
+Allow: /
+
+# Disallow user-specific and private areas
+Disallow: /profile*
+Disallow: /dashboard*
+Disallow: /settings*
+Disallow: /admin*
+Disallow: /api/*
+Disallow: /auth/*
+Disallow: /*?*utm*
+Disallow: /*?*ref*
+Disallow: /*?*tracking*
+Disallow: /*?*session*
+Disallow: /*?*token*
+Disallow: /chat/*/edit*
+Disallow: /chat/*/delete*
+
+# Block non-essential crawlers to save bandwidth
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Allow important search engine crawlers with optimized delays
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Applebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: FacebookExternalHit
+Allow: /
+Crawl-delay: 2
+
+User-agent: TwitterBot
+Allow: /
+Crawl-delay: 2
+
+User-agent: LinkedInBot
+Allow: /
+Crawl-delay: 2
+
+# High-priority sitemaps for better indexing
+Sitemap: https://stocknear.com/sitemap.xml
+Sitemap: https://stocknear.com/sitemap-stocks.xml
+Sitemap: https://stocknear.com/sitemap-news.xml
+
+# Host directive for canonical domain
+Host: https://stocknear.com

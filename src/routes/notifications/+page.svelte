@@ -1,0 +1,945 @@
+<script lang="ts">
+  import HoverStockChart from "$lib/components/HoverStockChart.svelte";
+  import { onMount } from "svelte";
+  import { goto } from "$app/navigation";
+  import { page } from "$app/stores";
+  import { numberOfUnreadNotification } from "$lib/store";
+  import SEO from "$lib/components/SEO.svelte";
+  import Infobox from "$lib/components/Infobox.svelte";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
+
+  export let data;
+  export let form;
+
+  const rowsPerPageOptions = [10, 20, 50];
+  const DEFAULT_ROWS_PER_PAGE = rowsPerPageOptions[0];
+
+  let notificationList = data?.notifications?.items ?? [];
+  let totalItems =
+    data?.notifications?.totalItems ?? notificationList?.length ?? 0;
+  let totalPages =
+    data?.notifications?.totalPages ??
+    Math.max(
+      1,
+      Math.ceil(
+        totalItems / (data?.notifications?.perPage ?? DEFAULT_ROWS_PER_PAGE),
+      ),
+    );
+  let currentPage = data?.notifications?.page ?? 1;
+  let selectedRowsPerPage =
+    data?.notifications?.perPage ?? DEFAULT_ROWS_PER_PAGE;
+  let pagePathName = $page?.url?.pathname;
+  let mounted = false;
+  let pendingRowsChange = false;
+  let updateInFlight = false;
+  let notificationChannels = data?.notificationChannels ?? null;
+
+  const extractChannelSettings = (record: Record<string, unknown> | null) =>
+    record
+      ? Object.entries(record).reduce(
+          (acc, [key, value]) => {
+            if (typeof value === "boolean") {
+              acc[key] = value;
+            }
+            return acc;
+          },
+          {} as Record<string, boolean>,
+        )
+      : {};
+
+  let channelSettings: Record<string, boolean> =
+    extractChannelSettings(notificationChannels);
+
+  let channelUpdating: Record<string, boolean> = Object.keys(
+    channelSettings,
+  ).reduce(
+    (acc, key) => {
+      acc[key] = false;
+      return acc;
+    },
+    {} as Record<string, boolean>,
+  );
+
+  let activeChannelRecordId: string | null = notificationChannels?.id ?? null;
+  const channelLabelMap: Record<string, string> = {
+    earningsSurprise: "Earnings Surprise",
+    wiim: "Why Price Moved",
+    topAnalyst: "Top Analyst Rating",
+  };
+
+  const formatChannelLabel = (key: string) =>
+    channelLabelMap[key] ??
+    key
+      .replace(/([A-Z])/g, " $1")
+      .replace(/^./, (character) => character.toUpperCase());
+
+  const channelOrder = ["earningsSurprise", "wiim", "topAnalyst"];
+
+  const toChannelOptions = (settings: Record<string, boolean>) =>
+    Object.keys(settings)
+      .sort((a, b) => {
+        const indexA = channelOrder.indexOf(a);
+        const indexB = channelOrder.indexOf(b);
+        if (indexA === -1 && indexB === -1) {
+          return a.localeCompare(b);
+        }
+        if (indexA === -1) return 1;
+        if (indexB === -1) return -1;
+        return indexA - indexB;
+      })
+      .map((key) => ({
+        key,
+        label: formatChannelLabel(key),
+      }));
+
+  let channelOptions: Array<{ key: string; label: string }> =
+    toChannelOptions(channelSettings);
+
+  $: channelOptions = toChannelOptions(channelSettings);
+
+  export function formatDate(dateStr, short = false) {
+    try {
+      // Normalize common "YYYY-MM-DD HH:MM:SS" to "YYYY-MM-DDTHH:MM:SS"
+      const isoLike =
+        typeof dateStr === "string" &&
+        /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(dateStr)
+          ? dateStr.replace(" ", "T")
+          : dateStr;
+
+      const berlinFormatter = new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Europe/Berlin",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false, // <- IMPORTANT: use 24-hour clock so 'hour' is 0-23
+      });
+
+      const parseDateToUTCFromBerlinParts = (date) => {
+        const parts = berlinFormatter.formatToParts(date);
+        const get = (type) =>
+          Number(parts.find((p) => p.type === type)?.value ?? 0);
+        const year = get("year");
+        const month = get("month"); // 1-12
+        const day = get("day");
+        const hour = get("hour"); // now 0-23
+        const minute = get("minute");
+        const second = get("second");
+
+        return new Date(Date.UTC(year, month - 1, day, hour, minute, second));
+      };
+
+      const berlinDateObj = parseDateToUTCFromBerlinParts(new Date(isoLike));
+      const berlinCurrentObj = parseDateToUTCFromBerlinParts(new Date());
+
+      const seconds = Math.floor((berlinCurrentObj - berlinDateObj) / 1000);
+      if (Number.isNaN(seconds)) throw new Error("Invalid date");
+
+      const intervals = [
+        { unit: "year", short: "y", seconds: 31536000 },
+        { unit: "month", short: "mo", seconds: 2592000 },
+        { unit: "week", short: "w", seconds: 604800 },
+        { unit: "day", short: "d", seconds: 86400 },
+        { unit: "hour", short: "h", seconds: 3600 },
+        { unit: "minute", short: "m", seconds: 60 },
+        { unit: "second", short: "s", seconds: 1 },
+      ];
+
+      for (const { unit, short: s, seconds: secondsInUnit } of intervals) {
+        const count = Math.floor(seconds / secondsInUnit);
+
+        if (count >= 1) {
+          // Special case: prefer days instead of "25h".
+          if (unit === "hour" && count >= 24) {
+            const days = Math.floor(count / 24);
+            return short
+              ? `${days}d`
+              : `${days} day${days === 1 ? "" : "s"} ago`;
+          }
+
+          if (short) {
+            return `${count}${s}`;
+          }
+          return `${count} ${unit}${count === 1 ? "" : "s"} ago`;
+        }
+      }
+
+      return short ? "0s" : "Just now";
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return "Invalid date";
+    }
+  }
+
+  $: if (
+    data?.notificationChannels &&
+    data.notificationChannels.id &&
+    data.notificationChannels.id !== activeChannelRecordId
+  ) {
+    notificationChannels = data.notificationChannels;
+    channelSettings = extractChannelSettings(notificationChannels);
+    channelUpdating = Object.keys(channelSettings).reduce(
+      (acc, key) => {
+        acc[key] = false;
+        return acc;
+      },
+      {} as Record<string, boolean>,
+    );
+    activeChannelRecordId = notificationChannels.id;
+  } else if (!data?.notificationChannels && activeChannelRecordId) {
+    notificationChannels = null;
+    channelSettings = {};
+    channelUpdating = {};
+    activeChannelRecordId = null;
+  }
+
+  async function handleChannelToggle(channelKey: string, nextValue: boolean) {
+    if (!notificationChannels?.id) {
+      return;
+    }
+
+    const previousValue = channelSettings[channelKey] ?? false;
+
+    channelSettings = {
+      ...channelSettings,
+      [channelKey]: nextValue,
+    };
+    channelUpdating = {
+      ...channelUpdating,
+      [channelKey]: true,
+    };
+
+    try {
+      const payload = {
+        id: notificationChannels.id,
+        ...channelSettings,
+      };
+
+      const response = await fetch("/api/update-notification-channels", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to update channel: ${channelKey}`);
+      }
+
+      notificationChannels = {
+        ...notificationChannels,
+        [channelKey]: nextValue,
+      };
+    } catch (error) {
+      console.error("Unable to update notification channel", error);
+      channelSettings = {
+        ...channelSettings,
+        [channelKey]: previousValue,
+      };
+    } finally {
+      channelUpdating = {
+        ...channelUpdating,
+        [channelKey]: false,
+      };
+    }
+  }
+
+  $: if (data?.notifications) {
+    const {
+      items,
+      totalItems: total,
+      totalPages: pages,
+      page: pageFromServer,
+      perPage,
+    } = data.notifications;
+
+    notificationList = items ?? [];
+    totalItems = total ?? items?.length ?? 0;
+    totalPages =
+      pages ??
+      Math.max(1, Math.ceil(totalItems / (perPage ?? DEFAULT_ROWS_PER_PAGE)));
+    currentPage = pageFromServer ?? 1;
+
+    if (
+      !pendingRowsChange &&
+      typeof perPage === "number" &&
+      perPage !== selectedRowsPerPage
+    ) {
+      selectedRowsPerPage = perPage;
+    }
+  }
+
+  function getPaginationKey(path: string) {
+    return `${path}_rowsPerPage`;
+  }
+
+  function getStoredRowsPerPage() {
+    const currentPath = pagePathName || $page?.url?.pathname;
+
+    if (!currentPath || typeof localStorage === "undefined") {
+      return DEFAULT_ROWS_PER_PAGE;
+    }
+
+    try {
+      const savedRows = localStorage.getItem(getPaginationKey(currentPath));
+      const parsed = savedRows ? Number(savedRows) : NaN;
+
+      return rowsPerPageOptions.includes(parsed)
+        ? parsed
+        : DEFAULT_ROWS_PER_PAGE;
+    } catch (error) {
+      console.warn("Failed to load rows per page preference:", error);
+      return DEFAULT_ROWS_PER_PAGE;
+    }
+  }
+
+  function saveRowsPerPage(value = selectedRowsPerPage) {
+    if (!pagePathName || typeof localStorage === "undefined") return;
+
+    try {
+      localStorage.setItem(getPaginationKey(pagePathName), String(value));
+    } catch (error) {
+      console.warn("Failed to save rows per page preference:", error);
+    }
+  }
+
+  function scrollToTop() {
+    if (typeof window === "undefined") return;
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function buildSearchParams(targetPage: number, perPage: number) {
+    const params = new URLSearchParams($page.url.searchParams);
+    params.set("page", String(targetPage));
+    params.set("perPage", String(perPage));
+    return params.toString();
+  }
+
+  async function goToPage(pageNumber: number) {
+    if (
+      pageNumber < 1 ||
+      pageNumber > totalPages ||
+      pageNumber === currentPage
+    ) {
+      return;
+    }
+
+    const params = buildSearchParams(pageNumber, selectedRowsPerPage);
+    await goto(`/notifications?${params}`, {
+      keepfocus: true,
+      noScroll: true,
+    });
+    scrollToTop();
+  }
+
+  async function changeRowsPerPage(
+    newRowsPerPage: number,
+    options: { persist?: boolean; replaceState?: boolean } = {},
+  ) {
+    if (!rowsPerPageOptions.includes(newRowsPerPage)) {
+      newRowsPerPage = DEFAULT_ROWS_PER_PAGE;
+    }
+
+    const { persist = true, replaceState = false } = options;
+
+    const searchPerPage = Number($page.url.searchParams.get("perPage") ?? "");
+    const currentPerPage =
+      Number.isFinite(searchPerPage) && searchPerPage > 0
+        ? searchPerPage
+        : selectedRowsPerPage;
+
+    if (
+      newRowsPerPage === selectedRowsPerPage &&
+      currentPerPage === newRowsPerPage
+    ) {
+      if (persist) {
+        saveRowsPerPage(newRowsPerPage);
+      }
+      return;
+    }
+
+    pendingRowsChange = true;
+    selectedRowsPerPage = newRowsPerPage;
+
+    if (persist) {
+      saveRowsPerPage(newRowsPerPage);
+    }
+
+    const params = buildSearchParams(1, newRowsPerPage);
+
+    try {
+      await goto(`/notifications?${params}`, {
+        keepfocus: true,
+        noScroll: true,
+        replaceState,
+      });
+      scrollToTop();
+    } finally {
+      pendingRowsChange = false;
+    }
+  }
+
+  async function updateNotifications() {
+    if (!mounted || typeof window === "undefined" || updateInFlight) return;
+
+    const notificationIdList: string[] = [];
+
+    for (const item of notificationList ?? []) {
+      if (item && item.readed === false) {
+        notificationIdList.push(item.id);
+      }
+    }
+
+    if (notificationIdList.length === 0) {
+      $numberOfUnreadNotification = 0;
+      return;
+    }
+
+    const postData = {
+      unreadList: notificationIdList,
+    };
+
+    updateInFlight = true;
+
+    try {
+      await fetch("/api/update-notification", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      });
+      $numberOfUnreadNotification = 0;
+    } catch (error) {
+      console.error("Failed to update notifications", error);
+    } finally {
+      updateInFlight = false;
+    }
+  }
+
+  onMount(async () => {
+    mounted = true;
+    const storedRows = getStoredRowsPerPage();
+
+    if (storedRows !== selectedRowsPerPage) {
+      await changeRowsPerPage(storedRows, {
+        persist: false,
+        replaceState: true,
+      });
+    } else {
+      await updateNotifications();
+    }
+  });
+
+  $: if (mounted && !pendingRowsChange) {
+    notificationList;
+    void updateNotifications();
+  }
+
+  $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
+    pagePathName = $page?.url?.pathname;
+  }
+</script>
+
+<SEO
+  title="Stock Market Notifications | Real-Time Updates & Alerts"
+  description="Stay informed with real-time stock market notifications. Get instant alerts on price changes, trends, and market movements to make smarter investment decisions."
+/>
+
+<section
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-muted dark:text-white"
+>
+  <div class="text-sm sm:text-[1rem] breadcrumbs">
+    <ul>
+      <li><a href="/" class="text-muted dark:text-gray-300">Home</a></li>
+      <li class="text-muted dark:text-gray-300">Notifications</li>
+    </ul>
+  </div>
+
+  <div class="w-full overflow-hidden m-auto mt-5">
+    <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
+      <div
+        class="relative flex justify-center items-start overflow-hidden w-full"
+      >
+        <main class="w-full lg:w-3/4 lg:pr-10">
+          <div class="mb-3 border-[#2C6288] dark:border-white border-b-[2px]">
+            <h1 class="mb-1 text-2xl sm:text-3xl font-bold">Notification</h1>
+          </div>
+
+          <div
+            class="w-full flex flex-row items-center justify-between w-full mt-5 text-muted sm:pt-2 sm:pb-2 dark:text-white border-t border-b border-gray-300 dark:border-gray-800 mb-6"
+          >
+            <div
+              class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
+            >
+              <h2
+                class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold"
+              >
+                {data?.notifications?.totalItems?.toLocaleString("en-US")} Alerts
+              </h2>
+            </div>
+            <div
+              class="flex items-center ml-auto pt-2 pb-2 sm:pt-0 sm:pb-0 w-fit"
+            >
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild let:builder>
+                  <Button
+                    builders={[builder]}
+                    class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary  flex flex-row justify-between items-center  w-full sm:w-auto px-3 rounded truncate"
+                  >
+                    <span class="truncate text-[0.85rem] sm:text-sm"
+                      >Settings</span
+                    >
+                    <svg
+                      class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </Button>
+                </DropdownMenu.Trigger>
+
+                <DropdownMenu.Content
+                  side="bottom"
+                  align="end"
+                  sideOffset={10}
+                  alignOffset={0}
+                  class="w-auto min-w-64 max-w-80 max-h-[400px] overflow-y-auto scroller relative"
+                >
+                  <DropdownMenu.Label
+                    class="text-muted dark:text-gray-400 font-semibold dark:font-normal text-xs"
+                  >
+                    Customize your notifications
+                  </DropdownMenu.Label>
+                  <!-- Dropdown items -->
+                  <DropdownMenu.Group class="pb-2">
+                    {#if channelOptions.length > 0}
+                      {#each channelOptions as option (option.key)}
+                        <DropdownMenu.Item
+                          class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                        >
+                          <label
+                            class="inline-flex justify-between w-full items-center cursor-pointer"
+                            on:click|stopPropagation
+                            on:pointerdown|stopPropagation
+                          >
+                            <span class="mr-1 text-sm">{option.label}</span>
+
+                            <div class="relative ml-auto">
+                              <input
+                                type="checkbox"
+                                class="sr-only peer"
+                                checked={!!channelSettings[option.key]}
+                                disabled={!!channelUpdating[option.key]}
+                                on:change={(event) =>
+                                  handleChannelToggle(
+                                    option.key,
+                                    event.currentTarget.checked,
+                                  )}
+                              />
+                              <div
+                                class="w-9 h-5 bg-gray-400 rounded-full peer peer-checked:bg-blue-600 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                                class:opacity-50={channelUpdating[option.key]}
+                              ></div>
+                            </div></label
+                          >
+                        </DropdownMenu.Item>
+                      {/each}
+                    {:else}
+                      <DropdownMenu.Item
+                        class="text-sm text-gray-500 dark:text-gray-400"
+                      >
+                        No notification channels available.
+                      </DropdownMenu.Item>
+                    {/if}
+                  </DropdownMenu.Group>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            </div>
+          </div>
+
+          {#if notificationList?.length !== 0}
+            <div class="flex flex-col items-start w-full">
+              {#each notificationList as item}
+                {#if item?.notifyType === "priceAlert"}
+                  <!-- svelte-ignore a11y-click-events-have-key-events -->
+                  <div
+                    class="border-b border-gray-300 dark:border-gray-800 pb-3 sm:p-3 mb-6 sm:mb-3 w-full {!item?.readed
+                      ? 'bg-blue-100 dark:bg-[#F9AB00]/10'
+                      : ''} "
+                  >
+                    <div class="flex flex-row items-center w-full">
+                      <!-- svelte-ignore a11y-label-has-associated-control -->
+                      <a
+                        class="avatar w-8 h-8 shrink-0 mr-4 bg-gray-200 dark:bg-gray-800 rounded-full"
+                      >
+                        <img
+                          style="clip-path: circle(50%);"
+                          class="shrink-0 w-8 h-8 rounded-full inline-block p-1"
+                          src={`https://financialmodelingprep.com/image-stock/${item?.liveResults?.symbol}.png`}
+                          alt="Company Logo"
+                        />
+                      </a>
+
+                      <div class=" text-sm sm:text-[1rem]">
+                        <!-- svelte-ignore a11y-click-events-have-key-events -->
+                        <!-- svelte-ignore a11y-label-has-associated-control -->
+                        <div class="flex flex-col items-start">
+                          <div>
+                            <div class="flex flex-col items-start">
+                              <div class="text-md mt-0.5">
+                                Price Alert triggered for <HoverStockChart
+                                  symbol={item?.liveResults?.symbol}
+                                  assetType={item?.liveResults?.assetType}
+                                />
+                              </div>
+                              <div class="text-md mt-0.5">
+                                The price of <span class="font-semibold"
+                                  >{item?.liveResults?.currentPrice}</span
+                                >
+                                is {item?.liveResults?.condition} your target of
+                                <span class="font-semibold"
+                                  >{item?.liveResults?.targetPrice}</span
+                                >
+                              </div>
+                            </div>
+                          </div>
+                          <span class="text-sm mt-1 text-[#A6ADBB0"
+                            >{formatDate(item?.created)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {:else if item?.notifyType === "wiim"}
+                  <!-- svelte-ignore a11y-click-events-have-key-events -->
+                  <div
+                    class="border-b border-gray-300 dark:border-gray-800 pb-3 sm:p-3 mb-6 sm:mb-3 w-full {!item?.readed
+                      ? 'bg-blue-100 dark:bg-[#F9AB00]/10'
+                      : ''} "
+                  >
+                    <div class="flex flex-row items-center w-full">
+                      <!-- svelte-ignore a11y-label-has-associated-control -->
+                      <a
+                        class="avatar w-8 h-8 shrink-0 mr-4 bg-gray-200 dark:bg-gray-800 rounded-full"
+                      >
+                        <img
+                          style="clip-path: circle(50%);"
+                          class="shrink-0 w-8 h-8 rounded-full inline-block p-1"
+                          src={`https://financialmodelingprep.com/image-stock/${item?.liveResults?.symbol}.png`}
+                          alt="Company Logo"
+                        />
+                      </a>
+
+                      <div class=" text-sm sm:text-[1rem]">
+                        <!-- svelte-ignore a11y-click-events-have-key-events -->
+                        <!-- svelte-ignore a11y-label-has-associated-control -->
+                        <div class="flex flex-col items-start">
+                          <div>
+                            <div class="flex flex-col items-start">
+                              <div class="text-md mt-0.5">
+                                <span class="font-semibold"
+                                  >BREAKING News for</span
+                                >
+                                <HoverStockChart
+                                  symbol={item?.liveResults?.symbol}
+                                  assetType={item?.liveResults?.assetType}
+                                />
+                              </div>
+                              <div class="text-md mt-0.5">
+                                New data for "Why Price Moved" event is out.
+                              </div>
+                            </div>
+                          </div>
+                          <span class="text-sm mt-1 text-[#A6ADBB0"
+                            >{formatDate(item?.created)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {:else if item?.notifyType === "topAnalyst"}
+                  <div
+                    class="border-b border-gray-300 dark:border-gray-800 pb-3 sm:p-3 mb-6 sm:mb-3 w-full {!item?.readed
+                      ? 'bg-blue-100 dark:bg-[#F9AB00]/10'
+                      : ''} "
+                  >
+                    <div class="flex flex-row items-center w-full">
+                      <!-- svelte-ignore a11y-label-has-associated-control -->
+                      <a
+                        class="avatar w-8 h-8 shrink-0 mr-4 bg-gray-200 dark:bg-gray-800 rounded-full"
+                      >
+                        <img
+                          style="clip-path: circle(50%);"
+                          class="shrink-0 w-8 h-8 rounded-full inline-block p-1"
+                          src={`https://financialmodelingprep.com/image-stock/${item?.liveResults?.symbol}.png`}
+                          alt="Company Logo"
+                        />
+                      </a>
+
+                      <div class=" text-sm sm:text-[1rem]">
+                        <!-- svelte-ignore a11y-click-events-have-key-events -->
+                        <!-- svelte-ignore a11y-label-has-associated-control -->
+                        <div class="flex flex-col items-start">
+                          <div>
+                            <div class="flex flex-col items-start">
+                              <div class="text-md mt-0.5">
+                                <span class="font-semibold"
+                                  >New Top Analyst Rating for</span
+                                >
+                                <HoverStockChart
+                                  symbol={item?.liveResults?.symbol}
+                                  assetType={item?.liveResults?.assetType}
+                                  link="forecast/analyst"
+                                />
+                              </div>
+                              <div class="text-md mt-0.5">
+                                The rating company {item?.liveResults?.analyst} has
+                                issued a new rating of „{item?.liveResults
+                                  ?.rating_current}“ with an updated price
+                                target of ${item?.liveResults
+                                  ?.adjusted_pt_current}.
+                              </div>
+                            </div>
+                          </div>
+                          <span class="text-sm mt-1 text-[#A6ADBB0"
+                            >{formatDate(item?.created)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {:else if item?.notifyType === "earningsSurprise"}
+                  <div
+                    class="border-b border-gray-300 dark:border-gray-800 pb-3 sm:p-3 mb-6 sm:mb-3 w-full {!item?.readed
+                      ? 'bg-blue-100 dark:bg-[#F9AB00]/10'
+                      : ''} "
+                  >
+                    <div class="flex flex-row items-center w-full">
+                      <!-- svelte-ignore a11y-label-has-associated-control -->
+                      <a
+                        class="avatar w-8 h-8 shrink-0 mr-4 bg-gray-200 dark:bg-gray-800 rounded-full"
+                      >
+                        <img
+                          style="clip-path: circle(50%);"
+                          class="shrink-0 w-8 h-8 rounded-full inline-block p-1"
+                          src={`https://financialmodelingprep.com/image-stock/${item?.liveResults?.symbol}.png`}
+                          alt="Company Logo"
+                        />
+                      </a>
+
+                      <div class=" text-sm sm:text-[1rem]">
+                        <!-- svelte-ignore a11y-click-events-have-key-events -->
+                        <!-- svelte-ignore a11y-label-has-associated-control -->
+                        <div class="flex flex-col items-start">
+                          <div>
+                            <div class="flex flex-col items-start">
+                              <div class="text-md mt-0.5">
+                                <span class="font-semibold"
+                                  >Earnings Release for</span
+                                >
+                                <HoverStockChart
+                                  symbol={item?.liveResults?.symbol}
+                                  assetType={item?.liveResults?.assetType}
+                                />
+                              </div>
+                              <div class="text-md mt-0.5">
+                                New data for "Earnings Surprise" event is out.
+                              </div>
+                            </div>
+                          </div>
+                          <span class="text-sm mt-1 text-[#A6ADBB0"
+                            >{formatDate(item?.created)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {/if}
+              {/each}
+            </div>
+
+            <div
+              class="flex flex-row items-center justify-between mt-8 sm:mt-5 w-full"
+            >
+              <div class="flex items-center gap-2">
+                <Button
+                  on:click={() => goToPage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                >
+                  <svg
+                    class="h-5 w-5 inline-block shrink-0 rotate-90"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style="max-width:40px"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                  <span class="hidden sm:inline">Previous</span>
+                </Button>
+              </div>
+
+              <div class="flex flex-row items-center gap-4">
+                <span class="text-sm sm:text-[1rem]">
+                  Page {currentPage} of {totalPages}
+                </span>
+
+                <DropdownMenu.Root>
+                  <DropdownMenu.Trigger asChild let:builder>
+                    <Button
+                      builders={[builder]}
+                      class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 rounded truncate"
+                    >
+                      <span class="truncate text-[0.85rem] sm:text-sm"
+                        >{selectedRowsPerPage} Rows</span
+                      >
+                      <svg
+                        class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width:40px"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </Button>
+                  </DropdownMenu.Trigger>
+
+                  <DropdownMenu.Content
+                    side="bottom"
+                    align="end"
+                    sideOffset={10}
+                    alignOffset={0}
+                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative"
+                  >
+                    <DropdownMenu.Group class="pb-2">
+                      {#each rowsPerPageOptions as item}
+                        <DropdownMenu.Item
+                          class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                        >
+                          <label
+                            on:click={() => changeRowsPerPage(item)}
+                            class="inline-flex justify-between w-full items-center cursor-pointer"
+                          >
+                            <span class="text-sm">{item} Rows</span>
+                          </label>
+                        </DropdownMenu.Item>
+                      {/each}
+                    </DropdownMenu.Group>
+                  </DropdownMenu.Content>
+                </DropdownMenu.Root>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <Button
+                  on:click={() => goToPage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                >
+                  <span class="hidden sm:inline">Next</span>
+                  <svg
+                    class="h-5 w-5 inline-block shrink-0 -rotate-90"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style="max-width:40px"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </Button>
+              </div>
+            </div>
+
+            <div class="flex justify-center mt-4 w-full">
+              <button
+                on:click={scrollToTop}
+                class="cursor-pointer sm:hover:text-muted text-blue-800 dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem] font-medium"
+              >
+                Back to Top
+                <svg
+                  class="h-5 w-5 inline-block shrink-0 rotate-180"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  style="max-width:40px"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          {:else}
+            <div class="w-full flex items-center justify-start text-start">
+              <Infobox text="You have no notifications yet." />
+            </div>
+          {/if}
+        </main>
+
+        <aside class="hidden lg:block relative fixed w-1/4 ml-4">
+          <div
+            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+          >
+            <a
+              href="/watchlist/stocks"
+              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+            >
+              <div class="w-full flex justify-between items-center p-3 mt-3">
+                <h2 class="text-start text-xl font-bold ml-3">Watchlist</h2>
+              </div>
+              <span class=" p-3 ml-3 mr-3">
+                Get realtime updates of your favorite stocks
+              </span>
+            </a>
+          </div>
+
+          <div
+            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+          >
+            <a
+              href="/portfolio"
+              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+            >
+              <div class="w-full flex justify-between items-center p-3 mt-3">
+                <h2 class="text-start text-xl font-bold ml-3">
+                  Portfolio Tracker
+                </h2>
+              </div>
+              <span class="p-3 ml-3 mr-3">
+                Get realtime updates of your portfolio
+              </span>
+            </a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
