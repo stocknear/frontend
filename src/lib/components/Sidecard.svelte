@@ -10,6 +10,8 @@
   } from "$lib/utils";
 
   export let data;
+  export let priceTargetUpside = 0;
+  export let priceTarget = "n/a";
 
   let info;
 
@@ -26,10 +28,8 @@
   let holdCount = 0;
   let sellCount = 0;
   let strongSellCount = 0;
-  let priceTarget = "n/a";
   let numOfAnalyst = 0;
   let consensusRating = "n/a";
-  let changesPercentage = 0;
   let ipoDate = "n/a";
   let currency = data?.getStockDeck?.currency ?? "USD";
 
@@ -77,8 +77,8 @@
         animation: false,
       },
       title: {
-        text: `<div class="text-muted dark:text-gray-200 mt-3  text-center font-normal text-2xl">Price Target: <span class="${changesPercentage >= 0 ? "text-green-800 dark:text-[#00FC50]" : "text-red-800 dark:text-[#FF2F1F]"}">$${priceTarget}</span></div>
-        <div class="text-muted dark:text-gray-200  mb-2 text-center font-normal text-xl">(${changesPercentage}% ${changesPercentage >= 0 ? "upside" : "downside"})</div>
+        text: `<div class="text-muted dark:text-gray-200 mt-3  text-center font-normal text-2xl">Price Target: <span class="${priceTargetUpside >= 0 ? "text-green-800 dark:text-[#00FC50]" : "text-red-800 dark:text-[#FF2F1F]"}">$${priceTarget}</span></div>
+        <div class="text-muted dark:text-gray-200  mb-2 text-center font-normal text-xl">(${priceTargetUpside}% ${priceTargetUpside >= 0 ? "upside" : "downside"})</div>
         <div class="text-muted dark:text-gray-200 text-center font-normal text-xl flex justify-center items-center">Analyst Consensus: <span class="ml-1 ${consensusRating === "Buy" ? "text-green-800 dark:text-[#00FC50]" : consensusRating === "Sell" ? "text-red-800 dark:text-[#FF2F1F]" : consensusRating === "Hold" ? "text-muted dark:text-[#D5AB31]" : "text-muted dark:text-white"}">${consensusRating ?? "n/a"}</span></div>`,
         style: {
           color: "white",
@@ -343,19 +343,7 @@
       sellCount = data?.getAnalystSummary?.sell || 0;
       strongSellCount = data?.getAnalystSummary?.strongSell || 0;
 
-      priceTarget =
-        data?.getAnalystSummary?.medianPriceTarget !== ("n/a" && 0)
-          ? data?.getAnalystSummary?.medianPriceTarget
-          : "n/a";
       consensusRating = data?.getAnalystSummary?.consensusRating;
-
-      try {
-        changesPercentage =
-          ((priceTarget / data?.getStockQuote?.price - 1) * 100)?.toFixed(2) ??
-          0;
-      } catch (e) {
-        changesPercentage = 0;
-      }
 
       deferFunction(() => {
         configAnalyst = plotAnalyst() || null;
@@ -511,8 +499,8 @@
         <h2 class="mb-2 text-2xl font-bold">Analyst Forecast</h2>
         <p class="dark:text-gray-200">
           According to {numOfAnalyst} analyst ratings, the average rating for {$stockTicker}
-          stock is "{consensusRating}." The 12-month stock price forecast is ${priceTarget},
-          which is {changesPercentage > 0 ? "an increase" : "a decrease"} of {changesPercentage}%
+          stock is "{consensusRating}." The 12-month stock price forecast is {priceTarget},
+          which is {priceTargetUpside > 0 ? "an increase" : "a decrease"} of {priceTargetUpside}%
           from the latest price.
         </p>
 

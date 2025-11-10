@@ -45,6 +45,21 @@
   let displayData = "1D";
   let lastValue;
 
+  const toNum = (v: unknown): number | null => {
+    const n =
+      typeof v === "number" ? v : typeof v === "string" ? Number(v) : NaN;
+    return Number.isFinite(n) ? n : null;
+  };
+
+  $: priceTarget = toNum(data?.getAnalystSummary?.medianPriceTarget);
+
+  $: priceTargetUpside =
+    priceTarget !== null &&
+    data?.getStockQuote?.price !== null &&
+    data?.getStockQuote?.price !== 0
+      ? ((priceTarget / data?.getStockQuote?.price - 1) * 100)?.toFixed(2)
+      : 0;
+
   // One-Day Price WebSocket
   let oneDayPriceSocket = null;
 
@@ -1045,6 +1060,7 @@
                       )}</td
                     ></tr
                   >
+
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
                     ><td
@@ -1111,28 +1127,20 @@
                       >{stockDeck?.forwardPE ?? "n/a"}</td
                     ></tr
                   >
+
                   <tr
                     class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      ><a
-                        href={data?.getAnalystSummary?.consensusRating !==
-                        undefined
-                          ? `/stocks/${$stockTicker}/forecast`
-                          : ""}
-                        class={data?.getAnalystSummary?.consensusRating !==
-                        undefined
-                          ? "sm:hover:text-blue-800 dark:sm:hover:text-blue-400 underline underline-offset-4"
-                          : " cursor-text"}>Analyst</a
-                      >
-                    </td>
+                      >P/B (ttm)</td
+                    >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                      >{data?.getAnalystSummary?.consensusRating !== null &&
-                      data?.getAnalystSummary?.consensusRating !== "n/a" &&
-                      data?.getAnalystSummary?.consensusRating !== undefined
-                        ? data?.getAnalystSummary?.consensusRating
-                        : "n/a"}</td
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-[1rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
+                      >{$wsBidPrice !== 0 && $wsBidPrice !== null
+                        ? $wsBidPrice
+                        : ((data?.getStockQuote?.bid !== 0
+                            ? data?.getStockQuote?.bid
+                            : "n/a") ?? "n/a")}</td
                     ></tr
                   >
 
@@ -1140,26 +1148,56 @@
                     class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      ><a
-                        href={data?.getStockDeck?.annualDividend
-                          ? `/stocks/${$stockTicker}/dividends`
-                          : ""}
-                        class={data?.getStockDeck?.annualDividend
-                          ? "sm:hover:text-blue-800 dark:sm:hover:text-blue-400 underline underline-offset-4"
-                          : " cursor-text"}>Dividends</a
-                      >
+                      >P/S (ttm)</td
+                    >
+                    <td
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-[1rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
+                      >{$wsBidPrice !== 0 && $wsBidPrice !== null
+                        ? $wsBidPrice
+                        : ((data?.getStockQuote?.bid !== 0
+                            ? data?.getStockQuote?.bid
+                            : "n/a") ?? "n/a")}</td
+                    ></tr
+                  >
+
+                  <tr
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    ><td
+                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
+                      >Total Assets</td
+                    >
+                    <td
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
+                      >{data?.getStockQuote?.pe ?? "n/a"}</td
+                    ></tr
+                  >
+                  <tr
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    ><td
+                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
+                      >Total Liabilities</td
+                    >
+                    <td
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
+                      >{stockDeck?.forwardPE ?? "n/a"}</td
+                    ></tr
+                  >
+
+                  <tr
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    ><td
+                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
+                    >
+                      Total Equity
                     </td>
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                      >{data?.getStockDeck?.annualDividend
-                        ? "$" + data?.getStockDeck?.annualDividend
-                        : "n/a"} ({data?.getStockDeck?.dividendYield
-                        ? data?.getStockDeck?.dividendYield + "%"
-                        : "n/a"})</td
+                      >{stockDeck?.forwardPE ?? "n/a"}</td
                     ></tr
                   >
                 </tbody>
               </table>
+
               <table class="w-[50%] text-sm lg:min-w-[250px]">
                 <tbody
                   ><tr
@@ -1293,6 +1331,78 @@
                         : "n/a"}</td
                     ></tr
                   >
+
+                  <tr
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    ><td
+                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
+                      ><a
+                        href={data?.getAnalystSummary?.consensusRating !==
+                        undefined
+                          ? `/stocks/${$stockTicker}/forecast/analyst`
+                          : ""}
+                        class={data?.getAnalystSummary?.consensusRating !==
+                        undefined
+                          ? "sm:hover:text-blue-800 dark:sm:hover:text-blue-400 underline underline-offset-4"
+                          : " cursor-text"}>Analyst</a
+                      >
+                    </td>
+                    <td
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
+                      >{data?.getAnalystSummary?.consensusRating !== null &&
+                      data?.getAnalystSummary?.consensusRating !== "n/a" &&
+                      data?.getAnalystSummary?.consensusRating !== undefined
+                        ? data?.getAnalystSummary?.consensusRating
+                        : "n/a"}</td
+                    ></tr
+                  >
+
+                  <tr
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    ><td
+                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
+                      ><a
+                        href={data?.getAnalystSummary?.consensusRating !==
+                        undefined
+                          ? `/stocks/${$stockTicker}/forecast`
+                          : ""}
+                        class={data?.getAnalystSummary?.consensusRating !==
+                        undefined
+                          ? "sm:hover:text-blue-800 dark:sm:hover:text-blue-400 underline underline-offset-4"
+                          : " cursor-text"}>Price Target</a
+                      >
+                    </td>
+                    <td
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
+                      >{priceTarget} ({priceTargetUpside}%)</td
+                    ></tr
+                  >
+
+                  <tr
+                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 py-1 sm:table-row sm:py-0"
+                    ><td
+                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
+                      ><a
+                        href={data?.getStockDeck?.annualDividend
+                          ? `/stocks/${$stockTicker}/dividends`
+                          : ""}
+                        class={data?.getStockDeck?.annualDividend
+                          ? "sm:hover:text-blue-800 dark:sm:hover:text-blue-400 underline underline-offset-4"
+                          : " cursor-text"}>Dividends</a
+                      >
+                    </td>
+                    <td
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
+                      >{data?.getStockDeck?.annualDividend
+                        ? "$" + data?.getStockDeck?.annualDividend
+                        : "n/a"}
+                      {#if data?.getStockDeck?.annualDividend}
+                        ({data?.getStockDeck?.dividendYield
+                          ? data?.getStockDeck?.dividendYield + "%"
+                          : "n/a"})
+                      {/if}</td
+                    ></tr
+                  >
                 </tbody>
               </table>
             </div>
@@ -1306,7 +1416,7 @@
             <div
               class="lg:space-y-6 lg:order-2 lg:pt-1 sm:pl-7 lg:pl-0 w-full lg:w-[45%] sm:ml-auto lg:max-w-[345px]"
             >
-              <Sidecard {data} />
+              <Sidecard {data} {priceTargetUpside} {priceTarget} />
             </div>
 
             <div class="w-full lg:w-[65%] 2xl:w-[70%]">
