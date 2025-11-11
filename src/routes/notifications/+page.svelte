@@ -272,11 +272,18 @@
       perPage,
     } = data.notifications;
 
-    notificationList = (items ?? []) as NotificationEntry[];
-    totalItems = total ?? items?.length ?? 0;
-    totalPages =
+    const nextItems = (items ?? []) as NotificationEntry[];
+    const nextTotalItems = total ?? nextItems?.length ?? 0;
+    const nextTotalPages =
       pages ??
-      Math.max(1, Math.ceil(totalItems / (perPage ?? DEFAULT_ROWS_PER_PAGE)));
+      Math.max(
+        1,
+        Math.ceil(nextTotalItems / (perPage ?? DEFAULT_ROWS_PER_PAGE)),
+      );
+
+    notificationList = nextItems;
+    totalItems = nextTotalItems;
+    totalPages = nextTotalPages;
     currentPage = pageFromServer ?? 1;
 
     if (
