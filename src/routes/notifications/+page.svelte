@@ -47,6 +47,8 @@
   let globalUnreadCount = 0;
   let totalKnownUnread = 0;
   let markAllDisabled = true;
+  let deleteInFlight = false;
+  let deleteError: string | null = null;
 
   const extractChannelSettings = (record: Record<string, unknown> | null) =>
     record
@@ -381,6 +383,18 @@
     }
   }
 
+  function closeDeleteModal() {
+    if (typeof document === "undefined") return;
+
+    const checkbox = document.getElementById(
+      "deleteNotifications",
+    ) as HTMLInputElement | null;
+
+    if (checkbox) {
+      checkbox.checked = false;
+    }
+  }
+
   function buildSearchParams(targetPage: number, perPage: number) {
     const params = new URLSearchParams($page.url.searchParams);
     params.set("page", String(targetPage));
@@ -544,6 +558,49 @@
     });
   }
 
+  async function deleteAllNotifications() {
+    if (deleteInFlight || notificationList?.length < 1) {
+      return;
+    }
+
+    deleteError = null;
+    deleteInFlight = true;
+
+    try {
+      const response = await fetch("/api/delete-notifications", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      type DeleteResponse = {
+        success?: boolean;
+        deleted?: number;
+        error?: string;
+      };
+      const result = (await response.json()) as DeleteResponse;
+
+      if (!response.ok || !result?.success) {
+        throw new Error(result?.error ?? "Request failed");
+      }
+
+      notificationList = [];
+      notificationList = [...notificationList];
+      totalItems = 0;
+      totalPages = 1;
+      currentPage = 1;
+      $numberOfUnreadNotification = 0;
+
+      closeDeleteModal();
+    } catch (error) {
+      console.error("Failed to delete notifications", error);
+      deleteError = "Failed to delete notifications. Please try again.";
+    } finally {
+      deleteInFlight = false;
+    }
+  }
+
   onMount(async () => {
     mounted = true;
     const storedRows = getStoredRowsPerPage();
@@ -599,7 +656,7 @@
             <h2
               class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold"
             >
-              {data?.notifications?.totalItems?.toLocaleString("en-US")} Alerts
+              {totalItems?.toLocaleString("en-US")} Alerts
             </h2>
             <div
               class="flex items-center ml-auto border-t border-b border-gray-300 dark:border-gray-800 sm:border-none pt-1 pb-1 sm:pt-0 sm:pb-0 w-full"
@@ -704,26 +761,31 @@
                   </DropdownMenu.Content>
                 </DropdownMenu.Root>
               </div>
-              <div class="flex items-center ml-2 w-fit">
-                <label
-                  for="deleteNotifications"
-                  class="cursor-pointer py-2 w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center w-full sm:w-auto px-3 rounded truncate"
-                >
-                  <svg
-                    class="size-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    style="max-width:40px"
-                    ><path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                    ></path></svg
+              {#if notificationList && notificationList.length > 0}
+                <div class="flex items-center ml-2 w-fit">
+                  <label
+                    for="deleteNotifications"
+                    class="cursor-pointer py-2 w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center w-full sm:w-auto px-3 rounded truncate"
+                    on:click={() => {
+                      deleteError = null;
+                    }}
                   >
-                </label>
-              </div>
+                    <svg
+                      class="size-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      style="max-width:40px"
+                      ><path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      ></path></svg
+                    >
+                  </label>
+                </div>
+              {/if}
             </div>
           </div>
 
@@ -1112,25 +1174,34 @@
         bg-white dark:bg-secondary border border-gray-300 dark:border-gray-600"
   >
     <h3 class="text-lg font-medium mb-2">Delete All Notifications</h3>
-    <p class="text-sm mb-6">
+    <p class="text-sm mb-4">
       Are you sure you want to delete all notifications? This action cannot be
       undone.
     </p>
+    {#if deleteError}
+      <p class="text-sm text-red-600 dark:text-red-400 mb-4" role="alert">
+        {deleteError}
+      </p>
+    {/if}
     <div class="flex justify-end space-x-3">
       <label
         for="deleteNotifications"
         class="cursor-pointer px-4 py-2 rounded text-sm font-medium
             transition-colors duration-100
             bg-black text-white dark:bg-white dark:text-black"
-        tabindex="0">Cancel</label
-      ><label
-        for="deleteNotifications"
-        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
-            transition-colors duration-100 flex items-center
-            bg-red-600 text-white
-            "
         tabindex="0"
-        ><svg
+        on:click={() => {
+          deleteError = null;
+        }}>Cancel</label
+      ><button
+        type="button"
+        class="cursor-pointer px-4 py-2 rounded text-sm font-medium transition-colors duration-100 flex items-center bg-red-600 text-white disabled:opacity-70 disabled:cursor-not-allowed"
+        tabindex="0"
+        on:click={deleteAllNotifications}
+        disabled={deleteInFlight}
+        aria-disabled={deleteInFlight}
+      >
+        <svg
           stroke="currentColor"
           fill="none"
           stroke-width="2"
@@ -1149,8 +1220,10 @@
             x2="14"
             y2="17"
           ></line></svg
-        >Delete Notifications</label
-      >
+        ><span class="whitespace-nowrap"
+          >{deleteInFlight ? "Deleting..." : "Delete Notifications"}</span
+        >
+      </button>
     </div>
   </div>
 </dialog>
