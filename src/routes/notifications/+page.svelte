@@ -472,106 +472,118 @@
           </div>
 
           <div
-            class="w-full flex flex-row items-center justify-between w-full mt-5 text-muted sm:pt-2 sm:pb-2 dark:text-white border-t border-b border-gray-300 dark:border-gray-800 mb-6"
+            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between w-full mt-5 text-muted sm:pt-2 sm:pb-2 dark:text-white sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-gray-800"
           >
-            <div
-              class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
+            <h2
+              class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold"
             >
-              <h2
-                class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold"
+              {data?.notifications?.totalItems?.toLocaleString("en-US")} Alerts
+            </h2>
+            <div
+              class="flex items-center ml-auto border-t border-b border-gray-300 dark:border-gray-800 sm:border-none pt-1 pb-1 sm:pt-0 sm:pb-0 w-full"
+            >
+              <div
+                class="flex items-center ml-auto pt-1 pb-1 sm:pt-0 sm:pb-0 w-fit"
               >
-                {data?.notifications?.totalItems?.toLocaleString("en-US")} Alerts
-              </h2>
-            </div>
-            <div
-              class="flex items-center ml-auto pt-2 pb-2 sm:pt-0 sm:pb-0 w-fit"
-            >
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild let:builder>
-                  <Button
-                    builders={[builder]}
-                    class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary  flex flex-row justify-between items-center  w-full sm:w-auto px-3 rounded truncate"
-                  >
-                    <span class="truncate text-[0.85rem] sm:text-sm"
-                      >Settings</span
-                    >
-                    <svg
-                      class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      style="max-width:40px"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </Button>
-                </DropdownMenu.Trigger>
-
-                <DropdownMenu.Content
-                  side="bottom"
-                  align="end"
-                  sideOffset={10}
-                  alignOffset={0}
-                  class="w-auto min-w-64 max-w-80 max-h-[400px] overflow-y-auto scroller relative"
+                <Button
+                  class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary  flex flex-row justify-between items-center  w-full sm:w-auto px-3 rounded truncate"
                 >
-                  <DropdownMenu.Label
-                    class="text-muted dark:text-gray-400 font-semibold dark:font-normal text-xs"
+                  <span class="truncate text-[0.85rem] sm:text-sm"
+                    >Mark all as read</span
                   >
-                    Customize your notifications
-                  </DropdownMenu.Label>
-                  <!-- Dropdown items -->
-                  <DropdownMenu.Group class="pb-2">
-                    {#if channelOptions.length > 0}
-                      {#each channelOptions as option (option.key)}
-                        <DropdownMenu.Item
-                          class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
-                        >
-                          <label
-                            class="inline-flex justify-between w-full items-center cursor-pointer"
-                            on:click|stopPropagation
-                            on:pointerdown|stopPropagation
-                          >
-                            <span class="mr-1 text-sm">{option.label}</span>
+                </Button>
+              </div>
 
-                            <div class="relative ml-auto">
-                              <input
-                                type="checkbox"
-                                class="sr-only peer"
-                                checked={!!channelSettings[option.key]}
-                                disabled={!!channelUpdating[option.key]}
-                                on:change={(event) =>
-                                  handleChannelToggle(
-                                    option.key,
-                                    event.currentTarget.checked,
-                                  )}
-                              />
-                              <div
-                                class="w-9 h-5 bg-gray-400 rounded-full peer peer-checked:bg-blue-600 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
-                                class:opacity-50={channelUpdating[option.key]}
-                              ></div>
-                            </div></label
-                          >
-                        </DropdownMenu.Item>
-                      {/each}
-                    {:else}
-                      <DropdownMenu.Item
-                        class="text-sm text-gray-500 dark:text-gray-400"
+              <div
+                class="flex items-center ml-2 pt-1 pb-1 sm:pt-0 sm:pb-0 w-fit"
+              >
+                <DropdownMenu.Root>
+                  <DropdownMenu.Trigger asChild let:builder>
+                    <Button
+                      builders={[builder]}
+                      class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary  flex flex-row justify-between items-center  w-full sm:w-auto px-3 rounded truncate"
+                    >
+                      <span class="truncate text-[0.85rem] sm:text-sm"
+                        >Settings</span
                       >
-                        No notification channels available.
-                      </DropdownMenu.Item>
-                    {/if}
-                  </DropdownMenu.Group>
-                </DropdownMenu.Content>
-              </DropdownMenu.Root>
+                      <svg
+                        class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width:40px"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </Button>
+                  </DropdownMenu.Trigger>
+
+                  <DropdownMenu.Content
+                    side="bottom"
+                    align="end"
+                    sideOffset={10}
+                    alignOffset={0}
+                    class="w-auto min-w-64 max-w-80 max-h-[400px] overflow-y-auto scroller relative"
+                  >
+                    <DropdownMenu.Label
+                      class="text-muted dark:text-gray-400 font-semibold dark:font-normal text-xs"
+                    >
+                      Customize your notifications
+                    </DropdownMenu.Label>
+                    <!-- Dropdown items -->
+                    <DropdownMenu.Group class="pb-2">
+                      {#if channelOptions.length > 0}
+                        {#each channelOptions as option (option.key)}
+                          <DropdownMenu.Item
+                            class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                          >
+                            <label
+                              class="inline-flex justify-between w-full items-center cursor-pointer"
+                              on:click|stopPropagation
+                              on:pointerdown|stopPropagation
+                            >
+                              <span class="mr-1 text-sm">{option.label}</span>
+
+                              <div class="relative ml-auto">
+                                <input
+                                  type="checkbox"
+                                  class="sr-only peer"
+                                  checked={!!channelSettings[option.key]}
+                                  disabled={!!channelUpdating[option.key]}
+                                  on:change={(event) =>
+                                    handleChannelToggle(
+                                      option.key,
+                                      event.currentTarget.checked,
+                                    )}
+                                />
+                                <div
+                                  class="w-9 h-5 bg-gray-400 rounded-full peer peer-checked:bg-blue-600 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                                  class:opacity-50={channelUpdating[option.key]}
+                                ></div>
+                              </div></label
+                            >
+                          </DropdownMenu.Item>
+                        {/each}
+                      {:else}
+                        <DropdownMenu.Item
+                          class="text-sm text-gray-500 dark:text-gray-400"
+                        >
+                          No notification channels available.
+                        </DropdownMenu.Item>
+                      {/if}
+                    </DropdownMenu.Group>
+                  </DropdownMenu.Content>
+                </DropdownMenu.Root>
+              </div>
             </div>
           </div>
 
           {#if notificationList?.length !== 0}
-            <div class="flex flex-col items-start w-full">
+            <div class="flex flex-col items-start w-full mt-10">
               {#each notificationList as item}
                 {#if item?.notifyType === "priceAlert"}
                   <!-- svelte-ignore a11y-click-events-have-key-events -->
