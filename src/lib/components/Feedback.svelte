@@ -97,20 +97,22 @@
 </svelte:head>
 
 <!-- Floating trigger (bottom-right), like your existing one -->
-<div class="fixed z-[100] bottom-8 sm:bottom-10 right-8 sm:right-16">
-  <label
-    for="feedbackModalToggle"
-    aria-label="Give Feedback"
-    class="flex fixed bottom-8 right-8 items-center gap-2 px-3 py-3 sm:px-4 sm:py-3 rounded-full bg-black dark:bg-white sm:hover:bg-default dark:hover:bg-gray-100 shadow hover:shadow-xl cursor-pointer pointer-events-auto text-white dark:text-black transition-all duration-50"
-    style="position: fixed !important; z-index: 99999 !important;"
-  >
-    <Question class="size-5 text-white dark:text-black" />
-    <span
-      class="text-white dark:text-black hidden sm:inline text-md font-semibold"
-      >Give feedback</span
+{#if !$page.url.pathname.startsWith("/chat")}
+  <div class="fixed z-[100] bottom-8 sm:bottom-10 right-8 sm:right-16">
+    <label
+      for="feedbackModalToggle"
+      aria-label="Give Feedback"
+      class="flex fixed bottom-8 right-8 items-center gap-2 px-3 py-3 sm:px-4 sm:py-3 rounded-full bg-black dark:bg-white sm:hover:bg-default dark:hover:bg-gray-100 shadow hover:shadow-xl cursor-pointer pointer-events-auto text-white dark:text-black transition-all duration-50"
+      style="position: fixed !important; z-index: 99999 !important;"
     >
-  </label>
-</div>
+      <Question class="size-5 text-white dark:text-black" />
+      <span
+        class="text-white dark:text-black hidden sm:inline text-md font-semibold"
+        >Give feedback</span
+      >
+    </label>
+  </div>
+{/if}
 
 <!-- Toggle for modal -->
 <input
