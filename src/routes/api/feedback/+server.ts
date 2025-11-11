@@ -1,52 +1,135 @@
+import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 
-export const POST: RequestHandler = async ({ request, locals }) => {
-  // Parse incoming data
-  const data = await request.json();
-  const { pb } = locals;
-  console.log("Incoming feedback data:", data);
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+const MAX_SUBMISSIONS_PER_WINDOW = 2;
 
-  // Ensure user is identified from the request
-  const userId = data?.user || locals.user?.id;
-  if (!userId) {
-    return new Response(JSON.stringify({ error: "User identification required" }), { status: 400 });
+export const POST: RequestHandler = async ({ request, locals, fetch }) => {
+  const { pb, user: localsUser, clientIp } = locals;
+
+  if (!pb) {
+    return json({ error: "Server misconfiguration." }, { status: 500 });
   }
 
-  const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000);
+  let payload: Record<string, unknown>;
+  try {
+    payload = await request.json();
+  } catch (err) {
+    console.error("Invalid feedback payload:", err);
+    return json({ error: "Invalid JSON payload." }, { status: 400 });
+  }
+
+  const description =
+    typeof payload.description === "string" ? payload.description.trim() : "";
+  const field = typeof payload.field === "string" ? payload.field.trim() : "";
+  const token = typeof payload.token === "string" ? payload.token.trim() : "";
+  const providedEmail =
+    typeof payload.email === "string" && payload.email.trim().length > 0
+      ? payload.email.trim().toLowerCase()
+      : undefined;
+  const providedUser =
+    typeof payload.user === "string" && payload.user.trim().length > 0
+      ? payload.user.trim()
+      : undefined;
+
+  const activeUser = localsUser;
+  const userId = activeUser?.id ?? providedUser;
+  const email =
+    (activeUser?.email && activeUser.email.trim().toLowerCase()) ||
+    providedEmail;
+
+  if (!description) {
+    return json({ error: "Description is required." }, { status: 400 });
+  }
+
+  if (!field) {
+    return json({ error: "Feedback field is required." }, { status: 400 });
+  }
+
+  if (!token) {
+    return json({ error: "Please confirm you are not a robot." }, { status: 400 });
+  }
+
+  if (!email) {
+    return json({ error: "Email is required." }, { status: 400 });
+  }
 
   try {
-    // Query the feedback collection for entries created by this user in the last 15 minutes
-    const feedbackList = await pb.collection("feedback").getFullList({
-      filter: `user="${userId}"`
+    const response = await fetch("/api/turnstile", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ token }),
     });
 
-    const recentFeedbacks = feedbackList?.filter(item => new Date(item?.created) >= fifteenMinutesAgo);
-    // If the user has already submitted 2 feedback entries, prevent new submission
-    if (recentFeedbacks?.length >= 2) {
-      return new Response(
-        JSON.stringify({ error: "Rate limit exceeded. Please wait before submitting more feedback." }),
-        { status: 429 }
+    const verification = await response.json().catch(() => ({}));
+
+    if (!response.ok || !verification?.success) {
+      return json(
+        {
+          error:
+            verification?.message ??
+            "Turnstile verification failed. Please try again.",
+        },
+        { status: 400 },
       );
     }
   } catch (err) {
-    console.error("Error checking recent feedback:", err);
-    return new Response(JSON.stringify({ error: "Server error" }), { status: 500 });
+    console.error("Turnstile verification error:", err);
+    return json(
+      {
+        error:
+          "Unable to verify Turnstile response. Please refresh and try again.",
+      },
+      { status: 500 },
+    );
   }
 
-  // Create the feedback entry since the user hasn't exceeded the limit
-  let output = "failure";
+  const since = new Date(Date.now() - RATE_LIMIT_WINDOW_MS).toISOString();
+  const identifierFilters: string[] = [];
+
+  if (userId) identifierFilters.push(`user="${userId}"`);
+  if (email) identifierFilters.push(`email="${email}"`);
+  if (clientIp) identifierFilters.push(`ipAddress="${clientIp}"`);
+
+  if (identifierFilters.length > 0) {
+    const filter = `(${identifierFilters.join(
+      " || ",
+    )}) && created >= "${since}"`;
+    try {
+      const recentSubmissions = await pb.collection("feedback").getFullList({
+        filter,
+        sort: "-created",
+      });
+
+      if (recentSubmissions.length >= MAX_SUBMISSIONS_PER_WINDOW) {
+        return json(
+          {
+            error:
+              "Rate limit exceeded. Please wait before submitting more feedback.",
+          },
+          { status: 429 },
+        );
+      }
+    } catch (err) {
+      console.error("Error checking recent feedback:", err);
+      return json({ error: "Server error." }, { status: 500 });
+    }
+  }
+
   try {
     await pb.collection("feedback").create({
-      user: userId,
-      description: data.description,
-      rating: data.rating,
-      category: data.category
+      user: userId || null,
+      description,
+      email,
+      field,
+      ipAddress: clientIp,
     });
-    output = "success";
-  } catch (e) {
-    console.error("Error creating feedback:", e);
-    output = "failure";
-  }
 
-  return new Response(JSON.stringify({ status: output }));
+    return json({ status: "success" }, { status: 201 });
+  } catch (err) {
+    console.error("Error creating feedback:", err);
+    return json({ error: "Failed to submit feedback." }, { status: 500 });
+  }
 };

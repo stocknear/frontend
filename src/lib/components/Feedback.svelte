@@ -1,24 +1,48 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import { page } from "$app/stores";
+  import { Turnstile } from "svelte-turnstile";
 
   import Question from "lucide-svelte/icons/message-circle-question";
 
-  export let data: { user?: { id?: string } } | undefined;
+  export let data;
 
   let description = "";
   let email = "";
   let pageUrl = "";
+  let isSubmitting = false;
+  let turnstileToken = "";
+  let turnstileReset: (() => void) | undefined;
 
   $: {
-    if (typeof window !== "undefined" && $page?.url?.pathname) {
-      pageUrl = window.location.origin + $page.url.pathname;
+    if (typeof window !== "undefined" && $page?.url) {
+      pageUrl = window.location.href;
     }
   }
 
+  $: {
+    if (data?.user?.id && data.user.email) {
+      email = data.user.email.trim();
+    }
+  }
+
+  const resetTurnstile = () => {
+    turnstileToken = "";
+    turnstileReset?.();
+  };
+
+  const handleTurnstileCallback = (event: CustomEvent<{ token: string }>) => {
+    turnstileToken = event?.detail?.token ?? "";
+  };
+
+  const handleTurnstileFailure = () => {
+    resetTurnstile();
+  };
+
   async function sendFeedback() {
+    if (isSubmitting) return;
+
     if (!description.trim()) {
       toast.error("Please describe your issue or suggestion.", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${
@@ -28,26 +52,58 @@
       return;
     }
 
-    const closeEl = document.getElementById("feedbackModal");
-    closeEl?.dispatchEvent(new MouseEvent("click"));
+    if (!data?.user?.id && !email.trim()) {
+      toast.error("Please provide your email address.", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${
+          $mode === "light" ? "#F9FAFB" : "#4B5563"
+        }; font-size: 15px;`,
+      });
+      return;
+    }
+
+    if (!turnstileToken) {
+      toast.error("Please confirm you are not a robot.", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${
+          $mode === "light" ? "#F9FAFB" : "#4B5563"
+        }; font-size: 15px;`,
+      });
+      return;
+    }
+
+    isSubmitting = true;
+
+    const fallbackUrl =
+      (typeof window !== "undefined" && window?.location?.href) ||
+      $page?.url?.href ||
+      "";
+    const fieldValue = pageUrl || fallbackUrl;
 
     const userId = data?.user?.id ?? "";
-
     const postData = {
-      user: userId,
-      rating: "", // not used in this layout
-      description,
-      category: "general",
+      user: userId || undefined,
+      description: description.trim(),
       email: email?.trim() || undefined,
-      page: pageUrl,
+      field: fieldValue,
+      token: turnstileToken,
     };
 
     try {
-      await fetch("/api/feedback", {
+      const response = await fetch("/api/feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(postData),
       });
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        const message =
+          result?.error ??
+          "Something went wrong sending feedback. Please try again.";
+        throw new Error(message);
+      }
+
+      const closeEl = document.getElementById("feedbackModal");
+      closeEl?.dispatchEvent(new MouseEvent("click"));
 
       toast.success("Thanks! Your feedback was sent.", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${
@@ -56,13 +112,22 @@
       });
 
       description = "";
-      email = "";
+      if (!data?.user?.id) {
+        email = "";
+      }
     } catch (e) {
-      toast.error("Something went wrong sending feedback.", {
+      const message =
+        e instanceof Error
+          ? e.message
+          : "Something went wrong sending feedback.";
+      toast.error(message, {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${
           $mode === "light" ? "#F9FAFB" : "#4B5563"
         }; font-size: 15px;`,
       });
+    } finally {
+      isSubmitting = false;
+      resetTurnstile();
     }
   }
 </script>
@@ -162,15 +227,34 @@
           readonly
         />
       </div>
+
+      <div class="pt-2">
+        <Turnstile
+          siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY}
+          bind:reset={turnstileReset}
+          on:callback={handleTurnstileCallback}
+          on:error={handleTurnstileFailure}
+          on:expired={handleTurnstileFailure}
+          on:timeout={handleTurnstileFailure}
+        />
+      </div>
     </div>
 
     <!-- Footer -->
     <div class="mt-8">
       <button
+        type="button"
         on:click={sendFeedback}
-        class="cursor-pointer px-5 py-2 rounded font-semibold text-sm bg-[#0b74ff] text-white hover:opacity-90 active:opacity-100"
+        class="flex items-center justify-center gap-2 cursor-pointer px-5 py-2 rounded font-semibold text-sm bg-[#0b74ff] text-white hover:opacity-90 active:opacity-100 disabled:opacity-60 disabled:cursor-not-allowed"
+        disabled={isSubmitting}
+        aria-busy={isSubmitting}
       >
-        Submit
+        {#if isSubmitting}
+          <span class="loading loading-infinity loading-sm"></span>
+          <span>Sending...</span>
+        {:else}
+          Submit
+        {/if}
       </button>
     </div>
   </div>
