@@ -10,6 +10,7 @@
   import Footer from "$lib/components/Footer.svelte";
   import Searchbar from "$lib/components/Searchbar.svelte";
   import NotificationBell from "$lib/components/NotificationBell.svelte";
+  import Feedback from "$lib/components/Feedback.svelte";
   //import PullToRefresh from '$lib/components/PullToRefresh.svelte';
 
   //import DiscountBanner from '$lib/components/DiscountBanner.svelte';
@@ -1681,11 +1682,17 @@
 </div>
 
 <!-- Floating AI Assistant -->
+<!--
 {#if $screenWidth >= 640}
   {#await import("$lib/components/Chat/Assistant.svelte") then { default: Comp }}
     <svelte:component this={Comp} {data} />
   {/await}
 {/if}
+
+-->
+{#await import("$lib/components/Feedback.svelte") then { default: Comp }}
+  <svelte:component this={Comp} {data} />
+{/await}
 
 <style lang="scss">
   :root {

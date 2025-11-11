@@ -82,9 +82,11 @@
 <div class="fixed z-[100] bottom-8 sm:bottom-10 right-8 sm:right-16">
   <label
     for="feedbackModal"
-    class="border inline-flex items-center justify-center w-12 h-12 sm:w-auto sm:h-10 font-semibold bg-black dark:bg-gray-100 border-gray-500 dark:border-gray-700 ml-1 mr-0 sm:mr-2 rounded-full cursor-pointer px-3 gap-2"
+    aria-label="Give Feedback"
+    class="flex fixed bottom-8 right-8 items-center gap-2 px-3 py-3 sm:px-4 sm:py-3 rounded-full bg-black dark:bg-white sm:hover:bg-default dark:hover:bg-gray-100 shadow hover:shadow-xl cursor-pointer pointer-events-auto text-white dark:text-black transition-all duration-50"
+    style="position: fixed !important; z-index: 99999 !important;"
   >
-    <Question class="w-5 h-5 text-white dark:text-black" />
+    <Question class="size-5 text-white dark:text-black" />
     <span class="text-white dark:text-black hidden sm:inline text-md"
       >Give feedback</span
     >
@@ -168,7 +170,7 @@
     <div class="mt-8">
       <button
         on:click={sendFeedback}
-        class="w-28 h-11 rounded-md font-semibold bg-[#0b74ff] text-white hover:opacity-90 active:opacity-100"
+        class="cursor-pointer px-5 py-2 rounded font-semibold text-sm bg-[#0b74ff] text-white hover:opacity-90 active:opacity-100"
       >
         Submit
       </button>
