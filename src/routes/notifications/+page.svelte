@@ -23,8 +23,8 @@
 
   type NotificationEntry = NotificationRecord | null | undefined;
 
-  let notificationList: NotificationEntry[] =
-    (data?.notifications?.items ?? []) as NotificationEntry[];
+  let notificationList: NotificationEntry[] = (data?.notifications?.items ??
+    []) as NotificationEntry[];
   let totalItems =
     data?.notifications?.totalItems ?? notificationList?.length ?? 0;
   let totalPages =
@@ -457,9 +457,7 @@
     overrideIds?: string[];
   };
 
-  async function updateNotifications(
-    options: UpdateNotificationsOptions = {},
-  ) {
+  async function updateNotifications(options: UpdateNotificationsOptions = {}) {
     const { mutateClient = false, overrideIds } = options;
     if (!mounted || typeof window === "undefined" || updateInFlight) return;
 
@@ -705,6 +703,26 @@
                     </DropdownMenu.Group>
                   </DropdownMenu.Content>
                 </DropdownMenu.Root>
+              </div>
+              <div class="flex items-center ml-2 w-fit">
+                <label
+                  for="deleteNotifications"
+                  class="cursor-pointer py-2 w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center w-full sm:w-auto px-3 rounded truncate"
+                >
+                  <svg
+                    class="size-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    style="max-width:40px"
+                    ><path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    ></path></svg
+                  >
+                </label>
               </div>
             </div>
           </div>
@@ -1082,3 +1100,57 @@
     </div>
   </div>
 </section>
+
+<input type="checkbox" id="deleteNotifications" class="modal-toggle" />
+
+<dialog id="deleteNotifications" class="modal modal-middle p-3 sm:p-0">
+  <label for="deleteNotifications" class="cursor-pointer modal-backdrop"
+  ></label>
+
+  <div
+    class="modal-box w-full p-6 rounded border
+        bg-white dark:bg-secondary border border-gray-300 dark:border-gray-600"
+  >
+    <h3 class="text-lg font-medium mb-2">Delete All Notifications</h3>
+    <p class="text-sm mb-6">
+      Are you sure you want to delete all notifications? This action cannot be
+      undone.
+    </p>
+    <div class="flex justify-end space-x-3">
+      <label
+        for="deleteNotifications"
+        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
+            transition-colors duration-100
+            bg-black text-white dark:bg-white dark:text-black"
+        tabindex="0">Cancel</label
+      ><label
+        for="deleteNotifications"
+        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
+            transition-colors duration-100 flex items-center
+            bg-red-600 text-white
+            "
+        tabindex="0"
+        ><svg
+          stroke="currentColor"
+          fill="none"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-4 h-4 mr-2"
+          height="1em"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+          ><polyline points="3 6 5 6 21 6"></polyline><path
+            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+          ></path><line x1="10" y1="11" x2="10" y2="17"></line><line
+            x1="14"
+            y1="11"
+            x2="14"
+            y2="17"
+          ></line></svg
+        >Delete Notifications</label
+      >
+    </div>
+  </div>
+</dialog>
