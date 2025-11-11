@@ -44,6 +44,8 @@
   let updateInFlight = false;
   let notificationChannels = data?.notificationChannels ?? null;
   let unreadNotificationCount = 0;
+  let globalUnreadCount = 0;
+  let totalKnownUnread = 0;
   let markAllDisabled = true;
 
   const extractChannelSettings = (record: Record<string, unknown> | null) =>
@@ -349,7 +351,35 @@
 
   $: unreadNotificationCount =
     getUnreadNotificationIds(notificationList).length;
-  $: markAllDisabled = updateInFlight || unreadNotificationCount === 0;
+  $: globalUnreadCount = Number($numberOfUnreadNotification ?? 0);
+  $: totalKnownUnread = Math.max(unreadNotificationCount, globalUnreadCount);
+  $: markAllDisabled = updateInFlight || totalKnownUnread === 0;
+
+  async function fetchAllUnreadNotificationIds() {
+    if (typeof window === "undefined") {
+      return [];
+    }
+
+    try {
+      const response = await fetch("/api/get-notifications", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ readed: false }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch unread notifications");
+      }
+
+      const unreadItems = (await response.json()) as NotificationEntry[];
+      return getUnreadNotificationIds(unreadItems);
+    } catch (error) {
+      console.error("Failed to fetch unread notifications", error);
+      return [];
+    }
+  }
 
   function buildSearchParams(targetPage: number, perPage: number) {
     const params = new URLSearchParams($page.url.searchParams);
@@ -424,20 +454,21 @@
 
   type UpdateNotificationsOptions = {
     mutateClient?: boolean;
+    overrideIds?: string[];
   };
 
   async function updateNotifications(
     options: UpdateNotificationsOptions = {},
   ) {
-    const { mutateClient = false } = options;
+    const { mutateClient = false, overrideIds } = options;
     if (!mounted || typeof window === "undefined" || updateInFlight) return;
 
-    const notificationIdList = getUnreadNotificationIds(notificationList);
+    const notificationIdList =
+      Array.isArray(overrideIds) && overrideIds.length > 0
+        ? overrideIds
+        : getUnreadNotificationIds(notificationList);
 
     if (notificationIdList.length === 0) {
-      if ($numberOfUnreadNotification !== 0) {
-        $numberOfUnreadNotification = 0;
-      }
       return;
     }
 
@@ -473,7 +504,18 @@
         });
       }
 
-      $numberOfUnreadNotification = 0;
+      const currentUnreadTotal =
+        typeof $numberOfUnreadNotification === "number"
+          ? $numberOfUnreadNotification
+          : 0;
+      const nextUnreadTotal = Math.max(
+        currentUnreadTotal - notificationIdList.length,
+        0,
+      );
+
+      if ($numberOfUnreadNotification !== nextUnreadTotal) {
+        $numberOfUnreadNotification = nextUnreadTotal;
+      }
     } catch (error) {
       console.error("Failed to update notifications", error);
     } finally {
@@ -486,7 +528,22 @@
       return;
     }
 
-    await updateNotifications({ mutateClient: true });
+    const localUnreadIds = getUnreadNotificationIds(notificationList);
+    const shouldFetchAll =
+      totalKnownUnread > unreadNotificationCount || localUnreadIds.length === 0;
+
+    const targetIds = shouldFetchAll
+      ? await fetchAllUnreadNotificationIds()
+      : localUnreadIds;
+
+    if (targetIds.length === 0) {
+      return;
+    }
+
+    await updateNotifications({
+      mutateClient: true,
+      overrideIds: targetIds,
+    });
   }
 
   onMount(async () => {
