@@ -2,7 +2,6 @@
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import { page } from "$app/stores";
-  import { Turnstile } from "svelte-turnstile";
 
   import Question from "lucide-svelte/icons/message-circle-question";
 
@@ -12,11 +11,7 @@
   let email = "";
   let pageUrl = "";
   let isSubmitting = false;
-  let turnstileToken = "";
   let isModalOpen = false;
-  let shouldRenderTurnstile = false;
-  let turnstileReset: (() => void) | undefined;
-  let pendingTurnstileRefresh = false;
 
   $: {
     if (typeof window !== "undefined" && $page?.url) {
@@ -29,46 +24,6 @@
       email = data.user.email.trim();
     }
   }
-
-  const clearTurnstileToken = () => {
-    turnstileToken = "";
-  };
-
-  const refreshTurnstile = () => {
-    clearTurnstileToken();
-    turnstileReset?.();
-  };
-
-  let previousModalState = false;
-  $: if (isModalOpen !== previousModalState) {
-    if (isModalOpen) {
-      shouldRenderTurnstile = true;
-      pendingTurnstileRefresh = true;
-      clearTurnstileToken();
-    } else {
-      pendingTurnstileRefresh = false;
-      clearTurnstileToken();
-    }
-    previousModalState = isModalOpen;
-  }
-
-  $: if (pendingTurnstileRefresh && shouldRenderTurnstile && turnstileReset) {
-    refreshTurnstile();
-    pendingTurnstileRefresh = false;
-  }
-
-  const handleTurnstileCallback = (event: CustomEvent<{ token: string }>) => {
-    turnstileToken = event?.detail?.token ?? "";
-  };
-
-  const handleTurnstileExpired = () => {
-    refreshTurnstile();
-  };
-
-  const handleTurnstileError = (event: CustomEvent<{ code: string }>) => {
-    console.warn("Turnstile error:", event?.detail?.code);
-    clearTurnstileToken();
-  };
 
   async function sendFeedback() {
     if (isSubmitting) return;
@@ -91,15 +46,6 @@
       return;
     }
 
-    if (!turnstileToken) {
-      toast.error("Please confirm you are not a robot.", {
-        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${
-          $mode === "light" ? "#F9FAFB" : "#4B5563"
-        }; font-size: 15px;`,
-      });
-      return;
-    }
-
     isSubmitting = true;
 
     const fallbackUrl =
@@ -114,7 +60,6 @@
       description: description.trim(),
       email: email?.trim() || undefined,
       url: urlValue,
-      token: turnstileToken,
     };
 
     try {
@@ -156,11 +101,6 @@
       });
     } finally {
       isSubmitting = false;
-      if (isModalOpen) {
-        refreshTurnstile();
-      } else {
-        clearTurnstileToken();
-      }
     }
   }
 </script>
@@ -266,19 +206,6 @@
           readonly
         />
       </div>
-
-      {#if shouldRenderTurnstile}
-        <div class="pt-2">
-          <Turnstile
-            siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY}
-            bind:reset={turnstileReset}
-            on:callback={handleTurnstileCallback}
-            on:expired={handleTurnstileExpired}
-            on:timeout={handleTurnstileExpired}
-            on:error={handleTurnstileError}
-          />
-        </div>
-      {/if}
     </div>
 
     <!-- Footer -->

@@ -1689,9 +1689,11 @@
 {/if}
 
 -->
-{#await import("$lib/components/Feedback.svelte") then { default: Comp }}
-  <svelte:component this={Comp} {data} />
-{/await}
+{#if data?.user?.id}
+  {#await import("$lib/components/Feedback.svelte") then { default: Comp }}
+    <svelte:component this={Comp} {data} />
+  {/await}
+{/if}
 
 <style lang="scss">
   :root {

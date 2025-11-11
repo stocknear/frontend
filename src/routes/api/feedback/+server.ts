@@ -4,7 +4,7 @@ import type { RequestHandler } from "./$types";
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const MAX_SUBMISSIONS_PER_WINDOW = 2;
 
-export const POST: RequestHandler = async ({ request, locals, fetch }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
   const { pb, user: localsUser, clientIp } = locals;
 
   if (!pb) {
@@ -22,7 +22,6 @@ export const POST: RequestHandler = async ({ request, locals, fetch }) => {
   const description =
     typeof payload.description === "string" ? payload.description.trim() : "";
   const url = typeof payload.url === "string" ? payload.url.trim() : "";
-  const token = typeof payload.token === "string" ? payload.token.trim() : "";
   const providedEmail =
     typeof payload.email === "string" && payload.email.trim().length > 0
       ? payload.email.trim().toLowerCase()
@@ -46,44 +45,8 @@ export const POST: RequestHandler = async ({ request, locals, fetch }) => {
     return json({ error: "Feedback URL is required." }, { status: 400 });
   }
 
-  if (!token) {
-    return json({ error: "Please confirm you are not a robot." }, { status: 400 });
-  }
-
   if (!email) {
     return json({ error: "Email is required." }, { status: 400 });
-  }
-
-  try {
-    const response = await fetch("/api/turnstile", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ token }),
-    });
-
-    const verification = await response.json().catch(() => ({}));
-
-    if (!response.ok || !verification?.success) {
-      return json(
-        {
-          error:
-            verification?.message ??
-            "Turnstile verification failed. Please try again.",
-        },
-        { status: 400 },
-      );
-    }
-  } catch (err) {
-    console.error("Turnstile verification error:", err);
-    return json(
-      {
-        error:
-          "Unable to verify Turnstile response. Please refresh and try again.",
-      },
-      { status: 500 },
-    );
   }
 
   const since = new Date(Date.now() - RATE_LIMIT_WINDOW_MS).toISOString();
