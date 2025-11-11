@@ -10,7 +10,6 @@
   import Footer from "$lib/components/Footer.svelte";
   import Searchbar from "$lib/components/Searchbar.svelte";
   import NotificationBell from "$lib/components/NotificationBell.svelte";
-
   //import PullToRefresh from '$lib/components/PullToRefresh.svelte';
 
   //import DiscountBanner from '$lib/components/DiscountBanner.svelte';

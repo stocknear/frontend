@@ -66,6 +66,262 @@
     return acc;
   }, {});
 
+  const toArray = <T,>(input: T[] | undefined | null): T[] =>
+    Array.isArray(input) ? input : [];
+
+  const parseDate = (input?: string | Date | null) => {
+    if (!input) return null;
+    const dateObj = input instanceof Date ? input : new Date(input);
+    return Number.isNaN(dateObj.getTime()) ? null : dateObj;
+  };
+
+  const sortByDateDesc = (entries: Array<Record<string, any>>, key = "date") =>
+    [...entries].sort((a, b) => {
+      const dateA = parseDate(a?.[key]);
+      const dateB = parseDate(b?.[key]);
+      return (dateB?.getTime() ?? 0) - (dateA?.getTime() ?? 0);
+    });
+
+  const formatDateLabel = (
+    date: Date | null,
+    options: Intl.DateTimeFormatOptions,
+  ) => {
+    if (!date) return null;
+    return new Intl.DateTimeFormat("en-US", options).format(date);
+  };
+
+  const formatFootnote = (isoString?: string | null) => {
+    if (!isoString) return null;
+    return formatDateLabel(new Date(isoString), {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      timeZone: "America/New_York",
+    });
+  };
+
+  const formatPercent = (value?: number | null) => {
+    if (typeof value !== "number" || Number.isNaN(value)) return null;
+    return `${value >= 0 ? "+" : ""}${value.toFixed(2)}%`;
+  };
+
+  const truncate = (value?: string | null, maxLength = 160) => {
+    if (!value) return "";
+    return value.length > maxLength
+      ? `${value.slice(0, maxLength - 3)}...`
+      : value;
+  };
+
+  const slugify = (value: string) =>
+    value
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "") || "note";
+
+  const scheduleEntries = toArray(rawData);
+  const executiveOrderEntries = toArray(executiveOrders);
+  const truthSocialEntries = toArray(posts);
+
+  const scheduleSorted = sortByDateDesc(scheduleEntries);
+  const ordersSorted = sortByDateDesc(executiveOrderEntries);
+  const postsSorted = sortByDateDesc(truthSocialEntries);
+
+  const latestScheduleEntry = scheduleSorted[0] ?? null;
+  const latestOrder = ordersSorted[0] ?? null;
+  const latestPost = postsSorted[0] ?? null;
+
+  const latestScheduleDate = parseDate(latestScheduleEntry?.date);
+  const latestOrderDate = parseDate(latestOrder?.date);
+  const latestPostDate = parseDate(latestPost?.date);
+  const latestScheduleDateISO = latestScheduleDate?.toISOString() ?? null;
+  const latestOrderDateISO = latestOrderDate?.toISOString() ?? null;
+  const latestPostDateISO = latestPostDate?.toISOString() ?? null;
+
+  const MS_IN_DAY = 24 * 60 * 60 * 1000;
+  const now = new Date();
+  const ordersLast30Days = ordersSorted.filter((order) => {
+    const date = parseDate(order?.date);
+    return date && now.getTime() - date.getTime() <= 30 * MS_IN_DAY;
+  }).length;
+  const scheduleEventsLast48h = scheduleSorted.filter((entry) => {
+    const date = parseDate(entry?.date);
+    return date && now.getTime() - date.getTime() <= 2 * MS_IN_DAY;
+  }).length;
+  const postsLast7Days = postsSorted.filter((post) => {
+    const date = parseDate(post?.date);
+    return date && now.getTime() - date.getTime() <= 7 * MS_IN_DAY;
+  }).length;
+
+  const sp500TickerSymbol = sectorDict["S&P500"];
+  const sp500Performance =
+    data?.getData?.marketPerformance?.[sp500TickerSymbol]?.Inauguration ?? null;
+  const sp500PerformanceDisplay = formatPercent(sp500Performance);
+
+  const candidateDates = [
+    latestScheduleDate,
+    latestOrderDate,
+    latestPostDate,
+  ].filter((date): date is Date => Boolean(date));
+  const datasetUpdatedISO =
+    candidateDates.length > 0
+      ? new Date(
+          Math.max(...candidateDates.map((date) => date.getTime())),
+        ).toISOString()
+      : new Date().toISOString();
+  const datasetUpdatedLabel = formatFootnote(datasetUpdatedISO);
+  const latestOrderDateLabel = formatFootnote(latestOrderDateISO);
+  const latestScheduleDateLabel = formatFootnote(latestScheduleDateISO);
+  const latestPostDateLabel = formatFootnote(latestPostDateISO);
+  const latestOrderTitle =
+    truncate(latestOrder?.title, 90) || "Untitled executive action";
+  const latestScheduleSummary =
+    truncate(latestScheduleEntry?.details, 140) || "Details pending.";
+  const latestScheduleLocation = latestScheduleEntry?.location ?? null;
+
+  type ResearchNoteBase = {
+    id: string;
+    title: string;
+    value: string;
+    description: string;
+    category: string;
+    updatedISO: string | null;
+    footnote?: string;
+  };
+
+  const researchNoteCandidates: ResearchNoteBase[] = [];
+
+  if (sp500PerformanceDisplay) {
+    researchNoteCandidates.push({
+      id: "sp500-inauguration-performance",
+      title: "S&P 500 since Inauguration Day",
+      value: sp500PerformanceDisplay,
+      description:
+        "Percent change in SPY (S&P 500 proxy) since Jan 20, 2025 using Stocknear POTUS market-performance data.",
+      category: "Market Pulse",
+      updatedISO: datasetUpdatedISO,
+      footnote: datasetUpdatedLabel
+        ? `Compared through ${datasetUpdatedLabel}`
+        : undefined,
+    });
+  }
+
+  researchNoteCandidates.push({
+    id: "executive-orders-last-30-days",
+    title: "Executive orders in the last 30 days",
+    value: ordersLast30Days.toString(),
+    description:
+      ordersLast30Days > 0 && latestOrder
+        ? `Latest order ("${latestOrderTitle}") filed ${latestOrderDateLabel ?? "recently"}.`
+        : "No executive orders recorded in the last 30 days within Stocknear's executive-orders dataset.",
+    category: "Policy Tracker",
+    updatedISO: latestOrderDateISO,
+    footnote: latestOrderDateLabel
+      ? `Last filing recorded ${latestOrderDateLabel}`
+      : undefined,
+  });
+
+  researchNoteCandidates.push({
+    id: "schedule-items-last-48-hours",
+    title: "Schedule items logged in 48 hours",
+    value: scheduleEventsLast48h.toString(),
+    description:
+      scheduleEventsLast48h > 0 && latestScheduleEntry
+        ? `Most recent entry on ${latestScheduleDateLabel ?? "the latest update"} – ${latestScheduleSummary}`
+        : "No West Wing schedule items captured in the last 48 hours.",
+    category: "Schedule Intel",
+    updatedISO: latestScheduleDateISO,
+    footnote:
+      latestScheduleLocation && scheduleEventsLast48h > 0
+        ? `Location: ${latestScheduleLocation}`
+        : undefined,
+  });
+
+  researchNoteCandidates.push({
+    id: "truth-social-posts-last-week",
+    title: "Truth Social posts captured (7D)",
+    value: postsLast7Days.toString(),
+    description:
+      postsLast7Days > 0 && latestPostDateLabel
+        ? `Latest capture on ${latestPostDateLabel} from @realDonaldTrump.`
+        : "No Truth Social posts ingested in the last 7 days.",
+    category: "Messaging",
+    updatedISO: latestPostDateISO,
+  });
+
+  type ResearchNote = ResearchNoteBase & { anchor: string };
+  const researchNotes: ResearchNote[] = researchNoteCandidates.map((note) => {
+    const slug = slugify(note.id || note.title);
+    return {
+      ...note,
+      anchor: `research-${slug}`,
+    };
+  });
+
+  const baseUrl = "https://stocknear.com";
+  const potusPageUrl = `${baseUrl}/potus-tracker`;
+  const webAppStructuredData = {
+    "@type": "WebApplication",
+    name: "POTUS Tracker - Stocknear",
+    description:
+      "Real-time tracking of presidential activities and their market impact",
+    applicationCategory: "FinanceApplication",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    featureList: [
+      "Presidential schedule tracking",
+      "Executive order monitoring",
+      "Truth Social post analysis",
+      "Market performance correlation",
+      "Sector impact analysis",
+      "Real-time updates",
+    ],
+  };
+
+  const researchNotesDatasetDescription =
+    "Citation-ready facts sourced from Stocknear's POTUS schedule, executive order, Truth Social, and market-performance datasets.";
+
+  const datasetStructuredData =
+    researchNotes.length > 0
+      ? {
+          "@type": "Dataset",
+          name: "Stocknear POTUS Tracker Research Notes",
+          description: researchNotesDatasetDescription,
+          url: potusPageUrl,
+          inLanguage: "en",
+          dateModified: datasetUpdatedISO,
+          creator: {
+            "@type": "Organization",
+            name: "Stocknear",
+            url: baseUrl,
+          },
+          distribution: researchNotes.map((note) => ({
+            "@type": "DataDownload",
+            encodingFormat: "text/html",
+            contentUrl: `${potusPageUrl}#${note.anchor}`,
+            name: note.title,
+            description: note.description,
+          })),
+          variableMeasured: researchNotes.map((note) => ({
+            "@type": "PropertyValue",
+            name: note.title,
+            value: note.value,
+            description: note.description,
+          })),
+        }
+      : null;
+
+  const structuredDataGraph = {
+    "@context": "https://schema.org",
+    "@graph": datasetStructuredData
+      ? [webAppStructuredData, datasetStructuredData]
+      : [webAppStructuredData],
+  };
+
   const tabs = [
     {
       title: "Presidential Schedule",
@@ -395,27 +651,7 @@
   title="POTUS Tracker: Real-Time Presidential Schedule, Executive Orders & Market Impact"
   description="Track President Trump's daily schedule, executive orders, and Truth Social posts. Monitor real-time market reactions to presidential actions with S&P 500 and sector performance analytics."
   keywords="POTUS tracker, Trump schedule, executive orders, presidential actions, market impact, Truth Social posts, S&P 500 performance, sector analysis, Trump administration, presidential calendar"
-  structuredData={{
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "POTUS Tracker - Stocknear",
-    description:
-      "Real-time tracking of presidential activities and their market impact",
-    applicationCategory: "FinanceApplication",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-    },
-    featureList: [
-      "Presidential schedule tracking",
-      "Executive order monitoring",
-      "Truth Social post analysis",
-      "Market performance correlation",
-      "Sector impact analysis",
-      "Real-time updates",
-    ],
-  }}
+  structuredData={structuredDataGraph}
 />
 
 <section
