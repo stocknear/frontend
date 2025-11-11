@@ -15,7 +15,16 @@
   const rowsPerPageOptions = [10, 20, 50];
   const DEFAULT_ROWS_PER_PAGE = rowsPerPageOptions[0];
 
-  let notificationList = data?.notifications?.items ?? [];
+  type NotificationRecord = {
+    id?: string;
+    readed?: boolean;
+    [key: string]: unknown;
+  };
+
+  type NotificationEntry = NotificationRecord | null | undefined;
+
+  let notificationList: NotificationEntry[] =
+    (data?.notifications?.items ?? []) as NotificationEntry[];
   let totalItems =
     data?.notifications?.totalItems ?? notificationList?.length ?? 0;
   let totalPages =
@@ -34,6 +43,8 @@
   let pendingRowsChange = false;
   let updateInFlight = false;
   let notificationChannels = data?.notificationChannels ?? null;
+  let unreadNotificationCount = 0;
+  let markAllDisabled = true;
 
   const extractChannelSettings = (record: Record<string, unknown> | null) =>
     record
@@ -257,7 +268,7 @@
       perPage,
     } = data.notifications;
 
-    notificationList = items ?? [];
+    notificationList = (items ?? []) as NotificationEntry[];
     totalItems = total ?? items?.length ?? 0;
     totalPages =
       pages ??
@@ -312,6 +323,33 @@
 
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
+
+  const getUnreadNotificationIds = (
+    list: NotificationEntry[] | null | undefined,
+  ) => {
+    const ids: string[] = [];
+
+    if (!list) {
+      return ids;
+    }
+
+    for (const item of list) {
+      if (
+        item &&
+        item.readed === false &&
+        typeof item?.id === "string" &&
+        item.id.length > 0
+      ) {
+        ids.push(item.id);
+      }
+    }
+
+    return ids;
+  };
+
+  $: unreadNotificationCount =
+    getUnreadNotificationIds(notificationList).length;
+  $: markAllDisabled = updateInFlight || unreadNotificationCount === 0;
 
   function buildSearchParams(targetPage: number, perPage: number) {
     const params = new URLSearchParams($page.url.searchParams);
@@ -384,19 +422,22 @@
     }
   }
 
-  async function updateNotifications() {
+  type UpdateNotificationsOptions = {
+    mutateClient?: boolean;
+  };
+
+  async function updateNotifications(
+    options: UpdateNotificationsOptions = {},
+  ) {
+    const { mutateClient = false } = options;
     if (!mounted || typeof window === "undefined" || updateInFlight) return;
 
-    const notificationIdList: string[] = [];
-
-    for (const item of notificationList ?? []) {
-      if (item && item.readed === false) {
-        notificationIdList.push(item.id);
-      }
-    }
+    const notificationIdList = getUnreadNotificationIds(notificationList);
 
     if (notificationIdList.length === 0) {
-      $numberOfUnreadNotification = 0;
+      if ($numberOfUnreadNotification !== 0) {
+        $numberOfUnreadNotification = 0;
+      }
       return;
     }
 
@@ -414,12 +455,38 @@
         },
         body: JSON.stringify(postData),
       });
+
+      if (mutateClient) {
+        const unreadIdSet = new Set(notificationIdList);
+        notificationList = notificationList.map((item) => {
+          if (
+            item &&
+            typeof item?.id === "string" &&
+            unreadIdSet.has(item.id)
+          ) {
+            return {
+              ...item,
+              readed: true,
+            };
+          }
+          return item;
+        });
+      }
+
       $numberOfUnreadNotification = 0;
     } catch (error) {
       console.error("Failed to update notifications", error);
     } finally {
       updateInFlight = false;
     }
+  }
+
+  async function markAllAsRead() {
+    if (markAllDisabled) {
+      return;
+    }
+
+    await updateNotifications({ mutateClient: true });
   }
 
   onMount(async () => {
@@ -487,9 +554,12 @@
               >
                 <Button
                   class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary  flex flex-row justify-between items-center  w-full sm:w-auto px-3 rounded truncate"
+                  on:click={markAllAsRead}
+                  disabled={markAllDisabled}
+                  aria-disabled={markAllDisabled}
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
-                    >Mark all as read</span
+                    >{updateInFlight ? "Marking..." : "Mark all as read"}</span
                   >
                 </Button>
               </div>
