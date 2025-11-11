@@ -13,7 +13,10 @@
   let pageUrl = "";
   let isSubmitting = false;
   let turnstileToken = "";
+  let isModalOpen = false;
+  let shouldRenderTurnstile = false;
   let turnstileReset: (() => void) | undefined;
+  let pendingTurnstileRefresh = false;
 
   $: {
     if (typeof window !== "undefined" && $page?.url) {
@@ -27,17 +30,44 @@
     }
   }
 
-  const resetTurnstile = () => {
+  const clearTurnstileToken = () => {
     turnstileToken = "";
+  };
+
+  const refreshTurnstile = () => {
+    clearTurnstileToken();
     turnstileReset?.();
   };
+
+  let previousModalState = false;
+  $: if (isModalOpen !== previousModalState) {
+    if (isModalOpen) {
+      shouldRenderTurnstile = true;
+      pendingTurnstileRefresh = true;
+      clearTurnstileToken();
+    } else {
+      pendingTurnstileRefresh = false;
+      clearTurnstileToken();
+    }
+    previousModalState = isModalOpen;
+  }
+
+  $: if (pendingTurnstileRefresh && shouldRenderTurnstile && turnstileReset) {
+    refreshTurnstile();
+    pendingTurnstileRefresh = false;
+  }
 
   const handleTurnstileCallback = (event: CustomEvent<{ token: string }>) => {
     turnstileToken = event?.detail?.token ?? "";
   };
 
-  const handleTurnstileFailure = () => {
-    resetTurnstile();
+  const handleTurnstileExpired = () => {
+    refreshTurnstile();
+  };
+
+  const handleTurnstileError = (event: CustomEvent<{ code: string }>) => {
+    console.warn("Turnstile error:", event?.detail?.code);
+    clearTurnstileToken();
   };
 
   async function sendFeedback() {
@@ -76,14 +106,14 @@
       (typeof window !== "undefined" && window?.location?.href) ||
       $page?.url?.href ||
       "";
-    const fieldValue = pageUrl || fallbackUrl;
+    const urlValue = pageUrl || fallbackUrl;
 
     const userId = data?.user?.id ?? "";
     const postData = {
       user: userId || undefined,
       description: description.trim(),
       email: email?.trim() || undefined,
-      field: fieldValue,
+      url: urlValue,
       token: turnstileToken,
     };
 
@@ -102,8 +132,7 @@
         throw new Error(message);
       }
 
-      const closeEl = document.getElementById("feedbackModal");
-      closeEl?.dispatchEvent(new MouseEvent("click"));
+      isModalOpen = false;
 
       toast.success("Thanks! Your feedback was sent.", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${
@@ -127,7 +156,11 @@
       });
     } finally {
       isSubmitting = false;
-      resetTurnstile();
+      if (isModalOpen) {
+        refreshTurnstile();
+      } else {
+        clearTurnstileToken();
+      }
     }
   }
 </script>
@@ -142,7 +175,7 @@
 <!-- Floating trigger (bottom-right), like your existing one -->
 <div class="fixed z-[100] bottom-8 sm:bottom-10 right-8 sm:right-16">
   <label
-    for="feedbackModal"
+    for="feedbackModalToggle"
     aria-label="Give Feedback"
     class="flex fixed bottom-8 right-8 items-center gap-2 px-3 py-3 sm:px-4 sm:py-3 rounded-full bg-black dark:bg-white sm:hover:bg-default dark:hover:bg-gray-100 shadow hover:shadow-xl cursor-pointer pointer-events-auto text-white dark:text-black transition-all duration-50"
     style="position: fixed !important; z-index: 99999 !important;"
@@ -156,14 +189,20 @@
 </div>
 
 <!-- Toggle for modal -->
-<input type="checkbox" id="feedbackModal" class="modal-toggle" />
+<input
+  type="checkbox"
+  id="feedbackModalToggle"
+  class="modal-toggle"
+  bind:checked={isModalOpen}
+/>
 
 <!-- Modal -->
 <dialog
   id="feedbackModal"
   class="modal overflow-hidden p-3 sm:p-0 bg-[#000]/30 text-muted dark:text-white"
 >
-  <label for="feedbackModal" class="cursor-pointer modal-backdrop"></label>
+  <label for="feedbackModalToggle" class="cursor-pointer modal-backdrop"
+  ></label>
 
   <div
     class="modal-box w-full max-w-4xl rounded bg-white dark:bg-secondary border border-gray-300 dark:border-gray-600"
@@ -172,7 +211,7 @@
     <div class="flex items-center justify-between">
       <h1 class="text-2xl font-bold">Give feedback</h1>
       <label
-        for="feedbackModal"
+        for="feedbackModalToggle"
         class="inline-block cursor-pointer text-[1.6rem]"
         aria-label="Close"
       >
@@ -228,16 +267,18 @@
         />
       </div>
 
-      <div class="pt-2">
-        <Turnstile
-          siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY}
-          bind:reset={turnstileReset}
-          on:callback={handleTurnstileCallback}
-          on:error={handleTurnstileFailure}
-          on:expired={handleTurnstileFailure}
-          on:timeout={handleTurnstileFailure}
-        />
-      </div>
+      {#if shouldRenderTurnstile}
+        <div class="pt-2">
+          <Turnstile
+            siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY}
+            bind:reset={turnstileReset}
+            on:callback={handleTurnstileCallback}
+            on:expired={handleTurnstileExpired}
+            on:timeout={handleTurnstileExpired}
+            on:error={handleTurnstileError}
+          />
+        </div>
+      {/if}
     </div>
 
     <!-- Footer -->

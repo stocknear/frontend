@@ -21,7 +21,7 @@ export const POST: RequestHandler = async ({ request, locals, fetch }) => {
 
   const description =
     typeof payload.description === "string" ? payload.description.trim() : "";
-  const field = typeof payload.field === "string" ? payload.field.trim() : "";
+  const url = typeof payload.url === "string" ? payload.url.trim() : "";
   const token = typeof payload.token === "string" ? payload.token.trim() : "";
   const providedEmail =
     typeof payload.email === "string" && payload.email.trim().length > 0
@@ -42,8 +42,8 @@ export const POST: RequestHandler = async ({ request, locals, fetch }) => {
     return json({ error: "Description is required." }, { status: 400 });
   }
 
-  if (!field) {
-    return json({ error: "Feedback field is required." }, { status: 400 });
+  if (!url) {
+    return json({ error: "Feedback URL is required." }, { status: 400 });
   }
 
   if (!token) {
@@ -123,7 +123,7 @@ export const POST: RequestHandler = async ({ request, locals, fetch }) => {
       user: userId || null,
       description,
       email,
-      field,
+      url,
       ipAddress: clientIp,
     });
 
