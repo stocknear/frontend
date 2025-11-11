@@ -5,7 +5,7 @@ const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const MAX_SUBMISSIONS_PER_WINDOW = 2;
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-  const { pb, user: localsUser, clientIp } = locals;
+  const { pb, user, clientIp } = locals;
 
   if (!pb) {
     return json({ error: "Server misconfiguration." }, { status: 500 });
@@ -22,20 +22,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   const description =
     typeof payload.description === "string" ? payload.description.trim() : "";
   const url = typeof payload.url === "string" ? payload.url.trim() : "";
-  const providedEmail =
-    typeof payload.email === "string" && payload.email.trim().length > 0
-      ? payload.email.trim().toLowerCase()
-      : undefined;
-  const providedUser =
-    typeof payload.user === "string" && payload.user.trim().length > 0
-      ? payload.user.trim()
-      : undefined;
+ 
+ 
 
-  const activeUser = localsUser;
-  const userId = activeUser?.id ?? providedUser;
-  const email =
-    (activeUser?.email && activeUser.email.trim().toLowerCase()) ||
-    providedEmail;
+  const userId = user?.id?.trim();
 
   if (!description) {
     return json({ error: "Description is required." }, { status: 400 });
@@ -45,15 +35,14 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     return json({ error: "Feedback URL is required." }, { status: 400 });
   }
 
-  if (!email) {
-    return json({ error: "Email is required." }, { status: 400 });
+  if (!userId ) {
+    return json({ error: "Authentication required to submit feedback." }, { status: 401 });
   }
 
   const since = new Date(Date.now() - RATE_LIMIT_WINDOW_MS).toISOString();
   const identifierFilters: string[] = [];
 
   if (userId) identifierFilters.push(`user="${userId}"`);
-  if (email) identifierFilters.push(`email="${email}"`);
   if (clientIp) identifierFilters.push(`ipAddress="${clientIp}"`);
 
   if (identifierFilters.length > 0) {
@@ -85,7 +74,6 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     await pb.collection("feedback").create({
       user: userId || null,
       description,
-      email,
       url,
       ipAddress: clientIp,
     });

@@ -8,7 +8,6 @@
   export let data;
 
   let description = "";
-  let email = "";
   let pageUrl = "";
   let isSubmitting = false;
   let isModalOpen = false;
@@ -19,17 +18,11 @@
     }
   }
 
-  $: {
-    if (data?.user?.id && data.user.email) {
-      email = data.user.email.trim();
-    }
-  }
-
   async function sendFeedback() {
     if (isSubmitting) return;
 
-    if (!description.trim()) {
-      toast.error("Please describe your issue or suggestion.", {
+    if (!data?.user?.id) {
+      toast.error("Please sign in before sending feedback.", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${
           $mode === "light" ? "#F9FAFB" : "#4B5563"
         }; font-size: 15px;`,
@@ -37,8 +30,8 @@
       return;
     }
 
-    if (!data?.user?.id && !email.trim()) {
-      toast.error("Please provide your email address.", {
+    if (!description.trim()) {
+      toast.error("Please describe your issue or suggestion.", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${
           $mode === "light" ? "#F9FAFB" : "#4B5563"
         }; font-size: 15px;`,
@@ -54,19 +47,14 @@
       "";
     const urlValue = pageUrl || fallbackUrl;
 
-    const userId = data?.user?.id ?? "";
-    const postData = {
-      user: userId || undefined,
-      description: description.trim(),
-      email: email?.trim() || undefined,
-      url: urlValue,
-    };
-
     try {
       const response = await fetch("/api/feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(postData),
+        body: JSON.stringify({
+          description: description.trim(),
+          url: urlValue,
+        }),
       });
       const result = await response.json().catch(() => ({}));
 
@@ -78,7 +66,6 @@
       }
 
       isModalOpen = false;
-
       toast.success("Thanks! Your feedback was sent.", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${
           $mode === "light" ? "#F9FAFB" : "#4B5563"
@@ -86,9 +73,6 @@
       });
 
       description = "";
-      if (!data?.user?.id) {
-        email = "";
-      }
     } catch (e) {
       const message =
         e instanceof Error
@@ -181,20 +165,6 @@
           bind:value={description}
         />
       </div>
-
-      {#if !data?.user?.id}
-        <div class="space-y-2">
-          <label class="block text-base font-semibold"
-            >Your email address:</label
-          >
-          <input
-            type="email"
-            class="input w-full h-12 dark:bg-gray-600 dark:bg-gray-200 border border-gray-300 dark:border-gray-800 focus:outline-none rounded-md px-3"
-            placeholder=""
-            bind:value={email}
-          />
-        </div>
-      {/if}
 
       <!-- Feedback for page -->
       <div class="space-y-2">
