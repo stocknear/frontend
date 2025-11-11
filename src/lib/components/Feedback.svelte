@@ -2,25 +2,21 @@
   import { onMount } from "svelte";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
+  import { page } from "$app/stores";
+
   import Question from "lucide-svelte/icons/message-circle-question";
 
   export let data: { user?: { id?: string } } | undefined;
-  export let pageUrl: string = "";
 
   let description = "";
   let email = "";
-  let page = pageUrl;
+  let pageUrl = "";
 
-  onMount(() => {
-    // Only set from location on client if not provided
-    if (!page) {
-      try {
-        page = window.location.href;
-      } catch {
-        page = "";
-      }
+  $: {
+    if (typeof window !== "undefined" && $page?.url?.pathname) {
+      pageUrl = window.location.origin + $page.url.pathname;
     }
-  });
+  }
 
   async function sendFeedback() {
     if (!description.trim()) {
@@ -43,7 +39,7 @@
       description,
       category: "general",
       email: email?.trim() || undefined,
-      page,
+      page: pageUrl,
     };
 
     try {
@@ -87,7 +83,8 @@
     style="position: fixed !important; z-index: 99999 !important;"
   >
     <Question class="size-5 text-white dark:text-black" />
-    <span class="text-white dark:text-black hidden sm:inline text-md"
+    <span
+      class="text-white dark:text-black hidden sm:inline text-md font-semibold"
       >Give feedback</span
     >
   </label>
@@ -99,7 +96,7 @@
 <!-- Modal -->
 <dialog
   id="feedbackModal"
-  class="modal overflow-hidden p-3 sm:p-0 bg-[#000]/30"
+  class="modal overflow-hidden p-3 sm:p-0 bg-[#000]/30 text-muted dark:text-white"
 >
   <label for="feedbackModal" class="cursor-pointer modal-backdrop"></label>
 
@@ -135,32 +132,33 @@
           >Describe your issue or suggestion:</label
         >
         <textarea
-          class="textarea w-full h-48 max-h-[600px] resize-vertical bg-white dark:bg-gray-200 border border-gray-300 dark:border-gray-800 focus:outline-none text-black placeholder-gray-500 rounded-md"
+          class="textarea w-full h-48 max-h-[600px] resize-vertical bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-800 focus:outline-none placeholder-gray-500 rounded-md"
           placeholder=""
           bind:value={description}
         />
       </div>
 
-      <!-- Email (optional) -->
-      <div class="space-y-2">
-        <label class="block text-base font-semibold"
-          >Your email address (optional):</label
-        >
-        <input
-          type="email"
-          class="input w-full h-12 bg-white dark:bg-gray-200 border border-gray-300 dark:border-gray-800 focus:outline-none text-black rounded-md px-3"
-          placeholder=""
-          bind:value={email}
-        />
-      </div>
+      {#if !data?.user?.id}
+        <div class="space-y-2">
+          <label class="block text-base font-semibold"
+            >Your email address:</label
+          >
+          <input
+            type="email"
+            class="input w-full h-12 dark:bg-gray-600 dark:bg-gray-200 border border-gray-300 dark:border-gray-800 focus:outline-none rounded-md px-3"
+            placeholder=""
+            bind:value={email}
+          />
+        </div>
+      {/if}
 
       <!-- Feedback for page -->
       <div class="space-y-2">
         <label class="block text-base font-semibold">Feedback for page:</label>
         <input
           type="text"
-          class="input w-full h-12 bg-white dark:bg-gray-200 border border-gray-300 dark:border-gray-800 focus:outline-none text-black rounded-md px-3"
-          bind:value={page}
+          class="input cursor-not-allowed w-full h-12 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-800 focus:outline-none rounded-md px-3"
+          bind:value={pageUrl}
           readonly
         />
       </div>
