@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { screenWidth } from "$lib/store";
-
   export let sources: Array<{
     name: string;
     description?: string;
@@ -25,7 +23,7 @@
 
   // State for expand/collapse
   let isExpanded = false;
-  const INITIAL_DISPLAY_COUNT = $screenWidth < 640 ? 3 : 6;
+  const INITIAL_DISPLAY_COUNT = 3;
 
   // Determine which sources to display
   $: displayedSources = isExpanded

@@ -375,8 +375,11 @@
         max: yMax ?? null,
         startOnTick: false,
         endOnTick: false,
-        gridLineColor: $mode === "light" ? "#e5e7eb" : "#1f2937",
+        gridLineColor:
+          $mode === "light" ? "rgb(31,41,55,0.6)" : "rgb(229,231,235,0.2)",
         gridLineWidth: 1,
+        gridLineDashStyle: "Dash",
+
         title: { text: null },
         opposite: true,
         labels: {
