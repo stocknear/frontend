@@ -52,6 +52,37 @@
     return Number.isFinite(n) ? n : fallback;
   }
 
+  function normalizePercentValue(value: any): number | null {
+    const parsed = safeParseFloat(value, NaN);
+    if (!Number.isFinite(parsed)) {
+      return null;
+    }
+    return Math.abs(parsed) <= 1 ? parsed * 100 : parsed;
+  }
+
+  function calculateSurprisePercent(
+    actualValue: any,
+    estimateValue: any,
+    providedPercent: any,
+  ): number {
+    const actual = safeParseFloat(actualValue, NaN);
+    const estimate = safeParseFloat(estimateValue, NaN);
+
+    if (
+      Number.isFinite(actual) &&
+      Number.isFinite(estimate) &&
+      Math.abs(estimate) > 1e-8
+    ) {
+      const surprise = ((actual - estimate) / Math.abs(estimate)) * 100;
+      if (Number.isFinite(surprise)) {
+        return surprise;
+      }
+    }
+
+    const normalizedProvided = normalizePercentValue(providedPercent);
+    return normalizedProvided ?? 0;
+  }
+
   // Function to change surprise type
   function changeSurprise(index: number) {
     timeIdx = index;
@@ -104,16 +135,22 @@
     if (timeIdx === 0) {
       // EPS Surprise selected
       dataList = sortedEarnings.map((item) => {
-        const surprise = safeParseFloat(item.eps_surprise_percent, 0);
-        return surprise;
+        return calculateSurprisePercent(
+          item.eps,
+          item.eps_est,
+          item.eps_surprise_percent,
+        );
       });
       seriesName = "EPS Surprise";
       seriesColor = $mode === "dark" ? "#60a5fa" : "#2C6288";
     } else {
       // Revenue Surprise selected
       dataList = sortedEarnings.map((item) => {
-        const surprise = safeParseFloat(item.revenue_surprise_percent, 0) * 100;
-        return surprise;
+        return calculateSurprisePercent(
+          item.revenue,
+          item.revenue_est,
+          item.revenue_surprise_percent,
+        );
       });
       seriesName = "Revenue Surprise";
       seriesColor = $mode === "dark" ? "#fbbf24" : "#ea580c";
