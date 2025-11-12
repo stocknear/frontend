@@ -13,13 +13,15 @@
   export let priceTargetUpside = 0;
   export let priceTarget = "n/a";
 
-  let info;
+  let info = data?.getStockDeck;
 
   let sector = "n/a";
   let industry = "n/a";
   let exchange = "n/a";
   let employees = "n/a";
-  let description = "";
+  let description =
+    info?.description ??
+    "A detailed description of the company is not yet available.";
   let website = "n/a";
   let snippet;
 
@@ -310,41 +312,36 @@
     return options;
   }
 
+  financialPerformance = info?.financialPerformance ?? {};
+  ipoDate =
+    info?.ipoDate !== null && info?.ipoDate?.length > 0
+      ? new Date(info?.ipoDate)?.toLocaleString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+          daySuffix: "2-digit",
+        })
+      : "n/a";
+
+  sector = info?.sector ?? "n/a";
+  industry = info?.industry ?? "n/a";
+  exchange = info?.exchange;
+  employees = info?.fullTimeEmployees || "n/a";
+
+  website = info?.website;
+  snippet = description?.slice(0, 450) + "...";
+
+  numOfAnalyst = data?.getAnalystSummary?.numOfAnalyst;
+  strongBuyCount = data?.getAnalystSummary?.strongBuy || 0;
+  buyCount = data?.getAnalystSummary?.buy || 0;
+  holdCount = data?.getAnalystSummary?.hold || 0;
+  sellCount = data?.getAnalystSummary?.sell || 0;
+  strongSellCount = data?.getAnalystSummary?.strongSell || 0;
+
+  consensusRating = data?.getAnalystSummary?.consensusRating;
+
   $: {
     if ($mode) {
-      info = data?.getStockDeck;
-      financialPerformance = info?.financialPerformance ?? {};
-      ipoDate =
-        info?.ipoDate !== null && info?.ipoDate?.length > 0
-          ? new Date(info?.ipoDate)?.toLocaleString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-              daySuffix: "2-digit",
-            })
-          : "n/a";
-
-      //ceoName = info?.ceoName?.length !== 0 ? getAbbreviatedName(info?.ceoName) : "-";
-      sector = info?.sector ?? "n/a";
-      industry = info?.industry ?? "n/a";
-      exchange = info?.exchange;
-      employees = info?.fullTimeEmployees || "n/a";
-      //country = info?.country ?? "n/a";
-      description =
-        info?.description ??
-        "A detailed description of the company is not yet available.";
-      website = info?.website;
-      snippet = description?.slice(0, 450) + "...";
-
-      numOfAnalyst = data?.getAnalystSummary?.numOfAnalyst;
-      strongBuyCount = data?.getAnalystSummary?.strongBuy || 0;
-      buyCount = data?.getAnalystSummary?.buy || 0;
-      holdCount = data?.getAnalystSummary?.hold || 0;
-      sellCount = data?.getAnalystSummary?.sell || 0;
-      strongSellCount = data?.getAnalystSummary?.strongSell || 0;
-
-      consensusRating = data?.getAnalystSummary?.consensusRating;
-
       deferFunction(() => {
         configAnalyst = plotAnalyst() || null;
         configFinancial = plotFinancial() || null;
