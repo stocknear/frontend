@@ -833,8 +833,8 @@
 </script>
 
 <SEO
-  title={`${$stockTicker} ${$currentPortfolioPrice !== null && $currentPortfolioPrice !== 0 ? $currentPortfolioPrice : "$" + data?.getStockQuote?.price?.toFixed(2)} ${displayLegend?.change >= 0 ? "▲" : "▼"} ${displayLegend?.change}% Live Trading Data`}
-  description={`Complete ${data?.companyName} (${$stockTicker}) stock analysis with real-time price ${$currentPortfolioPrice !== null && $currentPortfolioPrice !== 0 ? $currentPortfolioPrice : "$" + data?.getStockQuote?.price?.toFixed(2)}, earnings forecasts, financial statements, options flow analysis, and technical indicators. Market cap ${data?.getStockQuote?.marketCap ? "$" + (data.getStockQuote.marketCap / 1e9).toFixed(1) + "B" : "N/A"}. Professional-grade investment research and trading insights for ${$stockTicker} stock.`}
+  title={`${$stockTicker} ${$currentPortfolioPrice !== null && $currentPortfolioPrice !== 0 ? $currentPortfolioPrice : data?.getStockQuote?.price?.toFixed(2)} ${displayLegend?.change >= 0 ? "▲" : "▼"} ${displayLegend?.change}% Live Trading Data`}
+  description={`Complete ${data?.companyName} (${$stockTicker}) stock analysis with real-time price ${$currentPortfolioPrice !== null && $currentPortfolioPrice !== 0 ? $currentPortfolioPrice : data?.getStockQuote?.price?.toFixed(2)}, earnings forecasts, financial statements, options flow analysis, and technical indicators. Market cap ${data?.getStockQuote?.marketCap ? "$" + (data.getStockQuote.marketCap / 1e9).toFixed(1) + "B" : "N/A"}. Professional-grade investment research and trading insights for ${$stockTicker} stock.`}
   keywords={`${$stockTicker} stock analysis, ${data?.companyName} stock price, ${$stockTicker} real-time quotes, ${$stockTicker} earnings forecast, ${$stockTicker} financial data, ${$stockTicker} options analysis, ${$stockTicker} technical analysis, ${$stockTicker} investment research, stock market analysis, equity research, financial statements analysis, earnings reports, options flow`}
   type="article"
   structuredData={{
