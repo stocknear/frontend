@@ -791,7 +791,7 @@
       <div class="flex justify-end items-center w-full">
         <Button
           on:click={toggleMode}
-          class="w-fit border-gray-300 dark:border-gray-600 border bg-black sm:hover:bg-default text-white dark:text-black dark:bg-white dark:sm:hover:bg-gray-100 ease-out  flex flex-row justify-between items-center px-3 py-1.5  rounded truncate"
+          class="w-fit transition-all duration-50 bg-white dark:bg-secondary flex flex-row justify-between items-center  w-full sm:w-auto px-3 rounded truncate"
         >
           {#if chartMode === "bar"}
             <LineChart class="w-4.5 h-4.5" />

@@ -36,7 +36,7 @@
     }
 
     // Google Ads conversion tracking
-    /*
+
     if (typeof window !== "undefined" && window.gtag && value) {
       window?.gtag("event", "conversion", {
         send_to: "AW-11328922950/FfVkCPuTupcbEMbKhpoq",
@@ -45,7 +45,6 @@
         transaction_id: data?.user?.id || "",
       });
     }
-      */
 
     function randomInRange(min, max) {
       return Math.random() * (max - min) + min;
