@@ -6,8 +6,6 @@
   import { mode } from "mode-watcher";
   import { tick } from "svelte";
 
-  import { Turnstile } from "svelte-turnstile";
-
   export let data;
   export let rawData;
   export let title;
@@ -16,13 +14,6 @@
 
   let isSubscribed = ["Pro", "Plus"]?.includes(data?.user?.tier) ?? false;
   let isFetchingDownload = false;
-  let showTurnstile = true;
-
-  const resetTurnstile = async () => {
-    showTurnstile = false;
-    await tick();
-    showTurnstile = true;
-  };
 
   const ensureDownloadData = async () => {
     if (!fetchRawData) {
@@ -57,22 +48,51 @@
       return;
     }
 
-    await resetTurnstile();
-
-    const dataset = await ensureDownloadData();
-
-    if (!dataset?.length) {
-      toast.error("No data available to download", {
-        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-      });
+    if (data?.user?.downloadCredits > 500) {
+      toast.error(
+        "Abusive usage detected. Please read our Terms of Service to understand more.",
+        {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        },
+      );
       return;
     }
 
-    if (format === "csv") {
-      exportCSV(dataset);
-    } else if (format === "excel") {
-      exportExcel(dataset);
-    }
+    toast.promise(
+      (async () => {
+        data.user.credits = data.user.credits - totalCreditCost;
+
+        const response = await fetch("/api/download-checker", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (!response.ok) {
+          throw new Error("Download request failed");
+        }
+
+        const dataset = await ensureDownloadData();
+
+        if (!dataset?.length) {
+          toast.error("No data available to download", {
+            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+          });
+          return;
+        }
+
+        if (format === "csv") {
+          exportCSV(dataset);
+        } else if (format === "excel") {
+          exportExcel(dataset);
+        }
+      })(),
+      {
+        loading: "Downloading data...",
+        success: "Download complete!",
+        error: "Download failed. Try again.",
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      },
+    );
   };
 
   const generateCSVContent = (dataset: any[]) => {
@@ -209,8 +229,6 @@
     }
 
     if (data?.user?.credits > totalCreditCost && tickers?.length > 0) {
-      await resetTurnstile();
-
       toast.promise(
         (async () => {
           data.user.credits = data.user.credits - totalCreditCost;
@@ -435,9 +453,3 @@
     </DropdownMenu.Root>
   {/if}
 </div>
-
-{#if showTurnstile}
-  <div class="pt-5">
-    <Turnstile siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY} />
-  </div>
-{/if}
