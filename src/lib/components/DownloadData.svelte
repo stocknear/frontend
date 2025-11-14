@@ -4,6 +4,9 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
+  import { tick } from "svelte";
+
+  import { Turnstile } from "svelte-turnstile";
 
   export let data;
   export let rawData;
@@ -13,6 +16,13 @@
 
   let isSubscribed = ["Pro", "Plus"]?.includes(data?.user?.tier) ?? false;
   let isFetchingDownload = false;
+  let showTurnstile = true;
+
+  const resetTurnstile = async () => {
+    showTurnstile = false;
+    await tick();
+    showTurnstile = true;
+  };
 
   const ensureDownloadData = async () => {
     if (!fetchRawData) {
@@ -46,6 +56,8 @@
       goto("/pricing");
       return;
     }
+
+    await resetTurnstile();
 
     const dataset = await ensureDownloadData();
 
@@ -197,6 +209,8 @@
     }
 
     if (data?.user?.credits > totalCreditCost && tickers?.length > 0) {
+      await resetTurnstile();
+
       toast.promise(
         (async () => {
           data.user.credits = data.user.credits - totalCreditCost;
@@ -421,3 +435,9 @@
     </DropdownMenu.Root>
   {/if}
 </div>
+
+{#if showTurnstile}
+  <div class="pt-5">
+    <Turnstile siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY} />
+  </div>
+{/if}
