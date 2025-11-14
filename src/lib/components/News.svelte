@@ -50,6 +50,12 @@
     updatePaginatedData();
   }
 
+  function showAllNews() {
+    displaySection = "all";
+    currentPage = 1;
+    updatePaginatedData();
+  }
+
   async function getNewsVideos() {
     displaySection = "videos";
     currentPage = 1; // Reset to first page
@@ -231,7 +237,7 @@
         >
           <li>
             <button
-              on:click={() => (displaySection = "all")}
+              on:click={showAllNews}
               class="cursor-pointer rounded px-3 py-0.5 sm:hover:bg-blue-50 dark:sm:hover:bg-secondary {displaySection ===
               'all'
                 ? 'bg-blue-50 dark:bg-secondary'
