@@ -5,8 +5,7 @@
   import { mode } from "mode-watcher";
   import { createEventDispatcher } from "svelte";
   import { chatReasoning } from "$lib/store";
-  import Like from "lucide-svelte/icons/thumbs-up";
-  import Dislike from "lucide-svelte/icons/thumbs-down";
+  import ChatFeedbackControls from "$lib/components/Chat/ChatFeedbackControls.svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -404,79 +403,15 @@
               -->
 
               {#if editable}
-                <button
-                  type="button"
-                  on:click={() => {
+                <ChatFeedbackControls
+                  {isStreaming}
+                  {index}
+                  on:rewrite={() => {
                     if (!isStreaming) {
                       dispatch("rewrite", index);
                     }
                   }}
-                  class="text-muted pr-3 dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out font-sans select-none items-center relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm h-8 pl-1"
-                  ><div
-                    class="flex flex-row items-center min-w-0 font-medium gap-1.5 justify-center"
-                  >
-                    <div
-                      class="flex shrink-0 items-center justify-center size-4"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class=" mt-0.5"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        ><path d="M4 12v-3a3 3 0 0 1 3 -3h13m-3 -3l3 3l-3 3"
-                        ></path><path
-                          d="M20 12v3a3 3 0 0 1 -3 3h-13m3 3l-3 -3l3 -3"
-                        ></path></svg
-                      >
-                    </div>
-                    <div
-                      class="text-align-center relative truncate leading-loose -mb-px"
-                    >
-                      Rewrite
-                    </div>
-                  </div></button
-                >
-
-                <button
-                  type="button"
-                  on:click={() => {
-                    if (!isStreaming) {
-                      dispatch("rewrite", index);
-                    }
-                  }}
-                  class="text-muted pr-3 dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out font-sans select-none items-center relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm h-8 pl-1"
-                  ><div
-                    class="flex flex-row items-center min-w-0 font-medium gap-1.5 justify-center"
-                  >
-                    <div
-                      class="flex shrink-0 items-center justify-center size-4"
-                    >
-                      <Like class=" mt-0.5" />
-                    </div>
-                  </div></button
-                >
-                <button
-                  type="button"
-                  on:click={() => {
-                    if (!isStreaming) {
-                      dispatch("rewrite", index);
-                    }
-                  }}
-                  class="text-muted pr-3 dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out font-sans select-none items-center relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm h-8 pl-1"
-                  ><div
-                    class="flex flex-row items-center min-w-0 font-medium gap-1.5 justify-center"
-                  >
-                    <div
-                      class="flex shrink-0 items-center justify-center size-4"
-                    >
-                      <Dislike class=" mt-0.5" />
-                    </div>
-                  </div></button
-                >
+                />
               {/if}
             </div>
           {/if}

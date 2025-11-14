@@ -19,16 +19,28 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     return json({ error: "Invalid JSON payload." }, { status: 400 });
   }
 
-  const description =
+  const descriptionRaw =
     typeof payload.description === "string" ? payload.description.trim() : "";
   const url = typeof payload.url === "string" ? payload.url.trim() : "";
- 
- 
+  const ratingRaw =
+    typeof payload.rating === "string" ? payload.rating.trim().toLowerCase() : "";
+
+  const allowedRatings = new Set(["like", "dislike"]);
+  if (!ratingRaw || !allowedRatings.has(ratingRaw)) {
+    return json({ error: "Invalid feedback rating." }, { status: 400 });
+  }
+
+  const rating = ratingRaw as "like" | "dislike";
+  const requiresDescription = rating === "dislike";
+  const description = descriptionRaw;
 
   const userId = user?.id?.trim();
 
-  if (!description) {
-    return json({ error: "Description is required." }, { status: 400 });
+  if (requiresDescription && !description) {
+    return json(
+      { error: "Description is required for dislike feedback." },
+      { status: 400 },
+    );
   }
 
   if (!url) {
@@ -75,6 +87,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       user: userId || null,
       description,
       url,
+      rating,
       ipAddress: clientIp,
     });
 

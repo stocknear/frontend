@@ -18,6 +18,8 @@
     }
   }
 
+  const defaultRating: "like" | "dislike" = "dislike";
+
   async function sendFeedback() {
     if (isSubmitting) return;
 
@@ -54,6 +56,7 @@
         body: JSON.stringify({
           description: description.trim(),
           url: urlValue,
+          rating: defaultRating,
         }),
       });
       const result = await response.json().catch(() => ({}));
@@ -162,7 +165,7 @@
           >Describe your issue or suggestion:</label
         >
         <textarea
-          class="textarea w-full h-48 max-h-[600px] resize-vertical bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-800 focus:outline-none placeholder-gray-500 rounded-md"
+          class="textarea w-full h-48 max-h-[600px] resize-vertical bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-800 focus:outline-none placeholder-gray-500 rounded"
           placeholder=""
           bind:value={description}
         />
@@ -173,7 +176,7 @@
         <label class="block text-base font-semibold">Feedback for page:</label>
         <input
           type="text"
-          class="input cursor-not-allowed w-full h-12 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-800 focus:outline-none rounded-md px-3"
+          class="input cursor-not-allowed w-full h-12 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-800 focus:outline-none rounded px-3"
           bind:value={pageUrl}
           readonly
         />
