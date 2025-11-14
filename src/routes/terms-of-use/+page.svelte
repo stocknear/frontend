@@ -96,6 +96,23 @@
               </p>
 
               <h2 class="mb-1 text-2xl sm:text-3xl font-bold mb-3">
+                Fair Usage & Anti-Abuse
+              </h2>
+
+              <p class=" mb-10">
+                Any feature advertised as “unlimited” is provided for normal, human
+                usage only. We deploy technical safeguards—such as rate limits,
+                session throttling, CAPTCHAs, and download quotas—to prevent automated
+                scraping or abusive behavior. You agree not to bypass these
+                protections or script large-scale data extraction.<br /><br />
+                Stocknear may, at its sole discretion, temporarily pause or permanently
+                suspend access (including paid subscriptions) when activity is suspected
+                to be abusive, threatens platform stability, or violates these Terms.
+                Repeated or egregious violations can lead to account termination and
+                forfeiture of remaining subscription time without refund.
+              </p>
+
+              <h2 class="mb-1 text-2xl sm:text-3xl font-bold mb-3">
                 Liability Limitations
               </h2>
 
