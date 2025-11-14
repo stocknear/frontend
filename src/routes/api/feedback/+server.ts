@@ -26,21 +26,21 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     typeof payload.rating === "string" ? payload.rating.trim().toLowerCase() : "";
 
   const allowedRatings = new Set(["like", "dislike"]);
-  if (!ratingRaw || !allowedRatings.has(ratingRaw)) {
-    return json({ error: "Invalid feedback rating." }, { status: 400 });
+  let rating: "like" | "dislike" | null = null;
+  if (ratingRaw) {
+    if (!allowedRatings.has(ratingRaw)) {
+      return json({ error: "Invalid feedback rating." }, { status: 400 });
+    }
+    rating = ratingRaw as "like" | "dislike";
   }
 
-  const rating = ratingRaw as "like" | "dislike";
-  const requiresDescription = rating === "dislike";
   const description = descriptionRaw;
+  const requiresDescription = rating !== "like";
 
   const userId = user?.id?.trim();
 
   if (requiresDescription && !description) {
-    return json(
-      { error: "Description is required for dislike feedback." },
-      { status: 400 },
-    );
+    return json({ error: "Description is required." }, { status: 400 });
   }
 
   if (!url) {

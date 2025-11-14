@@ -12,13 +12,17 @@
   let isSubmitting = false;
   let isModalOpen = false;
 
+  function closeModal() {
+    if (isSubmitting) return;
+    isModalOpen = false;
+    description = "";
+  }
+
   $: {
     if (typeof window !== "undefined" && $page?.url) {
       pageUrl = window.location.href;
     }
   }
-
-  const defaultRating: "like" | "dislike" = "dislike";
 
   async function sendFeedback() {
     if (isSubmitting) return;
@@ -56,7 +60,6 @@
         body: JSON.stringify({
           description: description.trim(),
           url: urlValue,
-          rating: defaultRating,
         }),
       });
       const result = await response.json().catch(() => ({}));
@@ -184,20 +187,27 @@
     </div>
 
     <!-- Footer -->
-    <div class="mt-8">
+
+    <div class="mt-6 flex justify-end gap-2">
       <button
         type="button"
+        class="cursor-pointer px-4 py-2 rounded border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60"
+        on:click={closeModal}
+        disabled={isSubmitting}
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="cursor-pointer px-4 py-2 rounded bg-black text-white dark:bg-white dark:text-black text-sm font-medium hover:opacity-90 disabled:opacity-60 flex items-center gap-2"
         on:click={sendFeedback}
-        class="flex items-center justify-center gap-2 cursor-pointer px-5 py-2 rounded font-semibold text-sm bg-[#0b74ff] text-white hover:opacity-90 active:opacity-100 disabled:opacity-60 disabled:cursor-not-allowed"
         disabled={isSubmitting}
         aria-busy={isSubmitting}
       >
         {#if isSubmitting}
           <span class="loading loading-infinity loading-sm"></span>
-          <span>Sending...</span>
-        {:else}
-          Submit
         {/if}
+        Send feedback
       </button>
     </div>
   </div>
