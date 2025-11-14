@@ -17,6 +17,7 @@
   let userId: string | null = null;
   let fallbackUrl = "";
   let pageUrl = "";
+  let selectedRating: "like" | "dislike" | null = null;
 
   $: userId = $page?.data?.user?.id ?? null;
   $: fallbackUrl = $page?.url?.href ?? "";
@@ -34,7 +35,7 @@
   }
 
   function openDislikeModal() {
-    if (isStreaming || isSubmitting) return;
+    if (isStreaming || isSubmitting || selectedRating) return;
     isModalOpen = true;
   }
 
@@ -45,12 +46,15 @@
   }
 
   async function handleLike() {
-    if (isStreaming) return;
-    await submitFeedback({ rating: "like", note: "" });
+    if (isStreaming || selectedRating) return;
+    const ok = await submitFeedback({ rating: "like", note: "" });
+    if (ok) {
+      selectedRating = "like";
+    }
   }
 
   async function handleDislikeSubmit() {
-    if (isStreaming || isSubmitting) return;
+    if (isStreaming || isSubmitting || selectedRating) return;
     if (!description.trim()) {
       toast.error("Describe what went wrong.", { style: toastStyle() });
       return;
@@ -62,6 +66,7 @@
     });
 
     if (ok) {
+      selectedRating = "dislike";
       closeModal();
     }
   }
@@ -135,7 +140,7 @@
 <div class="flex flex-row gap-1 items-center">
   <button
     type="button"
-    class="text-muted pr-3 dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out select-none relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm h-8 pl-1 disabled:cursor-not-allowed disabled:opacity-60"
+    class="text-muted pr-2 dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out select-none relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm h-8 pl-1 disabled:cursor-not-allowed disabled:opacity-60"
     on:click={handleRewrite}
     aria-label="Rewrite response"
     disabled={isStreaming || isSubmitting}
@@ -164,37 +169,58 @@
     </div>
   </button>
 
-  <button
-    type="button"
-    class="text-muted pr-2 dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out select-none relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm h-8 pl-1 disabled:cursor-not-allowed disabled:opacity-60"
-    on:click={handleLike}
-    aria-label="Like response"
-    disabled={isStreaming || isSubmitting}
-  >
-    <div
-      class="flex flex-row items-center min-w-0 font-medium gap-1.5 justify-center"
+  {#if !selectedRating}
+    <button
+      type="button"
+      class="text-muted pr-2 dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out select-none relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm h-8 pl-1 disabled:cursor-not-allowed disabled:opacity-60"
+      on:click={handleLike}
+      aria-label="Like response"
+      disabled={isStreaming || isSubmitting}
     >
-      <div class="flex shrink-0 items-center justify-center size-4">
-        <Like class="mt-0.5" />
+      <div
+        class="flex flex-row items-center min-w-0 font-medium gap-1.5 justify-center"
+      >
+        <div class="flex shrink-0 items-center justify-center size-4">
+          <Like class="mt-0.5" />
+        </div>
       </div>
-    </div>
-  </button>
+    </button>
 
-  <button
-    type="button"
-    class="text-muted dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out select-none relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm h-8 pl-1 disabled:cursor-not-allowed disabled:opacity-60"
-    on:click={openDislikeModal}
-    aria-label="Dislike response"
-    disabled={isStreaming || isSubmitting}
-  >
-    <div
-      class="flex flex-row items-center min-w-0 font-medium gap-1.5 justify-center"
+    <button
+      type="button"
+      class="text-muted dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out select-none relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm h-8 pl-1 disabled:cursor-not-allowed disabled:opacity-60"
+      on:click={openDislikeModal}
+      aria-label="Dislike response"
+      disabled={isStreaming || isSubmitting}
     >
-      <div class="flex shrink-0 items-center justify-center size-4">
-        <Dislike class="mt-0.5" />
+      <div
+        class="flex flex-row items-center min-w-0 font-medium gap-1.5 justify-center"
+      >
+        <div class="flex shrink-0 items-center justify-center size-4">
+          <Dislike class="mt-0.5" />
+        </div>
       </div>
+    </button>
+  {:else}
+    <div
+      class="flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-200"
+    >
+      <div class="flex items-center justify-center size-4">
+        {#if selectedRating === "like"}
+          <Like
+            class="mt-0.5 fill-black dark:fill-white"
+            fill="currentColor"
+          />
+        {:else}
+          <Dislike
+            class="mt-0.5 fill-black dark:fill-white"
+            fill="currentColor"
+          />
+        {/if}
+      </div>
+      <span>Feedback recorded</span>
     </div>
-  </button>
+  {/if}
 </div>
 
 {#if isModalOpen}
@@ -228,11 +254,11 @@
       </div>
 
       <div class="mt-3 space-y-3">
-        <p class="text-sm text-muted dark:text-gray-300">
+        <p class="text-sm">
           Help us improve by sharing what could be better with this response.
         </p>
         <textarea
-          class=" textarea w-full h-36 resize-vertical bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none rounded p-3 text-sm"
+          class="textarea w-full h-48 max-h-[600px] resize-vertical bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-800 focus:outline-none placeholder-gray-500 dark:placeholder-gray-300 rounded"
           placeholder="Tell us what could be improved..."
           bind:value={description}
           disabled={isSubmitting}
