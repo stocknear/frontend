@@ -17,20 +17,44 @@ export const GET: RequestHandler = async ({ locals }) => {
   }
 
 try {
-
-  
-  await pb.collection('users').update(user?.id, {
-    'downloadCredits': user?.downloadCredits +1,
-    'ipAddress': ipAddress
+  // 1) Update user downloadCredits
+  await pb.collection('users').update(user.id, {
+    downloadCredits: (user.downloadCredits ?? 0) + 1,
   });
 
+  // 2) Check if userInfo already exists for this user
+  let userInfo;
+
+  try {
+    userInfo = await pb
+      .collection('userInfo')
+      .getFirstListItem(`user="${user.id}"`);
+  } catch (err) {
+    // PocketBase returns 404 if no record matches
+    if (err.status !== 404) {
+      throw err; // real error -> let outer catch handle it
+    }
+  }
+
+
+  // 3) Update if exists, otherwise create
+  if (userInfo) {
+    await pb.collection('userInfo').update(userInfo.id, {
+      ipAddress,
+    });
+  } else {
+    await pb.collection('userInfo').create({
+      user: user.id,
+      ipAddress,
+    });
+  }
+
   output = 'success';
-
-
+} catch (e) {
+  console.log(e);
+  output = 'error';
 }
-catch(e) {
-    console.log(e)
-}
+
 
   return new Response(JSON.stringify(output));
 };
