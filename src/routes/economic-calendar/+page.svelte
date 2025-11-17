@@ -36,7 +36,7 @@
   const navigationButtonClasses =
     "h-16 w-48 cursor-pointer border m-auto flex bg-default text-white dark:bg-primary mb-3";
   const dropdownButtonClasses =
-    "border-gray-300 dark:border-gray-600 border border-gray-300 bg-black sm:hover:bg-default text-white dark:bg-default dark:sm:hover:bg-primary ease-out flex flex-row justify-between items-center px-3 py-2 rounded truncate";
+    "border-gray-300 dark:border-gray-600 border border-gray-300 bg-black sm:hover:bg-default text-white dark:bg-primary dark:sm:hover:bg-secondary ease-out flex flex-row justify-between items-center px-3 py-2 rounded truncate";
 
   // Importance levels for dropdown
   const importanceLevels = [1, 2, 3];
@@ -776,7 +776,7 @@
                   {#if filterList.length !== 0}
                     <Button
                       on:click={handleReset}
-                      class="w-fit border-gray-300 dark:border-gray-600 border shadow bg-white dark:bg-default sm:hover:bg-gray-300 dark:sm:hover:bg-primary ease-out flex flex-row justify-start items-center px-3 py-2  rounded truncate"
+                      class="w-fit border-gray-300 bg-black sm:hover:bg-default text-white dark:border-gray-600 border dark:bg-primary dark:sm:hover:bg-secondary ease-out flex flex-row justify-between items-center px-3 py-1.5 rounded truncate"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -911,8 +911,8 @@
                                 <td
                                   class="text-start text-sm sm:text-[1rem] whitespace-nowrap"
                                 >
-                                  {item?.event?.length > 40
-                                    ? item?.event.slice(0, 40) + "..."
+                                  {item?.event?.length > 60
+                                    ? item?.event.slice(0, 60) + "..."
                                     : item?.event}
                                 </td>
                                 <td
@@ -1114,12 +1114,18 @@
                     {/if}
                   {/if}
                 {/each}
-                <Infobox
-                  text="Stocknear's Economic Calendar displays the latest and upcoming
-                  economic events that may impact various assets, regions, and
-                  global markets — including stocks, Forex, and bonds. Times are
-                  shown in ET (Eastern Time)."
-                />
+                <div
+                  class="text-sm border border-gray-300 dark:border-gray-800 p-3 mt-6"
+                >
+                  <strong>Source:</strong> Economic Calendar provided by
+                  <a
+                    href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear"
+                    target="_blank"
+                    rel="noopener"
+                    class="sm:hover:text-muted text-blue-800 dark:text-blue-400 dark:sm:hover:text-white"
+                    >Financial Modeling Prep</a
+                  > and times are shown in ET (Eastern Time).
+                </div>
               </div>
             </div>
           </div>
