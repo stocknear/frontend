@@ -508,7 +508,7 @@
       <div
         class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
       >
-        <main class="w-full lg:w-3/4 lg:pr-10">
+        <main class="w-full">
           <div class="mb-6 border-[#2C6288] dark:border-white border-b-[2px]">
             <h1 class="mb-1 text-2xl sm:text-3xl font-bold">
               Economic Calendar
@@ -815,7 +815,7 @@
                           >
                             <span class="">Filters</span>
                             <span
-                              class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center bg-red-500"
+                              class="ml-2 text-white rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center bg-red-500"
                             >
                               {filterList.length}
                             </span>
@@ -1124,46 +1124,6 @@
             </div>
           </div>
         </main>
-
-        <aside class="inline-block relative w-full lg:w-1/4 mt-3">
-          <div
-            class="w-full border border-gray-300 dark:border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
-          >
-            <a
-              href="/earnings-calendar"
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">
-                  Earnings Calendar
-                </h2>
-                <ArrowLogo class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:" />
-              </div>
-              <span class=" p-3 ml-3 mr-3"
-                >Get the latest Earnings of companies</span
-              >
-            </a>
-          </div>
-
-          <div
-            class="w-full border border-gray-300 dark:border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
-          >
-            <a
-              href="/dividends-calendar"
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">
-                  Dividend Calendar
-                </h2>
-                <ArrowLogo class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:" />
-              </div>
-              <span class=" p-3 ml-3 mr-3"
-                >Get the latest dividend announcement</span
-              >
-            </a>
-          </div>
-        </aside>
       </div>
     </div>
   </div>
