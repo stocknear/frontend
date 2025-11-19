@@ -137,7 +137,7 @@
   }
 </script>
 
-<div class="flex flex-row gap-1 items-center">
+<div class="flex flex-row sm:gap-1 items-center">
   <button
     type="button"
     class="text-muted pr-2 dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out select-none relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm h-8 pl-1 disabled:cursor-not-allowed disabled:opacity-60"
@@ -146,7 +146,7 @@
     disabled={isStreaming || isSubmitting}
   >
     <div
-      class="flex flex-row items-center min-w-0 font-medium gap-1.5 justify-center"
+      class="flex flex-row items-center min-w-0 font-medium gap-1 justify-center"
     >
       <div class="flex shrink-0 items-center justify-center size-4">
         <svg
@@ -178,7 +178,7 @@
       disabled={isStreaming || isSubmitting}
     >
       <div
-        class="flex flex-row items-center min-w-0 font-medium gap-1.5 justify-center"
+        class="flex flex-row items-center min-w-0 font-medium gap-1 justify-center"
       >
         <div class="flex shrink-0 items-center justify-center size-4">
           <Like class="mt-0.5" />
@@ -194,7 +194,7 @@
       disabled={isStreaming || isSubmitting}
     >
       <div
-        class="flex flex-row items-center min-w-0 font-medium gap-1.5 justify-center"
+        class="flex flex-row items-center min-w-0 font-medium gap-1 justify-center"
       >
         <div class="flex shrink-0 items-center justify-center size-4">
           <Dislike class="mt-0.5" />
@@ -207,10 +207,7 @@
     >
       <div class="flex items-center justify-center size-4">
         {#if selectedRating === "like"}
-          <Like
-            class="mt-0.5 fill-black dark:fill-white"
-            fill="currentColor"
-          />
+          <Like class="mt-0.5 fill-black dark:fill-white" fill="currentColor" />
         {:else}
           <Dislike
             class="mt-0.5 fill-black dark:fill-white"

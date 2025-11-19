@@ -328,13 +328,13 @@
         </div>
         {#if message?.role === "system"}
           {#if !isStreaming}
-            <div class=" gap-xs flex items-center mt-2">
+            <div class="flex items-center mt-2">
               <button
                 type="button"
-                class="text-muted dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out font-sans select-none items-center relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm h-8 pr-3"
+                class="text-muted dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out font-sans select-none items-center relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm pr-2"
                 on:click={handleShare}
                 ><div
-                  class="flex flex-row items-center min-w-0 font-medium gap-1.5 justify-center"
+                  class="flex flex-row items-center min-w-0 font-medium gap-1 justify-center"
                 >
                   <div class="flex shrink-0 items-center justify-center size-4">
                     <svg
@@ -367,7 +367,7 @@
                   class="text-muted dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out font-sans select-none items-center relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm h-8 pl-1 pr-3"
                   on:click={onExportPDF}
                   ><div
-                    class="flex flex-row items-center min-w-0 font-medium gap-1.5 justify-center"
+                    class="flex flex-row items-center min-w-0 font-medium gap-1 justify-center"
                   >
                     <div
                       class="flex shrink-0 items-center justify-center size-4"
