@@ -108,7 +108,7 @@
         tabindex="0"
       >
         <div>
-          Want 50% off? Our Huge Black Friday Sale Is Here! Use code: BF50
+          Want 50% off? Our Huge Black Friday Sale Is Here! Use code: BF25
         </div>
       </a>
     </div>
