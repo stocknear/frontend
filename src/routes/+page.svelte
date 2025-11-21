@@ -99,25 +99,20 @@
   {#if AppInstalled && !$closedPWA}
     <svelte:component this={AppInstalled} />
   {/if}
-  <!--
+
   {#if !["Pro", "Plus"].includes(data?.user?.tier)}
-    <div class="flex justify-center mb-5 whitespace-nowrap mt-5 sm:mt-0">
+    <div class="flex justify-center mb-5 text-center mt-5 sm:mt-0">
       <a
         href="/pricing"
-        class="cursor-pointer whitespace-nowrap flex flex-col sm:flex-row items-center gap-2 px-3.5 py-2.5 text-sm sm:text-[1rem] font-medium border border-gray-300 dark:border-gray-800 shadow rounded hover:bg-gray-50 dark:hover:bg-gray-900 transition"
+        class="bg-default dark:bg-[#FFC233] cursor-pointer text-white dark:text-black flex flex-col sm:flex-row items-center gap-2 px-3.5 py-2.5 text-[1rem] font-medium border border-gray-300 dark:border-gray-800 shadow rounded"
         tabindex="0"
       >
         <div>
-          <strong class="text-[1rem]">Last Chance</strong>
-        </div>
-        <div>
-          Get <strong>30% OFF</strong> your subscription —
-          <span class=" font-semibold">No more discounts!</span>
+          Want 50% off? Our Huge Black Friday Sale Is Here! Use code: BF50
         </div>
       </a>
     </div>
   {/if}
-  -->
 
   <main id="main">
     <div

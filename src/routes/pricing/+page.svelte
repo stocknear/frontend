@@ -4,7 +4,7 @@
   import { page } from "$app/stores";
 
   import SEO from "$lib/components/SEO.svelte";
-  //  import Discount from "$lib/components/Discount.svelte";
+  import Discount from "$lib/components/Discount.svelte";
   export let data;
   export let form;
 
@@ -192,7 +192,7 @@
       <h1 class="text-4xl sm:text-5xl font-bold">Find your next Opportunity</h1>
     </div>
 
-    <!--<Discount />-->
+    <Discount />
 
     <div class="flex flex-row items-center justify-center">
       <div class="flex flex-row items-center ml-auto">
@@ -906,20 +906,20 @@
         <h3 class="text-3xl font-bold">Plus</h3>
         <p class="text-muted dark:text-zinc-300 text-sm mt-1">Most Popular</p>
         <div class="mt-4">
-          <span class="text-4xl font-bold">{mode ? "$7.50" : "$10"}</span>
-          <!--
+          <span class="text-4xl font-bold line-through"
+            >{mode ? "$7.50" : "$10"}</span
+          >
+
           <span class="text-pink-700 dark:text-pink-500 text-4xl font-bold ml-1"
             >{mode ? "$3.75" : "$5"}</span
-          >--><span
-            class=" text-xl">/Month</span
-          >
+          ><span class=" text-xl">/Month</span>
         </div>
         <p
           class="text-muted dark:text-gray-400 text-sm mt-1 mx-4 {!mode
             ? 'hidden'
             : ''}"
         >
-          ($90 Billed Annually)
+          (Billed Annually)
         </p>
 
         <ul class="mt-6 mb-6 space-y-2">
@@ -1341,16 +1341,13 @@
           Unlimited usage for Power Users.
         </p>
         <div class="mt-4">
-          <span class="text-white text-4xl font-bold {!mode ? '' : ''}"
+          <span
+            class="text-white text-4xl font-bold line-through {!mode ? '' : ''}"
             >{mode ? "$15" : "$20"}</span
           >
-          <!--
-          {#if !mode}
-            <span
-              class="text-pink-700 dark:text-pink-500 text-4xl font-bold ml-1"
-              >$2</span
-            >{/if}
-            -->
+          <span class="text-pink-700 dark:text-pink-500 text-4xl font-bold ml-1"
+            >{mode ? "$7.5" : "$10"}</span
+          >
           <span class=" text-xl ml-1">/Month</span>
         </div>
         <p
@@ -1358,7 +1355,7 @@
             ? 'hidden'
             : ''}"
         >
-          ($180 Billed Annually)
+          (Billed Annually)
         </p>
 
         <ul class="mt-6 mb-6 space-y-2">
