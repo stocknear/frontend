@@ -904,14 +904,16 @@
         class="rounded relative flex flex-col relative bg-white dark:bg-zinc-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-[3px] overflow-visible border border-gray-400 dark:border-zinc-600 p-6 isolate"
       >
         <h3 class="text-3xl font-bold">Plus</h3>
-        <p class="text-muted dark:text-zinc-300 text-sm mt-1">Most Popular</p>
+        <p class="text-muted dark:text-zinc-300 text-sm mt-1">
+          Best for Beginners
+        </p>
         <div class="mt-4">
-          <span class="text-gray-500 text-4xl font-bold line-through"
-            >{mode ? "$7.50" : "$10"}</span
-          >
-
+          <span class=" text-4xl font-bold">{mode ? "$7.50" : "$10"}</span>
+          <!--
           <span class=" text-4xl font-bold ml-1">{mode ? "$3.75" : "$5"}</span
-          ><span class=" text-xl">/mo</span>
+          >--><span
+            class=" text-xl">/mo</span
+          >
         </div>
         <p
           class="text-muted dark:text-gray-400 text-sm mt-1 mx-4 {!mode
@@ -1337,17 +1339,15 @@
         -->
         <h3 class="text-3xl font-bold">Pro</h3>
         <p class="text-white dark:text-zinc-300 text-sm mt-1">
-          Unlimited usage for Power Users.
+          Best for Active Traders
         </p>
         <div class="mt-4">
-          <span
-            class="text-gray-500 text-4xl font-bold line-through {!mode
-              ? ''
-              : ''}">{mode ? "$15" : "$20"}</span
+          <span class="text-white text-4xl font-bold {!mode ? '' : ''}"
+            >{mode ? "$15" : "$20"}</span
           >
-          <span class="text-white text-4xl font-bold ml-1"
+          <!--<span class="text-white text-4xl font-bold ml-1"
             >{mode ? "$7.5" : "$10"}</span
-          >
+          >-->
           <span class=" text-xl ml-1">/mo</span>
         </div>
         <p
