@@ -1,6 +1,8 @@
 import Highcharts from 'highcharts';
 import HighchartsMore from 'highcharts/highcharts-more';
 import HighchartsSankey from 'highcharts/modules/sankey';
+import HighchartsHeatmap from 'highcharts/modules/heatmap';
+
 //import Boost from 'highcharts/modules/boost';
  //import HighchartsAnnotations from 'highcharts/modules/annotations';
 import { browser } from '$app/environment';
@@ -9,6 +11,8 @@ if (browser) {
   // Initialize modules
   HighchartsMore(Highcharts);
   HighchartsSankey(Highcharts);
+  HighchartsHeatmap(Highcharts);
+
    //HighchartsAnnotations(Highcharts);
   //Boost(Highcharts);
 Highcharts.setOptions({
