@@ -218,8 +218,8 @@
     { key: "rank", label: "Rank", align: "left" },
     { key: "symbol", label: "Symbol", align: "left" },
     { key: "optionSymbol", label: "Contract", align: "left" },
-    { key: "totalOI", label: "Open Interest", align: "right" },
     { key: "optionVolume", label: "Option Volume", align: "right" },
+    { key: "totalOI", label: "Open Interest", align: "right" },
     { key: "volumeOIRatio", label: "Volume / Open Interest", align: "right" },
   ];
 
@@ -324,16 +324,16 @@
 </script>
 
 <SEO
-  title="Top Options Contracts by Open Interest — Highest OI"
-  description="Discover US options contracts ranked by highest open interest. See the largest OI contracts, volume / OI ratios and emerging options flow to spot institutional activity."
-  keywords="highest open interest, top options contracts, options open interest, options OI, high OI contracts, institutional options flow"
+  title="Most Active Options Contracts — Highest Volume"
+  description="Discover US options contracts ranked by highest trading volume. Track the most active contracts, open interest, and volume/OI ratios to spot emerging options activity."
+  keywords="most active options, top options volume, options trading volume, high volume options, active options contracts, options flow"
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Top Options Contracts by Open Interest",
+    name: "Most Active Options Contracts by Volume",
     description:
-      "US options contracts ranked by highest open interest (OI) with volume/OI ratio and emerging options flow.",
-    url: "https://stocknear.com/list/highest-open-interest-by-contract",
+      "US options contracts ranked by highest trading volume (most active contracts) with open interest and volume/OI ratio.",
+    url: "https://stocknear.com/list/highest-volume-by-contract",
     breadcrumb: {
       "@type": "BreadcrumbList",
       itemListElement: [
@@ -352,16 +352,16 @@
         {
           "@type": "ListItem",
           position: 3,
-          name: "Top Options Contracts by Open Interest",
-          item: "https://stocknear.com/list/highest-open-interest-by-contract",
+          name: "Most Active Options by Volume",
+          item: "https://stocknear.com/list/highest-volume-by-contract",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Options Contracts by Open Interest",
+      name: "Options Contracts by Volume",
       description:
-        "List of US options contracts ranked by open interest and volume-to-OI ratio to highlight heavy, institution-driven contracts.",
+        "List of US options contracts ranked by trading volume and volume-to-OI ratio to highlight the most active options contracts.",
       numberOfItems: data?.getStocks?.length || 0,
     },
   }}
@@ -369,8 +369,9 @@
 
 <section class="w-full overflow-hidden m-auto">
   <Infobox
-    text="These are US options contracts with the highest in open interest (OI). Open interest represents outstanding options contracts, and significant changes often indicate shifting investor sentiment or emerging trading opportunities."
+    text="These are US options contracts with the highest trading volume. High-volume contracts highlight the most actively traded options, signaling strong investor interest and potential emerging trading opportunities."
   />
+
   <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden mt-5">
     <div
       class="relative flex justify-center items-start overflow-hidden w-full"
@@ -427,7 +428,7 @@
               <DownloadData
                 {data}
                 rawData={originalData}
-                title={"highest-open-interest-change"}
+                title={"most-active-options-contracts-by-volume"}
               />
             </div>
           </div>

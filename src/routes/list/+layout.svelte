@@ -233,6 +233,10 @@
       link: "/list/highest-open-interest-by-contract",
     },
     {
+      title: "Most Active Option Contracts",
+      link: "/list/highest-volume-by-contract",
+    },
+    {
       title: "Biggest Artificial Intelligence Stocks",
       link: "/list/ai-stocks",
     },

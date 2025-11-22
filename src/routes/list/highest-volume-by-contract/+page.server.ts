@@ -1,7 +1,7 @@
 export const load = async ({ locals }) => {
   const getData = async () => {
     const { apiKey, apiURL } = locals;
-    const postData = { filterList: "highest-open-interest-by-contract" };
+    const postData = { filterList: "highest-volume-by-contract" };
 
     const response = await fetch(apiURL + "/list-category", {
       method: "POST",
