@@ -38,7 +38,7 @@
   let strikeList = [];
 
   let selectedStrike;
-  let optionSymbol = "n/a";
+  let optionSymbol = "";
 
   let displayList = [];
   let selectGraphType = "Vol/OI";
@@ -938,7 +938,7 @@
           >
             {optionSymbol}
           </h3>
-          {#if isLoaded}
+          {#if isLoaded && config}
             <div
               class="mt-5 order-5 lg:order-1 flex flex-row space-x-2 sm:space-x-3 xs:space-x-4"
             >
@@ -1412,7 +1412,7 @@
                 </div>
               {/if}
             {/if}
-          {:else}
+          {:else if isLoaded && !config}
             <div class="flex justify-center items-center h-80">
               <div class="relative">
                 <label
@@ -1424,6 +1424,10 @@
                 </label>
               </div>
             </div>
+          {:else}
+            <Infobox
+              text={`No data is available for this option contract. It may have expired or the selection is invalid.`}
+            />
           {/if}
         {:else}
           <Infobox
