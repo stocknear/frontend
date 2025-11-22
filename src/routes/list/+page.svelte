@@ -254,6 +254,20 @@
           href="/list/highest-put-volume">Companies with Highest Put Volume</a
         >
       </li>
+      <li>
+        <a
+          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          href="/list/highest-volume-by-contract"
+          >Option Contracts with Highest Volume</a
+        >
+      </li>
+      <li>
+        <a
+          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          href="/list/highest-open-interest-by-contract"
+          >Option Contracts with Highest Open Interest</a
+        >
+      </li>
     </ul>
   </div>
 
