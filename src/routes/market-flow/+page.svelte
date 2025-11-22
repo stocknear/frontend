@@ -1530,7 +1530,7 @@
         type: "heatmap",
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
         plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        height: 3, // Adjust as needed usually pixel strings e.g. "600px" or strict numbers
+        height: 360,
         animation: false,
       },
 
@@ -2026,35 +2026,51 @@
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-4">
-                <div class="grow chart-driver">
+                <div class="grow">
                   <div class="relative">
-                    <!-- Apply the blur class to the chart -->
-                    <div
-                      class="{!['Pro']?.includes(data?.user?.tier)
-                        ? 'blur-[3px]'
-                        : ''}  border border-gray-300 dark:border-gray-800 rounded"
-                      use:highcharts={config}
-                    ></div>
-                    <!-- Overlay with "Upgrade to Pro" -->
-                    {#if !["Pro"]?.includes(data?.user?.tier)}
+                    {#if config}
+                      <!-- Apply the blur class to the chart -->
                       <div
-                        class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-white"
-                      >
-                        <a
-                          href="/pricing"
-                          class="sm:hover:text-blue-800 dark:sm:hover:text-white dark:text-white flex flex-row items-center"
+                        class="{!['Pro']?.includes(data?.user?.tier)
+                          ? 'blur-[3px]'
+                          : ''}  border border-gray-300 dark:border-gray-800 rounded"
+                        use:highcharts={config}
+                      ></div>
+                      <!-- Overlay with "Upgrade to Pro" -->
+                      {#if !["Pro"]?.includes(data?.user?.tier)}
+                        <div
+                          class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-white"
                         >
-                          <span>Upgrade</span>
-                          <svg
-                            class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            ><path
-                              fill="currentColor"
-                              d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                            /></svg
+                          <a
+                            href="/pricing"
+                            class="sm:hover:text-blue-800 dark:sm:hover:text-white dark:text-white flex flex-row items-center"
                           >
-                        </a>
+                            <span>Upgrade</span>
+                            <svg
+                              class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              ><path
+                                fill="currentColor"
+                                d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                              /></svg
+                            >
+                          </a>
+                        </div>
+                      {/if}
+                    {:else}
+                      <div
+                        class="mt-2 flex justify-center items-center h-[360px] border border-gray-300 dark:border-gray-800 rounded"
+                      >
+                        <div class="relative">
+                          <label
+                            class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                          >
+                            <span
+                              class="loading loading-spinner loading-md text-white dark:text-white"
+                            ></span>
+                          </label>
+                        </div>
                       </div>
                     {/if}
                   </div>
@@ -2062,33 +2078,48 @@
 
                 <div class="grow">
                   <div class="relative">
-                    <!-- Apply the blur class to the chart -->
-                    <div
-                      class="{!['Pro']?.includes(data?.user?.tier)
-                        ? 'blur-[3px]'
-                        : ''}  border border-gray-300 dark:border-gray-800 rounded"
-                      use:highcharts={configBarChart}
-                    ></div>
-                    <!-- Overlay with "Upgrade to Pro" -->
-                    {#if !["Pro"]?.includes(data?.user?.tier)}
+                    {#if configBarChart}
                       <div
-                        class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-white"
-                      >
-                        <a
-                          href="/pricing"
-                          class="sm:hover:text-blue-800 dark:sm:hover:text-white dark:text-white flex flex-row items-center"
+                        class="{!['Pro']?.includes(data?.user?.tier)
+                          ? 'blur-[3px]'
+                          : ''}  border border-gray-300 dark:border-gray-800 rounded"
+                        use:highcharts={configBarChart}
+                      ></div>
+                      <!-- Overlay with "Upgrade to Pro" -->
+                      {#if !["Pro"]?.includes(data?.user?.tier)}
+                        <div
+                          class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-white"
                         >
-                          <span>Upgrade</span>
-                          <svg
-                            class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            ><path
-                              fill="currentColor"
-                              d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                            /></svg
+                          <a
+                            href="/pricing"
+                            class="sm:hover:text-blue-800 dark:sm:hover:text-white dark:text-white flex flex-row items-center"
                           >
-                        </a>
+                            <span>Upgrade</span>
+                            <svg
+                              class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              ><path
+                                fill="currentColor"
+                                d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                              /></svg
+                            >
+                          </a>
+                        </div>
+                      {/if}
+                    {:else}
+                      <div
+                        class="mt-2 flex justify-center items-center h-[360px] border border-gray-300 dark:border-gray-800 rounded"
+                      >
+                        <div class="relative">
+                          <label
+                            class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                          >
+                            <span
+                              class="loading loading-spinner loading-md text-white dark:text-white"
+                            ></span>
+                          </label>
+                        </div>
                       </div>
                     {/if}
                   </div>
@@ -2116,11 +2147,26 @@
 
                   <div class="grow mt-1">
                     <div class="relative">
-                      <!-- Apply the blur class to the chart -->
-                      <div
-                        class="border border-gray-300 dark:border-gray-800 rounded"
-                        use:highcharts={configFearAndGreed}
-                      ></div>
+                      {#if configFearAndGreed}
+                        <div
+                          class="border border-gray-300 dark:border-gray-800 rounded"
+                          use:highcharts={configFearAndGreed}
+                        ></div>
+                      {:else}
+                        <div
+                          class="mt-2 flex justify-center items-center h-[360px] border border-gray-300 dark:border-gray-800 rounded"
+                        >
+                          <div class="relative">
+                            <label
+                              class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                            >
+                              <span
+                                class="loading loading-spinner loading-md text-white dark:text-white"
+                              ></span>
+                            </label>
+                          </div>
+                        </div>
+                      {/if}
                     </div>
                   </div>
                 </div>
@@ -2132,33 +2178,48 @@
 
                   <div class="grow mt-1">
                     <div class="relative">
-                      <!-- Apply the blur class to the chart -->
-                      <div
-                        class="{!['Pro']?.includes(data?.user?.tier)
-                          ? 'blur-[3px]'
-                          : ''}  border border-gray-300 dark:border-gray-800 rounded"
-                        use:highcharts={configHeatmap}
-                      ></div>
-                      <!-- Overlay with "Upgrade to Pro" -->
-                      {#if !["Pro"]?.includes(data?.user?.tier)}
+                      {#if configHeatmap}
                         <div
-                          class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-white"
-                        >
-                          <a
-                            href="/pricing"
-                            class="sm:hover:text-blue-800 dark:sm:hover:text-white dark:text-white flex flex-row items-center"
+                          class="{!['Pro']?.includes(data?.user?.tier)
+                            ? 'blur-[3px]'
+                            : ''}  border border-gray-300 dark:border-gray-800 rounded"
+                          use:highcharts={configHeatmap}
+                        ></div>
+                        <!-- Overlay with "Upgrade to Pro" -->
+                        {#if !["Pro"]?.includes(data?.user?.tier)}
+                          <div
+                            class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-white"
                           >
-                            <span>Upgrade</span>
-                            <svg
-                              class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              ><path
-                                fill="currentColor"
-                                d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                              /></svg
+                            <a
+                              href="/pricing"
+                              class="sm:hover:text-blue-800 dark:sm:hover:text-white dark:text-white flex flex-row items-center"
                             >
-                          </a>
+                              <span>Upgrade</span>
+                              <svg
+                                class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                ><path
+                                  fill="currentColor"
+                                  d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                                /></svg
+                              >
+                            </a>
+                          </div>
+                        {/if}
+                      {:else}
+                        <div
+                          class="mt-2 flex justify-center items-center h-[360px] border border-gray-300 dark:border-gray-800 rounded"
+                        >
+                          <div class="relative">
+                            <label
+                              class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                            >
+                              <span
+                                class="loading loading-spinner loading-md text-white dark:text-white"
+                              ></span>
+                            </label>
+                          </div>
                         </div>
                       {/if}
                     </div>
