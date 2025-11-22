@@ -1,6 +1,6 @@
 export const load = async ({ locals }) => {
 
-  const getStocks = async () => {
+  const getData = async () => {
     const { apiKey, apiURL } = locals;
     const postData = { filterList: 'highest-open-interest-by-contract' };
 
@@ -20,6 +20,6 @@ export const load = async ({ locals }) => {
 
   // Make sure to return a promise
   return {
-    getStocks: await getStocks(),
+    getData: await getData(),
   };
 };

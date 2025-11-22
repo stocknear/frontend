@@ -229,6 +229,10 @@
       link: "/list/highest-put-volume",
     },
     {
+      title: "Highest Open Interest by Contract",
+      link: "/list/highest-open-interest-by-contract",
+    },
+    {
       title: "Biggest Artificial Intelligence Stocks",
       link: "/list/ai-stocks",
     },
