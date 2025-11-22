@@ -705,7 +705,7 @@
                         ? "blur-[3px]"
                         : ""}
                     >
-                      <HeatmapChart />
+                      <HeatmapChart seasonData={data?.getMarketSeasonality} />
                     </div>
                     <!-- Overlay with "Upgrade to Pro" -->
                     {#if !["Pro"]?.includes(data?.user?.tier)}

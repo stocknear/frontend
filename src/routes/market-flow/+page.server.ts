@@ -1,3 +1,5 @@
+import { get } from "http";
+
 export const load = async ({ locals }) => {
   const { apiKey, apiURL } = locals;
 
@@ -36,14 +38,38 @@ export const load = async ({ locals }) => {
 
   };
 
+
+  const getMarketSeasonality = async () => {
+
+    // Make the GET request to the fear-and-greed endpoint
+    const response = await fetch(apiURL + "/market-seasonality", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": apiKey,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const output = await response.json();
+    return output;
+
+  };
+
+
   // Make sure to return a promise
-  const [data, fearAndGreed] = await Promise.all([
+  const [data, fearAndGreed, marketSeasonality] = await Promise.all([
     getData(),
     getFearAndGreed(),
+    getMarketSeasonality(),
   ]);
 
   return {
     getData: data,
     getFearAndGreed: fearAndGreed,
+    getMarketSeasonality: marketSeasonality,
   };
 };

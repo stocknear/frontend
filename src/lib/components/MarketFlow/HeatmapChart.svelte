@@ -2,6 +2,8 @@
     import highcharts from "$lib/highcharts.ts";
     import { mode } from "mode-watcher";
 
+    export let seasonData: any[] = [];
+
     function plotHeatmap() {
         // 1. Define Categories based on the image
         const xCategories = [
@@ -35,17 +37,6 @@
             "XLV",
             "XLY",
         ];
-
-        const generateData = () => {
-            const data = [];
-            for (let y = 0; y < yCategories.length; y++) {
-                for (let x = 0; x < xCategories?.length; x++) {
-                    const randomValue = Math.random() * 7 - 2.5;
-                    data.push([x, y, parseFloat(randomValue.toFixed(2))]);
-                }
-            }
-            return data;
-        };
 
         const options = {
             credits: { enabled: false },
@@ -121,7 +112,7 @@
                     name: "Monthly Return",
                     borderWidth: 1,
                     borderColor: $mode === "light" ? "#fff" : "#18181b",
-                    data: generateData(),
+                    data: seasonData,
                     dataLabels: {
                         enabled: true,
                         color: "#ffffff",
