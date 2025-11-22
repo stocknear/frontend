@@ -1543,6 +1543,7 @@
     iv30d: {
       label: "IV 30d",
       step: ["100%", "50%", "30%", "10%"],
+      varType: "percent",
       defaultCondition: "over",
       defaultValue: "any",
       category: "Options Activity",
