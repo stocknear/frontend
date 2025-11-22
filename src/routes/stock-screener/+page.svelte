@@ -1542,7 +1542,7 @@
     },
     iv30d: {
       label: "IV 30d",
-      step: [1, 0.5, 0.3, 0.1, 0],
+      step: ["100%", "50%", "30%", "10%"],
       defaultCondition: "over",
       defaultValue: "any",
       category: "Options Activity",
