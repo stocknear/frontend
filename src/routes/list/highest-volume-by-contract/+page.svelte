@@ -484,15 +484,15 @@
                       </td>
 
                       <td
-                        class="text-end whitespace-nowrap text-sm sm:text-[1rem]"
-                      >
-                        {item?.totalOI?.toLocaleString("en-US")}
-                      </td>
-
-                      <td
                         class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
                       >
                         {item?.optionVolume?.toLocaleString("en-US")}
+                      </td>
+
+                      <td
+                        class="text-end whitespace-nowrap text-sm sm:text-[1rem]"
+                      >
+                        {item?.totalOI?.toLocaleString("en-US")}
                       </td>
 
                       <td
