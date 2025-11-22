@@ -14,6 +14,7 @@
   let configOIPutCall;
   let configVolume;
   let configVolumePutCall;
+  let configFearAndGreed = null;
 
   let marketTideData = Array.isArray(data?.getData?.marketTide)
     ? (data?.getData?.marketTide ?? [])
@@ -25,15 +26,10 @@
   let marketFlowDate =
     typeof data?.getData?.date === "string" ? data.getData.date : "";
 
-  let isPro = data?.user?.tier === "Pro";
+  let fearAndGreedValue = data?.getFearAndGreed?.current?.value || 50;
+  let currentCategory = data?.getFearAndGreed?.current?.category || "Neutral";
 
-  let totalPremium = 0;
-  let totalCallPrem = 0;
-  let totalPutPrem = 0;
-  let sortedByPremium: any[] = [];
-  let top3: any[] = [];
-  let callShare = 0;
-  let putShare = 0;
+  let isPro = data?.user?.tier === "Pro";
 
   let marketFlowSocket: WebSocket | null = null;
   let marketFlowReconnectTimer: ReturnType<typeof setTimeout> | null = null;
@@ -43,31 +39,6 @@
 
   const MARKET_FLOW_RECONNECT_DELAY = 5000;
   const MARKET_FLOW_REFRESH_INTERVAL_MS = 10000;
-
-  $: totalPremium = (sectorFlow ?? []).reduce(
-    (sum, s) => sum + (s?.totalPremium || 0),
-    0,
-  );
-
-  $: totalCallPrem = (sectorFlow ?? []).reduce(
-    (sum, s) => sum + (s?.callPrem || 0),
-    0,
-  );
-
-  $: totalPutPrem = (sectorFlow ?? []).reduce(
-    (sum, s) => sum + (s?.putPrem || 0),
-    0,
-  );
-
-  $: sortedByPremium = [...(sectorFlow ?? [])].sort(
-    (a, b) => (b?.totalPremium || 0) - (a?.totalPremium || 0),
-  );
-
-  $: top3 = sortedByPremium.slice(0, 3);
-
-  $: callShare = totalPremium ? (totalCallPrem / totalPremium) * 100 : 0;
-
-  $: putShare = totalPremium ? (totalPutPrem / totalPremium) * 100 : 0;
 
   function cleanupMarketFlowSocket() {
     if (marketFlowReconnectTimer) {
@@ -230,16 +201,6 @@
     cleanupMarketFlowSocket();
   });
 
-  function unlockLink() {
-    return `
-      <a href="/pricing" class="sm:hover:text-default dark:sm:hover:text-blue-400">
-        Upgrade <svg class="w-4 h-4 mb-1 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"/>
-        </svg>
-      </a>
-    `;
-  }
-
   function findLastNonNull(dataArray, key) {
     if (!Array.isArray(dataArray)) {
       return null;
@@ -254,6 +215,341 @@
       }
     }
     return null; // Return null if no non-null value is found.
+  }
+
+  function plotFearAndGreed() {
+    const inactiveColor = $mode === "light" ? "#EFEFEF" : "#2E2E2E";
+    const getSegmentColor = (segmentName) => {
+      if (fearAndGreedValue <= 25 && segmentName === "extremeFear")
+        return "#EA6A47";
+      if (
+        fearAndGreedValue > 25 &&
+        fearAndGreedValue <= 45 &&
+        segmentName === "fear"
+      )
+        return "#F89E4F";
+      if (
+        fearAndGreedValue > 45 &&
+        fearAndGreedValue <= 55 &&
+        segmentName === "neutral"
+      )
+        return "#FDDD5C";
+      if (
+        fearAndGreedValue > 55 &&
+        fearAndGreedValue <= 75 &&
+        segmentName === "greed"
+      )
+        return "#93D3C1";
+      if (fearAndGreedValue > 75 && segmentName === "extremeGreed")
+        return "#5AC864";
+      return inactiveColor;
+    };
+
+    // border color for the active band (mint outline shown on screenshot)
+    const getBorderColor = (segmentName) => {
+      // only return visible border for the currently active segment
+      if (fearAndGreedValue <= 25 && segmentName === "extremeFear")
+        return "#D94A30";
+      if (
+        fearAndGreedValue > 25 &&
+        fearAndGreedValue <= 45 &&
+        segmentName === "fear"
+      )
+        return "#D87A2B";
+      if (
+        fearAndGreedValue > 45 &&
+        fearAndGreedValue <= 55 &&
+        segmentName === "neutral"
+      )
+        return "#CFAF2A";
+      if (
+        fearAndGreedValue > 55 &&
+        fearAndGreedValue <= 75 &&
+        segmentName === "greed"
+      )
+        return "#26A892"; // mint/teal border
+      if (fearAndGreedValue > 75 && segmentName === "extremeGreed")
+        return "#47B84A";
+      return "transparent";
+    };
+
+    // helper to check whether a segment is currently active
+    const isActive = (segmentName) => {
+      if (segmentName === "extremeFear") return fearAndGreedValue <= 25;
+      if (segmentName === "fear")
+        return fearAndGreedValue > 25 && fearAndGreedValue <= 45;
+      if (segmentName === "neutral")
+        return fearAndGreedValue > 45 && fearAndGreedValue <= 55;
+      if (segmentName === "greed")
+        return fearAndGreedValue > 55 && fearAndGreedValue <= 75;
+      if (segmentName === "extremeGreed") return fearAndGreedValue > 75;
+      return false;
+    };
+
+    // helper to return label text (or null when inactive). Accepts an optional HTML label for multi-line labels.
+    const getLabelText = (segmentName, labelHtml) => {
+      // hide label entirely on small screens as before
+      if ($screenWidth < 640) return null;
+      return isActive(segmentName) ? labelHtml : null;
+    };
+
+    const options = {
+      credits: { enabled: false },
+      chart: {
+        type: "gauge",
+        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        height: 360,
+        animation: false, // disable chart-level animation
+      },
+
+      // Disable animations globally for series/gauge and disable hover states
+      plotOptions: {
+        series: {
+          animation: false,
+          states: {
+            hover: { enabled: false },
+            inactive: { enabled: false },
+          },
+          dataLabels: {
+            animation: false,
+          },
+        },
+        gauge: {
+          animation: false,
+        },
+      },
+
+      title: {
+        text: `
+    <div class="text-center mt-3 -mb-12">
+        <!-- Circle wrapper -->
+        <div
+            class="w-[55px] h-[55px] sm:w-[70px] sm:h-[70px] rounded-full
+                   ${
+                     $mode === "light"
+                       ? "bg-black shadow-[0_12px_20px_rgba(0,0,0,0.12)]"
+                       : "bg-[#fff] shadow-[0_6px_16px_rgba(0,0,0,0.4)]"
+                   }
+                   flex items-center justify-center mx-auto"
+        >
+            <div class="text-xl font-extrabold ${$mode === "light" ? "text-white" : "text-black"}">
+                ${fearAndGreedValue}
+            </div>
+        </div>
+
+        <!-- Subtitle -->
+        <div class="text-sm sm:hidden capitalize ${$mode === "light" ? "text-gray-800" : "text-gray-100"} mt-2">
+            ${currentCategory}
+        </div>
+    </div>
+    `,
+        useHTML: true,
+        verticalAlign: "middle",
+        y: 70,
+      },
+      pane: {
+        startAngle: -90,
+        endAngle: 90,
+        background: [
+          {
+            backgroundColor: "transparent",
+            borderWidth: 0,
+            outerRadius: "100%",
+          },
+          {
+            backgroundColor: $mode === "light" ? "#ffffff" : "#18181b",
+            borderWidth: 0,
+            innerRadius: "60%",
+            outerRadius: "60%",
+            shape: "arc",
+          },
+        ],
+        center: ["50%", "75%"],
+        size: "100%",
+      },
+      yAxis: {
+        min: 0,
+        max: 100,
+        tickPositions: [0, 25, 50, 75, 100],
+        minorTickInterval: null,
+        tickLength: 0,
+        tickWidth: 0,
+        labels: {
+          distance: 20,
+          style: {
+            color: $mode === "light" ? "#6b7280" : "#d1d5db",
+            fontSize: "13px",
+            fontWeight: "600",
+          },
+          formatter: function () {
+            return [0, 25, 50, 75, 100].includes(this.value) ? this.value : "";
+          },
+        },
+        lineWidth: 0,
+        plotBands: [
+          {
+            from: 0,
+            to: 25,
+            color: getSegmentColor("extremeFear"),
+            thickness: 36,
+            borderColor: getBorderColor("extremeFear"),
+            borderWidth:
+              getBorderColor("extremeFear") === "transparent" ? 0 : 3,
+            label: {
+              text: getLabelText("extremeFear", "EXTREME<br/>FEAR"),
+              useHTML: true,
+              align: "center",
+              verticalAlign: "middle",
+              x: 40,
+              y: -22,
+              style: {
+                color: isActive("extremeFear")
+                  ? "#fff"
+                  : $mode === "light"
+                    ? "#000"
+                    : "#9ca3af",
+                fontSize: "14px",
+                fontWeight: "600",
+                textAlign: "center",
+              },
+            },
+          },
+          {
+            from: 25,
+            to: 45,
+            color: getSegmentColor("fear"),
+            thickness: 36,
+            borderColor: getBorderColor("fear"),
+            borderWidth: getBorderColor("fear") === "transparent" ? 0 : 3,
+            label: {
+              text: getLabelText("fear", "FEAR"),
+              align: "center",
+              verticalAlign: "middle",
+              x: 55,
+              y: -44,
+              style: {
+                color: isActive("fear")
+                  ? "#fff"
+                  : $mode === "light"
+                    ? "#000"
+                    : "#9ca3af",
+                fontSize: "14px",
+                fontWeight: "600",
+              },
+            },
+          },
+          {
+            from: 45,
+            to: 55,
+            color: getSegmentColor("neutral"),
+            thickness: 36,
+            borderColor: getBorderColor("neutral"),
+            borderWidth: getBorderColor("neutral") === "transparent" ? 0 : 3,
+            label: {
+              text: getLabelText("neutral", "NEUTRAL"),
+              align: "center",
+              verticalAlign: "middle",
+              x: -200,
+              y: -40,
+              style: {
+                color: isActive("neutral")
+                  ? $mode === "light"
+                    ? "#333"
+                    : "#e5e7eb"
+                  : $mode === "light"
+                    ? "#000"
+                    : "#9ca3af",
+                fontSize: "14px",
+                fontWeight: "600",
+              },
+            },
+          },
+          {
+            from: 55,
+            to: 75,
+            color: getSegmentColor("greed"),
+            thickness: 36,
+            borderColor: getBorderColor("greed"),
+            borderWidth: getBorderColor("greed") === "transparent" ? 0 : 3,
+            label: {
+              text: getLabelText("greed", "GREED"),
+              align: "center",
+              verticalAlign: "middle",
+              x: -30,
+              y: -44,
+              style: {
+                color: isActive("greed")
+                  ? $mode === "light"
+                    ? "#333"
+                    : "#e5e7eb"
+                  : $mode === "light"
+                    ? "#000"
+                    : "#9ca3af",
+                fontSize: "14px",
+                fontWeight: "600",
+              },
+            },
+          },
+          {
+            from: 75,
+            to: 100,
+            color: getSegmentColor("extremeGreed"),
+            thickness: 36,
+            borderColor: getBorderColor("extremeGreed"),
+            borderWidth:
+              getBorderColor("extremeGreed") === "transparent" ? 0 : 3,
+            label: {
+              text: getLabelText("extremeGreed", "EXTREME<br/>GREED"),
+              useHTML: true,
+              align: "center",
+              verticalAlign: "middle",
+              x: -50,
+              y: -22,
+              style: {
+                color: isActive("extremeGreed")
+                  ? "#fff"
+                  : $mode === "light"
+                    ? "#000"
+                    : "#9ca3af",
+                fontSize: "14px",
+                fontWeight: "600",
+                textAlign: "center",
+              },
+            },
+          },
+        ],
+      },
+      series: [
+        {
+          name: "Fear & Greed",
+          data: [fearAndGreedValue],
+          animation: false, // disable series-level animation
+          tooltip: { valueSuffix: "" },
+          dataLabels: { enabled: false, animation: false },
+          dial: {
+            radius: "80%",
+            backgroundColor: $mode === "light" ? "#161616" : "#fff", // black vs golden needle
+            baseWidth: 10,
+            baseLength: "10%",
+            rearLength: "-10%",
+            topWidth: 1,
+          },
+          pivot: {
+            backgroundColor: $mode === "light" ? "#fff" : "#1f2937",
+            radius: 6,
+            borderColor: $mode === "light" ? "#000" : "#e5e7eb",
+            borderWidth: 1,
+          },
+          states: {
+            hover: { enabled: false },
+          },
+        },
+      ],
+      tooltip: { enabled: false },
+    };
+
+    return options;
   }
 
   function plotDataFlow() {
@@ -399,7 +695,7 @@
         borderWidth: 1,
         style: {
           color: "#fff",
-          fontSize: "16px",
+          fontSize: "14px",
           padding: "10px",
         },
         borderRadius: 4,
@@ -1185,13 +1481,9 @@
   $: {
     if ($mode) {
       config = marketTideData ? plotDataFlow() : null;
-    }
-  }
-
-  $: {
-    if ($mode) {
-      config = marketTideData ? plotDataFlow() : null;
       configBarChart = sectorFlow?.length > 0 ? plotBarChart() : null;
+      configFearAndGreed = plotFearAndGreed();
+
       const { optionsOI, optionsOIPutCall } = plotOI();
       const { optionsVolume, optionsVolumePutCall } = plotVolume();
 
@@ -1628,89 +1920,61 @@
                 </div>
               </div>
 
-              <h2 class="mb-2 mt-5 text-xl sm:text-2xl font-bold w-fit">
-                Sector Flow
-              </h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
+                <div class="order-1 sm:order-0">
+                  <h2 class="mb-2 mt-5 text-xl sm:text-2xl font-bold w-fit">
+                    Fear & Greed Index
+                  </h2>
 
-              {#if sectorFlow && configBarChart}
-                <p class="mb-5">
-                  Sector-level option premium across <strong>S&P500</strong> as
-                  of
-                  <strong>
-                    {marketFlowDate}
-                  </strong>
-                  shows a combined premium of
-                  <strong>
-                    {#if isPro}
-                      ${abbreviateNumber(totalPremium)}
-                    {:else}
-                      {@html unlockLink()}
-                    {/if}
-                  </strong>
-                  contracts, with calls accounting for
-                  <strong>
-                    {#if isPro}
-                      {callShare.toFixed(1)}%
-                    {:else}
-                      {@html unlockLink()}
-                    {/if}
-                  </strong>
-                  and puts for
-                  <strong>
-                    {#if isPro}
-                      {putShare.toFixed(1)}%
-                    {:else}
-                      {@html unlockLink()}
-                    {/if}
-                  </strong>
-                  of total premium. The top sectors by premium are
-                  <strong>
-                    {#if isPro}
-                      {#each top3 as s, i}
-                        {s.sector} ({(
-                          (s.totalPremium / totalPremium) *
-                          100
-                        )?.toFixed(1)}%{#if i < top3?.length}), {" "}
-                        {/if}
-                      {/each}
-                    {:else}
-                      {@html unlockLink()}
-                    {/if}
-                  </strong>.
-                </p>
-              {/if}
-
-              <div class="grow mt-5">
-                <div class="relative">
-                  <!-- Apply the blur class to the chart -->
-                  <div
-                    class="{!['Pro']?.includes(data?.user?.tier)
-                      ? 'blur-[3px]'
-                      : ''}  border border-gray-300 dark:border-gray-800 rounded"
-                    use:highcharts={configBarChart}
-                  ></div>
-                  <!-- Overlay with "Upgrade to Pro" -->
-                  {#if !["Pro"]?.includes(data?.user?.tier)}
-                    <div
-                      class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-white"
-                    >
-                      <a
-                        href="/pricing"
-                        class="sm:hover:text-blue-800 dark:sm:hover:text-white dark:text-white flex flex-row items-center"
-                      >
-                        <span>Upgrade</span>
-                        <svg
-                          class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          ><path
-                            fill="currentColor"
-                            d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                          /></svg
-                        >
-                      </a>
+                  <div class="grow mt-2">
+                    <div class="relative">
+                      <!-- Apply the blur class to the chart -->
+                      <div
+                        class="border border-gray-300 dark:border-gray-800 rounded"
+                        use:highcharts={configFearAndGreed}
+                      ></div>
                     </div>
-                  {/if}
+                  </div>
+                </div>
+
+                <div class="order-0 sm:order-1">
+                  <h2 class="mb-2 mt-5 text-xl sm:text-2xl font-bold w-fit">
+                    Sector Flow
+                  </h2>
+
+                  <div class="grow mt-2">
+                    <div class="relative">
+                      <!-- Apply the blur class to the chart -->
+                      <div
+                        class="{!['Pro']?.includes(data?.user?.tier)
+                          ? 'blur-[3px]'
+                          : ''}  border border-gray-300 dark:border-gray-800 rounded"
+                        use:highcharts={configBarChart}
+                      ></div>
+                      <!-- Overlay with "Upgrade to Pro" -->
+                      {#if !["Pro"]?.includes(data?.user?.tier)}
+                        <div
+                          class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-white"
+                        >
+                          <a
+                            href="/pricing"
+                            class="sm:hover:text-blue-800 dark:sm:hover:text-white dark:text-white flex flex-row items-center"
+                          >
+                            <span>Upgrade</span>
+                            <svg
+                              class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              ><path
+                                fill="currentColor"
+                                d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                              /></svg
+                            >
+                          </a>
+                        </div>
+                      {/if}
+                    </div>
+                  </div>
                 </div>
               </div>
             {/if}

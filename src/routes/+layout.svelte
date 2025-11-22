@@ -455,18 +455,6 @@
                             class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
                           >
                             <a
-                              href="/fear-and-greed"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
-                              >Fear & Greed Index</a
-                            >
-                          </Button>
-
-                          <Button
-                            builders={[builder]}
-                            type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
-                          >
-                            <a
                               href="/list"
                               class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
                               >Stock Lists</a
@@ -1293,12 +1281,6 @@
                             href="/heatmap"
                             class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
                             >Market Heatmap</a
-                          >
-
-                          <a
-                            href="/fear-and-greed"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
-                            >Fear & Greed Index</a
                           >
 
                           <a
