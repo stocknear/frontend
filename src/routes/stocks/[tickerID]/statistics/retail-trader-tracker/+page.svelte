@@ -38,25 +38,36 @@
   let selectedTimePeriod = "3M";
 
   function filterTimePeriod(data: any[] = []) {
-    if (!Array.isArray(data) || data.length === 0) {
-      return [];
-    }
-    const maxYear = Math.max(...data.map((item) => Number(item?.fiscalYear)));
+    if (!Array.isArray(data) || data.length === 0) return [];
 
-    let yearsToKeep;
     if (selectedTimePeriod === "MAX") {
       return data;
-    } else if (selectedTimePeriod?.endsWith("Y")) {
-      yearsToKeep = Number(selectedTimePeriod.replace("Y", ""));
+    }
+
+    const now = new Date();
+    let cutoffDate: Date;
+
+    if (selectedTimePeriod.endsWith("M")) {
+      const months = Number(selectedTimePeriod.replace("M", ""));
+      cutoffDate = new Date(
+        now.getFullYear(),
+        now.getMonth() - months,
+        now.getDate(),
+      );
+    } else if (selectedTimePeriod.endsWith("Y")) {
+      const years = Number(selectedTimePeriod.replace("Y", ""));
+      cutoffDate = new Date(
+        now.getFullYear() - years,
+        now.getMonth(),
+        now.getDate(),
+      );
     } else {
       throw new Error(
-        "Invalid selectedTimePeriod format. Use '5Y', '10Y', or 'MAX'.",
+        "Invalid selectedTimePeriod format. Use '3M', '6M', '1Y', '3Y', or 'MAX'.",
       );
     }
 
-    return data.filter(
-      (item) => Number(item?.fiscalYear) >= maxYear - yearsToKeep + 1,
-    );
+    return data.filter((item) => new Date(item.date) >= cutoffDate);
   }
 
   function plotData() {
@@ -194,28 +205,43 @@
             year: "numeric",
           });
 
-          // find points by series name if order changes
           const pts = this.points || [];
 
-          // default values
+          // Default values
           let retailVol = "-";
           let sentimentVal = "-";
+          let sentimentColor = "#fff";
+          let stockPrice = "-";
+          let stockColor = "#fff";
+          let retailColor = "#fff";
 
           pts.forEach((p) => {
             if (p.series && p.series.name === "Retail Vol. Share") {
               retailVol = `$${abbreviateNumber(p.y)}`;
+              retailColor = p.color || "#fff";
             } else if (p.series && p.series.name === "Sentiment") {
               sentimentVal = p.y;
+              sentimentColor = p.color || (p.y >= 0 ? "#16A34A" : "#EF4444");
+            } else if (p.series && p.series.name === "Stock Price") {
+              stockPrice = `${p.y.toFixed(2)}`;
+              stockColor = p.color || "#fff";
             }
           });
 
+          // Helper to make colored circle
+          const circle = (color) =>
+            `<span style="display:inline-block;width:10px;height:10px;background-color:${color};border-radius:50%;margin-right:5px;"></span>`;
+
           return `
-          <span class="text-white text-sm font-normal">${formattedDate}</span><br>
-          <span class="text-white text-sm font-[501]">Retail Vol. Share: ${retailVol}</span><br>
-          <span class="text-white text-sm font-[501]">Sentiment: ${sentimentVal}</span>
-        `;
+      <span class="text-white text-sm font-normal">${formattedDate}</span><br>
+            ${circle(stockColor)}<span class="text-white text-sm font-[501]">Stock Price: ${stockPrice}</span><br>
+
+      ${circle(retailColor)}<span class="text-white text-sm font-[501]">Retail Vol. Share: ${retailVol}</span><br>
+            ${circle(sentimentColor)}<span class="text-white text-sm font-[501]">Sentiment: ${sentimentVal}</span>
+    `;
         },
       },
+
       plotOptions: {
         series: {
           legendSymbol: "rectangle",
@@ -261,7 +287,7 @@
           type: "column",
           data: sentimentPoints, // point objects with color per point
           yAxis: 0,
-          colorByPoint: true,
+          color: "#6366f1",
           animation: false,
           zIndex: 0,
         },
@@ -270,8 +296,8 @@
           type: "spline",
           data: activitySeries,
           yAxis: 1, // second yAxis
-          color: "#fff",
-          lineWidth: 1,
+          color: "#e3ac0d",
+          lineWidth: 1.5,
           animation: false,
           zIndex: 0,
         },
@@ -280,8 +306,8 @@
           type: "spline",
           data: priceSeries,
           yAxis: 2, // second yAxis
-          color: "#fafa",
-          lineWidth: 1,
+          color: "#fff",
+          lineWidth: 1.5,
           animation: false,
           zIndex: 1,
         },
@@ -519,8 +545,10 @@
   });
 
   $: {
-    if ($mode) {
-      config = plotData();
+    if ($mode && selectedTimePeriod) {
+      rawData = data?.getData?.history || [];
+      rawData = filterTimePeriod(rawData);
+      config = plotData(); // refresh chart
     }
   }
 </script>
@@ -653,7 +681,7 @@
                             1Y
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
-                            on:click={() => (selectedTimePeriod = "1Y")}
+                            on:click={() => (selectedTimePeriod = "3Y")}
                             class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary flex flex-row items-center"
                           >
                             3Y
