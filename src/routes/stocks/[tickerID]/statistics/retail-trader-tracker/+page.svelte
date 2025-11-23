@@ -43,26 +43,20 @@
     // Prepare series data in one pass
     const priceSeries = [];
     // Data for sentiment should be [time, sentiment] pairs
-    const sentimentSeries = [];
+    const activitySeries = [];
 
-    rawData.forEach(({ date, price, sentiment }) => {
+    rawData.forEach(({ date, price, activity }) => {
       const time = new Date(date).getTime();
       priceSeries.push([time, price]);
-      // Assuming 'sentiment' is a numerical value to be plotted as a column
-      sentimentSeries.push([time, sentiment]);
+      // Assuming 'activity' is a numerical value to be plotted as a column
+      activitySeries.push([time, activity]);
     });
 
     const fillColorStart = "rgba(70, 129, 244, 0.5)";
     const fillColorEnd = "rgba(70, 129, 244, 0.001)";
 
     // --- Determine max/min sentiment for the Y-Axis range ---
-    const sentimentValues = sentimentSeries.map((item) => item[1]);
-    const maxSentiment = Math.max(...sentimentValues);
-    const minSentiment = Math.min(...sentimentValues);
-    const sentimentRange = maxSentiment - minSentiment;
-
-    // Set a sensible buffer for the sentiment axis (e.g., 10% of the range)
-    const buffer = sentimentRange * 0.1;
+    const activityValues = activitySeries.map((item) => item[1]);
 
     const options = {
       credits: { enabled: false },
@@ -152,15 +146,15 @@
           });
 
           // Find the sentiment data point for the current date
-          const sentimentPoint = sentimentSeries.find(
+          const activityPoint = activitySeries.find(
             (item) => item[0] === this.x,
           );
-          const sentimentValue = sentimentPoint ? sentimentPoint[1] : "N/A";
+          const activityValue = activityPoint ? activityPoint[1] : "n/a";
 
           return `
             <span class="text-white text-sm font-normal">${formattedDate}</span><br>
-            <span class="text-white text-sm font-[501]">Stock Price: $${this.points[0].y?.toFixed(2)}</span><br>
-            <span class="text-white text-sm font-[501]">Sentiment: ${sentimentValue?.toFixed(2)}</span>
+            <span class="text-white text-sm font-[501]">Stock Price: ${this.points[0].y?.toFixed(2)}</span><br>
+            <span class="text-white text-sm font-[501]">Retail Vol. Share: ${activityValue?.toFixed(2) + "%"}</span>
           `;
         },
       },
@@ -222,13 +216,12 @@
           zIndex: 1,
         },
         {
-          name: "Sentiment",
+          name: "Retail Vol. Share %",
           type: "spline",
-          data: sentimentSeries, // Use the new sentimentSeries data
+          data: activitySeries, // Use the new activitySeries data
           yAxis: 1, // Assign to the second yAxis (Sentiment)
-          color: "#CC2619",
-          borderColor: "#CC2619",
-          borderRadius: "1px",
+          color: "#fff",
+          lineWidth: 1,
           animation: false,
           zIndex: 0, // Place columns behind the area chart
         },
@@ -540,48 +533,7 @@
               />
 
               <div
-                class="my-5 grid grid-cols-2 gap-3 xs:mt-6 bp:mt-7 sm:grid-cols-3 sm:gap-6"
-              >
-                <div class="short-interest-driver">
-                  Retail Vol. Share %
-                  <div
-                    class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
-                  >
-                    {data?.getData?.lastActivity}%
-                  </div>
-                </div>
-                <div class="shortPriorMonth-driver">
-                  Sentiment <div
-                    class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
-                  >
-                    {#if data?.getData?.lastSentiment}
-                      {#if data?.getData?.lastSentiment > 0}
-                        Bullish
-                      {:else if data?.getData?.lastSentiment < 0}
-                        Bearish
-                      {:else}
-                        Neutral
-                      {/if}
-                    {:else}
-                      n/a
-                    {/if}
-                  </div>
-                </div>
-                <div class="changeMoM-driver">
-                  % Change MoM <div
-                    class="mt-0.5 text-lg {latestEntry?.percentChangeMoMo > 0
-                      ? "before:content-['+'] "
-                      : ''} font-semibold bp:text-xl sm:mt-1.5 sm:text-2xl"
-                  >
-                    {latestEntry?.percentChangeMoMo
-                      ? latestEntry?.percentChangeMoMo + "%"
-                      : "n/a"}
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="flex flex-col sm:flex-row items-start sm:items-center w-full"
+                class="flex flex-col sm:flex-row items-start sm:items-center w-full mt-5"
               >
                 <h2 class="text-xl sm:text-2xl font-bold">
                   Retail Tracker Chart
