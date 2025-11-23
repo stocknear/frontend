@@ -42,16 +42,27 @@
 
     // Prepare series data in one pass
     const priceSeries = [];
-    const sentimentData = [];
+    // Data for sentiment should be [time, sentiment] pairs
+    const sentimentSeries = [];
 
     rawData.forEach(({ date, price, sentiment }) => {
       const time = new Date(date).getTime();
       priceSeries.push([time, price]);
-      sentimentData.push({ time, price, shortFloat: sentiment });
+      // Assuming 'sentiment' is a numerical value to be plotted as a column
+      sentimentSeries.push([time, sentiment]);
     });
 
     const fillColorStart = "rgba(70, 129, 244, 0.5)";
     const fillColorEnd = "rgba(70, 129, 244, 0.001)";
+
+    // --- Determine max/min sentiment for the Y-Axis range ---
+    const sentimentValues = sentimentSeries.map((item) => item[1]);
+    const maxSentiment = Math.max(...sentimentValues);
+    const minSentiment = Math.min(...sentimentValues);
+    const sentimentRange = maxSentiment - minSentiment;
+
+    // Set a sensible buffer for the sentiment axis (e.g., 10% of the range)
+    const buffer = sentimentRange * 0.1;
 
     const options = {
       credits: { enabled: false },
@@ -94,28 +105,34 @@
           return positions;
         },
       },
-      yAxis: {
-        min: 0,
-        opposite: true,
-        title: {
-          text: "Stock Price",
-          style: {
-            color: $mode === "light" ? "#6b7280" : "#fff",
+      // --- Primary Y-Axis for Stock Price ---
+      yAxis: [
+        {
+          min: 0,
+          opposite: true, // Right side
+          title: {
+            text: "Stock Price",
+            style: {
+              color: $mode === "light" ? "#6b7280" : "#fff",
+            },
           },
+          labels: {
+            style: {
+              color: $mode === "light" ? "#6b7280" : "#fff",
+            },
+            formatter: function () {
+              return `${this.value.toFixed(2)}`;
+            },
+          },
+          gridLineWidth: 1,
+          gridLineColor: $mode === "light" ? "#e5e7eb" : "#111827",
         },
-        labels: {
-          style: {
-            color: $mode === "light" ? "#6b7280" : "#fff",
-          },
-          formatter: function () {
-            return `${this.value.toFixed(2)}`;
-          },
+        {
+          visible: false,
         },
-        gridLineWidth: 1,
-        gridLineColor: $mode === "light" ? "#e5e7eb" : "#111827",
-      },
+      ],
       tooltip: {
-        shared: false,
+        shared: true, // Enable shared tooltip to show data from both series
         useHTML: true,
         backgroundColor: "rgba(0, 0, 0, 1)",
         borderColor: "rgba(255, 255, 255, 0.2)",
@@ -134,9 +151,16 @@
             year: "numeric",
           });
 
+          // Find the sentiment data point for the current date
+          const sentimentPoint = sentimentSeries.find(
+            (item) => item[0] === this.x,
+          );
+          const sentimentValue = sentimentPoint ? sentimentPoint[1] : "N/A";
+
           return `
             <span class="text-white text-sm font-normal">${formattedDate}</span><br>
-            <span class="text-white text-sm font-[501]">Stock Price: $${this.y?.toFixed(2)}</span>
+            <span class="text-white text-sm font-[501]">Stock Price: $${this.points[0].y?.toFixed(2)}</span><br>
+            <span class="text-white text-sm font-[501]">Sentiment: ${sentimentValue?.toFixed(2)}</span>
           `;
         },
       },
@@ -161,6 +185,10 @@
           fillOpacity: 0.3,
           shadow: false,
         },
+        column: {
+          pointPadding: 0.2, // Adjust for column spacing
+          borderWidth: 0,
+        },
       },
       legend: {
         enabled: true,
@@ -180,6 +208,7 @@
           name: "Stock Price",
           type: "area",
           data: priceSeries,
+          yAxis: 0, // Assign to the first yAxis (Stock Price)
           color: "#4681f4",
           lineWidth: 1.5,
           fillColor: {
@@ -191,6 +220,17 @@
           },
           animation: false,
           zIndex: 1,
+        },
+        {
+          name: "Sentiment",
+          type: "spline",
+          data: sentimentSeries, // Use the new sentimentSeries data
+          yAxis: 1, // Assign to the second yAxis (Sentiment)
+          color: "#CC2619",
+          borderColor: "#CC2619",
+          borderRadius: "1px",
+          animation: false,
+          zIndex: 0, // Place columns behind the area chart
         },
       ],
     };
@@ -544,7 +584,7 @@
                 class="flex flex-col sm:flex-row items-start sm:items-center w-full"
               >
                 <h2 class="text-xl sm:text-2xl font-bold">
-                  Short Interest Chart
+                  Retail Tracker Chart
                 </h2>
               </div>
 
@@ -647,7 +687,7 @@
                             item?.changesPercentage > 0
                               ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
                               : item?.changesPercentage &&
-                                  item?.changesPercentage > 0
+                                  item?.changesPercentage < 0
                                 ? "text-red-800 dark:text-[#FF2F1F]"
                                 : ""}
                           >
