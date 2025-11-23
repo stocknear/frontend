@@ -89,25 +89,6 @@
       sentimentSeries.push([time, sentiment]);
     });
 
-    // compute min/max for sentiment
-    const sentimentValues = sentimentSeries.map(([, v]) =>
-      typeof v === "number" ? v : 0,
-    );
-    let minSent = Math.min(...sentimentValues);
-    let maxSent = Math.max(...sentimentValues);
-
-    // If all values equal, expand a little so chart isn't flat
-    if (minSent === maxSent) {
-      const delta = Math.abs(minSent) > 0 ? Math.abs(minSent) * 0.05 : 0.05;
-      minSent = minSent - delta;
-      maxSent = maxSent + delta;
-    } else {
-      // Add a tiny padding so bars/axis not flush to edges
-      const pad = (maxSent - minSent) * 0.05;
-      minSent = minSent - pad;
-      maxSent = maxSent + pad;
-    }
-
     // Convert sentimentSeries to point objects with explicit color per point
     const sentimentPoints = sentimentSeries.map(([x, y]) => ({
       x,
@@ -145,23 +126,13 @@
             })}</span>`;
           },
         },
-        tickPositioner: function () {
-          const positions = [];
-          const { min, max } = this.getExtremes();
-          const tickCount = 5;
-          const interval = Math.floor((max - min) / tickCount);
-          for (let i = 0; i <= tickCount; i++) {
-            positions.push(min + i * interval);
-          }
-          return positions;
-        },
       },
       // --- Y-Axes ---
       yAxis: [
         {
           opposite: true, // Right side (sentiment)
           title: {
-            text: "Sentiment",
+            text: "Stock Price",
             style: {
               color: $mode === "light" ? "#6b7280" : "#fff",
             },
@@ -176,8 +147,6 @@
           },
           gridLineWidth: 1,
           gridLineColor: $mode === "light" ? "#e5e7eb" : "#111827",
-          min: minSent,
-          max: maxSent,
         },
         {
           visible: false,
@@ -219,7 +188,12 @@
                 retailColor = p.color || "#fff";
                 break;
               case "Sentiment":
-                sentimentVal = p.y;
+                sentimentVal =
+                  p.y > -5 && p.y < 5
+                    ? "Neutral"
+                    : p.y < -5
+                      ? "Bearish"
+                      : "Bullish";
                 sentimentColor = p.color || (p.y >= 0 ? "#16A34A" : "#EF4444");
                 break;
               case "Stock Price":
@@ -246,7 +220,7 @@
       <span>${formattedDate}</span><br>
       ${circle(stockColor)}Stock Price: ${stockPrice}<br>
       ${circle(retailColor)}Retail Vol Share: ${retailVol}<br>
-      ${circle(sentimentColor)}Sentiment: ${sentimentVal}
+      ${circle(sentimentColor)}Retail Sentiment: ${sentimentVal}
     `;
         },
       },
@@ -292,10 +266,20 @@
       },
       series: [
         {
+          name: "Stock Price",
+          type: "spline",
+          data: priceSeries,
+          yAxis: 0, // Use the NEW first Y-axis (Index 0) on the left
+          color: $mode === "light" ? "#000" : "#fff",
+          lineWidth: 1.5,
+          animation: false,
+          zIndex: 1,
+        },
+        {
           name: "Sentiment",
           type: "column",
-          data: sentimentPoints, // point objects with color per point
-          yAxis: 0,
+          data: sentimentPoints,
+          yAxis: 1, // Use the NEW second Y-axis (Index 1)
           color: "#6366f1",
           animation: false,
           zIndex: 0,
@@ -304,21 +288,11 @@
           name: "Retail Vol Share",
           type: "spline",
           data: activitySeries,
-          yAxis: 1, // second yAxis
+          yAxis: 2, // Use the NEW third Y-axis (Index 2)
           color: $mode === "light" ? "#2c6288" : "#e3ac0d",
           lineWidth: 1.5,
           animation: false,
           zIndex: 0,
-        },
-        {
-          name: "Stock Price",
-          type: "spline",
-          data: priceSeries,
-          yAxis: 2, // second yAxis
-          color: $mode === "light" ? "#000" : "#fff",
-          lineWidth: 1.5,
-          animation: false,
-          zIndex: 1,
         },
       ],
     };
@@ -669,7 +643,7 @@
               </div>
 
               <div
-                class="mt-2 flex flex-col sm:flex-row items-start sm:items-center w-full justify-between border-t border-b border-gray-300 dark:border-gray-800 py-2"
+                class="mt-2 flex flex-row items-center w-full justify-between border-t border-b border-gray-300 dark:border-gray-800 py-2"
               >
                 <h2 class="text-xl sm:text-2xl font-bold">
                   Retail Tracker Chart
@@ -848,7 +822,7 @@
                                 : ""}
                           >
                             {item?.changesPercentage
-                              ? item?.changesPercentage + "%"
+                              ? item?.changesPercentage?.toFixed(2) + "%"
                               : "n/a"}
                           </span>
                         </td>
