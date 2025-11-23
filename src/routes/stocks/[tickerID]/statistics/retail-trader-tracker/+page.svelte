@@ -44,19 +44,14 @@
     const priceSeries = [];
     // Data for sentiment should be [time, sentiment] pairs
     const activitySeries = [];
-
-    rawData.forEach(({ date, price, activity }) => {
+    const sentimentSeries = [];
+    rawData.forEach(({ date, price, activity, sentiment }) => {
       const time = new Date(date).getTime();
       priceSeries.push([time, price]);
       // Assuming 'activity' is a numerical value to be plotted as a column
       activitySeries.push([time, activity]);
+      sentimentSeries.push([time, sentiment]);
     });
-
-    const fillColorStart = "rgba(70, 129, 244, 0.5)";
-    const fillColorEnd = "rgba(70, 129, 244, 0.001)";
-
-    // --- Determine max/min sentiment for the Y-Axis range ---
-    const activityValues = activitySeries.map((item) => item[1]);
 
     const options = {
       credits: { enabled: false },
@@ -102,10 +97,9 @@
       // --- Primary Y-Axis for Stock Price ---
       yAxis: [
         {
-          min: 0,
           opposite: true, // Right side
           title: {
-            text: "Stock Price",
+            text: "Sentiment",
             style: {
               color: $mode === "light" ? "#6b7280" : "#fff",
             },
@@ -153,8 +147,8 @@
 
           return `
             <span class="text-white text-sm font-normal">${formattedDate}</span><br>
-            <span class="text-white text-sm font-[501]">Stock Price: ${this.points[0].y?.toFixed(2)}</span><br>
-            <span class="text-white text-sm font-[501]">Retail Vol. Share: ${activityValue?.toFixed(2) + "%"}</span>
+            <span class="text-white text-sm font-[501]">Retail Vol. Share: ${this?.points[0].y?.toFixed(2) + "%"}</span><br>
+            <span class="text-white text-sm font-[501]">Sentiment: ${this?.points[1].y}</span>
           `;
         },
       },
@@ -199,23 +193,6 @@
       },
       series: [
         {
-          name: "Stock Price",
-          type: "area",
-          data: priceSeries,
-          yAxis: 0, // Assign to the first yAxis (Stock Price)
-          color: "#4681f4",
-          lineWidth: 1.5,
-          fillColor: {
-            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-            stops: [
-              [0, fillColorStart],
-              [1, fillColorEnd],
-            ],
-          },
-          animation: false,
-          zIndex: 1,
-        },
-        {
           name: "Retail Vol. Share %",
           type: "spline",
           data: activitySeries, // Use the new activitySeries data
@@ -223,7 +200,16 @@
           color: "#fff",
           lineWidth: 1,
           animation: false,
-          zIndex: 0, // Place columns behind the area chart
+          zIndex: 1, // Place columns behind the area chart
+        },
+        {
+          name: "Sentiment",
+          type: "column",
+          data: sentimentSeries,
+          yAxis: 0, // Assign to the first yAxis (Stock Price)
+          color: "#4681f4",
+          animation: false,
+          zIndex: 1,
         },
       ],
     };
@@ -755,6 +741,20 @@
                   </Button>
                 </div>
               {/if}
+
+              <div
+                class="text-sm border border-gray-300 dark:border-gray-800 p-3 mt-5"
+              >
+                <strong>Source:</strong> Retail Trader Activity data to track
+                sentiment is provided by
+                <a
+                  href="https://data.nasdaq.com/databases/RTAT"
+                  target="_blank"
+                  rel="noopener"
+                  class="sm:hover:text-muted text-blue-800 dark:text-blue-400 dark:sm:hover:text-white"
+                  >Nasdaq Data Link</a
+                >. The data is updated daily.
+              </div>
             </div>
           {:else}
             <Infobox text="No data available" />
