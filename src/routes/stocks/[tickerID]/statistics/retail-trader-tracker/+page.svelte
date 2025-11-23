@@ -35,6 +35,30 @@
   let latestEntry = baseTableData?.[0] ?? null;
   $: latestEntry = baseTableData?.[0] ?? null;
 
+  let selectedTimePeriod = "3M";
+
+  function filterTimePeriod(data: any[] = []) {
+    if (!Array.isArray(data) || data.length === 0) {
+      return [];
+    }
+    const maxYear = Math.max(...data.map((item) => Number(item?.fiscalYear)));
+
+    let yearsToKeep;
+    if (selectedTimePeriod === "MAX") {
+      return data;
+    } else if (selectedTimePeriod?.endsWith("Y")) {
+      yearsToKeep = Number(selectedTimePeriod.replace("Y", ""));
+    } else {
+      throw new Error(
+        "Invalid selectedTimePeriod format. Use '5Y', '10Y', or 'MAX'.",
+      );
+    }
+
+    return data.filter(
+      (item) => Number(item?.fiscalYear) >= maxYear - yearsToKeep + 1,
+    );
+  }
+
   function plotData() {
     if (!rawData || rawData.length === 0) {
       return {};
@@ -42,16 +66,42 @@
 
     // Prepare series data in one pass
     const priceSeries = [];
-    // Data for sentiment should be [time, sentiment] pairs
     const activitySeries = [];
     const sentimentSeries = [];
-    rawData.forEach(({ date, price, activity, sentiment }) => {
+
+    rawData.forEach(({ date, price, traded, sentiment }) => {
       const time = new Date(date).getTime();
       priceSeries.push([time, price]);
-      // Assuming 'activity' is a numerical value to be plotted as a column
-      activitySeries.push([time, activity]);
+      activitySeries.push([time, traded]);
+      // we'll store plain [time, sentiment] for later tooltip compatibility
       sentimentSeries.push([time, sentiment]);
     });
+
+    // compute min/max for sentiment
+    const sentimentValues = sentimentSeries.map(([, v]) =>
+      typeof v === "number" ? v : 0,
+    );
+    let minSent = Math.min(...sentimentValues);
+    let maxSent = Math.max(...sentimentValues);
+
+    // If all values equal, expand a little so chart isn't flat
+    if (minSent === maxSent) {
+      const delta = Math.abs(minSent) > 0 ? Math.abs(minSent) * 0.05 : 0.05;
+      minSent = minSent - delta;
+      maxSent = maxSent + delta;
+    } else {
+      // Add a tiny padding so bars/axis not flush to edges
+      const pad = (maxSent - minSent) * 0.05;
+      minSent = minSent - pad;
+      maxSent = maxSent + pad;
+    }
+
+    // Convert sentimentSeries to point objects with explicit color per point
+    const sentimentPoints = sentimentSeries.map(([x, y]) => ({
+      x,
+      y,
+      color: typeof y === "number" && y >= 0 ? "#16A34A" : "#EF4444", // green for >=0, red for <0
+    }));
 
     const options = {
       credits: { enabled: false },
@@ -94,10 +144,10 @@
           return positions;
         },
       },
-      // --- Primary Y-Axis for Stock Price ---
+      // --- Y-Axes ---
       yAxis: [
         {
-          opposite: true, // Right side
+          opposite: true, // Right side (sentiment)
           title: {
             text: "Sentiment",
             style: {
@@ -114,13 +164,18 @@
           },
           gridLineWidth: 1,
           gridLineColor: $mode === "light" ? "#e5e7eb" : "#111827",
+          min: minSent,
+          max: maxSent,
+        },
+        {
+          visible: false,
         },
         {
           visible: false,
         },
       ],
       tooltip: {
-        shared: true, // Enable shared tooltip to show data from both series
+        shared: true,
         useHTML: true,
         backgroundColor: "rgba(0, 0, 0, 1)",
         borderColor: "rgba(255, 255, 255, 0.2)",
@@ -139,17 +194,26 @@
             year: "numeric",
           });
 
-          // Find the sentiment data point for the current date
-          const activityPoint = activitySeries.find(
-            (item) => item[0] === this.x,
-          );
-          const activityValue = activityPoint ? activityPoint[1] : "n/a";
+          // find points by series name if order changes
+          const pts = this.points || [];
+
+          // default values
+          let retailVol = "-";
+          let sentimentVal = "-";
+
+          pts.forEach((p) => {
+            if (p.series && p.series.name === "Retail Vol. Share") {
+              retailVol = `$${abbreviateNumber(p.y)}`;
+            } else if (p.series && p.series.name === "Sentiment") {
+              sentimentVal = p.y;
+            }
+          });
 
           return `
-            <span class="text-white text-sm font-normal">${formattedDate}</span><br>
-            <span class="text-white text-sm font-[501]">Retail Vol. Share: ${this?.points[0].y?.toFixed(2) + "%"}</span><br>
-            <span class="text-white text-sm font-[501]">Sentiment: ${this?.points[1].y}</span>
-          `;
+          <span class="text-white text-sm font-normal">${formattedDate}</span><br>
+          <span class="text-white text-sm font-[501]">Retail Vol. Share: ${retailVol}</span><br>
+          <span class="text-white text-sm font-[501]">Sentiment: ${sentimentVal}</span>
+        `;
         },
       },
       plotOptions: {
@@ -174,7 +238,7 @@
           shadow: false,
         },
         column: {
-          pointPadding: 0.2, // Adjust for column spacing
+          pointPadding: 0.2,
           borderWidth: 0,
         },
       },
@@ -193,21 +257,31 @@
       },
       series: [
         {
-          name: "Retail Vol. Share %",
+          name: "Sentiment",
+          type: "column",
+          data: sentimentPoints, // point objects with color per point
+          yAxis: 0,
+          colorByPoint: true,
+          animation: false,
+          zIndex: 0,
+        },
+        {
+          name: "Retail Vol. Share",
           type: "spline",
-          data: activitySeries, // Use the new activitySeries data
-          yAxis: 1, // Assign to the second yAxis (Sentiment)
+          data: activitySeries,
+          yAxis: 1, // second yAxis
           color: "#fff",
           lineWidth: 1,
           animation: false,
-          zIndex: 1, // Place columns behind the area chart
+          zIndex: 0,
         },
         {
-          name: "Sentiment",
-          type: "column",
-          data: sentimentSeries,
-          yAxis: 0, // Assign to the first yAxis (Stock Price)
-          color: "#4681f4",
+          name: "Stock Price",
+          type: "spline",
+          data: priceSeries,
+          yAxis: 2, // second yAxis
+          color: "#fafa",
+          lineWidth: 1,
           animation: false,
           zIndex: 1,
         },
@@ -221,8 +295,12 @@
 
   let columns = [
     { key: "date", label: "Date", align: "left" },
-    { key: "activity", label: "Retail Vol. Share %", align: "right" },
-    { key: "sentiment", label: "Sentiment", align: "right" },
+    {
+      key: "activity",
+      label: "Retail Vol. Share vs US Market",
+      align: "right",
+    },
+    { key: "traded", label: "Retail Vol. in Dollar", align: "right" },
     { key: "price", label: "Price", align: "right" },
     { key: "changesPercentage", label: "% Change", align: "right" },
   ];
@@ -230,7 +308,7 @@
   let sortOrders = {
     date: { order: "none", type: "date" },
     activity: { order: "none", type: "number" },
-    sentiment: { order: "none", type: "number" },
+    traded: { order: "none", type: "number" },
     price: { order: "none", type: "number" },
     changesPercentage: { order: "none", type: "number" },
   };
@@ -246,7 +324,7 @@
     }
 
     pagePathName = currentPath;
-    return `${currentPath}_short_interest_rowsPerPage`;
+    return `${currentPath}_retail_trader_tracker_rowsPerPage`;
   }
 
   function loadRowsPerPageFromStorage() {
@@ -505,7 +583,7 @@
           {#if rawData?.length !== 0}
             <div class="grid grid-cols-1 gap-2">
               <Infobox
-                text={`${removeCompanyStrings($displayCompanyName)} has a total retail share % of the volume compared to the entire market ${
+                text={`${removeCompanyStrings($displayCompanyName)} has a total retail share % of the volume compared to the entire US market ${
                   data?.getData?.lastActivity
                 }. Its short interest has ${
                   (latestEntry?.percentChangeMoMo ?? 0) > 0
@@ -519,11 +597,72 @@
               />
 
               <div
-                class="flex flex-col sm:flex-row items-start sm:items-center w-full mt-5"
+                class="mt-3 flex flex-col sm:flex-row items-start sm:items-center w-full justify-between border-t border-b border-gray-300 dark:border-gray-800 py-2"
               >
                 <h2 class="text-xl sm:text-2xl font-bold">
                   Retail Tracker Chart
                 </h2>
+                <div class="sm:ml-auto">
+                  <div class="relative inline-block">
+                    <DropdownMenu.Root>
+                      <DropdownMenu.Trigger asChild let:builder>
+                        <Button
+                          builders={[builder]}
+                          class="flex-shrink-0  w-full sm:w-fit border border-gray-300 dark:border-gray-800 bg-black sm:hover:bg-default text-white dark:bg-primary dark:sm:hover:bg-secondary ease-out  flex flex-row justify-between items-center px-3 py-1.5  rounded truncate"
+                        >
+                          <span class="truncate">{selectedTimePeriod}</span>
+                          <svg
+                            class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            style="max-width:40px"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clip-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </Button>
+                      </DropdownMenu.Trigger>
+                      <DropdownMenu.Content
+                        side="bottom"
+                        align="end"
+                        sideOffset={10}
+                        alignOffset={0}
+                        class=" h-fit max-h-72 overflow-y-auto scroller"
+                      >
+                        <DropdownMenu.Group>
+                          <DropdownMenu.Item
+                            on:click={() => (selectedTimePeriod = "3M")}
+                            class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                          >
+                            3M
+                          </DropdownMenu.Item>
+                          <DropdownMenu.Item
+                            on:click={() => (selectedTimePeriod = "6M")}
+                            class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                          >
+                            6M
+                          </DropdownMenu.Item>
+                          <DropdownMenu.Item
+                            on:click={() => (selectedTimePeriod = "1Y")}
+                            class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary flex flex-row items-center"
+                          >
+                            1Y
+                          </DropdownMenu.Item>
+                          <DropdownMenu.Item
+                            on:click={() => (selectedTimePeriod = "1Y")}
+                            class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary flex flex-row items-center"
+                          >
+                            3Y
+                          </DropdownMenu.Item>
+                        </DropdownMenu.Group>
+                      </DropdownMenu.Content>
+                    </DropdownMenu.Root>
+                  </div>
+                </div>
               </div>
 
               <div class="">
@@ -608,7 +747,9 @@
                         <td
                           class=" text-sm sm:text-[1rem] text-right whitespace-nowrap"
                         >
-                          {item?.sentiment}
+                          {item?.traded
+                            ? "$" + abbreviateNumber(item?.traded)
+                            : "n/a"}
                         </td>
 
                         <td
