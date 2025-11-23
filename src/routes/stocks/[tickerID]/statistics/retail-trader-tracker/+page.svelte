@@ -563,27 +563,26 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Short Interest Analysis | Historical Data & Squeeze Indicators`}
-  description={`Comprehensive short interest analysis for ${$displayCompanyName} (${$stockTicker}). Track short position changes, days to cover, short ratio, float percentage, and historical trends. Advanced short squeeze detection and bearish sentiment analysis tools.`}
-  keywords={`${$stockTicker} short interest, ${$displayCompanyName} short squeeze, days to cover, short float percentage, ${$stockTicker} short ratio, short position analysis, short interest history, bearish sentiment analysis, squeeze indicators`}
+  title={`${$displayCompanyName} (${$stockTicker}) Retail Trader Activity Tracker | Volume, Flow, and Sentiment`}
+  description={`Real-time and historical retail trader tracking for ${$displayCompanyName} (${$stockTicker}). Analyze retail volume share, dollar flow, and market sentiment to understand individual investor impact on the stock price and overall trading activity.`}
+  keywords={`${$stockTicker} retail volume, ${$displayCompanyName} retail sentiment, retail trader tracker, individual investor activity, retail flow, ${$stockTicker} daily retail volume, stock market sentiment data`}
   type="website"
-  url={`https://stocknear.com/stocks/${$stockTicker}/statistics/short-interest`}
+  url={`https://stocknear.com/stocks/${$stockTicker}/statistics/retail-trader-tracker`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Dataset"],
-    name: `${$displayCompanyName} Short Interest Analysis`,
-    description: `Professional short interest tracking and squeeze analysis for ${$displayCompanyName} (${$stockTicker})`,
-    url: `https://stocknear.com/stocks/${$stockTicker}/statistics/short-interest`,
+    name: `${$displayCompanyName} Retail Trader Tracker`,
+    description: `Professional tracking and analysis of retail investor trading volume and sentiment for ${$displayCompanyName} (${$stockTicker}).`,
+    url: `https://stocknear.com/stocks/${$stockTicker}/statistics/retail-trader-tracker`,
     applicationCategory: "FinanceApplication",
     featureList: [
-      "Short interest tracking",
-      "Days to cover analysis",
-      "Short float percentage",
-      "Historical short data",
-      "Short squeeze indicators",
-      "Bearish sentiment analysis",
-      "Short ratio calculations",
-      "Position change tracking",
+      "Retail Volume Share tracking",
+      "Retail Dollar Volume Flow",
+      "Retail Trader Sentiment analysis",
+      "Historical retail activity data",
+      "Individual investor impact analysis",
+      "Retail vs US Market Volume Comparison",
+      "Daily activity metrics",
     ],
     provider: {
       "@type": "Organization",
@@ -597,13 +596,12 @@
     },
     about: {
       "@type": "Thing",
-      name: "Short Interest Analysis",
+      name: "Retail Trader Activity and Sentiment Analysis",
       description:
-        "Professional analysis of short positions and squeeze potential",
+        "Professional analysis of retail trader volume, flow, and sentiment for stock $stockTicker.",
     },
   }}
 />
-
 <section class=" w-full overflow-hidden h-full">
   <div class="w-full flex justify-center w-full sm-auto h-full overflow-hidden">
     <div
