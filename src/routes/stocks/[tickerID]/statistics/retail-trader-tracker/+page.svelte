@@ -9,6 +9,7 @@
   import { browser } from "$app/environment";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
+  import { goto } from "$app/navigation";
 
   //import * as XLSX from 'xlsx';
   import highcharts from "$lib/highcharts.ts";
@@ -191,13 +192,44 @@
         backgroundColor: "rgba(0, 0, 0, 1)",
         borderColor: "rgba(255, 255, 255, 0.2)",
         borderWidth: 1,
+        borderRadius: 4,
         style: {
           color: "#fff",
           fontSize: "14px",
           padding: "10px",
         },
-        borderRadius: 4,
         formatter: function () {
+          const pts = this.points || [];
+
+          // Default values
+          let retailVol = "-",
+            retailColor = "#fff";
+          let sentimentVal = "-",
+            sentimentColor = "#fff";
+          let stockPrice = "-",
+            stockColor = "#fff";
+
+          for (let i = 0; i < pts.length; i++) {
+            const p = pts[i];
+            if (!p.series) continue;
+
+            switch (p.series.name) {
+              case "Retail Vol. Share":
+                retailVol = `$${abbreviateNumber(p.y)}`;
+                retailColor = p.color || "#fff";
+                break;
+              case "Sentiment":
+                sentimentVal = p.y;
+                sentimentColor = p.color || (p.y >= 0 ? "#16A34A" : "#EF4444");
+                break;
+              case "Stock Price":
+                stockPrice = p.y.toFixed(2);
+                stockColor = p.color || "#fff";
+                break;
+            }
+          }
+
+          // Precompute date string
           const date = new Date(this.x);
           const formattedDate = date.toLocaleDateString("en-US", {
             month: "short",
@@ -205,39 +237,16 @@
             year: "numeric",
           });
 
-          const pts = this.points || [];
-
-          // Default values
-          let retailVol = "-";
-          let sentimentVal = "-";
-          let sentimentColor = "#fff";
-          let stockPrice = "-";
-          let stockColor = "#fff";
-          let retailColor = "#fff";
-
-          pts.forEach((p) => {
-            if (p.series && p.series.name === "Retail Vol. Share") {
-              retailVol = `$${abbreviateNumber(p.y)}`;
-              retailColor = p.color || "#fff";
-            } else if (p.series && p.series.name === "Sentiment") {
-              sentimentVal = p.y;
-              sentimentColor = p.color || (p.y >= 0 ? "#16A34A" : "#EF4444");
-            } else if (p.series && p.series.name === "Stock Price") {
-              stockPrice = `${p.y.toFixed(2)}`;
-              stockColor = p.color || "#fff";
-            }
-          });
-
-          // Helper to make colored circle
+          // Simple helper for colored circle
           const circle = (color) =>
-            `<span style="display:inline-block;width:10px;height:10px;background-color:${color};border-radius:50%;margin-right:5px;"></span>`;
+            `<span style="display:inline-block;width:10px;height:10px;background:${color};border-radius:50%;margin-right:5px;"></span>`;
 
+          // Build HTML in one string (faster than multiple concatenations)
           return `
-      <span class="text-white text-sm font-normal">${formattedDate}</span><br>
-            ${circle(stockColor)}<span class="text-white text-sm font-[501]">Stock Price: ${stockPrice}</span><br>
-
-      ${circle(retailColor)}<span class="text-white text-sm font-[501]">Retail Vol. Share: ${retailVol}</span><br>
-            ${circle(sentimentColor)}<span class="text-white text-sm font-[501]">Sentiment: ${sentimentVal}</span>
+      <span>${formattedDate}</span><br>
+      ${circle(stockColor)}Stock Price: ${stockPrice}<br>
+      ${circle(retailColor)}Retail Vol. Share: ${retailVol}<br>
+      ${circle(sentimentColor)}Sentiment: ${sentimentVal}
     `;
         },
       },
@@ -296,7 +305,7 @@
           type: "spline",
           data: activitySeries,
           yAxis: 1, // second yAxis
-          color: "#e3ac0d",
+          color: $mode === "light" ? "#2c6288" : "#e3ac0d",
           lineWidth: 1.5,
           animation: false,
           zIndex: 0,
@@ -306,7 +315,7 @@
           type: "spline",
           data: priceSeries,
           yAxis: 2, // second yAxis
-          color: "#fff",
+          color: $mode === "light" ? "#000" : "#fff",
           lineWidth: 1.5,
           animation: false,
           zIndex: 1,
@@ -662,30 +671,36 @@
                         class=" h-fit max-h-72 overflow-y-auto scroller"
                       >
                         <DropdownMenu.Group>
-                          <DropdownMenu.Item
-                            on:click={() => (selectedTimePeriod = "3M")}
-                            class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
-                          >
-                            3M
-                          </DropdownMenu.Item>
-                          <DropdownMenu.Item
-                            on:click={() => (selectedTimePeriod = "6M")}
-                            class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
-                          >
-                            6M
-                          </DropdownMenu.Item>
-                          <DropdownMenu.Item
-                            on:click={() => (selectedTimePeriod = "1Y")}
-                            class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary flex flex-row items-center"
-                          >
-                            1Y
-                          </DropdownMenu.Item>
-                          <DropdownMenu.Item
-                            on:click={() => (selectedTimePeriod = "3Y")}
-                            class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary flex flex-row items-center"
-                          >
-                            3Y
-                          </DropdownMenu.Item>
+                          {#each ["3M", "6M", "1Y", "3Y"] as item, index}
+                            {#if ["Plus", "Pro"]?.includes(data?.user?.tier) || index === 0}
+                              <DropdownMenu.Item
+                                on:click={() => (selectedTimePeriod = item)}
+                                class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                              >
+                                {item}
+                              </DropdownMenu.Item>
+                            {:else}
+                              <DropdownMenu.Item
+                                on:click={() => goto("/pricing")}
+                                class="cursor-pointer sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                              >
+                                {item}
+                                <svg
+                                  class="ml-1 size-4"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                  style="max-width: 40px;"
+                                >
+                                  <path
+                                    fill-rule="evenodd"
+                                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                    clip-rule="evenodd"
+                                  >
+                                  </path>
+                                </svg>
+                              </DropdownMenu.Item>
+                            {/if}
+                          {/each}
                         </DropdownMenu.Group>
                       </DropdownMenu.Content>
                     </DropdownMenu.Root>
@@ -700,10 +715,9 @@
                     <div
                       class="{!['Plus', 'Pro']?.includes(data?.user?.tier)
                         ? 'blur-[3px]'
-                        : ''}   border border-gray-300 dark:border-gray-800 rounded"
+                        : ''}  border border-gray-300 dark:border-gray-800 rounded"
                       use:highcharts={config}
                     ></div>
-                    <!-- Overlay with "Upgrade to Pro" -->
                     {#if !["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <div
                         class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-white"

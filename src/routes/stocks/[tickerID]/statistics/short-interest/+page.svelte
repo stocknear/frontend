@@ -3,7 +3,6 @@
   import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
-  import Tutorial from "$lib/components/Tutorial.svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import { onMount } from "svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
@@ -36,119 +35,6 @@
   let pagePathName = "";
   let latestEntry = baseTableData?.[0] ?? null;
   $: latestEntry = baseTableData?.[0] ?? null;
-
-  let steps = [
-    {
-      popover: {
-        title: "Short Interest",
-        description:
-          "This dashboard tracks how many shares are sold short and key ratios that traders use to spot bearish sentiment and potential squeezes.",
-        side: "center",
-        align: "center",
-      },
-    },
-    {
-      element: ".short-interest-driver",
-      popover: {
-        title: "Total Short Interest",
-        description: `The total number of shares currently sold short (${abbreviateNumber(data?.getData?.sharesShort)} here). A rising number can indicate growing bearish bets.`,
-        side: "left",
-        align: "start",
-      },
-    },
-    {
-      element: ".shortPriorMonth-driver",
-      popover: {
-        title: "Last Month’s Shorts",
-        description: (() => {
-          const priorShorts = abbreviateNumber(
-            data?.getData?.sharesShortPriorMonth,
-          );
-          const change = latestEntry?.percentChangeMoMo ?? 0;
-          const momentumDirection =
-            change >= 0 ? "momentum—up" : "momentum—down";
-
-          let jumpSize = "a small jump";
-          const absChange = Math.abs(change);
-
-          if (absChange >= 20) {
-            jumpSize = "a big jump";
-          } else if (absChange >= 10) {
-            jumpSize = "a medium jump";
-          }
-
-          return `Compare to last month’s short interest (${priorShorts}) to see ${momentumDirection}. ${Math.abs(change)}% MoM means ${jumpSize} in bearish positioning.`;
-        })(),
-        side: "bottom",
-        align: "start",
-      },
-    },
-    {
-      element: ".changeMoM-driver",
-      popover: {
-        title: "Month‑over‑Month Change",
-        description: `"Shows the % change from last month (${latestEntry?.percentChangeMoMo ?? "0"}%). Large swings can precede volatility or squeeze setups.`,
-        side: "bottom",
-        align: "start",
-      },
-    },
-    {
-      element: ".shortPercentFloat-driver",
-      popover: {
-        title: "Short % of Float",
-        description: `${data?.getData?.shortFloatPercent}% tells you what portion of the freely tradable shares are sold short. The higher it is, the more crowded the short side.`,
-        side: "left",
-        align: "start",
-      },
-    },
-    {
-      element: ".shortPercentOutstanding-driver",
-      popover: {
-        title: "Short % of Outstanding",
-        description: `${data?.getData?.shortOutstandingPercent}% shows shorts relative to all shares out there. Use alongside % float to understand supply dynamics.`,
-        side: "left",
-        align: "start",
-      },
-    },
-    {
-      element: ".daysToCover-driver",
-      popover: {
-        title: "Days to Cover",
-        description: `${data?.getData?.shortRatio} days — how long it’d take shorts to buy back at average daily volume. Low values can fuel quick squeezes.`,
-        side: "right",
-        align: "start",
-      },
-    },
-    {
-      element: ".chart-driver",
-      popover: {
-        title: "Visualizing Trends",
-        description:
-          "This chart overlays price, % float, and % outstanding over time so you can spot divergences or spikes.",
-        side: "right",
-        align: "start",
-      },
-    },
-    {
-      element: ".history-driver",
-      popover: {
-        title: "Detailed History",
-        description:
-          "Scroll through past filings to see how metrics evolved—handy. You can also download the data for backtesting your entry and exit rules.",
-        side: "right",
-        align: "start",
-      },
-    },
-    {
-      popover: {
-        title: "You’re All Set!",
-        description:
-          "Now you know how to read each short‑interest metric and apply it to your trading strategies. Happy investing!",
-        side: "center",
-        align: "center",
-      },
-    },
-  ];
 
   function plotData() {
     if (!rawData || rawData.length === 0) {
@@ -733,8 +619,6 @@
             <h1 class="text-xl sm:text-2xl font-bold">
               {removeCompanyStrings($displayCompanyName)} Short Interest
             </h1>
-
-            <Tutorial {steps} />
           </div>
 
           {#if rawData?.length !== 0}
