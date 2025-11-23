@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
+  //import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
 
   export let data;
-  const similarStocks = data?.getSimilarStocks;
+  //const similarStocks = data?.getSimilarStocks;
 </script>
 
 <section class="w-full overflow-hidden">
@@ -55,7 +55,7 @@
               Volume) &times; 100%
             </div>
           </div>
-
+          <!--
           {#if similarStocks?.length > 0}
             <div
               class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4"
@@ -109,6 +109,7 @@
               </div>
             </div>
           {/if}
+          -->
         </aside>
       </div>
     </div>

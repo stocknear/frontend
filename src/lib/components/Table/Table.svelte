@@ -2720,28 +2720,13 @@
                   {item[column.key]}
                 {:else if column.type === "sentiment"}
                   <div
-                    class={item[column.key] >= 55
+                    class={item[column.key] === "Bullish"
                       ? "text-green-800 dark:text-[#00FC50]"
-                      : item[column.key] >= 50
-                        ? "text-[#E57C34]"
+                      : item[column.key] === "Neutral"
+                        ? "text-[#E57C34] dark:text-yellow-500"
                         : "text-red-800 dark:text-[#FF2F1F]"}
                   >
-                    <div class="flex flex-row items-center justify-end">
-                      <div class="">
-                        {item[column.key] >= 80
-                          ? "Very Bullish"
-                          : item[column.key] >= 55
-                            ? "Bullish"
-                            : item[column.key] > 50
-                              ? "Mixed"
-                              : "Bearish"}
-                      </div>
-                      <div
-                        class="ml-2 px-1.5 py-1.5 border text-center rounded text-xs font-semibold"
-                      >
-                        {item[column.key]}
-                      </div>
-                    </div>
+                    {item[column.key]}
                   </div>
                 {:else}
                   {item[column.key]}

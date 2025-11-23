@@ -332,10 +332,10 @@
     { key: "date", label: "Date", align: "left" },
     {
       key: "activity",
-      label: "Retail Vol Share vs US Market",
+      label: "Retail Vol / US Market",
       align: "right",
     },
-    { key: "traded", label: "Retail Vol in Dollar", align: "right" },
+    { key: "traded", label: "Retail Vol in $", align: "right" },
     { key: "price", label: "Price", align: "right" },
     { key: "changesPercentage", label: "% Change", align: "right" },
   ];
@@ -632,7 +632,7 @@
                 class="my-5 grid grid-cols-2 gap-3 xs:mt-6 bp:mt-7 sm:grid-cols-3 sm:gap-6"
               >
                 <div class="short-interest-driver">
-                  Retail Vol Share %
+                  Retail Vol / US Market
                   <div
                     class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
                   >
@@ -642,7 +642,7 @@
                   </div>
                 </div>
                 <div class="changeMoM-driver">
-                  Retail Vol in Dollar <div
+                  Retail Vol in $ <div
                     class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
                   >
                     {data?.getData?.lastTraded
@@ -651,7 +651,7 @@
                   </div>
                 </div>
                 <div class="shortPriorMonth-driver">
-                  Sentiment <div
+                  Retail Sentiment <div
                     class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
                   >
                     {data?.getData?.lastSentiment > -5 &&
