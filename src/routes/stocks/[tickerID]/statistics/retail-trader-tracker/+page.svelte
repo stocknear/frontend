@@ -214,7 +214,7 @@
             if (!p.series) continue;
 
             switch (p.series.name) {
-              case "Retail Vol. Share":
+              case "Retail Vol Share":
                 retailVol = `$${abbreviateNumber(p.y)}`;
                 retailColor = p.color || "#fff";
                 break;
@@ -245,7 +245,7 @@
           return `
       <span>${formattedDate}</span><br>
       ${circle(stockColor)}Stock Price: ${stockPrice}<br>
-      ${circle(retailColor)}Retail Vol. Share: ${retailVol}<br>
+      ${circle(retailColor)}Retail Vol Share: ${retailVol}<br>
       ${circle(sentimentColor)}Sentiment: ${sentimentVal}
     `;
         },
@@ -301,7 +301,7 @@
           zIndex: 0,
         },
         {
-          name: "Retail Vol. Share",
+          name: "Retail Vol Share",
           type: "spline",
           data: activitySeries,
           yAxis: 1, // second yAxis
@@ -332,10 +332,10 @@
     { key: "date", label: "Date", align: "left" },
     {
       key: "activity",
-      label: "Retail Vol. Share vs US Market",
+      label: "Retail Vol Share vs US Market",
       align: "right",
     },
-    { key: "traded", label: "Retail Vol. in Dollar", align: "right" },
+    { key: "traded", label: "Retail Vol in Dollar", align: "right" },
     { key: "price", label: "Price", align: "right" },
     { key: "changesPercentage", label: "% Change", align: "right" },
   ];
@@ -620,21 +620,54 @@
           {#if rawData?.length !== 0}
             <div class="grid grid-cols-1 gap-2">
               <Infobox
-                text={`${removeCompanyStrings($displayCompanyName)} has a total retail share % of the volume compared to the entire US market ${
-                  data?.getData?.lastActivity
-                }. Its short interest has ${
-                  (latestEntry?.percentChangeMoMo ?? 0) > 0
-                    ? "increased"
-                    : (latestEntry?.percentChangeMoMo ?? 0) < 0
-                      ? "decreased"
-                      : "unchanged"
-                } by ${abbreviateNumber(
-                  latestEntry?.percentChangeMoMo?.toFixed(2),
-                )}% to the previous month.`}
+                text={`As of ${new Date(
+                  data?.getData?.lastDate,
+                )?.toLocaleDateString("en-US", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                  timeZone: "UTC",
+                })}, retail traders accounted for ${data?.getData?.lastActivity ?? "-"}% of ${removeCompanyStrings($displayCompanyName)}'s trading volume. This shows how individual investors are impacting the stock compared to the overall US market.`}
               />
 
               <div
-                class="mt-3 flex flex-col sm:flex-row items-start sm:items-center w-full justify-between border-t border-b border-gray-300 dark:border-gray-800 py-2"
+                class="my-5 grid grid-cols-2 gap-3 xs:mt-6 bp:mt-7 sm:grid-cols-3 sm:gap-6"
+              >
+                <div class="short-interest-driver">
+                  Retail Vol Share %
+                  <div
+                    class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
+                  >
+                    {data?.getData?.lastActivity
+                      ? data?.getData?.lastActivity + "%"
+                      : "n/a"}
+                  </div>
+                </div>
+                <div class="changeMoM-driver">
+                  Retail Vol in Dollar <div
+                    class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
+                  >
+                    {data?.getData?.lastTraded
+                      ? "$" + abbreviateNumber(data?.getData?.lastTraded)
+                      : "n/a"}
+                  </div>
+                </div>
+                <div class="shortPriorMonth-driver">
+                  Sentiment <div
+                    class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
+                  >
+                    {data?.getData?.lastSentiment > -5 &&
+                    data?.getData?.lastSentiment < 5
+                      ? "Neutral"
+                      : data?.getData?.lastSentiment < -5
+                        ? "Bearish"
+                        : "Bullish"}
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="mt-2 flex flex-col sm:flex-row items-start sm:items-center w-full justify-between border-t border-b border-gray-300 dark:border-gray-800 py-2"
               >
                 <h2 class="text-xl sm:text-2xl font-bold">
                   Retail Tracker Chart
