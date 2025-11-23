@@ -40,15 +40,16 @@
 </script>
 
 <SEO
-  title="Highest Open Interest Change - Biggest Options OI Changes "
-  description="List of US stocks ranked by highest open interest changes. Track which companies have the biggest increases in options open interest and emerging options activity."
-  keywords="highest open interest change, OI change stocks, options interest increase, biggest OI changes, open interest growth, options activity change"
+  title="Top US Stocks by Retail Trading Tracker Volume"
+  description="Track US stocks with the highest retail trading volume. Discover where individual investors are most active and spot potential meme stocks or volatility spikes."
+  keywords="retail trading volume, retail investor activity, top retail stocks, meme stocks, high retail volume, individual investor trends"
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Highest Open Interest Change",
-    description: "US stocks ranked by highest open interest changes",
-    url: "https://stocknear.com/list/highest-open-interest-change",
+    name: "Top US Stocks by Retail Trading Volume",
+    description:
+      "US stocks ranked by highest retail trading volume and individual investor activity.",
+    url: "https://stocknear.com/list/most-retail-volume",
     breadcrumb: {
       "@type": "BreadcrumbList",
       itemListElement: [
@@ -67,16 +68,16 @@
         {
           "@type": "ListItem",
           position: 3,
-          name: "Highest Open Interest Change",
-          item: "https://stocknear.com/list/highest-open-interest-change",
+          name: "Top US Stocks by Retail Volume",
+          item: "https://stocknear.com/list/most-retail-volume",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Stocks by Open Interest Change",
+      name: "Stocks by Retail Trading Volume",
       description:
-        "List of US stocks ranked by open interest changes in options",
+        "List of US stocks ranked by retail trading activity and volume.",
       numberOfItems: data?.getStocks?.length || 0,
     },
   }}
@@ -84,7 +85,7 @@
 
 <section class="w-full overflow-hidden m-auto">
   <Infobox
-    text="These are US stocks with the highest changes in open interest (OI). Open interest represents outstanding options contracts, and significant changes often indicate shifting investor sentiment or emerging trading opportunities."
+    text="US stocks ranked by Retail Market Share, showing where individual investors are most active. Highlights potential meme stocks or volatility unrelated to fundamentals."
   />
 
   <!-- Page wrapper -->
