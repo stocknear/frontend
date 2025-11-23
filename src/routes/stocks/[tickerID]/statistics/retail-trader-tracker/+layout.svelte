@@ -44,11 +44,9 @@
               Retail Trader Tracker
             </h3>
             <div class="p-2">
-              Retail Market Share measures the intensity of individual investor
-              interest in a specific stock relative to the entire market. It
-              identifies where the "retail crowd" is focusing its attention,
-              often highlighting potential meme stocks or volatility spikes
-              unrelated to fundamentals.
+              Retail Market Share shows how much of US retail trading is
+              concentrated in this stock. Higher values signal concentrated
+              retail interest and possible meme-driven volatility.
               <br />
               <br />
               Formula: Retail Share = (Ticker Retail Volume &divide; Total US Retail

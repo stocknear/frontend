@@ -625,7 +625,11 @@
                   month: "short",
                   year: "numeric",
                   timeZone: "UTC",
-                })}, retail traders accounted for ${data?.getData?.lastActivity ?? "-"}% of ${removeCompanyStrings($displayCompanyName)}'s trading volume. This shows how individual investors are impacting the stock compared to the overall US market.`}
+                })}, retail traders accounted for ${
+                  typeof data?.getData?.lastActivity === "number"
+                    ? data.getData.lastActivity.toFixed(2)
+                    : (data?.getData?.lastActivity ?? "-")
+                }% of ${removeCompanyStrings($displayCompanyName)}'s trading volume. Retail Market Share shows how much individual investors are focusing on this stock compared to the overall US retail market, often revealing rising attention or potential volatility.`}
               />
 
               <div
