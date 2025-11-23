@@ -7,6 +7,7 @@
   function changeSubSection(state) {
     const subSectionMap = {
       "market-cap": "/statistics/market-cap",
+      "retail-trader-tracker": "/statistics/retail-trader-tracker",
       "short-interest": "/statistics/short-interest",
       revenue: "/statistics/revenue",
       earnings: "/statistics/earnings",
@@ -26,6 +27,7 @@
       const sectionMap = {
         earnings: "earnings",
         "market-cap": "market-cap",
+        "retail-trader-tracker": "retail-trader-tracker",
         "short-interest": "short-interest",
         revenue: "revenue",
         "fail-to-deliver": "fail-to-deliver",
@@ -79,6 +81,24 @@
                 : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
             >
               Market Cap
+            </a>
+
+            <a
+              href={`/stocks/${$stockTicker}/statistics/retail-trader-tracker`}
+              on:click={() => changeSubSection("retail-trader-tracker")}
+              class="p-2 px-5 cursor-pointer {displaySubSection ===
+              'retail-trader-tracker'
+                ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
+                : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
+            >
+              <div class="flex items-center justify-center">
+                <div class="">Retail Trader Tracker</div>
+                <div
+                  class="-mt-4 ml-1 -rotate-6 rounded-[3px] bg-red-500 px-1 py-0.5 text-[0.6rem] font-semibold text-white"
+                >
+                  New
+                </div>
+              </div>
             </a>
 
             <a
