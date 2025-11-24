@@ -108,7 +108,7 @@
         tabindex="0"
       >
         <div>
-          Want <strong>40% off</strong>? Our Huge Black Friday Sale Is Here! Use
+          Want <strong>30% off</strong>? Our Huge Black Friday Sale Is Here! Use
           code: <strong>BF25</strong>
         </div>
       </a>
