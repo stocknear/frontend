@@ -39,8 +39,6 @@
     data?.user?.tier === "Pro" ? $page.url.searchParams.get("query") || "" : "";
   let pagePathName = $page?.url?.pathname;
 
-  let socket: WebSocket | null = null; // Initialize socket as null
-
   let syncWorker: Worker | undefined;
   let ruleName = "";
   let searchTerm = "";
@@ -836,6 +834,73 @@
 
   let displayedData = [];
 
+  // Stats variables
+  let totalVolume = 0;
+  let totalValue = 0;
+  let darkPoolCount = 0;
+  let blockOrderCount = 0;
+  let darkPoolPercentage = 0;
+  let blockOrderPercentage = 0;
+  let stockCount = 0;
+  let etfCount = 0;
+  let stockPercentage = 0;
+  let etfPercentage = 0;
+
+  // Reactive stats calculation
+  $: {
+    const stats = displayedData?.reduce(
+      (acc, item) => {
+        const size = item?.size || 0;
+        const premium = item?.premium || 0;
+
+        acc.totalVolume += size;
+        acc.totalValue += premium;
+
+        if (item?.transactionType === "DP") {
+          acc.darkPoolCount += 1;
+        } else if (item?.transactionType === "B") {
+          acc.blockOrderCount += 1;
+        }
+
+        if (item?.assetType === "Stock") {
+          acc.stockCount += 1;
+        } else if (item?.assetType === "ETF") {
+          acc.etfCount += 1;
+        }
+
+        return acc;
+      },
+      {
+        totalVolume: 0,
+        totalValue: 0,
+        darkPoolCount: 0,
+        blockOrderCount: 0,
+        stockCount: 0,
+        etfCount: 0,
+      },
+    );
+
+    totalVolume = stats?.totalVolume || 0;
+    totalValue = stats?.totalValue || 0;
+    darkPoolCount = stats?.darkPoolCount || 0;
+    blockOrderCount = stats?.blockOrderCount || 0;
+    stockCount = stats?.stockCount || 0;
+    etfCount = stats?.etfCount || 0;
+
+    const totalTransactions = darkPoolCount + blockOrderCount;
+    darkPoolPercentage =
+      totalTransactions !== 0
+        ? Math.floor((darkPoolCount / totalTransactions) * 100)
+        : 0;
+    blockOrderPercentage =
+      totalTransactions !== 0 ? 100 - darkPoolPercentage : 0;
+
+    const totalAssets = stockCount + etfCount;
+    stockPercentage =
+      totalAssets !== 0 ? Math.floor((stockCount / totalAssets) * 100) : 0;
+    etfPercentage = totalAssets !== 0 ? 100 - stockPercentage : 0;
+  }
+
   let isLoaded = false;
 
   onMount(async () => {
@@ -874,13 +939,6 @@
     });
 
     isLoaded = true;
-  });
-
-  onDestroy(async () => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.close();
-      console.log("WebSocket connection closed safely.");
-    }
   });
 
   /*
@@ -1794,6 +1852,183 @@
       </div>
 
       {#if isLoaded}
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-3 mb-3">
+          <!--Start Total Volume-->
+          <div
+            class="shadow flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+          >
+            <div class="flex flex-col items-start">
+              <span
+                class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
+                >Total Volume</span
+              >
+              {#if data?.user?.tier === "Pro"}
+                <span class="text-start text-[1rem] font-semibold">
+                  {new Intl.NumberFormat("en", {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  }).format(totalVolume)}
+                </span>
+              {:else}
+                <a href="/pricing" class="flex mt-2">
+                  <svg
+                    class="size-5 text-muted dark:text-[#fff]"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style="max-width: 40px;"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                      clip-rule="evenodd"
+                    >
+                    </path>
+                  </svg>
+                </a>
+              {/if}
+            </div>
+          </div>
+          <!--End Total Volume-->
+          <!--Start Total Value-->
+          <div
+            class="shadow flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+          >
+            <div class="flex flex-col items-start">
+              <span
+                class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
+                >Total Value</span
+              >
+              {#if data?.user?.tier === "Pro"}
+                <span class="text-start text-[1rem] font-semibold">
+                  ${new Intl.NumberFormat("en", {
+                    notation: "compact",
+                    compactDisplay: "short",
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1,
+                  }).format(totalValue)}
+                </span>
+              {:else}
+                <a href="/pricing" class="flex mt-2">
+                  <svg
+                    class="size-5 text-muted dark:text-[#fff]"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style="max-width: 40px;"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                      clip-rule="evenodd"
+                    >
+                    </path>
+                  </svg>
+                </a>
+              {/if}
+            </div>
+          </div>
+          <!--End Total Value-->
+          <!--Start Transaction Type (Dark Pool vs Block Order)-->
+          <div
+            class="shadow flex flex-col w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+          >
+            <span
+              class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem] mb-2"
+              >Transaction Type</span
+            >
+            {#if data?.user?.tier === "Pro"}
+              <div class="flex flex-col w-full">
+                <div
+                  class="flex w-full h-3 rounded-full overflow-hidden bg-gray-300 dark:bg-[#3E3E3E]"
+                >
+                  <div
+                    class="bg-purple-600 dark:bg-purple-400 h-full transition-all duration-300"
+                    style="width: {darkPoolPercentage}%"
+                  ></div>
+                  <div
+                    class="bg-blue-600 dark:bg-blue-400 h-full transition-all duration-300"
+                    style="width: {blockOrderPercentage}%"
+                  ></div>
+                </div>
+                <div class="flex justify-between mt-1 text-xs">
+                  <span class="text-purple-600 dark:text-purple-400 font-medium"
+                    >Dark Pool {darkPoolPercentage}%</span
+                  >
+                  <span class="text-blue-600 dark:text-blue-400 font-medium"
+                    >Block {blockOrderPercentage}%</span
+                  >
+                </div>
+              </div>
+            {:else}
+              <a href="/pricing" class="flex">
+                <svg
+                  class="size-5 text-muted dark:text-[#fff]"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  style="max-width: 40px;"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </a>
+            {/if}
+          </div>
+          <!--End Transaction Type-->
+          <!--Start Asset Type (Stocks vs ETFs)-->
+          <div
+            class="shadow flex flex-col w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+          >
+            <span
+              class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem] mb-2"
+              >Asset Type</span
+            >
+            {#if data?.user?.tier === "Pro"}
+              <div class="flex flex-col w-full">
+                <div
+                  class="flex w-full h-3 rounded-full overflow-hidden bg-gray-300 dark:bg-[#3E3E3E]"
+                >
+                  <div
+                    class="bg-green-600 dark:bg-[#00FC50] h-full transition-all duration-300"
+                    style="width: {stockPercentage}%"
+                  ></div>
+                  <div
+                    class="bg-orange-500 dark:bg-orange-400 h-full transition-all duration-300"
+                    style="width: {etfPercentage}%"
+                  ></div>
+                </div>
+                <div class="flex justify-between mt-1 text-xs">
+                  <span class="text-green-600 dark:text-[#00FC50] font-medium"
+                    >Stock {stockPercentage}%</span
+                  >
+                  <span class="text-orange-500 dark:text-orange-400 font-medium"
+                    >ETF {etfPercentage}%</span
+                  >
+                </div>
+              </div>
+            {:else}
+              <a href="/pricing" class="flex">
+                <svg
+                  class="size-5 text-muted dark:text-[#fff]"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  style="max-width: 40px;"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </a>
+            {/if}
+          </div>
+          <!--End Asset Type-->
+        </div>
+        <!-- End Stats Grid -->
+
         <!-- Page wrapper -->
         <div class="flex w-full m-auto h-full overflow-hidden">
           {#if displayedData?.length !== 0}
