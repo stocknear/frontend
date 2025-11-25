@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  const targetDate = new Date("2025-11-27T00:00:00+01:00");
+  const targetDate = new Date("2025-11-29T00:00:00+01:00");
 
   let days: number | string = "-";
   let hours: number | string = "-";
@@ -39,7 +39,7 @@
 <div class="lg:max-w-xl w-full rounded-none sm:rounded m-auto mb-10">
   <div class="container">
     <h2 class="text-2xl font-bold text-center text-pink-700 dark:text-pink-500">
-      BLACK FRIDAY DEAL - 30% Discount!
+      BLACK FRIDAY DEAL - 50% Discount!
     </h2>
   </div>
   <div class="container text-center">
@@ -72,8 +72,5 @@
         sec
       </div>
     </div>
-    <h2 class="text-lg font-bold text-center mt-5">
-      Next sale starts 11/28 for 20%
-    </h2>
   </div>
 </div>
