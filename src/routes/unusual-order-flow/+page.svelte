@@ -87,7 +87,7 @@
     },
     premium: {
       label: "Premium",
-      step: ["10M", "5M", "1M", "800K", "600K", "500K"],
+      step: ["100M", "50M", "10M", "5M", "1M"],
       defaultCondition: "over",
       defaultValue: "any",
     },
@@ -1144,16 +1144,32 @@
         class="rounded border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-100 dark:bg-primary p-2"
       >
         <div
-          class="flex flex-col sm:flex-row items-center pt-3 sm:pt-1 pb-3 sm:border-b sm:border-gray-300 dark:border-gray-600"
+          class="flex flex-col sm:flex-row items-center pb-3 sm:border-b sm:border-gray-300 dark:border-gray-600"
         >
           <div
             class="flex flex-row items-center justify-center sm:justify-start"
           >
-            <label
-              class="mute-driver xl:tooltip xl:tooltip-bottom flex flex-col items-center mr-3 cursor-pointer"
-            >
-              15 min delayed
-            </label>
+            <div class="flex items-center gap-1">
+              <span class="inline-flex items-center text-xs">
+                <svg
+                  class="w-3 h-3 mr-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                15 Min Delayed
+              </span>
+              <InfoModal
+                id="sip-data-info"
+                title="15 min Delayed SIP Data"
+                content="Intrinio’s SIP feed delivers high-quality, consolidated U.S. equity data from all major exchanges — including trades, quotes, and NBBO. The 15-minute delay provides rich market insight with full exchange coverage."
+              />
+            </div>
           </div>
 
           <div class="sm:ml-auto w-full sm:w-fit pt-5">
