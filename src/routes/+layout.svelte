@@ -769,18 +769,7 @@
                             <a
                               href="/dark-pool-flow"
                               class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
-                              >Dark Pool Flow</a
-                            >
-                          </Button>
-                          <Button
-                            builders={[builder]}
-                            type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
-                          >
-                            <a
-                              href="/block-trade-flow"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
-                              >Block Trade Flow</a
+                              >Institutional Order Flow</a
                             >
                           </Button>
                         </div>
@@ -1491,12 +1480,7 @@
                           <a
                             href="/dark-pool-flow"
                             class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
-                            >Dark Pool Flow</a
-                          >
-                          <a
-                            href="/dark-pool-flow"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
-                            >Block Trade Flow</a
+                            >Institutional Order Flow</a
                           >
                         </div>
                       </Accordion.Content>

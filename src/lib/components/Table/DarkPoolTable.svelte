@@ -1,6 +1,6 @@
 <script lang="ts">
   import { screenWidth } from "$lib/store";
-  import { abbreviateNumber, sectorNavigation } from "$lib/utils";
+  import { abbreviateNumber } from "$lib/utils";
   import VirtualList from "svelte-tiny-virtual-list";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
   import { mode } from "mode-watcher";
@@ -46,7 +46,8 @@
     sizeAvgVolRatio: "none",
     sizeVolRatio: "none",
     size: "none",
-    sector: "none",
+    transactionType: "none",
+    exchange: "none",
   };
 
   function sortData(key) {
@@ -74,14 +75,18 @@
           ? tickerA.localeCompare(tickerB)
           : tickerB.localeCompare(tickerA);
       },
-      sector: (a, b) => {
-        const sectorA = a.sector || "";
-        const sectorB = b.sector || "";
-        if (sectorA === "" && sectorB !== "") return 1;
-        if (sectorB === "" && sectorA !== "") return -1;
+      transactionType: (a, b) => {
+        const transactionTypeA = a.transactionType || "";
+        const transactionTypeB = b.transactionType || "";
+        if (transactionTypeA === "" && transactionTypeB !== "") return 1;
+        if (transactionTypeB === "" && transactionTypeA !== "") return -1;
         return sortOrder === "asc"
-          ? sectorA.toUpperCase().localeCompare(sectorB.toUpperCase())
-          : sectorB.toUpperCase().localeCompare(sectorA.toUpperCase());
+          ? transactionTypeA
+              .toUpperCase()
+              .localeCompare(transactionTypeB.toUpperCase())
+          : transactionTypeB
+              .toUpperCase()
+              .localeCompare(transactionTypeA.toUpperCase());
       },
       date: (a, b) =>
         sortOrder === "asc"
@@ -117,6 +122,13 @@
         const typeB = typeOrder[b.assetType?.toUpperCase()] || 3;
         return sortOrder === "asc" ? typeA - typeB : typeB - typeA;
       },
+      exchange: (a, b) => {
+        const exchA = a?.exchange?.toUpperCase() || "";
+        const exchB = b?.exchange?.toUpperCase() || "";
+        return sortOrder === "asc"
+          ? exchA.localeCompare(exchB)
+          : exchB.localeCompare(exchA);
+      },
     };
 
     displayedData = originalData.sort(compareFunctions[key]);
@@ -129,7 +141,7 @@
   <div class="min-w-[1000px]">
     <!-- Header row using grid -->
     <div
-      class="table-driver bg-black text-white grid grid-cols-10 sticky top-0 z-40 border border-gray-300 dark:border-gray-800 font-bold text-xs uppercase"
+      class="table-driver bg-black text-white grid grid-cols-11 sticky top-0 z-40 border border-gray-300 dark:border-gray-800 font-bold text-xs uppercase"
     >
       <div
         on:click={() => sortData("date")}
@@ -139,7 +151,7 @@
       </div>
       <div
         on:click={() => sortData("ticker")}
-        class="cursor-pointer p-2 text-center select-none whitespace-nowrap"
+        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
       >
         Symbol
         <svg
@@ -161,7 +173,7 @@
 
       <div
         on:click={() => sortData("price")}
-        class="cursor-pointer p-2 text-start select-none whitespace-nowrap"
+        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
       >
         Price
         <svg
@@ -182,7 +194,7 @@
       </div>
       <div
         on:click={() => sortData("premium")}
-        class="cursor-pointer p-2 text-start select-none whitespace-nowrap"
+        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
       >
         Avg. Paid
         <svg
@@ -203,7 +215,7 @@
       </div>
       <div
         on:click={() => sortData("size")}
-        class="cursor-pointer p-2 text-start select-none whitespace-nowrap"
+        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
       >
         Size
         <svg
@@ -224,7 +236,7 @@
       </div>
       <div
         on:click={() => sortData("volume")}
-        class="cursor-pointer p-2 text-start select-none whitespace-nowrap"
+        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
       >
         Volume
         <svg
@@ -246,7 +258,7 @@
 
       <div
         on:click={() => sortData("sizeVolRatio")}
-        class="cursor-pointer p-2 text-start select-none whitespace-nowrap"
+        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
       >
         % Size / Vol
         <svg
@@ -268,7 +280,7 @@
 
       <div
         on:click={() => sortData("sizeAvgVolRatio")}
-        class="cursor-pointer p-2 text-start select-none whitespace-nowrap"
+        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
       >
         % Size / Avg Vol
         <svg
@@ -289,14 +301,35 @@
       </div>
 
       <div
-        on:click={() => sortData("sector")}
-        class="cursor-pointer p-2 text-start select-none whitespace-nowrap"
+        on:click={() => sortData("transactionType")}
+        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
       >
-        Sector
+        Type
         <svg
-          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['sector'] === 'asc'
+          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['transactionType'] === 'asc'
             ? 'rotate-180 inline-block'
-            : sortOrders['sector'] === 'desc'
+            : sortOrders['transactionType'] === 'desc'
+              ? 'inline-block'
+              : 'hidden'} "
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          style="max-width:50px"
+          ><path
+            fill-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path></svg
+        >
+      </div>
+      <div
+        on:click={() => sortData("exchange")}
+        class="cursor-pointer p-2 text-end select-none whitespace-nowrap"
+      >
+        Exchange
+        <svg
+          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['exchange'] === 'asc'
+            ? 'rotate-180 inline-block'
+            : sortOrders['exchange'] === 'desc'
               ? 'inline-block'
               : 'hidden'} "
           viewBox="0 0 20 20"
@@ -350,7 +383,7 @@
         let:index
         let:style
         {style}
-        class="grid grid-cols-10 gap-0 relative overflow-hidden"
+        class="grid grid-cols-11 gap-0 relative overflow-hidden"
         class:bg-[#fff]={index % 2 === 0 && $mode === "light"}
         class:bg-[#09090B]={index % 2 === 0 && $mode !== "light"}
         class:bg-[#121217]={index % 2 !== 0 && $mode !== "light"}
@@ -408,64 +441,59 @@
         {/if}
         <!-- Date Column -->
         <div
-          class="p-2 text-start text-xs sm:text-sm whitespace-nowrap relative z-10"
+          class="p-2 text-end text-xs sm:text-sm whitespace-nowrap relative z-10"
         >
           {$screenWidth < 640
             ? formatToNewYorkTime(displayedData[index]?.date)?.slice(0, -3)
             : formatToNewYorkTime(displayedData[index]?.date)}
         </div>
         <!-- Symbol Column -->
-        <div class="p-2 text-center text-sm sm:text-[1rem] relative z-10">
+        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10">
           <HoverStockChart
             symbol={displayedData[index]?.ticker}
             assetType={displayedData[index]?.assetType}
           />
         </div>
         <!-- Price Column -->
-        <div class="p-2 text-start text-sm sm:text-[1rem] relative z-10">
+        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10">
           {displayedData[index]?.price}
         </div>
         <!-- Premium Column -->
-        <div class="p-2 text-start text-sm sm:text-[1rem] relative z-10">
+        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10">
           {abbreviateNumber(displayedData[index]?.premium, true, true)}
         </div>
         <!-- Size Column -->
-        <div class="p-2 text-start text-sm sm:text-[1rem] relative z-10">
+        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10">
           {new Intl.NumberFormat("en", {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           }).format(displayedData[index]?.size)}
         </div>
         <!-- Volume Column -->
-        <div class="p-2 text-start text-sm sm:text-[1rem] relative z-10">
+        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10">
           {displayedData[index]?.volume?.toLocaleString("en-US")}
         </div>
         <!-- % Size / Vol Column -->
-        <div class="p-2 text-start text-sm sm:text-[1rem] relative z-10">
+        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10">
           {displayedData[index]?.sizeVolRatio > 0.01
             ? displayedData[index]?.sizeVolRatio?.toFixed(2) + "%"
             : "< 0.01%"}
         </div>
         <!-- % Size / Avg Vol Column -->
-        <div class="p-2 text-start text-sm sm:text-[1rem] relative z-10">
+        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10">
           {displayedData[index]?.sizeAvgVolRatio > 0.01
             ? displayedData[index]?.sizeAvgVolRatio?.toFixed(2) + "%"
             : "< 0.01%"}
         </div>
         <!-- Sector Column -->
-        <div
-          class="p-2 text-start text-sm sm:text-[1rem] whitespace-nowrap relative z-10"
-        >
-          <a
-            href={sectorNavigation?.find(
-              (item) => item?.title === displayedData[index]?.sector,
-            )?.link}
-            class="sm:hover:underline sm:hover:underline-offset-4"
-          >
-            {displayedData[index]?.sector?.length > 20
-              ? displayedData[index]?.sector?.slice(0, 20) + "..."
-              : displayedData[index]?.sector}
-          </a>
+        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10 -mr-3">
+          {displayedData[index]?.transactionType
+            ?.replace("DP", "Dark Pool")
+            ?.replace("B", "Block")}
+        </div>
+        <!-- Exchange Column -->
+        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10 -mr-3">
+          {displayedData[index]?.exchange}
         </div>
         <!-- Asset Type Column -->
         <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10">
