@@ -2,8 +2,14 @@
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import { screenWidth } from "$lib/store";
+
+  import highcharts from "$lib/highcharts.ts";
+  import { mode } from "mode-watcher";
 
   export let data;
+
+  let configPieChart = null;
 
   const defaultList = [
     { name: "Retail Vol Share vs US Market", rule: "activity" },
@@ -37,6 +43,106 @@
     "traded",
     "activity",
   ]);
+
+  function plotPieChart() {
+    // Sector allocation data
+    const stockData = data?.getStocks;
+
+    // Color palette matching the screenshot
+    const colors = [
+      "#2B5F75", // Technology - Dark blue
+      "#4A7BA7", // Financials - Medium blue
+      "#8B5A9B", // Consumer Discretionary - Purple
+      "#C85A9B", // Health Care - Pink-purple
+      "#E85A85", // Industrials - Pink
+      "#F5756B", // Communication Services - Coral
+      "#F9A05C", // Consumer Staples - Orange
+      "#FFC04D", // Other - Yellow
+      "#FFD93D", // Energy - Bright yellow
+      "#4A6B8A", // Utilities - Blue-gray
+      "#9B7BA7", // Real Estate - Light purple
+      "#D85A9B", // Materials - Pink
+    ];
+
+    // Transform data for Highcharts pie chart
+    // Transform data for Highcharts pie chart, filtering out entries with less than 1% weight
+    const pieData = stockData?.slice(0, 12)?.map((item, index) => ({
+      name: item.symbol,
+      y: item?.activity,
+      color: colors[index % colors.length],
+    }));
+
+    // Highcharts configuration options
+    const options = {
+      credits: {
+        enabled: false,
+      },
+      chart: {
+        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        type: "pie",
+        height: $screenWidth < 640 ? 300 : 360,
+        animation: false,
+      },
+      title: {
+        text: null,
+      },
+      plotOptions: {
+        pie: {
+          allowPointSelect: false,
+          cursor: "pointer",
+          dataLabels: {
+            enabled: true,
+            distance: $screenWidth < 640 ? 10 : 30,
+            style: {
+              color: $mode === "light" ? "#333" : "#fff",
+              fontSize: $screenWidth < 640 ? "12px" : "14px",
+              fontWeight: "500",
+              textOutline: "none",
+            },
+            formatter: function () {
+              return `<span style="font-weight: 600">${this.point.name}:</span> ${this.y.toFixed(2)}%`;
+            },
+          },
+          showInLegend: false,
+          borderWidth: 0,
+          size: "80%",
+          innerSize: "0%",
+          animation: false,
+          enableMouseTracking: false,
+          states: {
+            hover: {
+              enabled: false,
+            },
+            inactive: {
+              enabled: false,
+            },
+          },
+        },
+      },
+      tooltip: {
+        enabled: false,
+      },
+      series: [
+        {
+          name: "",
+          data: pieData,
+          animation: false,
+        },
+      ],
+      legend: {
+        enabled: false,
+      },
+    };
+
+    return options;
+  }
+
+  $: {
+    if ($mode) {
+      configPieChart = plotPieChart() || null;
+    }
+  }
 </script>
 
 <SEO
@@ -87,6 +193,17 @@
   <Infobox
     text="US stocks ranked by Retail Market Share, showing where individual investors are most active. Highlights potential meme stocks or volatility unrelated to fundamentals."
   />
+
+  <div class="">
+    <div class="grow mt-5">
+      <div class="relative">
+        <div
+          class=" sm:p-3 shadow border border-gray-300 dark:border-gray-800 rounded"
+          use:highcharts={configPieChart}
+        ></div>
+      </div>
+    </div>
+  </div>
 
   <!-- Page wrapper -->
   <Table
