@@ -15,7 +15,7 @@ export const load = async ({ locals, params }) => {
 
   // Define the endpoints you want to fetch in bulk
   const endpoints = [
-    "/dark-pool-level",
+    "/unusual-order-level",
     "/historical-dark-pool",
   ];
 
@@ -42,7 +42,7 @@ export const load = async ({ locals, params }) => {
     const bulkData = await response.json();
 
     // Process analyst ticker history: if user isn't Pro, limit to 6 items
-    let priceLevel = bulkData["/dark-pool-level"];
+    let priceLevel = bulkData["/unusual-order-level"];
    if (user?.tier !== "Pro") {
       priceLevel.hottestTrades = priceLevel?.hottestTrades?.slice(0, 3);
     }
