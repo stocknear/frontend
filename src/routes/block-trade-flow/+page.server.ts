@@ -1,27 +1,23 @@
 export const load = async ({ locals }) => {
   const { apiURL, apiKey, pb, user, wsURL } = locals;
 
-
   const getAllStrategies = async () => {
-      let output = [];
-  
-       try {
-          output = await pb.collection("optionsFlow").getFullList({
-          filter: `user="${user?.id}"`,
-          });
-              output?.sort((a, b) => new Date(b?.updated) - new Date(a?.updated));
-  
-      }
-      catch(e) {
-          output = [];
-      }
-  
-    
-      return output;
-    };
-  
-  const getOptionsFlowFeed = async () => {
-    const response = await fetch(apiURL + "/options-flow-feed", {
+    let output = [];
+    try {
+      output = await pb.collection("blockTradeFlow")?.getFullList({
+        filter: `user="${user?.id}"`,
+      });
+      output?.sort(
+        (a, b) => new Date(b?.updated) - new Date(a?.updated),
+      );
+    } catch (e) {
+      output = [];
+    }
+    return output;
+  };
+
+  const getBlockTradeFlowFeed = async () => {
+    const response = await fetch(apiURL + "/block-trade-flow-feed", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -33,29 +29,8 @@ export const load = async ({ locals }) => {
     return output;
   };
 
-
-  const getOptionsWatchlist = async () => {
-    let output;
-    try {
-      output = (
-        await pb?.collection("optionsWatchlist").getFullList({
-          filter: `user="${user?.id}"`,
-        })
-      )?.at(0);
-      if (output === undefined) {
-        output = { optionsId: [] };
-      }
-    } catch (e) {
-      //console.log(e)
-      output = { optionsId: [] };
-    }
-    return output;
-  };
-
-  // Make sure to return a promise
   return {
-    getOptionsFlowFeed: await getOptionsFlowFeed(),
-    getOptionsWatchlist: await getOptionsWatchlist(),
+    getBlockTradeFlowFeed: await getBlockTradeFlowFeed(),
     getAllStrategies: await getAllStrategies(),
     wsURL: wsURL,
   };

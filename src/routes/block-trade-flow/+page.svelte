@@ -22,7 +22,7 @@
 
   import { page } from "$app/stores";
 
-  import OptionsFlowTable from "$lib/components/Table/OptionsFlowTable.svelte";
+  import BlockTradeTable from "$lib/components/Table/BlockTradeTable.svelte";
   import { writable } from "svelte/store";
 
   export let data;
@@ -33,19 +33,11 @@
   let isComponentDestroyed = false;
   let removeList = false;
 
-  let optionsWatchlist = data?.getOptionsWatchlist;
   let strategyList = data?.getAllStrategies || [];
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
 
   let ruleOfList = strategyList?.at(0)?.rules ?? [];
-  const checkedRules = [
-    "put_call",
-    "assetType",
-    "option_activity_type",
-    "moneyness",
-    "sentiment",
-    "execution_estimate",
-  ];
+  const checkedRules = ["execution_estimate", "underlying_type", "exchange"];
 
   let displayRules = [];
   let filteredData = [];
@@ -79,86 +71,25 @@
   const allRules = {
     size: {
       label: "Size",
-      step: ["50K", "20K", "10K", "5K", "2K", "1K", "100", "0"],
+      step: ["1M", "500K", "100K", "50K", "10K", "5K", "1K"],
       defaultCondition: "over",
       defaultValue: "any",
     },
-    volume: {
-      label: "Volume",
-      step: ["100K", "50K", "20K", "10K", "5K", "2K", "1K", "100", "0"],
-      defaultCondition: "over",
-      defaultValue: "any",
-    },
-    open_interest: {
-      label: "Open Interest",
-      step: ["100K", "10K", "1K"],
-      defaultCondition: "over",
-      defaultValue: "any",
-    },
-    volumeOIRatio: {
-      label: "Volume / OI",
-      step: ["100%", "80%", "60%", "50%", "30%", "15%", "10%", "5%"],
-      defaultCondition: "over",
-      defaultValue: "any",
-    },
-    sizeOIRatio: {
-      label: "Size / OI",
-      step: ["100%", "80%", "60%", "50%", "30%", "15%", "10%", "5%"],
+    price: {
+      label: "Price",
+      step: ["500", "200", "100", "50", "20", "10", "5"],
       defaultCondition: "over",
       defaultValue: "any",
     },
     cost_basis: {
-      label: "Premium",
-      step: [
-        "10M",
-        "5M",
-        "1M",
-        "500K",
-        "400K",
-        "300K",
-        "200K",
-        "100K",
-        "50K",
-        "10K",
-        "5K",
-      ],
+      label: "Total Value",
+      step: ["50M", "10M", "5M", "1M", "500K", "100K", "50K"],
       defaultCondition: "over",
-      defaultValue: "any",
-    },
-    moneyness: {
-      label: "Moneyness",
-      step: ["ITM", "OTM"],
-      defaultValue: "any",
-    },
-    flowType: {
-      label: "Flow Type",
-      step: ["Repeated Flow"],
-      defaultValue: "any",
-    },
-    put_call: {
-      label: "Contract Type",
-      step: ["Calls", "Puts"],
-      defaultValue: "any",
-    },
-    sentiment: {
-      label: "Sentiment",
-      step: ["Bullish", "Neutral", "Bearish"],
       defaultValue: "any",
     },
     execution_estimate: {
       label: "Execution",
-      step: ["Above Ask", "Below Bid", "At Ask", "At Bid", "At Midpoint"],
-      defaultValue: "any",
-    },
-    option_activity_type: {
-      label: "Option Type",
-      step: ["Sweep", "Trade"],
-      defaultValue: "any",
-    },
-    date_expiration: {
-      label: "Date Expiration",
-      step: ["250", "180", "100", "80", "60", "50", "30", "20", "10", "5", "0"],
-      defaultCondition: "over",
+      step: ["Above Ask", "At Ask", "At Mid", "At Bid", "Below Bid"],
       defaultValue: "any",
     },
     underlying_type: {
@@ -166,17 +97,14 @@
       step: ["Stock", "ETF"],
       defaultValue: "any",
     },
+    exchange: {
+      label: "Exchange",
+      step: ["NASDAQ", "NYSE", "ARCA", "AMEX", "BATS", "IEX"],
+      defaultValue: "any",
+    },
   };
 
-  const categoricalRules = [
-    "moneyness",
-    "flowType",
-    "put_call",
-    "sentiment",
-    "execution_estimate",
-    "option_activity_type",
-    "underlying_type",
-  ];
+  const categoricalRules = ["execution_estimate", "underlying_type", "exchange"];
 
   // Generate allRows from allRules
   $: allRows = Object?.entries(allRules)
@@ -310,12 +238,7 @@
   };
 
   const attachDerivedMetrics = (entries: any[] = []) => {
-    entries?.forEach((item) => {
-      if (!item) {
-        return;
-      }
-      item.dte = daysLeft(item?.date_expiration);
-    });
+    // Block trades don't have derived metrics like DTE
     return entries;
   };
 
@@ -579,7 +502,7 @@
     const deletePromise = (async () => {
       const postData = {
         strategyId: selectedStrategy,
-        type: "optionsFlow",
+        type: "blockTradeFlow",
       };
 
       const response = await fetch("/api/delete-strategy", {
@@ -680,7 +603,7 @@
     }
 
     // build postData object
-    const postData = { type: "optionsFlow" };
+    const postData = { type: "blockTradeFlow" };
     for (const [key, value] of formData.entries()) {
       postData[key] = value;
     }
@@ -787,7 +710,7 @@
       const postData = {
         strategyId: selectedStrategy,
         rules: ruleOfList,
-        type: "optionsFlow",
+        type: "blockTradeFlow",
       };
 
       const savePromise = (async () => {
@@ -1051,21 +974,23 @@
     new Date().toLocaleString("en-US", { timeZone: "America/New_York" }),
   )?.getTime();
 
-  const initialFeed = data?.getOptionsFlowFeed ?? [];
-  const dateString = initialFeed?.at(0)?.date;
-  const nyseDate = new Date(`${dateString}T12:00:00Z`);
+  const initialFeed = data?.getBlockTradeFlowFeed ?? [];
+  // Block trades don't have a date field, use current NYSE date
+  const nyseDate = new Date(
+    new Date().toLocaleString("en-US", { timeZone: "America/New_York" }),
+  );
   const formattedNyseDate = nyseDate.toISOString().split("T")[0];
 
   let rawData = prepareInitialFlowData(initialFeed);
 
   let displayedData = [];
 
-  let flowSentiment;
-  let putCallRatio;
-  let displayCallVolume;
-  let displayPutVolume;
-  let callPercentage;
-  let putPercentage;
+  let totalVolume = 0;
+  let totalValue = 0;
+  let atAskCount = 0;
+  let atBidCount = 0;
+  let atAskPercentage = 0;
+  let atBidPercentage = 0;
 
   let audio;
   let muted = false;
@@ -1092,7 +1017,7 @@
           // Switching to live mode
           if (selectedDate !== undefined) {
             selectedDate = undefined;
-            await replaceRawData(data?.getOptionsFlowFeed ?? []);
+            await replaceRawData(data?.getBlockTradeFlowFeed ?? []);
             displayedData = [...rawData];
             shouldLoadWorker.set(true);
           }
@@ -1151,7 +1076,7 @@
     }
 
     try {
-      socket = new WebSocket(data.wsURL + "/options-flow");
+      socket = new WebSocket(data.wsURL + "/block-trade");
 
       socket.addEventListener("open", () => {
         console.log("Options Flow WebSocket connection opened");
@@ -1293,7 +1218,7 @@
     });
 
     // Load muted state from localStorage
-    const savedMutedState = localStorage.getItem("optionsFlowMuted");
+    const savedMutedState = localStorage.getItem("blockTradeFlowMuted");
     if (savedMutedState !== null) {
       muted = JSON.parse(savedMutedState);
     }
@@ -1376,62 +1301,44 @@
   });
 
   function calculateStats(data) {
-    const {
-      callVolumeSum,
-      putVolumeSum,
-      bullishCount,
-      bearishCount,
-      neutralCount,
-    } = data?.reduce(
+    const stats = data?.reduce(
       (acc, item) => {
-        const volume = parseInt(item?.size);
+        const size = parseInt(item?.size) || 0;
+        const value = parseFloat(item?.cost_basis) || 0;
 
-        if (item?.put_call === "Calls") {
-          acc.callVolumeSum += volume;
-        } else if (item?.put_call === "Puts") {
-          acc.putVolumeSum += volume;
-        }
+        acc.totalVolume += size;
+        acc.totalValue += value;
 
-        if (item?.sentiment === "Bullish") {
-          acc.bullishCount += 1;
-        } else if (item?.sentiment === "Bearish") {
-          acc.bearishCount += 1;
-        } else if (item?.sentiment === "Neutral") {
-          acc.neutralCount += 1;
+        if (
+          item?.execution_estimate === "At Ask" ||
+          item?.execution_estimate === "Above Ask"
+        ) {
+          acc.atAskCount += 1;
+        } else if (
+          item?.execution_estimate === "At Bid" ||
+          item?.execution_estimate === "Below Bid"
+        ) {
+          acc.atBidCount += 1;
         }
 
         return acc;
       },
       {
-        callVolumeSum: 0,
-        putVolumeSum: 0,
-        bullishCount: 0,
-        bearishCount: 0,
-        neutralCount: 0,
+        totalVolume: 0,
+        totalValue: 0,
+        atAskCount: 0,
+        atBidCount: 0,
       },
     );
 
-    if (bullishCount > bearishCount) {
-      flowSentiment = "Bullish";
-    } else if (bullishCount < bearishCount) {
-      flowSentiment = "Bearish";
-    } else if (neutralCount > bearishCount && neutralCount > bullishCount) {
-      flowSentiment = "Neutral";
-    } else {
-      flowSentiment = "-";
-    }
+    totalVolume = stats?.totalVolume || 0;
+    totalValue = stats?.totalValue || 0;
+    atAskCount = stats?.atAskCount || 0;
+    atBidCount = stats?.atBidCount || 0;
 
-    putCallRatio = callVolumeSum !== 0 ? putVolumeSum / callVolumeSum : 0;
-
-    callPercentage =
-      callVolumeSum + putVolumeSum !== 0
-        ? Math.floor((callVolumeSum / (callVolumeSum + putVolumeSum)) * 100)
-        : 0;
-    putPercentage =
-      callVolumeSum + putVolumeSum !== 0 ? 100 - callPercentage : 0;
-
-    displayCallVolume = callVolumeSum;
-    displayPutVolume = putVolumeSum;
+    const totalTrades = atAskCount + atBidCount;
+    atAskPercentage = totalTrades !== 0 ? Math.floor((atAskCount / totalTrades) * 100) : 0;
+    atBidPercentage = totalTrades !== 0 ? 100 - atAskPercentage : 0;
   }
 
   const getHistoricalFlow = async () => {
@@ -1460,7 +1367,7 @@
       const formattedDate = `${year}-${month}-${day}`;
 
       if (formattedDate === formattedNyseDate) {
-        await replaceRawData(data?.getOptionsFlowFeed ?? []);
+        await replaceRawData(data?.getBlockTradeFlowFeed ?? []);
         if (rawData?.length !== 0) {
           shouldLoadWorker.set(true);
         }
@@ -1468,7 +1375,7 @@
         const postData = { selectedDate: formattedDate };
 
         try {
-          const response = await fetch("/api/options-historical-flow", {
+          const response = await fetch("/api/block-trade-historical-flow", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -1535,15 +1442,15 @@
 </script>
 
 <SEO
-  title="Options Flow - Real-Time Unusual Options Activity & Smart Money Tracking "
-  description="Track real-time options flow and unusual options activity from institutional traders. Monitor smart money movements, large block trades, and options sweeps for TSLA, NVDA, SPY and all US stocks. Free options flow scanner with live alerts."
-  keywords="options flow, unusual options activity, smart money, options sweeps, institutional trading, options scanner, block trades, options alerts, dark pool options, call flow, put flow"
+  title="Block Trade Flow - Real-Time Large Stock Block Trades & Institutional Activity"
+  description="Track real-time block trades and large stock transactions from institutional traders. Monitor smart money movements, large block orders, and institutional activity for all US stocks. Free block trade scanner with live alerts."
+  keywords="block trades, large stock trades, institutional trading, smart money, block trade scanner, institutional activity, large orders, stock block trades, dark pool trades"
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Options Flow Scanner",
-    description: "Real-time options flow tracking and unusual activity scanner",
-    url: "https://stocknear.com/options-flow",
+    name: "Block Trade Scanner",
+    description: "Real-time block trade tracking and institutional activity scanner",
+    url: "https://stocknear.com/block-trade-flow",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
     breadcrumb: {
@@ -1558,8 +1465,8 @@
         {
           "@type": "ListItem",
           position: 2,
-          name: "Options Flow",
-          item: "https://stocknear.com/options-flow",
+          name: "Block Trade Flow",
+          item: "https://stocknear.com/block-trade-flow",
         },
       ],
     },
@@ -1567,15 +1474,15 @@
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD",
-      description: "Free real-time options flow tracking",
+      description: "Free real-time block trade tracking",
     },
     featureList: [
-      "Real-time options flow",
-      "Unusual activity detection",
+      "Real-time block trades",
+      "Institutional activity detection",
       "Smart money tracking",
-      "Block trade monitoring",
-      "Options sweep alerts",
-      "Institutional flow analysis",
+      "Large order monitoring",
+      "Block trade alerts",
+      "Exchange analysis",
     ],
   }}
 />
@@ -1599,12 +1506,12 @@
             class="w-full flex flex-col sm:flex-row items-start sm:items-center sm:mt-4"
           >
             <h1 class="text-2xl sm:text-3xl font-semibold">
-              Realtime Options Flow
+              Realtime Block Trade Flow
             </h1>
             <span
               class="inline-block text-xs sm:text-sm font-semibold sm:ml-2 mt-3"
             >
-              {displayedData?.length?.toLocaleString("en-US")} Contracts Found
+              {displayedData?.length?.toLocaleString("en-US")} Trades Found
             </span>
           </div>
 
@@ -1735,7 +1642,7 @@
                 on:click={() => {
                   muted = !muted;
                   localStorage.setItem(
-                    "optionsFlowMuted",
+                    "blockTradeFlowMuted",
                     JSON.stringify(muted),
                   );
                 }}
@@ -2460,156 +2367,21 @@
               <div
                 class="w-full grid grid-cols-1 lg:grid-cols-4 gap-y-3 gap-x-3"
               >
-                <!--Start Flow Sentiment-->
+                <!--Start Total Volume-->
                 <div
-                  class="sentiment-driver shadow flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                  class="shadow flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
                 >
                   <div class="flex flex-col items-start">
                     <span
                       class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
-                      >Flow Sentiment</span
-                    >
-                    {#if data?.user?.tier === "Pro"}
-                      <span
-                        class="text-start text-[1rem] font-semibold {flowSentiment ===
-                        'Bullish'
-                          ? 'text-green-800 dark:text-[#00FC50]'
-                          : flowSentiment === 'Bearish'
-                            ? 'text-red-800 dark:text-[#FF2F1F]'
-                            : flowSentiment === 'Neutral'
-                              ? 'text-[#fff]'
-                              : ''}">{flowSentiment}</span
-                      >
-                    {:else}
-                      <a href="/pricing" class="flex mt-2">
-                        <svg
-                          class="size-5 text-muted dark:text-[#fff]"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          style="max-width: 40px;"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                            clip-rule="evenodd"
-                          >
-                          </path>
-                        </svg>
-                      </a>
-                    {/if}
-                  </div>
-                </div>
-                <!--End Flow Sentiment-->
-                <!--Start Put/Call-->
-                <div
-                  class="put-call-driver shadow flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
-                >
-                  <div class="flex flex-col items-start">
-                    <span
-                      class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
-                      >Put/Call</span
-                    >
-                    {#if data?.user?.tier === "Pro"}
-                      <span class="text-start text-[1rem] font-semibold">
-                        {putCallRatio?.toFixed(3)}
-                      </span>
-                    {:else}
-                      <a href="/pricing" class="flex mt-2">
-                        <svg
-                          class="size-5 text-muted dark:text-[#fff]"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          style="max-width: 40px;"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                            clip-rule="evenodd"
-                          >
-                          </path>
-                        </svg>
-                      </a>
-                    {/if}
-                  </div>
-                  <!-- Circular Progress -->
-                  <div class="relative size-14 ml-auto">
-                    <svg
-                      class="size-full w-14 h-14"
-                      viewBox="0 0 36 36"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <!-- Background Circle -->
-                      <circle
-                        cx="18"
-                        cy="18"
-                        r="16"
-                        fill="none"
-                        class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
-                        stroke-width="3"
-                      ></circle>
-                      <!-- Progress Circle inside a group with rotation -->
-                      <g class="origin-center -rotate-90 transform">
-                        <circle
-                          cx="18"
-                          cy="18"
-                          r="16"
-                          fill="none"
-                          class="stroke-current"
-                          stroke-width="3"
-                          stroke-dasharray="100"
-                          stroke-dashoffset={data?.user?.tier === "Pro"
-                            ? putCallRatio >= 1
-                              ? 0
-                              : 100 - (putCallRatio * 100)?.toFixed(2)
-                            : 100}
-                        ></circle>
-                      </g>
-                    </svg>
-                    <!-- Percentage Text -->
-                    <div
-                      class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
-                    >
-                      {#if data?.user?.tier === "Pro"}
-                        <span class="text-center text-sm"
-                          >{putCallRatio?.toFixed(2)}</span
-                        >
-                      {:else}
-                        <a href="/pricing" class="flex">
-                          <svg
-                            class="size-4 text-muted dark:text-[#fff]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            style="max-width: 40px;"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                              clip-rule="evenodd"
-                            >
-                            </path>
-                          </svg>
-                        </a>
-                      {/if}
-                    </div>
-                  </div>
-                  <!-- End Circular Progress -->
-                </div>
-                <!--End Put/Call-->
-                <!--Start Call Flow-->
-                <div
-                  class="call-flow-driver shadow flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
-                >
-                  <div class="flex flex-col items-start">
-                    <span
-                      class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
-                      >Call Flow</span
+                      >Total Volume</span
                     >
                     {#if data?.user?.tier === "Pro"}
                       <span class="text-start text-[1rem] font-semibold">
                         {new Intl.NumberFormat("en", {
                           minimumFractionDigits: 0,
                           maximumFractionDigits: 0,
-                        }).format(displayCallVolume)}
+                        }).format(totalVolume)}
                       </span>
                     {:else}
                       <a href="/pricing" class="flex mt-2">
@@ -2629,83 +2401,61 @@
                       </a>
                     {/if}
                   </div>
-                  <!-- Circular Progress -->
-                  <div class="relative size-14 ml-auto">
-                    <svg
-                      class="size-full w-14 h-14"
-                      viewBox="0 0 36 36"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <!-- Background Circle -->
-                      <circle
-                        cx="18"
-                        cy="18"
-                        r="16"
-                        fill="none"
-                        class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
-                        stroke-width="3"
-                      ></circle>
-                      <!-- Progress Circle inside a group with rotation -->
-                      <g class="origin-center -rotate-90 transform">
-                        <circle
-                          cx="18"
-                          cy="18"
-                          r="16"
-                          fill="none"
-                          class="stroke-current text-green-800 dark:text-[#00FC50]"
-                          stroke-width="3"
-                          stroke-dasharray="100"
-                          stroke-dashoffset={data?.user?.tier === "Pro"
-                            ? 100 - callPercentage?.toFixed(2)
-                            : 100}
-                        ></circle>
-                      </g>
-                    </svg>
-                    <!-- Percentage Text -->
-                    <div
-                      class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
-                    >
-                      {#if data?.user?.tier === "Pro"}
-                        <span class="text-center text-sm"
-                          >{callPercentage}%</span
-                        >
-                      {:else}
-                        <a href="/pricing" class="flex">
-                          <svg
-                            class="size-4 text-muted dark:text-[#fff]"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            style="max-width: 40px;"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                              clip-rule="evenodd"
-                            >
-                            </path>
-                          </svg>
-                        </a>
-                      {/if}
-                    </div>
-                  </div>
-                  <!-- End Circular Progress -->
                 </div>
-                <!--End Call Flow-->
-                <!--Start Put Flow-->
+                <!--End Total Volume-->
+                <!--Start Total Value-->
                 <div
-                  class="put-flow-driver shadow flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                  class="shadow flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
                 >
                   <div class="flex flex-col items-start">
                     <span
                       class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
-                      >Put Flow</span
+                      >Total Value</span
                     >
                     {#if data?.user?.tier === "Pro"}
                       <span class="text-start text-[1rem] font-semibold">
+                        ${new Intl.NumberFormat("en", {
+                          notation: "compact",
+                          compactDisplay: "short",
+                          minimumFractionDigits: 1,
+                          maximumFractionDigits: 1,
+                        }).format(totalValue)}
+                      </span>
+                    {:else}
+                      <a href="/pricing" class="flex mt-2">
+                        <svg
+                          class="size-5 text-muted dark:text-[#fff]"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
+                  </div>
+                </div>
+                <!--End Total Value-->
+                <!--Start At Ask Trades-->
+                <div
+                  class="shadow flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                >
+                  <div class="flex flex-col items-start">
+                    <span
+                      class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
+                      >At Ask</span
+                    >
+                    {#if data?.user?.tier === "Pro"}
+                      <span class="text-start text-[1rem] font-semibold text-green-700 dark:text-[#00FC50]">
                         {new Intl.NumberFormat("en", {
                           minimumFractionDigits: 0,
                           maximumFractionDigits: 0,
-                        }).format(displayPutVolume)}
+                        }).format(atAskCount)} trades
                       </span>
                     {:else}
                       <a href="/pricing" class="flex mt-2">
@@ -2732,7 +2482,6 @@
                       viewBox="0 0 36 36"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <!-- Background Circle -->
                       <circle
                         cx="18"
                         cy="18"
@@ -2741,29 +2490,26 @@
                         class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
                         stroke-width="3"
                       ></circle>
-                      <!-- Progress Circle inside a group with rotation -->
                       <g class="origin-center -rotate-90 transform">
                         <circle
                           cx="18"
                           cy="18"
                           r="16"
                           fill="none"
-                          class="stroke-current text-[#EE5365]"
+                          class="stroke-current text-green-700 dark:text-[#00FC50]"
                           stroke-width="3"
                           stroke-dasharray="100"
                           stroke-dashoffset={data?.user?.tier === "Pro"
-                            ? 100 - putPercentage?.toFixed(2)
+                            ? 100 - atAskPercentage
                             : 100}
                         ></circle>
                       </g>
                     </svg>
-                    <!-- Percentage Text -->
                     <div
                       class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
                     >
                       {#if data?.user?.tier === "Pro"}
-                        <span class="text-center text-sm">{putPercentage}%</span
-                        >
+                        <span class="text-center text-sm">{atAskPercentage}%</span>
                       {:else}
                         <a href="/pricing" class="flex">
                           <svg
@@ -2783,8 +2529,98 @@
                       {/if}
                     </div>
                   </div>
-                  <!-- End Circular Progress -->
                 </div>
+                <!--End At Ask Trades-->
+                <!--Start At Bid Trades-->
+                <div
+                  class="shadow flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                >
+                  <div class="flex flex-col items-start">
+                    <span
+                      class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
+                      >At Bid</span
+                    >
+                    {#if data?.user?.tier === "Pro"}
+                      <span class="text-start text-[1rem] font-semibold text-red-700 dark:text-[#FF2F1F]">
+                        {new Intl.NumberFormat("en", {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 0,
+                        }).format(atBidCount)} trades
+                      </span>
+                    {:else}
+                      <a href="/pricing" class="flex mt-2">
+                        <svg
+                          class="size-5 text-muted dark:text-[#fff]"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
+                  </div>
+                  <!-- Circular Progress -->
+                  <div class="relative size-14 ml-auto">
+                    <svg
+                      class="size-full w-14 h-14"
+                      viewBox="0 0 36 36"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="16"
+                        fill="none"
+                        class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
+                        stroke-width="3"
+                      ></circle>
+                      <g class="origin-center -rotate-90 transform">
+                        <circle
+                          cx="18"
+                          cy="18"
+                          r="16"
+                          fill="none"
+                          class="stroke-current text-red-700 dark:text-[#FF2F1F]"
+                          stroke-width="3"
+                          stroke-dasharray="100"
+                          stroke-dashoffset={data?.user?.tier === "Pro"
+                            ? 100 - atBidPercentage
+                            : 100}
+                        ></circle>
+                      </g>
+                    </svg>
+                    <div
+                      class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
+                    >
+                      {#if data?.user?.tier === "Pro"}
+                        <span class="text-center text-sm">{atBidPercentage}%</span>
+                      {:else}
+                        <a href="/pricing" class="flex">
+                          <svg
+                            class="size-4 text-muted dark:text-[#fff]"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            style="max-width: 40px;"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                              clip-rule="evenodd"
+                            >
+                            </path>
+                          </svg>
+                        </a>
+                      {/if}
+                    </div>
+                  </div>
+                </div>
+                <!--End At Bid Trades-->
               </div>
             </div>
 
@@ -2793,11 +2629,9 @@
               <div
                 class="mt-8 w-full overflow-x-auto h-[900px] overflow-hidden"
               >
-                <OptionsFlowTable
+                <BlockTradeTable
                   {data}
-                  {optionsWatchlist}
                   {displayedData}
-                  {filteredData}
                   {rawData}
                 />
                 <UpgradeToPro {data} display={true} />
