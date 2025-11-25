@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getCache, setCache, isOpen } from "$lib/store";
+  import { getCache, setCache } from "$lib/store";
 
   import { onMount, onDestroy } from "svelte";
   import { toast } from "svelte-sonner";
@@ -19,7 +19,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
 
-  import DarkPoolTable from "$lib/components/Table/DarkPoolTable.svelte";
+  import UnusualOrderFlowTable from "$lib/components/Table/UnusualOrderFlowTable.svelte";
   import { writable } from "svelte/store";
 
   export let data;
@@ -262,7 +262,7 @@
     const deletePromise = (async () => {
       const postData = {
         strategyId: selectedStrategy,
-        type: "darkPoolFlow",
+        type: "unusualOrderFlow",
       };
 
       const response = await fetch("/api/delete-strategy", {
@@ -362,7 +362,7 @@
     }
 
     // build postData object
-    const postData = { type: "darkPoolFlow" };
+    const postData = { type: "unusualOrderFlow" };
     for (const [key, value] of formData.entries()) {
       postData[key] = value;
     }
@@ -469,7 +469,7 @@
       const postData = {
         strategyId: selectedStrategy,
         rules: ruleOfList,
-        type: "darkPoolFlow",
+        type: "unusualOrderFlow",
       };
 
       const savePromise = (async () => {
@@ -1782,7 +1782,12 @@
         <div class="flex w-full m-auto h-full overflow-hidden">
           {#if displayedData?.length !== 0}
             <div class="mt-3 w-full overflow-x-auto h-[850px] overflow-hidden">
-              <DarkPoolTable {data} {displayedData} {filteredData} {rawData} />
+              <UnusualOrderFlowTable
+                {data}
+                {displayedData}
+                {filteredData}
+                {rawData}
+              />
               <UpgradeToPro {data} display={true} />
             </div>
           {:else}

@@ -6,7 +6,7 @@ export const load = async ({ locals }) => {
       let output = [];
 
        try {
-          output = await pb.collection("darkPoolFlow")?.getFullList({
+          output = await pb.collection("unusualOrderFlow")?.getFullList({
           filter: `user="${user?.id}"`,
           });
               output?.sort((a, b) => new Date(b?.updated) - new Date(a?.updated));
@@ -22,7 +22,7 @@ export const load = async ({ locals }) => {
 
   const getFlowData = async () => {
     // make the POST request to the endpoint
-    const response = await fetch(apiURL + "/dark-pool-flow-feed", {
+    const response = await fetch(apiURL + "/unusual-order-feed", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
