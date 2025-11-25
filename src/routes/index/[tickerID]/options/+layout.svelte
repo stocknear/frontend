@@ -117,6 +117,7 @@
               >
                 Greeks
               </a>
+              <!--
               <a
                 href={`/index/${$indexTicker}/options/volatility`}
                 on:click={() => changeSubSection("volatility")}
@@ -127,6 +128,7 @@
               >
                 Volatility
               </a>
+              -->
               <a
                 href={`/index/${$indexTicker}/options/oi`}
                 on:click={() => changeSubSection("oi")}
@@ -138,7 +140,7 @@
               </a>
 
               <a
-                href={`/index/${$indexTicker}/options/gex`}
+                href={`/index/${$indexTicker}/options/gex/strike`}
                 on:click={() => changeSubSection("gex")}
                 class="p-2 px-5 cursor-pointer {displaySubSection === 'gex'
                   ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
@@ -147,7 +149,7 @@
                 GEX
               </a>
               <a
-                href={`/index/${$indexTicker}/options/dex`}
+                href={`/index/${$indexTicker}/options/dex/strike`}
                 on:click={() => changeSubSection("dex")}
                 class="p-2 px-5 cursor-pointer {displaySubSection === 'dex'
                   ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'

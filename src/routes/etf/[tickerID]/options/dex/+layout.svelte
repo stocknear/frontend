@@ -54,6 +54,7 @@
             class="sm:ml-4 overflow-x-auto pt-1 text-sm sm:text-[1rem] whitespace-nowrap"
           >
             <ul class="flex flex-row items-center w-full">
+              <!--
               <a
                 href={`/etf/${$etfTicker}/options/dex`}
                 on:click={() => changeSubSection("overview")}
@@ -63,6 +64,7 @@
               >
                 Overview
               </a>
+              -->
 
               <a
                 href={`/etf/${$etfTicker}/options/dex/strike`}

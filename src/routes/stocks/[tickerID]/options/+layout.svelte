@@ -13,10 +13,10 @@
       "hottest-contracts": "/options/hottest-contracts",
       "unusual-activity": "/options/unusual-activity",
       "contract-lookup": "/options/contract-lookup",
-      volatility: "/options/volatility",
+      //volatility: "/options/volatility",
       greeks: "/options/greeks",
-      gex: "/options/gex",
-      dex: "/options/dex",
+      gex: "/options/gex/strike",
+      dex: "/options/dex/strike",
       oi: "/options/oi",
     };
 
@@ -38,7 +38,7 @@
         "hottest-contracts": "hottest-contracts",
         "unusual-activity": "unusual-activity",
         "contract-lookup": "contract-lookup",
-        volatility: "volatility",
+        //volatility: "volatility",
         greeks: "greeks",
         gex: "gex",
         dex: "dex",
@@ -127,6 +127,7 @@
               >
                 Greeks
               </a>
+              <!--
               <a
                 href={`/stocks/${$stockTicker}/options/volatility`}
                 on:click={() => changeSubSection("volatility")}
@@ -137,6 +138,7 @@
               >
                 Volatility
               </a>
+              -->
               <a
                 href={`/stocks/${$stockTicker}/options/oi`}
                 on:click={() => changeSubSection("oi")}
@@ -148,7 +150,7 @@
               </a>
 
               <a
-                href={`/stocks/${$stockTicker}/options/gex`}
+                href={`/stocks/${$stockTicker}/options/gex/strike`}
                 on:click={() => changeSubSection("gex")}
                 class="p-2 px-5 cursor-pointer {displaySubSection === 'gex'
                   ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
@@ -157,7 +159,7 @@
                 GEX
               </a>
               <a
-                href={`/stocks/${$stockTicker}/options/dex`}
+                href={`/stocks/${$stockTicker}/options/dex/strike`}
                 on:click={() => changeSubSection("dex")}
                 class="p-2 px-5 cursor-pointer {displaySubSection === 'dex'
                   ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
