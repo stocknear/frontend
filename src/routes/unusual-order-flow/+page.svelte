@@ -1031,16 +1031,16 @@
 </script>
 
 <SEO
-  title="Dark Pool Flow Feed - Real-Time Institutional Trading Activity"
-  description="Track real-time dark pool trades from institutional investors and hedge funds. Monitor hidden large block trades, unusual activity, and institutional money flow to identify opportunities before retail investors."
-  keywords="dark pool flow, institutional trading, dark pool trades, hedge fund activity, block trades, institutional money flow, real-time dark pools, unusual activity, hidden trades, institutional investors"
+  title="Unusual Order Flow | Dark Pool & Block Trade Tracker"
+  description="Monitor real-time dark pool trades and block orders from institutional investors. Track unusual order flow, large hidden trades, and smart money activity across stocks and ETFs with advanced filtering."
+  keywords="unusual order flow, dark pool trades, block trades, institutional trading, smart money flow, hidden trades, large block orders, institutional investors, hedge fund activity, dark pool scanner, real-time order flow, SIP data"
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Dark Pool Flow Feed",
+    name: "Unusual Order Flow Scanner",
     description:
-      "Real-time tracking of institutional dark pool trading activity and large block trades",
-    url: "https://stocknear.com/dark-pool-flow",
+      "Real-time dark pool and block trade monitoring tool for tracking institutional order flow and smart money activity",
+    url: "https://stocknear.com/unusual-order-flow",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
     offers: {
@@ -1049,14 +1049,21 @@
       priceCurrency: "USD",
     },
     featureList: [
-      "Real-time dark pool monitoring",
-      "Institutional trade filtering",
-      "Block size analysis",
-      "Volume percentage tracking",
-      "Transaction type based filtering",
-      "Historical data access",
-      "Custom screening filters",
+      "Real-time dark pool trade monitoring",
+      "Block order tracking",
+      "Institutional order flow analysis",
+      "Exchange-level filtering",
+      "Stock and ETF asset filtering",
+      "Premium and volume analysis",
+      "Size to volume ratio screening",
+      "Historical order flow data",
+      "Custom filter strategies",
     ],
+    provider: {
+      "@type": "Organization",
+      name: "Stocknear",
+      url: "https://stocknear.com",
+    },
   }}
 />
 
@@ -1077,9 +1084,7 @@
         <div
           class="w-full flex flex-col sm:flex-row items-start sm:items-center sm:mt-4"
         >
-          <h1 class="text-2xl sm:text-3xl font-semibold">
-            Realtime Order Flow
-          </h1>
+          <h1 class="text-2xl sm:text-3xl font-semibold">Unusual Order Flow</h1>
           <span
             class="inline-block text-xs sm:text-sm font-semibold sm:ml-2 mt-3"
           >
