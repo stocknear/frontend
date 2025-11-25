@@ -767,9 +767,9 @@
                             class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
                           >
                             <a
-                              href="/dark-pool-flow"
+                              href="/unusual-order-flow"
                               class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
-                              >Institutional Order Flow</a
+                              >Unusual Order Flow</a
                             >
                           </Button>
                         </div>
@@ -1478,9 +1478,9 @@
                             >Options Flow</a
                           >
                           <a
-                            href="/dark-pool-flow"
+                            href="/unusual-order-flow"
                             class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
-                            >Institutional Order Flow</a
+                            >Unusual Order Flow</a
                           >
                         </div>
                       </Accordion.Content>

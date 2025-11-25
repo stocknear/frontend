@@ -1,8 +1,6 @@
 <script lang="ts">
-  import notifySound from "$lib/audio/options-flow-reader.mp3";
   import { getCache, setCache, isOpen } from "$lib/store";
 
-  import { sectorList } from "$lib/utils";
   import { onMount, onDestroy } from "svelte";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
@@ -98,15 +96,9 @@
       step: ["Stock", "ETF"],
       defaultValue: "any",
     },
-    sector: {
-      label: "Sector",
-      step: sectorList,
-      defaultValue: "any",
-    },
     exchange: {
       label: "Exchange",
       step: [
-        "FINRA ADF",
         "NASDAQ",
         "NYSE",
         "NYSE Arca",
@@ -115,12 +107,18 @@
         "MEMX",
         "Cboe BZX",
         "Cboe EDGX",
+        "Chicago",
       ],
+      defaultValue: "any",
+    },
+    transactionType: {
+      label: "Transaction Type",
+      step: ["Dark Pool Order", "Block Order"],
       defaultValue: "any",
     },
   };
 
-  const categoricalRules = ["assetType", "sector", "exchange"];
+  const categoricalRules = ["assetType", "exchange", "transactionType"];
 
   // Generate allRows from allRules
   $: allRows = Object?.entries(allRules)
@@ -838,27 +836,7 @@
 
   let displayedData = [];
 
-  let audio;
-  let muted = false;
-
   let isLoaded = false;
-  $: modeStatus = $isOpen === true ? true : false;
-
-  function toggleMode() {
-    if ($isOpen) {
-      modeStatus = !modeStatus;
-      if (modeStatus === true && selectedDate !== undefined) {
-        selectedDate = undefined;
-        rawData = data?.getFlowData;
-        displayedData = [...rawData];
-        shouldLoadWorker.set(true);
-      }
-    } else {
-      toast.error(`Market is closed`, {
-        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-      });
-    }
-  }
 
   onMount(async () => {
     ruleOfList?.forEach((rule) => {
@@ -870,8 +848,6 @@
     displayRules = allRows?.filter((row) =>
       ruleOfList?.some((rule) => rule?.name === row?.rule),
     );
-
-    audio = new Audio(notifySound);
 
     if (!syncWorker) {
       const SyncWorker = await import("./workers/filterWorker?worker");
@@ -904,10 +880,6 @@
     if (socket && socket.readyState === WebSocket.OPEN) {
       socket.close();
       console.log("WebSocket connection closed safely.");
-    }
-    if (audio) {
-      audio?.pause();
-      audio = null;
     }
   });
 
@@ -1023,9 +995,8 @@
       "Institutional trade filtering",
       "Block size analysis",
       "Volume percentage tracking",
-      "Sector-based filtering",
+      "Transaction type based filtering",
       "Historical data access",
-      "Audio alerts for new trades",
       "Custom screening filters",
     ],
   }}

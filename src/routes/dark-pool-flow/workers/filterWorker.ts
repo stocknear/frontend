@@ -5,9 +5,17 @@ interface FilterContext {
   flowTypeCache?: Map<string, number>;
 }
 
+// Map display values to data values for transactionType
+const transactionTypeMap: Record<string, string> = {
+  "Dark Pool Order": "DP",
+  "Block Order": "B",
+};
+
  const categoricalFields = [
     'assetType',
     'sector',
+    'exchange',
+    'transactionType',
   ];
 
 function convertUnitToValue(
@@ -25,6 +33,19 @@ const nonNumericValues = new Set([
   "any",
   "stock",
   "etf",
+  "dp",
+  "b",
+  "dark pool order",
+  "block order",
+  "finra adf",
+  "nasdaq",
+  "nyse",
+  "nyse arca",
+  "nyse american",
+  "iex",
+  "memx",
+  "cboe bzx",
+  "cboe edgx",
   ...sectorList.map(sector => sector.toLowerCase()),
 ]);
 
@@ -92,9 +113,17 @@ if (['sizeVolRatio','sizeAvgVolRatio']?.includes(ruleName)) {
     return (item) => {
       const itemValue = item[rule.name];
       if (Array.isArray(ruleValue)) {
-        return ruleValue.includes(itemValue);
+        // Map display values to data values for transactionType
+        const mappedValues = rule.name === 'transactionType'
+          ? ruleValue.map(v => transactionTypeMap[v] || v)
+          : ruleValue;
+        return mappedValues.includes(itemValue);
       }
-      return itemValue === ruleValue;
+      // Map single value for transactionType
+      const mappedValue = rule.name === 'transactionType'
+        ? (transactionTypeMap[ruleValue] || ruleValue)
+        : ruleValue;
+      return itemValue === mappedValue;
     };
   }
 

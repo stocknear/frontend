@@ -485,7 +485,7 @@
             ? displayedData[index]?.sizeAvgVolRatio?.toFixed(2) + "%"
             : "< 0.01%"}
         </div>
-        <!-- Sector Column -->
+        <!-- Transaction Type Column -->
         <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10 -mr-3">
           {displayedData[index]?.transactionType
             ?.replace("DP", "Dark Pool")
