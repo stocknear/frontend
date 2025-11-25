@@ -1930,34 +1930,75 @@
           <!--End Total Value-->
           <!--Start Transaction Type (Dark Pool vs Block Order)-->
           <div
-            class="shadow flex flex-col w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+            class="shadow flex flex-col w-full px-4 sm:px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded"
           >
-            <span
-              class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem] mb-2"
-              >Transaction Type</span
-            >
+            <div class="flex items-center justify-between mb-2">
+              <span
+                class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
+                >Transaction Type</span
+              >
+              {#if data?.user?.tier === "Pro"}
+                <div class="flex items-center gap-3 text-[11px] sm:text-xs">
+                  <div class="flex items-center gap-1">
+                    <span
+                      class="w-2 h-2 rounded-full bg-violet-500 dark:bg-violet-400"
+                    ></span>
+                    <span class="text-muted dark:text-gray-300">Dark Pool</span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span
+                      class="w-2 h-2 rounded-full bg-sky-500 dark:bg-sky-400"
+                    ></span>
+                    <span class="text-muted dark:text-gray-300">Block</span>
+                  </div>
+                </div>
+              {/if}
+            </div>
             {#if data?.user?.tier === "Pro"}
               <div class="flex flex-col w-full">
                 <div
-                  class="flex w-full h-3 rounded-full overflow-hidden bg-gray-300 dark:bg-[#3E3E3E]"
+                  class="relative flex w-full h-6 rounded overflow-hidden bg-gray-300 dark:bg-gray-700/80"
                 >
                   <div
-                    class="bg-purple-600 dark:bg-purple-400 h-full transition-all duration-300"
+                    class="bg-violet-500 dark:bg-violet-400 h-full transition-all duration-300 flex items-center justify-center"
                     style="width: {darkPoolPercentage}%"
-                  ></div>
+                  >
+                    {#if darkPoolPercentage >= 15}
+                      <span
+                        class="text-[10px] sm:text-xs font-semibold text-white dark:text-gray-900"
+                        >{darkPoolPercentage}%</span
+                      >
+                    {/if}
+                  </div>
                   <div
-                    class="bg-blue-600 dark:bg-blue-400 h-full transition-all duration-300"
+                    class="bg-sky-500 dark:bg-sky-400 h-full transition-all duration-300 flex items-center justify-center"
                     style="width: {blockOrderPercentage}%"
-                  ></div>
-                </div>
-                <div class="flex justify-between mt-1 text-xs">
-                  <span class="text-purple-600 dark:text-purple-400 font-medium"
-                    >Dark Pool {darkPoolPercentage}%</span
                   >
-                  <span class="text-blue-600 dark:text-blue-400 font-medium"
-                    >Block {blockOrderPercentage}%</span
-                  >
+                    {#if blockOrderPercentage >= 15}
+                      <span
+                        class="text-[10px] sm:text-xs font-semibold text-white dark:text-gray-900"
+                        >{blockOrderPercentage}%</span
+                      >
+                    {/if}
+                  </div>
                 </div>
+                {#if darkPoolPercentage < 15 || blockOrderPercentage < 15}
+                  <div class="flex justify-between mt-1 text-[10px] sm:text-xs">
+                    {#if darkPoolPercentage < 15}
+                      <span
+                        class="text-violet-600 dark:text-violet-400 font-medium"
+                        >{darkPoolPercentage}%</span
+                      >
+                    {:else}
+                      <span></span>
+                    {/if}
+                    {#if blockOrderPercentage < 15}
+                      <span class="text-sky-600 dark:text-sky-400 font-medium"
+                        >{blockOrderPercentage}%</span
+                      >
+                    {/if}
+                  </div>
+                {/if}
               </div>
             {:else}
               <a href="/pricing" class="flex">
@@ -1979,34 +2020,76 @@
           <!--End Transaction Type-->
           <!--Start Asset Type (Stocks vs ETFs)-->
           <div
-            class="shadow flex flex-col w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+            class="shadow flex flex-col w-full px-4 sm:px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded"
           >
-            <span
-              class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem] mb-2"
-              >Asset Type</span
-            >
+            <div class="flex items-center justify-between mb-2">
+              <span
+                class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
+                >Asset Type</span
+              >
+              {#if data?.user?.tier === "Pro"}
+                <div class="flex items-center gap-3 text-[11px] sm:text-xs">
+                  <div class="flex items-center gap-1">
+                    <span
+                      class="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400"
+                    ></span>
+                    <span class="text-muted dark:text-gray-300">Stock</span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span
+                      class="w-2 h-2 rounded-full bg-amber-500 dark:bg-amber-400"
+                    ></span>
+                    <span class="text-muted dark:text-gray-300">ETF</span>
+                  </div>
+                </div>
+              {/if}
+            </div>
             {#if data?.user?.tier === "Pro"}
               <div class="flex flex-col w-full">
                 <div
-                  class="flex w-full h-3 rounded-full overflow-hidden bg-gray-300 dark:bg-[#3E3E3E]"
+                  class="relative flex w-full h-6 rounded overflow-hidden bg-gray-300 dark:bg-gray-700/80"
                 >
                   <div
-                    class="bg-green-600 dark:bg-[#00FC50] h-full transition-all duration-300"
+                    class="bg-emerald-500 dark:bg-emerald-400 h-full transition-all duration-300 flex items-center justify-center"
                     style="width: {stockPercentage}%"
-                  ></div>
+                  >
+                    {#if stockPercentage >= 15}
+                      <span
+                        class="text-[10px] sm:text-xs font-semibold text-white dark:text-gray-900"
+                        >{stockPercentage}%</span
+                      >
+                    {/if}
+                  </div>
                   <div
-                    class="bg-orange-500 dark:bg-orange-400 h-full transition-all duration-300"
+                    class="bg-amber-500 dark:bg-amber-400 h-full transition-all duration-300 flex items-center justify-center"
                     style="width: {etfPercentage}%"
-                  ></div>
-                </div>
-                <div class="flex justify-between mt-1 text-xs">
-                  <span class="text-green-600 dark:text-[#00FC50] font-medium"
-                    >Stock {stockPercentage}%</span
                   >
-                  <span class="text-orange-500 dark:text-orange-400 font-medium"
-                    >ETF {etfPercentage}%</span
-                  >
+                    {#if etfPercentage >= 15}
+                      <span
+                        class="text-[10px] sm:text-xs font-semibold text-white dark:text-gray-900"
+                        >{etfPercentage}%</span
+                      >
+                    {/if}
+                  </div>
                 </div>
+                {#if stockPercentage < 15 || etfPercentage < 15}
+                  <div class="flex justify-between mt-1 text-[10px] sm:text-xs">
+                    {#if stockPercentage < 15}
+                      <span
+                        class="text-emerald-600 dark:text-emerald-400 font-medium"
+                        >{stockPercentage}%</span
+                      >
+                    {:else}
+                      <span></span>
+                    {/if}
+                    {#if etfPercentage < 15}
+                      <span
+                        class="text-amber-600 dark:text-amber-400 font-medium"
+                        >{etfPercentage}%</span
+                      >
+                    {/if}
+                  </div>
+                {/if}
               </div>
             {:else}
               <a href="/pricing" class="flex">
