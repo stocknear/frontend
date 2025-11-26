@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { displayCompanyName, stockTicker } from "$lib/store";
-  import HistoricalVolume from "$lib/components/DarkPool/HistoricalVolume.svelte";
-  import PriceLevel from "$lib/components/DarkPool/PriceLevel.svelte";
+  import { displayCompanyName, etfTicker } from "$lib/store";
+  import HistoricalDarkPool from "$lib/components/UnusualOrders/HistoricalDarkPool.svelte";
+  import PriceLevel from "$lib/components/UnusualOrders/PriceLevel.svelte";
   import InfoModal from "$lib/components/InfoModal.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
-  import HottestTrades from "$lib/components/DarkPool/HottestTrades.svelte";
+  import HottestTrades from "$lib/components/UnusualOrders/HottestTrades.svelte";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import SEO from "$lib/components/SEO.svelte";
 
@@ -16,17 +16,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Dark Pool Trading Analysis - Institutional Block Trading Data & Hidden Market Activity`}
-  description={`Professional dark pool trading analysis for ${$displayCompanyName} (${$stockTicker}). Track institutional block trades, hidden market activity, volume distribution, and institutional sentiment. Access real-time dark pool data showing where big money is trading ${$stockTicker} away from public markets. Essential for understanding institutional positioning and market impact.`}
-  keywords={`${$stockTicker} dark pool, ${$displayCompanyName} institutional trading, ${$stockTicker} block trades, dark pool analysis, institutional sentiment, hidden trading volume, off-exchange trading, market microstructure, institutional flow, dark liquidity, alternative trading systems, ATS trading data`}
+  title={`${$displayCompanyName} (${$etfTicker}) Unusual Orders — Block Trades & Dark Pool Activity`}
+  description={`Unusual Orders for ${$displayCompanyName} (${$etfTicker}): on-exchange block trades (≥10,000 shares) and off-exchange dark pool executions — institutional flow, hidden volume, and market impact.`}
+  keywords={`${$etfTicker} unusual orders, ${$etfTicker} block trades, ${$etfTicker} dark pool, ${$displayCompanyName} institutional flow, block trade data, dark liquidity, hidden trading volume, ATS trading, off-exchange trades, market impact`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "AnalysisNewsArticle", "WebPage"],
-    name: `${$displayCompanyName} (${$stockTicker}) Dark Pool Analysis`,
-    headline: `${$displayCompanyName} Dark Pool Trading Data & Institutional Block Analysis`,
-    description: `Professional analysis of dark pool trading activity for ${$displayCompanyName} (${$stockTicker}) including institutional block trades and hidden market flows`,
-    url: `https://stocknear.com/stocks/${$stockTicker}/dark-pool`,
-
+    name: `${$displayCompanyName} (${$etfTicker}) Unusual Orders Analysis`,
+    headline: `${$displayCompanyName} — Unusual Orders: Block Trades (≥10,000 shares) & Dark Pool Activity`,
+    description: `Analysis of unusual orders for ${$displayCompanyName} (${$etfTicker}): on-exchange block trades (10,000+ shares) and off-exchange dark pool executions, showing institutional positioning, hidden volume, and potential market impact.`,
+    url: `https://stocknear.com/etf/${$etfTicker}/unusual-orders`,
     author: {
       "@type": "Organization",
       name: "Stocknear",
@@ -46,13 +45,13 @@
     mainEntity: {
       "@type": "Corporation",
       name: $displayCompanyName,
-      tickerSymbol: $stockTicker,
+      tickerSymbol: $etfTicker,
     },
     about: {
       "@type": "Thing",
-      name: "Dark Pool Trading",
+      name: "Unusual Orders",
       description:
-        "Private exchanges for institutional block trading away from public markets",
+        "Combined view of institutional flows: on-exchange block trades (exchange-routed trades of 10,000+ shares) and off-exchange dark pool executions that hide large orders until reporting.",
     },
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -66,20 +65,20 @@
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stocks",
-          item: "https://stocknear.com/stocks",
+          name: "ETFs",
+          item: "https://stocknear.com/etf",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: `${$displayCompanyName} (${$stockTicker})`,
-          item: `https://stocknear.com/stocks/${$stockTicker}`,
+          name: `${$displayCompanyName} (${$etfTicker})`,
+          item: `https://stocknear.com/etf/${$etfTicker}`,
         },
         {
           "@type": "ListItem",
           position: 4,
-          name: "Dark Pool Analysis",
-          item: `https://stocknear.com/stocks/${$stockTicker}/dark-pool`,
+          name: "Unusual Orders",
+          item: `https://stocknear.com/etf/${$etfTicker}/unusual-orders`,
         },
       ],
     },
@@ -103,7 +102,7 @@
                 for="darkPoolInfo"
                 class="mr-1 cursor-pointer flex flex-row items-center text-xl sm:text-2xl font-bold"
               >
-                {$stockTicker?.toUpperCase()} Dark Pool Overview
+                {$etfTicker?.toUpperCase()} Dark Pool Overview
               </label>
               <InfoModal
                 title={"Dark Pool Data"}
@@ -124,12 +123,12 @@
           <HottestTrades
             {data}
             rawData={hottestTrades}
-            ticker={$stockTicker?.toUpperCase()}
+            ticker={$etfTicker?.toUpperCase()}
           />
         {/if}
 
         {#if historicalDarkPool?.length > 10}
-          <HistoricalVolume {data} rawData={historicalDarkPool} />
+          <HistoricalDarkPool {data} rawData={historicalDarkPool} />
         {/if}
         {#if data?.user?.tier === "Pro"}
           <UpgradeToPro {data} />

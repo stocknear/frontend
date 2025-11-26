@@ -59,7 +59,7 @@
       insider: "/insider",
       options: "/options",
       holdings: "/holdings",
-      "dark-pool": "/dark-pool",
+      "unusual-orders": "/unusual-orders",
       dividends: "/dividends",
       history: "/history",
       profile: "/profile",
@@ -480,7 +480,7 @@
       const parts = $page?.url?.pathname?.split("/");
       const sectionMap = {
         options: "options",
-        "dark-pool": "dark-pool",
+        "unusual-orders": "unusual-orders",
         holdings: "holdings",
         dividends: "dividends",
         history: "history",
@@ -628,14 +628,14 @@
                         </a>
 
                         <a
-                          href={`/etf/${$etfTicker}/dark-pool`}
-                          on:click={() => changeSection("dark-pool")}
+                          href={`/etf/${$etfTicker}/unusual-orders`}
+                          on:click={() => changeSection("unusual-orders")}
                           class="p-2 px-5 cursor-pointer {displaySection ===
-                          'dark-pool'
+                          'unusual-orders'
                             ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-secondary font-semibold'
                             : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
                         >
-                          Dark Pool
+                          Unusual Orders
                         </a>
                         <a
                           href={`/etf/${$etfTicker}/options`}

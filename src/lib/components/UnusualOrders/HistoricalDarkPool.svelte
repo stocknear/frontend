@@ -448,7 +448,7 @@
         for="historicalDataInfo"
         class="mr-1 cursor-pointer flex flex-row items-center text-xl sm:text-2xl font-bold"
       >
-        Historical Chart
+        Historical Dark Pool Chart
       </label>
       <InfoModal
         title={"Historical Data"}

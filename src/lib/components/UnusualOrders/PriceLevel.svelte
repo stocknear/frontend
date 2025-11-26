@@ -2,7 +2,7 @@
   import { displayCompanyName } from "$lib/store";
   import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
   import highcharts from "$lib/highcharts.ts";
-  import RealtimeTrade from "$lib/components/DarkPool/RealtimeTrade.svelte";
+  import RealtimeTrade from "$lib/components/UnusualOrders/RealtimeTrade.svelte";
   import { mode } from "mode-watcher";
 
   let category = "Today's Trend";
