@@ -108,12 +108,12 @@
         newSuffix = [];
       }
 
-      // moving to index from stocks/etf: strip dividend/dark-pool
+      // moving to index from stocks/etf: strip dividend/unusual-orders
       if (
         type === "index" &&
         (prevRoot === "stocks" || prevRoot === "etf") &&
         (firstSuffix?.includes("dividends") ||
-          firstSuffix?.includes("dark-pool"))
+          firstSuffix?.includes("unusual-orders"))
       ) {
         newSuffix = [];
       }

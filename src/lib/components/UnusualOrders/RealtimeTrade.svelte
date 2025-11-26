@@ -130,7 +130,7 @@
       },
 
       title: {
-        text: `<h3 class="mt-3 -mb-3 text-[1rem] sm:text-lg">Realtime Dark Pool Trades Impact</h3>`,
+        text: `<h3 class="mt-3 -mb-3 text-[1rem] sm:text-lg">Realtime Unusual Order Impact</h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "black" : "white" },
       },
@@ -196,7 +196,7 @@
         {
           id: "volume-axis",
           title: {
-            text: $screenWidth < 640 ? null : "Total Shares",
+            text: $screenWidth < 640 ? null : "Total Size",
             style: {
               color: $mode === "light" ? "#6b7280" : "#fff",
             },
@@ -301,7 +301,7 @@
           zIndex: 2,
         },
         {
-          name: "DP Volume",
+          name: "Order Volume",
           type: "areaspline",
           data: darkPoolSeries,
           color: "#F21C64",

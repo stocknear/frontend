@@ -47,7 +47,7 @@
       credits: { enabled: false },
       legend: { enabled: false },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-[1rem] sm:text-lg">Dark Pool Price Levels</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-[1rem] sm:text-lg">Unusual Order Price Levels</h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "black" : "white" },
       },
@@ -171,8 +171,8 @@
     {#if rawData?.length !== 0 && Object?.keys(metrics)?.length > 0}
       <div class="w-full flex flex-col items-start">
         <p class="text-[1rem] mt-2 w-full sm:mb-4">
-          {removeCompanyStrings($displayCompanyName)} dark pool activity today shows
-          an average trade size of
+          {removeCompanyStrings($displayCompanyName)} unusual order activity today
+          shows an average trade size of
           <strong>
             {Math.floor(metrics?.avgTradeSize)?.toLocaleString("en-US")}
           </strong>
