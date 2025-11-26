@@ -2381,7 +2381,7 @@ export const agentOptions = [
   {"name": "Analyst", "group": 'Stocks',"credit": 2},
   {"name": "BullvsBear",  "group": 'Stocks', "credit": 2},
   {"name": "CompareStocks", "group": 'Stocks',"credit": 2},
-  {"name": "DarkPoolData", "group": 'Stocks',"credit": 5},
+  {"name": "UnusualOrderFeed", "group": 'Stocks',"credit": 5},
   {"name": "FundamentalData", "group": 'Stocks',"credit": 3},
   {"name": "OptionsData", "group": 'Options', "credit": 5},
   {"name": "OptionsFlowFeed", "group": 'Options', "credit": 5},
@@ -2459,11 +2459,6 @@ export let defaultChats = [
     type: "ETF",
   },
   {
-    label: "Latest Dark Pool Activity for Microsoft",
-    query: "@DarkPoolData latest dark pool activity for microsoft",
-    type: "ETF",
-  },
-  {
     label: "Find me undervalued stocks",
     query:
       "@StockScreener find me undervalued stocks with p/e above 0 and revenue growth above 5% and price to book ratio above 0",
@@ -2481,7 +2476,12 @@ export let defaultChats = [
   },
   {
     label: "Nvidia options flow",
-    query: "@OptionsFlow Nvidia options flow",
+    query: "@OptionsFlowFeed Nvidia options flow",
+    type: "Options",
+  },
+  {
+    label: "GOOGL unusual order flow",
+    query: "@UnusualOrderFeed Nvidia order flow",
     type: "Stocks",
   },
 ];
