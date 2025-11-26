@@ -19,6 +19,8 @@
     { key: "pe", label: "PE Ratio", align: "right" },
     { key: "profitMargin", label: "Profit Margin", align: "right" },
     { key: "avgChange1D", label: "1D Change", align: "right" },
+    { key: "avgChange1W", label: "1W Change", align: "right" },
+    { key: "avgChange1M", label: "1M Change", align: "right" },
     { key: "avgChange1Y", label: "1Y Change", align: "right" },
   ];
 
@@ -30,6 +32,8 @@
     pe: { order: "none", type: "number" },
     profitMargin: { order: "none", type: "number" },
     avgChange1D: { order: "none", type: "number" },
+    avgChange1W: { order: "none", type: "number" },
+    avgChange1M: { order: "none", type: "number" },
     avgChange1Y: { order: "none", type: "number" },
   };
 
@@ -158,6 +162,30 @@
               >
                 {item?.avgChange1D
                   ? item?.avgChange1D?.toFixed(2) + "%"
+                  : "n/a"}
+              </td>
+
+              <td
+                class="{item?.avgChange1W && item?.avgChange1W > 0
+                  ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
+                  : item?.avgChange1W && item?.avgChange1W < 0
+                    ? 'text-red-800 dark:text-[#FF2F1F]'
+                    : ''} text-end text-sm sm:text-[1rem] whitespace-nowrap"
+              >
+                {item?.avgChange1W
+                  ? item?.avgChange1W?.toFixed(2) + "%"
+                  : "n/a"}
+              </td>
+
+              <td
+                class="{item?.avgChange1M && item?.avgChange1M > 0
+                  ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
+                  : item?.avgChange1M && item?.avgChange1M < 0
+                    ? 'text-red-800 dark:text-[#FF2F1F]'
+                    : ''} text-end text-sm sm:text-[1rem] whitespace-nowrap"
+              >
+                {item?.avgChange1M
+                  ? item?.avgChange1M?.toFixed(2) + "%"
                   : "n/a"}
               </td>
 
