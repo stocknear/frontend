@@ -825,8 +825,11 @@
     }
   }
 
-  const nyseDate = data?.getFlowData?.at(0)?.date
-    ? new Date(data.getFlowData.at(0).date).toLocaleString("en-US", {
+  const flowData = data?.getFlowData?.data ?? [];
+  const totalOrders = data?.getFlowData?.totalOrders ?? 0;
+
+  const nyseDate = flowData?.at(0)?.date
+    ? new Date(flowData.at(0).date).toLocaleString("en-US", {
         month: "short",
         day: "numeric",
         year: "numeric",
@@ -834,7 +837,7 @@
       })
     : null;
 
-  let rawData = data?.getFlowData?.filter((item) =>
+  let rawData = flowData?.filter((item) =>
     Object?.values(item)?.every(
       (value) =>
         value !== null &&
@@ -1060,7 +1063,9 @@
 
               // If market is closed, disconnect after getting historical data
               if (!$isOpen) {
-                console.log("Market closed - disconnecting WebSocket after historical data");
+                console.log(
+                  "Market closed - disconnecting WebSocket after historical data",
+                );
                 modeStatus = false;
                 disconnectWebSocket();
               }
@@ -1151,7 +1156,9 @@
   $: if (data?.user?.tier === "Pro" && modeStatus) {
     connectWebSocket();
   } else if (data?.user?.tier !== "Pro" || !modeStatus) {
-    console.log("WebSocket disconnected: non-Pro user or historical mode selected.");
+    console.log(
+      "WebSocket disconnected: non-Pro user or historical mode selected.",
+    );
     disconnectWebSocket();
   }
 
@@ -1363,7 +1370,10 @@
           <span
             class="inline-block text-xs sm:text-sm font-semibold sm:ml-2 mt-3"
           >
-            {displayedData?.length?.toLocaleString("en-US")} Orders Found
+            {(data?.user?.tier === "Pro"
+              ? displayedData?.length
+              : totalOrders
+            )?.toLocaleString("en-US")} Orders Found
           </span>
         </div>
 

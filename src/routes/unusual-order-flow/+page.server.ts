@@ -32,9 +32,10 @@ export const load = async ({ locals }) => {
       },
     });
     let output = await response.json();
+    const totalOrders = output?.length || 0;
     output = user?.tier !== "Pro" ? output?.slice(-6) : output;
 
-    return output;
+    return { data: output, totalOrders };
   };
 
   // Generate WebSocket token for Pro users

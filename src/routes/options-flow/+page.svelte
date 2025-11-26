@@ -1051,7 +1051,8 @@
     new Date().toLocaleString("en-US", { timeZone: "America/New_York" }),
   )?.getTime();
 
-  const initialFeed = data?.getOptionsFlowFeed ?? [];
+  const initialFeed = data?.getOptionsFlowFeed?.data ?? [];
+  const totalOrders = data?.getOptionsFlowFeed?.totalOrders ?? 0;
   const dateString = initialFeed?.at(0)?.date;
   const nyseDate = new Date(`${dateString}T12:00:00Z`);
   const formattedNyseDate = nyseDate.toISOString().split("T")[0];
@@ -1095,7 +1096,7 @@
           // Switching to live mode
           if (selectedDate !== undefined) {
             selectedDate = undefined;
-            await replaceRawData(data?.getOptionsFlowFeed ?? []);
+            await replaceRawData(data?.getOptionsFlowFeed?.data ?? []);
             displayedData = [...rawData];
             shouldLoadWorker.set(true);
           }
@@ -1505,7 +1506,7 @@
       const formattedDate = `${year}-${month}-${day}`;
 
       if (formattedDate === formattedNyseDate) {
-        await replaceRawData(data?.getOptionsFlowFeed ?? []);
+        await replaceRawData(data?.getOptionsFlowFeed?.data ?? []);
         if (rawData?.length !== 0) {
           shouldLoadWorker.set(true);
         }
@@ -1649,7 +1650,7 @@
             <span
               class="inline-block text-xs sm:text-sm font-semibold sm:ml-2 mt-3"
             >
-              {displayedData?.length?.toLocaleString("en-US")} Contracts Found
+              {(data?.user?.tier === "Pro" ? displayedData?.length : totalOrders)?.toLocaleString("en-US")} Contracts Found
             </span>
           </div>
 
