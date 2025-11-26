@@ -993,7 +993,7 @@
   }
 
   function connectWebSocket() {
-    if (data?.user?.tier !== "Pro" || !data?.wsURL) {
+    if (data?.user?.tier !== "Pro" || !data?.wsURL || !data?.wsToken) {
       return;
     }
 
@@ -1006,7 +1006,9 @@
     }
 
     try {
-      socket = new WebSocket(data.wsURL + "/unusual-order");
+      // Include token in WebSocket URL for authentication
+      const wsUrlWithToken = `${data.wsURL}/unusual-order?token=${encodeURIComponent(data.wsToken)}`;
+      socket = new WebSocket(wsUrlWithToken);
 
       socket.addEventListener("open", () => {
         console.log("Unusual Order Flow WebSocket connection opened");

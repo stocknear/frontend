@@ -1,5 +1,5 @@
 export const load = async ({ locals }) => {
-  const { apiURL, apiKey, pb, user, wsURL } = locals;
+  const { apiURL, apiKey, pb, user, wsURL, fastifyURL } = locals;
 
 
   const getAllStrategies = async () => {
@@ -35,10 +35,37 @@ export const load = async ({ locals }) => {
     return output;
   };
 
+  // Generate WebSocket token for Pro users
+  const getWsToken = async () => {
+    if (user?.tier !== "Pro") {
+      return null;
+    }
+    try {
+      const response = await fetch(fastifyURL + "/generate-ws-token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user?.id,
+          tier: user?.tier,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        return data.token;
+      }
+    } catch (e) {
+      console.error("Failed to generate WS token:", e);
+    }
+    return null;
+  };
+
 
   return {
     getFlowData: await getFlowData(),
     getAllStrategies: await getAllStrategies(),
     wsURL: wsURL,
+    wsToken: await getWsToken(),
   };
 };
