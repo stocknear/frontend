@@ -809,7 +809,7 @@
             >
 
             <span class="text-muted dark:text-gray-400"
-              >Realtime Dark Pool Trades</span
+              >Realtime Unusual Orders</span
             >
           </li>
           <li class="flex items-start">
@@ -1227,7 +1227,7 @@
             >
 
             <span class="text-muted dark:text-gray-400"
-              >Realtime Dark Pool Trades</span
+              >Realtime Unusual Orders</span
             >
           </li>
           <li class="flex items-start">
@@ -1454,7 +1454,7 @@
               ></path></svg
             >
 
-            <span class="">Realtime Dark Pool Trades</span>
+            <span class="">Realtime Unusual Orders</span>
           </li>
           <li class="flex items-start text-white">
             <svg

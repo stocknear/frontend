@@ -1209,10 +1209,8 @@
         <div
           class="flex flex-col sm:flex-row items-center pb-3 sm:border-b sm:border-gray-300 dark:border-gray-600"
         >
-          <div
-            class="flex flex-row items-center justify-center sm:justify-start"
-          >
-            <div class="flex items-center gap-1">
+          <div class="flex flex-row items-center mr-auto justify-start">
+            <div class="flex items-center gap-1 mt-2 sm:-mt-2 ml-1">
               <span class="inline-flex items-center text-xs">
                 <svg
                   class="w-3 h-3 mr-1"
@@ -1937,7 +1935,9 @@
           <div
             class="shadow flex flex-col w-full px-4 sm:px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded"
           >
-            <div class="flex items-center justify-between mb-2">
+            <div
+              class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2"
+            >
               <span
                 class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
                 >Transaction Type</span
@@ -2027,7 +2027,9 @@
           <div
             class="shadow flex flex-col w-full px-4 sm:px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded"
           >
-            <div class="flex items-center justify-between mb-2">
+            <div
+              class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2"
+            >
               <span
                 class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
                 >Asset Type</span
