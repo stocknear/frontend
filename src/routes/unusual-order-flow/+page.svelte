@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { getCache, setCache } from "$lib/store";
+  import notifySound from "$lib/audio/options-flow-reader.mp3";
+  import { getCache, setCache, isOpen } from "$lib/store";
 
   import { onMount, onDestroy } from "svelte";
   import { toast } from "svelte-sonner";
@@ -28,6 +29,17 @@
   let timeoutId = null;
   let isComponentDestroyed = false;
   let removeList = false;
+
+  // WebSocket variables
+  let socket: WebSocket | null = null;
+  let reconnectAttempts = 0;
+  let reconnectInterval: ReturnType<typeof setTimeout> | null = null;
+  const maxReconnectAttempts = 5;
+  let muted = false;
+  let audio: HTMLAudioElement | null = null;
+
+  // Auto-enable live mode when market is open and user is Pro
+  $: modeStatus = $isOpen === true && data?.user?.tier === "Pro" ? true : false;
 
   let strategyList = data?.getAllStrategies || [];
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
@@ -903,7 +915,208 @@
 
   let isLoaded = false;
 
+  async function toggleMode() {
+    if ($isOpen) {
+      // Check if user is trying to enable live mode and is not a Pro member
+      if (!modeStatus && data?.user?.tier !== "Pro") {
+        toast.error("Live Flow is available for Pro members only.", {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        });
+        return;
+      }
+
+      // Pro members can toggle freely
+      if (data?.user?.tier === "Pro") {
+        modeStatus = !modeStatus;
+        if (modeStatus === true) {
+          console.log("Switching to live mode - connecting WebSocket");
+          connectWebSocket();
+        } else {
+          console.log("Switching to paused mode - disconnecting WebSocket");
+          disconnectWebSocket();
+        }
+      }
+    }
+  }
+
+  // WebSocket helper functions
+  function buildFlowKey(item: any): string {
+    if (item?.trackingID) {
+      return String(item.trackingID);
+    }
+    const compositeKey = [
+      item?.ticker ?? "",
+      item?.date ?? "",
+      item?.time ?? "",
+      item?.size ?? "",
+      item?.premium ?? "",
+    ]
+      .map((value) => String(value))
+      .join("-");
+    return compositeKey.length > 0 ? compositeKey : JSON.stringify(item);
+  }
+
+  function dedupeFlowEntries(entries: any[] = []): any[] {
+    const seen = new Set<string>();
+    const deduped: any[] = [];
+    for (const entry of entries) {
+      const key = buildFlowKey(entry);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      deduped.push(entry);
+    }
+    return deduped;
+  }
+
+  function sortFlowEntriesByTime(entries: any[] = []): any[] {
+    return [...entries].sort((a, b) => {
+      const dateA = a?.date ?? "";
+      const dateB = b?.date ?? "";
+      const timeA = a?.time ?? "00:00:00";
+      const timeB = b?.time ?? "00:00:00";
+      const dtA = `${dateA} ${timeA}`;
+      const dtB = `${dateB} ${timeB}`;
+      return dtB.localeCompare(dtA); // Descending order (newest first)
+    });
+  }
+
+  async function mergeRawData(entries: any[] = []) {
+    if (!Array.isArray(entries) || entries.length === 0) {
+      return rawData ?? [];
+    }
+    const combined = dedupeFlowEntries([
+      ...entries,
+      ...(Array.isArray(rawData) ? rawData : []),
+    ]);
+    rawData = sortFlowEntriesByTime(combined);
+    return rawData;
+  }
+
+  function connectWebSocket() {
+    if (data?.user?.tier !== "Pro" || !data?.wsURL) {
+      return;
+    }
+
+    if (
+      socket &&
+      (socket.readyState === WebSocket.CONNECTING ||
+        socket.readyState === WebSocket.OPEN)
+    ) {
+      return;
+    }
+
+    try {
+      socket = new WebSocket(data.wsURL + "/unusual-order");
+
+      socket.addEventListener("open", () => {
+        console.log("Unusual Order Flow WebSocket connection opened");
+        reconnectAttempts = 0;
+
+        const orderList = rawData?.map((item) => item?.trackingID) || [];
+        const message = {
+          type: "init",
+          orderList: orderList,
+        };
+        socket?.send(JSON.stringify(message));
+      });
+
+      socket.addEventListener("message", async (event) => {
+        try {
+          const newData = JSON.parse(event.data);
+
+          if (Array.isArray(newData) && newData.length > 0) {
+            console.log(
+              "Received new unusual order flow data, length:",
+              newData.length,
+            );
+
+            rawData = await mergeRawData(newData);
+
+            const updatedOrderList =
+              rawData?.map((item) => item?.trackingID) || [];
+            const updateMessage = {
+              type: "update",
+              orderList: updatedOrderList,
+            };
+            socket?.send(JSON.stringify(updateMessage));
+
+            if (ruleOfList?.length > 0 || filterQuery?.length > 0) {
+              shouldLoadWorker.set(true);
+            } else {
+              displayedData = [...rawData];
+            }
+
+            if (!muted && audio) {
+              audio?.play()?.catch((error) => {
+                console.log("Audio play failed:", error);
+              });
+            }
+          }
+        } catch (error) {
+          console.error("Error processing WebSocket message:", error);
+        }
+      });
+
+      socket.addEventListener("close", (event) => {
+        console.log(
+          "Unusual Order Flow WebSocket connection closed:",
+          event.reason,
+        );
+        socket = null;
+
+        if (
+          $isOpen &&
+          modeStatus &&
+          !isComponentDestroyed &&
+          reconnectAttempts < maxReconnectAttempts
+        ) {
+          reconnectAttempts++;
+          console.log(`Attempting to reconnect (${reconnectAttempts}/5)...`);
+
+          reconnectInterval = setTimeout(() => {
+            connectWebSocket();
+          }, 5000 * reconnectAttempts);
+        }
+      });
+
+      socket.addEventListener("error", (error) => {
+        console.error("Unusual Order Flow WebSocket error:", error);
+      });
+    } catch (error) {
+      console.error("Failed to create WebSocket connection:", error);
+    }
+  }
+
+  function disconnectWebSocket() {
+    if (reconnectInterval) {
+      clearTimeout(reconnectInterval);
+      reconnectInterval = null;
+    }
+
+    if (socket) {
+      socket.close();
+      socket = null;
+    }
+  }
+
+  // Reactive statement for automatic WebSocket connection
+  $: if ($isOpen && data?.user?.tier === "Pro" && modeStatus) {
+    console.log(
+      "Market is open, user is Pro, and live mode is active. Connecting...",
+    );
+    connectWebSocket();
+  } else {
+    console.log("WebSocket disconnected...");
+    disconnectWebSocket();
+  }
+
   onMount(async () => {
+    // Load muted state from localStorage
+    const savedMutedState = localStorage.getItem("unusualOrderFlowMuted");
+    if (savedMutedState !== null) {
+      muted = JSON.parse(savedMutedState);
+    }
+
     ruleOfList?.forEach((rule) => {
       ruleCondition[rule.name] =
         rule.condition || allRules[rule.name].defaultCondition;
@@ -913,6 +1126,8 @@
     displayRules = allRows?.filter((row) =>
       ruleOfList?.some((rule) => rule?.name === row?.rule),
     );
+
+    audio = new Audio(notifySound);
 
     if (!syncWorker) {
       const SyncWorker = await import("./workers/filterWorker?worker");
@@ -939,6 +1154,21 @@
     });
 
     isLoaded = true;
+  });
+
+  onDestroy(() => {
+    isComponentDestroyed = true;
+    disconnectWebSocket();
+
+    if (syncWorker) {
+      syncWorker.terminate();
+      syncWorker = undefined;
+    }
+
+    if (audio) {
+      audio.pause();
+      audio = null;
+    }
   });
 
   /*
@@ -1209,27 +1439,89 @@
         <div
           class="flex flex-col sm:flex-row items-center pb-3 sm:border-b sm:border-gray-300 dark:border-gray-600"
         >
-          <div class="flex flex-row items-center mr-auto justify-start">
-            <div class="flex items-center gap-1 mt-2 sm:-mt-2 ml-1">
-              <span class="inline-flex items-center text-xs">
-                <svg
-                  class="w-3 h-3 mr-1"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                15 Min Delayed
-              </span>
-              <InfoModal
-                id="sip-data-info"
-                title="15 min Delayed SIP Data"
-                content="Intrinio’s SIP feed delivers high-quality, consolidated U.S. equity data from all major exchanges — including trades, quotes, and NBBO. The 15-minute delay provides rich market insight with full exchange coverage."
+          <div
+            class="flex flex-row items-center justify-center sm:justify-start"
+          >
+            <label
+              data-tip="Audio Preference"
+              on:click={() => {
+                muted = !muted;
+                localStorage.setItem(
+                  "unusualOrderFlowMuted",
+                  JSON.stringify(muted),
+                );
+              }}
+              class="mute-driver xl:tooltip xl:tooltip-bottom flex flex-col items-center mr-3 cursor-pointer"
+            >
+              <div
+                class="rounded-full w-10 h-10 relative text-white bg-[#000] flex items-center justify-center"
+              >
+                {#if !muted}
+                  <svg
+                    class="w-4 h-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    ><path
+                      fill="currentColor"
+                      d="M9 2.5a.5.5 0 0 0-.849-.358l-2.927 2.85H3.5a1.5 1.5 0 0 0-1.5 1.5v2.99a1.5 1.5 0 0 0 1.5 1.5h1.723l2.927 2.875A.5.5 0 0 0 9 13.5zm1.111 2.689a.5.5 0 0 1 .703-.08l.002.001l.002.002l.005.004l.015.013l.046.04c.036.034.085.08.142.142c.113.123.26.302.405.54c.291.48.573 1.193.573 2.148c0 .954-.282 1.668-.573 2.148a3.394 3.394 0 0 1-.405.541a2.495 2.495 0 0 1-.202.196l-.008.007h-.001s-.447.243-.703-.078a.5.5 0 0 1 .075-.7l.002-.002l-.001.001l.002-.001h-.001l.018-.016c.018-.017.048-.045.085-.085a2.4 2.4 0 0 0 .284-.382c.21-.345.428-.882.428-1.63c0-.747-.218-1.283-.428-1.627a2.382 2.382 0 0 0-.368-.465a.5.5 0 0 1-.096-.717m1.702-2.08a.5.5 0 1 0-.623.782l.011.01l.052.045c.047.042.116.107.201.195c.17.177.4.443.63.794c.46.701.92 1.733.92 3.069a5.522 5.522 0 0 1-.92 3.065c-.23.35-.46.614-.63.79a3.922 3.922 0 0 1-.252.24l-.011.01h-.001a.5.5 0 0 0 .623.782l.033-.027l.075-.065c.063-.057.15-.138.253-.245a6.44 6.44 0 0 0 .746-.936a6.522 6.522 0 0 0 1.083-3.614a6.542 6.542 0 0 0-1.083-3.618a6.517 6.517 0 0 0-.745-.938a4.935 4.935 0 0 0-.328-.311l-.023-.019l-.007-.006l-.002-.002zM10.19 5.89l-.002-.001Z"
+                    /></svg
+                  >
+                {:else}
+                  <svg
+                    class="w-4 h-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    ><path
+                      fill="currentColor"
+                      d="M3.28 2.22a.75.75 0 1 0-1.06 1.06L6.438 7.5H4.25A2.25 2.25 0 0 0 2 9.749v4.497a2.25 2.25 0 0 0 2.25 2.25h3.68a.75.75 0 0 1 .498.19l4.491 3.994c.806.716 2.081.144 2.081-.934V16.06l5.72 5.72a.75.75 0 0 0 1.06-1.061zm13.861 11.74l1.138 1.137A6.974 6.974 0 0 0 19 12a6.973 6.973 0 0 0-.84-3.328a.75.75 0 0 0-1.32.714c.42.777.66 1.666.66 2.614c0 .691-.127 1.351-.359 1.96m2.247 2.246l1.093 1.094A9.956 9.956 0 0 0 22 12a9.959 9.959 0 0 0-1.96-5.946a.75.75 0 0 0-1.205.892A8.459 8.459 0 0 1 20.5 12a8.458 8.458 0 0 1-1.112 4.206M9.52 6.338l5.48 5.48V4.25c0-1.079-1.274-1.65-2.08-.934z"
+                    /></svg
+                  >
+                {/if}
+              </div>
+            </label>
+
+            <span
+              class=" text-xs sm:text-sm sm:text-lg {!mode
+                ? ''
+                : 'text-muted dark:text-gray-400'} mr-3"
+            >
+              {$isOpen ? "Paused" : "Market Closed"}
+            </span>
+
+            <label
+              on:click={() => {
+                if (!$isOpen) {
+                  toast?.error(`Market is closed`, {
+                    style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+                  });
+                }
+              }}
+              class="live-flow-driver inline-flex items-center cursor-pointer focus-none focus:outline-hidden"
+            >
+              <input
+                on:click={(e) => {
+                  toggleMode();
+                }}
+                type="checkbox"
+                checked={modeStatus}
+                value={modeStatus}
+                disabled={!$isOpen}
+                class="sr-only peer"
               />
+
+              <div
+                class="relative w-11 h-6 bg-gray-600 focus:outline-hidden peer-focus:outline-hidden peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:rtl:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#00A96E]"
+              ></div>
+            </label>
+
+            <div class=" ml-3 flex flex-col items-start">
+              <span
+                class="text-xs sm:text-sm sm:text-lg {modeStatus
+                  ? ''
+                  : 'text-muted dark:text-gray-400'}"
+              >
+                Live Flow
+              </span>
             </div>
           </div>
 
@@ -1320,6 +1612,29 @@
             </svg>
             {ruleOfList?.length} Filters
           </button>
+          <div class="flex flex-row items-center ml-auto justify-start">
+            <div class="flex items-center gap-1">
+              <span class="inline-flex items-center text-xs">
+                <svg
+                  class="w-3 h-3 mr-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                15 Min Delayed
+              </span>
+              <InfoModal
+                id="sip-data-info"
+                title="15 min Delayed SIP Data"
+                content="Intrinio’s SIP feed delivers high-quality, consolidated U.S. equity data from all major exchanges — including trades, quotes, and NBBO. The 15-minute delay provides rich market insight with full exchange coverage."
+              />
+            </div>
+          </div>
         </div>
 
         {#if showFilters}

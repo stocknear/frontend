@@ -1,5 +1,5 @@
 export const load = async ({ locals }) => {
-  const { apiURL, apiKey, pb, user } = locals;
+  const { apiURL, apiKey, pb, user, wsURL } = locals;
 
 
   const getAllStrategies = async () => {
@@ -39,5 +39,6 @@ export const load = async ({ locals }) => {
   return {
     getFlowData: await getFlowData(),
     getAllStrategies: await getAllStrategies(),
+    wsURL: wsURL,
   };
 };
