@@ -1136,7 +1136,7 @@
 
   // WebSocket connection functions
   function connectWebSocket() {
-    if (data?.user?.tier !== "Pro" || !data?.wsURL) {
+    if (data?.user?.tier !== "Pro" || !data?.wsURL || !data?.wsToken) {
       return;
     }
 
@@ -1151,7 +1151,9 @@
     }
 
     try {
-      socket = new WebSocket(data.wsURL + "/options-flow");
+      // Include token in WebSocket URL for authentication
+      const wsUrlWithToken = `${data.wsURL}/options-flow?token=${encodeURIComponent(data.wsToken)}`;
+      socket = new WebSocket(wsUrlWithToken);
 
       socket.addEventListener("open", () => {
         console.log("Options Flow WebSocket connection opened");
@@ -1252,9 +1254,6 @@
 
   // --- Reactive statement handles WebSocket connection based on market status and mode ---
   $: if ($isOpen && data?.user?.tier === "Pro" && modeStatus) {
-    console.log(
-      "Market is open, user is Pro, and live mode is active. Connecting to WebSocket.",
-    );
     connectWebSocket();
   } else {
     console.log(

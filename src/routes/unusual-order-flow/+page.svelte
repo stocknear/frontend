@@ -1103,9 +1103,6 @@
 
   // Reactive statement for automatic WebSocket connection
   $: if ($isOpen && data?.user?.tier === "Pro" && modeStatus) {
-    console.log(
-      "Market is open, user is Pro, and live mode is active. Connecting...",
-    );
     connectWebSocket();
   } else {
     console.log("WebSocket disconnected...");
