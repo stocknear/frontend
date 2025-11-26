@@ -1,6 +1,21 @@
 export const load = async ({ locals }) => {
   const { apiURL, apiKey, pb, user, wsURL, fastifyURL } = locals;
 
+  // Check if US stock market is currently open (for WebSocket availability)
+  const isMarketOpen = () => {
+    const now = new Date();
+    const nyTime = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
+    const day = nyTime.getDay();
+    const hours = nyTime.getHours();
+    const minutes = nyTime.getMinutes();
+    const timeInMinutes = hours * 60 + minutes;
+
+    // Market closed on weekends (Saturday=6, Sunday=0)
+    if (day === 0 || day === 6) return false;
+
+    // Market hours: 9:30 AM - 4:00 PM ET (570 - 960 minutes)
+    return timeInMinutes >= 570 && timeInMinutes < 960;
+  };
 
   const getAllStrategies = async () => {
       let output = [];
@@ -21,7 +36,12 @@ export const load = async ({ locals }) => {
     };
 
   const getOptionsFlowFeed = async () => {
-    const response = await fetch(apiURL + "/options-flow-feed", {
+    // Only use limit for Pro users when market is open (WebSocket will send historical data)
+    // Otherwise, fetch all data since WebSocket won't be available
+    const useLimit = user?.tier === "Pro" && isMarketOpen();
+    const limitParam = useLimit ? "?limit=500" : "?limit=0";
+
+    const response = await fetch(apiURL + "/options-flow-feed" + limitParam, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

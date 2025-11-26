@@ -1170,9 +1170,41 @@
 
       socket.addEventListener("message", async (event) => {
         try {
-          const newData = JSON.parse(event.data);
+          const message = JSON.parse(event.data);
 
-          if (Array.isArray(newData) && newData.length > 0) {
+          // Handle historical data batches (sent on init for fast load optimization)
+          if (message?.type === "historical" && Array.isArray(message?.data)) {
+            console.log(
+              `Receiving historical data: ${message.progress}% complete, batch size: ${message.data.length}`,
+            );
+
+            rawData = await mergeRawData(message.data);
+
+            // Only update UI on last batch or periodically to avoid jank
+            if (message.isComplete) {
+              console.log("Historical data loading complete");
+              // Update the orderList to include all items
+              const updatedOrderList = rawData?.map((item) => item?.id) || [];
+              const updateMessage = {
+                type: "update",
+                orderList: updatedOrderList,
+              };
+              socket.send(JSON.stringify(updateMessage));
+
+              // Process filters if needed
+              if (ruleOfList?.length > 0 || filterQuery?.length > 0) {
+                shouldLoadWorker.set(true);
+              } else {
+                displayedData = [...rawData];
+                calculateStats(displayedData);
+              }
+            }
+            return;
+          }
+
+          // Handle live updates (regular array format)
+          const newData = Array.isArray(message) ? message : null;
+          if (newData && newData.length > 0) {
             console.log(
               "Received new options flow data, length:",
               newData.length,
@@ -1198,7 +1230,7 @@
               console.log("Updating displayedData and calculating stats");
             }
 
-            // Play notification sound if enabled
+            // Play notification sound if enabled (only for live updates, not historical)
             if (!muted && audio) {
               console.log("Attempting to play audio...");
               audio?.play()?.catch((error) => {
