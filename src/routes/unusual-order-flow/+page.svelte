@@ -1987,23 +1987,6 @@
                     {/if}
                   </div>
                 </div>
-                {#if darkPoolPercentage < 15 || blockOrderPercentage < 15}
-                  <div class="flex justify-between mt-1 text-[10px] sm:text-xs">
-                    {#if darkPoolPercentage < 15}
-                      <span
-                        class="text-violet-600 dark:text-violet-400 font-medium"
-                        >{darkPoolPercentage}%</span
-                      >
-                    {:else}
-                      <span></span>
-                    {/if}
-                    {#if blockOrderPercentage < 15}
-                      <span class="text-sky-600 dark:text-sky-400 font-medium"
-                        >{blockOrderPercentage}%</span
-                      >
-                    {/if}
-                  </div>
-                {/if}
               </div>
             {:else}
               <a href="/pricing" class="flex">
@@ -2079,24 +2062,6 @@
                     {/if}
                   </div>
                 </div>
-                {#if stockPercentage < 15 || etfPercentage < 15}
-                  <div class="flex justify-between mt-1 text-[10px] sm:text-xs">
-                    {#if stockPercentage < 15}
-                      <span
-                        class="text-emerald-600 dark:text-emerald-400 font-medium"
-                        >{stockPercentage}%</span
-                      >
-                    {:else}
-                      <span></span>
-                    {/if}
-                    {#if etfPercentage < 15}
-                      <span
-                        class="text-amber-600 dark:text-amber-400 font-medium"
-                        >{etfPercentage}%</span
-                      >
-                    {/if}
-                  </div>
-                {/if}
               </div>
             {:else}
               <a href="/pricing" class="flex">
