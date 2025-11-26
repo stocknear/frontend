@@ -1,14 +1,15 @@
 <script lang="ts">
   import ArrowLogo from "lucide-svelte/icons/move-up-right";
+
   import { etfTicker } from "$lib/store";
   export let data;
 </script>
 
-<section class="w-auto overflow-hidden min-h-screen">
+<section class="w-full overflow-hidden">
   <div class="w-full overflow-hidden m-auto">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
       <div
-        class="relative flex justify-center items-start overflow-hidden w-full"
+        class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:pr-10">
           <slot />
