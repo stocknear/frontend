@@ -171,8 +171,15 @@
     {#if rawData?.length !== 0 && Object?.keys(metrics)?.length > 0}
       <div class="w-full flex flex-col items-start">
         <p class="text-[1rem] mt-2 w-full sm:mb-4">
-          {removeCompanyStrings($displayCompanyName)} unusual order activity today
-          shows an average trade size of
+          As of {new Date(
+            data?.getPriceLevel?.hottestTrades?.at(0)?.date,
+          )?.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            timeZone: "UTC",
+          })}, {removeCompanyStrings($displayCompanyName)} unusual order activity
+          shows an average order size of
           <strong>
             {Math.floor(metrics?.avgTradeSize)?.toLocaleString("en-US")}
           </strong>
@@ -180,7 +187,7 @@
           <strong>
             ${abbreviateNumber(metrics?.avgPremTrade)}
           </strong>
-          average premium per trade.
+          average premium per order.
         </p>
       </div>
 

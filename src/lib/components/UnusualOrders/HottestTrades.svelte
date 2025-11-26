@@ -1,6 +1,5 @@
 <script lang="ts">
   import InfoModal from "$lib/components/InfoModal.svelte";
-  import Infobox from "$lib/components/Infobox.svelte";
 
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
 
@@ -51,7 +50,7 @@
 
     const ampm = parts.find((p) => p.type === "dayPeriod").value; // AM/PM
 
-    return `${month}/${day}/${year} ${hour}:${minute} ${ampm}`;
+    return `${hour}:${minute} ${ampm}`;
   }
 
   $: columns = [
@@ -59,20 +58,19 @@
     { key: "date", label: "Time", align: "left" },
     { key: "price", label: "Price", align: "right" },
     { key: "size", label: "Size", align: "right" },
-    { key: "volume", label: "Volume", align: "right" },
     { key: "sizeVolRatio", label: "Size / Vol", align: "right" },
     { key: "sizeAvgVolRatio", label: "Size / Avg Vol", align: "right" },
     { key: "premium", label: "Avg. Paid", align: "right" },
+    { key: "transactionType", label: "Type", align: "right" },
   ];
   $: sortOrders = {
     rank: { order: "none", type: "number" },
     date: { order: "none", type: "date" },
     price: { order: "none", type: "number" },
     size: { order: "none", type: "number" },
-    volume: { order: "none", type: "number" },
     sizeVolRatio: { order: "none", type: "number" },
     sizeAvgVolRatio: { order: "none", type: "number" },
-    premium: { order: "none", type: "number" },
+    transactionType: { order: "none", type: "string" },
   };
 
   const sortData = (key) => {
@@ -199,10 +197,6 @@
                 </td>
 
                 <td class="text-sm sm:text-[1rem] text-end">
-                  {item?.volume?.toLocaleString("en-US")}
-                </td>
-
-                <td class="text-sm sm:text-[1rem] text-end">
                   {item?.sizeVolRatio?.toFixed(2)}%
                 </td>
                 <td class="text-sm sm:text-[1rem] text-end">
@@ -211,6 +205,11 @@
 
                 <td class="text-sm sm:text-[1rem] text-end">
                   {abbreviateNumber(item?.premium)}
+                </td>
+                <td class="text-sm sm:text-[1rem] text-end">
+                  {item?.transactionType
+                    ?.replace("B", "Block")
+                    ?.replace("DP", "Dark Pool")}
                 </td>
               </tr>
             {/each}
