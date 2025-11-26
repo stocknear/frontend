@@ -37,9 +37,11 @@
   const maxReconnectAttempts = 5;
   let muted = false;
   let audio: HTMLAudioElement | null = null;
+  let historicalDataLoaded = false;
 
-  // Auto-enable live mode when market is open and user is Pro
-  $: modeStatus = $isOpen === true && data?.user?.tier === "Pro" ? true : false;
+  // Pro users start with modeStatus=true to fetch historical data via WebSocket
+  // When market is closed, WebSocket disconnects after historical data is received
+  let modeStatus = data?.user?.tier === "Pro" ? true : false;
 
   let strategyList = data?.getAllStrategies || [];
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
@@ -1024,9 +1026,51 @@
 
       socket.addEventListener("message", async (event) => {
         try {
-          const newData = JSON.parse(event.data);
+          const message = JSON.parse(event.data);
 
-          if (Array.isArray(newData) && newData.length > 0) {
+          // Handle historical data batches (sent on init for fast load optimization)
+          if (message?.type === "historical" && Array.isArray(message?.data)) {
+            console.log(
+              `Receiving historical data: ${message.progress}% complete, batch size: ${message.data.length}`,
+            );
+
+            rawData = await mergeRawData(message.data);
+
+            // Only update UI on last batch to avoid jank
+            if (message.isComplete) {
+              console.log("Historical data loading complete");
+              // Update the orderList to include all items
+              const updatedOrderList =
+                rawData?.map((item) => item?.trackingID) || [];
+              const updateMessage = {
+                type: "update",
+                orderList: updatedOrderList,
+              };
+              socket?.send(JSON.stringify(updateMessage));
+
+              // Process filters if needed
+              if (ruleOfList?.length > 0 || filterQuery?.length > 0) {
+                shouldLoadWorker.set(true);
+              } else {
+                displayedData = [...rawData];
+              }
+
+              // Mark historical data as loaded
+              historicalDataLoaded = true;
+
+              // If market is closed, disconnect after getting historical data
+              if (!$isOpen) {
+                console.log("Market closed - disconnecting WebSocket after historical data");
+                modeStatus = false;
+                disconnectWebSocket();
+              }
+            }
+            return;
+          }
+
+          // Handle live updates (regular array format)
+          const newData = Array.isArray(message) ? message : null;
+          if (newData && newData.length > 0) {
             console.log(
               "Received new unusual order flow data, length:",
               newData.length,
@@ -1048,6 +1092,7 @@
               displayedData = [...rawData];
             }
 
+            // Play notification sound if enabled (only for live updates, not historical)
             if (!muted && audio) {
               audio?.play()?.catch((error) => {
                 console.log("Audio play failed:", error);
@@ -1102,10 +1147,11 @@
   }
 
   // Reactive statement for automatic WebSocket connection
-  $: if ($isOpen && data?.user?.tier === "Pro" && modeStatus) {
+  // For Pro users: connect to get historical data, stay connected if market is open
+  $: if (data?.user?.tier === "Pro" && modeStatus) {
     connectWebSocket();
-  } else {
-    console.log("WebSocket disconnected...");
+  } else if (data?.user?.tier !== "Pro" || !modeStatus) {
+    console.log("WebSocket disconnected: non-Pro user or historical mode selected.");
     disconnectWebSocket();
   }
 

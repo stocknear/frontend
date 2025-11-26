@@ -1072,8 +1072,11 @@
   let previousVolume = 0; //This is needed to play the sound only if it changes.
   let notFound = false;
   let isLoaded = false;
+  let historicalDataLoaded = false;
 
-  $: modeStatus = $isOpen === true && data?.user?.tier === "Pro" ? true : false;
+  // Pro users start with modeStatus=true to fetch historical data via WebSocket
+  // When market is closed, WebSocket disconnects after historical data is received
+  let modeStatus = data?.user?.tier === "Pro" ? true : false;
 
   async function toggleMode() {
     if ($isOpen) {
@@ -1198,6 +1201,16 @@
                 displayedData = [...rawData];
                 calculateStats(displayedData);
               }
+
+              // Mark historical data as loaded
+              historicalDataLoaded = true;
+
+              // If market is closed, disconnect after getting historical data
+              if (!$isOpen) {
+                console.log("Market closed - disconnecting WebSocket after historical data");
+                modeStatus = false;
+                disconnectWebSocket();
+              }
             }
             return;
           }
@@ -1285,11 +1298,12 @@
   }
 
   // --- Reactive statement handles WebSocket connection based on market status and mode ---
-  $: if ($isOpen && data?.user?.tier === "Pro" && modeStatus) {
+  // For Pro users: connect to get historical data, stay connected if market is open
+  $: if (data?.user?.tier === "Pro" && modeStatus) {
     connectWebSocket();
-  } else {
+  } else if (data?.user?.tier !== "Pro" || !modeStatus) {
     console.log(
-      "WebSocket disconnected: market closed, non-Pro user, or historical mode.",
+      "WebSocket disconnected: non-Pro user or historical mode selected.",
     );
     disconnectWebSocket();
   }

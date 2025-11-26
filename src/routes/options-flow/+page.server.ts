@@ -1,5 +1,3 @@
-import { checkMarketHourSSR } from "$lib/utils";
-
 export const load = async ({ locals }) => {
   const { apiURL, apiKey, pb, user, wsURL, fastifyURL } = locals;
 
@@ -22,10 +20,8 @@ export const load = async ({ locals }) => {
     };
 
   const getOptionsFlowFeed = async () => {
-    // Only use limit for Pro users when market is open (WebSocket will send historical data)
-    // Otherwise, fetch all data since WebSocket won't be available
-    const useLimit = user?.tier === "Pro" && checkMarketHourSSR();
-    const limitParam = useLimit ? "?limit=500" : "?limit=0";
+    // Always use limit for Pro users - WebSocket will send remaining historical data
+    const limitParam = user?.tier === "Pro" ? "?limit=500" : "?limit=0";
 
     const response = await fetch(apiURL + "/options-flow-feed" + limitParam, {
       method: "GET",

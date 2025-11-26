@@ -21,8 +21,10 @@ export const load = async ({ locals }) => {
     };
 
   const getFlowData = async () => {
-    // make the POST request to the endpoint
-    const response = await fetch(apiURL + "/unusual-order-feed", {
+    // Always use limit for Pro users - WebSocket will send remaining historical data
+    const limitParam = user?.tier === "Pro" ? "?limit=500" : "?limit=0";
+
+    const response = await fetch(apiURL + "/unusual-order-feed" + limitParam, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
