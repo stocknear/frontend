@@ -1558,8 +1558,8 @@
                   toggleMode();
                 }}
                 type="checkbox"
-                checked={modeStatus}
-                value={modeStatus}
+                checked={!$isOpen ? false : modeStatus}
+                value={!$isOpen ? false : modeStatus}
                 disabled={!$isOpen}
                 class="sr-only peer"
               />
