@@ -19,6 +19,7 @@
   import InfoModal from "$lib/components/InfoModal.svelte";
   import Input from "$lib/components/Input.svelte";
   import Copy from "lucide-svelte/icons/copy";
+  import Zap from "lucide-svelte/icons/zap";
 
   import { page } from "$app/stores";
 
@@ -1208,7 +1209,9 @@
 
               // If market is closed, disconnect after getting historical data
               if (!$isOpen) {
-                console.log("Market closed - disconnecting WebSocket after historical data");
+                console.log(
+                  "Market closed - disconnecting WebSocket after historical data",
+                );
                 modeStatus = false;
                 disconnectWebSocket();
               }
@@ -1645,12 +1648,15 @@
             class="w-full flex flex-col sm:flex-row items-start sm:items-center sm:mt-4"
           >
             <h1 class="text-2xl sm:text-3xl font-semibold">
-              Realtime Options Flow
+              Unusual Options Flow
             </h1>
             <span
               class="inline-block text-xs sm:text-sm font-semibold sm:ml-2 mt-3"
             >
-              {(data?.user?.tier === "Pro" ? displayedData?.length : totalOrders)?.toLocaleString("en-US")} Contracts Found
+              {(data?.user?.tier === "Pro"
+                ? displayedData?.length
+                : totalOrders
+              )?.toLocaleString("en-US")} Contracts Found
             </span>
           </div>
 
@@ -1967,6 +1973,19 @@
               </svg>
               {ruleOfList?.length} Filters
             </button>
+            <div class="flex flex-row items-center ml-auto justify-start">
+              <div class="flex items-center gap-1">
+                <span class="inline-flex items-center text-xs">
+                  <Zap class="w-3 h-3 mr-1" />
+                  Realtime Options Data
+                </span>
+                <InfoModal
+                  id="options-flow-info"
+                  title="Realtime Options Data from OPRA"
+                  content="Our options flow is powered by realtime OPRA data, the official consolidated feed for all U.S. listed options trades. This ensures every print you see is delivered directly from OPRA in realtime, giving you institutional-grade visibility into large trades, sweeps, unusual activity, and premium flow as it happens. By relying on OPRA’s high-integrity trade stream, you gain faster insights, cleaner data, and a more accurate view of where smart money is moving in the options market."
+                />
+              </div>
+            </div>
           </div>
 
           {#if showFilters}

@@ -758,7 +758,7 @@
                             <a
                               href="/options-flow"
                               class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
-                              >Options Flow</a
+                              >Unusual Options Flow</a
                             >
                           </Button>
                           <Button
@@ -1475,7 +1475,7 @@
                           <a
                             href="/options-flow"
                             class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
-                            >Options Flow</a
+                            >Unusual Options Flow</a
                           >
                           <a
                             href="/unusual-order-flow"

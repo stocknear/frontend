@@ -22,7 +22,7 @@ export const load = async ({ locals }) => {
 
   const getFlowData = async () => {
     // Always use limit for Pro users - WebSocket will send remaining historical data
-    const limitParam = user?.tier === "Pro" ? "?limit=1000" : "?limit=0";
+    const limitParam = user?.tier === "Pro" ? "?limit=5000" : "?limit=0";
 
     const response = await fetch(apiURL + "/unusual-order-feed" + limitParam, {
       method: "GET",
