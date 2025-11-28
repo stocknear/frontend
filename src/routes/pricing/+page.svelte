@@ -194,13 +194,13 @@
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
           <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-violet-500"></span>
         </span>
-        <span class="text-violet-400 font-medium text-xs tracking-widest uppercase">Live Now</span>
+        <span class="text-violet-600 dark:text-violet-400 font-medium text-xs tracking-widest uppercase">Live Now</span>
       </div>
       <h1 class="text-5xl sm:text-7xl font-bold tracking-tight">
-        <span class="text-muted dark:text-white">Black</span>
-        <span class="bg-gradient-to-r from-violet-400 to-purple-500 bg-clip-text text-transparent">Friday</span>
+        <span class="text-gray-900 dark:text-white">Black</span>
+        <span class="bg-gradient-to-r from-violet-500 to-purple-600 dark:from-violet-400 dark:to-purple-500 bg-clip-text text-transparent">Friday</span>
       </h1>
-      <p class="text-lg text-muted/70 dark:text-zinc-400 mt-4 font-normal tracking-wide">
+      <p class="text-lg text-gray-500 dark:text-zinc-400 mt-4 font-normal tracking-wide">
         Premium access. Half the price.
       </p>
     </div>
@@ -1332,14 +1332,14 @@
       </div>
       <div
         style="opacity: 1; transform: translateY(20px);"
-        class=" rounded text-white flex flex-col relative bg-[#18181B] dark:bg-zinc-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-[3px] overflow-visible border border-violet-500/50 dark:border-violet-500/50 p-6 isolate"
+        class=" rounded text-white flex flex-col relative bg-[#18181B] dark:bg-zinc-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-[3px] overflow-visible border border-violet-500/50 p-6 isolate"
       >
         <!-- Subtle top glow -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-violet-500 to-transparent"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-violet-400 to-transparent"></div>
         <!-- Best Value Badge -->
         <div
           class="w-fit absolute -top-[12px] left-1/2 transform -translate-x-1/2 whitespace-nowrap m-auto px-4 py-1 rounded-full text-xs font-semibold tracking-widest uppercase
-              bg-violet-500 text-white"
+              bg-violet-500 text-white shadow-md"
         >
           Best Value
         </div>

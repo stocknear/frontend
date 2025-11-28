@@ -101,16 +101,33 @@
   {/if}
 
   {#if !["Pro", "Plus"].includes(data?.user?.tier)}
-    <div class="flex justify-center mb-5 text-center mt-5 sm:mt-0">
+    <div class="flex justify-center mb-5 text-center mt-5 sm:mt-0 px-4">
       <a
         href="/pricing"
-        class="bg-default dark:bg-[#FFC233] cursor-pointer text-white dark:text-black flex flex-col sm:flex-row items-center gap-2 px-3.5 py-2.5 text-[1rem] font-medium border border-gray-300 dark:border-gray-800 shadow rounded"
+        class="group relative cursor-pointer flex items-center gap-3 px-5 py-3 text-sm font-medium rounded-xl
+               bg-gradient-to-r from-gray-50 to-white dark:from-zinc-900 dark:to-zinc-800
+               border border-gray-200 dark:border-zinc-700/50
+               shadow-sm hover:shadow-md dark:shadow-none
+               transition-all duration-300"
         tabindex="0"
       >
-        <div>
-          Want <strong>50% off</strong>? Our Huge Black Friday Sale Is Here! Use
-          code: <strong>BF25</strong>
-        </div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent"></div>
+        <span class="flex items-center gap-1.5">
+          <span class="relative flex h-1.5 w-1.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-violet-500"></span>
+          </span>
+          <span class="text-violet-600 dark:text-violet-400 font-semibold tracking-wide">Black Friday</span>
+        </span>
+        <span class="text-gray-400 dark:text-zinc-600">|</span>
+        <span class="text-gray-600 dark:text-zinc-300">
+          <span class="font-bold text-gray-900 dark:text-white">50% off</span> all plans
+        </span>
+        <span class="text-gray-400 dark:text-zinc-600">|</span>
+        <span class="font-mono text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-zinc-700 text-gray-700 dark:text-zinc-300 tracking-wider">BF25</span>
+        <svg class="w-4 h-4 text-gray-400 dark:text-zinc-500 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
       </a>
     </div>
   {/if}
