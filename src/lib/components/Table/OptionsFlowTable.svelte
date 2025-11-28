@@ -462,17 +462,16 @@
           : sentimentB - sentimentA;
       },
       type: (a, b) => {
-        const typeOrder = { SWEEP: 1, TRADE: 2 };
-        const typeA = typeOrder[a.option_activity_type?.toUpperCase()] || 3;
-        const typeB = typeOrder[b.option_activity_type?.toUpperCase()] || 3;
+        const typeOrder = { SWEEP: 1, BLOCK: 2, LARGE: 3, TRADE: 4 };
+        const typeA = typeOrder[a.option_activity_type?.toUpperCase()] || 5;
+        const typeB = typeOrder[b.option_activity_type?.toUpperCase()] || 5;
         return sortOrder === "asc" ? typeA - typeB : typeB - typeA;
       },
       exec: (a, b) => {
-        const tickerA = a?.execution_estimate?.toUpperCase();
-        const tickerB = b?.execution_estimate?.toUpperCase();
-        return sortOrder === "asc"
-          ? tickerA.localeCompare(tickerB)
-          : tickerB.localeCompare(tickerA);
+        const execOrder = { "ABOVE ASK": 1, "AT ASK": 2, "AT MIDPOINT": 3, "BETWEEN": 4, "AT BID": 5, "BELOW BID": 6 };
+        const execA = execOrder[a?.execution_estimate?.toUpperCase()] || 7;
+        const execB = execOrder[b?.execution_estimate?.toUpperCase()] || 7;
+        return sortOrder === "asc" ? execA - execB : execB - execA;
       },
     };
 
@@ -560,17 +559,16 @@
           : sentimentB - sentimentA;
       },
       type: (a, b) => {
-        const typeOrder = { SWEEP: 1, TRADE: 2 };
-        const typeA = typeOrder[a.option_activity_type?.toUpperCase()] || 3;
-        const typeB = typeOrder[b.option_activity_type?.toUpperCase()] || 3;
+        const typeOrder = { SWEEP: 1, BLOCK: 2, LARGE: 3, TRADE: 4 };
+        const typeA = typeOrder[a.option_activity_type?.toUpperCase()] || 5;
+        const typeB = typeOrder[b.option_activity_type?.toUpperCase()] || 5;
         return sortOrder === "asc" ? typeA - typeB : typeB - typeA;
       },
       exec: (a, b) => {
-        const tickerA = a?.execution_estimate?.toUpperCase();
-        const tickerB = b?.execution_estimate?.toUpperCase();
-        return sortOrder === "asc"
-          ? tickerA.localeCompare(tickerB)
-          : tickerB.localeCompare(tickerA);
+        const execOrder = { "ABOVE ASK": 1, "AT ASK": 2, "AT MIDPOINT": 3, "BETWEEN": 4, "AT BID": 5, "BELOW BID": 6 };
+        const execA = execOrder[a?.execution_estimate?.toUpperCase()] || 7;
+        const execB = execOrder[b?.execution_estimate?.toUpperCase()] || 7;
+        return sortOrder === "asc" ? execA - execB : execB - execA;
       },
     };
 
@@ -984,7 +982,7 @@
             (item?.execution_estimate === "At Bid" ||
               item?.execution_estimate === "Below Bid")}
           {@const isPut = item?.put_call === "Puts"}
-          {@const isSweep = item?.option_activity_type === "Sweep"}
+          {@const isSweep = ["Sweep", "Block", "Large"].includes(item?.option_activity_type)}
 
           {#if isBullishCall || isBearishCall || isPut}
             {@const baseColor =
@@ -1157,7 +1155,11 @@
             index
           ]?.option_activity_type === 'Sweep'
             ? 'text-muted dark:text-[#C6A755]'
-            : 'text-muted dark:text-[#976DB7]'}"
+            : sortedDisplayData[index]?.option_activity_type === 'Block'
+              ? 'text-muted dark:text-[#FF6B6B]'
+              : sortedDisplayData[index]?.option_activity_type === 'Large'
+                ? 'text-muted dark:text-[#4ECDC4]'
+                : 'text-muted dark:text-[#976DB7]'}"
         >
           {sortedDisplayData[index]?.option_activity_type}
         </div>

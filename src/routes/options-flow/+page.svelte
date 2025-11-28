@@ -153,7 +153,7 @@
     },
     option_activity_type: {
       label: "Option Type",
-      step: ["Sweep", "Trade", "Large", "Split", "Block"],
+      step: ["Sweep", "Trade", "Large", "Block"],
       defaultValue: "any",
     },
     date_expiration: {
