@@ -148,12 +148,12 @@
     },
     execution_estimate: {
       label: "Execution",
-      step: ["Above Ask", "Below Bid", "At Ask", "At Bid", "At Midpoint"],
+      step: ["Above Ask", "Below Bid", "At Ask", "At Bid", "At Midpoint", "Between"],
       defaultValue: "any",
     },
     option_activity_type: {
       label: "Option Type",
-      step: ["Sweep", "Trade"],
+      step: ["Sweep", "Trade", "Large", "Split", "Block"],
       defaultValue: "any",
     },
     date_expiration: {

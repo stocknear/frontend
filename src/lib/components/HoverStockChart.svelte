@@ -10,6 +10,8 @@
       // Check if symbol starts with a number
       if (symbol.includes("^")) {
         path = `/index/${symbol}${link ? `/${link}` : ""}`;
+      } else if (symbol?.toLocaleLowerCase() === "spxw") {
+        path = `/index/^SPX${link ? `/${link}` : ""}`;
       } else if (["stocks", "stock"].includes(assetType?.toLowerCase())) {
         path = `/stocks/${symbol}${link ? `/${link}` : ""}`;
       } else if (assetType?.toLowerCase() === "etf") {
