@@ -188,8 +188,21 @@
   </div>
 
   <div class="px-3">
-    <div class="mx-auto text-center mb-10">
-      <h1 class="text-4xl sm:text-5xl font-bold">Find your next Opportunity</h1>
+    <div class="mx-auto text-center mb-8">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 mb-5">
+        <span class="relative flex h-1.5 w-1.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-violet-500"></span>
+        </span>
+        <span class="text-violet-400 font-medium text-xs tracking-widest uppercase">Live Now</span>
+      </div>
+      <h1 class="text-5xl sm:text-7xl font-bold tracking-tight">
+        <span class="text-muted dark:text-white">Black</span>
+        <span class="bg-gradient-to-r from-violet-400 to-purple-500 bg-clip-text text-transparent">Friday</span>
+      </h1>
+      <p class="text-lg text-muted/70 dark:text-zinc-400 mt-4 font-normal tracking-wide">
+        Premium access. Half the price.
+      </p>
     </div>
 
     <Discount />
@@ -1319,23 +1332,18 @@
       </div>
       <div
         style="opacity: 1; transform: translateY(20px);"
-        class=" rounded text-white flex flex-col relative bg-[#18181B] dark:bg-zinc-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-[3px] overflow-visible border border-gray-400 dark:border-zinc-600 p-6 isolate"
+        class=" rounded text-white flex flex-col relative bg-[#18181B] dark:bg-zinc-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-[3px] overflow-visible border border-violet-500/50 dark:border-violet-500/50 p-6 isolate"
       >
-        <!--
+        <!-- Subtle top glow -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-violet-500 to-transparent"></div>
+        <!-- Best Value Badge -->
         <div
-          class="hidden w-fit absolute -top-[20px] left-1/2 transform -translate-x-1/2 whitespace-nowrap m-auto px-4 py-1.5 rounded-[3px] text-sm font-medium backdrop-blur-xl
-              bg-pink-600 text-white shadow"
+          class="w-fit absolute -top-[12px] left-1/2 transform -translate-x-1/2 whitespace-nowrap m-auto px-4 py-1 rounded-full text-xs font-semibold tracking-widest uppercase
+              bg-violet-500 text-white"
         >
-          <span class="flex items-center gap-1.5"
-            ><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"
-              ><path
-                d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"
-              ></path></svg
-            >Most Popular</span
-          >
+          Best Value
         </div>
-        -->
-        <h3 class="text-3xl font-bold">Pro</h3>
+        <h3 class="text-3xl font-bold mt-2">Pro</h3>
         <p class="text-white dark:text-zinc-300 text-sm mt-1">
           Unlimited usage for Power Users.
         </p>

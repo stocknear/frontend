@@ -1,12 +1,13 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  const targetDate = new Date("2025-11-29T00:00:00+01:00");
+  const targetDate = new Date("2025-12-02T23:59:59+01:00");
 
   let days: number | string = "-";
   let hours: number | string = "-";
   let minutes: number | string = "-";
   let seconds: number | string = "-";
+  let copied = false;
 
   const updateTime = () => {
     const now = new Date();
@@ -34,42 +35,89 @@
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   });
+
+  async function copyPromoCode() {
+    await navigator.clipboard.writeText("BF25");
+    copied = true;
+    setTimeout(() => (copied = false), 2000);
+  }
 </script>
 
-<div class="lg:max-w-xl w-full rounded-none sm:rounded m-auto mb-10">
-  <div class="container">
-    <h2 class="text-2xl font-bold text-center text-pink-700 dark:text-pink-500">
-      BLACK FRIDAY DEAL - 50% Discount!
-    </h2>
-  </div>
-  <div class="container text-center">
-    <p class=" font-bold text-xl">Use Promo Code: BF25</p>
-    <div
-      class="grid grid-flow-col gap-5 font-bold text-center m-auto auto-cols-max justify-center mt-6"
-    >
-      <div class="flex flex-col text-xs">
-        <span class="countdown font-mono text-xl sm:text-2xl">
-          <span style="--value:{days};"></span>
-        </span>
-        days
+<div class="w-full max-w-xl m-auto mb-10">
+  <div class="relative p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-zinc-900 to-zinc-800 dark:from-zinc-900 dark:to-black border border-zinc-700/50 shadow-2xl overflow-hidden">
+    <!-- Subtle glow effect -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-violet-500 to-transparent"></div>
+
+    <!-- Main content -->
+    <div class="relative z-10">
+      <!-- Discount display -->
+      <div class="text-center mb-6">
+        <span class="text-6xl sm:text-7xl font-black text-white tracking-tight">50<span class="text-violet-400">%</span></span>
+        <p class="text-zinc-400 text-sm font-medium tracking-widest uppercase mt-1">Off All Plans</p>
       </div>
-      <div class="flex flex-col text-xs">
-        <span class="countdown font-mono text-xl sm:text-2xl">
-          <span style="--value:{hours};"></span>
-        </span>
-        hours
+
+      <!-- Promo code -->
+      <div class="flex justify-center mb-8">
+        <button
+          on:click={copyPromoCode}
+          class="group flex items-center gap-4 px-5 py-3 bg-zinc-800/50 hover:bg-zinc-700/50 border border-zinc-600/50 rounded-xl transition-all duration-300"
+        >
+          <span class="text-zinc-500 text-sm uppercase tracking-wide">Code</span>
+          <span class="font-mono font-bold text-xl text-white tracking-widest">BF25</span>
+          <span class="text-zinc-500 group-hover:text-violet-400 transition-colors">
+            {#if copied}
+              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            {:else}
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+              </svg>
+            {/if}
+          </span>
+        </button>
       </div>
-      <div class="flex flex-col text-xs">
-        <span class="countdown font-mono text-xl sm:text-2xl">
-          <span style="--value:{minutes};"></span>
-        </span>
-        min
-      </div>
-      <div class="flex flex-col text-xs">
-        <span class="countdown font-mono text-xl sm:text-2xl">
-          <span style="--value:{seconds};"></span>
-        </span>
-        sec
+      {#if copied}
+        <p class="text-center text-emerald-400 text-xs -mt-6 mb-6 font-medium">Copied</p>
+      {/if}
+
+      <!-- Countdown timer -->
+      <div class="border-t border-zinc-700/50 pt-6">
+        <p class="text-center text-zinc-500 text-xs font-medium tracking-widest uppercase mb-4">Ends in</p>
+        <div class="grid grid-cols-4 gap-2 sm:gap-4 max-w-sm mx-auto">
+          <div class="text-center">
+            <div class="bg-zinc-800/80 rounded-lg px-2 sm:px-4 py-3">
+              <span class="countdown font-mono text-xl sm:text-2xl font-bold text-white">
+                <span style="--value:{days};"></span>
+              </span>
+            </div>
+            <span class="text-[10px] text-zinc-500 uppercase tracking-wider mt-2 block">Days</span>
+          </div>
+          <div class="text-center">
+            <div class="bg-zinc-800/80 rounded-lg px-2 sm:px-4 py-3">
+              <span class="countdown font-mono text-xl sm:text-2xl font-bold text-white">
+                <span style="--value:{hours};"></span>
+              </span>
+            </div>
+            <span class="text-[10px] text-zinc-500 uppercase tracking-wider mt-2 block">Hours</span>
+          </div>
+          <div class="text-center">
+            <div class="bg-zinc-800/80 rounded-lg px-2 sm:px-4 py-3">
+              <span class="countdown font-mono text-xl sm:text-2xl font-bold text-white">
+                <span style="--value:{minutes};"></span>
+              </span>
+            </div>
+            <span class="text-[10px] text-zinc-500 uppercase tracking-wider mt-2 block">Min</span>
+          </div>
+          <div class="text-center">
+            <div class="bg-zinc-800/80 rounded-lg px-2 sm:px-4 py-3">
+              <span class="countdown font-mono text-xl sm:text-2xl font-bold text-white">
+                <span style="--value:{seconds};"></span>
+              </span>
+            </div>
+            <span class="text-[10px] text-zinc-500 uppercase tracking-wider mt-2 block">Sec</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
