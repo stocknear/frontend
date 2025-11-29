@@ -953,6 +953,18 @@
     return parseFloat(val);
   }
 
+  // Format premium amounts (e.g., $186.6M)
+  function formatPremium(value) {
+    if (value >= 1e9) {
+      return `$${(value / 1e9).toFixed(1)}B`;
+    } else if (value >= 1e6) {
+      return `$${(value / 1e6).toFixed(1)}M`;
+    } else if (value >= 1e3) {
+      return `$${(value / 1e3).toFixed(1)}K`;
+    }
+    return `$${value.toFixed(0)}`;
+  }
+
   // Custom sorting function
   function customSort(a, b) {
     return parseValue(a) - parseValue(b);
@@ -1066,6 +1078,8 @@
   let putCallRatio;
   let displayCallVolume;
   let displayPutVolume;
+  let displayCallPremium;
+  let displayPutPremium;
   let callPercentage;
   let putPercentage;
 
@@ -1428,17 +1442,22 @@
     const {
       callVolumeSum,
       putVolumeSum,
+      callPremiumSum,
+      putPremiumSum,
       bullishCount,
       bearishCount,
       neutralCount,
     } = data?.reduce(
       (acc, item) => {
-        const volume = parseInt(item?.size);
+        const volume = parseInt(item?.size) || 0;
+        const premium = parseFloat(item?.cost_basis) || 0;
 
         if (item?.put_call === "Calls") {
           acc.callVolumeSum += volume;
+          acc.callPremiumSum += premium;
         } else if (item?.put_call === "Puts") {
           acc.putVolumeSum += volume;
+          acc.putPremiumSum += premium;
         }
 
         if (item?.sentiment === "Bullish") {
@@ -1454,6 +1473,8 @@
       {
         callVolumeSum: 0,
         putVolumeSum: 0,
+        callPremiumSum: 0,
+        putPremiumSum: 0,
         bullishCount: 0,
         bearishCount: 0,
         neutralCount: 0,
@@ -1481,6 +1502,8 @@
 
     displayCallVolume = callVolumeSum;
     displayPutVolume = putVolumeSum;
+    displayCallPremium = callPremiumSum;
+    displayPutPremium = putPremiumSum;
   }
 
   const getHistoricalFlow = async () => {
@@ -2527,55 +2550,56 @@
               >
                 <!--Start Flow Sentiment-->
                 <div
-                  class="sentiment-driver shadow flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                  class="sentiment-driver shadow flex flex-col justify-center w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
                 >
-                  <div class="flex flex-col items-start">
+                  <span
+                    class="text-xs text-muted dark:text-gray-400"
+                    >Flow sentiment</span
+                  >
+                  {#if data?.user?.tier === "Pro"}
                     <span
-                      class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
-                      >Flow Sentiment</span
+                      class="text-start text-lg font-semibold mt-1">{flowSentiment}</span
                     >
-                    {#if data?.user?.tier === "Pro"}
-                      <span
-                        class="text-start text-[1rem] font-semibold {flowSentiment ===
-                        'Bullish'
-                          ? 'text-green-800 dark:text-[#00FC50]'
+                    <div class="w-full bg-gray-300 dark:bg-[#3E3E3E] rounded-full h-1.5 mt-2">
+                      <div
+                        class="h-1.5 rounded-full {flowSentiment === 'Bullish'
+                          ? 'bg-[#00FC50]'
                           : flowSentiment === 'Bearish'
-                            ? 'text-red-800 dark:text-[#FF2F1F]'
-                            : flowSentiment === 'Neutral'
-                              ? 'text-[#fff]'
-                              : ''}">{flowSentiment}</span
+                            ? 'bg-[#FF2F1F]'
+                            : 'bg-gray-400'}"
+                        style="width: {flowSentiment === 'Bullish' ? '75%' : flowSentiment === 'Bearish' ? '25%' : '50%'}"
+                      ></div>
+                    </div>
+                  {:else}
+                    <a href="/pricing" class="flex mt-2">
+                      <svg
+                        class="size-5 text-muted dark:text-[#fff]"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width: 40px;"
                       >
-                    {:else}
-                      <a href="/pricing" class="flex mt-2">
-                        <svg
-                          class="size-5 text-muted dark:text-[#fff]"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          style="max-width: 40px;"
+                        <path
+                          fill-rule="evenodd"
+                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                          clip-rule="evenodd"
                         >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                            clip-rule="evenodd"
-                          >
-                          </path>
-                        </svg>
-                      </a>
-                    {/if}
-                  </div>
+                        </path>
+                      </svg>
+                    </a>
+                  {/if}
                 </div>
                 <!--End Flow Sentiment-->
                 <!--Start Put/Call-->
                 <div
-                  class="put-call-driver shadow flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                  class="put-call-driver shadow flex flex-row items-center w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
                 >
                   <div class="flex flex-col items-start">
                     <span
-                      class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
-                      >Put/Call</span
+                      class="text-xs text-muted dark:text-gray-400"
+                      >Put to call</span
                     >
                     {#if data?.user?.tier === "Pro"}
-                      <span class="text-start text-[1rem] font-semibold">
+                      <span class="text-start text-lg font-semibold mt-1">
                         {putCallRatio?.toFixed(3)}
                       </span>
                     {:else}
@@ -2619,7 +2643,7 @@
                           cy="18"
                           r="16"
                           fill="none"
-                          class="stroke-current"
+                          class="stroke-current text-[#00D4E4]"
                           stroke-width="3"
                           stroke-dasharray="100"
                           stroke-dashoffset={data?.user?.tier === "Pro"
@@ -2662,15 +2686,22 @@
                 <!--End Put/Call-->
                 <!--Start Call Flow-->
                 <div
-                  class="call-flow-driver shadow flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                  class="call-flow-driver shadow flex flex-row items-center w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
                 >
                   <div class="flex flex-col items-start">
-                    <span
-                      class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
-                      >Call Flow</span
-                    >
+                    <div class="flex flex-row items-center gap-2">
+                      <span
+                        class="text-xs text-muted dark:text-gray-400"
+                        >Call flow</span
+                      >
+                      {#if data?.user?.tier === "Pro"}
+                        <span class="text-sm font-semibold text-green-800 dark:text-[#00FC50]">
+                          {formatPremium(displayCallPremium || 0)}
+                        </span>
+                      {/if}
+                    </div>
                     {#if data?.user?.tier === "Pro"}
-                      <span class="text-start text-[1rem] font-semibold">
+                      <span class="text-start text-lg font-semibold mt-1">
                         {new Intl.NumberFormat("en", {
                           minimumFractionDigits: 0,
                           maximumFractionDigits: 0,
@@ -2717,7 +2748,7 @@
                           cy="18"
                           r="16"
                           fill="none"
-                          class="stroke-current text-green-800 dark:text-[#00FC50]"
+                          class="stroke-current text-[#00D4E4]"
                           stroke-width="3"
                           stroke-dasharray="100"
                           stroke-dashoffset={data?.user?.tier === "Pro"
@@ -2731,8 +2762,8 @@
                       class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
                     >
                       {#if data?.user?.tier === "Pro"}
-                        <span class="text-center text-sm"
-                          >{callPercentage}%</span
+                        <span class="text-center text-xs"
+                          >{callPercentage}.0%</span
                         >
                       {:else}
                         <a href="/pricing" class="flex">
@@ -2758,15 +2789,22 @@
                 <!--End Call Flow-->
                 <!--Start Put Flow-->
                 <div
-                  class="put-flow-driver shadow flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                  class="put-flow-driver shadow flex flex-row items-center w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
                 >
                   <div class="flex flex-col items-start">
-                    <span
-                      class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
-                      >Put Flow</span
-                    >
+                    <div class="flex flex-row items-center gap-2">
+                      <span
+                        class="text-xs text-muted dark:text-gray-400"
+                        >Put flow</span
+                      >
+                      {#if data?.user?.tier === "Pro"}
+                        <span class="text-sm font-semibold text-red-800 dark:text-[#FF2F1F]">
+                          {formatPremium(displayPutPremium || 0)}
+                        </span>
+                      {/if}
+                    </div>
                     {#if data?.user?.tier === "Pro"}
-                      <span class="text-start text-[1rem] font-semibold">
+                      <span class="text-start text-lg font-semibold mt-1">
                         {new Intl.NumberFormat("en", {
                           minimumFractionDigits: 0,
                           maximumFractionDigits: 0,
@@ -2813,7 +2851,7 @@
                           cy="18"
                           r="16"
                           fill="none"
-                          class="stroke-current text-[#EE5365]"
+                          class="stroke-current text-[#00FC50]"
                           stroke-width="3"
                           stroke-dasharray="100"
                           stroke-dashoffset={data?.user?.tier === "Pro"
@@ -2827,7 +2865,7 @@
                       class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
                     >
                       {#if data?.user?.tier === "Pro"}
-                        <span class="text-center text-sm">{putPercentage}%</span
+                        <span class="text-center text-xs">{putPercentage}.0%</span
                         >
                       {:else}
                         <a href="/pricing" class="flex">
