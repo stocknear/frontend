@@ -38,7 +38,11 @@
       class="w-full relative flex justify-center items-center overflow-hidden"
     >
       {#if Object?.keys(data?.getOptionsChainStatistics)?.length > 0}
-        <OptionsChainStatistics {data} ticker={$etfTicker?.toUpperCase()} />
+        <OptionsChainStatistics
+          {data}
+          ticker={$etfTicker?.toUpperCase()}
+          assetType="etf"
+        />
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
           <div class="">

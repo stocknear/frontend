@@ -7,6 +7,7 @@
 
   export let data;
   export let ticker;
+  export let assetType;
 
   let overview = data?.getOptionsChainStatistics?.overview;
   let ivData = data?.getOptionsChainStatistics?.impliedVolatility;
@@ -838,9 +839,28 @@ Low IV Rank means IV is low — often seen as bullish (calm) or an opportunity t
           </div>
         </div>
 
-        <h2 class="mb-6 text-xl sm:text-2xl font-bold w-fit">
-          Open Interest (OI)
-        </h2>
+        <a
+          href={`/${assetType}/${ticker}/options/oi`}
+          class="inline-flex items-center mb-6"
+          ><h2
+            class=" text-xl sm:text-2xl font-bold w-fit sm:hover:underline sm:hover:underline-offset-4"
+          >
+            Open Interest (OI)
+          </h2>
+          <svg
+            class="size-6 sm:size-7 mt-1"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            style="max-width:40px"
+            aria-hidden="true"
+            ><path
+              fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"
+            ></path></svg
+          ></a
+        >
+
         <div
           class="flex flex-col -mt-2 mb-8 md:flex-row gap-4 justify-between items-center w-full m-auto"
         >
@@ -966,7 +986,28 @@ A low ratio (<1) suggests more calls than puts — often seen as bullish."
           </div>
         </div>
 
-        <h2 class="mb-6 text-xl sm:text-2xl font-bold w-fit">Option Volume</h2>
+        <a
+          href={`/${assetType}/${ticker}/options/hottest-contracts/volume`}
+          class="inline-flex items-center mb-6"
+          ><h2
+            class=" text-xl sm:text-2xl font-bold w-fit sm:hover:underline sm:hover:underline-offset-4"
+          >
+            Option Volume
+          </h2>
+          <svg
+            class="size-6 sm:size-7 mt-1"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            style="max-width:40px"
+            aria-hidden="true"
+            ><path
+              fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"
+            ></path></svg
+          ></a
+        >
+
         <div
           class="flex flex-col -mt-2 mb-8 md:flex-row gap-4 justify-between items-center w-full"
         >
