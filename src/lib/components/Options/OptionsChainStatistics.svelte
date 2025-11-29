@@ -694,9 +694,9 @@
             <div class="ml-1 -mt-3">
               <InfoModal
                 id="opra-data-info"
-                title="OPRA Data EOD delayed"
+                title="OPRA Data 15-min delayed"
                 content="Options data from the Options Price Reporting Authority (OPRA) provided by Intrinio.<br>
-					You're viewing End-of-Day (EOD) delayed options data."
+					You're viewing 15-min delayed options data."
               />
             </div>
           </div>
