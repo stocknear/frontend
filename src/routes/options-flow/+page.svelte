@@ -148,7 +148,14 @@
     },
     execution_estimate: {
       label: "Execution",
-      step: ["Above Ask", "Below Bid", "At Ask", "At Bid", "At Midpoint", "Between"],
+      step: [
+        "Above Ask",
+        "Below Bid",
+        "At Ask",
+        "At Bid",
+        "At Midpoint",
+        "Between",
+      ],
       defaultValue: "any",
     },
     option_activity_type: {
@@ -1082,6 +1089,8 @@
   let displayPutPremium;
   let callPercentage;
   let putPercentage;
+  let bullishPercentage = 0;
+  let bearishPercentage = 0;
 
   let audio;
   let muted = false;
@@ -1504,6 +1513,13 @@
     displayPutVolume = putVolumeSum;
     displayCallPremium = callPremiumSum;
     displayPutPremium = putPremiumSum;
+
+    const totalSentimentCount = bullishCount + bearishCount;
+    bullishPercentage =
+      totalSentimentCount !== 0
+        ? Math.round((bullishCount / totalSentimentCount) * 100)
+        : 0;
+    bearishPercentage = totalSentimentCount !== 0 ? 100 - bullishPercentage : 0;
   }
 
   const getHistoricalFlow = async () => {
@@ -2550,25 +2566,61 @@
               >
                 <!--Start Flow Sentiment-->
                 <div
-                  class="sentiment-driver shadow flex flex-col justify-center w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                  class="sentiment-driver shadow flex flex-col w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
                 >
-                  <span
-                    class="text-xs text-muted dark:text-gray-400"
-                    >Flow sentiment</span
-                  >
-                  {#if data?.user?.tier === "Pro"}
-                    <span
-                      class="text-start text-lg font-semibold mt-1">{flowSentiment}</span
+                  <div class="flex flex-row items-center justify-between mb-2">
+                    <span class="text-xs text-muted dark:text-gray-200"
+                      >Flow sentiment</span
                     >
-                    <div class="w-full bg-gray-300 dark:bg-[#3E3E3E] rounded-full h-1.5 mt-2">
+                    {#if data?.user?.tier === "Pro"}
                       <div
-                        class="h-1.5 rounded-full {flowSentiment === 'Bullish'
-                          ? 'bg-[#00FC50]'
-                          : flowSentiment === 'Bearish'
-                            ? 'bg-[#FF2F1F]'
-                            : 'bg-gray-400'}"
-                        style="width: {flowSentiment === 'Bullish' ? '75%' : flowSentiment === 'Bearish' ? '25%' : '50%'}"
-                      ></div>
+                        class="flex items-center gap-3 text-[11px] sm:text-xs"
+                      >
+                        <div class="flex items-center gap-1">
+                          <span class="w-2 h-2 rounded-full bg-[#00FC50]"
+                          ></span>
+                          <span class="text-muted dark:text-gray-300"
+                            >Bullish</span
+                          >
+                        </div>
+                        <div class="flex items-center gap-1">
+                          <span class="w-2 h-2 rounded-full bg-[#FF2F1F]"
+                          ></span>
+                          <span class="text-muted dark:text-gray-300"
+                            >Bearish</span
+                          >
+                        </div>
+                      </div>
+                    {/if}
+                  </div>
+                  {#if data?.user?.tier === "Pro"}
+                    <div class="flex flex-col w-full">
+                      <div
+                        class="relative flex w-full h-6 rounded overflow-hidden bg-gray-300 dark:bg-gray-700/80"
+                      >
+                        <div
+                          class="bg-[#00FC50] h-full transition-all duration-300 flex items-center justify-center"
+                          style="width: {bullishPercentage}%"
+                        >
+                          {#if bullishPercentage >= 15}
+                            <span
+                              class="text-[10px] sm:text-xs font-semibold text-gray-900"
+                              >{bullishPercentage}%</span
+                            >
+                          {/if}
+                        </div>
+                        <div
+                          class="bg-[#FF2F1F] h-full transition-all duration-300 flex items-center justify-center"
+                          style="width: {bearishPercentage}%"
+                        >
+                          {#if bearishPercentage >= 15}
+                            <span
+                              class="text-[10px] sm:text-xs font-semibold text-white"
+                              >{bearishPercentage}%</span
+                            >
+                          {/if}
+                        </div>
+                      </div>
                     </div>
                   {:else}
                     <a href="/pricing" class="flex mt-2">
@@ -2594,8 +2646,7 @@
                   class="put-call-driver shadow flex flex-row items-center w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
                 >
                   <div class="flex flex-col items-start">
-                    <span
-                      class="text-xs text-muted dark:text-gray-400"
+                    <span class="text-xs text-muted dark:text-gray-200"
                       >Put to call</span
                     >
                     {#if data?.user?.tier === "Pro"}
@@ -2690,12 +2741,13 @@
                 >
                   <div class="flex flex-col items-start">
                     <div class="flex flex-row items-center gap-2">
-                      <span
-                        class="text-xs text-muted dark:text-gray-400"
+                      <span class="text-xs text-muted dark:text-gray-200"
                         >Call flow</span
                       >
                       {#if data?.user?.tier === "Pro"}
-                        <span class="text-sm font-semibold text-green-800 dark:text-[#00FC50]">
+                        <span
+                          class="text-sm font-semibold text-green-800 dark:text-[#00FC50]"
+                        >
                           {formatPremium(displayCallPremium || 0)}
                         </span>
                       {/if}
@@ -2793,12 +2845,13 @@
                 >
                   <div class="flex flex-col items-start">
                     <div class="flex flex-row items-center gap-2">
-                      <span
-                        class="text-xs text-muted dark:text-gray-400"
+                      <span class="text-xs text-muted dark:text-gray-200"
                         >Put flow</span
                       >
                       {#if data?.user?.tier === "Pro"}
-                        <span class="text-sm font-semibold text-red-800 dark:text-[#FF2F1F]">
+                        <span
+                          class="text-sm font-semibold text-red-800 dark:text-[#FF2F1F]"
+                        >
                           {formatPremium(displayPutPremium || 0)}
                         </span>
                       {/if}
@@ -2865,7 +2918,8 @@
                       class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
                     >
                       {#if data?.user?.tier === "Pro"}
-                        <span class="text-center text-xs">{putPercentage}.0%</span
+                        <span class="text-center text-xs"
+                          >{putPercentage}.0%</span
                         >
                       {:else}
                         <a href="/pricing" class="flex">
