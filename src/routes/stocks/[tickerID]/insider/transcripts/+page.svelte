@@ -11,14 +11,33 @@
   import { onMount } from "svelte";
   import SEO from "$lib/components/SEO.svelte";
 
+  export let data;
+
   let chats = [];
   let date;
 
-  const now = new Date();
-  let year = now.getFullYear();
-  let quarter = Math.floor(now.getMonth() / 3) + 1;
-  const currentYear = new Date().getFullYear();
-  let yearRange = Array.from({ length: 5 }, (_, i) => String(currentYear - i));
+  // Use dateList from page data
+  let dateList = data?.getData ?? [];
+
+  // Extract unique years from dateList, sorted descending
+  $: yearRange =
+    dateList?.length > 0
+      ? [...new Set(dateList.map((d) => d.fiscalYear))].sort((a, b) => b - a)
+      : [new Date().getFullYear()];
+
+  // Get available quarters for selected year, sorted descending
+  $: quarterRange = (() => {
+    const filtered = dateList
+      ?.filter((d) => d.fiscalYear === year)
+      ?.map((d) => d.quarter)
+      ?.sort((a, b) => b - a);
+    return filtered?.length > 0 ? filtered : [1, 2, 3, 4];
+  })();
+
+  // Initialize year and quarter from first available entry
+  let year = dateList?.[0]?.fiscalYear ?? new Date().getFullYear();
+  let quarter =
+    dateList?.[0]?.quarter ?? Math.floor(new Date().getMonth() / 3) + 1;
 
   let displayQuarter = quarter;
   let displayYear = year;
@@ -122,12 +141,12 @@
           <h1 class="text-xl sm:text-2xl font-bold mb-4">Transcripts</h1>
 
           <div class="flex w-fit sm:w-[50%] md:block md:w-auto ml-auto">
-            <div class="relative inline-block text-left grow">
+            <div class="relative inline-block text-left grow mr-2">
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="w-full  border-gray-300 dark:border-gray-600 border bg-black sm:hover:bg-default text-white dark:sm:hover:bg-primary ease-out  flex flex-row justify-between items-center px-3 py-2  rounded truncate"
+                    class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary  flex flex-row justify-between items-center  w-full sm:w-auto px-3 rounded truncate"
                   >
                     <span class="truncate">Year: {year}</span>
                     <svg
@@ -157,15 +176,21 @@
                   </DropdownMenu.Label>
                   <DropdownMenu.Separator />
                   <DropdownMenu.Group>
-                    {#each yearRange as index}
+                    {#each yearRange as yr}
                       <DropdownMenu.Item
                         on:click={() => {
-                          year = index;
+                          year = yr;
+                          // Reset quarter to first available for this year
+                          const availableQuarters = dateList
+                            .filter((d) => d.fiscalYear === yr)
+                            .map((d) => d.quarter)
+                            .sort((a, b) => b - a);
+                          quarter = availableQuarters[0] ?? 1;
                           getTranscripts();
                         }}
                         class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
                       >
-                        {index}
+                        {yr}
                       </DropdownMenu.Item>
                     {/each}
                   </DropdownMenu.Group>
@@ -177,7 +202,7 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="w-full  border-gray-300 dark:border-gray-600 border  bg-black sm:hover:bg-default text-white dark:sm:hover:bg-primary ease-out  flex flex-row justify-between items-center px-3 py-2  rounded truncate"
+                    class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary  flex flex-row justify-between items-center  w-full sm:w-auto px-3 rounded truncate"
                   >
                     <span class="truncate">Quarter: Q{quarter}</span>
                     <svg
@@ -207,15 +232,15 @@
                   </DropdownMenu.Label>
                   <DropdownMenu.Separator />
                   <DropdownMenu.Group>
-                    {#each [1, 2, 3, 4] as index}
+                    {#each quarterRange as q}
                       <DropdownMenu.Item
                         on:click={() => {
-                          quarter = index;
+                          quarter = q;
                           getTranscripts();
                         }}
                         class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
                       >
-                        Q{index}
+                        Q{q}
                       </DropdownMenu.Item>
                     {/each}
                   </DropdownMenu.Group>
@@ -244,7 +269,7 @@
             {#each chats as item}
               {#if item?.name === "Operator"}
                 <div class="flex flex-col items-start gap-2.5 mt-5">
-                  <div class="flex flex-row items-center ml-auto mr-2">
+                  <div class="flex flex-row items-center ml-auto">
                     <div
                       class="flex items-center space-x-2 rtl:space-x-reverse"
                     >
