@@ -189,18 +189,32 @@
 
   <div class="px-3">
     <div class="mx-auto text-center mb-8">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 mb-5">
+      <div
+        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 mb-5"
+      >
         <span class="relative flex h-1.5 w-1.5">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-violet-500"></span>
+          <span
+            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"
+          ></span>
+          <span
+            class="relative inline-flex rounded-full h-1.5 w-1.5 bg-violet-500"
+          ></span>
         </span>
-        <span class="text-violet-600 dark:text-violet-400 font-medium text-xs tracking-widest uppercase">Live Now</span>
+        <span
+          class="text-violet-600 dark:text-violet-400 font-medium text-xs tracking-widest uppercase"
+          >Live Now</span
+        >
       </div>
       <h1 class="text-5xl sm:text-7xl font-bold tracking-tight">
         <span class="text-gray-900 dark:text-white">Black</span>
-        <span class="bg-gradient-to-r from-violet-500 to-purple-600 dark:from-violet-400 dark:to-purple-500 bg-clip-text text-transparent">Friday</span>
+        <span
+          class="bg-gradient-to-r from-violet-500 to-purple-600 dark:from-violet-400 dark:to-purple-500 bg-clip-text text-transparent"
+          >Friday</span
+        >
       </h1>
-      <p class="text-lg text-gray-500 dark:text-zinc-400 mt-4 font-normal tracking-wide">
+      <p
+        class="text-lg text-gray-500 dark:text-zinc-400 mt-4 font-normal tracking-wide"
+      >
         Premium access. Half the price.
       </p>
     </div>
@@ -1308,26 +1322,47 @@
           </li>
         </ul>
         <div class="mt-auto pt-6 border-t border-zinc-700 mx-4">
-          <label
-            for={!data?.user ? "userLogin" : ""}
-            on:click={() => purchasePlan("plus")}
-            class="text-white cursor-pointer w-full py-3 px-4 bg-black dark:bg-white rounded-[3px] font-semibold sm:hover:bg-default dark:sm:hover:bg-gray-100 text-white dark:text-black transition duration-100 flex items-center justify-center"
-            >{data?.user?.freeTrial
-              ? "Unlock Plus Access"
-              : "Start Free 7 Day Trial"}<svg
-              class="w-5 h-5 ml-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 5l7 7-7 7"
-              ></path></svg
-            ></label
-          >
+          {#if data?.user?.tier === "Plus"}
+            <div
+              class="w-full py-3 px-4 bg-gray-200 dark:bg-zinc-700 rounded-[3px] font-semibold text-gray-500 dark:text-zinc-400 flex items-center justify-center cursor-not-allowed"
+            >
+              <svg
+                class="w-5 h-5 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                ></path>
+              </svg>
+              Current Plan
+            </div>
+          {:else}
+            <label
+              for={!data?.user ? "userLogin" : ""}
+              on:click={() => purchasePlan("plus")}
+              class="text-white cursor-pointer w-full py-3 px-4 bg-black dark:bg-white rounded-[3px] font-semibold sm:hover:bg-default dark:sm:hover:bg-gray-100 text-white dark:text-black transition duration-100 flex items-center justify-center"
+              >{data?.user?.freeTrial
+                ? "Unlock Plus Access"
+                : "Start Free 7 Day Trial"}<svg
+                class="w-5 h-5 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                ></path></svg
+              ></label
+            >
+          {/if}
         </div>
       </div>
       <div
@@ -1335,7 +1370,9 @@
         class=" rounded text-white flex flex-col relative bg-[#18181B] dark:bg-zinc-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-[3px] overflow-visible border border-violet-500/50 p-6 isolate"
       >
         <!-- Subtle top glow -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-violet-400 to-transparent"></div>
+        <div
+          class="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-violet-400 to-transparent"
+        ></div>
         <!-- Best Value Badge -->
         <div
           class="w-fit absolute -top-[12px] left-1/2 transform -translate-x-1/2 whitespace-nowrap m-auto px-4 py-1 rounded-full text-xs font-semibold tracking-widest uppercase
@@ -1493,26 +1530,47 @@
         -->
 
         <div class="mt-auto pt-6 border-t border-zinc-700 mx-4">
-          <label
-            for={!data?.user ? "userLogin" : ""}
-            on:click={() => purchasePlan("pro")}
-            class="cursor-pointer w-full py-3 px-4 bg-white rounded-[3px] font-semibold sm:hover:bg-gray-100 dark:sm:hover:bg-gray-100 text-black transition duration-100 flex items-center justify-center"
-            >{data?.user?.freeTrial
-              ? "Upgrade Access"
-              : "Start Free 7 Day Trial"}<svg
-              class="w-5 h-5 ml-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 5l7 7-7 7"
-              ></path></svg
-            ></label
-          >
+          {#if data?.user?.tier === "Pro"}
+            <div
+              class="w-full py-3 px-4 bg-gray-200 dark:bg-zinc-700 rounded-[3px] font-semibold text-gray-500 dark:text-zinc-400 flex items-center justify-center cursor-not-allowed"
+            >
+              <svg
+                class="w-5 h-5 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                ></path>
+              </svg>
+              Current Plan
+            </div>
+          {:else}
+            <label
+              for={!data?.user ? "userLogin" : ""}
+              on:click={() => purchasePlan("pro")}
+              class="cursor-pointer w-full py-3 px-4 bg-white rounded-[3px] font-semibold sm:hover:bg-gray-100 dark:sm:hover:bg-gray-100 text-black transition duration-100 flex items-center justify-center"
+              >{data?.user?.freeTrial
+                ? "Upgrade Access"
+                : "Start Free 7 Day Trial"}<svg
+                class="w-5 h-5 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                ></path></svg
+              ></label
+            >
+          {/if}
         </div>
       </div>
 
@@ -1559,6 +1617,38 @@
         </div>
       {/if}
     </div>
+
+    {#if ["Plus", "Pro"].includes(data?.user?.tier)}
+      <div
+        class="mx-auto w-full mt-10 p-4 rounded bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800"
+      >
+        <div class="flex items-center gap-3">
+          <svg
+            class="w-5 h-5 text-purple-600 dark:text-purple-400 flex-shrink-0"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          <p class="text-sm text-purple-800 dark:text-purple-200">
+            You're currently subscribed to <span class="font-semibold"
+              >{data?.user?.tier}</span
+            >.
+            <a
+              href="/profile"
+              class="underline underline-offset-2 font-medium hover:text-purple-600 dark:hover:text-purple-300"
+              >Manage your subscription</a
+            >
+          </p>
+        </div>
+      </div>
+    {/if}
 
     <!--Start FAQ-->
 
