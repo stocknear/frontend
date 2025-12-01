@@ -407,7 +407,7 @@
                     {$displayCompanyName} ({$stockTicker})
                   </p>
                 </div>
-                <div class="flex items-center gap-3">
+                <div class="flex flex-col items-start sm:items-end gap-3">
                   <div
                     class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400"
                   >
@@ -536,7 +536,8 @@
                             >
                               <div
                                 class="h-full {sentimentColors.bar} rounded-full"
-                                style="width: {summaryData?.sentimentScore ?? 50}%"
+                                style="width: {summaryData?.sentimentScore ??
+                                  50}%"
                               ></div>
                             </div>
                             <span
