@@ -307,7 +307,7 @@
 
             <label
               on:click={backToTop}
-              class="w-32 py-1.5 mt-10 dark:sm:hover:bg-white hover:bg-opacity-[0.05] cursor-pointer m-auto flex justify-center items-center border border-gray-600 rounded-full"
+              class="text-white w-32 py-1.5 mt-10 bg-black dark:sm:hover:bg-primary dark:sm:hover:bg-opacity-[0.05] cursor-pointer m-auto flex justify-center items-center border border-gray-300 dark:border-gray-600 rounded-full"
             >
               Back to top
             </label>

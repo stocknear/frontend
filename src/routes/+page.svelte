@@ -100,6 +100,7 @@
     <svelte:component this={AppInstalled} />
   {/if}
 
+  <!--
   {#if !["Pro", "Plus"].includes(data?.user?.tier)}
     <div class="flex justify-center mb-5 text-center mt-5 sm:mt-0 px-4">
       <a
@@ -111,31 +112,56 @@
                transition-all duration-300"
         tabindex="0"
       >
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent"></div>
+        <div
+          class="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent"
+        ></div>
         <span class="flex items-center gap-1.5">
           <span class="relative flex h-1.5 w-1.5">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-violet-500"></span>
+            <span
+              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"
+            ></span>
+            <span
+              class="relative inline-flex rounded-full h-1.5 w-1.5 bg-violet-500"
+            ></span>
           </span>
-          <span class="text-violet-600 dark:text-violet-400 font-semibold tracking-wide">Black Friday</span>
+          <span
+            class="text-violet-600 dark:text-violet-400 font-semibold tracking-wide"
+            >Black Friday</span
+          >
         </span>
         <span class="text-gray-400 dark:text-zinc-600">|</span>
         <span class="text-gray-600 dark:text-zinc-300">
-          <span class="font-bold text-gray-900 dark:text-white">50% off</span> all plans
+          <span class="font-bold text-gray-900 dark:text-white">50% off</span> all
+          plans
         </span>
         <span class="text-gray-400 dark:text-zinc-600">|</span>
-        <span class="font-mono text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-zinc-700 text-gray-700 dark:text-zinc-300 tracking-wider">BF25</span>
-        <svg class="w-4 h-4 text-gray-400 dark:text-zinc-500 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        <span
+          class="font-mono text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-zinc-700 text-gray-700 dark:text-zinc-300 tracking-wider"
+          >BF25</span
+        >
+        <svg
+          class="w-4 h-4 text-gray-400 dark:text-zinc-500 group-hover:translate-x-0.5 transition-transform"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          ></path>
         </svg>
       </a>
     </div>
   {/if}
+-->
 
   <main id="main">
     <div
       class="border-b border-gray-100 dark:border-gray-800 rounded-[5px] px-4 bg-gray-100 dark:bg-[#1C1E22] pt-8 sm:pt-12 shadow-sm pb-26 landscape:border-t-2 landscape:md:border-t-0"
     >
+      <!--
       {#if data?.user}
         <div class="flex justify-center mb-5 whitespace-nowrap">
           <div class=" flex justify-center lg:mb-3">
@@ -156,6 +182,7 @@
           </div>
         </div>
       {/if}
+      -->
 
       <div class="mx-auto max-w-[850px] text-center">
         <h1
