@@ -32,7 +32,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   }
   
 
-  if (query?.length > 7092) {
+  if (query?.length > 10000) {
     console.log("too long")
     return new Response(
       JSON.stringify({ error: "Input text is too length" }),
