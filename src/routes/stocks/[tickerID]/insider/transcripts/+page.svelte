@@ -10,6 +10,7 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import { onMount } from "svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import { goto } from "$app/navigation";
 
   export let data;
 
@@ -169,29 +170,49 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-56 h-fit max-h-72 overflow-y-auto scroller"
+                  class="min-w-40 h-fit max-h-72 overflow-y-auto scroller"
                 >
-                  <DropdownMenu.Label class="text-gray-400">
-                    Select Year
-                  </DropdownMenu.Label>
-                  <DropdownMenu.Separator />
                   <DropdownMenu.Group>
-                    {#each yearRange as yr}
-                      <DropdownMenu.Item
-                        on:click={() => {
-                          year = yr;
-                          // Reset quarter to first available for this year
-                          const availableQuarters = dateList
-                            .filter((d) => d.fiscalYear === yr)
-                            .map((d) => d.quarter)
-                            .sort((a, b) => b - a);
-                          quarter = availableQuarters[0] ?? 1;
-                          getTranscripts();
-                        }}
-                        class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
-                      >
-                        {yr}
-                      </DropdownMenu.Item>
+                    {#each yearRange as yr, index}
+                      {#if ["Plus", "Pro"]?.includes(data?.user?.tier) || index === 0}
+                        <DropdownMenu.Item
+                          on:click={() => {
+                            year = yr;
+                            // Reset quarter to first available for this year
+                            const availableQuarters = dateList
+                              ?.filter((d) => d.fiscalYear === yr)
+                              ?.map((d) => d.quarter)
+                              ?.sort((a, b) => b - a);
+                            quarter = availableQuarters[0] ?? 1;
+                            getTranscripts();
+                          }}
+                          class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                        >
+                          FY {yr}
+                        </DropdownMenu.Item>
+                      {:else}
+                        <DropdownMenu.Item
+                          on:click={() => goto("/pricing")}
+                          class="cursor-pointer sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                        >
+                          <div class="flex flex-row items-center gap-x-2">
+                            <span>FY {yr}</span>
+                            <svg
+                              class="size-4"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              style="max-width: 40px;"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                clip-rule="evenodd"
+                              >
+                              </path>
+                            </svg>
+                          </div>
+                        </DropdownMenu.Item>
+                      {/if}
                     {/each}
                   </DropdownMenu.Group>
                 </DropdownMenu.Content>
@@ -225,23 +246,43 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-56 h-fit max-h-72 overflow-y-auto scroller"
+                  class="min-w-40 h-fit max-h-72 overflow-y-auto scroller"
                 >
-                  <DropdownMenu.Label class="text-gray-400">
-                    Select Quarter
-                  </DropdownMenu.Label>
-                  <DropdownMenu.Separator />
                   <DropdownMenu.Group>
-                    {#each quarterRange as q}
-                      <DropdownMenu.Item
-                        on:click={() => {
-                          quarter = q;
-                          getTranscripts();
-                        }}
-                        class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
-                      >
-                        Q{q}
-                      </DropdownMenu.Item>
+                    {#each quarterRange as q, index}
+                      {#if ["Plus", "Pro"]?.includes(data?.user?.tier) || index === 0}
+                        <DropdownMenu.Item
+                          on:click={() => {
+                            quarter = q;
+                            getTranscripts();
+                          }}
+                          class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                        >
+                          Q{q}
+                        </DropdownMenu.Item>
+                      {:else}
+                        <DropdownMenu.Item
+                          on:click={() => goto("/pricing")}
+                          class="cursor-pointer sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                        >
+                          <div class="flex flex-row items-center gap-x-2">
+                            <span>Q{q}</span>
+                            <svg
+                              class="size-4"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              style="max-width: 40px;"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                clip-rule="evenodd"
+                              >
+                              </path>
+                            </svg>
+                          </div>
+                        </DropdownMenu.Item>
+                      {/if}
                     {/each}
                   </DropdownMenu.Group>
                 </DropdownMenu.Content>

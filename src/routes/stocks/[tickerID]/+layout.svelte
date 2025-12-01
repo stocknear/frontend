@@ -74,7 +74,7 @@
       prePostSocket = new WebSocket(data?.wsURL + "/pre-post-quote");
 
       prePostSocket.addEventListener("open", () => {
-        console.log("Pre-post quote WebSocket connection opened");
+        //console.log("Pre-post quote WebSocket connection opened");
 
         // Send the ticker to the server
         const message = {
@@ -92,10 +92,12 @@
             prePostData = newData;
           }
         } catch (error) {
+          /*
           console.error(
             "Error processing pre-post quote WebSocket message:",
             error,
           );
+          */
         }
       });
 
@@ -115,13 +117,15 @@
       });
 
       prePostSocket.addEventListener("error", (error) => {
-        console.error("Pre-post quote WebSocket error:", error);
+        // console.error("Pre-post quote WebSocket error:", error);
       });
     } catch (error) {
+      /*
       console.error(
         "Failed to establish pre-post quote WebSocket connection:",
         error,
       );
+      */
     }
   }
 

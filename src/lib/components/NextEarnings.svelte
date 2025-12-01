@@ -86,11 +86,11 @@
         {/if}
         <br />Analysts project revenue of
         {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
-          ... Unlock content with
+          ...
           <a
             class="inline-block ml-0.5 text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
             href="/pricing"
-            >Pro Subscription <svg
+            >Upgrade <svg
               class="w-4 h-4 mb-1 inline-block"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
