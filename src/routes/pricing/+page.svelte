@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
 
   import SEO from "$lib/components/SEO.svelte";
-  import Discount from "$lib/components/Discount.svelte";
+  //import Discount from "$lib/components/Discount.svelte";
   export let data;
   export let form;
 
@@ -186,37 +186,16 @@
 
   <div class="px-3">
     <div class="mx-auto text-center mb-8">
-      <div
-        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 mb-5"
-      >
-        <span class="relative flex h-1.5 w-1.5">
-          <span
-            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"
-          ></span>
-          <span
-            class="relative inline-flex rounded-full h-1.5 w-1.5 bg-violet-500"
-          ></span>
-        </span>
-        <span
-          class="text-violet-600 dark:text-violet-400 font-medium text-xs tracking-widest uppercase"
-          >Live Now</span
-        >
-      </div>
-      <h1 class="text-5xl sm:text-7xl font-bold tracking-tight">
-        <span class="text-gray-900 dark:text-white">Black</span>
+      <h1 class="text-3xl sm:text-5xl font-bold tracking-tight">
+        <span class="text-gray-900 dark:text-white">Success is well</span>
         <span
           class="bg-gradient-to-r from-violet-500 to-purple-600 dark:from-violet-400 dark:to-purple-500 bg-clip-text text-transparent"
-          >Friday</span
+          >researched</span
         >
       </h1>
-      <p
-        class="text-lg text-gray-500 dark:text-zinc-400 mt-4 font-normal tracking-wide"
-      >
-        Premium access. Half the price.
-      </p>
     </div>
 
-    <Discount />
+    <!-- <Discount />-->
 
     <div class="flex flex-row items-center justify-center">
       <div class="flex flex-row items-center ml-auto">
@@ -928,21 +907,23 @@
         class="rounded relative flex flex-col relative bg-white dark:bg-zinc-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-[3px] overflow-visible border border-gray-400 dark:border-zinc-600 p-6 isolate"
       >
         <h3 class="text-3xl font-bold">Plus</h3>
-        <p class="text-muted dark:text-zinc-300 text-sm mt-1">Most Popular</p>
+        <p class="text-muted dark:text-zinc-300 text-sm mt-1">
+          Best for Passive Traders
+        </p>
         <div class="mt-4">
-          <span class="text-gray-500 text-4xl font-bold line-through"
-            >{mode ? "$7.50" : "$10"}</span
-          >
+          <span class=" text-4xl font-bold">{mode ? "$7.50" : "$10"}</span>
 
-          <span class=" text-4xl font-bold ml-1">{mode ? "$3.75" : "$5"}</span
-          ><span class=" text-xl">/mo</span>
+          <!--<span class=" text-4xl font-bold ml-1">{mode ? "$3.75" : "$5"}</span
+          >--><span
+            class=" text-xl">/mo</span
+          >
         </div>
         <p
           class="text-muted dark:text-gray-400 text-sm mt-1 mx-4 {!mode
             ? 'hidden'
             : ''}"
         >
-          (Billed Annually)
+          ($90 Billed Annually)
         </p>
 
         <ul class="mt-6 mb-6 space-y-2">
@@ -1379,17 +1360,15 @@
         </div>
         <h3 class="text-3xl font-bold mt-2">Pro</h3>
         <p class="text-white dark:text-zinc-300 text-sm mt-1">
-          Unlimited usage for Power Users.
+          Best for Active Traders
         </p>
         <div class="mt-4">
-          <span
-            class="text-gray-500 text-4xl font-bold line-through {!mode
-              ? ''
-              : ''}">{mode ? "$15" : "$20"}</span
+          <span class="text-white text-4xl font-bold {!mode ? '' : ''}"
+            >{mode ? "$20" : "$25"}</span
           >
-          <span class="text-white text-4xl font-bold ml-1"
+          <!--<span class="text-white text-4xl font-bold ml-1"
             >{mode ? "$7.5" : "$10"}</span
-          >
+          >-->
           <span class=" text-xl ml-1">/mo</span>
         </div>
         <p
@@ -1397,7 +1376,7 @@
             ? 'hidden'
             : ''}"
         >
-          (Billed Annually)
+          ($240 Billed Annually)
         </p>
 
         <ul class="mt-6 mb-6 space-y-2">
