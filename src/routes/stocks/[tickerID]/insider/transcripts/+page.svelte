@@ -293,103 +293,138 @@
 
         {#if isLoaded}
           {#if chats?.length !== 0}
-            <div class="flex flex-col sm:flex-row items-center pt-5 pb-5">
-              <span class=" text-md">
-                Q{displayQuarter}
-                {displayYear} · Earnings Call Transcript
-              </span>
-              <span class=" text-opacity-80 text-md mt-2 sm:mt-0 sm:ml-auto">
-                {new Date(date).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              </span>
+            <!-- Header Card -->
+            <div
+              class="border border-gray-300 dark:border-gray-700 rounded-lg p-4 sm:p-6 mb-6 bg-gray-50 dark:bg-default"
+            >
+              <div
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+              >
+                <div>
+                  <h2 class="text-lg sm:text-xl font-semibold">
+                    Q{displayQuarter}
+                    {displayYear} Earnings Call
+                  </h2>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    {$displayCompanyName} ({$stockTicker})
+                  </p>
+                </div>
+                <div
+                  class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <span>
+                    {new Date(date).toLocaleDateString("en-US", {
+                      weekday: "long",
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </span>
+                </div>
+              </div>
             </div>
 
-            {#each chats as item}
-              {#if item?.name === "Operator"}
-                <div class="flex flex-col items-start gap-2.5 mt-5">
-                  <div class="flex flex-row items-center ml-auto">
-                    <div
-                      class="flex items-center space-x-2 rtl:space-x-reverse"
-                    >
-                      <span class="text-sm">
+            <!-- Transcript Content -->
+            <div class="space-y-1">
+              {#each chats as item, i}
+                <div
+                  class="group py-4 {i !== chats.length - 1
+                    ? 'border-b border-gray-200 dark:border-gray-800'
+                    : ''}"
+                >
+                  <!-- Speaker Header -->
+                  <div class="flex items-center gap-3 mb-2">
+                    {#if item?.name === "Operator"}
+                      <div
+                        class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center flex-shrink-0"
+                      >
+                        <svg
+                          class="w-4 h-4 text-gray-600 dark:text-gray-300"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                        >
+                          <path
+                            d="M12 14q-1.25 0-2.125-.875T9 11V5q0-1.25.875-2.125T12 2q1.25 0 2.125.875T15 5v6q0 1.25-.875 2.125T12 14m-1 7v-3.075q-2.6-.35-4.3-2.325T5 11h2q0 2.075 1.463 3.538T12 16q2.075 0 3.538-1.463T17 11h2q0 2.625-1.7 4.6T13 17.925V21z"
+                          />
+                        </svg>
+                      </div>
+                      <span
+                        class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide"
+                      >
                         {item?.name}
                       </span>
-                    </div>
-                    <div
-                      class="ml-2 avatar rounded-full w-8 h-8 sm:w-10 sm:h-10 relative border border-gray-300 dark:border-gray-600 bg-opacity-[0.6] flex items-center justify-center"
-                    >
-                      <svg
-                        class="w-6 h-6 sm:w-7 sm:h-7"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        ><path
-                          fill="currentColor"
-                          d="M12 14q-1.25 0-2.125-.875T9 11V5q0-1.25.875-2.125T12 2q1.25 0 2.125.875T15 5v6q0 1.25-.875 2.125T12 14m-1 7v-3.075q-2.6-.35-4.3-2.325T5 11h2q0 2.075 1.463 3.538T12 16q2.075 0 3.538-1.463T17 11h2q0 2.625-1.7 4.6T13 17.925V21z"
-                        /></svg
-                      >
-                    </div>
-                  </div>
-                  <div
-                    class=" flex flex-col w-full leading-1.5 p-4 border border-gray-300 dark:border-gray-600 bg-gray-200 dark:bg-primary rounded-l-xl rounded-tr-xl"
-                  >
-                    <p class="text-sm font-normal py-2.5">
-                      {@html item?.description}
-                    </p>
-                  </div>
-                </div>
-              {:else}
-                <div class="flex flex-col items-start gap-2.5 mt-8">
-                  <div class="flex flex-row items-center">
-                    <div
-                      class="avatar rounded-full w-8 h-8 sm:w-10 sm:h-10 relative bg-red-600 bg-opacity-[0.6] flex items-center justify-center text-sm sm:"
-                    >
-                      <span
-                        class="absolute inset-0 flex items-center justify-center"
+                    {:else}
+                      <div
+                        class="w-8 h-8 rounded-full bg-[#3B82F6] flex items-center justify-center flex-shrink-0 text-white text-sm font-medium"
                       >
                         {item?.name?.slice(0, 1)}
-                      </span>
-                    </div>
-                    <div
-                      class="ml-2 flex items-center space-x-2 rtl:space-x-reverse"
-                    >
-                      <span class="text-sm">
+                      </div>
+                      <span class="text-sm font-semibold">
                         {item?.name}
                       </span>
-                    </div>
+                    {/if}
                   </div>
-                  <div
-                    class="flex flex-col w-full leading-1.5 p-4 border border-gray-300 dark:border-gray-600 bg-gray-200 dark:bg-secondary rounded-r-xl rounded-tl-xl"
-                  >
-                    <p class="text-sm font-normal py-2.5">
+
+                  <!-- Speech Content -->
+                  <div class="pl-11">
+                    <p
+                      class="text-sm sm:text-[15px] leading-relaxed text-gray-700 dark:text-gray-300"
+                    >
                       {@html item?.description}
                     </p>
                   </div>
                 </div>
-              {/if}
-            {/each}
+              {/each}
+            </div>
 
-            <label
-              on:click={backToTop}
-              class="text-white w-32 py-1.5 mt-10 bg-black dark:sm:hover:bg-primary dark:sm:hover:bg-opacity-[0.05] cursor-pointer m-auto flex justify-center items-center border border-gray-300 dark:border-gray-600 rounded-full"
-            >
-              Back to top
-            </label>
+            <!-- Back to Top Button -->
+            <div class="flex justify-center mt-10 mb-6">
+              <button
+                on:click={backToTop}
+                class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-[#202020] border border-gray-300 dark:border-gray-700 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 10l7-7m0 0l7 7m-7-7v18"
+                  />
+                </svg>
+                Back to top
+              </button>
+            </div>
           {:else}
             <Infobox
-              text={`No transcript available for ${$displayCompanyName} for the Q${displayQuarter} of ${displayYear}`}
+              text={`No transcript available for ${$displayCompanyName} for Q${displayQuarter} of ${displayYear}`}
             />
           {/if}
         {:else}
           <div class="flex justify-center items-center h-80">
             <div class="relative">
               <label
-                class=" bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                class="bg-default dark:bg-secondary rounded-lg h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
               >
-                <span
-                  class="loading loading-spinner loading-md text-white dark:text-white"
+                <span class="loading loading-spinner loading-md text-white"
                 ></span>
               </label>
             </div>
