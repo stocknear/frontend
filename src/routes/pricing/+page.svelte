@@ -1,7 +1,6 @@
 <script lang="ts">
   import { openLemonSqueezyUrl } from "$lib/lemonsqueezy";
   import { onMount } from "svelte";
-  import { page } from "$app/stores";
 
   import SEO from "$lib/components/SEO.svelte";
   import Discount from "$lib/components/Discount.svelte";
@@ -9,8 +8,6 @@
   export let form;
 
   let mode = false;
-
-  let showLifetime = $page.url.searchParams.get("aff") ?? false;
 
   const emailAddress = "support@stocknear.com";
 
@@ -1573,49 +1570,6 @@
           {/if}
         </div>
       </div>
-
-      {#if showLifetime}
-        <div
-          class="relative text-left w-full col-span-1 lg:col-span-3 text-white bg-[#18181B] dark:bg-zinc-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-[3px] overflow-visible border border-zinc-200 dark:border-zinc-600 p-6 isolate translate-y-5 opacity-100"
-        >
-          <div class="flex flex-row items-center justify-between">
-            <h3 class="text-2xl md:text-3xl font-bold">
-              Lifetime (Super Limited)
-            </h3>
-            <div>
-              <span class="text-3xl md:text-4xl font-bold">$449</span>
-            </div>
-          </div>
-
-          <p class=" md:text-lg mt-4 lg:mt-2">
-            Everything in Pro, pay once, never again.
-          </p>
-
-          <div class="mt-10 flex justify-center lg:justify-end mx-4 lg:mx-0">
-            <label
-              for={data?.user ? "" : "userLogin"}
-              on:click={() => purchasePlan("lifetime")}
-              class="cursor-pointer w-full lg:w-auto py-3 lg:mt-2 px-4 bg-white rounded-[3px] font-semibold sm:hover:bg-gray-100 dark:sm:hover:bg-gray-100 text-black transition duration-100 flex items-center justify-center lg:justify-end"
-            >
-              Get Lifetime Now
-              <svg
-                class="w-5 h-5 ml-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                ></path>
-              </svg>
-            </label>
-          </div>
-        </div>
-      {/if}
     </div>
 
     {#if ["Plus", "Pro"].includes(data?.user?.tier)}
