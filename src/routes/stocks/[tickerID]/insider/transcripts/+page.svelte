@@ -11,8 +11,12 @@
   import { onMount } from "svelte";
   import SEO from "$lib/components/SEO.svelte";
   import { goto } from "$app/navigation";
+  import { toast } from "svelte-sonner";
+  import { mode } from "mode-watcher";
 
   export let data;
+
+  const SUMMARY_CREDIT_COST = 3;
 
   let chats = [];
   let date;
@@ -66,6 +70,36 @@
       return;
     }
 
+    // Check if user is logged in
+    if (!data?.user) {
+      toast.error("Please log in to use this feature.", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+      return;
+    }
+
+    // Check if user has the right tier
+    if (!["Plus", "Pro"]?.includes(data?.user?.tier)) {
+      toast.error(
+        "This feature is available exclusively for Subscribers. Please upgrade your plan.",
+        {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        },
+      );
+      return;
+    }
+
+    // Check if user has enough credits
+    if (data?.user?.credits < SUMMARY_CREDIT_COST) {
+      toast.error(
+        `Insufficient credits. Your current balance is ${data?.user?.credits}. This feature costs ${SUMMARY_CREDIT_COST} credits.`,
+        {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        },
+      );
+      return;
+    }
+
     isGeneratingSummary = true;
     showSummary = true;
     summaryError = false;
@@ -85,27 +119,35 @@
       });
 
       if (!response.ok) {
-        throw new Error("Failed to generate summary");
+        const errorData = await response.json();
+        toast.error(errorData?.error || "Failed to generate summary", {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        });
+        showSummary = false;
+        isGeneratingSummary = false;
+        return;
       }
 
       summaryData = await response.json();
 
       if (summaryData?.error) {
         summaryError = true;
+        toast.error(summaryData.error, {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        });
+        showSummary = false;
+      } else {
+        // Deduct credits on successful generation
+        data.user.credits -= SUMMARY_CREDIT_COST;
+        summaryGenerated = true;
       }
-
-      summaryGenerated = true;
     } catch (e) {
       console.error("Summary generation error:", e);
+      toast.error("Something went wrong. Please try again.", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+      showSummary = false;
       summaryError = true;
-      summaryData = {
-        sentiment: "Neutral",
-        sentimentScore: 50,
-        keyHighlights: ["Unable to generate summary. Please try again."],
-        risks: [],
-        outlook: "Summary generation failed.",
-      };
-      summaryGenerated = true;
     } finally {
       isGeneratingSummary = false;
     }
