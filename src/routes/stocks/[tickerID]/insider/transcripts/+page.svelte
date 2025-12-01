@@ -64,9 +64,98 @@
     error?: string;
   } | null = null;
 
+  // LocalStorage cache helpers
+  function getSummaryCacheKey(ticker: string, yr: number, qtr: number): string {
+    return `transcript-summary-${ticker}-${yr}-Q${qtr}`;
+  }
+
+  function getCachedSummary(ticker: string, yr: number, qtr: number) {
+    try {
+      const key = getSummaryCacheKey(ticker, yr, qtr);
+      const cached = localStorage.getItem(key);
+      if (cached) {
+        return JSON.parse(cached);
+      }
+    } catch (e) {
+      console.error("Error reading from cache:", e);
+    }
+    return null;
+  }
+
+  function saveSummaryToCache(
+    ticker: string,
+    yr: number,
+    qtr: number,
+    summary: typeof summaryData,
+  ) {
+    try {
+      const key = getSummaryCacheKey(ticker, yr, qtr);
+      localStorage.setItem(key, JSON.stringify(summary));
+    } catch (e) {
+      console.error("Error saving to cache:", e);
+    }
+  }
+
+  // Export functions
+  function generateMarkdown(): string {
+    if (!summaryData) return "";
+
+    return `# ${$displayCompanyName} (${$stockTicker}) - Q${displayQuarter} ${displayYear} Earnings Call Summary
+
+## Overall Sentiment: ${summaryData.sentiment} (${summaryData.sentimentScore}%)
+
+## Key Highlights
+${summaryData.keyHighlights.map((h) => `- ${h}`).join("\n")}
+
+## Risk Factors
+${summaryData.risks.map((r) => `- ${r}`).join("\n")}
+
+## Management Outlook
+${summaryData.outlook}
+
+---
+*Generated on ${new Date().toLocaleDateString()}*
+`;
+  }
+
+  function copyToClipboard() {
+    const markdown = generateMarkdown();
+    navigator.clipboard.writeText(markdown).then(() => {
+      toast.success("Summary copied to clipboard!", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+    });
+  }
+
+  function downloadMarkdown() {
+    const markdown = generateMarkdown();
+    const blob = new Blob([markdown], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${$stockTicker}-Q${displayQuarter}-${displayYear}-summary.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    toast.success("Summary downloaded!", {
+      style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+    });
+  }
+
   async function generateSummary() {
     if (summaryGenerated && !summaryError) {
       showSummary = !showSummary;
+      return;
+    }
+
+    // Check localStorage cache first (free, no credits)
+    const cached = getCachedSummary($stockTicker, displayYear, displayQuarter);
+    if (cached) {
+      summaryData = cached;
+      summaryGenerated = true;
+      showSummary = true;
       return;
     }
 
@@ -137,6 +226,13 @@
         });
         showSummary = false;
       } else {
+        // Save to localStorage cache
+        saveSummaryToCache(
+          $stockTicker,
+          displayYear,
+          displayQuarter,
+          summaryData,
+        );
         // Deduct credits on successful generation
         data.user.credits -= SUMMARY_CREDIT_COST;
         summaryGenerated = true;
@@ -588,6 +684,52 @@
                             >
                           </div>
                         </div>
+                      </div>
+                    </div>
+
+                    <!-- Export Actions -->
+                    <div
+                      class="flex flex-wrap items-center justify-end gap-2 pb-4 border-b border-purple-200 dark:border-purple-800"
+                    >
+                      <div class="flex items-center gap-2">
+                        <button
+                          on:click={copyToClipboard}
+                          class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                        >
+                          <svg
+                            class="w-3.5 h-3.5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                            />
+                          </svg>
+                          Copy
+                        </button>
+                        <button
+                          on:click={downloadMarkdown}
+                          class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                        >
+                          <svg
+                            class="w-3.5 h-3.5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                            />
+                          </svg>
+                          Download
+                        </button>
                       </div>
                     </div>
 
