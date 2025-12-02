@@ -964,7 +964,9 @@
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem]"
-                      >{rawDataHistory?.at(0)?.close_bid ?? "n/a"}</td
+                      >{(rawDataHistory?.at(0)?.close_bid ||
+                        rawDataHistory?.at(0)?.bid) ??
+                        "n/a"}</td
                     ></tr
                   >
 
@@ -988,7 +990,9 @@
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem]"
-                      >{rawDataHistory?.at(0)?.close_ask ?? "n/a"}</td
+                      >{(rawDataHistory?.at(0)?.close_ask ||
+                        rawDataHistory?.at(0)?.ask) ??
+                        "n/a"}</td
                     ></tr
                   >
 
@@ -1000,7 +1004,9 @@
                     </td>
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem]"
-                      >{rawDataHistory?.at(0)?.open ?? "n/a"}</td
+                      >{(rawDataHistory?.at(0)?.open ||
+                        rawDataHistory?.at(1)?.close) ??
+                        "n/a"}</td
                     ></tr
                   >
                   <tr
@@ -1042,7 +1048,7 @@
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem]"
                     >
-                      {rawDataHistory?.at(0)?.implied_volatility
+                      {rawDataHistory?.at(0)?.implied_volatility >= 0
                         ? (
                             rawDataHistory?.at(0)?.implied_volatility * 100
                           )?.toFixed(2) + "%"
