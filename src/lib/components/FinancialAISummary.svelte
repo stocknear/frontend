@@ -128,6 +128,49 @@
     return colorMap[health] || "text-gray-600 bg-gray-100";
   }
 
+  function getHealthColors(health: string) {
+    switch (health) {
+      case "Exceptional":
+        return {
+          text: "text-green-700 dark:text-green-400",
+          bg: "bg-green-100 dark:bg-green-900/40",
+          bar: "bg-green-500",
+        };
+      case "Strong":
+        return {
+          text: "text-blue-700 dark:text-blue-400",
+          bg: "bg-blue-100 dark:bg-blue-900/40",
+          bar: "bg-blue-500",
+        };
+      case "Stable":
+        return {
+          text: "text-yellow-700 dark:text-yellow-400",
+          bg: "bg-yellow-100 dark:bg-yellow-900/40",
+          bar: "bg-yellow-500",
+        };
+      case "Cautious":
+        return {
+          text: "text-orange-700 dark:text-orange-400",
+          bg: "bg-orange-100 dark:bg-orange-900/40",
+          bar: "bg-orange-500",
+        };
+      case "Weak":
+        return {
+          text: "text-red-700 dark:text-red-400",
+          bg: "bg-red-100 dark:bg-red-900/40",
+          bar: "bg-red-500",
+        };
+      default:
+        return {
+          text: "text-gray-700 dark:text-gray-400",
+          bg: "bg-gray-100 dark:bg-gray-900/40",
+          bar: "bg-gray-500",
+        };
+    }
+  }
+
+  $: healthColors = getHealthColors(summaryData?.overallHealth ?? "Stable");
+
   function getAssessmentColor(assessment: string) {
     const colorMap = {
       Excellent: "text-[#10B981]",
@@ -399,25 +442,27 @@ ${summaryData.investorTakeaway}
                     {summaryData.yearsAnalyzed} Overall Health
                   </span>
                 </div>
-                <div class="flex items-center gap-3 sm:gap-4 md:gap-6">
-                  <div class="flex items-baseline gap-1.5 sm:gap-2">
-                    <span
-                      class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white"
-                    >
-                      {summaryData.healthScore}
-                    </span>
-                    <span
-                      class="text-lg sm:text-xl md:text-2xl font-medium text-gray-400"
-                      >/100</span
-                    >
-                  </div>
+                <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
                   <span
-                    class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold {getHealthColor(
-                      summaryData.overallHealth,
-                    )}"
+                    class="px-3 py-1.5 rounded-full text-sm font-semibold {healthColors.text} {healthColors.bg} w-fit"
                   >
                     {summaryData.overallHealth}
                   </span>
+                  <div class="flex items-center gap-2">
+                    <div
+                      class="w-32 sm:w-40 h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="h-full {healthColors.bar} rounded-full transition-all duration-500"
+                        style="width: {summaryData.healthScore}%"
+                      ></div>
+                    </div>
+                    <span
+                      class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white"
+                    >
+                      {summaryData.healthScore}%
+                    </span>
+                  </div>
                 </div>
               </div>
               <div class="flex items-center gap-2">
