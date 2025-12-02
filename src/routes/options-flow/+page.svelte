@@ -1524,12 +1524,13 @@
     displayBullishPremium = bullishPremiumSum;
     displayBearishPremium = bearishPremiumSum;
 
-    const totalSentimentCount = bullishCount + bearishCount;
+    const totalSentimentPremium = bullishPremiumSum + bearishPremiumSum;
     bullishPercentage =
-      totalSentimentCount !== 0
-        ? Math.round((bullishCount / totalSentimentCount) * 100)
+      totalSentimentPremium !== 0
+        ? Math.round((bullishPremiumSum / totalSentimentPremium) * 100)
         : 0;
-    bearishPercentage = totalSentimentCount !== 0 ? 100 - bullishPercentage : 0;
+    bearishPercentage =
+      totalSentimentPremium !== 0 ? 100 - bullishPercentage : 0;
   }
 
   const getHistoricalFlow = async () => {
@@ -1633,14 +1634,14 @@
 </script>
 
 <SEO
-  title="Options Flow - Real-Time Unusual Options Activity & Smart Money Tracking "
-  description="Track real-time options flow and unusual options activity from institutional traders. Monitor smart money movements, large block trades, and options sweeps for TSLA, NVDA, SPY and all US stocks. Free options flow scanner with live alerts."
-  keywords="options flow, unusual options activity, smart money, options sweeps, institutional trading, options scanner, block trades, options alerts, dark pool options, call flow, put flow"
+  title="Options Flow - Real-Time  Options Activity & Smart Money Tracking "
+  description="Track real-time options flow and  options activity from institutional traders. Monitor smart money movements, large block trades, and options sweeps for TSLA, NVDA, SPY and all US stocks. Free options flow scanner with live alerts."
+  keywords="options flow,  options activity, smart money, options sweeps, institutional trading, options scanner, block trades, options alerts, dark pool options, call flow, put flow"
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "Options Flow Scanner",
-    description: "Real-time options flow tracking and unusual activity scanner",
+    description: "Real-time options flow tracking and  activity scanner",
     url: "https://stocknear.com/options-flow",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
@@ -1669,7 +1670,6 @@
     },
     featureList: [
       "Real-time options flow",
-      "Unusual activity detection",
       "Smart money tracking",
       "Block trade monitoring",
       "Options sweep alerts",
@@ -1696,9 +1696,7 @@
           <div
             class="w-full flex flex-col sm:flex-row items-start sm:items-center sm:mt-4"
           >
-            <h1 class="text-2xl sm:text-3xl font-semibold">
-              Unusual Options Flow
-            </h1>
+            <h1 class="text-2xl sm:text-3xl font-semibold">Options Flow</h1>
             <span
               class="inline-block text-xs sm:text-sm font-semibold sm:ml-2 mt-3"
             >
