@@ -1319,6 +1319,12 @@
               </svg>
               Current Plan
             </div>
+          {:else if data?.user?.tier === "Pro"}
+            <div
+              class="w-full py-3 px-4 bg-gray-200 dark:bg-zinc-700 rounded-[3px] font-semibold text-gray-500 dark:text-zinc-400 flex items-center justify-center cursor-not-allowed"
+            >
+              Pro Plan Active
+            </div>
           {:else}
             <label
               for={!data?.user ? "userLogin" : ""}
@@ -1525,6 +1531,24 @@
               </svg>
               Current Plan
             </div>
+          {:else if data?.user?.tier === "Plus"}
+            <a
+              href="/profile"
+              class="cursor-pointer w-full py-3 px-4 bg-white rounded-[3px] font-semibold sm:hover:bg-gray-100 dark:sm:hover:bg-gray-100 text-black transition duration-100 flex items-center justify-center"
+              >Upgrade in Account<svg
+                class="w-5 h-5 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                ></path></svg
+              ></a
+            >
           {:else}
             <label
               for={!data?.user ? "userLogin" : ""}
@@ -1574,7 +1598,9 @@
               >{data?.user?.tier}</span
             >.
             <a
-              href="/profile"
+              href="https://app.lemonsqueezy.com/my-orders"
+              target="_blank"
+              rel="noopener noreferrer"
               class="underline underline-offset-2 font-medium hover:text-purple-600 dark:hover:text-purple-300"
               >Manage your subscription</a
             >
