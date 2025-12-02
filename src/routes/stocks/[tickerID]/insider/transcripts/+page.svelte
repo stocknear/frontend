@@ -74,7 +74,13 @@
       const key = getSummaryCacheKey(ticker, yr, qtr);
       const cached = localStorage.getItem(key);
       if (cached) {
-        return JSON.parse(cached);
+        const parsed = JSON.parse(cached);
+        const cacheTime = parsed.timestamp || 0;
+        const now = Date.now();
+        // Cache valid for 3 days
+        if (now - cacheTime < 3 * 24 * 60 * 60 * 1000) {
+          return parsed.data;
+        }
       }
     } catch (e) {
       console.error("Error reading from cache:", e);
@@ -90,7 +96,13 @@
   ) {
     try {
       const key = getSummaryCacheKey(ticker, yr, qtr);
-      localStorage.setItem(key, JSON.stringify(summary));
+      localStorage.setItem(
+        key,
+        JSON.stringify({
+          data: summary,
+          timestamp: Date.now(),
+        }),
+      );
     } catch (e) {
       console.error("Error saving to cache:", e);
     }

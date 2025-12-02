@@ -2,6 +2,8 @@
   import { stockTicker } from "$lib/store";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { goto } from "$app/navigation";
+  import { toast } from "svelte-sonner";
+  import { mode } from "mode-watcher";
 
   export let data;
 
@@ -149,41 +151,94 @@
     return colorMap[assessment] || "text-gray-600";
   }
 
-  function copyToClipboard() {
-    const text = `
-Financial Analysis: ${$stockTicker} (${summaryData.yearsAnalyzed})
-Health Score: ${summaryData.healthScore}/100 (${summaryData.overallHealth})
+  function generateMarkdown(): string {
+    if (!summaryData) return "";
 
-Executive Summary:
+    return `# ${$stockTicker} - Financial Analysis (${summaryData.yearsAnalyzed})
+
+## Overall Health: ${summaryData.overallHealth} (${summaryData.healthScore}/100)
+
+### Executive Summary
 ${summaryData.executiveSummary}
 
-Revenue Analysis (${summaryData.revenueAnalysis.assessment}):
-CAGR: ${summaryData.revenueAnalysis.cagr}
-Trend: ${summaryData.revenueAnalysis.trend}
-${summaryData.revenueAnalysis.keyInsights.map((i) => `• ${i}`).join("\n")}
+---
 
-Profitability (${summaryData.profitabilityAnalysis.assessment}):
-Margin Trend: ${summaryData.profitabilityAnalysis.marginTrend}
-${summaryData.profitabilityAnalysis.keyInsights.map((i) => `• ${i}`).join("\n")}
+## Revenue Analysis
+**Assessment:** ${summaryData.revenueAnalysis.assessment}
+**CAGR:** ${summaryData.revenueAnalysis.cagr}
+**Trend:** ${summaryData.revenueAnalysis.trend}
 
-Expense Management (${summaryData.expenseManagement.assessment}):
-Efficiency: ${summaryData.expenseManagement.efficiency}
-${summaryData.expenseManagement.keyInsights.map((i) => `• ${i}`).join("\n")}
+**Key Insights:**
+${summaryData.revenueAnalysis.keyInsights.map((i) => `- ${i}`).join("\n")}
 
-Earnings Quality: ${summaryData.earningsQuality.assessment} (${summaryData.earningsQuality.consistency})
+---
+
+## Profitability
+**Assessment:** ${summaryData.profitabilityAnalysis.assessment}
+**Margin Trend:** ${summaryData.profitabilityAnalysis.marginTrend}
+
+**Key Insights:**
+${summaryData.profitabilityAnalysis.keyInsights.map((i) => `- ${i}`).join("\n")}
+
+---
+
+## Expense Management
+**Assessment:** ${summaryData.expenseManagement.assessment}
+**Efficiency:** ${summaryData.expenseManagement.efficiency}
+
+**Key Insights:**
+${summaryData.expenseManagement.keyInsights.map((i) => `- ${i}`).join("\n")}
+
+---
+
+## Earnings Quality
+**Assessment:** ${summaryData.earningsQuality.assessment}
+**Consistency:** ${summaryData.earningsQuality.consistency}
+
 ${summaryData.earningsQuality.insight}
 
-Key Strengths:
-${summaryData.keyStrengths.map((s) => `• ${s}`).join("\n")}
+---
 
-Red Flags:
-${summaryData.redFlags?.length > 0 ? summaryData.redFlags.map((r) => `• ${r}`).join("\n") : "None identified"}
+## Key Strengths
+${summaryData.keyStrengths.map((s) => `- ${s}`).join("\n")}
 
-Investor Takeaway:
+## Red Flags
+${summaryData.redFlags?.length > 0 ? summaryData.redFlags.map((r) => `- ${r}`).join("\n") : "- None identified"}
+
+---
+
+## Investor Takeaway
 ${summaryData.investorTakeaway}
-    `.trim();
 
-    navigator.clipboard.writeText(text);
+---
+*Generated on ${new Date().toLocaleDateString()}*
+`;
+  }
+
+  function copyToClipboard() {
+    const markdown = generateMarkdown();
+    navigator.clipboard.writeText(markdown).then(() => {
+      toast.success("Summary copied to clipboard!", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+    });
+  }
+
+  function downloadMarkdown() {
+    const markdown = generateMarkdown();
+    const blob = new Blob([markdown], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${$stockTicker}-financial-analysis-${summaryData.yearsAnalyzed}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    toast.success("Summary downloaded!", {
+      style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+    });
   }
 </script>
 
@@ -275,7 +330,7 @@ ${summaryData.investorTakeaway}
                 AI Financial Analysis
               </h2>
               <p
-                class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-0.5 truncate"
+                class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 mt-0.5 truncate"
               >
                 {$stockTicker} • Multi-Year Report
               </p>
@@ -365,27 +420,46 @@ ${summaryData.investorTakeaway}
                   </span>
                 </div>
               </div>
-              <button
-                on:click={copyToClipboard}
-                class="px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 w-full sm:w-auto"
-                title="Copy to clipboard"
-              >
-                <svg
-                  class="w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+              <div class="flex items-center gap-2">
+                <button
+                  on:click={copyToClipboard}
+                  class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                  />
-                </svg>
-                Copy Report
-              </button>
+                  <svg
+                    class="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    />
+                  </svg>
+                  Copy
+                </button>
+                <button
+                  on:click={downloadMarkdown}
+                  class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                >
+                  <svg
+                    class="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                    />
+                  </svg>
+                  Download
+                </button>
+              </div>
             </div>
           </div>
 
@@ -466,7 +540,7 @@ ${summaryData.investorTakeaway}
                 >
                   <div class="flex items-center gap-2">
                     <span
-                      class="text-xs font-medium text-gray-600 dark:text-gray-400"
+                      class="text-xs font-medium text-gray-600 dark:text-gray-200"
                       >CAGR</span
                     >
                     <span
@@ -481,7 +555,7 @@ ${summaryData.investorTakeaway}
                   </div>
                   <div class="flex items-center gap-2">
                     <span
-                      class="text-xs font-medium text-gray-600 dark:text-gray-400"
+                      class="text-xs font-medium text-gray-600 dark:text-gray-200"
                       >Trend</span
                     >
                     <span
@@ -497,7 +571,7 @@ ${summaryData.investorTakeaway}
                   <div class="flex items-start gap-2">
                     <span class="text-gray-400 mt-0.5 flex-shrink-0">•</span>
                     <p
-                      class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed"
+                      class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 leading-relaxed"
                     >
                       {insight}
                     </p>
@@ -550,7 +624,7 @@ ${summaryData.investorTakeaway}
                 >
                   <div class="flex items-center gap-2">
                     <span
-                      class="text-xs font-medium text-gray-600 dark:text-gray-400"
+                      class="text-xs font-medium text-gray-600 dark:text-gray-200"
                       >Margins</span
                     >
                     <span
@@ -566,7 +640,7 @@ ${summaryData.investorTakeaway}
                   <div class="flex items-start gap-2">
                     <span class="text-gray-400 mt-0.5 flex-shrink-0">•</span>
                     <p
-                      class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed"
+                      class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 leading-relaxed"
                     >
                       {insight}
                     </p>
@@ -620,7 +694,7 @@ ${summaryData.investorTakeaway}
                 >
                   <div class="flex items-center gap-2">
                     <span
-                      class="text-xs font-medium text-gray-600 dark:text-gray-400"
+                      class="text-xs font-medium text-gray-600 dark:text-gray-200"
                       >Efficiency</span
                     >
                     <span
@@ -636,7 +710,7 @@ ${summaryData.investorTakeaway}
                   <div class="flex items-start gap-2">
                     <span class="text-gray-400 mt-0.5 flex-shrink-0">•</span>
                     <p
-                      class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed"
+                      class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 leading-relaxed"
                     >
                       {insight}
                     </p>
@@ -686,7 +760,7 @@ ${summaryData.investorTakeaway}
                 >
                   <div class="flex items-center gap-2">
                     <span
-                      class="text-xs font-medium text-gray-600 dark:text-gray-400"
+                      class="text-xs font-medium text-gray-600 dark:text-gray-200"
                       >Consistency</span
                     >
                     <span
@@ -701,7 +775,7 @@ ${summaryData.investorTakeaway}
                 <div class="flex items-start gap-2">
                   <span class="text-gray-400 mt-0.5 flex-shrink-0">•</span>
                   <p
-                    class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed"
+                    class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 leading-relaxed"
                   >
                     {summaryData.earningsQuality.insight}
                   </p>
@@ -839,6 +913,17 @@ ${summaryData.investorTakeaway}
               class="text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed"
             >
               {summaryData.investorTakeaway}
+            </p>
+          </div>
+
+          <!-- Disclaimer -->
+          <div
+            class="bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg p-3 sm:p-4"
+          >
+            <p class="text-xs text-gray-500 dark:text-gray-200 italic">
+              This analysis was generated by AI and may not capture all nuances
+              from the financial statements. Please review the full financial
+              data for complete information.
             </p>
           </div>
         {/if}
