@@ -387,9 +387,7 @@
                   </Button>
 
                   <!-- AI Financial Summary Button (Inline) -->
-                  {#if $selectedTimePeriod === "annual"}
-                    <FinancialAISummary {data} />
-                  {/if}
+                  <FinancialAISummary {data} periodType={$selectedTimePeriod || "annual"} />
                 </div>
               </div>
 

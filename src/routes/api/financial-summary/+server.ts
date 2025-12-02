@@ -27,6 +27,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
   const postData = {
     ticker: data?.ticker,
+    periodType: data?.periodType || "annual",
   };
 
   try {

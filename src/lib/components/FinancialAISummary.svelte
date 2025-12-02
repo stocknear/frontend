@@ -6,6 +6,7 @@
   import { mode } from "mode-watcher";
 
   export let data;
+  export let periodType: "annual" | "quarterly" | "ttm" = "annual";
 
   let isLoadingSummary = false;
   let summaryData = null;
@@ -13,9 +14,9 @@
   let showModal = false;
 
   // Check localStorage for cached summary
-  function getCachedSummary(ticker: string) {
+  function getCachedSummary(ticker: string, period: string) {
     try {
-      const cacheKey = `financial-summary-${ticker}-5year-income`;
+      const cacheKey = `financial-summary-${ticker}-${period}-income`;
       const cached = localStorage.getItem(cacheKey);
       if (cached) {
         const parsed = JSON.parse(cached);
@@ -32,9 +33,9 @@
     return null;
   }
 
-  function saveSummaryToCache(ticker: string, summary: any) {
+  function saveSummaryToCache(ticker: string, period: string, summary: any) {
     try {
-      const cacheKey = `financial-summary-${ticker}-5year-income`;
+      const cacheKey = `financial-summary-${ticker}-${period}-income`;
       localStorage.setItem(
         cacheKey,
         JSON.stringify({
@@ -66,7 +67,7 @@
     }
 
     // Check cache first
-    const cached = getCachedSummary($stockTicker);
+    const cached = getCachedSummary($stockTicker, periodType);
     if (cached) {
       summaryData = cached;
       showModal = true;
@@ -84,6 +85,7 @@
         },
         body: JSON.stringify({
           ticker: $stockTicker,
+          periodType: periodType,
         }),
       });
 
@@ -95,7 +97,7 @@
       summaryData = await response.json();
 
       // Save to cache
-      saveSummaryToCache($stockTicker, summaryData);
+      saveSummaryToCache($stockTicker, periodType, summaryData);
 
       // Deduct credits on client side
       if (data?.user) {
@@ -170,6 +172,15 @@
   }
 
   $: healthColors = getHealthColors(summaryData?.overallHealth ?? "Stable");
+
+  function getPeriodLabel(period: string): string {
+    const labels = {
+      annual: "Annual",
+      quarterly: "Quarterly",
+      ttm: "TTM (Trailing Twelve Months)",
+    };
+    return labels[period] || "Annual";
+  }
 
   function getAssessmentColor(assessment: string) {
     const colorMap = {
@@ -375,7 +386,7 @@ ${summaryData.investorTakeaway}
               <p
                 class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 mt-0.5 truncate"
               >
-                {$stockTicker} • Multi-Year Report
+                {$stockTicker} • {getPeriodLabel(periodType)} Report
               </p>
             </div>
           </div>
