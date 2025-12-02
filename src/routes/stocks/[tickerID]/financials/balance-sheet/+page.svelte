@@ -310,6 +310,7 @@
 <FinancialSection
   {data}
   title="Balance Sheet Statement"
+  statementType="balance-sheet"
   {statementConfig}
   enableFavorites
   favoriteStorageKey="balance_sheet"

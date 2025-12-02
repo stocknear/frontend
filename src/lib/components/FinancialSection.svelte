@@ -19,6 +19,7 @@
 
   export let data;
   export let title;
+  export let statementType = "income-statement";
   export let statementConfig;
   export let enableFavorites = false;
   export let favoriteStorageKey = "";
@@ -387,7 +388,11 @@
                   </Button>
 
                   <!-- AI Financial Summary Button (Inline) -->
-                  <FinancialAISummary {data} periodType={$selectedTimePeriod || "annual"} />
+                  <FinancialAISummary
+                    {data}
+                    periodType={$selectedTimePeriod || "annual"}
+                    {statementType}
+                  />
                 </div>
               </div>
 

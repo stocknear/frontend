@@ -173,6 +173,7 @@
 <FinancialSection
   {data}
   title="Income Statement"
+  statementType="income-statement"
   {statementConfig}
   enableFavorites
   favoriteStorageKey="income_statement"

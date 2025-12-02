@@ -246,6 +246,7 @@
 <FinancialSection
   {data}
   title="Cash Flow Statement"
+  statementType="cash-flow"
   {statementConfig}
   enableFavorites
   favoriteStorageKey="cash_flow"

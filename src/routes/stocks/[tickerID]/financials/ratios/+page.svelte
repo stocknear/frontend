@@ -435,6 +435,7 @@
 <FinancialSection
   {data}
   title="Ratios and Metrics"
+  statementType="ratios"
   {statementConfig}
   enableFavorites
   favoriteStorageKey="financial_ratios"

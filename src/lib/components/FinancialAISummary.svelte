@@ -7,6 +7,11 @@
 
   export let data;
   export let periodType: "annual" | "quarterly" | "ttm" = "annual";
+  export let statementType:
+    | "income-statement"
+    | "balance-sheet"
+    | "cash-flow"
+    | "ratios" = "income-statement";
 
   let isLoadingSummary = false;
   let summaryData = null;
@@ -14,9 +19,9 @@
   let showModal = false;
 
   // Check localStorage for cached summary
-  function getCachedSummary(ticker: string, period: string) {
+  function getCachedSummary(ticker: string, period: string, statement: string) {
     try {
-      const cacheKey = `financial-summary-${ticker}-${period}-income`;
+      const cacheKey = `financial-summary-${ticker}-${period}-${statement}`;
       const cached = localStorage.getItem(cacheKey);
       if (cached) {
         const parsed = JSON.parse(cached);
@@ -33,9 +38,14 @@
     return null;
   }
 
-  function saveSummaryToCache(ticker: string, period: string, summary: any) {
+  function saveSummaryToCache(
+    ticker: string,
+    period: string,
+    statement: string,
+    summary: any,
+  ) {
     try {
-      const cacheKey = `financial-summary-${ticker}-${period}-income`;
+      const cacheKey = `financial-summary-${ticker}-${period}-${statement}`;
       localStorage.setItem(
         cacheKey,
         JSON.stringify({
@@ -67,7 +77,7 @@
     }
 
     // Check cache first
-    const cached = getCachedSummary($stockTicker, periodType);
+    const cached = getCachedSummary($stockTicker, periodType, statementType);
     if (cached) {
       summaryData = cached;
       showModal = true;
@@ -86,6 +96,7 @@
         body: JSON.stringify({
           ticker: $stockTicker,
           periodType: periodType,
+          statementType: statementType,
         }),
       });
 
@@ -97,7 +108,7 @@
       summaryData = await response.json();
 
       // Save to cache
-      saveSummaryToCache($stockTicker, periodType, summaryData);
+      saveSummaryToCache($stockTicker, periodType, statementType, summaryData);
 
       // Deduct credits on client side
       if (data?.user) {
@@ -181,6 +192,66 @@
     };
     return labels[period] || "Annual";
   }
+
+  function getStatementLabel(statement: string): string {
+    const labels = {
+      "income-statement": "Income Statement",
+      "balance-sheet": "Balance Sheet",
+      "cash-flow": "Cash Flow Statement",
+      ratios: "Financial Ratios",
+    };
+    return labels[statement] || "Financial";
+  }
+
+  function getSectionLabels(statement: string) {
+    const labelMap = {
+      "income-statement": {
+        section1: "Revenue Growth",
+        section1Icon: "chart-up",
+        section2: "Profitability",
+        section2Icon: "dollar",
+        section3: "Expense Management",
+        section3Icon: "database",
+        section4: "Earnings Quality",
+        section4Icon: "badge",
+      },
+      "balance-sheet": {
+        section1: "Asset Position",
+        section1Icon: "chart-up",
+        section2: "Financial Structure",
+        section2Icon: "dollar",
+        section3: "Liability Management",
+        section3Icon: "database",
+        section4: "Liquidity & Stability",
+        section4Icon: "badge",
+      },
+      "cash-flow": {
+        section1: "Operating Cash Flow",
+        section1Icon: "chart-up",
+        section2: "Free Cash Flow",
+        section2Icon: "dollar",
+        section3: "Capital Allocation",
+        section3Icon: "database",
+        section4: "Cash Generation Quality",
+        section4Icon: "badge",
+      },
+      ratios: {
+        section1: "Performance Metrics",
+        section1Icon: "chart-up",
+        section2: "Profitability Ratios",
+        section2Icon: "dollar",
+        section3: "Efficiency Metrics",
+        section3Icon: "database",
+        section4: "Overall Strength",
+        section4Icon: "badge",
+      },
+    };
+    return (
+      labelMap[statement] || labelMap["income-statement"]
+    );
+  }
+
+  $: sectionLabels = getSectionLabels(statementType);
 
   function getAssessmentColor(assessment: string) {
     const colorMap = {
@@ -284,7 +355,11 @@ ${summaryData.investorTakeaway}
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${$stockTicker}-financial-analysis-${summaryData.yearsAnalyzed}.md`;
+
+    // Generate filename with statement type
+    const statementName = statementType.replace("-", "-");
+    a.download = `${$stockTicker}-${statementName}-analysis-${summaryData.yearsAnalyzed}.md`;
+
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -386,7 +461,9 @@ ${summaryData.investorTakeaway}
               <p
                 class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 mt-0.5 truncate"
               >
-                {$stockTicker} • {getPeriodLabel(periodType)} Report
+                {$stockTicker} • {getStatementLabel(statementType)} • {getPeriodLabel(
+                  periodType,
+                )}
               </p>
             </div>
           </div>
@@ -555,7 +632,7 @@ ${summaryData.investorTakeaway}
 
           <!-- Analysis Cards Grid -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-            <!-- Revenue Analysis -->
+            <!-- Section 1 Analysis -->
             <div
               class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
             >
@@ -579,7 +656,7 @@ ${summaryData.investorTakeaway}
                   <h5
                     class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
                   >
-                    Revenue Growth
+                    {sectionLabels.section1}
                   </h5>
                 </div>
                 <span
@@ -636,7 +713,7 @@ ${summaryData.investorTakeaway}
               </div>
             </div>
 
-            <!-- Profitability Analysis -->
+            <!-- Section 2 Analysis -->
             <div
               class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
             >
@@ -663,7 +740,7 @@ ${summaryData.investorTakeaway}
                   <h5
                     class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
                   >
-                    Profitability
+                    {sectionLabels.section2}
                   </h5>
                 </div>
                 <span
@@ -705,7 +782,7 @@ ${summaryData.investorTakeaway}
               </div>
             </div>
 
-            <!-- Expense Management -->
+            <!-- Section 3 Analysis -->
             <div
               class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
             >
@@ -733,7 +810,7 @@ ${summaryData.investorTakeaway}
                   <h5
                     class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
                   >
-                    Expense Management
+                    {sectionLabels.section3}
                   </h5>
                 </div>
                 <span
@@ -775,7 +852,7 @@ ${summaryData.investorTakeaway}
               </div>
             </div>
 
-            <!-- Earnings Quality -->
+            <!-- Section 4 Analysis -->
             <div
               class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
             >
@@ -799,7 +876,7 @@ ${summaryData.investorTakeaway}
                   <h5
                     class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
                   >
-                    Earnings Quality
+                    {sectionLabels.section4}
                   </h5>
                 </div>
                 <span
