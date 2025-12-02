@@ -1840,7 +1840,7 @@
                     JSON.stringify(muted),
                   );
                 }}
-                class="mute-driver xl:tooltip xl:tooltip-bottom flex flex-col items-center mr-3 cursor-pointer"
+                class=" xl:tooltip xl:tooltip-bottom flex flex-col items-center mr-3 cursor-pointer"
               >
                 <div
                   class="rounded-full w-10 h-10 relative text-white bg-[#000] flex items-center justify-center"
@@ -1885,7 +1885,7 @@
                     });
                   }
                 }}
-                class="live-flow-driver inline-flex items-center cursor-pointer focus-none focus:outline-hidden"
+                class="inline-flex items-center cursor-pointer focus-none focus:outline-hidden"
               >
                 <input
                   on:click={(e) => {
@@ -1919,7 +1919,7 @@
                 <div
                   class="relative w-full sm:w-fit pl-3 sm:mr-5 mb-4 sm:mb-0 flex-auto text-center shadow bg-white dark:bg-secondary rounded border border-gray-300 dark:border-gray-600"
                 >
-                  <label class="search-driver flex flex-row items-center">
+                  <label class=" flex flex-row items-center">
                     <input
                       id="modal-search"
                       class="focus:outline-none sm:ml-2 text-[1rem] placeholder-gray-500 dark:placeholder-gray-300 border-transparent bg-white dark:bg-secondary focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1.5"
@@ -1970,7 +1970,7 @@
                 <Popover.Root>
                   <Popover.Trigger asChild let:builder>
                     <Button
-                      class="date-picker-driver w-full sm:w-[160px] truncate sm:mr-3 py-3 shadow text-white bg-[#000] border-gray-300 justify-center sm:justify-start text-center sm:text-left  border-none rounded"
+                      class=" w-full sm:w-[160px] truncate sm:mr-3 py-3 shadow text-white bg-[#000] border-gray-300 justify-center sm:justify-start text-center sm:text-left  border-none rounded"
                       builders={[builder]}
                     >
                       <CalendarIcon class="mr-2 h-4 w-4" />
@@ -2043,7 +2043,7 @@
             >
               <label
                 for="ruleModal"
-                class="filter-driver inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none py-2 pl-3 pr-4 font-semibold shadow bg-default text-white sm:hover:bg-black dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                class=" inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none py-2 pl-3 pr-4 font-semibold shadow bg-default text-white sm:hover:bg-black dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden focus:ring-2 focus:ring-blue-500"
               >
                 <svg
                   class="h-5 w-5"
@@ -2576,12 +2576,12 @@
               >
                 <!--Start Flow Sentiment-->
                 <div
-                  class="sentiment-driver shadow flex flex-col w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                  class=" shadow flex flex-col w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
                 >
-                  <div class="flex flex-row items-center justify-between mb-2">
+                  <div class="flex flex-col items-start justify-between mb-2">
                     {#if data?.user?.tier === "Pro"}
                       <div
-                        class="flex items-center gap-3 text-[11px] sm:text-xs mb-1.5"
+                        class="flex items-center gap-3 text-[11px] sm:text-xs mb-1 mt-1"
                       >
                         <div class="flex items-center gap-1">
                           <span class="w-2 h-2 rounded-full bg-[#00FC50]"
@@ -2606,59 +2606,70 @@
                           >
                         </div>
                       </div>
-                    {/if}
-                  </div>
-                  {#if data?.user?.tier === "Pro"}
-                    <div class="flex flex-col w-full">
-                      <div
-                        class="relative flex w-full h-6 rounded overflow-hidden bg-gray-300 dark:bg-gray-700/80"
-                      >
+                      <div class="flex flex-col w-full mt-2">
                         <div
-                          class="bg-[#00FC50] h-full transition-all duration-300 flex items-center justify-center"
-                          style="width: {bullishPercentage}%"
+                          class="relative flex w-full h-6 rounded overflow-hidden bg-gray-300 dark:bg-gray-700/80"
                         >
-                          {#if bullishPercentage >= 15}
-                            <span
-                              class="text-[10px] sm:text-xs font-semibold text-gray-900"
-                              >{bullishPercentage}%</span
-                            >
-                          {/if}
-                        </div>
-                        <div
-                          class="bg-[#FF2F1F] h-full transition-all duration-300 flex items-center justify-center"
-                          style="width: {bearishPercentage}%"
-                        >
-                          {#if bearishPercentage >= 15}
-                            <span
-                              class="text-[10px] sm:text-xs font-semibold text-white"
-                              >{bearishPercentage}%</span
-                            >
-                          {/if}
+                          <div
+                            class="bg-[#00FC50] h-full transition-all duration-300 flex items-center justify-center"
+                            style="width: {bullishPercentage}%"
+                          >
+                            {#if bullishPercentage >= 15}
+                              <span
+                                class="text-[10px] sm:text-xs font-semibold text-gray-900"
+                                >{bullishPercentage}%</span
+                              >
+                            {/if}
+                          </div>
+                          <div
+                            class="bg-[#FF2F1F] h-full transition-all duration-300 flex items-center justify-center"
+                            style="width: {bearishPercentage}%"
+                          >
+                            {#if bearishPercentage >= 15}
+                              <span
+                                class="text-[10px] sm:text-xs font-semibold text-white"
+                                >{bearishPercentage}%</span
+                              >
+                            {/if}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  {:else}
-                    <a href="/pricing" class="flex mt-2">
-                      <svg
-                        class="size-5 text-muted dark:text-[#fff]"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        style="max-width: 40px;"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                          clip-rule="evenodd"
+                    {:else}
+                      <div class="flex flex-col items-start">
+                        <span
+                          class="text-xs text-muted dark:text-gray-200 mt-1.5"
+                          >Flow Sentiment</span
                         >
-                        </path>
-                      </svg>
-                    </a>
-                  {/if}
+                        {#if data?.user?.tier === "Pro"}
+                          <span class="text-start text-lg font-semibold mt-1">
+                            {putCallRatio?.toFixed(3)}
+                          </span>
+                        {:else}
+                          <a href="/pricing" class="flex mt-2">
+                            <svg
+                              class="size-5 text-muted dark:text-[#fff]"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              style="max-width: 40px;"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                clip-rule="evenodd"
+                              >
+                              </path>
+                            </svg>
+                          </a>
+                        {/if}
+                      </div>
+                    {/if}
+                  </div>
                 </div>
+
                 <!--End Flow Sentiment-->
                 <!--Start Put/Call-->
                 <div
-                  class="put-call-driver shadow flex flex-row items-center w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                  class="shadow flex flex-row items-center w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
                 >
                   <div class="flex flex-col items-start">
                     <span class="text-xs text-muted dark:text-gray-200"
@@ -2752,7 +2763,7 @@
                 <!--End Put/Call-->
                 <!--Start Call Flow-->
                 <div
-                  class="call-flow-driver shadow flex flex-row items-center w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                  class=" shadow flex flex-row items-center w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
                 >
                   <div class="flex flex-col items-start">
                     <div class="flex flex-row items-center gap-2">
@@ -2856,7 +2867,7 @@
                 <!--End Call Flow-->
                 <!--Start Put Flow-->
                 <div
-                  class="put-flow-driver shadow flex flex-row items-center w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                  class=" shadow flex flex-row items-center w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
                 >
                   <div class="flex flex-col items-start">
                     <div class="flex flex-row items-center gap-2">
