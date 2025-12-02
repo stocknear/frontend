@@ -1091,6 +1091,8 @@
   let putPercentage;
   let bullishPercentage = 0;
   let bearishPercentage = 0;
+  let displayBullishPremium = 0;
+  let displayBearishPremium = 0;
 
   let audio;
   let muted = false;
@@ -1456,6 +1458,8 @@
       bullishCount,
       bearishCount,
       neutralCount,
+      bullishPremiumSum,
+      bearishPremiumSum,
     } = data?.reduce(
       (acc, item) => {
         const volume = parseInt(item?.size) || 0;
@@ -1471,8 +1475,10 @@
 
         if (item?.sentiment === "Bullish") {
           acc.bullishCount += 1;
+          acc.bullishPremiumSum += premium;
         } else if (item?.sentiment === "Bearish") {
           acc.bearishCount += 1;
+          acc.bearishPremiumSum += premium;
         } else if (item?.sentiment === "Neutral") {
           acc.neutralCount += 1;
         }
@@ -1487,6 +1493,8 @@
         bullishCount: 0,
         bearishCount: 0,
         neutralCount: 0,
+        bullishPremiumSum: 0,
+        bearishPremiumSum: 0,
       },
     );
 
@@ -1513,6 +1521,8 @@
     displayPutVolume = putVolumeSum;
     displayCallPremium = callPremiumSum;
     displayPutPremium = putPremiumSum;
+    displayBullishPremium = bullishPremiumSum;
+    displayBearishPremium = bearishPremiumSum;
 
     const totalSentimentCount = bullishCount + bearishCount;
     bullishPercentage =
@@ -2569,12 +2579,9 @@
                   class="sentiment-driver shadow flex flex-col w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
                 >
                   <div class="flex flex-row items-center justify-between mb-2">
-                    <span class="text-xs text-muted dark:text-gray-200"
-                      >Flow sentiment</span
-                    >
                     {#if data?.user?.tier === "Pro"}
                       <div
-                        class="flex items-center gap-3 text-[11px] sm:text-xs"
+                        class="flex items-center gap-3 text-[11px] sm:text-xs mb-1.5"
                       >
                         <div class="flex items-center gap-1">
                           <span class="w-2 h-2 rounded-full bg-[#00FC50]"
@@ -2582,12 +2589,20 @@
                           <span class="text-muted dark:text-gray-300"
                             >Bullish</span
                           >
+                          <span
+                            class="font-semibold text-green-800 dark:text-[#00FC50]"
+                            >{formatPremium(displayBullishPremium || 0)}</span
+                          >
                         </div>
                         <div class="flex items-center gap-1">
                           <span class="w-2 h-2 rounded-full bg-[#FF2F1F]"
                           ></span>
                           <span class="text-muted dark:text-gray-300"
                             >Bearish</span
+                          >
+                          <span
+                            class="font-semibold text-red-800 dark:text-[#FF2F1F]"
+                            >{formatPremium(displayBearishPremium || 0)}</span
                           >
                         </div>
                       </div>
