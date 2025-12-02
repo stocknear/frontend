@@ -7,8 +7,59 @@
 
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
+  import { goto } from "$app/navigation";
 
   export let data;
+
+  // Reactive variables that update when data changes
+  $: currentSubreddit = data?.currentSubreddit || "wallstreetbets";
+  $: availableSubreddits = data?.availableSubreddits || [];
+
+  // Subreddit display configuration
+  const subredditConfig = {
+    wallstreetbets: {
+      displayName: "WallStreetBets",
+      shortName: "WSB",
+      description:
+        "High-volume discussions from r/wallstreetbets, tracking meme stocks and aggressive trading strategies",
+    },
+    valueinvesting: {
+      displayName: "Value Investing",
+      shortName: "Value",
+      description:
+        "Value-focused discussions from r/valueinvesting, emphasizing fundamental analysis and long-term holds",
+    },
+    stocks: {
+      displayName: "Stocks",
+      shortName: "Stocks",
+      description:
+        "General stock discussions from r/stocks covering market trends and investment ideas",
+    },
+    investing: {
+      displayName: "Investing",
+      shortName: "Investing",
+      description:
+        "Broad investing discussions from r/investing for diverse portfolio strategies",
+    },
+    stockmarket: {
+      displayName: "Stock Market",
+      shortName: "Market",
+      description:
+        "Market news and analysis from r/stockmarket tracking overall market trends",
+    },
+  };
+
+  function changeSubreddit(subreddit: string) {
+    goto(`/reddit-tracker?subreddit=${subreddit}`);
+  }
+
+  function getSubredditDisplay(name: string) {
+    return subredditConfig[name]?.displayName || name;
+  }
+
+  function getSubredditDescription(name: string) {
+    return subredditConfig[name]?.description || "";
+  }
 
   let timePeriod = "oneWeek";
   let rawData = [];
@@ -161,15 +212,15 @@
 </script>
 
 <SEO
-  title="Reddit Stock Tracker - WallStreetBets Analytics & WSB Sentiment "
-  description="Track WallStreetBets (WSB) stock discussions, sentiment analysis, and trending stocks from Reddit. Monitor r/wallstreetbets mentions, sentiment scores, and social trading insights. Free Reddit stock tracker with real-time data."
-  keywords="wallstreetbets, wsb tracker, reddit stocks, wsb sentiment, reddit trading, wallstreetbets tracker, wsb analytics, reddit stock mentions, social trading, wsb data"
+  title={`Reddit Stock Tracker - ${getSubredditDisplay(currentSubreddit)} Analytics & Sentiment`}
+  description={`Track ${getSubredditDisplay(currentSubreddit)} stock discussions, sentiment analysis, and trending stocks from r/${currentSubreddit}. Monitor mentions, sentiment scores, and social trading insights. Free Reddit stock tracker with real-time data.`}
+  keywords={`${currentSubreddit}, reddit stocks, ${currentSubreddit} sentiment, reddit trading, ${currentSubreddit} tracker, reddit analytics, reddit stock mentions, social trading`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "Reddit Stock Tracker",
     description:
-      "WallStreetBets and Reddit stock discussion tracker with sentiment analysis",
+      "Multi-subreddit stock discussion tracker with sentiment analysis",
     url: "https://stocknear.com/reddit-tracker",
     applicationCategory: "FinanceApplication",
     breadcrumb: {
@@ -215,10 +266,36 @@
         <main class="w-full lg:w-3/4 lg:pr-5">
           <div class="mb-3">
             <h1 class="mb-1 text-2xl sm:text-3xl font-bold">
-              Wallsteetbets Tracker
+              Reddit Stock Tracker
             </h1>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              {getSubredditDescription(currentSubreddit)}
+            </p>
           </div>
 
+          <!-- Subreddit Selector -->
+          {#if availableSubreddits.length > 0}
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-3">
+                Select Subreddit
+              </label>
+              <div class="flex flex-wrap gap-2">
+                {#each availableSubreddits as subreddit}
+                  <button
+                    on:click={() => changeSubreddit(subreddit.name)}
+                    class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-all duration-50 {currentSubreddit ===
+                    subreddit.name
+                      ? 'bg-blue-600 text-white shadow'
+                      : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'}"
+                  >
+                    r/{subreddit.name}
+                  </button>
+                {/each}
+              </div>
+            </div>
+          {/if}
+
+          <!-- Time Period Tabs -->
           <nav
             class="border-[#2C6288] dark:border-white border-b-[2px] overflow-x-auto whitespace-nowrap"
           >
@@ -237,7 +314,7 @@
           </nav>
 
           <p class="mt-4">
-            Overview of WallStreetBets discussion trends for the selected
+            Overview of r/{currentSubreddit} discussion trends for the selected
             <strong
               >{timePeriod === "oneWeek"
                 ? "week"
@@ -290,7 +367,7 @@
 
         <aside class="hidden lg:block relative fixed w-1/4 ml-4">
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow dark:sm:hover:bg-secondary transition ease-out duration-100"
           >
             <a
               href="/potus-tracker"
@@ -309,7 +386,7 @@
           </div>
 
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow dark:sm:hover:bg-secondary transition ease-out duration-100"
           >
             <a
               href="/insider-tracker"
