@@ -12,6 +12,7 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   //import * as XLSX from 'xlsx';
   import FinancialTable from "$lib/components/FinancialTable.svelte";
+  import FinancialAISummary from "$lib/components/FinancialAISummary.svelte";
   //import FinancialChart from "$lib/components/FinancialChart.svelte";
 
   import { goto } from "$app/navigation";
@@ -384,8 +385,14 @@
                       /></svg
                     >
                   </Button>
+
+                  <!-- AI Financial Summary Button (Inline) -->
+                  {#if $selectedTimePeriod === "annual"}
+                    <FinancialAISummary {data} />
+                  {/if}
                 </div>
               </div>
+
               <!--
               {#if $coolMode}
                 <div class="grid gap-5 xs:gap-6 lg:grid-cols-3 lg:gap-3">
