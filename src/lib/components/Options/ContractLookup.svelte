@@ -1138,20 +1138,60 @@
                   Contract Chart
                 </h2>
                 <div class="w-fit ml-auto">
-                  {#each ["Vol/OI", "IV"] as item, index}
-                    <label
-                      on:click={() => {
-                        selectGraphType = item;
-                      }}
-                      class="px-3 py-1.5 text-sm {index === 0
-                        ? 'mr-1'
-                        : ''} {selectGraphType === item
-                        ? 'shadow border border-gray-300 dark:border-gray-600 bg-black sm:hover:bg-muted dark:bg-white text-white dark:text-black '
-                        : 'shadow text-opacity-[0.6] border border-gray-300 dark:border-gray-600'}  rounded cursor-pointer"
-                    >
-                      {item}
-                    </label>
-                  {/each}
+                  <div class="">
+                    <div class="inline-flex">
+                      <div class="inline-flex rounded-lg shadow-sm">
+                        {#each ["Vol/OI", "IV"] as item, i}
+                          {#if !["Pro"]?.includes(data?.user?.tier) && i > 0}
+                            <button
+                              on:click={() => goto("/pricing")}
+                              class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
+                          {i === 0 ? 'rounded-l border' : ''}
+                          {i === 2 - 1
+                                ? 'rounded-r border-t border-r border-b'
+                                : ''}
+                          {i !== 0 && i !== 2 - 1 ? 'border-t border-b' : ''}
+                          {selectGraphType === item
+                                ? 'bg-black dark:bg-white text-white dark:text-black'
+                                : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
+                            >
+                              <span
+                                class="relative text-sm block font-semibold"
+                              >
+                                {item}
+                                <svg
+                                  class="inline-block ml-0.5 -mt-1 w-3.5 h-3.5"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  ><path
+                                    fill="currentColor"
+                                    d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                                  /></svg
+                                >
+                              </span>
+                            </button>
+                          {:else}
+                            <button
+                              on:click={() => {
+                                selectGraphType = item;
+                              }}
+                              class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
+                          {i === 0 ? 'rounded-l border' : ''}
+                          {i === 2 - 1
+                                ? 'rounded-r border-t border-r border-b'
+                                : ''}
+                          {i !== 0 && i !== 2 - 1 ? 'border-t border-b' : ''}
+                          {selectGraphType === item
+                                ? 'bg-black dark:bg-white text-white dark:text-black'
+                                : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
+                            >
+                              {item}
+                            </button>
+                          {/if}
+                        {/each}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               {#if config}
