@@ -164,43 +164,15 @@
       rawDataHistory?.sort((a, b) => new Date(a?.date) - new Date(b?.date)) ||
       [];
 
-    // Filter out data points that have an undefined price so they don't appear in any series
-    //const filteredData = sortedData.filter((item) => item?.price !== undefined);
     const filteredData = sortedData;
 
-    // Build series based on the selected graph type, using filteredData
     let series = [];
-    //const fillColorStart = "rgb(70, 129, 244,0.5)";
-    //const fillColorEnd = "rgb(70, 129, 244,0.001)";
 
     if (selectGraphType == "Vol/OI") {
       series = [
-        /*
-        {
-          name: "Stock Price",
-          type: "area",
-          yAxis: 1,
-          data: filteredData.map((item) => [
-            new Date(item.date).getTime(),
-            item.price,
-          ]),
-          fillColor: {
-            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-            stops: [
-              [0, fillColorStart],
-              [1, fillColorEnd],
-            ],
-          },
-          color: "#4681f4",
-          borderColor: "4681f4",
-          lineWidth: 1.3,
-          marker: { enabled: false },
-          animation: false,
-        },
-        */
         {
           name: "Option Price",
-          type: "spline", // smooth line
+          type: "spline",
           data: filteredData.map((item) => [
             new Date(item.date).getTime(),
             item?.mark,
@@ -240,32 +212,9 @@
       ];
     } else {
       series = [
-        /*
-        {
-          name: "Stock Price",
-          type: "area",
-          yAxis: 1,
-          data: filteredData.map((item) => [
-            new Date(item.date).getTime(),
-            item.price,
-          ]),
-          fillColor: {
-            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-            stops: [
-              [0, fillColorStart],
-              [1, fillColorEnd],
-            ],
-          },
-          color: "#4681f4",
-          borderColor: "4681f4",
-          lineWidth: 1.3,
-          marker: { enabled: false },
-          animation: false,
-        },
-        */
         {
           name: "Option Price",
-          type: "spline", // smooth line
+          type: "spline",
           data: filteredData?.map((item) => [
             new Date(item.date).getTime(),
             item?.mark,
@@ -281,7 +230,7 @@
           type: "spline",
           data: filteredData?.map((item) => [
             new Date(item.date).getTime(),
-            Math.ceil(item?.implied_volatility * 100 * 100) / 100, // ceil to 2 decimals
+            Math.ceil(item?.implied_volatility * 100 * 100) / 100,
           ]),
           color: $mode === "light" ? "black" : "white",
           yAxis: 0,
@@ -291,7 +240,6 @@
       ];
     }
 
-    // Highcharts configuration object
     const options = {
       chart: {
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
@@ -304,17 +252,15 @@
         useHTML: true,
         style: { color: $mode === "light" ? "black" : "white" },
       },
-      // Disable markers globally on hover for all series
       legend: {
         enabled: true,
-        align: "center", // left side
-        verticalAlign: "top", // top edge
+        align: "center",
+        verticalAlign: "top",
         layout: "horizontal",
-        squareSymbol: false, // use our rectangle shape
+        squareSymbol: false,
         symbolWidth: 20,
         symbolHeight: 12,
         symbolRadius: 0,
-
         itemStyle: {
           color: $mode === "light" ? "black" : "white",
         },
@@ -339,9 +285,10 @@
           style: { color: $mode === "light" ? "#545454" : "white" },
           distance: 20,
           formatter: function () {
+            // Short date like "Apr 11"
             return new Date(this.value).toLocaleDateString("en-US", {
-              month: "long", // “April”
-              day: "numeric", // “11”
+              month: "short", // "Apr"
+              day: "numeric", // "11"
               timeZone: "UTC",
             });
           },
@@ -349,9 +296,12 @@
         tickPositioner: function () {
           const positions = [];
           const info = this.getExtremes();
-          const tickCount = 5; // Reduce number of ticks displayed
-          const interval = Math.floor((info.max - info.min) / tickCount);
-
+          const tickCount = 5;
+          // ensure interval at least 1 to avoid duplicates
+          const interval = Math.max(
+            1,
+            Math.floor((info.max - info.min) / tickCount),
+          );
           for (let i = 0; i <= tickCount; i++) {
             positions.push(info.min + i * interval);
           }
@@ -368,21 +318,9 @@
           title: { text: null },
           opposite: true,
         },
-        {
-          title: { text: null },
-          gridLineWidth: 0,
-          labels: { enabled: false },
-        },
-        {
-          title: { text: null },
-          gridLineWidth: 0,
-          labels: { enabled: false },
-        },
-        {
-          title: { text: null },
-          gridLineWidth: 0,
-          labels: { enabled: false },
-        },
+        { title: { text: null }, gridLineWidth: 0, labels: { enabled: false } },
+        { title: { text: null }, gridLineWidth: 0, labels: { enabled: false } },
+        { title: { text: null }, gridLineWidth: 0, labels: { enabled: false } },
       ],
       tooltip: {
         shared: true,
@@ -397,24 +335,33 @@
         },
         borderRadius: 4,
         formatter: function () {
-          // Header with formatted date
+          // Determine if axis range spans multiple years
+          const extremes = this.series.chart.xAxis[0].getExtremes();
+          const spansMultipleYears =
+            new Date(extremes.max).getUTCFullYear() !==
+            new Date(extremes.min).getUTCFullYear();
+
+          // Header with short formatted date; include year only if chart spans multiple years
+          const headerOptions = spansMultipleYears
+            ? {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                timeZone: "UTC",
+              } // "Apr 11, 2024"
+            : { month: "short", day: "numeric", timeZone: "UTC" }; // "Apr 11"
+
           let tooltipContent = `<span class="m-auto text-[1rem] font-[501]">${new Date(
             this.x,
-          ).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-            timeZone: "UTC",
-          })}</span><br>`;
+          ).toLocaleDateString("en-US", headerOptions)}</span><br>`;
 
-          // Add each series entry, appending "%" when series.name === "IV"
           this.points.forEach((point) => {
             const raw = point?.y?.toLocaleString("en-US");
             const suffix = point.series.name === "IV" ? "%" : "";
             tooltipContent += `
-                    <span style="display:inline-block; width:10px; height:10px; background-color:${point.color}; border-radius:50%; margin-right:5px;"></span>
-        <span class="font-normal text-sm">${point.series.name}:</span>
-        <span class="font-normal text-sm">${raw}${suffix}</span><br>`;
+            <span style="display:inline-block; width:10px; height:10px; background-color:${point.color}; border-radius:50%; margin-right:5px;"></span>
+            <span class="font-normal text-sm">${point.series.name}:</span>
+            <span class="font-normal text-sm">${raw}${suffix}</span><br>`;
           });
 
           return tooltipContent;
@@ -1130,65 +1077,71 @@
               </table>
             </div>
 
-            <div class="mt-5 pb-2 rounded overflow-hidden">
+            <div class="items-center lg:overflow-visible px-1 py-1 mt-5">
               <div
-                class="flex flex-row items-center justify-between w-full mt-2"
+                class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
               >
-                <h2 class="text-xl sm:text-2xl font-bold text-start">
+                <h2
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold w-full"
+                >
                   Contract Chart
                 </h2>
-                <div class="w-fit ml-auto">
-                  <div class="">
-                    <div class="inline-flex">
-                      <div class="inline-flex rounded-lg shadow-sm">
-                        {#each ["Vol/OI", "IV"] as item, i}
-                          {#if !["Pro"]?.includes(data?.user?.tier) && i > 0}
-                            <button
-                              on:click={() => goto("/pricing")}
-                              class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
+                <div
+                  class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+                >
+                  <div class="w-fit ml-auto">
+                    <div class="">
+                      <div class="inline-flex">
+                        <div class="inline-flex rounded-lg shadow-sm">
+                          {#each ["Vol/OI", "IV"] as item, i}
+                            {#if !["Pro"]?.includes(data?.user?.tier) && i > 0}
+                              <button
+                                on:click={() => goto("/pricing")}
+                                class="cursor-pointer px-3 py-1.5 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
                           {i === 0 ? 'rounded-l border' : ''}
                           {i === 2 - 1
-                                ? 'rounded-r border-t border-r border-b'
-                                : ''}
+                                  ? 'rounded-r border-t border-r border-b'
+                                  : ''}
                           {i !== 0 && i !== 2 - 1 ? 'border-t border-b' : ''}
                           {selectGraphType === item
-                                ? 'bg-black dark:bg-white text-white dark:text-black'
-                                : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
-                            >
-                              <span
-                                class="relative text-sm block font-semibold"
+                                  ? 'bg-black dark:bg-white text-white dark:text-black'
+                                  : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
+                              >
+                                <span
+                                  class="relative text-sm block font-semibold"
+                                >
+                                  {item}
+                                  <svg
+                                    class="inline-block ml-0.5 -mt-1 w-3.5 h-3.5"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    ><path
+                                      fill="currentColor"
+                                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                                    /></svg
+                                  >
+                                </span>
+                              </button>
+                            {:else}
+                              <button
+                                on:click={() => {
+                                  selectGraphType = item;
+                                }}
+                                class="cursor-pointer px-3 py-1.5 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
+                          {i === 0 ? 'rounded-l border' : ''}
+                          {i === 2 - 1
+                                  ? 'rounded-r border-t border-r border-b'
+                                  : ''}
+                          {i !== 0 && i !== 2 - 1 ? 'border-t border-b' : ''}
+                          {selectGraphType === item
+                                  ? 'bg-black dark:bg-white text-white dark:text-black'
+                                  : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
                               >
                                 {item}
-                                <svg
-                                  class="inline-block ml-0.5 -mt-1 w-3.5 h-3.5"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  ><path
-                                    fill="currentColor"
-                                    d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                                  /></svg
-                                >
-                              </span>
-                            </button>
-                          {:else}
-                            <button
-                              on:click={() => {
-                                selectGraphType = item;
-                              }}
-                              class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
-                          {i === 0 ? 'rounded-l border' : ''}
-                          {i === 2 - 1
-                                ? 'rounded-r border-t border-r border-b'
-                                : ''}
-                          {i !== 0 && i !== 2 - 1 ? 'border-t border-b' : ''}
-                          {selectGraphType === item
-                                ? 'bg-black dark:bg-white text-white dark:text-black'
-                                : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
-                            >
-                              {item}
-                            </button>
-                          {/if}
-                        {/each}
+                              </button>
+                            {/if}
+                          {/each}
+                        </div>
                       </div>
                     </div>
                   </div>
