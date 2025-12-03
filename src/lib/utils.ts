@@ -2481,7 +2481,7 @@ export let defaultChats = [
   },
   {
     label: "GOOGL unusual order flow",
-    query: "@UnusualOrderFeed Nvidia order flow",
+    query: "@UnusualOrderFeed Google order flow",
     type: "Stocks",
   },
 ];

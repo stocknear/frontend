@@ -538,7 +538,7 @@
                     class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
                   >
                     <a
-                      href={`/${["stocks", "stock"]?.includes(assetType) ? "stocks" : assetType === "etf" ? "etf" : "index"}/${ticker}/options/contract-lookup?query=${item?.optionSymbol}`}
+                      href={`/${["stocks", "stock"]?.includes(assetType) ? "stocks" : assetType === "etf" ? "etf" : "index"}/${ticker}/options/contract-lookup?query=${item?.option_symbol}`}
                       class="cursor-pointer text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
                     >
                       {item?.option_symbol}
