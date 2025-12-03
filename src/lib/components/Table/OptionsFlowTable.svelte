@@ -468,7 +468,14 @@
         return sortOrder === "asc" ? typeA - typeB : typeB - typeA;
       },
       exec: (a, b) => {
-        const execOrder = { "ABOVE ASK": 1, "AT ASK": 2, "AT MIDPOINT": 3, "BETWEEN": 4, "AT BID": 5, "BELOW BID": 6 };
+        const execOrder = {
+          "ABOVE ASK": 1,
+          "AT ASK": 2,
+          "AT MIDPOINT": 3,
+          BETWEEN: 4,
+          "AT BID": 5,
+          "BELOW BID": 6,
+        };
         const execA = execOrder[a?.execution_estimate?.toUpperCase()] || 7;
         const execB = execOrder[b?.execution_estimate?.toUpperCase()] || 7;
         return sortOrder === "asc" ? execA - execB : execB - execA;
@@ -565,7 +572,14 @@
         return sortOrder === "asc" ? typeA - typeB : typeB - typeA;
       },
       exec: (a, b) => {
-        const execOrder = { "ABOVE ASK": 1, "AT ASK": 2, "AT MIDPOINT": 3, "BETWEEN": 4, "AT BID": 5, "BELOW BID": 6 };
+        const execOrder = {
+          "ABOVE ASK": 1,
+          "AT ASK": 2,
+          "AT MIDPOINT": 3,
+          BETWEEN: 4,
+          "AT BID": 5,
+          "BELOW BID": 6,
+        };
         const execA = execOrder[a?.execution_estimate?.toUpperCase()] || 7;
         const execB = execOrder[b?.execution_estimate?.toUpperCase()] || 7;
         return sortOrder === "asc" ? execA - execB : execB - execA;
@@ -982,7 +996,9 @@
             (item?.execution_estimate === "At Bid" ||
               item?.execution_estimate === "Below Bid")}
           {@const isPut = item?.put_call === "Puts"}
-          {@const isSweep = ["Sweep", "Block", "Large"].includes(item?.option_activity_type)}
+          {@const isSweep = ["Sweep", "Block", "Large"].includes(
+            item?.option_activity_type,
+          )}
 
           {#if isBullishCall || isBearishCall || isPut}
             {@const baseColor =
