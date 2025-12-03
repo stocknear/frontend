@@ -431,17 +431,13 @@
                       {#each financialData as item, index}
                         {#if $selectedTimePeriod === "annual"}
                           <td
-                            class="font-semibold text-sm text-end {index >= 1
-                              ? 'border-l border-gray-300 dark:border-gray-800'
-                              : ''}"
+                            class="font-semibold text-sm text-end border-l border-gray-300 dark:border-gray-800"
                           >
                             {"FY" + " " + item?.fiscalYear}
                           </td>
                         {:else}
                           <td
-                            class="font-semibold text-sm text-end {index >= 1
-                              ? 'border-l  border-gray-300 dark:border-gray-800'
-                              : ''}"
+                            class="font-semibold text-sm text-end border-l border-gray-300 dark:border-gray-800"
                           >
                             {item?.period + " " + item?.fiscalYear}
                           </td>
@@ -462,9 +458,7 @@
                       >
                       {#each financialData as item, index}
                         <td
-                          class="font-semibold text-sm text-end {index >= 1
-                            ? 'border-l  border-gray-300 dark:border-gray-800'
-                            : ''}"
+                          class="font-semibold text-sm text-end border-l border-gray-300 dark:border-gray-800"
                         >
                           {new Date(item?.date).toLocaleDateString("en-US", {
                             month: "short",
