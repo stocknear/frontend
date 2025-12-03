@@ -468,7 +468,7 @@ ${summaryData.investorTakeaway}
           </div>
           <button
             on:click={closeModal}
-            class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex-shrink-0"
+            class="cursor-pointer p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex-shrink-0"
           >
             <svg
               class="w-5 h-5 text-gray-800 dark:text-gray-400"
