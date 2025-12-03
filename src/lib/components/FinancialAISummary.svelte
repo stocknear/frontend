@@ -59,6 +59,15 @@
   }
 
   async function generateSummary() {
+    // Check cache first - if cached, show it without requiring credits
+    const cached = getCachedSummary($stockTicker, periodType, statementType);
+    if (cached) {
+      summaryData = cached;
+      showModal = true;
+      return;
+    }
+
+    // Only check login/tier/credits if we need to make an API call
     if (!data?.user) {
       goto(`/login?redirectTo=/stocks/${$stockTicker}/financials`);
       return;
@@ -72,14 +81,6 @@
 
     if (data?.user?.credits < 3) {
       errorMessage = `Insufficient credits. You have ${data?.user?.credits} credits. This summary costs 3 credits.`;
-      showModal = true;
-      return;
-    }
-
-    // Check cache first
-    const cached = getCachedSummary($stockTicker, periodType, statementType);
-    if (cached) {
-      summaryData = cached;
       showModal = true;
       return;
     }
@@ -112,7 +113,7 @@
 
       // Deduct credits on client side
       if (data?.user) {
-        data.user.credits -= 4;
+        data.user.credits -= 3;
       }
 
       showModal = true;
