@@ -440,7 +440,7 @@
                         {:else}
                           <td
                             class="font-semibold text-sm text-end {index >= 1
-                              ? 'border-l border-gray-300 dark:border-gray-800'
+                              ? 'border-l  border-gray-300 dark:border-gray-800'
                               : ''}"
                           >
                             {item?.period + " " + item?.fiscalYear}
@@ -463,7 +463,7 @@
                       {#each financialData as item, index}
                         <td
                           class="font-semibold text-sm text-end {index >= 1
-                            ? 'border-l border-gray-300 dark:border-gray-800'
+                            ? 'border-l  border-gray-300 dark:border-gray-800'
                             : ''}"
                         >
                           {new Date(item?.date).toLocaleDateString("en-US", {

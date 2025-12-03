@@ -246,9 +246,7 @@
         section4Icon: "badge",
       },
     };
-    return (
-      labelMap[statement] || labelMap["income-statement"]
-    );
+    return labelMap[statement] || labelMap["income-statement"];
   }
 
   $: sectionLabels = getSectionLabels(statementType);
@@ -530,7 +528,9 @@ ${summaryData.investorTakeaway}
                     {summaryData.yearsAnalyzed} Overall Health
                   </span>
                 </div>
-                <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4"
+                >
                   <span
                     class="px-3 py-1.5 rounded-full text-sm font-semibold {healthColors.text} {healthColors.bg} w-fit"
                   >
@@ -556,7 +556,7 @@ ${summaryData.investorTakeaway}
               <div class="flex items-center gap-2">
                 <button
                   on:click={copyToClipboard}
-                  class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
                   <svg
                     class="w-3.5 h-3.5"
@@ -575,7 +575,7 @@ ${summaryData.investorTakeaway}
                 </button>
                 <button
                   on:click={downloadMarkdown}
-                  class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
                   <svg
                     class="w-3.5 h-3.5"
