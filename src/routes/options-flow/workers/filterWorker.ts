@@ -36,6 +36,7 @@ function convertUnitToValue(
     "below bid",
     "sweep",
     "trade",
+    "split",
     "stock",
     "etf",
     "itm",
