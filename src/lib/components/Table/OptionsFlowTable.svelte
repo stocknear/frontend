@@ -349,6 +349,7 @@
     price: "none",
     premium: "none",
     type: "none",
+    leg: "none",
     exec: "none",
     vol: "none",
     oi: "none",
@@ -467,6 +468,12 @@
         const typeB = typeOrder[b.option_activity_type?.toUpperCase()] || 5;
         return sortOrder === "asc" ? typeA - typeB : typeB - typeA;
       },
+      leg: (a, b) => {
+        const legOrder = { "SINGLE-LEG": 1, "MULTI-LEG": 2 };
+        const legA = legOrder[a.trade_leg_type?.toUpperCase()] || 3;
+        const legB = legOrder[b.trade_leg_type?.toUpperCase()] || 3;
+        return sortOrder === "asc" ? legA - legB : legB - legA;
+      },
       exec: (a, b) => {
         const execOrder = {
           "ABOVE ASK": 1,
@@ -571,6 +578,12 @@
         const typeB = typeOrder[b.option_activity_type?.toUpperCase()] || 5;
         return sortOrder === "asc" ? typeA - typeB : typeB - typeA;
       },
+      leg: (a, b) => {
+        const legOrder = { "SINGLE-LEG": 1, "MULTI-LEG": 2 };
+        const legA = legOrder[a.trade_leg_type?.toUpperCase()] || 3;
+        const legB = legOrder[b.trade_leg_type?.toUpperCase()] || 3;
+        return sortOrder === "asc" ? legA - legB : legB - legA;
+      },
       exec: (a, b) => {
         const execOrder = {
           "ABOVE ASK": 1,
@@ -625,7 +638,7 @@
   <div class="min-w-[1000px]">
     <!-- Header row using grid -->
     <div
-      class="table-driver bg-default text-white grid grid-cols-16 sticky top-0 z-10 border border-gray-300 dark:border-gray-800 font-bold text-xs uppercase"
+      class="table-driver bg-default text-white grid grid-cols-17 sticky top-0 z-10 border border-gray-300 dark:border-gray-800 font-bold text-xs uppercase"
     >
       <div
         on:click={() => sortData("time")}
@@ -872,6 +885,28 @@
       </div>
 
       <div
+        on:click={() => sortData("leg")}
+        class="cursor-pointer p-2 text-center select-none whitespace-nowrap"
+      >
+        Leg
+        <svg
+          class="shrink-0 w-4 h-4 -mt-1 {sortOrders['leg'] === 'asc'
+            ? 'rotate-180 inline-block'
+            : sortOrders['leg'] === 'desc'
+              ? 'inline-block'
+              : 'hidden'} "
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          style="max-width:50px"
+          ><path
+            fill-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path></svg
+        >
+      </div>
+
+      <div
         on:click={() => sortData("exec")}
         class="cursor-pointer p-2 text-center select-none whitespace-nowrap"
       >
@@ -976,7 +1011,7 @@
         let:index
         let:style
         {style}
-        class="grid grid-cols-16 gap-0 relative overflow-hidden"
+        class="grid grid-cols-17 gap-0 relative overflow-hidden"
         class:bg-[#fff]={index % 2 === 0 && $mode === "light"}
         class:bg-[#09090B]={index % 2 === 0 && $mode !== "light"}
         class:bg-[#121217]={index % 2 !== 0 && $mode !== "light"}
@@ -1178,6 +1213,16 @@
                 : 'text-muted dark:text-[#976DB7]'}"
         >
           {sortedDisplayData[index]?.option_activity_type}
+        </div>
+
+        <div
+          class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
+            index
+          ]?.trade_leg_type === 'multi-leg'
+            ? 'text-muted dark:text-[#FF9500]'
+            : 'text-muted dark:text-[#7B8794]'}"
+        >
+          {sortedDisplayData[index]?.trade_leg_type === 'multi-leg' ? 'Multi' : 'Single'}
         </div>
 
         <div

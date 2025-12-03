@@ -174,6 +174,11 @@
       step: ["Stock", "ETF"],
       defaultValue: "any",
     },
+    trade_leg_type: {
+      label: "Leg Type",
+      step: ["Single-Leg", "Multi-Leg"],
+      defaultValue: "any",
+    },
   };
 
   const categoricalRules = [
@@ -184,6 +189,7 @@
     "execution_estimate",
     "option_activity_type",
     "underlying_type",
+    "trade_leg_type",
   ];
 
   // Generate allRows from allRules

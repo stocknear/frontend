@@ -4,11 +4,12 @@ interface FilterContext {
 }
 
  const categoricalFields = [
-    'put_call', 
-    'sentiment', 
-    'execution_estimate', 
-    'option_activity_type', 
-    'underlying_type'
+    'put_call',
+    'sentiment',
+    'execution_estimate',
+    'option_activity_type',
+    'underlying_type',
+    'trade_leg_type'
   ];
 
 function convertUnitToValue(
@@ -41,7 +42,9 @@ function convertUnitToValue(
     "etf",
     "itm",
     "otm",
-    "repeated flow"
+    "repeated flow",
+    "single-leg",
+    "multi-leg"
   ]);
   if (nonNumericValues?.has(lowerInput)) return input;
   if (input?.endsWith("%")) {
