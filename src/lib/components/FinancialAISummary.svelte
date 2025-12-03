@@ -163,57 +163,37 @@
 
   function getHealthColor(health: string) {
     const colorMap = {
-      Exceptional: "text-[#10B981] bg-[#10B981]/10",
-      Strong: "text-[#3B82F6] bg-[#3B82F6]/10",
-      Stable: "text-[#F59E0B] bg-[#F59E0B]/10",
-      Cautious: "text-[#EF4444] bg-[#EF4444]/10",
-      Weak: "text-[#DC2626] bg-[#DC2626]/10",
+      Bullish: "text-[#10B981] bg-[#10B981]/10",
+      Neutral: "text-[#F59E0B] bg-[#F59E0B]/10",
+      Bearish: "text-[#EF4444] bg-[#EF4444]/10",
     };
-    return colorMap[health] || "text-gray-600 bg-gray-100";
+    return colorMap[health] || "text-[#F59E0B] bg-[#F59E0B]/10";
   }
 
   function getHealthColors(health: string) {
-    switch (health) {
-      case "Exceptional":
+    switch (health?.toLowerCase()) {
+      case "bullish":
         return {
           text: "text-green-700 dark:text-green-400",
           bg: "bg-green-100 dark:bg-green-900/40",
           bar: "bg-green-500",
         };
-      case "Strong":
-        return {
-          text: "text-blue-700 dark:text-blue-400",
-          bg: "bg-blue-100 dark:bg-blue-900/40",
-          bar: "bg-blue-500",
-        };
-      case "Stable":
-        return {
-          text: "text-yellow-700 dark:text-yellow-400",
-          bg: "bg-yellow-100 dark:bg-yellow-900/40",
-          bar: "bg-yellow-500",
-        };
-      case "Cautious":
-        return {
-          text: "text-orange-700 dark:text-orange-400",
-          bg: "bg-orange-100 dark:bg-orange-900/40",
-          bar: "bg-orange-500",
-        };
-      case "Weak":
+      case "bearish":
         return {
           text: "text-red-700 dark:text-red-400",
           bg: "bg-red-100 dark:bg-red-900/40",
           bar: "bg-red-500",
         };
-      default:
+      default: // neutral
         return {
-          text: "text-gray-700 dark:text-gray-400",
-          bg: "bg-gray-100 dark:bg-gray-900/40",
-          bar: "bg-gray-500",
+          text: "text-yellow-700 dark:text-yellow-400",
+          bg: "bg-yellow-100 dark:bg-yellow-900/40",
+          bar: "bg-yellow-500",
         };
     }
   }
 
-  $: healthColors = getHealthColors(summaryData?.overallHealth ?? "Stable");
+  $: healthColors = getHealthColors(summaryData?.overallHealth ?? "Neutral");
 
   function getPeriodLabel(period: string): string {
     const labels = {
