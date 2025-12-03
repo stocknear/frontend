@@ -18,6 +18,9 @@
   let errorMessage = "";
   let showModal = false;
 
+  // Track if valid cache exists for current params
+  let hasCachedSummary = false;
+
   // Check localStorage for cached summary
   function getCachedSummary(ticker: string, period: string, statement: string) {
     try {
@@ -30,12 +33,31 @@
         // Cache valid for 24 hours
         if (now - cacheTime < 24 * 60 * 60 * 1000) {
           return parsed.data;
+        } else {
+          // Cache is expired, delete it
+          localStorage.removeItem(cacheKey);
         }
       }
     } catch (e) {
       console.error("Error reading cache:", e);
     }
     return null;
+  }
+
+  // Check for cached summary when params change
+  function checkCacheExists() {
+    if (typeof window !== "undefined") {
+      const cached = getCachedSummary($stockTicker, periodType, statementType);
+      hasCachedSummary = cached !== null;
+      if (cached) {
+        summaryData = cached;
+      }
+    }
+  }
+
+  // Reactive check when params change
+  $: if ($stockTicker && periodType && statementType) {
+    checkCacheExists();
   }
 
   function saveSummaryToCache(
@@ -59,10 +81,17 @@
   }
 
   async function generateSummary() {
+    // If we already have cached data loaded, just open the modal
+    if (hasCachedSummary && summaryData) {
+      showModal = true;
+      return;
+    }
+
     // Check cache first - if cached, show it without requiring credits
     const cached = getCachedSummary($stockTicker, periodType, statementType);
     if (cached) {
       summaryData = cached;
+      hasCachedSummary = true;
       showModal = true;
       return;
     }
@@ -110,6 +139,7 @@
 
       // Save to cache
       saveSummaryToCache($stockTicker, periodType, statementType, summaryData);
+      hasCachedSummary = true;
 
       // Deduct credits on client side
       if (data?.user) {
@@ -413,7 +443,7 @@ ${summaryData.investorTakeaway}
         d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
       />
     </svg>
-    AI Summarize
+    {hasCachedSummary ? "Show Summary" : "AI Summarize"}
   {/if}
 </Button>
 
