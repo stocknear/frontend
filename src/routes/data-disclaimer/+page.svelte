@@ -169,12 +169,12 @@
                 Options Market Data
               </h2>
               <p class=" mb-10 mt-5 text-[1rem] sm:text-lg">
-                Our options market data infrastructure combines real-time
-                options flow information from Benzinga and individual options
-                chain data from Intrinio, both sourced through the Options Price
-                Reporting Authority (OPRA). This provides comprehensive coverage
-                of options market activity and pricing across all major
-                exchanges.
+                Our options market data infrastructure leverages multiple data vendors,
+                combining their feeds into a unified pipeline to deliver comprehensive
+                full-stream OPRA (Options Price Reporting Authority) data. By aggregating
+                real-time options flow and individual options chain data from several sources,
+                we ensure complete coverage of options market activity and pricing across
+                all major U.S. options exchanges.
               </p>
             </div>
           </div>
