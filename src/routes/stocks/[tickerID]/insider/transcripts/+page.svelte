@@ -80,6 +80,9 @@
         // Cache valid for 3 days
         if (now - cacheTime < 3 * 24 * 60 * 60 * 1000) {
           return parsed.data;
+        } else {
+          // Cache is expired, delete it
+          localStorage.removeItem(key);
         }
       }
     } catch (e) {
@@ -338,6 +341,15 @@ ${summaryData.outlook}
     date = output?.date ?? "-";
     displayQuarter = quarter;
     displayYear = year;
+
+    // Check if there's a valid cached summary for this transcript
+    const cachedSummary = getCachedSummary($stockTicker, year, quarter);
+    if (cachedSummary) {
+      summaryData = cachedSummary;
+      summaryGenerated = true;
+      // Keep showSummary false so user sees "Show Summary" button
+    }
+
     isLoaded = true;
   };
 
