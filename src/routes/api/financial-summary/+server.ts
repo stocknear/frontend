@@ -13,7 +13,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     );
   }
 
-  const costOfCredit = 4;
+  const costOfCredit = 3;
 
   if (user?.credits < costOfCredit) {
     return new Response(
