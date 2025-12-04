@@ -695,9 +695,8 @@
             <div class="ml-1 -mt-3">
               <InfoModal
                 id="opra-data-info"
-                title="OPRA Data 15-min delayed"
-                content="Options data from the Options Price Reporting Authority (OPRA) provided by Intrinio.<br>
-					You're viewing 15-min delayed options data."
+                title="Realtime OPRA Options Data"
+                content="Unlock realtime options flow, trades, and market insights for this stock — sourced directly from the Options Price Reporting Authority (OPRA)."
               />
             </div>
           </div>
