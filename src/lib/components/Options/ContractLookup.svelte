@@ -41,7 +41,7 @@
   let optionSymbol = "";
 
   let displayList = [];
-  let selectGraphType = "Vol/OI";
+  let selectGraphType = "Price";
   let selectedTimePeriod = "3M";
   let rawDataHistory = [];
   // Track the currently sorted data separately
@@ -207,11 +207,28 @@
       rawDataHistory?.sort((a, b) => new Date(a?.date) - new Date(b?.date)) ||
       [];
 
-    const filteredData = filterDataByTimePeriod(sortedData, selectedTimePeriod);
+    const timeFilteredData = filterDataByTimePeriod(
+      sortedData,
+      selectedTimePeriod,
+    );
+
+    // Filter out items where OHLC values are <= 0
+    const filteredData = timeFilteredData.filter((item) => {
+      const open = item?.open ?? item?.mark;
+      const high =
+        item?.high ??
+        Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark);
+      const low =
+        item?.low ??
+        Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark);
+      const close = item?.close ?? item?.mark;
+      return open > 0 && high > 0 && low > 0 && close > 0;
+    });
 
     let series = [];
 
-    if (selectGraphType == "Vol/OI") {
+    if (selectGraphType == "Price") {
+      // Price only - candlestick
       series = [
         {
           name: "Option Price",
@@ -225,12 +242,25 @@
               Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
             item?.close ?? item?.mark,
           ]),
-          color: "#FF2F1F",
-          upColor: "#00FC50",
-          lineColor: "#FF2F1F",
-          upLineColor: "#00FC50",
-          yAxis: 2,
+          yAxis: 0,
           animation: false,
+        },
+      ];
+    } else if (selectGraphType == "Vol/OI") {
+      // Vol/OI with price as spline
+      series = [
+        {
+          name: "Option Price",
+          type: "spline",
+          data: filteredData.map((item) => [
+            new Date(item.date).getTime(),
+            item?.mark,
+          ]),
+          color: "#4279E6",
+          yAxis: 2,
+          lineWidth: 1.3,
+          animation: false,
+          marker: { enabled: false },
         },
         {
           name: "Volume",
@@ -260,6 +290,7 @@
         },
       ];
     } else {
+      // IV with candlestick
       series = [
         {
           name: "Option Price",
@@ -273,10 +304,6 @@
               Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
             item?.close ?? item?.mark,
           ]),
-          color: "#FF2F1F",
-          upColor: "#00FC50",
-          lineColor: "#FF2F1F",
-          upLineColor: "#00FC50",
           yAxis: 2,
           animation: false,
         },
@@ -331,6 +358,10 @@
           animation: false,
           lineWidth: 1,
           states: { hover: { enabled: false } },
+          color: $mode === "light" ? "pink" : "#FF2F1F",
+          lineColor: $mode === "light" ? "red" : "#FF2F1F",
+          upColor: $mode === "light" ? "lightgreen" : "#00FC50",
+          upLineColor: $mode === "light" ? "green" : "#00FC50",
         },
       },
       xAxis: {
@@ -1163,16 +1194,16 @@
                     <div class="">
                       <div class="inline-flex">
                         <div class="inline-flex rounded-lg shadow-sm">
-                          {#each ["Vol/OI", "IV"] as item, i}
-                            {#if !["Pro"]?.includes(data?.user?.tier) && i > 0}
+                          {#each ["Price", "Vol/OI", "IV"] as item, i}
+                            {#if !["Pro"]?.includes(data?.user?.tier) && i > 1}
                               <button
                                 on:click={() => goto("/pricing")}
                                 class="cursor-pointer px-3 py-1.5 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
                           {i === 0 ? 'rounded-l border' : ''}
-                          {i === 2 - 1
+                          {i === 2
                                   ? 'rounded-r border-t border-r border-b'
                                   : ''}
-                          {i !== 0 && i !== 2 - 1 ? 'border-t border-b' : ''}
+                          {i !== 0 && i !== 2 ? 'border-t border-b' : ''}
                           {selectGraphType === item
                                   ? 'bg-black dark:bg-white text-white dark:text-black'
                                   : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
@@ -1199,10 +1230,10 @@
                                 }}
                                 class="cursor-pointer px-3 py-1.5 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
                           {i === 0 ? 'rounded-l border' : ''}
-                          {i === 2 - 1
+                          {i === 2
                                   ? 'rounded-r border-t border-r border-b'
                                   : ''}
-                          {i !== 0 && i !== 2 - 1 ? 'border-t border-b' : ''}
+                          {i !== 0 && i !== 2 ? 'border-t border-b' : ''}
                           {selectGraphType === item
                                   ? 'bg-black dark:bg-white text-white dark:text-black'
                                   : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
