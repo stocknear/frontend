@@ -1099,6 +1099,7 @@
           <HoverStockChart
             symbol={sortedDisplayData[index]?.ticker}
             assetType={sortedDisplayData[index]?.underlying_type}
+            optionSymbol={sortedDisplayData[index]?.option_symbol}
           />
         </div>
 
@@ -1222,7 +1223,9 @@
             ? 'text-muted dark:text-[#FF9500]'
             : 'text-muted dark:text-[#7B8794]'}"
         >
-          {sortedDisplayData[index]?.trade_leg_type === 'multi-leg' ? 'Multi' : 'Single'}
+          {sortedDisplayData[index]?.trade_leg_type === "multi-leg"
+            ? "Multi"
+            : "Single"}
         </div>
 
         <div
