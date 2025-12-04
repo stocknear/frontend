@@ -7,7 +7,12 @@
   import { mode } from "mode-watcher";
   import { goto } from "$app/navigation";
 
-  import { DateFormatter, type DateValue } from "@internationalized/date";
+  import {
+    DateFormatter,
+    type DateValue,
+    today,
+    getLocalTimeZone,
+  } from "@internationalized/date";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import * as Popover from "$lib/components/shadcn/popover/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
@@ -76,6 +81,11 @@
     year: "numeric",
   });
   let selectedDate: DateValue | undefined = undefined;
+
+  // Calendar date range: last 365 days only (historical data retention period)
+  const todayDate = today(getLocalTimeZone());
+  const calendarMinDate = todayDate.subtract({ days: 365 });
+  const calendarMaxDate = todayDate.subtract({ days: 1 }); // Exclude today (live data)
 
   const allRules = {
     size: {
@@ -1996,6 +2006,8 @@
                     <Calendar
                       class=" "
                       bind:value={selectedDate}
+                      minValue={calendarMinDate}
+                      maxValue={calendarMaxDate}
                       initialFocus
                       onValueChange={getHistoricalFlow}
                     />
