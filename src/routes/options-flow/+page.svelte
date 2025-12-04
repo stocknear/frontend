@@ -1974,10 +1974,6 @@
                 <Popover.Root>
                   <Popover.Trigger asChild let:builder>
                     <Button
-                      on:click={() =>
-                        toast?.info("Feature is coming soon 🔥", {
-                          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-                        })}
                       class=" w-full sm:w-[160px] truncate sm:mr-3 py-3 shadow text-white bg-[#000] border-gray-300 justify-center sm:justify-start text-center sm:text-left  border-none rounded"
                       builders={[builder]}
                     >
@@ -1989,7 +1985,7 @@
                       </span>
                     </Button>
                   </Popover.Trigger>
-                  <!--
+
                   <Popover.Content
                     side="bottom"
                     align="end"
@@ -2004,7 +2000,6 @@
                       onValueChange={getHistoricalFlow}
                     />
                   </Popover.Content>
-                -->
                 </Popover.Root>
               </div>
             </div>
