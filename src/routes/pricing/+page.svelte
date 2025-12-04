@@ -311,7 +311,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="">Realtime Notification</span>
+            ><span class="">Real-Time Notification</span>
           </li>
 
           <li class="flex items-start">
@@ -877,7 +877,7 @@
             >
 
             <span class="text-muted dark:text-gray-400"
-              >Realtime Unusual Orders</span
+              >Real-Time Unusual Orders</span
             >
           </li>
           <li class="flex items-start">
@@ -1101,7 +1101,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="">Realtime Notification</span>
+            ><span class="">Real-Time Notification</span>
           </li>
 
           <li class="flex items-start">
@@ -1361,7 +1361,7 @@
             >
 
             <span class="text-muted dark:text-gray-400"
-              >Realtime Unusual Orders</span
+              >Real-Time Unusual Orders</span
             >
           </li>
           <li class="flex items-start">
@@ -1628,7 +1628,7 @@
               ></path></svg
             >
 
-            <span class="">Realtime Unusual Orders</span>
+            <span class="">Real-Time Unusual Orders</span>
           </li>
           <li class="flex items-start text-white">
             <svg
