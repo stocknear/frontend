@@ -42,6 +42,7 @@
 
   let displayList = [];
   let selectGraphType = "Vol/OI";
+  let selectedTimePeriod = "3M";
   let rawDataHistory = [];
   // Track the currently sorted data separately
   let sortedData = [];
@@ -133,6 +134,48 @@
         });
   };
 
+  function filterDataByTimePeriod(data, timePeriod) {
+    if (!data || data.length === 0) return [];
+
+    const now = new Date();
+    let thresholdDate;
+
+    switch (timePeriod) {
+      case "1W":
+        thresholdDate = new Date(now);
+        thresholdDate.setDate(now.getDate() - 7);
+        break;
+      case "1M":
+        thresholdDate = new Date(now);
+        thresholdDate.setMonth(now.getMonth() - 1);
+        break;
+      case "3M":
+        thresholdDate = new Date(now);
+        thresholdDate.setMonth(now.getMonth() - 3);
+        break;
+      case "6M":
+        thresholdDate = new Date(now);
+        thresholdDate.setMonth(now.getMonth() - 6);
+        break;
+      case "1Y":
+        thresholdDate = new Date(now);
+        thresholdDate.setFullYear(now.getFullYear() - 1);
+        break;
+      case "3Y":
+        thresholdDate = new Date(now);
+        thresholdDate.setFullYear(now.getFullYear() - 3);
+        break;
+      default:
+        thresholdDate = new Date(0);
+        break;
+    }
+
+    return data.filter((item) => {
+      const itemDate = new Date(item?.date);
+      return itemDate >= thresholdDate;
+    });
+  }
+
   /*
   function calculateDTE(data, dateExpiration) {
     if (!Array.isArray(data)) return [];
@@ -164,7 +207,7 @@
       rawDataHistory?.sort((a, b) => new Date(a?.date) - new Date(b?.date)) ||
       [];
 
-    const filteredData = sortedData;
+    const filteredData = filterDataByTimePeriod(sortedData, selectedTimePeriod);
 
     let series = [];
 
@@ -615,7 +658,7 @@
   });
 
   $: {
-    if (selectGraphType) {
+    if (selectGraphType || selectedTimePeriod) {
       config = plotData() || null;
     }
   }
@@ -1089,7 +1132,7 @@
                 <div
                   class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
                 >
-                  <div class="w-fit ml-auto">
+                  <div class="w-fit ml-auto flex flex-row items-center gap-x-3">
                     <div class="">
                       <div class="inline-flex">
                         <div class="inline-flex rounded-lg shadow-sm">
@@ -1143,6 +1186,85 @@
                           {/each}
                         </div>
                       </div>
+                    </div>
+                    <div class="relative inline-block text-left">
+                      <DropdownMenu.Root>
+                        <DropdownMenu.Trigger asChild let:builder>
+                          <Button
+                            builders={[builder]}
+                            class="w-full border-gray-300 dark:border-gray-600 border bg-black text-white sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary ease-out flex flex-row justify-between items-center px-3 py-2 rounded truncate"
+                          >
+                            <span class="truncate text-xs sm:text-sm"
+                              >{selectedTimePeriod}</span
+                            >
+                            <svg
+                              class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              style="max-width:40px"
+                              aria-hidden="true"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"
+                              ></path>
+                            </svg>
+                          </Button>
+                        </DropdownMenu.Trigger>
+                        <DropdownMenu.Content
+                          side="bottom"
+                          align="end"
+                          sideOffset={10}
+                          alignOffset={0}
+                          class="w-40 h-fit max-h-72 overflow-y-auto scroller"
+                        >
+                          <DropdownMenu.Label
+                            class="text-muted dark:text-gray-400 font-normal"
+                          >
+                            Select time frame
+                          </DropdownMenu.Label>
+                          <DropdownMenu.Separator />
+                          <DropdownMenu.Group>
+                            <DropdownMenu.Item
+                              on:click={() => (selectedTimePeriod = "1W")}
+                              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                            >
+                              1 Week
+                            </DropdownMenu.Item>
+                            <DropdownMenu.Item
+                              on:click={() => (selectedTimePeriod = "1M")}
+                              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                            >
+                              1 Month
+                            </DropdownMenu.Item>
+                            <DropdownMenu.Item
+                              on:click={() => (selectedTimePeriod = "3M")}
+                              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                            >
+                              3 Months
+                            </DropdownMenu.Item>
+                            <DropdownMenu.Item
+                              on:click={() => (selectedTimePeriod = "6M")}
+                              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                            >
+                              6 Months
+                            </DropdownMenu.Item>
+                            <DropdownMenu.Item
+                              on:click={() => (selectedTimePeriod = "1Y")}
+                              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                            >
+                              1 Year
+                            </DropdownMenu.Item>
+                            <DropdownMenu.Item
+                              on:click={() => (selectedTimePeriod = "3Y")}
+                              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                            >
+                              3 Years
+                            </DropdownMenu.Item>
+                          </DropdownMenu.Group>
+                        </DropdownMenu.Content>
+                      </DropdownMenu.Root>
                     </div>
                   </div>
                 </div>
