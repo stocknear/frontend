@@ -265,7 +265,7 @@
             new Date(item.date).getTime(),
             item?.mark,
           ]),
-          color: "#4279E6",
+          color: "#ff2f1f",
           yAxis: 2,
           lineWidth: 1.3,
           animation: false,
