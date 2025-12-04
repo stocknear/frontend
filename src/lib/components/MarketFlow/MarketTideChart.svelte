@@ -144,7 +144,7 @@
             },
 
             tooltip: {
-                shared: false,
+                shared: true, // show all series for the hovered x
                 useHTML: true,
                 backgroundColor: "rgba(0, 0, 0, 1)",
                 borderColor: "rgba(255, 255, 255, 0.2)",
@@ -156,31 +156,71 @@
                 },
                 borderRadius: 4,
                 formatter: function () {
-                    let tooltipContent = `<span class="m-auto text-[1rem] font-[501]">${new Date(
-                        this?.x,
-                    )?.toLocaleTimeString("en-US", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                    })}</span><br>`;
+                    // Determine the timestamp (this.x for shared tooltip)
+                    const ts =
+                        this.x ??
+                        (this.points &&
+                            this.points[0] &&
+                            this.points[0].point.x) ??
+                        null;
+                    const timeString = ts
+                        ? new Date(ts).toLocaleTimeString("en-US", {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                          })
+                        : "";
 
-                    // Handle bubble series differently
-                    if (this.series.type === "bubble") {
-                        const point = this.point;
-                        tooltipContent += `<span class="text-white text-sm font-[501]">Crossing Level: ${abbreviateNumber(point.y)}</span><br>`;
-                        tooltipContent += `<span class="text-white text-sm font-[501]">SPY Price: ${point.spyPrice?.toFixed(2)}</span><br>`;
-                        tooltipContent += `<span class="text-white text-sm font-[501]">Type: ${point.crossType === "bullish" ? "🟢 Bullish" : "🔴 Bearish"}</span><br>`;
-                        tooltipContent += `<span class="text-white text-sm font-[400]">Call Prem: ${abbreviateNumber(point.callValue)}</span><br>`;
-                        tooltipContent += `<span class="text-white text-sm font-[400]">Put Prem: ${abbreviateNumber(point.putValue)}</span>`;
-                    } else {
-                        // Regular series tooltip
-                        tooltipContent += `
-              <span style="display:inline-block; width:10px; height:10px; background-color:${this.color}; border-radius:50%; margin-right:5px;"></span>
-              <span class="font-semibold text-sm">${this.series.name}:</span> 
-              <span class="font-normal text-sm">${this.series.name === "SPY Price" ? "$" + this.y?.toFixed(2) : abbreviateNumber(this.y)}</span>`;
-                    }
+                    let tooltipContent = `<div style="min-width:180px;">
+      <div style="font-weight:600; margin-bottom:6px;">${timeString}</div>`;
 
+                    // For shared tooltips Highcharts provides this.points (array). Fall back to this.point if not present.
+                    const points =
+                        this.points || (this.point ? [this.point] : []);
+
+                    // Sort points so SPY appears first (optional)
+                    points.sort((a, b) => {
+                        if (a.series.name === "SPY Price") return -1;
+                        if (b.series.name === "SPY Price") return 1;
+                        return 0;
+                    });
+
+                    points.forEach((p) => {
+                        // If series is bubble, show crossing details
+                        if (
+                            p.series.type === "bubble" ||
+                            (p.point && p.point.crossType)
+                        ) {
+                            const pt = p.point;
+                            tooltipContent += `
+          <div style="margin-top:6px; padding-top:6px; border-top:1px solid rgba(255,255,255,0.06);">
+            <div style="font-weight:600;">Premium Crossings</div>
+            <div style="font-size:13px;">Crossing Level: ${abbreviateNumber(pt.y)}</div>
+            <div style="font-size:13px;">SPY Price: ${(pt.spyPrice ?? 0).toFixed(2)}</div>
+            <div style="font-size:13px;">Type: ${pt.crossType === "bullish" ? "🟢 Bullish" : "🔴 Bearish"}</div>
+            <div style="font-size:13px;">Call Prem: ${abbreviateNumber(pt.callValue)}</div>
+            <div style="font-size:13px;">Put Prem: ${abbreviateNumber(pt.putValue)}</div>
+          </div>`;
+                        } else {
+                            // Regular series (SPY, Net Call Prem, Net Put Prem)
+                            const displayVal =
+                                p.series.name === "SPY Price"
+                                    ? "$" + Number(p.y).toFixed(2)
+                                    : abbreviateNumber(p.y);
+                            tooltipContent += `
+          <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
+            <span style="display:inline-block; width:10px; height:10px; background-color:${p.color}; border-radius:50%;"></span>
+            <div style="font-weight:600; width:110px;">${p.series.name}:</div>
+            <div style="font-weight:400;">${displayVal}</div>
+          </div>`;
+                        }
+                    });
+
+                    tooltipContent += `</div>`;
                     return tooltipContent;
                 },
+                // optional: make tooltip follow cursor horizontally
+                shared: true,
+                outside: false,
             },
 
             xAxis: {
