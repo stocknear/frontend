@@ -227,6 +227,14 @@
 
     let series = [];
 
+    // Candlestick colors based on mode
+    const candlestickColors = {
+      color: $mode === "light" ? "pink" : "#FF2F1F",
+      lineColor: $mode === "light" ? "red" : "#FF2F1F",
+      upColor: $mode === "light" ? "lightgreen" : "#00FC50",
+      upLineColor: $mode === "light" ? "green" : "#00FC50",
+    };
+
     if (selectGraphType == "Price") {
       // Price only - candlestick
       series = [
@@ -242,6 +250,7 @@
               Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
             item?.close ?? item?.mark,
           ]),
+          ...candlestickColors,
           yAxis: 0,
           animation: false,
         },
@@ -304,6 +313,7 @@
               Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
             item?.close ?? item?.mark,
           ]),
+          ...candlestickColors,
           yAxis: 2,
           animation: false,
         },
@@ -1399,7 +1409,7 @@
                             : "n/a"}
                         </td>
                         <td class="text-sm sm:text-[1rem] text-end">
-                          {#if item?.changeOI >= 0 && item?.changeOI !== null}
+                          {#if item?.changeOI > 0 && item?.changeOI !== null}
                             <span class="text-green-800 dark:text-[#00FC50]"
                               >+{item?.changeOI?.toLocaleString("en-US")}</span
                             >
@@ -1407,6 +1417,8 @@
                             <span class="text-red-800 dark:text-[#FF2F1F]"
                               >{item?.changeOI?.toLocaleString("en-US")}</span
                             >
+                          {:else if item?.changeOI === 0 && item?.changeOI !== null}
+                            <span class="">0</span>
                           {:else}
                             n/a
                           {/if}
@@ -1429,11 +1441,11 @@
                         </td>
 
                         <td class="text-sm sm:text-[1rem] text-end">
-                          {item?.close}
+                          {item?.close ?? "n/a"}
                         </td>
 
                         <td class="text-sm sm:text-[1rem] text-end">
-                          {item?.mark}
+                          {item?.mark ?? "n/a"}
                         </td>
 
                         <td class="text-sm sm:text-[1rem] text-end">
