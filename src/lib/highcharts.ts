@@ -2,6 +2,7 @@ import Highcharts from 'highcharts';
 import HighchartsMore from 'highcharts/highcharts-more';
 import HighchartsSankey from 'highcharts/modules/sankey';
 import HighchartsHeatmap from 'highcharts/modules/heatmap';
+import HighchartsStock from 'highcharts/modules/stock';
 
 //import Boost from 'highcharts/modules/boost';
  //import HighchartsAnnotations from 'highcharts/modules/annotations';
@@ -12,6 +13,7 @@ if (browser) {
   HighchartsMore(Highcharts);
   HighchartsSankey(Highcharts);
   HighchartsHeatmap(Highcharts);
+  HighchartsStock(Highcharts);
 
    //HighchartsAnnotations(Highcharts);
   //Boost(Highcharts);

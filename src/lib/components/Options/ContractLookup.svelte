@@ -215,16 +215,22 @@
       series = [
         {
           name: "Option Price",
-          type: "spline",
+          type: "candlestick",
           data: filteredData.map((item) => [
             new Date(item.date).getTime(),
-            item?.mark,
+            item?.open ?? item?.mark,
+            item?.high ??
+              Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark),
+            item?.low ??
+              Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
+            item?.close ?? item?.mark,
           ]),
-          color: "#4279E6",
+          color: "#FF2F1F",
+          upColor: "#00FC50",
+          lineColor: "#FF2F1F",
+          upLineColor: "#00FC50",
           yAxis: 2,
-          lineWidth: 1.3,
           animation: false,
-          marker: { enabled: false },
         },
         {
           name: "Volume",
@@ -257,16 +263,22 @@
       series = [
         {
           name: "Option Price",
-          type: "spline",
+          type: "candlestick",
           data: filteredData?.map((item) => [
             new Date(item.date).getTime(),
-            item?.mark,
+            item?.open ?? item?.mark,
+            item?.high ??
+              Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark),
+            item?.low ??
+              Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
+            item?.close ?? item?.mark,
           ]),
-          color: "#4279E6",
+          color: "#FF2F1F",
+          upColor: "#00FC50",
+          lineColor: "#FF2F1F",
+          upLineColor: "#00FC50",
           yAxis: 2,
-          lineWidth: 1.3,
           animation: false,
-          marker: { enabled: false },
         },
         {
           name: "IV",
@@ -314,6 +326,11 @@
           marker: { enabled: false },
           states: { hover: { enabled: false } },
           legendSymbol: "rectangle",
+        },
+        candlestick: {
+          animation: false,
+          lineWidth: 1,
+          states: { hover: { enabled: false } },
         },
       },
       xAxis: {
@@ -399,12 +416,22 @@
           ).toLocaleDateString("en-US", headerOptions)}</span><br>`;
 
           this.points.forEach((point) => {
-            const raw = point?.y?.toLocaleString("en-US");
             const suffix = point.series.name === "IV" ? "%" : "";
-            tooltipContent += `
-            <span style="display:inline-block; width:10px; height:10px; background-color:${point.color}; border-radius:50%; margin-right:5px;"></span>
-            <span class="font-normal text-sm">${point.series.name}:</span>
-            <span class="font-normal text-sm">${raw}${suffix}</span><br>`;
+
+            // Handle candlestick OHLC data
+            if (point.series.type === "candlestick") {
+              tooltipContent += `
+              <span class="font-normal text-sm ">Open: ${point.point.open?.toFixed(2)}</span><br>
+              <span class="font-normal text-sm ">High: ${point.point.high?.toFixed(2)}</span><br>
+              <span class="font-normal text-sm ">Low: ${point.point.low?.toFixed(2)}</span><br>
+              <span class="font-normal text-sm ">Close: ${point.point.close?.toFixed(2)}</span><br>`;
+            } else {
+              const raw = point?.y?.toLocaleString("en-US");
+              tooltipContent += `
+              <span style="display:inline-block; width:10px; height:10px; background-color:${point.color}; border-radius:50%; margin-right:5px;"></span>
+              <span class="font-normal text-sm">${point.series.name}:</span>
+              <span class="font-normal text-sm">${raw}${suffix}</span><br>`;
+            }
           });
 
           return tooltipContent;
