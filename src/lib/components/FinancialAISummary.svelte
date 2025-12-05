@@ -114,8 +114,10 @@
       return;
     }
 
+    // Open modal immediately and show loading inside
     isLoadingSummary = true;
     errorMessage = "";
+    showModal = true;
 
     try {
       const response = await fetch("/api/financial-summary", {
@@ -145,11 +147,8 @@
       if (data?.user) {
         data.user.credits -= 3;
       }
-
-      showModal = true;
     } catch (error) {
       errorMessage = error.message || "Failed to generate summary";
-      showModal = true;
       console.error("Summary generation error:", error);
     } finally {
       isLoadingSummary = false;
@@ -502,7 +501,24 @@ ${summaryData.investorTakeaway}
       <div
         class="overflow-y-auto max-h-[calc(95vh-60px)] sm:max-h-[calc(92vh-80px)] p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5 md:space-y-6 bg-gray-50 dark:bg-[#0A0A0B]"
       >
-        {#if errorMessage}
+        {#if isLoadingSummary}
+          <div class="flex flex-col items-center justify-center py-16 gap-4">
+            <div class="relative">
+              <div
+                class="w-12 h-12 border-4 border-purple-200 dark:border-purple-800 rounded-full"
+              ></div>
+              <div
+                class="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin absolute top-0 left-0"
+              ></div>
+            </div>
+            <p class="text-sm text-purple-700 dark:text-purple-300 font-medium">
+              Analyzing financial data...
+            </p>
+            <p class="text-xs text-purple-500 dark:text-purple-400">
+              Extracting insights from {getStatementLabel(statementType).toLowerCase()}
+            </p>
+          </div>
+        {:else if errorMessage}
           <div
             class="p-4 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900 rounded-lg"
           >
