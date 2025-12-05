@@ -33,10 +33,7 @@
             class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
             >Symbol</th
           >
-          <th
-            class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
-            >Type</th
-          >
+
           <th
             class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
             >Prem</th
@@ -44,8 +41,16 @@
           <th
             class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
             >Strike</th
-          ></tr
-        ></thead
+          >
+          <th
+            class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
+            >C/P</th
+          >
+          <th
+            class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
+            >Type</th
+          >
+        </tr></thead
       >
       <tbody>
         {#each optionsFlowList as item}
@@ -58,6 +63,17 @@
                 >{item?.ticker}</a
               ></td
             >
+
+            <td
+              class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
+            >
+              {abbreviateNumber(item?.cost_basis)}</td
+            >
+            <td
+              class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
+              >{item?.strike_price}</td
+            >
+
             <td
               class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
             >
@@ -71,14 +87,10 @@
                 </span>
               {/if}
             </td>
+
             <td
               class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
-            >
-              ${abbreviateNumber(item?.cost_basis)}</td
-            >
-            <td
-              class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
-              >${item?.strike_price}</td
+              >{item?.option_activity_type}</td
             >
           </tr>
         {/each}
