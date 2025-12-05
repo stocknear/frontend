@@ -181,7 +181,7 @@
     },
     underlying_type: {
       label: "Asset Type",
-      step: ["Stock", "ETF"],
+      step: ["Stock", "ETF", "Index"],
       defaultValue: "any",
     },
     trade_leg_type: {
