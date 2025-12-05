@@ -357,7 +357,7 @@
   function generateInsightMarkdown(): string {
     if (!insightData || !selectedOptionData) return "";
 
-    return `# Options Insight: ${selectedOptionData?.ticker} ${selectedOptionData?.put_call?.replace("s", "")} $${selectedOptionData?.strike_price}
+    return `# Options Insight: ${selectedOptionData?.option_symbol}
 
 ## Trade Score: ${insightData.tradeScore}/100 - ${insightData.sentiment}
 **Verdict:** ${insightData.verdict}
