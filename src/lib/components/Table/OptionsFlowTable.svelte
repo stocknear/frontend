@@ -17,9 +17,7 @@
 
   let selectedOptionData: any = null;
   let insightData: any = null;
-  let metricsData: any = null;
   let isLoadingInsight = false;
-  let isLoadingMetrics = false;
   let insightError = "";
   let showInsightModal = false;
 
@@ -118,32 +116,9 @@
   }
     */
 
-  async function fetchMetrics(optionsData: any) {
-    isLoadingMetrics = true;
-    metricsData = null;
-
-    try {
-      const response = await fetch("/api/options-metrics", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ optionsData }),
-      });
-
-      const result = await response.json();
-      if (response.ok && !result.error) {
-        metricsData = result;
-      }
-    } catch (error) {
-      console.error("Metrics fetch error:", error);
-    } finally {
-      isLoadingMetrics = false;
-    }
-  }
-
   async function optionsInsight(optionsData: any) {
     insightError = "";
     insightData = null;
-    metricsData = null;
 
     if (data?.user?.tier !== "Pro") {
       toast.error("Unlock this feature with Pro Subscription", {
@@ -176,9 +151,6 @@
     // Open modal and fetch data
     selectedOptionData = optionsData;
     showInsightModal = true;
-
-    // Always fetch metrics (no credits required)
-    fetchMetrics(optionsData);
 
     if (cachedData?.data) {
       insightData = cachedData.data;
@@ -1483,7 +1455,7 @@ ${insightData.traderTakeaway}
       <div
         class="overflow-y-auto max-h-[calc(95vh-60px)] sm:max-h-[calc(92vh-80px)] p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5 md:space-y-6 bg-gray-50 dark:bg-[#0A0A0B]"
       >
-        {#if isLoadingInsight || isLoadingMetrics}
+        {#if isLoadingInsight}
           <div class="flex flex-col items-center justify-center py-16 gap-4">
             <div class="relative">
               <div
@@ -1615,199 +1587,6 @@ ${insightData.traderTakeaway}
               </div>
             </div>
           </div>
-
-          <!-- Calculated Metrics Section -->
-          {#if metricsData}
-            <div
-              class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 md:p-6"
-            >
-              <div class="flex items-center gap-2 sm:gap-2.5 md:gap-3 mb-4">
-                <div
-                  class="p-1.5 sm:p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex-shrink-0"
-                >
-                  <svg
-                    class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
-                    />
-                  </svg>
-                </div>
-                <h4
-                  class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
-                >
-                  Calculated Metrics
-                </h4>
-              </div>
-
-              <!-- Probability & Risk Grid -->
-              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-4">
-                <!-- Probability of Profit -->
-                <div
-                  class="bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-900/50 rounded-lg p-3 text-center"
-                >
-                  <p
-                    class="text-xs font-medium text-green-700 dark:text-green-400 mb-1"
-                  >
-                    Prob. of Profit
-                  </p>
-                  <p
-                    class="text-lg sm:text-xl font-bold text-green-600 dark:text-green-500"
-                  >
-                    {metricsData.probabilityOfProfit?.toFixed(1) ?? "N/A"}%
-                  </p>
-                </div>
-
-                <!-- Probability of Loss -->
-                <div
-                  class="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/50 rounded-lg p-3 text-center"
-                >
-                  <p
-                    class="text-xs font-medium text-red-700 dark:text-red-400 mb-1"
-                  >
-                    Prob. of Loss
-                  </p>
-                  <p
-                    class="text-lg sm:text-xl font-bold text-red-600 dark:text-red-500"
-                  >
-                    {metricsData.probabilityOfLoss?.toFixed(1) ?? "N/A"}%
-                  </p>
-                </div>
-
-                <!-- Risk/Reward Ratio -->
-                <div
-                  class="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900/50 rounded-lg p-3 text-center"
-                >
-                  <p
-                    class="text-xs font-medium text-blue-700 dark:text-blue-400 mb-1"
-                  >
-                    Risk/Reward
-                  </p>
-                  <p
-                    class="text-lg sm:text-xl font-bold text-blue-600 dark:text-blue-500"
-                  >
-                    {metricsData.riskRewardRatio
-                      ? `1:${metricsData.riskRewardRatio.toFixed(2)}`
-                      : "N/A"}
-                  </p>
-                </div>
-
-                <!-- Kelly % -->
-                <div
-                  class="bg-purple-50 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-900/50 rounded-lg p-3 text-center"
-                >
-                  <p
-                    class="text-xs font-medium text-purple-700 dark:text-purple-400 mb-1"
-                  >
-                    Kelly Size
-                  </p>
-                  <p
-                    class="text-lg sm:text-xl font-bold text-purple-600 dark:text-purple-500"
-                  >
-                    {metricsData.kellyPercentage?.toFixed(1) ?? "N/A"}%
-                  </p>
-                </div>
-              </div>
-
-              <!-- Max Gain / Max Loss / Breakeven -->
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4">
-                <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-3">
-                  <div class="flex items-center justify-between">
-                    <span
-                      class="text-xs font-medium text-gray-600 dark:text-gray-400"
-                      >Max Gain</span
-                    >
-                    <span
-                      class="text-sm font-bold text-green-600 dark:text-green-500"
-                    >
-                      {metricsData.maxGain === "Unlimited"
-                        ? "Unlimited"
-                        : `$${abbreviateNumber(metricsData.maxGain)}`}
-                    </span>
-                  </div>
-                </div>
-                <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-3">
-                  <div class="flex items-center justify-between">
-                    <span
-                      class="text-xs font-medium text-gray-600 dark:text-gray-400"
-                      >Max Loss</span
-                    >
-                    <span
-                      class="text-sm font-bold text-red-600 dark:text-red-500"
-                    >
-                      ${abbreviateNumber(metricsData.maxLoss)}
-                    </span>
-                  </div>
-                </div>
-                <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-3">
-                  <div class="flex items-center justify-between">
-                    <span
-                      class="text-xs font-medium text-gray-600 dark:text-gray-400"
-                      >Breakeven</span
-                    >
-                    <span
-                      class="text-sm font-bold text-gray-900 dark:text-white"
-                    >
-                      ${metricsData.breakeven?.toFixed(2) ?? "N/A"}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Greeks (if available) -->
-              {#if metricsData.greeks}
-                <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
-                  <p
-                    class="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2"
-                  >
-                    Option Greeks
-                  </p>
-                  <div class="flex flex-wrap gap-3 sm:gap-4">
-                    <div class="flex items-center gap-1.5">
-                      <span class="text-xs text-gray-500 dark:text-gray-400"
-                        >Delta:</span
-                      >
-                      <span
-                        class="text-sm font-semibold text-gray-900 dark:text-white"
-                        >{metricsData.greeks.delta?.toFixed(3) ?? "N/A"}</span
-                      >
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                      <span class="text-xs text-gray-500 dark:text-gray-400"
-                        >IV:</span
-                      >
-                      <span
-                        class="text-sm font-semibold text-gray-900 dark:text-white"
-                        >{metricsData.greeks.iv
-                          ? `${(metricsData.greeks.iv * 100).toFixed(1)}%`
-                          : "N/A"}</span
-                      >
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                      <span class="text-xs text-gray-500 dark:text-gray-400"
-                        >Theta:</span
-                      >
-                      <span
-                        class="text-sm font-semibold text-gray-900 dark:text-white"
-                        >{metricsData.greeks.theta?.toFixed(4) ?? "N/A"}</span
-                      >
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                      <span class="text-xs text-gray-500 dark:text-gray-400"
-                        >Gamma:</span
-                      >
-                      <span
-                        class="text-sm font-semibold text-gray-900 dark:text-white"
-                        >{metricsData.greeks.gamma?.toFixed(4) ?? "N/A"}</span
-                      >
-                    </div>
-                  </div>
-                </div>
-              {/if}
-            </div>
-          {/if}
 
           <!-- Executive Summary -->
           <div
