@@ -16,6 +16,7 @@
 
   export let data;
 
+  let isPro = data?.user?.tier === "Pro" ? true : false;
   // State variables with proper types
   let isLoaded = false;
   let shouldUpdate = false;
@@ -62,6 +63,17 @@
     expectedValue: 0,
     expectedReturn: null,
     rewardRisk: null,
+  };
+  let positionGreeks: {
+    delta: number;
+    gamma: number;
+    theta: number;
+    vega: number;
+  } = {
+    delta: 0,
+    gamma: 0,
+    theta: 0,
+    vega: 0,
   };
 
   // Search variables
@@ -171,6 +183,12 @@
       expectedValue: 0,
       expectedReturn: null,
       rewardRisk: null,
+    };
+    positionGreeks = output?.positionGreeks || {
+      delta: 0,
+      gamma: 0,
+      theta: 0,
+      vega: 0,
     };
 
     const xMax = output?.xMax;
@@ -720,7 +738,7 @@
   }
 
   onMount(async () => {
-    if (data?.user?.tier === "Pro") {
+    if (isPro) {
       try {
         const savedStrategy = localStorage?.getItem(
           "options-calculator-strategy",
@@ -1498,21 +1516,40 @@
                         content="The Expected Value (EV) is the weighted average of all possible outcomes of an options trade, where each payoff at a possible ending price is multiplied by its probability of occurring, and then each resulting value is summed together. It is based on the probability distribution of the security's prices at a future date. This statistical measure helps traders assess the theoretical profitability of a strategy if it were to be repeated many times."
                       />
                     </div>
-                    <div
-                      class="text-lg font-semibold {riskRewardMetrics?.expectedValue >=
-                      0
-                        ? 'text-green-800 dark:text-green-400'
-                        : 'text-red-600 dark:text-red-400'}"
-                    >
-                      {riskRewardMetrics?.expectedValue >= 0
-                        ? ""
-                        : "-"}${Math.abs(
-                        riskRewardMetrics?.expectedValue,
-                      )?.toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
-                    </div>
+
+                    {#if isPro}
+                      <div
+                        class="text-lg font-semibold {riskRewardMetrics?.expectedValue >=
+                        0
+                          ? 'text-green-800 dark:text-green-400'
+                          : 'text-red-600 dark:text-red-400'}"
+                      >
+                        {riskRewardMetrics?.expectedValue >= 0
+                          ? ""
+                          : "-"}${Math.abs(
+                          riskRewardMetrics?.expectedValue,
+                        )?.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </div>
+                    {:else}
+                      <a href="/pricing" class="flex mt-2">
+                        <svg
+                          class="size-5 text-muted dark:text-[#fff]"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
                   </div>
 
                   <div>
@@ -1526,16 +1563,35 @@
                         content="The ratio of Expected Value (EV) divided by Maximum Risk, expressed as a percentage. This metric shows the expected profit or loss relative to the maximum potential loss of the trade. For example, if a trade has an Expected Value of $100 and a Maximum Risk of $1,000, the Expected Return would be 10%. This standardized measurement helps traders compare different strategies regardless of position size or structure, providing a risk-adjusted way to evaluate trading opportunities."
                       />
                     </div>
-                    <div
-                      class="text-lg font-semibold {riskRewardMetrics?.expectedReturn !==
-                        null && riskRewardMetrics?.expectedReturn >= 0
-                        ? 'text-green-800 dark:text-green-400'
-                        : 'text-red-600 dark:text-red-400'}"
-                    >
-                      {riskRewardMetrics?.expectedReturn !== null
-                        ? `${riskRewardMetrics?.expectedReturn >= 0 ? "" : ""}${riskRewardMetrics?.expectedReturn?.toFixed(1)}%`
-                        : "n/a"}
-                    </div>
+
+                    {#if isPro}
+                      <div
+                        class="text-lg font-semibold {riskRewardMetrics?.expectedReturn !==
+                          null && riskRewardMetrics?.expectedReturn >= 0
+                          ? 'text-green-800 dark:text-green-400'
+                          : 'text-red-600 dark:text-red-400'}"
+                      >
+                        {riskRewardMetrics?.expectedReturn !== null
+                          ? `${riskRewardMetrics?.expectedReturn >= 0 ? "" : ""}${riskRewardMetrics?.expectedReturn?.toFixed(1)}%`
+                          : "n/a"}
+                      </div>
+                    {:else}
+                      <a href="/pricing" class="flex mt-2">
+                        <svg
+                          class="size-5 text-muted dark:text-[#fff]"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
                   </div>
 
                   <div>
@@ -1549,13 +1605,195 @@
                         content="The Reward/Risk Percentage measures the potential profit of a trade relative to its potential loss, expressed as a percentage. It is calculated as Maximum Profit divided by Maximum Loss. For example, if a trade has a max profit of $500 and max loss of $200, the Reward/Risk is 250%. This helps traders evaluate whether the potential rewards justify the risks taken on a particular trade. A higher percentage indicates more favorable risk-reward."
                       />
                     </div>
+
+                    {#if isPro}
+                      <div
+                        class="text-lg font-semibold text-gray-800 dark:text-white"
+                      >
+                        {riskRewardMetrics?.rewardRisk !== null
+                          ? `${riskRewardMetrics?.rewardRisk?.toFixed(1)}%`
+                          : "n/a"}
+                      </div>
+                    {:else}
+                      <a href="/pricing" class="flex mt-2">
+                        <svg
+                          class="size-5 text-muted dark:text-[#fff]"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
+                  </div>
+                </div>
+
+                <!-- Position Greeks Section -->
+                <h2
+                  class="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-4 mt-6"
+                >
+                  Position Greeks
+                </h2>
+                <div
+                  class="grid grid-cols-2 md:grid-cols-4 gap-y-6 sm:gap-y-0 mb-6"
+                >
+                  <div>
                     <div
-                      class="text-lg font-semibold text-gray-800 dark:text-white"
+                      class="flex items-center text-gray-600 dark:text-white"
                     >
-                      {riskRewardMetrics?.rewardRisk !== null
-                        ? `${riskRewardMetrics?.rewardRisk?.toFixed(1)}%`
-                        : "n/a"}
+                      Delta (Δ)
+                      <InfoModal
+                        title="Delta (Δ)"
+                        id="deltaModal"
+                        content="Delta measures how much the value of your trade position will change for every $1 move in the underlying stock. For example, a delta of 50 means your position will gain $50 if the stock rises $1, or lose $50 if it falls $1. Positive delta = bullish exposure, negative delta = bearish exposure."
+                      />
                     </div>
+
+                    {#if isPro}
+                      <div
+                        class="text-lg font-semibold text-gray-800 dark:text-white"
+                      >
+                        {positionGreeks?.delta?.toFixed(2)}
+                      </div>
+                    {:else}
+                      <a href="/pricing" class="flex mt-2">
+                        <svg
+                          class="size-5 text-muted dark:text-[#fff]"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
+                  </div>
+
+                  <div>
+                    <div
+                      class="flex items-center text-gray-600 dark:text-white"
+                    >
+                      Gamma (Γ)
+                      <InfoModal
+                        title="Gamma (Γ)"
+                        id="gammaModal"
+                        content="Gamma indicates how quickly Delta changes with each $1 move in the underlying asset. High gamma means your delta will change rapidly as the stock moves. Gamma is highest for at-the-money options near expiration. Positive gamma benefits from large moves, negative gamma is hurt by them."
+                      />
+                    </div>
+
+                    {#if isPro}
+                      <div
+                        class="text-lg font-semibold text-gray-800 dark:text-white"
+                      >
+                        {positionGreeks?.gamma?.toFixed(4)}
+                      </div>
+                    {:else}
+                      <a href="/pricing" class="flex mt-2">
+                        <svg
+                          class="size-5 text-muted dark:text-[#fff]"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
+                  </div>
+
+                  <div>
+                    <div
+                      class="flex items-center text-gray-600 dark:text-white"
+                    >
+                      Theta (Θ)
+                      <InfoModal
+                        title="Theta (Θ)"
+                        id="thetaModal"
+                        content="Theta measures your position's daily loss in value due to time decay. A theta of -$50 means your position loses $50 per day just from the passage of time, assuming all else stays constant. Option buyers have negative theta (time works against them), while sellers have positive theta."
+                      />
+                    </div>
+                    {#if isPro}
+                      <div
+                        class="text-lg font-semibold {positionGreeks?.theta >= 0
+                          ? 'text-green-800 dark:text-green-400'
+                          : 'text-red-600 dark:text-red-400'}"
+                      >
+                        {positionGreeks?.theta >= 0 ? "" : "-"}${Math.abs(
+                          positionGreeks?.theta?.toFixed(2),
+                        )?.toLocaleString("en-US")}/day
+                      </div>
+                    {:else}
+                      <a href="/pricing" class="flex mt-2">
+                        <svg
+                          class="size-5 text-muted dark:text-[#fff]"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
+                  </div>
+
+                  <div>
+                    <div
+                      class="flex items-center text-gray-600 dark:text-white"
+                    >
+                      Vega (ν)
+                      <InfoModal
+                        title="Vega (ν)"
+                        id="vegaModal"
+                        content="Vega measures the amount the position will change for every 1% change in implied volatility. A vega of $100 means your position will gain $100 if IV rises by 1%, or lose $100 if IV falls by 1%. Long options have positive vega, short options have negative vega."
+                      />
+                    </div>
+
+                    {#if isPro}
+                      <div
+                        class="text-lg font-semibold text-gray-800 dark:text-white"
+                      >
+                        {positionGreeks?.vega >= 0 ? "" : "-"}${Math.abs(
+                          positionGreeks?.vega,
+                        )?.toFixed(2)}
+                      </div>
+                    {:else}
+                      <a href="/pricing" class="flex mt-2">
+                        <svg
+                          class="size-5 text-muted dark:text-[#fff]"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width: 40px;"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          >
+                          </path>
+                        </svg>
+                      </a>
+                    {/if}
                   </div>
                 </div>
               </div>

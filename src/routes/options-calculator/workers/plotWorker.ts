@@ -235,6 +235,132 @@
     return { expectedValue, expectedReturn, rewardRisk };
   }
 
+  // ============================================
+  // GREEKS CALCULATIONS
+  // ============================================
+
+  // Calculate individual option Greeks
+  function calculateOptionGreeks(
+    S: number,      // Stock price
+    K: number,      // Strike price
+    T: number,      // Time to expiration (years)
+    r: number,      // Risk-free rate
+    sigma: number,  // Implied volatility
+    optionType: string  // "Call" or "Put"
+  ): { delta: number; gamma: number; theta: number; vega: number } {
+
+    // Handle edge cases
+    if (T <= 0 || sigma <= 0) {
+      // At expiration, return intrinsic Greeks
+      const isITM = optionType === "Call" ? S > K : S < K;
+      return {
+        delta: isITM ? (optionType === "Call" ? 1 : -1) : 0,
+        gamma: 0,
+        theta: 0,
+        vega: 0,
+      };
+    }
+
+    const { d1, d2 } = calculateD1D2(S, K, T, r, sigma);
+    const sqrtT = Math.sqrt(T);
+    const Nd1 = normalCDF(d1);
+    const Nd2 = normalCDF(d2);
+    const Npd1 = normalPDF(d1); // N'(d1) - PDF at d1
+    const expRT = Math.exp(-r * T);
+
+    let delta: number;
+    let theta: number;
+
+    if (optionType === "Call") {
+      // Call Delta = N(d1)
+      delta = Nd1;
+
+      // Call Theta = -(S * N'(d1) * σ) / (2√T) - r * K * e^(-rT) * N(d2)
+      theta = -(S * Npd1 * sigma) / (2 * sqrtT) - r * K * expRT * Nd2;
+    } else {
+      // Put Delta = N(d1) - 1
+      delta = Nd1 - 1;
+
+      // Put Theta = -(S * N'(d1) * σ) / (2√T) + r * K * e^(-rT) * N(-d2)
+      theta = -(S * Npd1 * sigma) / (2 * sqrtT) + r * K * expRT * normalCDF(-d2);
+    }
+
+    // Gamma = N'(d1) / (S * σ * √T) - same for calls and puts
+    const gamma = Npd1 / (S * sigma * sqrtT);
+
+    // Vega = S * N'(d1) * √T - same for calls and puts
+    // Divide by 100 to express per 1% change in IV
+    const vega = (S * Npd1 * sqrtT) / 100;
+
+    // Convert theta to per-day (divide by 365)
+    const thetaPerDay = theta / 365;
+
+    return {
+      delta,
+      gamma,
+      theta: thetaPerDay,
+      vega,
+    };
+  }
+
+  // Calculate position Greeks for the entire strategy
+  function calculatePositionGreeks(
+    userStrategy: any[],
+    currentStockPrice: number,
+    T: number,
+    r: number
+  ): { delta: number; gamma: number; theta: number; vega: number } {
+
+    if (!userStrategy || userStrategy.length === 0) {
+      return { delta: 0, gamma: 0, theta: 0, vega: 0 };
+    }
+
+    let positionDelta = 0;
+    let positionGamma = 0;
+    let positionTheta = 0;
+    let positionVega = 0;
+
+    const contractMultiplier = 100; // 100 shares per contract
+
+    userStrategy.forEach((leg) => {
+      const quantity = leg.quantity || 1;
+      const direction = leg.action === "Buy" ? 1 : -1;
+
+      // Calculate IV for this specific leg
+      const legIV = calculateImpliedVolatility(
+        leg.optionPrice,
+        currentStockPrice,
+        leg.strike,
+        T,
+        r,
+        leg.optionType
+      );
+
+      // Calculate Greeks for this leg
+      const greeks = calculateOptionGreeks(
+        currentStockPrice,
+        leg.strike,
+        T,
+        r,
+        legIV,
+        leg.optionType
+      );
+
+      // Add to position Greeks (multiply by quantity, direction, and contract multiplier)
+      positionDelta += greeks.delta * quantity * direction * contractMultiplier;
+      positionGamma += greeks.gamma * quantity * direction * contractMultiplier;
+      positionTheta += greeks.theta * quantity * direction * contractMultiplier;
+      positionVega += greeks.vega * quantity * direction * contractMultiplier;
+    });
+
+    return {
+      delta: positionDelta,
+      gamma: positionGamma,
+      theta: positionTheta,
+      vega: positionVega,
+    };
+  }
+
   // Main probability calculation function
   function calculateProbabilities(
     userStrategy: any[],
@@ -832,7 +958,15 @@ function plotData(userStrategy, currentStockPrice, expirationDate) {
       metrics.hasUnlimitedLoss
     );
 
-    return {metrics, breakEvenPrice, totalPremium, dataPoints, xMin, xMax, probabilities, riskRewardMetrics};
+    // Calculate Position Greeks
+    const positionGreeks = calculatePositionGreeks(
+      userStrategy,
+      currentStockPrice,
+      T,
+      riskFreeRate
+    );
+
+    return {metrics, breakEvenPrice, totalPremium, dataPoints, xMin, xMax, probabilities, riskRewardMetrics, positionGreeks};
   }
 
 
