@@ -48,6 +48,11 @@
   let totalPremium: number;
   let metrics: Record<string, string> = {};
   let rawData: Record<string, any> = {};
+  let probabilities: { pop: number; popMaxProfit: number; popMaxLoss: number } = {
+    pop: 0,
+    popMaxProfit: 0,
+    popMaxLoss: 0,
+  };
 
   // Search variables
   let searchBarData = [];
@@ -147,6 +152,7 @@
     config = output?.options;
     breakEvenPrice = output?.breakEvenPrice;
     totalPremium = output?.totalPremium;
+    probabilities = output?.probabilities || { pop: 0, popMaxProfit: 0, popMaxLoss: 0 };
 
     const xMax = output?.xMax;
     const xMin = output?.xMin;
@@ -324,9 +330,12 @@
       return null;
     }
     try {
+      // Get the expiration date from the first leg (or use a default)
+      const expirationDate = userStrategy[0]?.date || selectedDate;
       plotWorker.postMessage({
         userStrategy: userStrategy,
         currentStockPrice: currentStockPrice,
+        expirationDate: expirationDate,
       });
     } catch (error) {
       console.error("Error fetching stock data:", error);
@@ -1373,13 +1382,71 @@
                       <InfoModal
                         title="Maximum Loss"
                         id="maxLossModal"
-                        content="Maximum Loss is the worst possible financial outcome of an options position. For long calls or puts, it’s limited to the premium paid. For naked calls, losses can be unlimited due to unlimited upside risk. For naked puts, the maximum loss is the strike price minus the premium if the stock drops to zero. In defined-risk spreads, it’s the difference between strike prices minus net premium received or paid."
+                        content="Maximum Loss is the worst possible financial outcome of an options position. For long calls or puts, it's limited to the premium paid. For naked calls, losses can be unlimited due to unlimited upside risk. For naked puts, the maximum loss is the strike price minus the premium if the stock drops to zero. In defined-risk spreads, it's the difference between strike prices minus net premium received or paid."
                       />
                     </div>
                     <div
                       class="text-lg font-semibold text-red-600 dark:text-red-400"
                     >
                       {metrics?.maxLoss}
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Probability Analysis Section -->
+                <h2
+                  class="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-4 mt-6"
+                >
+                  Probability Analysis
+                </h2>
+                <div
+                  class="grid grid-cols-2 md:grid-cols-4 gap-y-6 sm:gap-y-0 mb-6"
+                >
+                  <div>
+                    <div
+                      class="flex items-center text-gray-600 dark:text-white"
+                    >
+                      Probability of Profit
+                      <InfoModal
+                        title="Probability of Profit (PoP)"
+                        id="popModal"
+                        content="The Probability of Profit (PoP) measures the likelihood that a trade will result in a profit at expiration. It is calculated using the Black-Scholes model and implied volatility derived from option prices. This metric provides an estimate of the success rate for a given strategy under current market conditions."
+                      />
+                    </div>
+                    <div class="text-lg font-semibold {probabilities?.pop >= 0.5 ? 'text-green-800 dark:text-green-400' : 'text-red-600 dark:text-red-400'}">
+                      {(probabilities?.pop * 100)?.toFixed(1)}%
+                    </div>
+                  </div>
+
+                  <div>
+                    <div
+                      class="flex items-center text-gray-600 dark:text-white"
+                    >
+                      Prob. of Max Profit
+                      <InfoModal
+                        title="Probability of Maximum Profit"
+                        id="popMaxProfitModal"
+                        content="The Probability of Maximum Profit represents the likelihood that a trade will achieve its highest possible profit at expiration. This metric considers factors such as the behavior of the underlying asset, time to expiration, and market volatility (implied volatility derived from option prices)."
+                      />
+                    </div>
+                    <div class="text-lg font-semibold text-green-800 dark:text-green-400">
+                      {(probabilities?.popMaxProfit * 100)?.toFixed(1)}%
+                    </div>
+                  </div>
+
+                  <div>
+                    <div
+                      class="flex items-center text-gray-600 dark:text-white"
+                    >
+                      Prob. of Max Loss
+                      <InfoModal
+                        title="Probability of Maximum Loss"
+                        id="popMaxLossModal"
+                        content="The Probability of Maximum Loss represents the likelihood that a trade will incur its worst possible outcome at expiration. This metric helps traders understand the risk of losing their entire investment or facing maximum exposure based on the strategy. It is calculated using the Black-Scholes model."
+                      />
+                    </div>
+                    <div class="text-lg font-semibold text-red-600 dark:text-red-400">
+                      {(probabilities?.popMaxLoss * 100)?.toFixed(1)}%
                     </div>
                   </div>
                 </div>
