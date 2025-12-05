@@ -17,7 +17,9 @@
 
   let selectedOptionData: any = null;
   let insightData: any = null;
+  let metricsData: any = null;
   let isLoadingInsight = false;
+  let isLoadingMetrics = false;
   let insightError = "";
   let showInsightModal = false;
 
@@ -116,9 +118,32 @@
   }
     */
 
+  async function fetchMetrics(optionsData: any) {
+    isLoadingMetrics = true;
+    metricsData = null;
+
+    try {
+      const response = await fetch("/api/options-metrics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ optionsData }),
+      });
+
+      const result = await response.json();
+      if (response.ok && !result.error) {
+        metricsData = result;
+      }
+    } catch (error) {
+      console.error("Metrics fetch error:", error);
+    } finally {
+      isLoadingMetrics = false;
+    }
+  }
+
   async function optionsInsight(optionsData: any) {
     insightError = "";
     insightData = null;
+    metricsData = null;
 
     if (data?.user?.tier !== "Pro") {
       toast.error("Unlock this feature with Pro Subscription", {
@@ -137,15 +162,8 @@
     // Check cache first
     const cachedData = getCachedOptionsInsight(cacheKey, cacheExpiration);
 
-    if (cachedData?.data) {
-      selectedOptionData = optionsData;
-      insightData = cachedData.data;
-      showInsightModal = true;
-      return;
-    }
-
-    // Check credits only if not cached
-    if (data?.user?.credits < 2) {
+    // Check credits BEFORE opening modal (unless data is cached)
+    if (!cachedData?.data && data?.user?.credits < 2) {
       toast?.error(
         `Insufficient credits. Your current balance is ${data?.user?.credits}.`,
         {
@@ -155,9 +173,19 @@
       return;
     }
 
+    // Open modal and fetch data
     selectedOptionData = optionsData;
-    isLoadingInsight = true;
     showInsightModal = true;
+
+    // Always fetch metrics (no credits required)
+    fetchMetrics(optionsData);
+
+    if (cachedData?.data) {
+      insightData = cachedData.data;
+      return;
+    }
+
+    isLoadingInsight = true;
 
     try {
       const response = await fetch("/api/options-insight", {
@@ -171,7 +199,8 @@
       const result = await response.json();
 
       if (!response.ok || result.error) {
-        insightError = result.error || "Failed to load analysis. Please try again.";
+        insightError =
+          result.error || "Failed to load analysis. Please try again.";
         isLoadingInsight = false;
         return;
       }
@@ -292,27 +321,46 @@
   }
 
   function getScoreColor(score: number) {
-    if (score >= 70) return { text: "text-green-600 dark:text-green-400", bg: "bg-green-100 dark:bg-green-900/40", bar: "bg-green-500" };
-    if (score >= 40) return { text: "text-yellow-600 dark:text-yellow-400", bg: "bg-yellow-100 dark:bg-yellow-900/40", bar: "bg-yellow-500" };
-    return { text: "text-red-600 dark:text-red-400", bg: "bg-red-100 dark:bg-red-900/40", bar: "bg-red-500" };
+    if (score >= 70)
+      return {
+        text: "text-green-600 dark:text-green-400",
+        bg: "bg-green-100 dark:bg-green-900/40",
+        bar: "bg-green-500",
+      };
+    if (score >= 40)
+      return {
+        text: "text-yellow-600 dark:text-yellow-400",
+        bg: "bg-yellow-100 dark:bg-yellow-900/40",
+        bar: "bg-yellow-500",
+      };
+    return {
+      text: "text-red-600 dark:text-red-400",
+      bg: "bg-red-100 dark:bg-red-900/40",
+      bar: "bg-red-500",
+    };
   }
 
   function getSentimentColor(sentiment: string) {
     const colorMap: Record<string, string> = {
-      "Bullish": "text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/40",
-      "Highly Bullish": "text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/40",
-      "Bearish": "text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/40",
-      "Highly Bearish": "text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/40",
-      "Neutral": "text-yellow-600 dark:text-yellow-400 bg-yellow-100 dark:bg-yellow-900/40",
+      Bullish:
+        "text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/40",
+      "Highly Bullish":
+        "text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/40",
+      Bearish: "text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/40",
+      "Highly Bearish":
+        "text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/40",
+      Neutral:
+        "text-yellow-600 dark:text-yellow-400 bg-yellow-100 dark:bg-yellow-900/40",
     };
     return colorMap[sentiment] || colorMap["Neutral"];
   }
 
   function getVerdictColor(verdict: string) {
     const colorMap: Record<string, string> = {
-      "BUY": "text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900/40",
-      "AVOID": "text-red-700 dark:text-red-400 bg-red-100 dark:bg-red-900/40",
-      "WATCH": "text-yellow-700 dark:text-yellow-400 bg-yellow-100 dark:bg-yellow-900/40",
+      BUY: "text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900/40",
+      AVOID: "text-red-700 dark:text-red-400 bg-red-100 dark:bg-red-900/40",
+      WATCH:
+        "text-yellow-700 dark:text-yellow-400 bg-yellow-100 dark:bg-yellow-900/40",
     };
     return colorMap[verdict] || colorMap["WATCH"];
   }
@@ -325,11 +373,11 @@
       "Low Risk": "text-green-600 dark:text-green-400",
       "Moderate Risk": "text-yellow-600 dark:text-yellow-400",
       "High Risk": "text-red-600 dark:text-red-400",
-      "Favorable": "text-green-600 dark:text-green-400",
-      "Unfavorable": "text-red-600 dark:text-red-400",
-      "High": "text-red-600 dark:text-red-400",
-      "Medium": "text-yellow-600 dark:text-yellow-400",
-      "Low": "text-green-600 dark:text-green-400",
+      Favorable: "text-green-600 dark:text-green-400",
+      Unfavorable: "text-red-600 dark:text-red-400",
+      High: "text-red-600 dark:text-red-400",
+      Medium: "text-yellow-600 dark:text-yellow-400",
+      Low: "text-green-600 dark:text-green-400",
     };
     return colorMap[assessment] || "text-gray-600 dark:text-gray-400";
   }
@@ -415,7 +463,7 @@ ${insightData.traderTakeaway}
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${selectedOptionData?.ticker}-options-insight-${selectedOptionData?.strike_price}-${selectedOptionData?.date_expiration}.md`;
+    a.download = `${selectedOptionData?.option_symbol}-options-insight.md`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -1383,18 +1431,29 @@ ${insightData.traderTakeaway}
       role="document"
     >
       <!-- Modal Header -->
-      <div class="sticky top-0 z-10 bg-white dark:bg-[#09090B] px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 border-b border-gray-200 dark:border-gray-800">
+      <div
+        class="sticky top-0 z-10 bg-white dark:bg-[#09090B] px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 border-b border-gray-200 dark:border-gray-800"
+      >
         <div class="flex items-center justify-between gap-3">
           <div class="flex items-center gap-2 sm:gap-3 md:gap-4 min-w-0 flex-1">
-            <div class="p-1.5 sm:p-2 md:p-2.5 bg-purple-50 dark:bg-purple-950/30 rounded-lg flex-shrink-0">
-              <Spark class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-purple-600 dark:text-purple-400" />
+            <div
+              class="p-1.5 sm:p-2 md:p-2.5 bg-purple-50 dark:bg-purple-950/30 rounded-lg flex-shrink-0"
+            >
+              <Spark
+                class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-purple-600 dark:text-purple-400"
+              />
             </div>
             <div class="min-w-0 flex-1">
-              <h2 class="text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-white truncate">
+              <h2
+                class="text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-white truncate"
+              >
                 Options Flow Insight
               </h2>
-              <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 mt-0.5 truncate">
-                {selectedOptionData?.ticker} {selectedOptionData?.put_call?.replace("s", "")} ${selectedOptionData?.strike_price} • DTE {selectedOptionData?.dte}
+              <p
+                class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 mt-0.5 truncate"
+              >
+                {selectedOptionData?.option_symbol}
+                • DTE {selectedOptionData?.dte}
               </p>
             </div>
           </div>
@@ -1402,58 +1461,113 @@ ${insightData.traderTakeaway}
             on:click={closeInsightModal}
             class="cursor-pointer p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex-shrink-0"
           >
-            <svg class="w-5 h-5 text-gray-800 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            <svg
+              class="w-5 h-5 text-gray-800 dark:text-gray-400"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
       </div>
 
       <!-- Modal Content -->
-      <div class="overflow-y-auto max-h-[calc(95vh-60px)] sm:max-h-[calc(92vh-80px)] p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5 md:space-y-6 bg-gray-50 dark:bg-[#0A0A0B]">
-        {#if isLoadingInsight}
+      <div
+        class="overflow-y-auto max-h-[calc(95vh-60px)] sm:max-h-[calc(92vh-80px)] p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5 md:space-y-6 bg-gray-50 dark:bg-[#0A0A0B]"
+      >
+        {#if isLoadingInsight || isLoadingMetrics}
           <div class="flex flex-col items-center justify-center py-16 gap-4">
             <div class="relative">
-              <div class="w-12 h-12 border-4 border-purple-200 dark:border-purple-800 rounded-full"></div>
-              <div class="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
+              <div
+                class="w-12 h-12 border-4 border-purple-200 dark:border-purple-800 rounded-full"
+              ></div>
+              <div
+                class="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin absolute top-0 left-0"
+              ></div>
             </div>
-            <p class="text-sm text-purple-700 dark:text-purple-300 font-medium">Analyzing options flow...</p>
-            <p class="text-xs text-purple-500 dark:text-purple-400">Extracting trade insights and signals</p>
+            <p class="text-sm text-purple-700 dark:text-purple-300 font-medium">
+              Analyzing options flow...
+            </p>
+            <p class="text-xs text-purple-500 dark:text-purple-400">
+              Extracting trade insights and signals
+            </p>
           </div>
         {:else if insightError}
-          <div class="p-4 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900 rounded-lg">
+          <div
+            class="p-4 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900 rounded-lg"
+          >
             <div class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+              <svg
+                class="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5 flex-shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clip-rule="evenodd"
+                />
               </svg>
-              <p class="text-sm font-medium text-red-700 dark:text-red-300">{insightError}</p>
+              <p class="text-sm font-medium text-red-700 dark:text-red-300">
+                {insightError}
+              </p>
             </div>
           </div>
         {:else if insightData}
           <!-- Trade Score Card -->
-          <div class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 md:p-6">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div
+            class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 md:p-6"
+          >
+            <div
+              class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+            >
               <div class="flex-1">
                 <div class="mb-3 sm:mb-4">
-                  <span class="text-xs font-semibold text-gray-800 dark:text-gray-400 uppercase tracking-wider">Trade Signal Score</span>
+                  <span
+                    class="text-xs font-semibold text-gray-800 dark:text-gray-400 uppercase tracking-wider"
+                    >Trade Signal Score</span
+                  >
                 </div>
-                <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4"
+                >
                   <div class="flex items-center gap-3">
-                    <span class="px-3 py-1.5 rounded-full text-sm font-semibold {getSentimentColor(insightData.sentiment)}">
+                    <span
+                      class="px-3 py-1.5 rounded-full text-sm font-semibold {getSentimentColor(
+                        insightData.sentiment,
+                      )}"
+                    >
                       {insightData.sentiment}
                     </span>
-                    <span class="px-3 py-1.5 rounded-full text-sm font-bold {getVerdictColor(insightData.verdict)}">
+                    <span
+                      class="px-3 py-1.5 rounded-full text-sm font-bold {getVerdictColor(
+                        insightData.verdict,
+                      )}"
+                    >
                       {insightData.verdict}
                     </span>
                   </div>
                   <div class="flex items-center gap-2">
-                    <div class="w-32 sm:w-40 h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div
+                      class="w-32 sm:w-40 h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden"
+                    >
                       <div
-                        class="h-full {getScoreColor(insightData.tradeScore).bar} rounded-full transition-all duration-500"
+                        class="h-full {getScoreColor(insightData.tradeScore)
+                          .bar} rounded-full transition-all duration-500"
                         style="width: {insightData.tradeScore}%"
                       ></div>
                     </div>
-                    <span class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
+                    <span
+                      class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white"
+                    >
                       {insightData.tradeScore}%
                     </span>
                   </div>
@@ -1464,8 +1578,18 @@ ${insightData.traderTakeaway}
                   on:click={copyInsightToClipboard}
                   class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  <svg
+                    class="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    />
                   </svg>
                   Copy
                 </button>
@@ -1473,8 +1597,18 @@ ${insightData.traderTakeaway}
                   on:click={downloadInsightMarkdown}
                   class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  <svg
+                    class="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                    />
                   </svg>
                   Download
                 </button>
@@ -1482,18 +1616,229 @@ ${insightData.traderTakeaway}
             </div>
           </div>
 
+          <!-- Calculated Metrics Section -->
+          {#if metricsData}
+            <div
+              class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 md:p-6"
+            >
+              <div class="flex items-center gap-2 sm:gap-2.5 md:gap-3 mb-4">
+                <div
+                  class="p-1.5 sm:p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex-shrink-0"
+                >
+                  <svg
+                    class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
+                    />
+                  </svg>
+                </div>
+                <h4
+                  class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                >
+                  Calculated Metrics
+                </h4>
+              </div>
+
+              <!-- Probability & Risk Grid -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-4">
+                <!-- Probability of Profit -->
+                <div
+                  class="bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-900/50 rounded-lg p-3 text-center"
+                >
+                  <p
+                    class="text-xs font-medium text-green-700 dark:text-green-400 mb-1"
+                  >
+                    Prob. of Profit
+                  </p>
+                  <p
+                    class="text-lg sm:text-xl font-bold text-green-600 dark:text-green-500"
+                  >
+                    {metricsData.probabilityOfProfit?.toFixed(1) ?? "N/A"}%
+                  </p>
+                </div>
+
+                <!-- Probability of Loss -->
+                <div
+                  class="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/50 rounded-lg p-3 text-center"
+                >
+                  <p
+                    class="text-xs font-medium text-red-700 dark:text-red-400 mb-1"
+                  >
+                    Prob. of Loss
+                  </p>
+                  <p
+                    class="text-lg sm:text-xl font-bold text-red-600 dark:text-red-500"
+                  >
+                    {metricsData.probabilityOfLoss?.toFixed(1) ?? "N/A"}%
+                  </p>
+                </div>
+
+                <!-- Risk/Reward Ratio -->
+                <div
+                  class="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900/50 rounded-lg p-3 text-center"
+                >
+                  <p
+                    class="text-xs font-medium text-blue-700 dark:text-blue-400 mb-1"
+                  >
+                    Risk/Reward
+                  </p>
+                  <p
+                    class="text-lg sm:text-xl font-bold text-blue-600 dark:text-blue-500"
+                  >
+                    {metricsData.riskRewardRatio
+                      ? `1:${metricsData.riskRewardRatio.toFixed(2)}`
+                      : "N/A"}
+                  </p>
+                </div>
+
+                <!-- Kelly % -->
+                <div
+                  class="bg-purple-50 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-900/50 rounded-lg p-3 text-center"
+                >
+                  <p
+                    class="text-xs font-medium text-purple-700 dark:text-purple-400 mb-1"
+                  >
+                    Kelly Size
+                  </p>
+                  <p
+                    class="text-lg sm:text-xl font-bold text-purple-600 dark:text-purple-500"
+                  >
+                    {metricsData.kellyPercentage?.toFixed(1) ?? "N/A"}%
+                  </p>
+                </div>
+              </div>
+
+              <!-- Max Gain / Max Loss / Breakeven -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4">
+                <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-3">
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="text-xs font-medium text-gray-600 dark:text-gray-400"
+                      >Max Gain</span
+                    >
+                    <span
+                      class="text-sm font-bold text-green-600 dark:text-green-500"
+                    >
+                      {metricsData.maxGain === "Unlimited"
+                        ? "Unlimited"
+                        : `$${abbreviateNumber(metricsData.maxGain)}`}
+                    </span>
+                  </div>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-3">
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="text-xs font-medium text-gray-600 dark:text-gray-400"
+                      >Max Loss</span
+                    >
+                    <span
+                      class="text-sm font-bold text-red-600 dark:text-red-500"
+                    >
+                      ${abbreviateNumber(metricsData.maxLoss)}
+                    </span>
+                  </div>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-3">
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="text-xs font-medium text-gray-600 dark:text-gray-400"
+                      >Breakeven</span
+                    >
+                    <span
+                      class="text-sm font-bold text-gray-900 dark:text-white"
+                    >
+                      ${metricsData.breakeven?.toFixed(2) ?? "N/A"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Greeks (if available) -->
+              {#if metricsData.greeks}
+                <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
+                  <p
+                    class="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2"
+                  >
+                    Option Greeks
+                  </p>
+                  <div class="flex flex-wrap gap-3 sm:gap-4">
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-xs text-gray-500 dark:text-gray-400"
+                        >Delta:</span
+                      >
+                      <span
+                        class="text-sm font-semibold text-gray-900 dark:text-white"
+                        >{metricsData.greeks.delta?.toFixed(3) ?? "N/A"}</span
+                      >
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-xs text-gray-500 dark:text-gray-400"
+                        >IV:</span
+                      >
+                      <span
+                        class="text-sm font-semibold text-gray-900 dark:text-white"
+                        >{metricsData.greeks.iv
+                          ? `${(metricsData.greeks.iv * 100).toFixed(1)}%`
+                          : "N/A"}</span
+                      >
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-xs text-gray-500 dark:text-gray-400"
+                        >Theta:</span
+                      >
+                      <span
+                        class="text-sm font-semibold text-gray-900 dark:text-white"
+                        >{metricsData.greeks.theta?.toFixed(4) ?? "N/A"}</span
+                      >
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-xs text-gray-500 dark:text-gray-400"
+                        >Gamma:</span
+                      >
+                      <span
+                        class="text-sm font-semibold text-gray-900 dark:text-white"
+                        >{metricsData.greeks.gamma?.toFixed(4) ?? "N/A"}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              {/if}
+            </div>
+          {/if}
+
           <!-- Executive Summary -->
-          <div class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 md:p-6">
+          <div
+            class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 md:p-6"
+          >
             <div class="flex items-center gap-2 sm:gap-2.5 md:gap-3 mb-3">
-              <div class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0">
-                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+              <div
+                class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0"
+              >
+                <svg
+                  class="w-4 h-4 sm:w-5 sm:h-5 text-gray-700 dark:text-gray-300"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
                   <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-                  <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+                  <path
+                    fill-rule="evenodd"
+                    d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                    clip-rule="evenodd"
+                  />
                 </svg>
               </div>
-              <h4 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">Executive Summary</h4>
+              <h4
+                class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+              >
+                Executive Summary
+              </h4>
             </div>
-            <p class="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
+            <p
+              class="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed"
+            >
               {insightData.executiveSummary}
             </p>
           </div>
@@ -1501,133 +1846,286 @@ ${insightData.traderTakeaway}
           <!-- Analysis Cards Grid -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <!-- Order Analysis -->
-            <div class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors">
+            <div
+              class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
+            >
               <div class="flex items-center justify-between mb-3 sm:mb-4 gap-2">
                 <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
-                  <div class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0">
-                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  <div
+                    class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0"
+                  >
+                    <svg
+                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700 dark:text-gray-300"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z"
+                        clip-rule="evenodd"
+                      />
                     </svg>
                   </div>
-                  <h5 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">Order Analysis</h5>
+                  <h5
+                    class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                  >
+                    Order Analysis
+                  </h5>
                 </div>
-                <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold {getAssessmentColor(insightData.orderAnalysis?.assessment)} bg-gray-100 dark:bg-gray-800 rounded flex-shrink-0">
+                <span
+                  class="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold {getAssessmentColor(
+                    insightData.orderAnalysis?.assessment,
+                  )} bg-gray-100 dark:bg-gray-800 rounded flex-shrink-0"
+                >
                   {insightData.orderAnalysis?.assessment}
                 </span>
               </div>
               <div class="space-y-2 sm:space-y-3">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded"
+                >
                   <div class="flex items-center gap-2">
-                    <span class="text-xs font-medium text-gray-600 dark:text-gray-200">Type</span>
-                    <span class="text-sm font-semibold text-gray-900 dark:text-white">{insightData.orderAnalysis?.orderType}</span>
+                    <span
+                      class="text-xs font-medium text-gray-600 dark:text-gray-200"
+                      >Type</span
+                    >
+                    <span
+                      class="text-sm font-semibold text-gray-900 dark:text-white"
+                      >{insightData.orderAnalysis?.orderType}</span
+                    >
                   </div>
                   <div class="flex items-center gap-2">
-                    <span class="text-xs font-medium text-gray-600 dark:text-gray-200">Execution</span>
-                    <span class="text-xs sm:text-sm text-gray-700 dark:text-gray-300">{insightData.orderAnalysis?.executionContext}</span>
+                    <span
+                      class="text-xs font-medium text-gray-600 dark:text-gray-200"
+                      >Execution</span
+                    >
+                    <span
+                      class="text-xs sm:text-sm text-gray-700 dark:text-gray-300"
+                      >{insightData.orderAnalysis?.executionContext}</span
+                    >
                   </div>
                 </div>
                 {#each insightData.orderAnalysis?.keyInsights || [] as insight}
                   <div class="flex items-start gap-2">
                     <span class="text-gray-400 mt-0.5 flex-shrink-0">•</span>
-                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 leading-relaxed">{insight}</p>
+                    <p
+                      class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 leading-relaxed"
+                    >
+                      {insight}
+                    </p>
                   </div>
                 {/each}
               </div>
             </div>
 
             <!-- Sentiment Analysis -->
-            <div class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors">
+            <div
+              class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
+            >
               <div class="flex items-center justify-between mb-3 sm:mb-4 gap-2">
                 <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
-                  <div class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0">
-                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                  <div
+                    class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0"
+                  >
+                    <svg
+                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700 dark:text-gray-300"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
+                        clip-rule="evenodd"
+                      />
                     </svg>
                   </div>
-                  <h5 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">Sentiment</h5>
+                  <h5
+                    class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                  >
+                    Sentiment
+                  </h5>
                 </div>
-                <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold {getSentimentColor(insightData.sentimentAnalysis?.assessment)} rounded flex-shrink-0">
+                <span
+                  class="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold {getSentimentColor(
+                    insightData.sentimentAnalysis?.assessment,
+                  )} rounded flex-shrink-0"
+                >
                   {insightData.sentimentAnalysis?.assessment}
                 </span>
               </div>
               <div class="space-y-2 sm:space-y-3">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded"
+                >
                   <div class="flex items-center gap-2">
-                    <span class="text-xs font-medium text-gray-600 dark:text-gray-200">Intent</span>
-                    <span class="text-sm font-semibold text-gray-900 dark:text-white">{insightData.sentimentAnalysis?.buyerIntent}</span>
+                    <span
+                      class="text-xs font-medium text-gray-600 dark:text-gray-200"
+                      >Intent</span
+                    >
+                    <span
+                      class="text-sm font-semibold text-gray-900 dark:text-white"
+                      >{insightData.sentimentAnalysis?.buyerIntent}</span
+                    >
                   </div>
                   <div class="flex items-center gap-2">
-                    <span class="text-xs font-medium text-gray-600 dark:text-gray-200">Urgency</span>
-                    <span class="text-xs sm:text-sm font-semibold {getAssessmentColor(insightData.sentimentAnalysis?.urgencyLevel)}">{insightData.sentimentAnalysis?.urgencyLevel}</span>
+                    <span
+                      class="text-xs font-medium text-gray-600 dark:text-gray-200"
+                      >Urgency</span
+                    >
+                    <span
+                      class="text-xs sm:text-sm font-semibold {getAssessmentColor(
+                        insightData.sentimentAnalysis?.urgencyLevel,
+                      )}">{insightData.sentimentAnalysis?.urgencyLevel}</span
+                    >
                   </div>
                 </div>
                 {#each insightData.sentimentAnalysis?.keyInsights || [] as insight}
                   <div class="flex items-start gap-2">
                     <span class="text-gray-400 mt-0.5 flex-shrink-0">•</span>
-                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 leading-relaxed">{insight}</p>
+                    <p
+                      class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 leading-relaxed"
+                    >
+                      {insight}
+                    </p>
                   </div>
                 {/each}
               </div>
             </div>
 
             <!-- Risk Profile -->
-            <div class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors">
+            <div
+              class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
+            >
               <div class="flex items-center justify-between mb-3 sm:mb-4 gap-2">
                 <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
-                  <div class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0">
-                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v3a1 1 0 102 0V7z" clip-rule="evenodd" />
+                  <div
+                    class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0"
+                  >
+                    <svg
+                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700 dark:text-gray-300"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v3a1 1 0 102 0V7z"
+                        clip-rule="evenodd"
+                      />
                     </svg>
                   </div>
-                  <h5 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">Risk Profile</h5>
+                  <h5
+                    class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                  >
+                    Risk Profile
+                  </h5>
                 </div>
-                <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold {getAssessmentColor(insightData.riskProfile?.assessment)} bg-gray-100 dark:bg-gray-800 rounded flex-shrink-0">
+                <span
+                  class="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold {getAssessmentColor(
+                    insightData.riskProfile?.assessment,
+                  )} bg-gray-100 dark:bg-gray-800 rounded flex-shrink-0"
+                >
                   {insightData.riskProfile?.assessment}
                 </span>
               </div>
               <div class="space-y-2 sm:space-y-3">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded"
+                >
                   <div class="flex items-center gap-2">
-                    <span class="text-xs font-medium text-gray-600 dark:text-gray-200">Moneyness</span>
-                    <span class="text-sm font-semibold text-gray-900 dark:text-white">{insightData.riskProfile?.moneyness}</span>
+                    <span
+                      class="text-xs font-medium text-gray-600 dark:text-gray-200"
+                      >Moneyness</span
+                    >
+                    <span
+                      class="text-sm font-semibold text-gray-900 dark:text-white"
+                      >{insightData.riskProfile?.moneyness}</span
+                    >
                   </div>
                   <div class="flex items-center gap-2">
-                    <span class="text-xs font-medium text-gray-600 dark:text-gray-200">Theta Risk</span>
-                    <span class="text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">{insightData.riskProfile?.timeDecayRisk}</span>
+                    <span
+                      class="text-xs font-medium text-gray-600 dark:text-gray-200"
+                      >Theta Risk</span
+                    >
+                    <span
+                      class="text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300"
+                      >{insightData.riskProfile?.timeDecayRisk}</span
+                    >
                   </div>
                 </div>
                 {#each insightData.riskProfile?.keyInsights || [] as insight}
                   <div class="flex items-start gap-2">
                     <span class="text-gray-400 mt-0.5 flex-shrink-0">•</span>
-                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 leading-relaxed">{insight}</p>
+                    <p
+                      class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 leading-relaxed"
+                    >
+                      {insight}
+                    </p>
                   </div>
                 {/each}
               </div>
             </div>
 
             <!-- Trade Setup -->
-            <div class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors">
+            <div
+              class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
+            >
               <div class="flex items-center justify-between mb-3 sm:mb-4 gap-2">
                 <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
-                  <div class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0">
-                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  <div
+                    class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0"
+                  >
+                    <svg
+                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700 dark:text-gray-300"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clip-rule="evenodd"
+                      />
                     </svg>
                   </div>
-                  <h5 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">Trade Setup</h5>
+                  <h5
+                    class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                  >
+                    Trade Setup
+                  </h5>
                 </div>
-                <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold {getAssessmentColor(insightData.tradeSetup?.assessment)} bg-gray-100 dark:bg-gray-800 rounded flex-shrink-0">
+                <span
+                  class="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold {getAssessmentColor(
+                    insightData.tradeSetup?.assessment,
+                  )} bg-gray-100 dark:bg-gray-800 rounded flex-shrink-0"
+                >
                   {insightData.tradeSetup?.assessment}
                 </span>
               </div>
               <div class="space-y-2 sm:space-y-3">
-                <div class="p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded">
-                  <span class="text-xs font-medium text-gray-600 dark:text-gray-200">Entry Strategy</span>
-                  <p class="text-xs sm:text-sm text-gray-700 dark:text-gray-300 mt-1">{insightData.tradeSetup?.entryStrategy}</p>
+                <div
+                  class="p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded"
+                >
+                  <span
+                    class="text-xs font-medium text-gray-600 dark:text-gray-200"
+                    >Entry Strategy</span
+                  >
+                  <p
+                    class="text-xs sm:text-sm text-gray-700 dark:text-gray-300 mt-1"
+                  >
+                    {insightData.tradeSetup?.entryStrategy}
+                  </p>
                 </div>
-                <div class="p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded">
-                  <span class="text-xs font-medium text-gray-600 dark:text-gray-200">Risk Consideration</span>
-                  <p class="text-xs sm:text-sm text-gray-700 dark:text-gray-300 mt-1">{insightData.tradeSetup?.riskConsideration}</p>
+                <div
+                  class="p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded"
+                >
+                  <span
+                    class="text-xs font-medium text-gray-600 dark:text-gray-200"
+                    >Risk Consideration</span
+                  >
+                  <p
+                    class="text-xs sm:text-sm text-gray-700 dark:text-gray-300 mt-1"
+                  >
+                    {insightData.tradeSetup?.riskConsideration}
+                  </p>
                 </div>
               </div>
             </div>
@@ -1635,44 +2133,98 @@ ${insightData.traderTakeaway}
 
           <!-- Bullish Signals & Red Flags -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-            <div class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5">
+            <div
+              class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5"
+            >
               <div class="flex items-center gap-2 sm:gap-2.5 mb-3 sm:mb-4">
-                <div class="p-1.5 sm:p-2 bg-green-50 dark:bg-green-950/30 rounded-lg flex-shrink-0">
-                  <svg class="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                <div
+                  class="p-1.5 sm:p-2 bg-green-50 dark:bg-green-950/30 rounded-lg flex-shrink-0"
+                >
+                  <svg
+                    class="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-500"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clip-rule="evenodd"
+                    />
                   </svg>
                 </div>
-                <h5 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">Bullish Signals</h5>
+                <h5
+                  class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                >
+                  Bullish Signals
+                </h5>
               </div>
               <ul class="space-y-2 sm:space-y-2.5">
                 {#each insightData.bullishSignals || [] as signal}
                   <li class="flex items-start gap-2 sm:gap-2.5">
-                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-600 dark:text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    <svg
+                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-600 dark:text-green-500 mt-0.5 flex-shrink-0"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clip-rule="evenodd"
+                      />
                     </svg>
-                    <span class="text-xs sm:text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{signal}</span>
+                    <span
+                      class="text-xs sm:text-sm text-gray-700 dark:text-gray-300 leading-relaxed"
+                      >{signal}</span
+                    >
                   </li>
                 {/each}
               </ul>
             </div>
 
             {#if insightData.redFlags?.length > 0}
-              <div class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5">
+              <div
+                class="bg-white dark:bg-[#09090B] border border-gray-200 dark:border-gray-800 rounded-lg p-4 sm:p-5"
+              >
                 <div class="flex items-center gap-2 sm:gap-2.5 mb-3 sm:mb-4">
-                  <div class="p-1.5 sm:p-2 bg-red-50 dark:bg-red-950/30 rounded-lg flex-shrink-0">
-                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-red-600 dark:text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                  <div
+                    class="p-1.5 sm:p-2 bg-red-50 dark:bg-red-950/30 rounded-lg flex-shrink-0"
+                  >
+                    <svg
+                      class="w-4 h-4 sm:w-5 sm:h-5 text-red-600 dark:text-red-500"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                        clip-rule="evenodd"
+                      />
                     </svg>
                   </div>
-                  <h5 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">Red Flags</h5>
+                  <h5
+                    class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                  >
+                    Red Flags
+                  </h5>
                 </div>
                 <ul class="space-y-2 sm:space-y-2.5">
                   {#each insightData.redFlags as flag}
                     <li class="flex items-start gap-2 sm:gap-2.5">
-                      <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-600 dark:text-red-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                      <svg
+                        class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-600 dark:text-red-500 mt-0.5 flex-shrink-0"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                          clip-rule="evenodd"
+                        />
                       </svg>
-                      <span class="text-xs sm:text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{flag}</span>
+                      <span
+                        class="text-xs sm:text-sm text-gray-700 dark:text-gray-300 leading-relaxed"
+                        >{flag}</span
+                      >
                     </li>
                   {/each}
                 </ul>
@@ -1681,24 +2233,44 @@ ${insightData.traderTakeaway}
           </div>
 
           <!-- Trader Takeaway -->
-          <div class="bg-purple-50 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-900 rounded-lg p-4 sm:p-5 md:p-6">
+          <div
+            class="bg-purple-50 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-900 rounded-lg p-4 sm:p-5 md:p-6"
+          >
             <div class="flex items-center gap-2 sm:gap-2.5 mb-3">
-              <div class="p-1.5 sm:p-2 bg-purple-100 dark:bg-purple-900/40 rounded-lg flex-shrink-0">
-                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
+              <div
+                class="p-1.5 sm:p-2 bg-purple-100 dark:bg-purple-900/40 rounded-lg flex-shrink-0"
+              >
+                <svg
+                  class="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 dark:text-purple-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"
+                  />
                 </svg>
               </div>
-              <h5 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">Trader Takeaway</h5>
+              <h5
+                class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+              >
+                Trader Takeaway
+              </h5>
             </div>
-            <p class="text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
+            <p
+              class="text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed"
+            >
               {insightData.traderTakeaway}
             </p>
           </div>
 
           <!-- Disclaimer -->
-          <div class="bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg p-3 sm:p-4">
+          <div
+            class="bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg p-3 sm:p-4"
+          >
             <p class="text-xs text-gray-800 dark:text-gray-200 italic">
-              This analysis was generated by AI based on order flow data and may not capture all market factors. Always conduct your own research before making trading decisions.
+              This analysis was generated by AI based on order flow data and may
+              not capture all market factors. Always conduct your own research
+              before making trading decisions.
             </p>
           </div>
         {/if}
