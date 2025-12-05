@@ -48,10 +48,20 @@
   let totalPremium: number;
   let metrics: Record<string, string> = {};
   let rawData: Record<string, any> = {};
-  let probabilities: { pop: number; popMaxProfit: number; popMaxLoss: number } = {
-    pop: 0,
-    popMaxProfit: 0,
-    popMaxLoss: 0,
+  let probabilities: { pop: number; popMaxProfit: number; popMaxLoss: number } =
+    {
+      pop: 0,
+      popMaxProfit: 0,
+      popMaxLoss: 0,
+    };
+  let riskRewardMetrics: {
+    expectedValue: number;
+    expectedReturn: number | null;
+    rewardRisk: number | null;
+  } = {
+    expectedValue: 0,
+    expectedReturn: null,
+    rewardRisk: null,
   };
 
   // Search variables
@@ -152,7 +162,16 @@
     config = output?.options;
     breakEvenPrice = output?.breakEvenPrice;
     totalPremium = output?.totalPremium;
-    probabilities = output?.probabilities || { pop: 0, popMaxProfit: 0, popMaxLoss: 0 };
+    probabilities = output?.probabilities || {
+      pop: 0,
+      popMaxProfit: 0,
+      popMaxLoss: 0,
+    };
+    riskRewardMetrics = output?.riskRewardMetrics || {
+      expectedValue: 0,
+      expectedReturn: null,
+      rewardRisk: null,
+    };
 
     const xMax = output?.xMax;
     const xMin = output?.xMin;
@@ -1413,7 +1432,11 @@
                         content="The Probability of Profit (PoP) measures the likelihood that a trade will result in a profit at expiration. It is calculated using the Black-Scholes model and implied volatility derived from option prices. This metric provides an estimate of the success rate for a given strategy under current market conditions."
                       />
                     </div>
-                    <div class="text-lg font-semibold {probabilities?.pop >= 0.5 ? 'text-green-800 dark:text-green-400' : 'text-red-600 dark:text-red-400'}">
+                    <div
+                      class="text-lg font-semibold {probabilities?.pop >= 0.5
+                        ? 'text-green-800 dark:text-green-400'
+                        : 'text-red-600 dark:text-red-400'}"
+                    >
                       {(probabilities?.pop * 100)?.toFixed(1)}%
                     </div>
                   </div>
@@ -1429,7 +1452,9 @@
                         content="The Probability of Maximum Profit represents the likelihood that a trade will achieve its highest possible profit at expiration. This metric considers factors such as the behavior of the underlying asset, time to expiration, and market volatility (implied volatility derived from option prices)."
                       />
                     </div>
-                    <div class="text-lg font-semibold text-green-800 dark:text-green-400">
+                    <div
+                      class="text-lg font-semibold text-green-800 dark:text-green-400"
+                    >
                       {(probabilities?.popMaxProfit * 100)?.toFixed(1)}%
                     </div>
                   </div>
@@ -1445,8 +1470,91 @@
                         content="The Probability of Maximum Loss represents the likelihood that a trade will incur its worst possible outcome at expiration. This metric helps traders understand the risk of losing their entire investment or facing maximum exposure based on the strategy. It is calculated using the Black-Scholes model."
                       />
                     </div>
-                    <div class="text-lg font-semibold text-red-600 dark:text-red-400">
+                    <div
+                      class="text-lg font-semibold text-red-600 dark:text-red-400"
+                    >
                       {(probabilities?.popMaxLoss * 100)?.toFixed(1)}%
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Risk Reward Analysis Section -->
+                <h2
+                  class="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-4 mt-6"
+                >
+                  Risk Reward Analysis
+                </h2>
+                <div
+                  class="grid grid-cols-2 md:grid-cols-4 gap-y-6 sm:gap-y-0 mb-6"
+                >
+                  <div>
+                    <div
+                      class="flex items-center text-gray-600 dark:text-white"
+                    >
+                      Expected Value (EV)
+                      <InfoModal
+                        title="Expected Value (EV)"
+                        id="evModal"
+                        content="The Expected Value (EV) is the weighted average of all possible outcomes of an options trade, where each payoff at a possible ending price is multiplied by its probability of occurring, and then each resulting value is summed together. It is based on the probability distribution of the security's prices at a future date. This statistical measure helps traders assess the theoretical profitability of a strategy if it were to be repeated many times."
+                      />
+                    </div>
+                    <div
+                      class="text-lg font-semibold {riskRewardMetrics?.expectedValue >=
+                      0
+                        ? 'text-green-800 dark:text-green-400'
+                        : 'text-red-600 dark:text-red-400'}"
+                    >
+                      {riskRewardMetrics?.expectedValue >= 0
+                        ? ""
+                        : "-"}${Math.abs(
+                        riskRewardMetrics?.expectedValue,
+                      )?.toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div
+                      class="flex items-center text-gray-600 dark:text-white"
+                    >
+                      Expected Return
+                      <InfoModal
+                        title="Expected Return (EV/Risk)"
+                        id="expectedReturnModal"
+                        content="The ratio of Expected Value (EV) divided by Maximum Risk, expressed as a percentage. This metric shows the expected profit or loss relative to the maximum potential loss of the trade. For example, if a trade has an Expected Value of $100 and a Maximum Risk of $1,000, the Expected Return would be 10%. This standardized measurement helps traders compare different strategies regardless of position size or structure, providing a risk-adjusted way to evaluate trading opportunities."
+                      />
+                    </div>
+                    <div
+                      class="text-lg font-semibold {riskRewardMetrics?.expectedReturn !==
+                        null && riskRewardMetrics?.expectedReturn >= 0
+                        ? 'text-green-800 dark:text-green-400'
+                        : 'text-red-600 dark:text-red-400'}"
+                    >
+                      {riskRewardMetrics?.expectedReturn !== null
+                        ? `${riskRewardMetrics?.expectedReturn >= 0 ? "" : ""}${riskRewardMetrics?.expectedReturn?.toFixed(1)}%`
+                        : "n/a"}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div
+                      class="flex items-center text-gray-600 dark:text-white"
+                    >
+                      Reward/Risk
+                      <InfoModal
+                        title="Reward/Risk Ratio"
+                        id="rewardRiskModal"
+                        content="The Reward/Risk Percentage measures the potential profit of a trade relative to its potential loss, expressed as a percentage. It is calculated as Maximum Profit divided by Maximum Loss. For example, if a trade has a max profit of $500 and max loss of $200, the Reward/Risk is 250%. This helps traders evaluate whether the potential rewards justify the risks taken on a particular trade. A higher percentage indicates more favorable risk-reward."
+                      />
+                    </div>
+                    <div
+                      class="text-lg font-semibold text-gray-800 dark:text-white"
+                    >
+                      {riskRewardMetrics?.rewardRisk !== null
+                        ? `${riskRewardMetrics?.rewardRisk?.toFixed(1)}%`
+                        : "n/a"}
                     </div>
                   </div>
                 </div>

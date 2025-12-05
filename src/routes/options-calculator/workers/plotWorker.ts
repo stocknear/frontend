@@ -138,6 +138,103 @@
     return totalWeight > 0 ? weightedIV / totalWeight : 0.3;
   }
 
+  // Log-normal probability density function (PDF)
+  function logNormalPDF(S: number, S0: number, T: number, r: number, sigma: number): number {
+    if (S <= 0 || T <= 0 || sigma <= 0) return 0;
+
+    const mu = Math.log(S0) + (r - 0.5 * sigma * sigma) * T;
+    const sigmaT = sigma * Math.sqrt(T);
+
+    const logS = Math.log(S);
+    const exponent = -((logS - mu) ** 2) / (2 * sigmaT * sigmaT);
+
+    return Math.exp(exponent) / (S * sigmaT * Math.sqrt(2 * Math.PI));
+  }
+
+  // Calculate the price range that captures a given percentage of probability mass
+  function getPriceQuantile(S0: number, T: number, r: number, sigma: number, percentile: number): number {
+    // For log-normal: ln(S_T) ~ N(mu, sigmaT^2)
+    // Quantile: S = exp(mu + z * sigmaT) where z is standard normal quantile
+    const mu = Math.log(S0) + (r - 0.5 * sigma * sigma) * T;
+    const sigmaT = sigma * Math.sqrt(T);
+
+    // Approximate inverse normal CDF for common percentiles
+    let z: number;
+    if (percentile >= 0.999) z = 3.09;
+    else if (percentile >= 0.99) z = 2.33;
+    else if (percentile >= 0.95) z = 1.645;
+    else if (percentile <= 0.001) z = -3.09;
+    else if (percentile <= 0.01) z = -2.33;
+    else if (percentile <= 0.05) z = -1.645;
+    else z = 0;
+
+    return Math.exp(mu + z * sigmaT);
+  }
+
+  // Calculate Expected Value using discrete summation
+  function calculateExpectedValue(
+    dataPoints: number[][],
+    currentStockPrice: number,
+    T: number,
+    r: number,
+    sigma: number
+  ): number {
+    if (!dataPoints || dataPoints.length === 0 || sigma <= 0 || T <= 0) {
+      return 0;
+    }
+
+    let ev = 0;
+    let totalProbability = 0;
+    const step = dataPoints.length > 1 ? dataPoints[1][0] - dataPoints[0][0] : 1;
+
+    for (let i = 0; i < dataPoints.length; i++) {
+      const [price, payoff] = dataPoints[i];
+      if (price <= 0) continue; // Skip price = 0 (log-normal PDF is 0 there)
+
+      const probability = logNormalPDF(price, currentStockPrice, T, r, sigma) * step;
+      ev += payoff * probability;
+      totalProbability += probability;
+    }
+
+    // Normalize if probability doesn't sum to ~1 (due to truncation)
+    // Only normalize if we captured a reasonable amount of probability mass
+    if (totalProbability > 0.5 && totalProbability < 1.5) {
+      ev = ev / totalProbability;
+    }
+
+    return ev;
+  }
+
+  // Calculate Risk/Reward metrics
+  function calculateRiskRewardMetrics(
+    dataPoints: number[][],
+    currentStockPrice: number,
+    T: number,
+    r: number,
+    sigma: number,
+    maxProfit: number | null,
+    maxLoss: number | null,
+    hasUnlimitedProfit: boolean,
+    hasUnlimitedLoss: boolean
+  ): { expectedValue: number; expectedReturn: number | null; rewardRisk: number | null } {
+
+    const expectedValue = calculateExpectedValue(dataPoints, currentStockPrice, T, r, sigma);
+
+    // Expected Return = EV / |Max Loss|
+    let expectedReturn: number | null = null;
+    if (!hasUnlimitedLoss && maxLoss !== null && maxLoss !== 0) {
+      expectedReturn = (expectedValue / Math.abs(maxLoss)) * 100;
+    }
+
+    // Reward/Risk = Max Profit / |Max Loss|
+    let rewardRisk: number | null = null;
+    if (!hasUnlimitedProfit && !hasUnlimitedLoss && maxProfit !== null && maxLoss !== null && maxLoss !== 0) {
+      rewardRisk = (maxProfit / Math.abs(maxLoss)) * 100;
+    }
+
+    return { expectedValue, expectedReturn, rewardRisk };
+  }
+
   // Main probability calculation function
   function calculateProbabilities(
     userStrategy: any[],
@@ -278,20 +375,30 @@
     return { pop, popMaxProfit, popMaxLoss };
   }
 
-function calculateMetrics(userStrategy) {
+function calculateMetrics(userStrategy): {
+    maxProfit: string;
+    maxLoss: string;
+    maxProfitValue: number;
+    maxLossValue: number;
+    hasUnlimitedProfit: boolean;
+    hasUnlimitedLoss: boolean;
+  } {
     const multiplier = 100;
-    let metrics = {};
+    let metrics: any = {};
 
     // Get all legs in the strategy
     const allLegs = [...userStrategy];
 
     // Check if strategy is empty
     if (allLegs.length === 0) {
-      metrics = {
+      return {
         maxProfit: "$0",
         maxLoss: "$0",
+        maxProfitValue: 0,
+        maxLossValue: 0,
+        hasUnlimitedProfit: false,
+        hasUnlimitedLoss: false,
       };
-      return metrics;
     }
 
     // Consolidate identical strikes with opposite actions (Buy/Sell)
@@ -369,22 +476,29 @@ function calculateMetrics(userStrategy) {
 
       if (buyCall.strike < sellCall.strike) {
         // Bull call spread: max loss is net debit, max profit is spread width - net debit
-        const maxLoss = -netPremium; // Net debit is negative, convert to positive
-        const maxProfit = spreadWidth - maxLoss;
-        metrics = {
-          maxProfit: `$${formatCurrency(maxProfit)}`,
-          maxLoss: `$${formatCurrency(maxLoss)}`,
+        const maxLossVal = -netPremium; // Net debit is negative, convert to positive
+        const maxProfitVal = spreadWidth - maxLossVal;
+        return {
+          maxProfit: `$${formatCurrency(maxProfitVal)}`,
+          maxLoss: `$${formatCurrency(maxLossVal)}`,
+          maxProfitValue: maxProfitVal,
+          maxLossValue: maxLossVal,
+          hasUnlimitedProfit: false,
+          hasUnlimitedLoss: false,
         };
       } else {
         // Bear call spread: max profit is net credit, max loss is spread width - net credit
-        const maxProfit = netPremium;
-        const maxLoss = spreadWidth - maxProfit;
-        metrics = {
-          maxProfit: `$${formatCurrency(maxProfit)}`,
-          maxLoss: `$${formatCurrency(maxLoss)}`,
+        const maxProfitVal = netPremium;
+        const maxLossVal = spreadWidth - maxProfitVal;
+        return {
+          maxProfit: `$${formatCurrency(maxProfitVal)}`,
+          maxLoss: `$${formatCurrency(maxLossVal)}`,
+          maxProfitValue: maxProfitVal,
+          maxLossValue: maxLossVal,
+          hasUnlimitedProfit: false,
+          hasUnlimitedLoss: false,
         };
       }
-      return metrics;
     }
     // --- END VERTICAL SPREAD HANDLING ---
 
@@ -448,23 +562,29 @@ function calculateMetrics(userStrategy) {
 
       // Bull Put Spread (sell higher strike, buy lower strike)
       if (sellStrike > buyStrike) {
-        const maxProfit = netPremium; // Net credit received
-        const maxLoss = spreadWidth - maxProfit;
-        metrics = {
-          maxProfit: `$${formatCurrency(maxProfit)}`,
-          maxLoss: `$${formatCurrency(maxLoss)}`,
+        const maxProfitVal = netPremium; // Net credit received
+        const maxLossVal = spreadWidth - maxProfitVal;
+        return {
+          maxProfit: `$${formatCurrency(maxProfitVal)}`,
+          maxLoss: `$${formatCurrency(maxLossVal)}`,
+          maxProfitValue: maxProfitVal,
+          maxLossValue: maxLossVal,
+          hasUnlimitedProfit: false,
+          hasUnlimitedLoss: false,
         };
-        return metrics;
       }
       // Bear Put Spread (buy higher strike, sell lower strike)
       else if (buyStrike > sellStrike) {
-        const maxProfit = spreadWidth - Math.abs(netPremium);
-        const maxLoss = Math.abs(netPremium); // Net debit paid
-        metrics = {
-          maxProfit: `$${formatCurrency(maxProfit)}`,
-          maxLoss: `$${formatCurrency(maxLoss)}`,
+        const maxProfitVal = spreadWidth - Math.abs(netPremium);
+        const maxLossVal = Math.abs(netPremium); // Net debit paid
+        return {
+          maxProfit: `$${formatCurrency(maxProfitVal)}`,
+          maxLoss: `$${formatCurrency(maxLossVal)}`,
+          maxProfitValue: maxProfitVal,
+          maxLossValue: maxLossVal,
+          hasUnlimitedProfit: false,
+          hasUnlimitedLoss: false,
         };
-        return metrics;
       }
     }
 
@@ -533,28 +653,42 @@ function calculateMetrics(userStrategy) {
 
     // Adjust final metrics based on unlimited flags:
     if (hasUnlimitedProfit && !hasUnlimitedLoss) {
-      metrics = {
+      return {
         maxProfit: "Unlimited",
         maxLoss: `$${formatCurrency(Math.abs(computedMaxLoss))}`,
+        maxProfitValue: computedMaxProfit,
+        maxLossValue: Math.abs(computedMaxLoss),
+        hasUnlimitedProfit: true,
+        hasUnlimitedLoss: false,
       };
     } else if (!hasUnlimitedProfit && hasUnlimitedLoss) {
-      metrics = {
+      return {
         maxProfit: `$${formatCurrency(computedMaxProfit)}`,
         maxLoss: "Unlimited",
+        maxProfitValue: computedMaxProfit,
+        maxLossValue: Math.abs(computedMaxLoss),
+        hasUnlimitedProfit: false,
+        hasUnlimitedLoss: true,
       };
     } else if (hasUnlimitedProfit && hasUnlimitedLoss) {
-      metrics = {
+      return {
         maxProfit: "Unlimited",
         maxLoss: "Unlimited",
+        maxProfitValue: computedMaxProfit,
+        maxLossValue: Math.abs(computedMaxLoss),
+        hasUnlimitedProfit: true,
+        hasUnlimitedLoss: true,
       };
     } else {
-      metrics = {
+      return {
         maxProfit: `$${formatCurrency(computedMaxProfit)}`,
         maxLoss: `$${formatCurrency(Math.abs(computedMaxLoss))}`,
+        maxProfitValue: computedMaxProfit,
+        maxLossValue: Math.abs(computedMaxLoss),
+        hasUnlimitedProfit: false,
+        hasUnlimitedLoss: false,
       };
     }
-
-    return metrics;
   }
 
   
@@ -668,6 +802,14 @@ function plotData(userStrategy, currentStockPrice, expirationDate) {
     const metrics = calculateMetrics(userStrategy);
     let breakEvenPrice = calculateBreakevenPrice(dataPoints);
 
+    // Calculate time to expiration and IV for probability/EV calculations
+    const riskFreeRate = 0.05;
+    const now = new Date();
+    const expDate = new Date(expirationDate + "T16:00:00");
+    const msPerYear = 365.25 * 24 * 60 * 60 * 1000;
+    const T = Math.max((expDate.getTime() - now.getTime()) / msPerYear, 0.001);
+    const sigma = calculateStrategyIV(userStrategy, currentStockPrice, T, riskFreeRate);
+
     // Calculate probabilities using Black-Scholes
     const probabilities = calculateProbabilities(
       userStrategy,
@@ -677,7 +819,20 @@ function plotData(userStrategy, currentStockPrice, expirationDate) {
       expirationDate
     );
 
-    return {metrics, breakEvenPrice, totalPremium, dataPoints, xMin, xMax, probabilities};
+    // Calculate Risk/Reward metrics
+    const riskRewardMetrics = calculateRiskRewardMetrics(
+      dataPoints,
+      currentStockPrice,
+      T,
+      riskFreeRate,
+      sigma,
+      metrics.maxProfitValue,
+      metrics.maxLossValue,
+      metrics.hasUnlimitedProfit,
+      metrics.hasUnlimitedLoss
+    );
+
+    return {metrics, breakEvenPrice, totalPremium, dataPoints, xMin, xMax, probabilities, riskRewardMetrics};
   }
 
 
