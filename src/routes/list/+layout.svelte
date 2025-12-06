@@ -324,10 +324,6 @@
       title: "Covered Call ETFs",
       link: "/list/covered-call-etfs",
     },
-    {
-      title: "Most Volume by Retail Trader",
-      link: "/list/most-retail-volume",
-    },
   ];
 
   navigation = [...navigationIndustry, ...navigation];

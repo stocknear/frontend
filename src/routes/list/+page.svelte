@@ -327,13 +327,6 @@
       <li>
         <a
           class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
-          href="/list/most-retail-volume/">Most Volume by Retail Trader</a
-        >
-      </li>
-
-      <li>
-        <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
           href="/list/reit-stocks">All REITs</a
         >
       </li>

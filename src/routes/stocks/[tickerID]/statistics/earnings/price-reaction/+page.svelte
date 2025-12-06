@@ -625,13 +625,15 @@
                         class="border-l border-gray-300 dark:border-gray-800 mt-auto text-xs text-muted dark:text-gray-200"
                       >
                         <div
-                          class="grid grid-cols-3 items-center justify-center pl-0.5 pr-0.5 w-full m-auto text-center"
+                          class="grid grid-cols-2 items-center justify-center pl-0.5 pr-0.5 w-full m-auto text-center"
                         >
                           <!-- IV -->
+                          <!--
                           <div class="flex items-center pl-1">
                             <div class="font-semibold mr-1">IV:</div>
                             <div class="font-semibold">{item?.iv ?? "-"}</div>
                           </div>
+                          -->
 
                           <!-- RSI -->
                           <div class="flex items-center ml-1.5">
@@ -640,8 +642,10 @@
                           </div>
 
                           <!-- Time -->
-                          <div class="flex items-center justify-end pr-1">
-                            <div class="font-semibold">
+                          <div class="flex items-center justify-end">
+                            <div class="font-semibold mr-1">Release:</div>
+
+                            <div class="font-semibold mr-1.5">
                               {checkTime(item?.time) ?? "-"}
                             </div>
                           </div>
