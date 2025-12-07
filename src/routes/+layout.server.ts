@@ -1,12 +1,10 @@
-
-
-export const load = ({ locals, cookies }) => {
-  const { user, wsURL, themeMode } = locals;
+export const load = ({ locals }) => {
+  const { user, wsURL, themeMode, cookieConsent } = locals;
 
   return {
     user: user || undefined,
-    cookieConsent: cookies.get("cookie-consent"),
+    cookieConsent, // Parsed JSON object from hooks.server.ts
     wsURL,
-    themeMode // Add theme mode to returned data
+    themeMode,
   };
 };

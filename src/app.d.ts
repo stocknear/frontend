@@ -3,20 +3,39 @@
 // and what to do when importing types
 declare namespace App {
   // interface Error {}
-  // interface Locals {}
+  interface Locals {
+    pb: import("pocketbase").default;
+    apiURL: string;
+    fastifyURL: string;
+    wsURL: string;
+    apiKey: string;
+    themeMode: string;
+    clientIp: string | undefined;
+    user?: Record<string, unknown>;
+    cookieConsent: {
+      necessary: boolean;
+      analytics: boolean;
+      marketing: boolean;
+      timestamp?: number;
+    } | null;
+  }
   // interface PageData {}
   // interface Platform {}
 }
 
-// src/app.d.ts
-/*
-import PocketBase from "pocketbase";
-
+// Global type declarations for tracking scripts
 declare global {
-    declare namespace App {
-        interface Locals {
-            pb: PocketBase
-        }
-    }
+  interface Window {
+    fbq: ((action: string, event: string, params?: Record<string, unknown>) => void) & {
+      callMethod?: (...args: unknown[]) => void;
+      queue: unknown[];
+      loaded: boolean;
+      version: string;
+    };
+    _fbq: typeof window.fbq;
+    dataLayer: unknown[];
+    gtag: (...args: unknown[]) => void;
+  }
 }
-*/
+
+export {};

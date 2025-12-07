@@ -10,6 +10,7 @@
   import Footer from "$lib/components/Footer.svelte";
   import Searchbar from "$lib/components/Searchbar.svelte";
   import NotificationBell from "$lib/components/NotificationBell.svelte";
+  import CookieConsent from "$lib/components/CookieConsent.svelte";
   //import PullToRefresh from '$lib/components/PullToRefresh.svelte';
 
   //import DiscountBanner from '$lib/components/DiscountBanner.svelte';
@@ -107,11 +108,8 @@
     hasUnreadElement = unreadNotifications > 0 ? true : false;
     numberOfUnreadNotification.set(unreadNotifications);
   }
-  /*
-  let Cookie;
-  $showCookieConsent =
-    typeof data?.cookieConsent !== "undefined" ? false : true;
-*/
+  // Track if marketing scripts have been loaded this session
+  let marketingScriptsLoaded = false;
 
   // Initialize GTM dataLayer
   function initDataLayer() {
@@ -124,17 +122,75 @@
 
   // Load GTM script in a non-blocking way
   function loadGTMScript() {
-    const GTM_ID = "GTM-NZBJ9W63";
+    if (document.querySelector('script[src*="googletagmanager.com/gtm.js"]')) return;
 
-    // Create script element with async attribute
+    const GTM_ID = "GTM-NZBJ9W63";
     const script = document.createElement("script");
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`;
 
-    // Append to document using requestAnimationFrame to avoid layout thrashing
     requestAnimationFrame(() => {
       document.head.appendChild(script);
     });
+  }
+
+  // Load Meta Pixel (Facebook)
+  function loadMetaPixel() {
+    if (window.fbq) return;
+
+    (function(f: any, b: Document, e: string, v: string, n?: any, t?: HTMLScriptElement, s?: Element) {
+      if (f.fbq) return;
+      n = f.fbq = function() {
+        n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+      };
+      if (!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = true;
+      n.version = '2.0';
+      n.queue = [];
+      t = b.createElement(e) as HTMLScriptElement;
+      t.async = true;
+      t.src = v;
+      s = b.getElementsByTagName(e)[0];
+      s?.parentNode?.insertBefore(t, s);
+    })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+
+    window.fbq('init', '1862625670961244');
+    window.fbq('track', 'PageView');
+  }
+
+  // Load Google Ads gtag.js
+  function loadGoogleAds() {
+    if (window.gtag && document.querySelector('script[src*="googletagmanager.com/gtag/js"]')) return;
+
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = "https://www.googletagmanager.com/gtag/js?id=AW-11328922950";
+    document.head.appendChild(script);
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function() { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', 'AW-11328922950');
+  }
+
+  // Load all marketing scripts (only if consent given)
+  function loadMarketingScripts() {
+    if (marketingScriptsLoaded) return;
+
+    initDataLayer();
+    loadGTMScript();
+    loadMetaPixel();
+    loadGoogleAds();
+    marketingScriptsLoaded = true;
+  }
+
+  // Handle consent change event from CookieConsent component
+  function handleConsentChange(event: CustomEvent<{ necessary: boolean; analytics: boolean; marketing: boolean }>) {
+    const consent = event.detail;
+    if (consent.marketing) {
+      loadMarketingScripts();
+    }
   }
   let cacheInterval: number;
 
@@ -170,10 +226,12 @@
     registerServiceWorker();
 
     deferFunction(() => {
-      // Delay these tasks by 2 seconds to ensure they don't block main thread
+      // Delay these tasks to ensure they don't block main thread
       setTimeout(async () => {
-        initDataLayer();
-        loadGTMScript();
+        // Only load marketing scripts if user has consented
+        if (data?.cookieConsent?.marketing) {
+          loadMarketingScripts();
+        }
 
         // Only load worker if user is logged in
         if (data?.user?.id) {
@@ -295,16 +353,18 @@
 
 <ModeWatcher defaultMode={data?.themeMode} />
 
-<!-- Google Tag Manager (noscript) -->
-<noscript
-  ><iframe
-    src="https://www.googletagmanager.com/ns.html?id=GTM-NZBJ9W63"
-    height="0"
-    width="0"
-    style="display:none;visibility:hidden"
-  ></iframe></noscript
->
-<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) - Only shown if marketing consent given -->
+{#if data?.cookieConsent?.marketing}
+  <noscript>
+    <iframe
+      src="https://www.googletagmanager.com/ns.html?id=GTM-NZBJ9W63"
+      height="0"
+      width="0"
+      style="display:none;visibility:hidden"
+      title="Google Tag Manager"
+    ></iframe>
+  </noscript>
+{/if}
 
 <div
   class="app text-muted dark:text-white {$page?.url?.pathname === '/'
@@ -1702,6 +1762,12 @@
     <svelte:component this={Comp} {data} />
   {/await}
 {/if}
+
+<!-- Cookie Consent Banner -->
+<CookieConsent
+  cookieConsent={data?.cookieConsent ? JSON.stringify(data.cookieConsent) : undefined}
+  on:consent={handleConsentChange}
+/>
 
 <style lang="scss">
   :root {

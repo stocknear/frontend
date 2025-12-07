@@ -1,7 +1,14 @@
 <script>
   import SEO from "$lib/components/SEO.svelte";
   import ArrowLogo from "lucide-svelte/icons/move-up-right";
+  import { showCookiePreferences } from "$lib/store";
+  import { Button } from "$lib/components/shadcn/button/index.ts";
+
   const emailAddress = "support@stocknear.com";
+
+  function openCookiePreferences() {
+    showCookiePreferences.set(true);
+  }
 </script>
 
 <SEO
@@ -32,7 +39,7 @@
           <div class="w-full m-auto">
             <div class="">
               <p class="text-muted dark:text-gray-200 italic mb-2 text-sm">
-                Last updated: 22.06.2023
+                Last updated: 07.12.2025
               </p>
 
               <p class=" mb-10">
@@ -60,27 +67,40 @@
 
               <h2 class="mb-1 text-2xl sm:text-3xl font-bold mb-3">Cookies</h2>
 
-              <p class="mb-10">
+              <p class="mb-4">
                 Our website utilizes cookies to enhance your browsing
-                experience. By visiting stocknear.com, you consent to our use of
-                cookies in accordance with our Privacy Policy. Cookies enable us
-                to retrieve user information for each visit and improve the
-                functionality of specific sections of our site.
+                experience. We categorize cookies into three types:
               </p>
-              <!--
-              <br />
 
-              <div id="fcConsentRevocation" class="mb-10">
-                You can update your cookie preferences anytime here:
-                <br />
-                <button
-                  class="py-2 px-3 rounded mt-3 bg-blue-500 cursor-pointer sm:hover:bg-blue-600 text-white"
-                  on="googleFC.prompt(consent=googleFC, expireCache=true)"
-                  >Privacy and cookie settings</button
+              <ul class="list-disc ml-6 mb-4 space-y-2">
+                <li>
+                  <strong>Necessary Cookies:</strong> Essential for website functionality,
+                  including authentication, security, and remembering your preferences.
+                  These cannot be disabled.
+                </li>
+                <li>
+                  <strong>Analytics Cookies:</strong> Help us understand how visitors
+                  interact with our website to improve user experience.
+                </li>
+                <li>
+                  <strong>Marketing Cookies:</strong> Used to track visitors across
+                  websites for personalized advertising (Meta Pixel, Google Ads).
+                </li>
+              </ul>
+
+              <p class="mb-4">
+                You can manage your cookie preferences at any time. Click the
+                button below to update your settings:
+              </p>
+
+              <div class="mb-10">
+                <Button
+                  on:click={openCookiePreferences}
+                  class="flex-shrink-0  w-full sm:w-fit border border-gray-300 dark:border-gray-800 bg-black sm:hover:bg-default text-white dark:bg-primary dark:sm:hover:bg-secondary ease-out  flex flex-row justify-between items-center px-3 py-1.5  rounded truncate"
                 >
+                  Manage Cookie Preferences
+                </Button>
               </div>
-
-              -->
 
               <h2 class="mb-1 text-2xl sm:text-3xl font-bold mb-3">
                 Links to Other Sites

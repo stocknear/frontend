@@ -67,6 +67,7 @@ export const activePopupParameter = writable<string | null>(null);
 export const chatReasoning = writable(<boolean>false);
 
 export const showCookieConsent = writable(<boolean>false);
+export const showCookiePreferences = writable(<boolean>false);
 export const shouldUpdatePriceChart = writable(<boolean>false);
 export const selectedTimePeriod =  writable(<string>"");
 export const coolMode = writable(<boolean>false);

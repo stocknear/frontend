@@ -24,8 +24,11 @@
           ? 20
           : null;
 
-    // Meta Pixel conversion tracking
-    if (typeof window !== "undefined" && window.fbq && value) {
+    // Only track conversions if marketing consent was given (GDPR compliant)
+    const hasMarketingConsent = data?.cookieConsent?.marketing === true;
+
+    // Meta Pixel conversion tracking (only with consent)
+    if (hasMarketingConsent && typeof window !== "undefined" && window.fbq && value) {
       window?.fbq("track", "Purchase", {
         value: value,
         currency: "USD",
@@ -35,9 +38,8 @@
       });
     }
 
-    // Google Ads conversion tracking
-
-    if (typeof window !== "undefined" && window.gtag && value) {
+    // Google Ads conversion tracking (only with consent)
+    if (hasMarketingConsent && typeof window !== "undefined" && window.gtag && value) {
       window?.gtag("event", "conversion", {
         send_to: "AW-11328922950/FfVkCPuTupcbEMbKhpoq",
         value: value || 1.0,

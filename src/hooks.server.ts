@@ -11,6 +11,17 @@ export const handle = sequence(async ({ event, resolve }) => {
   const wsURL = import.meta.env.VITE_USEAST_WS_URL;
   
   const themeMode = event?.cookies?.get("theme-mode") || "dark";
+
+  // Parse cookie consent
+  let cookieConsent: { necessary: boolean; analytics: boolean; marketing: boolean } | null = null;
+  const cookieConsentRaw = event?.cookies?.get("cookie-consent");
+  if (cookieConsentRaw) {
+    try {
+      cookieConsent = JSON.parse(cookieConsentRaw);
+    } catch {
+      cookieConsent = null;
+    }
+  }
   
   
   let clientIp: string | undefined;
@@ -32,6 +43,7 @@ export const handle = sequence(async ({ event, resolve }) => {
     apiKey: import.meta.env.VITE_STOCKNEAR_API_KEY,
     themeMode,
     clientIp,
+    cookieConsent,
   };
 
   const authCookie = event?.request?.headers?.get("cookie") || "";

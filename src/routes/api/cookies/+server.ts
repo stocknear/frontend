@@ -1,11 +1,36 @@
 import type { RequestHandler } from "./$types";
 
+interface CookieConsent {
+  necessary: boolean;
+  analytics: boolean;
+  marketing: boolean;
+  timestamp?: number;
+}
+
 export const POST = (async ({ request, cookies }) => {
   let output = "error";
-  const data = await request.json();
-  const consent = data?.consent;
+
   try {
-    cookies.set("cookie-consent", consent, {
+    const data: CookieConsent = await request.json();
+
+    // Validate consent data
+    if (typeof data.necessary !== "boolean" ||
+        typeof data.analytics !== "boolean" ||
+        typeof data.marketing !== "boolean") {
+      return new Response(JSON.stringify({ error: "Invalid consent data" }), {
+        status: 400,
+      });
+    }
+
+    // Ensure necessary is always true
+    const consentData: CookieConsent = {
+      necessary: true,
+      analytics: data.analytics,
+      marketing: data.marketing,
+      timestamp: data.timestamp || Date.now(),
+    };
+
+    cookies.set("cookie-consent", JSON.stringify(consentData), {
       httpOnly: true,
       sameSite: "lax",
       secure: true,
