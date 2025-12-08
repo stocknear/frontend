@@ -92,12 +92,53 @@ export const POST = async ({ request, locals }) => {
     // Parse the JSON payload
     const payload = JSON.parse(bodyText);
     const eventName = payload?.meta?.event_name;
-    const userId = payload?.meta?.custom_data?.userId;
-    const { status, refunded } = payload?.data?.attributes || {};
+    let userId = payload?.meta?.custom_data?.userId;
+    const { status, refunded, user_email } = payload?.data?.attributes || {};
     const productName = payload?.data?.attributes?.first_order_item?.product_name;
 
-   
-    
+    // For subscription lifecycle events (expired, cancelled, etc.), userId may not be in custom_data
+    // In these cases, look up the user by their email address
+    if (!userId && user_email) {
+      try {
+        const users = await locals.pb.collection("users").getList(1, 1, {
+          filter: `email = "${user_email}"`,
+        });
+        if (users.items.length > 0) {
+          userId = users.items[0].id;
+        }
+      } catch (lookupError) {
+        console.error("Error looking up user by email:", lookupError);
+      }
+    }
+
+    // Handle subscription_expired event - downgrade user to Free
+    if (eventName === "subscription_expired" && userId) {
+      try {
+        await locals.pb.collection("users").update(userId, {
+          tier: "Free",
+          freeTrial: false,
+          credits: 10,
+        });
+
+        const paymentData = { user: userId, data: payload };
+        await locals.pb.collection("payments").create(paymentData);
+
+        return new Response(
+          JSON.stringify({ message: "Subscription expired - user downgraded to Free" }),
+          {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+      } catch (dbError) {
+        console.error("Database error handling subscription_expired:", dbError);
+        return new Response(JSON.stringify({ error: "Pocketbase error" }), {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    }
+
     if (!userId || status === undefined) {
       console.error("Missing userId or status in payload:", payload);
       return new Response(

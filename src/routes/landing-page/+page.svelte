@@ -24,7 +24,7 @@
         </span>
       </h1>
       <p class="mt-6 text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-        Realtime options flow and dark pool data from the same feeds Wall Street uses. See unusual activity as it happens.
+        Realtime stock prices, options flow, dark pool orders, news, financials, forecasts, charts, and more.
       </p>
 
       <!-- CTA + Trust -->
@@ -38,9 +38,6 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
           </svg>
         </a>
-        <p class="mt-4 text-sm text-gray-500 dark:text-gray-400">
-          No credit card required
-        </p>
       </div>
 
       <!-- Trust signals - subtle, supporting -->
@@ -788,7 +785,7 @@
       </svg>
     </a>
     <p class="mt-4 text-sm text-gray-500 dark:text-gray-400">
-      No credit card required · Cancel anytime
+      Cancel anytime
     </p>
   </div>
 </section>
