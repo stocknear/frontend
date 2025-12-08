@@ -1,8 +1,20 @@
 <script lang="ts">
   import SEO from "$lib/components/SEO.svelte";
+  import { onMount } from "svelte";
+
+  export let data;
+  export let form;
 
   const trustpilotScore = 4.6;
   const investorCount = 7000;
+
+  let LoginPopup: any;
+
+  onMount(async () => {
+    if (!data?.user) {
+      LoginPopup = (await import("$lib/components/LoginPopup.svelte")).default;
+    }
+  });
 </script>
 
 <SEO
@@ -43,12 +55,13 @@
         >
           Start Free
         </a>
-        <a
-          href="/pricing"
-          class="w-full max-w-56 sm:max-w-full sm:w-auto inline-flex items-center justify-center px-5 py-2 sm:px-8 sm:py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded text-[1rem] sm:text-lg transition-all shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/30"
+        <label
+          for={!data?.user ? "userLogin" : ""}
+          on:click={() => { if (data?.user) window.location.href = "/pricing"; }}
+          class="w-full max-w-56 sm:max-w-full sm:w-auto inline-flex items-center justify-center px-5 py-2 sm:px-8 sm:py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded text-[1rem] sm:text-lg transition-all shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/30 cursor-pointer"
         >
           Start 7-Day Free Trial
-        </a>
+        </label>
       </div>
 
       <!-- Trust signals - subtle, supporting -->
@@ -1036,9 +1049,10 @@
         </ul>
 
         <div class="mt-auto pt-6 border-t border-gray-200 dark:border-zinc-700">
-          <a
-            href="/pricing"
-            class="block w-full py-3 px-4 text-center font-semibold rounded bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+          <label
+            for={!data?.user ? "userLogin" : ""}
+            on:click={() => { if (data?.user) window.location.href = "/pricing"; }}
+            class="block w-full py-3 px-4 text-center font-semibold rounded bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors cursor-pointer"
           >
             Start Free 7 Day Trial
             <svg
@@ -1054,7 +1068,7 @@
                 d="M9 5l7 7-7 7"
               />
             </svg>
-          </a>
+          </label>
         </div>
       </div>
 
@@ -1197,9 +1211,10 @@
         </ul>
 
         <div class="mt-auto pt-6 border-t border-zinc-700">
-          <a
-            href="/pricing"
-            class="block w-full py-3 px-4 text-center font-semibold rounded bg-violet-500 text-white hover:bg-violet-600 transition-colors"
+          <label
+            for={!data?.user ? "userLogin" : ""}
+            on:click={() => { if (data?.user) window.location.href = "/pricing"; }}
+            class="block w-full py-3 px-4 text-center font-semibold rounded bg-violet-500 text-white hover:bg-violet-600 transition-colors cursor-pointer"
           >
             Start Free 7 Day Trial
             <svg
@@ -1215,7 +1230,7 @@
                 d="M9 5l7 7-7 7"
               />
             </svg>
-          </a>
+          </label>
         </div>
       </div>
     </div>
@@ -1354,9 +1369,10 @@
       See what institutions are doing right now. Start your free trial and
       decide for yourself.
     </p>
-    <a
-      href="/pricing"
-      class="inline-flex items-center mt-8 px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded text-lg transition-all shadow-lg shadow-purple-500/25"
+    <label
+      for={!data?.user ? "userLogin" : ""}
+      on:click={() => { if (data?.user) window.location.href = "/pricing"; }}
+      class="inline-flex items-center mt-8 px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded text-lg transition-all shadow-lg shadow-purple-500/25 cursor-pointer"
     >
       Start 7-Day Free Trial
       <svg
@@ -1372,7 +1388,11 @@
           d="M17 8l4 4m0 0l-4 4m4-4H3"
         />
       </svg>
-    </a>
+    </label>
     <p class="mt-4 text-sm text-gray-500 dark:text-gray-400">Cancel anytime</p>
   </div>
 </section>
+
+{#if LoginPopup}
+  <LoginPopup {form} />
+{/if}
