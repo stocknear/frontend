@@ -51,7 +51,7 @@
       >
         <a
           href="/register"
-          class="w-full max-w-56 sm:max-w-full sm:w-auto inline-flex items-center justify-center px-5 py-2 sm:px-8 sm:py-3 bg-gray-100 hover:bg-gray-200 dark:bg-white dark:hover:bg-gray-100 text-gray-900 dark:text-black font-semibold rounded text-[1rem] sm:text-lg transition-all border border-gray-300 dark:border-transparent"
+          class="w-full max-w-56 sm:max-w-full sm:w-auto inline-flex items-center justify-center px-5 py-2 sm:px-8 sm:py-3 bg-muted hover:bg-black dark:bg-white dark:hover:bg-gray-100 text-white dark:text-black font-semibold rounded text-[1rem] sm:text-lg transition-all border border-gray-300 dark:border-transparent"
         >
           Start Free
         </a>
@@ -338,7 +338,7 @@
             </video>
             <!-- Bottom gradient fade -->
             <div
-              class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white dark:from-black to-transparent pointer-events-none"
+              class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black dark:from-black to-transparent pointer-events-none"
             ></div>
           </div>
           <script>
@@ -697,7 +697,7 @@
           </ul>
           <a
             href="/market-news"
-            class="inline-flex items-center mt-6 text-amber-600 dark:text-amber-400 font-medium hover:underline"
+            class="inline-flex items-center mt-6 font-medium hover:underline"
           >
             View Market News
             <svg
@@ -803,7 +803,7 @@
           </ul>
           <a
             href="/analysts"
-            class="inline-flex items-center mt-6 text-emerald-600 dark:text-emerald-400 font-medium hover:underline"
+            class="inline-flex items-center mt-6 font-medium hover:underline"
           >
             View Top Analysts
             <svg
@@ -828,7 +828,7 @@
 
 <!-- Pricing Section -->
 <section
-  class="py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800"
+  class="py-10 sm:py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800"
 >
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-12">
@@ -1193,7 +1193,7 @@
 
     <!-- Value reinforcement -->
     <div
-      class="mt-12 text-center p-6 rounded bg-white dark:bg-[#18181B] border border-gray-200 dark:border-gray-800 max-w-4xl mx-auto"
+      class="mt-6 sm:mt-12 text-center p-6 rounded bg-white dark:bg-[#18181B] border border-gray-200 dark:border-gray-800 max-w-4xl mx-auto"
     >
       <p class="text-gray-600 dark:text-gray-300">
         <span class="font-semibold text-gray-900 dark:text-white"
@@ -1208,7 +1208,7 @@
 
 <!-- Testimonials Section -->
 <section
-  class="py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800"
+  class="py-10 sm:py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800"
 >
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-6">
@@ -1330,7 +1330,7 @@
       on:click={() => {
         if (data?.user) window.location.href = "/pricing";
       }}
-      class="inline-flex items-center mt-8 px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded text-lg transition-all shadow-lg shadow-purple-500/25 cursor-pointer"
+      class="inline-flex items-center mt-8 px-5 sm::px-8 py-3 sm:py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded text-[1rem] sm:text-lg transition-all shadow-lg shadow-purple-500/25 cursor-pointer"
     >
       Start 7-Day Free Trial
       <svg
