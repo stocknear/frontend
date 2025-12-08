@@ -57,7 +57,9 @@
         </a>
         <label
           for={!data?.user ? "userLogin" : ""}
-          on:click={() => { if (data?.user) window.location.href = "/pricing"; }}
+          on:click={() => {
+            if (data?.user) window.location.href = "/pricing";
+          }}
           class="w-full max-w-56 sm:max-w-full sm:w-auto inline-flex items-center justify-center px-5 py-2 sm:px-8 sm:py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded text-[1rem] sm:text-lg transition-all shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/30 cursor-pointer"
         >
           Start 7-Day Free Trial
@@ -893,7 +895,7 @@
         Lowest price in the industry
       </div>
       <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-        One Good Trade Pays for a Year
+        Your unfair advantage in the market
       </h2>
       <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
         Professional-grade tools at retail-friendly prices. Competitors charge
@@ -1051,7 +1053,9 @@
         <div class="mt-auto pt-6 border-t border-gray-200 dark:border-zinc-700">
           <label
             for={!data?.user ? "userLogin" : ""}
-            on:click={() => { if (data?.user) window.location.href = "/pricing"; }}
+            on:click={() => {
+              if (data?.user) window.location.href = "/pricing";
+            }}
             class="block w-full py-3 px-4 text-center font-semibold rounded bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors cursor-pointer"
           >
             Start Free 7 Day Trial
@@ -1213,7 +1217,9 @@
         <div class="mt-auto pt-6 border-t border-zinc-700">
           <label
             for={!data?.user ? "userLogin" : ""}
-            on:click={() => { if (data?.user) window.location.href = "/pricing"; }}
+            on:click={() => {
+              if (data?.user) window.location.href = "/pricing";
+            }}
             class="block w-full py-3 px-4 text-center font-semibold rounded bg-violet-500 text-white hover:bg-violet-600 transition-colors cursor-pointer"
           >
             Start Free 7 Day Trial
@@ -1346,11 +1352,11 @@
           {/each}
         </div>
         <p class="text-gray-600 dark:text-gray-300 text-sm">
-          "Perfect for Beginners and Pros Alike! The founder is very responsive
-          and helps build features."
+          "Brings analysis tools to retail investors in a way that elevates
+          decision making to pro levels. "
         </p>
         <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">
-          GoldFish
+          SkiSmith
         </p>
       </div>
     </div>
@@ -1371,7 +1377,9 @@
     </p>
     <label
       for={!data?.user ? "userLogin" : ""}
-      on:click={() => { if (data?.user) window.location.href = "/pricing"; }}
+      on:click={() => {
+        if (data?.user) window.location.href = "/pricing";
+      }}
       class="inline-flex items-center mt-8 px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded text-lg transition-all shadow-lg shadow-purple-500/25 cursor-pointer"
     >
       Start 7-Day Free Trial

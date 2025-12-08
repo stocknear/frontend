@@ -33,9 +33,9 @@ export const actions = {
       throw error(err.status || 500, err.message || "Login failed");
     }
 
-    // Get return URL from query or cookie
+    // Get return URL from query or cookie, default to /pricing for landing page
     const returnUrl =
-      url.searchParams.get("returnUrl") || cookies.get("returnUrl") || "/";
+      url.searchParams.get("returnUrl") || cookies.get("returnUrl") || "/pricing";
 
     // Remove cookie after use
     cookies.delete("returnUrl", { path: "/" });
@@ -76,11 +76,11 @@ export const actions = {
       throw error(err.status || 500, err.message || "Registration failed");
     }
 
-    // Get return URL from query or cookie
+    // Get return URL from query or cookie, default to /pricing for landing page
     const returnUrl =
       url.searchParams.get("returnUrl") ||
       cookies.get("returnUrl") ||
-      "/profile";
+      "/pricing";
 
     // Remove cookie
     cookies.delete("returnUrl", { path: "/" });
@@ -90,7 +90,6 @@ export const actions = {
   },
 
   oauth2: async ({ url, locals, request, cookies }) => {
-    const path = url?.href?.replace("/oauth2", "");
     const authMethods = (
       await locals?.pb?.collection("users")?.listAuthMethods()
     )?.oauth2;
@@ -139,12 +138,13 @@ export const actions = {
       maxAge: 60 * 60,
     });
 
-    cookies.set("path", path, {
+    // Redirect to /pricing after OAuth login from landing page
+    cookies.set("returnUrl", "/pricing", {
       httpOnly: true,
       sameSite: "lax",
       secure: true,
       path: "/",
-      maxAge: 60,
+      maxAge: 60 * 60,
     });
 
     redirect(302, authProviderRedirect);
