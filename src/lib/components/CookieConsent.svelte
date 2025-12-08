@@ -157,7 +157,7 @@
 
 <Dialog.Root bind:open={showCustomize}>
   <Dialog.Content
-    class="max-h-[90vh] w-[95vw] max-w-lg overflow-y-auto bg-white dark:bg-[#09090B] text-muted dark:text-white"
+    class="max-h-[90vh] w-[95vw] max-w-lg rounded border-gray-300 dark:border-gray-600 overflow-y-auto bg-white dark:bg-[#09090B] text-muted dark:text-white z-[999]"
   >
     <Dialog.Header>
       <Dialog.Title class="text-xl font-semibold"
