@@ -25,6 +25,10 @@
 
   const getVideoKey = (item: any, index: number) => item?.url ?? String(index);
 
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   const formatDate = (dateString) => {
     // Create a date object for the input dateString
     const inputDate = new Date(dateString);
@@ -94,7 +98,11 @@
   }
 
   function goToPage(pageNumber: number) {
-    if (pageNumber < 1 || pageNumber > totalPages || pageNumber === currentPage) {
+    if (
+      pageNumber < 1 ||
+      pageNumber > totalPages ||
+      pageNumber === currentPage
+    ) {
       return;
     }
     currentPage = pageNumber;
@@ -239,7 +247,8 @@
                             class="group relative block cursor-pointer bg-black bg-cover bg-[center_50%] object-contain after:block after:pb-[56.25%] after:content-[''] rounded-sm focus:outline-hidden focus:ring-2 focus:ring-blue-brand_light focus:ring-offset-2"
                             style="background-image: url({item?.image});"
                             tabindex="0"
-                            on:click={() => handlePlayClick(getVideoKey(item, index))}
+                            on:click={() =>
+                              handlePlayClick(getVideoKey(item, index))}
                           >
                             <div
                               class="absolute left-[50%] top-[50%] z-10 h-[46px] w-[70px] -translate-x-1/2 -translate-y-1/2 rounded bg-[#212121] opacity-80 transition-all before:absolute before:left-[50%] before:top-[50%] before:-translate-x-1/2 before:-translate-y-1/2 before:border-y-[11px] before:border-l-[19px] before:border-r-0 before:border-transparent before:border-l-white before:content-[''] group-hover:bg-[#ff0000] group-hover:opacity-100"
@@ -318,7 +327,9 @@
         </div>
 
         {#if rawData?.length > 0}
-          <div class="flex flex-col gap-3 mt-6 sm:flex-row sm:items-center sm:justify-between">
+          <div
+            class="flex gap-3 mt-6 flex-row items-center justify-between mb-10 sm:mb-0"
+          >
             <div class="flex items-center gap-2">
               <Button
                 on:click={() => goToPage(currentPage - 1)}
@@ -381,7 +392,9 @@
                 >
                   <DropdownMenu.Group class="pb-2">
                     {#each rowsPerPageOptions as item}
-                      <DropdownMenu.Item class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary">
+                      <DropdownMenu.Item
+                        class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                      >
                         <label
                           on:click={() => changeRowsPerPage(item)}
                           class="inline-flex justify-between w-full items-center cursor-pointer"
@@ -417,6 +430,27 @@
                 </svg>
               </Button>
             </div>
+          </div>
+
+          <div class="flex justify-center mt-4">
+            <button
+              on:click={scrollToTop}
+              class=" cursor-pointer sm:hover:text-muted text-blue-800 dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem] font-medium"
+            >
+              Back to Top <svg
+                class="h-5 w-5 inline-block shrink-0 rotate-180"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
           </div>
         {/if}
       </main>

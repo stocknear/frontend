@@ -1604,20 +1604,6 @@
     totalPages = Math.ceil((dataSource?.length || 0) / rowsPerPage);
   }
 
-  function goToPage(page) {
-    if (page >= 1 && page <= totalPages) {
-      currentPage = page;
-      updatePaginatedData();
-    }
-  }
-
-  function changeRowsPerPage(newRowsPerPage) {
-    rowsPerPage = newRowsPerPage;
-    currentPage = 1; // Reset to first page when changing rows per page
-    updatePaginatedData();
-    saveRowsPerPage(); // Save to localStorage
-  }
-
   function handlePageChange(event) {
     currentPage = event.detail.page;
     updatePaginatedData();
@@ -1664,10 +1650,6 @@
       console.warn("Failed to load rows per page preference:", e);
       rowsPerPage = 20; // Default on error
     }
-  }
-
-  function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   // Save scroll position before data changes
