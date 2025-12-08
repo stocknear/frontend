@@ -13,17 +13,17 @@
 
 <!-- Hero Section -->
 <section class="relative overflow-hidden bg-white dark:bg-[#09090B]">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-12">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
     <!-- Headline -->
     <div class="text-center max-w-4xl mx-auto">
       <h1
         class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-tight"
       >
-        Your unfair advantage
+        Research your next Trading
         <span
-          class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500"
+          class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500 italic"
         >
-          in the Market
+          Idea
         </span>
       </h1>
       <p
@@ -870,8 +870,8 @@
 <section
   class="py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800"
 >
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-16">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
       <div
         class="inline-flex items-center px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-medium mb-4"
       >
@@ -893,13 +893,13 @@
       </p>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-6">
+    <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
       <!-- Plus Tier -->
       <div
-        class="relative bg-white dark:bg-zinc-900 rounded-lg border border-gray-400 dark:border-zinc-600 p-6"
+        class="relative flex flex-col bg-white dark:bg-zinc-900 rounded-lg border border-gray-400 dark:border-zinc-600 p-6 overflow-visible"
       >
         <h3 class="text-3xl font-bold text-gray-900 dark:text-white">Plus</h3>
-        <p class="text-muted dark:text-zinc-300 text-sm mt-1">
+        <p class="text-gray-600 dark:text-zinc-300 text-sm mt-1">
           Essential tools for individual traders
         </p>
         <div class="mt-4">
@@ -908,14 +908,11 @@
           >
           <span class="text-xl ml-1 text-gray-600 dark:text-gray-400">/mo</span>
         </div>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          ($90 Billed Annually)
-        </p>
 
-        <ul class="mt-6 space-y-2">
-          <li class="flex items-center text-gray-900 dark:text-white">
+        <ul class="mt-6 mb-6 space-y-2 flex-grow">
+          <li class="flex items-start text-gray-900 dark:text-white">
             <svg
-              class="w-5 h-5 mr-2 flex-shrink-0"
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -929,9 +926,25 @@
             </svg>
             150 Credits/mo
           </li>
-          <li class="flex items-center text-gray-900 dark:text-white">
+          <li class="flex items-start text-gray-900 dark:text-white">
             <svg
-              class="w-5 h-5 mr-2 flex-shrink-0"
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+            Unlimited Watchlist up to 100 stocks
+          </li>
+          <li class="flex items-start text-gray-900 dark:text-white">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -945,9 +958,9 @@
             </svg>
             Unlimited Stock Screener
           </li>
-          <li class="flex items-center text-gray-900 dark:text-white">
+          <li class="flex items-start text-gray-900 dark:text-white">
             <svg
-              class="w-5 h-5 mr-2 flex-shrink-0"
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -961,9 +974,9 @@
             </svg>
             Hedge Fund Portfolio Access
           </li>
-          <li class="flex items-center text-gray-900 dark:text-white">
+          <li class="flex items-start text-gray-900 dark:text-white">
             <svg
-              class="w-5 h-5 mr-2 flex-shrink-0"
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -977,9 +990,9 @@
             </svg>
             US Congress Portfolio Access
           </li>
-          <li class="flex items-center text-gray-900 dark:text-white">
+          <li class="flex items-start text-gray-900 dark:text-white">
             <svg
-              class="w-5 h-5 mr-2 flex-shrink-0"
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -993,19 +1006,66 @@
             </svg>
             Financial History Access
           </li>
+          <li class="flex items-start text-gray-900 dark:text-white">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+            Real-Time Notification
+          </li>
+          <li class="flex items-start text-gray-900 dark:text-white">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+            No Ads
+          </li>
         </ul>
 
-        <a
-          href="/pricing"
-          class="mt-6 block w-full py-3 px-4 text-center font-semibold rounded-lg bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
-        >
-          Start Free Trial
-        </a>
+        <div class="mt-auto pt-6 border-t border-gray-200 dark:border-zinc-700">
+          <a
+            href="/pricing"
+            class="block w-full py-3 px-4 text-center font-semibold rounded-lg bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+          >
+            Start Free 7 Day Trial
+            <svg
+              class="w-5 h-5 ml-2 inline-block"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </a>
+        </div>
       </div>
 
       <!-- Pro Tier -->
       <div
-        class="relative bg-[#18181B] dark:bg-zinc-900 rounded-lg border border-violet-500/50 p-6 text-white"
+        class="relative flex flex-col bg-[#18181B] dark:bg-zinc-900 rounded-lg border border-violet-500/50 p-6 text-white overflow-visible"
       >
         <!-- Subtle top glow -->
         <div
@@ -1013,7 +1073,7 @@
         ></div>
         <!-- Best Value Badge -->
         <div
-          class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-violet-500 text-white text-xs font-semibold rounded-full shadow-md uppercase tracking-wider"
+          class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-violet-500 text-white text-xs font-semibold rounded-full shadow-md uppercase tracking-wider whitespace-nowrap"
         >
           Best Value
         </div>
@@ -1025,12 +1085,11 @@
           <span class="text-4xl font-bold">$35</span>
           <span class="text-xl ml-1">/mo</span>
         </div>
-        <p class="text-sm text-zinc-400 mt-1">($300 Billed Annually)</p>
 
-        <ul class="mt-6 space-y-2">
-          <li class="flex items-center">
+        <ul class="mt-6 mb-6 space-y-2 flex-grow">
+          <li class="flex items-start">
             <svg
-              class="w-5 h-5 mr-2 flex-shrink-0"
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -1044,9 +1103,9 @@
             </svg>
             1,000 Credits/mo
           </li>
-          <li class="flex items-center">
+          <li class="flex items-start">
             <svg
-              class="w-5 h-5 mr-2 flex-shrink-0"
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -1060,9 +1119,25 @@
             </svg>
             Everything in Plus and ...
           </li>
-          <li class="flex items-center">
+          <li class="flex items-start">
             <svg
-              class="w-5 h-5 mr-2 flex-shrink-0"
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+            Watchlist with up to 300 stocks
+          </li>
+          <li class="flex items-start">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -1076,9 +1151,9 @@
             </svg>
             Real-Time Options & Historical Data
           </li>
-          <li class="flex items-center">
+          <li class="flex items-start">
             <svg
-              class="w-5 h-5 mr-2 flex-shrink-0"
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -1092,9 +1167,9 @@
             </svg>
             Real-Time Options Flow Data
           </li>
-          <li class="flex items-center">
+          <li class="flex items-start">
             <svg
-              class="w-5 h-5 mr-2 flex-shrink-0"
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -1108,20 +1183,51 @@
             </svg>
             Real-Time Unusual Orders
           </li>
+          <li class="flex items-start">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+            Premium Discord Channel Access
+          </li>
         </ul>
 
-        <a
-          href="/pricing"
-          class="mt-6 block w-full py-3 px-4 text-center font-semibold rounded-lg bg-violet-500 text-white hover:bg-violet-600 transition-colors"
-        >
-          Start Free Trial
-        </a>
+        <div class="mt-auto pt-6 border-t border-zinc-700">
+          <a
+            href="/pricing"
+            class="block w-full py-3 px-4 text-center font-semibold rounded-lg bg-violet-500 text-white hover:bg-violet-600 transition-colors"
+          >
+            Start Free 7 Day Trial
+            <svg
+              class="w-5 h-5 ml-2 inline-block"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
 
     <!-- Value reinforcement -->
     <div
-      class="mt-12 text-center p-6 rounded-xl bg-white dark:bg-[#18181B] border border-gray-200 dark:border-gray-800"
+      class="mt-12 text-center p-6 rounded-xl bg-white dark:bg-[#18181B] border border-gray-200 dark:border-gray-800 max-w-4xl mx-auto"
     >
       <p class="text-gray-600 dark:text-gray-300">
         <span class="font-semibold text-gray-900 dark:text-white"
