@@ -574,6 +574,22 @@
               </span>
             </div>
 
+            {#if ["Plus", "Pro"].includes(data?.user?.tier)}
+              <div class="mx-auto w-full mt-4">
+                <div class="flex items-center gap-3">
+                  <p class=" text-blue-800 dark:text-blue-400">
+                    <a
+                      href="https://app.lemonsqueezy.com/my-orders"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class=" sm:hover:text-muted dark:sm:hover:text-white"
+                      >Manage your subscription</a
+                    >
+                  </p>
+                </div>
+              </div>
+            {/if}
+            <!--
             {#if !data?.user?.lifetime}
               {#if subscriptionData?.status_formatted === "Active"}
                 <div
@@ -632,6 +648,7 @@
                 </a>
               {/if}
             {/if}
+            -->
           </div>
 
           <div
