@@ -118,8 +118,96 @@
   </div>
 </section>
 
-<!-- Features Section - Two Cards -->
+<!-- AI Chatbot Section -->
 <section class="py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Content -->
+      <div>
+        <div class="inline-flex items-center px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-sm font-medium mb-6">
+          <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+          Unlike ChatGPT
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+          AI That Knows the Market
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500">Right Now</span>
+        </h2>
+        <p class="mt-6 text-lg text-gray-600 dark:text-gray-300">
+          ChatGPT's knowledge stops in 2024. Our AI has realtime access to every stock, every metric, every price movement — <strong>as it happens</strong>.
+        </p>
+
+        <ul class="mt-8 space-y-4">
+          <li class="flex items-start">
+            <div class="flex-shrink-0 w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mt-0.5">
+              <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <p class="ml-3 text-gray-600 dark:text-gray-300">
+              <strong class="text-gray-900 dark:text-white">Realtime prices & fundamentals</strong> — Ask about any stock and get live data
+            </p>
+          </li>
+          <li class="flex items-start">
+            <div class="flex-shrink-0 w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mt-0.5">
+              <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <p class="ml-3 text-gray-600 dark:text-gray-300">
+              <strong class="text-gray-900 dark:text-white">Full Stocknear data access</strong> — Options flow, dark pool, analyst ratings & more
+            </p>
+          </li>
+          <li class="flex items-start">
+            <div class="flex-shrink-0 w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mt-0.5">
+              <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <p class="ml-3 text-gray-600 dark:text-gray-300">
+              <strong class="text-gray-900 dark:text-white">Research in seconds</strong> — No more switching between 10 tabs
+            </p>
+          </li>
+        </ul>
+
+        <a
+          href="/chat"
+          class="inline-flex items-center mt-8 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl transition-all shadow-lg shadow-purple-500/25"
+        >
+          Try AI Chat
+          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Video -->
+      <div class="relative">
+        <div class="relative rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-2xl shadow-purple-500/10">
+          <video
+            class="w-full aspect-video object-cover"
+            autoplay
+            loop
+            muted
+            playsinline
+          >
+            <source src="/video/ai_agent.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <!-- Play overlay hint -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
+        </div>
+        <!-- Decorative elements -->
+        <div class="absolute -z-10 -top-4 -right-4 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute -z-10 -bottom-4 -left-4 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section - Two Cards -->
+<section class="py-20 bg-white dark:bg-[#09090B]">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
       <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
