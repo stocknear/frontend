@@ -34,25 +34,20 @@
       </p>
 
       <!-- CTA + Trust -->
-      <div class="mt-10">
+      <div
+        class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
+      >
         <a
           href="/pricing"
-          class="inline-flex items-center px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-lg transition-all shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/30"
+          class="w-full max-w-56 sm:max-w-full sm:w-auto inline-flex items-center justify-center px-5 py-2 sm:px-8 sm:py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded text-[1rem] sm:text-lg transition-all shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/30"
         >
           Start 7-Day Free Trial
-          <svg
-            class="w-5 h-5 ml-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M17 8l4 4m0 0l-4 4m4-4H3"
-            />
-          </svg>
+        </a>
+        <a
+          href="/register"
+          class="w-full max-w-56 sm:max-w-full sm:w-auto inline-flex items-center justify-center px-5 py-2 sm:px-8 sm:py-3 bg-gray-100 hover:bg-gray-200 dark:bg-white dark:hover:bg-gray-100 text-gray-900 dark:text-black font-semibold rounded text-[1rem] sm:text-lg transition-all border border-gray-300 dark:border-transparent"
+        >
+          Start Free
         </a>
       </div>
 
@@ -103,7 +98,7 @@
               clip-rule="evenodd"
             />
           </svg>
-          Real-time Data
+          Real-time Stock & OPRA Data
         </span>
       </div>
     </div>
