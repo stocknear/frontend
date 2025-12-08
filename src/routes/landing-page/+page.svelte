@@ -19,11 +19,11 @@
       <h1
         class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-tight"
       >
-        Track Institutional Trades
+        Your unfair advantage
         <span
           class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500"
         >
-          Before They Move Price
+          in the Market
         </span>
       </h1>
       <p
@@ -103,7 +103,7 @@
               clip-rule="evenodd"
             />
           </svg>
-          Direct OPRA feed
+          Real-time Data
         </span>
       </div>
     </div>
@@ -872,104 +872,132 @@
 >
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
+      <div
+        class="inline-flex items-center px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-medium mb-4"
+      >
+        <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        Lowest price in the industry
+      </div>
       <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
         One Good Trade Pays for a Year
       </h2>
       <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
-        Pro-level data at a fraction of institutional cost. Start free, upgrade
-        when you're ready.
+        Professional-grade tools at retail-friendly prices. Competitors charge
+        $100-300/mo for the same data.
       </p>
     </div>
 
     <div class="grid md:grid-cols-2 gap-6">
       <!-- Plus Tier -->
       <div
-        class="bg-white dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-800 p-8"
+        class="relative bg-white dark:bg-zinc-900 rounded-lg border border-gray-400 dark:border-zinc-600 p-6"
       >
-        <h3 class="text-xl font-bold text-gray-900 dark:text-white">Plus</h3>
-        <p class="text-gray-500 dark:text-gray-400 mt-1">
-          Research & fundamentals
+        <h3 class="text-3xl font-bold text-gray-900 dark:text-white">Plus</h3>
+        <p class="text-muted dark:text-zinc-300 text-sm mt-1">
+          Essential tools for individual traders
         </p>
-        <div class="mt-6">
+        <div class="mt-4">
           <span class="text-4xl font-bold text-gray-900 dark:text-white"
             >$10</span
           >
-          <span class="text-gray-500 dark:text-gray-400">/mo</span>
+          <span class="text-xl ml-1 text-gray-600 dark:text-gray-400">/mo</span>
         </div>
         <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          or $7.50/mo billed annually
+          ($90 Billed Annually)
         </p>
 
-        <ul class="mt-8 space-y-4">
-          <li
-            class="flex items-center text-sm text-gray-600 dark:text-gray-300"
-          >
+        <ul class="mt-6 space-y-2">
+          <li class="flex items-center text-gray-900 dark:text-white">
             <svg
-              class="w-5 h-5 text-green-500 mr-3 flex-shrink-0"
-              fill="currentColor"
-              viewBox="0 0 20 20"
+              class="w-5 h-5 mr-2 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
               <path
-                fill-rule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clip-rule="evenodd"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
               />
             </svg>
-            100 AI Credits/month
+            150 Credits/mo
           </li>
-          <li
-            class="flex items-center text-sm text-gray-600 dark:text-gray-300"
-          >
+          <li class="flex items-center text-gray-900 dark:text-white">
             <svg
-              class="w-5 h-5 text-green-500 mr-3 flex-shrink-0"
-              fill="currentColor"
-              viewBox="0 0 20 20"
+              class="w-5 h-5 mr-2 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
               <path
-                fill-rule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clip-rule="evenodd"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
               />
             </svg>
-            Hedge Fund & Congress data
+            Unlimited Stock Screener
           </li>
-          <li
-            class="flex items-center text-sm text-gray-600 dark:text-gray-300"
-          >
+          <li class="flex items-center text-gray-900 dark:text-white">
             <svg
-              class="w-5 h-5 text-green-500 mr-3 flex-shrink-0"
-              fill="currentColor"
-              viewBox="0 0 20 20"
+              class="w-5 h-5 mr-2 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
               <path
-                fill-rule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clip-rule="evenodd"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
               />
             </svg>
-            Stock Screener & Financials
+            Hedge Fund Portfolio Access
           </li>
-          <li
-            class="flex items-center text-sm text-gray-600 dark:text-gray-300"
-          >
+          <li class="flex items-center text-gray-900 dark:text-white">
             <svg
-              class="w-5 h-5 text-green-500 mr-3 flex-shrink-0"
-              fill="currentColor"
-              viewBox="0 0 20 20"
+              class="w-5 h-5 mr-2 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
               <path
-                fill-rule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clip-rule="evenodd"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
               />
             </svg>
-            No ads
+            US Congress Portfolio Access
+          </li>
+          <li class="flex items-center text-gray-900 dark:text-white">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+            Financial History Access
           </li>
         </ul>
 
         <a
           href="/pricing"
-          class="mt-8 block w-full py-3 px-4 text-center font-semibold rounded-xl border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          class="mt-6 block w-full py-3 px-4 text-center font-semibold rounded-lg bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
         >
           Start Free Trial
         </a>
@@ -977,105 +1005,131 @@
 
       <!-- Pro Tier -->
       <div
-        class="bg-[#18181B] rounded-2xl border-2 border-purple-500 p-8 relative"
+        class="relative bg-[#18181B] dark:bg-zinc-900 rounded-lg border border-violet-500/50 p-6 text-white"
       >
+        <!-- Subtle top glow -->
         <div
-          class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-purple-500 text-white text-xs font-semibold rounded-full"
+          class="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-violet-400 to-transparent"
+        ></div>
+        <!-- Best Value Badge -->
+        <div
+          class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-violet-500 text-white text-xs font-semibold rounded-full shadow-md uppercase tracking-wider"
         >
-          Most Popular
+          Best Value
         </div>
-        <h3 class="text-xl font-bold text-white">Pro</h3>
-        <p class="text-gray-400 mt-1">Realtime flow data</p>
-        <div class="mt-6">
-          <span class="text-4xl font-bold text-white">$35</span>
-          <span class="text-gray-400">/mo</span>
-        </div>
-        <p class="text-sm text-gray-400 mt-1">
-          or $25/mo billed annually · <span class="text-purple-400"
-            >~$0.83/day</span
-          >
+        <h3 class="text-3xl font-bold mt-2">Pro</h3>
+        <p class="text-zinc-300 text-sm mt-1">
+          Professional tools at retail prices
         </p>
+        <div class="mt-4">
+          <span class="text-4xl font-bold">$35</span>
+          <span class="text-xl ml-1">/mo</span>
+        </div>
+        <p class="text-sm text-zinc-400 mt-1">($300 Billed Annually)</p>
 
-        <ul class="mt-8 space-y-4">
-          <li class="flex items-center text-sm text-gray-200">
+        <ul class="mt-6 space-y-2">
+          <li class="flex items-center">
             <svg
-              class="w-5 h-5 text-purple-400 mr-3 flex-shrink-0"
-              fill="currentColor"
-              viewBox="0 0 20 20"
+              class="w-5 h-5 mr-2 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
               <path
-                fill-rule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clip-rule="evenodd"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
               />
             </svg>
-            <strong class="text-white">Realtime</strong>&nbsp;Options Flow
+            1,000 Credits/mo
           </li>
-          <li class="flex items-center text-sm text-gray-200">
+          <li class="flex items-center">
             <svg
-              class="w-5 h-5 text-purple-400 mr-3 flex-shrink-0"
-              fill="currentColor"
-              viewBox="0 0 20 20"
+              class="w-5 h-5 mr-2 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
               <path
-                fill-rule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clip-rule="evenodd"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
               />
             </svg>
-            <strong class="text-white">Realtime</strong>&nbsp;Dark Pool Data
+            Everything in Plus and ...
           </li>
-          <li class="flex items-center text-sm text-gray-200">
+          <li class="flex items-center">
             <svg
-              class="w-5 h-5 text-purple-400 mr-3 flex-shrink-0"
-              fill="currentColor"
-              viewBox="0 0 20 20"
+              class="w-5 h-5 mr-2 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
               <path
-                fill-rule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clip-rule="evenodd"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
               />
             </svg>
-            1,000 AI Credits/month
+            Real-Time Options & Historical Data
           </li>
-          <li class="flex items-center text-sm text-gray-200">
+          <li class="flex items-center">
             <svg
-              class="w-5 h-5 text-purple-400 mr-3 flex-shrink-0"
-              fill="currentColor"
-              viewBox="0 0 20 20"
+              class="w-5 h-5 mr-2 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
               <path
-                fill-rule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clip-rule="evenodd"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
               />
             </svg>
-            GEX, DEX & Full Greeks
+            Real-Time Options Flow Data
           </li>
-          <li class="flex items-center text-sm text-gray-200">
+          <li class="flex items-center">
             <svg
-              class="w-5 h-5 text-purple-400 mr-3 flex-shrink-0"
-              fill="currentColor"
-              viewBox="0 0 20 20"
+              class="w-5 h-5 mr-2 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
               <path
-                fill-rule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clip-rule="evenodd"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
               />
             </svg>
-            Everything in Plus
+            Real-Time Unusual Orders
           </li>
         </ul>
 
         <a
           href="/pricing"
-          class="mt-8 block w-full py-3 px-4 text-center font-semibold rounded-xl bg-purple-500 text-white hover:bg-purple-600 transition-colors"
+          class="mt-6 block w-full py-3 px-4 text-center font-semibold rounded-lg bg-violet-500 text-white hover:bg-violet-600 transition-colors"
         >
           Start Free Trial
         </a>
       </div>
+    </div>
+
+    <!-- Value reinforcement -->
+    <div
+      class="mt-12 text-center p-6 rounded-xl bg-white dark:bg-[#18181B] border border-gray-200 dark:border-gray-800"
+    >
+      <p class="text-gray-600 dark:text-gray-300">
+        <span class="font-semibold text-gray-900 dark:text-white"
+          >Why so affordable?</span
+        >
+        We believe every retail trader deserves access to institutional-quality data.
+        No hidden fees, no compromises.
+      </p>
     </div>
   </div>
 </section>
