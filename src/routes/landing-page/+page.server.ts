@@ -147,6 +147,15 @@ export const actions = {
       maxAge: 60 * 60,
     });
 
+    // Also set path cookie as fallback
+    cookies.set("path", "/pricing", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: true,
+      path: "/",
+      maxAge: 60,
+    });
+
     redirect(302, authProviderRedirect);
   },
 };

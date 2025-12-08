@@ -1261,7 +1261,7 @@
   class="py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800"
 >
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
+    <div class="text-center mb-6">
       <a
         href="https://www.trustpilot.com/review/stocknear.com"
         target="_blank"
@@ -1299,7 +1299,7 @@
             </svg>
           {/each}
         </div>
-        <p class="text-gray-600 dark:text-gray-300 text-sm">
+        <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-[1rem]">
           "Offers premium features for an affordable price. There are usually
           new features being rolled out weekly."
         </p>
@@ -1325,7 +1325,7 @@
             </svg>
           {/each}
         </div>
-        <p class="text-gray-600 dark:text-gray-300 text-sm">
+        <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-[1rem]">
           "The information that the site provides is top notch. They have great
           support and always improving."
         </p>
@@ -1351,7 +1351,7 @@
             </svg>
           {/each}
         </div>
-        <p class="text-gray-600 dark:text-gray-300 text-sm">
+        <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-[1rem]">
           "Brings analysis tools to retail investors in a way that elevates
           decision making to pro levels. "
         </p>
@@ -1369,11 +1369,11 @@
 >
   <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-      Stop Trading Blind
+      Success is well researched
     </h2>
     <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
-      See what institutions are doing right now. Start your free trial and
-      decide for yourself.
+      We develop tools that surface unusual trading activity early, giving
+      retail investors an informational edge ahead of major market moves.
     </p>
     <label
       for={!data?.user ? "userLogin" : ""}
