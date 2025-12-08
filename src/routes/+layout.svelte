@@ -122,7 +122,8 @@
 
   // Load GTM script in a non-blocking way
   function loadGTMScript() {
-    if (document.querySelector('script[src*="googletagmanager.com/gtm.js"]')) return;
+    if (document.querySelector('script[src*="googletagmanager.com/gtm.js"]'))
+      return;
 
     const GTM_ID = "GTM-NZBJ9W63";
     const script = document.createElement("script");
@@ -138,30 +139,49 @@
   function loadMetaPixel() {
     if (window.fbq) return;
 
-    (function(f: any, b: Document, e: string, v: string, n?: any, t?: HTMLScriptElement, s?: Element) {
+    (function (
+      f: any,
+      b: Document,
+      e: string,
+      v: string,
+      n?: any,
+      t?: HTMLScriptElement,
+      s?: Element,
+    ) {
       if (f.fbq) return;
-      n = f.fbq = function() {
-        n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+      n = f.fbq = function () {
+        n.callMethod
+          ? n.callMethod.apply(n, arguments)
+          : n.queue.push(arguments);
       };
       if (!f._fbq) f._fbq = n;
       n.push = n;
       n.loaded = true;
-      n.version = '2.0';
+      n.version = "2.0";
       n.queue = [];
       t = b.createElement(e) as HTMLScriptElement;
       t.async = true;
       t.src = v;
       s = b.getElementsByTagName(e)[0];
       s?.parentNode?.insertBefore(t, s);
-    })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    })(
+      window,
+      document,
+      "script",
+      "https://connect.facebook.net/en_US/fbevents.js",
+    );
 
-    window.fbq('init', '1862625670961244');
-    window.fbq('track', 'PageView');
+    window.fbq("init", "1862625670961244");
+    window.fbq("track", "PageView");
   }
 
   // Load Google Ads gtag.js
   function loadGoogleAds() {
-    if (window.gtag && document.querySelector('script[src*="googletagmanager.com/gtag/js"]')) return;
+    if (
+      window.gtag &&
+      document.querySelector('script[src*="googletagmanager.com/gtag/js"]')
+    )
+      return;
 
     const script = document.createElement("script");
     script.async = true;
@@ -169,9 +189,11 @@
     document.head.appendChild(script);
 
     window.dataLayer = window.dataLayer || [];
-    window.gtag = function() { window.dataLayer.push(arguments); };
-    window.gtag('js', new Date());
-    window.gtag('config', 'AW-11328922950');
+    window.gtag = function () {
+      window.dataLayer.push(arguments);
+    };
+    window.gtag("js", new Date());
+    window.gtag("config", "AW-11328922950");
   }
 
   // Load all marketing scripts (only if consent given)
@@ -186,7 +208,13 @@
   }
 
   // Handle consent change event from CookieConsent component
-  function handleConsentChange(event: CustomEvent<{ necessary: boolean; analytics: boolean; marketing: boolean }>) {
+  function handleConsentChange(
+    event: CustomEvent<{
+      necessary: boolean;
+      analytics: boolean;
+      marketing: boolean;
+    }>,
+  ) {
     const consent = event.detail;
     if (consent.marketing) {
       loadMarketingScripts();
@@ -400,7 +428,7 @@
                   class=" -ml-4 mr-auto bg-gray-100 dark:bg-[#18181B]"
                 >
                   <a
-                    href="/"
+                    href="/dashboard"
                     class="flex items-center gap-4 px-0.5 text-muted dark:text-white text-xl font-semibold"
                   >
                     <img
@@ -439,7 +467,7 @@
                   class="w-full bg-gray-100 dark:bg-[#18181B] -ml-4 mr-auto"
                 >
                   <a
-                    href="/"
+                    href="/dashboard"
                     class="w-full flex flex-row items-center mr-auto mt-5"
                   >
                     <div
@@ -1147,7 +1175,7 @@
           </Sheet.Content>
         </Sheet.Root>
 
-        <a href="/" class="-ml-2 flex flex-row items-center shrink-0">
+        <a href="/dashboard" class="-ml-2 flex flex-row items-center shrink-0">
           <img
             class="avatar w-9 3xl:w-10 rounded-full"
             src="/pwa-192x192.png"
@@ -1295,7 +1323,7 @@
                 class="flex flex-col items-center mr-auto gap-y-4 3xl:py-5 w-full"
               >
                 <a
-                  href="/"
+                  href="/dashboard"
                   class="ml-3 mb-3 flex justify-end items-center h-9 w-9 shrink-0 gap-2 rounded-full text-lg font-semibold text-primary-foreground md:h-10 md:w-10 md:"
                 >
                   <img
@@ -1319,7 +1347,10 @@
                     <span class="font-semibold">Start new chat</span>
                   </div>
                 </a>
-                <a href="/" class="flex flex-row items-center ml-9 w-full">
+                <a
+                  href="/dashboard"
+                  class="flex flex-row items-center ml-9 w-full"
+                >
                   <div
                     class="flex h-9 w-9 items-center justify-center rounded text-muted dark:text-white md:h-8 md:w-8"
                   >
@@ -1765,7 +1796,9 @@
 
 <!-- Cookie Consent Banner -->
 <CookieConsent
-  cookieConsent={data?.cookieConsent ? JSON.stringify(data.cookieConsent) : undefined}
+  cookieConsent={data?.cookieConsent
+    ? JSON.stringify(data.cookieConsent)
+    : undefined}
   on:consent={handleConsentChange}
 />
 
