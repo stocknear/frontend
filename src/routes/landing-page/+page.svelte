@@ -38,16 +38,16 @@
         class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
       >
         <a
-          href="/pricing"
-          class="w-full max-w-56 sm:max-w-full sm:w-auto inline-flex items-center justify-center px-5 py-2 sm:px-8 sm:py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded text-[1rem] sm:text-lg transition-all shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/30"
-        >
-          Start 7-Day Free Trial
-        </a>
-        <a
           href="/register"
           class="w-full max-w-56 sm:max-w-full sm:w-auto inline-flex items-center justify-center px-5 py-2 sm:px-8 sm:py-3 bg-gray-100 hover:bg-gray-200 dark:bg-white dark:hover:bg-gray-100 text-gray-900 dark:text-black font-semibold rounded text-[1rem] sm:text-lg transition-all border border-gray-300 dark:border-transparent"
         >
           Start Free
+        </a>
+        <a
+          href="/pricing"
+          class="w-full max-w-56 sm:max-w-full sm:w-auto inline-flex items-center justify-center px-5 py-2 sm:px-8 sm:py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded text-[1rem] sm:text-lg transition-all shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/30"
+        >
+          Start 7-Day Free Trial
         </a>
       </div>
 
@@ -109,7 +109,7 @@
         class="absolute inset-0 bg-gradient-to-t from-white dark:from-[#09090B] to-transparent z-10 pointer-events-none h-32 bottom-0 top-auto"
       ></div>
       <div
-        class="relative rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-2xl shadow-gray-900/10 dark:shadow-black/50"
+        class="relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-2xl shadow-gray-900/10 dark:shadow-black/50"
       >
         <video
           class="w-full h-auto"
@@ -122,167 +122,6 @@
           <source src="/video/overview.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- What You'll See Section - Show value through examples -->
-<section
-  class="py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800"
->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-        What You'll See Every Day
-      </h2>
-      <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
-        Real examples of unusual activity our users spot
-      </p>
-    </div>
-
-    <div class="grid md:grid-cols-3 gap-6">
-      <!-- Example 1: Unusual Options Activity -->
-      <div
-        class="bg-white dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden"
-      >
-        <div
-          class="aspect-[16/9] bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20"
-        >
-          <img
-            src="/img/landing-page/unusual-option-trade.png"
-            alt="Unusual Options Activity"
-            class="w-full h-full object-cover rounded-lg"
-            loading="lazy"
-          />
-        </div>
-        <div class="p-5">
-          <div class="flex items-center gap-2 mb-2">
-            <span
-              class="px-2 py-0.5 text-xs font-medium bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 rounded-full"
-            >
-              Calls
-            </span>
-            <span class="text-xs text-gray-500 dark:text-gray-400"
-              >Unusual Activity</span
-            >
-          </div>
-          <h3 class="font-semibold text-gray-900 dark:text-white">
-            Large Call Sweeps
-          </h3>
-          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            Spot when institutions aggressively buy calls across multiple
-            exchanges — often before major moves.
-          </p>
-        </div>
-      </div>
-
-      <!-- Example 2: Dark Pool Prints -->
-      <div
-        class="bg-white dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden"
-      >
-        <div
-          class="aspect-[4/3] bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 flex items-center justify-center"
-        >
-          <div class="text-center p-4">
-            <div
-              class="w-10 h-10 mx-auto mb-2 rounded-lg bg-cyan-100 dark:bg-cyan-900/50 flex items-center justify-center"
-            >
-              <svg
-                class="w-5 h-5 text-cyan-600 dark:text-cyan-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-            </div>
-            <p class="text-gray-500 dark:text-gray-400 font-medium text-xs">
-              dark-pool-example.png
-            </p>
-            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
-              Screenshot showing block trade
-            </p>
-          </div>
-        </div>
-        <div class="p-5">
-          <div class="flex items-center gap-2 mb-2">
-            <span
-              class="px-2 py-0.5 text-xs font-medium bg-cyan-100 dark:bg-cyan-900/50 text-cyan-700 dark:text-cyan-300 rounded-full"
-            >
-              Dark Pool
-            </span>
-            <span class="text-xs text-gray-500 dark:text-gray-400"
-              >Block Trade</span
-            >
-          </div>
-          <h3 class="font-semibold text-gray-900 dark:text-white">
-            Hidden Block Trades
-          </h3>
-          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            See large off-exchange orders that don't show up on regular charts —
-            institutions hiding their positions.
-          </p>
-        </div>
-      </div>
-
-      <!-- Example 3: Put/Call Imbalance -->
-      <div
-        class="bg-white dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden"
-      >
-        <div
-          class="aspect-[4/3] bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 flex items-center justify-center"
-        >
-          <div class="text-center p-4">
-            <div
-              class="w-10 h-10 mx-auto mb-2 rounded-lg bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center"
-            >
-              <svg
-                class="w-5 h-5 text-amber-600 dark:text-amber-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-            </div>
-            <p class="text-gray-500 dark:text-gray-400 font-medium text-xs">
-              sentiment-example.png
-            </p>
-            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
-              Screenshot showing put/call ratio
-            </p>
-          </div>
-        </div>
-        <div class="p-5">
-          <div class="flex items-center gap-2 mb-2">
-            <span
-              class="px-2 py-0.5 text-xs font-medium bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 rounded-full"
-            >
-              Sentiment
-            </span>
-            <span class="text-xs text-gray-500 dark:text-gray-400"
-              >Market Flow</span
-            >
-          </div>
-          <h3 class="font-semibold text-gray-900 dark:text-white">
-            Put/Call Imbalance
-          </h3>
-          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            Track when options flow suddenly skews bearish or bullish — early
-            warning for sentiment shifts.
-          </p>
-        </div>
       </div>
     </div>
   </div>
@@ -393,7 +232,7 @@
 
         <a
           href="/chat"
-          class="inline-flex items-center mt-8 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl transition-all shadow-lg shadow-purple-500/25"
+          class="inline-flex items-center mt-8 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded transition-all shadow-lg shadow-purple-500/25"
         >
           Try AI Chat
           <svg
@@ -415,7 +254,7 @@
       <!-- Video -->
       <div class="relative">
         <div
-          class="relative rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-2xl shadow-purple-500/10"
+          class="relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-2xl shadow-purple-500/10"
         >
           <video
             class="w-full aspect-video object-cover"
@@ -461,11 +300,11 @@
       <div class="relative group">
         <!-- Glow effect -->
         <div
-          class="absolute -inset-1 bg-gradient-to-r from-purple-600 via-violet-600 to-blue-600 rounded-2xl blur-lg opacity-25 group-hover:opacity-40 transition duration-500"
+          class="absolute -inset-1 bg-gradient-to-r from-purple-600 via-violet-600 to-blue-600 rounded-xl blur-lg opacity-25 group-hover:opacity-40 transition duration-500"
         ></div>
 
         <div
-          class="relative bg-white dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-2xl"
+          class="relative bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-2xl"
         >
           <!-- Video with premium frame -->
           <div class="relative">
@@ -574,7 +413,7 @@
             </ul>
             <a
               href="/options-flow"
-              class="inline-flex items-center mt-6 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-lg transition-all"
+              class="inline-flex items-center mt-6 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded transition-all"
             >
               Watch Live Flow
               <svg
@@ -598,6 +437,167 @@
   </div>
 </section>
 
+<!-- What You'll See Section - Show value through examples -->
+<section
+  class="py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+        What You'll See Every Day
+      </h2>
+      <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+        Real examples of unusual activity our users spot
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <!-- Example 1: Unusual Options Activity -->
+      <div
+        class="bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
+      >
+        <div
+          class="aspect-[16/9] bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20"
+        >
+          <img
+            src="/img/landing-page/unusual-option-trade.png"
+            alt="Unusual Options Activity"
+            class="w-full h-full object-cover rounded"
+            loading="lazy"
+          />
+        </div>
+        <div class="p-5">
+          <div class="flex items-center gap-2 mb-2">
+            <span
+              class="px-2 py-0.5 text-xs font-medium bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 rounded-full"
+            >
+              Calls
+            </span>
+            <span class="text-xs text-gray-500 dark:text-gray-400"
+              >Unusual Activity</span
+            >
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white">
+            Large Call Sweeps
+          </h3>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            Spot when institutions aggressively buy calls across multiple
+            exchanges — often before major moves.
+          </p>
+        </div>
+      </div>
+
+      <!-- Example 2: Dark Pool Prints -->
+      <div
+        class="bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
+      >
+        <div
+          class="aspect-[4/3] bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 flex items-center justify-center"
+        >
+          <div class="text-center p-4">
+            <div
+              class="w-10 h-10 mx-auto mb-2 rounded bg-cyan-100 dark:bg-cyan-900/50 flex items-center justify-center"
+            >
+              <svg
+                class="w-5 h-5 text-cyan-600 dark:text-cyan-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+            </div>
+            <p class="text-gray-500 dark:text-gray-400 font-medium text-xs">
+              dark-pool-example.png
+            </p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+              Screenshot showing block trade
+            </p>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center gap-2 mb-2">
+            <span
+              class="px-2 py-0.5 text-xs font-medium bg-cyan-100 dark:bg-cyan-900/50 text-cyan-700 dark:text-cyan-300 rounded-full"
+            >
+              Dark Pool
+            </span>
+            <span class="text-xs text-gray-500 dark:text-gray-400"
+              >Block Trade</span
+            >
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white">
+            Hidden Block Trades
+          </h3>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            See large off-exchange orders that don't show up on regular charts —
+            institutions hiding their positions.
+          </p>
+        </div>
+      </div>
+
+      <!-- Example 3: Put/Call Imbalance -->
+      <div
+        class="bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
+      >
+        <div
+          class="aspect-[4/3] bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 flex items-center justify-center"
+        >
+          <div class="text-center p-4">
+            <div
+              class="w-10 h-10 mx-auto mb-2 rounded bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center"
+            >
+              <svg
+                class="w-5 h-5 text-amber-600 dark:text-amber-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+            </div>
+            <p class="text-gray-500 dark:text-gray-400 font-medium text-xs">
+              sentiment-example.png
+            </p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+              Screenshot showing put/call ratio
+            </p>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center gap-2 mb-2">
+            <span
+              class="px-2 py-0.5 text-xs font-medium bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 rounded-full"
+            >
+              Sentiment
+            </span>
+            <span class="text-xs text-gray-500 dark:text-gray-400"
+              >Market Flow</span
+            >
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white">
+            Put/Call Imbalance
+          </h3>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            Track when options flow suddenly skews bearish or bullish — early
+            warning for sentiment shifts.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Additional Features Section -->
 <section class="py-20 bg-white dark:bg-[#09090B]">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -613,7 +613,7 @@
     <div class="grid md:grid-cols-2 gap-10">
       <!-- Why Price Moved Card -->
       <div
-        class="bg-gray-50 dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden"
+        class="bg-gray-50 dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
       >
         <!-- Screenshot Placeholder -->
         <div
@@ -621,7 +621,7 @@
         >
           <div class="text-center p-6">
             <div
-              class="w-12 h-12 mx-auto mb-3 rounded-lg bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center"
+              class="w-12 h-12 mx-auto mb-3 rounded bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center"
             >
               <svg
                 class="w-6 h-6 text-amber-600 dark:text-amber-400"
@@ -737,7 +737,7 @@
 
       <!-- Wall Street Analysts Card -->
       <div
-        class="bg-gray-50 dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden"
+        class="bg-gray-50 dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
       >
         <!-- Screenshot Placeholder -->
         <div
@@ -745,7 +745,7 @@
         >
           <div class="text-center p-6">
             <div
-              class="w-12 h-12 mx-auto mb-3 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center"
+              class="w-12 h-12 mx-auto mb-3 rounded bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center"
             >
               <svg
                 class="w-6 h-6 text-emerald-600 dark:text-emerald-400"
@@ -891,7 +891,7 @@
     <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
       <!-- Plus Tier -->
       <div
-        class="relative flex flex-col bg-white dark:bg-zinc-900 rounded-lg border border-gray-400 dark:border-zinc-600 p-6 overflow-visible"
+        class="relative flex flex-col bg-white dark:bg-zinc-900 rounded border border-gray-400 dark:border-zinc-600 p-6 overflow-visible"
       >
         <h3 class="text-3xl font-bold text-gray-900 dark:text-white">Plus</h3>
         <p class="text-gray-600 dark:text-zinc-300 text-sm mt-1">
@@ -1038,7 +1038,7 @@
         <div class="mt-auto pt-6 border-t border-gray-200 dark:border-zinc-700">
           <a
             href="/pricing"
-            class="block w-full py-3 px-4 text-center font-semibold rounded-lg bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+            class="block w-full py-3 px-4 text-center font-semibold rounded bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
           >
             Start Free 7 Day Trial
             <svg
@@ -1060,7 +1060,7 @@
 
       <!-- Pro Tier -->
       <div
-        class="relative flex flex-col bg-[#18181B] dark:bg-zinc-900 rounded-lg border border-violet-500/50 p-6 text-white overflow-visible"
+        class="relative flex flex-col bg-[#18181B] dark:bg-zinc-900 rounded border border-violet-500/50 p-6 text-white overflow-visible"
       >
         <!-- Subtle top glow -->
         <div
@@ -1199,7 +1199,7 @@
         <div class="mt-auto pt-6 border-t border-zinc-700">
           <a
             href="/pricing"
-            class="block w-full py-3 px-4 text-center font-semibold rounded-lg bg-violet-500 text-white hover:bg-violet-600 transition-colors"
+            class="block w-full py-3 px-4 text-center font-semibold rounded bg-violet-500 text-white hover:bg-violet-600 transition-colors"
           >
             Start Free 7 Day Trial
             <svg
@@ -1222,7 +1222,7 @@
 
     <!-- Value reinforcement -->
     <div
-      class="mt-12 text-center p-6 rounded-xl bg-white dark:bg-[#18181B] border border-gray-200 dark:border-gray-800 max-w-4xl mx-auto"
+      class="mt-12 text-center p-6 rounded bg-white dark:bg-[#18181B] border border-gray-200 dark:border-gray-800 max-w-4xl mx-auto"
     >
       <p class="text-gray-600 dark:text-gray-300">
         <span class="font-semibold text-gray-900 dark:text-white"
@@ -1263,7 +1263,7 @@
     <div class="grid md:grid-cols-3 gap-6">
       <!-- Testimonial 1 -->
       <div
-        class="bg-white dark:bg-[#18181B] rounded-xl p-6 border border-gray-200 dark:border-gray-800"
+        class="bg-white dark:bg-[#18181B] rounded p-6 border border-gray-200 dark:border-gray-800"
       >
         <div class="flex mb-3">
           {#each Array(5) as _}
@@ -1289,7 +1289,7 @@
 
       <!-- Testimonial 2 -->
       <div
-        class="bg-white dark:bg-[#18181B] rounded-xl p-6 border border-gray-200 dark:border-gray-800"
+        class="bg-white dark:bg-[#18181B] rounded p-6 border border-gray-200 dark:border-gray-800"
       >
         <div class="flex mb-3">
           {#each Array(5) as _}
@@ -1315,7 +1315,7 @@
 
       <!-- Testimonial 3 -->
       <div
-        class="bg-white dark:bg-[#18181B] rounded-xl p-6 border border-gray-200 dark:border-gray-800"
+        class="bg-white dark:bg-[#18181B] rounded p-6 border border-gray-200 dark:border-gray-800"
       >
         <div class="flex mb-3">
           {#each Array(5) as _}
@@ -1356,7 +1356,7 @@
     </p>
     <a
       href="/pricing"
-      class="inline-flex items-center mt-8 px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-lg transition-all shadow-lg shadow-purple-500/25"
+      class="inline-flex items-center mt-8 px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded text-lg transition-all shadow-lg shadow-purple-500/25"
     >
       Start 7-Day Free Trial
       <svg
