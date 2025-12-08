@@ -30,6 +30,9 @@
   let analyticsEnabled = false;
   let marketingEnabled = false;
 
+  // Track previous showCustomize state to detect dialog close
+  let previousShowCustomize = false;
+
   // Initialize on mount
   $: if (browser) {
     if (cookieConsent) {
@@ -50,6 +53,14 @@
   $: if ($showCookiePreferences && browser) {
     openCustomize();
     showCookiePreferences.set(false);
+  }
+
+  // Re-show banner when customize dialog closes without making a decision
+  $: {
+    if (browser && previousShowCustomize && !showCustomize && consent === null) {
+      showBanner = true;
+    }
+    previousShowCustomize = showCustomize;
   }
 
   async function saveConsent(consentData: ConsentState) {
@@ -99,6 +110,7 @@
     // Initialize toggles based on current consent or defaults
     analyticsEnabled = consent?.analytics ?? false;
     marketingEnabled = consent?.marketing ?? false;
+    showBanner = false; // Hide banner while customize dialog is open
     showCustomize = true;
   }
 </script>

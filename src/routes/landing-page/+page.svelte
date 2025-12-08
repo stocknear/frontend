@@ -256,12 +256,148 @@
   </div>
 </section>
 
-<!-- Pricing Section -->
+<!-- Additional Features Section -->
 <section class="py-20 bg-white dark:bg-[#09090B]">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+        More Than Just Flow Data
+      </h2>
+      <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+        Tools that give you an edge in every trade
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- Why Price Moved Card -->
+      <div class="bg-gray-50 dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+        <!-- Screenshot Placeholder -->
+        <div class="aspect-[16/10] bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 flex items-center justify-center border-b border-gray-200 dark:border-gray-800">
+          <div class="text-center p-6">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center">
+              <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <p class="text-gray-500 dark:text-gray-400 font-medium text-sm">why-price-moved-preview.png</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Screenshot of market news feed</p>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="p-6">
+          <div class="flex items-center gap-2 mb-2">
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+              Why Price Moved
+            </h3>
+            <span class="px-2 py-0.5 text-xs font-medium bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 rounded-full">
+              Realtime
+            </span>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400 mb-4">
+            One-sentence explanations of why stocks are moving. We cut through noise from news, press releases and SEC filings to pinpoint the trigger.
+          </p>
+          <ul class="space-y-3">
+            <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
+              <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              Instant price movement explanations
+            </li>
+            <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
+              <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              Aggregated from news & SEC filings
+            </li>
+            <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
+              <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              No noise, just the signal
+            </li>
+          </ul>
+          <a
+            href="/market-news"
+            class="inline-flex items-center mt-6 text-amber-600 dark:text-amber-400 font-medium hover:underline"
+          >
+            View Market News
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Wall Street Analysts Card -->
+      <div class="bg-gray-50 dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+        <!-- Screenshot Placeholder -->
+        <div class="aspect-[16/10] bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 flex items-center justify-center border-b border-gray-200 dark:border-gray-800">
+          <div class="text-center p-6">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center">
+              <svg class="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <p class="text-gray-500 dark:text-gray-400 font-medium text-sm">analysts-preview.png</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Screenshot of /analysts page</p>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="p-6">
+          <div class="flex items-center gap-2 mb-2">
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+              Wall Street Analysts
+            </h3>
+            <span class="px-2 py-0.5 text-xs font-medium bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 rounded-full">
+              Ranked
+            </span>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400 mb-4">
+            Track top analysts with their historic performance. See who actually makes money and who doesn't before following their calls.
+          </p>
+          <ul class="space-y-3">
+            <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
+              <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              Success rate & win rate tracking
+            </li>
+            <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
+              <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              Average return per rating
+            </li>
+            <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
+              <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              Instant updates on new ratings
+            </li>
+          </ul>
+          <a
+            href="/analysts"
+            class="inline-flex items-center mt-6 text-emerald-600 dark:text-emerald-400 font-medium hover:underline"
+          >
+            View Top Analysts
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Section -->
+<section class="py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
       <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-        Simple Pricing
+        Simple, Transparent Pricing
       </h2>
       <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
         Start free. Upgrade when you're ready.
