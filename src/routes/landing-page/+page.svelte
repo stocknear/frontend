@@ -1,37 +1,8 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import SEO from "$lib/components/SEO.svelte";
-  import { mode } from "mode-watcher";
 
-  // Animated counter for social proof
-  let investorCount = 0;
-  const targetInvestors = 7000;
-
-  function animateCounter() {
-    const duration = 1500;
-    const steps = 50;
-    const interval = duration / steps;
-    let step = 0;
-
-    const timer = setInterval(() => {
-      step++;
-      const progress = step / steps;
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-      investorCount = Math.floor(targetInvestors * easeOut);
-
-      if (step >= steps) {
-        clearInterval(timer);
-        investorCount = targetInvestors;
-      }
-    }, interval);
-  }
-
-  onMount(() => {
-    animateCounter();
-  });
-
-  // Trustpilot
   const trustpilotScore = 4.6;
+  const investorCount = 7000;
 </script>
 
 <SEO
@@ -43,44 +14,20 @@
 <!-- Hero Section -->
 <section class="relative overflow-hidden bg-white dark:bg-[#09090B]">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-12">
-    <!-- Trust Badge -->
-    <div class="flex justify-center mb-8">
-      <div class="inline-flex items-center gap-6 text-sm text-gray-600 dark:text-gray-400">
-        <span class="flex items-center">
-          <svg class="w-4 h-4 mr-1.5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
-          </svg>
-          {investorCount.toLocaleString()}+ investors
-        </span>
-        <span class="text-gray-300 dark:text-gray-600">•</span>
-        <a
-          href="https://www.trustpilot.com/review/stocknear.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="flex items-center hover:text-gray-900 dark:hover:text-white transition-colors"
-        >
-          <svg class="w-4 h-4 mr-1 text-green-500" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-          </svg>
-          {trustpilotScore}/5 on Trustpilot
-        </a>
-      </div>
-    </div>
 
     <!-- Headline -->
-    <div class="text-center max-w-3xl mx-auto">
-      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white">
-        See What
+    <div class="text-center max-w-4xl mx-auto">
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-tight">
+        Track Institutional Trades
         <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500">
-          Smart Money
+          Before They Move Price
         </span>
-        Sees
       </h1>
       <p class="mt-6 text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-        Realtime options flow and dark pool data. Track institutional trades before the crowd.
+        Realtime options flow and dark pool data from the same feeds Wall Street uses. See unusual activity as it happens.
       </p>
 
-      <!-- Single CTA -->
+      <!-- CTA + Trust -->
       <div class="mt-10">
         <a
           href="/pricing"
@@ -95,13 +42,42 @@
           No credit card required
         </p>
       </div>
+
+      <!-- Trust signals - subtle, supporting -->
+      <div class="mt-8 flex flex-wrap justify-center items-center gap-6 text-sm text-gray-500 dark:text-gray-400">
+        <a
+          href="https://www.trustpilot.com/review/stocknear.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center hover:text-gray-900 dark:hover:text-white transition-colors"
+        >
+          <svg class="w-4 h-4 mr-1.5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          {trustpilotScore}/5 on Trustpilot
+        </a>
+        <span class="hidden sm:inline text-gray-300 dark:text-gray-600">•</span>
+        <span class="flex items-center">
+          <svg class="w-4 h-4 mr-1.5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+          </svg>
+          {investorCount.toLocaleString()}+ investors
+        </span>
+        <span class="hidden sm:inline text-gray-300 dark:text-gray-600">•</span>
+        <span class="flex items-center">
+          <svg class="w-4 h-4 mr-1.5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
+          </svg>
+          Direct OPRA feed
+        </span>
+      </div>
     </div>
 
-    <!-- Hero Screenshot -->
+    <!-- Hero Screenshot - Product first -->
     <div class="mt-16 relative">
       <div class="absolute inset-0 bg-gradient-to-t from-white dark:from-[#09090B] to-transparent z-10 pointer-events-none h-32 bottom-0 top-auto"></div>
-      <div class="relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-2xl shadow-gray-900/10 dark:shadow-black/50">
-        <!-- Placeholder for hero screenshot -->
+      <div class="relative rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-2xl shadow-gray-900/10 dark:shadow-black/50">
+        <!-- Placeholder: Full-width screenshot of the options flow page showing live data -->
         <div class="aspect-[16/9] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center">
           <div class="text-center p-8">
             <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
@@ -109,8 +85,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
               </svg>
             </div>
-            <p class="text-gray-500 dark:text-gray-400 font-medium">hero-screenshot.png</p>
-            <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">Full dashboard showing options flow feed</p>
+            <p class="text-gray-500 dark:text-gray-400 font-medium">hero-dashboard.png</p>
+            <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">Full /options-flow page with live data feed visible</p>
           </div>
         </div>
       </div>
@@ -118,8 +94,105 @@
   </div>
 </section>
 
-<!-- AI Chatbot Section -->
+<!-- What You'll See Section - Show value through examples -->
 <section class="py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+        What You'll See Every Day
+      </h2>
+      <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+        Real examples of unusual activity our users spot
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <!-- Example 1: Unusual Options Activity -->
+      <div class="bg-white dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+        <div class="aspect-[4/3] bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 flex items-center justify-center">
+          <div class="text-center p-4">
+            <div class="w-10 h-10 mx-auto mb-2 rounded-lg bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center">
+              <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <p class="text-gray-500 dark:text-gray-400 font-medium text-xs">unusual-calls-example.png</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Screenshot showing large call sweep</p>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-0.5 text-xs font-medium bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 rounded-full">
+              Calls
+            </span>
+            <span class="text-xs text-gray-500 dark:text-gray-400">Unusual Activity</span>
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white">Large Call Sweeps</h3>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            Spot when institutions aggressively buy calls across multiple exchanges — often before major moves.
+          </p>
+        </div>
+      </div>
+
+      <!-- Example 2: Dark Pool Prints -->
+      <div class="bg-white dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+        <div class="aspect-[4/3] bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 flex items-center justify-center">
+          <div class="text-center p-4">
+            <div class="w-10 h-10 mx-auto mb-2 rounded-lg bg-cyan-100 dark:bg-cyan-900/50 flex items-center justify-center">
+              <svg class="w-5 h-5 text-cyan-600 dark:text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <p class="text-gray-500 dark:text-gray-400 font-medium text-xs">dark-pool-example.png</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Screenshot showing block trade</p>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-0.5 text-xs font-medium bg-cyan-100 dark:bg-cyan-900/50 text-cyan-700 dark:text-cyan-300 rounded-full">
+              Dark Pool
+            </span>
+            <span class="text-xs text-gray-500 dark:text-gray-400">Block Trade</span>
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white">Hidden Block Trades</h3>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            See large off-exchange orders that don't show up on regular charts — institutions hiding their positions.
+          </p>
+        </div>
+      </div>
+
+      <!-- Example 3: Put/Call Imbalance -->
+      <div class="bg-white dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+        <div class="aspect-[4/3] bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 flex items-center justify-center">
+          <div class="text-center p-4">
+            <div class="w-10 h-10 mx-auto mb-2 rounded-lg bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center">
+              <svg class="w-5 h-5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <p class="text-gray-500 dark:text-gray-400 font-medium text-xs">sentiment-example.png</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Screenshot showing put/call ratio</p>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-0.5 text-xs font-medium bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 rounded-full">
+              Sentiment
+            </span>
+            <span class="text-xs text-gray-500 dark:text-gray-400">Market Flow</span>
+          </div>
+          <h3 class="font-semibold text-gray-900 dark:text-white">Put/Call Imbalance</h3>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            Track when options flow suddenly skews bearish or bullish — early warning for sentiment shifts.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI Chatbot Section -->
+<section class="py-20 bg-white dark:bg-[#09090B] border-t border-gray-200 dark:border-gray-800">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid lg:grid-cols-2 gap-12 items-center">
       <!-- Content -->
@@ -208,7 +281,7 @@
 
 <!-- Features Section - Two Cards -->
 <section class="py-20 bg-white dark:bg-[#09090B]">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
       <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
         Two Powerful Data Streams
@@ -218,126 +291,161 @@
       </p>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-8">
+    <div class="grid md:grid-cols-2 gap-10">
       <!-- Options Flow Card -->
-      <div class="bg-white dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden">
-        <!-- Screenshot Placeholder -->
-        <div class="aspect-[4/3] bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 flex items-center justify-center border-b border-gray-200 dark:border-gray-800">
-          <div class="text-center p-6">
-            <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center">
-              <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-              </svg>
-            </div>
-            <p class="text-gray-500 dark:text-gray-400 font-medium text-sm">options-flow-preview.png</p>
-            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Screenshot of /options-flow page</p>
-          </div>
-        </div>
+      <div class="relative group">
+        <!-- Glow effect -->
+        <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 via-violet-600 to-blue-600 rounded-2xl blur-lg opacity-25 group-hover:opacity-40 transition duration-500"></div>
 
-        <!-- Content -->
-        <div class="p-6">
-          <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            Realtime Options Flow
-          </h3>
-          <p class="text-gray-600 dark:text-gray-400 mb-4">
-            Direct OPRA feed showing every institutional options trade as it happens.
-          </p>
-          <ul class="space-y-3">
-            <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
-              <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+        <div class="relative bg-white dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-2xl">
+          <!-- Screenshot with premium frame -->
+          <div class="relative aspect-[4/3] bg-gradient-to-br from-purple-900 via-violet-900 to-blue-900 overflow-hidden">
+            <!-- Decorative grid overlay -->
+            <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 20px 20px;"></div>
+            <!-- Gradient orbs -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-purple-500/30 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/30 rounded-full blur-3xl"></div>
+            <!-- Image -->
+            <img
+              src="/img/options-flow.png"
+              alt="Realtime Options Flow"
+              class="relative w-full h-full object-cover rounded-lg m-0 shadow-2xl"
+              loading="lazy"
+            />
+            <!-- Shine effect -->
+            <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none"></div>
+          </div>
+
+          <!-- Content -->
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-2">
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+                Realtime Options Flow
+              </h3>
+              <span class="px-2 py-0.5 text-xs font-semibold bg-gradient-to-r from-purple-500 to-violet-500 text-white rounded-full">
+                PRO
+              </span>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">
+              Direct OPRA feed showing every institutional options trade as it happens.
+            </p>
+            <ul class="space-y-3">
+              <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
+                <svg class="w-5 h-5 text-purple-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                Unusual activity detection & alerts
+              </li>
+              <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
+                <svg class="w-5 h-5 text-purple-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                GEX, DEX & full options Greeks
+              </li>
+              <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
+                <svg class="w-5 h-5 text-purple-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                Max pain & open interest analysis
+              </li>
+              <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
+                <svg class="w-5 h-5 text-purple-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                Filter by ticker, premium, expiry
+              </li>
+            </ul>
+            <a
+              href="/options-flow"
+              class="inline-flex items-center mt-6 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-lg transition-all"
+            >
+              View Options Flow
+              <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
               </svg>
-              Unusual activity detection & alerts
-            </li>
-            <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
-              <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-              </svg>
-              GEX, DEX & full options Greeks
-            </li>
-            <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
-              <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-              </svg>
-              Max pain & open interest analysis
-            </li>
-            <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
-              <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-              </svg>
-              Filter by ticker, premium, expiry
-            </li>
-          </ul>
-          <a
-            href="/options-flow"
-            class="inline-flex items-center mt-6 text-purple-600 dark:text-purple-400 font-medium hover:underline"
-          >
-            View Options Flow
-            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </a>
+            </a>
+          </div>
         </div>
       </div>
 
       <!-- Dark Pool Card -->
-      <div class="bg-white dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden">
-        <!-- Screenshot Placeholder -->
-        <div class="aspect-[4/3] bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 flex items-center justify-center border-b border-gray-200 dark:border-gray-800">
-          <div class="text-center p-6">
-            <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center">
-              <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-              </svg>
-            </div>
-            <p class="text-gray-500 dark:text-gray-400 font-medium text-sm">dark-pool-preview.png</p>
-            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Screenshot of /dark-pool-flow page</p>
-          </div>
-        </div>
+      <div class="relative group">
+        <!-- Glow effect -->
+        <div class="absolute -inset-1 bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 rounded-2xl blur-lg opacity-25 group-hover:opacity-40 transition duration-500"></div>
 
-        <!-- Content -->
-        <div class="p-6">
-          <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            Dark Pool & Block Trades
-          </h3>
-          <p class="text-gray-600 dark:text-gray-400 mb-4">
-            Track large institutional orders executed off-exchange before they move price.
-          </p>
-          <ul class="space-y-3">
-            <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
-              <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+        <div class="relative bg-white dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-2xl">
+          <!-- Screenshot with premium frame -->
+          <div class="relative aspect-[4/3] bg-gradient-to-br from-cyan-900 via-blue-900 to-indigo-900 overflow-hidden">
+            <!-- Decorative grid overlay -->
+            <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 20px 20px;"></div>
+            <!-- Gradient orbs -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500/30 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/30 rounded-full blur-3xl"></div>
+            <!-- Placeholder for image -->
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="text-center p-6">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-white/10 backdrop-blur flex items-center justify-center">
+                  <svg class="w-6 h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                  </svg>
+                </div>
+                <p class="text-white/70 font-medium text-sm">dark-pool-preview.png</p>
+                <p class="text-xs text-white/50 mt-1">Screenshot of /dark-pool-flow page</p>
+              </div>
+            </div>
+            <!-- Shine effect -->
+            <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none"></div>
+          </div>
+
+          <!-- Content -->
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-2">
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+                Dark Pool & Block Trades
+              </h3>
+              <span class="px-2 py-0.5 text-xs font-semibold bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-full">
+                PRO
+              </span>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">
+              Track large institutional orders executed off-exchange before they move price.
+            </p>
+            <ul class="space-y-3">
+              <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
+                <svg class="w-5 h-5 text-cyan-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                Block trades (10,000+ shares)
+              </li>
+              <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
+                <svg class="w-5 h-5 text-cyan-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                Price level support/resistance zones
+              </li>
+              <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
+                <svg class="w-5 h-5 text-cyan-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                Historical dark pool data (30+ days)
+              </li>
+              <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
+                <svg class="w-5 h-5 text-cyan-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                Hottest trades ranking
+              </li>
+            </ul>
+            <a
+              href="/dark-pool-flow"
+              class="inline-flex items-center mt-6 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-semibold rounded-lg transition-all"
+            >
+              View Dark Pool Flow
+              <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
               </svg>
-              Block trades (10,000+ shares)
-            </li>
-            <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
-              <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-              </svg>
-              Price level support/resistance zones
-            </li>
-            <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
-              <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-              </svg>
-              Historical dark pool data (30+ days)
-            </li>
-            <li class="flex items-start text-sm text-gray-600 dark:text-gray-300">
-              <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-              </svg>
-              Hottest trades ranking
-            </li>
-          </ul>
-          <a
-            href="/dark-pool-flow"
-            class="inline-flex items-center mt-6 text-blue-600 dark:text-blue-400 font-medium hover:underline"
-          >
-            View Dark Pool Flow
-            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </a>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -346,7 +454,7 @@
 
 <!-- Additional Features Section -->
 <section class="py-20 bg-white dark:bg-[#09090B]">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
       <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
         More Than Just Flow Data
@@ -356,7 +464,7 @@
       </p>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-8">
+    <div class="grid md:grid-cols-2 gap-10">
       <!-- Why Price Moved Card -->
       <div class="bg-gray-50 dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden">
         <!-- Screenshot Placeholder -->
@@ -485,18 +593,18 @@
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
       <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-        Simple, Transparent Pricing
+        One Good Trade Pays for a Year
       </h2>
       <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
-        Start free. Upgrade when you're ready.
+        Pro-level data at a fraction of institutional cost. Start free, upgrade when you're ready.
       </p>
     </div>
 
     <div class="grid md:grid-cols-2 gap-6">
       <!-- Plus Tier -->
-      <div class="bg-gray-50 dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-800 p-8">
+      <div class="bg-white dark:bg-[#18181B] rounded-2xl border border-gray-200 dark:border-gray-800 p-8">
         <h3 class="text-xl font-bold text-gray-900 dark:text-white">Plus</h3>
-        <p class="text-gray-500 dark:text-gray-400 mt-1">Essential tools</p>
+        <p class="text-gray-500 dark:text-gray-400 mt-1">Research & fundamentals</p>
         <div class="mt-6">
           <span class="text-4xl font-bold text-gray-900 dark:text-white">$10</span>
           <span class="text-gray-500 dark:text-gray-400">/mo</span>
@@ -541,43 +649,43 @@
       <!-- Pro Tier -->
       <div class="bg-[#18181B] rounded-2xl border-2 border-purple-500 p-8 relative">
         <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-purple-500 text-white text-xs font-semibold rounded-full">
-          Best Value
+          Most Popular
         </div>
         <h3 class="text-xl font-bold text-white">Pro</h3>
-        <p class="text-gray-400 mt-1">Full access to everything</p>
+        <p class="text-gray-400 mt-1">Realtime flow data</p>
         <div class="mt-6">
           <span class="text-4xl font-bold text-white">$35</span>
           <span class="text-gray-400">/mo</span>
         </div>
-        <p class="text-sm text-gray-400 mt-1">or $25/mo billed annually</p>
+        <p class="text-sm text-gray-400 mt-1">or $25/mo billed annually · <span class="text-purple-400">~$0.83/day</span></p>
 
         <ul class="mt-8 space-y-4">
           <li class="flex items-center text-sm text-gray-200">
-            <svg class="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 text-purple-400 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
             </svg>
             <strong class="text-white">Realtime</strong>&nbsp;Options Flow
           </li>
           <li class="flex items-center text-sm text-gray-200">
-            <svg class="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 text-purple-400 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
             </svg>
             <strong class="text-white">Realtime</strong>&nbsp;Dark Pool Data
           </li>
           <li class="flex items-center text-sm text-gray-200">
-            <svg class="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 text-purple-400 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
             </svg>
             1,000 AI Credits/month
           </li>
           <li class="flex items-center text-sm text-gray-200">
-            <svg class="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 text-purple-400 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
             </svg>
             GEX, DEX & Full Greeks
           </li>
           <li class="flex items-center text-sm text-gray-200">
-            <svg class="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 text-purple-400 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
             </svg>
             Everything in Plus
@@ -665,22 +773,22 @@
 <section class="py-20 bg-white dark:bg-[#09090B] border-t border-gray-200 dark:border-gray-800">
   <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-      Ready to see what smart money sees?
+      Stop Trading Blind
     </h2>
     <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
-      Join {investorCount.toLocaleString()}+ investors tracking institutional flow.
+      See what institutions are doing right now. Start your free trial and decide for yourself.
     </p>
     <a
       href="/pricing"
       class="inline-flex items-center mt-8 px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-lg transition-all shadow-lg shadow-purple-500/25"
     >
-      Start Your Free Trial
+      Start 7-Day Free Trial
       <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
       </svg>
     </a>
     <p class="mt-4 text-sm text-gray-500 dark:text-gray-400">
-      7-day free trial · No credit card required
+      No credit card required · Cancel anytime
     </p>
   </div>
 </section>
