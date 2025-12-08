@@ -170,9 +170,9 @@
           >
         </h2>
         <p class="mt-6 text-lg text-gray-600 dark:text-gray-300">
-          ChatGPT's knowledge stops in 2024. Our AI has realtime access to every
-          stock, every metric, every price movement — <strong
-            >as it happens</strong
+          LLM uses a fixed knowledge cutoff. Our AI, on the other hand, has
+          real-time access to every stock, every metric, every price movement — <strong
+            >as they happen</strong
           >.
         </p>
 
@@ -245,25 +245,27 @@
           </li>
         </ul>
 
-        <a
-          href="/chat"
-          class="inline-flex items-center mt-8 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded transition-all shadow-lg shadow-purple-500/25"
-        >
-          Try AI Chat
-          <svg
-            class="w-5 h-5 ml-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        <div class="w-full m-auto flex justify-center sm:justify-start">
+          <a
+            href="/chat"
+            class="inline-flex items-center mt-8 px-5 py-2 sm:px-6 sm:py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded transition-all shadow-lg shadow-purple-500/25"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M17 8l4 4m0 0l-4 4m4-4H3"
-            />
-          </svg>
-        </a>
+            Try AI Chat
+            <svg
+              class="w-5 h-5 ml-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </a>
+        </div>
       </div>
 
       <!-- Video -->
@@ -299,7 +301,7 @@
 </section>
 
 <!-- Options Flow Section -->
-<section class="py-20 bg-white dark:bg-[#09090B]">
+<section class=" sm:py-10 bg-white dark:bg-[#09090B]">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
       <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
@@ -310,7 +312,7 @@
       </p>
     </div>
 
-    <div class="grid gap-10">
+    <div class="grid -mt-6 sm:mt-0 gap-5 sm:gap-10">
       <!-- Options Flow Card -->
       <div class="relative group">
         <!-- Glow effect -->
@@ -426,25 +428,27 @@
                 Filter by ticker, size, expiry & sentiment
               </li>
             </ul>
-            <a
-              href="/options-flow"
-              class="inline-flex items-center mt-6 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded transition-all"
-            >
-              Watch Live Flow
-              <svg
-                class="w-4 h-4 ml-1.5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+            <div class="w-full flex justify-center sm:justify-start">
+              <a
+                href="/options-flow"
+                class="inline-flex items-center mt-6 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded transition-all"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
-            </a>
+                Watch Live Flow
+                <svg
+                  class="w-4 h-4 ml-1.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </div>
