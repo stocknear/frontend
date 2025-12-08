@@ -471,16 +471,17 @@
     </div>
 
     <div class="grid md:grid-cols-3 gap-6">
-      <div
-        class="bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
+      <a
+        href="/stocks/TSLA/options/gex/strike"
+        class="group bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden transition-all duration-300 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/20"
       >
         <div
-          class="aspect-[16/9] bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20"
+          class="aspect-[16/9] bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 overflow-hidden relative transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-purple-100 group-hover:to-violet-100 dark:group-hover:from-purple-800/40 dark:group-hover:to-violet-800/40"
         >
           <img
             src="/img/landing-page/gex-chart.png"
             alt="GEX/DEX Chart"
-            class="w-full h-full object-cover rounded"
+            class="w-full h-full object-cover rounded transition-transform duration-300 ease-out group-hover:scale-105"
             loading="lazy"
           />
         </div>
@@ -497,7 +498,9 @@
               Puts
             </span>
           </div>
-          <h3 class="font-semibold text-gray-900 dark:text-white">
+          <h3
+            class="font-semibold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300"
+          >
             Gamma/Delta Exposure
           </h3>
           <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
@@ -507,19 +510,20 @@
             potential buying or selling pressure from dealer hedging.
           </p>
         </div>
-      </div>
+      </a>
 
-      <!-- Example 2: Dark Pool Prints -->
-      <div
-        class="bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
+      <!-- Example 2: Greeks Chart -->
+      <a
+        href="/stocks/TSLA/options/greeks"
+        class="group bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden transition-all duration-300 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/20"
       >
         <div
-          class="aspect-[16/9] bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20"
+          class="aspect-[16/9] bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 overflow-hidden relative transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-purple-100 group-hover:to-violet-100 dark:group-hover:from-purple-800/40 dark:group-hover:to-violet-800/40"
         >
           <img
             src="/img/landing-page/theta-chart.png"
             alt="Greek Chart"
-            class="w-full h-full object-cover rounded"
+            class="w-full h-full object-cover rounded transition-transform duration-300 ease-out group-hover:scale-105"
             loading="lazy"
           />
         </div>
@@ -557,19 +561,20 @@
             understand and manage their positions.
           </p>
         </div>
-      </div>
+      </a>
 
-      <!-- Example 3: Put/Call Imbalance -->
-      <div
-        class="bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
+      <!-- Example 3: Open Interest -->
+      <a
+        href="/stocks/TSLA/options/oi"
+        class="group bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden transition-all duration-300 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/20"
       >
         <div
-          class="aspect-[16/9] bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20"
+          class="aspect-[16/9] bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 overflow-hidden relative transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-purple-100 group-hover:to-violet-100 dark:group-hover:from-purple-800/40 dark:group-hover:to-violet-800/40"
         >
           <img
             src="/img/landing-page/oi-chart.png"
-            alt="Greek Chart"
-            class="w-full h-full object-cover rounded"
+            alt="Open Interest Chart"
+            class="w-full h-full object-cover rounded transition-transform duration-300 ease-out group-hover:scale-105"
             loading="lazy"
           />
         </div>
@@ -585,7 +590,9 @@
               >By Expiration</span
             >
           </div>
-          <h3 class="font-semibold text-gray-900 dark:text-white">
+          <h3
+            class="font-semibold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300"
+          >
             Open Interest
           </h3>
           <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
@@ -596,7 +603,7 @@
             market trends.
           </p>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </section>
@@ -696,10 +703,10 @@
             </li>
           </ul>
           <a
-            href="/market-news"
+            href="/news-flow"
             class="inline-flex items-center mt-6 font-medium hover:underline"
           >
-            View Market News
+            View News Flow
             <svg
               class="w-4 h-4 ml-1"
               fill="none"
