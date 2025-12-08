@@ -105,11 +105,11 @@
 
 {#if showBanner}
   <div
-    class="fixed bottom-6 left-0 right-0 z-[9999] p-4 sm:p-5 shadow border-gray-300 dark:border-gray-700 text-muted dark:text-white"
+    class="fixed bottom-0 sm:bottom-6 left-0 right-0 z-[9999] p-4 sm:p-5 shadow border-gray-300 dark:border-gray-700 text-muted dark:text-white"
     transition:fly={{ y: 100, duration: 300 }}
   >
     <div
-      class="w-full max-w-lg m-auto rounded-lg border border-gray-200 bg-white p-4 shadow-2xl dark:border-gray-700 dark:bg-[#09090B]"
+      class="w-full max-w-lg m-auto rounded-lg border border-gray-200 bg-white p-4 shadow-2xl dark:border-gray-700 dark:bg-default"
     >
       <div class="flex flex-col gap-3">
         <div class="flex items-center gap-3">
