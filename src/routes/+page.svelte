@@ -471,7 +471,6 @@
     </div>
 
     <div class="grid md:grid-cols-3 gap-6">
-      <!-- Example 1: Unusual Options Activity -->
       <div
         class="bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
       >
@@ -479,8 +478,8 @@
           class="aspect-[16/9] bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20"
         >
           <img
-            src="/img/landing-page/unusual-option-trade.png"
-            alt="Unusual Options Activity"
+            src="/img/landing-page/gex-chart.png"
+            alt="GEX/DEX Chart"
             class="w-full h-full object-cover rounded"
             loading="lazy"
           />
@@ -492,16 +491,20 @@
             >
               Calls
             </span>
-            <span class="text-xs text-gray-500 dark:text-gray-400"
-              >Unusual Activity</span
+            <span
+              class="px-2 py-0.5 text-xs font-medium bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 rounded-full"
             >
+              Puts
+            </span>
           </div>
           <h3 class="font-semibold text-gray-900 dark:text-white">
-            Large Call Sweeps
+            Gamma/Delta Exposure
           </h3>
           <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            Spot when institutions aggressively buy calls across multiple
-            exchanges — often before major moves.
+            The Gamma/Delta Exposure Chart shows the estimated dollar amount
+            that market makers must hedge for every 1% change in the spot price
+            to remain gamma neutral. This chart helps traders anticipate
+            potential buying or selling pressure from dealer hedging.
           </p>
         </div>
       </div>
@@ -511,51 +514,47 @@
         class="bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
       >
         <div
-          class="aspect-[4/3] bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 flex items-center justify-center"
+          class="aspect-[16/9] bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20"
         >
-          <div class="text-center p-4">
-            <div
-              class="w-10 h-10 mx-auto mb-2 rounded bg-cyan-100 dark:bg-cyan-900/50 flex items-center justify-center"
-            >
-              <svg
-                class="w-5 h-5 text-cyan-600 dark:text-cyan-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-            </div>
-            <p class="text-gray-500 dark:text-gray-400 font-medium text-xs">
-              dark-pool-example.png
-            </p>
-            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
-              Screenshot showing block trade
-            </p>
-          </div>
+          <img
+            src="/img/landing-page/theta-chart.png"
+            alt="Greek Chart"
+            class="w-full h-full object-cover rounded"
+            loading="lazy"
+          />
         </div>
         <div class="p-5">
           <div class="flex items-center gap-2 mb-2">
             <span
               class="px-2 py-0.5 text-xs font-medium bg-cyan-100 dark:bg-cyan-900/50 text-cyan-700 dark:text-cyan-300 rounded-full"
             >
-              Dark Pool
+              Greeks
             </span>
-            <span class="text-xs text-gray-500 dark:text-gray-400"
-              >Block Trade</span
+            <span
+              class="px-2 py-0.5 text-xs font-medium bg-cyan-100 dark:bg-cyan-900/50 text-cyan-700 dark:text-cyan-300 rounded-full"
+              >Delta</span
+            >
+            <span
+              class="px-2 py-0.5 text-xs font-medium bg-cyan-100 dark:bg-cyan-900/50 text-cyan-700 dark:text-cyan-300 rounded-full"
+              >Gamma</span
+            >
+            <span
+              class="px-2 py-0.5 text-xs font-medium bg-cyan-100 dark:bg-cyan-900/50 text-cyan-700 dark:text-cyan-300 rounded-full"
+              >Theta</span
+            >
+            <span
+              class="px-2 py-0.5 text-xs font-medium bg-cyan-100 dark:bg-cyan-900/50 text-cyan-700 dark:text-cyan-300 rounded-full"
+              >Vega</span
             >
           </div>
-          <h3 class="font-semibold text-gray-900 dark:text-white">
-            Hidden Block Trades
-          </h3>
+
           <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            See large off-exchange orders that don't show up on regular charts —
-            institutions hiding their positions.
+            The Greek Charts show Delta, Gamma, Theta, and Vega for both calls
+            and puts across all strikes. Each value is derived from current
+            market prices using the Black-Scholes model. These Greeks give
+            traders deeper insight into how option prices react to market
+            movements, time decay, and changes in volatility—helping them better
+            understand and manage their positions.
           </p>
         </div>
       </div>
@@ -565,51 +564,36 @@
         class="bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
       >
         <div
-          class="aspect-[4/3] bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 flex items-center justify-center"
+          class="aspect-[16/9] bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20"
         >
-          <div class="text-center p-4">
-            <div
-              class="w-10 h-10 mx-auto mb-2 rounded bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center"
-            >
-              <svg
-                class="w-5 h-5 text-amber-600 dark:text-amber-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-            </div>
-            <p class="text-gray-500 dark:text-gray-400 font-medium text-xs">
-              sentiment-example.png
-            </p>
-            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
-              Screenshot showing put/call ratio
-            </p>
-          </div>
+          <img
+            src="/img/landing-page/oi-chart.png"
+            alt="Greek Chart"
+            class="w-full h-full object-cover rounded"
+            loading="lazy"
+          />
         </div>
         <div class="p-5">
           <div class="flex items-center gap-2 mb-2">
             <span
-              class="px-2 py-0.5 text-xs font-medium bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 rounded-full"
+              class="px-2 py-0.5 text-xs font-medium bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 rounded-full"
             >
-              Sentiment
+              By Strike
             </span>
-            <span class="text-xs text-gray-500 dark:text-gray-400"
-              >Market Flow</span
+            <span
+              class="px-2 py-0.5 text-xs font-medium bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 rounded-full"
+              >By Expiration</span
             >
           </div>
           <h3 class="font-semibold text-gray-900 dark:text-white">
-            Put/Call Imbalance
+            Open Interest
           </h3>
           <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            Track when options flow suddenly skews bearish or bullish — early
-            warning for sentiment shifts.
+            The Open Interest chart displays the number of open contracts for
+            each option. It serves as a useful indicator of market sentiment and
+            liquidity. Data is available both by strike and by expiration,
+            helping traders assess where interest is concentrated and potential
+            market trends.
           </p>
         </div>
       </div>
