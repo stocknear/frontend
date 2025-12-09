@@ -355,7 +355,9 @@
 >
   <div class="text-sm sm:text-[1rem] breadcrumbs">
     <ul>
-      <li><a href="/" class="text-muted dark:text-gray-300">Home</a></li>
+      <li>
+        <a href="/dashboard" class="text-muted dark:text-gray-300">Home</a>
+      </li>
       <li class="text-muted dark:text-gray-300">Insider Tracker</li>
     </ul>
   </div>

@@ -64,7 +64,9 @@
 >
   <div class="text-sm sm:text-[1rem] breadcrumbs">
     <ul>
-      <li><a href="/" class="text-muted dark:text-gray-300">Home</a></li>
+      <li>
+        <a href="/dashboard" class="text-muted dark:text-gray-300">Home</a>
+      </li>
       <li class="text-muted dark:text-gray-300">AI Agents Guide</li>
     </ul>
   </div>

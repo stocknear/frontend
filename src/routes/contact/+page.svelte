@@ -72,7 +72,9 @@
   >
     <div class="text-sm sm:text-[1rem] breadcrumbs">
       <ul>
-        <li><a href="/" class="text-muted dark:text-gray-300">Home</a></li>
+        <li>
+          <a href="/dashboard" class="text-muted dark:text-gray-300">Home</a>
+        </li>
         <li class="text-muted dark:text-gray-300">Contact Us</li>
       </ul>
     </div>
@@ -124,7 +126,9 @@
 
                   {#if showTurnstile}
                     <div class="pt-5">
-                      <Turnstile siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY} />
+                      <Turnstile
+                        siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY}
+                      />
                     </div>
                   {/if}
                   {#if form?.errors?.turnstile}

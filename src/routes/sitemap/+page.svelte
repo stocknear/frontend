@@ -200,7 +200,9 @@
   >
     <nav class="text-sm sm:text-[1rem] breadcrumbs" aria-label="Breadcrumb">
       <ul>
-        <li><a href="/" class="text-muted dark:text-gray-300">Home</a></li>
+        <li>
+          <a href="/dashboard" class="text-muted dark:text-gray-300">Home</a>
+        </li>
         <li class="text-muted dark:text-gray-300" aria-current="page">
           Sitemap
         </li>

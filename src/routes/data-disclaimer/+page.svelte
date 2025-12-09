@@ -16,7 +16,9 @@
 >
   <div class="text-sm sm:text-[1rem] breadcrumbs">
     <ul>
-      <li><a href="/" class="text-muted dark:text-gray-300">Home</a></li>
+      <li>
+        <a href="/dashboard" class="text-muted dark:text-gray-300">Home</a>
+      </li>
       <li class="text-muted dark:text-gray-300">Data Disclaimer</li>
     </ul>
   </div>
@@ -169,11 +171,12 @@
                 Options Market Data
               </h2>
               <p class=" mb-10 mt-5 text-[1rem] sm:text-lg">
-                Our options market data infrastructure leverages multiple data vendors,
-                combining their feeds into a unified pipeline to deliver comprehensive
-                full-stream OPRA (Options Price Reporting Authority) data. By aggregating
-                real-time options flow and individual options chain data from several sources,
-                we ensure complete coverage of options market activity and pricing across
+                Our options market data infrastructure leverages multiple data
+                vendors, combining their feeds into a unified pipeline to
+                deliver comprehensive full-stream OPRA (Options Price Reporting
+                Authority) data. By aggregating real-time options flow and
+                individual options chain data from several sources, we ensure
+                complete coverage of options market activity and pricing across
                 all major U.S. options exchanges.
               </p>
             </div>

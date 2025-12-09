@@ -342,7 +342,9 @@
 >
   <div class="text-sm sm:text-[1rem] breadcrumbs">
     <ul>
-      <li><a href="/" class="text-muted dark:text-gray-300">Home</a></li>
+      <li>
+        <a href="/dashboard" class="text-muted dark:text-gray-300">Home</a>
+      </li>
       {#if $page.url.pathname.startsWith("/list/industry")}
         <li>
           <a href="/industry" class="text-muted dark:text-gray-300">Industry</a>

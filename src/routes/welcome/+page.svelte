@@ -28,7 +28,12 @@
     const hasMarketingConsent = data?.cookieConsent?.marketing === true;
 
     // Meta Pixel conversion tracking (only with consent)
-    if (hasMarketingConsent && typeof window !== "undefined" && window.fbq && value) {
+    if (
+      hasMarketingConsent &&
+      typeof window !== "undefined" &&
+      window.fbq &&
+      value
+    ) {
       window?.fbq("track", "Purchase", {
         value: value,
         currency: "USD",
@@ -39,7 +44,12 @@
     }
 
     // Google Ads conversion tracking (only with consent)
-    if (hasMarketingConsent && typeof window !== "undefined" && window.gtag && value) {
+    if (
+      hasMarketingConsent &&
+      typeof window !== "undefined" &&
+      window.gtag &&
+      value
+    ) {
       window?.gtag("event", "conversion", {
         send_to: "AW-11328922950/FfVkCPuTupcbEMbKhpoq",
         value: value || 1.0,
@@ -153,7 +163,7 @@
     {/if}
 
     <a
-      href="/"
+      href="/dashboard"
       class="flex justify-center items-center w-fit px-10 m-auto py-2.5 mt-10 rounded duration-100 bg-black text-white sm:hover:bg-default dark:bg-[#fff] dark:sm:hover:hover:bg-gray-300 dark:text-black font-semibold"
     >
       Start Researching Now!
