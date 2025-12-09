@@ -1249,6 +1249,76 @@
   </div>
 </section>
 
+<!-- Trust & Guarantee Section -->
+<section class="py-10 sm:py-16 bg-white dark:bg-[#09090B] border-t border-gray-200 dark:border-gray-800">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div use:inview={{ animation: 'fade-up', duration: 600 }} class="text-center mb-10">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 mb-4">
+        <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+      </div>
+      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+        Your Investment is Protected
+      </h2>
+      <p class="mt-3 text-gray-600 dark:text-gray-400">
+        Try Stocknear completely risk-free
+      </p>
+    </div>
+
+    <div use:inview={{ animation: 'fade-up', duration: 600, delay: 100 }} class="grid sm:grid-cols-3 gap-6 sm:gap-8">
+      <!-- 7-Day Trial -->
+      <div class="text-center p-6 rounded-xl bg-gray-50 dark:bg-[#18181B] border border-gray-200 dark:border-gray-800">
+        <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 mb-4">
+          <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">7-Day Free Trial</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+          Full access to all Pro features. Experience everything before you commit.
+        </p>
+      </div>
+
+      <!-- 30-Day Money Back -->
+      <div class="text-center p-6 rounded-xl bg-green-50 dark:bg-green-900/10 border-2 border-green-200 dark:border-green-800">
+        <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 mb-4">
+          <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">30-Day Money Back</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+          Not satisfied? Get a full refund within 30 days. <strong class="text-gray-900 dark:text-white">No questions asked.</strong>
+        </p>
+      </div>
+
+      <!-- Cancel Anytime -->
+      <div class="text-center p-6 rounded-xl bg-gray-50 dark:bg-[#18181B] border border-gray-200 dark:border-gray-800">
+        <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 mb-4">
+          <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Cancel Anytime</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+          One click in your settings. No hoops, no retention calls, no hassle.
+        </p>
+      </div>
+    </div>
+
+    <div use:inview={{ animation: 'fade', duration: 600, delay: 200 }} class="mt-10 text-center">
+      <p class="text-gray-600 dark:text-gray-300 italic text-lg">
+        "If Stocknear doesn't help you make better trading decisions, we don't want your money."
+      </p>
+      <p class="mt-3 text-sm font-medium text-gray-900 dark:text-white">
+        Dr. Muslem Rahimi
+        <span class="text-gray-500 dark:text-gray-400 font-normal">— CEO, Stocknear</span>
+      </p>
+    </div>
+  </div>
+</section>
+
 <!-- Testimonials Section -->
 <section
   class="py-10 sm:py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800"
