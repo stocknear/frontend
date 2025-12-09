@@ -197,7 +197,7 @@
 
 <!-- AI Chatbot Section -->
 <section
-  class="py-20 bg-white dark:bg-[#09090B] border-t border-gray-200 dark:border-gray-800"
+  class="py-10 sm:py-20 bg-white dark:bg-[#09090B] border-t border-gray-200 dark:border-gray-800"
 >
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid lg:grid-cols-2 gap-12 items-center">
@@ -511,7 +511,7 @@
 
 <!-- What You'll See Section - Show value through examples -->
 <section
-  class="py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800"
+  class="py-10 sm:py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800"
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-12">
@@ -667,7 +667,7 @@
 </section>
 
 <!-- Additional Features Section -->
-<section class="py-20 bg-white dark:bg-[#09090B]">
+<section class="py-10 sm:py-20 bg-white dark:bg-[#09090B]">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
       <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
@@ -1380,7 +1380,7 @@
 
 <!-- Final CTA -->
 <section
-  class="py-20 bg-white dark:bg-[#09090B] border-t border-gray-200 dark:border-gray-800"
+  class="py-10 sm:py-20 bg-white dark:bg-[#09090B] border-t border-gray-200 dark:border-gray-800"
 >
   <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
