@@ -680,7 +680,7 @@
                   clip-rule="evenodd"
                 />
               </svg>
-              Know the "why" in seconds, not minutes
+              Know the "why" in seconds, not days
             </li>
             <li
               class="flex items-start text-sm text-gray-600 dark:text-gray-300"
