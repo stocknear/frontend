@@ -1,155 +1,228 @@
 <script lang="ts">
   import SEO from "$lib/components/SEO.svelte";
+  import { inview } from "$lib/actions/inview";
   import profile from "$lib/images/profile.webp";
   export let data;
 </script>
 
 <SEO
   title="About"
-  description="Welcome to Stocknear — a site that aims to be the internet's best source of free stock data and information for regular investors."
+  description="Stocknear was built to give everyday investors the same data Wall Street uses. Founded by Dr. Muslem Rahimi, we're on a mission to democratize stock analysis."
 />
 
-<body class="text-muted dark:text-white w-full">
+<div class="text-muted dark:text-white w-full">
+  <!-- Hero Section -->
   <section
     class="border-b border-gray-200 shadow dark:border-gray-600 sm:rounded w-full bg-gray-100 dark:bg-default"
   >
-    <div class="mx-auto max-w-7xl px-6 py-16 sm:py-28 md:px-8">
-      <div class="text-center">
-        <h1 class="mt-1 text-4xl font-bold sm:text-5xl lg:text-6xl">
-          About Us
+    <div class="mx-auto max-w-4xl px-6 py-16 sm:py-24 md:px-8">
+      <div class="text-center" use:inview={{ animation: "fade-up" }}>
+        <p class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4">
+          Our Mission
+        </p>
+        <h1 class="text-4xl font-bold sm:text-5xl lg:text-6xl leading-tight">
+          Wall Street data.<br />
+          <span class="text-purple-600 dark:text-purple-400">Main Street prices.</span>
         </h1>
         <p
-          class="mx-auto mt-5 max-w-3xl text-xl leading-normal md:mt-7 md:text-2xl"
+          class="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-gray-600 dark:text-gray-300"
         >
-          Welcome to Stocknear — a stock analysis platform created by users, for
-          users. We’re here to make stock analysis simple, valueable and
-          accessible for everyday investors like you.
+          Stocknear exists because we believe every investor deserves access to the same
+          institutional-grade data that hedge funds pay thousands for.
         </p>
       </div>
     </div>
   </section>
 
+  <!-- Origin Story -->
   <section class="border-t border-gray-300 dark:border-gray-600">
-    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-      <div class="lg:text-center">
-        <h2 class="mt-2 text-3xl font-bold leading-8 sm:text-4xl">
-          What sets us apart
+    <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div use:inview={{ animation: "fade-up" }}>
+        <p class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4">
+          The Story
+        </p>
+        <h2 class="text-3xl font-bold leading-tight sm:text-4xl mb-8">
+          Built from frustration.<br />Driven by fairness.
         </h2>
-        <p class="mt-4 max-w-lg text-xl lg:mx-auto">
-          We're here to make investing simple and efficient with data that’s
-          always up-to-date and highly accurate.
+      </div>
+
+      <div class="space-y-6 text-lg leading-relaxed text-gray-600 dark:text-gray-300">
+        <p use:inview={{ animation: "fade-up", delay: 100 }}>
+          In 2022, Dr. Muslem Rahimi left his role as an insurance mathematician at Deloitte
+          with a simple question: <em>Why do retail investors have to trade blind while
+          institutions see everything?</em>
+        </p>
+
+        <p use:inview={{ animation: "fade-up", delay: 200 }}>
+          The answer wasn't satisfying. Premium market data costs $20,000+ per year.
+          Institutional flow data is locked behind expensive terminals. And the "free"
+          alternatives? Delayed, incomplete, or buried in ads.
+        </p>
+
+        <p use:inview={{ animation: "fade-up", delay: 300 }}>
+          Stocknear was built to change that. By partnering directly with top-tier data
+          vendors and building efficient technology, we deliver the same institutional-quality
+          data at a fraction of the cost.
+        </p>
+
+        <p use:inview={{ animation: "fade-up", delay: 400 }} class="font-medium text-gray-900 dark:text-white">
+          Today, thousands of traders use Stocknear to see what the smart money is doing
+          before making their next move.
         </p>
       </div>
-      <div class="mt-10">
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section
+    class="border-t border-gray-200 shadow dark:border-gray-600 bg-gray-100 dark:bg-default"
+  >
+    <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
+      <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
+        <div class="text-center" use:inview={{ animation: "fade-up", delay: 0 }}>
+          <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">7,000+</p>
+          <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Active Traders</p>
+        </div>
+        <div class="text-center" use:inview={{ animation: "fade-up", delay: 100 }}>
+          <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">10K+</p>
+          <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Stocks & ETFs</p>
+        </div>
+        <div class="text-center" use:inview={{ animation: "fade-up", delay: 200 }}>
+          <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">Real-time</p>
+          <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Data Updates</p>
+        </div>
+        <div class="text-center" use:inview={{ animation: "fade-up", delay: 300 }}>
+          <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">30 Day</p>
+          <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Money-Back Guarantee</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class="border-t border-gray-300 dark:border-gray-600">
+    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div class="lg:text-center" use:inview={{ animation: "fade-up" }}>
+        <p class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4">
+          Our Values
+        </p>
+        <h2 class="text-3xl font-bold leading-8 sm:text-4xl">
+          What we stand for
+        </h2>
+        <p class="mt-4 max-w-2xl text-xl text-gray-600 dark:text-gray-300 lg:mx-auto">
+          Every decision we make is guided by these principles.
+        </p>
+      </div>
+      <div class="mt-12">
         <dl
           class="space-y-10 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-12 md:space-y-0"
         >
-          <div class="relative">
+          <div class="relative" use:inview={{ animation: "fade-up", delay: 0 }}>
             <dt>
               <div
-                class="absolute flex h-12 w-12 items-center justify-center rounded bg-default dark:bg-white text-white dark:text-black"
+                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600 text-white"
               >
                 <svg
                   class="w-6 h-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  style="max-width:40px"
                   aria-hidden="true"
-                  ><path
+                >
+                  <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
-                  ></path></svg
-                >
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                  />
+                </svg>
               </div>
-              <p class="ml-16 text-lg font-semibold leading-6">Data accuracy</p>
+              <p class="ml-16 text-lg font-semibold leading-6">Data Accuracy First</p>
             </dt>
-            <dd class="ml-16 mt-2">
-              We partner with top-tier data vendors to bring you premium Wall
-              Street data, backed by the highest standards of accuracy.
+            <dd class="ml-16 mt-2 text-gray-600 dark:text-gray-300">
+              We partner with the same data vendors that serve hedge funds. No scraped data.
+              No guesswork. Just clean, verified information you can trust.
             </dd>
           </div>
-          <div class="relative">
+          <div class="relative" use:inview={{ animation: "fade-up", delay: 100 }}>
             <dt>
               <div
-                class="absolute flex h-12 w-12 items-center justify-center rounded bg-default dark:bg-white text-white dark:text-black"
-              >
-                <svg
-                  class="w-5 h-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  style="max-width:40px"
-                  aria-hidden="true"
-                  ><path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path></svg
-                >
-              </div>
-              <p class="ml-16 text-lg font-semibold leading-6">Ease of use</p>
-            </dt>
-            <dd class="ml-16 mt-2">
-              Our goal is to deliver the latest market insights—simple, clear,
-              efficient and fast.
-            </dd>
-          </div>
-          <div class="relative">
-            <dt>
-              <div
-                class="absolute flex h-12 w-12 items-center justify-center rounded bg-default dark:bg-white text-white dark:text-black"
+                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600 text-white"
               >
                 <svg
                   class="w-6 h-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  style="max-width:40px"
                   aria-hidden="true"
-                  ><path
+                >
+                  <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
                     d="M13 10V3L4 14h7v7l9-11h-7z"
-                  ></path></svg
-                >
+                  />
+                </svg>
               </div>
-              <p class="ml-16 text-lg font-semibold leading-6">Speed</p>
+              <p class="ml-16 text-lg font-semibold leading-6">Speed Matters</p>
             </dt>
-            <dd class="ml-16 mt-2">
-              The market moves fast and so does Stocknear. We’ve designed the
-              website to load instantly, ensuring you never miss a beat.
+            <dd class="ml-16 mt-2 text-gray-600 dark:text-gray-300">
+              Markets move fast. Our platform loads instantly. Every screen, every chart,
+              every data point is optimized so you never miss an opportunity.
             </dd>
           </div>
-          <div class="relative">
+          <div class="relative" use:inview={{ animation: "fade-up", delay: 200 }}>
             <dt>
               <div
-                class="absolute flex h-12 w-12 items-center justify-center rounded bg-default dark:bg-white text-white dark:text-black"
+                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600 text-white"
               >
                 <svg
-                  class="h-6 w-6"
+                  class="w-6 h-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  style="max-width:40px"
                   aria-hidden="true"
-                  ><path
+                >
+                  <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-                  ></path></svg
-                >
+                    d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"
+                  />
+                </svg>
               </div>
-              <p class="ml-16 text-lg font-semibold leading-6">Integrity</p>
+              <p class="ml-16 text-lg font-semibold leading-6">Complete Objectivity</p>
             </dt>
-            <dd class="ml-16 mt-2">
-              We provide unbiased data for every stock, letting you form your
-              own opinions.
+            <dd class="ml-16 mt-2 text-gray-600 dark:text-gray-300">
+              We show the data. You make the decisions. No hidden agendas, no paid promotions,
+              no "hot picks." Just unbiased information for every stock.
+            </dd>
+          </div>
+          <div class="relative" use:inview={{ animation: "fade-up", delay: 300 }}>
+            <dt>
+              <div
+                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600 text-white"
+              >
+                <svg
+                  class="w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+              </div>
+              <p class="ml-16 text-lg font-semibold leading-6">Built for You</p>
+            </dt>
+            <dd class="ml-16 mt-2 text-gray-600 dark:text-gray-300">
+              We're traders too. Every feature is designed based on what we'd want to see.
+              Your feedback shapes our roadmap—not venture capitalists.
             </dd>
           </div>
         </dl>
@@ -157,123 +230,120 @@
     </div>
   </section>
 
+  <!-- Founder Section -->
   <section
     class="border-t border-gray-200 shadow dark:border-gray-600 bg-gray-100 dark:bg-default"
   >
-    <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-28">
-      <div class="space-y-12 lg:grid lg:grid-cols-3 lg:gap-8 lg:space-y-0">
-        <div class="space-y-5 sm:space-y-4">
-          <h2 class="text-3xl font-bold sm:text-4xl">Our Team</h2>
-          <p class="text-lg sm:text-xl">Developer of Stocknear</p>
+    <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-20">
+      <div class="lg:grid lg:grid-cols-3 lg:gap-12">
+        <div use:inview={{ animation: "fade-up" }}>
+          <p class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4">
+            The Founder
+          </p>
+          <h2 class="text-3xl font-bold sm:text-4xl">
+            From Physics to Finance
+          </h2>
+          <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+            The same analytical rigor that explores the universe now powers your investment research.
+          </p>
         </div>
-        <div class="lg:col-span-2">
-          <ul
-            class="space-y-12 sm:-mt-8 sm:space-y-0 sm:divide-y sm:divide-gray-200 lg:gap-x-8 lg:space-y-0"
+        <div class="lg:col-span-2 mt-10 lg:mt-0">
+          <div
+            class="flex flex-col sm:flex-row items-start gap-8"
+            use:inview={{ animation: "fade-up", delay: 100 }}
           >
-            <li class="sm:py-8">
-              <div
-                class="space-y-4 sm:grid sm:grid-cols-3 sm:items-start sm:gap-6 sm:space-y-0"
-              >
-                <div>
-                  <img
-                    class="rounded-full object-cover shadow-lg w-24 h-24 sm:w-28 sm:h-28 m-auto mb-10 sm:mb-0"
-                    src={profile}
-                    alt="Muslem Rahimi profile picture"
-                    loading="lazy"
-                  />
-                </div>
-                <div class="sm:col-span-2">
-                  <div class="space-y-4">
-                    <div class="space-y-1 text-lg font-semibold leading-6">
-                      <h3>Muslem Rahimi, PhD</h3>
-                      <p class="text-blue-800 dark:text-blue-400">
-                        Founder / Chief of Nothing
-                      </p>
-                    </div>
-                    <div class="text-lg">
-                      <p class="">
-                        Muslem founded Stocknear in 2022 after leaving his role
-                        as an insurance mathematician at Deloitte. He holds a
-                        Bachelor's degree in Physics from the University of
-                        Göttingen, a Master's in Particle Physics from the
-                        Technical University of Munich (TUM), and a PhD in
-                        Theoretical Particle Physics from the University of
-                        Siegen.
-                      </p>
-                    </div>
-                    <ul class="flex space-x-5">
-                      <!--
-                      <li>
-                        <a
-                          href="https://github.com/stocknear"
-                          class="text-muted sm:hover:text-gray-800 dark:text-white dark:sm:hover:text-gray-300"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          ><span class="sr-only">Github</span>
-                          <svg
-                            class="h-6 w-6"
-                            aria-hidden="true"
-                            fill="currentColor"
-                            style="max-width:40px"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            ><path
-                              d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"
-                            /></svg
-                          ></a
-                        >
-                      </li>
-                      -->
-
-                      <li>
-                        <a
-                          href="https://x.com/intent/follow?screen_name=stocknear"
-                          class="text-muted sm:hover:text-gray-800 dark:text-white dark:sm:hover:text-gray-300"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          ><span class="sr-only">Twitter</span>
-                          <svg
-                            class="h-5 w-5"
-                            aria-hidden="true"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                            style="max-width:40px"
-                            ><path
-                              d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84"
-                            ></path></svg
-                          ></a
-                        >
-                      </li>
-
-                      <li>
-                        <a
-                          href="https://www.linkedin.com/in/dr-muslem-rahimi-013956172/"
-                          class="text-muted sm:hover:text-gray-800 dark:text-white dark:sm:hover:text-gray-300"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          ><span class="sr-only">LinkedIn</span>
-                          <svg
-                            class="h-5 w-5"
-                            aria-hidden="true"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                            style="max-width:40px"
-                            ><path
-                              fill-rule="evenodd"
-                              d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
-                              clip-rule="evenodd"
-                            ></path></svg
-                          ></a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+            <img
+              class="rounded-xl object-cover shadow-lg w-32 h-32 sm:w-40 sm:h-40 flex-shrink-0"
+              src={profile}
+              alt="Dr. Muslem Rahimi"
+              loading="lazy"
+            />
+            <div class="space-y-4">
+              <div>
+                <h3 class="text-xl font-bold">Dr. Muslem Rahimi</h3>
+                <p class="text-purple-600 dark:text-purple-400 font-medium">
+                  Founder & CEO
+                </p>
               </div>
-            </li>
-          </ul>
+              <div class="text-gray-600 dark:text-gray-300 space-y-3">
+                <p>
+                  Muslem spent a decade mastering some of the most complex mathematical
+                  systems in existence—from quantum field theory to actuarial models at Deloitte.
+                </p>
+                <p>
+                  When he started trading, he realized the tools available to retail investors
+                  were either prohibitively expensive or frustratingly incomplete. So he built
+                  the platform he wished existed.
+                </p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  PhD in Theoretical Particle Physics (University of Siegen) ·
+                  MSc in Particle Physics (Technical University of Munich) ·
+                  BSc in Physics (University of Göttingen)
+                </p>
+              </div>
+              <div class="flex space-x-4 pt-2">
+                <a
+                  href="https://x.com/intent/follow?screen_name=stocknear"
+                  class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span class="sr-only">Twitter</span>
+                  <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/dr-muslem-rahimi-013956172/"
+                  class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span class="sr-only">LinkedIn</span>
+                  <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fill-rule="evenodd"
+                      d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
-</body>
+
+  <!-- CTA Section -->
+  <section class="border-t border-gray-300 dark:border-gray-600">
+    <div class="mx-auto max-w-4xl px-6 py-16 lg:py-20 text-center">
+      <div use:inview={{ animation: "fade-up" }}>
+        <h2 class="text-3xl font-bold sm:text-4xl">
+          Ready to see what you've been missing?
+        </h2>
+        <p class="mt-4 text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          Join thousands of traders who now trade with confidence. Start with a free account
+          and upgrade when you're ready.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="/"
+            class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-lg text-white bg-purple-600 hover:bg-purple-700 transition-colors shadow-lg"
+          >
+            Get Started Free
+          </a>
+          <a
+            href="/pricing"
+            class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-lg text-gray-700 dark:text-white bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+          >
+            View Pricing
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
