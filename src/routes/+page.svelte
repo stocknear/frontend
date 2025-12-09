@@ -18,9 +18,62 @@
 </script>
 
 <SEO
-  title="Stocknear - Realtime Options Flow & Dark Pool Data"
-  description="Track institutional order flow in realtime. See options flow, dark pool trades, and unusual activity before the crowd. Start your free trial today."
-  keywords="options flow, dark pool data, unusual options activity, institutional trading, smart money tracking, realtime options data"
+  title="Stocknear - Realtime Options Flow & Dark Pool Data for Smart Money Tracking"
+  description="Track institutional order flow in realtime. See options flow, dark pool trades, unusual activity, and smart money positioning before the crowd. Professional-grade trading tools at affordable prices. Start your free 7-day trial today."
+  keywords="stocknear, options flow, dark pool data, unusual options activity, institutional trading, smart money tracking, realtime options data, stock analysis, options trading, market analysis, GEX, DEX, gamma exposure, delta exposure, options greeks, open interest, stock screener, AI stock analysis"
+  structuredData={{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Stocknear",
+    url: "https://stocknear.com",
+    description:
+      "Professional-grade options flow and dark pool data platform for retail traders. Track institutional order flow, unusual activity, and smart money positioning in realtime.",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: "https://stocknear.com/stocks/{search_term_string}",
+      },
+      "query-input": "required name=search_term_string",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Stocknear",
+      url: "https://stocknear.com",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://stocknear.com/logo.png",
+      },
+      sameAs: ["https://twitter.com/stocknear", "https://discord.gg/stocknear"],
+    },
+    offers: {
+      "@type": "AggregateOffer",
+      priceCurrency: "USD",
+      lowPrice: "0",
+      highPrice: "35",
+      offerCount: "3",
+      offers: [
+        {
+          "@type": "Offer",
+          name: "Free Plan",
+          price: "0",
+          priceCurrency: "USD",
+        },
+        {
+          "@type": "Offer",
+          name: "Plus Plan",
+          price: "10",
+          priceCurrency: "USD",
+        },
+        {
+          "@type": "Offer",
+          name: "Pro Plan",
+          price: "35",
+          priceCurrency: "USD",
+        },
+      ],
+    },
+  }}
 />
 
 <!-- Hero Section -->
