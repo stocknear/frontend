@@ -1359,9 +1359,147 @@
   </div>
 </section>
 
-<!-- Final CTA -->
+<!-- FAQ Section -->
 <section
   class="py-10 sm:py-20 bg-white dark:bg-[#09090B] border-t border-gray-200 dark:border-gray-800"
+>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div use:inview={{ animation: 'fade-up', duration: 600 }} class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+        Frequently Asked Questions
+      </h2>
+      <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+        Everything you need to know before getting started
+      </p>
+    </div>
+
+    <div use:inview={{ animation: 'fade-up', duration: 600, delay: 100 }} class="divide-y divide-gray-200 dark:divide-gray-800">
+      <!-- FAQ 1 -->
+      <details class="group py-5">
+        <summary class="flex items-center justify-between cursor-pointer list-none">
+          <span class="font-semibold text-gray-900 dark:text-white text-lg">
+            What makes Stocknear different from other platforms?
+          </span>
+          <svg
+            class="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <p class="mt-4 text-gray-600 dark:text-gray-300">
+          Stocknear provides institutional-grade data at retail-friendly prices. We offer real-time options flow, dark pool activity, AI-powered analysis, and Wall Street-level tools — all in one unified platform. Competitors charge $100-300/mo for similar data.
+        </p>
+      </details>
+
+      <!-- FAQ 2 -->
+      <details class="group py-5">
+        <summary class="flex items-center justify-between cursor-pointer list-none">
+          <span class="font-semibold text-gray-900 dark:text-white text-lg">
+            How does the 7-day free trial work?
+          </span>
+          <svg
+            class="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <p class="mt-4 text-gray-600 dark:text-gray-300">
+          You get full access to all Pro features for 7 days. Cancel anytime within your trial period with no obligations. If you decide it's not for you, you won't be charged a penny.
+        </p>
+      </details>
+
+      <!-- FAQ 3 -->
+      <details class="group py-5">
+        <summary class="flex items-center justify-between cursor-pointer list-none">
+          <span class="font-semibold text-gray-900 dark:text-white text-lg">
+            What's your refund policy?
+          </span>
+          <svg
+            class="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <p class="mt-4 text-gray-600 dark:text-gray-300">
+          We offer a <strong class="text-gray-900 dark:text-white">30-day money-back guarantee</strong>, no questions asked. If you're not satisfied for any reason, just send us an email and you'll get a full refund.
+        </p>
+      </details>
+
+      <!-- FAQ 4 -->
+      <details class="group py-5">
+        <summary class="flex items-center justify-between cursor-pointer list-none">
+          <span class="font-semibold text-gray-900 dark:text-white text-lg">
+            Can I cancel my subscription anytime?
+          </span>
+          <svg
+            class="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <p class="mt-4 text-gray-600 dark:text-gray-300">
+          Absolutely. There's a "Cancel Subscription" button in your account settings. One click and you're done — no hoops to jump through, no retention calls, no hassle.
+        </p>
+      </details>
+
+      <!-- FAQ 5 -->
+      <details class="group py-5">
+        <summary class="flex items-center justify-between cursor-pointer list-none">
+          <span class="font-semibold text-gray-900 dark:text-white text-lg">
+            Are there any hidden fees?
+          </span>
+          <svg
+            class="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <p class="mt-4 text-gray-600 dark:text-gray-300">
+          None. The price you see is the price you pay. No commissions, no add-ons, no surprise charges. What you see on our pricing page is exactly what you'll be billed.
+        </p>
+      </details>
+
+      <!-- FAQ 6 -->
+      <details class="group py-5">
+        <summary class="flex items-center justify-between cursor-pointer list-none">
+          <span class="font-semibold text-gray-900 dark:text-white text-lg">
+            What are credits and how do they work?
+          </span>
+          <svg
+            class="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <p class="mt-4 text-gray-600 dark:text-gray-300">
+          Credits are used for premium features like AI chat and bulk data downloads. Your credits reset monthly based on your plan. Plus gets 150 credits/month, Pro gets 1,000 credits/month — more than enough for active traders.
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section
+  class="py-10 sm:py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800"
 >
   <div use:inview={{ animation: 'fade-up', duration: 700 }} class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
