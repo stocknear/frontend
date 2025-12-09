@@ -204,10 +204,7 @@
           >
         </h2>
         <p class="mt-6 text-lg text-gray-600 dark:text-gray-300">
-          LLM uses a fixed knowledge cutoff. Our AI, on the other hand, has
-          real-time access to every stock, every metric, every price movement — <strong
-            >as they happen</strong
-          >.
+          ChatGPT's data is months old. Our AI pulls <strong>live prices, filings, and flow data</strong> the moment you ask — so you're never trading on stale information.
         </p>
 
         <ul class="mt-8 space-y-4">
@@ -229,8 +226,8 @@
             </div>
             <p class="ml-3 text-gray-600 dark:text-gray-300">
               <strong class="text-gray-900 dark:text-white"
-                >Realtime prices & fundamentals</strong
-              > — Ask about any stock and get live data
+                >Live market data</strong
+              > — Current prices, volume, and key metrics on any ticker
             </p>
           </li>
           <li class="flex items-start">
@@ -251,8 +248,8 @@
             </div>
             <p class="ml-3 text-gray-600 dark:text-gray-300">
               <strong class="text-gray-900 dark:text-white"
-                >Full Stocknear data access</strong
-              > — Options flow, dark pool, analyst ratings & more
+                >All your data in one place</strong
+              > — Flow, dark pool, analysts, earnings — just ask
             </p>
           </li>
           <li class="flex items-start">
@@ -273,8 +270,8 @@
             </div>
             <p class="ml-3 text-gray-600 dark:text-gray-300">
               <strong class="text-gray-900 dark:text-white"
-                >Research in seconds</strong
-              > — No more switching between 10 tabs
+                >Skip the tab juggling</strong
+              > — Get answers in seconds, not minutes
             </p>
           </li>
         </ul>
@@ -381,9 +378,7 @@
               </span>
             </div>
             <p class="text-gray-600 dark:text-gray-400 mb-4">
-              Watch institutional trades hit the tape in realtime. Spot unusual
-              sweeps, block trades, and smart money positioning before price
-              moves.
+              See big money trades the moment they happen. When institutions make large bets, you'll know about it — often before the price moves.
             </p>
             <ul class="space-y-3">
               <li
@@ -400,7 +395,7 @@
                     clip-rule="evenodd"
                   />
                 </svg>
-                Spot unusual sweeps & block trades instantly
+                Large sweeps and block trades flagged instantly
               </li>
               <li
                 class="flex items-start text-sm text-gray-600 dark:text-gray-300"
@@ -416,7 +411,7 @@
                     clip-rule="evenodd"
                   />
                 </svg>
-                GEX & DEX to predict key price levels
+                See where dealers need to hedge (GEX/DEX levels)
               </li>
               <li
                 class="flex items-start text-sm text-gray-600 dark:text-gray-300"
@@ -432,7 +427,7 @@
                     clip-rule="evenodd"
                   />
                 </svg>
-                Max pain & OI for support/resistance zones
+                Find support and resistance using max pain & open interest
               </li>
               <li
                 class="flex items-start text-sm text-gray-600 dark:text-gray-300"
@@ -448,7 +443,7 @@
                     clip-rule="evenodd"
                   />
                 </svg>
-                Filter by ticker, size, expiry & sentiment
+                Filter by ticker, trade size, expiration, and sentiment
               </li>
             </ul>
             <div class="w-full flex justify-center sm:justify-start">
@@ -528,10 +523,7 @@
             Gamma/Delta Exposure
           </h3>
           <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            The Gamma/Delta Exposure Chart shows the estimated dollar amount
-            that market makers must hedge for every 1% change in the spot price
-            to remain gamma neutral. This chart helps traders anticipate
-            potential buying or selling pressure from dealer hedging.
+            See where market makers are likely to buy or sell to stay hedged. These levels often act as magnets or walls for price — helping you anticipate moves before they happen.
           </p>
         </div>
       </a>
@@ -583,12 +575,7 @@
             Greeks
           </h3>
           <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            The Greek Charts show Delta, Gamma, Theta, and Vega for both calls
-            and puts across all strikes. Each value is derived from current
-            market prices using the Black-Scholes model. These Greeks give
-            traders deeper insight into how option prices react to market
-            movements, time decay, and changes in volatility—helping them better
-            understand and manage their positions.
+            Visualize Delta, Gamma, Theta, and Vega across all strikes. Understand how your options will react to price moves, time decay, and volatility changes — so you can size positions and manage risk with confidence.
           </p>
         </div>
       </a>
@@ -627,11 +614,7 @@
             Open Interest
           </h3>
           <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            The Open Interest chart displays the number of open contracts for
-            each option. It serves as a useful indicator of market sentiment and
-            liquidity. Data is available both by strike and by expiration,
-            helping traders assess where interest is concentrated and potential
-            market trends.
+            Spot where traders are placing their bets. High open interest at specific strikes often signals key support and resistance levels — view by strike or expiration to plan your entries and exits.
           </p>
         </div>
       </a>
@@ -680,9 +663,7 @@
             </span>
           </div>
           <p class="text-gray-600 dark:text-gray-400 mb-4">
-            One-sentence explanations of why stocks are moving. We cut through
-            noise from news, press releases and SEC filings to pinpoint the
-            trigger.
+            Stock moving and you don't know why? We scan news, SEC filings, and press releases to give you a one-line explanation — no more digging through headlines.
           </p>
           <ul class="space-y-3">
             <li
@@ -699,7 +680,7 @@
                   clip-rule="evenodd"
                 />
               </svg>
-              Instant price movement explanations
+              Know the "why" in seconds, not minutes
             </li>
             <li
               class="flex items-start text-sm text-gray-600 dark:text-gray-300"
@@ -715,7 +696,7 @@
                   clip-rule="evenodd"
                 />
               </svg>
-              Aggregated from news & SEC filings
+              Pulls from news, filings, and earnings
             </li>
             <li
               class="flex items-start text-sm text-gray-600 dark:text-gray-300"
@@ -731,7 +712,7 @@
                   clip-rule="evenodd"
                 />
               </svg>
-              No noise, just the signal
+              Cut through the noise instantly
             </li>
           </ul>
           <a
@@ -788,8 +769,7 @@
             </span>
           </div>
           <p class="text-gray-600 dark:text-gray-400 mb-4">
-            Track top analysts with their historic performance. See who actually
-            makes money and who doesn't before following their calls.
+            Not all analyst calls are created equal. We track their actual performance so you can see who's worth following — and who's just noise.
           </p>
           <ul class="space-y-3">
             <li
@@ -806,7 +786,7 @@
                   clip-rule="evenodd"
                 />
               </svg>
-              Success rate & win rate tracking
+              See each analyst's win rate and track record
             </li>
             <li
               class="flex items-start text-sm text-gray-600 dark:text-gray-300"
@@ -822,7 +802,7 @@
                   clip-rule="evenodd"
                 />
               </svg>
-              Average return per rating
+              Compare average returns across analysts
             </li>
             <li
               class="flex items-start text-sm text-gray-600 dark:text-gray-300"
@@ -838,7 +818,7 @@
                   clip-rule="evenodd"
                 />
               </svg>
-              Instant updates on new ratings
+              Get notified when top analysts make new calls
             </li>
           </ul>
           <a
