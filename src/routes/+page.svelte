@@ -18,60 +18,36 @@
 </script>
 
 <SEO
-  title="Stocknear - Realtime Options Flow & Dark Pool Data for Smart Money Tracking"
-  description="Track institutional order flow in realtime. See options flow, dark pool trades, unusual activity, and smart money positioning before the crowd. Professional-grade trading tools at affordable prices. Start your free 7-day trial today."
-  keywords="stocknear, options flow, dark pool data, unusual options activity, institutional trading, smart money tracking, realtime options data, stock analysis, options trading, market analysis, GEX, DEX, gamma exposure, delta exposure, options greeks, open interest, stock screener, AI stock analysis"
+  title="Advanced Stock Analysis & Financial Data Platform"
+  description="Free advanced stock analysis, AI-powered forecasting, options flow tracking, and comprehensive financial data for all US stocks. Get real-time insights for TSLA, NVDA, AAPL and thousands more with Stocknear's powerful analysis tools."
+  keywords="stocknear, stock analysis, stock forecast, tsla forecast, nvda analysis, options flow, earnings analysis, financial data, stock screener, market analysis, AI stock predictions, dark pool data, insider trading, congress trading"
   structuredData={{
     "@context": "https://schema.org",
-    "@type": "WebSite",
+    "@type": "WebApplication",
     name: "Stocknear",
-    url: "https://stocknear.com",
     description:
-      "Professional-grade options flow and dark pool data platform for retail traders. Track institutional order flow, unusual activity, and smart money positioning in realtime.",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: "https://stocknear.com/stocks/{search_term_string}",
-      },
-      "query-input": "required name=search_term_string",
+      "Advanced stock analysis and financial data platform with AI-powered insights",
+    url: "https://stocknear.com",
+    applicationCategory: "FinanceApplication",
+    operatingSystem: "Any",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
     },
-    publisher: {
+    featureList: [
+      "Real-time stock analysis",
+      "AI-powered forecasting",
+      "Options flow tracking",
+      "Financial data analysis",
+      "Dark pool monitoring",
+      "Earnings analysis",
+      "Market insights",
+    ],
+    provider: {
       "@type": "Organization",
       name: "Stocknear",
       url: "https://stocknear.com",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://stocknear.com/logo.png",
-      },
-      sameAs: ["https://twitter.com/stocknear", "https://discord.gg/stocknear"],
-    },
-    offers: {
-      "@type": "AggregateOffer",
-      priceCurrency: "USD",
-      lowPrice: "0",
-      highPrice: "35",
-      offerCount: "3",
-      offers: [
-        {
-          "@type": "Offer",
-          name: "Free Plan",
-          price: "0",
-          priceCurrency: "USD",
-        },
-        {
-          "@type": "Offer",
-          name: "Plus Plan",
-          price: "10",
-          priceCurrency: "USD",
-        },
-        {
-          "@type": "Offer",
-          name: "Pro Plan",
-          price: "35",
-          priceCurrency: "USD",
-        },
-      ],
     },
   }}
 />
