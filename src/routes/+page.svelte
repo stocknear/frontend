@@ -1303,108 +1303,155 @@
 <section
   class="py-10 sm:py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800"
 >
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div use:inview={{ animation: 'fade-up', duration: 600 }} class="text-center mb-6">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div use:inview={{ animation: 'fade-up', duration: 600 }} class="text-center mb-10">
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        Trusted by Thousands of Traders
+      </h2>
       <a
         href="https://www.trustpilot.com/review/stocknear.com"
         target="_blank"
         rel="noopener noreferrer"
-        class="inline-flex items-center text-lg font-medium text-gray-900 dark:text-white hover:underline"
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 font-medium hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors"
       >
-        <svg
-          class="w-5 h-5 mr-2 text-green-500"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-          />
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
         </svg>
-        {trustpilotScore}/5 on Trustpilot
+        <span class="font-bold">{trustpilotScore}</span>/5 on Trustpilot
+        <span class="text-green-600 dark:text-green-400">•</span>
+        <span>20+ Reviews</span>
       </a>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-6">
-      <!-- Testimonial 1 -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Testimonial 1 - Value/Price -->
       <div
         use:inview={{ animation: 'fade-up', duration: 600, delay: 0 }}
-        class="bg-white dark:bg-[#18181B] rounded p-6 border border-gray-200 dark:border-gray-800"
+        class="flex flex-col bg-white dark:bg-[#18181B] rounded-xl p-6 border border-gray-200 dark:border-gray-800 shadow-sm"
       >
         <div class="flex mb-3">
           {#each Array(5) as _}
-            <svg
-              class="w-4 h-4 text-yellow-400"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-              />
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
           {/each}
         </div>
-        <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-[1rem]">
-          "Offers premium features for an affordable price. There are usually
-          new features being rolled out weekly."
+        <p class="font-semibold text-gray-900 dark:text-white mb-2">Affordable and Extensive Data</p>
+        <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow">
+          "Offers premium features (live options data, historical data) for an affordable price. There are usually new features being rolled out weekly."
         </p>
-        <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">
-          Pat
-        </p>
+        <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">Pat</p>
       </div>
 
-      <!-- Testimonial 2 -->
+      <!-- Testimonial 2 - Edge/Competitive Advantage -->
+      <div
+        use:inview={{ animation: 'fade-up', duration: 600, delay: 50 }}
+        class="flex flex-col bg-white dark:bg-[#18181B] rounded-xl p-6 border border-gray-200 dark:border-gray-800 shadow-sm"
+      >
+        <div class="flex mb-3">
+          {#each Array(5) as _}
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          {/each}
+        </div>
+        <p class="font-semibold text-gray-900 dark:text-white mb-2">Stocknear gives traders' the edge</p>
+        <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow">
+          "TA is the basis for all traders, real time insider data gives one the winning edge needed to understand the overall PA."
+        </p>
+        <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">Bryan</p>
+      </div>
+
+      <!-- Testimonial 3 - All-in-one -->
       <div
         use:inview={{ animation: 'fade-up', duration: 600, delay: 100 }}
-        class="bg-white dark:bg-[#18181B] rounded p-6 border border-gray-200 dark:border-gray-800"
+        class="flex flex-col bg-white dark:bg-[#18181B] rounded-xl p-6 border border-gray-200 dark:border-gray-800 shadow-sm"
       >
         <div class="flex mb-3">
           {#each Array(5) as _}
-            <svg
-              class="w-4 h-4 text-yellow-400"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-              />
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
           {/each}
         </div>
-        <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-[1rem]">
-          "The information that the site provides is top notch. They have great
-          support and always improving."
+        <p class="font-semibold text-gray-900 dark:text-white mb-2">The Ultimate One-Stop Market Data Portal</p>
+        <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow">
+          "Stocknear has completely transformed how I consolidate market data. Before, I had to jump between multiple sources."
         </p>
-        <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">
-          Dean
-        </p>
+        <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">Carlos V.</p>
       </div>
 
-      <!-- Testimonial 3 -->
+      <!-- Testimonial 4 - Support/Quality -->
       <div
-        use:inview={{ animation: 'fade-up', duration: 600, delay: 200 }}
-        class="bg-white dark:bg-[#18181B] rounded p-6 border border-gray-200 dark:border-gray-800"
+        use:inview={{ animation: 'fade-up', duration: 600, delay: 150 }}
+        class="flex flex-col bg-white dark:bg-[#18181B] rounded-xl p-6 border border-gray-200 dark:border-gray-800 shadow-sm"
       >
         <div class="flex mb-3">
           {#each Array(5) as _}
-            <svg
-              class="w-4 h-4 text-yellow-400"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-              />
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
           {/each}
         </div>
-        <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-[1rem]">
-          "Brings analysis tools to retail investors in a way that elevates
-          decision making to pro levels. "
+        <p class="font-semibold text-gray-900 dark:text-white mb-2">Fantastic Site with Great Information</p>
+        <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow">
+          "I've been using Stocknear for several months now. The information that the site provides is top notch. They have great support."
         </p>
-        <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">
-          SkiSmith
-        </p>
+        <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">Dean</p>
       </div>
+
+      <!-- Testimonial 5 - Responsive founder -->
+      <div
+        use:inview={{ animation: 'fade-up', duration: 600, delay: 200 }}
+        class="flex flex-col bg-white dark:bg-[#18181B] rounded-xl p-6 border border-gray-200 dark:border-gray-800 shadow-sm"
+      >
+        <div class="flex mb-3">
+          {#each Array(5) as _}
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          {/each}
+        </div>
+        <p class="font-semibold text-gray-900 dark:text-white mb-2">This guy is an absolute legend</p>
+        <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow">
+          "This guy is an absolute legend! What sets the service apart is being able to request what you want to see."
+        </p>
+        <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">Andy C.</p>
+      </div>
+
+      <!-- Testimonial 6 - Pro tools -->
+      <div
+        use:inview={{ animation: 'fade-up', duration: 600, delay: 250 }}
+        class="flex flex-col bg-white dark:bg-[#18181B] rounded-xl p-6 border border-gray-200 dark:border-gray-800 shadow-sm"
+      >
+        <div class="flex mb-3">
+          {#each Array(5) as _}
+            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          {/each}
+        </div>
+        <p class="font-semibold text-gray-900 dark:text-white mb-2">Bringing pro investment tools to everyone</p>
+        <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow">
+          "Brings analysis tools to retail investors in a way that elevates decision making to pro levels."
+        </p>
+        <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">SkiSmith</p>
+      </div>
+    </div>
+
+    <!-- View all reviews link -->
+    <div use:inview={{ animation: 'fade', duration: 600, delay: 300 }} class="text-center mt-8">
+      <a
+        href="https://www.trustpilot.com/review/stocknear.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center text-purple-600 dark:text-purple-400 font-medium hover:underline"
+      >
+        Read all reviews on Trustpilot
+        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+      </a>
     </div>
   </div>
 </section>
