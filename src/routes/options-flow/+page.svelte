@@ -44,14 +44,6 @@
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
 
   let ruleOfList = strategyList?.at(0)?.rules ?? [];
-  const checkedRules = [
-    "put_call",
-    "assetType",
-    "option_activity_type",
-    "moneyness",
-    "sentiment",
-    "execution_estimate",
-  ];
 
   let displayRules = [];
   let filteredData = [];
@@ -578,7 +570,7 @@
 
     checkedItems = new Map(
       ruleOfList
-        ?.filter((rule) => checkedRules?.includes(rule.name)) // Only include specific rules
+        ?.filter((rule) => categoricalRules?.includes(rule.name)) // Only include specific rules
         ?.map((rule) => [rule.name, new Set(rule.value)]), // Create Map from filtered rules
     );
 
@@ -647,7 +639,7 @@
 
       checkedItems = new Map(
         ruleOfList
-          ?.filter((rule) => checkedRules?.includes(rule.name))
+          ?.filter((rule) => categoricalRules?.includes(rule.name))
           ?.map((rule) => [rule.name, new Set(rule.value)]),
       );
 
@@ -771,7 +763,7 @@
       // Update checkedItems
       checkedItems = new Map(
         ruleOfList
-          ?.filter((rule) => checkedRules?.includes(rule.name))
+          ?.filter((rule) => categoricalRules?.includes(rule.name))
           ?.map((rule) => [rule.name, new Set(rule.value)]),
       );
 
@@ -946,12 +938,12 @@
 
   let checkedItems = new Map(
     ruleOfList
-      ?.filter((rule) => checkedRules?.includes(rule.name))
+      ?.filter((rule) => categoricalRules?.includes(rule.name))
       ?.map((rule) => [rule.name, new Set(rule.value)]),
   );
 
-  function isChecked(item) {
-    const itemSet = checkedItems.get(ruleName);
+  function isChecked(item, ruleKey = ruleName) {
+    const itemSet = checkedItems.get(ruleKey);
     return itemSet ? itemSet.has(item) : false;
   }
 
@@ -2564,7 +2556,7 @@
                                         <input
                                           type="checkbox"
                                           class="rounded"
-                                          checked={isChecked(item)}
+                                          checked={isChecked(item, row?.rule)}
                                         />
                                         <span class="ml-2">{item}</span>
                                       </label>
