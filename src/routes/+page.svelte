@@ -1,5 +1,7 @@
 <script lang="ts">
   import SEO from "$lib/components/SEO.svelte";
+  import LazyVideo from "$lib/components/LazyVideo.svelte";
+  import { inview } from "$lib/actions/inview";
   import { onMount } from "svelte";
 
   export let data;
@@ -58,6 +60,7 @@
     <!-- Headline -->
     <div class="text-center max-w-4xl mx-auto">
       <h1
+        use:inview={{ animation: 'fade-up', duration: 700 }}
         class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-tight"
       >
         Research your next Trading
@@ -68,6 +71,7 @@
         </span>
       </h1>
       <p
+        use:inview={{ animation: 'fade-up', delay: 100, duration: 700 }}
         class="mt-6 text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
       >
         Realtime stock prices, options flow, dark pool orders, news, financials,
@@ -76,6 +80,7 @@
 
       <!-- CTA + Trust -->
       <div
+        use:inview={{ animation: 'fade-up', delay: 200, duration: 600 }}
         class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
       >
         <a
@@ -97,6 +102,7 @@
 
       <!-- Trust signals - subtle, supporting -->
       <div
+        use:inview={{ animation: 'fade', delay: 400, duration: 800 }}
         class="mt-8 flex flex-wrap justify-center items-center gap-6 text-sm text-gray-500 dark:text-gray-400"
       >
         <a
@@ -148,24 +154,23 @@
     </div>
 
     <!-- Hero Video - Product first -->
-    <div class="mt-16 relative">
+    <div
+      use:inview={{ animation: 'scale', delay: 300, duration: 800 }}
+      class="mt-16 relative"
+    >
       <div
         class="absolute inset-0 bg-gradient-to-t from-white dark:from-[#09090B] to-transparent z-10 pointer-events-none h-32 bottom-0 top-auto"
       ></div>
       <div
         class="relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-2xl shadow-gray-900/10 dark:shadow-black/50"
       >
-        <video
-          class="w-full h-auto"
-          autoplay
-          loop
-          muted
-          playsinline
-          id="overviewVideo"
-        >
-          <source src="/video/overview.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        <LazyVideo
+          src="/video/overview.mp4"
+          poster="/img/landing-page/overview.png"
+          className="w-full h-auto"
+          threshold={0.2}
+          rootMargin="200px"
+        />
       </div>
     </div>
   </div>
@@ -178,7 +183,7 @@
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid lg:grid-cols-2 gap-12 items-center">
       <!-- Content -->
-      <div>
+      <div use:inview={{ animation: 'fade-right', duration: 700 }}>
         <div
           class="inline-flex items-center px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-sm font-medium mb-6"
         >
@@ -298,20 +303,16 @@
       </div>
 
       <!-- Video -->
-      <div class="relative">
+      <div use:inview={{ animation: 'fade-left', duration: 700, delay: 150 }} class="relative">
         <div
           class="relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-2xl shadow-purple-500/10"
         >
-          <video
-            class="w-full aspect-video object-cover"
-            autoplay
-            loop
-            muted
-            playsinline
-          >
-            <source src="/video/ai-agent.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          <LazyVideo
+            src="/video/ai-agent.mp4"
+            poster="/img/landing-page/ai-agent.png"
+            className="w-full aspect-video object-cover"
+            threshold={0.3}
+          />
           <!-- Play overlay hint -->
           <div
             class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"
@@ -332,7 +333,7 @@
 <!-- Options Flow Section -->
 <section class=" sm:py-10 bg-white dark:bg-[#09090B]">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-16">
+    <div use:inview={{ animation: 'fade-up', duration: 600 }} class="text-center mb-16">
       <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
         See What Smart Money Is Buying
       </h2>
@@ -343,7 +344,7 @@
 
     <div class="grid -mt-6 sm:mt-0 gap-5 sm:gap-10">
       <!-- Options Flow Card -->
-      <div class="relative group">
+      <div use:inview={{ animation: 'fade-up', duration: 700, delay: 100 }} class="relative group">
         <!-- Glow effect -->
         <div
           class="absolute -inset-1 bg-gradient-to-r from-purple-600 via-violet-600 to-blue-600 rounded-xl blur-lg opacity-25 group-hover:opacity-40 transition duration-500"
@@ -354,25 +355,18 @@
         >
           <!-- Video with premium frame -->
           <div class="relative">
-            <video
-              class="w-full object-contain"
-              autoplay
-              loop
-              muted
-              playsinline
-              id="optionsFlowVideo"
-            >
-              <source src="/video/options-flow.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            <LazyVideo
+              src="/video/options-flow.mp4"
+              poster="/img/landing-page/options-flow.png"
+              className="w-full object-contain"
+              playbackRate={3}
+              threshold={0.3}
+            />
             <!-- Bottom gradient fade -->
             <div
               class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black dark:from-black to-transparent pointer-events-none"
             ></div>
           </div>
-          <script>
-            document.getElementById("optionsFlowVideo").playbackRate = 3.0;
-          </script>
 
           <!-- Content -->
           <div class="p-6">
@@ -490,7 +484,7 @@
   class="py-10 sm:py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800"
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
+    <div use:inview={{ animation: 'fade-up', duration: 600 }} class="text-center mb-12">
       <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
         What You'll See Every Day
       </h2>
@@ -501,6 +495,7 @@
 
     <div class="grid md:grid-cols-3 gap-6">
       <a
+        use:inview={{ animation: 'fade-up', duration: 600, delay: 0 }}
         href="/stocks/TSLA/options/gex/strike"
         class="group bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden transition-all duration-300 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/20"
       >
@@ -543,6 +538,7 @@
 
       <!-- Example 2: Greeks Chart -->
       <a
+        use:inview={{ animation: 'fade-up', duration: 600, delay: 100 }}
         href="/stocks/TSLA/options/greeks"
         class="group bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden transition-all duration-300 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/20"
       >
@@ -599,6 +595,7 @@
 
       <!-- Example 3: Open Interest -->
       <a
+        use:inview={{ animation: 'fade-up', duration: 600, delay: 200 }}
         href="/stocks/TSLA/options/oi"
         class="group bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden transition-all duration-300 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/20"
       >
@@ -645,7 +642,7 @@
 <!-- Additional Features Section -->
 <section class="py-10 sm:py-20 bg-white dark:bg-[#09090B]">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-16">
+    <div use:inview={{ animation: 'fade-up', duration: 600 }} class="text-center mb-16">
       <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
         More Than Just Flow Data
       </h2>
@@ -657,6 +654,7 @@
     <div class="grid md:grid-cols-2 gap-10">
       <!-- Why Price Moved Card -->
       <div
+        use:inview={{ animation: 'fade-right', duration: 600 }}
         class="bg-gray-50 dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
       >
         <!-- Screenshot Placeholder -->
@@ -760,6 +758,7 @@
 
       <!-- Wall Street Analysts Card -->
       <div
+        use:inview={{ animation: 'fade-left', duration: 600, delay: 100 }}
         class="bg-gray-50 dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
       >
         <!-- Screenshot Placeholder -->
@@ -872,7 +871,7 @@
   class="py-10 sm:py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800"
 >
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
+    <div use:inview={{ animation: 'fade-up', duration: 600 }} class="text-center mb-12">
       <div
         class="inline-flex items-center px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-medium mb-4"
       >
@@ -897,6 +896,7 @@
     <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
       <!-- Plus Tier -->
       <div
+        use:inview={{ animation: 'fade-right', duration: 600, delay: 0 }}
         class="relative flex flex-col bg-white dark:bg-zinc-900 rounded border border-gray-400 dark:border-zinc-600 p-6 overflow-visible"
       >
         <h3 class="text-3xl font-bold text-gray-900 dark:text-white">Plus</h3>
@@ -1069,6 +1069,7 @@
 
       <!-- Pro Tier -->
       <div
+        use:inview={{ animation: 'fade-left', duration: 600, delay: 100 }}
         class="relative flex flex-col bg-[#18181B] dark:bg-zinc-900 rounded border border-violet-500/50 p-6 text-white overflow-visible"
       >
         <!-- Subtle top glow -->
@@ -1234,6 +1235,7 @@
 
     <!-- Value reinforcement -->
     <div
+      use:inview={{ animation: 'fade-up', duration: 600, delay: 200 }}
       class="mt-6 sm:mt-12 text-center p-6 rounded bg-white dark:bg-[#18181B] border border-gray-200 dark:border-gray-800 max-w-4xl mx-auto"
     >
       <p class="text-gray-600 dark:text-gray-300">
@@ -1252,7 +1254,7 @@
   class="py-10 sm:py-20 bg-gray-50 dark:bg-[#0f0f11] border-t border-gray-200 dark:border-gray-800"
 >
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-6">
+    <div use:inview={{ animation: 'fade-up', duration: 600 }} class="text-center mb-6">
       <a
         href="https://www.trustpilot.com/review/stocknear.com"
         target="_blank"
@@ -1275,6 +1277,7 @@
     <div class="grid md:grid-cols-3 gap-6">
       <!-- Testimonial 1 -->
       <div
+        use:inview={{ animation: 'fade-up', duration: 600, delay: 0 }}
         class="bg-white dark:bg-[#18181B] rounded p-6 border border-gray-200 dark:border-gray-800"
       >
         <div class="flex mb-3">
@@ -1301,6 +1304,7 @@
 
       <!-- Testimonial 2 -->
       <div
+        use:inview={{ animation: 'fade-up', duration: 600, delay: 100 }}
         class="bg-white dark:bg-[#18181B] rounded p-6 border border-gray-200 dark:border-gray-800"
       >
         <div class="flex mb-3">
@@ -1327,6 +1331,7 @@
 
       <!-- Testimonial 3 -->
       <div
+        use:inview={{ animation: 'fade-up', duration: 600, delay: 200 }}
         class="bg-white dark:bg-[#18181B] rounded p-6 border border-gray-200 dark:border-gray-800"
       >
         <div class="flex mb-3">
@@ -1358,7 +1363,7 @@
 <section
   class="py-10 sm:py-20 bg-white dark:bg-[#09090B] border-t border-gray-200 dark:border-gray-800"
 >
-  <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+  <div use:inview={{ animation: 'fade-up', duration: 700 }} class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
       Success is well researched
     </h2>
