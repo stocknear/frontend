@@ -1839,6 +1839,7 @@ export function getPartyForPoliticians(name) {
     "Keith Self": "Republican",
     "Gus Bilirakis": "Republican",
     "Dave McCormick": "Republican",
+    "Rich McCormick": "Republican",
     "Gil Cisneros": "Democratic",
     "Emily Randall": "Democratic",
     "Julie Johnson": "Democratic",
