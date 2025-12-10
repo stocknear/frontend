@@ -1,6 +1,5 @@
 <script lang="ts">
   import SEO from "$lib/components/SEO.svelte";
-  import { inview } from "$lib/actions/inview";
   import profile from "$lib/images/profile.webp";
   export let data;
 </script>
@@ -16,7 +15,7 @@
     class="border-b border-gray-200 shadow dark:border-gray-600 sm:rounded w-full bg-gray-100 dark:bg-default"
   >
     <div class="mx-auto max-w-4xl px-6 py-16 sm:py-24 md:px-8">
-      <div class="text-center" use:inview={{ animation: "fade-up" }}>
+      <div class="text-center">
         <p class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4">
           Our Mission
         </p>
@@ -37,7 +36,7 @@
   <!-- Origin Story -->
   <section class="border-t border-gray-300 dark:border-gray-600">
     <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-      <div use:inview={{ animation: "fade-up" }}>
+      <div>
         <p class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4">
           The Story
         </p>
@@ -47,25 +46,25 @@
       </div>
 
       <div class="space-y-6 text-lg leading-relaxed text-gray-600 dark:text-gray-300">
-        <p use:inview={{ animation: "fade-up", delay: 100 }}>
+        <p>
           In 2022, Dr. Muslem Rahimi left his role as an insurance mathematician at Deloitte
           with a simple question: <em>Why do retail investors have to trade blind while
           institutions see everything?</em>
         </p>
 
-        <p use:inview={{ animation: "fade-up", delay: 200 }}>
+        <p>
           The answer wasn't satisfying. Premium market data costs $20,000+ per year.
           Institutional flow data is locked behind expensive terminals. And the "free"
           alternatives? Delayed, incomplete, or buried in ads.
         </p>
 
-        <p use:inview={{ animation: "fade-up", delay: 300 }}>
+        <p>
           Stocknear was built to change that. By partnering directly with top-tier data
           vendors and building efficient technology, we deliver the same institutional-quality
           data at a fraction of the cost.
         </p>
 
-        <p use:inview={{ animation: "fade-up", delay: 400 }} class="font-medium text-gray-900 dark:text-white">
+        <p class="font-medium text-gray-900 dark:text-white">
           Today, thousands of traders use Stocknear to see what the smart money is doing
           before making their next move.
         </p>
@@ -79,19 +78,19 @@
   >
     <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
       <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
-        <div class="text-center" use:inview={{ animation: "fade-up", delay: 0 }}>
+        <div class="text-center">
           <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">7,000+</p>
           <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Active Traders</p>
         </div>
-        <div class="text-center" use:inview={{ animation: "fade-up", delay: 100 }}>
+        <div class="text-center">
           <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">10K+</p>
           <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Stocks & ETFs</p>
         </div>
-        <div class="text-center" use:inview={{ animation: "fade-up", delay: 200 }}>
+        <div class="text-center">
           <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">Real-time</p>
           <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Data Updates</p>
         </div>
-        <div class="text-center" use:inview={{ animation: "fade-up", delay: 300 }}>
+        <div class="text-center">
           <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">30 Day</p>
           <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Money-Back Guarantee</p>
         </div>
@@ -102,7 +101,7 @@
   <!-- Values Section -->
   <section class="border-t border-gray-300 dark:border-gray-600">
     <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-      <div class="lg:text-center" use:inview={{ animation: "fade-up" }}>
+      <div class="lg:text-center">
         <p class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4">
           Our Values
         </p>
@@ -117,7 +116,7 @@
         <dl
           class="space-y-10 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-12 md:space-y-0"
         >
-          <div class="relative" use:inview={{ animation: "fade-up", delay: 0 }}>
+          <div class="relative">
             <dt>
               <div
                 class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600 text-white"
@@ -144,7 +143,7 @@
               No guesswork. Just clean, verified information you can trust.
             </dd>
           </div>
-          <div class="relative" use:inview={{ animation: "fade-up", delay: 100 }}>
+          <div class="relative">
             <dt>
               <div
                 class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600 text-white"
@@ -171,7 +170,7 @@
               every data point is optimized so you never miss an opportunity.
             </dd>
           </div>
-          <div class="relative" use:inview={{ animation: "fade-up", delay: 200 }}>
+          <div class="relative">
             <dt>
               <div
                 class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600 text-white"
@@ -198,7 +197,7 @@
               no "hot picks." Just unbiased information for every stock.
             </dd>
           </div>
-          <div class="relative" use:inview={{ animation: "fade-up", delay: 300 }}>
+          <div class="relative">
             <dt>
               <div
                 class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600 text-white"
@@ -236,7 +235,7 @@
   >
     <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-20">
       <div class="lg:grid lg:grid-cols-3 lg:gap-12">
-        <div use:inview={{ animation: "fade-up" }}>
+        <div>
           <p class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4">
             The Founder
           </p>
@@ -250,7 +249,6 @@
         <div class="lg:col-span-2 mt-10 lg:mt-0">
           <div
             class="flex flex-col sm:flex-row items-start gap-8"
-            use:inview={{ animation: "fade-up", delay: 100 }}
           >
             <img
               class="rounded-xl object-cover shadow-lg w-32 h-32 sm:w-40 sm:h-40 flex-shrink-0"
@@ -321,7 +319,7 @@
   <!-- CTA Section -->
   <section class="border-t border-gray-300 dark:border-gray-600">
     <div class="mx-auto max-w-4xl px-6 py-16 lg:py-20 text-center">
-      <div use:inview={{ animation: "fade-up" }}>
+      <div>
         <h2 class="text-3xl font-bold sm:text-4xl">
           Ready to see what you've been missing?
         </h2>
