@@ -279,6 +279,15 @@
             loading="lazy"
           />
         </div>
+        <!-- Intrinio -->
+        <div class="flex items-center justify-center h-8">
+          <img
+            src="/img/data-sources/intrinio.png"
+            alt="Intrinio"
+            class="h-5 sm:h-6 w-auto dark:invert"
+            loading="lazy"
+          />
+        </div>
       </div>
     </div>
   </section>

@@ -16,18 +16,22 @@
   >
     <div class="mx-auto max-w-4xl px-6 py-16 sm:py-24 md:px-8">
       <div class="text-center">
-        <p class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4">
+        <p
+          class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4"
+        >
           Our Mission
         </p>
         <h1 class="text-4xl font-bold sm:text-5xl lg:text-6xl leading-tight">
           Wall Street data.<br />
-          <span class="text-purple-600 dark:text-purple-400">Main Street prices.</span>
+          <span class="text-purple-600 dark:text-purple-400"
+            >Main Street prices.</span
+          >
         </h1>
         <p
           class="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-gray-600 dark:text-gray-300"
         >
-          Stocknear exists because we believe every investor deserves access to the same
-          institutional-grade data that hedge funds pay thousands for.
+          Stocknear exists because we believe every investor deserves access to
+          the same institutional-grade data that hedge funds pay thousands for.
         </p>
       </div>
     </div>
@@ -37,7 +41,9 @@
   <section class="border-t border-gray-300 dark:border-gray-600">
     <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
       <div>
-        <p class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4">
+        <p
+          class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4"
+        >
           The Story
         </p>
         <h2 class="text-3xl font-bold leading-tight sm:text-4xl mb-8">
@@ -45,28 +51,32 @@
         </h2>
       </div>
 
-      <div class="space-y-6 text-lg leading-relaxed text-gray-600 dark:text-gray-300">
+      <div
+        class="space-y-6 text-lg leading-relaxed text-gray-600 dark:text-gray-300"
+      >
         <p>
-          In 2022, Dr. Muslem Rahimi left his role as an insurance mathematician at Deloitte
-          with a simple question: <em>Why do retail investors have to trade blind while
-          institutions see everything?</em>
+          In 2022, Dr. Muslem Rahimi left his role as an insurance mathematician
+          at Deloitte with a simple question: <em
+            >Why do retail investors have to trade blind while institutions see
+            everything?</em
+          >
         </p>
 
         <p>
-          The answer wasn't satisfying. Premium market data costs $20,000+ per year.
-          Institutional flow data is locked behind expensive terminals. And the "free"
-          alternatives? Delayed, incomplete, or buried in ads.
+          The answer wasn't satisfying. Premium market data costs $20,000+ per
+          year. Institutional flow data is locked behind expensive terminals.
+          And the "free" alternatives? Delayed, incomplete, or buried in ads.
         </p>
 
         <p>
-          Stocknear was built to change that. By partnering directly with top-tier data
-          vendors and building efficient technology, we deliver the same institutional-quality
-          data at a fraction of the cost.
+          Stocknear was built to change that. By partnering directly with
+          top-tier data vendors and building efficient technology, we deliver
+          the same institutional-quality data at a fraction of the cost.
         </p>
 
         <p class="font-medium text-gray-900 dark:text-white">
-          Today, thousands of traders use Stocknear to see what the smart money is doing
-          before making their next move.
+          Today, thousands of traders use Stocknear to see what the smart money
+          is doing before making their next move.
         </p>
       </div>
     </div>
@@ -79,20 +89,36 @@
     <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
       <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
         <div class="text-center">
-          <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">7,000+</p>
-          <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Active Traders</p>
+          <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">
+            10,000+
+          </p>
+          <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+            Active Traders
+          </p>
         </div>
         <div class="text-center">
-          <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">10K+</p>
-          <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Stocks & ETFs</p>
+          <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">
+            10K+
+          </p>
+          <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+            Stocks & ETFs
+          </p>
         </div>
         <div class="text-center">
-          <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">Real-time</p>
-          <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Data Updates</p>
+          <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">
+            Real-time
+          </p>
+          <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+            Data Updates
+          </p>
         </div>
         <div class="text-center">
-          <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">30 Day</p>
-          <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Money-Back Guarantee</p>
+          <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">
+            30 Day
+          </p>
+          <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+            Money-Back Guarantee
+          </p>
         </div>
       </div>
     </div>
@@ -102,13 +128,17 @@
   <section class="border-t border-gray-300 dark:border-gray-600">
     <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
       <div class="lg:text-center">
-        <p class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4">
+        <p
+          class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4"
+        >
           Our Values
         </p>
         <h2 class="text-3xl font-bold leading-8 sm:text-4xl">
           What we stand for
         </h2>
-        <p class="mt-4 max-w-2xl text-xl text-gray-600 dark:text-gray-300 lg:mx-auto">
+        <p
+          class="mt-4 max-w-2xl text-xl text-gray-600 dark:text-gray-300 lg:mx-auto"
+        >
           Every decision we make is guided by these principles.
         </p>
       </div>
@@ -136,11 +166,14 @@
                   />
                 </svg>
               </div>
-              <p class="ml-16 text-lg font-semibold leading-6">Data Accuracy First</p>
+              <p class="ml-16 text-lg font-semibold leading-6">
+                Data Accuracy First
+              </p>
             </dt>
             <dd class="ml-16 mt-2 text-gray-600 dark:text-gray-300">
-              We partner with the same data vendors that serve hedge funds. No scraped data.
-              No guesswork. Just clean, verified information you can trust.
+              We partner with the same data vendors that serve hedge funds. No
+              scraped data. No guesswork. Just clean, verified information you
+              can trust.
             </dd>
           </div>
           <div class="relative">
@@ -166,8 +199,9 @@
               <p class="ml-16 text-lg font-semibold leading-6">Speed Matters</p>
             </dt>
             <dd class="ml-16 mt-2 text-gray-600 dark:text-gray-300">
-              Markets move fast. Our platform loads instantly. Every screen, every chart,
-              every data point is optimized so you never miss an opportunity.
+              Markets move fast. Our platform loads instantly. Every screen,
+              every chart, every data point is optimized so you never miss an
+              opportunity.
             </dd>
           </div>
           <div class="relative">
@@ -190,11 +224,14 @@
                   />
                 </svg>
               </div>
-              <p class="ml-16 text-lg font-semibold leading-6">Complete Objectivity</p>
+              <p class="ml-16 text-lg font-semibold leading-6">
+                Complete Objectivity
+              </p>
             </dt>
             <dd class="ml-16 mt-2 text-gray-600 dark:text-gray-300">
-              We show the data. You make the decisions. No hidden agendas, no paid promotions,
-              no "hot picks." Just unbiased information for every stock.
+              We show the data. You make the decisions. No hidden agendas, no
+              paid promotions, no "hot picks." Just unbiased information for
+              every stock.
             </dd>
           </div>
           <div class="relative">
@@ -220,8 +257,9 @@
               <p class="ml-16 text-lg font-semibold leading-6">Built for You</p>
             </dt>
             <dd class="ml-16 mt-2 text-gray-600 dark:text-gray-300">
-              We're traders too. Every feature is designed based on what we'd want to see.
-              Your feedback shapes our roadmap—not venture capitalists.
+              We're traders too. Every feature is designed based on what we'd
+              want to see. Your feedback shapes our roadmap—not venture
+              capitalists.
             </dd>
           </div>
         </dl>
@@ -236,20 +274,21 @@
     <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-20">
       <div class="lg:grid lg:grid-cols-3 lg:gap-12">
         <div>
-          <p class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4">
+          <p
+            class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4"
+          >
             The Founder
           </p>
           <h2 class="text-3xl font-bold sm:text-4xl">
             From Physics to Finance
           </h2>
           <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
-            The same analytical rigor that explores the universe now powers your investment research.
+            The same analytical rigor that explores the universe now powers your
+            investment research.
           </p>
         </div>
         <div class="lg:col-span-2 mt-10 lg:mt-0">
-          <div
-            class="flex flex-col sm:flex-row items-start gap-8"
-          >
+          <div class="flex flex-col sm:flex-row items-start gap-8">
             <img
               class="rounded-xl object-cover shadow-lg w-32 h-32 sm:w-40 sm:h-40 flex-shrink-0"
               src={profile}
@@ -265,18 +304,20 @@
               </div>
               <div class="text-gray-600 dark:text-gray-300 space-y-3">
                 <p>
-                  Muslem spent a decade mastering some of the most complex mathematical
-                  systems in existence—from quantum field theory to actuarial models at Deloitte.
+                  Muslem spent a decade mastering some of the most complex
+                  mathematical systems in existence—from quantum field theory to
+                  actuarial models at Deloitte.
                 </p>
                 <p>
-                  When he started trading, he realized the tools available to retail investors
-                  were either prohibitively expensive or frustratingly incomplete. So he built
-                  the platform he wished existed.
+                  When he started trading, he realized the tools available to
+                  retail investors were either prohibitively expensive or
+                  frustratingly incomplete. So he built the platform he wished
+                  existed.
                 </p>
                 <p class="text-sm text-gray-500 dark:text-gray-400">
                   PhD in Theoretical Particle Physics (University of Siegen) ·
-                  MSc in Particle Physics (Technical University of Munich) ·
-                  BSc in Physics (University of Göttingen)
+                  MSc in Particle Physics (Technical University of Munich) · BSc
+                  in Physics (University of Göttingen)
                 </p>
               </div>
               <div class="flex space-x-4 pt-2">
@@ -323,9 +364,11 @@
         <h2 class="text-3xl font-bold sm:text-4xl">
           Ready to see what you've been missing?
         </h2>
-        <p class="mt-4 text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          Join thousands of traders who now trade with confidence. Start with a free account
-          and upgrade when you're ready.
+        <p
+          class="mt-4 text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+        >
+          Join thousands of traders who now trade with confidence. Start with a
+          free account and upgrade when you're ready.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
           <a
