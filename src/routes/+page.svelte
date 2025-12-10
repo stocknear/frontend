@@ -8,7 +8,7 @@
   export let form;
 
   const trustpilotScore = 4.6;
-  const investorCount = 7000;
+  const investorCount = 10000;
 
   let LoginPopup: any;
 
@@ -108,11 +108,7 @@
             rel="noopener noreferrer"
             class="flex items-center hover:text-gray-900 dark:hover:text-white transition-colors"
           >
-            <svg
-              class="w-4 h-4 mr-1.5 text-green-500"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 24 24">
               <path
                 d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
               />
@@ -177,13 +173,75 @@
     </div>
   </section>
 
+  <!-- Data Sources Section -->
+  <section
+    class="py-8 bg-gray-50 dark:bg-[#0f0f11] border-t border-b border-gray-200 dark:border-gray-800"
+  >
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p
+        class="text-center font-semibold text-gray-500 dark:text-gray-300 mb-6 text-xl"
+      >
+        Powered by our Partners
+      </p>
+      <div
+        class="flex flex-wrap justify-center items-center gap-8 sm:gap-12 opacity-70 grayscale"
+      >
+        <!-- Nasdaq -->
+        <div class="flex items-center justify-center h-8">
+          <img
+            src="/img/data-sources/nasdaq.svg"
+            alt="Nasdaq"
+            class="h-6 sm:h-7 w-auto dark:invert"
+            loading="lazy"
+          />
+        </div>
+        <!-- CBOE -->
+        <div class="flex items-center justify-center h-8">
+          <img
+            src="/img/data-sources/cboe.svg"
+            alt="Cboe Global Markets"
+            class="h-5 sm:h-6 w-auto dark:invert"
+            loading="lazy"
+          />
+        </div>
+        <!-- Benzinga -->
+        <div class="flex items-center justify-center h-8">
+          <img
+            src="/img/data-sources/benzinga.png"
+            alt="Benzinga"
+            class="h-6 sm:h-26 w-auto dark:invert"
+            loading="lazy"
+          />
+        </div>
+        <!-- Financial Modeling Prep -->
+        <div class="flex items-center justify-center h-8">
+          <img
+            src="/img/data-sources/fmp.png"
+            alt="Financial Modeling Prep"
+            class="h-6 sm:h-9 w-auto dark:invert"
+            loading="lazy"
+          />
+        </div>
+        <!-- Intrinio -->
+        <div class="flex items-center justify-center h-8">
+          <img
+            src="/img/data-sources/intrinio.png"
+            alt="Intrinio"
+            class="h-5 sm:h-20 w-auto dark:invert -ml-10"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Trusted By Section -->
   <section
     class="py-10 bg-white dark:bg-[#09090B] border-t border-gray-200 dark:border-gray-800"
   >
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <p
-        class="text-center text-sm font-medium text-gray-600 dark:text-gray-300 mb-8"
+        class="text-center font-semibold text-gray-500 dark:text-gray-300 mb-6 text-lg"
       >
         Trusted by investors and analysts from
       </p>
@@ -223,68 +281,6 @@
             src="/img/data-sources/marketbeat.png"
             alt="Marketbeat"
             class="h-6 sm:h-7 w-auto"
-            loading="lazy"
-          />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Data Sources Section -->
-  <section
-    class="py-8 bg-gray-50 dark:bg-[#0f0f11] border-t border-b border-gray-200 dark:border-gray-800"
-  >
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <p
-        class="text-center font-semibold text-sm text-gray-500 dark:text-gray-200 mb-6"
-      >
-        Our Data Providers & Partners
-      </p>
-      <div
-        class="flex flex-wrap justify-center items-center gap-8 sm:gap-12 opacity-70 grayscale"
-      >
-        <!-- Nasdaq -->
-        <div class="flex items-center justify-center h-8">
-          <img
-            src="/img/data-sources/nasdaq.svg"
-            alt="Nasdaq"
-            class="h-6 sm:h-7 w-auto dark:invert"
-            loading="lazy"
-          />
-        </div>
-        <!-- CBOE -->
-        <div class="flex items-center justify-center h-8">
-          <img
-            src="/img/data-sources/cboe.svg"
-            alt="Cboe Global Markets"
-            class="h-5 sm:h-6 w-auto dark:invert"
-            loading="lazy"
-          />
-        </div>
-        <!-- Benzinga -->
-        <div class="flex items-center justify-center h-8">
-          <img
-            src="/img/data-sources/benzinga.png"
-            alt="Benzinga"
-            class="h-6 sm:h-26 w-auto dark:invert"
-            loading="lazy"
-          />
-        </div>
-        <!-- Financial Modeling Prep -->
-        <div class="flex items-center justify-center h-8">
-          <img
-            src="/img/data-sources/fmp.webp"
-            alt="Financial Modeling Prep"
-            class="h-6 sm:h-7 w-auto dark:invert"
-            loading="lazy"
-          />
-        </div>
-        <!-- Intrinio -->
-        <div class="flex items-center justify-center h-8">
-          <img
-            src="/img/data-sources/intrinio.png"
-            alt="Intrinio"
-            class="h-5 sm:h-6 w-auto dark:invert"
             loading="lazy"
           />
         </div>
