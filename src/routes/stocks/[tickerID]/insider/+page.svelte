@@ -760,7 +760,7 @@
             <DropdownMenu.Trigger asChild let:builder>
               <Button
                 builders={[builder]}
-                class="filter-type-driver border-gray-300 dark:border-gray-600 border border-gray-300  text-white bg-default sm:hover:bg-black dark:sm:hover:bg-primary ease-out  px-3 py-2  rounded "
+                class="transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center w-auto px-3 rounded truncate"
               >
                 <span class="truncate">Filter Type</span>
                 <svg

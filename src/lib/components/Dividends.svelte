@@ -587,9 +587,9 @@
               </div>
             {/if}
 
-            <span class="text-gray-800 dark:text-gray-200 text-sm italic mt-4">
+            <div class="text-gray-800 dark:text-gray-200 text-sm italic mt-7">
               * Dividend amounts are adjusted for stock splits when applicable.
-            </span>
+            </div>
           {:else}
             <Infobox text="No dividend data found" />
           {/if}

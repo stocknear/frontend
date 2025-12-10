@@ -67,6 +67,7 @@
     rank: { order: "none", type: "number" },
     date: { order: "none", type: "date" },
     price: { order: "none", type: "number" },
+    premium: { order: "none", type: "number" },
     size: { order: "none", type: "number" },
     sizeVolRatio: { order: "none", type: "number" },
     sizeAvgVolRatio: { order: "none", type: "number" },
