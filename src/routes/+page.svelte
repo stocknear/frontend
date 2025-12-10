@@ -64,15 +64,14 @@
           use:inview={{ animation: "fade-up", duration: 300 }}
           class="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-tight"
         >
-          Always one step ahead, never the
-          <span class="text-purple-600 italic"> exit liquidity </span>
+          Institutional-Grade Market Data
+          <span class="text-blue-600"> for Independent Traders </span>
         </h1>
         <p
           use:inview={{ animation: "fade-up", delay: 100, duration: 300 }}
           class="mt-6 text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
         >
-          See what institutions are buying and selling — before you enter. One
-          platform. Real-time flow data. No more guessing.
+          Real-time options flow, dark pool activity, and comprehensive analytics — all in one platform built for serious traders.
         </p>
 
         <!-- CTA + Trust -->
@@ -91,7 +90,7 @@
             on:click={() => {
               if (data?.user) window.location.href = "/pricing";
             }}
-            class="w-full max-w-56 sm:max-w-full sm:w-auto inline-flex items-center justify-center px-5 py-2 sm:px-8 sm:py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded text-[1rem] sm:text-lg transition-all shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/30 cursor-pointer"
+            class="w-full max-w-56 sm:max-w-full sm:w-auto inline-flex items-center justify-center px-5 py-2 sm:px-8 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded text-[1rem] sm:text-lg transition-all cursor-pointer"
           >
             Start 7-Day Free Trial
           </label>
@@ -177,6 +176,53 @@
     </div>
   </section>
 
+  <!-- Data Sources Section -->
+  <section class="py-8 bg-gray-50 dark:bg-[#0f0f11] border-t border-b border-gray-200 dark:border-gray-800">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-center text-sm text-gray-500 dark:text-gray-400 mb-6">
+        Powered by trusted market data providers
+      </p>
+      <div class="flex flex-wrap justify-center items-center gap-8 sm:gap-12 opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+        <!-- Nasdaq -->
+        <div class="flex items-center justify-center h-8">
+          <img
+            src="/img/data-sources/nasdaq.svg"
+            alt="Nasdaq"
+            class="h-6 sm:h-7 w-auto dark:invert"
+            loading="lazy"
+          />
+        </div>
+        <!-- CBOE -->
+        <div class="flex items-center justify-center h-8">
+          <img
+            src="/img/data-sources/cboe.svg"
+            alt="Cboe Global Markets"
+            class="h-5 sm:h-6 w-auto dark:invert"
+            loading="lazy"
+          />
+        </div>
+        <!-- Benzinga -->
+        <div class="flex items-center justify-center h-8">
+          <img
+            src="/img/data-sources/benzinga.webp"
+            alt="Benzinga"
+            class="h-5 sm:h-6 w-auto dark:invert"
+            loading="lazy"
+          />
+        </div>
+        <!-- Financial Modeling Prep -->
+        <div class="flex items-center justify-center h-8">
+          <img
+            src="/img/data-sources/fmp.webp"
+            alt="Financial Modeling Prep"
+            class="h-6 sm:h-7 w-auto dark:invert"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- AI Chatbot Section -->
   <section
     class="py-10 sm:py-20 bg-white dark:bg-[#09090B] border-t border-gray-200 dark:border-gray-800"
@@ -186,27 +232,27 @@
         <!-- Content -->
         <div use:inview={{ animation: "fade-right", duration: 300 }}>
           <div
-            class="inline-flex items-center px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-sm font-medium mb-6"
+            class="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6"
           >
             <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 24 24">
               <path
                 d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
               />
             </svg>
-            Unlike ChatGPT
+            Live Market Data
           </div>
           <h2
             class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white"
           >
             Ask anything.
             <span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500"
+              class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500"
               >Get answers with live data.</span
             >
           </h2>
           <p class="mt-6 text-lg text-gray-600 dark:text-gray-300">
-            ChatGPT's data is months old. Our AI pulls <strong
-              >live prices, flow, and filings</strong
+            Our AI assistant pulls <strong
+              >live prices, options flow, and SEC filings</strong
             > the moment you ask — and explains it in plain English.
           </p>
 
@@ -282,7 +328,7 @@
           <div class="w-full m-auto flex justify-center sm:justify-start">
             <a
               href="/chat"
-              class="inline-flex items-center mt-8 px-5 py-2 sm:px-6 sm:py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded transition-all shadow-lg shadow-purple-500/25"
+              class="inline-flex items-center mt-8 px-5 py-2 sm:px-6 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded transition-all"
             >
               Try AI Chat
               <svg
@@ -308,7 +354,7 @@
           class="relative"
         >
           <div
-            class="relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-2xl shadow-purple-500/10"
+            class="relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-2xl shadow-gray-500/10"
           >
             <LazyVideo
               src="/video/ai-agent.mp4"
@@ -321,13 +367,6 @@
               class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"
             ></div>
           </div>
-          <!-- Decorative elements -->
-          <div
-            class="absolute -z-10 -top-4 -right-4 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl"
-          ></div>
-          <div
-            class="absolute -z-10 -bottom-4 -left-4 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"
-          ></div>
         </div>
       </div>
     </div>
@@ -343,11 +382,10 @@
         <h2
           class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white"
         >
-          Know when institutions are loading — before price moves
+          Real-time options flow and market intelligence
         </h2>
         <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
-          The same flow data hedge funds pay $20K+/year for. Now you have it
-          too.
+          Track institutional activity as it happens. Sweeps, blocks, and unusual options activity — all in real-time.
         </p>
       </div>
 
@@ -355,15 +393,10 @@
         <!-- Options Flow Card -->
         <div
           use:inview={{ animation: "fade-up", duration: 300, delay: 100 }}
-          class="relative group"
+          class="relative"
         >
-          <!-- Glow effect -->
           <div
-            class="absolute -inset-1 bg-gradient-to-r from-purple-600 via-violet-600 to-blue-600 rounded-xl blur-lg opacity-25 group-hover:opacity-40 transition duration-500"
-          ></div>
-
-          <div
-            class="relative bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-2xl"
+            class="bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-lg"
           >
             <!-- Video with premium frame -->
             <div class="relative">
@@ -387,22 +420,22 @@
                   Realtime Options Flow
                 </h3>
                 <span
-                  class="px-2 py-0.5 text-xs font-semibold bg-gradient-to-r from-purple-500 to-violet-500 text-white rounded-full"
+                  class="px-2 py-0.5 text-xs font-semibold bg-blue-600 text-white rounded-full"
                 >
                   PRO
                 </span>
               </div>
               <p class="text-gray-600 dark:text-gray-400 mb-4">
-                Stop entering when smart money is exiting. See institutional
-                trades the second they happen — sweeps, blocks, and unusual
-                activity that moves markets.
+                Monitor institutional order flow in real-time. See large trades
+                the second they happen — sweeps, blocks, and unusual
+                activity that can signal market direction.
               </p>
               <ul class="space-y-3">
                 <li
                   class="flex items-start text-sm text-gray-600 dark:text-gray-300"
                 >
                   <svg
-                    class="w-5 h-5 text-purple-500 mr-2 flex-shrink-0 mt-0.5"
+                    class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0 mt-0.5"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -418,7 +451,7 @@
                   class="flex items-start text-sm text-gray-600 dark:text-gray-300"
                 >
                   <svg
-                    class="w-5 h-5 text-purple-500 mr-2 flex-shrink-0 mt-0.5"
+                    class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0 mt-0.5"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -434,7 +467,7 @@
                   class="flex items-start text-sm text-gray-600 dark:text-gray-300"
                 >
                   <svg
-                    class="w-5 h-5 text-purple-500 mr-2 flex-shrink-0 mt-0.5"
+                    class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0 mt-0.5"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -450,7 +483,7 @@
                   class="flex items-start text-sm text-gray-600 dark:text-gray-300"
                 >
                   <svg
-                    class="w-5 h-5 text-purple-500 mr-2 flex-shrink-0 mt-0.5"
+                    class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0 mt-0.5"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -466,7 +499,7 @@
               <div class="w-full flex justify-center sm:justify-start">
                 <a
                   href="/options-flow"
-                  class="inline-flex items-center mt-6 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded transition-all"
+                  class="inline-flex items-center mt-6 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded transition-all"
                 >
                   Watch Live Flow
                   <svg
@@ -515,10 +548,10 @@
         <a
           use:inview={{ animation: "fade-up", duration: 600, delay: 0 }}
           href="/stocks/TSLA/options/gex/strike"
-          class="group bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden transition-all duration-300 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/20"
+          class="group bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10"
         >
           <div
-            class="aspect-[16/9] bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 overflow-hidden relative transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-purple-100 group-hover:to-violet-100 dark:group-hover:from-purple-800/40 dark:group-hover:to-violet-800/40"
+            class="aspect-[16/9] bg-gradient-to-br from-slate-50 to-gray-50 dark:from-slate-900/20 dark:to-gray-900/20 overflow-hidden relative transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-slate-100 group-hover:to-gray-100 dark:group-hover:from-slate-800/40 dark:group-hover:to-gray-800/40"
           >
             <img
               src="/img/landing-page/gex-chart.png"
@@ -541,7 +574,7 @@
               </span>
             </div>
             <h3
-              class="font-semibold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300"
+              class="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300"
             >
               Gamma/Delta Exposure
             </h3>
@@ -557,10 +590,10 @@
         <a
           use:inview={{ animation: "fade-up", duration: 600, delay: 100 }}
           href="/stocks/TSLA/options/greeks"
-          class="group bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden transition-all duration-300 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/20"
+          class="group bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10"
         >
           <div
-            class="aspect-[16/9] bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 overflow-hidden relative transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-purple-100 group-hover:to-violet-100 dark:group-hover:from-purple-800/40 dark:group-hover:to-violet-800/40"
+            class="aspect-[16/9] bg-gradient-to-br from-slate-50 to-gray-50 dark:from-slate-900/20 dark:to-gray-900/20 overflow-hidden relative transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-slate-100 group-hover:to-gray-100 dark:group-hover:from-slate-800/40 dark:group-hover:to-gray-800/40"
           >
             <img
               src="/img/landing-page/theta-chart.png"
@@ -595,7 +628,7 @@
             </div>
 
             <h3
-              class="font-semibold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300"
+              class="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300"
             >
               Greeks
             </h3>
@@ -612,10 +645,10 @@
         <a
           use:inview={{ animation: "fade-up", duration: 600, delay: 200 }}
           href="/stocks/TSLA/options/oi"
-          class="group bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden transition-all duration-300 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/20"
+          class="group bg-white dark:bg-[#18181B] rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden transition-all duration-300 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10"
         >
           <div
-            class="aspect-[16/9] bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 overflow-hidden relative transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-purple-100 group-hover:to-violet-100 dark:group-hover:from-purple-800/40 dark:group-hover:to-violet-800/40"
+            class="aspect-[16/9] bg-gradient-to-br from-slate-50 to-gray-50 dark:from-slate-900/20 dark:to-gray-900/20 overflow-hidden relative transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-slate-100 group-hover:to-gray-100 dark:group-hover:from-slate-800/40 dark:group-hover:to-gray-800/40"
           >
             <img
               src="/img/landing-page/oi-chart.png"
@@ -637,7 +670,7 @@
               >
             </div>
             <h3
-              class="font-semibold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300"
+              class="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300"
             >
               Open Interest
             </h3>
@@ -937,17 +970,16 @@
             {/each}
           </div>
           <p class="font-semibold text-gray-900 dark:text-white mb-2">
-            Affordable and Extensive Data
+            Comprehensive Data Coverage
           </p>
           <p
             class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow"
           >
-            "Offers premium features (live options data, historical data) for an
-            affordable price. There are usually new features being rolled out
-            weekly."
+            "Offers premium features including live options data and historical data. The platform is constantly improving with new features rolled out weekly."
           </p>
           <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">
-            Pat
+            Patrick M.
+            <span class="font-normal text-gray-500 dark:text-gray-400">· Options Trader</span>
           </p>
         </div>
 
@@ -970,16 +1002,16 @@
             {/each}
           </div>
           <p class="font-semibold text-gray-900 dark:text-white mb-2">
-            Stocknear gives traders' the edge
+            Real-time data makes the difference
           </p>
           <p
             class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow"
           >
-            "TA is the basis for all traders, real time insider data gives one
-            the winning edge needed to understand the overall PA."
+            "Technical analysis is essential, but having real-time institutional data helps me understand the bigger picture and make more informed decisions."
           </p>
           <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">
-            Bryan
+            Bryan T.
+            <span class="font-normal text-gray-500 dark:text-gray-400">· Swing Trader</span>
           </p>
         </div>
 
@@ -1002,16 +1034,16 @@
             {/each}
           </div>
           <p class="font-semibold text-gray-900 dark:text-white mb-2">
-            The Ultimate One-Stop Market Data Portal
+            Everything in one place
           </p>
           <p
             class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow"
           >
-            "Stocknear has completely transformed how I consolidate market data.
-            Before, I had to jump between multiple sources."
+            "Stocknear has completely transformed how I consolidate market data. Before, I had to jump between multiple sources — now it's all in one dashboard."
           </p>
           <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">
             Carlos V.
+            <span class="font-normal text-gray-500 dark:text-gray-400">· Day Trader</span>
           </p>
         </div>
 
@@ -1034,16 +1066,16 @@
             {/each}
           </div>
           <p class="font-semibold text-gray-900 dark:text-white mb-2">
-            Fantastic Site with Great Information
+            Excellent data quality and support
           </p>
           <p
             class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow"
           >
-            "I've been using Stocknear for several months now. The information
-            that the site provides is top notch. They have great support."
+            "I've been using Stocknear for several months now. The data quality is excellent and their support team is responsive when I have questions."
           </p>
           <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">
-            Dean
+            Dean R.
+            <span class="font-normal text-gray-500 dark:text-gray-400">· Retail Investor</span>
           </p>
         </div>
 
@@ -1066,16 +1098,16 @@
             {/each}
           </div>
           <p class="font-semibold text-gray-900 dark:text-white mb-2">
-            This guy is an absolute legend
+            Responsive to user feedback
           </p>
           <p
             class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow"
           >
-            "This guy is an absolute legend! What sets the service apart is
-            being able to request what you want to see."
+            "What sets Stocknear apart is how responsive the team is. They actually listen to feature requests and implement them quickly."
           </p>
           <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">
-            Andy C.
+            Andrew C.
+            <span class="font-normal text-gray-500 dark:text-gray-400">· Active Trader</span>
           </p>
         </div>
 
@@ -1098,16 +1130,16 @@
             {/each}
           </div>
           <p class="font-semibold text-gray-900 dark:text-white mb-2">
-            Bringing pro investment tools to everyone
+            Professional-grade analysis tools
           </p>
           <p
             class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow"
           >
-            "Brings analysis tools to retail investors in a way that elevates
-            decision making to pro levels."
+            "The analysis tools have significantly improved my research process. It's the kind of data I used to see only on institutional terminals."
           </p>
           <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">
-            SkiSmith
+            Michael S.
+            <span class="font-normal text-gray-500 dark:text-gray-400">· Portfolio Manager</span>
           </p>
         </div>
       </div>
@@ -1121,7 +1153,7 @@
           href="https://www.trustpilot.com/review/stocknear.com"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center text-purple-600 dark:text-purple-400 font-medium hover:underline"
+          class="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline"
         >
           Read all reviews on Trustpilot
           <svg
@@ -1151,26 +1183,13 @@
         use:inview={{ animation: "fade-up", duration: 600 }}
         class="text-center mb-12"
       >
-        <div
-          class="inline-flex items-center px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-medium mb-4"
-        >
-          <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fill-rule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          Lowest price in the industry
-        </div>
         <h2
           class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white"
         >
-          The edge that used to cost $20K/year
+          Simple, transparent pricing
         </h2>
         <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
-          Institutional-grade flow data and tools. Competitors charge
-          $100-300/mo. We start at $10.
+          Choose the plan that fits your trading style. All plans include a 7-day free trial.
         </p>
       </div>
 
@@ -1355,21 +1374,17 @@
         <!-- Pro Tier -->
         <div
           use:inview={{ animation: "fade-left", duration: 600, delay: 100 }}
-          class="relative flex flex-col bg-[#18181B] dark:bg-zinc-900 rounded border border-violet-500/50 p-6 text-white overflow-visible"
+          class="relative flex flex-col bg-[#18181B] dark:bg-zinc-900 rounded border border-blue-500/50 p-6 text-white overflow-visible"
         >
-          <!-- Subtle top glow -->
-          <div
-            class="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-violet-400 to-transparent"
-          ></div>
           <!-- Best Value Badge -->
           <div
-            class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-violet-500 text-white text-xs font-semibold rounded-full shadow-md uppercase tracking-wider whitespace-nowrap"
+            class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-blue-600 text-white text-xs font-semibold rounded-full shadow-md uppercase tracking-wider whitespace-nowrap"
           >
-            Best Value
+            Most Popular
           </div>
           <h3 class="text-3xl font-bold mt-2">Pro</h3>
           <p class="text-zinc-300 text-sm mt-1">
-            Professional tools at retail prices
+            Full access to real-time data and analytics
           </p>
           <div class="mt-4">
             <span class="text-4xl font-bold">$35</span>
@@ -1497,7 +1512,7 @@
               on:click={() => {
                 if (data?.user) window.location.href = "/pricing";
               }}
-              class="block w-full py-3 px-4 text-center font-semibold rounded bg-violet-500 text-white hover:bg-violet-600 transition-colors cursor-pointer"
+              class="block w-full py-3 px-4 text-center font-semibold rounded bg-blue-600 text-white hover:bg-blue-700 transition-colors cursor-pointer"
             >
               Start Free 7 Day Trial
               <svg
@@ -1525,10 +1540,9 @@
       >
         <p class="text-gray-600 dark:text-gray-300">
           <span class="font-semibold text-gray-900 dark:text-white"
-            >Why so affordable?</span
+            >No hidden fees.</span
           >
-          We believe every retail trader deserves access to institutional-quality
-          data. No hidden fees, no compromises.
+          Cancel anytime. Full access to all features during your trial period.
         </p>
       </div>
     </div>
@@ -1579,10 +1593,10 @@
           class="text-center p-6 rounded-xl bg-gray-50 dark:bg-[#18181B] border border-gray-200 dark:border-gray-800"
         >
           <div
-            class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 mb-4"
+            class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 mb-4"
           >
             <svg
-              class="w-6 h-6 text-purple-600 dark:text-purple-400"
+              class="w-6 h-6 text-blue-600 dark:text-blue-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -1906,7 +1920,7 @@
         on:click={() => {
           if (data?.user) window.location.href = "/pricing";
         }}
-        class="inline-flex items-center mt-8 px-5 sm::px-8 py-3 sm:py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded text-[1rem] sm:text-lg transition-all shadow-lg shadow-purple-500/25 cursor-pointer"
+        class="inline-flex items-center mt-8 px-5 sm:px-8 py-3 sm:py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded text-[1rem] sm:text-lg transition-all cursor-pointer"
       >
         Start 7-Day Free Trial
         <svg
