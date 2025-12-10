@@ -245,15 +245,45 @@
             (a, b) => a - b,
         );
 
-        // map to arrays aligned with allStrikes. Use null for missing to avoid connecting lines where data absent.
-        const callSeries = allStrikes.map((s) => {
-            const idx = strikes.indexOf(s);
-            return idx > -1 ? (callData[idx] ?? null) : null;
-        });
-        const putSeries = allStrikes.map((s) => {
-            const idx = strikes.indexOf(s);
-            return idx > -1 ? (putData[idx] ?? null) : null;
-        });
+        // Helper function to interpolate a value for a given strike
+        const interpolateValue = (strike, strikesArr, dataArr) => {
+            const idx = strikesArr.indexOf(strike);
+            if (idx > -1) {
+                return dataArr[idx] ?? null;
+            }
+            // Find surrounding strikes for interpolation
+            let lowerIdx = -1;
+            let upperIdx = -1;
+            for (let i = 0; i < strikesArr.length; i++) {
+                if (strikesArr[i] < strike) {
+                    lowerIdx = i;
+                } else if (strikesArr[i] > strike && upperIdx === -1) {
+                    upperIdx = i;
+                    break;
+                }
+            }
+            // If we have both bounds, interpolate linearly
+            if (lowerIdx > -1 && upperIdx > -1) {
+                const lowerStrike = strikesArr[lowerIdx];
+                const upperStrike = strikesArr[upperIdx];
+                const lowerVal = dataArr[lowerIdx];
+                const upperVal = dataArr[upperIdx];
+                if (lowerVal != null && upperVal != null) {
+                    const ratio =
+                        (strike - lowerStrike) / (upperStrike - lowerStrike);
+                    return lowerVal + ratio * (upperVal - lowerVal);
+                }
+            }
+            return null;
+        };
+
+        // map to arrays aligned with allStrikes, interpolating for current price
+        const callSeries = allStrikes.map((s) =>
+            interpolateValue(s, strikes, callData),
+        );
+        const putSeries = allStrikes.map((s) =>
+            interpolateValue(s, strikes, putData),
+        );
 
         // build series conditionally based on selectedType
         const series = [];
