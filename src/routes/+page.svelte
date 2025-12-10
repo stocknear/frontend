@@ -71,7 +71,8 @@
           use:inview={{ animation: "fade-up", delay: 100, duration: 300 }}
           class="mt-6 text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
         >
-          Real-time options flow, dark pool activity, and comprehensive analytics — all in one platform built for serious traders.
+          Real-time options flow, dark pool activity, and comprehensive
+          analytics — all in one platform built for serious traders.
         </p>
 
         <!-- CTA + Trust -->
@@ -176,13 +177,72 @@
     </div>
   </section>
 
-  <!-- Data Sources Section -->
-  <section class="py-8 bg-gray-50 dark:bg-[#0f0f11] border-t border-b border-gray-200 dark:border-gray-800">
+  <!-- Trusted By Section -->
+  <section
+    class="py-10 bg-white dark:bg-[#09090B] border-t border-gray-200 dark:border-gray-800"
+  >
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <p class="text-center text-sm text-gray-500 dark:text-gray-400 mb-6">
-        Powered by trusted market data providers
+      <p
+        class="text-center text-sm font-medium text-gray-600 dark:text-gray-300 mb-8"
+      >
+        Trusted by investors and analysts from
       </p>
-      <div class="flex flex-wrap justify-center items-center gap-8 sm:gap-12 opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+      <div
+        class="flex flex-wrap justify-center items-center gap-10 sm:gap-14 opacity-70 grayscale"
+      >
+        <!-- Robinhood -->
+        <div class="flex items-center justify-center">
+          <img
+            src="/img/data-sources/robinhood.png"
+            alt="Robinhood"
+            class="h-6 sm:h-7 w-auto"
+            loading="lazy"
+          />
+        </div>
+        <!-- Oracle -->
+        <div class="flex items-center justify-center">
+          <img
+            src="/img/data-sources/oracle.png"
+            alt="Oracle"
+            class="h-6 sm:h-5 w-auto"
+            loading="lazy"
+          />
+        </div>
+        <!-- Stanford -->
+        <div class="flex items-center justify-center">
+          <img
+            src="/img/data-sources/stanford.png"
+            alt="Stanford"
+            class="h-8 sm:h-10 w-auto"
+            loading="lazy"
+          />
+        </div>
+        <!-- Marketbeat -->
+        <div class="flex items-center justify-center">
+          <img
+            src="/img/data-sources/marketbeat.png"
+            alt="Marketbeat"
+            class="h-6 sm:h-7 w-auto"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data Sources Section -->
+  <section
+    class="py-8 bg-gray-50 dark:bg-[#0f0f11] border-t border-b border-gray-200 dark:border-gray-800"
+  >
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p
+        class="text-center font-semibold text-sm text-gray-500 dark:text-gray-200 mb-6"
+      >
+        Our Data Providers & Partners
+      </p>
+      <div
+        class="flex flex-wrap justify-center items-center gap-8 sm:gap-12 opacity-70 grayscale"
+      >
         <!-- Nasdaq -->
         <div class="flex items-center justify-center h-8">
           <img
@@ -204,9 +264,9 @@
         <!-- Benzinga -->
         <div class="flex items-center justify-center h-8">
           <img
-            src="/img/data-sources/benzinga.webp"
+            src="/img/data-sources/benzinga.png"
             alt="Benzinga"
-            class="h-5 sm:h-6 w-auto dark:invert"
+            class="h-6 sm:h-26 w-auto dark:invert"
             loading="lazy"
           />
         </div>
@@ -385,7 +445,8 @@
           Real-time options flow and market intelligence
         </h2>
         <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
-          Track institutional activity as it happens. Sweeps, blocks, and unusual options activity — all in real-time.
+          Track institutional activity as it happens. Sweeps, blocks, and
+          unusual options activity — all in real-time.
         </p>
       </div>
 
@@ -427,8 +488,8 @@
               </div>
               <p class="text-gray-600 dark:text-gray-400 mb-4">
                 Monitor institutional order flow in real-time. See large trades
-                the second they happen — sweeps, blocks, and unusual
-                activity that can signal market direction.
+                the second they happen — sweeps, blocks, and unusual activity
+                that can signal market direction.
               </p>
               <ul class="space-y-3">
                 <li
@@ -975,11 +1036,15 @@
           <p
             class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow"
           >
-            "Offers premium features including live options data and historical data. The platform is constantly improving with new features rolled out weekly."
+            "Offers premium features including live options data and historical
+            data. The platform is constantly improving with new features rolled
+            out weekly."
           </p>
           <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">
             Patrick M.
-            <span class="font-normal text-gray-500 dark:text-gray-400">· Options Trader</span>
+            <span class="font-normal text-gray-500 dark:text-gray-400"
+              >· Options Trader</span
+            >
           </p>
         </div>
 
@@ -1007,11 +1072,15 @@
           <p
             class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow"
           >
-            "Technical analysis is essential, but having real-time institutional data helps me understand the bigger picture and make more informed decisions."
+            "Technical analysis is essential, but having real-time institutional
+            data helps me understand the bigger picture and make more informed
+            decisions."
           </p>
           <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">
             Bryan T.
-            <span class="font-normal text-gray-500 dark:text-gray-400">· Swing Trader</span>
+            <span class="font-normal text-gray-500 dark:text-gray-400"
+              >· Swing Trader</span
+            >
           </p>
         </div>
 
@@ -1039,11 +1108,15 @@
           <p
             class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow"
           >
-            "Stocknear has completely transformed how I consolidate market data. Before, I had to jump between multiple sources — now it's all in one dashboard."
+            "Stocknear has completely transformed how I consolidate market data.
+            Before, I had to jump between multiple sources — now it's all in one
+            dashboard."
           </p>
           <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">
             Carlos V.
-            <span class="font-normal text-gray-500 dark:text-gray-400">· Day Trader</span>
+            <span class="font-normal text-gray-500 dark:text-gray-400"
+              >· Day Trader</span
+            >
           </p>
         </div>
 
@@ -1071,11 +1144,15 @@
           <p
             class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow"
           >
-            "I've been using Stocknear for several months now. The data quality is excellent and their support team is responsive when I have questions."
+            "I've been using Stocknear for several months now. The data quality
+            is excellent and their support team is responsive when I have
+            questions."
           </p>
           <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">
             Dean R.
-            <span class="font-normal text-gray-500 dark:text-gray-400">· Retail Investor</span>
+            <span class="font-normal text-gray-500 dark:text-gray-400"
+              >· Retail Investor</span
+            >
           </p>
         </div>
 
@@ -1103,11 +1180,14 @@
           <p
             class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow"
           >
-            "What sets Stocknear apart is how responsive the team is. They actually listen to feature requests and implement them quickly."
+            "What sets Stocknear apart is how responsive the team is. They
+            actually listen to feature requests and implement them quickly."
           </p>
           <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">
             Andrew C.
-            <span class="font-normal text-gray-500 dark:text-gray-400">· Active Trader</span>
+            <span class="font-normal text-gray-500 dark:text-gray-400"
+              >· Active Trader</span
+            >
           </p>
         </div>
 
@@ -1135,11 +1215,15 @@
           <p
             class="text-gray-600 dark:text-gray-300 text-sm sm:text-[0.95rem] leading-relaxed flex-grow"
           >
-            "The analysis tools have significantly improved my research process. It's the kind of data I used to see only on institutional terminals."
+            "The analysis tools have significantly improved my research process.
+            It's the kind of data I used to see only on institutional
+            terminals."
           </p>
           <p class="mt-4 text-sm font-medium text-gray-900 dark:text-white">
             Michael S.
-            <span class="font-normal text-gray-500 dark:text-gray-400">· Portfolio Manager</span>
+            <span class="font-normal text-gray-500 dark:text-gray-400"
+              >· Portfolio Manager</span
+            >
           </p>
         </div>
       </div>
@@ -1189,7 +1273,8 @@
           Simple, transparent pricing
         </h2>
         <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
-          Choose the plan that fits your trading style. All plans include a 7-day free trial.
+          Choose the plan that fits your trading style. All plans include a
+          7-day free trial.
         </p>
       </div>
 
