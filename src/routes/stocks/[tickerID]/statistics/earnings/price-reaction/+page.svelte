@@ -55,12 +55,12 @@
 
     // Define the reference times in seconds
     const amcStart = 16 * 3600; // 16:00:00
-    const bmcEnd = 9 * 3600 + 30 * 60; // 9:30:00
+    const bmoEnd = 9 * 3600 + 30 * 60; // 9:30:00
 
     if (totalSeconds >= amcStart) {
       return "AMC";
-    } else if (totalSeconds < bmcEnd) {
-      return "BMC";
+    } else if (totalSeconds < bmoEnd) {
+      return "BMO";
     } else {
       return "-"; // Optional: if the time is in between
     }
