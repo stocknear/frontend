@@ -68,23 +68,34 @@ export const load = async ({ parent, locals, fetch }) => {
     const analysisData = response.ok ? await response?.json() : null;
 
     // Get bullBear data from PocketBase (not FastAPI)
-    // Transform field names from bullSay/bearSay to bullSays/bearSays
-    let bullBearData = {
-      bullSays: "",
-      bearSays: "",
-      date: null,
-    };
+    // Supports both new format (sentiment, keyHighlights, risks, outlook)
+    // and old format (bullSay, bearSay) for backward compatibility
+    let bullBearData: any = null;
 
     if (displayPortfolio?.bullBear) {
       const pbBullBear = typeof displayPortfolio.bullBear === 'string'
         ? JSON.parse(displayPortfolio.bullBear)
         : displayPortfolio.bullBear;
 
-      bullBearData = {
-        bullSays: pbBullBear?.bullSay || "",
-        bearSays: pbBullBear?.bearSay || "",
-        date: pbBullBear?.date || null,
-      };
+      // Check if it's new format (has sentiment field) or old format (has bullSay/bearSay)
+      if (pbBullBear?.sentiment) {
+        // New format - pass through as-is
+        bullBearData = {
+          sentiment: pbBullBear.sentiment,
+          sentimentScore: pbBullBear.sentimentScore,
+          keyHighlights: pbBullBear.keyHighlights || [],
+          risks: pbBullBear.risks || [],
+          outlook: pbBullBear.outlook || "",
+          date: pbBullBear.date || null,
+        };
+      } else if (pbBullBear?.bullSay || pbBullBear?.bearSay) {
+        // Old format - keep for backward compatibility but component won't auto-display
+        bullBearData = {
+          bullSays: pbBullBear?.bullSay || "",
+          bearSays: pbBullBear?.bearSay || "",
+          date: pbBullBear?.date || null,
+        };
+      }
     }
 
     // Override bullBear from FastAPI with PocketBase data

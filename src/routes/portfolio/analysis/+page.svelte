@@ -107,13 +107,12 @@
 
 <section class="w-full overflow-hidden mt-5">
     <div class="mx-auto w-full space-y-5">
-        <!-- Bull and Bear Case Section -->
+        <!-- Portfolio AI Summary Section -->
         <BullvsBear
-            data={bullBearData}
+            data={{ user: data?.user, bullBear: bullBearData }}
             tickers={portfolioData}
             {portfolioId}
             showAnalyzeButton={true}
-            lastUpdated={bullBearData?.date}
         />
 
         <!--Fundamentals section-->

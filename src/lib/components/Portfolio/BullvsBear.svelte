@@ -1,654 +1,616 @@
 <script lang="ts">
-    import Spark from "lucide-svelte/icons/sparkles";
-    import { invalidateAll } from "$app/navigation";
-    import { toast } from "svelte-sonner";
-    import { mode } from "mode-watcher";
+  import { toast } from "svelte-sonner";
+  import { mode } from "mode-watcher";
+  import { invalidateAll } from "$app/navigation";
 
-    export let data: any = null;
-    export let tickers: any[] = [];
-    export let showAnalyzeButton: boolean = true;
-    export let portfolioId: string = "";
+  export let data: any = null;
+  export let tickers: any[] = [];
+  export let showAnalyzeButton: boolean = true;
+  export let portfolioId: string = "";
 
-    let isExpanded = false;
-    let activeIdx = 0;
-    let isGenerating = false;
-    let errorMessage = "";
-    let streamingContent = "";
-    let parsedStreamingBull = "";
-    let parsedStreamingBear = "";
+  const SUMMARY_CREDIT_COST = 3;
+  const CACHE_TTL = 1 * 24 * 60 * 60 * 1000; // 1 day in milliseconds
 
-    function formatDate(dateStr, short = false) {
-        try {
-            // Normalize common "YYYY-MM-DD HH:MM:SS" to "YYYY-MM-DDTHH:MM:SS"
-            const isoLike =
-                typeof dateStr === "string" &&
-                /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(dateStr)
-                    ? dateStr.replace(" ", "T")
-                    : dateStr;
+  let isGeneratingSummary = false;
+  let showSummary = false;
+  let summaryGenerated = false;
+  let summaryError = false;
+  let summaryData: {
+    sentiment?: string;
+    sentimentScore?: number;
+    keyHighlights?: string[];
+    risks?: string[];
+    outlook?: string;
+    error?: string;
+    date?: string;
+  } | null = null;
 
-            const berlinFormatter = new Intl.DateTimeFormat("en-GB", {
-                timeZone: "Europe/Berlin",
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-                hour12: false, // <- IMPORTANT: use 24-hour clock so 'hour' is 0-23
-            });
+  // Check if tickers have valid data
+  $: hasNoTickers = !tickers?.some(
+    (ticker) =>
+      ticker?.avgPrice != null &&
+      ticker?.avgPrice > 0 &&
+      ticker?.shares != null &&
+      ticker?.shares > 0,
+  );
 
-            const parseDateToUTCFromBerlinParts = (date) => {
-                const parts = berlinFormatter.formatToParts(date);
-                const get = (type) =>
-                    Number(parts.find((p) => p.type === type)?.value ?? 0);
-                const year = get("year");
-                const month = get("month"); // 1-12
-                const day = get("day");
-                const hour = get("hour"); // now 0-23
-                const minute = get("minute");
-                const second = get("second");
+  // LocalStorage cache functions
+  // Cache key is based on holdings (symbol, shares, avgPrice) to invalidate when portfolio changes
+  function generateHoldingsHash(holdings: any[]): string {
+    if (!holdings || holdings.length === 0) return "empty";
 
-                return new Date(
-                    Date.UTC(year, month - 1, day, hour, minute, second),
-                );
-            };
+    // Sort holdings by symbol for consistent hashing
+    const sortedHoldings = [...holdings]
+      .filter((h) => h?.symbol && h?.shares > 0 && h?.avgPrice > 0)
+      .sort((a, b) => (a.symbol || "").localeCompare(b.symbol || ""))
+      .map((h) => `${h.symbol}-${h.shares}-${h.avgPrice}`)
+      .join(",");
 
-            const berlinDateObj = parseDateToUTCFromBerlinParts(
-                new Date(isoLike),
-            );
-            const berlinCurrentObj = parseDateToUTCFromBerlinParts(new Date());
+    // Simple hash function for the holdings string
+    let hash = 0;
+    for (let i = 0; i < sortedHoldings.length; i++) {
+      const char = sortedHoldings.charCodeAt(i);
+      hash = (hash << 5) - hash + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    return Math.abs(hash).toString(36);
+  }
 
-            const seconds = Math.floor(
-                (berlinCurrentObj - berlinDateObj) / 1000,
-            );
-            if (Number.isNaN(seconds)) throw new Error("Invalid date");
+  function getCacheKey(id: string, holdings: any[]) {
+    const holdingsHash = generateHoldingsHash(holdings);
+    return `portfolio-summary-${id}-${holdingsHash}`;
+  }
 
-            const intervals = [
-                { unit: "year", short: "y", seconds: 31536000 },
-                { unit: "month", short: "mo", seconds: 2592000 },
-                { unit: "week", short: "w", seconds: 604800 },
-                { unit: "day", short: "d", seconds: 86400 },
-                { unit: "hour", short: "h", seconds: 3600 },
-                { unit: "minute", short: "m", seconds: 60 },
-                { unit: "second", short: "s", seconds: 1 },
-            ];
+  function getCachedSummary(id: string, holdings: any[]) {
+    if (typeof window === "undefined") return null;
+    try {
+      const cached = localStorage.getItem(getCacheKey(id, holdings));
+      if (!cached) return null;
 
-            for (const {
-                unit,
-                short: s,
-                seconds: secondsInUnit,
-            } of intervals) {
-                const count = Math.floor(seconds / secondsInUnit);
+      const { data: cachedData, timestamp } = JSON.parse(cached);
+      const age = Date.now() - timestamp;
 
-                if (count >= 1) {
-                    // Special case: prefer days instead of "25h".
-                    if (unit === "hour" && count >= 24) {
-                        const days = Math.floor(count / 24);
-                        return short
-                            ? `${days}d`
-                            : `${days} day${days === 1 ? "" : "s"} ago`;
-                    }
+      if (age > CACHE_TTL) {
+        localStorage.removeItem(getCacheKey(id, holdings));
+        return null;
+      }
 
-                    if (short) {
-                        return `${count}${s}`;
-                    }
-                    return `${count} ${unit}${count === 1 ? "" : "s"} ago`;
-                }
-            }
+      return cachedData;
+    } catch {
+      return null;
+    }
+  }
 
-            return short ? "0s" : "Just now";
-        } catch (error) {
-            console.error("Error formatting date:", error);
-            return "Invalid date";
+  function saveSummaryToCache(id: string, holdings: any[], summaryResult: any) {
+    if (typeof window === "undefined") return;
+    try {
+      // Clean up old cache entries for this portfolio (different holdings hashes)
+      const keysToRemove: string[] = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (
+          key?.startsWith(`portfolio-summary-${id}-`) &&
+          key !== getCacheKey(id, holdings)
+        ) {
+          keysToRemove.push(key);
         }
+      }
+      keysToRemove.forEach((key) => localStorage.removeItem(key));
+
+      localStorage.setItem(
+        getCacheKey(id, holdings),
+        JSON.stringify({
+          data: summaryResult,
+          timestamp: Date.now(),
+        }),
+      );
+    } catch {
+      // Ignore storage errors
+    }
+  }
+
+  // Generate markdown for export
+  function generateMarkdown() {
+    if (!summaryData) return "";
+
+    const date = new Date().toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+
+    let md = `# Portfolio Analysis Summary\n\n`;
+    md += `## Overall Sentiment: ${summaryData?.sentiment ?? "Neutral"} (${summaryData?.sentimentScore ?? 50}%)\n\n`;
+
+    if (summaryData?.keyHighlights?.length) {
+      md += `## Key Highlights\n`;
+      summaryData.keyHighlights.forEach((h) => {
+        md += `- ${h}\n`;
+      });
+      md += `\n`;
     }
 
-    // Parse streaming JSON to extract bull and bear text
-    $: {
-        if (streamingContent) {
-            try {
-                // Try to extract JSON even if it's incomplete
-                let jsonContent = streamingContent.trim();
-
-                // Remove markdown code blocks if present
-                if (jsonContent.startsWith("```json")) {
-                    jsonContent =
-                        jsonContent
-                            .split("```json")[1]
-                            ?.split("```")[0]
-                            ?.trim() || jsonContent;
-                } else if (jsonContent.startsWith("```")) {
-                    jsonContent =
-                        jsonContent.split("```")[1]?.split("```")[0]?.trim() ||
-                        jsonContent;
-                }
-
-                // Try to parse complete JSON
-                if (jsonContent.startsWith("{")) {
-                    // Close the JSON if it's incomplete
-                    let tempJson = jsonContent;
-                    if (!tempJson.endsWith("}")) {
-                        tempJson = tempJson + '"}';
-                    }
-
-                    try {
-                        const parsed = JSON.parse(tempJson);
-                        parsedStreamingBull = parsed.bullSay || "";
-                        parsedStreamingBear = parsed.bearSay || "";
-                    } catch (e) {
-                        // If parsing fails, try to extract text manually with regex
-                        const bullMatch = jsonContent.match(
-                            /"bullSay":\s*"([^"]*)"/,
-                        );
-                        const bearMatch = jsonContent.match(
-                            /"bearSay":\s*"([^"]*)"/,
-                        );
-                        parsedStreamingBull = bullMatch ? bullMatch[1] : "";
-                        parsedStreamingBear = bearMatch ? bearMatch[1] : "";
-                    }
-                }
-            } catch (e) {
-                // Fallback: keep empty if parsing fails
-                parsedStreamingBull = "";
-                parsedStreamingBear = "";
-            }
-        } else {
-            parsedStreamingBull = "";
-            parsedStreamingBear = "";
-        }
+    if (summaryData?.risks?.length) {
+      md += `## Risk Signals\n`;
+      summaryData.risks.forEach((r) => {
+        md += `- ${r}\n`;
+      });
+      md += `\n`;
     }
 
-    // Use provided data
-    $: analysisData =
-        isGenerating && streamingContent
-            ? { bullSays: "", bearSays: "" }
-            : data;
-    $: hasNoTickers = !tickers?.some(
-        (ticker) =>
-            ticker?.avgPrice != null &&
-            ticker?.avgPrice > 0 &&
-            ticker?.shares != null &&
-            ticker?.shares > 0,
-    );
+    if (summaryData?.outlook) {
+      md += `## Outlook\n${summaryData.outlook}\n\n`;
+    }
 
-    // --- Derived, safe strings & flags ---------------------------------------
-    // Use streaming content if generating, otherwise use saved data
-    $: bullText =
-        isGenerating && parsedStreamingBull
-            ? parsedStreamingBull
-            : String(analysisData?.bullSays ?? "")?.trim();
-    $: bearText =
-        isGenerating && parsedStreamingBear
-            ? parsedStreamingBear
-            : String(analysisData?.bearSays ?? "")?.trim();
+    md += `---\n*Generated on ${date}*\n`;
+    return md;
+  }
 
-    $: hasAnyData = Boolean(analysisData) || (isGenerating && streamingContent);
-    $: bullEmpty = bullText?.length === 0;
-    $: bearEmpty = bearText?.length === 0;
-    $: anyEmpty = hasAnyData && (bullEmpty || bearEmpty) && !isGenerating;
+  function copyToClipboard() {
+    const md = generateMarkdown();
+    navigator.clipboard.writeText(md);
+    toast.success("Summary copied to clipboard!", {
+      style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+    });
+  }
 
-    // Truncation helpers
-    function getTruncatedText(text: string, length: number = 250) {
-        if (!text) return { text: "", isTruncated: false };
-        const isTruncated = text?.length > length;
+  function downloadMarkdown() {
+    const md = generateMarkdown();
+    const blob = new Blob([md], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `portfolio-summary.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    toast.success("Summary downloaded!", {
+      style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+    });
+  }
+
+  async function generateSummary() {
+    if (summaryGenerated && !summaryError) {
+      showSummary = !showSummary;
+      return;
+    }
+
+    // Check localStorage cache first (free, no credits)
+    // Cache key includes holdings hash so it invalidates when portfolio changes
+    const cached = getCachedSummary(portfolioId, tickers);
+    if (cached) {
+      summaryData = cached;
+      summaryGenerated = true;
+      showSummary = true;
+      return;
+    }
+
+    // Check if user is logged in
+    if (!data?.user) {
+      toast.error("Please log in to use this feature.", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+      return;
+    }
+
+    // Check if user has the right tier
+    if (!["Plus", "Pro"]?.includes(data?.user?.tier)) {
+      toast.error(
+        "This feature is available exclusively for Subscribers. Please upgrade your plan.",
+        {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        },
+      );
+      return;
+    }
+
+    // Check if user has enough credits
+    if (data?.user?.credits < SUMMARY_CREDIT_COST) {
+      toast.error(
+        `Insufficient credits. Your current balance is ${data?.user?.credits}. This feature costs ${SUMMARY_CREDIT_COST} credits.`,
+        {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        },
+      );
+      return;
+    }
+
+    isGeneratingSummary = true;
+    showSummary = true;
+    summaryError = false;
+
+    try {
+      const response = await fetch("/api/portfolio-summary", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          portfolioId,
+          holdings: tickers,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        toast.error(errorData?.error || "Failed to generate analysis", {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        });
+        showSummary = false;
+        isGeneratingSummary = false;
+        return;
+      }
+
+      summaryData = await response.json();
+
+      if (summaryData?.error) {
+        summaryError = true;
+        toast.error(summaryData.error, {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        });
+        showSummary = false;
+      } else {
+        // Save to localStorage cache (includes holdings hash for invalidation)
+        saveSummaryToCache(portfolioId, tickers, summaryData);
+        // Deduct credits on successful generation
+        data.user.credits -= SUMMARY_CREDIT_COST;
+        summaryGenerated = true;
+        // Refresh page data to get updated bullBear from PocketBase
+        await invalidateAll();
+      }
+    } catch (e) {
+      console.error("Summary generation error:", e);
+      toast.error("Something went wrong. Please try again.", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+      showSummary = false;
+      summaryError = true;
+    } finally {
+      isGeneratingSummary = false;
+    }
+  }
+
+  // Helper function for sentiment colors
+  function getSentimentColors(sentiment: string) {
+    switch (sentiment?.toLowerCase()) {
+      case "bullish":
         return {
-            text: isTruncated ? text?.slice(0, length) + "..." : text,
-            isTruncated,
+          text: "text-green-700 dark:text-green-400",
+          bg: "bg-green-100 dark:bg-green-900/40",
+          bar: "bg-green-500",
+        };
+      case "bearish":
+        return {
+          text: "text-red-700 dark:text-red-400",
+          bg: "bg-red-100 dark:bg-red-900/40",
+          bar: "bg-red-500",
+        };
+      default:
+        return {
+          text: "text-yellow-700 dark:text-yellow-400",
+          bg: "bg-yellow-100 dark:bg-yellow-900/40",
+          bar: "bg-yellow-500",
         };
     }
+  }
 
-    $: bullTrunc = getTruncatedText(bullText);
-    $: bearTrunc = getTruncatedText(bearText);
-
-    function handleMode(i: number) {
-        activeIdx = i;
-        isExpanded = false; // Reset expansion when switching tabs
+  // On mount/update: Check if we have a valid localStorage cache for current holdings
+  // Don't auto-load from PocketBase since it might be for different holdings
+  $: if (
+    portfolioId &&
+    tickers?.length > 0 &&
+    !summaryData &&
+    !summaryGenerated
+  ) {
+    const cached = getCachedSummary(portfolioId, tickers);
+    if (cached) {
+      summaryData = cached;
+      summaryGenerated = true;
     }
+  }
 
-    async function handleAnalyze() {
-        if (!portfolioId) {
-            errorMessage = "Portfolio ID is missing";
-            return;
-        }
-
-        if (isGenerating) return; // Prevent double-clicks
-
-        isGenerating = true;
-        errorMessage = "";
-        streamingContent = "";
-
-        try {
-            const response = await fetch("/api/portfolio-bull-bear", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    portfolioId,
-                    holdings: tickers,
-                }),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-
-                // Show toast for insufficient credits
-                if (errorData?.error?.includes("Insufficient credits")) {
-                    toast.error(errorData.error, {
-                        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-                    });
-                    isGenerating = false;
-                    return;
-                }
-
-                throw new Error(
-                    errorData?.error || "Failed to generate analysis",
-                );
-            }
-
-            // Handle streaming response
-            const reader = response.body?.getReader();
-            const decoder = new TextDecoder();
-
-            if (!reader) {
-                throw new Error("Failed to initialize stream reader");
-            }
-
-            let isComplete = false;
-
-            while (!isComplete) {
-                const { done, value } = await reader.read();
-                if (done) break;
-
-                const chunk = decoder.decode(value, { stream: true });
-                const lines = chunk.split("\n");
-
-                for (const line of lines) {
-                    if (line.trim()) {
-                        try {
-                            const parsed = JSON.parse(line);
-
-                            if (parsed.event === "progress") {
-                                // Update streaming content as it arrives
-                                streamingContent = parsed.content || "";
-                            } else if (parsed.event === "complete") {
-                                isComplete = true;
-                                streamingContent = "";
-                                // Reload data to reflect new analysis
-                                await invalidateAll();
-                            } else if (parsed.event === "error") {
-                                throw new Error(
-                                    parsed.message || "Analysis failed",
-                                );
-                            }
-                        } catch (e) {
-                            // Ignore JSON parse errors for incomplete chunks
-                            if (e instanceof SyntaxError) continue;
-                            throw e;
-                        }
-                    }
-                }
-            }
-        } catch (error: any) {
-            errorMessage = error?.message || "Failed to generate analysis";
-        } finally {
-            isGenerating = false;
-            streamingContent = "";
-        }
-    }
+  $: sentimentColors = getSentimentColors(summaryData?.sentiment ?? "Neutral");
 </script>
 
-<div class="">
-    <div class="space-y-3 overflow-hidden">
-        {#if hasNoTickers}
-            <!-- No tickers in portfolio -->
-            <div class="flex justify-center items-center h-40">
-                <div class="text-center text-gray-800 dark:text-gray-400">
-                    <p class="text-lg font-medium mb-2">
-                        No Tickers in Portfolio
-                    </p>
-                    <p class="text-sm">
-                        Add tickers to your portfolio to analyze it
-                    </p>
-                </div>
-            </div>
-        {:else if !hasAnyData}
-            <!-- No analysis object at all -->
-            <div class="flex justify-center items-center h-40">
-                <div class="text-center text-gray-800 dark:text-gray-400">
-                    <p class="text-lg font-medium mb-2">
-                        No Analysis Available
-                    </p>
-                    <p class="text-sm">
-                        Add stocks to your portfolio to see bull and bear
-                        analysis
-                    </p>
-                </div>
-            </div>
-        {:else if anyEmpty}
-            <!-- Optimized early-return for the 'any empty' case -->
-            <div class="w-auto lg:w-full p-1 flex flex-col m-auto">
-                {#if showAnalyzeButton || analysisData?.date}
-                    <div class="flex flex-col items-center w-full mb-3">
-                        <div
-                            class="flex flex-row justify-start mr-auto items-center w-full"
-                        >
-                            <div
-                                class="flex flex-row items-center justify-between w-full"
-                            >
-                                {#if analysisData?.date}
-                                    <h3
-                                        class="italic text-sm text-gray-800 dark:text-gray-300"
-                                    >
-                                        Last Updated: {formatDate(
-                                            analysisData?.date,
-                                        )}
-                                    </h3>
-                                {/if}
-                            </div>
-                        </div>
-                    </div>
-                {/if}
+<div class="w-full">
+  <!-- Header with Generate Button -->
+  <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+    <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
+      Portfolio Analysis
+    </h2>
 
-                <div
-                    class="rounded-lg border border-dashed border-gray-300 dark:border-gray-700 p-5"
-                >
-                    <p class="text-gray-800 dark:text-gray-200 leading-relaxed">
-                        We couldn't find any <span class="font-medium"
-                            >bull</span
-                        >
-                        or <span class="font-medium">bear</span> points yet. Run
-                        an analysis to generate arguments for both sides.
-                    </p>
-                    {#if showAnalyzeButton && !hasNoTickers}
-                        <div class="flex flex-col gap-y-1.5 mt-4 w-fit">
-                            <button
-                                on:click={handleAnalyze}
-                                disabled={isGenerating}
-                                class="cursor-pointer inline-flex items-center text-sm px-3 py-2 border border-gray-300 dark:border-gray-600 text-white bg-black sm:hover:bg-gray-800 dark:bg-primary dark:sm:hover:bg-secondary ease-out rounded font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {#if isGenerating}
-                                    <svg
-                                        class="animate-spin h-4 w-4 mr-2"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <circle
-                                            class="opacity-25"
-                                            cx="12"
-                                            cy="12"
-                                            r="10"
-                                            stroke="currentColor"
-                                            stroke-width="4"
-                                        />
-                                        <path
-                                            class="opacity-75"
-                                            fill="currentColor"
-                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                        />
-                                    </svg>
-                                    Generating...
-                                {:else}
-                                    <Spark class="w-4 h-4 mr-2" />
-                                    Generate AI Analysis
-                                {/if}
-                            </button>
-                            <span
-                                class="text-xs text-gray-800 dark:text-gray-300 ml-1 mt-0.5"
-                            >
-                                Analyze portfolio with latest holdings
-                            </span>
-                            {#if errorMessage}
-                                <p
-                                    class="text-xs text-red-600 dark:text-red-400 ml-1 mt-2"
-                                >
-                                    {errorMessage}
-                                </p>
-                            {/if}
-                        </div>
-                    {/if}
-                </div>
-            </div>
+    {#if showAnalyzeButton && !hasNoTickers}
+      <button
+        on:click={generateSummary}
+        disabled={isGeneratingSummary || hasNoTickers}
+        class="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 rounded transition-colors"
+      >
+        {#if isGeneratingSummary}
+          <span class="loading loading-spinner loading-xs"></span>
         {:else}
-            <!-- Normal rendering when at least one side has content -->
-            <div class="w-auto lg:w-full p-1 flex flex-col m-auto">
-                <!-- Header Section -->
-                {#if showAnalyzeButton || analysisData?.date}
-                    <div class="flex flex-col items-center w-full mb-3">
-                        <div
-                            class="flex flex-row justify-start mr-auto items-center w-full"
-                        >
-                            <div
-                                class="flex flex-row items-center justify-between w-full"
-                            >
-                                {#if analysisData?.date}
-                                    <h3
-                                        class="italic text-sm text-gray-800 dark:text-gray-300"
-                                    >
-                                        Last Updated: {formatDate(
-                                            analysisData?.date,
-                                        )}
-                                    </h3>
-                                {/if}
-                            </div>
-                        </div>
-                    </div>
-                {/if}
-
-                <!-- Tabs -->
-                <div class="inline-flex mt-2 sm:mt-0 mb-3">
-                    <div
-                        class="-mb-px flex space-x-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                    >
-                        <button
-                            on:click={() => handleMode(0)}
-                            class="cursor-pointer whitespace-nowrap border-b-2 px-4 py-2.5 text-base font-medium transition-colors {activeIdx ===
-                            0
-                                ? 'border-[#37C97D] text-[#37C97D]'
-                                : 'border-transparent text-gray-800 hover:border-gray-300 hover:text-gray-800 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:text-gray-200'}"
-                        >
-                            Bull Say
-                        </button>
-                        <button
-                            on:click={() => handleMode(1)}
-                            class="cursor-pointer whitespace-nowrap border-b-2 px-4 py-2.5 text-base font-medium transition-colors {activeIdx ===
-                            1
-                                ? 'text-red-800 border-red-800 dark:text-red-400 dark:border-red-400'
-                                : 'border-transparent text-gray-800 hover:border-gray-300 hover:text-gray-800 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:text-gray-200'}"
-                        >
-                            Bear Say
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Content -->
-                <div class="flex mt-5 h-auto">
-                    <div
-                        class="{activeIdx === 0
-                            ? 'bg-[#37C97D]'
-                            : 'bg-red-800 dark:bg-red-400'} w-full max-w-[3px] rounded-l-xl"
-                    />
-                    <div
-                        class="text-gray-800 dark:text-gray-100 ml-3 text-[1rem] w-full"
-                    >
-                        {#if activeIdx === 0}
-                            <div
-                                class="bg-green-50 dark:bg-green-950/20 p-4 rounded-r-lg border-l-0"
-                            >
-                                {#if isGenerating && !streamingContent}
-                                    <!-- Shimmer loading state before streaming starts -->
-                                    <div class="py-3">
-                                        <div
-                                            class="text-sm sm:text-[1rem] text-gray-800 dark:text-gray-400 shimmer-text"
-                                        >
-                                            Creating bull arguments...
-                                        </div>
-                                    </div>
-                                {:else if isGenerating && streamingContent}
-                                    <!-- Streaming in progress - show only the streaming data -->
-                                    <!-- Mobile: Truncated/Full based on isExpanded -->
-                                    <p class="pr-1 leading-relaxed sm:hidden">
-                                        {isExpanded ? bullText : bullTrunc.text}
-                                    </p>
-                                    <!-- Desktop: Always show full text -->
-                                    <p
-                                        class="pr-1 leading-relaxed hidden sm:block"
-                                    >
-                                        {bullText}
-                                    </p>
-                                {:else}
-                                    <!-- Normal state: show saved data or empty message -->
-                                    <!-- Mobile: Truncated/Full based on isExpanded -->
-                                    <p class="pr-1 leading-relaxed sm:hidden">
-                                        {#if bullEmpty}
-                                            Analyze your portfolio to surface
-                                            the strongest bull arguments
-                                        {:else}
-                                            {isExpanded
-                                                ? bullText
-                                                : bullTrunc.text}
-                                        {/if}
-                                    </p>
-                                    <!-- Desktop: Always show full text -->
-                                    <p
-                                        class="pr-1 leading-relaxed hidden sm:block"
-                                    >
-                                        {#if bullEmpty}
-                                            Analyze your portfolio to surface
-                                            the strongest bull arguments
-                                        {:else}
-                                            {bullText}
-                                        {/if}
-                                    </p>
-                                    {#if !bullEmpty && bullTrunc.isTruncated}
-                                        <button
-                                            on:click={() =>
-                                                (isExpanded = !isExpanded)}
-                                            class="mt-3 text-sm font-medium text-[#37C97D] hover:underline sm:hidden"
-                                        >
-                                            {isExpanded
-                                                ? "Show Less"
-                                                : "Show More"}
-                                        </button>
-                                    {/if}
-                                {/if}
-                            </div>
-                        {:else}
-                            <div
-                                class="bg-red-50 dark:bg-red-950/20 p-4 rounded-r-lg border-l-0"
-                            >
-                                {#if isGenerating && !streamingContent}
-                                    <!-- Shimmer loading state before streaming starts -->
-                                    <div class="py-3">
-                                        <div
-                                            class="text-sm sm:text-[1rem] text-gray-800 dark:text-gray-400 shimmer-text"
-                                        >
-                                            Creating bear arguments...
-                                        </div>
-                                    </div>
-                                {:else if isGenerating && streamingContent}
-                                    <!-- Streaming in progress - show only the streaming data -->
-                                    <!-- Mobile: Truncated/Full based on isExpanded -->
-                                    <p class="pr-1 leading-relaxed sm:hidden">
-                                        {isExpanded ? bearText : bearTrunc.text}
-                                    </p>
-                                    <!-- Desktop: Always show full text -->
-                                    <p
-                                        class="pr-1 leading-relaxed hidden sm:block"
-                                    >
-                                        {bearText}
-                                    </p>
-                                {:else}
-                                    <!-- Normal state: show saved data or empty message -->
-                                    <!-- Mobile: Truncated/Full based on isExpanded -->
-                                    <p class="pr-1 leading-relaxed sm:hidden">
-                                        {#if bearEmpty}
-                                            Analyze your portfolio to surface
-                                            the strongest bear arguments
-                                        {:else}
-                                            {isExpanded
-                                                ? bearText
-                                                : bearTrunc.text}
-                                        {/if}
-                                    </p>
-                                    <!-- Desktop: Always show full text -->
-                                    <p
-                                        class="pr-1 leading-relaxed hidden sm:block"
-                                    >
-                                        {#if bearEmpty}
-                                            Analyze your portfolio to surface
-                                            the strongest bear arguments
-                                        {:else}
-                                            {bearText}
-                                        {/if}
-                                    </p>
-                                    {#if !bearEmpty && bearTrunc.isTruncated}
-                                        <button
-                                            on:click={() =>
-                                                (isExpanded = !isExpanded)}
-                                            class="mt-3 text-sm font-medium text-red-800 dark:text-red-400 hover:underline sm:hidden"
-                                        >
-                                            {isExpanded
-                                                ? "Show Less"
-                                                : "Show More"}
-                                        </button>
-                                    {/if}
-                                {/if}
-                            </div>
-                        {/if}
-                    </div>
-                </div>
-            </div>
-
-            {#if showAnalyzeButton && !hasNoTickers}
-                <div class="flex flex-col gap-y-1.5 mt-5 w-fit px-2">
-                    <button
-                        on:click={handleAnalyze}
-                        disabled={isGenerating}
-                        class="cursor-pointer inline-flex items-center text-sm px-3 py-2 border border-gray-300 dark:border-gray-600 text-white bg-black sm:hover:bg-gray-800 dark:bg-primary dark:sm:hover:bg-secondary ease-out rounded font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {#if isGenerating}
-                            <svg
-                                class="animate-spin h-4 w-4 mr-2"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <circle
-                                    class="opacity-25"
-                                    cx="12"
-                                    cy="12"
-                                    r="10"
-                                    stroke="currentColor"
-                                    stroke-width="4"
-                                />
-                                <path
-                                    class="opacity-75"
-                                    fill="currentColor"
-                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                />
-                            </svg>
-                            Generating...
-                        {:else}
-                            <Spark class="w-4 h-4 mr-2" />
-                            Generate AI Analysis
-                        {/if}
-                    </button>
-                    <span
-                        class="text-xs text-gray-800 dark:text-gray-300 ml-1 mt-0.5"
-                    >
-                        Analyze portfolio with latest holdings
-                    </span>
-                    {#if errorMessage}
-                        <p
-                            class="text-xs text-red-600 dark:text-red-400 ml-1 mt-2"
-                        >
-                            {errorMessage}
-                        </p>
-                    {/if}
-                </div>
-            {/if}
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+            />
+          </svg>
         {/if}
+        {summaryGenerated
+          ? showSummary
+            ? "Hide Summary"
+            : "Show Summary"
+          : "AI Summarize"}
+      </button>
+    {/if}
+  </div>
+
+  {#if hasNoTickers}
+    <!-- No tickers in portfolio -->
+    <div class="flex justify-center items-center h-40">
+      <div class="text-center text-gray-800 dark:text-gray-400">
+        <p class="text-lg font-medium mb-2">No Tickers in Portfolio</p>
+        <p class="text-sm">Add tickers to your portfolio to analyze it</p>
+      </div>
     </div>
+  {:else if showSummary}
+    <!-- AI Summary Panel -->
+    <div
+      class="border border-purple-300 dark:border-purple-800 rounded p-4 sm:p-6 bg-purple-50 dark:bg-purple-950/30"
+    >
+      {#if isGeneratingSummary}
+        <!-- Loading State -->
+        <div class="flex flex-col items-center justify-center py-8">
+          <div class="relative">
+            <div
+              class="w-12 h-12 border-4 border-purple-200 dark:border-purple-800 rounded-full"
+            ></div>
+            <div
+              class="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin absolute top-0 left-0"
+            ></div>
+          </div>
+          <p
+            class="mt-4 text-sm text-purple-700 dark:text-purple-300 font-medium"
+          >
+            Analyzing your portfolio with AI...
+          </p>
+          <p class="mt-1 text-xs text-purple-500 dark:text-purple-400">
+            Evaluating positions, concentration, and strategic implications
+          </p>
+        </div>
+      {:else}
+        <!-- Summary Content -->
+        <div class="space-y-6">
+          <!-- Header with Sentiment -->
+          <div
+            class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+          >
+            <div class="flex items-center gap-2">
+              <svg
+                class="w-5 h-5 text-purple-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                />
+              </svg>
+              <h3
+                class="text-lg font-semibold text-purple-900 dark:text-purple-100"
+              >
+                AI-Generated Summary
+              </h3>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-sm text-gray-600 dark:text-gray-400"
+                >Portfolio Sentiment:</span
+              >
+              <div class="flex items-center gap-2">
+                <span
+                  class="px-2.5 py-1 text-sm font-semibold {sentimentColors.text} {sentimentColors.bg} rounded-full"
+                >
+                  {summaryData?.sentiment ?? "Neutral"}
+                </span>
+                <div class="flex items-center gap-1">
+                  <div
+                    class="w-16 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden"
+                  >
+                    <div
+                      class="h-full {sentimentColors.bar} rounded-full"
+                      style="width: {summaryData?.sentimentScore ?? 50}%"
+                    ></div>
+                  </div>
+                  <span class="text-xs text-gray-500 dark:text-gray-400"
+                    >{summaryData?.sentimentScore ?? 50}%</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Export Actions -->
+          <div
+            class="flex flex-wrap items-center justify-end gap-2 pb-4 border-b border-purple-200 dark:border-purple-800"
+          >
+            <div class="flex items-center gap-2">
+              <button
+                on:click={copyToClipboard}
+                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              >
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                  />
+                </svg>
+                Copy
+              </button>
+              <button
+                on:click={downloadMarkdown}
+                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              >
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                  />
+                </svg>
+                Download
+              </button>
+            </div>
+          </div>
+
+          <!-- Key Highlights -->
+          <div>
+            <h4
+              class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2"
+            >
+              <svg
+                class="w-4 h-4 text-yellow-500"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                />
+              </svg>
+              Key Highlights
+            </h4>
+            <ul class="space-y-2">
+              {#each summaryData?.keyHighlights ?? [] as highlight}
+                <li
+                  class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"
+                >
+                  <svg
+                    class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  {highlight}
+                </li>
+              {/each}
+            </ul>
+          </div>
+
+          <!-- Risks Section -->
+          {#if summaryData?.risks?.length}
+            <div>
+              <h4
+                class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4 text-orange-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  />
+                </svg>
+                Risk Signals
+              </h4>
+              <ul class="space-y-2">
+                {#each summaryData?.risks ?? [] as risk}
+                  <li
+                    class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"
+                  >
+                    <svg
+                      class="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    {risk}
+                  </li>
+                {/each}
+              </ul>
+            </div>
+          {/if}
+
+          <!-- Outlook -->
+          <div>
+            <h4
+              class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2"
+            >
+              <svg
+                class="w-4 h-4 text-purple-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                />
+              </svg>
+              Strategic Outlook
+            </h4>
+            <p
+              class="text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 rounded p-4 border border-gray-200 dark:border-gray-700"
+            >
+              {summaryData?.outlook ?? "No outlook available."}
+            </p>
+          </div>
+
+          <!-- Disclaimer -->
+          <p
+            class="text-xs text-gray-500 dark:text-gray-500 italic border-t border-purple-200 dark:border-purple-800 pt-4"
+          >
+            This summary was generated by AI based on your portfolio holdings.
+            It should not be considered investment advice. Please conduct your
+            own research.
+          </p>
+        </div>
+      {/if}
+    </div>
+  {/if}
 </div>
