@@ -382,7 +382,7 @@
           >
             Analyzing your portfolio with AI...
           </p>
-          <p class="mt-1 text-xs text-purple-500 dark:text-purple-400">
+          <p class="mt-1 text-xs text-muted dark:text-purple-400 text-center">
             Evaluating positions, concentration, and strategic implications
           </p>
         </div>

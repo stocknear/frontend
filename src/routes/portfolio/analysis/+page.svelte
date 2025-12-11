@@ -117,6 +117,9 @@
 
         <!--Fundamentals section-->
         <div class="w-full m-auto mt-10">
+            <h2 class="mb-2 text-lg sm:text-xl font-bold w-fit">
+                Portfolio vs US Market
+            </h2>
             <p class="mb-4">
                 Shows your portfolio's weighted-average Valuation, Growth,
                 Efficiency and Margins compared to US market benchmarks -
