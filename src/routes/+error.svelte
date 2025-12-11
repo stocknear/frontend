@@ -13,7 +13,7 @@
           Page Not found - {$page?.status}
           <!--Server Maintenance-->
         </h1>
-        <a href="/dashboard" class="flex justify-center items-center">
+        <a href="/" class="flex justify-center items-center">
           <img
             class="w-20 m-auto inline-block"
             src="/pwa-192x192.png"
@@ -39,7 +39,7 @@
         </div>
 
         <a
-          href="/dashboard"
+          href="/"
           class="flex justify-center items-center w-1/2 m-auto py-2.5 mt-10 rounded duration-100 bg-black sm:hover:bg-muted text-white sm:hover:bg-blue-600 dark:bg-[#fff] dark:sm:hover:hover:bg-gray-300 dark:text-black font-semibold"
         >
           Back to Home Page

@@ -42,7 +42,7 @@
     class="flex flex-col items-center min-h-screen w-full max-w-3xl m-auto px-3 sm:px-0"
 >
     <div class="relative">
-        <a href="/dashboard">
+        <a href="/">
             <img
                 class="m-auto w-16 sm:w-20 rounded-full pt-4"
                 src="/pwa-192x192.png"

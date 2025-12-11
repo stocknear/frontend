@@ -163,7 +163,7 @@
     {/if}
 
     <a
-      href="/dashboard"
+      href="/"
       class="flex justify-center items-center w-fit px-10 m-auto py-2.5 mt-10 rounded duration-100 bg-black text-white sm:hover:bg-default dark:bg-[#fff] dark:sm:hover:hover:bg-gray-300 dark:text-black font-semibold"
     >
       Start Researching Now!

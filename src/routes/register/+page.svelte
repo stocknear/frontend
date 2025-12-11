@@ -80,7 +80,7 @@
 >
   <div class="grid grid-cols-1 gap-4">
     <div class="relative">
-      <a href="/dashboard">
+      <a href="/">
         <img
           class="m-auto w-16 sm:w-20 rounded-full pt-4"
           src="/pwa-192x192.png"

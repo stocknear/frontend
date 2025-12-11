@@ -428,7 +428,7 @@
                   class=" -ml-4 mr-auto bg-gray-100 dark:bg-[#18181B]"
                 >
                   <a
-                    href="/dashboard"
+                    href="/"
                     class="flex items-center gap-4 px-0.5 text-muted dark:text-white text-xl font-semibold"
                   >
                     <img
@@ -467,7 +467,7 @@
                   class="w-full bg-gray-100 dark:bg-[#18181B] -ml-4 mr-auto"
                 >
                   <a
-                    href="/dashboard"
+                    href="/"
                     class="w-full flex flex-row items-center mr-auto mt-5"
                   >
                     <div
@@ -1175,7 +1175,7 @@
           </Sheet.Content>
         </Sheet.Root>
 
-        <a href="/dashboard" class="-ml-2 flex flex-row items-center shrink-0">
+        <a href="/" class="-ml-2 flex flex-row items-center shrink-0">
           <img
             class="avatar w-9 3xl:w-10 rounded-full"
             src="/pwa-192x192.png"
@@ -1323,7 +1323,7 @@
                 class="flex flex-col items-center mr-auto gap-y-4 3xl:py-5 w-full"
               >
                 <a
-                  href="/dashboard"
+                  href="/"
                   class="ml-3 mb-3 flex justify-end items-center h-9 w-9 shrink-0 gap-2 rounded-full text-lg font-semibold text-primary-foreground md:h-10 md:w-10 md:"
                 >
                   <img
@@ -1347,10 +1347,7 @@
                     <span class="font-semibold">Start new chat</span>
                   </div>
                 </a>
-                <a
-                  href="/dashboard"
-                  class="flex flex-row items-center ml-9 w-full"
-                >
+                <a href="/" class="flex flex-row items-center ml-9 w-full">
                   <div
                     class="flex h-9 w-9 items-center justify-center rounded text-muted dark:text-white md:h-8 md:w-8"
                   >
