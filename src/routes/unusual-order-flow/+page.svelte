@@ -184,6 +184,11 @@
           value: defaultValue,
         };
         ruleOfList = [...ruleOfList]; // Trigger reactivity
+
+        // Clear checkedItems for categorical rules when resetting to defaults
+        if (categoricalRules?.includes(state)) {
+          checkedItems.delete(state);
+        }
       } else {
         // If already at defaults, remove the rule
         ruleOfList.splice(index, 1);
@@ -214,7 +219,7 @@
     ruleOfList = [...ruleOfList];
     ruleName = "";
     filterQuery = "";
-    checkedItems = new Set();
+    checkedItems = new Map();
     Object?.keys(allRules).forEach((ruleName) => {
       ruleCondition[ruleName] = allRules[ruleName].defaultCondition;
       valueMappings[ruleName] = allRules[ruleName].defaultValue;
@@ -248,10 +253,10 @@
       ruleOfList?.some((rule) => rule.name === row.rule),
     );
 
-    checkedItems = new Set(
+    checkedItems = new Map(
       ruleOfList
         ?.filter((rule) => categoricalRules?.includes(rule.name))
-        ?.flatMap((rule) => rule.value),
+        ?.map((rule) => [rule.name, new Set(rule.value)]),
     );
 
     // Trigger the filter system
@@ -317,10 +322,10 @@
         ruleOfList?.some((rule) => rule.name === row.rule),
       );
 
-      checkedItems = new Set(
+      checkedItems = new Map(
         ruleOfList
           ?.filter((rule) => categoricalRules?.includes(rule.name))
-          ?.flatMap((rule) => rule.value),
+          ?.map((rule) => [rule.name, new Set(rule.value)]),
       );
 
       // Trigger the filter system
@@ -430,7 +435,7 @@
         // Clear data
         filteredData = [];
         displayedData = [];
-        checkedItems = new Set();
+        checkedItems = new Map();
       }
       // else: "Save" or "Save as New" - ruleOfList already matches what was saved
 
@@ -440,10 +445,10 @@
       );
 
       // Update checkedItems
-      checkedItems = new Set(
+      checkedItems = new Map(
         ruleOfList
           ?.filter((rule) => categoricalRules?.includes(rule.name))
-          ?.flatMap((rule) => rule.value),
+          ?.map((rule) => [rule.name, new Set(rule.value)]),
       );
 
       // Trigger the filter system
@@ -703,14 +708,15 @@
     await handleChangeValue(valueMappings[ruleName]);
   }
 
-  let checkedItems = new Set(
+  let checkedItems = new Map(
     ruleOfList
       ?.filter((rule) => categoricalRules?.includes(rule.name))
-      ?.flatMap((rule) => rule.value),
+      ?.map((rule) => [rule.name, new Set(rule.value)]),
   );
 
-  function isChecked(item) {
-    return checkedItems.has(item);
+  function isChecked(item, ruleKey = ruleName) {
+    const itemSet = checkedItems.get(ruleKey);
+    return itemSet ? itemSet.has(item) : false;
   }
 
   async function getInfoText(parameter, title) {
@@ -760,11 +766,15 @@
   }
 
   async function handleChangeValue(value, { shouldSort = true } = {}) {
-    // Toggle checkedItems logic
-    if (checkedItems.has(value)) {
-      checkedItems.delete(value);
+    // Toggle checkedItems logic - handle Map structure
+    if (!checkedItems.has(ruleName)) {
+      checkedItems.set(ruleName, new Set());
+    }
+    const itemSet = checkedItems.get(ruleName);
+    if (itemSet.has(value)) {
+      itemSet.delete(value);
     } else {
-      checkedItems.add(value);
+      itemSet.add(value);
     }
 
     // Specific rule handling for options-related rules
@@ -2230,7 +2240,7 @@
                                       <input
                                         type="checkbox"
                                         class="rounded"
-                                        checked={isChecked(item)}
+                                        checked={isChecked(item, row?.rule)}
                                       />
                                       <span class="ml-2">{item}</span>
                                     </label>

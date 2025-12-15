@@ -493,6 +493,11 @@
           value: defaultValue,
         };
         ruleOfList = [...ruleOfList]; // Trigger reactivity
+
+        // Clear checkedItems for categorical rules when resetting to defaults
+        if (categoricalRules?.includes(state)) {
+          checkedItems.delete(state);
+        }
       } else {
         // If already at defaults, remove the rule
         ruleOfList.splice(index, 1);
