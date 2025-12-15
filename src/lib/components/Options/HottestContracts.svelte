@@ -300,7 +300,7 @@
           const originalItem = this.point.originalData;
 
           let tooltipContent = `<span class="m-auto text-xs">${ticker} ${convertDateFormat(originalItem?.date_expiration)} ${originalItem.strike_price}${originalItem.option_type}</span><br>`;
-          tooltipContent += `<span class="font-normal text-sm">OI: ${this.y?.toLocaleString("en-US")}</span><br>`;
+          tooltipContent += `<span class="font-normal text-sm">${type === "oi" ? "OI" : "Volume"}: ${this.y?.toLocaleString("en-US")}</span><br>`;
 
           return tooltipContent;
         },

@@ -920,6 +920,25 @@
     console.log("handle Message");
     calculateStats(displayedData);
 
+    // Check if any pending new items passed the filters - only then play audio
+    if (pendingNewItemIds.size > 0 && !muted && audio) {
+      const hasNewFilteredItems = filteredData.some((item) =>
+        pendingNewItemIds.has(item?.id)
+      );
+
+      if (hasNewFilteredItems) {
+        console.log("New items passed filters - playing audio alert");
+        audio?.play()?.catch((error) => {
+          console.log("Audio play failed:", error);
+        });
+      } else {
+        console.log("No new items passed filters - skipping audio");
+      }
+
+      // Clear pending IDs after processing
+      pendingNewItemIds = new Set();
+    }
+
     isLoaded = true;
   };
 
@@ -1104,7 +1123,7 @@
 
   let audio;
   let muted = false;
-  let previousVolume = 0; //This is needed to play the sound only if it changes.
+  let pendingNewItemIds: Set<string> = new Set(); // Track new item IDs from WebSocket for filtered audio alerts
   let notFound = false;
   let isLoaded = false;
   let historicalDataLoaded = false;
@@ -1260,6 +1279,9 @@
               newData.length,
             );
 
+            // Store new item IDs before merging (for filtered audio alerts)
+            const newItemIds = new Set(newData.map((item) => item?.id).filter(Boolean));
+
             rawData = await mergeRawData(newData);
 
             // Update the orderList to include new items
@@ -1272,20 +1294,23 @@
 
             // Process filters if needed
             if (ruleOfList?.length > 0 || filterQuery?.length > 0) {
+              // Store pending new item IDs - audio will play in handleMessage if any pass filters
+              pendingNewItemIds = newItemIds;
               shouldLoadWorker.set(true);
               console.log("Should load worker set to true");
             } else {
+              // No filters active - play audio immediately for any new data
               displayedData = [...rawData];
               calculateStats(displayedData);
               console.log("Updating displayedData and calculating stats");
-            }
 
-            // Play notification sound if enabled (only for live updates, not historical)
-            if (!muted && audio) {
-              console.log("Attempting to play audio...");
-              audio?.play()?.catch((error) => {
-                console.log("Audio play failed:", error);
-              });
+              // Play notification sound (no filters = all new data is relevant)
+              if (!muted && audio) {
+                console.log("Attempting to play audio (no filters active)...");
+                audio?.play()?.catch((error) => {
+                  console.log("Audio play failed:", error);
+                });
+              }
             }
           }
         } catch (error) {
