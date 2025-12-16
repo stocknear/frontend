@@ -100,7 +100,6 @@
     <svelte:component this={AppInstalled} />
   {/if}
 
-  <!--
   {#if !["Pro", "Plus"].includes(data?.user?.tier)}
     <div class="flex justify-center mb-5 text-center mt-5 sm:mt-0 px-4">
       <a
@@ -126,18 +125,18 @@
           </span>
           <span
             class="text-violet-600 dark:text-violet-400 font-semibold tracking-wide"
-            >Black Friday</span
+            >Christmas Deal</span
           >
         </span>
         <span class="text-gray-400 dark:text-zinc-600">|</span>
         <span class="text-gray-600 dark:text-zinc-300">
-          <span class="font-bold text-gray-900 dark:text-white">50% off</span> all
+          <span class="font-bold text-gray-900 dark:text-white">40% off</span> all
           plans
         </span>
         <span class="text-gray-400 dark:text-zinc-600">|</span>
         <span
           class="font-mono text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-zinc-700 text-gray-700 dark:text-zinc-300 tracking-wider"
-          >BF25</span
+          >XMAS25</span
         >
         <svg
           class="w-4 h-4 text-gray-400 dark:text-zinc-500 group-hover:translate-x-0.5 transition-transform"
@@ -155,7 +154,6 @@
       </a>
     </div>
   {/if}
--->
 
   <main id="main">
     <div

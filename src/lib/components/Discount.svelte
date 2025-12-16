@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  const targetDate = new Date("2025-12-01T23:59:59+01:00");
+  const targetDate = new Date("2025-12-24T23:59:59+01:00");
 
   let days: number | string = "-";
   let hours: number | string = "-";
@@ -37,7 +37,7 @@
   });
 
   async function copyPromoCode() {
-    await navigator.clipboard.writeText("BF25");
+    await navigator.clipboard.writeText("XMAS25");
     copied = true;
     setTimeout(() => (copied = false), 2000);
   }
@@ -58,7 +58,7 @@
       <div class="text-center mb-6">
         <span
           class="text-6xl sm:text-7xl font-black text-gray-900 dark:text-white tracking-tight"
-          >50<span class="text-violet-500 dark:text-violet-400">%</span></span
+          >40<span class="text-violet-500 dark:text-violet-400">%</span></span
         >
         <p
           class="text-gray-500 dark:text-zinc-400 text-sm font-medium tracking-widest uppercase mt-1"
@@ -79,7 +79,7 @@
           >
           <span
             class="font-mono font-bold text-xl text-gray-900 dark:text-white tracking-widest"
-            >BF25</span
+            >XMAS25</span
           >
           <span
             class="text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition-colors"

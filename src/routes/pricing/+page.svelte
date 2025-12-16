@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
 
   import SEO from "$lib/components/SEO.svelte";
-  //import Discount from "$lib/components/Discount.svelte";
+  import Discount from "$lib/components/Discount.svelte";
   export let data;
   export let form;
 
@@ -158,11 +158,7 @@
       style="opacity: 1; transform: none;">|</span
     >
     <div class="mt-2 sm:mt-0 flex items-center text-sm sm:text-lg">
-      <svg
-        class="w-5 h-5 mr-1 text-green-500"
-        fill="currentColor"
-        viewBox="0 0 24 24"
-      >
+      <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
         <path
           d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
         />
@@ -191,7 +187,7 @@
       </h1>
     </div>
 
-    <!-- <Discount />-->
+    <Discount />
 
     <div class="flex flex-row items-center justify-center">
       <div class="flex flex-row items-center ml-auto">
@@ -972,19 +968,19 @@
           Essential tools for individual traders
         </p>
         <div class="mt-4">
-          <span class=" text-4xl font-bold">{mode ? "$7.50" : "$10"}</span>
-
-          <!--<span class=" text-4xl font-bold ml-1">{mode ? "$3.75" : "$5"}</span
-          >--><span
-            class=" text-xl">/mo</span
+          <span class="text-gray-400 text-4xl font-bold line-through"
+            >{mode ? "$7.50" : "$10"}</span
           >
+
+          <span class=" text-4xl font-bold ml-1">{mode ? "$4.5" : "$6"}</span
+          ><span class=" text-xl">/mo</span>
         </div>
         <p
           class="text-muted dark:text-gray-400 text-sm mt-1 mx-4 {!mode
             ? 'hidden'
             : ''}"
         >
-          ($90 Billed Annually)
+          (Billed Annually)
         </p>
 
         <ul class="mt-6 mb-6 space-y-2">
@@ -1494,12 +1490,14 @@
           Professional tools at retail prices
         </p>
         <div class="mt-4">
-          <span class="text-white text-4xl font-bold {!mode ? '' : ''}"
-            >{mode ? "$25" : "$35"}</span
+          <span
+            class="text-gray-400 text-4xl font-bold line-through {!mode
+              ? ''
+              : ''}">{mode ? "$25" : "$35"}</span
           >
-          <!--<span class="text-white text-4xl font-bold ml-1"
-            >{mode ? "$7.5" : "$10"}</span
-          >-->
+          <span class="text-white text-4xl font-bold ml-1"
+            >{mode ? "$12" : "$21"}</span
+          >
           <span class=" text-xl ml-1">/mo</span>
         </div>
         <p
@@ -1507,7 +1505,7 @@
             ? 'hidden'
             : ''}"
         >
-          ($300 Billed Annually)
+          (Billed Annually)
         </p>
 
         <ul class="mt-6 mb-6 space-y-2">
