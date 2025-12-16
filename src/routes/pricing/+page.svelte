@@ -11,8 +11,29 @@
 
   const emailAddress = "support@stocknear.com";
 
-  function toggleMode() {
-    mode = !mode;
+  let affiliateScriptLoad: Promise<void> | null = null;
+
+  function loadLemonSqueezyAffiliate() {
+    if (affiliateScriptLoad) return affiliateScriptLoad;
+
+    affiliateScriptLoad = new Promise<void>((resolve) => {
+      if (typeof window === "undefined") return resolve();
+      if (document.querySelector('script[data-ls-affiliate="1"]'))
+        return resolve();
+
+      (window as any).lemonSqueezyAffiliateConfig = { store: "Stocknear" };
+
+      const script = document.createElement("script");
+      script.defer = true;
+      script.src = "https://lmsqueezy.com/affiliate.js";
+      script.dataset.lsAffiliate = "1";
+      script.onload = () => resolve();
+      script.onerror = () => resolve();
+
+      document.head.appendChild(script);
+    });
+
+    return affiliateScriptLoad;
   }
 
   let LoginPopup;
@@ -63,6 +84,7 @@
           "checkout[custom][userId]": data?.user?.id,
         })?.toString();
 
+      await loadLemonSqueezyAffiliate();
       openLemonSqueezyUrl(checkoutUrl);
       //goto(`https://stocknear.lemonsqueezy.com/checkout/buy/${subId}`)
     }
@@ -124,13 +146,6 @@
     ],
   }}
 />
-
-<svelte:head>
-  <script>
-    window.lemonSqueezyAffiliateConfig = { store: "Stocknear" };
-  </script>
-  <script src="https://lmsqueezy.com/affiliate.js" defer></script>
-</svelte:head>
 
 <section
   class=" min-h-screen mb-40 w-full max-w-3xl sm:max-w-6xl m-auto text-muted dark:text-white"
@@ -194,13 +209,7 @@
         <span class="text-[1rem] font-semibold mr-3"> Monthly </span>
 
         <label class="inline-flex cursor-pointer relative">
-          <input
-            on:click={toggleMode}
-            type="checkbox"
-            checked={mode}
-            value={mode}
-            class="sr-only peer"
-          />
+          <input type="checkbox" bind:checked={mode} class="sr-only peer" />
           <div
             class="w-14 h-7 bg-[#09090B] border border-gray-600 rounded-full peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[0.40rem] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-black dark:bg-default {mode ===
             false
