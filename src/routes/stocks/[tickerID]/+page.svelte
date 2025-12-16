@@ -150,8 +150,8 @@
         .add(state.group);
 
       state.label = chart.renderer
-        .text("", 0, 0)
-        .css({ fontSize: "16px", fontWeight: "600" })
+        .text("", 0, 0, true)
+        .css({ fontSize: "14px" })
         .attr({ opacity: 0 })
         .add(state.group);
     };
@@ -228,8 +228,7 @@
       const bottom = chart.plotTop + chart.plotHeight;
 
       const delta = (p2.y ?? 0) - (p1.y ?? 0);
-      const pct =
-        isFiniteNumber(p1.y) && p1.y !== 0 ? (delta / p1.y) * 100 : 0;
+      const pct = isFiniteNumber(p1.y) && p1.y !== 0 ? (delta / p1.y) * 100 : 0;
 
       const upColor = $mode === "light" ? "#137547" : "#00FC50";
       const downColor = $mode === "light" ? "#CC261A" : "#FF2F1F";
@@ -249,9 +248,9 @@
             )}`
           : "";
 
-      const labelText = `${deltaText} (${pctText})${arrow ? ` ${arrow}` : ""}${
+      const labelText = `<div class="bg-[#000] p-2 border border-gray-300 dark:border-gray-700 rounded">${deltaText} (${pctText})${arrow ? ` ${arrow}` : ""}${
         rangeText ? `  ${rangeText}` : ""
-      }`;
+      }</div>`;
 
       ensureElements();
 
