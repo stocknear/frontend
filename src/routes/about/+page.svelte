@@ -16,16 +16,8 @@
   >
     <div class="mx-auto max-w-4xl px-6 py-16 sm:py-24 md:px-8">
       <div class="text-center">
-        <p
-          class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4"
-        >
-          Our Mission
-        </p>
         <h1 class="text-4xl font-bold sm:text-5xl lg:text-6xl leading-tight">
-          Wall Street data.<br />
-          <span class="text-purple-600 dark:text-purple-400"
-            >Main Street prices.</span
-          >
+          About us
         </h1>
         <p
           class="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-gray-600 dark:text-gray-300"
@@ -33,93 +25,6 @@
           Stocknear exists because we believe every investor deserves access to
           the same institutional-grade data that hedge funds pay thousands for.
         </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Origin Story -->
-  <section class="border-t border-gray-300 dark:border-gray-600">
-    <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-      <div>
-        <p
-          class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4"
-        >
-          The Story
-        </p>
-        <h2 class="text-3xl font-bold leading-tight sm:text-4xl mb-8">
-          Built from frustration.<br />Driven by fairness.
-        </h2>
-      </div>
-
-      <div
-        class="space-y-6 text-lg leading-relaxed text-gray-600 dark:text-gray-300"
-      >
-        <p>
-          In 2022, Dr. Muslem Rahimi left his role as an insurance mathematician
-          at Deloitte with a simple question: <em
-            >Why do retail investors have to trade blind while institutions see
-            everything?</em
-          >
-        </p>
-
-        <p>
-          The answer wasn't satisfying. Premium market data costs $20,000+ per
-          year. Institutional flow data is locked behind expensive terminals.
-          And the "free" alternatives? Delayed, incomplete, or buried in ads.
-        </p>
-
-        <p>
-          Stocknear was built to change that. By partnering directly with
-          top-tier data vendors and building efficient technology, we deliver
-          the same institutional-quality data at a fraction of the cost.
-        </p>
-
-        <p class="font-medium text-gray-900 dark:text-white">
-          Today, thousands of traders use Stocknear to see what the smart money
-          is doing before making their next move.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Stats Section -->
-  <section
-    class="border-t border-gray-200 shadow dark:border-gray-600 bg-gray-100 dark:bg-default"
-  >
-    <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
-      <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
-        <div class="text-center">
-          <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">
-            10,000+
-          </p>
-          <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-            Active Traders
-          </p>
-        </div>
-        <div class="text-center">
-          <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">
-            10K+
-          </p>
-          <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-            Stocks & ETFs
-          </p>
-        </div>
-        <div class="text-center">
-          <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">
-            Real-time
-          </p>
-          <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-            Data Updates
-          </p>
-        </div>
-        <div class="text-center">
-          <p class="text-4xl font-bold text-purple-600 dark:text-purple-400">
-            30 Day
-          </p>
-          <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-            Money-Back Guarantee
-          </p>
-        </div>
       </div>
     </div>
   </section>
@@ -257,7 +162,7 @@
               <p class="ml-16 text-lg font-semibold leading-6">Built for You</p>
             </dt>
             <dd class="ml-16 mt-2 text-gray-600 dark:text-gray-300">
-              We're traders too. Every feature is designed based on what we'd
+              We're investors too. Every feature is designed based on what we'd
               want to see. Your feedback shapes our roadmap—not venture
               capitalists.
             </dd>
@@ -304,16 +209,20 @@
               </div>
               <div class="text-gray-600 dark:text-gray-300 space-y-3">
                 <p>
-                  Muslem spent a decade mastering some of the most complex
-                  mathematical systems in existence—from quantum field theory to
-                  actuarial models at Deloitte.
+                  Honestly, I never planned to start a fintech company. As a
+                  physicist, I was focused on research and academia. But when I
+                  began trading stocks, I quickly saw the gaps in the tools
+                  available to retail investors.
                 </p>
                 <p>
-                  When he started trading, he realized the tools available to
-                  retail investors were either prohibitively expensive or
-                  frustratingly incomplete. So he built the platform he wished
-                  existed.
+                  I like to solve problems and I realized that by applying the
+                  same data analysis techniques from physics, I could create a
+                  platform that gives everyday investors access to
+                  institutional-grade data. So that's what I did. Stocknear was
+                  born out of a desire to challenge myself to learn new skills
+                  and build something meaningful.
                 </p>
+
                 <p class="text-sm text-gray-500 dark:text-gray-400">
                   PhD in Theoretical Particle Physics (University of Siegen) ·
                   MSc in Particle Physics (Technical University of Munich) · BSc
@@ -362,17 +271,17 @@
     <div class="mx-auto max-w-4xl px-6 py-16 lg:py-20 text-center">
       <div>
         <h2 class="text-3xl font-bold sm:text-4xl">
-          Ready to see what you've been missing?
+          Ready to access institutional-grade data?
         </h2>
         <p
           class="mt-4 text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
         >
-          Join thousands of traders who now trade with confidence. Start with a
-          free account and upgrade when you're ready.
+          Join thousands of investors who are now data-driven instead of
+          emotions. Start with a free account and upgrade when you're ready.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
           <a
-            href="/"
+            href="/register"
             class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-lg text-white bg-purple-600 hover:bg-purple-700 transition-colors shadow-lg"
           >
             Get Started Free
