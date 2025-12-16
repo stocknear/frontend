@@ -248,7 +248,7 @@
             )}`
           : "";
 
-      const labelText = `<div class="bg-[#000] p-2 border border-gray-300 dark:border-gray-700 rounded">${deltaText} (${pctText})${arrow ? ` ${arrow}` : ""}${
+      const labelText = `<div class="bg-[#000] p-2 border border-gray-300 dark:border-gray-600 rounded">${deltaText} (${pctText})${arrow ? ` ${arrow}` : ""}${
         rangeText ? `  ${rangeText}` : ""
       }</div>`;
 
