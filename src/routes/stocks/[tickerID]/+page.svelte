@@ -230,12 +230,11 @@
       const delta = (p2.y ?? 0) - (p1.y ?? 0);
       const pct = isFiniteNumber(p1.y) && p1.y !== 0 ? (delta / p1.y) * 100 : 0;
 
-      const upColor = $mode === "light" ? "#137547" : "#00FC50";
-      const downColor = $mode === "light" ? "#CC261A" : "#FF2F1F";
+      const upColor = "#00FC50";
+      const downColor = "#FF2F1F";
       const selectionColor = delta >= 0 ? upColor : downColor;
 
-      const guideColor =
-        $mode === "light" ? "rgba(0, 0, 0, 0.35)" : "rgba(255, 255, 255, 0.35)";
+      const guideColor = "rgba(255, 255, 255, 0.35)";
 
       const deltaText = `${delta > 0 ? "+" : ""}${nf2.format(delta)}`;
       const pctText = `${nf2.format(pct)}%`;
