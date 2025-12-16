@@ -1496,7 +1496,7 @@
               : ''}">{mode ? "$25" : "$35"}</span
           >
           <span class="text-white text-4xl font-bold ml-1"
-            >{mode ? "$12" : "$21"}</span
+            >{mode ? "$15" : "$21"}</span
           >
           <span class=" text-xl ml-1">/mo</span>
         </div>
