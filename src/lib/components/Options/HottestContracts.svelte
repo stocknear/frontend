@@ -1,11 +1,14 @@
 <script lang="ts">
   import { screenWidth } from "$lib/store";
-
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
   import DownloadData from "$lib/components/DownloadData.svelte";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
+  import { page } from "$app/stores";
+  import { onMount } from "svelte";
 
   export let data;
   export let ticker;
@@ -17,32 +20,33 @@
   let config = null;
 
   let rawDataHistory = [];
-
   let rawData = [];
-  let tableData = [];
+  let sortedData = [];
+  let displayList = [];
+
+  // Pagination state
+  let currentPage = 1;
+  let rowsPerPage = 20;
+  let rowsPerPageOptions = [20, 50, 100];
+  let totalPages = 1;
+  let pagePathName = $page?.url?.pathname;
+
+  const currentTime = new Date(
+    new Date().toLocaleString("en-US", { timeZone: "UTC" }),
+  )?.getTime();
 
   function convertDateFormat(dateString) {
-    // Check if the input is a valid string
     if (!dateString || typeof dateString !== "string") {
       return null;
     }
-
-    // Split the date string by '-'
     const parts = dateString.split("-");
-
-    // Validate that we have exactly 3 parts
     if (parts.length !== 3) {
       return null;
     }
-
     const [year, month, day] = parts;
-
-    // Basic validation
     if (!year || !month || !day || year.length !== 4) {
       return null;
     }
-
-    // Return in mm/dd/yyyy format
     return `${month}/${day}/${year?.slice(-2)}`;
   }
 
@@ -54,32 +58,27 @@
         dte: daysLeft(item?.date_expiration),
         otm: computeOTM(item?.strike_price, item?.option_type),
       }));
-      tableData = rawData;
     } else {
       rawData = data?.getData?.volume?.map((item) => ({
         ...item,
         dte: daysLeft(item?.date_expiration),
         otm: computeOTM(item?.strike_price, item?.option_type),
       }));
-
-      tableData = rawData;
     }
+    sortedData = [...rawData];
+    updatePaginatedData();
   }
 
   function computeOTM(strikePrice, optionType) {
-    // Get the current stock price
     const currentPrice = data?.getStockQuote?.price;
-
     let otmPercentage = 0;
 
     if (optionType === "C") {
-      // Call option: OTM is positive if strike > currentPrice, negative (ITM) otherwise
       otmPercentage = (
         ((strikePrice - currentPrice) / currentPrice) *
         100
       )?.toFixed(2);
     } else if (optionType === "P") {
-      // Put option: OTM is positive if strike < currentPrice, negative (ITM) otherwise
       otmPercentage = (
         ((currentPrice - strikePrice) / currentPrice) *
         100
@@ -88,22 +87,77 @@
       otmPercentage = "n/a";
     }
 
-    return otmPercentage; // Return the percentage rounded to two decimal places
+    return otmPercentage;
   }
-
-  const currentTime = new Date(
-    new Date().toLocaleString("en-US", { timeZone: "UTC" }),
-  )?.getTime();
 
   function daysLeft(targetDate) {
     const targetTime = new Date(targetDate).getTime();
     const difference = targetTime - currentTime;
-
     const millisecondsPerDay = 1000 * 60 * 60 * 24;
     const daysLeft = Math?.ceil(difference / millisecondsPerDay);
-
     return daysLeft + "D";
   }
+
+  // Pagination functions
+  function updatePaginatedData() {
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    displayList = sortedData?.slice(startIndex, endIndex) || [];
+    totalPages = Math.ceil((sortedData?.length || 0) / rowsPerPage);
+  }
+
+  function goToPage(page) {
+    if (page >= 1 && page <= totalPages) {
+      currentPage = page;
+      updatePaginatedData();
+    }
+  }
+
+  function changeRowsPerPage(newRowsPerPage) {
+    rowsPerPage = newRowsPerPage;
+    currentPage = 1;
+    updatePaginatedData();
+    saveRowsPerPage();
+  }
+
+  function saveRowsPerPage() {
+    if (!pagePathName || typeof localStorage === "undefined") return;
+    try {
+      const paginationKey = `${pagePathName}_rowsPerPage`;
+      localStorage.setItem(paginationKey, String(rowsPerPage));
+    } catch (e) {
+      console.warn("Failed to save rows per page preference:", e);
+    }
+  }
+
+  function loadRowsPerPage() {
+    const currentPath = pagePathName || $page?.url?.pathname;
+    if (!currentPath || typeof localStorage === "undefined") {
+      rowsPerPage = 20;
+      return;
+    }
+    try {
+      const paginationKey = `${currentPath}_rowsPerPage`;
+      const savedRows = localStorage.getItem(paginationKey);
+      if (savedRows && rowsPerPageOptions.includes(Number(savedRows))) {
+        rowsPerPage = Number(savedRows);
+      } else {
+        rowsPerPage = 20;
+      }
+    } catch (e) {
+      console.warn("Failed to load rows per page preference:", e);
+      rowsPerPage = 20;
+    }
+  }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  onMount(async () => {
+    loadRowsPerPage();
+    updatePaginatedData();
+  });
 
   $: columns = [
     { key: "strike_price", label: "Type", align: "left" },
@@ -134,29 +188,25 @@
   };
 
   const sortData = (key) => {
-    // Reset all other keys to 'none' except the current key
     for (const k in sortOrders) {
       if (k !== key) {
         sortOrders[k].order = "none";
       }
     }
 
-    // Cycle through 'none', 'asc', 'desc' for the clicked key
     const orderCycle = ["none", "asc", "desc"];
-    let originalData = rawData;
     const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
     sortOrders[key].order =
       orderCycle[(currentOrderIndex + 1) % orderCycle.length];
     const sortOrder = sortOrders[key].order;
 
-    // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
-      originalData = [...rawData]; // Reset originalData to rawData
-      tableData = originalData;
+      sortedData = [...rawData];
+      currentPage = 1;
+      updatePaginatedData();
       return;
     }
 
-    // Define a generic comparison function
     const compareValues = (a, b) => {
       const { type } = sortOrders[key];
       let valueA, valueB;
@@ -186,31 +236,37 @@
       }
     };
 
-    // Sort using the generic comparison function
-    tableData = [...originalData].sort(compareValues);
+    sortedData = [...rawData].sort(compareValues);
+    currentPage = 1;
+    updatePaginatedData();
   };
 
+  // Reactive statement to load pagination settings when page changes
+  $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
+    pagePathName = $page?.url?.pathname;
+    loadRowsPerPage();
+    updatePaginatedData();
+  }
+
   function plotBarChart() {
-    // Transform raw data
-    let sortedData = [];
+    let chartSortedData = [];
     if (type === "oi") {
-      sortedData = [...rawData]
+      chartSortedData = [...rawData]
         ?.sort((a, b) => b?.open_interest - a?.open_interest)
         ?.slice(0, 20);
     } else {
-      sortedData = [...rawData]
+      chartSortedData = [...rawData]
         ?.sort((a, b) => b?.volume - a?.volume)
         ?.slice(0, 20);
     }
 
-    const categories = sortedData?.map(
+    const categories = chartSortedData?.map(
       (item) =>
         `${convertDateFormat(item.date_expiration)} ${item.strike_price}${item.option_type}`,
     );
-    const data = sortedData.map((item) => ({
+    const chartData = chartSortedData.map((item) => ({
       y: type === "oi" ? item.open_interest : item.volume,
-      color: item.option_type === "P" ? "#f87171" : "#34d399", // red for Puts, greenish for Calls
-      // Store the original data for tooltip access
+      color: item.option_type === "P" ? "#f87171" : "#34d399",
       originalData: item,
     }));
 
@@ -235,15 +291,14 @@
             fontSize: "12px",
             fontWeight: "400",
             whiteSpace: "nowrap",
-            textOverflow: "ellipsis", // optional: add ... if it overflows
-            overflow: "hidden", // optional: hide overflow
+            textOverflow: "ellipsis",
+            overflow: "hidden",
           },
           useHTML: true,
           formatter: function () {
-            return this.value; // no <br>, just the original string
+            return this.value;
           },
         },
-
         lineWidth: 0,
         tickLength: 0,
       },
@@ -259,7 +314,7 @@
       },
       plotOptions: {
         series: {
-          pointWidth: 10, // fixed bar width
+          pointWidth: 10,
         },
         bar: {
           dataLabels: {
@@ -277,7 +332,7 @@
             },
           },
           borderWidth: 0,
-          pointPadding: $screenWidth < 640 ? 0.02 : 0.18, // Much smaller padding on mobile for thicker bars
+          pointPadding: $screenWidth < 640 ? 0.02 : 0.18,
           groupPadding: $screenWidth < 640 ? 0.4 : -0.1,
           animation: false,
           states: {
@@ -287,10 +342,10 @@
         },
       },
       tooltip: {
-        shared: false, // Changed to false since we're dealing with single series
+        shared: false,
         useHTML: true,
-        backgroundColor: "rgba(0, 0, 0, 1)", // Semi-transparent black
-        borderColor: "rgba(255, 255, 255, 0.2)", // Slightly visible white border
+        backgroundColor: "rgba(0, 0, 0, 1)",
+        borderColor: "rgba(255, 255, 255, 0.2)",
         borderWidth: 1,
         style: {
           color: "#fff",
@@ -299,19 +354,16 @@
         },
         borderRadius: 4,
         formatter: function () {
-          // Access the original data from the point
           const originalItem = this.point.originalData;
-
           let tooltipContent = `<span class="m-auto text-xs">${ticker} ${convertDateFormat(originalItem?.date_expiration)} ${originalItem.strike_price}${originalItem.option_type}</span><br>`;
           tooltipContent += `<span class="font-normal text-sm">${type === "oi" ? "OI" : "Volume"}: ${this.y?.toLocaleString("en-US")}</span><br>`;
-
           return tooltipContent;
         },
       },
       series: [
         {
           name: "Open Interest",
-          data,
+          data: chartData,
           animation: false,
         },
       ],
@@ -323,7 +375,6 @@
   $: {
     if (ticker && typeof window !== "undefined") {
       isLoaded = false;
-
       initialize();
       config = plotBarChart() || null;
       isLoaded = true;
@@ -433,7 +484,7 @@
               <TableHeader {columns} {sortOrders} {sortData} />
             </thead>
             <tbody>
-              {#each data?.user?.tier === "Pro" ? tableData : tableData?.slice(0, 3) as item, index}
+              {#each data?.user?.tier === "Pro" ? displayList : displayList?.slice(0, 3) as item, index}
                 {@const isCall = item?.option_type === "C"}
                 {@const isPut = item?.option_type === "P"}
                 {@const highVolume = item?.volume > 1000}
@@ -441,7 +492,7 @@
                 <tr
                   class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd relative {index +
                     1 ===
-                    tableData?.slice(0, 3)?.length &&
+                    displayList?.slice(0, 3)?.length &&
                   !['Pro']?.includes(data?.user?.tier)
                     ? 'opacity-[0.1]'
                     : ''}"
@@ -457,30 +508,25 @@
 
                     if ($mode === 'light') {
                       if (isCall) {
-                        // Higher intensity for high volume/OI
                         if (highVolume || highOI) {
                           return `linear-gradient(90deg, ${baseColor} 0%, rgba(34, 197, 94, 0.2) 60%, rgba(34, 197, 94, 0.3) 100%)`;
                         }
                         return `linear-gradient(90deg, ${baseColor} 0%, rgba(34, 197, 94, 0.15) 60%, rgba(34, 197, 94, 0.25) 100%)`;
                       }
                       if (isPut) {
-                        // Higher intensity for high volume/OI
                         if (highVolume || highOI) {
                           return `linear-gradient(90deg, ${baseColor} 0%, rgba(238, 83, 101, 0.2) 60%, rgba(238, 83, 101, 0.3) 100%)`;
                         }
                         return `linear-gradient(90deg, ${baseColor} 0%, rgba(238, 83, 101, 0.15) 60%, rgba(238, 83, 101, 0.25) 100%)`;
                       }
                     } else {
-                      // Dark mode
                       if (isCall) {
-                        // Higher intensity for high volume/OI
                         if (highVolume || highOI) {
                           return `linear-gradient(90deg, ${baseColor} 0%, rgba(0, 252, 80, 0.12) 60%, rgba(0, 252, 80, 0.2) 100%)`;
                         }
                         return `linear-gradient(90deg, ${baseColor} 0%, rgba(0, 252, 80, 0.08) 60%, rgba(0, 252, 80, 0.15) 100%)`;
                       }
                       if (isPut) {
-                        // Higher intensity for high volume/OI
                         if (highVolume || highOI) {
                           return `linear-gradient(90deg, ${baseColor} 0%, rgba(238, 83, 101, 0.12) 60%, rgba(238, 83, 101, 0.2) 100%)`;
                         }
@@ -575,6 +621,137 @@
             </tbody>
           </table>
         </div>
+
+        <!-- Pagination controls -->
+        {#if displayList?.length > 0 && totalPages > 0}
+          <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
+            <!-- Previous button -->
+            <div class="flex items-center gap-2">
+              <Button
+                on:click={() => goToPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+              >
+                <svg
+                  class="h-5 w-5 inline-block shrink-0 rotate-90"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  style="max-width:40px"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <span class="hidden sm:inline">Previous</span>
+              </Button>
+            </div>
+
+            <!-- Page info and rows selector in center -->
+            <div class="flex flex-row items-center gap-4">
+              <span class="text-sm sm:text-[1rem]">
+                Page {currentPage} of {totalPages}
+              </span>
+
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild let:builder>
+                  <Button
+                    builders={[builder]}
+                    class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 rounded truncate"
+                  >
+                    <span class="truncate text-[0.85rem] sm:text-sm"
+                      >{rowsPerPage} Rows</span
+                    >
+                    <svg
+                      class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </Button>
+                </DropdownMenu.Trigger>
+
+                <DropdownMenu.Content
+                  side="bottom"
+                  align="end"
+                  sideOffset={10}
+                  alignOffset={0}
+                  class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative"
+                >
+                  <DropdownMenu.Group class="pb-2">
+                    {#each rowsPerPageOptions as item}
+                      <DropdownMenu.Item
+                        class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                      >
+                        <label
+                          on:click={() => changeRowsPerPage(item)}
+                          class="inline-flex justify-between w-full items-center cursor-pointer"
+                        >
+                          <span class="text-sm">{item} Rows</span>
+                        </label>
+                      </DropdownMenu.Item>
+                    {/each}
+                  </DropdownMenu.Group>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            </div>
+
+            <!-- Next button -->
+            <div class="flex items-center gap-2">
+              <Button
+                on:click={() => goToPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+              >
+                <span class="hidden sm:inline">Next</span>
+                <svg
+                  class="h-5 w-5 inline-block shrink-0 -rotate-90"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  style="max-width:40px"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </Button>
+            </div>
+          </div>
+
+          <!-- Back to Top button -->
+          <div class="flex justify-center mt-4">
+            <button
+              on:click={scrollToTop}
+              class="cursor-pointer sm:hover:text-muted text-blue-800 dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem] font-medium"
+            >
+              Back to Top <svg
+                class="h-5 w-5 inline-block shrink-0 rotate-180"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        {/if}
 
         <UpgradeToPro {data} display={true} />
       </div>
