@@ -5,6 +5,7 @@
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
+  import DownloadData from "$lib/components/DownloadData.svelte";
 
   export let data;
   export let ticker;
@@ -193,11 +194,13 @@
     // Transform raw data
     let sortedData = [];
     if (type === "oi") {
-      sortedData = [...rawData]?.sort(
-        (a, b) => b?.open_interest - a?.open_interest,
-      );
+      sortedData = [...rawData]
+        ?.sort((a, b) => b?.open_interest - a?.open_interest)
+        ?.slice(0, 20);
     } else {
-      sortedData = [...rawData]?.sort((a, b) => b?.volume - a?.volume);
+      sortedData = [...rawData]
+        ?.sort((a, b) => b?.volume - a?.volume)
+        ?.slice(0, 20);
     }
 
     const categories = sortedData?.map(
@@ -398,6 +401,29 @@
             use:highcharts={config}
           ></div>
         {/if}
+
+        <div class="items-center lg:overflow-visible px-1 py-1 mt-5">
+          <div
+            class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+          >
+            <h2
+              class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold w-full"
+            >
+              {(rawData?.length || 0)?.toLocaleString("en-US")} Contracts
+            </h2>
+            <div
+              class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+            >
+              <div class="ml-auto">
+                <DownloadData
+                  {data}
+                  {rawData}
+                  title={`${ticker}_hottest_${type}_options_contracts`}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="w-full overflow-x-auto">
           <table

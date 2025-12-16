@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { screenWidth } from "$lib/store";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
@@ -529,13 +530,147 @@
     updatePaginatedData(); // Update display with loaded preference
   }
 
-  /*
+  function convertDateFormat(dateString) {
+    if (!dateString || typeof dateString !== "string") {
+      return null;
+    }
+    const parts = dateString.split("-");
+    if (parts.length !== 3) {
+      return null;
+    }
+    const [year, month, day] = parts;
+    if (!year || !month || !day || year.length !== 4) {
+      return null;
+    }
+    return `${month}/${day}/${year?.slice(-2)}`;
+  }
+
+  function plotBarChart() {
+    // Sort by premium (highest first) and take top 10
+    const chartData = [...rawData]
+      ?.sort((a, b) => b?.premium - a?.premium)
+      ?.slice(0, 20);
+
+    const categories = chartData?.map(
+      (item) =>
+        `${convertDateFormat(item.expiry)} ${item.strike}${item.optionType === "Calls" ? "C" : "P"}`,
+    );
+
+    const barData = chartData?.map((item) => ({
+      y: item.premium,
+      color: item.optionType === "Puts" ? "#f87171" : "#34d399",
+      originalData: item,
+    }));
+
+    const options = {
+      credits: {
+        enabled: false,
+      },
+      chart: {
+        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        type: "bar",
+        height: 360,
+        animation: false,
+      },
+      title: { text: null },
+      xAxis: {
+        categories,
+        title: null,
+        labels: {
+          style: {
+            color: $mode === "light" ? "#09090B" : "white",
+            fontSize: "12px",
+            fontWeight: "400",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+          },
+          useHTML: true,
+          formatter: function () {
+            return this.value;
+          },
+        },
+        lineWidth: 0,
+        tickLength: 0,
+      },
+      yAxis: {
+        min: 0,
+        title: null,
+        labels: {
+          style: { color: $mode === "light" ? "#545454" : "white" },
+        },
+        gridLineWidth: 0,
+        lineWidth: 0,
+        tickLength: 0,
+      },
+      plotOptions: {
+        series: {
+          pointWidth: 10,
+        },
+        bar: {
+          dataLabels: {
+            enabled: true,
+            inside: false,
+            align: "right",
+            style: {
+              color: $mode === "light" ? "#000" : "#fff",
+              fontSize: "12.5px",
+              fontWeight: "550",
+              textOutline: "none",
+            },
+            formatter: function () {
+              return "$" + (this.y / 1_000_000).toFixed(1) + "M";
+            },
+          },
+          borderWidth: 0,
+          pointPadding: $screenWidth < 640 ? 0.02 : 0.18,
+          groupPadding: $screenWidth < 640 ? 0.4 : -0.1,
+          animation: false,
+          states: {
+            hover: { enabled: false },
+            inactive: { enabled: false },
+          },
+        },
+      },
+      tooltip: {
+        shared: false,
+        useHTML: true,
+        backgroundColor: "rgba(0, 0, 0, 1)",
+        borderColor: "rgba(255, 255, 255, 0.2)",
+        borderWidth: 1,
+        style: {
+          color: "#fff",
+          fontSize: "16px",
+          padding: "10px",
+        },
+        borderRadius: 4,
+        formatter: function () {
+          const item = this.point.originalData;
+          let tooltipContent = `<span class="m-auto text-xs">${ticker} ${convertDateFormat(item?.expiry)} ${item.strike}${item.optionType === "Calls" ? "C" : "P"}</span><br>`;
+          tooltipContent += `<span class="font-normal text-sm">Premium: $${this.y?.toLocaleString("en-US")}</span><br>`;
+          tooltipContent += `<span class="font-normal text-sm">Size: ${item.size?.toLocaleString("en-US")} contracts</span><br>`;
+          tooltipContent += `<span class="font-normal text-sm">Sentiment: ${item.sentiment}</span>`;
+          return tooltipContent;
+        },
+      },
+      series: [
+        {
+          name: "Premium",
+          data: barData,
+          animation: false,
+        },
+      ],
+      legend: { enabled: false },
+    };
+    return options;
+  }
+
   $: {
-    if ($mode) {
-      config = plotData() || null;
+    if (ticker && rawData?.length > 0 && typeof window !== "undefined") {
+      config = plotBarChart() || null;
     }
   }
-    */
 </script>
 
 <section class="w-full overflow-hidden min-h-screen pb-40">
@@ -599,10 +734,10 @@
               : "orders"}
             ({((putCount / rawData.length) * 100).toFixed(1)}%),
             {@html callCount > putCount
-              ? `showing a <strong class="text-green-800 dark:text-[#00FC50]">bullish skew</strong>`
+              ? `showing a <span class="text-green-800 dark:text-[#00FC50]">bullish skew</span>`
               : putCount > callCount
-                ? `showing a <strong class="text-red-800 dark:text-[#FF2F1F]">bearish skew</strong>`
-                : `showing <strong>balanced</strong> positioning`}. Sentiment
+                ? `showing a <span class="text-red-800 dark:text-[#FF2F1F]">bearish skew</span>`
+                : `showing <span>balanced</span> positioning`}. Sentiment
             analysis reveals
             <strong
               >{((bullishCount / rawData.length) * 100).toFixed(0)}%</strong
@@ -621,17 +756,10 @@
         </p>
 
         {#if config}
-          <div>
-            <div class="grow mt-5">
-              <div class="relative">
-                <!-- Apply the blur class to the chart -->
-                <div
-                  class="mt-5 shadow sm:mt-0 sm:border sm:border-gray-300 dark:border-gray-800 rounded"
-                  use:highcharts={config}
-                ></div>
-              </div>
-            </div>
-          </div>
+          <div
+            class="sm:p-3 shadow border border-gray-300 dark:border-gray-800 rounded mt-4 mb-4"
+            use:highcharts={config}
+          ></div>
         {/if}
 
         <div class="items-center lg:overflow-visible px-1 py-1 mt-5">
