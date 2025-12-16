@@ -233,6 +233,7 @@
       const upColor = "#00FC50";
       const downColor = "#FF2F1F";
       const selectionColor = delta >= 0 ? upColor : downColor;
+      const markerColor = $mode === "light" ? "#000000" : "#FFFFFF";
 
       const guideColor = "rgba(255, 255, 255, 0.35)";
 
@@ -267,16 +268,18 @@
       state.startMarker?.attr({
         x: x1,
         y: y1,
-        fill: selectionColor,
-        stroke: selectionColor,
+        fill: markerColor,
+        stroke: markerColor,
         opacity: 1,
+        "stroke-width": 2,
       });
       state.endMarker?.attr({
         x: x2,
         y: y2,
-        fill: selectionColor,
-        stroke: selectionColor,
+        fill: markerColor,
+        stroke: markerColor,
         opacity: 1,
+        "stroke-width": 2,
       });
 
       const midX = (x1 + x2) / 2;
