@@ -160,6 +160,14 @@
     const fillColorStart = "rgb(70, 129, 244,0.5)";
     const fillColorEnd = "rgb(70, 129, 244,0.001)";
 
+    // Find the lowest & highest close values
+    let minValue = Math?.min(...closeValues?.map((item) => item));
+    let maxValue = Math?.max(...closeValues?.map((item) => item));
+
+    let padding = 0.002;
+    let yMin = minValue * (1 - padding) === 0 ? null : minValue * (1 - padding);
+    let yMax = maxValue * (1 + padding) === 0 ? null : maxValue * (1 + padding);
+
     const options = {
       chart: {
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
@@ -208,6 +216,8 @@
         },
       },
       yAxis: {
+        min: yMin ?? null,
+        max: yMax ?? null,
         gridLineWidth: 1,
         gridLineColor: $mode === "light" ? "#e5e7eb" : "#111827",
         labels: {
@@ -264,8 +274,8 @@
       series: [
         {
           name: "Price",
-          data: closeValues.map((value, index) => {
-            return markers.some((marker) => marker.x === index)
+          data: closeValues?.map((value, index) => {
+            return markers?.some((marker) => marker?.x === index)
               ? { y: value } // Keeps the price plotted while allowing markers
               : value;
           }),
