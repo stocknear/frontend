@@ -2698,15 +2698,19 @@
                   {:else}
                     <span>{item[column.key]?.toFixed(2)}%</span>
                   {/if}
-                {:else if column?.type === "rating"}
-                  {item[column.key]}
-                {:else if column.type === "sentiment"}
+                {:else if column.type === "sentiment" || column?.type === "rating"}
                   <div
-                    class={item[column.key] === "Bullish"
+                    class={["Bullish", "Buy", "Strong Buy"]?.includes(
+                      item[column.key],
+                    )
                       ? "text-green-800 dark:text-[#00FC50]"
-                      : item[column.key] === "Neutral"
+                      : ["Neutral", "Hold"]?.includes(item[column.key])
                         ? "text-[#E57C34] dark:text-yellow-500"
-                        : "text-red-800 dark:text-[#FF2F1F]"}
+                        : ["Bearish", "Sell", "Strong Sell"]?.includes(
+                              item[column.key],
+                            )
+                          ? "text-red-800 dark:text-[#FF2F1F]"
+                          : ""}
                   >
                     {item[column.key]}
                   </div>

@@ -79,7 +79,7 @@
   ];
 
   const specificRows = [
-    { name: "Sentiment", rule: "sentiment", type: "rating" },
+    { name: "Sentiment", rule: "sentiment", type: "sentiment" },
   ];
 
   let configPieChart = null;
