@@ -9,6 +9,7 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { goto } from "$app/navigation";
   import highcharts from "$lib/highcharts.ts";
+  import { createHighchartsRangeSelector } from "$lib/highchartsRangeSelector";
   import { mode } from "mode-watcher";
 
   export let data;
@@ -221,6 +222,21 @@
         animation: false,
         height: 360,
         events: {
+          render: function () {
+            const chart: any = this;
+            if (!chart.__rangeSelector) {
+              chart.__rangeSelector = createHighchartsRangeSelector(chart, {
+                getRange: () => `HISTORY_${plotPeriod}`,
+                getMode: () => $mode,
+              });
+            }
+            chart.__rangeSelector.sync(`HISTORY_${plotPeriod}`);
+          },
+          destroy: function () {
+            const chart: any = this;
+            chart.__rangeSelector?.destroy?.();
+            chart.__rangeSelector = null;
+          },
           // Add touch event handling to hide tooltip on mobile
           load: function () {
             const chart = this;
@@ -267,6 +283,9 @@
         },
         borderRadius: 4,
         formatter: function () {
+          if (this.chart?.__rangeSelector?.selecting) {
+            return false;
+          }
           const date = new Date(this?.x);
           let formattedDate = date?.toLocaleDateString("en-US", {
             year: "numeric",
