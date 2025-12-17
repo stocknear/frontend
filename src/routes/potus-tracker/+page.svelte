@@ -9,7 +9,6 @@
   import { mode } from "mode-watcher";
   import { goto } from "$app/navigation";
   //import html2canvas from "html2canvas-pro";
-  import Tutorial from "$lib/components/Tutorial.svelte";
 
   export let data;
 
@@ -575,71 +574,6 @@
   }
     */
 
-  let steps = [
-    {
-      popover: {
-        title: "POTUS Tracker",
-        description: `This dashboard tracks the President of the United States in real-time. Get updates on the POTUS schedule, executive orders, signed legislation and official events.`,
-        side: "center",
-        align: "center",
-      },
-    },
-    {
-      element: ".chart-driver",
-      popover: {
-        title: "Economy Performance",
-        description: `Since the inauguration of POTUS on January 20, 2025, the ${selectedSector} has ${data?.getData?.marketPerformance[sectorDict[selectedSector]]["Inauguration"] >= 0 ? "grown" : "declined"} by ${data?.getData?.marketPerformance[sectorDict[selectedSector]]["Inauguration"]}%.`,
-        side: "left",
-        align: "start",
-      },
-    },
-    {
-      element: ".sector-driver",
-      popover: {
-        title: "All Market Sectors",
-        description: `Visual representation of all market sectors performance across multiple timeframes since POTUS inauguration to get a quick snapshot of the sector health.`,
-        side: "right",
-        align: "start",
-      },
-    },
-    {
-      element: ".navbar-driver ul > button:nth-child(1)",
-      popover: {
-        title: "Presidential Schedule",
-        description: `View the President's daily agenda and upcoming events in real-time.`,
-        side: "bottom",
-        align: "start",
-      },
-    },
-    {
-      element: ".navbar-driver ul > button:nth-child(2)",
-      popover: {
-        title: "Executive Orders",
-        description: `Track executive orders signed by President Trump and analyze their potential market impact.`,
-        side: "bottom",
-        align: "start",
-      },
-    },
-    {
-      element: ".navbar-driver ul > button:nth-child(3)",
-      popover: {
-        title: "Truth Social Posts",
-        description: `Monitor the President's latest Truth Social communications that may influence market sentiment.`,
-        side: "right",
-        align: "start",
-      },
-    },
-    {
-      popover: {
-        title: "You’re All Set!",
-        description:
-          "All dashboard panels refresh live—so you’re always on top of how presidential moves impact the market. You’re all set, happy exploring!",
-        side: "center",
-        align: "center",
-      },
-    },
-  ];
-
   $: {
     if (selectedSector || $mode) {
       config = plotData() || null;
@@ -679,7 +613,6 @@
               class="border-b-[2px] border-[#2C6288] dark:border-white flex flex-row justify-between"
             >
               <h1 class="mb-1 text-2xl sm:text-3xl font-bold">POTUS Tracker</h1>
-              <Tutorial {steps} />
             </div>
           </div>
 
