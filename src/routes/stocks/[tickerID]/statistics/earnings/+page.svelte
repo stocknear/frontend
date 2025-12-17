@@ -764,29 +764,33 @@
                           <td
                             class=" text-sm sm:text-[1rem] text-right whitespace-nowrap"
                           >
-                            {item?.eps ?? "n/a"}
+                            {item?.eps && item?.eps?.length > 0
+                              ? item?.eps
+                              : "-"}
                           </td>
 
                           <td
                             class=" text-sm sm:text-[1rem] text-right whitespace-nowrap"
                           >
-                            {item?.eps_est ?? "n/a"}
+                            {item?.eps_est && item?.eps_est?.length > 0
+                              ? item?.eps_est
+                              : "-"}
                           </td>
 
                           <td
                             class=" text-sm sm:text-[1rem] text-right whitespace-nowrap"
                           >
-                            {item.revenue
+                            {item.revenue && item.revenue?.length > 0
                               ? abbreviateNumber(item.revenue)
-                              : "n/a"}
+                              : "-"}
                           </td>
 
                           <td
                             class=" text-sm sm:text-[1rem] text-right whitespace-nowrap"
                           >
-                            {item.revenue_est
+                            {item.revenue_est && item.revenue_est?.length > 0
                               ? abbreviateNumber(item.revenue_est)
-                              : "n/a"}
+                              : "-"}
                           </td>
                         </tr>
                       {/if}

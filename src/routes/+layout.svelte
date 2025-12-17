@@ -10,7 +10,6 @@
   import Footer from "$lib/components/Footer.svelte";
   import Searchbar from "$lib/components/Searchbar.svelte";
   import NotificationBell from "$lib/components/NotificationBell.svelte";
-  import CookieConsent from "$lib/components/CookieConsent.svelte";
   //import PullToRefresh from '$lib/components/PullToRefresh.svelte';
 
   //import DiscountBanner from '$lib/components/DiscountBanner.svelte';
@@ -110,6 +109,9 @@
   }
   // Track if marketing scripts have been loaded this session
   let marketingScriptsLoaded = false;
+  let showCookieConsentAfterDelay = false;
+  let cookieConsentDelayTimer: ReturnType<typeof setTimeout> | undefined =
+    undefined;
 
   // Initialize GTM dataLayer
   function initDataLayer() {
@@ -237,6 +239,11 @@
 
     if (!browser) return;
 
+    // Delay mounting the cookie consent component to keep initial load snappy
+    cookieConsentDelayTimer = setTimeout(() => {
+      showCookieConsentAfterDelay = true;
+    }, 2000);
+
     // Force auth state synchronization in production
     // This fixes the hydration mismatch where server/client auth states differ
     const currentUser = data?.user;
@@ -270,6 +277,8 @@
 
     // Cleanup function
     return () => {
+      if (cookieConsentDelayTimer) clearTimeout(cookieConsentDelayTimer);
+
       // Clean up worker on unmount
       if (syncWorker) {
         syncWorker.terminate();
@@ -1792,12 +1801,17 @@
 {/if}
 
 <!-- Cookie Consent Banner -->
-<CookieConsent
-  cookieConsent={data?.cookieConsent
-    ? JSON.stringify(data.cookieConsent)
-    : undefined}
-  on:consent={handleConsentChange}
-/>
+{#if showCookieConsentAfterDelay}
+  {#await import("$lib/components/CookieConsent.svelte") then { default: Comp }}
+    <svelte:component
+      this={Comp}
+      cookieConsent={data?.cookieConsent
+        ? JSON.stringify(data.cookieConsent)
+        : undefined}
+      on:consent={handleConsentChange}
+    />
+  {/await}
+{/if}
 
 <style lang="scss">
   :root {
