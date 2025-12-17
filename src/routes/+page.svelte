@@ -100,6 +100,7 @@
     <svelte:component this={AppInstalled} />
   {/if}
 
+  <!--
   {#if !["Pro", "Plus"].includes(data?.user?.tier)}
     <div class="flex justify-center mb-5 text-center mt-5 sm:mt-0 px-4">
       <a
@@ -154,7 +155,7 @@
       </a>
     </div>
   {/if}
-
+-->
   <main id="main">
     <div
       class="border-b border-gray-100 dark:border-gray-800 rounded-[5px] px-4 bg-gray-100 dark:bg-[#1C1E22] pt-8 sm:pt-12 shadow-sm pb-26 landscape:border-t-2 landscape:md:border-t-0"
