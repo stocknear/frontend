@@ -14,6 +14,24 @@ type RangeSelectorController = {
 const isFiniteNumber = (value: unknown): value is number =>
   typeof value === "number" && Number.isFinite(value);
 
+const hexToRgba = (hex: string, alpha: number): string => {
+  const normalized = hex.replace("#", "");
+  const expanded =
+    normalized.length === 3
+      ? normalized
+          .split("")
+          .map((c) => c + c)
+          .join("")
+      : normalized;
+
+  if (expanded.length !== 6) return `rgba(0, 0, 0, ${alpha})`;
+
+  const r = parseInt(expanded.slice(0, 2), 16);
+  const g = parseInt(expanded.slice(2, 4), 16);
+  const b = parseInt(expanded.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
+
 const getPointTimeMs = (point: any): number | null => {
   if (!point) return null;
   if (isFiniteNumber(point.category)) return point.category;
@@ -66,6 +84,8 @@ export function createHighchartsRangeSelector(
     startChartX: null as number | null,
     pointerId: null as number | null,
     lastRange: null as string | null,
+    highlightGroup: null as any,
+    selectionRect: null as any,
     group: null as any,
     startLine: null as any,
     endLine: null as any,
@@ -85,6 +105,17 @@ export function createHighchartsRangeSelector(
 
   const ensureElements = () => {
     if (state.group) return;
+
+    state.highlightGroup = chart.renderer
+      .g("range-selector-highlight")
+      .attr({ zIndex: 2 })
+      .css({ pointerEvents: "none" })
+      .add();
+
+    state.selectionRect = chart.renderer
+      .rect(0, 0, 0, 0)
+      .attr({ opacity: 0 })
+      .add(state.highlightGroup);
 
     state.group = chart.renderer
       .g("range-selector")
@@ -129,6 +160,7 @@ export function createHighchartsRangeSelector(
 
   const hideOverlay = () => {
     if (!state.group) return;
+    state.selectionRect?.attr({ opacity: 0 });
     state.startLine?.attr({ opacity: 0 });
     state.endLine?.attr({ opacity: 0 });
     state.startMarker?.attr({ opacity: 0 });
@@ -213,6 +245,7 @@ export function createHighchartsRangeSelector(
     const markerColor = getMode() === "light" ? "#000000" : "#FFFFFF";
     const guideColor =
       getMode() === "light" ? "rgba(0, 0, 0, 0.35)" : "rgba(255, 255, 255, 0.35)";
+    const highlightAlpha = getMode() === "light" ? 0.12 : 0.16;
 
     const range = callbacks.getRange();
     const deltaText = `${delta > 0 ? "+" : ""}${nf2.format(delta)}`;
@@ -228,6 +261,18 @@ export function createHighchartsRangeSelector(
     }</div>`;
 
     ensureElements();
+
+    const left = Math.min(x1, x2);
+    const width = Math.abs(x2 - x1);
+    const height = bottom - top;
+    state.selectionRect?.attr({
+      x: left,
+      y: top,
+      width,
+      height,
+      fill: hexToRgba(selectionColor, highlightAlpha),
+      opacity: width > 0 ? 1 : 0,
+    });
 
     state.startLine?.attr({
       d: ["M", x1, top, "L", x1, bottom],
@@ -404,6 +449,8 @@ export function createHighchartsRangeSelector(
 
     state.group?.destroy?.();
     state.group = null;
+    state.highlightGroup?.destroy?.();
+    state.highlightGroup = null;
   };
 
   return {
