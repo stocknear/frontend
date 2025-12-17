@@ -148,7 +148,7 @@
           href="/pricing"
           class="mt-10 flex justify-center text-[1rem] items-center px-5 w-fit m-auto border-none rounded btn btn-lg font-semibold text-white dark:text-black bg-default dark:bg-[#fff] dark:sm:hover:bg-gray-300 transition duration-150 ease-in-out group"
         >
-          Get Pro Membership
+          Upgrade Now
           <span
             class="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out"
           >

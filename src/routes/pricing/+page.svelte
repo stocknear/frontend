@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
 
   import SEO from "$lib/components/SEO.svelte";
-  import Discount from "$lib/components/Discount.svelte";
+  //import Discount from "$lib/components/Discount.svelte";
   export let data;
   export let form;
 
@@ -202,7 +202,7 @@
       </h1>
     </div>
 
-    <Discount />
+    <!--<Discount />-->
 
     <div class="flex flex-row items-center justify-center">
       <div class="flex flex-row items-center ml-auto">
@@ -974,15 +974,15 @@
       >
         <h3 class="text-3xl font-bold">Plus</h3>
         <p class="text-muted dark:text-zinc-300 text-sm mt-1">
-          Essential tools for individual traders
+          Essential tools for individual investors
         </p>
         <div class="mt-4">
-          <span class="text-gray-400 text-4xl font-bold line-through"
-            >{mode ? "$7.50" : "$10"}</span
-          >
+          <span class=" text-4xl font-bold">{mode ? "$7.50" : "$10"}</span>
 
-          <span class=" text-4xl font-bold ml-1">{mode ? "$4.5" : "$6"}</span
-          ><span class=" text-xl">/mo</span>
+          <!-- <span class=" text-4xl font-bold ml-1">{mode ? "$4.5" : "$6"}</span
+          >--><span
+            class=" text-xl">/mo</span
+          >
         </div>
         <p
           class="text-muted dark:text-gray-400 text-sm mt-1 mx-4 {!mode
@@ -1499,14 +1499,12 @@
           Professional tools at retail prices
         </p>
         <div class="mt-4">
-          <span
-            class="text-gray-400 text-4xl font-bold line-through {!mode
-              ? ''
-              : ''}">{mode ? "$25" : "$35"}</span
+          <span class="text-white text-4xl font-bold {!mode ? '' : ''}"
+            >{mode ? "$25" : "$35"}</span
           >
-          <span class="text-white text-4xl font-bold ml-1"
+          <!-- <span class="text-white text-4xl font-bold ml-1"
             >{mode ? "$15" : "$21"}</span
-          >
+          >-->
           <span class=" text-xl ml-1">/mo</span>
         </div>
         <p
