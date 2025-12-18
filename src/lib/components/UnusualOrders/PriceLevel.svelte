@@ -2,16 +2,12 @@
   import { displayCompanyName } from "$lib/store";
   import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
   import highcharts from "$lib/highcharts.ts";
-  import RealtimeTrade from "$lib/components/UnusualOrders/RealtimeTrade.svelte";
   import { mode } from "mode-watcher";
-  import { goto } from "$app/navigation";
   let category = "Today's Trend";
 
   export let data;
   export let rawData = [];
   export let metrics = {};
-
-  let isPro = data?.user?.tier === "Pro";
 
   let currentPrice = Number(data?.getStockQuote?.price?.toFixed(2));
 
@@ -193,66 +189,9 @@
 
       <div class=" rounded mt-5 sm:mt-0">
         <div
-          class="mt-5 mb-3 flex items-center justify-end w-full border-y border-gray-300 dark:border-gray-800 py-2"
-        >
-          <div
-            class="inline-flex rounded shadow-sm border border-gray-300 dark:border-gray-700"
-          >
-            {#each ["Today's Trend", "Price Level"] as item, i}
-              {#if !["Pro"]?.includes(data?.user?.tier) && i > 0}
-                <button
-                  on:click={() => goto("/pricing")}
-                  class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
-                          {i === 0 ? 'rounded-l border' : ''}
-                          {i === 2
-                    ? 'rounded-r border-t border-r border-b'
-                    : ''}
-                          {i !== 0 && i !== 2 ? 'border-t border-b' : ''}
-                          {category === item
-                    ? 'bg-black dark:bg-white text-white dark:text-black'
-                    : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
-                >
-                  <span class="relative text-sm block font-semibold">
-                    {item}
-                    <svg
-                      class="inline-block ml-0.5 -mt-1 w-3.5 h-3.5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      ><path
-                        fill="currentColor"
-                        d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                      /></svg
-                    >
-                  </span>
-                </button>
-              {:else}
-                <button
-                  on:click={() => (category = item)}
-                  class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
-                          {i === 0 ? 'rounded-l border' : ''}
-                          {i === 2
-                    ? 'rounded-r border-t border-r border-b'
-                    : ''}
-                          {i !== 0 && i !== 2 ? 'border-t border-b' : ''}
-                          {category === item
-                    ? 'bg-black dark:bg-white text-white dark:text-black'
-                    : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
-                >
-                  {item}
-                </button>
-              {/if}
-            {/each}
-          </div>
-        </div>
-
-        {#if category === "Price Level"}
-          <div
-            class="border border-gray-300 dark:border-gray-800 rounded w-full"
-            use:highcharts={config}
-          ></div>
-        {:else}
-          <RealtimeTrade {data} />
-        {/if}
+          class="border border-gray-300 dark:border-gray-800 rounded w-full"
+          use:highcharts={config}
+        ></div>
       </div>
     {/if}
   </main>

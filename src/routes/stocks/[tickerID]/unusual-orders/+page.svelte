@@ -1,18 +1,20 @@
 <script lang="ts">
-  import { displayCompanyName, stockTicker } from "$lib/store";
-  import HistoricalDarkPool from "$lib/components/UnusualOrders/HistoricalDarkPool.svelte";
-  import PriceLevel from "$lib/components/UnusualOrders/PriceLevel.svelte";
-  import InfoModal from "$lib/components/InfoModal.svelte";
-  import Infobox from "$lib/components/Infobox.svelte";
-  import HottestTrades from "$lib/components/UnusualOrders/HottestTrades.svelte";
-  import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
-  import SEO from "$lib/components/SEO.svelte";
+	  import { displayCompanyName, stockTicker } from "$lib/store";
+	  import HistoricalDarkPool from "$lib/components/UnusualOrders/HistoricalDarkPool.svelte";
+	  import PriceLevel from "$lib/components/UnusualOrders/PriceLevel.svelte";
+	  import Exchange from "$lib/components/UnusualOrders/Exchange.svelte";
+	  import InfoModal from "$lib/components/InfoModal.svelte";
+	  import Infobox from "$lib/components/Infobox.svelte";
+	  import HottestTrades from "$lib/components/UnusualOrders/HottestTrades.svelte";
+	  import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
+	  import SEO from "$lib/components/SEO.svelte";
 
-  export let data;
-  let historicalDarkPool = data?.getHistoricalDarkPool || [];
-  let priceLevel = data?.getPriceLevel?.priceLevel || [];
+	  export let data;
+	  let historicalDarkPool = data?.getHistoricalDarkPool || [];
+	  let priceLevel = data?.getPriceLevel?.priceLevel || [];
+	  let exchangeData = data?.getPriceLevel?.exchangeData || [];
 
-  let hottestTrades = data?.getPriceLevel?.hottestTrades || [];
+	  let hottestTrades = data?.getPriceLevel?.hottestTrades || [];
 </script>
 
 <SEO
@@ -112,18 +114,21 @@
             </div>
           {/if}
         </div>
-        {#if priceLevel?.length > 0}
-          <PriceLevel
-            {data}
-            rawData={priceLevel}
-            metrics={data?.getPriceLevel?.metrics}
-          />
-        {/if}
-        {#if hottestTrades?.length > 0}
-          <HottestTrades
-            {data}
-            rawData={hottestTrades}
-            ticker={$stockTicker?.toUpperCase()}
+	        {#if priceLevel?.length > 0}
+	          <PriceLevel
+	            {data}
+	            rawData={priceLevel}
+	            metrics={data?.getPriceLevel?.metrics}
+	          />
+	        {/if}
+	        {#if exchangeData?.length > 0}
+	          <Exchange {data} rawData={exchangeData} />
+	        {/if}
+	        {#if hottestTrades?.length > 0}
+	          <HottestTrades
+	            {data}
+	            rawData={hottestTrades}
+	            ticker={$stockTicker?.toUpperCase()}
           />
         {/if}
 
