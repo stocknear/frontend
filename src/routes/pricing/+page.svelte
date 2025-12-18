@@ -989,7 +989,7 @@
             ? 'hidden'
             : ''}"
         >
-          (Billed Annually)
+          ($90 Billed Annually)
         </p>
 
         <ul class="mt-6 mb-6 space-y-2">
@@ -1500,7 +1500,7 @@
         </p>
         <div class="mt-4">
           <span class="text-white text-4xl font-bold {!mode ? '' : ''}"
-            >{mode ? "$25" : "$35"}</span
+            >{mode ? "$20" : "$35"}</span
           >
           <!-- <span class="text-white text-4xl font-bold ml-1"
             >{mode ? "$15" : "$21"}</span
@@ -1512,7 +1512,7 @@
             ? 'hidden'
             : ''}"
         >
-          (Billed Annually)
+          ($240 Billed Annually)
         </p>
 
         <ul class="mt-6 mb-6 space-y-2">
