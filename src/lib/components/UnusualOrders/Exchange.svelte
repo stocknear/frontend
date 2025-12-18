@@ -163,6 +163,7 @@
       },
       tooltip: {
         zIndex: 20,
+        outside: true,
         shared: true,
         useHTML: true,
         backgroundColor: "rgba(0, 0, 0, 1)",
@@ -285,7 +286,13 @@
             {/if}
           </p>
         </div>
-      {/if}
+{/if}
+
+<style>
+  :global(.highcharts-tooltip-container) {
+    z-index: 9999 !important;
+  }
+</style>
 
       <div class="rounded mt-5 sm:mt-0">
         <div
