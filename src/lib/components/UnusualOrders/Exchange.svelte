@@ -214,30 +214,47 @@
         borderRadius: 4,
         formatter: function () {
           const idx = this.points?.[0]?.point?.index ?? 0;
-          const date = fullDates[idx] || "";
-          const totalPrem = totalPremiums[idx] ?? 0;
-          let html = `<span class=\"m-auto text-sm font-[501]\">${date}</span><br>`;
-          html += `<span class=\"font-semibold text-sm\">Total Transaction:</span> <span class=\"font-normal text-sm\">${abbreviateNumber(
-            totalPrem,
-            true,
-            true,
-          )}</span><br>`;
+          const dateStr = fullDates[idx] || "";
+          const formattedDate = dateStr
+            ? new Date(`${dateStr}T00:00:00Z`).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                timeZone: "UTC",
+              })
+            : "";
 
-          const points = [...(this.points || [])].sort(
-            (a, b) => (Number(b.y) || 0) - (Number(a.y) || 0),
-          );
+          let total = 0;
+          const points = (this.points || [])
+            .filter((p) => p?.y !== null && p?.y !== undefined && Number(p.y) > 0)
+            .sort((a, b) => (Number(b.y) || 0) - (Number(a.y) || 0));
 
-          for (const p of points) {
-            const y = Number(p.y) || 0;
-            html += `<span style=\"display:inline-block;width:10px;height:10px;background-color:${p.color};border-radius:50%;margin-right:6px;\"></span>`;
-            html += `<span class=\"font-semibold text-sm\">${p.series.name}:</span> `;
-            html += `<span class=\"font-normal text-sm\">${abbreviateNumber(
-              y,
-              true,
-              true,
-            )}</span><br>`;
-          }
-          return html;
+          points.forEach((p) => {
+            total += Number(p.y) || 0;
+          });
+
+          let content = `<div style="min-width: 250px; max-width: 400px;">`;
+          content += `<div style="font-weight: 600; margin-bottom: 5px; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px;">${formattedDate}</div>`;
+          content += `<div style="display: grid; gap: 6px;">`;
+
+          points.forEach((point) => {
+            content += `
+              <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 5px; align-items: center;">
+                <span style="color: ${point.color}; font-size: 14px;">●</span>
+                <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px;">${point.series.name}</span>
+                <span style="font-weight: 600; white-space: nowrap; font-size: 14px;">${abbreviateNumber(Number(point.y) || 0, true, true)}</span>
+              </div>`;
+          });
+
+          content += `</div>`;
+          content += `
+            <div style="margin-top: 12px; padding-top: 5px; border-top: 1px solid rgba(255,255,255,0.3); display: flex; justify-content: space-between; font-size: 14px;">
+              <span style="font-weight: 600; font-size: 14px;">Total Transaction:</span>
+              <span style="font-weight: 700; font-size: 14px;">${abbreviateNumber(total, true, true)}</span>
+            </div>`;
+          content += `</div>`;
+
+          return content;
         },
       },
       plotOptions: {
