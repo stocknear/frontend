@@ -3,7 +3,7 @@
   import InfoModal from "$lib/components/InfoModal.svelte";
   import { mode } from "mode-watcher";
   import { displayCompanyName } from "$lib/store";
-  import { removeCompanyStrings } from "$lib/utils";
+  import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
 
   export let data;
   export let rawData: Array<Record<string, any>> = [];
@@ -48,7 +48,7 @@
     const allKeys = new Set<string>();
     for (const row of sorted) {
       for (const key of Object.keys(row)) {
-        if (key !== "date") allKeys.add(key);
+        if (key !== "date" && key !== "totalPremium") allKeys.add(key);
       }
     }
 
@@ -57,11 +57,25 @@
 
     const hasOffExchange = allKeys.has("Off-Exchange");
 
+    const totalPremiumForRow = (row: Record<string, any>): number =>
+      Number.isFinite(Number(row?.totalPremium)) ? Number(row.totalPremium) : 0;
+
+    const daySumPctForRow = (row: Record<string, any>): number =>
+      Object.keys(row)
+        .filter((k) => k !== "date" && k !== "totalPremium")
+        .reduce((acc, k) => acc + parsePct(row[k]), 0);
+
     const scores = keys
       .filter((k) => k !== "Off-Exchange")
       .map((k) => ({
         key: k,
-        score: sorted.reduce((acc, row) => acc + parsePct(row[k]), 0),
+        score: sorted.reduce((acc, row) => {
+          const totalPrem = totalPremiumForRow(row);
+          if (totalPrem <= 0) return acc;
+          const daySumPct = daySumPctForRow(row);
+          if (daySumPct <= 0) return acc;
+          return acc + (totalPrem * parsePct(row[k])) / daySumPct;
+        }, 0),
       }))
       .sort((a, b) => b.score - a.score);
 
@@ -78,6 +92,10 @@
 
     const fullDates = sorted.map((r) => r.date.slice(0, 10));
     const categories = fullDates.map(formatDateShort);
+    const totalPremiums = sorted.map((r) =>
+      Number.isFinite(Number(r?.totalPremium)) ? Number(r.totalPremium) : 0,
+    );
+    const maxTotalPremium = Math.max(0, ...totalPremiums);
 
     const isLightMode = $mode === "light";
     const isDarkMode = !isLightMode;
@@ -102,14 +120,20 @@
     const seriesKeys = [...selectedKeys, ...(needsOther ? ["Other"] : [])];
     const series = seriesKeys.map((name, index) => {
       const data = sorted.map((row) => {
+        const totalPrem = totalPremiumForRow(row);
+        if (totalPrem <= 0) return 0;
+
+        const daySumPct = daySumPctForRow(row);
+        if (daySumPct <= 0) return 0;
+
         if (name === "Other") {
           let other = 0;
           for (const k of keys) {
             if (!selectedKeySet.has(k)) other += parsePct(row[k]);
           }
-          return other;
+          return (totalPrem * other) / daySumPct;
         }
-        return parsePct(row[name]);
+        return (totalPrem * parsePct(row[name])) / daySumPct;
       });
 
       return {
@@ -119,6 +143,7 @@
         color: seriesColor(name, index),
         animation: false,
         borderRadius: "4px",
+        yAxis: 0,
       };
     });
 
@@ -131,7 +156,7 @@
         height: 360,
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-[1rem]  sm:text-lg">Exchange Breakdown (30D)</h3>`,
+        text: `<h3 class="mt-3  text-[1rem]  sm:text-lg">Exchange Distribution</h3>`,
         useHTML: true,
         zIndex: 0,
         style: { color: isLightMode ? "black" : "white" },
@@ -151,13 +176,29 @@
       },
       yAxis: {
         min: 0,
-        max: 100,
+        max: maxTotalPremium,
+        opposite: true,
         title: { text: null },
         gridLineColor: isLightMode ? "#e5e7eb" : "#1f2937",
+        stackLabels: {
+          enabled: true,
+          allowOverlap: false,
+          crop: false,
+          overflow: "allow",
+          style: {
+            color: isLightMode ? "black" : "white",
+            fontSize: "13px",
+            fontWeight: "bold",
+            textOutline: "none",
+          },
+          formatter: function () {
+            return abbreviateNumber(this.total, true, true);
+          },
+        },
         labels: {
           style: { color: isLightMode ? "#545454" : "#fff" },
           formatter: function () {
-            return this.value.toFixed(0) + "%";
+            return abbreviateNumber(this.value, true, true);
           },
         },
       },
@@ -174,16 +215,27 @@
         formatter: function () {
           const idx = this.points?.[0]?.point?.index ?? 0;
           const date = fullDates[idx] || "";
+          const totalPrem = totalPremiums[idx] ?? 0;
           let html = `<span class=\"m-auto text-sm font-[501]\">${date}</span><br>`;
+          html += `<span class=\"font-semibold text-sm\">Total Transaction:</span> <span class=\"font-normal text-sm\">${abbreviateNumber(
+            totalPrem,
+            true,
+            true,
+          )}</span><br>`;
+
           const points = [...(this.points || [])].sort(
             (a, b) => (Number(b.y) || 0) - (Number(a.y) || 0),
           );
+
           for (const p of points) {
             const y = Number(p.y) || 0;
-            const pctText = y === 0 ? "&lt; 0.01%" : `${y.toFixed(1)}%`;
             html += `<span style=\"display:inline-block;width:10px;height:10px;background-color:${p.color};border-radius:50%;margin-right:6px;\"></span>`;
             html += `<span class=\"font-semibold text-sm\">${p.series.name}:</span> `;
-            html += `<span class=\"font-normal text-sm\">${pctText}</span><br>`;
+            html += `<span class=\"font-normal text-sm\">${abbreviateNumber(
+              y,
+              true,
+              true,
+            )}</span><br>`;
           }
           return html;
         },
@@ -191,8 +243,8 @@
       plotOptions: {
         column: {
           stacking: "normal",
-          groupPadding: 0.08,
-          pointPadding: 0.04,
+          groupPadding: 0.15,
+          pointPadding: 0.05,
           borderWidth: 0,
         },
         series: {
@@ -217,17 +269,23 @@
   $: latestOffExchange = latestRow ? parsePct(latestRow["Off-Exchange"]) : 0;
   $: latestTotalPct = latestRow
     ? Object.keys(latestRow)
-        .filter((k) => k !== "date")
+        .filter((k) => k !== "date" && k !== "totalPremium")
         .reduce((acc, k) => acc + parsePct(latestRow[k]), 0)
     : 0;
   $: latestOnExchange =
     latestTotalPct > 0 ? Math.max(0, latestTotalPct - latestOffExchange) : 0;
+  $: latestTotalPremium = latestRow
+    ? Number.isFinite(Number(latestRow?.totalPremium))
+      ? Number(latestRow.totalPremium)
+      : 0
+    : 0;
   $: latestTopVenue = (() => {
     if (!latestRow) return { name: "", pct: 0 };
     let bestName = "";
     let bestPct = 0;
     for (const k of Object.keys(latestRow)) {
-      if (k === "date" || k === "Off-Exchange") continue;
+      if (k === "date" || k === "totalPremium" || k === "Off-Exchange")
+        continue;
       const v = parsePct(latestRow[k]);
       if (v > bestPct) {
         bestPct = v;
@@ -243,7 +301,7 @@
     let n = 0;
     for (const row of sortedRows) {
       const total = Object.keys(row)
-        .filter((k) => k !== "date")
+        .filter((k) => k !== "date" && k !== "totalPremium")
         .reduce((acc, k) => acc + parsePct(row[k]), 0);
       if (total <= 0) continue;
       sum += parsePct(row["Off-Exchange"]);
@@ -284,15 +342,19 @@
               , with {latestTopVenue.name} the largest on-exchange venue at
               <strong> {pctText(latestTopVenue.pct)} </strong>.
             {/if}
+            Total transaction traded was
+            <strong>
+              {abbreviateNumber(latestTotalPremium, true, true)}
+            </strong>.
           </p>
         </div>
-{/if}
+      {/if}
 
-<style>
-  :global(.highcharts-tooltip-container) {
-    z-index: 9999 !important;
-  }
-</style>
+      <style>
+        :global(.highcharts-tooltip-container) {
+          z-index: 9999 !important;
+        }
+      </style>
 
       <div class="rounded mt-5 sm:mt-0">
         <div
