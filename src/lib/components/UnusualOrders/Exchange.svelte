@@ -238,11 +238,15 @@
           content += `<div style="display: grid; gap: 6px;">`;
 
           points.forEach((point) => {
+            const y = Number(point.y) || 0;
+            const pct = total > 0 ? (y / total) * 100 : 0;
+            const pctText =
+              pct < 0.01 ? "&lt; 0.01%" : `${pct.toFixed(1)}%`;
             content += `
               <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 5px; align-items: center;">
                 <span style="color: ${point.color}; font-size: 14px;">●</span>
                 <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px;">${point.series.name}</span>
-                <span style="font-weight: 600; white-space: nowrap; font-size: 14px;">${abbreviateNumber(Number(point.y) || 0, true, true)}</span>
+                <span style="font-weight: 600; white-space: nowrap; font-size: 14px;">${abbreviateNumber(y, true, true)} (${pctText})</span>
               </div>`;
           });
 
