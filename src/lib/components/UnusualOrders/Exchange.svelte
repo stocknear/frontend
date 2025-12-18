@@ -79,15 +79,25 @@
     const fullDates = sorted.map((r) => r.date.slice(0, 10));
     const categories = fullDates.map(formatDateShort);
 
-    const colors = [
-      "#2d6289",
-      "#5369a2",
-      "#8668ae",
-      "#ea6094",
-      "#06b6d4",
-      "#84cc16",
-      "#f59e0b",
-    ];
+    const isLightMode = $mode === "light";
+    const isDarkMode = !isLightMode;
+
+    function seriesColor(name: string, fallbackIndex: number): string {
+      // Professional, high-contrast palette (Tableau-like)
+      if (name === "Off-Exchange") return "#E15759"; // muted red
+      if (name.startsWith("Nasdaq")) return "#76B7B2"; // muted teal
+      if (name.startsWith("NYSE")) return "#4E79A7"; // muted blue
+      if (name === "Other") return isDarkMode ? "#94A3B8" : "#BAB0AC"; // gray
+
+      const palette = [
+        "#F28E2B", // orange
+        "#59A14F", // green
+        "#B07AA1", // purple
+        "#9C755F", // brown
+        "#EDC948", // gold
+      ];
+      return palette[fallbackIndex % palette.length];
+    }
 
     const seriesKeys = [...selectedKeys, ...(needsOther ? ["Other"] : [])];
     const series = seriesKeys.map((name, index) => {
@@ -106,47 +116,46 @@
         name,
         type: "column",
         data,
-        color: colors[index % colors.length],
+        color: seriesColor(name, index),
         animation: false,
         borderRadius: "4px",
       };
     });
 
-    const isDarkMode = $mode !== "light";
-
     return {
       credits: { enabled: false },
       chart: {
         type: "column",
-        backgroundColor: isDarkMode ? "#09090B" : "#fff",
+        backgroundColor: isLightMode ? "#fff" : "#09090B",
         animation: false,
         height: 360,
       },
       title: {
         text: `<h3 class="mt-3 mb-1 text-[1rem]  sm:text-lg">Exchange Breakdown (30D)</h3>`,
         useHTML: true,
-        style: { color: isDarkMode ? "white" : "black" },
+        zIndex: 0,
+        style: { color: isLightMode ? "black" : "white" },
       },
       legend: {
         enabled: true,
-        itemStyle: { color: isDarkMode ? "white" : "black" },
+        itemStyle: { color: isLightMode ? "black" : "white" },
       },
       xAxis: {
         categories,
         crosshair: {
-          color: isDarkMode ? "#fff" : "#000",
+          color: isLightMode ? "#000" : "#fff",
           width: 1,
           dashStyle: "Solid",
         },
-        labels: { style: { color: isDarkMode ? "#fff" : "#000" } },
+        labels: { style: { color: isLightMode ? "#000" : "#fff" } },
       },
       yAxis: {
         min: 0,
         max: 100,
         title: { text: null },
-        gridLineColor: isDarkMode ? "#1f2937" : "#e5e7eb",
+        gridLineColor: isLightMode ? "#e5e7eb" : "#1f2937",
         labels: {
-          style: { color: isDarkMode ? "#fff" : "#545454" },
+          style: { color: isLightMode ? "#545454" : "#fff" },
           formatter: function () {
             return this.value.toFixed(0) + "%";
           },
@@ -165,7 +174,10 @@
           const idx = this.points?.[0]?.point?.index ?? 0;
           const date = fullDates[idx] || "";
           let html = `<span class=\"m-auto text-sm font-[501]\">${date}</span><br>`;
-          for (const p of this.points || []) {
+          const points = [...(this.points || [])].sort(
+            (a, b) => (Number(b.y) || 0) - (Number(a.y) || 0),
+          );
+          for (const p of points) {
             const y = Number(p.y) || 0;
             const pctText = y === 0 ? "&lt; 0.01%" : `${y.toFixed(1)}%`;
             html += `<span style=\"display:inline-block;width:10px;height:10px;background-color:${p.color};border-radius:50%;margin-right:6px;\"></span>`;
