@@ -8,7 +8,6 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
 
   import highcharts from "$lib/highcharts.ts";
-  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { mode } from "mode-watcher";
   import { onMount } from "svelte";
@@ -572,7 +571,9 @@
       <div
         class="mt-5 flex items-center justify-end w-full border-y border-gray-300 dark:border-gray-800 py-2"
       >
-        <div class="inline-flex rounded-lg shadow-sm">
+        <div
+          class="inline-flex rounded shadow-sm border border-gray-300 dark:border-gray-700"
+        >
           {#each tabs as item, i}
             <button
               on:click={() => changeTimePeriod(i)}
