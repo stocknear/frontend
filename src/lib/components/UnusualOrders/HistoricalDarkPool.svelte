@@ -4,10 +4,14 @@
   import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import { Button } from "$lib/components/shadcn/button/index.js";
 
   import highcharts from "$lib/highcharts.ts";
   import { goto } from "$app/navigation";
+  import { page } from "$app/stores";
   import { mode } from "mode-watcher";
+  import { onMount } from "svelte";
 
   export let data;
   export let rawData = [];
@@ -296,6 +300,84 @@
   }
 
   let tableList = [];
+  let paginatedTableList = [];
+
+  // Pagination state (Pro-only; non-Pro stays capped)
+  let currentPage = 1;
+  let rowsPerPage = 20;
+  let rowsPerPageOptions = [20, 50, 100];
+  let totalPages = 1;
+
+  let pagePathName = $page?.url?.pathname;
+
+  function updatePaginatedData() {
+    const isPro = data?.user?.tier === "Pro";
+
+    if (!isPro) {
+      paginatedTableList = (tableList || [])?.slice(0, 3);
+      totalPages = 1;
+      currentPage = 1;
+      return;
+    }
+
+    const totalRows = tableList?.length || 0;
+    totalPages = Math.max(1, Math.ceil(totalRows / rowsPerPage));
+
+    if (currentPage > totalPages) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    paginatedTableList = (tableList || [])?.slice(startIndex, endIndex) || [];
+  }
+
+  function goToPage(pageNum) {
+    if (pageNum >= 1 && pageNum <= totalPages) {
+      currentPage = pageNum;
+      updatePaginatedData();
+    }
+  }
+
+  function saveRowsPerPage() {
+    if (!pagePathName || typeof localStorage === "undefined") return;
+
+    try {
+      const paginationKey = `${pagePathName}_HistoricalDarkPool_rowsPerPage`;
+      localStorage.setItem(paginationKey, String(rowsPerPage));
+    } catch (e) {
+      console.warn("Failed to save rows per page preference:", e);
+    }
+  }
+
+  function loadRowsPerPage() {
+    const currentPath = pagePathName || $page?.url?.pathname;
+
+    if (!currentPath || typeof localStorage === "undefined") {
+      rowsPerPage = 20;
+      return;
+    }
+
+    try {
+      const paginationKey = `${currentPath}_HistoricalDarkPool_rowsPerPage`;
+      const savedRows = localStorage.getItem(paginationKey);
+
+      if (savedRows && rowsPerPageOptions.includes(Number(savedRows))) {
+        rowsPerPage = Number(savedRows);
+      } else {
+        rowsPerPage = 20;
+      }
+    } catch (e) {
+      console.warn("Failed to load rows per page preference:", e);
+      rowsPerPage = 20;
+    }
+  }
+
+  function changeRowsPerPage(newRowsPerPage) {
+    rowsPerPage = newRowsPerPage;
+    currentPage = 1;
+    updatePaginatedData();
+    saveRowsPerPage();
+  }
 
   changeTimePeriod(activeIdx);
 
@@ -308,6 +390,8 @@
     }
 
     tableList = addChangesPercentage(tableList);
+    currentPage = 1;
+    updatePaginatedData();
   }
 
   function filterByPeriod(data, period = "quarterly") {
@@ -391,6 +475,8 @@
     // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
       tableList = [...originalData]; // Reset to original data (spread to avoid mutation)
+      currentPage = 1;
+      updatePaginatedData();
       return;
     }
 
@@ -426,6 +512,8 @@
 
     // Sort using the generic comparison function
     tableList = [...originalData].sort(compareValues);
+    currentPage = 1;
+    updatePaginatedData();
   };
 
   // Optimize reactive statement to avoid unnecessary recalculations
@@ -438,6 +526,17 @@
   // Initialize config on component mount
   if (!config) {
     config = getPlotOptions() || null;
+  }
+
+  onMount(() => {
+    loadRowsPerPage();
+    updatePaginatedData();
+  });
+
+  $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
+    pagePathName = $page?.url?.pathname;
+    loadRowsPerPage();
+    updatePaginatedData();
   }
 </script>
 
@@ -503,12 +602,12 @@
             <TableHeader {columns} {sortOrders} {sortData} />
           </thead>
           <tbody>
-            {#each data?.user?.tier === "Pro" ? tableList : tableList?.slice(0, 3) as item, index}
+            {#each paginatedTableList as item, index}
               <!-- row -->
               <tr
                 class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd {index +
                   1 ===
-                  tableList?.slice(0, 3)?.length &&
+                  paginatedTableList?.length &&
                 !['Pro']?.includes(data?.user?.tier)
                   ? 'opacity-[0.1]'
                   : ''}"
@@ -524,13 +623,13 @@
                 <td
                   class=" text-sm sm:text-[1rem] text-right whitespace-nowrap"
                 >
-                  {abbreviateNumber(item?.longVolume)}
+                  {item?.longVolume?.toLocaleString("en-US")}
                 </td>
 
                 <td
                   class=" text-sm sm:text-[1rem] text-right whitespace-nowrap"
                 >
-                  {abbreviateNumber(item?.shortVolume)}
+                  {item?.shortVolume?.toLocaleString("en-US")}
                 </td>
 
                 <td
@@ -546,7 +645,9 @@
                     <span
                       class={item?.changesPercentage >= 0
                         ? "text-green-800 dark:text-[#00FC50] before:content-['+']"
-                        : "text-red-800 dark:text-[#FF2F1F]"}
+                        : item?.changesPercentage < 0
+                          ? "text-red-800 dark:text-[#FF2F1F]"
+                          : ""}
                     >
                       {item?.changesPercentage
                         ? item?.changesPercentage + "%"
@@ -561,6 +662,111 @@
           </tbody>
         </table>
       </div>
+
+      {#if data?.user?.tier === "Pro" && paginatedTableList?.length > 0}
+        <div class="flex flex-row items-center justify-between mt-5">
+          <div class="flex items-center gap-2">
+            <Button
+              on:click={() => goToPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center  sm:w-auto px-1.5 sm:px-3 rounded truncate"
+            >
+              <svg
+                class="h-5 w-5 inline-block shrink-0 rotate-90"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span class="hidden sm:inline">Previous</span></Button
+            >
+          </div>
+
+          <div class="flex flex-row items-center gap-4">
+            <span class="text-sm sm:text-[1rem]">
+              Page {currentPage} of {totalPages}
+            </span>
+
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger asChild let:builder>
+                <Button
+                  builders={[builder]}
+                  class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary  flex flex-row justify-between items-center  sm:w-auto px-2 sm:px-3 rounded truncate"
+                >
+                  <span class="truncate text-[0.85rem] sm:text-sm"
+                    >{rowsPerPage} Rows</span
+                  >
+                  <svg
+                    class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style="max-width:40px"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </Button>
+              </DropdownMenu.Trigger>
+
+              <DropdownMenu.Content
+                side="bottom"
+                align="end"
+                sideOffset={10}
+                alignOffset={0}
+                class="w-auto min-w-40  max-h-[400px] overflow-y-auto scroller relative"
+              >
+                <DropdownMenu.Group class="pb-2">
+                  {#each rowsPerPageOptions as item}
+                    <DropdownMenu.Item
+                      class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                    >
+                      <label
+                        on:click={() => changeRowsPerPage(item)}
+                        class="inline-flex justify-between w-full items-center cursor-pointer"
+                      >
+                        <span class="text-sm">{item} Rows</span>
+                      </label>
+                    </DropdownMenu.Item>
+                  {/each}
+                </DropdownMenu.Group>
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <Button
+              on:click={() => goToPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+            >
+              <span class="hidden sm:inline">Next</span>
+              <svg
+                class="h-5 w-5 inline-block shrink-0 -rotate-90"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </Button>
+          </div>
+        </div>
+      {/if}
       <UpgradeToPro {data} display={true} />
     {/if}
   </main>
