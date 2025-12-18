@@ -390,18 +390,16 @@
 
 <ModeWatcher defaultMode={data?.themeMode} />
 
-<!-- Google Tag Manager (noscript) - Only shown if marketing consent given -->
-{#if data?.cookieConsent?.marketing}
-  <noscript>
-    <iframe
-      src="https://www.googletagmanager.com/ns.html?id=GTM-NZBJ9W63"
-      height="0"
-      width="0"
-      style="display:none;visibility:hidden"
-      title="Google Tag Manager"
-    ></iframe>
-  </noscript>
-{/if}
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+  <iframe
+    src="https://www.googletagmanager.com/ns.html?id=GTM-NZBJ9W63"
+    height="0"
+    width="0"
+    style="display:none;visibility:hidden"
+    title="Google Tag Manager"
+  ></iframe>
+</noscript>
 
 <div
   class="app text-muted dark:text-white {$page?.url?.pathname === '/'
