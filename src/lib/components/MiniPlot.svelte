@@ -13,20 +13,9 @@
     };
     let changesPercentage = plotData?.changesPercentage || 0;
     let priceData = plotData?.price || [];
-
+    let relativeVolume = plotData?.relativeVolume || 0;
     let config = null;
 
-    // Format the date from the first data point
-    function getFormattedDate() {
-        if (!priceData?.length) return "";
-        const date = new Date(priceData[0]?.time);
-        return date.toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-        });
-    }
-
-    $: formattedDate = getFormattedDate();
     $: isPositive = changesPercentage >= 0;
 
     function chart(priceData) {
@@ -216,10 +205,6 @@
                 <span class="font-bold text-xs sm:text-sm"
                     >{nameDict[symbol]}</span
                 >
-                <span
-                    class="text-gray-500 dark:text-gray-400 text-[10px] sm:text-xs"
-                    >{formattedDate}</span
-                >
             </div>
             <div
                 class="text-[10px] sm:text-xs font-semibold {isPositive
@@ -230,6 +215,38 @@
             </div>
         </div>
         <!-- Chart -->
-        <div class="w-full h-[110px]" use:highcharts={config}></div>
+        <div class="flex flex-row items-center">
+            <div class="flex flex-col items-center -mr-2">
+                <div class="flex flex-row items-stretch mt-2">
+                    <div
+                        class="h-[100px] flex flex-col justify-between pr-1 text-[0.55rem] text-gray-600 dark:text-gray-400 select-none"
+                    >
+                        <div>2</div>
+                        <div>1.5</div>
+                        <div>1</div>
+                        <div>0.5</div>
+                        <div>0</div>
+                    </div>
+
+                    <div
+                        class="relative h-[100px] w-1 bg-slate-700/60 overflow-hidden"
+                    >
+                        <div
+                            class="absolute bottom-0 left-0 right-0 bg-black dark:bg-blue-500 opacity-70"
+                            style="height: {relativeVolume * 100}%;"
+                        ></div>
+                    </div>
+                </div>
+
+                <div
+                    class="mt-2 ml-1 mb-1 text-[0.5rem] text-gray-600 dark:text-gray-300 text-center select-none whitespace-nowrap"
+                >
+                    Relative Vol
+                </div>
+            </div>
+
+            <!-- Chart -->
+            <div class="w-full h-[110px]" use:highcharts={config}></div>
+        </div>
     </div>
 {/if}
