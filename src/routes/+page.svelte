@@ -206,10 +206,15 @@
     <div>
       <div class="mb-4 flex justify-center px-2 sm:px-4">
         <div
-          class="-mt-12 grid grid-cols-2 gap-2 sm:gap-3 md:-mt-10 md:grid-cols-4 xl:-mt-12 w-full max-w-[400px] sm:max-w-[600px] md:max-w-[900px] lg:max-w-[1100px]"
+          class="-mt-12 grid grid-cols-2 gap-2 sm:gap-4 md:-mt-10 lg:grid-cols-4 xl:-mt-12 w-full max-w-[400px] sm:max-w-[600px] md:max-w-[900px] lg:max-w-[1000px]"
         >
           {#each Object.keys(plotData) as symbol}
-            <MiniPlot plotData={plotData[symbol]} {symbol} />
+            <a
+              href="/etf/{symbol}"
+              class="block shadow-sm rounded overflow-hidden hover:shadow-md transition-shadow bg-white dark:bg-[#121214] border border-gray-200 dark:border-gray-700"
+            >
+              <MiniPlot plotData={plotData[symbol]} {symbol} />
+            </a>
           {/each}
         </div>
       </div>

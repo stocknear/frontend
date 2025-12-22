@@ -5,10 +5,13 @@
     export let plotData = {};
     export let symbol = "";
 
+    const nameDict = {
+        SPY: "S&P 500",
+        QQQ: "DOW",
+        DIA: "NASDAQ",
+        IWM: "RUSSELL",
+    };
     let changesPercentage = plotData?.changesPercentage || 0;
-    let change = plotData?.change || 0;
-    let dayLow = plotData?.dayLow || 650;
-    let previousClose = plotData?.previousClose || 600;
     let priceData = plotData?.price || [];
 
     let config = null;
@@ -51,10 +54,6 @@
         );
 
         let padding = 0.002;
-        let yMin =
-            minValue * (1 - padding) === 0 ? null : minValue * (1 - padding);
-        let yMax =
-            maxValue * (1 + padding) === 0 ? null : maxValue * (1 + padding);
 
         // Area colors based on positive/negative change (same as stocks page)
         const isNegative = changesPercentage < 0;
@@ -112,11 +111,7 @@
                 max: endTime,
                 tickLength: 0,
                 categories: null,
-                crosshair: {
-                    color: $mode === "light" ? "black" : "white",
-                    width: 1,
-                    dashStyle: "Solid",
-                },
+                crosshair: false,
                 labels: {
                     style: {
                         color: $mode === "light" ? "#666" : "#999",
@@ -167,14 +162,6 @@
                     gridLineColor: $mode === "light" ? "#e5e7eb" : "#1f2937",
                     opposite: true,
                     offset: 0,
-                    plotLines: [
-                        {
-                            value: previousClose,
-                            dashStyle: "Dash",
-                            color: $mode === "light" ? "#999" : "#555",
-                            width: 0.8,
-                        },
-                    ],
                 },
             ],
             plotOptions: {
@@ -198,7 +185,7 @@
                     data: seriesData,
                     animation: false,
                     color: lineColor,
-                    lineWidth: 2,
+                    lineWidth: 1,
                     marker: { enabled: false },
                     fillColor: {
                         linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
@@ -226,7 +213,9 @@
             class="flex items-center justify-between px-2 py-1.5 sm:px-3 sm:py-2 border-b border-gray-200 dark:border-gray-700"
         >
             <div class="flex items-center gap-1 sm:gap-2">
-                <span class="font-bold text-xs sm:text-sm">{symbol}</span>
+                <span class="font-bold text-xs sm:text-sm"
+                    >{nameDict[symbol]}</span
+                >
                 <span
                     class="text-gray-500 dark:text-gray-400 text-[10px] sm:text-xs"
                     >{formattedDate}</span
@@ -237,12 +226,10 @@
                     ? 'text-green-600 dark:text-[#00FC50]'
                     : 'text-red-600 dark:text-[#FF2F1F]'}"
             >
-                {isPositive ? "+" : ""}{change?.toFixed(2)} ({isPositive
-                    ? "+"
-                    : ""}{changesPercentage?.toFixed(2)}%)
+                ({isPositive ? "+" : ""}{changesPercentage?.toFixed(2)}%)
             </div>
         </div>
         <!-- Chart -->
-        <div class="w-full h-[120px]" use:highcharts={config}></div>
+        <div class="w-full h-[110px]" use:highcharts={config}></div>
     </div>
 {/if}
