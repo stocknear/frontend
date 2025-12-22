@@ -178,7 +178,6 @@
             },
             yAxis: [
                 {
-                    // Price axis (right)
                     title: { text: null },
                     labels: {
                         style: {
@@ -188,8 +187,7 @@
                         align: "left",
                         x: 3,
                     },
-                    min: yMin ?? null,
-                    max: yMax ?? null,
+
                     startOnTick: false,
                     endOnTick: false,
                     gridLineWidth: 1,
@@ -232,6 +230,9 @@
                 candlestick: {
                     animation: false,
                     lineWidth: 1,
+                    pointWidth: 5,
+                    groupPadding: 0,
+                    pointPadding: 2,
                     states: { hover: { enabled: false } },
                     ...candlestickColors,
                 },
