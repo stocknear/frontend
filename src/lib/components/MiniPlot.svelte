@@ -3,11 +3,16 @@
     import { screenWidth } from "$lib/store";
     import highcharts from "$lib/highcharts.ts";
 
-    export let data;
+    export let plotData = {};
+
+    let changesPercentage = plotData?.changesPercentage || 0;
+    let dayLow = plotData?.dayLow || 650;
+    let previousClose = plotData?.previousClose || 600;
+    let priceData = plotData?.price || [];
 
     let config = null;
 
-    function plotData(priceData) {
+    function chart(priceData) {
         const rawData = priceData || [];
 
         const seriesData = rawData?.map((item) => [
@@ -26,15 +31,13 @@
         let minValue = Math?.min(...rawData?.map((item) => item?.close));
         let maxValue = Math?.max(...rawData?.map((item) => item?.close));
 
-        minValue = data?.getStockQuote?.dayLow;
-
         let padding = 0.002;
         let yMin =
             minValue * (1 - padding) === 0 ? null : minValue * (1 - padding);
         let yMax =
             maxValue * (1 + padding) === 0 ? null : maxValue * (1 + padding);
 
-        const isNegative = data?.getStockQuote?.changesPercentage < 0;
+        const isNegative = changesPercentage < 0;
 
         const lineColor = isNegative
             ? "#CC261A" // keep red if negative if needed
@@ -75,46 +78,10 @@
             chart: {
                 backgroundColor: $mode === "light" ? "#fff" : "#09090B",
                 animation: false,
-                height: 100,
+                height: 320,
             },
             credits: { enabled: false },
             title: { text: null },
-            tooltip: {
-                shared: true,
-                useHTML: true,
-                backgroundColor: "rgba(0, 0, 0, 1)", // Semi-transparent black
-                borderColor: "rgba(255, 255, 255, 0.2)", // Slightly visible white border
-                borderWidth: 1,
-                style: {
-                    color: $mode === "light" ? "black" : "white",
-                    fontSize: "16px",
-                    padding: "10px",
-                },
-                borderRadius: 4,
-                formatter: function () {
-                    if (this.chart?.__rangeSelector?.selecting) {
-                        return false;
-                    }
-                    const date = new Date(this?.x);
-                    let formattedDate = date?.toLocaleTimeString("en-US", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                    });
-
-                    let tooltipContent = "";
-
-                    // Loop through each point in the shared tooltip
-                    this.points?.forEach((point) => {
-                        tooltipContent += `<span class="text-white text-[1rem] font-[501]">${point.series.name}: ${point.y}</span><br>`;
-                    });
-
-                    // Append the formatted date at the end
-                    tooltipContent += `<span class="text-white m-auto text-black text-sm font-normal">${formattedDate}</span><br>`;
-
-                    return tooltipContent;
-                },
-            },
-
             xAxis: {
                 type: "datetime",
                 min: startTime,
@@ -153,7 +120,9 @@
                     return positions;
                 },
             },
-
+            tooltip: {
+                enabled: false,
+            },
             yAxis: {
                 // Force y‑axis to stay near the actual data range
                 min: yMin ?? null,
@@ -170,7 +139,7 @@
                 // Add a dashed plot line at the previous close value
                 plotLines: [
                     {
-                        value: data?.getStockQuote?.previousClose,
+                        value: previousClose,
                         dashStyle: "Dash",
                         color: "#fff", // Choose a contrasting color if needed
                         width: 0.8,
@@ -188,7 +157,7 @@
             series: [
                 {
                     name: "Price",
-                    type: "candlestick",
+                    type: "area",
                     data: seriesData,
                     animation: false,
                     color: lineColor,
@@ -210,7 +179,7 @@
         return options;
     }
 
-    config = plotData(data?.getStockPriceData);
+    config = chart(priceData);
 </script>
 
 {#if config}

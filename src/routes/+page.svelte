@@ -19,6 +19,7 @@
   let gainersList = data?.getDashboard?.gainers || [];
   let losersList = data?.getDashboard?.losers || [];
   let marketStatus = data?.getDashboard?.marketStatus ?? 0;
+  let plotData = data?.getDashboard?.plotData || {};
 
   let wiim = data?.getDashboard?.wiim || [];
   let optionsFlowList = data?.getDashboard?.optionsFlow || [];
@@ -204,20 +205,11 @@
 
     <div>
       <div class="mb-4 flex justify-center">
+        <MiniPlot plotData={plotData["SPY"]} />
+
         <div
           class="-mt-12 grid max-w-[90%] grid-cols-2 gap-x-10 md:-mt-10 sm:grid-cols-4 xl:-mt-12 xl:max-w-[80%]"
-        >
-          <MiniPlot />
-          {#each data?.selectedCards?.slice(0, 4) as card}
-            <a
-              href={card.href}
-              class="border border-gray-300 dark:border-gray-600 flex flex-col justify-center items-center p-4 bg-white dark:bg-secondary rounded-[5px] shadow font-semibold gap-2 hover:shadow-lg text-center dark:hover:shadow-dark-600 dark:hover:shadow"
-            >
-              {@html card.icon}
-              <div>{card.label}</div>
-            </a>
-          {/each}
-        </div>
+        ></div>
       </div>
     </div>
     <div class="mb-8 pb-3 pt-6 md:pt-8 lg:pt-10">

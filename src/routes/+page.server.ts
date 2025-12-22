@@ -3,7 +3,7 @@ import { validateData, checkDisposableEmail, validateReturnUrl } from "$lib/util
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 
 
-import { allCards, defaultChats} from "$lib/utils";
+import { defaultChats} from "$lib/utils";
 
 
 
@@ -114,7 +114,6 @@ export async function load({ locals }) {
 
   return {
     getDashboard: dashboardData,
-    selectedCards: pickRandomCards(allCards, user?.tier),
       randomChats: defaultChats
     ?.sort(() => 0.5 - Math.random())
     ?.slice(0, 4)
