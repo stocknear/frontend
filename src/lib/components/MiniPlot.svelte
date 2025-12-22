@@ -222,7 +222,7 @@
         <div class="flex flex-col">
             <div class="flex flex-row items-stretch pt-2">
                 <div class="flex flex-col items-center -mr-6">
-                    <div class="-ml-5 flex flex-row items-stretch h-[100px]">
+                    <div class="-ml-5 flex flex-row items-stretch h-[90px]">
                         <div
                             class="flex flex-col justify-between pr-1 text-[0.55rem] text-gray-500 dark:text-gray-400 select-none text-right w-4"
                         >
@@ -249,11 +249,11 @@
                     </div>
                 </div>
 
-                <div class="flex-1 h-[115px]" use:highcharts={config}></div>
+                <div class="flex-1 h-[90px]" use:highcharts={config}></div>
             </div>
 
             <div
-                class="px-2 pb-3 pt-1 border-t border-gray-100 dark:border-gray-800/50 bg-gray-50/50 dark:bg-white/5"
+                class="h-[50px] px-2 pb-3 pt-1 border-t border-gray-100 dark:border-gray-800/50 bg-gray-50/50 dark:bg-white/5"
             >
                 <div
                     class="flex flex-row justify-between whitespace-nowrap items-end mb-1"
