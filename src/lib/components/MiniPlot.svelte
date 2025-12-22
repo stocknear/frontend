@@ -1,6 +1,7 @@
 <script lang="ts">
     import { mode } from "mode-watcher";
     import highcharts from "$lib/highcharts.ts";
+    import { abbreviateNumber } from "$lib/utils";
 
     export let plotData = {};
     export let symbol = "";
@@ -14,8 +15,10 @@
     let changesPercentage = plotData?.changesPercentage || 0;
     let priceData = plotData?.price || [];
     let relativeVolume = plotData?.relativeVolume || 0;
-    let bullPercentage = 45;
-    let bearPercentage = 54.5;
+    let bullPercentage = plotData?.bullPercentage || 0;
+    let bearPercentage = plotData?.bearPercentage || 0;
+    let bullPrem = plotData?.bullPrem || 0;
+    let bearPrem = plotData?.bearPrem || 0;
     let config = null;
 
     $: isPositive = changesPercentage >= 0;
@@ -240,7 +243,7 @@
                         </div>
                     </div>
                     <div
-                        class="ml-1 mb-1 mt-1 text-[0.5rem] uppercase tracking-tighter text-gray-500 font-bold"
+                        class="ml-1 mb-1 mt-1 text-[0.4rem] sm:text-[0.5rem] uppercase tracking-tighter text-gray-500 font-bold"
                     >
                         Relative Vol
                     </div>
@@ -250,33 +253,41 @@
             </div>
 
             <div
-                class="px-3 pb-3 pt-1 border-t border-gray-100 dark:border-gray-800/50 bg-gray-50/50 dark:bg-white/5"
+                class="px-2 pb-3 pt-1 border-t border-gray-100 dark:border-gray-800/50 bg-gray-50/50 dark:bg-white/5"
             >
-                <div class="flex flex-row justify-between items-end mb-1">
-                    <div class="text-[0.6rem] leading-tight">
+                <div
+                    class="flex flex-row justify-between whitespace-nowrap items-end mb-1"
+                >
+                    <div class="text-[0.45rem] sm:text-[0.6rem] leading-tight">
                         <span
-                            class="text-gray-500 block uppercase text-[0.5rem] font-bold"
+                            class="block uppercase text-[0.4rem] sm:text-[0.5rem] font-bold"
                             >Bull</span
                         >
                         <span
                             class="font-semibold text-green-600 dark:text-[#00FC50]"
-                            >{bullPercentage}%</span
+                            >{bullPercentage}% ({abbreviateNumber(
+                                bullPrem,
+                            )})</span
                         >
                     </div>
+
                     <div
-                        class="text-[0.55rem] font-bold uppercase tracking-widest text-gray-400"
+                        class="text-[0.4rem] sm:text-[0.5rem] mb-3 font-bold uppercase tracking-widest text-gray-400"
                     >
                         Option Flow
                     </div>
-                    <div class="text-[0.6rem] leading-tight text-right">
+
+                    <div
+                        class="text-[0.45rem] sm:text-[0.6rem] leading-tight text-right"
+                    >
                         <span
-                            class="text-gray-500 block uppercase text-[0.5rem] font-bold"
+                            class="block uppercase text-[0.4rem] sm:text-[0.5rem] font-bold"
                             >Bear</span
                         >
                         <span
                             class="font-semibold text-red-600 dark:text-[#fa5157]"
-                            >{bearPercentage}%</span
-                        >
+                            >({abbreviateNumber(bearPrem)}) {bearPercentage}%
+                        </span>
                     </div>
                 </div>
 
