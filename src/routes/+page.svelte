@@ -205,11 +205,13 @@
 
     <div>
       <div class="mb-4 flex justify-center">
-        <MiniPlot plotData={plotData["SPY"]} />
-
         <div
           class="-mt-12 grid max-w-[90%] grid-cols-2 gap-x-10 md:-mt-10 sm:grid-cols-4 xl:-mt-12 xl:max-w-[80%]"
-        ></div>
+        >
+          {#each Object.keys(plotData) as symbol}
+            <MiniPlot plotData={plotData[symbol]} />
+          {/each}
+        </div>
       </div>
     </div>
     <div class="mb-8 pb-3 pt-6 md:pt-8 lg:pt-10">
