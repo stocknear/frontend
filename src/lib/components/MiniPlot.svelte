@@ -29,7 +29,7 @@
     function chart(priceData) {
         const rawData = priceData || [];
 
-        // Candlestick OHLC data
+        // Area chart data - just time and close price
         const seriesData = rawData?.map((item) => [
             Date.UTC(
                 new Date(item?.time).getUTCFullYear(),
@@ -39,43 +39,7 @@
                 new Date(item?.time).getUTCMinutes(),
                 new Date(item?.time).getUTCSeconds(),
             ),
-            item?.open ?? item?.close,
-            item?.high ?? Math.max(item?.open ?? item?.close, item?.close),
-            item?.low ?? Math.min(item?.open ?? item?.close, item?.close),
             item?.close,
-        ]);
-
-        // Volume data
-        const volumeData = rawData?.map((item) => [
-            Date.UTC(
-                new Date(item?.time).getUTCFullYear(),
-                new Date(item?.time).getUTCMonth(),
-                new Date(item?.time).getUTCDate(),
-                new Date(item?.time).getUTCHours(),
-                new Date(item?.time).getUTCMinutes(),
-                new Date(item?.time).getUTCSeconds(),
-            ),
-            item?.volume ?? 0,
-        ]);
-
-        // Calculate average volume for relative volume
-        const volumes = rawData?.map((item) => item?.volume ?? 0);
-        const avgVolume =
-            volumes?.length > 0
-                ? volumes.reduce((a, b) => a + b, 0) / volumes.length
-                : 1;
-
-        // Relative volume data (volume / average volume)
-        const relativeVolumeData = rawData?.map((item) => [
-            Date.UTC(
-                new Date(item?.time).getUTCFullYear(),
-                new Date(item?.time).getUTCMonth(),
-                new Date(item?.time).getUTCDate(),
-                new Date(item?.time).getUTCHours(),
-                new Date(item?.time).getUTCMinutes(),
-                new Date(item?.time).getUTCSeconds(),
-            ),
-            avgVolume > 0 ? (item?.volume ?? 0) / avgVolume : 0,
         ]);
 
         // Find the lowest & highest values
@@ -92,13 +56,22 @@
         let yMax =
             maxValue * (1 + padding) === 0 ? null : maxValue * (1 + padding);
 
-        // Candlestick colors based on mode
-        const candlestickColors = {
-            color: $mode === "light" ? "pink" : "#FF2F1F",
-            lineColor: $mode === "light" ? "red" : "#FF2F1F",
-            upColor: $mode === "light" ? "lightgreen" : "#00FC50",
-            upLineColor: $mode === "light" ? "green" : "#00FC50",
-        };
+        // Area colors based on positive/negative change (same as stocks page)
+        const isNegative = changesPercentage < 0;
+
+        const lineColor = isNegative
+            ? "#CC261A"
+            : $mode === "light"
+              ? "#137547"
+              : "#00FC50";
+
+        const fillColorStart = isNegative
+            ? "rgba(204, 38, 26, 0.6)"
+            : "rgba(19, 117, 71, 0.6)";
+
+        const fillColorEnd = isNegative
+            ? "rgba(204, 38, 26, 0.01)"
+            : "rgba(19, 117, 71, 0.01)";
 
         const baseDate =
             rawData && rawData?.length
@@ -201,23 +174,6 @@
                             color: $mode === "light" ? "#999" : "#555",
                             width: 0.8,
                         },
-                        // Current price label
-                        ...(lastClose
-                            ? [
-                                  {
-                                      value: lastClose,
-                                      color: "transparent",
-                                      width: 0,
-                                      label: {
-                                          text: `<span style="background-color: #D4A017; color: #000; padding: 1px 4px; border-radius: 2px; font-size: 9px; font-weight: bold;">${lastClose?.toFixed(1)}</span>`,
-                                          align: "right",
-                                          x: 45,
-                                          y: 3,
-                                          useHTML: true,
-                                      },
-                                  },
-                              ]
-                            : []),
                     ],
                 },
             ],
@@ -227,30 +183,30 @@
                     marker: { enabled: false },
                     states: { hover: { enabled: false } },
                 },
-                candlestick: {
+                area: {
                     animation: false,
-                    lineWidth: 1,
-                    pointWidth: 5,
-                    groupPadding: 0,
-                    pointPadding: 2,
+                    lineWidth: 2,
+                    threshold: null,
                     states: { hover: { enabled: false } },
-                    ...candlestickColors,
-                },
-                column: {
-                    animation: false,
-                    borderWidth: 0,
-                    groupPadding: 0.1,
-                    pointPadding: 0.05,
                 },
             },
             legend: { enabled: false },
             series: [
                 {
                     name: "Price",
-                    type: "candlestick",
+                    type: "area",
                     data: seriesData,
                     animation: false,
-                    ...candlestickColors,
+                    color: lineColor,
+                    lineWidth: 2,
+                    marker: { enabled: false },
+                    fillColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                        stops: [
+                            [0, fillColorStart],
+                            [1, fillColorEnd],
+                        ],
+                    },
                 },
             ],
         };
@@ -287,6 +243,6 @@
             </div>
         </div>
         <!-- Chart -->
-        <div class="w-full h-[160px]" use:highcharts={config}></div>
+        <div class="w-full h-[120px]" use:highcharts={config}></div>
     </div>
 {/if}
