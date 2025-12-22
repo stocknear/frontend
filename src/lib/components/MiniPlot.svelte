@@ -129,7 +129,7 @@
             chart: {
                 backgroundColor: "transparent",
                 animation: false,
-                height: "200px",
+                height: null,
             },
             credits: { enabled: false },
             title: { text: null },
@@ -262,7 +262,7 @@
 
 {#if config}
     <div
-        class="rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#09090B] shadow overflow-hidden flex flex-col"
+        class="rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#09090B] shadow overflow-hidden"
     >
         <!-- Header with ticker, date, and price change -->
         <div
@@ -286,6 +286,6 @@
             </div>
         </div>
         <!-- Chart -->
-        <div class="flex-1 w-full" use:highcharts={config}></div>
+        <div class="w-full h-[160px]" use:highcharts={config}></div>
     </div>
 {/if}
