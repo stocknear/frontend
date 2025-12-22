@@ -1,5 +1,6 @@
 <script lang="ts">
     import { mode } from "mode-watcher";
+    import { screenWidth } from "$lib/store";
     import highcharts from "$lib/highcharts.ts";
 
     export let data;
@@ -8,20 +9,6 @@
 
     function plotData(priceData) {
         const rawData = priceData || [];
-
-        const change =
-            (rawData?.at(-1)?.close / rawData?.at(0)?.close - 1) * 100;
-
-        const priceList = rawData?.map((item) => item?.close);
-        const dateList = rawData?.map((item) =>
-            Date.UTC(
-                new Date(item?.time).getUTCFullYear(),
-                new Date(item?.time).getUTCMonth(),
-                new Date(item?.time).getUTCDate(),
-                new Date(item?.time).getUTCHours(),
-                new Date(item?.time).getUTCMinutes(),
-            ),
-        );
 
         const seriesData = rawData?.map((item) => [
             Date.UTC(
@@ -39,10 +26,7 @@
         let minValue = Math?.min(...rawData?.map((item) => item?.close));
         let maxValue = Math?.max(...rawData?.map((item) => item?.close));
 
-        if (minValue - 0 < 1 && displayData === "1D") {
-            //don't delete this sometimes 1D can't find minValue
-            minValue = data?.getStockQuote?.dayLow;
-        }
+        minValue = data?.getStockQuote?.dayLow;
 
         let padding = 0.002;
         let yMin =
@@ -50,12 +34,8 @@
         let yMax =
             maxValue * (1 + padding) === 0 ? null : maxValue * (1 + padding);
 
-        const isNegative =
-            displayData === "1D"
-                ? data?.getStockQuote?.changesPercentage < 0
-                : change < 0;
+        const isNegative = data?.getStockQuote?.changesPercentage < 0;
 
-        // Use the same green for line and gradient, but slightly darker line, lighter gradient
         const lineColor = isNegative
             ? "#CC261A" // keep red if negative if needed
             : $mode === "light"
@@ -95,36 +75,7 @@
             chart: {
                 backgroundColor: $mode === "light" ? "#fff" : "#09090B",
                 animation: false,
-                height: 320,
-                events: {
-                    destroy: function () {
-                        const chart: any = this;
-                        chart.__rangeSelector?.destroy?.();
-                        chart.__rangeSelector = null;
-                    },
-                    // Add touch event handling to hide tooltip on mobile
-                    load: function () {
-                        const chart = this;
-                        let isTouching = false;
-
-                        // Track touch start
-                        chart.container.addEventListener("touchstart", () => {
-                            isTouching = true;
-                        });
-
-                        // Track touch end
-                        chart.container.addEventListener("touchend", () => {
-                            isTouching = false;
-                            chart.tooltip.hide();
-                        });
-
-                        // Track touch cancel
-                        chart.container.addEventListener("touchcancel", () => {
-                            isTouching = false;
-                            chart.tooltip.hide();
-                        });
-                    },
-                },
+                height: 100,
             },
             credits: { enabled: false },
             title: { text: null },
@@ -166,10 +117,10 @@
 
             xAxis: {
                 type: "datetime",
-                min: displayData === "1D" ? startTime : null,
-                max: displayData === "1D" ? endTime : null,
+                min: startTime,
+                max: endTime,
                 tickLength: 0,
-                categories: displayData === "1D" ? null : dateList,
+                categories: null,
                 crosshair: {
                     color: $mode === "light" ? "black" : "white",
                     width: 1,
@@ -180,36 +131,11 @@
                     distance: 10,
                     formatter: function () {
                         const date = new Date(this?.value);
-                        if (displayData === "1D") {
-                            const timeString = date?.toLocaleTimeString(
-                                "en-US",
-                                {
-                                    hour: "numeric",
-                                    hour12: true,
-                                },
-                            );
-                            return `<span class=" text-xs">${timeString.replace(/\s/g, " ")}</span>`;
-                        } else if (["1W", "1M"].includes(displayData)) {
-                            const timeString = date?.toLocaleDateString(
-                                "en-US",
-                                {
-                                    month: "short",
-                                    day: "numeric",
-                                    timeZone: "UTC",
-                                },
-                            );
-                            return `<span class=" text-xs">${timeString}</span>`;
-                        } else {
-                            const timeString = date?.toLocaleDateString(
-                                "en-US",
-                                {
-                                    year: "2-digit",
-                                    month: "short",
-                                    timeZone: "UTC",
-                                },
-                            );
-                            return `<span class=" text-xs">${timeString}</span>`;
-                        }
+                        const timeString = date?.toLocaleTimeString("en-US", {
+                            hour: "numeric",
+                            hour12: true,
+                        });
+                        return `<span class=" text-xs">${timeString.replace(/\s/g, " ")}</span>`;
                     },
                 },
                 tickPositioner: function () {
@@ -244,10 +170,7 @@
                 // Add a dashed plot line at the previous close value
                 plotLines: [
                     {
-                        value:
-                            displayData === "1D"
-                                ? data?.getStockQuote?.previousClose
-                                : priceData?.at(0)?.close,
+                        value: data?.getStockQuote?.previousClose,
                         dashStyle: "Dash",
                         color: "#fff", // Choose a contrasting color if needed
                         width: 0.8,
@@ -265,8 +188,8 @@
             series: [
                 {
                     name: "Price",
-                    type: "area",
-                    data: displayData === "1D" ? seriesData : priceList,
+                    type: "candlestick",
+                    data: seriesData,
                     animation: false,
                     color: lineColor,
                     lineWidth: 2,
@@ -286,8 +209,14 @@
 
         return options;
     }
+
+    config = plotData(data?.getStockPriceData);
 </script>
 
 {#if config}
-    <div use:highcharts={config}></div>
+    <div
+        class=" border border-gray-300 dark:border-gray-600 p-2 bg-white dark:bg-secondary rounded-[5px] shadow"
+    >
+        <div use:highcharts={config}></div>
+    </div>
 {/if}
