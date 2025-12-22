@@ -11,6 +11,7 @@
   import MarketNews from "$lib/components/Dashboard/MarketNews.svelte";
   import AnalystReport from "$lib/components/Dashboard/AnalystReport.svelte";
   import AIAgent from "$lib/components/Dashboard/AIAgent.svelte";
+  import MiniPlot from "$lib/components/MiniPlot.svelte";
 
   export let data;
   export let form;
@@ -204,9 +205,10 @@
     <div>
       <div class="mb-4 flex justify-center">
         <div
-          class="-mt-12 grid max-w-[90%] grid-cols-2 gap-4 sm:grid-cols-3 md:-mt-10 lg:grid-cols-6 xl:-mt-12 xl:max-w-[80%] xl:gap-6"
+          class="-mt-12 grid max-w-[90%] grid-cols-2 gap-x-10 md:-mt-10 sm:grid-cols-4 xl:-mt-12 xl:max-w-[80%]"
         >
-          {#each data?.selectedCards as card}
+          <MiniPlot />
+          {#each data?.selectedCards?.slice(0, 4) as card}
             <a
               href={card.href}
               class="border border-gray-300 dark:border-gray-600 flex flex-col justify-center items-center p-4 bg-white dark:bg-secondary rounded-[5px] shadow font-semibold gap-2 hover:shadow-lg text-center dark:hover:shadow-dark-600 dark:hover:shadow"
