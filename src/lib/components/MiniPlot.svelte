@@ -14,6 +14,8 @@
     let changesPercentage = plotData?.changesPercentage || 0;
     let priceData = plotData?.price || [];
     let relativeVolume = plotData?.relativeVolume || 0;
+    let bullPercentage = 45;
+    let bearPercentage = 54.5;
     let config = null;
 
     $: isPositive = changesPercentage >= 0;
@@ -197,7 +199,6 @@
     <div
         class="rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#09090B] shadow overflow-hidden"
     >
-        <!-- Header with ticker, date, and price change -->
         <div
             class="flex items-center justify-between px-2 py-1.5 sm:px-3 sm:py-2 border-b border-gray-200 dark:border-gray-700"
         >
@@ -214,39 +215,80 @@
                 ({isPositive ? "+" : ""}{changesPercentage?.toFixed(2)}%)
             </div>
         </div>
-        <!-- Chart -->
-        <div class="flex flex-row items-center">
-            <div class="flex flex-col items-center -mr-2">
-                <div class="flex flex-row items-stretch mt-2">
-                    <div
-                        class="h-[100px] flex flex-col justify-between pr-1 text-[0.55rem] text-gray-600 dark:text-gray-400 select-none"
-                    >
-                        <div>2</div>
-                        <div>1.5</div>
-                        <div>1</div>
-                        <div>0.5</div>
-                        <div>0</div>
-                    </div>
 
-                    <div
-                        class="relative h-[100px] w-1 bg-slate-700/60 overflow-hidden"
-                    >
+        <div class="flex flex-col">
+            <div class="flex flex-row items-stretch pt-2">
+                <div class="flex flex-col items-center -mr-6">
+                    <div class="-ml-5 flex flex-row items-stretch h-[100px]">
                         <div
-                            class="absolute bottom-0 left-0 right-0 bg-black dark:bg-blue-500 opacity-70"
-                            style="height: {relativeVolume * 100}%;"
-                        ></div>
+                            class="flex flex-col justify-between pr-1 text-[0.55rem] text-gray-500 dark:text-gray-400 select-none text-right w-4"
+                        >
+                            <div>2</div>
+                            <div>1</div>
+                            <div>0</div>
+                        </div>
+                        <div
+                            class="relative w-1.5 bg-slate-200 dark:bg-slate-700/60 overflow-hidden"
+                        >
+                            <div
+                                class="absolute bottom-0 left-0 right-0 bg-black dark:bg-blue-500 transition-all duration-500"
+                                style="height: {Math.min(
+                                    relativeVolume * 50,
+                                    100,
+                                )}%;"
+                            ></div>
+                        </div>
+                    </div>
+                    <div
+                        class="ml-1 mb-1 mt-1 text-[0.5rem] uppercase tracking-tighter text-gray-500 font-bold"
+                    >
+                        Relative Vol
+                    </div>
+                </div>
+
+                <div class="flex-1 h-[115px]" use:highcharts={config}></div>
+            </div>
+
+            <div
+                class="px-3 pb-3 pt-1 border-t border-gray-100 dark:border-gray-800/50 bg-gray-50/50 dark:bg-white/5"
+            >
+                <div class="flex flex-row justify-between items-end mb-1">
+                    <div class="text-[0.6rem] leading-tight">
+                        <span
+                            class="text-gray-500 block uppercase text-[0.5rem] font-bold"
+                            >Bull</span
+                        >
+                        <span
+                            class="font-semibold text-green-600 dark:text-[#00FC50]"
+                            >{bullPercentage}%</span
+                        >
+                    </div>
+                    <div
+                        class="text-[0.55rem] font-bold uppercase tracking-widest text-gray-400"
+                    >
+                        Option Flow
+                    </div>
+                    <div class="text-[0.6rem] leading-tight text-right">
+                        <span
+                            class="text-gray-500 block uppercase text-[0.5rem] font-bold"
+                            >Bear</span
+                        >
+                        <span
+                            class="font-semibold text-red-600 dark:text-[#fa5157]"
+                            >{bearPercentage}%</span
+                        >
                     </div>
                 </div>
 
                 <div
-                    class="mt-2 ml-1 mb-1 text-[0.5rem] text-gray-600 dark:text-gray-300 text-center select-none whitespace-nowrap"
+                    class="relative w-full h-1.5 bg-red-500 dark:bg-[#fa5157] rounded-full overflow-hidden flex"
                 >
-                    Relative Vol
+                    <div
+                        class="h-full bg-green-500 dark:bg-[#00FC50] transition-all duration-700"
+                        style="width: {bullPercentage}%"
+                    ></div>
                 </div>
             </div>
-
-            <!-- Chart -->
-            <div class="w-full h-[110px]" use:highcharts={config}></div>
         </div>
     </div>
 {/if}
