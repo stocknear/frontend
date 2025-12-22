@@ -204,12 +204,12 @@
     </div>
 
     <div>
-      <div class="mb-4 flex justify-center">
+      <div class="mb-4 flex justify-center px-2 sm:px-4">
         <div
-          class="-mt-12 grid max-w-[90%] grid-cols-2 gap-x-10 md:-mt-10 sm:grid-cols-4 xl:-mt-12 xl:max-w-[80%]"
+          class="-mt-12 grid grid-cols-2 gap-2 sm:gap-3 md:-mt-10 md:grid-cols-4 xl:-mt-12 w-full h-[200px]"
         >
           {#each Object.keys(plotData) as symbol}
-            <MiniPlot plotData={plotData[symbol]} />
+            <MiniPlot plotData={plotData[symbol]} {symbol} />
           {/each}
         </div>
       </div>
