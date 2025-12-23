@@ -2,7 +2,7 @@
   import highcharts from "$lib/highcharts.ts";
   import InfoModal from "$lib/components/InfoModal.svelte";
   import { mode } from "mode-watcher";
-  import { displayCompanyName } from "$lib/store";
+  import { displayCompanyName, screenWidth } from "$lib/store";
   import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
 
   export let data;
@@ -192,7 +192,9 @@
             textOutline: "none",
           },
           formatter: function () {
-            return abbreviateNumber(this.total, true, true);
+            return $screenWidth < 640
+              ? null
+              : abbreviateNumber(this.total, true, true);
           },
         },
         labels: {
