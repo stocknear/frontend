@@ -8,8 +8,8 @@
 
     const nameDict = {
         SPY: "S&P 500",
-        QQQ: "DOW",
-        DIA: "NASDAQ",
+        QQQ: "NASDAQ",
+        DIA: "DOW",
         IWM: "RUSSELL",
     };
     let changesPercentage = plotData?.changesPercentage || 0;
