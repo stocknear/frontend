@@ -204,14 +204,31 @@
       },
       tooltip: {
         zIndex: 20,
-        outside: true,
+        outside: false, // Changed to false so positioner uses chart coordinates
         shared: true,
         useHTML: true,
-        backgroundColor: "rgba(0, 0, 0, 1)",
+        backgroundColor: "rgba(0, 0, 0, 0.95)",
         borderColor: "rgba(255, 255, 255, 0.2)",
         borderWidth: 1,
         style: { color: "#fff", fontSize: "14px", padding: "10px", zIndex: 20 },
         borderRadius: 4,
+        // Pin tooltip to opposite side of where you're hovering
+        positioner: function (labelWidth, labelHeight, point) {
+          const chart = this.chart;
+          const plotLeft = chart.plotLeft;
+          const plotWidth = chart.plotWidth;
+          const titleHeight = 60; // space below chart title
+
+          // If hovering on the right half, show tooltip on the left (and vice versa)
+          if (point.plotX > plotWidth / 2) {
+            return { x: plotLeft + 10, y: titleHeight };
+          } else {
+            return {
+              x: plotLeft + plotWidth - labelWidth - 10,
+              y: titleHeight,
+            };
+          }
+        },
         formatter: function () {
           const idx = this.points?.[0]?.point?.index ?? 0;
           const dateStr = fullDates[idx] || "";
@@ -226,7 +243,9 @@
 
           let total = 0;
           const points = (this.points || [])
-            .filter((p) => p?.y !== null && p?.y !== undefined && Number(p.y) > 0)
+            .filter(
+              (p) => p?.y !== null && p?.y !== undefined && Number(p.y) > 0,
+            )
             .sort((a, b) => (Number(b.y) || 0) - (Number(a.y) || 0));
 
           points.forEach((p) => {
@@ -240,8 +259,7 @@
           points.forEach((point) => {
             const y = Number(point.y) || 0;
             const pct = total > 0 ? (y / total) * 100 : 0;
-            const pctText =
-              pct < 0.01 ? "&lt; 0.01%" : `${pct.toFixed(1)}%`;
+            const pctText = pct < 0.01 ? "&lt; 0.01%" : `${pct.toFixed(1)}%`;
             content += `
               <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 5px; align-items: center;">
                 <span style="color: ${point.color}; font-size: 14px;">●</span>
