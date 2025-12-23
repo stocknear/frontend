@@ -253,46 +253,57 @@
             </div>
 
             <div
-                class="h-[50px] px-2 pb-3 pt-1 border-t border-gray-100 dark:border-gray-800/50 bg-gray-50/50 dark:bg-white/5"
+                class="h-[40px] sm:h-[50px] px-2 pt-1 pb-2 border-t border-gray-100 dark:border-gray-800/50 bg-gray-50/50 dark:bg-white/5"
             >
+                <!-- top row -->
                 <div
-                    class="flex flex-row justify-between whitespace-nowrap items-end mb-1"
+                    class="grid grid-cols-3 items-start gap-2 w-full h-5 sm:h-6 mb-1.5"
                 >
-                    <div class="text-[0.45rem] sm:text-[0.6rem] leading-tight">
-                        <span
-                            class="block uppercase text-[0.4rem] sm:text-[0.5rem] font-bold"
+                    <!-- left -->
+                    <div
+                        class="min-w-0 text-[0.6rem] sm:text-[0.7rem] leading-none"
+                    >
+                        <span class="py-0.5 block uppercase font-bold"
                             >Bull</span
                         >
                         <span
-                            class="font-semibold text-green-600 dark:text-[#00FC50]"
-                            >{bullPercentage}% ({abbreviateNumber(
-                                bullPrem,
-                            )})</span
+                            class="font-semibold text-green-600 dark:text-[#00FC50] whitespace-nowrap"
                         >
+                            {bullPercentage}%
+                            <span class="hidden sm:inline-block"
+                                >({abbreviateNumber(bullPrem)})</span
+                            >
+                        </span>
                     </div>
 
+                    <!-- center -->
                     <div
-                        class="text-[0.4rem] sm:text-[0.5rem] mb-3 font-bold uppercase tracking-widest text-gray-400"
+                        class="min-w-0 text-center text-[0.6rem] font-bold uppercase text-gray-400 leading-tight whitespace-nowrap"
                     >
                         Option Flow
                     </div>
 
+                    <!-- right -->
                     <div
-                        class="text-[0.45rem] sm:text-[0.6rem] leading-tight text-right"
+                        class="min-w-0 text-[0.6rem] sm:text-[0.7rem] leading-none text-right"
                     >
-                        <span
-                            class="block uppercase text-[0.4rem] sm:text-[0.5rem] font-bold"
+                        <span class=" py-0.5 block uppercase font-bold"
                             >Bear</span
                         >
                         <span
-                            class="font-semibold text-red-600 dark:text-[#fa5157]"
-                            >({abbreviateNumber(bearPrem)}) {bearPercentage}%
+                            class="font-semibold text-red-600 dark:text-[#fa5157] whitespace-nowrap sm:-ml-4"
+                        >
+                            <span class="hidden sm:inline-block"
+                                >({abbreviateNumber(bearPrem)})</span
+                            >
+                            {bearPercentage}%
                         </span>
                     </div>
                 </div>
 
+                <!-- bar -->
                 <div
-                    class="relative w-full h-1.5 bg-red-500 dark:bg-[#fa5157] rounded-full overflow-hidden flex"
+                    class="relative w-full h-1.5 bg-red-500 dark:bg-[#fa5157] rounded-full overflow-hidden"
                 >
                     <div
                         class="h-full bg-green-500 dark:bg-[#00FC50] transition-all duration-700"
