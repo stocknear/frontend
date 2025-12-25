@@ -10,7 +10,7 @@
   import OptionsFlow from "$lib/components/Dashboard/OptionsFlow.svelte";
   import MarketNews from "$lib/components/Dashboard/MarketNews.svelte";
   import AnalystReport from "$lib/components/Dashboard/AnalystReport.svelte";
-  import AIAgent from "$lib/components/Dashboard/AIAgent.svelte";
+  //import AIAgent from "$lib/components/Dashboard/AIAgent.svelte";
   import MiniPlot from "$lib/components/MiniPlot.svelte";
 
   export let data;
@@ -196,10 +196,11 @@
           options data, dark pool orders, news, financials, forecasts, charts
           and more.
         </p>
-
+        <!--
         <div class="mx-auto max-w-[95%] md:max-w-[85%] mt-5">
           <AIAgent {data} {form} randomChats={data?.randomChats || []} />
         </div>
+        -->
       </div>
     </div>
 
