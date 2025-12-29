@@ -1190,10 +1190,10 @@
 
             <div class="items-center lg:overflow-visible px-1 py-1 mt-5">
               <div
-                class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+                class="flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold w-full"
+                  class="text-start hidden sm:block whitespace-nowrap text-xl sm:text-2xl font-semibold w-full"
                 >
                   Contract Chart
                 </h2>
@@ -1203,7 +1203,7 @@
                   <div class="w-fit ml-auto flex flex-row items-center gap-x-3">
                     <div class="">
                       <div class="inline-flex">
-                        <div class="inline-flex rounded-lg shadow-sm">
+                        <div class="inline-flex rounded shadow-sm border dark:border-gray-700">
                           {#each ["Price", "Vol/OI", "IV"] as item, i}
                             {#if !["Pro"]?.includes(data?.user?.tier) && i > 1}
                               <button
