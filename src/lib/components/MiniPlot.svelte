@@ -140,23 +140,8 @@
             },
             yAxis: [
                 {
-                    title: { text: null },
-                    labels: {
-                        style: {
-                            color: $mode === "light" ? "#666" : "#999",
-                            fontSize: "9px",
-                        },
-                        align: "left",
-                        x: 3,
-                    },
-
-                    startOnTick: false,
-                    endOnTick: false,
-                    gridLineWidth: 1,
-                    gridLineColor: $mode === "light" ? "#e5e7eb" : "#1f2937",
-                    opposite: true,
-                    offset: 0,
-                },
+                    visible: false
+                }
             ],
             plotOptions: {
                 series: {
