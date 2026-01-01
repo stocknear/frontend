@@ -2,6 +2,7 @@
   import {
     screenWidth,
     isOpen,
+    isHoliday,
     isBeforeMarketOpen,
     isAfterMarketClose,
     isWeekend,
@@ -654,8 +655,10 @@
       return Array.from(mergedMap.values());
     }
 
-    const showPremarket = !$isWeekend && !$isOpen && $isBeforeMarketOpen;
-    const showAftermarket = (!$isOpen && $isAfterMarketClose) || $isWeekend;
+    const showPremarket =
+      !$isHoliday && !$isWeekend && !$isOpen && $isBeforeMarketOpen;
+    const showAftermarket =
+      (!$isOpen && $isAfterMarketClose && !$isHoliday) || $isWeekend;
 
     const appendSessionColumns = (columns: ColumnRule[]) => {
       for (const column of columns) {

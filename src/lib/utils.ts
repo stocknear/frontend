@@ -2721,7 +2721,7 @@ export const checkMarketHourSSR = () => {
   const minutes = nowET.getMinutes();
 
   const isWeekend = day === 0 || day === 6;
-  const isHoliday = holidays.includes(currentDate);
+  const isHoliday = holidays?.includes(currentDate);
   const isBeforeOpen = hour < 9 || (hour === 9 && minutes < 30);
   const isAfterClose = hour > 16 || (hour === 16 && minutes > 0);
 

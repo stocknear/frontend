@@ -30,6 +30,7 @@
     numberOfUnreadNotification,
     clientSideCache,
     isOpen,
+    isHoliday,
     isAfterMarketClose,
     isBeforeMarketOpen,
     isWeekend,
@@ -357,6 +358,7 @@
       (currentHour === 9 && new Date(currentTime).getMinutes() < 30);
     const isAfterMarketCloseValue = currentHour >= 16;
 
+    isHoliday.set(holidays?.includes(currentDate));
     isOpen.set(
       !(
         isWeekendValue ||
@@ -365,6 +367,7 @@
         holidays?.includes(currentDate)
       ),
     );
+
     isWeekend.set(isWeekendValue);
     isBeforeMarketOpen.set(isBeforeMarketOpenValue);
     isAfterMarketClose.set(isAfterMarketCloseValue);

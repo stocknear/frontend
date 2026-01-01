@@ -162,6 +162,7 @@ export const isWeekend = writable(<boolean>false);
 export const isBeforeMarketOpen = writable(<boolean>false);
 export const isAfterMarketClose = writable(<boolean>false);
 export const isOpen = writable(<boolean>false);
+export const isHoliday = writable(<boolean>false);
 
 export const commentIdDeleted = writable(<string>"");
 export const postIdDeleted = writable(<string>"");
