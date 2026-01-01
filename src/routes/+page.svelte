@@ -162,16 +162,15 @@
     <div
       class="border-b border-gray-100 dark:border-gray-800 rounded-[5px] px-4 bg-gray-100 dark:bg-[#1C1E22] pt-8 sm:pt-12 shadow-sm pb-26 landscape:border-t-2 landscape:md:border-t-0"
     >
-      <!--
-      {#if data?.user}
+      {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
         <div class="flex justify-center mb-5 whitespace-nowrap">
           <div class=" flex justify-center lg:mb-3">
-            <a href="/unusual-order-flow"
+            <a href="/pricing"
               ><div
                 class="flex items-center justify-center sm:hover:text-muted dark:sm:hover:text-white text-blue-800 dark:text-blue-400"
               >
                 <div class="text-lg sm:text-xl font-semibold">
-                  Unusual Order Flow
+                  Lifetime Access Available
                 </div>
                 <div
                   class="-mt-2 ml-1 -rotate-6 rounded-[3px] bg-red-500 px-1 py-0.5 text-xs font-semibold text-white"
@@ -183,7 +182,6 @@
           </div>
         </div>
       {/if}
-      -->
 
       <div class="mx-auto max-w-[850px] text-center">
         <h1
