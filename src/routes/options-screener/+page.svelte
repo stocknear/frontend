@@ -675,7 +675,7 @@
     handleAddRule();
 
     // Clear search state
-    quickSearchTerm = "";
+    //quickSearchTerm = "";
     quickSearchResults = [];
     showQuickSearchDropdown = false;
     selectedQuickSearchIndex = -1;

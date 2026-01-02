@@ -5,6 +5,8 @@
   import { onMount, onDestroy } from "svelte";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
+  import { scale, fade } from "svelte/transition";
+  import { cubicOut } from "svelte/easing";
 
   import { DateFormatter, type DateValue } from "@internationalized/date";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
@@ -576,7 +578,7 @@
   function selectQuickSearchRule(rule) {
     ruleName = rule.rule;
     handleAddRule();
-    quickSearchTerm = "";
+    //quickSearchTerm = "";
     quickSearchResults = [];
     showQuickSearchDropdown = false;
     selectedQuickSearchIndex = -1;
@@ -678,7 +680,7 @@
     // Check if any pending new items passed the filters - only then play audio
     if (pendingNewItemIds.size > 0 && !muted && audio) {
       const hasNewFilteredItems = filteredData.some((item) =>
-        pendingNewItemIds.has(item?.trackingID)
+        pendingNewItemIds.has(item?.trackingID),
       );
 
       if (hasNewFilteredItems) {
@@ -1112,7 +1114,9 @@
             );
 
             // Store new item IDs before merging (for filtered audio alerts)
-            const newItemIds = new Set(newData.map((item) => item?.trackingID).filter(Boolean));
+            const newItemIds = new Set(
+              newData.map((item) => item?.trackingID).filter(Boolean),
+            );
 
             rawData = await mergeRawData(newData);
 
@@ -1818,6 +1822,13 @@
                 {#if showQuickSearchDropdown && quickSearchResults.length > 0}
                   <div
                     class="absolute z-50 w-full mt-1 bg-white dark:bg-[#2A2E39] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-64 overflow-y-auto"
+                    in:scale={{
+                      start: 0.98,
+                      duration: 140,
+                      delay: 50,
+                      easing: cubicOut,
+                    }}
+                    out:fade={{ duration: 90 }}
                   >
                     {#each quickSearchResults as result, index}
                       <button
@@ -1935,6 +1946,13 @@
               <!--Start Added Rules-->
               <div
                 class="flex items-center justify-between space-x-2 px-1 py-1.5 text-[0.95rem] leading-tight"
+                in:scale={{
+                  start: 0.98,
+                  duration: 160,
+                  delay: 50,
+                  easing: cubicOut,
+                }}
+                out:fade={{ duration: 100 }}
               >
                 <div class=" flex flex-row items-start sm:items-end">
                   {row?.label?.length > 20
