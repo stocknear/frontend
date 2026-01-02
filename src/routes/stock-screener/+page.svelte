@@ -3626,6 +3626,13 @@ const handleKeyDown = (event) => {
             <!--Start Added Rules-->
             <div
               class="flex items-center justify-between space-x-2 px-1 py-1.5 text-sm sm:text-[0.95rem] leading-tight"
+              in:scale={{
+                start: 0.98,
+                duration: 160,
+                delay: 50,
+                easing: cubicOut,
+              }}
+              out:fade={{ duration: 100 }}
             >
               <div class=" flex flex-row items-start sm:items-end">
                 {row?.label?.length > 30
