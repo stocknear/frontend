@@ -864,6 +864,7 @@
       step: ["500%", "200%", "100%", "50%", "10%", "0%"],
       defaultCondition: "over",
       defaultValue: "any",
+      varType: "percent",
       category: "Price & Volume",
     },
     institutionalOwnership: {
