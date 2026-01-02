@@ -1,11 +1,13 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import { goto } from "$app/navigation";
-  import { clearCache, screenWidth, getCache, setCache } from "$lib/store";
+  import { clearCache, screenWidth } from "$lib/store";
   import Copy from "lucide-svelte/icons/copy";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import InfoModal from "$lib/components/InfoModal.svelte";
+  import { scale, fade } from "svelte/transition";
+  import { cubicOut } from "svelte/easing";
 
   import {
     abbreviateNumber,
@@ -2091,7 +2093,7 @@
 
   const selectQuickSearchRule = (rule) => {
     changeRule(rule.rule);
-    quickSearchTerm = "";
+    //quickSearchTerm = "";
     quickSearchResults = [];
     showQuickSearchDropdown = false;
     selectedQuickSearchIndex = -1;
@@ -3468,7 +3470,7 @@ const handleKeyDown = (event) => {
               />
 
               <!-- Clear button -->
-              {#if quickSearchTerm.length > 0}
+              {#if quickSearchTerm?.length > 0}
                 <button
                   type="button"
                   on:click={() => {
@@ -3496,9 +3498,16 @@ const handleKeyDown = (event) => {
             </div>
 
             <!-- Quick Search Dropdown -->
-            {#if showQuickSearchDropdown && quickSearchResults.length > 0}
+            {#if showQuickSearchDropdown && quickSearchResults?.length > 0}
               <div
                 class="absolute z-50 w-full mt-1 bg-white dark:bg-[#2A2E39] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-64 overflow-y-auto"
+                in:scale={{
+                  start: 0.98,
+                  duration: 140,
+                  delay: 50,
+                  easing: cubicOut,
+                }}
+                out:fade={{ duration: 90 }}
               >
                 {#each quickSearchResults as result, index}
                   <button
