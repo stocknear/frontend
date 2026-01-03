@@ -16,7 +16,7 @@
 
   let pagePathName = $page?.url?.pathname;
 
-  let originalData = data?.getAllPolitician;
+  let originalData = data?.getAllPolitician || [];
   let rawData = originalData;
 
   let displayList = [];
@@ -296,16 +296,20 @@
 
   let columns = [
     { key: "representative", label: "Person", align: "left" },
+    { key: "favorite", label: "Favorite", align: "center" },
     { key: "party", label: "Party", align: "right" },
-    { key: "district", label: "District", align: "right" },
+    { key: "successRate", label: "Success Rate", align: "right" },
+    { key: "avgReturn", label: "Avg. Return", align: "right" },
     { key: "totalTrades", label: "Total Trades", align: "right" },
     { key: "lastTrade", label: "Last Trade", align: "right" },
   ];
 
   let sortOrders = {
     representative: { order: "none", type: "string" },
+    favorite: { order: "none", type: "favorite" },
     party: { order: "none", type: "string" },
-    district: { order: "none", type: "string" },
+    successRate: { order: "none", type: "number" },
+    avgReturn: { order: "none", type: "number" },
     totalTrades: { order: "none", type: "number" },
     lastTrade: { order: "none", type: "date" },
   };
@@ -356,6 +360,10 @@
       let valueA, valueB;
 
       switch (type) {
+        case "favorite":
+          valueA = favoriteList?.includes(a?.id) ? 0 : 1;
+          valueB = favoriteList?.includes(b?.id) ? 0 : 1;
+          break;
         case "date":
           valueA = new Date(a[key]);
           valueB = new Date(b[key]);
@@ -455,7 +463,7 @@
       <div
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
-        <main class="w-full lg:w-3/4 lg:pr-5">
+        <main class="w-full">
           <h1 class="text-2xl sm:text-3xl font-bold">All US Politicians</h1>
           <div
             class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between w-full mt-5 text-muted sm:pt-2 sm:pb-2 dark:text-white sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-gray-800"
@@ -574,19 +582,63 @@
                         class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
                       >
                         <td
-                          class="text-start text-sm sm:text-[1rem] whitespace-nowrap flex flex-row items-center justify-between w-full"
+                          class="text-start text-sm sm:text-[1rem] whitespace-nowrap"
                         >
-                          <a
-                            href={`/politicians/${item?.id}`}
-                            class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400"
-                            >{item?.representative?.replace("_", " ")}</a
-                          >
+                          <div class="flex flex-col items-start">
+                            <a
+                              href={`/politicians/${item?.id}`}
+                              class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400"
+                              >{item?.representative?.replace("_", " ")}</a
+                            >
+                            <div class="flex flex-row items-center mt-1">
+                              {#each Array.from({ length: 5 }) as _, i}
+                                {#if i < Math.floor(item?.performanceScore || 0)}
+                                  <svg
+                                    class="w-3.5 h-3.5 text-[#FFA500]"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor"
+                                    viewBox="0 0 22 20"
+                                  >
+                                    <path
+                                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                                    />
+                                  </svg>
+                                {:else}
+                                  <svg
+                                    class="w-3.5 h-3.5 text-gray-500"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor"
+                                    viewBox="0 0 22 20"
+                                  >
+                                    <path
+                                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                                    />
+                                  </svg>
+                                {/if}
+                              {/each}
+                              <span
+                                class="ml-1 text-xs sm:text-sm dark:text-gray-400"
+                              >
+                                ({item?.performanceScore
+                                  ? item?.performanceScore
+                                  : 0})
+                              </span>
+                            </div>
+                          </div>
+                        </td>
 
+                        <td
+                          class="text-center text-sm sm:text-[1rem] whitespace-nowrap"
+                        >
                           <div
                             id={item?.id}
                             on:click|stopPropagation={(event) =>
                               addToFavorite(event, item?.id)}
-                            class=" {favoriteList?.includes(item?.id)
+                            class="text-center mt-2.5 {favoriteList?.includes(
+                              item?.id,
+                            )
                               ? 'text-yellow-500 dark:text-[#FFA500]'
                               : 'text-gray-400 dark:text-gray-300'}"
                           >
@@ -612,7 +664,36 @@
                         <td
                           class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
                         >
-                          {item?.district?.length > 0 ? item?.district : "n/a"}
+                          {#if item?.successRate === null || item?.successRate === undefined}
+                            <span class="text-muted dark:text-gray-400"
+                              >n/a</span
+                            >
+                          {:else}
+                            <span
+                              class="font-semibold dark:font-normal text-green-800 dark:text-[#00FC50]"
+                              >+{Number(item?.successRate)?.toFixed(2)}%</span
+                            >
+                          {/if}
+                        </td>
+
+                        <td
+                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                        >
+                          {#if item?.avgReturn === null || item?.avgReturn === undefined}
+                            <span class="text-muted dark:text-gray-400"
+                              >n/a</span
+                            >
+                          {:else if Number(item?.avgReturn) >= 0}
+                            <span
+                              class="font-semibold dark:font-normal text-green-800 dark:text-[#00FC50]"
+                              >+{Number(item?.avgReturn)?.toFixed(2)}%</span
+                            >
+                          {:else}
+                            <span
+                              class="font-semibold dark:font-normal text-[#B84242]"
+                              >{Number(item?.avgReturn)?.toFixed(2)}%</span
+                            >
+                          {/if}
                         </td>
 
                         <td
@@ -779,69 +860,6 @@
             {/if}
           </div>
         </main>
-
-        <aside class="hidden lg:block relative fixed w-1/4 ml-4">
-          {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
-            <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
-            >
-              <a
-                href={"/pricing"}
-                class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-              >
-                <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-bold ml-3">
-                    Pro Subscription
-                  </h2>
-                  <ArrowLogo
-                    class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:"
-                  />
-                </div>
-                <span class="p-3 ml-3 mr-3">
-                  Upgrade now for unlimited access to all data, tools and no
-                  ads.
-                </span>
-              </a>
-            </div>
-          {/if}
-
-          <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
-          >
-            <a
-              href={"/politicians/flow-data"}
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">
-                  Latest Congress Trading
-                </h2>
-                <ArrowLogo class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:" />
-              </div>
-              <span class="p-3 ml-3 mr-3">
-                Get detailed reports on latest Congress trading transactions.
-              </span>
-            </a>
-          </div>
-          <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
-          >
-            <a
-              href={"/stock-screener"}
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">
-                  Stock Screener
-                </h2>
-                <ArrowLogo class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:" />
-              </div>
-              <span class="p-3 ml-3 mr-3">
-                Build your Stock Screener to find profitable stocks.
-              </span>
-            </a>
-          </div>
-        </aside>
       </div>
     </div>
   </div>
