@@ -18,6 +18,15 @@ module.exports = {
       screens: {
         "3xl": "1900px",
       },
+      fontFamily: {
+        sans: [
+          "Space Grotesk",
+          "Avenir Next",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif",
+        ],
+      },
       colors: {
         border: "hsl(var(--border) / <alpha-value>)",
         input: "hsl(var(--input) / <alpha-value>)",

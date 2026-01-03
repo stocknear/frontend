@@ -148,96 +148,156 @@
 />
 
 <section
-  class=" min-h-screen mb-40 w-full max-w-3xl sm:max-w-6xl m-auto text-muted dark:text-white"
+  class="pricing-shell relative mb-40 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 overflow-hidden text-[rgb(var(--pricing-ink))]"
 >
-  <div
-    class="flex flex-col sm:flex-row w-full mx-auto justify-center items-center sm:space-x-8 text-sm relative pt-5 pb-10"
-  >
-    <div class="flex items-center" style="opacity: 1; transform: none;">
-      <svg
-        stroke="currentColor"
-        fill="currentColor"
-        stroke-width="0"
-        viewBox="0 0 640 512"
-        class="mr-2 w-4 h-4 sm:w-5 sm:h-5"
-        xmlns="http://www.w3.org/2000/svg"
-        ><path
-          d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z"
-        ></path></svg
-      ><span class="font-medium text-sm sm:text-lg"
-        >Trusted by <span class="font-semibold">10,000</span>+ Investors</span
-      >
-    </div>
-    <span
-      class="hidden sm:inline-block text-zinc-600"
-      style="opacity: 1; transform: none;">|</span
+  <div class="pointer-events-none absolute inset-0 -z-10">
+    <div
+      class="absolute -top-24 left-1/2 h-72 w-[120%] -translate-x-1/2 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(15,118,110,0.18)_0%,rgba(255,255,255,0)_70%)] dark:bg-[radial-gradient(60%_60%_at_50%_0%,rgba(15,118,110,0.28)_0%,rgba(9,9,11,0)_70%)]"
+    ></div>
+    <div
+      class="absolute inset-0 bg-[linear-gradient(120deg,rgba(15,118,110,0.06),transparent_40%,rgba(14,116,144,0.08))] dark:bg-[linear-gradient(120deg,rgba(15,118,110,0.08),transparent_45%,rgba(15,23,42,0.3))]"
+    ></div>
+  </div>
+
+  <div class="relative">
+    <div
+      class="flex flex-wrap items-center justify-center gap-3 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-[0.3em] text-[rgb(var(--pricing-muted))] motion-safe:animate-fade-in-once"
     >
-    <div class="mt-2 sm:mt-0 flex items-center text-sm sm:text-lg">
-      <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
-        <path
-          d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-        />
-      </svg><span class="ml-1 mr-2 font-bold"><span>4.6</span>/5</span><span
-        class="font-medium"
-        >Rated "Excellent" on <a
+      <div
+        class="flex items-center gap-2 rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 py-2 shadow-sm"
+      >
+        <svg
+          stroke="currentColor"
+          fill="currentColor"
+          stroke-width="0"
+          viewBox="0 0 640 512"
+          class="h-4 w-4"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z"
+          ></path>
+        </svg>
+        <span>10,000+ investors</span>
+      </div>
+      <div
+        class="flex items-center gap-2 rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 py-2 shadow-sm"
+      >
+        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+          <path
+            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+          />
+        </svg>
+        <span class="text-[rgb(var(--pricing-ink))]">4.6/5</span>
+        <span class="font-medium text-[rgb(var(--pricing-muted))]"
+          >Trustpilot</span
+        >
+        <a
           rel="noopener noreferrer"
           target="_blank"
           href="https://www.trustpilot.com/review/stocknear.com"
-          class="sm:hover:text-blue-800 dark:sm:hover:text-blue-400 underline underline-offset-4"
+          class="underline underline-offset-4 sm:hover:text-[rgb(var(--pricing-accent))]"
         >
-          Trustpilot</a
-        ></span
-      >
-    </div>
-  </div>
-
-  <div class="px-3">
-    <div class="mx-auto text-center mb-8">
-      <h1 class="text-3xl sm:text-5xl font-bold tracking-tight">
-        <span class="text-gray-900 dark:text-white">Success is well</span>
-        <span
-          class="bg-gradient-to-r from-violet-500 to-purple-600 dark:from-violet-400 dark:to-purple-500 bg-clip-text text-transparent"
-          >researched</span
-        >
-      </h1>
-    </div>
-
-    <!--<Discount />-->
-
-    <div class="flex flex-row items-center justify-center">
-      <div class="flex flex-row items-center ml-auto">
-        <span class="text-[1rem] font-semibold mr-3"> Monthly </span>
-
-        <label class="inline-flex cursor-pointer relative">
-          <input type="checkbox" bind:checked={mode} class="sr-only peer" />
-          <div
-            class="w-14 h-7 bg-[#09090B] border border-gray-600 rounded-full peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[0.40rem] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-black dark:bg-default {mode ===
-            false
-              ? 'after:translate-x-[-0.2rem]'
-              : ''} "
-          ></div>
-        </label>
-
-        <div class="ml-3 flex flex-col text-[1rem] items-start">Annually</div>
+          Reviews
+        </a>
       </div>
     </div>
 
     <div
-      class="grid max-w-md grid-cols-1 gap-6 mx-auto text-center lg:max-w-full lg:grid-cols-3"
+      class="mx-auto mt-10 text-center max-w-3xl motion-safe:animate-fade-in-once"
+      style="animation-delay: 0.15s;"
     >
-      <div
-        style="opacity: 1; transform: translateY(20px);"
-        class="hidden sm:block rounded lg:flex flex-col relative bg-white dark:bg-zinc-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-[3px] overflow-visible border border-gray-400 dark:border-zinc-600 p-6 isolate"
+      <p
+        class="text-[0.7rem] uppercase tracking-[0.35em] text-[rgb(var(--pricing-muted))]"
       >
-        <h3 class="text-3xl font-bold">Basic</h3>
-        <p class="text-muted dark:text-zinc-300 text-sm mt-1">Get Started</p>
-        <div class="mt-4">
-          <span class="text-4xl font-bold">$0</span><span class=" text-xl ml-1"
-            >/mo</span
+        Pricing
+      </p>
+      <h1 class="mt-4 text-4xl sm:text-6xl font-semibold tracking-tight">
+        Plans for <span class="text-[rgb(var(--pricing-accent))]"
+          >clearer decisions</span
+        >
+        and faster research.
+      </h1>
+      <p class="mt-4 text-base sm:text-lg text-[rgb(var(--pricing-muted))]">
+        Start free, upgrade anytime. Every tier is built for focus: clean data,
+        smart alerts, and tools that save hours.
+      </p>
+      <div
+        class="mt-6 flex flex-wrap items-center justify-center gap-2 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-[0.18em] text-[rgb(var(--pricing-muted))]"
+      >
+        <span
+          class="rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1"
+          >7-day free trial</span
+        >
+        <span
+          class="rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1"
+          >Cancel anytime</span
+        >
+        <span
+          class="rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1"
+          >No hidden fees</span
+        >
+      </div>
+    </div>
+
+    <!--<Discount />-->
+
+    <div
+      class="mt-10 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold text-[rgb(var(--pricing-muted))] motion-safe:animate-fade-in-once"
+      style="animation-delay: 0.2s;"
+    >
+      <span
+        class={mode
+          ? "text-[rgb(var(--pricing-muted))]"
+          : "text-[rgb(var(--pricing-ink))]"}
+      >
+        Monthly
+      </span>
+      <label class="relative inline-flex cursor-pointer items-center">
+        <input type="checkbox" bind:checked={mode} class="peer sr-only" />
+        <span
+          class="h-8 w-16 rounded-full border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.9)] shadow-inner transition peer-checked:bg-[rgb(var(--pricing-accent)/0.12)]"
+        ></span>
+        <span
+          class="absolute left-1 top-1 h-6 w-6 rounded-full bg-white shadow-md transition peer-checked:translate-x-8 dark:bg-zinc-200"
+        ></span>
+      </label>
+      <span
+        class={mode
+          ? "text-[rgb(var(--pricing-ink))]"
+          : "text-[rgb(var(--pricing-muted))]"}
+      >
+        Annual
+      </span>
+      <span
+        class="rounded-full bg-[rgb(var(--pricing-accent)/0.12)] px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--pricing-accent))]"
+      >
+        Save 33%
+      </span>
+    </div>
+
+    <div class="mt-12 grid gap-6 lg:grid-cols-3">
+      <div
+        class="hidden sm:flex flex-col relative rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.35)] backdrop-blur-xl motion-safe:animate-fade-in-once"
+        style="animation-delay: 0.25s;"
+      >
+        <div class="flex items-center justify-between">
+          <h3 class="text-2xl font-semibold tracking-tight">Basic</h3>
+          <span
+            class="rounded-full border border-[rgb(var(--pricing-border)/0.45)] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--pricing-muted))]"
           >
+            Starter
+          </span>
+        </div>
+        <p class="mt-2 text-sm text-[rgb(var(--pricing-muted))]">
+          Everything you need to explore the platform.
+        </p>
+        <div class="mt-5 flex items-baseline justify-center gap-2">
+          <span class="text-4xl font-semibold">$0</span>
+          <span class="text-sm text-[rgb(var(--pricing-muted))]">/month</span>
         </div>
 
-        <ul class="mt-6 mb-6 space-y-2">
+        <ul class="mt-6 mb-6 space-y-2 text-sm text-[rgb(var(--pricing-muted))]">
           <li class="flex flex-row items-center">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
@@ -374,7 +434,7 @@
               </g></svg
             >
 
-            <span class="text-muted dark:text-gray-400"
+            <span class="text-[rgb(var(--pricing-muted))]"
               >Hedge Fund Portfolio Access</span
             >
           </li>
@@ -437,7 +497,7 @@
               </g></svg
             >
 
-            <span class="text-muted dark:text-gray-400"
+            <span class="text-[rgb(var(--pricing-muted))]"
               >US Congress Portfolio Access</span
             >
           </li>
@@ -500,7 +560,7 @@
               </g></svg
             >
 
-            <span class="text-muted dark:text-gray-400"
+            <span class="text-[rgb(var(--pricing-muted))]"
               >Financial History Access</span
             >
           </li>
@@ -564,7 +624,7 @@
               </g></svg
             >
 
-            <span class="text-muted dark:text-gray-400">Stock Screener</span>
+            <span class="text-[rgb(var(--pricing-muted))]">Stock Screener</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -625,7 +685,7 @@
               </g></svg
             >
 
-            <span class="text-muted dark:text-gray-400"
+            <span class="text-[rgb(var(--pricing-muted))]"
               >Financial Data Download</span
             >
           </li>
@@ -688,7 +748,7 @@
               </g></svg
             >
 
-            <span class="text-muted dark:text-gray-400">No Ads</span>
+            <span class="text-[rgb(var(--pricing-muted))]">No Ads</span>
           </li>
 
           <li class="flex items-start">
@@ -750,7 +810,7 @@
               </g></svg
             >
 
-            <span class="text-muted dark:text-gray-400"
+            <span class="text-[rgb(var(--pricing-muted))]"
               >Real-Time & Historical Options Data</span
             >
           </li>
@@ -814,7 +874,7 @@
               </g></svg
             >
 
-            <span class="text-muted dark:text-gray-400"
+            <span class="text-[rgb(var(--pricing-muted))]"
               >Real-Time Options Flow Data</span
             >
           </li>
@@ -877,7 +937,7 @@
               </g></svg
             >
 
-            <span class="text-muted dark:text-gray-400"
+            <span class="text-[rgb(var(--pricing-muted))]"
               >Real-Time Unusual Orders</span
             >
           </li>
@@ -940,16 +1000,16 @@
               </g></svg
             >
 
-            <span class="text-muted dark:text-gray-400"
+            <span class="text-[rgb(var(--pricing-muted))]"
               >Premium Discord Channel Access</span
             >
           </li>
         </ul>
-        <div class="mt-auto pt-6 border-t border-zinc-700 mx-4">
+        <div class="mt-auto pt-6 border-t border-[rgb(var(--pricing-border)/0.5)] mx-2">
           {#if !data?.user}
             <label
               for="userLogin"
-              class="text-white cursor-pointer w-full py-3 px-4 bg-black dark:bg-white rounded-[3px] font-semibold sm:hover:bg-default dark:sm:hover:bg-gray-100 text-white dark:text-black transition duration-100 flex items-center justify-center"
+              class="text-[rgb(var(--pricing-ink))] cursor-pointer w-full py-3 px-4 border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.9)] rounded-xl font-semibold sm:hover:bg-white/80 dark:sm:hover:bg-[rgb(var(--pricing-card))] transition duration-150 flex items-center justify-center"
               >Get Registered Now<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
@@ -969,30 +1029,33 @@
       </div>
 
       <div
-        style="opacity: 1; transform: translateY(20px);"
-        class="rounded relative flex flex-col relative bg-white dark:bg-zinc-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-[3px] overflow-visible border border-gray-400 dark:border-zinc-600 p-6 isolate"
+        class="rounded-2xl flex flex-col relative border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.35)] backdrop-blur-xl motion-safe:animate-fade-in-once"
+        style="animation-delay: 0.35s;"
       >
-        <h3 class="text-3xl font-bold">Plus</h3>
-        <p class="text-muted dark:text-zinc-300 text-sm mt-1">
-          Essential tools for individual investors
-        </p>
-        <div class="mt-4">
-          <span class=" text-4xl font-bold">{mode ? "$10" : "$15"}</span>
-
-          <!-- <span class=" text-4xl font-bold ml-1">{mode ? "$4.5" : "$6"}</span
-          >--><span
-            class=" text-xl">/mo</span
+        <div class="flex items-center justify-between">
+          <h3 class="text-2xl font-semibold tracking-tight">Plus</h3>
+          <span
+            class="rounded-full bg-[rgb(var(--pricing-accent)/0.12)] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--pricing-accent))]"
           >
+            Core
+          </span>
+        </div>
+        <p class="mt-2 text-sm text-[rgb(var(--pricing-muted))]">
+          Essential tools for individual investors.
+        </p>
+        <div class="mt-5 flex items-baseline justify-center gap-2">
+          <span class="text-4xl font-semibold">{mode ? "$10" : "$15"}</span>
+          <span class="text-sm text-[rgb(var(--pricing-muted))]">/month</span>
         </div>
         <p
-          class="text-muted dark:text-gray-400 text-sm mt-1 mx-4 {!mode
+          class="text-[rgb(var(--pricing-muted))] text-xs mt-2 uppercase tracking-[0.2em] {!mode
             ? 'hidden'
             : ''}"
         >
-          ($120 Billed Annually)
+          Billed annually ($120)
         </p>
 
-        <ul class="mt-6 mb-6 space-y-2">
+        <ul class="mt-6 mb-6 space-y-2 text-sm text-[rgb(var(--pricing-muted))]">
           <li class="flex flex-row items-center whitespace-nowrap">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
@@ -1234,7 +1297,7 @@
               </g></svg
             >
 
-            <span class="text-muted dark:text-gray-400"
+            <span class="text-[rgb(var(--pricing-muted))]"
               >Real-Time & Historical Options Data</span
             >
           </li>
@@ -1298,7 +1361,7 @@
               </g></svg
             >
 
-            <span class="text-muted dark:text-gray-400"
+            <span class="text-[rgb(var(--pricing-muted))]"
               >Real-Time Options Flow Data</span
             >
           </li>
@@ -1361,7 +1424,7 @@
               </g></svg
             >
 
-            <span class="text-muted dark:text-gray-400"
+            <span class="text-[rgb(var(--pricing-muted))]"
               >Real-Time Unusual Orders</span
             >
           </li>
@@ -1424,15 +1487,15 @@
               </g></svg
             >
 
-            <span class="text-muted dark:text-gray-400"
+            <span class="text-[rgb(var(--pricing-muted))]"
               >Premium Discord Channel Access</span
             >
           </li>
         </ul>
-        <div class="mt-auto pt-6 border-t border-zinc-700 mx-4">
+        <div class="mt-auto pt-6 border-t border-[rgb(var(--pricing-border)/0.5)] mx-2">
           {#if data?.user?.tier === "Plus"}
             <div
-              class="w-full py-3 px-4 bg-gray-200 dark:bg-zinc-700 rounded-[3px] font-semibold text-gray-500 dark:text-zinc-400 flex items-center justify-center cursor-not-allowed"
+              class="w-full py-3 px-4 border border-[rgb(var(--pricing-border)/0.5)] bg-[rgb(var(--pricing-card)/0.7)] rounded-xl font-semibold text-[rgb(var(--pricing-muted))] flex items-center justify-center cursor-not-allowed"
             >
               <svg
                 class="w-5 h-5 mr-2"
@@ -1451,7 +1514,7 @@
             </div>
           {:else if data?.user?.tier === "Pro"}
             <div
-              class="w-full py-3 px-4 bg-gray-200 dark:bg-zinc-700 rounded-[3px] font-semibold text-gray-500 dark:text-zinc-400 flex items-center justify-center cursor-not-allowed"
+              class="w-full py-3 px-4 border border-[rgb(var(--pricing-border)/0.5)] bg-[rgb(var(--pricing-card)/0.7)] rounded-xl font-semibold text-[rgb(var(--pricing-muted))] flex items-center justify-center cursor-not-allowed"
             >
               Pro Plan Active
             </div>
@@ -1459,7 +1522,7 @@
             <label
               for={!data?.user ? "userLogin" : ""}
               on:click={() => purchasePlan("plus")}
-              class="text-white cursor-pointer w-full py-3 px-4 bg-black dark:bg-white rounded-[3px] font-semibold sm:hover:bg-default dark:sm:hover:bg-gray-100 text-white dark:text-black transition duration-100 flex items-center justify-center"
+              class="text-white cursor-pointer w-full py-3 px-4 bg-[rgb(var(--pricing-accent))] rounded-xl font-semibold sm:hover:bg-[rgb(var(--pricing-accent-strong))] transition duration-150 flex items-center justify-center"
               >{data?.user?.freeTrial
                 ? "Unlock Plus Access"
                 : "Start Free 7 Day Trial"}<svg
@@ -1480,39 +1543,36 @@
         </div>
       </div>
       <div
-        style="opacity: 1; transform: translateY(20px);"
-        class=" rounded text-white flex flex-col relative bg-[#18181B] dark:bg-zinc-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-[3px] overflow-visible border border-violet-500/50 p-6 isolate"
+        class="rounded-2xl text-white flex flex-col relative bg-[#0f172a] border border-[rgb(var(--pricing-accent)/0.45)] p-6 shadow-[0_30px_80px_-50px_rgba(15,118,110,0.6)] motion-safe:animate-fade-in-once"
+        style="animation-delay: 0.45s;"
       >
-        <!-- Subtle top glow -->
         <div
-          class="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-px bg-gradient-to-r from-transparent via-violet-400 to-transparent"
+          class="absolute inset-x-6 -top-px h-px bg-gradient-to-r from-transparent via-[rgb(var(--pricing-accent))] to-transparent"
         ></div>
-        <!-- Best Value Badge -->
         <div
-          class="w-fit absolute -top-[12px] left-1/2 transform -translate-x-1/2 whitespace-nowrap m-auto px-4 py-1 rounded-full text-xs font-semibold tracking-widest uppercase
-              bg-violet-500 text-white shadow-md"
+          class="w-fit absolute -top-[14px] left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-1 rounded-full text-[0.65rem] font-semibold uppercase tracking-[0.25em] bg-[rgb(var(--pricing-accent))] text-white shadow-lg"
         >
-          Best Value
+          Best value
         </div>
-        <h3 class="text-3xl font-bold mt-2">Pro</h3>
-        <p class="text-white dark:text-zinc-300 text-sm mt-1">
-          Professional tools at retail prices
+        <div class="flex items-center justify-between">
+          <h3 class="text-2xl font-semibold tracking-tight">Pro</h3>
+          <span class="text-[0.65rem] uppercase tracking-[0.2em] text-emerald-200">
+            Advanced
+          </span>
+        </div>
+        <p class="text-slate-200 text-sm mt-2">
+          Professional tools at retail pricing.
         </p>
-        <div class="mt-4">
-          <span class="text-white text-4xl font-bold {!mode ? '' : ''}"
-            >{mode ? "$30" : "$45"}</span
-          >
-          <!-- <span class="text-white text-4xl font-bold ml-1"
-            >{mode ? "$15" : "$21"}</span
-          >-->
-          <span class=" text-xl ml-1">/mo</span>
+        <div class="mt-5 flex items-baseline justify-center gap-2">
+          <span class="text-4xl font-semibold">{mode ? "$30" : "$45"}</span>
+          <span class="text-sm text-slate-300">/month</span>
         </div>
         <p
-          class="text-white dark:text-gray-400 text-sm mt-1 mx-4 {!mode
+          class="text-slate-300 text-xs mt-2 uppercase tracking-[0.2em] {!mode
             ? 'hidden'
             : ''}"
         >
-          ($360 Billed Annually)
+          Billed annually ($360)
         </p>
 
         <ul class="mt-6 mb-6 space-y-2">
@@ -1659,10 +1719,10 @@
         {/if}
         -->
 
-        <div class="mt-auto pt-6 border-t border-zinc-700 mx-4">
+        <div class="mt-auto pt-6 border-t border-white/10 mx-2">
           {#if data?.user?.tier === "Pro"}
             <div
-              class="w-full py-3 px-4 bg-gray-200 dark:bg-zinc-700 rounded-[3px] font-semibold text-gray-500 dark:text-zinc-400 flex items-center justify-center cursor-not-allowed"
+              class="w-full py-3 px-4 rounded-xl border border-white/10 bg-white/10 font-semibold text-slate-200 flex items-center justify-center cursor-not-allowed"
             >
               <svg
                 class="w-5 h-5 mr-2"
@@ -1682,7 +1742,7 @@
           {:else if data?.user?.tier === "Plus"}
             <a
               href="/profile"
-              class="cursor-pointer w-full py-3 px-4 bg-white rounded-[3px] font-semibold sm:hover:bg-gray-100 dark:sm:hover:bg-gray-100 text-black transition duration-100 flex items-center justify-center"
+              class="cursor-pointer w-full py-3 px-4 bg-white rounded-xl font-semibold sm:hover:bg-slate-100 text-slate-900 transition duration-150 flex items-center justify-center"
               >Upgrade in Account<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
@@ -1701,7 +1761,7 @@
             <label
               for={!data?.user ? "userLogin" : ""}
               on:click={() => purchasePlan("pro")}
-              class="cursor-pointer w-full py-3 px-4 bg-white rounded-[3px] font-semibold sm:hover:bg-gray-100 dark:sm:hover:bg-gray-100 text-black transition duration-100 flex items-center justify-center"
+              class="cursor-pointer w-full py-3 px-4 bg-white rounded-xl font-semibold sm:hover:bg-slate-100 text-slate-900 transition duration-150 flex items-center justify-center"
               >{data?.user?.freeTrial
                 ? "Upgrade Access"
                 : "Start Free 7 Day Trial"}<svg
@@ -1725,11 +1785,11 @@
 
     {#if ["Plus", "Pro"].includes(data?.user?.tier)}
       <div
-        class="mx-auto w-full mt-10 p-4 rounded bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800"
+        class="mx-auto w-full mt-10 p-4 rounded-2xl border border-[rgb(var(--pricing-accent)/0.25)] bg-[rgb(var(--pricing-accent)/0.08)]"
       >
         <div class="flex items-center gap-3">
           <svg
-            class="w-5 h-5 text-purple-600 dark:text-purple-400 flex-shrink-0"
+            class="w-5 h-5 text-[rgb(var(--pricing-accent))] flex-shrink-0"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -1741,7 +1801,7 @@
               d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             ></path>
           </svg>
-          <p class="text-sm text-purple-800 dark:text-purple-200">
+          <p class="text-sm text-[rgb(var(--pricing-ink))]">
             You're currently subscribed to <span class="font-semibold"
               >{data?.user?.tier}</span
             >.
@@ -1749,7 +1809,7 @@
               href="https://app.lemonsqueezy.com/my-orders"
               target="_blank"
               rel="noopener noreferrer"
-              class="underline underline-offset-2 font-medium hover:text-purple-600 dark:hover:text-purple-300"
+              class="underline underline-offset-2 font-medium text-[rgb(var(--pricing-accent))] sm:hover:text-[rgb(var(--pricing-accent-strong))]"
               >Manage your subscription</a
             >
           </p>
@@ -1759,25 +1819,33 @@
 
     <!--Start FAQ-->
 
-    <section class="mt-10">
+    <section class="mt-16">
       <div class="mx-auto">
-        <div class="py-12 md:py-10">
+        <div class="py-10">
           <!-- Section header -->
-          <div class="max-w-3xl mx-auto text-center pb-12 md:pb-14">
-            <h2 class="text-4xl font-bold">Frequently Asked Questions</h2>
+          <div class="max-w-3xl mx-auto text-center pb-8">
+            <h2
+              class="text-3xl sm:text-4xl font-semibold text-[rgb(var(--pricing-ink))]"
+            >
+              Frequently Asked Questions
+            </h2>
+            <p class="mt-3 text-sm sm:text-base text-[rgb(var(--pricing-muted))]">
+              Clear answers to the most common questions about trials, billing,
+              and upgrades.
+            </p>
           </div>
 
           <!-- Faqs -->
-          <ul class="mx-auto divide-y divide-gray-800">
-            <li class="border-b border-gray-300 dark:border-gray-800">
+          <ul class="mx-auto space-y-3">
+            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
               <details class="collapse collapse-arrow">
                 <summary
-                  class="font-semibold collapse-title text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5"
+                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                   >What are the advantages of Stocknear Service?</summary
                 >
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-[1rem] pb-5 dark:text-gray-200 overflow-hidden transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     Stocknear Service provides simplified, actionable trading
                     data and an extensive tool suite for every investor,
@@ -1789,16 +1857,16 @@
                 </div>
               </details>
             </li>
-            <li class="border-b border-gray-300 dark:border-gray-800">
+            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
               <details class="collapse collapse-arrow">
                 <summary
-                  class="font-semibold collapse-title text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5"
+                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                 >
                   What are credits and how do they work?
                 </summary>
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-[1rem] pb-5 dark:text-gray-200 overflow-hidden transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     On Stocknear, certain premium features have monthly usage
                     limits. Credits represent your available usage for these
@@ -1811,16 +1879,16 @@
                 </div>
               </details>
             </li>
-            <li class="border-b border-gray-300 dark:border-gray-800">
+            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
               <details class="collapse collapse-arrow">
                 <summary
-                  class="font-semibold collapse-title text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5"
+                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                 >
                   What’s included with Premium Discord Channel Access?
                 </summary>
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-[1rem] pb-5 dark:text-gray-200 overflow-hidden transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     Gain access to real-time options flow from major
                     institutional players, live dark pool activity, instant
@@ -1831,16 +1899,16 @@
               </details>
             </li>
 
-            <li class="border-b border-gray-300 dark:border-gray-800">
+            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
               <details class="collapse collapse-arrow">
                 <summary
-                  class="font-semibold collapse-title text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5"
+                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                 >
                   How does the 7 day trial work?
                 </summary>
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-[1rem] pb-5 dark:text-gray-200 transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] transition-all duration-300 ease-in-out"
                   >
                     You are entitled to one FREE 7 day trial. You can cancel
                     anytime within your trial period with no obligations. If you
@@ -1851,23 +1919,23 @@
               </details>
             </li>
 
-            <li class="border-b border-gray-300 dark:border-gray-800">
+            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
               <details class="collapse collapse-arrow">
                 <summary
-                  class="font-semibold collapse-title text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5"
+                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                 >
                   Can I change my plan at any time?
                 </summary>
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-[1rem] pb-5 dark:text-gray-200 transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] transition-all duration-300 ease-in-out"
                   >
                     Yes, you can easily upgrade your plan on your Account Page.
                     Or simply reach out to us via email, and we’ll take care of
                     it for you.
                     <a
                       href={`mailto:${emailAddress}`}
-                      class="text-blue-800 dark:text-blue-400 underline"
+                      class="text-[rgb(var(--pricing-accent))] underline sm:hover:text-[rgb(var(--pricing-accent-strong))]"
                     >
                       {emailAddress}
                     </a>
@@ -1876,17 +1944,17 @@
               </details>
             </li>
 
-            <li class="border-b border-gray-300 dark:border-gray-800">
+            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
               <details class="collapse collapse-arrow">
                 <summary
-                  class="font-semibold collapse-title text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5"
+                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                 >
                   Are there any commissions in addition to the subscription
                   plans?
                 </summary>
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-[1rem] pb-5 dark:text-gray-200 overflow-hidden transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     No, we do not charge any additional commissions or hidden
                     fees beyond our subscription plans.
@@ -1894,21 +1962,21 @@
                 </div>
               </details>
             </li>
-            <li class="border-b border-gray-300 dark:border-gray-800">
+            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
               <details class="collapse collapse-arrow">
                 <summary
-                  class="font-semibold collapse-title text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5"
+                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                 >
                   Can I request a refund?
                 </summary>
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-[1rem] pb-5 dark:text-gray-200 overflow-hidden transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     We offer a 30 day money back guarantee, no questions asked.
                     Just send an email to <a
                       href={`mailto:${emailAddress}`}
-                      class="text-blue-800 dark:text-blue-400 underline"
+                      class="text-[rgb(var(--pricing-accent))] underline sm:hover:text-[rgb(var(--pricing-accent-strong))]"
                       >{emailAddress}</a
                     > and you will get a full refund.
                   </p>
@@ -1916,16 +1984,16 @@
               </details>
             </li>
 
-            <li class="border-b border-gray-300 dark:border-gray-800">
+            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
               <details class="collapse collapse-arrow">
                 <summary
-                  class="font-semibold collapse-title text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5"
+                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                 >
                   What are my payment options?
                 </summary>
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-[1rem] pb-5 dark:text-gray-200 overflow-hidden transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     We support only Credit Card payments.
                   </p>
@@ -1933,16 +2001,16 @@
               </details>
             </li>
 
-            <li class="border-b border-gray-300 dark:border-gray-800">
+            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
               <details class="collapse collapse-arrow">
                 <summary
-                  class="font-semibold collapse-title text-[1rem] sm:text-xl flex items-center justify-between w-full text-left py-5"
+                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                 >
                   Can I cancel at any time?
                 </summary>
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-[1rem] pb-5 dark:text-gray-200 overflow-hidden transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     Of course. There is a "Cancel Subscription" button in your
                     account area that you get access to after signing up. You
@@ -1966,3 +2034,27 @@
 {/if}
 
 <!--End Login Modal-->
+
+<style>
+  .pricing-shell {
+    --pricing-accent: 15 118 110;
+    --pricing-accent-strong: 13 148 136;
+    --pricing-ink: 15 23 42;
+    --pricing-muted: 71 85 105;
+    --pricing-card: 255 255 255;
+    --pricing-surface: 248 250 252;
+    --pricing-border: 148 163 184;
+    background: rgb(var(--pricing-surface));
+    border: 1px solid rgb(var(--pricing-border) / 0.25);
+    border-radius: 32px;
+  }
+
+  :global(.dark) .pricing-shell {
+    --pricing-ink: 244 244 245;
+    --pricing-muted: 161 161 170;
+    --pricing-card: 24 24 27;
+    --pricing-surface: 9 9 11;
+    --pricing-border: 82 82 91;
+    background: rgb(var(--pricing-surface));
+  }
+</style>
