@@ -161,7 +161,7 @@
 
   <div class="relative">
     <div
-      class="flex flex-wrap items-center justify-center gap-3 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-[0.3em] text-[rgb(var(--pricing-muted))] motion-safe:animate-fade-in-once"
+      class="flex flex-wrap items-center justify-center gap-3 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-[0.3em] text-[rgb(var(--pricing-muted))]"
     >
       <div
         class="flex items-center gap-2 rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 py-2 shadow-sm"
@@ -203,10 +203,7 @@
       </div>
     </div>
 
-    <div
-      class="mx-auto mt-10 text-center max-w-3xl motion-safe:animate-fade-in-once"
-      style="animation-delay: 0.15s;"
-    >
+    <div class="mx-auto mt-10 text-center max-w-3xl">
       <p
         class="text-[0.7rem] uppercase tracking-[0.35em] text-[rgb(var(--pricing-muted))]"
       >
@@ -243,8 +240,7 @@
     <!--<Discount />-->
 
     <div
-      class="mt-10 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold text-[rgb(var(--pricing-muted))] motion-safe:animate-fade-in-once"
-      style="animation-delay: 0.2s;"
+      class="mt-10 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold text-[rgb(var(--pricing-muted))]"
     >
       <span
         class={mode
@@ -278,8 +274,7 @@
 
     <div class="mt-12 grid gap-6 lg:grid-cols-3">
       <div
-        class="hidden sm:flex flex-col relative rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.35)] backdrop-blur-xl motion-safe:animate-fade-in-once"
-        style="animation-delay: 0.25s;"
+        class="hidden sm:flex flex-col relative rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.35)] backdrop-blur-xl"
       >
         <div class="flex items-center justify-between">
           <h3 class="text-2xl font-semibold tracking-tight">Basic</h3>
@@ -1029,8 +1024,7 @@
       </div>
 
       <div
-        class="rounded-2xl flex flex-col relative border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.35)] backdrop-blur-xl motion-safe:animate-fade-in-once"
-        style="animation-delay: 0.35s;"
+        class="rounded-2xl flex flex-col relative border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.35)] backdrop-blur-xl"
       >
         <div class="flex items-center justify-between">
           <h3 class="text-2xl font-semibold tracking-tight">Plus</h3>
@@ -1543,8 +1537,7 @@
         </div>
       </div>
       <div
-        class="rounded-2xl text-white flex flex-col relative bg-[#0f172a] border border-[rgb(var(--pricing-accent)/0.45)] p-6 shadow-[0_30px_80px_-50px_rgba(15,118,110,0.6)] motion-safe:animate-fade-in-once"
-        style="animation-delay: 0.45s;"
+        class="rounded-2xl text-white flex flex-col relative bg-[#0f172a] border border-[rgb(var(--pricing-accent)/0.45)] p-6 shadow-[0_30px_80px_-50px_rgba(15,118,110,0.6)]"
       >
         <div
           class="absolute inset-x-6 -top-px h-px bg-gradient-to-r from-transparent via-[rgb(var(--pricing-accent))] to-transparent"
