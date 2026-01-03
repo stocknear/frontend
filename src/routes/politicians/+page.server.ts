@@ -40,7 +40,9 @@ export const load = async ({ locals }) => {
       };
     });
 
-    output = output?.sort((a, b) => b?.performanceScore - a?.performanceScore);
+  output = output
+    ?.filter(item => Number.isFinite(item?.performanceRank) && item.performanceRank > 0)
+    ?.sort((a, b) => a.performanceRank - b.performanceRank);
 
 
     return output;

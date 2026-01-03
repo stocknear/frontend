@@ -650,12 +650,10 @@
                           class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
                         >
                           {#if item?.successRate === null || item?.successRate === undefined}
-                            <span class="text-muted dark:text-gray-400"
-                              >n/a</span
-                            >
+                            <span class="">n/a</span>
                           {:else}
                             <span
-                              class="font-semibold dark:font-normal text-green-800 dark:text-[#00FC50]"
+                              class="font-semibold dark:font-normal text-green-800 dark:text-green-400"
                               >+{Number(item?.successRate)?.toFixed(2)}%</span
                             >
                           {/if}
@@ -665,17 +663,15 @@
                           class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
                         >
                           {#if item?.avgReturn === null || item?.avgReturn === undefined}
-                            <span class="text-muted dark:text-gray-400"
-                              >n/a</span
-                            >
+                            <span class="">n/a</span>
                           {:else if Number(item?.avgReturn) >= 0}
                             <span
-                              class="font-semibold dark:font-normal text-green-800 dark:text-[#00FC50]"
+                              class="font-semibold dark:font-normal text-green-800 dark:text-green-400"
                               >+{Number(item?.avgReturn)?.toFixed(2)}%</span
                             >
                           {:else}
                             <span
-                              class="font-semibold dark:font-normal text-[#B84242]"
+                              class="font-semibold dark:font-normal text-red-800 dark:text-red-400"
                               >{Number(item?.avgReturn)?.toFixed(2)}%</span
                             >
                           {/if}
