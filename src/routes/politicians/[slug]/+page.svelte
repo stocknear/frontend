@@ -15,6 +15,12 @@
 
   let rawData = data?.getData?.output;
   let numOfTrades = rawData?.history?.length;
+  let performance = rawData?.performance || {};
+  let performanceScore = performance?.score;
+  let performanceRank = performance?.rank;
+  let performanceSuccessRate = performance?.successRate;
+  let performanceAvgReturn = performance?.avgReturn;
+  let performanceTrades = performance?.totalTrades;
 
   let rawDataTable = processTickerData(rawData?.history) || [];
   let originalData = rawDataTable;
@@ -313,68 +319,188 @@
                       / {politicianDistrict}
                     {/if}
                   </p>
+                  <div class="inline-flex items-center mt-1">
+                    <div class="flex flex-row items-center">
+                      {#each Array.from({ length: 5 }) as _, i}
+                        {#if i < Math?.floor(performanceScore || 0)}
+                          <svg
+                            class="w-5 h-5 text-[#FFA500]"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 22 20"
+                          >
+                            <path
+                              d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                            />
+                          </svg>
+                        {:else}
+                          <svg
+                            class="w-5 h-5 text-gray-400 dark:text-gray-500"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 22 20"
+                          >
+                            <path
+                              d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                            />
+                          </svg>
+                        {/if}
+                      {/each}
+                    </div>
+                    <span class="ml-1 text-[1rem]"
+                      >({performanceScore ?? "n/a"})</span
+                    >
+                  </div>
                 </div>
               </div>
               <div
-                class="mt-4 grid grid-cols-2 overflow-hidden rounded border border-gray-300 dark:border-gray-800 py-2 text-center md:grid-cols-4 md:p-0 lg:mt-0 lg:border-none"
+                class="mt-4 grid grid-cols-2 overflow-hidden rounded border border-gray-300 dark:border-gray-600 py-2 text-center md:grid-cols-4 md:p-0 lg:mt-0 lg:border-none"
               >
                 <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
-                  <div class="text-xl sm:text-2xl font-bold tracking-tight">
-                    ${new Intl.NumberFormat("en", {
-                      minimumFractionDigits: 0,
-                      maximumFractionDigits: 0,
-                    }).format(totalAmountTraded)}
+                  <div class="text-xl sm:text-2xl font-semibold tracking-tight">
+                    # {performanceRank ?? "n/a"}
                   </div>
                   <div
                     class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
                   >
-                    Total Amount
+                    Rank
                   </div>
                 </div>
 
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-gray-800 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-gray-600 md:py-6"
                 >
                   <div class="text-xl sm:text-2xl font-semibold tracking-tight">
-                    {numOfTrades?.toLocaleString("en-US")}
+                    {performanceTrades !== undefined &&
+                    performanceTrades !== null
+                      ? performanceTrades?.toLocaleString("en-US")
+                      : numOfTrades !== undefined && numOfTrades !== null
+                        ? numOfTrades?.toLocaleString("en-US")
+                        : "n/a"}
                   </div>
                   <div
                     class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
                   >
-                    Transaction
+                    Trades Scored
                   </div>
                 </div>
 
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-gray-800 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-gray-600 md:py-6"
                 >
-                  <div class="text-xl sm:text-2xl font-semibold tracking-tight">
-                    {lastTradedDate?.length !== undefined
-                      ? new Date(lastTradedDate)?.toLocaleString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
-                          daySuffix: "2-digit",
-                        })
-                      : "n/a"}
+                  <div class="text-xl sm:text-2xl font-bold tracking-tight">
+                    <span
+                      class={performanceSuccessRate >= 0 &&
+                      performanceSuccessRate !== undefined &&
+                      performanceSuccessRate !== null
+                        ? "before:content-['+'] text-green-800 dark:text-[#36D984]"
+                        : performanceSuccessRate < 0 &&
+                            performanceSuccessRate !== undefined &&
+                            performanceSuccessRate !== null
+                          ? "text-red-800 dark:text-[#EF4444]"
+                          : ""}
+                      >{performanceSuccessRate !== undefined &&
+                      performanceSuccessRate !== null
+                        ? performanceSuccessRate?.toFixed(2) + "%"
+                        : "n/a"}</span
+                    >
                   </div>
                   <div
                     class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
                   >
-                    Last Transaction
+                    Success Rate
                   </div>
                 </div>
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-gray-800 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-gray-600 md:py-6"
                 >
                   <div class="text-xl sm:text-2xl font-bold tracking-tight">
-                    {buySellRatio?.toFixed(2)}
+                    <span
+                      class={performanceAvgReturn >= 0 &&
+                      performanceAvgReturn !== undefined &&
+                      performanceAvgReturn !== null
+                        ? "before:content-['+'] text-green-800 dark:text-[#36D984]"
+                        : performanceAvgReturn < 0 &&
+                            performanceAvgReturn !== undefined &&
+                            performanceAvgReturn !== null
+                          ? "text-red-800 dark:text-[#EF4444]"
+                          : ""}
+                      >{performanceAvgReturn !== undefined &&
+                      performanceAvgReturn !== null
+                        ? performanceAvgReturn?.toFixed(2) + "%"
+                        : "n/a"}</span
+                    >
                   </div>
                   <div
                     class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
                   >
-                    Buy/Sell
+                    Avg. Return
                   </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="mt-4 grid grid-cols-2 overflow-hidden rounded border border-gray-300 dark:border-gray-800 py-2 text-center md:grid-cols-4 md:p-0"
+            >
+              <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
+                <div class="text-xl sm:text-2xl font-bold tracking-tight">
+                  ${new Intl.NumberFormat("en", {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  }).format(totalAmountTraded)}
+                </div>
+                <div
+                  class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
+                >
+                  Total Amount
+                </div>
+              </div>
+
+              <div
+                class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-gray-800 md:py-6"
+              >
+                <div class="text-xl sm:text-2xl font-semibold tracking-tight">
+                  {numOfTrades?.toLocaleString("en-US")}
+                </div>
+                <div
+                  class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
+                >
+                  Transaction
+                </div>
+              </div>
+
+              <div
+                class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-gray-800 md:py-6"
+              >
+                <div class="text-xl sm:text-2xl font-semibold tracking-tight">
+                  {lastTradedDate?.length !== undefined
+                    ? new Date(lastTradedDate)?.toLocaleString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                        daySuffix: "2-digit",
+                      })
+                    : "n/a"}
+                </div>
+                <div
+                  class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
+                >
+                  Last Transaction
+                </div>
+              </div>
+              <div
+                class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-gray-800 md:py-6"
+              >
+                <div class="text-xl sm:text-2xl font-bold tracking-tight">
+                  {buySellRatio?.toFixed(2)}
+                </div>
+                <div
+                  class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
+                >
+                  Buy/Sell
                 </div>
               </div>
             </div>
