@@ -179,6 +179,7 @@
   }
 
   let columns = [
+    { key: "performanceScore", label: "Rank", align: "left" },
     { key: "representative", label: "Person", align: "left" },
     { key: "party", label: "Party", align: "right" },
     { key: "ticker", label: "Symbol", align: "right" },
@@ -189,6 +190,7 @@
   ];
 
   let sortOrders = {
+    performanceScore: { order: "none", type: "number" },
     representative: { order: "none", type: "string" },
     party: { order: "none", type: "string" },
     ticker: { order: "none", type: "string" },
@@ -470,6 +472,30 @@
                                 <tr
                                   class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
                                 >
+                                  <td
+                                    class="text-sm sm:text-[1rem] whitespace-nowrap flex flex-row mt-2.5 sm:mt-0 items-center"
+                                  >
+                                    {#if item?.performanceScore !== null && item?.performanceScore !== undefined}
+                                      <div>
+                                        {Number(item?.performanceScore).toFixed(
+                                          1,
+                                        )}
+                                      </div>
+                                    {:else}
+                                      <div>n/a</div>
+                                    {/if}
+                                    <svg
+                                      class="ml-1 w-4 h-4"
+                                      aria-hidden="true"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="#FFA500"
+                                      viewBox="0 0 22 20"
+                                    >
+                                      <path
+                                        d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                                      />
+                                    </svg>
+                                  </td>
                                   <td
                                     class="text-start text-sm sm:text-[1rem] whitespace-nowrap"
                                   >

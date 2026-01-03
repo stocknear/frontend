@@ -3,6 +3,7 @@ import { getPartyForPoliticians } from "$lib/utils";
 export const load = async ({ locals }) => {
   const getPoliticianRSS = async () => {
     let output;
+    let rankingList = [];
 
     const { apiKey, apiURL } = locals;
 
@@ -15,6 +16,23 @@ export const load = async ({ locals }) => {
     });
 
     output = await response.json();
+
+    try {
+      const rankingResponse = await fetch(apiURL + "/all-politicians", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-KEY": apiKey,
+        },
+      });
+      rankingList = await rankingResponse.json();
+    } catch (e) {
+      rankingList = [];
+    }
+
+    const rankingMap = new Map(
+      rankingList?.map((item) => [item?.id, item]) ?? [],
+    );
 
     // Cache the data for this specific tickerID with a specific name 'getPoliticianRSS'
 
@@ -34,9 +52,12 @@ export const load = async ({ locals }) => {
 
     output = output?.map((item) => {
       const party = getPartyForPoliticians(item?.representative);
+      const ranking = rankingMap.get(item?.id) || {};
       return {
         ...item,
         party: party,
+        performanceScore: ranking?.performanceScore ?? null,
+        performanceRank: ranking?.performanceRank ?? null,
       };
     });
 
