@@ -40,7 +40,8 @@ export const load = async ({ locals }) => {
       };
     });
 
-    output = output?.sort((a, b) => new Date( b?.lastTrade) -  new Date(a?.lastTrade));
+    output = output?.sort((a, b) => b?.performanceScore - a?.performanceScore);
+
 
     return output;
   };

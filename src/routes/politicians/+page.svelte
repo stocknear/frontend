@@ -295,6 +295,7 @@
   }
 
   let columns = [
+    { key: "performanceScore", label: "Rank", align: "left" },
     { key: "representative", label: "Person", align: "left" },
     { key: "favorite", label: "Favorite", align: "center" },
     { key: "party", label: "Party", align: "right" },
@@ -305,6 +306,7 @@
   ];
 
   let sortOrders = {
+    performanceScore: { order: "none", type: "number" },
     representative: { order: "none", type: "string" },
     favorite: { order: "none", type: "favorite" },
     party: { order: "none", type: "string" },
@@ -582,51 +584,36 @@
                         class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
                       >
                         <td
+                          class="text-sm sm:text-[1rem] whitespace-nowrap flex flex-row items-center"
+                        >
+                          {#if item?.performanceScore !== null && item?.performanceScore !== undefined}
+                            <div>
+                              {Number(item?.performanceScore).toFixed(1)}
+                            </div>
+                          {:else}
+                            <div>n/a</div>
+                          {/if}
+                          <svg
+                            class="ml-1 w-4 h-4"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="#FFA500"
+                            viewBox="0 0 22 20"
+                          >
+                            <path
+                              d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                            />
+                          </svg>
+                        </td>
+
+                        <td
                           class="text-start text-sm sm:text-[1rem] whitespace-nowrap"
                         >
-                          <div class="flex flex-col items-start">
-                            <a
-                              href={`/politicians/${item?.id}`}
-                              class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400"
-                              >{item?.representative?.replace("_", " ")}</a
-                            >
-                            <div class="flex flex-row items-center mt-1">
-                              {#each Array.from({ length: 5 }) as _, i}
-                                {#if i < Math.floor(item?.performanceScore || 0)}
-                                  <svg
-                                    class="w-3.5 h-3.5 text-[#FFA500]"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="currentColor"
-                                    viewBox="0 0 22 20"
-                                  >
-                                    <path
-                                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                                    />
-                                  </svg>
-                                {:else}
-                                  <svg
-                                    class="w-3.5 h-3.5 text-gray-500"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="currentColor"
-                                    viewBox="0 0 22 20"
-                                  >
-                                    <path
-                                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                                    />
-                                  </svg>
-                                {/if}
-                              {/each}
-                              <span
-                                class="ml-1 text-xs sm:text-sm dark:text-gray-400"
-                              >
-                                ({item?.performanceScore
-                                  ? item?.performanceScore
-                                  : 0})
-                              </span>
-                            </div>
-                          </div>
+                          <a
+                            href={`/politicians/${item?.id}`}
+                            class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400"
+                            >{item?.representative?.replace("_", " ")}</a
+                          >
                         </td>
 
                         <td
@@ -636,9 +623,7 @@
                             id={item?.id}
                             on:click|stopPropagation={(event) =>
                               addToFavorite(event, item?.id)}
-                            class="text-center mt-2.5 {favoriteList?.includes(
-                              item?.id,
-                            )
+                            class="text-center {favoriteList?.includes(item?.id)
                               ? 'text-yellow-500 dark:text-[#FFA500]'
                               : 'text-gray-400 dark:text-gray-300'}"
                           >
