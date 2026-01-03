@@ -196,7 +196,7 @@
           rel="noopener noreferrer"
           target="_blank"
           href="https://www.trustpilot.com/review/stocknear.com"
-          class="underline underline-offset-4 sm:hover:text-[rgb(var(--pricing-accent))]"
+          class="underline underline-offset-4 dark:sm:hover:text-white"
         >
           Reviews
         </a>
@@ -204,16 +204,8 @@
     </div>
 
     <div class="mx-auto mt-10 text-center max-w-3xl">
-      <p
-        class="text-[0.7rem] uppercase tracking-[0.35em] text-[rgb(var(--pricing-muted))]"
-      >
-        Pricing
-      </p>
-      <h1 class="mt-4 text-4xl sm:text-6xl font-semibold tracking-tight">
-        Plans for <span class="text-[rgb(var(--pricing-accent))]"
-          >clearer decisions</span
-        >
-        and faster research.
+      <h1 class="mt-4 text-4xl sm:text-5xl font-semibold tracking-tight">
+        Faster research, smarter trades.
       </h1>
       <p class="mt-4 text-base sm:text-lg text-[rgb(var(--pricing-muted))]">
         Start free, upgrade anytime. Every tier is built for focus: clean data,
@@ -240,7 +232,7 @@
     <!--<Discount />-->
 
     <div
-      class="mt-10 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold text-[rgb(var(--pricing-muted))]"
+      class="mt-10 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold"
     >
       <span
         class={mode
@@ -255,7 +247,7 @@
           class="h-8 w-16 rounded-full border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.9)] shadow-inner transition peer-checked:bg-[rgb(var(--pricing-accent)/0.12)]"
         ></span>
         <span
-          class="absolute left-1 top-1 h-6 w-6 rounded-full bg-white shadow-md transition peer-checked:translate-x-8 dark:bg-zinc-200"
+          class="absolute left-1 top-1 h-6 w-6 rounded-full bg-muted dark:bg-white shadow-md transition peer-checked:translate-x-8 dark:bg-zinc-200"
         ></span>
       </label>
       <span
@@ -266,7 +258,7 @@
         Annual
       </span>
       <span
-        class="rounded-full bg-[rgb(var(--pricing-accent)/0.12)] px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--pricing-accent))]"
+        class="rounded-full px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.2em]"
       >
         Save 33%
       </span>
@@ -292,7 +284,9 @@
           <span class="text-sm text-[rgb(var(--pricing-muted))]">/month</span>
         </div>
 
-        <ul class="mt-6 mb-6 space-y-2 text-sm text-[rgb(var(--pricing-muted))]">
+        <ul
+          class="mt-6 mb-6 space-y-2 text-sm text-[rgb(var(--pricing-muted))]"
+        >
           <li class="flex flex-row items-center">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
@@ -1000,7 +994,9 @@
             >
           </li>
         </ul>
-        <div class="mt-auto pt-6 border-t border-[rgb(var(--pricing-border)/0.5)] mx-2">
+        <div
+          class="mt-auto pt-6 border-t border-[rgb(var(--pricing-border)/0.5)] mx-2"
+        >
           {#if !data?.user}
             <label
               for="userLogin"
@@ -1028,11 +1024,6 @@
       >
         <div class="flex items-center justify-between">
           <h3 class="text-2xl font-semibold tracking-tight">Plus</h3>
-          <span
-            class="rounded-full bg-[rgb(var(--pricing-accent)/0.12)] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--pricing-accent))]"
-          >
-            Core
-          </span>
         </div>
         <p class="mt-2 text-sm text-[rgb(var(--pricing-muted))]">
           Essential tools for individual investors.
@@ -1049,7 +1040,9 @@
           Billed annually ($120)
         </p>
 
-        <ul class="mt-6 mb-6 space-y-2 text-sm text-[rgb(var(--pricing-muted))]">
+        <ul
+          class="mt-6 mb-6 space-y-2 text-sm text-[rgb(var(--pricing-muted))]"
+        >
           <li class="flex flex-row items-center whitespace-nowrap">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
@@ -1486,7 +1479,9 @@
             >
           </li>
         </ul>
-        <div class="mt-auto pt-6 border-t border-[rgb(var(--pricing-border)/0.5)] mx-2">
+        <div
+          class="mt-auto pt-6 border-t border-[rgb(var(--pricing-border)/0.5)] mx-2"
+        >
           {#if data?.user?.tier === "Plus"}
             <div
               class="w-full py-3 px-4 border border-[rgb(var(--pricing-border)/0.5)] bg-[rgb(var(--pricing-card)/0.7)] rounded-xl font-semibold text-[rgb(var(--pricing-muted))] flex items-center justify-center cursor-not-allowed"
@@ -1539,19 +1534,8 @@
       <div
         class="rounded-2xl text-white flex flex-col relative bg-[#0f172a] border border-[rgb(var(--pricing-accent)/0.45)] p-6 shadow-[0_30px_80px_-50px_rgba(15,118,110,0.6)]"
       >
-        <div
-          class="absolute inset-x-6 -top-px h-px bg-gradient-to-r from-transparent via-[rgb(var(--pricing-accent))] to-transparent"
-        ></div>
-        <div
-          class="w-fit absolute -top-[14px] left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-1 rounded-full text-[0.65rem] font-semibold uppercase tracking-[0.25em] bg-[rgb(var(--pricing-accent))] text-white shadow-lg"
-        >
-          Best value
-        </div>
         <div class="flex items-center justify-between">
           <h3 class="text-2xl font-semibold tracking-tight">Pro</h3>
-          <span class="text-[0.65rem] uppercase tracking-[0.2em] text-emerald-200">
-            Advanced
-          </span>
         </div>
         <p class="text-slate-200 text-sm mt-2">
           Professional tools at retail pricing.
@@ -1782,7 +1766,7 @@
       >
         <div class="flex items-center gap-3">
           <svg
-            class="w-5 h-5 text-[rgb(var(--pricing-accent))] flex-shrink-0"
+            class="w-5 h-5 flex-shrink-0"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -1802,7 +1786,7 @@
               href="https://app.lemonsqueezy.com/my-orders"
               target="_blank"
               rel="noopener noreferrer"
-              class="underline underline-offset-2 font-medium text-[rgb(var(--pricing-accent))] sm:hover:text-[rgb(var(--pricing-accent-strong))]"
+              class="underline underline-offset-2 font-medium text-purple-400"
               >Manage your subscription</a
             >
           </p>
@@ -1822,7 +1806,9 @@
             >
               Frequently Asked Questions
             </h2>
-            <p class="mt-3 text-sm sm:text-base text-[rgb(var(--pricing-muted))]">
+            <p
+              class="mt-3 text-sm sm:text-base text-[rgb(var(--pricing-muted))]"
+            >
               Clear answers to the most common questions about trials, billing,
               and upgrades.
             </p>
@@ -1830,7 +1816,9 @@
 
           <!-- Faqs -->
           <ul class="mx-auto space-y-3">
-            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
+            <li
+              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+            >
               <details class="collapse collapse-arrow">
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
@@ -1850,7 +1838,9 @@
                 </div>
               </details>
             </li>
-            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
+            <li
+              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+            >
               <details class="collapse collapse-arrow">
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
@@ -1872,7 +1862,9 @@
                 </div>
               </details>
             </li>
-            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
+            <li
+              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+            >
               <details class="collapse collapse-arrow">
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
@@ -1892,7 +1884,9 @@
               </details>
             </li>
 
-            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
+            <li
+              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+            >
               <details class="collapse collapse-arrow">
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
@@ -1912,7 +1906,9 @@
               </details>
             </li>
 
-            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
+            <li
+              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+            >
               <details class="collapse collapse-arrow">
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
@@ -1937,7 +1933,9 @@
               </details>
             </li>
 
-            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
+            <li
+              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+            >
               <details class="collapse collapse-arrow">
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
@@ -1955,7 +1953,9 @@
                 </div>
               </details>
             </li>
-            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
+            <li
+              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+            >
               <details class="collapse collapse-arrow">
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
@@ -1977,7 +1977,9 @@
               </details>
             </li>
 
-            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
+            <li
+              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+            >
               <details class="collapse collapse-arrow">
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
@@ -1994,7 +1996,9 @@
               </details>
             </li>
 
-            <li class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6">
+            <li
+              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+            >
               <details class="collapse collapse-arrow">
                 <summary
                   class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
