@@ -4,6 +4,14 @@
 
 @config '../tailwind.config.cjs';
 
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/fonts/space-grotesk.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   *,
   ::after,
