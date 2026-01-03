@@ -140,8 +140,8 @@
             },
             yAxis: [
                 {
-                    visible: false
-                }
+                    visible: false,
+                },
             ],
             plotOptions: {
                 series: {
@@ -184,9 +184,7 @@
 </script>
 
 {#if config}
-    <div
-        class="rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#09090B] shadow overflow-hidden"
-    >
+    <div class="rounded bg-white dark:bg-[#09090B] shadow overflow-hidden">
         <div
             class="flex items-center justify-between px-2 py-1.5 sm:px-3 sm:py-2 border-b border-gray-200 dark:border-gray-700"
         >
