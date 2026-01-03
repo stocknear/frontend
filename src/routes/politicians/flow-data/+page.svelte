@@ -305,7 +305,7 @@
       <div
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
-        <main class="w-full lg:w-3/4 lg:pr-5">
+        <main class="w-full">
           <div class=" border-[#2C6288] dark:border-white border-b-[2px]">
             <h1 class="mb-1 text-2xl sm:text-3xl font-bold">
               Latest Trades of Politicians
@@ -704,51 +704,6 @@
             </section>
           </body>
         </main>
-
-        <aside class="hidden lg:block relative fixed w-1/4 ml-4">
-          {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
-            <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
-            >
-              <a
-                href={"/pricing"}
-                class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-              >
-                <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-bold ml-3">
-                    Pro Subscription
-                  </h2>
-                  <ArrowLogo
-                    class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:"
-                  />
-                </div>
-                <span class="p-3 ml-3 mr-3">
-                  Upgrade now for unlimited access to all data, tools and no
-                  ads.
-                </span>
-              </a>
-            </div>
-          {/if}
-
-          <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
-          >
-            <a
-              href={"/politicians"}
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">
-                  All Congress Members
-                </h2>
-                <ArrowLogo class="w-8 h-8 mr-3 shrink-0 text-gray-400 " />
-              </div>
-              <span class="p-3 ml-3 mr-3">
-                Get detailed reports on all Congress member trading activity.
-              </span>
-            </a>
-          </div>
-        </aside>
       </div>
     </div>
   </div>
