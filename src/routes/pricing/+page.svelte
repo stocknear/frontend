@@ -972,331 +972,15 @@
         style="opacity: 1; transform: translateY(20px);"
         class="rounded relative flex flex-col relative bg-white dark:bg-zinc-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-[3px] overflow-visible border border-gray-400 dark:border-zinc-600 p-6 isolate"
       >
-        <h3 class="text-3xl font-bold">Pro</h3>
-        <p class="text-muted dark:text-zinc-300 text-sm mt-1">
-          Essential tools for individual investors
-        </p>
-        <div class="mt-4">
-          <span class=" text-4xl font-bold">{mode ? "$20" : "$35"}</span>
-          <span class=" text-xl">/mo</span>
-        </div>
-        <p
-          class="text-muted dark:text-gray-400 text-sm mt-1 mx-4 {!mode
-            ? 'hidden'
-            : ''}"
-        >
-          ($240 Billed Annually)
-        </p>
-
-        <ul class="mt-6 mb-6 space-y-2">
-          <li class="flex flex-row items-center whitespace-nowrap">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            ><span class="mr-2">1,000 Credits/mo </span>
-          </li>
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            ><span class="">Unlimited Watchlist up to 300 stocks</span>
-          </li>
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            ><span class="">Unlimited Portfolio up to 300 stocks</span>
-          </li>
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            ><span class="">Unlimited Price Alerts</span>
-          </li>
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            >
-
-            <span class="">Unlimited Stock Screener</span>
-          </li>
-
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            >
-
-            <span class="">Unlimited Financial Data Download</span>
-          </li>
-
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            ><span class="">Real-Time Notification</span>
-          </li>
-
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            >
-
-            <span class="">Hedge Fund Portfolio Access</span>
-          </li>
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            >
-
-            <span class="">US Congress Portfolio Access</span>
-          </li>
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            >
-
-            <span class="">Financial History Access</span>
-          </li>
-
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            >
-
-            <span class="">No Ads</span>
-          </li>
-
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            >
-
-            <span class="">Real-Time & Historical Options Data</span>
-          </li>
-
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            >
-            <span class="">Real-Time Options Flow Data</span>
-          </li>
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            >
-
-            <span class="">Real-Time Unusual Orders</span>
-          </li>
-          <li class="flex items-start">
-            <svg
-              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path></svg
-            >
-
-            <span class="">Premium Discord Channel Access</span>
-          </li>
-        </ul>
-        <div class="mt-auto pt-6 border-t border-zinc-700 mx-4">
-          {#if data?.user?.tier === "Pro"}
-            <div
-              class="w-full py-3 px-4 bg-gray-200 dark:bg-zinc-700 rounded-[3px] font-semibold text-gray-500 dark:text-zinc-400 flex items-center justify-center cursor-not-allowed"
-            >
-              <svg
-                class="w-5 h-5 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 13l4 4L19 7"
-                ></path>
-              </svg>
-              Current Plan
-            </div>
-          {:else}
-            <label
-              for={!data?.user ? "userLogin" : ""}
-              on:click={() => purchasePlan("pro")}
-              class="text-white cursor-pointer w-full py-3 px-4 bg-black dark:bg-white rounded-[3px] font-semibold sm:hover:bg-default dark:sm:hover:bg-gray-100 text-white dark:text-black transition duration-100 flex items-center justify-center"
-              >{data?.user?.freeTrial
-                ? "Unlock Pro Access"
-                : "Start Free 7 Day Trial"}<svg
-                class="w-5 h-5 ml-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-                ><path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                ></path></svg
-              ></label
-            >
-          {/if}
-        </div>
-      </div>
-
-      <!--
-      <div
-        style="opacity: 1; transform: translateY(20px);"
-        class="rounded relative flex flex-col relative bg-white dark:bg-zinc-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-[3px] overflow-visible border border-gray-400 dark:border-zinc-600 p-6 isolate"
-      >
         <h3 class="text-3xl font-bold">Plus</h3>
         <p class="text-muted dark:text-zinc-300 text-sm mt-1">
           Essential tools for individual investors
         </p>
         <div class="mt-4">
-          <span class=" text-4xl font-bold">{mode ? "$7.50" : "$10"}</span>
-          <span
+          <span class=" text-4xl font-bold">{mode ? "$10" : "$15"}</span>
+
+          <!-- <span class=" text-4xl font-bold ml-1">{mode ? "$4.5" : "$6"}</span
+          >--><span
             class=" text-xl">/mo</span
           >
         </div>
@@ -1305,7 +989,7 @@
             ? 'hidden'
             : ''}"
         >
-          ($90 Billed Annually)
+          ($120 Billed Annually)
         </p>
 
         <ul class="mt-6 mb-6 space-y-2">
@@ -1795,8 +1479,6 @@
           {/if}
         </div>
       </div>
-    -->
-
       <div
         style="opacity: 1; transform: translateY(20px);"
         class=" rounded text-white flex flex-col relative bg-[#18181B] dark:bg-zinc-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-[3px] overflow-visible border border-violet-500/50 p-6 isolate"
@@ -1812,16 +1494,29 @@
         >
           Best Value
         </div>
-        <h3 class="text-3xl font-bold mt-2">Lifetime</h3>
+        <h3 class="text-3xl font-bold mt-2">Pro</h3>
         <p class="text-white dark:text-zinc-300 text-sm mt-1">
-          Unlock Pro for life (Limited)
+          Professional tools at retail prices
         </p>
         <div class="mt-4">
-          <span class="text-white text-4xl font-bold">$599</span>
+          <span class="text-white text-4xl font-bold {!mode ? '' : ''}"
+            >{mode ? "$30" : "$45"}</span
+          >
+          <!-- <span class="text-white text-4xl font-bold ml-1"
+            >{mode ? "$15" : "$21"}</span
+          >-->
+          <span class=" text-xl ml-1">/mo</span>
         </div>
+        <p
+          class="text-white dark:text-gray-400 text-sm mt-1 mx-4 {!mode
+            ? 'hidden'
+            : ''}"
+        >
+          ($360 Billed Annually)
+        </p>
 
         <ul class="mt-6 mb-6 space-y-2">
-          <li class="flex items-start text-white">
+          <li class="flex flex-row items-center">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -1834,9 +1529,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="text-start">
-              Everything in Pro, pay once, never again.</span
-            >
+            ><span class="mr-2">1,000 Credits/mo</span>
           </li>
           <li class="flex items-start text-white">
             <svg
@@ -1851,9 +1544,7 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="text-start">
-              Say goodbye to subscriptions — one-time purchase, lifetime access.</span
-            >
+            ><span class="">Everything in Plus and ...</span>
           </li>
 
           <li class="flex items-start text-white">
@@ -1869,7 +1560,93 @@
                 stroke-width="2"
                 d="M5 13l4 4L19 7"
               ></path></svg
-            ><span class="text-start">All Future feature updates</span>
+            ><span class="">Watchlist with up to 300 stocks</span>
+          </li>
+
+          <li class="flex items-start text-white">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path></svg
+            ><span class="">Portfolio with up to 300 stocks</span>
+          </li>
+
+          <li class="flex items-start text-white">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path></svg
+            >
+
+            <span class="">Real-Time Options & Historical Data</span>
+          </li>
+
+          <li class="flex items-start text-white">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path></svg
+            >
+
+            <span class="">Real-Time Options Flow Data</span>
+          </li>
+          <li class="flex items-start text-white">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path></svg
+            >
+
+            <span class="">Real-Time Unusual Orders</span>
+          </li>
+          <li class="flex items-start text-white">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path></svg
+            >
+
+            <span class="">Premium Discord Channel Access</span>
           </li>
         </ul>
         <!--
@@ -1883,24 +1660,65 @@
         -->
 
         <div class="mt-auto pt-6 border-t border-zinc-700 mx-4">
-          <label
-            for={!data?.user ? "userLogin" : ""}
-            on:click={() => purchasePlan("lifetime")}
-            class="cursor-pointer w-full py-3 px-4 bg-white rounded-[3px] font-semibold sm:hover:bg-gray-100 dark:sm:hover:bg-gray-100 text-black transition duration-100 flex items-center justify-center"
-            >Get Lifetime Access<svg
-              class="w-5 h-5 ml-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 5l7 7-7 7"
-              ></path></svg
-            ></label
-          >
+          {#if data?.user?.tier === "Pro"}
+            <div
+              class="w-full py-3 px-4 bg-gray-200 dark:bg-zinc-700 rounded-[3px] font-semibold text-gray-500 dark:text-zinc-400 flex items-center justify-center cursor-not-allowed"
+            >
+              <svg
+                class="w-5 h-5 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                ></path>
+              </svg>
+              Current Plan
+            </div>
+          {:else if data?.user?.tier === "Plus"}
+            <a
+              href="/profile"
+              class="cursor-pointer w-full py-3 px-4 bg-white rounded-[3px] font-semibold sm:hover:bg-gray-100 dark:sm:hover:bg-gray-100 text-black transition duration-100 flex items-center justify-center"
+              >Upgrade in Account<svg
+                class="w-5 h-5 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                ></path></svg
+              ></a
+            >
+          {:else}
+            <label
+              for={!data?.user ? "userLogin" : ""}
+              on:click={() => purchasePlan("pro")}
+              class="cursor-pointer w-full py-3 px-4 bg-white rounded-[3px] font-semibold sm:hover:bg-gray-100 dark:sm:hover:bg-gray-100 text-black transition duration-100 flex items-center justify-center"
+              >{data?.user?.freeTrial
+                ? "Upgrade Access"
+                : "Start Free 7 Day Trial"}<svg
+                class="w-5 h-5 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                ></path></svg
+              ></label
+            >
+          {/if}
         </div>
       </div>
     </div>
@@ -1938,47 +1756,6 @@
         </div>
       </div>
     {/if}
-
-    <!--
-    <div
-      class="mt-5 relative text-left w-full col-span-1 xl:col-span-3 text-white bg-[#18181B] dark:bg-zinc-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-[3px] overflow-visible border border-zinc-200 dark:border-zinc-600 p-6 isolate translate-y-5 opacity-100"
-    >
-      <div class="flex flex-row items-center justify-between">
-        <h3 class="text-2xl md:text-3xl font-bold">Lifetime Deal</h3>
-        <div>
-          <span class="text-3xl md:text-4xl font-bold">$449</span>
-        </div>
-      </div>
-
-      <p class=" md:text-lg mt-4 lg:mt-2">
-        Everything in Pro, pay once, never again.
-      </p>
-
-      <div class="mt-5 lg:mt-0 flex justify-center lg:justify-end mx-4 md:mx-0">
-        <label
-          for={data?.user ? "" : "userLogin"}
-          on:click={() => purchasePlan("lifetime")}
-          class="cursor-pointer w-full lg:w-auto py-3 lg:mt-2 px-4 bg-white rounded-[3px] font-semibold sm:hover:bg-gray-100 dark:sm:hover:bg-gray-100 text-black transition duration-100 flex items-center justify-center lg:justify-end"
-        >
-          Get Lifetime Access
-          <svg
-            class="w-5 h-5 ml-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5l7 7-7 7"
-            ></path>
-          </svg>
-        </label>
-      </div>
-    </div>
-    -->
 
     <!--Start FAQ-->
 
