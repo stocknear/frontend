@@ -32,11 +32,11 @@
     "M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z";
 
   // Common CSS classes
-  const borderClasses = "border border-gray-300 dark:border-gray-600";
+  const borderClasses = "border border-gray-200/70 dark:border-zinc-800/80";
   const navigationButtonClasses =
-    "h-16 w-48 cursor-pointer border m-auto flex bg-default text-white dark:bg-primary mb-3";
+    "h-16 w-48 cursor-pointer border m-auto flex bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 mb-3";
   const dropdownButtonClasses =
-    "border-gray-300 dark:border-gray-600 border border-gray-300 bg-black sm:hover:bg-default text-white dark:bg-primary dark:sm:hover:bg-secondary ease-out flex flex-row justify-between items-center px-3 py-2 rounded truncate";
+    "border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition flex flex-row justify-between items-center px-3 py-2 rounded-full truncate";
 
   // Importance levels for dropdown
   const importanceLevels = [1, 2, 3];
@@ -494,14 +494,18 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 px-4 lg:px-3 mb-20"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
+          >Home</a
+        >
       </li>
-      <li class="text-muted dark:text-gray-300">Economic Calendar</li>
+      <li class="text-gray-500 dark:text-zinc-500">Economic Calendar</li>
     </ul>
   </div>
 
@@ -511,8 +515,10 @@
         class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <div class="mb-6 border-[#2C6288] dark:border-white border-b-[2px]">
-            <h1 class="mb-1 text-2xl sm:text-3xl font-bold">
+          <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
+            <h1
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
               Economic Calendar
             </h1>
           </div>
@@ -549,8 +555,8 @@
                       on:click={() => toggleDate(index)}
                       class="m-auto w-full cursor-pointer h-16 {index ===
                       selectedWeekday
-                        ? 'bg-default text-white dark:text-black dark:bg-white text-black font-semibold'
-                        : ''} rounded sm:rounded-none flex dark:bg-default border border-gray-300 dark:border-gray-600 mb-3"
+                        ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
+                        : 'bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'} rounded-full sm:rounded-none flex {borderClasses} mb-3"
                     >
                       <div
                         class="flex flex-row justify-center items-center w-full"
@@ -641,10 +647,10 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-56 h-fit max-h-72 overflow-y-auto scroller"
+                      class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                     >
                       <div
-                        class="relative sticky z-40 focus:outline-hidden -top-1 flex flex-row items-center justitfy-between p-3 bg-white dark:bg-default border-b border-gray-200"
+                        class="relative sticky z-40 focus:outline-hidden -top-1 flex flex-row items-center justify-between p-3 bg-white/95 dark:bg-zinc-950/95 border-b border-gray-200/70 dark:border-zinc-800/80"
                         tabindex="0"
                         role="menu"
                       >
@@ -652,7 +658,7 @@
                           bind:value={searchQuery}
                           on:input={handleInput}
                           autocomplete="off"
-                          class="focus:outline-none text-sm absolute sticky w-full border-0 focus:border-gray-200 focus:ring-0 placeholder-gray-500 dark:placeholder:text-gray-300"
+                          class="focus:outline-none text-sm absolute sticky w-full border-0 focus:border-gray-200 focus:ring-0 text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-400 bg-transparent"
                           placeholder="Search..."
                         />
                         {#if searchQuery?.length > 0}
@@ -676,7 +682,7 @@
                       <DropdownMenu.Group>
                         {#each searchQuery.length > 0 ? testList : listOfRelevantCountries as item}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:hover:text-violet-400 transition"
                           >
                             <div class="flex items-center">
                               <label
@@ -694,7 +700,7 @@
                           </DropdownMenu.Item>
                         {:else}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:hover:text-violet-400 transition"
                           >
                             No country found
                           </DropdownMenu.Item>
@@ -730,7 +736,7 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-56 h-fit max-h-72 overflow-y-auto scroller"
+                      class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                     >
                       <div
                         class="relative sticky z-40 focus:outline-hidden -top-1"
@@ -740,7 +746,7 @@
                       <DropdownMenu.Group>
                         {#each importanceLevels as i}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:hover:text-violet-400 transition"
                           >
                             <div class="flex items-center">
                               <label
@@ -825,23 +831,23 @@
                         {/if}
                       </div>
 
-                      <div class="w-full overflow-x-auto">
+                      <div class="w-full overflow-x-auto mt-4">
                         <table
-                          class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto mt-4"
+                          class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                         >
                           <thead>
                             <TableHeader {columns} {sortOrders} {sortData} />
                           </thead>
-                          <tbody>
+                          <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
                             {#each dailyDisplayList as item}
                               <tr
-                                class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
+                                class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                               >
-                                <td class=" text-sm sm:text-[1rem]">
+                                <td class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums">
                                   {item?.time}
                                 </td>
                                 <td
-                                  class="flex flex-row items-center text-sm sm:text-[1rem] whitespace-nowrap"
+                                  class="flex flex-row items-center text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
                                 >
                                   {#if item?.country === "EU"}
                                     <svg
@@ -908,24 +914,24 @@
                                       alt="{item?.country} flag"
                                     />
                                   {/if}
-                                  <span class=" ml-2">{item?.country}</span>
+                                  <span class="ml-2">{item?.country}</span>
                                 </td>
                                 <td
-                                  class="text-start text-sm sm:text-[1rem] whitespace-nowrap"
+                                  class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
                                 >
                                   {item?.event?.length > 60
                                     ? item?.event.slice(0, 60) + "..."
                                     : item?.event}
                                 </td>
                                 <td
-                                  class=" text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                                 >
                                   {item?.actual !== null && item?.actual !== ""
                                     ? abbreviateNumber(item?.actual)
                                     : "-"}
                                 </td>
                                 <td
-                                  class=" text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                                 >
                                   {item?.consensus !== null &&
                                   item?.consensus !== ""
@@ -933,14 +939,14 @@
                                     : "-"}
                                 </td>
                                 <td
-                                  class=" text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                                 >
                                   {item?.prior !== null && item?.prior !== ""
                                     ? abbreviateNumber(item?.prior)
                                     : "-"}
                                 </td>
                                 <td
-                                  class=" text-start text-sm sm:text-[1rem] whitespace-nowrap"
+                                  class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
                                 >
                                   <div
                                     class="flex flex-row items-center justify-end"
