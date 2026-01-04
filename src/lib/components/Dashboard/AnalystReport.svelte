@@ -45,7 +45,7 @@
     <table class="w-full text-right text-sm sm:text-base mt-5">
       <thead>
         <tr
-          class="border-b border-gray-200/70 dark:border-zinc-800/80 text-gray-500 dark:text-zinc-500"
+          class="border-b border-gray-200 dark:border-zinc-800/80 text-gray-500 dark:text-zinc-500"
         >
           <th
             class="py-2 text-left font-semibold uppercase tracking-widest text-xs"
@@ -60,7 +60,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="border-b border-gray-200/70 dark:border-zinc-800/80">
+        <tr class="border-b border-gray-200 dark:border-zinc-800/80">
           <td
             class="py-2 text-left font-semibold text-gray-700 dark:text-zinc-200"
           >

@@ -30,17 +30,20 @@
 
     {#if wiim?.length > 0}
         <table
-            class="w-full border-t border-gray-200/70 dark:border-zinc-800/80 text-sm sm:text-[0.95rem]"
+            class="w-full border-t border-gray-200 dark:border-zinc-800/80 text-sm sm:text-[0.95rem]"
         >
             <tbody>
                 {#each wiim as item}
-                    <tr class="border-b border-gray-200/70 dark:border-zinc-800/80"
+                    <tr class="border-b border-gray-200 dark:border-zinc-800/80"
                         ><td
                             class="hidden sm:inline-block pr-2 pt-3 align-top text-xs whitespace-nowrap font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500"
                             >{formatDate(item?.date, true)}
                         </td>
-                        <td class="py-3 sm:pl-2 leading-6 text-gray-700 dark:text-zinc-200">
-                            <span class="sm:hidden text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 font-semibold"
+                        <td
+                            class="py-3 sm:pl-2 leading-6 text-gray-700 dark:text-zinc-200"
+                        >
+                            <span
+                                class="sm:hidden text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 font-semibold"
                                 >{formatDate(item?.date, true)} ago -
                             </span>
                             {item?.text}

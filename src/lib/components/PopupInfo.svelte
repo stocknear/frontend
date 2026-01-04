@@ -60,7 +60,7 @@
   });
 </script>
 
-<tr class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-b-0">
+<tr class="border-b border-gray-200 dark:border-zinc-800/80 last:border-b-0">
   <td
     class="px-2.5 py-2 text-xs sm:text-sm text-gray-700 dark:text-zinc-200 relative flex flex-row items-center"
   >

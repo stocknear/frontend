@@ -52,7 +52,7 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:pr-5">
-          <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
+          <div class="mb-6 border-b border-gray-200 dark:border-zinc-800/80">
             <h1
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
@@ -65,7 +65,7 @@
           </div>
 
           <nav
-            class="border-b border-gray-200/70 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
+            class="border-b border-gray-200 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
           >
             <ul
               class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base"
@@ -75,8 +75,8 @@
                   href={item?.path}
                   class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {activeIdx ===
                   index
-                    ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                    : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                    ? 'border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                    : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {item.title}
                 </a>

@@ -41,14 +41,22 @@
             class="flex flex-col space-y-5 xs:space-y-6 lg:space-y-8 w-full max-w-96"
           >
             <div class="flex items-start justify-between">
-              <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
+              <h1
+                class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              >
                 {companyName} Statistics
               </h1>
             </div>
 
             <div>
-              <h2 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400">Share Statistics</h2>
-              <p class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed">
+              <h2
+                class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
+                Share Statistics
+              </h2>
+              <p
+                class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
+              >
                 {companyName} has {abbreviateNumber(
                   rawData?.sharesOutStanding,
                   false,
@@ -56,7 +64,9 @@
                 shares outstanding. The number of shares has increased by {rawData?.sharesYoY}%
                 in one year.
               </p>
-              <table class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
+              <table
+                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+              >
                 <tbody>
                   <PopupInfo
                     label="Shares Outstanding"
@@ -113,11 +123,15 @@
               </table>
             </div>
             <div>
-              <h2 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+              <h2
+                class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
                 Short Selling Information
               </h2>
               {#if rawData?.sharesShort}
-                <p class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed">
+                <p
+                  class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
+                >
                   The latest short interest is {abbreviateNumber(
                     rawData?.sharesShort,
                     false,
@@ -125,7 +139,9 @@
                   shares have been sold short.
                 </p>
               {/if}
-              <table class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
+              <table
+                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+              >
                 <tbody>
                   <PopupInfo
                     label="Short Interest"
@@ -157,9 +173,15 @@
               </table>
             </div>
             <div>
-              <h2 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400">Valuation Ratios</h2>
+              <h2
+                class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
+                Valuation Ratios
+              </h2>
               {#if rawData?.priceToEarningsRatio}
-                <p class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed">
+                <p
+                  class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
+                >
                   The PE ratio is {rawData?.priceToEarningsRatio} and the forward
                   PE ratio is {rawData?.forwardPE}.
                   {rawData?.priceToEarningsGrowthRatio !== null
@@ -169,7 +191,9 @@
                 </p>
               {/if}
 
-              <table class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
+              <table
+                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+              >
                 <tbody>
                   <PopupInfo
                     label="PE Ratio"
@@ -218,10 +242,14 @@
               </a>
             </div>
             <div>
-              <h2 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+              <h2
+                class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
                 Enterprise Valuation
               </h2>
-              <p class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed">
+              <p
+                class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
+              >
                 {#if rawData?.enterpriseValue !== null}
                   {companyName} has an Enterprise Value (EV) of {abbreviateNumber(
                     rawData?.enterpriseValue,
@@ -231,7 +259,9 @@
                   Currently the Enterprise Value (EV) is not available for {companyName}.
                 {/if}
               </p>
-              <table class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
+              <table
+                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+              >
                 <tbody>
                   <PopupInfo
                     label="EV / Sales"
@@ -257,14 +287,22 @@
               </table>
             </div>
             <div>
-              <h2 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400">Financial Position</h2>
+              <h2
+                class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
+                Financial Position
+              </h2>
               {#if rawData?.currentRatio}
-                <p class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed">
+                <p
+                  class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
+                >
                   The company has a current ratio of {rawData?.currentRatio},
                   with a Debt / Equity ratio of {rawData?.debtToEquityRatio}.
                 </p>
               {/if}
-              <table class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
+              <table
+                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+              >
                 <tbody>
                   <PopupInfo
                     label="Current Ratio"
@@ -304,10 +342,14 @@
               </table>
             </div>
             <div>
-              <h2 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+              <h2
+                class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
                 Financial Efficiency
               </h2>
-              <p class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed">
+              <p
+                class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
+              >
                 Return on Equity is {checkValue(
                   rawData?.returnOnEquity,
                   "percent",
@@ -316,7 +358,9 @@
                   "percent",
                 )}.
               </p>
-              <table class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
+              <table
+                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+              >
                 <tbody>
                   <PopupInfo
                     parameter="returnOnEquity"
@@ -371,8 +415,14 @@
               </table>
             </div>
             <div>
-              <h2 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400">Taxes</h2>
-              <table class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
+              <h2
+                class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
+                Taxes
+              </h2>
+              <table
+                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+              >
                 <tbody>
                   <PopupInfo
                     parameter="incomeTaxExpense"
@@ -394,17 +444,23 @@
             class="flex flex-col space-y-5 xs:space-y-6 lg:space-y-8 w-full max-w-96"
           >
             <div class="mt-0 sm:mt-9 2xl:mt-0">
-              <h2 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+              <h2
+                class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
                 Stock Price Statistics
               </h2>
-              <p class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed">
+              <p
+                class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
+              >
                 The stock price has increased by {rawData?.change1Y}% in the
                 last 52 weeks. The beta is {rawData?.beta}, so {companyName}'s
                 price volatility has been {rawData?.beta > 0
                   ? "higher"
                   : "lower"} than the market average.
               </p>
-              <table class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
+              <table
+                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+              >
                 <tbody>
                   <PopupInfo
                     parameter="beta"
@@ -443,8 +499,14 @@
             </div>
 
             <div>
-              <h2 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400">Income Statement</h2>
-              <p class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed">
+              <h2
+                class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
+                Income Statement
+              </h2>
+              <p
+                class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
+              >
                 {#if rawData?.revenue !== null && rawData?.revenue !== 0}
                   In the last 12 months, {companyName} had revenue of {abbreviateNumber(
                     rawData?.revenue,
@@ -454,7 +516,9 @@
                   in profits. Earnings per share was {rawData?.eps}.
                 {/if}
               </p>
-              <table class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
+              <table
+                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+              >
                 <tbody>
                   <PopupInfo
                     parameter="revenue"
@@ -513,9 +577,15 @@
               </a>
             </div>
             <div>
-              <h2 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400">Balance Sheet</h2>
+              <h2
+                class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
+                Balance Sheet
+              </h2>
               {#if rawData?.cashAndCashEquivalents}
-                <p class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed">
+                <p
+                  class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
+                >
                   The company has {abbreviateNumber(
                     rawData?.cashAndCashEquivalents,
                     false,
@@ -526,7 +596,9 @@
                   )}.
                 </p>
               {/if}
-              <table class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
+              <table
+                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+              >
                 <tbody>
                   <PopupInfo
                     parameter="cashAndCashEquivalents"
@@ -582,9 +654,15 @@
               </a>
             </div>
             <div>
-              <h2 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400">Cash Flow</h2>
+              <h2
+                class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
+                Cash Flow
+              </h2>
               {#if rawData?.operatingCashFlow}
-                <p class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed">
+                <p
+                  class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
+                >
                   In the last 12 months, operating cash flow was {abbreviateNumber(
                     rawData?.operatingCashFlow,
                     false,
@@ -598,7 +676,9 @@
                   )}.
                 </p>
               {/if}
-              <table class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
+              <table
+                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+              >
                 <tbody>
                   <PopupInfo
                     parameter="operatingCashFlow"
@@ -636,8 +716,14 @@
               </a>
             </div>
             <div>
-              <h2 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400">Margins</h2>
-              <p class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed">
+              <h2
+                class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
+                Margins
+              </h2>
+              <p
+                class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
+              >
                 {#if rawData?.grossProfitMargin !== 0 && rawData?.grossProfitMargin !== null}
                   Gross margin is {checkValue(
                     rawData?.grossProfitMargin,
@@ -648,7 +734,9 @@
                   )} and {checkValue(rawData?.netProfitMargin, "percent")}.
                 {/if}
               </p>
-              <table class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
+              <table
+                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+              >
                 <tbody>
                   <PopupInfo
                     parameter="grossProfitMargin"
@@ -715,7 +803,9 @@
             class="flex flex-col space-y-5 xs:space-y-6 lg:space-y-8 w-full max-w-96"
           >
             <div class="mt-0 sm:mt-9 2xl:mt-0">
-              <h2 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+              <h2
+                class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
                 Dividends &amp; Yields
               </h2>
               <p
@@ -728,7 +818,9 @@
                   {$stockTicker} does not appear to pay any dividends at this time.
                 {/if}
               </p>
-              <table class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
+              <table
+                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+              >
                 <tbody>
                   <PopupInfo
                     parameter="annualDividend"
@@ -782,7 +874,11 @@
               </a>
             </div>
             <div>
-              <h2 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400">Analyst Forecast</h2>
+              <h2
+                class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
+                Analyst Forecast
+              </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
                 data-test="statistics-text"
@@ -796,7 +892,9 @@
                   Currently there are no analyst rating for {$stockTicker}.
                 {/if}
               </p>
-              <table class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
+              <table
+                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+              >
                 <tbody>
                   <PopupInfo
                     parameter="priceTarget"
@@ -832,14 +930,20 @@
               </a>
             </div>
             <div>
-              <h2 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400">Fair Value</h2>
+              <h2
+                class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
+                Fair Value
+              </h2>
               <p
                 class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
               >
                 There are several formulas that can be used to estimate the
                 intrinsic value of a stock.
               </p>
-              <table class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
+              <table
+                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+              >
                 <tbody>
                   <PopupInfo
                     label="Lynch Fair Value"
@@ -872,7 +976,11 @@
             </div>
             {#if rawData?.lastStockSplit && rawData?.splitType && rawData?.splitRatio}
               <div>
-                <h2 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400">Stock Splits</h2>
+                <h2
+                  class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                >
+                  Stock Splits
+                </h2>
                 <p
                   class="mb-4 px-0.5 text-sm text-gray-600 dark:text-zinc-300 leading-relaxed"
                   data-test="statistics-text"
@@ -889,7 +997,7 @@
                   split with a ratio of {rawData?.splitRatio}.
                 </p>
                 <table
-                  class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                  class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
                 >
                   <tbody>
                     <PopupInfo
@@ -920,8 +1028,14 @@
               </div>
             {/if}
             <div>
-              <h2 class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400">Scores</h2>
-              <table class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
+              <h2
+                class="mb-2 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
+                Scores
+              </h2>
+              <table
+                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+              >
                 <tbody>
                   <PopupInfo
                     label="Altman Z-Score"

@@ -38,9 +38,9 @@
     "M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z";
 
   // Common CSS classes
-  const borderClasses = "border border-gray-200/70 dark:border-zinc-800/80";
+  const borderClasses = "border border-gray-300 shadow dark:border-zinc-800/80";
   const tableBorderClasses =
-    "border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40";
+    "border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40";
   const navigationButtonClasses =
     "h-16 w-48 cursor-pointer border m-auto flex bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 mb-3";
 
@@ -446,7 +446,7 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:pr-5">
-          <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
+          <div class="mb-6 border-b border-gray-200 dark:border-zinc-800/80">
             <div
               class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2"
             >
@@ -459,7 +459,7 @@
               <div class="inline-flex sm:ml-auto">
                 <!-- Tab Selection -->
                 <div
-                  class="inline-flex rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60"
+                  class="inline-flex rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60"
                   role="group"
                   aria-label="View Options"
                 >
@@ -591,7 +591,9 @@
                 {#each weekday as day, index}
                   {#if index === selectedWeekday}
                     {#if day?.length !== 0}
-                      <h2 class="font-semibold text-xl mt-5 text-gray-900 dark:text-white">
+                      <h2
+                        class="font-semibold text-xl mt-5 text-gray-900 dark:text-white"
+                      >
                         {formattedWeekday[index]?.split(", ")[1]} · {day?.length}
                         Dividends
                       </h2>
@@ -603,13 +605,17 @@
                           <thead>
                             <TableHeader {columns} {sortOrders} {sortData} />
                           </thead>
-                          <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
+                          <tbody
+                            class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+                          >
                             {#each dailyDisplayList as item}
                               <!-- row -->
                               <tr
                                 class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                               >
-                                <td class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200">
+                                <td
+                                  class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                                >
                                   <HoverStockChart symbol={item?.symbol} />
                                 </td>
 
@@ -621,7 +627,9 @@
                                     : item?.name}
                                 </td>
 
-                                <td class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums">
+                                <td
+                                  class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
+                                >
                                   {@html item?.marketCap !== null
                                     ? abbreviateNumber(
                                         item?.marketCap,
@@ -631,7 +639,9 @@
                                     : "n/a"}
                                 </td>
 
-                                <td class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums">
+                                <td
+                                  class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
+                                >
                                   {item?.revenue !== null
                                     ? abbreviateNumber(item?.revenue)
                                     : "n/a"}
@@ -645,7 +655,9 @@
                                     : "n/a"}
                                 </td>
 
-                                <td class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums">
+                                <td
+                                  class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
+                                >
                                   {item?.date !== null
                                     ? new Date(item?.date)?.toLocaleString(
                                         "en-US",
@@ -660,7 +672,9 @@
                                     : "n/a"}
                                 </td>
 
-                                <td class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums">
+                                <td
+                                  class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
+                                >
                                   {item?.paymentDate !== null
                                     ? new Date(
                                         item?.paymentDate,
@@ -687,7 +701,7 @@
                               on:click={() =>
                                 goToDailyPage(dailyCurrentPage - 1)}
                               disabled={dailyCurrentPage === 1}
-                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -708,7 +722,9 @@
                           </div>
 
                           <div class="flex flex-row items-center gap-4">
-                            <span class="text-sm text-gray-600 dark:text-zinc-300">
+                            <span
+                              class="text-sm text-gray-600 dark:text-zinc-300"
+                            >
                               Page {dailyCurrentPage} of {dailyTotalPages}
                             </span>
 
@@ -716,7 +732,7 @@
                               <DropdownMenu.Trigger asChild let:builder>
                                 <Button
                                   builders={[builder]}
-                                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
@@ -743,7 +759,7 @@
                                 align="end"
                                 sideOffset={10}
                                 alignOffset={0}
-                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                               >
                                 <DropdownMenu.Group class="pb-2">
                                   {#each dailyRowsPerPageOptions as item}
@@ -769,7 +785,7 @@
                               on:click={() =>
                                 goToDailyPage(dailyCurrentPage + 1)}
                               disabled={dailyCurrentPage === dailyTotalPages}
-                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                               <span class="hidden sm:inline">Next</span>
                               <svg
@@ -914,15 +930,17 @@
                                 {#if isExpanded}
                                   <div class="px-3 pb-2 pt-1">
                                     <div
-                                      class="border-t border-gray-200/70 dark:border-zinc-800/80"
+                                      class="border-t border-gray-200 dark:border-zinc-800/80"
                                     >
                                       <table class="w-full text-sm">
                                         <tbody>
                                           <tr
-                                            class="border-b border-gray-200/70 dark:border-zinc-800/80"
+                                            class="border-b border-gray-200 dark:border-zinc-800/80"
                                           >
                                             <td class="py-1.5">Ex-Date</td>
-                                            <td class="text-right font-semibold">
+                                            <td
+                                              class="text-right font-semibold"
+                                            >
                                               {item?.date !== null
                                                 ? new Date(
                                                     item?.date,
@@ -937,10 +955,12 @@
                                           </tr>
                                           {#if item?.marketCap !== null}
                                             <tr
-                                              class="border-b border-gray-200/70 dark:border-zinc-800/80"
+                                              class="border-b border-gray-200 dark:border-zinc-800/80"
                                             >
                                               <td class="py-1.5">Market Cap</td>
-                                              <td class="text-right font-semibold">
+                                              <td
+                                                class="text-right font-semibold"
+                                              >
                                                 {@html abbreviateNumber(
                                                   item?.marketCap,
                                                   false,
@@ -950,19 +970,23 @@
                                             </tr>
                                           {/if}
                                           <tr
-                                            class="border-b border-gray-200/70 dark:border-zinc-800/80"
+                                            class="border-b border-gray-200 dark:border-zinc-800/80"
                                           >
                                             <td class="py-1.5">Amount</td>
-                                            <td class="text-right font-semibold">
+                                            <td
+                                              class="text-right font-semibold"
+                                            >
                                               ${item?.adjDividend?.toFixed(4) ||
                                                 "n/a"}
                                             </td>
                                           </tr>
                                           <tr
-                                            class="border-b border-gray-200/70 dark:border-zinc-800/80"
+                                            class="border-b border-gray-200 dark:border-zinc-800/80"
                                           >
                                             <td class="py-1.5">Revenue</td>
-                                            <td class="text-right font-semibold">
+                                            <td
+                                              class="text-right font-semibold"
+                                            >
                                               {item?.revenue
                                                 ? `$${abbreviateNumber(item?.revenue, false, true)}`
                                                 : "n/a"}
@@ -972,7 +996,9 @@
                                             <td class="pb-0.5 pt-1.5">
                                               Payment Date
                                             </td>
-                                            <td class="text-right font-semibold">
+                                            <td
+                                              class="text-right font-semibold"
+                                            >
                                               {item?.paymentDate !== null
                                                 ? new Date(
                                                     item?.paymentDate,
@@ -1136,12 +1162,12 @@
                           {#if isExpanded}
                             <div class="px-3 pb-2 pt-1">
                               <div
-                                class="border-t border-gray-200/70 dark:border-zinc-800/80"
+                                class="border-t border-gray-200 dark:border-zinc-800/80"
                               >
                                 <table class="w-full text-sm">
                                   <tbody>
                                     <tr
-                                      class="border-b border-gray-200/70 dark:border-zinc-800/80"
+                                      class="border-b border-gray-200 dark:border-zinc-800/80"
                                     >
                                       <td class="py-1.5">Date</td>
                                       <td class="text-right font-semibold">
@@ -1155,7 +1181,7 @@
                                       </td>
                                     </tr>
                                     <tr
-                                      class="border-b border-gray-200/70 dark:border-zinc-800/80"
+                                      class="border-b border-gray-200 dark:border-zinc-800/80"
                                     >
                                       <td class="py-1.5">Dividend</td>
                                       <td class="text-right font-semibold">
@@ -1164,7 +1190,7 @@
                                       </td>
                                     </tr>
                                     <tr
-                                      class="border-b border-gray-200/70 dark:border-zinc-800/80"
+                                      class="border-b border-gray-200 dark:border-zinc-800/80"
                                     >
                                       <td class="py-1.5">Revenue</td>
                                       <td class="text-right font-semibold">
@@ -1174,7 +1200,7 @@
                                       </td>
                                     </tr>
                                     <tr
-                                      class="border-b border-gray-200/70 dark:border-zinc-800/80"
+                                      class="border-b border-gray-200 dark:border-zinc-800/80"
                                     >
                                       <td class="py-1.5">Ex-Date</td>
                                       <td class="text-right font-semibold">

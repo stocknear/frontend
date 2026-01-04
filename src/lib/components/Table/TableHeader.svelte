@@ -102,7 +102,9 @@
   }
 </script>
 
-<tr class="bg-gray-50/80 dark:bg-zinc-900/60 border-b border-gray-200/70 dark:border-zinc-800/80 text-gray-600 dark:text-zinc-300">
+<tr
+  class="bg-gray-50/80 dark:bg-zinc-900/60 border-b border-gray-200 dark:border-zinc-800/80 text-gray-600 dark:text-zinc-300"
+>
   {#each columns as column}
     <th
       on:click={() => sortData(column.key)}

@@ -277,13 +277,13 @@
 
   <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
     <div
-    class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
-  >
-    <h2
-      class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
+      class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-gray-200 dark:border-zinc-800/80"
     >
-      {originalData?.length?.toLocaleString("en-US")} ETF Providers
-    </h2>
+      <h2
+        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200 dark:border-zinc-800/80 lg:border-none w-full"
+      >
+        {originalData?.length?.toLocaleString("en-US")} ETF Providers
+      </h2>
       <div
         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
       >
@@ -307,7 +307,7 @@
           </div>
 
           <div
-            class="h-9 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 px-3 flex items-center"
+            class="h-9 rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 px-3 flex items-center"
           >
             <input
               bind:value={inputValue}
@@ -333,7 +333,7 @@
       {#if etfProviderList?.length > 0}
         <div class="w-full overflow-x-auto">
           <table
-            class="table table-sm table-compact w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 m-auto mt-4"
+            class="table table-sm table-compact w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 m-auto mt-4"
           >
             <thead>
               <TableHeader {columns} {sortOrders} {sortData} />
@@ -342,9 +342,11 @@
               {#each etfProviderList as item}
                 <!-- row -->
                 <tr
-                  class="border-b border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
+                  class="border-b border-gray-200 dark:border-zinc-800/80 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                 >
-                  <td class="text-sm text-gray-700 dark:text-zinc-200 whitespace-nowrap">
+                  <td
+                    class="text-sm text-gray-700 dark:text-zinc-200 whitespace-nowrap"
+                  >
                     <a
                       href={"/etf/etf-providers/" + item?.name}
                       class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"

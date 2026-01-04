@@ -341,7 +341,7 @@
                   <!--
                   <Button
                     on:click={toggleMode}
-                    class="w-full max-w-36 sm:w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-full max-w-36 sm:w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {#if $coolMode}
                       <TableMode class="w-4.5 h-4.5" />
@@ -355,7 +355,7 @@
 
                   <Button
                     on:click={() => (switchDate = !switchDate)}
-                    class="mr-1 w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="mr-1 w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="shrink-0 w-5 h-5 pointer-events-none m-auto"
@@ -373,7 +373,7 @@
                   >
                   <Button
                     on:click={() => exportFundamentalData("csv")}
-                    class="w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="truncate">Download</span>
                     <svg
@@ -420,16 +420,16 @@
                 class="w-full rounded-none sm:rounded m-auto overflow-x-auto"
               >
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums"
                 >
                   <thead
                     class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                   >
                     <tr
-                      class="border-b border-gray-200/70 dark:border-zinc-800/80"
+                      class="border-b border-gray-200 dark:border-zinc-800/80"
                     >
                       <td
-                        class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-gray-200/70 dark:border-zinc-800/80"
+                        class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-gray-200 dark:border-zinc-800/80"
                         >{$selectedTimePeriod !== "annual"
                           ? "Fiscal Quarter"
                           : "Fiscal Year"}</td
@@ -437,13 +437,13 @@
                       {#each financialData as item, index}
                         {#if $selectedTimePeriod === "annual"}
                           <td
-                            class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-200/70 dark:border-zinc-800/80 text-gray-600 dark:text-zinc-300"
+                            class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-200 dark:border-zinc-800/80 text-gray-600 dark:text-zinc-300"
                           >
                             {"FY" + " " + item?.fiscalYear}
                           </td>
                         {:else}
                           <td
-                            class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-200/70 dark:border-zinc-800/80 text-gray-600 dark:text-zinc-300"
+                            class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-200 dark:border-zinc-800/80 text-gray-600 dark:text-zinc-300"
                           >
                             {item?.period + " " + item?.fiscalYear}
                           </td>
@@ -451,22 +451,22 @@
                       {/each}
                       {#if hasLockedData}
                         <td
-                          class="font-semibold text-xs uppercase tracking-wide text-center text-gray-600 dark:text-zinc-300 border-l border-gray-200/70 dark:border-zinc-800/80"
+                          class="font-semibold text-xs uppercase tracking-wide text-center text-gray-600 dark:text-zinc-300 border-l border-gray-200 dark:border-zinc-800/80"
                         >
                           {lockedFiscalYearRange || "Upgrade"}
                         </td>
                       {/if}
                     </tr>
                     <tr
-                      class="border-b border-gray-200/70 dark:border-zinc-800/80"
+                      class="border-b border-gray-200 dark:border-zinc-800/80"
                     >
                       <td
-                        class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-gray-200/70 dark:border-zinc-800/80"
+                        class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-gray-200 dark:border-zinc-800/80"
                         >Period Ending</td
                       >
                       {#each financialData as item, index}
                         <td
-                          class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-200/70 dark:border-zinc-800/80 text-gray-600 dark:text-zinc-300"
+                          class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-200 dark:border-zinc-800/80 text-gray-600 dark:text-zinc-300"
                         >
                           {new Date(item?.date).toLocaleDateString("en-US", {
                             month: "short",
@@ -477,7 +477,7 @@
                       {/each}
                       {#if hasLockedData}
                         <td
-                          class="font-semibold text-xs uppercase tracking-wide text-center text-gray-600 dark:text-zinc-300 border-l border-gray-200/70 dark:border-zinc-800/80"
+                          class="font-semibold text-xs uppercase tracking-wide text-center text-gray-600 dark:text-zinc-300 border-l border-gray-200 dark:border-zinc-800/80"
                         >
                           {lockedPeriodRange || "Upgrade"}
                         </td>

@@ -387,11 +387,11 @@
     >
       <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto mt-2 sm:mt-0">
         <h2
-          class=" flex flex-row items-center text-xl sm:text-2xl font-bold w-fit mb-2 sm:mb-0"
+          class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit mb-2 sm:mb-0"
         >
           {ticker} Unusual Activity
         </h2>
-        <p class={rawData?.length > 0 ? "mt-4" : "mt-0"}>
+        <p class="{rawData?.length > 0 ? 'mt-4' : 'mt-0'} text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">
           {#if rawData?.length > 0}
             {@const totalPremium = rawData.reduce(
               (sum, item) => sum + (item.premium || 0),
@@ -464,17 +464,17 @@
 
         {#if config}
           <div
-            class="sm:p-3 shadow border border-gray-300 dark:border-gray-800 rounded mt-4 mb-4"
+            class="sm:p-3 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 mt-4 mb-4"
             use:highcharts={config}
           ></div>
         {/if}
 
         <div class="items-center lg:overflow-visible px-1 py-1 mt-5">
           <div
-            class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+            class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
           >
             <h2
-              class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold w-full"
+              class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
             >
               {(rawData?.length || 0)?.toLocaleString("en-US")} Activity
             </h2>
@@ -492,24 +492,29 @@
           </div>
         </div>
 
-        <div class="w-full overflow-x-auto">
-          <table
-            class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto mt-4"
+        <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
+          <div
+            class="w-full overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
           >
-            <thead>
-              <TableHeader {columns} {sortOrders} {sortData} />
-            </thead>
-            <tbody>
+            <table
+              class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
+            >
+              <thead
+                class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
+                <TableHeader {columns} {sortOrders} {sortData} />
+              </thead>
+              <tbody>
               {#each data?.user?.tier !== "Pro" ? displayList?.slice(0, 3) : displayList as item, index}
                 <tr
-                  class="dark:sm:hover:bg-[#245073]/10 relative {index + 1 ===
+                  class="transition-colors relative {index + 1 ===
                     rawData?.slice(0, 3)?.length &&
                   !['Pro']?.includes(data?.user?.tier)
                     ? 'opacity-[0.1]'
                     : ''}"
                 >
                   <td
-                    class=" text-sm sm:text-[1rem] text-start whitespace-nowrap flex flex-row items-center justify-between"
+                    class="text-sm text-start whitespace-nowrap flex flex-row items-center justify-between"
                   >
                     <span
                       class={item?.optionType === "Calls"
@@ -521,32 +526,24 @@
                     </span>
                   </td>
 
-                  <td
-                    class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
-                  >
+                  <td class="text-sm text-end whitespace-nowrap">
                     {formatDate(item?.date)}
                   </td>
 
-                  <td
-                    class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
-                  >
+                  <td class="text-sm text-end whitespace-nowrap">
                     {item?.dte}
                   </td>
 
-                  <td
-                    class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
-                  >
+                  <td class="text-sm text-end whitespace-nowrap">
                     {item?.unusualType}
                   </td>
 
-                  <td
-                    class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
-                  >
+                  <td class="text-sm text-end whitespace-nowrap">
                     {item?.executionEst?.replace("At Midpoint", "Midpoint")}
                   </td>
 
                   <td
-                    class="text-sm sm:text-[1rem] text-end whitespace-nowrap {item?.sentiment ===
+                    class="text-sm text-end whitespace-nowrap {item?.sentiment ===
                     'Bullish'
                       ? 'text-emerald-600 dark:text-emerald-400'
                       : item?.sentiment === 'Bearish'
@@ -555,35 +552,30 @@
                   >
                     {item?.sentiment}
                   </td>
-                  <td
-                    class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
-                  >
+                  <td class="text-sm text-end whitespace-nowrap">
                     {item?.size?.toLocaleString("en-US")}
                   </td>
 
-                  <td
-                    class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
-                  >
+                  <td class="text-sm text-end whitespace-nowrap">
                     {item?.price}
                   </td>
-                  <td
-                    class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
-                  >
+                  <td class="text-sm text-end whitespace-nowrap">
                     ${item?.premium?.toLocaleString("en-US")}
                   </td>
 
-                  <td class="text-sm sm:text-[1rem] text-end whitespace-nowrap">
+                  <td class="text-sm text-end whitespace-nowrap">
                     <a
                       href={`/${["stocks", "stock"]?.includes(assetType) ? "stocks" : assetType === "etf" ? "etf" : "index"}/${ticker}/options/contract-lookup?query=${item?.optionSymbol}`}
-                      class="cursor-pointer text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+                      class="cursor-pointer text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >
                       {item?.optionSymbol}
                     </a>
                   </td>
                 </tr>
               {/each}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <!-- Pagination controls -->
@@ -594,7 +586,7 @@
               <Button
                 on:click={() => goToPage(currentPage - 1)}
                 disabled={currentPage === 1}
-                class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <svg
                   class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -623,7 +615,7 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="truncate text-[0.85rem] sm:text-sm"
                       >{rowsPerPage} Rows</span
@@ -649,14 +641,14 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                  class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                 >
                   <!-- Dropdown items -->
                   <DropdownMenu.Group class="pb-2">
                     {#each rowsPerPageOptions as item}
-                      <DropdownMenu.Item
-                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
-                      >
+                    <DropdownMenu.Item
+                      class="text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    >
                         <label
                           on:click={() => changeRowsPerPage(item)}
                           class="inline-flex justify-between w-full items-center cursor-pointer"
@@ -675,7 +667,7 @@
               <Button
                 on:click={() => goToPage(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <span class="hidden sm:inline">Next</span>
                 <svg

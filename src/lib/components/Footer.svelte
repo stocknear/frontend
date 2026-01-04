@@ -19,7 +19,7 @@
 </script>
 
 <footer
-  class="w-full mt-auto bg-white dark:bg-zinc-950 border-t border-gray-200/70 dark:border-zinc-800/80"
+  class="w-full mt-auto bg-white dark:bg-zinc-950 border-t border-gray-200 dark:border-zinc-800/80"
 >
   <div class="mx-auto max-w-7xl px-5 pt-12 sm:px-6 lg:px-8 lg:pb-8">
     <div
@@ -149,7 +149,7 @@
             -->
             <li class="text-te">
               <div
-                class="w-fit flex items-center gap-1 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/60 dark:bg-zinc-900/60 p-0.5"
+                class="w-fit flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-gray-100/60 dark:bg-zinc-900/60 p-0.5"
               >
                 <button
                   id="lightBtn"
@@ -251,7 +251,7 @@
 
     <!-- Bottom bar -->
     <div
-      class="-mb-8 pb-6 mt-10 border-t border-gray-200/70 pt-8 dark:border-zinc-800/80 md:flex md:items-center md:justify-between"
+      class="-mb-8 pb-6 mt-10 border-t border-gray-200 pt-8 dark:border-zinc-800/80 md:flex md:items-center md:justify-between"
     >
       <div class="flex space-x-6 md:order-1">
         <a

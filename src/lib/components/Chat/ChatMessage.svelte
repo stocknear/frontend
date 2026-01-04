@@ -245,7 +245,7 @@
         <div class="w-full">
           {#if message?.role === "user" && isEditMode}
             <div
-              class="p-3 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/90 dark:bg-zinc-950/70"
+              class="p-3 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/90 dark:bg-zinc-950/70"
             >
               <textarea
                 bind:this={textareaElement}
@@ -261,7 +261,7 @@
                     dispatch("cancel-edit");
                     editedContent = "";
                   }}
-                  class="cursor-pointer px-3 py-1.5 rounded-full text-xs sm:text-sm relative bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-200 dark:hover:bg-zinc-800"
+                  class="cursor-pointer px-3 py-1.5 rounded-full text-xs sm:text-sm relative bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80 hover:bg-gray-200 dark:hover:bg-zinc-800"
                   >Cancel</button
                 >
                 <button
@@ -282,7 +282,7 @@
             <p
               class="w-full transition-all duration-75 ease-out break-words overflow-wrap-anywhere {message?.role ===
               'user'
-                ? 'p-3 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white'
+                ? 'p-3 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white'
                 : ''}"
             >
               {@html isStreaming && message?.role === "system"
@@ -333,7 +333,9 @@
                 type="button"
                 class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs sm:text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-900 transition"
                 on:click={handleShare}
-                ><div class="flex flex-row items-center min-w-0 font-medium gap-1">
+                ><div
+                  class="flex flex-row items-center min-w-0 font-medium gap-1"
+                >
                   <div class="flex shrink-0 items-center justify-center size-4">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -349,7 +351,9 @@
                       ></path></svg
                     >
                   </div>
-                  <div class="text-align-center relative truncate leading-loose -mb-px">
+                  <div
+                    class="text-align-center relative truncate leading-loose -mb-px"
+                  >
                     Share
                   </div>
                 </div></button
@@ -418,14 +422,14 @@
               class=" flex flex-wrap items-center justify-end gap-y-4 p-1 select-none focus-within:transition-none hover:transition-none duration-300 group-hover/turn-messages:delay-300 pointer-events-none opacity-0 motion-safe:transition-opacity group-hover/turn-messages:pointer-events-auto group-hover/turn-messages:opacity-100 group-focus-within/turn-messages:pointer-events-auto group-focus-within/turn-messages:opacity-100 has-data-[state=open]:pointer-events-auto has-data-[state=open]:opacity-100"
             >
               <!-- Copy button -->
-                <button
-                  on:click={handleCopyPrompt}
-                  class="cursor-pointer rounded-full text-gray-500 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-gray-900 dark:hover:text-white transition"
-                  aria-label="Copy"
-                  aria-selected="false"
-                  data-testid="copy-turn-action-button"
-                  data-state="closed"
-                >
+              <button
+                on:click={handleCopyPrompt}
+                class="cursor-pointer rounded-full text-gray-500 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-gray-900 dark:hover:text-white transition"
+                aria-label="Copy"
+                aria-selected="false"
+                data-testid="copy-turn-action-button"
+                data-state="closed"
+              >
                 <span
                   class="touch:w-10 flex h-8 w-8 items-center justify-center"
                 >

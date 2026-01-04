@@ -57,7 +57,12 @@
 
   // Re-show banner when customize dialog closes without making a decision
   $: {
-    if (browser && previousShowCustomize && !showCustomize && consent === null) {
+    if (
+      browser &&
+      previousShowCustomize &&
+      !showCustomize &&
+      consent === null
+    ) {
       showBanner = true;
     }
     previousShowCustomize = showCustomize;
@@ -121,7 +126,7 @@
     transition:fly={{ y: 100, duration: 300 }}
   >
     <div
-      class="w-full max-w-lg m-auto rounded-lg border border-gray-200 bg-white p-4 shadow-2xl dark:border-gray-700 dark:bg-default"
+      class="w-full max-w-lg m-auto rounded-lg border border-gray-300 shadow bg-white p-4 shadow-2xl dark:border-gray-700 dark:bg-default"
     >
       <div class="flex flex-col gap-3">
         <div class="flex items-center gap-3">
@@ -184,7 +189,7 @@
     <div class="mt-6 space-y-4">
       <!-- Necessary Cookies -->
       <div
-        class="flex items-start justify-between rounded-lg border border-gray-200 p-4 dark:border-gray-700"
+        class="flex items-start justify-between rounded-lg border border-gray-300 shadow p-4 dark:border-gray-700"
       >
         <div class="flex items-start gap-3">
           <div>
@@ -208,7 +213,7 @@
 
       <!-- Analytics Cookies -->
       <div
-        class="flex items-start justify-between rounded-lg border border-gray-200 p-4 dark:border-gray-700"
+        class="flex items-start justify-between rounded-lg border border-gray-300 shadow p-4 dark:border-gray-700"
       >
         <div class="flex items-start gap-3">
           <div>
@@ -240,7 +245,7 @@
 
       <!-- Marketing Cookies -->
       <div
-        class="flex items-start justify-between rounded-lg border border-gray-200 p-4 dark:border-gray-700"
+        class="flex items-start justify-between rounded-lg border border-gray-300 shadow p-4 dark:border-gray-700"
       >
         <div class="flex items-start gap-3">
           <div>

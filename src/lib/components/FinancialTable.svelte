@@ -823,7 +823,7 @@
       class="whitespace-nowrap transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
     >
       <td
-        class="text-start min-w-72 max-w-72 sm:min-w-96 sm:max-w-96 text-sm sm:text-[0.95rem] border-r border-gray-200/70 dark:border-zinc-800/80 w-full flex flex-row items-center justify-between text-gray-700 dark:text-zinc-200"
+        class="text-start min-w-72 max-w-72 sm:min-w-96 sm:max-w-96 text-sm sm:text-[0.95rem] border-r border-gray-200 dark:border-zinc-800/80 w-full flex flex-row items-center justify-between text-gray-700 dark:text-zinc-200"
       >
         <div class="flex items-center gap-2">
           {#if enableFavorites && !field.isGrowth}
@@ -905,14 +905,14 @@
       </td>
       {#each data as item}
         <td
-          class={`text-sm sm:text-[0.95rem] text-end border-r border-gray-200/70 dark:border-zinc-800/80  tabular-nums ${field.isGrowth ? getGrowthDeltaClass(item[field.key]) : ""}`}
+          class={`text-sm sm:text-[0.95rem] text-end border-r border-gray-200 dark:border-zinc-800/80  tabular-nums ${field.isGrowth ? getGrowthDeltaClass(item[field.key]) : ""}`}
         >
           {formatValue(item[field.key], field.isMargin)}
         </td>
       {/each}
       {#if showUpgradeColumn}
         <td
-          class="text-xs sm:text-sm text-end border-r border-gray-200/70 dark:border-zinc-800/80"
+          class="text-xs sm:text-sm text-end border-r border-gray-200 dark:border-zinc-800/80"
         >
           <a
             class="inline-flex w-full items-center justify-end gap-1 font-semibold text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
@@ -946,7 +946,7 @@
 
   <div
     class="financial-modal modal-box w-full max-w-3xl p-6 rounded-2xl shadow-none border
-        bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800/80"
+        bg-white dark:bg-zinc-950 border border-gray-300 shadow dark:border-zinc-800/80"
   >
     {#if config}
       <div
@@ -955,7 +955,7 @@
         <div class="relative w-full sm:w-auto" bind:this={rangeDropdownRef}>
           <button
             type="button"
-            class="cursor-pointer w-auto transition-all duration-50 border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 flex items-center justify-between px-3 py-2 rounded-full text-sm text-gray-900 dark:text-white"
+            class="cursor-pointer w-auto transition-all duration-50 border border-gray-300 shadow dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 flex items-center justify-between px-3 py-2 rounded-full text-sm text-gray-900 dark:text-white"
             aria-haspopup="menu"
             aria-expanded={rangeMenuOpen}
             on:click={toggleRangeMenu}
@@ -982,7 +982,7 @@
             <div
               tabindex="0"
               role="menu"
-              class="absolute z-40 rounded-xl bg-white/95 dark:bg-zinc-950/95 py-1 focus:outline-none min-w-[90px] left-0 right-0 origin-top-right border border-gray-200/70 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200 shadow-none"
+              class="absolute z-40 rounded-xl bg-white/95 dark:bg-zinc-950/95 py-1 focus:outline-none min-w-[90px] left-0 right-0 origin-top-right border border-gray-300 shadow dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200 shadow-none"
             >
               {#each RANGE_OPTIONS as option}
                 <button
@@ -1015,7 +1015,7 @@
 
         <Button
           on:click={toggleMode}
-          class="w-fit transition-all duration-50 border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
+          class="w-fit transition-all duration-50 border border-gray-300 shadow dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
         >
           {#if chartMode === "bar"}
             <LineChart class="w-4.5 h-4.5" />
@@ -1028,7 +1028,7 @@
       </div>
 
       <div
-        class="mt-2 rounded-xl bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800/80 p-2"
+        class="mt-2 rounded-xl bg-white dark:bg-zinc-950 border border-gray-300 shadow dark:border-zinc-800/80 p-2"
         use:highcharts={config}
       ></div>
     {/if}
@@ -1041,9 +1041,7 @@
       in <strong>{lowestValueDate}</strong>.
     </p>
 
-    <div
-      class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-2 w-full"
-    >
+    <div class="border-t border-gray-200 dark:border-zinc-800/80 mt-2 w-full">
       <label
         for="financialPlotModal"
         class="mt-4 font-semibold text-base text-gray-700 dark:text-zinc-200 m-auto flex justify-center cursor-pointer"

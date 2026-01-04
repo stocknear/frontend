@@ -33,7 +33,7 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:pr-10">
-          <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
+          <div class="mb-6 border-b border-gray-200 dark:border-zinc-800/80">
             <h1
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
@@ -43,7 +43,9 @@
 
           <div class="w-full m-auto">
             <div>
-              <p class="mb-5 text-sm sm:text-base text-gray-600 dark:text-zinc-400">
+              <p
+                class="mb-5 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+              >
                 The financial data presented on Stocknear is provided for
                 informational and educational purposes only. This information
                 should not be construed as financial advice or used as the sole
@@ -69,10 +71,14 @@
                 </a>.
               </p>
 
-              <h2 class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white">
+              <h2
+                class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
+              >
                 Market Data & Stock Charts
               </h2>
-              <p class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400">
+              <p
+                class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+              >
                 Our comprehensive market data and real-time stock charts are
                 powered by
                 <a
@@ -87,10 +93,14 @@
                 indicators.
               </p>
 
-              <h2 class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white">
+              <h2
+                class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
+              >
                 Market Coverage
               </h2>
-              <p class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400">
+              <p
+                class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+              >
                 Stocknear provides comprehensive coverage of securities listed
                 on major U.S. exchanges, including NASDAQ, NYSE, NYSE American,
                 and NYSE Arca. Our database encompasses stocks, ETFs, ADRs, and
@@ -98,10 +108,14 @@
                 include additional global exchanges and financial instruments.
               </p>
 
-              <h2 class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white">
+              <h2
+                class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
+              >
                 Financial Fundamentals
               </h2>
-              <p class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400">
+              <p
+                class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+              >
                 Our fundamental financial data is sourced from
                 <a
                   href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear"
@@ -118,10 +132,14 @@
                 company submissions to regulatory authorities.
               </p>
 
-              <h2 class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white">
+              <h2
+                class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
+              >
                 Business Metrics Data
               </h2>
-              <p class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400">
+              <p
+                class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+              >
                 Business Metrics Data, including operational KPIs and non-GAAP
                 unit economics, is provided through our partner
                 <a
@@ -138,10 +156,14 @@
                 platform.
               </p>
 
-              <h2 class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white">
+              <h2
+                class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
+              >
                 Analyst Coverage & Market Projections
               </h2>
-              <p class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400">
+              <p
+                class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+              >
                 Our analyst coverage integrates data from multiple authoritative
                 sources. Price targets and analyst ratings are provided by
                 Benzinga, representing consensus views from leading Wall Street
@@ -160,8 +182,14 @@
                 investment research process.
               </p>
 
-              <h2 class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white">ETF Analytics</h2>
-              <p class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400">
+              <h2
+                class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
+              >
+                ETF Analytics
+              </h2>
+              <p
+                class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+              >
                 Our ETF holdings data and analytics are provided through our
                 partnership with
                 <a
@@ -175,10 +203,14 @@
                 compositions, allocations, and performance metrics.
               </p>
 
-              <h2 class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white">
+              <h2
+                class="mb-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
+              >
                 Options Market Data
               </h2>
-              <p class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400">
+              <p
+                class="mb-10 mt-4 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+              >
                 Our options market data infrastructure leverages multiple data
                 vendors, combining their feeds into a unified pipeline to
                 deliver comprehensive full-stream OPRA (Options Price Reporting
@@ -193,7 +225,7 @@
 
         <aside class="hidden lg:block relative fixed w-1/4 mt-4">
           <div
-            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
+            class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href="/pricing"
@@ -207,14 +239,16 @@
                   class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                 />
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
+              <span
+                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+              >
                 Upgrade now for unlimited access to all data, tools and no ads.
               </span>
             </a>
           </div>
 
           <div
-            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
+            class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href="/about"
@@ -226,26 +260,32 @@
                   class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                 />
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
+              <span
+                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+              >
                 Learn more about why we're doing this here
               </span>
             </a>
           </div>
 
           <div
-            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
+            class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href="/contact"
               class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-lg font-semibold ml-3">Contact Us</h2>
+                <h2 class="text-start text-lg font-semibold ml-3">
+                  Contact Us
+                </h2>
                 <ArrowLogo
                   class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                 />
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
+              <span
+                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+              >
                 Let me know if you need something
               </span>
             </a>

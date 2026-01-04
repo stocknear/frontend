@@ -739,7 +739,7 @@
                 class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4 mt-3"
               >
                 <div
-                  class="revenue-ttm-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
+                  class="revenue-ttm-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
                     <span>Revenue (ttm)</span>
@@ -753,7 +753,7 @@
                 </div>
 
                 <div
-                  class="revenue-growth-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
+                  class="revenue-growth-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
                     <span>Revenue Growth</span>
@@ -768,7 +768,7 @@
                 </div>
 
                 <div
-                  class="ps-ratio-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
+                  class="ps-ratio-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
                     <span>Price / Sales Ratio</span>
@@ -781,7 +781,7 @@
                 </div>
 
                 <div
-                  class="rev-per-emp-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
+                  class="rev-per-emp-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
                     <span>Revenue / Employee </span>
@@ -795,7 +795,7 @@
                 </div>
 
                 <div
-                  class="employees-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
+                  class="employees-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
                     <span>Employees </span>
@@ -808,7 +808,7 @@
                   </div>
                 </div>
                 <div
-                  class="marketCap-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
+                  class="marketCap-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
                     <span>Market Cap </span>
@@ -823,13 +823,13 @@
               </div>
 
               <div
-                class=" flex flex-col sm:flex-row items-start sm:items-center w-full justify-between border-t border-b border-gray-200/70 dark:border-zinc-800/80 py-2"
+                class=" flex flex-col sm:flex-row items-start sm:items-center w-full justify-between border-t border-b border-gray-200 dark:border-zinc-800/80 py-2"
               >
                 <h2 class="text-xl sm:text-2xl font-bold">Revenue Chart</h2>
                 <div class="sm:ml-auto">
                   <div class="inline-flex mt-2 sm:mt-0">
                     <div
-                      class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-200/70 dark:border-zinc-800/80"
+                      class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-800/80"
                     >
                       {#each tabs as item, i (item)}
                         <button
@@ -849,7 +849,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="flex-shrink-0 w-full sm:w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="flex-shrink-0 w-full sm:w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate">{$timeFrame}</span>
                           <svg
@@ -901,7 +901,7 @@
               </div>
 
               <div
-                class="chart-driver shadow-none mt-5 sm:mt-0 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                class="chart-driver shadow-none mt-5 sm:mt-0 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                 use:highcharts={config}
               ></div>
               {#if currency !== "USD"}
@@ -911,13 +911,13 @@
               {/if}
 
               <div
-                class="history-driver mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-200/70 dark:border-zinc-800/80 py-2"
+                class="history-driver mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-200 dark:border-zinc-800/80 py-2"
               >
                 <h3 class="text-xl sm:text-2xl font-bold">History</h3>
 
                 <div class="inline-flex ml-auto">
                   <div
-                    class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-200/70 dark:border-zinc-800/80"
+                    class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-800/80"
                   >
                     {#each tabs as item, i (item)}
                       <button
@@ -936,7 +936,7 @@
 
               <div class="w-full overflow-x-auto">
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums m-auto mt-4"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums m-auto mt-4"
                 >
                   <thead
                     class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
@@ -1009,7 +1009,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1036,7 +1036,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
                             >{rowsPerPage} Rows</span
@@ -1062,7 +1062,7 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                       >
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as item}
@@ -1085,7 +1085,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline">Next</span>
                     <svg

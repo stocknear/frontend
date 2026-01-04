@@ -493,7 +493,7 @@
                 <div class="">
                   <div class="inline-flex">
                     <div
-                      class="inline-flex rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60"
+                      class="inline-flex rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60"
                     >
                       {#each tabs as item, i}
                         {#if !["Pro", "Plus"]?.includes(data?.user?.tier) && i > 0}
@@ -507,7 +507,7 @@
              {i !== 0 && i !== tabs?.length - 1 ? 'border-t border-b' : ''}
              {activeIdx === i
                               ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
-                              : 'bg-white/80 border-gray-200/70 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-800/80'}"
+                              : 'bg-white/80 border-gray-200 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-800/80'}"
                           >
                             <span class="relative text-sm block font-semibold">
                               {item.title}
@@ -533,7 +533,7 @@
              {i !== 0 && i !== tabs?.length - 1 ? 'border-t border-b' : ''}
              {activeIdx === i
                               ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
-                              : 'bg-white/80 border-gray-200/70 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-800/80'}"
+                              : 'bg-white/80 border-gray-200 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-800/80'}"
                           >
                             {item.title}
                           </button>
@@ -548,10 +548,10 @@
         </div>
 
         <div
-          class="shadow-none mb-4 grid grid-cols-2 grid-rows-2 divide-contrast rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 md:grid-cols-4 md:grid-rows-1 md:divide-x"
+          class="shadow-none mb-4 grid grid-cols-2 grid-rows-2 divide-contrast rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 md:grid-cols-4 md:grid-rows-1 md:divide-x"
         >
           <div
-            class="p-4 bp:p-5 sm:p-6 border-r border-gray-200/70 dark:border-zinc-800/80"
+            class="p-4 bp:p-5 sm:p-6 border-r border-gray-200 dark:border-zinc-800/80"
           >
             <div
               class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
@@ -566,7 +566,7 @@
             </div>
           </div>
           <div
-            class="p-4 bp:p-5 sm:p-6 border-r-0 md:border-r border-gray-200/70 dark:border-zinc-800/80"
+            class="p-4 bp:p-5 sm:p-6 border-r-0 md:border-r border-gray-200 dark:border-zinc-800/80"
           >
             <div
               class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
@@ -580,7 +580,7 @@
             </div>
           </div>
           <div
-            class="p-4 bp:p-5 sm:p-6 border-r-0 md:border-r border-t md:border-t-0 border-gray-200/70 dark:border-zinc-800/80"
+            class="p-4 bp:p-5 sm:p-6 border-r-0 md:border-r border-t md:border-t-0 border-gray-200 dark:border-zinc-800/80"
           >
             <div
               class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
@@ -596,7 +596,7 @@
             </div>
           </div>
           <div
-            class="p-4 bp:p-5 sm:p-6 border-t border-gray-200/70 dark:border-zinc-800/80 md:border-0 border-l border-gray-200/70 dark:border-zinc-800/80 md:border-0"
+            class="p-4 bp:p-5 sm:p-6 border-t border-gray-200 dark:border-zinc-800/80 md:border-0 border-l border-gray-200 dark:border-zinc-800/80 md:border-0"
           >
             <div
               class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
@@ -633,7 +633,7 @@
 
           <div class=" w-full m-auto mb-4 overflow-x-auto lg:overflow-hidden">
             <table
-              class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
+              class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
             >
               <thead>
                 <TableHeader
@@ -790,7 +790,7 @@
                           <div class="flex flex-col items-end">
                             {#if latestInfoDate(item?.date)}
                               <label
-                                class="rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 font-semibold text-xs px-2 py-0.5 mb-1"
+                                class="rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 font-semibold text-xs px-2 py-0.5 mb-1"
                               >
                                 New
                               </label>
@@ -819,7 +819,7 @@
                 <Button
                   on:click={() => goToPage(currentPage - 1)}
                   disabled={currentPage === 1}
-                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -847,7 +847,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm">
                         {rowsPerPage} Rows
@@ -873,7 +873,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <DropdownMenu.Group class="pb-2">
                       {#each rowsPerPageOptions as item}
@@ -897,7 +897,7 @@
                 <Button
                   on:click={() => goToPage(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="hidden sm:inline">Next</span>
                   <svg

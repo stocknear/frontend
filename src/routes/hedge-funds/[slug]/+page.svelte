@@ -138,7 +138,7 @@
           <div class="w-full m-auto mt-12">
             <div class="items-center justify-between lg:flex">
               <div
-                class="flex space-x-3 border-b border-gray-200/70 dark:border-zinc-800/80 pb-3 lg:border-none lg:pb-0"
+                class="flex space-x-3 border-b border-gray-200 dark:border-zinc-800/80 pb-3 lg:border-none lg:pb-0"
               >
                 <div class="flex space-x-3 pb-3 lg:border-none lg:pb-0">
                   <div class="shrink-0">
@@ -162,18 +162,18 @@
                   >
                     {formatString(companyName)}
                   </h1>
-                  <p
-                    class="mb-0.5 text-sm text-gray-600 dark:text-zinc-400"
-                  >
+                  <p class="mb-0.5 text-sm text-gray-600 dark:text-zinc-400">
                     CIK Number: {data?.getHedgeFundsData?.cik}
                   </p>
                 </div>
               </div>
               <div
-                class="mt-4 grid grid-cols-2 overflow-hidden rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 py-2 text-center md:grid-cols-5 md:p-0 lg:mt-0"
+                class="mt-4 grid grid-cols-2 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 py-2 text-center md:grid-cols-5 md:p-0 lg:mt-0"
               >
                 <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
-                  <div class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
+                  <div
+                    class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                  >
                     {abbreviateNumber(hedgeFundStats?.marketValue)}
                   </div>
                   <div
@@ -184,9 +184,11 @@
                 </div>
 
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200 dark:sm:border-zinc-800/80 md:py-6"
                 >
-                  <div class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
+                  <div
+                    class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                  >
                     {data?.getHedgeFundsData?.holdings?.length?.toLocaleString(
                       "en-US",
                     )}
@@ -198,9 +200,11 @@
                   </div>
                 </div>
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200 dark:sm:border-zinc-800/80 md:py-6"
                 >
-                  <div class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
+                  <div
+                    class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                  >
                     {hedgeFundStats?.averageHoldingPeriod} months
                   </div>
                   <div
@@ -211,9 +215,11 @@
                 </div>
 
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200 dark:sm:border-zinc-800/80 md:py-6"
                 >
-                  <div class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
+                  <div
+                    class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                  >
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={hedgeFundStats?.winRate >= 0
@@ -246,9 +252,11 @@
                   </div>
                 </div>
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200 dark:sm:border-zinc-800/80 md:py-6"
                 >
-                  <div class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
+                  <div
+                    class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                  >
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={hedgeFundStats?.performancePercentage3Year >= 0
@@ -288,7 +296,7 @@
             {#if data?.getHedgeFundsData?.mainSectors?.length > 0}
               <div class="mb-10 mt-10">
                 <div
-                  class="relative my-3 space-y-2 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 sm:my-6 p-4"
+                  class="relative my-3 space-y-2 rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 sm:my-6 p-4"
                 >
                   <div class="flex flex-col sm:flex-row sm:items-center">
                     <div
@@ -296,13 +304,15 @@
                     >
                       Main Sectors:
                     </div>
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-center sm:justify-start">
+                    <div
+                      class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-center sm:justify-start"
+                    >
                       {#each data?.getHedgeFundsData?.mainSectors as item}
                         <a
                           href={sectorNavigation?.find(
                             (listItem) => listItem?.title === item,
                           )?.link}
-                          class="inline-flex items-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           {item}
                         </a>
@@ -316,11 +326,13 @@
                       Top Industries:
                     </div>
 
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-center sm:justify-start">
+                    <div
+                      class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-center sm:justify-start"
+                    >
                       {#each data?.getHedgeFundsData?.mainIndustries as item}
                         <a
                           href={`/list/industry/${item?.replace(/ /g, "-")?.replace(/&/g, "and")?.replace(/-{2,}/g, "-")?.toLowerCase()}`}
-                          class="inline-flex items-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           {item}
                         </a>

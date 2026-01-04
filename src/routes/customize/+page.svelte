@@ -313,7 +313,7 @@
                   {#each availableWidgets as item (item.id)}
                     <div
                       animate:flip={{ duration: flipDurationMs }}
-                      class="border border-gray-200 dark:border-gray-800 rounded p-4 shadow"
+                      class="border border-gray-300 shadow dark:border-gray-800 rounded p-4 shadow"
                     >
                       <div class="flex items-center space-x-4">
                         <div
@@ -386,7 +386,7 @@
                     {#each selectedWidgets as item (item.id)}
                       <div
                         animate:flip={{ duration: flipDurationMs }}
-                        class="border border-gray-200 dark:border-gray-800 rounded p-4 shadow"
+                        class="border border-gray-300 shadow dark:border-gray-800 rounded p-4 shadow"
                       >
                         <div class="flex items-center space-x-4">
                           <div

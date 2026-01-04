@@ -26,9 +26,11 @@
         >
           <!-- Success Rate -->
           <div class="relative pl-14">
-            <dt class="text-lg font-semibold leading-6 text-gray-900 dark:text-white">
+            <dt
+              class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+            >
               <div
-                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80"
+                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -54,9 +56,11 @@
 
           <!-- Average Return -->
           <div class="relative pl-14">
-            <dt class="text-lg font-semibold leading-6 text-gray-900 dark:text-white">
+            <dt
+              class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+            >
               <div
-                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80"
+                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -82,9 +86,11 @@
 
           <!-- Rating Count -->
           <div class="relative pl-14">
-            <dt class="text-lg font-semibold leading-6 text-gray-900 dark:text-white">
+            <dt
+              class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+            >
               <div
-                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80"
+                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80"
               >
                 <svg
                   class="w-6 h-6"
@@ -116,9 +122,11 @@
 
           <!-- Recency -->
           <div class="relative pl-14">
-            <dt class="text-lg font-semibold leading-6 text-gray-900 dark:text-white">
+            <dt
+              class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+            >
               <div
-                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80"
+                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80"
               >
                 <svg
                   class="w-6 h-6"

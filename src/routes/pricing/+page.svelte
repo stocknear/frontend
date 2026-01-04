@@ -154,9 +154,7 @@
     <div
       class="absolute -top-24 left-1/2 h-72 w-[120%] -translate-x-1/2 bg-transparent"
     ></div>
-    <div
-      class="absolute inset-0 bg-transparent"
-    ></div>
+    <div class="absolute inset-0 bg-transparent"></div>
   </div>
 
   <div class="relative">
@@ -1653,11 +1651,11 @@
         -->
 
         <div
-          class="mt-auto pt-6 border-t border-gray-200/70 dark:border-zinc-800/80 mx-2"
+          class="mt-auto pt-6 border-t border-gray-200 dark:border-zinc-800/80 mx-2"
         >
           {#if data?.user?.tier === "Pro"}
             <div
-              class="w-full py-3 px-4 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 font-semibold text-gray-500 dark:text-zinc-400 flex items-center justify-center cursor-not-allowed"
+              class="w-full py-3 px-4 rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 font-semibold text-gray-500 dark:text-zinc-400 flex items-center justify-center cursor-not-allowed"
             >
               <svg
                 class="w-5 h-5 mr-2"
@@ -1677,7 +1675,7 @@
           {:else if data?.user?.tier === "Plus"}
             <a
               href="/profile"
-              class="cursor-pointer w-full py-3 px-4 border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 rounded-full font-semibold text-gray-900 dark:text-white transition hover:text-violet-600 dark:hover:text-violet-400 flex items-center justify-center"
+              class="cursor-pointer w-full py-3 px-4 border border-gray-300 shadow dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 rounded-full font-semibold text-gray-900 dark:text-white transition hover:text-violet-600 dark:hover:text-violet-400 flex items-center justify-center"
               >Upgrade in Account<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
@@ -1720,7 +1718,7 @@
 
     {#if ["Plus", "Pro"].includes(data?.user?.tier)}
       <div
-        class="mx-auto w-full mt-10 p-4 rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
+        class="mx-auto w-full mt-10 p-4 rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
       >
         <div class="flex items-center gap-3">
           <svg

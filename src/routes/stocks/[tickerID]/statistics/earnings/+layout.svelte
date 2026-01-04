@@ -55,16 +55,18 @@
                         : ''}"
                 >
                     <nav
-                        class="mb-5 sm:mb-0 sm:ml-4 pt-1 text-sm whitespace-nowrap overflow-x-auto border-b border-gray-200/70 dark:border-zinc-800/80"
+                        class="mb-5 sm:mb-0 sm:ml-4 pt-1 text-sm whitespace-nowrap overflow-x-auto border-b border-gray-200 dark:border-zinc-800/80"
                     >
-                        <ul class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base">
+                        <ul
+                            class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base"
+                        >
                             <a
                                 href={`/stocks/${$stockTicker}/statistics/earnings`}
                                 on:click={() => changeSubSection("surprise")}
                                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                                 'surprise'
-                                    ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                                    : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                                    ? 'border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                                    : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                             >
                                 Surprise
                             </a>
@@ -75,8 +77,8 @@
                                     changeSubSection("price-reaction")}
                                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                                 'price-reaction'
-                                    ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                                    : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                                    ? 'border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                                    : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                             >
                                 Price Reaction
                             </a>
@@ -90,7 +92,7 @@
                     <aside class="inline-block relative w-full lg:w-1/4 mt-3">
                         {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
                             <div
-                                class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
+                                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
                             >
                                 <a
                                     href="/pricing"
@@ -114,7 +116,7 @@
                         {/if}
 
                         <div
-                            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
+                            class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
                         >
                             <h3 class="p-2 pt-4 text-xl font-semibold">
                                 Earnings Surprise
@@ -140,7 +142,7 @@
 
                         {#if similarStocks?.length > 0}
                             <div
-                                class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
+                                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
                             >
                                 <h3 class="p-2 pt-4 text-xl font-semibold">
                                     Related Stocks
@@ -148,14 +150,15 @@
                                 <table
                                     class="table table-sm table-compact w-full text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
                                 >
-                                    <thead class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                                    <thead
+                                        class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                                         ><tr
                                             ><th
-                                                class="whitespace-nowrap border-b border-gray-200/70 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-left px-2"
+                                                class="whitespace-nowrap border-b border-gray-200 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-left px-2"
                                                 >Company</th
                                             >
                                             <th
-                                                class="whitespace-nowrap border-b border-gray-200/70 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-right px-2"
+                                                class="whitespace-nowrap border-b border-gray-200 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-right px-2"
                                                 >EPS Est Growth YoY</th
                                             ></tr
                                         ></thead
@@ -164,7 +167,7 @@
                                         {#each similarStocks?.slice(0, 8) as item, index}
                                             {#if item?.name}
                                                 <tr
-                                                    class="border-gray-200/70 dark:border-zinc-800/80 text-sm {index !==
+                                                    class="border-gray-200 dark:border-zinc-800/80 text-sm {index !==
                                                     similarStocks?.slice(0, 8)
                                                         ?.length -
                                                         1

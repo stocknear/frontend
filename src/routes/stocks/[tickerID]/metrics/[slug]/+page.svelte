@@ -574,7 +574,7 @@
                   >
                     <!-- Tabs (segmented pill) -->
                     <div
-                      class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-200/70 dark:border-zinc-800/80
+                      class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-800/80
            "
                     >
                       {#each tabs as item, i (item)}
@@ -596,7 +596,7 @@
                         <DropdownMenu.Trigger asChild let:builder>
                           <Button
                             builders={[builder]}
-                            class="flex-shrink-0 transition-all border border-gray-200/70 dark:border-zinc-800/80
+                            class="flex-shrink-0 transition-all border border-gray-300 shadow dark:border-zinc-800/80
                  bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900
                  text-gray-900 dark:text-white rounded-full px-3 py-1.5 text-xs
                  flex flex-row items-center gap-2 truncate disabled:opacity-60 disabled:cursor-not-allowed"
@@ -683,7 +683,7 @@
                   <div class="grow">
                     <div class="relative">
                       <div
-                        class="mt-5 shadow-none sm:mt-0 sm:border sm:border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                        class="mt-5 shadow-none sm:mt-0 sm:border sm:border-gray-200 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                         use:highcharts={config}
                       ></div>
                     </div>
@@ -692,7 +692,7 @@
               {/if}
 
               <div
-                class=" mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-200/70 dark:border-zinc-800/80 py-2"
+                class=" mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-200 dark:border-zinc-800/80 py-2"
               >
                 <h3 class="text-xl sm:text-2xl font-bold">History</h3>
                 <div class="ml-2">
@@ -706,7 +706,7 @@
 
               <div class="w-full overflow-x-auto">
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums m-auto mt-4"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums m-auto mt-4"
                 >
                   <thead
                     class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
@@ -741,7 +741,7 @@
                 </table>
               </div>
               <div
-                class="text-sm border border-gray-200/70 dark:border-zinc-800/80 p-3 mt-4"
+                class="text-sm border border-gray-300 shadow dark:border-zinc-800/80 p-3 mt-4"
               >
                 <strong>Source:</strong> Business metrics provided by
                 <a

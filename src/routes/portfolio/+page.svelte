@@ -849,7 +849,7 @@
             <div
               class="flex w-full sm:w-[50%] md:w-auto mb-5 {!data?.user
                 ? 'hidden'
-                : 'md:block'} border-t border-b border-gray-200/70 dark:border-zinc-800/80 py-2"
+                : 'md:block'} border-t border-b border-gray-200 dark:border-zinc-800/80 py-2"
             >
               <div
                 class="w-full grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-0 sm:flex sm:flex-row sm:items-center"
@@ -859,7 +859,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="min-w-[110px] w-full sm:w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-zinc-200 bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="min-w-[110px] w-full sm:w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-zinc-200 bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate font-medium text-sm"
                           >{displayPortfolio?.title !== undefined
@@ -886,7 +886,7 @@
                       align="start"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 shadow-none"
+                      class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 shadow-none"
                     >
                       <DropdownMenu.Label>
                         <DropdownMenu.Trigger asChild let:builder>
@@ -923,7 +923,8 @@
                         {#each allList as item}
                           <DropdownMenu.Item
                             on:click={() => changePortfolio(item)}
-                            class="text-sm cursor-pointer {item?.id === displayPortfolio?.id
+                            class="text-sm cursor-pointer {item?.id ===
+                            displayPortfolio?.id
                               ? 'text-gray-900 dark:text-white font-semibold'
                               : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400'}"
                           >
@@ -968,20 +969,20 @@
                     <div class="relative sm:ml-3 w-full">
                       <Combobox.Input
                         on:input={search}
-                        class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-200/70 dark:border-zinc-800/80 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full"
+                        class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-200 dark:border-zinc-800/80 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full"
                         placeholder="Add stock..."
                         aria-label="Add stock..."
                       />
                     </div>
 
                     <Combobox.Content
-                      class="w-auto z-10 rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 px-1 py-1.5 outline-hidden shadow-none"
+                      class="w-auto z-10 rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 px-1 py-1.5 outline-hidden shadow-none"
                       sideOffset={8}
                     >
                       {#if inputValue?.length > 0}
                         {#each searchBarData as item}
                           <Combobox.Item
-                            class="cursor-pointer border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-600 dark:data-[highlighted]:text-violet-400"
+                            class="cursor-pointer border-b border-gray-200 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-600 dark:data-[highlighted]:text-violet-400"
                             value={item?.symbol}
                             label={item?.name}
                             on:click={(e) => handleAddTicker(e, item?.symbol)}
@@ -1007,9 +1008,11 @@
                         {/each}
                       {:else}
                         <Combobox.Item
-                          class="cursor-pointer border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
+                          class="cursor-pointer border-b border-gray-200 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                         >
-                          <span class=" text-sm text-gray-500 dark:text-zinc-400">
+                          <span
+                            class=" text-sm text-gray-500 dark:text-zinc-400"
+                          >
                             No results found
                           </span>
                         </Combobox.Item>
@@ -1028,7 +1031,7 @@
                     {#if editMode}
                       <label
                         on:click={handleDeleteTickers}
-                        class="w-full border text-sm border-gray-200/70 dark:border-zinc-800/80 mr-2 sm:ml-3 sm:mr-0 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-600 dark:hover:text-rose-400"
+                        class="w-full border text-sm border-gray-200 dark:border-zinc-800/80 mr-2 sm:ml-3 sm:mr-0 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-600 dark:hover:text-rose-400"
                       >
                         <svg
                           class="inline-block w-5 h-5"
@@ -1046,7 +1049,7 @@
                     {/if}
                     <label
                       on:click={handleEditMode}
-                      class=" w-full border text-sm border-gray-200/70 dark:border-zinc-800/80 sm:ml-3 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
+                      class=" w-full border text-sm border-gray-200 dark:border-zinc-800/80 sm:ml-3 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
                     >
                       <svg
                         class="inline-block w-5 h-5"
@@ -1189,7 +1192,7 @@
                     />
 
                     <div
-                      class="w-full m-auto border-b border-gray-200/70 dark:border-zinc-800/80 mt-10 mb-5"
+                      class="w-full m-auto border-b border-gray-200 dark:border-zinc-800/80 mt-10 mb-5"
                     ></div>
 
                     <div class=" ">
@@ -1207,8 +1210,8 @@
                                     on:click={() => changeTab(i)}
                                     class="cursor-pointer px-3 py-1.5 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-150 rounded-full border
                           {activeIdx === i
-                                      ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                                      : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80'}"
+                                      ? 'border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                                      : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
                                   >
                                     {item.title}
                                   </button>
@@ -1221,15 +1224,17 @@
                       {#if activeIdx === 0}
                         {#if groupedNews?.length > 0}
                           {#each displayList as [date, titleGroups]}
-                            <h3 class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400">
+                            <h3
+                              class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400"
+                            >
                               {date}
                             </h3>
                             <div
-                              class="border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                              class="border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                             >
                               {#each titleGroups as { title, items, symbols }, index}
                                 <div
-                                  class="flex border-gray-200/70 {index > 0
+                                  class="flex border-gray-200 {index > 0
                                     ? 'border-t'
                                     : ''} dark:border-zinc-800/80 text-sm"
                                 >
@@ -1279,22 +1284,26 @@
                             </div>
                           {/each}
                         {:else}
-                          <span class="text-sm text-gray-600 dark:text-zinc-300">
+                          <span
+                            class="text-sm text-gray-600 dark:text-zinc-300"
+                          >
                             No news yet. Add some stocks to the portfolio to see
                             the latest news.
                           </span>
                         {/if}
                       {:else if groupedEarnings?.length > 0}
                         {#each displayList as [date, titleGroups]}
-                          <h3 class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400">
+                          <h3
+                            class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400"
+                          >
                             {date}
                           </h3>
                           <div
-                            class="border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                            class="border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                           >
                             {#each titleGroups as item, index}
                               <div
-                                class="flex border-gray-200/70 dark:border-zinc-800/80 text-sm"
+                                class="flex border-gray-200 dark:border-zinc-800/80 text-sm"
                               >
                                 <div
                                   class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
@@ -1305,7 +1314,7 @@
                                   class="grow px-3 py-2 lg:py-1 break-normal {index >
                                   0
                                     ? 'border-t'
-                                    : ''} border-gray-200/70 dark:border-zinc-800/80"
+                                    : ''} border-gray-200 dark:border-zinc-800/80"
                                 >
                                   <div>
                                     {removeCompanyStrings(item?.name)}
@@ -1413,7 +1422,7 @@
 
   <!-- Desktop modal content -->
   <div
-    class="modal-box w-full bg-white dark:bg-zinc-950 rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 shadow-none"
+    class="modal-box w-full bg-white dark:bg-zinc-950 rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 shadow-none"
   >
     <div class="mb-5">
       <h3 class="font-bold text-2xl mb-5">New Portfolio</h3>
@@ -1451,7 +1460,7 @@
   <label for="deletePortfolio" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 rounded-2xl border bg-white dark:bg-zinc-950 border-gray-200/70 dark:border-zinc-800/80"
+    class="modal-box w-full p-6 rounded-2xl border bg-white dark:bg-zinc-950 border-gray-200 dark:border-zinc-800/80"
   >
     <h3 class="text-lg font-medium mb-2">Delete Portfolio</h3>
     <p class="text-sm mb-6">
@@ -1461,7 +1470,7 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deletePortfolio"
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
         tabindex="0">Cancel</label
       ><label
         for="deletePortfolio"

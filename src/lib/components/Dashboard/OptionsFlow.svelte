@@ -28,9 +28,13 @@
     ></a
   >
   {#if optionsFlowList?.length > 0}
-    <table class="w-full text-sm sm:text-[0.95rem] border-t border-gray-200/70 dark:border-zinc-800/80">
+    <table
+      class="w-full text-sm sm:text-[0.95rem] border-t border-gray-200 dark:border-zinc-800/80"
+    >
       <thead>
-        <tr class="text-xs uppercase tracking-widest text-gray-500 dark:text-zinc-500">
+        <tr
+          class="text-xs uppercase tracking-widest text-gray-500 dark:text-zinc-500"
+        >
           <th class="py-2 text-left font-semibold">Symbol</th>
           <th class="py-2 text-left font-semibold">Prem</th>
           <th class="py-2 text-left font-semibold">Strike</th>
@@ -40,7 +44,7 @@
       </thead>
       <tbody>
         {#each optionsFlowList as item}
-          <tr class="border-b border-gray-200/70 dark:border-zinc-800/80">
+          <tr class="border-b border-gray-200 dark:border-zinc-800/80">
             <td class="py-3 text-left whitespace-nowrap">
               <a
                 href={`/${item?.underlying_type === "stock" ? "stocks" : "etf"}/${item?.ticker}/options/unusual-activity`}
@@ -56,7 +60,8 @@
             </td>
             <td class="py-3 text-left">
               {#if item?.put_call === "Calls"}
-                <span class="text-emerald-600 dark:text-emerald-400 font-semibold"
+                <span
+                  class="text-emerald-600 dark:text-emerald-400 font-semibold"
                   >{item?.put_call}</span
                 >
               {:else}

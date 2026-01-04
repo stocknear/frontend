@@ -29,7 +29,7 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:pr-5">
-          <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
+          <div class="mb-6 border-b border-gray-200 dark:border-zinc-800/80">
             <h1
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
@@ -37,7 +37,9 @@
             </h1>
           </div>
 
-          <div class="w-full m-auto text-sm sm:text-base text-gray-600 dark:text-zinc-400">
+          <div
+            class="w-full m-auto text-sm sm:text-base text-gray-600 dark:text-zinc-400"
+          >
             <div class="">
               <p class="italic mb-2 text-xs text-gray-500 dark:text-zinc-500">
                 According to § 5 Telemediengesetz (TMG) ‍
@@ -94,7 +96,9 @@
                 above e-mail and phone number.
               </p>
 
-              <h2 class="mb-3 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white">
+              <h2
+                class="mb-3 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
+              >
                 Notice in accordance with the Consumer Dispute Settlement Act
                 (VSBG)
               </h2>
@@ -104,10 +108,14 @@
                 resolution proceedings before a consumer arbitration board.
               </p>
 
-              <h1 class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white text-start mb-5">
+              <h1
+                class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white text-start mb-5"
+              >
                 Disclaimer - legal notice
               </h1>
-              <h1 class="text-lg font-semibold text-gray-900 dark:text-white text-start mb-3 ml-2">
+              <h1
+                class="text-lg font-semibold text-gray-900 dark:text-white text-start mb-3 ml-2"
+              >
                 § 1 Content warning
               </h1>
 
@@ -124,7 +132,9 @@
                 the provider to be legally bound.
               </p>
 
-              <h1 class="text-lg font-semibold text-gray-900 dark:text-white text-start mb-3 ml-2">
+              <h1
+                class="text-lg font-semibold text-gray-900 dark:text-white text-start mb-3 ml-2"
+              >
                 § 2 External Links
               </h1>
               <p class=" mb-3 ml-2">
@@ -143,7 +153,9 @@
                 immediately.
               </p>
 
-              <h1 class="text-lg font-semibold text-gray-900 dark:text-white text-start mb-3 ml-2">
+              <h1
+                class="text-lg font-semibold text-gray-900 dark:text-white text-start mb-3 ml-2"
+              >
                 § 3 Copyrights and ancillary copyrights
               </h1>
               <p class=" mb-3 ml-2">
@@ -162,7 +174,9 @@
                 external frames is only permitted with written permission.
               </p>
 
-              <h1 class="text-lg font-semibold text-gray-900 dark:text-white text-start mb-3 ml-2">
+              <h1
+                class="text-lg font-semibold text-gray-900 dark:text-white text-start mb-3 ml-2"
+              >
                 § 4 Special conditions of use
               </h1>
               <p class=" mb-3 ml-2">
@@ -178,38 +192,46 @@
 
         <aside class="hidden lg:block relative fixed w-1/4 ml-4">
           <div
-            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
+            class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href="/donation"
               class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-lg font-semibold ml-3">Sponsor Us</h2>
+                <h2 class="text-start text-lg font-semibold ml-3">
+                  Sponsor Us
+                </h2>
                 <ArrowLogo
                   class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                 />
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
+              <span
+                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+              >
                 Learn more about why we're doing this here
               </span>
             </a>
           </div>
 
           <div
-            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
+            class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href="/contact"
               class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-lg font-semibold ml-3">Contact Us</h2>
+                <h2 class="text-start text-lg font-semibold ml-3">
+                  Contact Us
+                </h2>
                 <ArrowLogo
                   class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                 />
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
+              <span
+                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+              >
                 Let me know if you need something
               </span>
             </a>

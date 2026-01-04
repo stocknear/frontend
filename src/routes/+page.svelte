@@ -109,7 +109,7 @@
         href="/pricing"
         class="group relative cursor-pointer flex items-center gap-3 px-5 py-3 text-sm font-medium rounded-xl
                bg-gradient-to-r from-gray-50 to-white dark:from-zinc-900 dark:to-zinc-800
-               border border-gray-200 dark:border-zinc-700/50
+               border border-gray-300 shadow dark:border-zinc-700/50
                shadow-sm hover:shadow-md dark:shadow-none
                transition-all duration-300"
         tabindex="0"
@@ -214,7 +214,7 @@
           {#each Object.keys(plotData) as symbol}
             <a
               href="/etf/{symbol}"
-              class="block shadow-sm rounded overflow-hidden hover:shadow-md transition-shadow bg-white dark:bg-[#121214] border border-gray-200 dark:border-gray-700"
+              class="block shadow-sm rounded overflow-hidden hover:shadow-md transition-shadow bg-white dark:bg-[#121214] border border-gray-300 shadow dark:border-gray-700"
             >
               <MiniPlot plotData={plotData[symbol]} {symbol} />
             </a>

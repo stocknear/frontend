@@ -99,7 +99,7 @@
                           </span>
                           {#if latestInfoDate(item?.date)}
                             <label
-                              class="bg-white/80 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80 rounded-full font-semibold text-[0.7rem] px-2 py-0.5 ml-3"
+                              class="bg-white/80 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80 rounded-full font-semibold text-[0.7rem] px-2 py-0.5 ml-3"
                               >New</label
                             >
                           {/if}
@@ -138,7 +138,9 @@
                               >
                             </span>
                           {:else}
-                            <span class="text-sm text-gray-600 dark:text-zinc-400">
+                            <span
+                              class="text-sm text-gray-600 dark:text-zinc-400"
+                            >
                               {item?.text}
                             </span>
                           {/if}

@@ -285,7 +285,9 @@
 
 <div class="w-full">
     <div class="mb-3 sm:mb-5">
-        <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2">
+        <h2
+            class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2"
+        >
             Diversification
         </h2>
     </div>
@@ -301,7 +303,7 @@
                 </h3>
                 {#if portfolioData?.length > 0}
                     <span
-                        class="px-3 py-1 rounded-full text-sm font-medium border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 {getScoreColor(
+                        class="px-3 py-1 rounded-full text-sm font-medium border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 {getScoreColor(
                             diversificationMetrics?.hhiScore,
                         )}"
                     >
@@ -314,8 +316,12 @@
         <!-- Metrics Grid -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <!-- HHI Score -->
-            <div class="bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4">
-                <div class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center">
+            <div
+                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl p-4"
+            >
+                <div
+                    class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center"
+                >
                     <span>HHI Score</span>
                     <InfoModal
                         id="hhi"
@@ -339,8 +345,12 @@
             </div>
 
             <!-- Sectors & Industries -->
-            <div class="bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4">
-                <div class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center">
+            <div
+                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl p-4"
+            >
+                <div
+                    class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center"
+                >
                     <span>Sectors / Industries</span>
                     <InfoModal
                         id="sectors"
@@ -359,8 +369,12 @@
             </div>
 
             <!-- Largest Position -->
-            <div class="bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4">
-                <div class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center">
+            <div
+                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl p-4"
+            >
+                <div
+                    class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center"
+                >
                     <span>Largest Position</span>
                     <InfoModal
                         id="largest"
@@ -384,8 +398,12 @@
             </div>
 
             <!-- Top 5 Concentration -->
-            <div class="bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4">
-                <div class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center">
+            <div
+                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl p-4"
+            >
+                <div
+                    class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center"
+                >
                     <span>Top 5 Holdings</span>
                     <InfoModal
                         id="top5"

@@ -862,8 +862,10 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
-            <h1 class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          <div class="mb-6 border-b border-gray-200 dark:border-zinc-800/80">
+            <h1
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
               {tickerList?.length === 0
                 ? "Compare Stocks"
                 : `Compare Stocks: ${tickerList.join(" vs ")}`}
@@ -907,7 +909,7 @@
                       disabled={tickerList?.length > 10 ? true : false}
                       class="{tickerList?.length > 10
                         ? 'cursor-not-allowed'
-                        : ''} text-[0.85rem] sm:text-sm border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+                        : ''} text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
                       placeholder="Find..."
                       aria-label="Find..."
                     />
@@ -916,13 +918,13 @@
                   <Combobox.Content
                     class="z-10 w-full {inputValue?.length > 0
                       ? ''
-                      : 'hidden'} rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none outline-hidden"
+                      : 'hidden'} rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none outline-hidden"
                     sideOffset={8}
                   >
                     {#if inputValue?.length !== 0}
                       {#each searchBarData as searchItem}
                         <Combobox.Item
-                          class="py-2.5 cursor-pointer border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-lg px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                          class="py-2.5 cursor-pointer border-b border-gray-200 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-lg px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                           value={searchItem?.symbol}
                           label={searchItem?.symbol}
                           on:click={(e) => addTicker(searchItem)}
@@ -930,8 +932,7 @@
                           <div
                             class="flex flex-col sm:flex-row items-start sm:items-center"
                           >
-                            <span
-                              class="text-sm text-gray-900 dark:text-white"
+                            <span class="text-sm text-gray-900 dark:text-white"
                               >{searchItem?.symbol}</span
                             >
                             <span
@@ -949,7 +950,7 @@
                       {/each}
                     {:else}
                       <Combobox.Item
-                        class="cursor-pointer border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
+                        class="cursor-pointer border-b border-gray-200 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                       >
                         <span class="text-sm text-gray-500 dark:text-zinc-400">
                           {inputValue?.length > 0
@@ -968,7 +969,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-full min-w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-full min-w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-sm"
                           >{selectedPlotCategory?.name}</span
@@ -993,7 +994,7 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-full max-w-80 sm:w-64 h-fit max-h-72 overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      class="w-full max-w-80 sm:w-64 h-fit max-h-72 overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                     >
                       <DropdownMenu.Group>
                         {#each categoryList as item}
@@ -1014,7 +1015,7 @@
               <div class="w-full">
                 {#each tickerList as t, i}
                   <span
-                    class="inline-flex items-center gap-x-2 mb-1.5 sm:mt-0 mr-2 px-2 py-1 text-xs sm:text-sm font-semibold rounded-full border border-gray-200/70 dark:border-zinc-800/80 border-l-4 bg-white/80 dark:bg-zinc-900/50"
+                    class="inline-flex items-center gap-x-2 mb-1.5 sm:mt-0 mr-2 px-2 py-1 text-xs sm:text-sm font-semibold rounded-full border border-gray-300 shadow dark:border-zinc-800/80 border-l-4 bg-white/80 dark:bg-zinc-900/50"
                     style="border-left-color: {colorPairs[
                       i % colorPairs?.length
                     ][$mode ? 'dark' : 'light']}"
@@ -1058,7 +1059,8 @@
                   {#each ["1Y", "3Y", "5Y", "Max"] as item}
                     <label
                       on:click={() => changePlotPeriod(item)}
-                      class="px-2 sm:px-3 py-1 rounded-full text-xs font-semibold border border-gray-200/70 dark:border-zinc-800/80 transition cursor-pointer {selectedPlotPeriod === item
+                      class="px-2 sm:px-3 py-1 rounded-full text-xs font-semibold border border-gray-300 shadow dark:border-zinc-800/80 transition cursor-pointer {selectedPlotPeriod ===
+                      item
                         ? 'bg-gray-100/70 text-gray-900 dark:bg-zinc-900/60 dark:text-white'
                         : 'text-gray-500 dark:text-zinc-400 bg-white/80 dark:bg-zinc-950/40 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
                     >
@@ -1068,16 +1070,16 @@
                 </div>
               </div>
               <div
-                class="border border-gray-200/70 dark:border-zinc-800/80 rounded-lg bg-white/70 dark:bg-zinc-950/40 w-full"
+                class="border border-gray-300 shadow dark:border-zinc-800/80 rounded-lg bg-white/70 dark:bg-zinc-950/40 w-full"
                 use:highcharts={configGraph}
               ></div>
             {:else}
               <div
-                class="mt-2 flex justify-center items-center h-96 border border-gray-200/70 dark:border-zinc-800/80 rounded-lg bg-white/70 dark:bg-zinc-950/40"
+                class="mt-2 flex justify-center items-center h-96 border border-gray-300 shadow dark:border-zinc-800/80 rounded-lg bg-white/70 dark:bg-zinc-950/40"
               >
                 <div class="relative">
                   <label
-                    class="bg-white/90 dark:bg-zinc-950/70 border border-gray-200/70 dark:border-zinc-800/80 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                    class="bg-white/90 dark:bg-zinc-950/70 border border-gray-300 shadow dark:border-zinc-800/80 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                   >
                     <span
                       class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
@@ -1102,7 +1104,9 @@
             {/if}
 
             {#if configReturn && isLoaded && tickerList?.length > 0}
-              <h2 class="mt-8 text-xl -mb-2 sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+              <h2
+                class="mt-8 text-xl -mb-2 sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              >
                 Average Return
               </h2>
               <Infobox
@@ -1110,7 +1114,7 @@
               />
 
               <div
-                class="mt-5 border border-gray-200/70 dark:border-zinc-800/80 rounded-lg bg-white/70 dark:bg-zinc-950/40 w-full"
+                class="mt-5 border border-gray-300 shadow dark:border-zinc-800/80 rounded-lg bg-white/70 dark:bg-zinc-950/40 w-full"
               >
                 <div use:highcharts={configReturn}></div>
 
@@ -1118,7 +1122,7 @@
                   <table class="w-full">
                     <thead
                       ><tr
-                        class="border-b border-gray-200/70 dark:border-zinc-800/80 text-left *:px-2 *:py-1 *:font-semibold text-xs uppercase tracking-wide text-gray-600 dark:text-zinc-300"
+                        class="border-b border-gray-200 dark:border-zinc-800/80 text-left *:px-2 *:py-1 *:font-semibold text-xs uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                         ><th class="text-left">Symbol</th> <th>1 Month</th>
                         <th>Year-to-date</th>
                         <th>1 Year</th> <th>5 Years</th>
@@ -1128,7 +1132,7 @@
                     <tbody>
                       {#each tickerList as ticker, idx}
                         <tr
-                          class="border-b border-gray-200/70 dark:border-zinc-800/80 text-left *:px-2 *:py-1 last:border-0 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
+                          class="border-b border-gray-200 dark:border-zinc-800/80 text-left *:px-2 *:py-1 last:border-0 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
                         >
                           <td class="flex items-center gap-x-1">
                             <div
@@ -1159,73 +1163,75 @@
             {/if}
 
             <div class="mt-6 md:mt-10">
-              <h3 class="font-semibold tracking-tight text-gray-900 dark:text-white text-xl md:text-2xl">
+              <h3
+                class="font-semibold tracking-tight text-gray-900 dark:text-white text-xl md:text-2xl"
+              >
                 Popular Stock Comparisons
               </h3>
               <div class="my-4 sm:flex md:my-5">
                 <div class="grid grid-cols-2 gap-x-2 gap-y-1 sm:grid-cols-4">
                   <a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["NVDA", "INTC"])}
                     >NVDA vs. INTC</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["AAPL", "MSFT"])}
                     >AAPL vs. MSFT</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["GOOGL", "META"])}
                     >GOOGL vs. META</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["AMZN", "BABA"])}
                     >AMZN vs. BABA</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["TSLA", "RIVN"])}
                     >TSLA vs. RIVN</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["AMD", "INTC"])}
                     >AMD vs. INTC</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["SHOP", "SQ"])}
                     >SHOP vs. SQ</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["PYPL", "SQ"])}
                     >PYPL vs. SQ</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["NFLX", "DIS"])}
                     >NFLX vs. DIS</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["UBER", "LYFT"])}
                     >UBER vs. LYFT</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["COIN", "HOOD"])}
                     >COIN vs. HOOD</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["SPOT", "ROKU"])}
                     >SPOT vs. ROKU</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["CRM", "NOW"])}
                     >CRM vs. NOW</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["JNJ", "PFE"])}
                     >JNJ vs. PFE</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["NKE", "LULU"])}
                     >NKE vs. LULU</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["ABNB", "BKNG"])}
                     >ABNB vs. BKNG</a
                   >
@@ -1234,7 +1240,7 @@
             </div>
           {:else}
             <div
-              class="mt-3 rounded-lg border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 xs:mt-4 md:mt-6"
+              class="mt-3 rounded-lg border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 xs:mt-4 md:mt-6"
             >
               <div
                 class="flex h-[300px] w-full items-center justify-center overflow-y-hidden rounded px-8 bp:h-[350px] md:h-[400px] lg:h-[500px]"
@@ -1246,73 +1252,75 @@
             </div>
 
             <div class="mt-6 md:mt-10">
-              <h3 class="font-semibold tracking-tight text-gray-900 dark:text-white text-xl md:text-2xl">
+              <h3
+                class="font-semibold tracking-tight text-gray-900 dark:text-white text-xl md:text-2xl"
+              >
                 Popular Stock Comparisons
               </h3>
               <div class="my-4 sm:flex md:my-5">
                 <div class="grid grid-cols-2 gap-x-2 gap-y-1 sm:grid-cols-4">
                   <a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["NVDA", "INTC"])}
                     >NVDA vs. INTC</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["AAPL", "MSFT"])}
                     >AAPL vs. MSFT</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["GOOGL", "META"])}
                     >GOOGL vs. META</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["AMZN", "BABA"])}
                     >AMZN vs. BABA</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["TSLA", "RIVN"])}
                     >TSLA vs. RIVN</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["AMD", "INTC"])}
                     >AMD vs. INTC</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["SHOP", "SQ"])}
                     >SHOP vs. SQ</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["PYPL", "SQ"])}
                     >PYPL vs. SQ</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["NFLX", "DIS"])}
                     >NFLX vs. DIS</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["UBER", "LYFT"])}
                     >UBER vs. LYFT</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["COIN", "HOOD"])}
                     >COIN vs. HOOD</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["SPOT", "ROKU"])}
                     >SPOT vs. ROKU</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["CRM", "NOW"])}
                     >CRM vs. NOW</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["JNJ", "PFE"])}
                     >JNJ vs. PFE</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["NKE", "LULU"])}
                     >NKE vs. LULU</a
                   ><a
-                    class="cursor-pointer flex justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                    class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                     on:click={() => presetStrategy(["ABNB", "BKNG"])}
                     >ABNB vs. BKNG</a
                   >

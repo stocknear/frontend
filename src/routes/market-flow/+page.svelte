@@ -250,7 +250,9 @@
   }}
 />
 
-<section class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200">
+<section
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
+>
   <div class="w-full overflow-hidden m-auto">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
       <div
@@ -258,9 +260,16 @@
       >
         <main class="w-full">
           <div class="w-full m-auto">
-            <p class="mb-10 text-sm sm:text-base leading-6 text-gray-600 dark:text-zinc-300">
-              Overview for all option chains of <strong class="font-semibold text-gray-900 dark:text-white">S&P500</strong>. As of
-              <strong class="font-semibold text-gray-900 dark:text-white">{marketFlowDate}</strong>, the total volume is
+            <p
+              class="mb-10 text-sm sm:text-base leading-6 text-gray-600 dark:text-zinc-300"
+            >
+              Overview for all option chains of <strong
+                class="font-semibold text-gray-900 dark:text-white"
+                >S&P500</strong
+              >. As of
+              <strong class="font-semibold text-gray-900 dark:text-white"
+                >{marketFlowDate}</strong
+              >, the total volume is
               <strong class="font-semibold text-gray-900 dark:text-white">
                 {#if isPro}
                   {(overview?.putVol + overview?.callVol)?.toLocaleString(
@@ -460,20 +469,27 @@
 
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <div
-                class="net-volume-driver rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4"
+                class="net-volume-driver rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
-                <div class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center">
+                <div
+                  class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center"
+                >
                   <span>Net Volume</span>
                 </div>
                 <div class="flex items-baseline">
                   {#if data?.user?.tier === "Pro"}
-                    <span class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums">
+                    <span
+                      class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
+                    >
                       {abbreviateNumber(
                         findLastNonNull(marketTideData, "net_volume"),
                       )}</span
                     >
                   {:else}
-                    <a href="/pricing" class="mt-1 inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition">
+                    <a
+                      href="/pricing"
+                      class="mt-1 inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    >
                       <svg
                         class="size-5"
                         viewBox="0 0 20 20"
@@ -493,20 +509,27 @@
               </div>
 
               <div
-                class="net-call-premium-driver rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4"
+                class="net-call-premium-driver rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
-                <div class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center">
+                <div
+                  class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center"
+                >
                   <span>Net Call Prem</span>
                 </div>
                 <div class="flex items-baseline">
                   {#if data?.user?.tier === "Pro"}
-                    <span class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums">
+                    <span
+                      class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
+                    >
                       {abbreviateNumber(
                         findLastNonNull(marketTideData, "net_call_premium"),
                       )}</span
                     >
                   {:else}
-                    <a href="/pricing" class="mt-1 inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition">
+                    <a
+                      href="/pricing"
+                      class="mt-1 inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    >
                       <svg
                         class="size-5"
                         viewBox="0 0 20 20"
@@ -526,20 +549,27 @@
               </div>
 
               <div
-                class="net-put-premium-driver rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4"
+                class="net-put-premium-driver rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
-                <div class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center">
+                <div
+                  class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center"
+                >
                   <span>Net Put Prem</span>
                 </div>
                 <div class="flex items-baseline">
                   {#if data?.user?.tier === "Pro"}
-                    <span class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums">
+                    <span
+                      class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
+                    >
                       {abbreviateNumber(
                         findLastNonNull(marketTideData, "net_put_premium"),
                       )}</span
                     >
                   {:else}
-                    <a href="/pricing" class="mt-1 inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition">
+                    <a
+                      href="/pricing"
+                      class="mt-1 inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    >
                       <svg
                         class="size-5"
                         viewBox="0 0 20 20"
@@ -558,8 +588,12 @@
                 </div>
               </div>
 
-              <div class="rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4">
-                <div class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center">
+              <div
+                class="rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4"
+              >
+                <div
+                  class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center"
+                >
                   <span>Most Active Sector</span>
                 </div>
                 <div class="flex items-baseline">
@@ -576,7 +610,10 @@
                         : "n/a"}
                     </a>
                   {:else}
-                    <a href="/pricing" class="mt-1 inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition">
+                    <a
+                      href="/pricing"
+                      class="mt-1 inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    >
                       <svg
                         class="size-5"
                         viewBox="0 0 20 20"
@@ -672,10 +709,14 @@
                 <div
                   class="flex flex-row items-center justify-between mb-2 mt-5"
                 >
-                  <h2 class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit">
+                  <h2
+                    class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
+                  >
                     Fear & Greed Index
                   </h2>
-                  <h3 class="text-xs italic text-gray-500 dark:text-zinc-500 w-fit">
+                  <h3
+                    class="text-xs italic text-gray-500 dark:text-zinc-500 w-fit"
+                  >
                     Last Update: {new Date(
                       data?.getFearAndGreed?.current?.date,
                     )?.toLocaleDateString("en-US", {
@@ -694,7 +735,9 @@
               </div>
 
               <div class="order-0 sm:order-1">
-                <h2 class="mb-2 mt-5 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit">
+                <h2
+                  class="mb-2 mt-5 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
+                >
                   Avg. Market Seasonality
                 </h2>
 
@@ -739,7 +782,9 @@
                 <div
                   class="flex flex-wrap sm:flex-row items-center sm:justify-between mb-4"
                 >
-                  <h2 class="mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit">
+                  <h2
+                    class="mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
+                  >
                     Open Interest (OI)
                   </h2>
                   <div
@@ -764,7 +809,9 @@
                     Low OI means less interest and lower liquidity."
                           />
                         </div>
-                        <span class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums">
+                        <span
+                          class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums"
+                        >
                           {#if isPro}
                             {(
                               overview?.putOI + overview?.callOI
@@ -802,7 +849,9 @@
                           />
                         </div>
 
-                        <span class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums">
+                        <span
+                          class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums"
+                        >
                           {#if isPro}
                             {overview?.pcOI?.toFixed(2)}
                           {:else}
@@ -838,7 +887,9 @@
                           />
                         </div>
 
-                        <span class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums">
+                        <span
+                          class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums"
+                        >
                           {#if isPro}
                             {overview?.putOI?.toLocaleString("en-US")}
                           {:else}
@@ -874,7 +925,9 @@
                           />
                         </div>
 
-                        <span class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums">
+                        <span
+                          class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums"
+                        >
                           {#if isPro}
                             {overview?.callOI?.toLocaleString("en-US")}
                           {:else}
@@ -903,7 +956,9 @@
                 <div
                   class="flex flex-wrap sm:flex-row items-center sm:justify-between mb-4"
                 >
-                  <h2 class="mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit">
+                  <h2
+                    class="mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
+                  >
                     Volume
                   </h2>
                   <div
@@ -928,7 +983,9 @@
                     Low volume indicates less trading activity."
                           />
                         </div>
-                        <span class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums">
+                        <span
+                          class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums"
+                        >
                           {#if isPro}
                             {(
                               overview?.putVol + overview?.callVol
@@ -966,7 +1023,9 @@
                           />
                         </div>
 
-                        <span class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums">
+                        <span
+                          class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums"
+                        >
                           {#if isPro}
                             {overview?.pcVol?.toFixed(2)}
                           {:else}
@@ -1002,7 +1061,9 @@
                           />
                         </div>
 
-                        <span class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums">
+                        <span
+                          class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums"
+                        >
                           {#if isPro}
                             {overview?.putVol?.toLocaleString("en-US")}
                           {:else}
@@ -1038,7 +1099,9 @@
                           />
                         </div>
 
-                        <span class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums">
+                        <span
+                          class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums"
+                        >
                           {#if isPro}
                             {overview?.callVol?.toLocaleString("en-US")}
                           {:else}

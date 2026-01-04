@@ -432,7 +432,9 @@
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <body class="w-full overflow-hidden m-auto">
-    <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
+    <div
+      class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500"
+    >
       <ul>
         <li>
           <a
@@ -451,7 +453,7 @@
           class="relative flex justify-center items-center overflow-hidden w-full"
         >
           <main class="w-full">
-            <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
+            <div class="mb-6 border-b border-gray-200 dark:border-zinc-800/80">
               <h1
                 class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
@@ -465,10 +467,10 @@
 
             <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
               <div
-                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
+                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-200 dark:border-zinc-800/80"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200 dark:border-zinc-800/80 lg:border-none w-full"
                 >
                   {totalItems?.toLocaleString("en-US")} Institutes
                 </h2>
@@ -476,7 +478,7 @@
                   class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
                 >
                   <div
-                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 overflow-hidden flex items-center"
+                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 overflow-hidden flex items-center"
                   >
                     <div
                       class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
@@ -522,7 +524,7 @@
 
             <div class="w-full m-auto mt-5">
               <div
-                class="w-full m-auto mb-4 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative transition-opacity duration-200"
+                class="w-full m-auto mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative transition-opacity duration-200"
                 class:opacity-60={isLoading}
               >
                 {#if isLoading}
@@ -556,7 +558,9 @@
                         <tr
                           class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                         >
-                          <td class="text-[0.85rem] sm:text-sm text-center text-gray-700 dark:text-zinc-200 tabular-nums">
+                          <td
+                            class="text-[0.85rem] sm:text-sm text-center text-gray-700 dark:text-zinc-200 tabular-nums"
+                          >
                             {item?.rank}
                           </td>
 
@@ -601,7 +605,8 @@
                             class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
                           >
                             {#if item?.performancePercentage3Year >= 0}
-                              <span class="text-emerald-600 dark:text-emerald-400"
+                              <span
+                                class="text-emerald-600 dark:text-emerald-400"
                                 >+{abbreviateNumber(
                                   item?.performancePercentage3Year?.toFixed(2),
                                 )}%</span
@@ -619,7 +624,8 @@
                             class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
                           >
                             {#if item?.winRate >= 0}
-                              <span class="text-emerald-600 dark:text-emerald-400"
+                              <span
+                                class="text-emerald-600 dark:text-emerald-400"
                                 >+{abbreviateNumber(
                                   item?.winRate?.toFixed(2),
                                 )}%</span
@@ -647,7 +653,7 @@
                     <Button
                       on:click={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1 || isLoading}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <svg
                         class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -676,7 +682,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
                             >{rowsPerPage} Rows</span
@@ -702,7 +708,7 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                       >
                         <!-- Dropdown items -->
                         <DropdownMenu.Group class="pb-2">
@@ -728,7 +734,7 @@
                     <Button
                       on:click={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages || isLoading}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="hidden sm:inline">Next</span>
                       <svg

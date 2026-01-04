@@ -320,13 +320,15 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:pr-5">
-          <div class="border-b border-gray-200/70 dark:border-zinc-800/80 pb-2">
+          <div class="border-b border-gray-200 dark:border-zinc-800/80 pb-2">
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
               All ETF Symbols
             </h1>
-            <p class="mb-3 px-1 text-sm text-gray-600 dark:text-zinc-400 sm:px-0">
+            <p
+              class="mb-3 px-1 text-sm text-gray-600 dark:text-zinc-400 sm:px-0"
+            >
               List of all {originalData?.length} ETF symbols we support
             </p>
           </div>
@@ -335,10 +337,10 @@
             <!-- Search functionality -->
             <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
               <div
-                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
+                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-200 dark:border-zinc-800/80"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200 dark:border-zinc-800/80 lg:border-none w-full"
                 >
                   {originalData?.length?.toLocaleString("en-US")} ETFs
                 </h2>
@@ -346,7 +348,7 @@
                   class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
                 >
                   <div
-                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 overflow-hidden flex items-center"
+                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 overflow-hidden flex items-center"
                   >
                     <div
                       class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
@@ -388,7 +390,7 @@
             <!--Start ETF Table-->
             {#if stockList?.length > 0}
               <div
-                class="mt-6 w-full m-auto mb-4 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+                class="mt-6 w-full m-auto mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
               >
                 <table
                   class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -396,7 +398,9 @@
                   <thead>
                     <TableHeader {columns} {sortOrders} {sortData} />
                   </thead>
-                  <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
+                  <tbody
+                    class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+                  >
                     {#each stockList as item}
                       <tr
                         class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
@@ -452,7 +456,7 @@
                     <Button
                       on:click={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <svg
                         class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -481,7 +485,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
                             >{rowsPerPage} Rows</span
@@ -507,7 +511,7 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                       >
                         <!-- Dropdown items -->
                         <DropdownMenu.Group class="pb-2">
@@ -533,7 +537,7 @@
                     <Button
                       on:click={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="hidden sm:inline">Next</span>
                       <svg
@@ -584,21 +588,25 @@
         <aside class="hidden lg:block relative fixed w-1/4 ml-4">
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <div
-              class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-xl bg-white/70 dark:bg-zinc-950/40 h-fit pb-4 mt-4 cursor-pointer transition hover:border-gray-300/80 dark:hover:border-zinc-700/80"
+              class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-xl bg-white/70 dark:bg-zinc-950/40 h-fit pb-4 mt-4 cursor-pointer transition hover:border-gray-300/80 dark:hover:border-zinc-700/80"
             >
               <a
                 href="/pricing"
                 class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-semibold tracking-tight text-gray-900 dark:text-white ml-3">
+                  <h2
+                    class="text-start text-xl font-semibold tracking-tight text-gray-900 dark:text-white ml-3"
+                  >
                     Pro Subscription
                   </h2>
                   <ArrowLogo
                     class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-zinc-500"
                   />
                 </div>
-                <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
+                <span
+                  class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                >
                   Upgrade now for unlimited access to all data, tools and no
                   ads.
                 </span>
@@ -607,21 +615,25 @@
           {/if}
 
           <div
-            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-xl bg-white/70 dark:bg-zinc-950/40 h-fit pb-4 mt-4 cursor-pointer transition hover:border-gray-300/80 dark:hover:border-zinc-700/80"
+            class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-xl bg-white/70 dark:bg-zinc-950/40 h-fit pb-4 mt-4 cursor-pointer transition hover:border-gray-300/80 dark:hover:border-zinc-700/80"
           >
             <a
               href="/stock-screener"
               class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-semibold tracking-tight text-gray-900 dark:text-white ml-3">
+                <h2
+                  class="text-start text-xl font-semibold tracking-tight text-gray-900 dark:text-white ml-3"
+                >
                   Stock Screener
                 </h2>
                 <ArrowLogo
                   class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-zinc-500"
                 />
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
+              <span
+                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+              >
                 Filter, sort and analyze all stocks to find your next
                 investment.
               </span>
@@ -629,21 +641,25 @@
           </div>
 
           <div
-            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-xl bg-white/70 dark:bg-zinc-950/40 h-fit pb-4 mt-4 cursor-pointer transition hover:border-gray-300/80 dark:hover:border-zinc-700/80"
+            class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-xl bg-white/70 dark:bg-zinc-950/40 h-fit pb-4 mt-4 cursor-pointer transition hover:border-gray-300/80 dark:hover:border-zinc-700/80"
           >
             <a
               href="/watchlist/stocks"
               class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-semibold tracking-tight text-gray-900 dark:text-white ml-3">
+                <h2
+                  class="text-start text-xl font-semibold tracking-tight text-gray-900 dark:text-white ml-3"
+                >
                   Watchlist
                 </h2>
                 <ArrowLogo
                   class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-zinc-500"
                 />
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
+              <span
+                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+              >
                 Keep track of your favorite stocks in realt-time.
               </span>
             </a>

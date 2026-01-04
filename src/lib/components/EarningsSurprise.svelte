@@ -52,12 +52,14 @@
         <!--<img class="h-10 inline-block mr-2" src={copilotIcon} />-->
 
         <div class="flex flex-row items-center">
-          <h3 class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          <h3
+            class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+          >
             Earnings Surprise
           </h3>
           <label
             class="{latestInfoDate(rawData?.date)
-              ? 'border border-gray-200/70 dark:border-zinc-800/80'
+              ? 'border border-gray-300 shadow dark:border-zinc-800/80'
               : 'hidden'} bg-white/80 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 ml-2 font-semibold not-italic text-[0.7rem] rounded-full px-2 py-0.5"
             >New</label
           >
@@ -67,7 +69,7 @@
 
     <div
       class="text-[1rem] {latestInfoDate(rawData?.date)
-        ? 'bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 p-3 rounded-lg'
+        ? 'bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-800/80 p-3 rounded-lg'
         : ' pl-1'} "
     >
       <div class="mt-1">

@@ -105,7 +105,7 @@
   <div class="flex justify-center w-full m-auto h-full overflow-hidden">
     <!-- Content area -->
     <div
-      class="w-full m-auto mt-4 mb-4 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+      class="w-full m-auto mt-4 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
     >
       <table
         class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -119,7 +119,9 @@
             <tr
               class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
             >
-              <td class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200">
+              <td
+                class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+              >
                 <a
                   href={sectorNavigation?.find(
                     (listItem) => listItem?.title === item?.sector,
@@ -132,19 +134,27 @@
                 </a>
               </td>
 
-              <td class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums">
+              <td
+                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+              >
                 {item?.numStocks}
               </td>
 
-              <td class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums">
+              <td
+                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+              >
                 {abbreviateNumber(item?.totalMarketCap) ?? "n/a"}
               </td>
 
-              <td class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums">
+              <td
+                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+              >
                 {item?.avgDividendYield?.toFixed(2) ?? "n/a"}%
               </td>
 
-              <td class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums">
+              <td
+                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+              >
                 {item?.pe?.toFixed(2) ?? "n/a"}
               </td>
 

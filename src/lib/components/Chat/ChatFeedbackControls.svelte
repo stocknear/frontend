@@ -203,7 +203,7 @@
     </button>
   {:else}
     <div
-      class="flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-200"
+      class="flex items-center gap-2 px-3 py-1 rounded-full border border-gray-300 shadow dark:border-gray-700 text-sm text-gray-700 dark:text-gray-200"
     >
       <div class="flex items-center justify-center size-4">
         {#if selectedRating === "like"}

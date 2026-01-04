@@ -310,11 +310,15 @@
   />
 
   <div
-    class="mt-6 mb-4 grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 divide-y divide-gray-200/70 dark:divide-zinc-800/80 sm:divide-x sm:divide-y-0"
+    class="mt-6 mb-4 grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 divide-y divide-gray-200/70 dark:divide-zinc-800/80 sm:divide-x sm:divide-y-0"
   >
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
-        <div class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500">Total ETFs</div>
+        <div
+          class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+        >
+          Total ETFs
+        </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
         >
@@ -324,7 +328,11 @@
     </div>
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
-        <div class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500">Total Assets</div>
+        <div
+          class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+        >
+          Total Assets
+        </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
         >
@@ -334,7 +342,11 @@
     </div>
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
-        <div class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500">Avg. Cost</div>
+        <div
+          class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+        >
+          Avg. Cost
+        </div>
         <div
           class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
         >
@@ -346,10 +358,10 @@
 
   <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
     <div
-      class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
+      class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-gray-200 dark:border-zinc-800/80"
     >
       <h2
-        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
+        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200 dark:border-zinc-800/80 lg:border-none w-full"
       >
         {originalData?.length?.toLocaleString("en-US")} Crypto ETFs
       </h2>
@@ -380,7 +392,7 @@
             on:input={search}
             type="text"
             placeholder="Find..."
-            class="py-2 text-[0.85rem] sm:text-sm border border-gray-200/70 dark:border-zinc-800/80 rounded-full bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-800/80 rounded-full bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
 
@@ -398,7 +410,7 @@
       {#if displayList?.length > 0}
         <div class="w-full overflow-x-auto">
           <table
-            class="table table-sm table-compact w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 m-auto"
+            class="table table-sm table-compact w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 m-auto"
           >
             <thead>
               <TableHeader {columns} {sortOrders} {sortData} />
@@ -407,7 +419,7 @@
               {#each displayList as item}
                 <!-- row -->
                 <tr
-                  class="border-b border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
+                  class="border-b border-gray-200 dark:border-zinc-800/80 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                 >
                   <td
                     class="text-center text-sm font-semibold text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -419,17 +431,23 @@
                     <HoverStockChart symbol={item?.symbol} assetType="etf" />
                   </td>
 
-                  <td class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap">
+                  <td
+                    class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
+                  >
                     {item?.name?.length > charNumber
                       ? item?.name?.slice(0, charNumber) + "..."
                       : item?.name}
                   </td>
 
-                  <td class="text-end text-sm text-gray-600 dark:text-zinc-300 tabular-nums">
+                  <td
+                    class="text-end text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
+                  >
                     {item?.price}
                   </td>
 
-                  <td class="text-end text-sm text-gray-600 dark:text-zinc-300 tabular-nums">
+                  <td
+                    class="text-end text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
+                  >
                     {#if item?.changesPercentage >= 0}
                       <span class="text-emerald-600 dark:text-emerald-400"
                         >+{item.changesPercentage?.toFixed(2)}%</span
@@ -441,7 +459,9 @@
                     {/if}
                   </td>
 
-                  <td class="text-end text-sm text-gray-600 dark:text-zinc-300 tabular-nums">
+                  <td
+                    class="text-end text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
+                  >
                     {item?.expenseRatio}%
                   </td>
 

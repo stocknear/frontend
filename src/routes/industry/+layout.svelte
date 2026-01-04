@@ -57,7 +57,7 @@
     </div>
 
     <nav
-      class="border-b border-gray-200/70 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
+      class="border-b border-gray-200 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
     >
       <ul class="flex flex-row items-center w-full text-sm sm:text-base">
         {#each tabs as item, i}

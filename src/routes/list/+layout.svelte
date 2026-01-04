@@ -385,14 +385,16 @@
       <div class="ml-2 text-start w-full mb-2">
         {#each navigation as item}
           {#if item?.link === $page.url.pathname}
-            <h1 class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+            <h1
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
               {item?.title}
             </h1>
           {/if}
         {/each}
       </div>
 
-      <div class="border-b border-gray-200/70 dark:border-zinc-800/80 w-full" />
+      <div class="border-b border-gray-200 dark:border-zinc-800/80 w-full" />
       <div
         class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
       >
@@ -402,51 +404,54 @@
 
         <aside class="inline-block relative w-full lg:w-1/4 mt-3">
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
-          <div
-            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
-          >
-            <a
-              href="/pricing"
-              class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+            <div
+              class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-lg font-semibold ml-3">
-                  Pro Subscription
-                </h2>
-                <ArrowLogo
-                  class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
-                />
-              </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
-                Upgrade now for unlimited access to all data, tools and no ads.
-              </span>
-            </a>
-          </div>
-        {/if}
+              <a
+                href="/pricing"
+                class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+              >
+                <div class="w-full flex justify-between items-center p-3 mt-3">
+                  <h2 class="text-start text-lg font-semibold ml-3">
+                    Pro Subscription
+                  </h2>
+                  <ArrowLogo
+                    class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
+                  />
+                </div>
+                <span
+                  class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+                >
+                  Upgrade now for unlimited access to all data, tools and no
+                  ads.
+                </span>
+              </a>
+            </div>
+          {/if}
 
-        <div
-            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
+          <div
+            class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href={"/watchlist/stocks"}
               class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-lg font-semibold ml-3">
-                  Watchlist
-                </h2>
+                <h2 class="text-start text-lg font-semibold ml-3">Watchlist</h2>
                 <ArrowLogo
                   class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                 />
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
+              <span
+                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+              >
                 Build your watchlist to keep track of their performance.
               </span>
             </a>
           </div>
 
           <div
-            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
+            class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href={"/stock-screener"}
@@ -460,7 +465,9 @@
                   class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                 />
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
+              <span
+                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+              >
                 Build your Stock Screener to find profitable stocks.
               </span>
             </a>
