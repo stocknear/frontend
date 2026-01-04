@@ -404,42 +404,38 @@
   ></iframe>
 </noscript>
 
-<div
-  class="app text-muted dark:text-white {$page?.url?.pathname === '/'
-    ? 'bg-[#000]'
-    : ''}"
->
-  <div class="flex min-h-screen w-full flex-col bg-white dark:bg-default">
+<div class="app text-gray-700 dark:text-zinc-200">
+  <div class="flex min-h-screen w-full flex-col bg-white dark:bg-zinc-950">
     <div class="w-full">
       <div
-        class="w-full navbar sticky top-0 z-40 bg-white dark:bg-default shadow shadow-b shadow dark:border-b dark:border-gray-800 flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6"
+        class="w-full navbar sticky top-0 z-40 bg-white dark:bg-zinc-950 border-b border-gray-200/70 dark:border-zinc-800/80 flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6"
       >
         <Sheet.Root>
           <Sheet.Trigger asChild let:builder>
             <Button
               builders={[builder]}
               size="icon"
-              class="bg-white dark:bg-default text-white sm:hover:bg-gray-200 dark:sm:hover:bg-[#18181B] border-none"
+              class="group rounded-full bg-transparent text-gray-600 dark:text-zinc-300 sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 border-none transition"
             >
               <Menu
-                class="h-5.5 w-5.5 sm:w-7 sm:h-7 text-muted dark:text-white "
+                class="h-5.5 w-5.5 sm:w-7 sm:h-7 text-gray-600 dark:text-zinc-300 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
               />
               <span class="sr-only">Toggle Menu</span>
             </Button>
           </Sheet.Trigger>
           <Sheet.Content
             side="left"
-            class="max-w-screen w-full sm:max-w-xs bg-gray-100 dark:bg-[#18181B] overflow-y-auto text-muted dark:text-white"
+            class="max-w-screen w-full sm:max-w-xs bg-white/95 dark:bg-zinc-950/95 backdrop-blur overflow-y-auto text-gray-700 dark:text-zinc-200"
           >
             <nav class=" grid gap-6 text-lg">
               <Sheet.Close asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class=" -ml-4 mr-auto bg-gray-100 dark:bg-[#18181B]"
+                  class="-ml-4 mr-auto rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition"
                 >
                   <a
                     href="/"
-                    class="flex items-center gap-4 px-0.5 text-muted dark:text-white text-xl font-semibold"
+                    class="flex items-center gap-4 px-0.5 text-gray-900 dark:text-white text-lg sm:text-xl font-semibold tracking-tight"
                   >
                     <img
                       class="avatar w-9 sm:w-10 rounded-full"
@@ -454,7 +450,7 @@
               <Sheet.Close asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="rounded w-full shadow-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#2A2E39] "
+                  class="rounded-full w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 hover:bg-white dark:hover:bg-zinc-900/60 transition"
                 >
                   <a
                     class="cursor-pointer w-full flex justify-start items-start"
@@ -474,21 +470,21 @@
                 <Button
                   builders={[builder]}
                   type="submit"
-                  class="w-full bg-gray-100 dark:bg-[#18181B] -ml-4 mr-auto"
+                  class="w-full -ml-4 mr-auto rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition"
                 >
                   <a
                     href="/"
-                    class="w-full flex flex-row items-center mr-auto mt-5"
+                    class="w-full group flex flex-row items-center mr-auto mt-5"
                   >
                     <div
-                      class="flex h-9 w-9 items-center justify-center rounded text-muted dark:text-white md:h-8 md:w-8"
+                      class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                     >
                       <Home
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
                     </div>
                     <span
-                      class="ml-1 mr-auot text-muted dark:text-white text-[1rem]"
+                      class="ml-1 mr-auot text-gray-600 dark:text-zinc-400 text-[0.95rem] group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                       >Home</span
                     >
                   </a>
@@ -498,27 +494,27 @@
               <div class="flex flex-row items-center w-full">
                 <Accordion.Root class="w-full">
                   <Accordion.Item value="item-1">
-                    <Accordion.Trigger class="">
+                    <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                       <Stock
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
-                      <span class="text-muted dark:text-white ml-1 mr-auto"
+                      <span class="ml-1 mr-auto"
                         >Stocks</span
                       >
                     </Accordion.Trigger>
                     <Accordion.Content
-                      class="border-l border-gray-500 ml-2 mt-5"
+                      class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                     >
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/industry"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >By Industry</a
                             >
                           </Button>
@@ -526,11 +522,11 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/market-mover/gainers"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Market Mover</a
                             >
                           </Button>
@@ -538,11 +534,11 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/heatmap"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Market Heatmap</a
                             >
                           </Button>
@@ -550,11 +546,11 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/list"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Stock Lists</a
                             >
                           </Button>
@@ -568,38 +564,38 @@
               <div class="flex flex-row items-center w-full">
                 <Accordion.Root class="w-full">
                   <Accordion.Item value="item-1">
-                    <Accordion.Trigger class="">
+                    <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                       <Layers
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
-                      <span class="text-muted dark:text-white ml-1 mr-auto"
+                      <span class="ml-1 mr-auto"
                         >ETFs</span
                       >
                     </Accordion.Trigger>
                     <Accordion.Content
-                      class="border-l border-gray-500 ml-2 mt-5"
+                      class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                     >
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/etf/new-launches"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >New Launches</a
                             >
                           </Button>
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/etf/etf-providers"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >ETF Providers</a
                             >
                           </Button>
@@ -613,38 +609,38 @@
               <div class="flex flex-row items-center w-full">
                 <Accordion.Root class="w-full">
                   <Accordion.Item value="item-1">
-                    <Accordion.Trigger class="">
+                    <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                       <Analyst
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
-                      <span class="text-muted dark:text-white ml-1 mr-auto"
+                      <span class="ml-1 mr-auto"
                         >Analyst</span
                       >
                     </Accordion.Trigger>
                     <Accordion.Content
-                      class="border-l border-gray-500 ml-2 mt-5"
+                      class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                     >
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/analysts"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >Top Analysts</a
                             >
                           </Button>
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/analysts/top-stocks"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Top Analyst Stocks</a
                             >
                           </Button>
@@ -652,11 +648,11 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/analysts/analyst-flow"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Analyst Live Flow</a
                             >
                           </Button>
@@ -670,38 +666,38 @@
               <div class="flex flex-row items-center w-full">
                 <Accordion.Root class="w-full">
                   <Accordion.Item value="item-1">
-                    <Accordion.Trigger class="">
+                    <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                       <Calendar
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
-                      <span class="text-muted dark:text-white ml-1 mr-auto"
+                      <span class="ml-1 mr-auto"
                         >Calendar</span
                       >
                     </Accordion.Trigger>
                     <Accordion.Content
-                      class="border-l border-gray-500 ml-2 mt-5"
+                      class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                     >
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/dividends-calendar"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >Dividends Calendar</a
                             >
                           </Button>
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/earnings-calendar"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Earnings Calendar</a
                             >
                           </Button>
@@ -709,11 +705,11 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/ipos"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >IPO Calendar</a
                             >
                           </Button>
@@ -721,11 +717,11 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/economic-calendar"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Economic Calendar</a
                             >
                           </Button>
@@ -733,11 +729,11 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/economic-indicator"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Economic Indicator</a
                             >
                           </Button>
@@ -746,11 +742,11 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/stock-splits-calendar"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Stock Splits Calendar</a
                             >
                              
@@ -766,38 +762,38 @@
               <div class="flex flex-row items-center w-full">
                 <Accordion.Root class="w-full">
                   <Accordion.Item value="item-1">
-                    <Accordion.Trigger class="">
+                    <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                       <HandShake
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
-                      <span class="text-muted dark:text-white ml-1 mr-auto"
+                      <span class="ml-1 mr-auto"
                         >Congress</span
                       >
                     </Accordion.Trigger>
                     <Accordion.Content
-                      class="border-l border-gray-500 ml-2 mt-5"
+                      class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                     >
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/politicians/flow-data"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >Congress Flow</a
                             >
                           </Button>
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/politicians"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >All Politicians</a
                             >
                           </Button>
@@ -811,27 +807,27 @@
               <div class="flex flex-row items-center w-full">
                 <Accordion.Root class="w-full">
                   <Accordion.Item value="item-1">
-                    <Accordion.Trigger class="">
+                    <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                       <Flow
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
-                      <span class="text-muted dark:text-white ml-1 mr-auto"
+                      <span class="ml-1 mr-auto"
                         >Flow Feed</span
                       >
                     </Accordion.Trigger>
                     <Accordion.Content
-                      class="border-l border-gray-500 ml-2 mt-5"
+                      class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                     >
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/market-flow"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >Market Flow</a
                             >
                           </Button>
@@ -839,11 +835,11 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/news-flow"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >News Flow</a
                             >
                           </Button>
@@ -851,22 +847,22 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/options-flow"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Options Flow</a
                             >
                           </Button>
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/unusual-order-flow"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Unusual Order Flow</a
                             >
                           </Button>
@@ -880,27 +876,27 @@
               <div class="flex flex-row items-center w-full">
                 <Accordion.Root class="w-full">
                   <Accordion.Item value="item-1">
-                    <Accordion.Trigger class="">
+                    <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                       <Screener
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
-                      <span class="text-muted dark:text-white ml-1 mr-auto"
+                      <span class="ml-1 mr-auto"
                         >Screener</span
                       >
                     </Accordion.Trigger>
                     <Accordion.Content
-                      class="border-l border-gray-500 ml-2 mt-5"
+                      class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                     >
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/stock-screener"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Stock Screener</a
                             >
                           </Button>
@@ -911,11 +907,11 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/options-screener"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Options Screener</a
                             >
                           </Button>
@@ -930,27 +926,27 @@
               <div class="flex flex-row items-center w-full">
                 <Accordion.Root class="w-full">
                   <Accordion.Item value="item-1">
-                    <Accordion.Trigger class="">
+                    <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                       <Simulation
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
-                      <span class="text-muted dark:text-white ml-1 mr-auto"
+                      <span class="ml-1 mr-auto"
                         >Simulation</span
                       >
                     </Accordion.Trigger>
                     <Accordion.Content
-                      class="border-l border-gray-500 ml-2 mt-5"
+                      class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                     >
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/backtesting"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Backtesting Strategy</a
                             >
                           </Button>
@@ -961,11 +957,11 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/options-calculator"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Options Calculator</a
                             >
                           </Button>
@@ -980,27 +976,27 @@
               <div class="flex flex-row items-center w-full">
                 <Accordion.Root class="w-full">
                   <Accordion.Item value="item-1">
-                    <Accordion.Trigger class="">
+                    <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                       <Tools
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                       />
-                      <span class="text-muted dark:text-white ml-1 mr-auto"
+                      <span class="ml-1 mr-auto"
                         >Tools</span
                       >
                     </Accordion.Trigger>
                     <Accordion.Content
-                      class="border-l border-gray-500 ml-2 mt-5"
+                      class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                     >
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/compare"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Comparison Tool</a
                             >
                           </Button>
@@ -1012,11 +1008,11 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/options-calculator"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Options Calculator</a
                             >
                           </Button>
@@ -1028,11 +1024,11 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/potus-tracker"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >POTUS Tracker</a
                             >
                           </Button>
@@ -1044,11 +1040,11 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/insider-tracker"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Insider Tracker</a
                             >
                           </Button>
@@ -1060,11 +1056,11 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full bg-gray-100 dark:bg-[#18181B] cursor-pointer"
+                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
                           >
                             <a
                               href="/reddit-tracker"
-                              class="text-start w-full text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Reddit Tracker</a
                             >
                           </Button>
@@ -1079,22 +1075,22 @@
                 <Button
                   builders={[builder]}
                   type="submit"
-                  class=" -ml-4 w-full bg-gray-100 dark:bg-[#18181B]"
+                  class="-ml-4 w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition"
                 >
                   <a
                     href="/hedge-funds"
-                    class="flex flex-row items-center w-full -mt-2"
+                    class="group flex flex-row items-center w-full -mt-2"
                   >
                     <div class="flex flex-row items-center mr-auto">
                       <div
-                        class="flex h-9 w-9 items-center justify-center rounded text-muted dark:text-white sm:hover:text-muted dark:text-white md:h-8 md:w-8"
+                        class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                       >
                         <Boxes
-                          class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                         />
                       </div>
                       <span
-                        class="ml-1 mr-auot text-muted dark:text-white text-[1rem]"
+                        class="ml-1 mr-auot text-gray-600 dark:text-zinc-400 text-[0.95rem] group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                         >Hedge Funds</span
                       >
                     </div>
@@ -1106,22 +1102,22 @@
                 <Button
                   builders={[builder]}
                   type="submit"
-                  class=" -ml-4 w-full bg-gray-100 dark:bg-[#18181B]"
+                  class="-ml-4 w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition"
                 >
                   <a
                     href="/backtesting"
-                    class="flex flex-row items-center w-full -mt-2"
+                    class="group flex flex-row items-center w-full -mt-2"
                   >
                     <div class="flex flex-row items-center mr-auto">
                       <div
-                        class="flex h-9 w-9 items-center justify-center rounded text-muted dark:text-white sm:hover:text-muted dark:text-white md:h-8 md:w-8"
+                        class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                       >
                         <Backtesting
-                          class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                         />
                       </div>
                       <span
-                        class="ml-1 mr-auot text-muted dark:text-white text-[1rem]"
+                        class="ml-1 mr-auot text-gray-600 dark:text-zinc-400 text-[0.95rem] group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                         >Backtesting</span
                       >
                     </div>
@@ -1133,22 +1129,22 @@
                 <Button
                   builders={[builder]}
                   type="submit"
-                  class=" -ml-4 w-full bg-gray-100 dark:bg-[#18181B]"
+                  class="-ml-4 w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition"
                 >
                   <a
                     href="/market-news"
-                    class="flex flex-row items-center w-full -mt-2"
+                    class="group flex flex-row items-center w-full -mt-2"
                   >
                     <div class="flex flex-row items-center mr-auto">
                       <div
-                        class="flex h-9 w-9 items-center justify-center rounded text-muted dark:text-white hover:text-muted dark:text-white md:h-8 md:w-8"
+                        class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                       >
                         <Newspaper
-                          class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                         />
                       </div>
                       <span
-                        class="ml-1 mr-auot text-muted dark:text-white text-[1rem]"
+                        class="ml-1 mr-auot text-gray-600 dark:text-zinc-400 text-[0.95rem] group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                         >Market News</span
                       >
                     </div>
@@ -1160,20 +1156,20 @@
                   <Button
                     builders={[builder]}
                     type="submit"
-                    class=" -ml-4 w-full bg-gray-100 dark:bg-[#18181B]"
+                    class="-ml-4 w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition"
                   >
                     <a
                       href="/pricing"
-                      class="flex flex-row items-center w-full -mt-2"
+                      class="group flex flex-row items-center w-full -mt-2"
                     >
                       <div class="flex flex-row items-center mr-auto">
                         <div
-                          class="flex h-9 w-9 items-center justify-center rounded text-muted dark:text-white hover:text-muted dark:text-white md:h-8 md:w-8"
+                          class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                         >
                           <Gem class="h-5.5 w-5.5" />
                         </div>
                         <span
-                          class="ml-3 text-muted dark:text-white text-[1rem]"
+                          class="ml-3 text-gray-600 dark:text-zinc-400 text-[0.95rem] group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                           >Pricing Plan</span
                         >
                       </div>
@@ -1191,13 +1187,14 @@
             src="/pwa-192x192.png"
             alt="Stocknear Logo"
           />
-          <span class="text-muted dark:text-white font-semibold ml-2 text-xl"
+          <span
+            class="text-gray-900 dark:text-white font-semibold tracking-tight ml-2 text-xl"
             >Stocknear</span
           >
         </a>
 
         <div
-          class="relative w-full flex flex-row justify-end sm:justify-between items-center"
+          class="relative w-full flex flex-row justify-end sm:justify-between items-center gap-2 sm:gap-3"
         >
           <div class="sm:w-full sm:ml-2 2xl:ml-[75px]">
             <Searchbar />
@@ -1205,28 +1202,28 @@
           <NotificationBell {data} {hasUnreadElement} />
 
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier) && !data?.user}
-            <div class="ml-4 hidden sm:inline-block -mr-2">
+            <div class="hidden shrink-0 sm:inline-flex">
               <a
                 href="/pricing"
-                class="inline-flex items-center whitespace-nowrap justify-center rounded bg-black sm:hover:bg-default dark:bg-[#fff] text-white dark:text-black px-4 py-2 text-sm font-semibold shadow transition-all duration-150 sm:hover:bg-blue-600 dark:sm:hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
+                class="inline-flex items-center whitespace-nowrap justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-900/60 text-gray-700 dark:text-zinc-200 px-4 py-2 text-sm font-semibold transition hover:bg-white dark:hover:bg-zinc-900/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 Start Trial
               </a>
             </div>
           {/if}
 
-          <div class="ml-4">
+          <div class="shrink-0">
             {#if data?.user}
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     size="icon"
                     aria-label="Settings"
-                    class="overflow-hidden rounded bg-gray-100 shadow sm:hover:bg-gray-200 dark:bg-default dark:sm:hover:bg-[#18181B] border border-gray-300 dark:border-gray-600 w-10 h-10"
+                    class="overflow-hidden rounded-full bg-white/70 dark:bg-zinc-900/50 hover:bg-white dark:hover:bg-zinc-900/70 border border-gray-200/70 dark:border-zinc-800/80 w-10 h-10 transition"
                     builders={[builder]}
                   >
                     <svg
-                      class="h-[28px] w-[28px] overflow-hidden rounded-full text-gray-500 dark:text-gray-300"
+                      class="h-[28px] w-[28px] overflow-hidden rounded-full text-gray-500 dark:text-zinc-400"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       ><path
@@ -1241,19 +1238,22 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
+                  class="rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-1 text-gray-700 dark:text-zinc-200 shadow-none"
                 >
                   <a href="/profile" class="cursor-pointer">
                     <DropdownMenu.Item
-                      class="sm:hover:bg-gray-300 dark:sm:hover:bg-[#18181B] cursor-pointer"
+                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition cursor-pointer"
                     >
                       My Account
                     </DropdownMenu.Item>
                   </a>
-                  <DropdownMenu.Separator />
+                  <DropdownMenu.Separator
+                    class="my-1 h-px bg-gray-200/70 dark:bg-zinc-800/80"
+                  />
 
                   <a href="/portfolio" class="cursor-pointer">
                     <DropdownMenu.Item
-                      class="sm:hover:bg-gray-300 dark:sm:hover:bg-[#18181B] cursor-pointer"
+                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition cursor-pointer"
                     >
                       Portfolio
                     </DropdownMenu.Item>
@@ -1261,14 +1261,14 @@
 
                   <a href="/watchlist/stocks" class="cursor-pointer">
                     <DropdownMenu.Item
-                      class="sm:hover:bg-gray-300 dark:sm:hover:bg-[#18181B] cursor-pointer"
+                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition cursor-pointer"
                     >
                       Watchlist
                     </DropdownMenu.Item>
                   </a>
                   <a href="/price-alert" class="cursor-pointer">
                     <DropdownMenu.Item
-                      class="sm:hover:bg-gray-300 dark:sm:hover:bg-[#18181B] cursor-pointer"
+                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition cursor-pointer"
                     >
                       Price Alert
                     </DropdownMenu.Item>
@@ -1276,13 +1276,15 @@
 
                   <button
                     on:click={handleModeChange}
-                    class="cursor-pointer w-full sm:hover:bg-gray-300 dark:sm:hover:bg-[#18181B] relative flex cursor-default select-none items-center rounded px-2 py-1.5 text-sm outline-hidden data-disabled:pointer-events-none"
+                    class="cursor-pointer w-full sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition relative flex cursor-default select-none items-center rounded px-2 py-1.5 text-sm outline-hidden data-disabled:pointer-events-none"
                   >
                     <span>{$mode === "light" ? "Dark" : "Light"} Mode</span>
                     <span class="sr-only">Toggle theme</span>
                   </button>
 
-                  <DropdownMenu.Separator />
+                  <DropdownMenu.Separator
+                    class="my-1 h-px bg-gray-200/70 dark:bg-zinc-800/80"
+                  />
                   <form class="cursor-pointer" action="/logout" method="POST">
                     <button
                       type="submit"
@@ -1290,7 +1292,7 @@
                       class="w-full text-start cursor-pointer"
                     >
                       <DropdownMenu.Item
-                        class="sm:hover:bg-gray-300 dark:sm:hover:bg-[#18181B] cursor-pointer"
+                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition cursor-pointer"
                       >
                         <svg
                           class="lucide lucide-log-out mr-2 w-3.5 h-3.5 transform scale-x-[-1]"
@@ -1315,7 +1317,7 @@
             {:else}
               <a
                 href="/login"
-                class="inline-flex items-center justify-center rounded bg-black sm:hover:bg-default dark:bg-[#fff] text-white dark:text-black px-4 py-2 text-sm font-semibold shadow transition-all duration-150 sm:hover:bg-blue-600 dark:sm:hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
+                class="inline-flex items-center justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-900/60 text-gray-700 dark:text-zinc-200 px-4 py-2 text-sm font-semibold transition hover:bg-white dark:hover:bg-zinc-900/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 Login
               </a>
@@ -1327,7 +1329,7 @@
         <div class="flex w-full">
           <div class="hidden 3xl:block 3xl:w-[300px]">
             <aside
-              class="shadow fixed overflow-y-auto overflow-hidden inset-y-0 left-0 z-50 3xl:flex w-64 flex-col xl:border-r border-gray-300 dark:3xl:border-gray-800 bg-gray-100 dark:bg-[#18181B]"
+              class="fixed overflow-y-auto overflow-hidden inset-y-0 left-0 z-50 3xl:flex w-64 flex-col xl:border-r border-gray-200/70 dark:3xl:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/90 backdrop-blur"
             >
               <nav
                 class="flex flex-col items-center mr-auto gap-y-4 3xl:py-5 w-full"
@@ -1341,7 +1343,8 @@
                     src="/pwa-192x192.png"
                     alt="Stocknear Logo"
                   />
-                  <span class="text-muted dark:text-white text-xl"
+                  <span
+                    class="text-gray-900 dark:text-white text-lg font-semibold tracking-tight"
                     >Stocknear</span
                   >
                 </a>
@@ -1351,57 +1354,60 @@
                   class="mb-2 flex flex-row items-center ml-8 pr-7 w-full"
                 >
                   <div
-                    class="px-4 py-1 sm:py-2 rounded flex flex-row items-center justify-start w-full shadow-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#2A2E39]"
+                    class="px-4 py-1 sm:py-2 rounded-full flex flex-row items-center justify-start w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 hover:bg-white dark:hover:bg-zinc-900/60 transition"
                   >
                     <Plus class="w-4 h-4 inline-block mr-2" />
                     <span class="font-semibold">Start new chat</span>
                   </div>
                 </a>
-                <a href="/" class="flex flex-row items-center ml-9 w-full">
+                <a href="/" class="group flex flex-row items-center ml-9 w-full">
                   <div
-                    class="flex h-9 w-9 items-center justify-center rounded text-muted dark:text-white md:h-8 md:w-8"
+                    class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                   >
                     <Home class="h-5.5 w-5.5" />
                   </div>
-                  <span class="ml-3 text-muted dark:text-white">Home</span>
+                  <span
+                    class="ml-3 text-gray-600 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                    >Home</span
+                  >
                 </a>
 
                 <div class="flex flex-row items-center ml-9 w-full mt-3">
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
-                      <Accordion.Trigger class="text-muted dark:text-white ">
+                      <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                         <Stock
-                          class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                         />
-                        <span class="text-muted dark:text-white ml-1 mr-auto"
+                        <span class="ml-1 mr-auto"
                           >Stocks</span
                         >
                       </Accordion.Trigger>
                       <Accordion.Content
-                        class="border-l border-gray-500 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <a
                             href="/industry"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >By Industry</a
                           >
 
                           <a
                             href="/market-mover/gainers"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Market Mover</a
                           >
 
                           <a
                             href="/heatmap"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Market Heatmap</a
                           >
 
                           <a
                             href="/list"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Stock Lists</a
                           >
                         </div>
@@ -1413,26 +1419,26 @@
                 <div class="flex flex-row items-center ml-9 w-full mt-3">
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
-                      <Accordion.Trigger class="">
+                      <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                         <Layers
-                          class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                         />
-                        <span class="text-muted dark:text-white ml-1 mr-auto"
+                        <span class="ml-1 mr-auto"
                           >ETFs</span
                         >
                       </Accordion.Trigger>
                       <Accordion.Content
-                        class="border-l border-gray-500 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <a
                             href="/etf/new-launches"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >New Launches</a
                           >
                           <a
                             href="/etf/etf-providers"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >ETF Providers</a
                           >
                         </div>
@@ -1444,32 +1450,32 @@
                 <div class="flex flex-row items-center ml-9 w-full mt-3">
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
-                      <Accordion.Trigger class="">
+                      <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                         <Analyst
-                          class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                         />
-                        <span class="text-muted dark:text-white ml-1 mr-auto"
+                        <span class="ml-1 mr-auto"
                           >Analyst</span
                         >
                       </Accordion.Trigger>
                       <Accordion.Content
-                        class="border-l border-gray-500 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <a
                             href="/analysts"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Top Analysts</a
                           >
                           <a
                             href="/analysts/top-stocks"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Top Analyst Stocks</a
                           >
 
                           <a
                             href="/analysts/analyst-flow"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Analyst Live Flow</a
                           >
                         </div>
@@ -1481,44 +1487,44 @@
                 <div class="flex flex-row items-center ml-9 w-full mt-3">
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
-                      <Accordion.Trigger class="">
+                      <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                         <Calendar
-                          class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                         />
-                        <span class="text-muted dark:text-white ml-1 mr-auto"
+                        <span class="ml-1 mr-auto"
                           >Calendar</span
                         >
                       </Accordion.Trigger>
                       <Accordion.Content
-                        class="border-l border-gray-500 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <a
                             href="/dividends-calendar"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Dividends Calendar</a
                           >
                           <a
                             href="/earnings-calendar"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Earnings Calendar</a
                           >
                           <!--
                           <a
                             href="/fda-calendar"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >FDA Calendar</a
                           >
                             -->
 
                           <a
                             href="/ipos"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >IPO Calendar</a
                           >
                           <a
                             href="/economic-calendar"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Economic Calendar</a
                           >
                         </div>
@@ -1530,28 +1536,28 @@
                 <div class="flex flex-row items-center ml-9 w-full mt-3">
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
-                      <Accordion.Trigger class="">
+                      <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                         <HandShake
-                          class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                         />
-                        <span class="text-muted dark:text-white ml-1 mr-auto"
+                        <span class="ml-1 mr-auto"
                           >Congress</span
                         >
                       </Accordion.Trigger>
 
                       <Accordion.Content
-                        class="border-l border-gray-500 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <div class="flex flex-col items-start">
                             <a
                               href="/politicians/flow-data"
-                              class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Congress Flow</a
                             >
                             <a
                               href="/politicians"
-                              class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                              class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >All Politicians</a
                             >
                           </div>
@@ -1564,38 +1570,38 @@
                 <div class="flex flex-row items-center ml-9 w-full mt-3">
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
-                      <Accordion.Trigger class="">
+                      <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                         <Flow
-                          class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                         />
-                        <span class="text-muted dark:text-white ml-1 mr-auto"
+                        <span class="ml-1 mr-auto"
                           >Flow Feed</span
                         >
                       </Accordion.Trigger>
                       <Accordion.Content
-                        class="border-l border-gray-500 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <a
                             href="/market-flow"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Market Flow</a
                           >
 
                           <a
                             href="/news-flow"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >News Flow</a
                           >
 
                           <a
                             href="/options-flow"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Options Flow</a
                           >
                           <a
                             href="/unusual-order-flow"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Unusual Order Flow</a
                           >
                         </div>
@@ -1607,27 +1613,27 @@
                 <div class="flex flex-row items-center ml-9 w-full mt-3">
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
-                      <Accordion.Trigger class="">
+                      <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                         <Screener
-                          class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                         />
-                        <span class="text-muted dark:text-white ml-1 mr-auto"
+                        <span class="ml-1 mr-auto"
                           >Screener</span
                         >
                       </Accordion.Trigger>
                       <Accordion.Content
-                        class="border-l border-gray-500 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <a
                             href="/stock-screener"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Stock Screener</a
                           >
 
                           <a
                             href="/options-screener"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Options Screener</a
                           >
                         </div>
@@ -1640,27 +1646,27 @@
                 <div class="flex flex-row items-center ml-9 w-full mt-3">
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
-                      <Accordion.Trigger class="">
+                      <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                         <Simulation
-                          class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                         />
-                        <span class="text-muted dark:text-white ml-1 mr-auto"
+                        <span class="ml-1 mr-auto"
                           >Simulation</span
                         >
                       </Accordion.Trigger>
                       <Accordion.Content
-                        class="border-l border-gray-500 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <a
                             href="/backtesting"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Backtesting Strategy</a
                           >
 
                           <a
                             href="/options-calculator"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Options Calculator</a
                           >
                         </div>
@@ -1673,43 +1679,43 @@
                 <div class="flex flex-row items-center ml-9 w-full mt-3">
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
-                      <Accordion.Trigger class="">
+                      <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
                         <Tools
-                          class="h-5.5 w-5.5 mr-3 text-muted dark:text-white ml-1"
+                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
                         />
-                        <span class="text-muted dark:text-white ml-1 mr-auto"
+                        <span class="ml-1 mr-auto"
                           >Tools</span
                         >
                       </Accordion.Trigger>
                       <Accordion.Content
-                        class="border-l border-gray-500 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <a
                             href="/compare"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Comparison Tool</a
                           >
 
                           <a
                             href="/options-calculator"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Options Calculator</a
                           >
 
                           <a
                             href="/potus-tracker"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >POTUS Tracker</a
                           >
                           <a
                             href="/insider-tracker"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Insider Tracker</a
                           >
                           <a
                             href="/reddit-tracker"
-                            class="text-[1rem] text-muted dark:text-white ml-4 mt-4"
+                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Reddit Tracker</a
                           >
                         </div>
@@ -1720,42 +1726,45 @@
 
                 <a
                   href="/hedge-funds"
-                  class="flex flex-row items-center ml-9 w-full mt-3"
+                  class="group flex flex-row items-center ml-9 w-full mt-3"
                 >
                   <div
-                    class="flex h-9 w-9 items-center justify-center rounded text-muted dark:text-white md:h-8 md:w-8"
+                    class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                   >
                     <Boxes class="h-5.5 w-5.5" />
                   </div>
-                  <span class="ml-3 text-muted dark:text-white"
+                  <span
+                    class="ml-3 text-gray-600 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                     >Hedge Funds</span
                   >
                 </a>
 
                 <a
                   href="/market-news"
-                  class="flex flex-row items-center ml-9 w-full mt-3"
+                  class="group flex flex-row items-center ml-9 w-full mt-3"
                 >
                   <div
-                    class="flex h-9 w-9 items-center justify-center rounded text-muted dark:text-white md:h-8 md:w-8"
+                    class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                   >
                     <Newspaper class="h-5.5 w-5.5" />
                   </div>
-                  <span class="ml-3 text-muted dark:text-white"
+                  <span
+                    class="ml-3 text-gray-600 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                     >Market News</span
                   >
                 </a>
                 {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
                   <a
                     href="/pricing"
-                    class="flex flex-row items-center ml-9 w-full mt-3"
+                    class="group flex flex-row items-center ml-9 w-full mt-3"
                   >
                     <div
-                      class="flex h-9 w-9 items-center justify-center rounded text-muted dark:text-white md:h-8 md:w-8"
+                      class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                     >
                       <Gem class="h-5.5 w-5.5" />
                     </div>
-                    <span class="ml-3 text-muted dark:text-white"
+                    <span
+                      class="ml-3 text-gray-600 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                       >Pricing Plan</span
                     >
                   </a>

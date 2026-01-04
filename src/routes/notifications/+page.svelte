@@ -638,14 +638,20 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-muted dark:text-white"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-3 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div
+    class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500"
+  >
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
+          >Home</a
+        >
       </li>
-      <li class="text-muted dark:text-gray-300">Notifications</li>
+      <li class="text-gray-500 dark:text-zinc-500">Notifications</li>
     </ul>
   </div>
 
@@ -655,20 +661,26 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:pr-10">
-          <div class="mb-3 border-[#2C6288] dark:border-white border-b-[2px]">
-            <h1 class="mb-1 text-2xl sm:text-3xl font-bold">Notification</h1>
+          <div
+            class="mb-4 border-b border-gray-200/70 dark:border-zinc-800/80"
+          >
+            <h1
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
+              Notification
+            </h1>
           </div>
 
           <div
-            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between w-full mt-5 text-muted sm:pt-2 sm:pb-2 dark:text-white sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-gray-800"
+            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-gray-700 dark:text-zinc-200 sm:py-2 sm:border-t sm:border-b sm:border-gray-200/70 sm:dark:border-zinc-800/80"
           >
             <h2
-              class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold"
+              class="text-start w-full mb-2 sm:mb-0 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
               {totalItems?.toLocaleString("en-US")} Alerts
             </h2>
             <div
-              class="flex items-center ml-auto border-t border-b border-gray-300 dark:border-gray-800 sm:border-none pt-1 pb-1 sm:pt-0 sm:pb-0 w-full"
+              class="flex items-center ml-auto border-t border-b border-gray-200/70 dark:border-zinc-800/80 sm:border-none py-1 sm:py-0 w-full"
             >
               <div
                 class="flex items-center ml-auto pt-1 pb-1 sm:pt-0 sm:pb-0 w-fit"

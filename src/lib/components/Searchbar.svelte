@@ -330,33 +330,19 @@
   >
     <div class="relative">
       <label
-        class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center"
+        class="rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 h-14 w-14 flex justify-center items-center"
       >
         <span
-          class="loading loading-spinner loading-md text-white dark:text-white"
+          class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
         ></span>
       </label>
     </div>
   </div>
 {/if}
 
-<div class="hidden sm:block w-full sm:max-w-[600px] shadow">
+<div class="hidden sm:block w-full sm:max-w-[600px]">
   <div>
     <div class="relative flex items-center">
-      <div class="absolute inset-y-0 left-0 flex items-center pl-2.5">
-        <svg
-          class="h-4 w-4 text-icon xs:h-5 xs:w-5"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="3"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          style="max-width: 40px"
-          aria-hidden="true"
-          ><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg
-        >
-      </div>
       <Combobox.Root
         items={searchBarData}
         bind:inputValue
@@ -372,10 +358,10 @@
           class="relative w-full"
         >
           <div
-            class="absolute inset-y-0 left-0 flex items-center pl-2.5 text-gray-400"
+            class="absolute inset-y-0 left-0 flex items-center pl-2.5 text-gray-400 dark:text-zinc-500"
           >
             <svg
-              class="text-icon h-5 w-5"
+              class="h-5 w-5 text-gray-400 dark:text-zinc-500"
               fill="none"
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -391,12 +377,12 @@
           <Combobox.Input
             id="combobox-input"
             on:click={() => (inputValue = "")}
-            class="grow rounded-sm border border-gray-300 dark:border-gray-600 py-2 pl-9 text-[1rem] placeholder-gray-600 dark:placeholder-gray-400  focus:shadow-lg focus:outline-hidden focus:ring-0 tiny:pl-8 xs:pl-10 text-muted dark:text-white md:py-2 w-full bg-[#F9FAFB] dark:bg-secondary focus:bg-white dark:focus:bg-secondary"
+            class="grow rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/60 py-2.5 pl-9 text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 tiny:pl-8 xs:pl-10 w-full"
             placeholder="Company or stock symbol..."
             aria-label="Company or stock symbol..."
           />
           <div
-            class="absolute inset-y-0 right-0 flex items-center gap-x-2 px-3 text-gray-350 font-semibold"
+            class="absolute inset-y-0 right-0 flex items-center gap-x-2 px-3 text-gray-400 dark:text-zinc-500 font-semibold"
           >
             {#if isLoading}
               <span class="loading loading-spinner loading-sm"></span>
@@ -417,11 +403,11 @@
                 class="pointer-events-none absolute end-6 top-2.5 gap-1 opacity-80 rtl:flex-row-reverse hidden lg:flex"
               >
                 <kbd
-                  class="kbd kbd-sm bg-gray-300 dark:bg-[#1C2128] text-gray-600 dark:text-gray-400"
+                  class="kbd kbd-sm rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-500 dark:text-zinc-400"
                   >ctrl</kbd
                 >
                 <kbd
-                  class="kbd kbd-sm bg-gray-300 dark:bg-[#1C2128] text-gray-600 dark:text-gray-400"
+                  class="kbd kbd-sm rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-500 dark:text-zinc-400"
                   >K</kbd
                 >
               </div>
@@ -429,31 +415,31 @@
           </div>
         </div>
         <Combobox.Content
-          class="w-auto z-40 -mt-0.5  rounded border border-gray-300 dark:border-gray-700 bg-[#F9FAFB] dark:bg-secondary px-1 py-3 shadow-xl outline-hidden"
+          class="w-auto z-40 -mt-0.5 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white dark:bg-zinc-950 px-1.5 py-2 shadow-none outline-hidden"
           sideOffset={8}
         >
           {#if inputValue?.length > 0 && searchBarData?.length > 0}
             <div
-              class="pl-2 pb-2 border-b border-gray-300 dark:border-gray-600 text-muted dark:text-white text-sm font-semibold w-full"
+              class="pl-2 pb-2 border-b border-gray-200/70 dark:border-zinc-800/80 text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500 w-full"
             >
               Suggestions
             </div>
             {#each searchBarData as item}
               <Combobox.Item
-                class="cursor-pointer text-muted dark:text-white border-b border-gray-300 dark:border-gray-600 last:border-none flex h-fit w-auto select-none items-center rounded-button py-3 pl-2 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-200 dark:data-highlighted:bg-gray-200 dark:data-highlighted:bg-primary"
+                class="cursor-pointer text-gray-700 dark:text-zinc-200 border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                 value={item?.symbol}
                 label={item?.name}
                 on:click={() => handleSearch(item?.symbol, item?.type)}
               >
                 <div class="flex flex-row items-center justify-between w-full">
                   <span
-                    class="text-sm text-muted font-semibold dark:font-normal dark:text-blue-400"
+                    class="text-sm font-semibold text-gray-700 dark:text-zinc-200"
                     >{item?.symbol}</span
                   >
-                  <span class="ml-3 text-sm text-muted dark:text-white"
+                  <span class="ml-3 text-sm text-gray-600 dark:text-zinc-300"
                     >{item?.name}</span
                   >
-                  <span class="ml-auto text-sm text-muted dark:text-white"
+                  <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
                     >{item?.type}</span
                   >
                 </div>
@@ -461,33 +447,33 @@
             {/each}
           {:else if inputValue?.length === 0 || !showSuggestions}
             <div
-              class="pl-2 pb-2 border-b border-gray-300 dark:border-gray-600 text-muted dark:text-white text-sm font-semibold w-full"
+              class="pl-2 pb-2 border-b border-gray-200/70 dark:border-zinc-800/80 text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500 w-full"
             >
               {searchHistory?.length > 0 ? "Recent" : "Popular"}
             </div>
             {#each searchHistory?.length > 0 ? searchHistory : popularList as item}
               <Combobox.Item
-                class="cursor-pointer text-white border-b border-gray-300 dark:border-gray-600 last:border-none flex h-fit w-auto select-none items-center rounded-button py-3 pl-2 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-200 dark:data-highlighted:bg-primary"
+                class="cursor-pointer text-gray-700 dark:text-zinc-200 border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                 value={item?.symbol}
                 label={item?.name}
                 on:click={() => handleSearch(item?.symbol, item?.type)}
               >
                 <div class="flex flex-row items-center justify-between w-full">
                   <span
-                    class="text-sm text-muted font-semibold dark:font-normal dark:text-blue-400"
+                    class="text-sm font-semibold text-gray-700 dark:text-zinc-200"
                     >{item?.symbol}</span
                   >
-                  <span class="ml-3 text-sm text-muted dark:text-white"
+                  <span class="ml-3 text-sm text-gray-600 dark:text-zinc-300"
                     >{item?.name}</span
                   >
-                  <span class="ml-auto text-sm text-muted dark:text-white"
+                  <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
                     >{item?.type}</span
                   >
                 </div>
               </Combobox.Item>
             {/each}
           {:else}
-            <span class="block px-5 py-2 text-sm text-muted dark:text-white">
+            <span class="block px-5 py-2 text-sm text-gray-500 dark:text-zinc-500">
               No results found
             </span>
           {/if}
@@ -499,7 +485,7 @@
 
 <label
   for="searchBarModal"
-  class="sm:hidden bg-gray-100 shadow dark:bg-default text-gray-500 dark:text-gray-300 dark:sm:hover:text-white cursor-pointer p-2 shrink-0 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded"
+  class="sm:hidden rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/60 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition cursor-pointer p-2 shrink-0 flex items-center justify-center"
 >
   <Search class="h-[20px] w-[20px]" />
 </label>
@@ -511,11 +497,14 @@
   bind:checked={searchBarModalChecked}
 />
 
-<dialog id="searchBarModal" class="modal p-3 min-h-96">
+<dialog
+  id="searchBarModal"
+  class="modal modal-middle fixed inset-0 z-[9999] p-3"
+>
   <label for="searchBarModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="z-999 modal-box min-h-96 overflow-hidden rounded shadow bg-white dark:bg-secondary border border-gray-300 dark:border-gray-600 sm:my-8 sm:m-auto sm:h-auto w-full sm:w-3/4 lg:w-1/2 2xl:w-1/3"
+    class="z-999 modal-box min-h-96 overflow-hidden rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/90 shadow-none m-auto sm:my-8 sm:h-auto w-full sm:w-3/4 lg:w-1/2 2xl:w-1/3"
   >
     <label
       for="searchBarModal"
@@ -561,7 +550,7 @@
 
         <input
           id="modal-search"
-          class="focus:outline-none rounded w-full bg-gray-300 dark:bg-secondary border border-gray-300 dark:border-gray-600 focus:ring-transparent placeholder-gray-600 dark:placeholder-gray-200 py-3 pl-10 pr-4"
+          class="focus:outline-none rounded-full w-full bg-white/80 dark:bg-zinc-900/60 border border-gray-200/70 dark:border-zinc-800/80 text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 py-3 pl-10 pr-4"
           placeholder="Company or stock symbol..."
           bind:value={inputValue}
           bind:this={inputElement}
@@ -575,7 +564,7 @@
 
         <button class="absolute inset-0 right-auto group" aria-label="Search">
           <svg
-            class="w-4 h-4 shrink-0 fill-current ml-4 mr-2 dark:text-slate-400"
+            class="w-4 h-4 shrink-0 fill-current ml-4 mr-2 text-gray-400 dark:text-zinc-500"
             viewBox="0 0 16 16"
             xmlns="http://www.w3.org/2000/svg"
             ><path
@@ -590,29 +579,29 @@
     </div>
 
     <div
-      class="w-auto z-40 mt-3 rounded border border-gray-300 dark:border-gray-700 bg-[#F9FAFB] dark:bg-secondary px-1 py-3 outline-hidden"
+      class="w-auto z-40 mt-3 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white dark:bg-zinc-950 px-1.5 py-2 outline-hidden"
     >
       {#if inputValue?.length > 0 && searchBarData?.length > 0}
         <div
-          class="pl-2 pb-2 border-b border-gray-300 dark:border-gray-600 text-muted dark:text-white text-sm font-semibold w-full"
+          class="pl-2 pb-2 border-b border-gray-200/70 dark:border-zinc-800/80 text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500 w-full"
         >
           Suggestions
         </div>
         {#each searchBarData as item}
           <li
-            class="cursor-pointer text-muted dark:text-white border-b border-gray-300 dark:border-gray-600 last:border-none flex h-fit w-auto select-none items-center rounded-button py-3 pl-2 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-200 dark:data-highlighted:bg-gray-200 dark:data-highlighted:bg-primary"
+            class="cursor-pointer text-gray-700 dark:text-zinc-200 border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
             on:click={() => handleSearch(item?.symbol, item?.type)}
           >
             <div class="flex flex-row items-center justify-between w-full">
               <span
-                class="text-sm text-muted font-semibold dark:font-normal dark:text-blue-400"
+                class="text-sm font-semibold text-gray-700 dark:text-zinc-200"
                 >{item?.symbol}</span
               >
               <span
-                class="whitespace-nowrap ml-3 mr-6 text-sm text-muted dark:text-white truncate"
+                class="whitespace-nowrap ml-3 mr-6 text-sm text-gray-600 dark:text-zinc-300 truncate"
                 >{item?.name}</span
               >
-              <span class="ml-auto text-sm text-muted dark:text-white"
+              <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
                 >{item?.type}</span
               >
             </div>
@@ -620,32 +609,32 @@
         {/each}
       {:else if inputValue?.length === 0 || !showSuggestions}
         <div
-          class="pl-2 pb-2 border-b border-gray-300 dark:border-gray-600 text-muted dark:text-white text-sm font-semibold w-full"
+          class="pl-2 pb-2 border-b border-gray-200/70 dark:border-zinc-800/80 text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500 w-full"
         >
           {searchHistory?.length > 0 ? "Recent" : "Popular"}
         </div>
         {#each searchHistory?.length > 0 ? searchHistory : popularList as item}
           <li
-            class="gap-y-1.5 cursor-pointer text-white border-b border-gray-300 dark:border-gray-600 last:border-none flex h-fit w-auto select-none items-center rounded-button py-3 pl-2 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-200 dark:data-highlighted:bg-primary"
+            class="gap-y-1.5 cursor-pointer text-gray-700 dark:text-zinc-200 border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
             on:click={() => handleSearch(item?.symbol, item?.type)}
           >
             <div class="flex flex-row items-center justify-between w-full">
               <span
-                class="text-sm text-muted font-semibold dark:font-normal dark:text-blue-400"
+                class="text-sm font-semibold text-gray-700 dark:text-zinc-200"
                 >{item?.symbol}</span
               >
               <span
-                class="whitespace-nowrap ml-3 mr-6 text-sm text-muted dark:text-white truncate"
+                class="whitespace-nowrap ml-3 mr-6 text-sm text-gray-600 dark:text-zinc-300 truncate"
                 >{item?.name}</span
               >
-              <span class="ml-auto text-sm text-muted dark:text-white"
+              <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
                 >{item?.type}</span
               >
             </div>
           </li>
         {/each}
       {:else}
-        <span class="block px-5 py-2 text-sm text-muted dark:text-white">
+        <span class="block px-5 py-2 text-sm text-gray-500 dark:text-zinc-500">
           No results found
         </span>
       {/if}
