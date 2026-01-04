@@ -1134,7 +1134,9 @@ Lower volume today than average suggests less activity or fading interest."
 
         {#if rawData?.length > 0}
           {#if optionList?.length !== 0}
-            <h3 class="mb-4 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit">
+            <h3
+              class="mb-4 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
+            >
               Option Chain Statistics
             </h3>
 
@@ -1149,7 +1151,7 @@ Lower volume today than average suggests less activity or fading interest."
               class="flex justify-start items-center m-auto overflow-x-auto mt-1"
             >
               <div
-                class="w-full overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 mt-3"
+                class="w-full overflow-hidden rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 mt-3"
               >
                 <table
                   class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto"

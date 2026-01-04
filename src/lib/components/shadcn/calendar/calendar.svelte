@@ -19,7 +19,7 @@
   bind:value
   bind:placeholder
   {weekdayFormat}
-  class={cn("p-3 ", className)}
+  class={cn("p-3 text-sm text-gray-700 dark:text-zinc-200", className)}
   {...$$restProps}
   on:keydown
   let:months
@@ -36,7 +36,7 @@
         <Calendar.GridHead class="">
           <Calendar.GridRow class="flex ">
             {#each weekdays as weekday}
-              <Calendar.HeadCell class="text-muted dark:text-white ">
+              <Calendar.HeadCell class="text-gray-500 dark:text-zinc-400 uppercase tracking-wide text-[0.7rem]">
                 {weekday.slice(0, 2)}
               </Calendar.HeadCell>
             {/each}
@@ -44,7 +44,7 @@
         </Calendar.GridHead>
         <Calendar.GridBody>
           {#each month.weeks as weekDates}
-            <Calendar.GridRow class="mt-2 w-full ">
+            <Calendar.GridRow class="mt-2 w-full">
               {#each weekDates as date}
                 <Calendar.Cell {date}>
                   <Calendar.Day {date} month={month.value} />

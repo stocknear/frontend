@@ -139,7 +139,7 @@
 <div class="w-full overflow-x-auto">
   <!-- Set a min-width on smaller screens so the grid can show all columns -->
   <div
-    class="min-w-[1000px] rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
+    class="min-w-[1000px] rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
   >
     <!-- Header row using grid -->
     <div

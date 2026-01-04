@@ -9,7 +9,7 @@
 </script>
 
 <CalendarPrimitive.Grid
-  class={cn("w-full bg-white dark:bg-[#000] border-none space-y-1", className)}
+  class={cn("w-full border-none space-y-1", className)}
   {...$$restProps}
 >
   <slot />

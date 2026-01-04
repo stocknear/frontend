@@ -447,7 +447,7 @@
       </div>
       <a
         href={`/stocks/${$stockTicker}/profile`}
-        class="inline-flex items-center justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
+        class="inline-flex items-center justify-center rounded-full border border-gray-300 dark:border-zinc-800/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
       >
         Full Company Profile
       </a>
@@ -492,7 +492,7 @@
 
         {#if configFinancial}
           <div
-            class="mt-3 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+            class="mt-3 border border-gray-300 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
             use:highcharts={configFinancial}
           ></div>
         {/if}
@@ -503,7 +503,7 @@
         {/if}
         <a
           href={`/stocks/${$stockTicker}/financials`}
-          class="inline-flex items-center justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
+          class="inline-flex items-center justify-center rounded-full border border-gray-300 dark:border-zinc-800/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
         >
           Financial Statements
         </a>
@@ -536,14 +536,14 @@
 
         {#if configAnalyst}
           <div
-            class="mt-3 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+            class="mt-3 border border-gray-300 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
             use:highcharts={configAnalyst}
           ></div>
         {/if}
 
         <a
           href={`/stocks/${$stockTicker}/forecast/analyst`}
-          class="inline-flex items-center justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
+          class="inline-flex items-center justify-center rounded-full border border-gray-300 dark:border-zinc-800/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
         >
           Stock Forecasts
         </a>

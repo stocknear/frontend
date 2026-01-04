@@ -755,7 +755,7 @@
         />
 
         <div
-          class="rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4 mt-5"
+          class="rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4 mt-5"
         >
           <div class="items-end">
             <div
@@ -781,7 +781,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="mb-1 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
+                      class="mb-1 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
                     >
                       <span class="truncate text-sm"
                         >{formatDate(selectedDate)}</span
@@ -807,7 +807,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="min-w-48 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="min-w-48 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <!-- Dropdown items -->
                     <DropdownMenu.Group class="pb-2"
@@ -869,7 +869,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="mb-1 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
+                      class="mb-1 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
                     >
                       <span class="truncate text-sm"
                         >{selectedStrike ?? "n/a"}</span
@@ -895,7 +895,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <!-- Dropdown items -->
                     <DropdownMenu.Group class="pb-2">
@@ -934,7 +934,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="mb-1 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
+                      class="mb-1 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
                     >
                       <span class="truncate text-sm">{selectedOptionType}</span>
                       <svg
@@ -958,7 +958,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <!-- Dropdown items -->
                     <DropdownMenu.Group class="pb-2"
@@ -1204,17 +1204,20 @@
                     <div class="">
                       <div class="inline-flex">
                         <div
-                          class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-200/70 dark:border-zinc-800/80"
+                          class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-800/80"
                         >
                           {#each ["Price", "Vol/OI", "IV"] as item, i}
                             {#if !["Pro"]?.includes(data?.user?.tier) && i > 1}
                               <button
                                 on:click={() => goto("/pricing")}
-                                class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all {selectGraphType === item
+                                class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all {selectGraphType ===
+                                item
                                   ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
                                   : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                               >
-                                <span class="relative text-sm block font-semibold">
+                                <span
+                                  class="relative text-sm block font-semibold"
+                                >
                                   {item}
                                   <svg
                                     class="inline-block ml-0.5 -mt-1 w-3.5 h-3.5"
@@ -1232,7 +1235,8 @@
                                 on:click={() => {
                                   selectGraphType = item;
                                 }}
-                                class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all {selectGraphType === item
+                                class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all {selectGraphType ===
+                                item
                                   ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
                                   : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                               >
@@ -1248,7 +1252,7 @@
                         <DropdownMenu.Trigger asChild let:builder>
                           <Button
                             builders={[builder]}
-                            class="w-full transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                            class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                           >
                             <span class="truncate text-xs sm:text-sm"
                               >{selectedTimePeriod}</span
@@ -1273,7 +1277,7 @@
                           align="end"
                           sideOffset={10}
                           alignOffset={0}
-                          class="w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                          class="w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                         >
                           <DropdownMenu.Label
                             class="text-xs font-medium text-gray-500 dark:text-zinc-400"
@@ -1331,7 +1335,7 @@
                     <div class="relative">
                       <!-- Apply the blur class to the chart -->
                       <div
-                        class="mt-5 sm:mt-0 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                        class="mt-5 sm:mt-0 border border-gray-300 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                         use:highcharts={config}
                       ></div>
                     </div>
@@ -1368,7 +1372,7 @@
                 class="flex justify-start items-center m-auto overflow-x-auto cursor-normal"
               >
                 <div
-                  class="w-full overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
+                  class="w-full overflow-hidden rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
                 >
                   <table
                     class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
@@ -1381,79 +1385,84 @@
                     <tbody>
                       {#each displayList as item, index}
                         <tr class="transition-colors">
-                        <td
-                          class="text-sm sm:text-[1rem] text-start whitespace-nowrap"
-                        >
-                          {formatDate(item?.date)}
-                        </td>
+                          <td
+                            class="text-sm sm:text-[1rem] text-start whitespace-nowrap"
+                          >
+                            {formatDate(item?.date)}
+                          </td>
 
-                        <td class="text-sm sm:text-[1rem] text-end">
-                          {item?.volume !== null
-                            ? item?.volume?.toLocaleString("en-US")
-                            : 0}
-                        </td>
+                          <td class="text-sm sm:text-[1rem] text-end">
+                            {item?.volume !== null
+                              ? item?.volume?.toLocaleString("en-US")
+                              : 0}
+                          </td>
 
-                        <td class="text-sm sm:text-[1rem] text-end">
-                          {item?.open_interest &&
-                          item?.open_interest !== undefined
-                            ? item?.open_interest?.toLocaleString("en-US")
-                            : "n/a"}
-                        </td>
-                        <td class="text-sm sm:text-[1rem] text-end">
-                          {#if item?.changeOI > 0 && item?.changeOI !== null}
-                            <span class="text-emerald-600 dark:text-emerald-400"
-                              >+{item?.changeOI?.toLocaleString("en-US")}</span
-                            >
-                          {:else if item?.changeOI < 0 && item?.changeOI !== null}
-                            <span class="text-rose-600 dark:text-rose-400"
-                              >{item?.changeOI?.toLocaleString("en-US")}</span
-                            >
-                          {:else if item?.changeOI === 0 && item?.changeOI !== null}
-                            <span class="">0</span>
-                          {:else}
-                            n/a
-                          {/if}
-                        </td>
+                          <td class="text-sm sm:text-[1rem] text-end">
+                            {item?.open_interest &&
+                            item?.open_interest !== undefined
+                              ? item?.open_interest?.toLocaleString("en-US")
+                              : "n/a"}
+                          </td>
+                          <td class="text-sm sm:text-[1rem] text-end">
+                            {#if item?.changeOI > 0 && item?.changeOI !== null}
+                              <span
+                                class="text-emerald-600 dark:text-emerald-400"
+                                >+{item?.changeOI?.toLocaleString(
+                                  "en-US",
+                                )}</span
+                              >
+                            {:else if item?.changeOI < 0 && item?.changeOI !== null}
+                              <span class="text-rose-600 dark:text-rose-400"
+                                >{item?.changeOI?.toLocaleString("en-US")}</span
+                              >
+                            {:else if item?.changeOI === 0 && item?.changeOI !== null}
+                              <span class="">0</span>
+                            {:else}
+                              n/a
+                            {/if}
+                          </td>
 
-                        <td class="text-sm sm:text-[1rem] text-end">
-                          {#if item?.changesPercentageOI > 0 && item?.changesPercentageOI !== undefined}
-                            <span class="text-emerald-600 dark:text-emerald-400"
-                              >+{item?.changesPercentageOI + "%"}</span
-                            >
-                          {:else if item?.changesPercentageOI < 0 && item?.changesPercentageOI !== undefined}
-                            <span class="text-rose-600 dark:text-rose-400"
-                              >{item?.changesPercentageOI + "%"}</span
-                            >
-                          {:else if item?.changesPercentageOI === 0 && item?.changesPercentageOI !== undefined}
-                            0%
-                          {:else}
-                            n/a
-                          {/if}
-                        </td>
+                          <td class="text-sm sm:text-[1rem] text-end">
+                            {#if item?.changesPercentageOI > 0 && item?.changesPercentageOI !== undefined}
+                              <span
+                                class="text-emerald-600 dark:text-emerald-400"
+                                >+{item?.changesPercentageOI + "%"}</span
+                              >
+                            {:else if item?.changesPercentageOI < 0 && item?.changesPercentageOI !== undefined}
+                              <span class="text-rose-600 dark:text-rose-400"
+                                >{item?.changesPercentageOI + "%"}</span
+                              >
+                            {:else if item?.changesPercentageOI === 0 && item?.changesPercentageOI !== undefined}
+                              0%
+                            {:else}
+                              n/a
+                            {/if}
+                          </td>
 
-                        <td class="text-sm sm:text-[1rem] text-end">
-                          {item?.close ?? "n/a"}
-                        </td>
+                          <td class="text-sm sm:text-[1rem] text-end">
+                            {item?.close ?? "n/a"}
+                          </td>
 
-                        <td class="text-sm sm:text-[1rem] text-end">
-                          {item?.mark ?? "n/a"}
-                        </td>
+                          <td class="text-sm sm:text-[1rem] text-end">
+                            {item?.mark ?? "n/a"}
+                          </td>
 
-                        <td class="text-sm sm:text-[1rem] text-end">
-                          {item?.implied_volatility
-                            ? (item?.implied_volatility * 100)?.toFixed(2) + "%"
-                            : "n/a"}
-                        </td>
+                          <td class="text-sm sm:text-[1rem] text-end">
+                            {item?.implied_volatility
+                              ? (item?.implied_volatility * 100)?.toFixed(2) +
+                                "%"
+                              : "n/a"}
+                          </td>
 
-                        <td class="text-sm sm:text-[1rem] text-end">
-                          {abbreviateNumber(item?.total_premium)}
-                        </td>
-                        <td class="text-sm sm:text-[1rem] text-end">
-                          {abbreviateNumber(item?.gex?.toFixed(2))}
-                        </td>
-                        <td class="text-sm sm:text-[1rem] text-end">
-                          {abbreviateNumber(item?.dex?.toFixed(2))}
-                        </td>
+                          <td class="text-sm sm:text-[1rem] text-end">
+                            {abbreviateNumber(item?.total_premium)}
+                          </td>
+                          <td class="text-sm sm:text-[1rem] text-end">
+                            {abbreviateNumber(item?.gex?.toFixed(2))}
+                          </td>
+                          <td class="text-sm sm:text-[1rem] text-end">
+                            {abbreviateNumber(item?.dex?.toFixed(2))}
+                          </td>
                         </tr>
                       {/each}
                     </tbody>
@@ -1471,7 +1480,7 @@
                     <Button
                       on:click={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <svg
                         class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1500,7 +1509,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
                             >{rowsPerPage} Rows</span
@@ -1526,7 +1535,7 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                       >
                         <!-- Dropdown items -->
                         <DropdownMenu.Group class="pb-2">
@@ -1552,7 +1561,7 @@
                     <Button
                       on:click={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="hidden sm:inline">Next</span>
                       <svg
@@ -1599,7 +1608,7 @@
             <div class="flex justify-center items-center h-80">
               <div class="relative">
                 <label
-                  class="border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                  class="border border-gray-300 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                 >
                   <span
                     class="loading loading-spinner loading-md text-white dark:text-white"
@@ -1630,10 +1639,12 @@
 
     <!-- Desktop modal content -->
     <div
-      class="modal-box rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 w-full bg-white dark:bg-zinc-950/90 flex flex-col items-center"
+      class="modal-box rounded-2xl border border-gray-300 dark:border-zinc-800/80 w-full bg-white dark:bg-zinc-950/90 flex flex-col items-center"
     >
       <div class=" mb-5 text-center">
-        <h3 class="font-semibold tracking-tight text-2xl text-gray-900 dark:text-white mb-5">
+        <h3
+          class="font-semibold tracking-tight text-2xl text-gray-900 dark:text-white mb-5"
+        >
           {tooltipTitle}
         </h3>
         <span class="text-sm text-gray-600 dark:text-zinc-400 font-normal"
@@ -1641,13 +1652,17 @@
         >
         {#if infoText?.equation !== undefined}
           <div class="w-5/6 m-auto mt-5"></div>
-          <div class="text-sm w-full pt-3 pb-3 m-auto text-gray-600 dark:text-zinc-400">
+          <div
+            class="text-sm w-full pt-3 pb-3 m-auto text-gray-600 dark:text-zinc-400"
+          >
             {infoText?.equation}
           </div>
         {/if}
       </div>
 
-      <div class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-2 w-full">
+      <div
+        class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-2 w-full"
+      >
         <label
           for="mobileTooltip"
           class="cursor-pointer mt-4 font-semibold text-lg text-gray-900 dark:text-white m-auto flex justify-center"

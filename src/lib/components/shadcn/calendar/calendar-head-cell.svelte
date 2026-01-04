@@ -10,7 +10,7 @@
 
 <CalendarPrimitive.HeadCell
   class={cn(
-    "bg-white dark:bg-[#000] text-muted dark:text-white w-9 rounded text-[0.8rem] font-normal",
+    "text-gray-500 dark:text-zinc-400 w-9 rounded text-[0.7rem] font-medium uppercase tracking-wide",
     className,
   )}
   {...$$restProps}

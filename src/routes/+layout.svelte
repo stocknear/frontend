@@ -1354,7 +1354,7 @@
                   class="mb-2 flex flex-row items-center ml-8 pr-7 w-full"
                 >
                   <div
-                    class="px-4 py-1 sm:py-2 rounded-full flex flex-row items-center justify-start w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 transition"
+                    class="px-4 py-1 sm:py-2 rounded-full flex flex-row items-center justify-start w-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 transition"
                   >
                     <Plus class="w-4 h-4 inline-block mr-2" />
                     <span class="font-semibold">Start new chat</span>
@@ -1365,7 +1365,7 @@
                   class="group flex flex-row items-center ml-9 w-full"
                 >
                   <div
-                    class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                    class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                   >
                     <Home class="h-5.5 w-5.5" />
                   </div>
@@ -1382,7 +1382,7 @@
                         class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <Stock
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto">Stocks</span>
                       </Accordion.Trigger>
@@ -1426,7 +1426,7 @@
                         class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <Layers
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto">ETFs</span>
                       </Accordion.Trigger>
@@ -1457,7 +1457,7 @@
                         class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <Analyst
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto">Analyst</span>
                       </Accordion.Trigger>
@@ -1494,7 +1494,7 @@
                         class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <Calendar
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto">Calendar</span>
                       </Accordion.Trigger>
@@ -1543,7 +1543,7 @@
                         class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <HandShake
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto">Congress</span>
                       </Accordion.Trigger>
@@ -1577,7 +1577,7 @@
                         class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <Flow
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto">Flow Feed</span>
                       </Accordion.Trigger>
@@ -1620,7 +1620,7 @@
                         class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <Screener
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto">Screener</span>
                       </Accordion.Trigger>
@@ -1651,7 +1651,7 @@
                     <Accordion.Item value="item-1">
                       <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition">
                         <Simulation
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto"
                           >Simulation</span
@@ -1686,7 +1686,7 @@
                         class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <Tools
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto">Tools</span>
                       </Accordion.Trigger>
@@ -1732,7 +1732,7 @@
                   class="group flex flex-row items-center ml-9 w-full mt-3"
                 >
                   <div
-                    class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                    class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                   >
                     <Boxes class="h-5.5 w-5.5" />
                   </div>
@@ -1747,7 +1747,7 @@
                   class="group flex flex-row items-center ml-9 w-full mt-3"
                 >
                   <div
-                    class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                    class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                   >
                     <Newspaper class="h-5.5 w-5.5" />
                   </div>
@@ -1762,7 +1762,7 @@
                     class="group flex flex-row items-center ml-9 w-full mt-3"
                   >
                     <div
-                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                     >
                       <Gem class="h-5.5 w-5.5" />
                     </div>

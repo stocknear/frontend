@@ -9,7 +9,7 @@
 </script>
 
 <CalendarPrimitive.GridRow
-  class={cn("bg-white dark:bg-[#000] flex", className)}
+  class={cn("flex", className)}
   {...$$restProps}
 >
   <slot />

@@ -1068,7 +1068,7 @@
                 >
                   <div class="relative">
                     <label
-                      class="bg-white/90 dark:bg-zinc-950/70 border border-gray-200/70 dark:border-zinc-800/80 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      class="bg-white/90 dark:bg-zinc-950/70 border border-gray-300 dark:border-zinc-800/80 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                     >
                       <span
                         class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"

@@ -20,27 +20,28 @@
   structuredData={{
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
-    "name": "Stocknear Learning Center",
-    "description": "Comprehensive stock market education and investment tutorials",
-    "url": "https://stocknear.com/learning-center",
-    "educationalUse": "Investment Education",
-    "audience": {
+    name: "Stocknear Learning Center",
+    description:
+      "Comprehensive stock market education and investment tutorials",
+    url: "https://stocknear.com/learning-center",
+    educationalUse: "Investment Education",
+    audience: {
       "@type": "EducationalAudience",
-      "educationalRole": "student"
+      educationalRole: "student",
     },
-    "teaches": [
+    teaches: [
       "Stock Market Investing",
       "Technical Analysis",
-      "Fundamental Analysis", 
+      "Fundamental Analysis",
       "Portfolio Management",
-      "Trading Strategies"
+      "Trading Strategies",
     ],
-    "mainEntity": {
+    mainEntity: {
       "@type": "ItemList",
-      "name": "Educational Articles",
-      "description": "Stock market education and investment tutorial articles",
-      "numberOfItems": allBlogPosts?.length || 0
-    }
+      name: "Educational Articles",
+      description: "Stock market education and investment tutorial articles",
+      numberOfItems: allBlogPosts?.length || 0,
+    },
   }}
 />
 
@@ -53,7 +54,9 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80 pb-2">
+          <div
+            class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80 pb-2"
+          >
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
@@ -65,7 +68,7 @@
             {#if allBlogPosts?.length !== 0}
               {#each allBlogPosts as item}
                 <div
-                  class="flex flex-col overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
+                  class="flex flex-col overflow-hidden rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
                 >
                   <div class="shrink-0">
                     <a
@@ -96,7 +99,9 @@
                         >
                           {item?.title}
                         </h2>
-                        <p class="mt-3 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">
+                        <p
+                          class="mt-3 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed"
+                        >
                           {item?.abstract.length > 250
                             ? item?.abstract?.slice(0, 250) + "..."
                             : item?.abstract}
@@ -104,7 +109,9 @@
                       >
                     </div>
                     <div class="mt-6 flex items-center">
-                      <div class="flex items-center text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+                      <div
+                        class="flex items-center text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                      >
                         Published:
                         <time
                           datetime={item?.created}
@@ -129,7 +136,7 @@
             {#if currentPage > 1}
               <a
                 href={`/learning-center/?page=${currentPage - 1}`}
-                class="mr-auto inline-flex items-center gap-2 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 px-3 py-2 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                class="mr-auto inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 px-3 py-2 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
               >
                 <svg
                   class="w-5 h-5 rotate-180"
@@ -149,7 +156,7 @@
             {#if currentPage < totalPages}
               <a
                 href={`/learning-center/?page=${currentPage + 1}`}
-                class="ml-auto inline-flex items-center gap-2 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 px-3 py-2 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                class="ml-auto inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 px-3 py-2 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
                 ><span>Next</span>
                 <svg
                   class="w-5 h-5 inline-block"

@@ -281,7 +281,7 @@
 
         {#if rawData?.history?.length > 0}
           <div
-            class="mb-4 grid grid-cols-2 md:grid-cols-3 rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 divide-x divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+            class="mb-4 grid grid-cols-2 md:grid-cols-3 rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 divide-x divide-y divide-gray-200/70 dark:divide-zinc-800/80"
           >
             <div class="p-4 bp:p-5 sm:p-6">
               <label
@@ -289,7 +289,9 @@
               >
                 Dividend Yield
               </label>
-              <div class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white">
+              <div
+                class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white"
+              >
                 {dividendYield !== "0.00" ? dividendYield : "0"}%
               </div>
             </div>
@@ -300,7 +302,9 @@
                 Annual Dividend
               </label>
 
-              <div class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white">
+              <div
+                class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white"
+              >
                 {annualDividend !== "0.00" ? annualDividend : "0"}
               </div>
             </div>
@@ -311,7 +315,9 @@
                 Ex-Dividend Date
               </label>
 
-              <div class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white">
+              <div
+                class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white"
+              >
                 {new Date(exDividendDate)?.toLocaleString("en-US", {
                   month: "short",
                   day: "numeric",
@@ -328,7 +334,9 @@
                 Payout Frequency
               </label>
 
-              <div class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white">
+              <div
+                class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white"
+              >
                 {payoutFrequency ? payoutFrequency : "n/a"}
               </div>
             </div>
@@ -339,7 +347,9 @@
                 Payout Ratio
               </label>
 
-              <div class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white">
+              <div
+                class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white"
+              >
                 {payoutRatio !== "0.00" && payoutRatio !== null
                   ? payoutRatio + "%"
                   : "n/a"}
@@ -352,7 +362,9 @@
                 Dividend Growth
               </label>
 
-              <div class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white">
+              <div
+                class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white"
+              >
                 {dividendGrowth ? dividendGrowth + "%" : "n/a"}
               </div>
             </div>
@@ -381,7 +393,7 @@
               class="overflow-x-auto flex justify-start items-center w-full m-auto mb-4 mt-4"
             >
               <div
-                class="w-full overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
+                class="w-full overflow-hidden rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
               >
                 <table
                   class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
@@ -395,54 +407,54 @@
                     {#each stockList as item}
                       <tr class="transition-colors">
                         <td class="text-start text-sm whitespace-nowrap">
-                        {new Date(item?.date)?.toLocaleString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
-                          daySuffix: "2-digit",
-                        })}
-                      </td>
-                        <td class="text-end text-sm whitespace-nowrap">
-                        ${item?.adjDividend?.toFixed(3)}
+                          {new Date(item?.date)?.toLocaleString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                            daySuffix: "2-digit",
+                          })}
                         </td>
                         <td class="text-end text-sm whitespace-nowrap">
-                        {item?.declarationDate?.length !== 0
-                          ? new Date(item?.declarationDate)?.toLocaleString(
-                              "en-US",
-                              {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                                daySuffix: "2-digit",
-                              },
-                            )
-                          : "n/a"}
+                          ${item?.adjDividend?.toFixed(3)}
                         </td>
                         <td class="text-end text-sm whitespace-nowrap">
-                        {item?.recordDate?.length !== 0
-                          ? new Date(item?.recordDate)?.toLocaleString(
-                              "en-US",
-                              {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                                daySuffix: "2-digit",
-                              },
-                            )
-                          : "n/a"}
+                          {item?.declarationDate?.length !== 0
+                            ? new Date(item?.declarationDate)?.toLocaleString(
+                                "en-US",
+                                {
+                                  month: "short",
+                                  day: "numeric",
+                                  year: "numeric",
+                                  daySuffix: "2-digit",
+                                },
+                              )
+                            : "n/a"}
                         </td>
                         <td class="text-end text-sm whitespace-nowrap">
-                        {item?.paymentDate?.length !== 0
-                          ? new Date(item?.paymentDate)?.toLocaleString(
-                              "en-US",
-                              {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                                daySuffix: "2-digit",
-                              },
-                            )
-                          : "n/a"}
+                          {item?.recordDate?.length !== 0
+                            ? new Date(item?.recordDate)?.toLocaleString(
+                                "en-US",
+                                {
+                                  month: "short",
+                                  day: "numeric",
+                                  year: "numeric",
+                                  daySuffix: "2-digit",
+                                },
+                              )
+                            : "n/a"}
+                        </td>
+                        <td class="text-end text-sm whitespace-nowrap">
+                          {item?.paymentDate?.length !== 0
+                            ? new Date(item?.paymentDate)?.toLocaleString(
+                                "en-US",
+                                {
+                                  month: "short",
+                                  day: "numeric",
+                                  year: "numeric",
+                                  daySuffix: "2-digit",
+                                },
+                              )
+                            : "n/a"}
                         </td>
                       </tr>
                     {/each}
@@ -461,7 +473,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -490,7 +502,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
                           >{rowsPerPage} Rows</span
@@ -516,7 +528,7 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                     >
                       <!-- Dropdown items -->
                       <DropdownMenu.Group class="pb-2">
@@ -542,7 +554,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline">Next</span>
                     <svg

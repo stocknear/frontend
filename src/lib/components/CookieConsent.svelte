@@ -126,12 +126,12 @@
     transition:fly={{ y: 100, duration: 300 }}
   >
     <div
-      class="w-full max-w-lg m-auto rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white dark:bg-zinc-950 p-4"
+      class="w-full max-w-lg m-auto rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white dark:bg-zinc-950 p-4"
     >
       <div class="flex flex-col gap-3">
         <div class="flex items-center gap-3">
           <div
-            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/60"
+            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/60"
           >
             <Cookie class="h-5 w-5 text-gray-600 dark:text-zinc-300" />
           </div>
@@ -150,7 +150,7 @@
         <div class="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
           <Button
             on:click={acceptAll}
-            class="w-full rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-gray-900 text-white hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 sm:w-auto transition"
+            class="w-full rounded-full border border-gray-300 dark:border-zinc-800/80 bg-gray-900 text-white hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 sm:w-auto transition"
           >
             Accept All
           </Button>
@@ -176,7 +176,7 @@
 
 <Dialog.Root bind:open={showCustomize}>
   <Dialog.Content
-    class="max-h-[90vh] w-[95vw] max-w-lg rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 overflow-y-auto bg-white dark:bg-zinc-950 text-gray-700 dark:text-zinc-200 z-[999]"
+    class="max-h-[90vh] w-[95vw] max-w-lg rounded-2xl border border-gray-300 dark:border-zinc-800/80 overflow-y-auto bg-white dark:bg-zinc-950 text-gray-700 dark:text-zinc-200 z-[999]"
   >
     <Dialog.Header>
       <Dialog.Title
@@ -193,7 +193,7 @@
     <div class="mt-6 space-y-4">
       <!-- Necessary Cookies -->
       <div
-        class="flex items-start justify-between rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4"
+        class="flex items-start justify-between rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4"
       >
         <div class="flex items-start gap-3">
           <div>
@@ -217,7 +217,7 @@
 
       <!-- Analytics Cookies -->
       <div
-        class="flex items-start justify-between rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4"
+        class="flex items-start justify-between rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4"
       >
         <div class="flex items-start gap-3">
           <div>
@@ -249,7 +249,7 @@
 
       <!-- Marketing Cookies -->
       <div
-        class="flex items-start justify-between rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4"
+        class="flex items-start justify-between rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4"
       >
         <div class="flex items-start gap-3">
           <div>
@@ -297,7 +297,7 @@
       </Button>
       <Button
         on:click={saveCustom}
-        class="w-full rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 sm:w-auto transition"
+        class="w-full rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 sm:w-auto transition"
       >
         Save Preferences
       </Button>

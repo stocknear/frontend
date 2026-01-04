@@ -94,7 +94,7 @@
     <div class="mx-auto max-w-7xl px-6 py-16 sm:py-12 md:px-8">
       <div class="text-center">
         <img
-          class="m-auto w-20 sm:w-24 rounded-full mb-5 mt-3 border border-gray-200/70 dark:border-zinc-800/80"
+          class="m-auto w-20 sm:w-24 rounded-full mb-5 mt-3 border border-gray-300 dark:border-zinc-800/80"
           src="/pwa-192x192.png"
           alt="Stocknear Logo"
           loading="lazy"
@@ -115,17 +115,23 @@
   </section>
 
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10">
-    <h2 class="text-xl font-semibold mb-5 tracking-tight text-gray-900 dark:text-white">
+    <h2
+      class="text-xl font-semibold mb-5 tracking-tight text-gray-900 dark:text-white"
+    >
       Welcome aboard! 👋
     </h2>
 
-    <p class="mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400">
+    <p
+      class="mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400"
+    >
       Thank you for subscribing to <strong>Stocknear</strong>! You've made a
       smart investment that typically pays for itself with just one prevented
       loss or better-timed trade.
     </p>
 
-    <p class="mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400">
+    <p
+      class="mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400"
+    >
       You now have access to the same institutional-grade tools and real-time
       data that hedge funds pay thousands for monthly. Need assistance with any
       feature? Our support team is here to help at
@@ -138,7 +144,9 @@
     </p>
 
     {#if ["Pro", "Lifetime"]?.includes(tier)}
-      <p class="mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400">
+      <p
+        class="mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400"
+      >
         Your Pro subscription unlocks:
       </p>
       <ul
@@ -151,7 +159,9 @@
         <li>Priority access to new features and updates</li>
       </ul>
     {:else if tier === "Plus"}
-      <p class="mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400">
+      <p
+        class="mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400"
+      >
         Your Plus subscription unlocks:
       </p>
       <ul

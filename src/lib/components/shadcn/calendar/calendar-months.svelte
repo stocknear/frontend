@@ -10,7 +10,7 @@
 
 <div
   class={cn(
-    "bg-white dark:bg-[#000] mt-4 text-muted dark:text-white flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0",
+    "mt-3 text-gray-600 dark:text-zinc-300 flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0",
     className,
   )}
   {...$$restProps}

@@ -1765,7 +1765,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="min-w-[110px] w-full transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="min-w-[110px] w-full transition-all duration-150 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate max-w-48"
                         >{selectedStrategy?.length !== 0
@@ -1790,7 +1790,7 @@
                     </Button>
                   </DropdownMenu.Trigger>
                   <DropdownMenu.Content
-                    class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <DropdownMenu.Label
                       class="text-gray-500 dark:text-zinc-400 font-normal"
@@ -1867,7 +1867,7 @@
         </div>
 
         <div
-          class="rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-3"
+          class="rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-3"
         >
           <div
             class="flex flex-col sm:flex-row items-center pt-3 sm:pt-1 pb-3 sm:border-b sm:border-gray-200/70 dark:border-zinc-800/80"
@@ -1887,7 +1887,7 @@
                 class=" xl:tooltip xl:tooltip-bottom flex flex-col items-center mr-3 cursor-pointer"
               >
                 <div
-                  class="rounded-full w-10 h-10 relative border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 flex items-center justify-center"
+                  class="rounded-full w-10 h-10 relative border border-gray-300 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 flex items-center justify-center"
                 >
                   {#if !muted}
                     <svg
@@ -1957,7 +1957,7 @@
             <div class="sm:ml-auto w-full sm:w-fit pt-5">
               <div class="relative flex flex-col sm:flex-row items-center">
                 <div
-                  class="relative w-full sm:w-fit pl-3 sm:mr-5 mb-4 sm:mb-0 flex-auto text-center bg-white/80 dark:bg-zinc-950/60 rounded-full border border-gray-200/70 dark:border-zinc-800/80"
+                  class="relative w-full sm:w-fit pl-3 sm:mr-5 mb-4 sm:mb-0 flex-auto text-center bg-white/80 dark:bg-zinc-950/60 rounded-full border border-gray-300 dark:border-zinc-800/80"
                 >
                   <label class=" flex flex-row items-center">
                     <input
@@ -2010,11 +2010,13 @@
                 <Popover.Root>
                   <Popover.Trigger asChild let:builder>
                     <Button
-                      class="w-full sm:w-[160px] truncate sm:mr-3 py-2.5 border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 justify-center sm:justify-start text-center sm:text-left rounded-full font-medium hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      class="shadow w-full sm:w-[160px] truncate sm:mr-3 py-2.5 border border-gray-300 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 justify-center sm:justify-start text-center sm:text-left rounded-full font-medium hover:text-violet-600 dark:hover:text-violet-400 transition"
                       builders={[builder]}
                     >
-                      <CalendarIcon class="mr-2 h-4 w-4" />
-                      <span class="text-[1rem] sm:text-sm font-semibold">
+                      <CalendarIcon
+                        class="mr-2 h-4 w-4 text-gray-500 dark:text-zinc-400"
+                      />
+                      <span class="text-sm font-medium tracking-tight">
                         {selectedDate
                           ? df.format(selectedDate?.toDate())
                           : "Pick a date"}
@@ -2027,7 +2029,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto p-0 border border-gray-200/70 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200 bg-white/95 dark:bg-zinc-950/95 rounded-2xl shadow-none"
+                    class="w-auto p-0 border border-gray-300 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200 bg-white/95 dark:bg-zinc-950/95 rounded-2xl shadow-none"
                   >
                     <Calendar
                       class=" "
@@ -2134,7 +2136,7 @@
                     on:keydown={handleQuickSearchKeydown}
                     on:focus={() => updateQuickSearchResults(quickSearchTerm)}
                     on:blur={closeQuickSearchDropdown}
-                    class="block w-full lg:w-64 py-2.5 bg-white/80 dark:bg-zinc-950/60 placeholder:text-gray-500 dark:placeholder:text-zinc-400 pl-10 text-sm border border-gray-200/70 dark:border-zinc-800/80 rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+                    class="block w-full lg:w-64 py-2.5 bg-white/80 dark:bg-zinc-950/60 placeholder:text-gray-500 dark:placeholder:text-zinc-400 pl-10 text-sm border border-gray-300 dark:border-zinc-800/80 rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
                   />
 
                   <!-- Clear button -->
@@ -2168,7 +2170,7 @@
                 <!-- Quick Search Dropdown -->
                 {#if showQuickSearchDropdown && quickSearchResults.length > 0}
                   <div
-                    class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none max-h-64 overflow-y-auto"
+                    class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-300 dark:border-zinc-800/80 rounded-2xl shadow-none max-h-64 overflow-y-auto"
                     in:scale={{
                       start: 0.98,
                       duration: 140,
@@ -2213,7 +2215,7 @@
                 <!-- No results message -->
                 {#if showQuickSearchDropdown && quickSearchTerm.length > 0 && quickSearchResults.length === 0}
                   <div
-                    class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none p-4 text-center text-sm text-gray-500 dark:text-zinc-400"
+                    class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-300 dark:border-zinc-800/80 rounded-2xl shadow-none p-4 text-center text-sm text-gray-500 dark:text-zinc-400"
                   >
                     No available filters found
                   </div>
@@ -2252,7 +2254,7 @@
                         });
                       }
                     }}
-                    class="text-sm sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400 focus:outline-hidden"
+                    class="text-sm sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400 focus:outline-hidden"
                   >
                     <Copy class="w-4 h-4 inline-block mr-2" />
                     <div>Save as New</div>
@@ -2263,7 +2265,7 @@
               {#if ruleOfList?.length !== 0}
                 <label
                   on:click={handleResetAll}
-                  class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-rose-600 dark:hover:text-rose-400 focus:outline-hidden"
+                  class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-rose-600 dark:hover:text-rose-400 focus:outline-hidden"
                 >
                   <svg
                     class="h-4 w-4"
@@ -2339,7 +2341,7 @@
                           <DropdownMenu.Trigger asChild let:builder>
                             <Button
                               builders={[builder]}
-                              class="h-[40px] border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 rounded-full truncate hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="h-[40px] border border-gray-300 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 rounded-full truncate hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >
                               <span class="truncate ml-2 text-sm">
                                 {#if valueMappings[row?.rule] === "any"}
@@ -2376,7 +2378,7 @@
                             align="end"
                             sideOffset={10}
                             alignOffset={0}
-                            class="w-64 min-h-auto max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                            class="w-64 min-h-auto max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                           >
                             {#if !categoricalRules?.includes(row?.rule)}
                               <DropdownMenu.Label
@@ -2448,7 +2450,7 @@
                                           : ""}
                                         on:input={(e) =>
                                           handleValueInput(e, row?.rule, 0)}
-                                        class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80"
+                                        class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-800/80"
                                       />
                                       <span
                                         class=" text-[1rem] font-normal mt-1"
@@ -2465,7 +2467,7 @@
                                           : ""}
                                         on:input={(e) =>
                                           handleValueInput(e, row?.rule, 1)}
-                                        class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80"
+                                        class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-800/80"
                                       />
                                     </div>
                                   {:else}
@@ -2477,7 +2479,7 @@
                                         : valueMappings[row?.rule]}
                                       on:input={(e) =>
                                         handleValueInput(e, row?.rule)}
-                                      class="ios-zoom-fix block max-w-[4.8rem] rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80"
+                                      class="ios-zoom-fix block max-w-[4.8rem] rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-800/80"
                                     />
                                   {/if}
 
@@ -2633,7 +2635,7 @@
               >
                 <!--Start Flow Sentiment-->
                 <div
-                  class="flex flex-col w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl h-20"
+                  class="flex flex-col w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-800/80 rounded-2xl h-20"
                 >
                   <div class="flex flex-col items-start justify-between mb-2">
                     {#if data?.user?.tier === "Pro"}
@@ -2667,7 +2669,7 @@
                       </div>
                       <div class="flex flex-col w-full mt-2">
                         <div
-                          class="relative flex w-full h-3.5 rounded-full overflow-hidden bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-200/70 dark:border-zinc-800/80"
+                          class="relative flex w-full h-3.5 rounded-full overflow-hidden bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 dark:border-zinc-800/80"
                         >
                           <div
                             class="bg-emerald-500/70 dark:bg-emerald-400/70 h-full transition-all duration-300 flex items-center justify-center"
@@ -2728,7 +2730,7 @@
                 <!--End Flow Sentiment-->
                 <!--Start Put/Call-->
                 <div
-                  class="flex flex-row items-center w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl h-20"
+                  class="flex flex-row items-center w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-800/80 rounded-2xl h-20"
                 >
                   <div class="flex flex-col items-start">
                     <span class="text-xs text-gray-500 dark:text-zinc-400"
@@ -2822,7 +2824,7 @@
                 <!--End Put/Call-->
                 <!--Start Call Flow-->
                 <div
-                  class="flex flex-row items-center w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl h-20"
+                  class="flex flex-row items-center w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-800/80 rounded-2xl h-20"
                 >
                   <div class="flex flex-col items-start">
                     <div class="flex flex-row items-center gap-2">
@@ -2926,7 +2928,7 @@
                 <!--End Call Flow-->
                 <!--Start Put Flow-->
                 <div
-                  class="flex flex-row items-center w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl h-20"
+                  class="flex flex-row items-center w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-800/80 rounded-2xl h-20"
                 >
                   <div class="flex flex-col items-start">
                     <div class="flex flex-row items-center gap-2">
@@ -3080,7 +3082,7 @@
   ></label>
 
   <div
-    class="modal-box text-gray-700 dark:text-zinc-200 relative bg-white dark:bg-zinc-950 z-20 mx-2 min-h-[30vh] h-[800px] rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto shadow-none"
+    class="modal-box text-gray-700 dark:text-zinc-200 relative bg-white dark:bg-zinc-950 z-20 mx-2 min-h-[30vh] h-[800px] rounded-2xl border border-gray-300 dark:border-zinc-800/80 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto shadow-none"
   >
     <div class="relative flex flex-col w-full">
       <!-- Sticky Header -->
@@ -3166,7 +3168,7 @@
             <input
               autocomplete="off"
               id="search"
-              class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm text-gray-700 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80 rounded-full bg-white/80 dark:bg-zinc-950/60"
+              class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm text-gray-700 dark:text-zinc-200 border border-gray-300 dark:border-zinc-800/80 rounded-full bg-white/80 dark:bg-zinc-950/60"
               placeholder="Search"
               bind:value={searchTerm}
             />
@@ -3200,7 +3202,7 @@
                   id={row?.rule}
                   type="checkbox"
                   checked={ruleOfList?.find((rule) => rule?.name === row?.rule)}
-                  class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-200/70 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
+                  class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
                 />
               {/if}
               <div class="-mt-0.5">
@@ -3233,7 +3235,7 @@
 
   <div
     class="modal-box w-full p-6 rounded border
-        bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none"
+        bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-800/80 rounded-2xl shadow-none"
   >
     <h1
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
@@ -3274,7 +3276,7 @@
 
   <div
     class="modal-box w-full p-6 rounded border
-          bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none"
+          bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-800/80 rounded-2xl shadow-none"
   >
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
       Delete Filter
@@ -3286,7 +3288,7 @@
       <label
         for="deleteStrategy"
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
-              transition-colors duration-100 border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+              transition-colors duration-100 border border-gray-300 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
         tabindex="0">Cancel</label
       ><label
         for="deleteStrategy"

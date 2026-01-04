@@ -294,7 +294,9 @@
 <section
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-3 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[0.95rem] breadcrumbs text-gray-500 dark:text-zinc-400">
+  <div
+    class="text-sm sm:text-[0.95rem] breadcrumbs text-gray-500 dark:text-zinc-400"
+  >
     <ul>
       <li>
         <a
@@ -388,7 +390,7 @@
                     />
                   </div>
                   <Combobox.Content
-                    class="w-auto z-10 rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 px-1 py-1.5 shadow-none outline-hidden"
+                    class="w-auto z-10 rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 px-1 py-1.5 shadow-none outline-hidden"
                     sideOffset={8}
                   >
                     {#if inputValue?.length > 0}
@@ -434,7 +436,7 @@
             <!--Start Table-->
             {#if priceAlertList?.length > 0}
               <div
-                class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-hidden overflow-x-auto mt-4"
+                class="w-full rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-hidden overflow-x-auto mt-4"
               >
                 <table
                   class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -443,18 +445,24 @@
                   <thead
                     class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 bg-white/60 dark:bg-zinc-950/30"
                   >
-                    <tr class="border-b border-gray-200/70 dark:border-zinc-800/80">
-                      <th class=" font-semibold text-[11px] sm:text-[12px] text-left"
+                    <tr
+                      class="border-b border-gray-200/70 dark:border-zinc-800/80"
+                    >
+                      <th
+                        class=" font-semibold text-[11px] sm:text-[12px] text-left"
                         >Symbol</th
                       >
-                      <th class=" font-semibold text-[11px] sm:text-[12px] text-left"
+                      <th
+                        class=" font-semibold text-[11px] sm:text-[12px] text-left"
                         >Company</th
                       >
 
-                      <th class=" font-semibold text-end text-[11px] sm:text-[12px]"
+                      <th
+                        class=" font-semibold text-end text-[11px] sm:text-[12px]"
                         >Price Target</th
                       >
-                      <th class=" font-semibold text-end text-[11px] sm:text-[12px]"
+                      <th
+                        class=" font-semibold text-end text-[11px] sm:text-[12px]"
                         >Condition</th
                       >
                       <th
@@ -462,10 +470,12 @@
                       >
                         Price</th
                       >
-                      <th class=" font-semibold text-end text-[11px] sm:text-[12px]"
+                      <th
+                        class=" font-semibold text-end text-[11px] sm:text-[12px]"
                         >% Change</th
                       >
-                      <th class=" font-semibold text-end text-[11px] sm:text-[12px]"
+                      <th
+                        class=" font-semibold text-end text-[11px] sm:text-[12px]"
                         >Volume</th
                       >
                     </tr>
@@ -502,7 +512,9 @@
                           {/if}
                         </td>
 
-                        <td class=" text-sm sm:text-[0.95rem] whitespace-nowrap">
+                        <td
+                          class=" text-sm sm:text-[0.95rem] whitespace-nowrap"
+                        >
                           {item?.name?.length > charNumber
                             ? item?.name?.slice(0, charNumber) + "..."
                             : item?.name}
@@ -562,20 +574,20 @@
                     class=" flex flex-col sm:flex-row items-start sm:items-center w-full justify-between"
                   >
                     <div class="">
-                          <div class="inline-flex">
-                            <div class="inline-flex gap-1">
-                              {#each tabs as item, i}
-                                <button
-                                  on:click={() => changeTab(i)}
-                                  class="cursor-pointer px-3 py-1.5 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-150 rounded-full border
+                      <div class="inline-flex">
+                        <div class="inline-flex gap-1">
+                          {#each tabs as item, i}
+                            <button
+                              on:click={() => changeTab(i)}
+                              class="cursor-pointer px-3 py-1.5 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-150 rounded-full border
                           {activeIdx === i
-                                      ? 'border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                                      : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
-                                >
-                                  {item.title}
-                                </button>
-                              {/each}
-                            </div>
+                                ? 'border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                                : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
+                            >
+                              {item.title}
+                            </button>
+                          {/each}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -589,7 +601,7 @@
                         {date}
                       </h3>
                       <div
-                        class="border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                        class="border border-gray-300 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                       >
                         {#each titleGroups as { title, items, symbols }, index}
                           <div
@@ -608,9 +620,7 @@
                                 hour12: true,
                               })}
                             </div>
-                            <div
-                              class="grow px-3 py-2 lg:py-1"
-                            >
+                            <div class="grow px-3 py-2 lg:py-1">
                               <h4 class="text-sm font-semibold lg:text-base">
                                 {title}
                               </h4>
@@ -643,20 +653,22 @@
                       </div>
                     {/each}
                   {:else}
-                  <div class="text-sm sm:text-[1rem] mt-5 text-gray-600 dark:text-zinc-300">
-                    No news yet. Add some stocks to the price alert list to
-                    see the latest news.
-                  </div>
-                {/if}
-              {:else if groupedEarnings?.length > 0}
-                {#each displayList as [date, titleGroups]}
+                    <div
+                      class="text-sm sm:text-[1rem] mt-5 text-gray-600 dark:text-zinc-300"
+                    >
+                      No news yet. Add some stocks to the price alert list to
+                      see the latest news.
+                    </div>
+                  {/if}
+                {:else if groupedEarnings?.length > 0}
+                  {#each displayList as [date, titleGroups]}
                     <h3
                       class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400"
                     >
                       {date}
                     </h3>
                     <div
-                      class="border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                      class="border border-gray-300 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                     >
                       {#each titleGroups as item, index}
                         <div
@@ -725,7 +737,9 @@
                     </div>
                   {/each}
                 {:else}
-                  <div class="text-sm sm:text-[1rem] mt-5 text-gray-600 dark:text-zinc-300">
+                  <div
+                    class="text-sm sm:text-[1rem] mt-5 text-gray-600 dark:text-zinc-300"
+                  >
                     No earnings yet. Add some stocks to the alert list to see
                     the latest earnings data.
                   </div>
@@ -739,7 +753,9 @@
                 No Alerts set
               </span>
 
-              <span class=" text-sm sm:text-[1rem] m-auto p-4 text-center text-gray-600 dark:text-zinc-300">
+              <span
+                class=" text-sm sm:text-[1rem] m-auto p-4 text-center text-gray-600 dark:text-zinc-300"
+              >
                 Create price alerts for your stocks that have the most potential
                 in your opinion.
               </span>
