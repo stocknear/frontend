@@ -518,13 +518,13 @@
                 <div
                   class="relative my-3 space-y-2 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 sm:my-6 p-4"
                 >
-                  <div class="flex flex-col sm:flex-row">
+                  <div class="flex flex-col sm:flex-row sm:items-center">
                     <div
-                      class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500 sm:mb-0"
+                      class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500 sm:mb-0 sm:min-w-[120px]"
                     >
                       Main Sectors:
                     </div>
-                    <div class="flex flex-wrap gap-x-2 gap-y-3 sm:ml-2">
+                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 sm:ml-2">
                       {#each mainSectors as item}
                         <a
                           href={sectorNavigation?.find(
@@ -537,13 +537,13 @@
                       {/each}
                     </div>
                   </div>
-                  <div class="flex flex-col sm:flex-row">
+                  <div class="flex flex-col sm:flex-row sm:items-center">
                     <div
-                      class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500 sm:mb-0"
+                      class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500 sm:mb-0 sm:min-w-[120px]"
                     >
                       Top Industries:
                     </div>
-                    <div class="flex flex-wrap gap-x-2 gap-y-3 sm:ml-2">
+                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 sm:ml-2">
                       {#each mainIndustries as item}
                         <a
                           href={`/list/industry/${item?.replace(/ /g, "-")?.replace(/&/g, "and")?.replace(/-{2,}/g, "-")?.toLowerCase()}`}
@@ -597,7 +597,7 @@
                       on:input={search}
                       type="text"
                       placeholder="Find..."
-                      class="py-[7px] text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-200/70 dark:border-zinc-800/80 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-500 px-3 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 grow w-full sm:min-w-56 lg:max-w-14"
+                      class="py-2 text-[0.85rem] sm:text-sm border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                     />
                   </div>
 
@@ -612,36 +612,63 @@
               </div>
             </div>
             {#if stockList?.length > 0}
-              <div class="w-full overflow-x-auto">
+              <div
+                class="w-full overflow-x-auto rounded-lg border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 mt-5"
+              >
                 <table
-                  class="mt-5 w-full text-sm sm:text-[0.95rem] border border-gray-200/70 dark:border-zinc-800/80 rounded-xl overflow-hidden m-auto"
+                  class="table table-sm table-compact w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                 >
                   <!-- head -->
-                  <thead class="text-xs uppercase tracking-widest text-gray-500 dark:text-zinc-500 border-b border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/60">
-                    <tr class="">
+                  <thead
+                    class="bg-gray-50/80 dark:bg-zinc-900/60 border-b border-gray-200/70 dark:border-zinc-800/80 text-gray-600 dark:text-zinc-300"
+                  >
+                    <tr>
                       <th
-                        class="hidden lg:table-cell text-left text-xs font-semibold uppercase tracking-widest"
+                        class="hidden lg:table-cell text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
+                      ></th>
+                      <th
+                        class="text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
                       >
+                        Symbol
                       </th>
-                      <th class="text-left text-xs font-semibold uppercase tracking-widest"> Symbol </th>
-                      <th class="text-left text-xs font-semibold uppercase tracking-widest"> Name </th>
-                      <th class="text-right text-xs font-semibold uppercase tracking-widest">
+                      <th
+                        class="text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
+                      >
+                        Name
+                      </th>
+                      <th
+                        class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
+                      >
                         Transaction Type
                       </th>
-                      <th class="text-right text-xs font-semibold uppercase tracking-widest"> Amount </th>
-                      <th class="text-right text-xs font-semibold uppercase tracking-widest">
+                      <th
+                        class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
+                      >
+                        Amount
+                      </th>
+                      <th
+                        class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
+                      >
                         Transaction
                       </th>
-                      <th class="text-right text-xs font-semibold uppercase tracking-widest">
+                      <th
+                        class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
+                      >
                         Last Trade
                       </th>
-                      <th class="text-right text-xs font-semibold uppercase tracking-widest"> Filed </th>
+                      <th
+                        class="text-right text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide"
+                      >
+                        Filed
+                      </th>
                     </tr>
                   </thead>
-                  <tbody class="p-0">
+                  <tbody
+                    class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+                  >
                     {#each stockList as item, index}
                       <tr
-                        class="border-b border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
+                        class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 odd:bg-gray-50/60 dark:odd:bg-zinc-900/30"
                       >
                         <td class="hidden lg:table-cell"
                           ><button
@@ -665,7 +692,7 @@
                         >
 
                         <td
-                          class="text-left text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                          class="text-left text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
                         >
                           <HoverStockChart
                             symbol={item?.symbol ?? item?.ticker}
@@ -673,14 +700,16 @@
                           />
                         </td>
 
-                        <td class="text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300">
+                        <td
+                          class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                        >
                           {item?.name?.length > 20
                             ? item?.name?.slice(0, 20) + "..."
                             : item?.name}
                         </td>
 
                         <td
-                          class="text-right text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
                         >
                           <span class="">
                             {#if item?.type === "Bought"}
@@ -700,19 +729,19 @@
                         >
 
                         <td
-                          class="text-right text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
                         >
                           {item?.amount}</td
                         >
 
                         <td
-                          class="text-right text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
                         >
                           {item?.transaction?.toLocaleString("en-US")}</td
                         >
 
                         <td
-                          class="text-right text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
                         >
                           {new Date(item?.transactionDate)?.toLocaleString(
                             "en-US",
@@ -726,7 +755,7 @@
                         </td>
 
                         <td
-                          class="text-right text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
                         >
                           {new Date(item?.disclosureDate)?.toLocaleString(
                             "en-US",
@@ -740,9 +769,9 @@
                         </td>
                       </tr>
                       {#if checkedSymbol === (item?.ticker ?? item?.symbol)}
-                        <tr
-                          ><td colspan="8" class="px-0" style=""
-                            ><div class="-mt-0.5 px-0 pb-2">
+                        <tr class="bg-white/80 dark:bg-zinc-950/60">
+                          <td colspan="8" class="px-0">
+                            <div class="-mt-0.5 px-0 pb-2">
                               <div class="relative h-[350px]">
                                 <div class="absolute top-0 w-full">
                                   <div
