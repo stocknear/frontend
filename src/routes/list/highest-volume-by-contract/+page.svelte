@@ -378,20 +378,20 @@
     >
       <main class="w-full">
         <div
-          class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between w-full text-muted sm:pt-2 sm:pb-2 dark:text-white sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-gray-800"
+          class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between text-gray-700 dark:text-zinc-200 sm:pt-2 sm:pb-2 sm:border-t sm:border-b sm:border-gray-200/70 sm:dark:border-zinc-800/80"
         >
           <div
             class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
           >
             <h2
-              class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold"
+              class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
               {originalData?.length?.toLocaleString("en-US")} Contracts
             </h2>
           </div>
 
           <div
-            class="flex items-center ml-auto border-t border-b border-gray-300 dark:border-gray-800 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 w-full"
+            class="flex items-center ml-auto border-t border-b border-gray-200/70 dark:border-zinc-800/80 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 w-full"
           >
             <div class="relative ml-auto w-full sm:min-w-56 sm:max-w-14">
               <div
@@ -420,7 +420,7 @@
                 bind:value={inputValue}
                 on:input={search}
                 placeholder="Find..."
-                class="py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full"
+                class="py-2 text-[0.85rem] sm:text-sm border border-gray-200/70 dark:border-zinc-800/80 rounded-full bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full"
               />
             </div>
 
@@ -438,7 +438,7 @@
           {#if displayList?.length > 0}
             <div class="overflow-x-auto">
               <table
-                class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+                class="table table-sm table-compact w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 m-auto"
               >
                 <thead>
                   <TableHeader {columns} {sortOrders} {sortData} />
@@ -446,29 +446,29 @@
                 <tbody>
                   {#each displayList as item}
                     <tr
-                      class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
+                      class="border-b border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                     >
                       <td
-                        class="text-start text-sm sm:text-[1rem] whitespace-nowrap"
+                        class="text-start text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
                       >
                         {item?.rank}
                       </td>
 
                       <td
-                        class="text-start text-sm sm:text-[1rem] whitespace-nowrap flex flex-row items-center justify-between w-full"
+                        class="text-start text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap flex flex-row items-center justify-between w-full"
                       >
                         <a
                           href={`/stocks/${item?.symbol}/options`}
-                          class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400"
+                          class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                           >{item?.symbol}</a
                         >
                       </td>
                       <td
-                        class="text-start text-sm sm:text-[1rem] whitespace-nowrap"
+                        class="text-start text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
                       >
                         <a
                           href={`/stocks/${item?.symbol}/options/contract-lookup?query=${item?.optionSymbol}`}
-                          class=""
+                          class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                           >{item?.symbol}
                           {new Date(item?.expirationDate)?.toLocaleDateString(
                             "en-US",
@@ -484,19 +484,19 @@
                       </td>
 
                       <td
-                        class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                        class="text-end text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
                       >
                         {item?.optionVolume?.toLocaleString("en-US")}
                       </td>
 
                       <td
-                        class="text-end whitespace-nowrap text-sm sm:text-[1rem]"
+                        class="text-end whitespace-nowrap text-sm text-gray-600 dark:text-zinc-300"
                       >
                         {item?.totalOI?.toLocaleString("en-US")}
                       </td>
 
                       <td
-                        class="text-end whitespace-nowrap text-sm sm:text-[1rem]"
+                        class="text-end whitespace-nowrap text-sm text-gray-600 dark:text-zinc-300"
                       >
                         {item?.volumeOIRatio}
                       </td>

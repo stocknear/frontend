@@ -249,14 +249,18 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-muted dark:text-white"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-400">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+          >Home</a
+        >
       </li>
-      <li class="text-muted dark:text-gray-300">Reddit Tracker</li>
+      <li class="text-gray-500 dark:text-zinc-400">Reddit Tracker</li>
     </ul>
   </div>
 
@@ -267,10 +271,10 @@
       >
         <main class="w-full lg:w-3/4 lg:pr-5">
           <div class="mb-3">
-            <h1 class="mb-1 text-2xl sm:text-3xl font-bold">
+            <h1 class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
               Reddit Stock Tracker
             </h1>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
+            <p class="text-sm text-gray-600 dark:text-zinc-400">
               {getSubredditDescription(currentSubreddit)}
             </p>
           </div>
@@ -278,17 +282,17 @@
           <!-- Subreddit Selector -->
           {#if availableSubreddits.length > 0}
             <div class="mb-4">
-              <label class="block text-sm font-medium mb-3">
+              <label class="block text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500 mb-3">
                 Select Subreddit
               </label>
               <div class="flex flex-wrap gap-2">
                 {#each availableSubreddits as subreddit}
                   <button
                     on:click={() => changeSubreddit(subreddit.name)}
-                    class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-all duration-50 {currentSubreddit ===
+                    class="cursor-pointer inline-flex items-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 px-3 py-1 text-xs font-semibold transition {currentSubreddit ===
                     subreddit.name
-                      ? 'bg-blue-600 text-white shadow'
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'}"
+                      ? 'bg-gray-900/90 text-white dark:bg-zinc-100/90 dark:text-zinc-900'
+                      : 'bg-white/80 dark:bg-zinc-950/40 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
                   >
                     r/{subreddit.name}
                   </button>
@@ -299,15 +303,15 @@
 
           <!-- Time Period Tabs -->
           <nav
-            class="border-[#2C6288] dark:border-white border-b-[2px] overflow-x-auto whitespace-nowrap"
+            class="border-b border-gray-200/70 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
           >
-            <ul class="flex flex-row items-center w-full text-[1rem]">
+            <ul class="flex flex-row items-center w-full text-sm">
               {#each tabs as item, i}
                 <button
                   on:click={() => changeTimePeriod(i)}
-                  class="p-2 px-5 cursor-pointer {activeIdx === i
-                    ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
-                    : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
+                  class="px-4 py-2 cursor-pointer rounded-full transition {activeIdx === i
+                    ? 'text-gray-900 dark:text-white bg-gray-100/70 dark:bg-zinc-900/60 font-semibold'
+                    : 'text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
                 >
                   {item?.title}
                 </button>
@@ -315,7 +319,7 @@
             </ul>
           </nav>
 
-          <p class="mt-4">
+          <p class="mt-4 text-sm text-gray-600 dark:text-zinc-400">
             Overview of r/{currentSubreddit} discussion trends for the selected
             <strong
               >{timePeriod === "oneWeek"
@@ -338,12 +342,12 @@
             <div class="">
               <div class="grow mt-5">
                 <div class="relative">
-                  <h2 class="mb-2 text-xl sm:text-2xl font-bold">
+                  <h2 class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
                     Mentions Allocation
                   </h2>
 
                   <div
-                    class=" sm:p-3 shadow border border-gray-300 dark:border-gray-800 rounded"
+                    class="sm:p-3 border border-gray-200/70 dark:border-zinc-800/80 rounded-lg bg-white/70 dark:bg-zinc-950/40"
                     use:highcharts={configPieChart}
                   ></div>
                 </div>
@@ -367,42 +371,44 @@
           {/if}
         </main>
 
-        <aside class="hidden lg:block relative fixed w-1/4 ml-4">
+        <aside class="hidden lg:block relative fixed w-1/4 ml-4 text-gray-700 dark:text-zinc-200">
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-lg h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:bg-white/90 dark:hover:bg-zinc-900/50 transition"
           >
             <a
               href="/potus-tracker"
               class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">POTUS Tracker</h2>
+                <h2 class="text-start text-base font-semibold ml-3">
+                  POTUS Tracker
+                </h2>
                 <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-zinc-400"
                 />
               </div>
-              <span class=" p-3 ml-3 mr-3">
+              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                 Follow the latest executive orders of the US President
               </span>
             </a>
           </div>
 
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-lg h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:bg-white/90 dark:hover:bg-zinc-900/50 transition"
           >
             <a
               href="/insider-tracker"
               class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">
+                <h2 class="text-start text-base font-semibold ml-3">
                   Insider Tracker
                 </h2>
                 <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-zinc-400"
                 />
               </div>
-              <span class=" p-3 ml-3 mr-3">
+              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                 Get the latest unusual insider trading in realtime
               </span>
             </a>

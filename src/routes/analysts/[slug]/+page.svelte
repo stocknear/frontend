@@ -348,7 +348,7 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 px-4 lg:px-3 mb-20 text-gray-700 dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-400">
     <ul>
@@ -398,7 +398,7 @@
                   >
                 </div>
                 <div class="mt-0 pt-0.5 text-left">
-                  <h1 class="mb-0 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                  <h1 class="mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
                     {analystName ?? "n/a"}
                   </h1>
                   <p
@@ -443,7 +443,7 @@
                 </div>
               </div>
               <div
-                class="mt-4 grid grid-cols-2 overflow-hidden rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 py-2 text-center md:grid-cols-4 md:p-0 lg:mt-0 lg:border-none"
+                class="mt-4 grid grid-cols-2 overflow-hidden rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 py-2 text-center md:grid-cols-4 md:p-0 lg:mt-0"
               >
                 <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
                   <div class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
