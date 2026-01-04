@@ -19,7 +19,7 @@
 </script>
 
 <footer
-  class="w-full mt-auto bg-gray-800 dark:bg-default border-t border-gray-600"
+  class="w-full mt-auto bg-white dark:bg-zinc-950 border-t border-gray-200/70 dark:border-zinc-800/80"
 >
   <div class="mx-auto max-w-7xl px-5 pt-12 sm:px-6 lg:px-8 lg:pb-8">
     <div
@@ -29,10 +29,12 @@
       <div
         class="w-80 flex-shrink-0 flex flex-col sm:flex-row items-start space-x-4"
       >
-        <img src="/pwa-192x192.png" alt="logo" class="w-12 h-12 rounded-lg" />
+        <img src="/pwa-192x192.png" alt="logo" class="w-11 h-11 rounded-lg" />
         <div>
-          <span class="text-2xl font-bold text-white">Stocknear</span>
-          <p class="mt-2 text-gray-100">
+          <span class="text-xl font-semibold text-gray-900 dark:text-white"
+            >Stocknear</span
+          >
+          <p class="mt-2 text-sm text-gray-600 dark:text-zinc-400">
             All-in-one Stock Analysis Platform to research your trading ideas.
           </p>
         </div>
@@ -43,38 +45,38 @@
         <!-- Repeat this block for each section -->
         <nav class="space-y-3">
           <h6
-            class="text-sm font-semibold uppercase tracking-wider text-white dark:text-dark-400"
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500"
           >
             Sections
           </h6>
           <ul class="space-y-2">
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
                 href="/stocks/">Stocks</a
               >
             </li>
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
                 href="/ipos/">IPOs</a
               >
             </li>
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
                 href="/etf/">ETFs</a
               >
             </li>
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
                 href="/portfolio/">Portfolio</a
               >
             </li>
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
                 href="/learning-center/">Learning Center</a
               >
             </li>
@@ -82,21 +84,21 @@
         </nav>
         <nav class="space-y-3">
           <h6
-            class="text-sm font-semibold uppercase tracking-wider text-white dark:text-dark-400"
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500"
           >
             Services
           </h6>
           <ul class="space-y-2">
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
                 href="/pricing/">Pricing Plan</a
               >
             </li>
 
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
                 href="/support/">Get Support</a
               >
             </li>
@@ -112,27 +114,27 @@
         </nav>
         <nav class="space-y-3">
           <h6
-            class="text-sm font-semibold uppercase tracking-wider text-white dark:text-dark-400"
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500"
           >
             Website
           </h6>
           <ul class="space-y-2">
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
                 href="/login/">Login</a
               >
             </li>
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
                 href="/faq/">FAQ</a
               >
             </li>
 
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
                 href="/sitemap/">Sitemap</a
               >
             </li>
@@ -146,13 +148,15 @@
             </li>
             -->
             <li class="text-te">
-              <div class="flex rounded-md shadow-sm">
+              <div
+                class="w-fit flex items-center gap-1 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/60 dark:bg-zinc-900/60 p-0.5"
+              >
                 <button
                   id="lightBtn"
                   on:click={() => handleModeChange("light")}
                   class="cursor-pointer {$mode === 'light'
-                    ? 'bg-gray-600 dark:bg-primary'
-                    : ''} text-sm flex items-center gap-x-2 px-3 py-2 rounded-l-md border border-gray-600 dark:border-gray-800 sm:hover:bg-gray-600 text-white focus:z-10 focus:outline-none transition-all"
+                    ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                    : ''} text-xs flex items-center gap-x-2 px-3 py-1.5 rounded-full text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white focus:z-10 focus:outline-none transition-all"
                 >
                   <svg
                     class="h-4 w-4 -mr-1"
@@ -174,8 +178,8 @@
                   id="darkBtn"
                   on:click={() => handleModeChange("dark")}
                   class="cursor-pointer {$mode === 'dark'
-                    ? 'bg-gray-600 dark:bg-primary'
-                    : ''} text-sm flex items-center gap-x-2 px-3 py-2 text-sm font-medium rounded-l-md border border-gray-600 dark:border-gray-800 sm:hover:bg-gray-600 text-white focus:z-10 focus:outline-none transition-all"
+                    ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                    : ''} text-xs flex items-center gap-x-2 pl-3 pr-2 py-1.5 rounded-full text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white focus:z-10 focus:outline-none transition-all"
                 >
                   <svg
                     class="h-4 w-4 -mr-1"
@@ -199,44 +203,44 @@
         </nav>
         <nav class="space-y-3">
           <h6
-            class="text-sm font-semibold uppercase tracking-wider text-white dark:text-dark-400"
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500"
           >
             Company
           </h6>
           <ul class="space-y-2">
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
                 href="/about/">About</a
               >
             </li>
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
                 href="/contact/">Contact Us</a
               >
             </li>
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
                 href="/terms-of-use/">Terms of Use</a
               >
             </li>
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
                 href="/privacy-policy/">Privacy Policy</a
               >
             </li>
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
                 href="/data-disclaimer/">Data Disclaimer</a
               >
             </li>
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
                 href="/imprint/">Imprint</a
               >
             </li>
@@ -247,7 +251,7 @@
 
     <!-- Bottom bar -->
     <div
-      class="-mb-8 pb-5 mt-8 border-t border-gray-700 pt-8 dark:border-dark-700 md:flex md:items-center md:justify-between"
+      class="-mb-8 pb-6 mt-10 border-t border-gray-200/70 pt-8 dark:border-zinc-800/80 md:flex md:items-center md:justify-between"
     >
       <div class="flex space-x-6 md:order-1">
         <a
@@ -255,7 +259,7 @@
           rel="noopener noreferrer"
           target="_blank"
           aria-label="Join us on Reddit"
-          class=" text-gray-400 hover:text-gray-300 dark:text-dark-400 dark:hover:text-dark-300"
+          class="text-gray-500 hover:text-gray-900 dark:text-zinc-500 dark:hover:text-white transition"
         >
           <svg
             class="pointer-events-none h-8 w-8"
@@ -299,7 +303,7 @@
           rel="noopener noreferrer"
           target="_blank"
           aria-label="Join us on Reddit"
-          class=" text-gray-400 hover:text-gray-300 dark:text-dark-400 dark:hover:text-dark-300"
+          class="text-gray-500 hover:text-gray-900 dark:text-zinc-500 dark:hover:text-white transition"
         >
           <svg
             class="pointer-events-none h-7 w-7 mt-0.5"
@@ -318,7 +322,7 @@
           rel="noopener noreferrer"
           target="_blank"
           aria-label="Join us on Discord"
-          class="w-5 h-5 text-gray-400 hover:text-gray-300 dark:text-dark-400 dark:hover:text-dark-300"
+          class="w-5 h-5 text-gray-500 hover:text-gray-900 dark:text-zinc-500 dark:hover:text-white transition"
         >
           <svg
             class="pointer-events-none h-8 w-8 -ml-1"
@@ -335,7 +339,7 @@
           href="https://twitter.com/intent/follow?screen_name=stocknear"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-gray-400 hover:text-gray-300 dark:text-dark-400 dark:hover:text-dark-300"
+          class="text-gray-500 hover:text-gray-900 dark:text-zinc-500 dark:hover:text-white transition"
           aria-label="Follow on X"
           ><svg
             class="pointer-events-none h-8 w-8"
@@ -350,11 +354,11 @@
         >
       </div>
       <p
-        class="my-3 text-gray-400 dark:text-dark-400 md:order-2 md:my-0 flex flex-row items-center"
+        class="my-3 text-sm text-gray-500 dark:text-zinc-500 md:order-2 md:my-0 flex flex-row items-center"
       >
         <!--© 2025 Stocknear. All rights reserved.-->
         <a
-          class="inline-block text-gray-200 dark:text-gray-300 sm:hover:underline sm:hover:underline-offset-4"
+          class="inline-block text-gray-600 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
           href="https://github.com/stocknear"
           aria-label="Follow on Github"
         >

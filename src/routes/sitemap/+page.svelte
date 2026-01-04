@@ -193,17 +193,24 @@
   description="Navigate through Stocknear's complete collection of financial tools and market analysis resources. Access real-time stock data, ETFs, options flow, and more."
 />
 
-<main class="text-muted dark:text-white">
+<main class="text-gray-700 dark:text-zinc-200">
   <section
-    class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
+    class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6"
     aria-label="Sitemap Navigation"
   >
-    <nav class="text-sm sm:text-[1rem] breadcrumbs" aria-label="Breadcrumb">
+    <nav
+      class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500"
+      aria-label="Breadcrumb"
+    >
       <ul>
         <li>
-          <a href="/" class="text-muted dark:text-gray-300">Home</a>
+          <a
+            href="/"
+            class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
+            >Home</a
+          >
         </li>
-        <li class="text-muted dark:text-gray-300" aria-current="page">
+        <li class="text-gray-500 dark:text-zinc-500" aria-current="page">
           Sitemap
         </li>
       </ul>
@@ -215,27 +222,35 @@
           class="relative flex justify-center items-start overflow-hidden w-full"
         >
           <article class="w-full lg:w-3/4 lg:pr-10">
-            <div class="mb-6 border-[#2C6288] dark:border-white border-b-[2px]">
-              <h1 class="mb-1 text-2xl sm:text-3xl font-bold">Sitemap</h1>
+            <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
+              <h1
+                class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              >
+                Sitemap
+              </h1>
             </div>
 
             <div class=" w-full m-auto">
               <div class="content">
-                <p class="text-[1rem] sm:text-lg">
+                <p class="text-sm sm:text-base text-gray-600 dark:text-zinc-400">
                   Explore a comprehensive list of Stocknear's financial tools
                   and resources. Find real-time stock data, market analysis,
                   ETFs, options flow, and more. Use our search bar for quick
                   access to specific stock symbols.
                 </p>
-                <h2 class=" text-xl sm:text-2xl font-bold mt-8 mb-5">Pages</h2>
+                <h2
+                  class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-5"
+                >
+                  Pages
+                </h2>
                 <nav aria-label="Site Pages">
                   <ul
-                    class="list-outside list-disc space-y-1 p-1 pl-6 md:gap-x-8 md:text-lg"
+                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
                   >
                     {#each tabs as item}
                       <li>
                         <a
-                          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white sm:hover:underline sm:hover:underline-offset-4"
+                          class="text-gray-900 dark:text-white hover:text-violet-500 transition"
                           href={item?.link}
                           title={`Visit ${item?.title} page`}>{item?.title}</a
                         >
@@ -244,19 +259,21 @@
                   </ul>
                 </nav>
 
-                <h2 class=" text-xl sm:text-2xl font-bold mt-8 mb-5">
+                <h2
+                  class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-5"
+                >
                   Articles
                 </h2>
                 <nav aria-label="Site Pages">
                   <ul
-                    class="list-outside list-disc space-y-1 p-1 pl-6 md:gap-x-8 md:text-lg"
+                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
                   >
                     {#each data?.getBlogPosts?.slice(0, 15) as item}
                       {#if ["blog", "pre-earnings"]?.includes(item?.category)}
                         <li>
                           <a
                             href={"/blog/article/" + convertToSlug(item?.title)}
-                            class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white sm:hover:underline sm:hover:underline-offset-4"
+                            class="text-gray-900 dark:text-white hover:text-violet-500 transition"
                             title={`Visit ${item?.title} page`}>{item?.title}</a
                           >
                         </li>
@@ -265,19 +282,21 @@
                   </ul>
                 </nav>
 
-                <h2 class=" text-xl sm:text-2xl font-bold mt-8 mb-5">
+                <h2
+                  class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-5"
+                >
                   Learning Center
                 </h2>
                 <nav aria-label="Site Pages">
                   <ul
-                    class="list-outside list-disc space-y-1 p-1 pl-6 md:gap-x-8 md:text-lg"
+                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
                   >
                     {#each data?.getTutorialPost?.slice(0, 15) as item}
                       <li>
                         <a
                           href={"/learning-center/article/" +
                             convertToSlug(item?.title)}
-                          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white sm:hover:underline sm:hover:underline-offset-4"
+                          class="text-gray-900 dark:text-white hover:text-violet-500 transition"
                           title={`Visit ${item?.title} page`}>{item?.title}</a
                         >
                       </li>
@@ -285,12 +304,14 @@
                   </ul>
                 </nav>
 
-                <h2 class=" text-xl sm:text-2xl font-bold mt-8 mb-5">
+                <h2
+                  class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-5"
+                >
                   Financial terms
                 </h2>
                 <nav aria-label="Site Pages">
                   <ul
-                    class="list-outside list-disc space-y-1 p-1 pl-6 md:gap-x-8 md:text-lg"
+                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-600 dark:text-zinc-400"
                   >
                     {#each data?.getBlogPosts
                       ?.filter((item) => item?.category === "term")
@@ -298,7 +319,7 @@
                       <li>
                         <a
                           href={"/blog/article/" + convertToSlug(item?.title)}
-                          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white sm:hover:underline sm:hover:underline-offset-4"
+                          class="text-gray-900 dark:text-white hover:text-violet-500 transition"
                           title={`Visit ${item?.title} page`}
                         >
                           {item?.title}
@@ -313,21 +334,21 @@
 
           <aside class="hidden lg:block relative fixed w-1/4 mt-4">
             <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+              class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
               <a
                 href="/pricing"
-                class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+                class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-bold ml-3">
+                  <h2 class="text-start text-lg font-semibold ml-3">
                     Pro Subscription
                   </h2>
                   <ArrowLogo
-                    class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                    class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                   />
                 </div>
-                <span class=" p-3 ml-3 mr-3">
+                <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                   Upgrade now for unlimited access to all data, tools and no
                   ads.
                 </span>
@@ -335,21 +356,21 @@
             </div>
 
             <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+              class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
               <a
                 href="/stock-screener"
-                class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+                class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-bold ml-3">
+                  <h2 class="text-start text-lg font-semibold ml-3">
                     Stock Screener
                   </h2>
                   <ArrowLogo
-                    class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                    class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                   />
                 </div>
-                <span class=" p-3 ml-3 mr-3">
+                <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                   Filter, sort and analyze all stocks to find your next
                   investment.
                 </span>
@@ -357,19 +378,19 @@
             </div>
 
             <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+              class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
               <a
                 href="/watchlist/stocks"
-                class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+                class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-bold ml-3">Watchlists</h2>
+                  <h2 class="text-start text-lg font-semibold ml-3">Watchlists</h2>
                   <ArrowLogo
-                    class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                    class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                   />
                 </div>
-                <span class=" p-3 ml-3 mr-3"
+                <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
                   >Keep track of your favorite stocks in real-time.
                 </span>
               </a>

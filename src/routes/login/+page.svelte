@@ -79,7 +79,7 @@
 />
 
 <div
-  class="text-muted dark:text-white relative w-full max-w-3xl mx-auto {data?.user
+  class="text-gray-700 dark:text-zinc-200 relative w-full max-w-3xl mx-auto {data?.user
     ? 'min-h-[500px] sm:min-h-[900px]'
     : 'min-h-screen'} {oauthLoading ? 'opacity-[0.2]' : ''}"
 >
@@ -94,21 +94,25 @@
         />
       </a>
 
-      <h1 class="text-center text-2xl sm:text-3xl pt-5 font-bold">
+      <h1
+        class="text-center text-2xl sm:text-3xl pt-5 font-semibold tracking-tight text-gray-900 dark:text-white"
+      >
         {!data?.user ? "Log in to your account" : "You are logged in"}
       </h1>
     </div>
 
     {#if !data?.user}
-      <span class="dark:text-gray-400 text-center"> Welcome back! </span>
+      <span class="text-sm text-gray-500 dark:text-zinc-400 text-center">
+        Welcome back!
+      </span>
 
       <div class="relative w-full max-w-lg m-auto">
         <form
           action="?/login"
           method="POST"
           use:enhance={submitLogin}
-          class="flex flex-col items-center space-y-2 pt-4 pl-3 pr-3 sm:pl-0 sm:pr-0 ml-auto mr-auto"
-        >
+        class="flex flex-col items-center space-y-3 pt-4 pl-3 pr-3 sm:pl-0 sm:pr-0 ml-auto mr-auto"
+      >
           <Input
             type="email"
             id="email"
@@ -125,7 +129,7 @@
           <div class="w-full max-w-lg">
             <a
               href="/reset-password"
-              class="text-sm text-blue-800 dark:text-blue-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:underline"
+              class="text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
               >Forgot Password?</a
             >
           </div>
@@ -134,13 +138,13 @@
             {#if !loading && !isClicked}
               <button
                 type="submit"
-                class="cursor-pointer py-2.5 bg-default sm:hover:bg-black transition-all dark:bg-[#fff] border-none dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded m-auto text-white dark:text-black font-semibold text-[1rem]"
+                class="cursor-pointer py-2.5 px-4 bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-none hover:bg-gray-800 dark:hover:bg-gray-200 transition w-full rounded-full font-semibold text-[1rem]"
               >
                 <span>Login</span>
               </button>
             {:else}
               <label
-                class="cursor-not-allowed btn bg-default sm:hover:bg-black transition-all dark:bg-[#fff] opacity-[0.5] border border-gray-600 dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded m-auto text-white dark:text-black font-semibold text-[1rem]"
+                class="cursor-not-allowed bg-gray-900 text-white dark:bg-white dark:text-gray-900 opacity-60 border border-gray-900/10 dark:border-white/10 transition w-full rounded-full m-auto font-semibold text-[1rem] py-2.5 px-4"
               >
                 <div class="flex flex-row m-auto items-center">
                   <span class="loading loading-infinity"></span>
@@ -150,11 +154,13 @@
             {/if}
           </div>
 
-          <div class="divider dark:divider-[#fff] pt-5 pb-10">
-            <span class=" text-[1rem] z-10">Or login using</span>
+          <div class="divider text-gray-400 dark:text-zinc-500 py-6">
+            <span class="text-[11px] uppercase tracking-[0.3em] z-10"
+              >Or login using</span
+            >
           </div>
 
-          <div class="flex flex-row items-center gap-x-5 pb-6">
+          <div class="flex flex-row items-center gap-x-3 pb-6">
             <form method="post" action="?/oauth2">
               <input class="hidden" name="provider" value="google" />
               <button
@@ -162,7 +168,7 @@
                 on:click={() => (oauthLoading = !oauthLoading)}
                 on:mouseenter={handleHoverGoogle}
                 on:mouseleave={handleHoverGoogle}
-                class="cursor-pointer shrink-0 rounded-full w-12 h-12 relative bg-default flex items-center justify-center border border-gray-600 sm:hover:bg-secondary"
+                class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition"
               >
                 <svg
                   class="{isHoveredGoogle
@@ -212,7 +218,7 @@
                 on:click={() => (oauthLoading = !oauthLoading)}
                 on:mouseenter={handleHoverDiscord}
                 on:mouseleave={handleHoverDiscord}
-                class="cursor-pointer shrink-0 rounded-full w-12 h-12 relative bg-default flex items-center justify-center border border-gray-600 sm:hover:bg-secondary"
+                class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
               >
                 <svg
                   class="{isHoveredDiscord
@@ -223,7 +229,7 @@
                   xml:space="preserve"
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
-                  fill="#000000"
+                  fill="currentColor"
                   ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
                     id="SVGRepo_tracerCarrier"
                     stroke-linecap="round"
@@ -525,7 +531,7 @@
                         fill: #1877f2;
                       }
                       .st89 {
-                        fill: #fff;
+                        fill: currentColor;
                       }
                       .st90 {
                         fill: #ce3056;
@@ -747,7 +753,7 @@
                 on:click={() => (oauthLoading = !oauthLoading)}
                 on:mouseenter={handleHoverGithub}
                 on:mouseleave={handleHoverGithub}
-                class="cursor-pointer shrink-0 rounded-full w-12 h-12 relative bg-default flex items-center justify-center border border-gray-600 sm:hover:bg-secondary"
+                class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
               >
                 <svg
                   class="{isHoveredGithub
@@ -756,7 +762,7 @@
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   ><path
-                    fill="white"
+                    fill="currentColor"
                     d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"
                   /></svg
                 >
@@ -765,28 +771,28 @@
           </div>
 
           <p
-            class="pb-1 text-sm w-full max-w-lg flex justify-center items-center"
+            class="pb-1 text-sm w-full max-w-lg flex justify-center items-center text-gray-500 dark:text-zinc-400"
           >
             You don't have an account?
             <a
               href="/register"
-              class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400 sm:hover:underline ml-1"
+              class="text-gray-900 dark:text-white hover:text-violet-500 transition ml-1"
               >Sign up</a
             >
           </p>
         </form>
       </div>
     {:else}
-      <p class="mt-2 text-center text-smaller text-gray-600 dark:text-gray-400">
+      <p class="mt-2 text-center text-sm text-gray-500 dark:text-zinc-400">
         Logged in as {data?.user?.email}
       </p>
       <form class="cursor-pointer" action="/logout" method="POST">
         <button
           type="submit"
           aria-label="Logout"
-          class="cursor-pointer mx-auto mt-2 flex w-full max-w-xs justify-center rounded-[3px]
-          bg-default dark:bg-white dark:sm:hover:bg-white/80 dark:text-muted border border-transparent px-4 py-2 text-sm font-semibold
-          text-white shadow-sm sm:hover:bg-black transition-all focus:outline-none
+          class="cursor-pointer mx-auto mt-2 flex w-full max-w-xs justify-center rounded-full
+          bg-gray-900 text-white dark:bg-white dark:text-gray-900 border border-transparent px-4 py-2 text-sm font-semibold
+          hover:bg-gray-800 dark:hover:bg-gray-200 transition-all focus:outline-none
           focus:ring-offset-0"
           >Log Out
         </button>
@@ -799,10 +805,10 @@
   <div class="absolute right-1/2 left-1/2 top-1/2 bottom-1/2">
     <div class="relative">
       <label
-        class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-200/70 dark:border-zinc-800/80 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
       >
         <span
-          class="loading loading-spinner loading-md text-white dark:text-white"
+          class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
         ></span>
       </label>
     </div>

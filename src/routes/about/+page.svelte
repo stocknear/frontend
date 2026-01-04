@@ -1,6 +1,5 @@
 <script lang="ts">
   import SEO from "$lib/components/SEO.svelte";
-  import profile from "$lib/images/profile.webp";
   export let data;
 </script>
 
@@ -9,18 +8,20 @@
   description="Stocknear was built to give everyday investors the same data Wall Street uses. Founded by Dr. Muslem Rahimi, we're on a mission to democratize stock analysis."
 />
 
-<div class="text-muted dark:text-white w-full">
+<div class="text-gray-700 dark:text-zinc-200 w-full">
   <!-- Hero Section -->
   <section
-    class="border-b border-gray-200 shadow dark:border-gray-600 sm:rounded w-full bg-gray-100 dark:bg-default"
+    class="border-b border-gray-200/70 dark:border-zinc-800/80 w-full bg-white dark:bg-zinc-950/60"
   >
     <div class="mx-auto max-w-4xl px-6 py-16 sm:py-24 md:px-8">
       <div class="text-center">
-        <h1 class="text-4xl font-bold sm:text-5xl lg:text-6xl leading-tight">
+        <h1
+          class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-5xl lg:text-6xl leading-tight"
+        >
           About us
         </h1>
         <p
-          class="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-gray-600 dark:text-gray-300"
+          class="mx-auto mt-6 max-w-2xl text-lg sm:text-xl leading-relaxed text-gray-600 dark:text-zinc-400"
         >
           Stocknear exists because we believe every investor deserves access to
           the same institutional-grade data that hedge funds pay thousands for.
@@ -30,19 +31,21 @@
   </section>
 
   <!-- Values Section -->
-  <section class="border-t border-gray-300 dark:border-gray-600">
+  <section class="border-t border-gray-200/70 dark:border-zinc-800/80">
     <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
       <div class="lg:text-center">
         <p
-          class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4"
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 mb-4"
         >
           Our Values
         </p>
-        <h2 class="text-3xl font-bold leading-8 sm:text-4xl">
+        <h2
+          class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white leading-8 sm:text-4xl"
+        >
           What we stand for
         </h2>
         <p
-          class="mt-4 max-w-2xl text-xl text-gray-600 dark:text-gray-300 lg:mx-auto"
+          class="mt-4 max-w-2xl text-lg text-gray-600 dark:text-zinc-400 lg:mx-auto"
         >
           Every decision we make is guided by these principles.
         </p>
@@ -54,7 +57,7 @@
           <div class="relative">
             <dt>
               <div
-                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600 text-white"
+                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80"
               >
                 <svg
                   class="w-6 h-6"
@@ -71,11 +74,13 @@
                   />
                 </svg>
               </div>
-              <p class="ml-16 text-lg font-semibold leading-6">
+              <p
+                class="ml-16 text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+              >
                 Data Accuracy First
               </p>
             </dt>
-            <dd class="ml-16 mt-2 text-gray-600 dark:text-gray-300">
+            <dd class="ml-16 mt-2 text-gray-600 dark:text-zinc-400">
               We partner with the same data vendors that serve hedge funds. No
               scraped data. No guesswork. Just clean, verified information you
               can trust.
@@ -84,7 +89,7 @@
           <div class="relative">
             <dt>
               <div
-                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600 text-white"
+                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80"
               >
                 <svg
                   class="w-6 h-6"
@@ -101,9 +106,13 @@
                   />
                 </svg>
               </div>
-              <p class="ml-16 text-lg font-semibold leading-6">Speed Matters</p>
+              <p
+                class="ml-16 text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+              >
+                Speed Matters
+              </p>
             </dt>
-            <dd class="ml-16 mt-2 text-gray-600 dark:text-gray-300">
+            <dd class="ml-16 mt-2 text-gray-600 dark:text-zinc-400">
               Markets move fast. Our platform loads instantly. Every screen,
               every chart, every data point is optimized so you never miss an
               opportunity.
@@ -112,7 +121,7 @@
           <div class="relative">
             <dt>
               <div
-                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600 text-white"
+                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80"
               >
                 <svg
                   class="w-6 h-6"
@@ -129,11 +138,13 @@
                   />
                 </svg>
               </div>
-              <p class="ml-16 text-lg font-semibold leading-6">
+              <p
+                class="ml-16 text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+              >
                 Complete Objectivity
               </p>
             </dt>
-            <dd class="ml-16 mt-2 text-gray-600 dark:text-gray-300">
+            <dd class="ml-16 mt-2 text-gray-600 dark:text-zinc-400">
               We show the data. You make the decisions. No hidden agendas, no
               paid promotions, no "hot picks." Just unbiased information for
               every stock.
@@ -142,7 +153,7 @@
           <div class="relative">
             <dt>
               <div
-                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600 text-white"
+                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80"
               >
                 <svg
                   class="w-6 h-6"
@@ -159,9 +170,13 @@
                   />
                 </svg>
               </div>
-              <p class="ml-16 text-lg font-semibold leading-6">Built for You</p>
+              <p
+                class="ml-16 text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+              >
+                Built for You
+              </p>
             </dt>
-            <dd class="ml-16 mt-2 text-gray-600 dark:text-gray-300">
+            <dd class="ml-16 mt-2 text-gray-600 dark:text-zinc-400">
               We're investors too. Every feature is designed based on what we'd
               want to see. Your feedback shapes our roadmap—not venture
               capitalists.
@@ -174,20 +189,22 @@
 
   <!-- Founder Section -->
   <section
-    class="border-t border-gray-200 shadow dark:border-gray-600 bg-gray-100 dark:bg-default"
+    class="border-t border-gray-200/70 dark:border-zinc-800/80 bg-gray-50/60 dark:bg-zinc-950/50"
   >
     <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-20">
       <div class="lg:grid lg:grid-cols-3 lg:gap-12">
         <div>
           <p
-            class="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400 mb-4"
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 mb-4"
           >
             The Founder
           </p>
-          <h2 class="text-3xl font-bold sm:text-4xl">
+          <h2
+            class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
+          >
             From Physics to Finance
           </h2>
-          <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+          <p class="mt-4 text-lg text-gray-600 dark:text-zinc-400">
             The same analytical rigor that explores the universe now powers your
             investment research.
           </p>
@@ -195,19 +212,21 @@
         <div class="lg:col-span-2 mt-10 lg:mt-0">
           <div class="flex flex-col sm:flex-row items-start gap-8">
             <img
-              class="rounded-xl object-cover shadow-lg w-32 h-32 sm:w-40 sm:h-40 flex-shrink-0"
-              src={profile}
+              class="rounded-xl object-cover shadow-sm w-32 h-32 sm:w-40 sm:h-40 flex-shrink-0"
+              src="/img/profile.jpg"
               alt="Dr. Muslem Rahimi"
               loading="lazy"
             />
             <div class="space-y-4">
               <div>
-                <h3 class="text-xl font-bold">Dr. Muslem Rahimi</h3>
-                <p class="text-purple-600 dark:text-purple-400 font-medium">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                  Dr. Muslem Rahimi
+                </h3>
+                <p class="text-gray-500 dark:text-zinc-400 font-medium">
                   Founder & CEO
                 </p>
               </div>
-              <div class="text-gray-600 dark:text-gray-300 space-y-3">
+              <div class="text-gray-600 dark:text-zinc-400 space-y-3">
                 <p>
                   Honestly, I never planned to start a fintech company. As a
                   physicist, I was focused on research and academia. But when I
@@ -223,7 +242,7 @@
                   and build something meaningful.
                 </p>
 
-                <p class="text-sm text-gray-500 dark:text-gray-400">
+                <p class="text-sm text-gray-500 dark:text-zinc-500">
                   PhD in Theoretical Particle Physics (University of Siegen) ·
                   MSc in Particle Physics (Technical University of Munich) · BSc
                   in Physics (University of Göttingen)
@@ -267,14 +286,16 @@
   </section>
 
   <!-- CTA Section -->
-  <section class="border-t border-gray-300 dark:border-gray-600">
+  <section class="border-t border-gray-200/70 dark:border-zinc-800/80">
     <div class="mx-auto max-w-4xl px-6 py-16 lg:py-20 text-center">
       <div>
-        <h2 class="text-3xl font-bold sm:text-4xl">
+        <h2
+          class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
+        >
           Ready to access institutional-grade data?
         </h2>
         <p
-          class="mt-4 text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+          class="mt-4 text-lg text-gray-600 dark:text-zinc-400 max-w-2xl mx-auto"
         >
           Join thousands of investors who are now data-driven instead of
           emotions. Start with a free account and upgrade when you're ready.
@@ -282,13 +303,13 @@
         <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
           <a
             href="/register"
-            class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-lg text-white bg-purple-600 hover:bg-purple-700 transition-colors shadow-lg"
+            class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-full text-white bg-gray-900 hover:bg-gray-800 transition-colors"
           >
             Get Started Free
           </a>
           <a
             href="/pricing"
-            class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-lg text-gray-700 dark:text-white bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+            class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
           >
             View Pricing
           </a>
