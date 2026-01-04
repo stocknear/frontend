@@ -270,46 +270,48 @@
     >
       <div class="sm:pl-7 sm:pb-7 sm:pt-7 pt-3 w-full m-auto mt-2 sm:mt-0">
         <div class="w-full mb-6">
-          <h2 class="text-xl sm:text-2xl font-bold mb-4 w-full">Dividends</h2>
+          <h2
+            class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4 w-full"
+          >
+            Dividends
+          </h2>
 
           <Infobox text={htmlOutput} />
         </div>
 
         {#if rawData?.history?.length > 0}
           <div
-            class="shadow mb-4 grid grid-cols-2 grid-rows-1 divide-gray-300 dark:divide-gray-600 rounded border border-gray-300 dark:border-gray-600 md:grid-cols-3 md:grid-rows-1 divide-x"
+            class="mb-4 grid grid-cols-2 md:grid-cols-3 rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 divide-x divide-y divide-gray-200/70 dark:divide-zinc-800/80"
           >
             <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[1rem]"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
                 Dividend Yield
               </label>
-              <div class="mt-1 break-words font-semibold leading-8 text-xl">
+              <div class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white">
                 {dividendYield !== "0.00" ? dividendYield : "0"}%
               </div>
             </div>
-            <div
-              class="p-4 bp:p-5 sm:p-6 border-b border-gray-300 dark:border-gray-600"
-            >
+            <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[1rem]"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
                 Annual Dividend
               </label>
 
-              <div class="mt-1 break-words font-semibold leading-8 text-xl">
+              <div class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white">
                 {annualDividend !== "0.00" ? annualDividend : "0"}
               </div>
             </div>
-            <div class="p-4 bp:p-5 sm:p-6 border-t border-b sm:border-none">
+            <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[1rem]"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
                 Ex-Dividend Date
               </label>
 
-              <div class="mt-1 break-words font-semibold leading-8 text-xl">
+              <div class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white">
                 {new Date(exDividendDate)?.toLocaleString("en-US", {
                   month: "short",
                   day: "numeric",
@@ -319,49 +321,51 @@
               </div>
             </div>
 
-            <div class="p-4 bp:p-5 sm:p-6 border-t">
+            <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[1rem]"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
                 Payout Frequency
               </label>
 
-              <div class="mt-1 break-words font-semibold leading-8 text-xl">
+              <div class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white">
                 {payoutFrequency ? payoutFrequency : "n/a"}
               </div>
             </div>
             <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[1rem]"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
                 Payout Ratio
               </label>
 
-              <div class="mt-1 break-words font-semibold leading-8 text-xl">
+              <div class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white">
                 {payoutRatio !== "0.00" && payoutRatio !== null
                   ? payoutRatio + "%"
                   : "n/a"}
               </div>
             </div>
-            <div
-              class="p-4 bp:p-5 sm:p-6 border-t border-gray-300 dark:border-gray-600"
-            >
+            <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[1rem]"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
               >
                 Dividend Growth
               </label>
 
-              <div class="mt-1 break-words font-semibold leading-8 text-xl">
+              <div class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white">
                 {dividendGrowth ? dividendGrowth + "%" : "n/a"}
               </div>
             </div>
           </div>
 
           <div
-            class="history-driver mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-300 dark:border-gray-800 py-2"
+            class="history-driver mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-200/70 dark:border-zinc-800/80 py-2"
           >
-            <h3 class="text-xl sm:text-2xl font-bold">History</h3>
+            <h3
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
+              History
+            </h3>
 
             <div class="inline-flex ml-auto">
               <DownloadData
@@ -374,20 +378,23 @@
 
           {#if stockList?.length > 0}
             <div
-              class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-4 mt-4"
+              class="overflow-x-auto flex justify-start items-center w-full m-auto mb-4 mt-4"
             >
-              <table
-                class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+              <div
+                class="w-full overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
               >
-                <thead>
-                  <TableHeader {columns} {sortOrders} {sortData} />
-                </thead>
-                <tbody class="">
-                  {#each stockList as item}
-                    <tr class=" dark:sm:hover:bg-[#245073]/10">
-                      <td
-                        class="text-start text-sm sm:text-[1rem] whitespace-nowrap"
-                      >
+                <table
+                  class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
+                >
+                  <thead
+                    class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  >
+                    <TableHeader {columns} {sortOrders} {sortData} />
+                  </thead>
+                  <tbody>
+                    {#each stockList as item}
+                      <tr class="transition-colors">
+                        <td class="text-start text-sm whitespace-nowrap">
                         {new Date(item?.date)?.toLocaleString("en-US", {
                           month: "short",
                           day: "numeric",
@@ -395,14 +402,10 @@
                           daySuffix: "2-digit",
                         })}
                       </td>
-                      <td
-                        class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                      >
+                        <td class="text-end text-sm whitespace-nowrap">
                         ${item?.adjDividend?.toFixed(3)}
-                      </td>
-                      <td
-                        class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                      >
+                        </td>
+                        <td class="text-end text-sm whitespace-nowrap">
                         {item?.declarationDate?.length !== 0
                           ? new Date(item?.declarationDate)?.toLocaleString(
                               "en-US",
@@ -414,10 +417,8 @@
                               },
                             )
                           : "n/a"}
-                      </td>
-                      <td
-                        class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                      >
+                        </td>
+                        <td class="text-end text-sm whitespace-nowrap">
                         {item?.recordDate?.length !== 0
                           ? new Date(item?.recordDate)?.toLocaleString(
                               "en-US",
@@ -429,10 +430,8 @@
                               },
                             )
                           : "n/a"}
-                      </td>
-                      <td
-                        class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                      >
+                        </td>
+                        <td class="text-end text-sm whitespace-nowrap">
                         {item?.paymentDate?.length !== 0
                           ? new Date(item?.paymentDate)?.toLocaleString(
                               "en-US",
@@ -444,11 +443,12 @@
                               },
                             )
                           : "n/a"}
-                      </td>
-                    </tr>
-                  {/each}
-                </tbody>
-              </table>
+                        </td>
+                      </tr>
+                    {/each}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             <!-- Pagination controls -->
@@ -461,7 +461,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -490,7 +490,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
                           >{rowsPerPage} Rows</span
@@ -516,13 +516,13 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                     >
                       <!-- Dropdown items -->
                       <DropdownMenu.Group class="pb-2">
                         {#each rowsPerPageOptions as item}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                            class="hover:text-violet-600 dark:hover:text-violet-400 transition"
                           >
                             <label
                               on:click={() => changeRowsPerPage(item)}
@@ -542,7 +542,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline">Next</span>
                     <svg
@@ -585,7 +585,7 @@
               </div>
             {/if}
 
-            <div class="text-gray-800 dark:text-gray-200 text-sm italic mt-7">
+            <div class="text-gray-600 dark:text-zinc-400 text-sm italic mt-7">
               * Dividend amounts are adjusted for stock splits when applicable.
             </div>
           {:else}
