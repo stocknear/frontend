@@ -103,7 +103,7 @@
 
           {#if newsList?.length !== 0}
             <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer bg-inherit"
+              class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
               <div class="p-4 text-sm">
                 <h3 class="text-lg font-semibold mb-3">
@@ -114,7 +114,7 @@
                     <li class="mb-3 last:mb-1">
                       {formatDate(item?.publishedDate)} &#183;
                       <a
-                        class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400"
+                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400"
                         href={item?.url}
                         target="_blank"
                         rel="noopener noreferrer nofollow">{item?.title}</a
