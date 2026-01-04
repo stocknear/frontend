@@ -1174,40 +1174,30 @@
 
         <aside class="hidden lg:block relative fixed w-1/4 ml-4">
           <div
-            class="w-full rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/60 hover:bg-white dark:hover:bg-zinc-900/60 transition ease-out duration-100 h-fit pb-4 mt-4 cursor-pointer"
+            class="w-full rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4 mt-4"
           >
-            <a
-              href="/watchlist/stocks"
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2
-                  class="text-start text-lg font-semibold tracking-tight text-gray-900 dark:text-white ml-3"
-                >
-                  Watchlist
-                </h2>
-              </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
+            <a href="/watchlist/stocks" class="group flex flex-col gap-2">
+              <h2
+                class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+              >
+                Watchlist
+              </h2>
+              <span class="text-sm text-gray-600 dark:text-zinc-400">
                 Get realtime updates of your favorite stocks
               </span>
             </a>
           </div>
 
           <div
-            class="w-full rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/60 hover:bg-white dark:hover:bg-zinc-900/60 transition ease-out duration-100 h-fit pb-4 mt-4 cursor-pointer"
+            class="w-full rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4 mt-4"
           >
-            <a
-              href="/portfolio"
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2
-                  class="text-start text-lg font-semibold tracking-tight text-gray-900 dark:text-white ml-3"
-                >
-                  Portfolio Tracker
-                </h2>
-              </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
+            <a href="/portfolio" class="group flex flex-col gap-2">
+              <h2
+                class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+              >
+                Portfolio Tracker
+              </h2>
+              <span class="text-sm text-gray-600 dark:text-zinc-400">
                 Get realtime updates of your portfolio
               </span>
             </a>
