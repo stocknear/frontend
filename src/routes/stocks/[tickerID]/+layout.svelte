@@ -525,7 +525,7 @@
           <div class="sm:flex sm:justify-start w-full">
             <div class=" w-full px-3 sm:px-0 lg:pr-3">
               <div
-                class="md:flex md:justify-between md:divide-x md:divide-slate-800"
+                class="md:flex md:justify-between md:divide-x md:divide-gray-200/70 dark:md:divide-zinc-800/80"
               >
                 <!-- Main content -->
                 <div class="pb-12 md:pb-20 w-full">
@@ -549,7 +549,7 @@
                                     document.getElementById("userLogin");
                                   if (modal) modal.checked = true;
                                 }}
-                            class="inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded bg-default sm:hover:bg-black dark:sm:hover:bg-[#2A2E39] border border-gray-300 dark:border-gray-600 px-3 py-1.5 text-base font-semibold text-white shadow lg:px-2.5 flex-1 md:flex-initial"
+                            class="inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white dark:hover:bg-zinc-900 px-3 py-2 text-sm font-semibold lg:px-3 flex-1 md:flex-initial"
                             ><svg
                               class="size-5 flex-shrink-0"
                               fill="none"
@@ -570,7 +570,7 @@
                           <label
                             on:click={() => ($openPriceAlert = true)}
                             for={data?.user ? "priceAlertModal" : "userLogin"}
-                            class="inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded bg-default sm:hover:bg-black dark:sm:hover:bg-[#2A2E39] border border-gray-300 dark:border-gray-600 px-3 py-1.5 text-base font-semibold text-white shadow lg:px-2.5 flex-1 md:flex-initial"
+                            class="inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white dark:hover:bg-zinc-900 px-3 py-2 text-sm font-semibold lg:px-3 flex-1 md:flex-initial"
                             ><svg
                               xmlns="http://www.w3.org/2000/svg"
                               class="size-5 flex-shrink-0"
@@ -615,46 +615,46 @@
                     <!--Start Ticker Section-->
 
                     <nav
-                      class="sm:ml-4 border-b-[2px] border-[#2C6288] dark:border-white overflow-x-auto whitespace-nowrap"
+                      class="sm:ml-4 border-b border-gray-200/70 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
                     >
                       <ul class="flex flex-row items-center w-full text-[1rem]">
                         <a
                           href={`/stocks/${$stockTicker}`}
                           on:click={() => changeSection("overview")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
+                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
                           'overview'
-                            ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
+                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
                         >
                           Overview
                         </a>
                         <a
                           href={`/stocks/${$stockTicker}/financials`}
                           on:click={() => changeSection("financials")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
+                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
                           'financials'
-                            ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
+                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
                         >
                           Financials
                         </a>
                         <a
                           href={`/stocks/${$stockTicker}/statistics`}
                           on:click={() => changeSection("statistics")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
+                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
                           'statistics'
-                            ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
+                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
                           >Statistics</a
                         >
 
                         <a
                           href={`/stocks/${$stockTicker}/metrics`}
                           on:click={() => changeSection("metrics")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
+                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
                           'metrics'
-                            ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
+                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
                           >Metrics</a
                         >
 
@@ -662,10 +662,10 @@
                           <a
                             href={`/stocks/${$stockTicker}/forecast`}
                             on:click={() => changeSection("forecast")}
-                            class="p-2 px-5 cursor-pointer {displaySection ===
+                            class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
                             'forecast'
-                              ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                              : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                              ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
+                              : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
                           >
                             Forecast
                           </a>
@@ -673,20 +673,20 @@
                         <a
                           href={`/stocks/${$stockTicker}/unusual-orders`}
                           on:click={() => changeSection("unusual-orders")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
+                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
                           'unusual-orders'
-                            ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
+                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
                         >
                           Unusual Orders
                         </a>
                         <a
                           href={`/stocks/${$stockTicker}/options`}
                           on:click={() => changeSection("options")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
+                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
                           'options'
-                            ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
+                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
                         >
                           Options
                         </a>
@@ -694,10 +694,10 @@
                         <a
                           href={`/stocks/${$stockTicker}/insider`}
                           on:click={() => changeSection("insider")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
+                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
                           'insider'
-                            ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
+                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
                         >
                           Insider
                         </a>
@@ -705,10 +705,10 @@
                           <a
                             href={`/stocks/${$stockTicker}/dividends`}
                             on:click={() => changeSection("dividends")}
-                            class="p-2 px-5 cursor-pointer {displaySection ===
+                            class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
                             'dividends'
-                              ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                              : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                              ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
+                              : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
                           >
                             Dividends
                           </a>
@@ -716,20 +716,20 @@
                         <a
                           href={`/stocks/${$stockTicker}/history`}
                           on:click={() => changeSection("history")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
+                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
                           'history'
-                            ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
+                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
                         >
                           History
                         </a>
                         <a
                           href={`/stocks/${$stockTicker}/profile`}
                           on:click={() => changeSection("profile")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
+                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
                           'profile'
-                            ? ' bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
+                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
                         >
                           Profile
                         </a>
@@ -781,12 +781,12 @@
   ></label>
 
   <div
-    class="modal-box max-h-96 rounded w-full bg-white dark:bg-secondary border border-gray-600"
+    class="modal-box max-h-96 rounded-xl w-full bg-white/90 dark:bg-zinc-950/70 border border-gray-200/70 dark:border-zinc-800/80"
   >
     <div
-      class="mb-5 flex flex-row justify-between items-center border-b pb-2 border-gray-300 dark:border-gray-600"
+      class="mb-5 flex flex-row justify-between items-center border-b pb-2 border-gray-200/70 dark:border-zinc-800/80"
     >
-      <h3 class="font-semibold text-lg sm:text-xl text-black dark:text-white">
+      <h3 class="font-semibold text-lg sm:text-xl text-gray-900 dark:text-white">
         Add to Watchlist
       </h3>
       <label
@@ -805,11 +805,11 @@
             class="cursor-pointer w-full flex flex-row justify-start items-center mb-5"
           >
             <div
-              class="flex flex-row items-center w-full border p-3 rounded {item?.ticker?.includes(
+              class="flex flex-row items-center w-full border p-3 rounded-lg {item?.ticker?.includes(
                 $stockTicker,
               )
-                ? 'border border-gray-600 dark:border-gray-300'
-                : 'border-gray-300 dark:border-gray-600'}"
+                ? 'border-gray-300 dark:border-zinc-700 bg-gray-50/60 dark:bg-zinc-900/50'
+                : 'border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40'}"
             >
               <div class="flex flex-col items-center w-full">
                 <span class="ml-1 mr-auto">
@@ -822,11 +822,11 @@
               </div>
 
               <div
-                class="rounded-full w-8 h-8 relative border border-[#737373]"
+                class="rounded-full w-8 h-8 relative border border-gray-200/70 dark:border-zinc-800/80"
               >
                 {#if item?.ticker?.includes($stockTicker)}
                   <svg
-                    class="w-full h-full rounded-full text-black dark:text-white"
+                    class="w-full h-full rounded-full text-gray-700 dark:text-zinc-200"
                     viewBox="0 0 48 48"
                     version="1.1"
                     xmlns="http://www.w3.org/2000/svg"

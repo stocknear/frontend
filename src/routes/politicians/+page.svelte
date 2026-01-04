@@ -449,14 +449,18 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 px-3 pb-20"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
+          >Home</a
+        >
       </li>
-      <li class="text-muted dark:text-gray-300">Politicians</li>
+      <li class="text-gray-500 dark:text-zinc-500">Politicians</li>
     </ul>
   </div>
 
@@ -466,22 +470,26 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <h1 class="text-2xl sm:text-3xl font-bold">All US Politicians</h1>
+          <h1
+            class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+          >
+            All US Politicians
+          </h1>
           <div
-            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between w-full mt-5 text-muted sm:pt-2 sm:pb-2 dark:text-white sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-gray-800"
+            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between w-full mt-5 text-gray-600 dark:text-zinc-300 sm:pt-2 sm:pb-2 sm:border-t sm:border-b sm:border-gray-200/70 sm:dark:border-zinc-800/80"
           >
             <div
               class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
             >
               <h2
-                class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold"
+                class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
                 {originalData?.length?.toLocaleString("en-US")} Members
               </h2>
             </div>
 
             <div
-              class="flex items-center ml-auto border-t border-b border-gray-300 dark:border-gray-800 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 w-full"
+              class="flex items-center ml-auto border-t border-b border-gray-200/70 dark:border-zinc-800/80 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 w-full"
             >
               <div class="relative ml-auto w-full sm:min-w-56 sm:max-w-14">
                 <div
@@ -510,7 +518,7 @@
                   bind:value={inputValue}
                   on:input={search}
                   placeholder="Find..."
-                  class="py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full"
+                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full"
                 />
               </div>
 
@@ -541,12 +549,12 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-56 h-fit max-h-72 overflow-y-auto scroller"
+                  class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                 >
                   <DropdownMenu.Group>
                     {#each ["Democratic", "Republican", "Other"] as item}
                       <DropdownMenu.Item
-                        class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
                       >
                         <div class="flex items-center">
                           <label
@@ -571,20 +579,22 @@
 
           <div class="w-full m-auto mt-4">
             {#if displayList?.length > 0}
-              <div class="overflow-x-auto">
+              <div
+                class="w-full m-auto mb-4 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+              >
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                 >
                   <thead>
                     <TableHeader {columns} {sortOrders} {sortData} />
                   </thead>
-                  <tbody>
+                  <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
                     {#each displayList as item}
                       <tr
-                        class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
+                        class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                       >
                         <td
-                          class="text-sm sm:text-[1rem] whitespace-nowrap flex flex-row items-center"
+                          class="text-[0.85rem] sm:text-sm whitespace-nowrap flex flex-row items-center text-gray-700 dark:text-zinc-200 tabular-nums"
                         >
                           {#if item?.performanceScore !== null && item?.performanceScore !== undefined}
                             <div>
@@ -607,25 +617,25 @@
                         </td>
 
                         <td
-                          class="text-start text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
                         >
                           <a
                             href={`/politicians/${item?.id}`}
-                            class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400"
+                            class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >{item?.representative?.replace("_", " ")}</a
                           >
                         </td>
 
                         <td
-                          class="text-center text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-center text-[0.85rem] sm:text-sm whitespace-nowrap"
                         >
                           <div
                             id={item?.id}
                             on:click|stopPropagation={(event) =>
                               addToFavorite(event, item?.id)}
-                            class="text-center {favoriteList?.includes(item?.id)
-                              ? 'text-yellow-500 dark:text-[#FFA500]'
-                              : 'text-gray-400 dark:text-gray-300'}"
+                            class="text-center transition hover:text-violet-600 dark:hover:text-violet-400 {favoriteList?.includes(item?.id)
+                              ? 'text-gray-700 dark:text-zinc-200'
+                              : 'text-gray-400 dark:text-zinc-500'}"
                           >
                             <svg
                               class="{item?.id === animationId
@@ -641,50 +651,50 @@
                           </div>
                         </td>
                         <td
-                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
                         >
                           {item?.party}
                         </td>
 
                         <td
-                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                         >
                           {#if item?.successRate === null || item?.successRate === undefined}
                             <span class="">n/a</span>
                           {:else}
                             <span
-                              class="font-semibold dark:font-normal text-green-800 dark:text-green-400"
+                              class="font-medium text-emerald-600 dark:text-emerald-400"
                               >+{Number(item?.successRate)?.toFixed(2)}%</span
                             >
                           {/if}
                         </td>
 
                         <td
-                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                         >
                           {#if item?.avgReturn === null || item?.avgReturn === undefined}
                             <span class="">n/a</span>
                           {:else if Number(item?.avgReturn) >= 0}
                             <span
-                              class="font-semibold dark:font-normal text-green-800 dark:text-green-400"
+                              class="font-medium text-emerald-600 dark:text-emerald-400"
                               >+{Number(item?.avgReturn)?.toFixed(2)}%</span
                             >
                           {:else}
                             <span
-                              class="font-semibold dark:font-normal text-red-800 dark:text-red-400"
+                              class="font-medium text-rose-600 dark:text-rose-400"
                               >{Number(item?.avgReturn)?.toFixed(2)}%</span
                             >
                           {/if}
                         </td>
 
                         <td
-                          class="text-end whitespace-nowrap text-sm sm:text-[1rem]"
+                          class="text-end whitespace-nowrap text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
                         >
                           {item?.totalTrades?.toLocaleString("en-US")}
                         </td>
 
                         <td
-                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                         >
                           {new Date(item?.lastTrade)?.toLocaleString("en-US", {
                             month: "short",
