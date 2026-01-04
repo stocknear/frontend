@@ -1381,10 +1381,14 @@
                       <Accordion.Trigger
                         class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
-                        <Stock
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
-                        />
-                        <span class="ml-1 mr-auto">Stocks</span>
+                        <div class="flex items-center mr-auto">
+                          <div
+                            class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                          >
+                            <Stock class="h-5.5 w-5.5" />
+                          </div>
+                          <span class="ml-3">Stocks</span>
+                        </div>
                       </Accordion.Trigger>
                       <Accordion.Content
                         class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
@@ -1425,10 +1429,14 @@
                       <Accordion.Trigger
                         class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
-                        <Layers
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
-                        />
-                        <span class="ml-1 mr-auto">ETFs</span>
+                        <div class="flex items-center mr-auto">
+                          <div
+                            class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                          >
+                            <Layers class="h-5.5 w-5.5" />
+                          </div>
+                          <span class="ml-3">ETFs</span>
+                        </div>
                       </Accordion.Trigger>
                       <Accordion.Content
                         class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
@@ -1456,10 +1464,14 @@
                       <Accordion.Trigger
                         class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
-                        <Analyst
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
-                        />
-                        <span class="ml-1 mr-auto">Analyst</span>
+                        <div class="flex items-center mr-auto">
+                          <div
+                            class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                          >
+                            <Analyst class="h-5.5 w-5.5" />
+                          </div>
+                          <span class="ml-3">Analyst</span>
+                        </div>
                       </Accordion.Trigger>
                       <Accordion.Content
                         class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
@@ -1493,10 +1505,14 @@
                       <Accordion.Trigger
                         class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
-                        <Calendar
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
-                        />
-                        <span class="ml-1 mr-auto">Calendar</span>
+                        <div class="flex items-center mr-auto">
+                          <div
+                            class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                          >
+                            <Calendar class="h-5.5 w-5.5" />
+                          </div>
+                          <span class="ml-3">Calendar</span>
+                        </div>
                       </Accordion.Trigger>
                       <Accordion.Content
                         class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
@@ -1542,10 +1558,14 @@
                       <Accordion.Trigger
                         class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
-                        <HandShake
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
-                        />
-                        <span class="ml-1 mr-auto">Congress</span>
+                        <div class="flex items-center mr-auto">
+                          <div
+                            class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                          >
+                            <HandShake class="h-5.5 w-5.5" />
+                          </div>
+                          <span class="ml-3">Congress</span>
+                        </div>
                       </Accordion.Trigger>
 
                       <Accordion.Content
@@ -1576,10 +1596,14 @@
                       <Accordion.Trigger
                         class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
-                        <Flow
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
-                        />
-                        <span class="ml-1 mr-auto">Flow Feed</span>
+                        <div class="flex items-center mr-auto">
+                          <div
+                            class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                          >
+                            <Flow class="h-5.5 w-5.5" />
+                          </div>
+                          <span class="ml-3">Flow Feed</span>
+                        </div>
                       </Accordion.Trigger>
                       <Accordion.Content
                         class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
@@ -1619,10 +1643,14 @@
                       <Accordion.Trigger
                         class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
-                        <Screener
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
-                        />
-                        <span class="ml-1 mr-auto">Screener</span>
+                        <div class="flex items-center mr-auto">
+                          <div
+                            class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                          >
+                            <Screener class="h-5.5 w-5.5" />
+                          </div>
+                          <span class="ml-3">Screener</span>
+                        </div>
                       </Accordion.Trigger>
                       <Accordion.Content
                         class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
@@ -1685,10 +1713,14 @@
                       <Accordion.Trigger
                         class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
-                        <Tools
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
-                        />
-                        <span class="ml-1 mr-auto">Tools</span>
+                        <div class="flex items-center mr-auto">
+                          <div
+                            class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                          >
+                            <Tools class="h-5.5 w-5.5" />
+                          </div>
+                          <span class="ml-3">Tools</span>
+                        </div>
                       </Accordion.Trigger>
                       <Accordion.Content
                         class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"

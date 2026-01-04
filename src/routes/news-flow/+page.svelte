@@ -246,17 +246,17 @@
 
                       if ($mode === 'light') {
                         if (isPositive) {
-                          return `linear-gradient(90deg, ${baseColor} 0%, rgba(34, 197, 94, 0.1) 50%, rgba(34, 197, 94, 0.13) 100%)`;
+                          return `linear-gradient(90deg, ${baseColor} 0%, rgba(34, 197, 94, 0.01) 50%, rgba(34, 197, 94, 0.05) 100%)`;
                         }
                         if (isNegative) {
-                          return `linear-gradient(90deg, ${baseColor} 0%, rgba(238, 83, 101, 0.1) 50%, rgba(238, 83, 101, 0.13) 100%)`;
+                          return `linear-gradient(90deg, ${baseColor} 0%, rgba(238, 83, 101, 0.01) 50%, rgba(238, 83, 101, 0.05) 100%)`;
                         }
                       } else {
                         if (isPositive) {
-                          return `linear-gradient(90deg, ${baseColor} 0%, rgba(0, 252, 80, 0.1) 50%, rgba(0, 252, 80, 0.16) 100%)`;
+                          return `linear-gradient(90deg, ${baseColor} 0%, rgba(0, 252, 80, 0.01) 50%, rgba(0, 252, 80, 0.1) 100%)`;
                         }
                         if (isNegative) {
-                          return `linear-gradient(90deg, ${baseColor} 0%, rgba(238, 83, 101, 0.1) 50%, rgba(238, 83, 101, 0.16) 100%)`;
+                          return `linear-gradient(90deg, ${baseColor} 0%, rgba(238, 83, 101, 0.01) 50%, rgba(238, 83, 101, 0.1) 100%)`;
                         }
                       }
                       return baseColor;
@@ -278,7 +278,7 @@
                         {#each item?.symbolList as symbol}
                           <a
                             href={`/${item?.assetType}/${symbol}`}
-                            class="inline-flex items-center rounded-full border border-blue-200/70 dark:border-blue-900/50 bg-blue-50/70 dark:bg-blue-950/40 px-2 py-0.5 text-xs font-medium text-violet-800 dark:text-violet-400 transition hover:text-blue-900 dark:hover:text-blue-300 ml-1 mb-1"
+                            class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white"
                           >
                             {symbol}
                           </a>
@@ -286,7 +286,7 @@
                       {:else if item?.symbol}
                         <a
                           href={`/${item?.assetType}/${item?.symbol}`}
-                          class="inline-flex items-center rounded-full border border-blue-200/70 dark:border-blue-900/50 bg-blue-50/70 dark:bg-blue-950/40 px-2 py-0.5 text-xs font-medium text-violet-800 dark:text-violet-400 transition hover:text-blue-900 dark:hover:text-blue-300 ml-1 mb-1"
+                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white"
                         >
                           {item?.symbol}
                         </a>
