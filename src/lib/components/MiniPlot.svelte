@@ -187,7 +187,7 @@
 
 {#if config}
     <div
-        class="rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 overflow-hidden text-gray-700 dark:text-zinc-200"
+        class=" bg-white/60 dark:bg-zinc-950/40 overflow-hidden text-gray-700 dark:text-zinc-200"
     >
         <div
             class="flex items-center justify-between px-2 py-1.5 sm:px-3 sm:py-2 border-b border-gray-200/70 dark:border-zinc-800/80"
@@ -251,7 +251,8 @@
                     <div
                         class="min-w-0 text-[0.6rem] sm:text-[0.7rem] leading-none"
                     >
-                        <span class="py-0.5 block uppercase font-semibold text-gray-400 dark:text-zinc-500 tracking-wide"
+                        <span
+                            class="py-0.5 block uppercase font-semibold text-gray-400 dark:text-zinc-500 tracking-wide"
                             >Bull</span
                         >
                         <span
@@ -275,7 +276,8 @@
                     <div
                         class="min-w-0 text-[0.6rem] sm:text-[0.7rem] leading-none text-right"
                     >
-                        <span class="py-0.5 block uppercase font-semibold text-gray-400 dark:text-zinc-500 tracking-wide"
+                        <span
+                            class="py-0.5 block uppercase font-semibold text-gray-400 dark:text-zinc-500 tracking-wide"
                             >Bear</span
                         >
                         <span
