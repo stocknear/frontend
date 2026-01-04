@@ -18,7 +18,7 @@
       {analystReport?.insight}
     </div>
 
-    <div class="mt-4 text-sm text-gray-500 dark:text-zinc-400">
+    <div class="mt-4 text-sm text-gray-700 dark:text-zinc-200">
       According to {analystReport?.numOfAnalyst} analyst ratings, the average rating
       for
       <a
