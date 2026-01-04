@@ -3397,15 +3397,15 @@ const handleKeyDown = (event) => {
     </div>
 
     <div
-      class="rounded border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-primary p-2"
+      class="rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-3"
     >
-      <div class="items-end border-b border-gray-300 dark:border-gray-600">
+      <div class="items-end border-b border-gray-200/70 dark:border-zinc-800/80">
         <div
-          class="mr-1 flex items-center justify-between lg:mr-2 pb-1.5 border-b border-gray-300 dark:border-gray-600 mt-1.5"
+          class="mr-1 flex items-center justify-between lg:mr-2 pb-1.5 border-b border-gray-200/70 dark:border-zinc-800/80 mt-1.5"
         >
           <button
             on:click={() => (showFilters = !showFilters)}
-            class="flex cursor-pointer items-center text-lg font-semibold"
+            class="flex cursor-pointer items-center text-base font-semibold text-gray-900 dark:text-white"
             title="Hide Filter Area"
           >
             <svg
@@ -3428,7 +3428,7 @@ const handleKeyDown = (event) => {
         <div class="mt-3 flex flex-col gap-y-2.5 lg:flex-row lg:gap-y-2">
           <label
             for="ruleModal"
-            class="text-[0.95rem] order-2 lg:order-0 text-white inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold bg-black text-white dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+            class="text-sm order-2 lg:order-0 inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 pl-3 pr-4 font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus:outline-hidden"
           >
             <svg
               class="h-5 w-5"
@@ -3453,7 +3453,7 @@ const handleKeyDown = (event) => {
                 class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
               >
                 <svg
-                  class="w-4 h-4 text-muted dark:text-gray-200"
+                  class="w-4 h-4 text-gray-400 dark:text-zinc-400"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -3476,7 +3476,7 @@ const handleKeyDown = (event) => {
                 on:keydown={handleQuickSearchKeydown}
                 on:focus={() => updateQuickSearchResults(quickSearchTerm)}
                 on:blur={closeQuickSearchDropdown}
-                class="block w-full lg:w-64 py-2.5 shadow bg-white placeholder:text-muted pl-10 text-[1rem] border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-[#2A2E39] dark:border-gray-800 dark:placeholder-gray-200 dark:text-white dark:focus:outline-none dark:focus:border-none"
+                class="block w-full lg:w-64 py-2.5 bg-white/80 dark:bg-zinc-950/60 placeholder:text-gray-500 dark:placeholder:text-zinc-400 pl-10 text-sm border border-gray-200/70 dark:border-zinc-800/80 rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
               />
 
               <!-- Clear button -->
@@ -3510,7 +3510,7 @@ const handleKeyDown = (event) => {
             <!-- Quick Search Dropdown -->
             {#if showQuickSearchDropdown && quickSearchResults?.length > 0}
               <div
-                class="absolute z-50 w-full mt-1 bg-white dark:bg-[#2A2E39] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-64 overflow-y-auto"
+                class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none max-h-64 overflow-y-auto"
                 in:scale={{
                   start: 0.98,
                   duration: 140,
@@ -3521,9 +3521,9 @@ const handleKeyDown = (event) => {
               >
                 {#each quickSearchResults as result, index}
                   <button
-                    class="cursor-pointer w-full px-2 py-2 flex flex-row items-center sm:hover:bg-gray-100 dark:sm:hover:bg-gray-600 {index ===
+                    class="cursor-pointer w-full px-2 py-2 flex flex-row items-center text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 {index ===
                     selectedQuickSearchIndex
-                      ? 'bg-gray-100 dark:bg-gray-600'
+                      ? 'text-violet-600 dark:text-violet-400'
                       : ''}"
                     type="button"
                     on:click={() => selectQuickSearchRule(result)}
@@ -3565,7 +3565,7 @@ const handleKeyDown = (event) => {
             <!-- No results message -->
             {#if showQuickSearchDropdown && quickSearchTerm.length > 0 && quickSearchResults.length === 0}
               <div
-                class="absolute z-50 w-full mt-1 bg-white dark:bg-[#2A2E39] border border-gray-300 dark:border-gray-600 rounded-md shadow-lg p-4 text-center text-sm text-gray-500 dark:text-gray-400"
+                class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none p-4 text-center text-sm text-gray-500 dark:text-zinc-400"
               >
                 No available filters found
               </div>
@@ -3576,7 +3576,7 @@ const handleKeyDown = (event) => {
             <label
               for={!data?.user ? "userLogin" : ""}
               on:click={() => handleSave(true)}
-              class="text-[0.95rem] lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+              class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 pl-3 pr-4 font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus:outline-hidden"
             >
               <svg
                 class="w-4 h-4 mr-2 inline-block cursor-pointer shrink-0"
@@ -3596,7 +3596,7 @@ const handleKeyDown = (event) => {
                 on:click={() => {
                   handleCreateStrategy();
                 }}
-                class="text-[0.95rem] lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+                class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400 focus:outline-hidden"
               >
                 <Copy class="w-4 h-4 inline-block mr-2" />
                 <div>Save as New</div>
@@ -3607,7 +3607,7 @@ const handleKeyDown = (event) => {
           {#if ruleOfList?.length !== 0}
             <label
               on:click={handleResetAll}
-              class="text-[0.95rem] lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:text-red-500 ease-out focus:outline-hidden"
+              class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-rose-600 dark:hover:text-rose-400 focus:outline-hidden"
             >
               <svg
                 class="h-4 w-4"
@@ -3630,7 +3630,7 @@ const handleKeyDown = (event) => {
         </div>
 
         <div
-          class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-b border-gray-300 dark:border-gray-600"
+          class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
         >
           {#each displayRules as row (row?.rule)}
             <!--Start Added Rules-->
@@ -3659,7 +3659,7 @@ const handleKeyDown = (event) => {
               <div class="flex items-center">
                 <button
                   on:click={() => handleDeleteRule(row?.rule)}
-                  class="mr-1.5 cursor-pointer text-muted dark:text-gray-300 sm:hover:text-red-800 dark:sm:hover:text-red-400 focus:outline-hidden"
+                  class="mr-1.5 cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-rose-600 dark:hover:text-rose-400 transition focus:outline-hidden"
                   title="Remove filter"
                   >{#if ruleOfList?.find((item) => item.name === row?.rule)?.value !== "any"}
                     <svg
@@ -3697,7 +3697,7 @@ const handleKeyDown = (event) => {
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="border-gray-300 dark:border-none  text-white bg-[#000] h-[35px] flex flex-row justify-between items-center w-[140px] xs:w-[130px] sm:w-[140px] px-3  rounded truncate"
+                          class="border border-gray-200/70 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 h-[35px] flex flex-row justify-between items-center w-[140px] xs:w-[130px] sm:w-[140px] px-3 rounded-full truncate hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <span class="truncate ml-2 text-sm">
                             {#if valueMappings[row?.rule] === "any"}
@@ -3734,11 +3734,11 @@ const handleKeyDown = (event) => {
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-64 min-h-auto max-h-72 overflow-y-auto scroller"
+                        class="w-64 min-h-auto max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                       >
                         {#if !checkedRules?.includes(row?.rule)}
                           <DropdownMenu.Label
-                            class="absolute mt-2 h-11 border-gray-300 dark:border-gray-800 border-b -top-1 z-20 fixed sticky bg-white dark:bg-default"
+                            class="absolute mt-2 h-11 border-gray-200/70 dark:border-zinc-800/80 border-b -top-1 z-20 fixed sticky bg-white/95 dark:bg-zinc-950/95"
                           >
                             <div
                               class="flex items-center justify-start gap-x-1"
@@ -3751,7 +3751,7 @@ const handleKeyDown = (event) => {
                                   <DropdownMenu.Trigger asChild let:builder
                                     ><Button
                                       builders={[builder]}
-                                      class="w-fit -mt-1 -ml-2  flex flex-row justify-between items-center "
+                                      class="w-fit -mt-1 -ml-2 flex flex-row justify-between items-center text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                                     >
                                       <span class="truncate ml-2 text-sm">
                                         {ruleCondition[ruleName]
@@ -3804,7 +3804,7 @@ const handleKeyDown = (event) => {
                                       : ""}
                                     on:input={(e) =>
                                       handleValueInput(e, row?.rule, 0)}
-                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-sm placeholder-gray-500 dark:placeholder:text-gray-200 font-normal p-1 text-sm bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80"
                                   />
                                   <span class=" text-[1rem] font-normal mt-1">
                                     &
@@ -3819,7 +3819,7 @@ const handleKeyDown = (event) => {
                                       : ""}
                                     on:input={(e) =>
                                       handleValueInput(e, row?.rule, 1)}
-                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-sm placeholder-gray-500 dark:placeholder:text-gray-200 font-normal p-1 text-sm bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80"
                                   />
                                 </div>
                               {:else}
@@ -3831,7 +3831,7 @@ const handleKeyDown = (event) => {
                                     : ""}
                                   on:input={(e) =>
                                     handleValueInput(e, row?.rule)}
-                                  class="ios-zoom-fix block max-w-[4.8rem] rounded-sm placeholder-gray-500 dark:placeholder:text-gray-200 font-normal p-1 text-sm bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+                                  class="ios-zoom-fix block max-w-[4.8rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80"
                                 />
                               {/if}
 
@@ -3846,7 +3846,7 @@ const handleKeyDown = (event) => {
                                         "add",
                                       )}
                                     ><svg
-                                      class="size-6 cursor-pointer text-gray-500 dark:text-gray-300"
+                                      class="size-6 cursor-pointer text-gray-400 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-400 transition"
                                       fill="none"
                                       viewBox="0 0 24 24"
                                       stroke="currentColor"
@@ -3866,7 +3866,7 @@ const handleKeyDown = (event) => {
                                         "minus",
                                       )}
                                     ><svg
-                                      class="size-6 cursor-pointer text-gray-500 dark:text-gray-300"
+                                      class="size-6 cursor-pointer text-gray-400 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-400 transition"
                                       fill="none"
                                       viewBox="0 0 24 24"
                                       stroke="currentColor"
@@ -3905,8 +3905,8 @@ const handleKeyDown = (event) => {
                                 'country',
                               ]?.includes(row?.rule)
                                 ? 'hidden'
-                                : ''} text-sm p-2 absolute fixed sticky w-full border-0 bg-white dark:bg-default border-b border-gray-200 dark:border-gray-600
-                                      focus:outline-none placeholder:text-gray-500 dark:placeholder:text-gray-300"
+                                : ''} text-sm p-2 absolute fixed sticky w-full border-0 bg-white/80 dark:bg-zinc-950/60 border-b border-gray-200/70 dark:border-zinc-800/80
+                                      focus:outline-none placeholder:text-gray-500 dark:placeholder:text-zinc-400"
                               placeholder="Search..."
                             />
                           </div>
@@ -3917,7 +3917,7 @@ const handleKeyDown = (event) => {
                               {#if ruleCondition[row?.rule] === "between"}
                                 {#if newValue && row?.step[index + 1]}
                                   <DropdownMenu.Item
-                                    class="sm:hover:bg-gray-100 dark:sm:hover:bg-primary"
+                                    class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
                                   >
                                     <button
                                       on:click={() => {
@@ -3926,7 +3926,7 @@ const handleKeyDown = (event) => {
                                           row?.step[index + 1],
                                         ]);
                                       }}
-                                      class="cursor-pointer block w-full border-b border-gray-300 dark:border-gray-600 px-4 py-1.5 text-left text-sm rounded last:border-0 dark:sm:hover:bg-primary"
+                                      class="cursor-pointer block w-full border-b border-gray-200/70 dark:border-zinc-800/80 px-4 py-1.5 text-left text-sm rounded last:border-0"
                                     >
                                       {ruleCondition[row?.rule]?.replace(
                                         "between",
@@ -3940,13 +3940,13 @@ const handleKeyDown = (event) => {
                                 {/if}
                               {:else}
                                 <DropdownMenu.Item
-                                  class="sm:hover:bg-gray-100 dark:sm:hover:bg-primary"
+                                  class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
                                 >
                                   <button
                                     on:click={() => {
                                       handleChangeValue(newValue);
                                     }}
-                                    class="cursor-pointer block w-full border-b border-gray-300 dark:border-gray-600 px-4 py-1.5 text-left text-sm rounded last:border-0"
+                                    class="cursor-pointer block w-full border-b border-gray-200/70 dark:border-zinc-800/80 px-4 py-1.5 text-left text-sm rounded last:border-0"
                                   >
                                     {ruleCondition[row?.rule]
                                       ?.replace("under", "Under")
@@ -3960,7 +3960,7 @@ const handleKeyDown = (event) => {
                           {:else if checkedRules?.includes(row?.rule)}
                             {#each row?.step as item}
                               <DropdownMenu.Item
-                                class="sm:hover:bg-gray-100 dark:sm:hover:bg-primary"
+                                class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
                               >
                                 <div
                                   class="flex items-center"
@@ -3987,7 +3987,7 @@ const handleKeyDown = (event) => {
                           {:else}
                             {#each testList.length > 0 && searchQuery?.length > 0 ? testList : searchQuery?.length > 0 && testList?.length === 0 ? [] : row?.rule === "country" ? listOfRelevantCountries : row?.rule === "sector" ? sectorList : row?.rule === "industry" ? industryList : ["analystRating", "topAnalystRating", "score"]?.includes(ruleName) ? ["Strong Buy", "Buy", "Hold", "Sell", "Strong Sell"] : [] as item}
                               <DropdownMenu.Item
-                                class="sm:hover:bg-gray-100 dark:sm:hover:bg-primary"
+                                class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
                               >
                                 <div
                                   class="flex items-center"
@@ -4033,15 +4033,15 @@ const handleKeyDown = (event) => {
     class="mt-4 grid-cols-2 items-center lg:overflow-visible lg:px-1 py-1.5 mb-2"
   >
     <h2
-      class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-t border-gray-300 dark:border-gray-800"
+      class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-t border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white"
     >
       {filteredData?.length?.toLocaleString("en-US")} Stocks
     </h2>
     <div
-      class="col-span-2 flex flex-col lg:flex-row items-center lg:order-2 lg:grow py-1.5 border-t border-b border-gray-300 dark:border-gray-800"
+      class="col-span-2 flex flex-col lg:flex-row items-center lg:order-2 lg:grow py-1.5 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
     >
       <div
-        class="w-full flex flex-row lg:flex order-1 items-center ml-auto border-b border-gray-300 dark:border-gray-800 lg:border-none pb-2 sm:pt-0 lg:pb-0 w-full order-0 lg:order-1"
+        class="w-full flex flex-row lg:flex order-1 items-center ml-auto border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none pb-2 sm:pt-0 lg:pb-0 w-full order-0 lg:order-1"
       >
         <div class="relative lg:ml-auto w-full lg:w-fit">
           <div
@@ -4067,7 +4067,7 @@ const handleKeyDown = (event) => {
             on:input={search}
             type="text"
             placeholder="Find..."
-            class=" py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full sm:min-w-56 lg:max-w-14"
+            class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-200/70 dark:border-zinc-800/80 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
 
@@ -4086,10 +4086,10 @@ const handleKeyDown = (event) => {
           <li>
             <button
               on:click={() => (displayTableTab = "general")}
-              class="cursor-pointer text-[1rem] block rounded px-2 py-0.5 focus:outline-hidden sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-gray-100 dark:sm:hover:bg-primary {displayTableTab ===
+              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'general'
-                ? 'font-semibold bg-gray-100 text-muted dark:text-white dark:bg-primary'
-                : ''}"
+                ? 'font-semibold border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               General
             </button>
@@ -4097,17 +4097,17 @@ const handleKeyDown = (event) => {
           <li>
             <button
               on:click={() => (displayTableTab = "filters")}
-              class="cursor-pointer text-[1rem] flex flex-row items-center relative block rounded px-2 py-1 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-gray-100 dark:sm:hover:bg-primary {displayTableTab ===
+              class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center relative block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'filters'
-                ? 'font-semibold bg-gray-100 text-muted dark:text-white dark:bg-primary'
-                : ''} focus:outline-hidden"
+                ? 'font-semibold border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               <span class="">Filters</span>
               <span
                 class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center {ruleOfList?.length !==
                 0
-                  ? 'text-white bg-red-500'
-                  : 'text-black dark:text-white bg-gray-200 dark:bg-gray-600'}"
+                  ? 'text-white bg-rose-500'
+                  : 'text-gray-700 dark:text-zinc-200 bg-gray-100 dark:bg-zinc-900'}"
               >
                 {ruleOfList?.length}
               </span>
@@ -4118,10 +4118,10 @@ const handleKeyDown = (event) => {
               on:click={() => changeTab("performance")}
               on:mouseenter={() => handleTabHover("performance")}
               on:mouseleave={handleTabHoverLeave}
-              class="cursor-pointer text-[1rem] block rounded px-2 py-0.5 focus:outline-hidden sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-gray-100 dark:sm:hover:bg-primary {displayTableTab ===
+              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'performance'
-                ? 'font-semibold bg-gray-100 text-muted dark:text-white dark:bg-primary'
-                : ''}"
+                ? 'font-semibold border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               Performance
             </button>
@@ -4131,10 +4131,10 @@ const handleKeyDown = (event) => {
               on:click={() => changeTab("analysts")}
               on:mouseenter={() => handleTabHover("analysts")}
               on:mouseleave={handleTabHoverLeave}
-              class="cursor-pointer text-[1rem] block rounded px-2 py-0.5 focus:outline-hidden sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-gray-100 dark:sm:hover:bg-primary {displayTableTab ===
+              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'analysts'
-                ? 'font-semibold bg-gray-100 text-muted dark:text-white dark:bg-primary'
-                : ''}"
+                ? 'font-semibold border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               Analysts
             </button>
@@ -4144,10 +4144,10 @@ const handleKeyDown = (event) => {
               on:click={() => changeTab("dividends")}
               on:mouseenter={() => handleTabHover("dividends")}
               on:mouseleave={handleTabHoverLeave}
-              class="cursor-pointer text-[1rem] block rounded px-2 py-0.5 focus:outline-hidden sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-gray-100 dark:sm:hover:bg-primary {displayTableTab ===
+              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'dividends'
-                ? 'font-semibold bg-gray-100 text-muted dark:text-white dark:bg-primary'
-                : ''}"
+                ? 'font-semibold border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               Dividends
             </button>
@@ -4157,10 +4157,10 @@ const handleKeyDown = (event) => {
               on:click={() => changeTab("financials")}
               on:mouseenter={() => handleTabHover("financials")}
               on:mouseleave={handleTabHoverLeave}
-              class="cursor-pointer text-[1rem] block rounded px-2 py-0.5 focus:outline-hidden sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-gray-100 dark:sm:hover:bg-primary {displayTableTab ===
+              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'financials'
-                ? 'font-semibold bg-gray-100 text-muted dark:text-white dark:bg-primary'
-                : ''}"
+                ? 'font-semibold border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               Financials
             </button>
@@ -4174,41 +4174,45 @@ const handleKeyDown = (event) => {
   {#if isLoaded}
     {#if filteredData?.length !== 0}
       {#if displayTableTab === "general"}
-        <div class="w-full rounded overflow-x-auto">
+        <div
+          class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+        >
           <table
-            class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
           >
             <thead>
               <TableHeader {columns} {sortOrders} {sortData} />
             </thead>
             <tbody>
               {#each displayResults as item}
-                <tr class="dark:sm:hover:bg-[#245073]/10">
+                <tr
+                  class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none"
+                >
                   <td class=" whitespace-nowrap">
                     <a
                       href={"/stocks/" + item?.symbol}
-                      class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem]"
+                      class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
                       >{item?.symbol}</a
                     >
                   </td>
 
-                  <td class="whitespace-nowrap text-[1rem]">
+                  <td class="whitespace-nowrap text-sm sm:text-[0.95rem]">
                     {item?.name?.length > charNumber
                       ? item?.name?.slice(0, charNumber) + "..."
                       : item?.name}
                   </td>
 
-                  <td class=" text-sm sm:text-[1rem] text-end">
+                  <td class=" text-sm sm:text-[0.95rem] text-end">
                     {item?.marketCap < 100
                       ? "< 100"
                       : abbreviateNumber(item?.marketCap)}
                   </td>
 
-                  <td class=" text-sm sm:text-[1rem] text-end">
+                  <td class=" text-sm sm:text-[0.95rem] text-end">
                     {item?.price < 0.01 ? "< 0.01" : item?.price?.toFixed(2)}
                   </td>
 
-                  <td class=" text-end text-sm sm:text-[1rem]">
+                  <td class=" text-end text-sm sm:text-[0.95rem]">
                     {#if item?.changesPercentage >= 0}
                       <span class="text-emerald-600 dark:text-emerald-400"
                         >+{item?.changesPercentage >= 1000
@@ -4224,11 +4228,11 @@ const handleKeyDown = (event) => {
                     {/if}
                   </td>
 
-                  <td class=" text-sm sm:text-[1rem] text-end">
+                  <td class=" text-sm sm:text-[0.95rem] text-end">
                     {item?.volume ? abbreviateNumber(item?.volume) : "n/a"}
                   </td>
 
-                  <td class=" text-sm sm:text-[1rem] text-end">
+                  <td class=" text-sm sm:text-[0.95rem] text-end">
                     {item?.priceToEarningsRatio ?? "n/a"}
                   </td>
                 </tr>
@@ -4237,35 +4241,39 @@ const handleKeyDown = (event) => {
           </table>
         </div>
       {:else if displayTableTab === "filters"}
-        <div class="w-full rounded overflow-x-auto">
+        <div
+          class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+        >
           <table
-            class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
           >
             <thead>
               <TableHeader {columns} {sortOrders} {sortData} />
             </thead>
             <tbody>
               {#each displayResults as item (item?.symbol)}
-                <tr class="dark:sm:hover:bg-[#245073]/10">
+                <tr
+                  class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none"
+                >
                   <td class=" whitespace-nowrap">
                     <a
                       href={"/stocks/" + item?.symbol}
-                      class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem]"
+                      class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
                       >{item?.symbol}</a
                     >
                   </td>
-                  <td class=" whitespace-nowrap text-[1rem]">
+                  <td class=" whitespace-nowrap text-sm sm:text-[0.95rem]">
                     {item?.name?.length > charNumber
                       ? item?.name?.slice(0, charNumber) + "..."
                       : item?.name}
                   </td>
-                  <td class="whitespace-nowrap text-sm sm:text-[1rem] text-end">
+                  <td class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end">
                     {abbreviateNumber(item?.marketCap)}
                   </td>
                   {#each displayRules as row (row?.rule)}
                     {#if row?.rule !== "marketCap"}
                       <td
-                        class="whitespace-nowrap text-sm sm:text-[1rem] text-end"
+                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
                         {#if ["earningsTime", "halalStocks", "sector", "industry", "country", "payoutFrequency"]?.includes(row?.rule)}
                           {item[row?.rule]
@@ -4320,24 +4328,28 @@ const handleKeyDown = (event) => {
           </table>
         </div>
       {:else if displayTableTab === "performance"}
-        <div class="w-full rounded overflow-x-auto">
+        <div
+          class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+        >
           <table
-            class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
           >
             <thead>
               <TableHeader {columns} {sortOrders} {sortData} />
             </thead>
             <tbody>
               {#each displayResults as item (item?.symbol)}
-                <tr class="dark:sm:hover:bg-[#245073]/10">
+                <tr
+                  class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none"
+                >
                   <td class=" whitespace-nowrap">
                     <a
                       href={"/stocks/" + item?.symbol}
-                      class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem]"
+                      class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
                       >{item?.symbol}</a
                     >
                   </td>
-                  <td class="whitespace-nowrap text-[1rem]">
+                  <td class="whitespace-nowrap text-sm sm:text-[0.95rem]">
                     {item?.name?.length > charNumber
                       ? item?.name?.slice(0, charNumber) + "..."
                       : item?.name}
@@ -4345,7 +4357,7 @@ const handleKeyDown = (event) => {
 
                   {#each tabRuleList as row (row?.rule)}
                     <td
-                      class="whitespace-nowrap text-sm sm:text-[1rem] text-end"
+                      class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                     >
                       {#if row?.rule === "marketCap"}
                         {abbreviateNumber(item[row?.rule])}
@@ -4372,24 +4384,28 @@ const handleKeyDown = (event) => {
           </table>
         </div>
       {:else if displayTableTab === "analysts"}
-        <div class="w-full rounded overflow-x-auto">
+        <div
+          class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+        >
           <table
-            class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
           >
             <thead>
               <TableHeader {columns} {sortOrders} {sortData} />
             </thead>
             <tbody>
               {#each displayResults as item (item?.symbol)}
-                <tr class="dark:sm:hover:bg-[#245073]/10">
+                <tr
+                  class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none"
+                >
                   <td class=" whitespace-nowrap">
                     <a
                       href={"/stocks/" + item?.symbol}
-                      class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem]"
+                      class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
                       >{item?.symbol}</a
                     >
                   </td>
-                  <td class="whitespace-nowrap text-[1rem]">
+                  <td class="whitespace-nowrap text-sm sm:text-[0.95rem]">
                     {item?.name?.length > charNumber
                       ? item?.name?.slice(0, charNumber) + "..."
                       : item?.name}
@@ -4397,7 +4413,7 @@ const handleKeyDown = (event) => {
 
                   {#each tabRuleList as row (row?.rule)}
                     <td
-                      class="whitespace-nowrap text-sm sm:text-[1rem] text-end"
+                      class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                     >
                       {#if row?.rule === "marketCap"}
                         {abbreviateNumber(item[row?.rule])}
@@ -4444,24 +4460,28 @@ const handleKeyDown = (event) => {
           </table>
         </div>
       {:else if ["dividends", "financials"]?.includes(displayTableTab)}
-        <div class="w-full rounded overflow-x-auto">
+        <div
+          class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+        >
           <table
-            class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
           >
             <thead>
               <TableHeader {columns} {sortOrders} {sortData} />
             </thead>
             <tbody>
               {#each displayResults as item (item?.symbol)}
-                <tr class="dark:sm:hover:bg-[#245073]/10">
+                <tr
+                  class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none"
+                >
                   <td class=" whitespace-nowrap">
                     <a
                       href={"/stocks/" + item?.symbol}
-                      class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem]"
+                      class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
                       >{item?.symbol}</a
                     >
                   </td>
-                  <td class="whitespace-nowrap text-[1rem]">
+                  <td class="whitespace-nowrap text-sm sm:text-[0.95rem]">
                     {item?.name?.length > charNumber
                       ? item?.name?.slice(0, charNumber) + "..."
                       : item?.name}
@@ -4469,7 +4489,7 @@ const handleKeyDown = (event) => {
 
                   {#each tabRuleList as row (row?.rule)}
                     <td
-                      class="whitespace-nowrap text-sm sm:text-[1rem] text-end"
+                      class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                     >
                       {#if row?.rule === "marketCap"}
                         {abbreviateNumber(item[row?.rule])}
@@ -4499,7 +4519,7 @@ const handleKeyDown = (event) => {
             <Button
               on:click={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <svg
                 class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -4527,7 +4547,7 @@ const handleKeyDown = (event) => {
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
                     >{rowsPerPage} Rows</span
@@ -4553,13 +4573,13 @@ const handleKeyDown = (event) => {
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
               >
                 <!-- Dropdown items -->
                 <DropdownMenu.Group class="pb-2">
                   {#each rowsPerPageOptions as item}
                     <DropdownMenu.Item
-                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                      class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
                     >
                       <label
                         on:click={() => changeRowsPerPage(item)}
@@ -4579,7 +4599,7 @@ const handleKeyDown = (event) => {
             <Button
               on:click={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span class="hidden sm:inline">Next</span>
               <svg
@@ -4628,7 +4648,7 @@ const handleKeyDown = (event) => {
     <div class="flex justify-center items-center h-80">
       <div class="relative">
         <label
-          class=" bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          class=" bg-gray-900/80 dark:bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         >
           <span
             class="loading loading-spinner loading-md text-white dark:text-white"
@@ -4666,16 +4686,16 @@ const handleKeyDown = (event) => {
   ></label>
 
   <div
-    class="modal-box relative bg-white dark:bg-primary z-20 mx-2 min-h-[30vh] h-[800px] rounded bg-default opacity-100 border border-gray-300 dark:border-gray-600 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto"
+    class="modal-box relative bg-white dark:bg-zinc-950 z-20 mx-2 min-h-[30vh] h-[800px] rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto shadow-none"
   >
     <div class="relative flex flex-col w-full">
       <!-- Sticky Header -->
 
       <div
-        class="fixed w-full h-fit sticky -top-6 z-40 bg-white dark:bg-primary opacity-100 pb-6 pt-5 border-gray-300 dark:border-gray-600 border-b"
+        class="fixed w-full h-fit sticky -top-6 z-40 bg-white/95 dark:bg-zinc-950/95 pb-6 pt-5 border-gray-200/70 dark:border-zinc-800/80 border-b"
       >
         <div class="flex flex-row items-center justify-between mb-2">
-          <h2 class=" text-[1rem] sm:text-xl font-semibold">
+          <h2 class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white">
             Select screener filters ({allRows?.length} total)
           </h2>
           <label
@@ -4705,7 +4725,7 @@ const handleKeyDown = (event) => {
               class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
             >
               <svg
-                class="w-4 h-4 text-gray-600 dark:text-gray-300"
+                class="w-4 h-4 text-gray-400 dark:text-zinc-400"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -4729,7 +4749,7 @@ const handleKeyDown = (event) => {
             >
               <button
                 on:click={() => (searchTerm = "")}
-                class="cursor-pointer text-gray-600 dark:text-gray-300"
+                class="cursor-pointer text-gray-400 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                 tabindex="0"
                 ><svg
                   class="w-5 h-5"
@@ -4750,7 +4770,7 @@ const handleKeyDown = (event) => {
             <input
               autocomplete="off"
               id="search"
-              class="focus:outline-none placeholder-gray-800 dark:placeholder-gray-300 block w-full p-2 ps-10 text-sm border border-gray-300 dark:border-gray-600 rounded bg-gray-100 dark:bg-secondary border border-blue-500"
+              class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm border border-gray-200/70 dark:border-zinc-800/80 rounded-full bg-white/80 dark:bg-zinc-950/60"
               placeholder="Search..."
               bind:value={searchTerm}
             />
@@ -4762,7 +4782,9 @@ const handleKeyDown = (event) => {
       <!-- Content -->
       <div class="">
         {#each searchTerm?.length !== 0 ? Object?.entries(filteredGroupedRules) : Object?.entries(groupedRules) as [category, rules]}
-          <h4 class="mb-1 font-semibold text-lg mt-5">{category}</h4>
+          <h4 class="mb-1 font-semibold text-lg mt-5 text-gray-900 dark:text-white">
+            {category}
+          </h4>
           <div class="flex flex-wrap">
             {#each rules as row}
               <div
@@ -4797,7 +4819,7 @@ const handleKeyDown = (event) => {
                     checked={ruleOfList?.find(
                       (rule) => rule?.name === row?.rule,
                     )}
-                    class="h-[18px] w-[18px] rounded-sm ring-offset-0 lg:h-4 lg:w-4"
+                    class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-200/70 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
                   />
                   <div class="-mt-0.5">
                     <label for={row?.rule} class="cursor-pointer text-[1rem]"
@@ -4829,9 +4851,11 @@ const handleKeyDown = (event) => {
 
   <div
     class="modal-box w-full p-6 rounded border
-        bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+        bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none"
   >
-    <h1 class="text-2xl font-bold">New Screener</h1>
+    <h1 class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+      New Screener
+    </h1>
 
     <form
       on:submit={createStrategy}
@@ -4848,7 +4872,7 @@ const handleKeyDown = (event) => {
 
       <button
         type="submit"
-        class="cursor-pointer mt-2 py-2.5 bg-black dark:bg-[#fff] dark:sm:hover:bg-gray-100 duration-100 w-full rounded m-auto text-white dark:text-black font-semibold text-md"
+        class="cursor-pointer mt-2 py-2.5 bg-gray-900 text-white dark:bg-white dark:text-gray-900 duration-100 w-full rounded-full m-auto font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
       >
         Create Screener
       </button>
@@ -4866,26 +4890,27 @@ const handleKeyDown = (event) => {
 
   <div
     class="modal-box w-full p-6 rounded border
-        bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+        bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none"
   >
-    <h3 class="text-lg font-medium mb-2">Delete Screener</h3>
-    <p class="text-sm mb-6">
+    <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
+      Delete Screener
+    </h3>
+    <p class="text-sm mb-6 text-gray-600 dark:text-zinc-400">
       Are you sure you want to delete this screener? This action cannot be
       undone.
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteStrategy"
-        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
-            transition-colors duration-100
-            bg-gray-600 text-white dark:bg-white dark:text-black"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
+            transition-colors duration-100 border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
         tabindex="0">Cancel</label
       ><label
         for="deleteStrategy"
         on:click={handleDeleteStrategy}
-        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
-            transition-colors duration-100 flex items-center
-            bg-red-600 text-white sm:hover:bg-red-700
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
+            transition-colors duration-100 flex items-center border border-rose-200/70 dark:border-rose-500/30
+            bg-rose-50/80 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300
             "
         tabindex="0"
         ><svg
@@ -4922,23 +4947,27 @@ const handleKeyDown = (event) => {
 
   <!-- Desktop modal content -->
   <div
-    class="modal-box rounded border border-gray-300 dark:border-gray-600 w-full bg-white dark:bg-secondary flex flex-col items-center"
+    class="modal-box rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 w-full bg-white dark:bg-zinc-950 flex flex-col items-center shadow-none"
   >
     <div class=" mb-5 text-center">
-      <h3 class="font-bold text-2xl mb-5">{tooltipTitle}</h3>
-      <span class=" text-[1rem] font-normal">{infoText?.text ?? "n/a"}</span>
+      <h3 class="font-semibold text-2xl mb-5 text-gray-900 dark:text-white">
+        {tooltipTitle}
+      </h3>
+      <span class=" text-[1rem] font-normal text-gray-600 dark:text-zinc-400"
+        >{infoText?.text ?? "n/a"}</span
+      >
       {#if infoText?.equation !== undefined}
         <div class="w-5/6 m-auto mt-5"></div>
-        <div class="text-[1rem] w-full pt-3 pb-3 m-auto">
+        <div class="text-[1rem] w-full pt-3 pb-3 m-auto text-gray-600 dark:text-zinc-400">
           {infoText?.equation}
         </div>
       {/if}
     </div>
 
-    <div class="border-t border-gray-300 dark:border-gray-600 mt-2 w-full">
+    <div class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-2 w-full">
       <label
         for="mobileTooltip"
-        class="cursor-pointer mt-4 font-semibold text-xl m-auto flex justify-center"
+        class="cursor-pointer mt-4 font-semibold text-xl m-auto flex justify-center text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
       >
         Close
       </label>

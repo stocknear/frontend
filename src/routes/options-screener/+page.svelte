@@ -2237,7 +2237,7 @@
                         `/options/contract-lookup?query=${item?.optionSymbol}`}
                       rel="noopener noreferrer"
                       target="_blank"
-                      class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem]"
+                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 text-sm sm:text-[1rem]"
                       >{item?.symbol}</a
                     >
                   </td>
