@@ -641,9 +641,7 @@
 <section
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-3 text-gray-700 dark:text-zinc-200"
 >
-  <div
-    class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500"
-  >
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
     <ul>
       <li>
         <a
@@ -662,9 +660,7 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:pr-10">
-          <div
-            class="mb-4 border-b border-gray-200/70 dark:border-zinc-800/80"
-          >
+          <div class="mb-4 border-b border-gray-200/70 dark:border-zinc-800/80">
             <h1
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
@@ -1187,7 +1183,9 @@
                   class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                 />
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
+              <span
+                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+              >
                 Get realtime updates of your favorite stocks
               </span>
             </a>
@@ -1208,7 +1206,9 @@
                   class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                 />
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
+              <span
+                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+              >
                 Get realtime updates of your portfolio
               </span>
             </a>
@@ -1248,7 +1248,7 @@
         }}>Cancel</label
       ><button
         type="button"
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-100 flex items-center bg-red-600 text-white disabled:opacity-70 disabled:cursor-not-allowed"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 flex items-center border border-rose-200/70 dark:border-rose-500/30 bg-rose-50/80 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300"
         tabindex="0"
         on:click={deleteAllNotifications}
         disabled={deleteInFlight}

@@ -837,7 +837,7 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 pb-40 text-muted dark:text-white"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 pb-40 text-gray-700 dark:text-zinc-200"
 >
   <div class="w-full overflow-hidden m-auto">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
@@ -849,7 +849,7 @@
             <div
               class="flex w-full sm:w-[50%] md:w-auto mb-5 {!data?.user
                 ? 'hidden'
-                : 'md:block'} border-t border-b border-gray-300 dark:border-gray-800 py-2"
+                : 'md:block'} border-t border-b border-gray-200/70 dark:border-zinc-800/80 py-2"
             >
               <div
                 class="w-full grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-0 sm:flex sm:flex-row sm:items-center"
@@ -859,7 +859,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="min-w-[110px] w-full sm:w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="min-w-[110px] w-full sm:w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-zinc-200 bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate font-medium text-sm"
                           >{displayPortfolio?.title !== undefined
@@ -886,17 +886,17 @@
                       align="start"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-56 h-fit max-h-72 overflow-y-auto scroller"
+                      class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 shadow-none"
                     >
                       <DropdownMenu.Label>
                         <DropdownMenu.Trigger asChild let:builder>
                           <Button
                             builders={[builder]}
-                            class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 bg-white dark:bg-default whitespace-nowrap focus:outline-hidden"
+                            class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 bg-transparent whitespace-nowrap focus:outline-hidden text-gray-700 dark:text-zinc-200"
                           >
                             <label
                               for="addPortfolio"
-                              class="flex flex-row items-center cursor-pointer"
+                              class="flex flex-row items-center cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="h-4 w-4 mr-1"
@@ -923,14 +923,14 @@
                         {#each allList as item}
                           <DropdownMenu.Item
                             on:click={() => changePortfolio(item)}
-                            class="text-sm {item?.id === displayPortfolio?.id
-                              ? 'bg-gray-200 dark:bg-primary'
-                              : ''} cursor-pointer sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                            class="text-sm cursor-pointer {item?.id === displayPortfolio?.id
+                              ? 'text-gray-900 dark:text-white font-semibold'
+                              : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400'}"
                           >
                             {item?.title} ({item?.ticker?.length})
                             <label
                               for="deletePortfolio"
-                              class="ml-auto inline-block cursor-pointer sm:hover:text-red-500"
+                              class="ml-auto inline-block cursor-pointer hover:text-rose-600 dark:hover:text-rose-400 transition"
                               on:click|capture={handleDeleteModal}
                             >
                               <svg
@@ -968,31 +968,31 @@
                     <div class="relative sm:ml-3 w-full">
                       <Combobox.Input
                         on:input={search}
-                        class="py-2 text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-600 grow w-full "
+                        class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-200/70 dark:border-zinc-800/80 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full"
                         placeholder="Add stock..."
                         aria-label="Add stock..."
                       />
                     </div>
 
                     <Combobox.Content
-                      class="w-auto z-10 shadow rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-default px-1 py-1.5  outline-hidden"
+                      class="w-auto z-10 rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 px-1 py-1.5 outline-hidden shadow-none"
                       sideOffset={8}
                     >
                       {#if inputValue?.length > 0}
                         {#each searchBarData as item}
                           <Combobox.Item
-                            class="cursor-pointer border-b border-gray-300 dark:border-gray-600 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-200 dark:data-highlighted:bg-primary"
+                            class="cursor-pointer border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-600 dark:data-[highlighted]:text-violet-400"
                             value={item?.symbol}
                             label={item?.name}
                             on:click={(e) => handleAddTicker(e, item?.symbol)}
                           >
                             <div class="flex flex-col items-start">
                               <span
-                                class="text-sm text-blue-800 dark:text-blue-400"
+                                class="text-sm text-gray-700 dark:text-zinc-200"
                                 >{item?.symbol}</span
                               >
                               <span
-                                class="text-xs sm:text-sm text-muted dark:text-white"
+                                class="text-xs sm:text-sm text-gray-500 dark:text-zinc-400"
                                 >{item?.name}</span
                               >
                             </div>
@@ -1000,16 +1000,16 @@
                           <!--This else is related to for loop-->
                         {:else}
                           <span
-                            class="block px-5 py-2 text-sm text-muted dark:text-white"
+                            class="block px-5 py-2 text-sm text-gray-500 dark:text-zinc-400"
                           >
                             No results found
                           </span>
                         {/each}
                       {:else}
                         <Combobox.Item
-                          class="cursor-pointer border-b border-gray-300 dark:border-gray-600 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
+                          class="cursor-pointer border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                         >
-                          <span class=" text-sm text-muted dark:text-white">
+                          <span class=" text-sm text-gray-500 dark:text-zinc-400">
                             No results found
                           </span>
                         </Combobox.Item>
@@ -1028,7 +1028,7 @@
                     {#if editMode}
                       <label
                         on:click={handleDeleteTickers}
-                        class="w-full border text-sm border-gray-300 dark:border-gray-600 mr-2 sm:ml-3 sm:mr-0 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded py-1.5 pl-3 pr-4 font-semibold dark:bg-default bg-black sm:hover:bg-default text-white dark:sm:hover:bg-default/60 ease-out sm:hover:text-red-500"
+                        class="w-full border text-sm border-gray-200/70 dark:border-zinc-800/80 mr-2 sm:ml-3 sm:mr-0 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-600 dark:hover:text-rose-400"
                       >
                         <svg
                           class="inline-block w-5 h-5"
@@ -1046,7 +1046,7 @@
                     {/if}
                     <label
                       on:click={handleEditMode}
-                      class=" w-full border text-sm border-gray-300 dark:border-gray-600 sm:ml-3 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded py-2 px-3 dark:bg-primary dark:sm:hover:bg-secondary bg-black sm:hover:bg-default text-white ease-out"
+                      class=" w-full border text-sm border-gray-200/70 dark:border-zinc-800/80 sm:ml-3 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
                     >
                       <svg
                         class="inline-block w-5 h-5"
@@ -1091,7 +1091,7 @@
                 </span>
                 {#if !data?.user}
                   <a
-                    class="w-64 flex mt-3 rounded justify-center items-center m-auto btn text-white dark:text-black bg-[#000] dark:bg-white sm:hover:bg-default dark:sm:hover:bg-gray-100 transition duration-50 ease-in-out group"
+                    class="w-64 flex mt-3 rounded-full justify-center items-center m-auto border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out group"
                     href="/register"
                   >
                     Get Started
@@ -1189,7 +1189,7 @@
                     />
 
                     <div
-                      class="w-full m-auto border-b border-gray-300 dark:border-gray-600 mt-10 mb-5"
+                      class="w-full m-auto border-b border-gray-200/70 dark:border-zinc-800/80 mt-10 mb-5"
                     ></div>
 
                     <div class=" ">
@@ -1201,21 +1201,14 @@
                         >
                           <div class="">
                             <div class="inline-flex">
-                              <div class="inline-flex rounded-lg shadow-sm">
+                              <div class="inline-flex gap-1">
                                 {#each tabs as item, i}
                                   <button
                                     on:click={() => changeTab(i)}
-                                    class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
-                          {i === 0 ? 'rounded-l border' : ''}
-                          {i === tabs?.length - 1
-                                      ? 'rounded-r border-t border-r border-b'
-                                      : ''}
-                          {i !== 0 && i !== tabs?.length - 1
-                                      ? 'border-t border-b'
-                                      : ''}
+                                    class="cursor-pointer px-3 py-1.5 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-150 rounded-full border
                           {activeIdx === i
-                                      ? 'bg-black dark:bg-white text-white dark:text-black'
-                                      : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
+                                      ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                                      : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80'}"
                                   >
                                     {item.title}
                                   </button>
@@ -1228,20 +1221,20 @@
                       {#if activeIdx === 0}
                         {#if groupedNews?.length > 0}
                           {#each displayList as [date, titleGroups]}
-                            <h3 class="mb-1.5 mt-3 font-semibold text-faded">
+                            <h3 class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400">
                               {date}
                             </h3>
                             <div
-                              class="border border-gray-300 dark:border-gray-700"
+                              class="border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                             >
                               {#each titleGroups as { title, items, symbols }, index}
                                 <div
-                                  class="flex border-gray-300 {index > 0
+                                  class="flex border-gray-200/70 {index > 0
                                     ? 'border-t'
-                                    : ''} dark:border-gray-600 text-small"
+                                    : ''} dark:border-zinc-800/80 text-sm"
                                 >
                                   <div
-                                    class="hidden min-w-[100px] items-center justify-center bg-gray-200 dark:bg-primary p-1 lg:flex"
+                                    class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
                                   >
                                     {new Date(
                                       items[0].publishedDate,
@@ -1253,7 +1246,7 @@
                                   </div>
                                   <div class="grow px-3 py-2 lg:py-1">
                                     <h4
-                                      class="text-sm font-semibold lg:text-[1rem]"
+                                      class="text-sm font-semibold lg:text-base"
                                     >
                                       {title}
                                     </h4>
@@ -1273,7 +1266,7 @@
                                         {#each symbols as symbol}
                                           <a
                                             href={`/${items[0].type}/${symbol}`}
-                                            class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400"
+                                            class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                                           >
                                             {symbol}
                                           </a>
@@ -1293,18 +1286,18 @@
                         {/if}
                       {:else if groupedEarnings?.length > 0}
                         {#each displayList as [date, titleGroups]}
-                          <h3 class="mb-1.5 mt-3 font-semibold text-faded">
+                          <h3 class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400">
                             {date}
                           </h3>
                           <div
-                            class="border border-gray-300 dark:border-gray-700"
+                            class="border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                           >
                             {#each titleGroups as item, index}
                               <div
-                                class="flex border-gray-300 dark:border-gray-600 text-small"
+                                class="flex border-gray-200/70 dark:border-zinc-800/80 text-sm"
                               >
                                 <div
-                                  class="hidden min-w-[100px] items-center justify-center bg-gray-200 dark:bg-primary p-1 lg:flex"
+                                  class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
                                 >
                                   {formatTime(item?.time)}
                                 </div>
@@ -1312,7 +1305,7 @@
                                   class="grow px-3 py-2 lg:py-1 break-normal {index >
                                   0
                                     ? 'border-t'
-                                    : ''} border-gray-300 dark:border-gray-700"
+                                    : ''} border-gray-200/70 dark:border-zinc-800/80"
                                 >
                                   <div>
                                     {removeCompanyStrings(item?.name)}
@@ -1394,7 +1387,7 @@
             <div class="flex justify-center items-center h-80">
               <div class="relative">
                 <label
-                  class=" bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                  class=" bg-gray-900/80 dark:bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                 >
                   <span
                     class="loading loading-spinner loading-md text-white dark:text-white"
@@ -1420,7 +1413,7 @@
 
   <!-- Desktop modal content -->
   <div
-    class="modal-box w-full bg-white dark:bg-secondary rounded border-gray-300 shadow"
+    class="modal-box w-full bg-white dark:bg-zinc-950 rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 shadow-none"
   >
     <div class="mb-5">
       <h3 class="font-bold text-2xl mb-5">New Portfolio</h3>
@@ -1439,7 +1432,7 @@
 
         <button
           type="submit"
-          class="cursor-pointer mt-2 py-3 bg-black text-white dark:text-black sm:hover:bg-muted dark:bg-[#fff] dark:sm:hover:bg-gray-100 btn-md w-full rounded m-auto font-semibold text-md"
+          class="cursor-pointer mt-2 py-3 w-full rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
         >
           Create Portfolio
         </button>
@@ -1458,8 +1451,7 @@
   <label for="deletePortfolio" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 rounded border
-        bg-white dark:bg-secondary border border-gray-300 dark:border-gray-600"
+    class="modal-box w-full p-6 rounded-2xl border bg-white dark:bg-zinc-950 border-gray-200/70 dark:border-zinc-800/80"
   >
     <h3 class="text-lg font-medium mb-2">Delete Portfolio</h3>
     <p class="text-sm mb-6">
@@ -1469,17 +1461,12 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deletePortfolio"
-        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
-            transition-colors duration-100
-            bg-black text-white dark:bg-white dark:text-black"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
         tabindex="0">Cancel</label
       ><label
         for="deletePortfolio"
         on:click={deletePortfolio}
-        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
-            transition-colors duration-100 flex items-center
-            bg-red-600 text-white
-            "
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 flex items-center border border-rose-200/70 dark:border-rose-500/30 bg-rose-50/80 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300"
         tabindex="0"
         ><svg
           stroke="currentColor"
