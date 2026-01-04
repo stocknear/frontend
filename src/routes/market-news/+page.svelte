@@ -276,7 +276,9 @@
                         >
                           {item?.title}
                         </span>
-                        <p class="mt-2 text-sm text-gray-600 dark:text-zinc-300">
+                        <p
+                          class="mt-2 text-sm text-gray-600 dark:text-zinc-300"
+                        >
                           {item?.text?.length > 200
                             ? item?.text?.slice(0, 200) + "..."
                             : item?.text}
@@ -318,7 +320,9 @@
                           >
                             {item?.title}
                           </span>
-                          <p class="mt-2 text-sm text-gray-600 dark:text-zinc-300">
+                          <p
+                            class="mt-2 text-sm text-gray-600 dark:text-zinc-300"
+                          >
                             {item?.text?.length > 200
                               ? item?.text?.slice(0, 200) + "..."
                               : item?.text}
@@ -335,7 +339,7 @@
 
         {#if rawData?.length > 0}
           <div
-            class="flex gap-3 mt-6 flex-row items-center justify-between mb-10 sm:mb-0"
+            class="flex gap-3 mt-6 flex-row items-center justify-between mb-10 sm:mb-0 w-full"
           >
             <div class="flex items-center gap-2">
               <Button
@@ -461,10 +465,10 @@
           </div>
         {/if}
       </main>
-      <aside class="inline-block relative w-full lg:w-1/4 mt-3">
+      <aside class="inline-block relative w-full lg:w-1/4">
         {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
           <div
-            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
+            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4 sm:mt-0"
           >
             <a href="/pricing" class="group flex flex-col gap-2">
               <span
@@ -510,7 +514,7 @@
               </ul>
               <a
                 href={`/market-news/general`}
-                class="flex justify-center items-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white cursor-pointer w-full py-2 mt-5 text-sm text-center font-semibold transition hover:bg-white dark:hover:bg-zinc-900"
+                class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-5 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 More Market News
               </a>

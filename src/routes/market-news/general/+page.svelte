@@ -93,8 +93,17 @@
     showVideo = {};
   }
 
+  function scrollToTop() {
+    if (typeof window === "undefined") return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   function goToPage(pageNumber: number) {
-    if (pageNumber < 1 || pageNumber > totalPages || pageNumber === currentPage) {
+    if (
+      pageNumber < 1 ||
+      pageNumber > totalPages ||
+      pageNumber === currentPage
+    ) {
       return;
     }
     currentPage = pageNumber;
@@ -237,7 +246,9 @@
                         >
                           {item?.title}
                         </span>
-                        <p class="mt-2 text-sm text-gray-600 dark:text-zinc-300">
+                        <p
+                          class="mt-2 text-sm text-gray-600 dark:text-zinc-300"
+                        >
                           {item?.text?.length > 200
                             ? item?.text?.slice(0, 200) + "..."
                             : item?.text}
@@ -279,7 +290,9 @@
                           >
                             {item?.title}
                           </span>
-                          <p class="mt-2 text-sm text-gray-600 dark:text-zinc-300">
+                          <p
+                            class="mt-2 text-sm text-gray-600 dark:text-zinc-300"
+                          >
                             {item?.text?.length > 200
                               ? item?.text?.slice(0, 200) + "..."
                               : item?.text}
@@ -295,7 +308,9 @@
         </div>
 
         {#if rawData?.length > 0}
-          <div class="flex flex-col gap-3 mt-6 sm:flex-row sm:items-center sm:justify-between">
+          <div
+            class="flex gap-3 mt-6 flex-row items-center justify-between mb-10 sm:mb-0"
+          >
             <div class="flex items-center gap-2">
               <Button
                 on:click={() => goToPage(currentPage - 1)}
@@ -358,7 +373,9 @@
                 >
                   <DropdownMenu.Group class="pb-2">
                     {#each rowsPerPageOptions as item}
-                      <DropdownMenu.Item class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition">
+                      <DropdownMenu.Item
+                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                      >
                         <label
                           on:click={() => changeRowsPerPage(item)}
                           class="inline-flex justify-between w-full items-center cursor-pointer"
@@ -395,12 +412,33 @@
               </Button>
             </div>
           </div>
+
+          <div class="flex justify-center mt-4">
+            <button
+              on:click={scrollToTop}
+              class="cursor-pointer text-sm font-medium text-gray-600 dark:text-zinc-400 transition hover:text-violet-600 dark:hover:text-violet-400"
+            >
+              Back to Top <svg
+                class="h-5 w-5 inline-block shrink-0 rotate-180"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
+          </div>
         {/if}
       </main>
-      <aside class="inline-block relative w-full lg:w-1/4 mt-3">
+      <aside class="inline-block relative w-full lg:w-1/4">
         {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
           <div
-            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
+            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4 sm:mt-0"
           >
             <a href="/pricing" class="group flex flex-col gap-2">
               <span
@@ -446,7 +484,7 @@
               </ul>
               <a
                 href={`/market-news`}
-                class="flex justify-center items-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white cursor-pointer w-full py-2 mt-5 text-sm text-center font-semibold transition hover:bg-white dark:hover:bg-zinc-900"
+                class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-5 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 More Stock News
               </a>
