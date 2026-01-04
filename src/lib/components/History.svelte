@@ -513,9 +513,9 @@
                   {#each ["1M", "3M", "YTD", "1Y", "3Y", "5Y", "Max"] as item}
                     <label
                       on:click={() => (plotPeriod = item)}
-                      class="px-3 py-1 {plotPeriod === item
-                        ? 'bg-black dark:bg-white text-white dark:text-black'
-                        : 'shadow text-muted dark:text-white bg-gray-100 dark:bg-table '} text-xs border border-gray-300 shadow dark:border-gray-700 transition ease-out duration-100 sm:hover:bg-black dark:sm:hover:bg-white sm:hover:text-white dark:sm:hover:text-black rounded-[2px] cursor-pointer"
+                      class="px-3 py-1 rounded-full text-xs font-medium border transition ease-out duration-100 cursor-pointer {plotPeriod === item
+                        ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-gray-900/80 dark:border-white'
+                        : 'bg-white/70 dark:bg-zinc-950/50 text-gray-600 dark:text-zinc-300 border-gray-200/70 dark:border-zinc-800/80 hover:text-violet-600 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80'}"
                     >
                       {item}
                     </label>
