@@ -1738,7 +1738,9 @@
           <div
             class="w-full flex flex-col sm:flex-row items-start sm:items-center sm:mt-4"
           >
-            <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
+            <h1
+              class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
               Options Flow
             </h1>
             <span
@@ -1985,12 +1987,12 @@
                         >
                       </label>
                     {:else}
-                        <svg
-                          class="ml-auto h-6 w-6 sm:h-7 sm:w-7 inline-block mr-4 text-gray-400 dark:text-zinc-400"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          ><path
-                            fill="currentColor"
+                      <svg
+                        class="ml-auto h-6 w-6 sm:h-7 sm:w-7 inline-block mr-4 text-gray-400 dark:text-zinc-400"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        ><path
+                          fill="currentColor"
                           d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37"
                         /></svg
                       >
@@ -2006,8 +2008,8 @@
                 </div>
 
                 <Popover.Root>
-                <Popover.Trigger asChild let:builder>
-                  <Button
+                  <Popover.Trigger asChild let:builder>
+                    <Button
                       class="w-full sm:w-[160px] truncate sm:mr-3 py-2.5 border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 justify-center sm:justify-start text-center sm:text-left rounded-full font-medium hover:text-violet-600 dark:hover:text-violet-400 transition"
                       builders={[builder]}
                     >
@@ -2108,12 +2110,12 @@
                   <div
                     class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
                   >
-                  <svg
+                    <svg
                       class="w-4 h-4 text-gray-400 dark:text-zinc-400"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 20 20"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 20"
                     >
                       <path
                         stroke="currentColor"
@@ -2132,8 +2134,8 @@
                     on:keydown={handleQuickSearchKeydown}
                     on:focus={() => updateQuickSearchResults(quickSearchTerm)}
                     on:blur={closeQuickSearchDropdown}
-                  class="block w-full lg:w-64 py-2.5 bg-white/80 dark:bg-zinc-950/60 placeholder:text-gray-500 dark:placeholder:text-zinc-400 pl-10 text-sm border border-gray-200/70 dark:border-zinc-800/80 rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
-                />
+                    class="block w-full lg:w-64 py-2.5 bg-white/80 dark:bg-zinc-950/60 placeholder:text-gray-500 dark:placeholder:text-zinc-400 pl-10 text-sm border border-gray-200/70 dark:border-zinc-800/80 rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+                  />
 
                   <!-- Clear button -->
                   {#if quickSearchTerm.length > 0}
@@ -2165,18 +2167,18 @@
 
                 <!-- Quick Search Dropdown -->
                 {#if showQuickSearchDropdown && quickSearchResults.length > 0}
-                <div
+                  <div
                     class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none max-h-64 overflow-y-auto"
-                  in:scale={{
-                    start: 0.98,
-                    duration: 140,
-                    delay: 50,
-                    easing: cubicOut,
-                  }}
-                  out:fade={{ duration: 90 }}
-                >
-                  {#each quickSearchResults as result, index}
-                    <button
+                    in:scale={{
+                      start: 0.98,
+                      duration: 140,
+                      delay: 50,
+                      easing: cubicOut,
+                    }}
+                    out:fade={{ duration: 90 }}
+                  >
+                    {#each quickSearchResults as result, index}
+                      <button
                         class="cursor-pointer w-full px-2 py-2 flex flex-row items-center text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 {index ===
                         selectedQuickSearchIndex
                           ? 'text-violet-600 dark:text-violet-400'
@@ -2196,10 +2198,10 @@
                           ></path></svg
                         >
 
-                        <label class="text-left text-sm sm:text-[0.9rem]">
-                          <div
-                            class="font-medium text-gray-900 dark:text-white"
-                          >
+                        <label
+                          class="cursor-pointer text-left text-sm sm:text-[0.9rem]"
+                        >
+                          <div class="font-medium">
                             {result.label}
                           </div>
                         </label>
@@ -2210,20 +2212,20 @@
 
                 <!-- No results message -->
                 {#if showQuickSearchDropdown && quickSearchTerm.length > 0 && quickSearchResults.length === 0}
-                <div
+                  <div
                     class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none p-4 text-center text-sm text-gray-500 dark:text-zinc-400"
-                >
-                  No available filters found
-                </div>
-              {/if}
-            </div>
+                  >
+                    No available filters found
+                  </div>
+                {/if}
+              </div>
 
-            {#if data?.user}
-              <label
-                for={!data?.user ? "userLogin" : ""}
-                on:click={() => handleSave(true)}
+              {#if data?.user}
+                <label
+                  for={!data?.user ? "userLogin" : ""}
+                  on:click={() => handleSave(true)}
                   class="text-sm sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 pl-3 pr-4 font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus:outline-hidden"
-              >
+                >
                   <svg
                     class="w-4 h-4 mr-2 inline-block cursor-pointer shrink-0"
                     xmlns="http://www.w3.org/2000/svg"
@@ -2636,10 +2638,11 @@
                   <div class="flex flex-col items-start justify-between mb-2">
                     {#if data?.user?.tier === "Pro"}
                       <div
-                        class="flex items-center gap-3 text-[11px] sm:text-xs mb-1 mt-1"
+                        class="flex items-center gap-4 text-[11px] sm:text-xs mb-1 mt-1"
                       >
                         <div class="flex items-center gap-1">
-                          <span class="w-2 h-2 rounded-full bg-[#00FC50]"
+                          <span
+                            class="w-2 h-2 rounded-full bg-emerald-500/70 dark:bg-emerald-400/70"
                           ></span>
                           <span class="text-gray-500 dark:text-zinc-400"
                             >Bullish</span
@@ -2650,7 +2653,8 @@
                           >
                         </div>
                         <div class="flex items-center gap-1">
-                          <span class="w-2 h-2 rounded-full bg-[#FF2F1F]"
+                          <span
+                            class="w-2 h-2 rounded-full bg-rose-500/70 dark:bg-rose-400/70"
                           ></span>
                           <span class="text-gray-500 dark:text-zinc-400"
                             >Bearish</span
@@ -2663,26 +2667,26 @@
                       </div>
                       <div class="flex flex-col w-full mt-2">
                         <div
-                          class="relative flex w-full h-6 rounded overflow-hidden bg-gray-300 dark:bg-gray-700/80"
+                          class="relative flex w-full h-3.5 rounded-full overflow-hidden bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-200/70 dark:border-zinc-800/80"
                         >
                           <div
-                            class="bg-[#00FC50] h-full transition-all duration-300 flex items-center justify-center"
+                            class="bg-emerald-500/70 dark:bg-emerald-400/70 h-full transition-all duration-300 flex items-center justify-center"
                             style="width: {bullishPercentage}%"
                           >
                             {#if bullishPercentage >= 15}
                               <span
-                                class="text-[10px] sm:text-xs font-semibold text-gray-900"
+                                class="text-[10px] sm:text-xs font-semibold text-gray-900/80 dark:text-zinc-900/90"
                                 >{bullishPercentage}%</span
                               >
                             {/if}
                           </div>
                           <div
-                            class="bg-[#FF2F1F] h-full transition-all duration-300 flex items-center justify-center"
+                            class="bg-rose-500/70 dark:bg-rose-400/70 h-full transition-all duration-300 flex items-center justify-center"
                             style="width: {bearishPercentage}%"
                           >
                             {#if bearishPercentage >= 15}
                               <span
-                                class="text-[10px] sm:text-xs font-semibold text-white"
+                                class="text-[10px] sm:text-xs font-semibold text-white/90"
                                 >{bearishPercentage}%</span
                               >
                             {/if}
@@ -2702,7 +2706,7 @@
                         {:else}
                           <a href="/pricing" class="flex mt-2">
                             <svg
-                            class="size-5 text-gray-500 dark:text-white"
+                              class="size-5 text-gray-500 dark:text-white"
                               viewBox="0 0 20 20"
                               fill="currentColor"
                               style="max-width: 40px;"
@@ -3085,7 +3089,9 @@
         class="fixed w-full h-fit sticky -top-6 z-40 bg-white/95 dark:bg-zinc-950/95 pb-6 pt-5 border-gray-200/70 dark:border-zinc-800/80 border-b"
       >
         <div class="flex flex-row items-center justify-between mb-2">
-          <h1 class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white">
+          <h1
+            class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
+          >
             Select filters ({allRows?.length} total)
           </h1>
           <label
@@ -3229,7 +3235,9 @@
     class="modal-box w-full p-6 rounded border
         bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none"
   >
-    <h1 class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+    <h1
+      class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+    >
       New Filter
     </h1>
 

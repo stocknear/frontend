@@ -1392,14 +1392,14 @@
 
 <body class="overflow-y-auto">
   <section
-    class="w-full max-w-screen sm:max-w-7xl sm:max-w-[1400px] flex justify-center items-center pb-20 mt-5 sm:mt-0 px-3 sm:px-0"
+    class="w-full max-w-screen sm:max-w-7xl sm:max-w-[1400px] flex justify-center items-center pb-20 mt-5 sm:mt-0 px-3 sm:px-0 text-gray-700 dark:text-zinc-200"
   >
     <div class="w-full m-auto min-h-screen">
       <!--
         <div class="text-sm sm:text-[1rem] breadcrumbs mb-5">
           <ul>
-            <li><a href="/" class="text-muted dark:text-gray-300">Home</a></li>
-            <li class="text-muted dark:text-gray-300">Options Flow</li>
+            <li><a href="/" class="text-gray-500 dark:text-zinc-400">Home</a></li>
+            <li class="text-gray-500 dark:text-zinc-400">Options Flow</li>
           </ul>
         </div>
         -->
@@ -1407,9 +1407,11 @@
         <div
           class="w-full flex flex-col sm:flex-row items-start sm:items-center sm:mt-4"
         >
-          <h1 class="text-2xl sm:text-3xl font-semibold">Unusual Order Flow</h1>
+          <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
+            Unusual Order Flow
+          </h1>
           <span
-            class="inline-block text-xs sm:text-sm font-semibold sm:ml-2 mt-3"
+            class="inline-block text-xs sm:text-sm font-medium sm:ml-2 mt-3 text-gray-500 dark:text-zinc-400"
           >
             {(data?.user?.tier === "Pro"
               ? displayedData?.length
@@ -1421,7 +1423,7 @@
         <div class="flex flex-row items-center w-full mt-5 justify-end">
           <div class="flex w-full sm:w-[50%] sm:ml-3 md:block md:w-auto">
             <div
-              class="hidden text-sm sm:text-[1rem] font-semibold md:block sm:mb-1"
+              class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
             >
               Saved Filters
             </div>
@@ -1430,7 +1432,7 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="min-w-[110px] w-full border-gray-300 dark:border-gray-600 border bg-black dark:bg-default sm:hover:bg-default dark:sm:hover:bg-primary text-white ease-out flex flex-row justify-between items-center px-3 py-2 rounded truncate"
+                    class="min-w-[110px] w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80 ease-out flex flex-row justify-between items-center px-3 py-2 rounded-full truncate"
                   >
                     <span class="truncate max-w-48"
                       >{selectedStrategy?.length !== 0
@@ -1455,10 +1457,10 @@
                   </Button>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content
-                  class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller"
+                  class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
                 >
                   <DropdownMenu.Label
-                    class="text-muted dark:text-gray-400 font-normal"
+                    class="text-gray-500 dark:text-zinc-400 font-normal"
                   >
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
@@ -1467,7 +1469,7 @@
                           handleCreateStrategy();
                         }}
                         builders={[builder]}
-                        class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap bg-[#0909B] focus:outline-hidden"
+                        class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-300 focus:outline-hidden"
                       >
                         <svg
                           class="h-4 w-4"
@@ -1494,9 +1496,9 @@
                           e.preventDefault();
                           switchStrategy(item);
                         }}
-                        class="whitespace-nowrap {item?.id === selectedStrategy
-                          ? 'bg-gray-300 dark:bg-primary'
-                          : ''} cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                        class="whitespace-nowrap cursor-pointer rounded-xl px-2 py-1.5 {item?.id === selectedStrategy
+                          ? 'bg-gray-100/70 dark:bg-zinc-900/60'
+                          : ''} hover:text-violet-600 dark:hover:text-violet-300"
                       >
                         {item?.title?.length > 20
                           ? item?.title?.slice(0, 20) + "..."
@@ -1504,7 +1506,7 @@
 
                         <label
                           for="deleteStrategy"
-                          class="ml-auto inline-block cursor-pointer sm:hover:text-red-500"
+                          class="ml-auto inline-block cursor-pointer text-gray-400 hover:text-rose-500"
                         >
                           <svg
                             class="size-5"
@@ -1530,10 +1532,10 @@
         </div>
       </div>
       <div
-        class="rounded border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-100 dark:bg-primary p-2"
+        class="rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-2"
       >
         <div
-          class="flex flex-col sm:flex-row items-center pb-3 sm:border-b sm:border-gray-300 dark:border-gray-600"
+          class="flex flex-col sm:flex-row items-center pb-3 sm:border-b sm:border-gray-200/70 dark:border-zinc-800/80"
         >
           <div
             class="flex flex-row items-center justify-center sm:justify-start"
@@ -1550,7 +1552,7 @@
               class="mute-driver xl:tooltip xl:tooltip-bottom flex flex-col items-center mr-3 cursor-pointer"
             >
               <div
-                class="rounded-full w-10 h-10 relative text-white bg-[#000] flex items-center justify-center"
+                class="rounded-full w-10 h-10 relative text-gray-600 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 flex items-center justify-center"
               >
                 {#if !muted}
                   <svg
@@ -1577,9 +1579,9 @@
             </label>
 
             <span
-              class=" text-xs sm:text-sm sm:text-lg {!mode
+              class="text-xs sm:text-sm sm:text-lg {!mode
                 ? ''
-                : 'text-muted dark:text-gray-400'} mr-3"
+                : 'text-gray-500 dark:text-zinc-400'} mr-3"
             >
               {$isOpen ? "Paused" : "Market Closed"}
             </span>
@@ -1606,7 +1608,7 @@
               />
 
               <div
-                class="relative w-11 h-6 bg-gray-600 focus:outline-hidden peer-focus:outline-hidden peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:rtl:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#00A96E]"
+                class="relative w-11 h-6 bg-gray-200/80 dark:bg-zinc-800 focus:outline-hidden peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:rtl:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"
               ></div>
             </label>
 
@@ -1614,7 +1616,7 @@
               <span
                 class="text-xs sm:text-sm sm:text-lg {modeStatus
                   ? ''
-                  : 'text-muted dark:text-gray-400'}"
+                  : 'text-gray-500 dark:text-zinc-400'}"
               >
                 Live Flow
               </span>
@@ -1624,12 +1626,12 @@
           <div class="sm:ml-auto w-full sm:w-fit pt-5">
             <div class="relative flex flex-col sm:flex-row items-center">
               <div
-                class="search-driver relative w-full sm:w-fit pl-3 sm:mr-5 mb-4 sm:mb-0 flex-auto text-center shadow bg-white dark:bg-secondary rounded border border-gray-300 dark:border-gray-600"
+                class="search-driver relative w-full sm:w-fit pl-3 sm:mr-5 mb-4 sm:mb-0 flex-auto text-center bg-white/80 dark:bg-zinc-950/60 rounded-full border border-gray-200/70 dark:border-zinc-800/80"
               >
                 <label class=" flex flex-row items-center">
                   <input
                     id="modal-search"
-                    class="focus:outline-none sm:ml-2 text-[1rem] placeholder-gray-500 dark:placeholder-gray-300 border-transparent bg-white dark:bg-secondary focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1.5"
+                    class="focus:outline-none sm:ml-2 text-sm placeholder:text-gray-500 dark:placeholder:text-zinc-400 border-transparent bg-transparent focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1.5 text-gray-700 dark:text-zinc-200"
                     placeholder="Find..."
                     bind:value={filterQuery}
                     on:input={debouncedHandleInput}
@@ -1644,7 +1646,7 @@
                       }}
                     >
                       <svg
-                        class="ml-auto h-6 w-6 inline-block mr-3"
+                      class="ml-auto h-6 w-6 inline-block mr-3 text-gray-500 dark:text-zinc-400"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                         ><path
@@ -1655,7 +1657,7 @@
                     </label>
                   {:else}
                     <svg
-                      class="ml-auto h-7 w-7 sm:h-8 sm:w-8 inline-block mr-5"
+                      class="ml-auto h-7 w-7 sm:h-8 sm:w-8 inline-block mr-5 text-gray-500 dark:text-zinc-400"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       ><path
@@ -1674,10 +1676,10 @@
                       toast?.info("Feature is coming soon 🔥", {
                         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
                       })}
-                    class="date-picker-driver font-semibold w-full sm:w-[160px] truncate sm:mr-3 py-3 shadow bg-black text-white  justify-center sm:justify-start text-center sm:text-left  border-none rounded"
+                    class="date-picker-driver font-semibold w-full sm:w-[160px] truncate sm:mr-3 py-2.5 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 justify-center sm:justify-start text-center sm:text-left border border-gray-200/70 dark:border-zinc-800/80 rounded-full hover:text-violet-600 dark:hover:text-violet-300"
                     builders={[builder]}
                   >
-                    <CalendarIcon class="mr-2 h-4 w-4 text-white" />
+                    <CalendarIcon class="mr-2 h-4 w-4 text-gray-500 dark:text-zinc-400" />
                     Pick a Date
                   </Button>
                 </Popover.Trigger>
@@ -1687,11 +1689,11 @@
         </div>
 
         <div
-          class="mr-1 flex items-center justify-between lg:mr-2 pb-1.5 border-b border-gray-300 dark:border-gray-600 mt-1.5"
+          class="mr-1 flex items-center justify-between lg:mr-2 pb-1.5 border-b border-gray-200/70 dark:border-zinc-800/80 mt-1.5"
         >
           <button
             on:click={() => (showFilters = !showFilters)}
-            class="flex cursor-pointer items-center text-lg sm:text-xl font-semibold"
+            class="flex cursor-pointer items-center text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
             title="Hide Filter Area"
           >
             <svg
@@ -1710,7 +1712,7 @@
           </button>
           <div class="flex flex-row items-center ml-auto justify-start">
             <div class="flex items-center gap-1">
-              <span class="inline-flex items-center text-xs">
+              <span class="inline-flex items-center text-xs text-gray-500 dark:text-zinc-400">
                 <svg
                   class="w-3 h-3 mr-1"
                   fill="currentColor"
@@ -1739,7 +1741,7 @@
               <!-- Add Filters Button -->
               <label
                 for="ruleModal"
-                class="mt-3 sm:mt-0 w-full sm:w-fit inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none py-2 pl-3 pr-4 font-semibold shadow bg-default text-white sm:hover:bg-black dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                class="mt-3 sm:mt-0 w-full sm:w-fit inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white py-2 pl-3 pr-4 font-semibold bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-200 ease-out focus:outline-hidden focus:ring-0"
               >
                 <svg
                   class="h-5 w-5"
@@ -1764,7 +1766,7 @@
                     class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
                   >
                     <svg
-                      class="w-4 h-4 text-muted dark:text-gray-200"
+                      class="w-4 h-4 text-gray-500 dark:text-zinc-400"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -1787,7 +1789,7 @@
                     on:keydown={handleQuickSearchKeydown}
                     on:focus={() => updateQuickSearchResults(quickSearchTerm)}
                     on:blur={closeQuickSearchDropdown}
-                    class="block w-full lg:w-64 py-2 shadow bg-white placeholder:text-muted pl-10 text-[1rem] border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-[#2A2E39] dark:border-gray-800 dark:placeholder-gray-200 dark:text-white dark:focus:outline-none dark:focus:border-none"
+                    class="block w-full lg:w-64 py-2 bg-white/80 dark:bg-zinc-950/60 placeholder:text-gray-500 dark:placeholder:text-zinc-400 pl-10 text-sm border border-gray-200/70 dark:border-zinc-800/80 rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 text-gray-700 dark:text-zinc-200"
                   />
 
                   <!-- Clear button -->
@@ -1821,7 +1823,7 @@
                 <!-- Quick Search Dropdown -->
                 {#if showQuickSearchDropdown && quickSearchResults.length > 0}
                   <div
-                    class="absolute z-50 w-full mt-1 bg-white dark:bg-[#2A2E39] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-64 overflow-y-auto"
+                    class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none max-h-64 overflow-y-auto"
                     in:scale={{
                       start: 0.98,
                       duration: 140,
@@ -1832,9 +1834,9 @@
                   >
                     {#each quickSearchResults as result, index}
                       <button
-                        class="cursor-pointer w-full px-2 py-2 flex flex-row items-center sm:hover:bg-gray-100 dark:sm:hover:bg-gray-600 {index ===
+                        class="cursor-pointer w-full px-2 py-2 flex flex-row items-center rounded-xl hover:text-violet-600 dark:hover:text-violet-300 {index ===
                         selectedQuickSearchIndex
-                          ? 'bg-gray-100 dark:bg-gray-600'
+                          ? 'bg-gray-100/70 dark:bg-zinc-900/60'
                           : ''}"
                         type="button"
                         on:click={() => selectQuickSearchRule(result)}
@@ -1866,7 +1868,7 @@
                 <!-- No results message -->
                 {#if showQuickSearchDropdown && quickSearchTerm.length > 0 && quickSearchResults.length === 0}
                   <div
-                    class="absolute z-50 w-full mt-1 bg-white dark:bg-[#2A2E39] border border-gray-300 dark:border-gray-600 rounded-md shadow-lg p-4 text-center text-sm text-gray-500 dark:text-gray-400"
+                    class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none p-4 text-center text-sm text-gray-500 dark:text-zinc-400"
                   >
                     No available filters found
                   </div>
@@ -1877,7 +1879,7 @@
                 <label
                   for={!data?.user ? "userLogin" : ""}
                   on:click={() => handleSave(true)}
-                  class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+                  class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 pl-3 pr-4 font-semibold hover:bg-gray-800 dark:hover:bg-gray-200 ease-out focus:outline-hidden"
                 >
                   <svg
                     class="w-4 h-4 mr-2 inline-block cursor-pointer shrink-0"
@@ -1905,7 +1907,7 @@
                         });
                       }
                     }}
-                    class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+                    class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 py-2 pl-3 pr-4 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80 ease-out focus:outline-hidden"
                   >
                     <Copy class="w-4 h-4 inline-block mr-2" />
                     <div>Save as New</div>
@@ -1916,7 +1918,7 @@
               {#if ruleOfList?.length !== 0}
                 <label
                   on:click={handleResetAll}
-                  class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:text-red-500 ease-out focus:outline-hidden"
+                  class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 py-2 pl-3 pr-4 font-semibold text-gray-700 dark:text-zinc-200 hover:text-rose-500 dark:hover:text-rose-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80 ease-out focus:outline-hidden"
                 >
                   <svg
                     class="h-4 w-4"
@@ -1940,7 +1942,7 @@
           </div>
 
           <div
-            class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-b border-gray-300 dark:border-gray-600"
+            class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
           >
             {#each displayRules as row (row?.rule)}
               <!--Start Added Rules-->
@@ -1969,7 +1971,7 @@
                 <div class="flex items-center">
                   <button
                     on:click={() => handleDeleteRule(row?.rule)}
-                    class="mr-1.5 cursor-pointer text-muted dark:text-gray-300 sm:hover:text-red-800 dark:sm:hover:text-red-400 focus:outline-hidden"
+                    class="mr-1.5 cursor-pointer text-gray-400 hover:text-rose-500 focus:outline-hidden"
                     title="Remove filter"
                   >
                     <svg
@@ -1993,7 +1995,7 @@
                         <DropdownMenu.Trigger asChild let:builder>
                           <Button
                             builders={[builder]}
-                            class="bg-[#000] text-white shadow h-[40px] flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3  rounded truncate"
+                            class="bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80 h-[40px] flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 rounded-full truncate"
                           >
                             <span
                               class="truncate ml-2 text-sm font-semibold dark:font-normal"
@@ -2032,11 +2034,11 @@
                           align="end"
                           sideOffset={10}
                           alignOffset={0}
-                          class="w-64 min-h-auto max-h-72 overflow-y-auto scroller"
+                          class="w-64 min-h-auto max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                         >
                           {#if !categoricalRules?.includes(row?.rule)}
                             <DropdownMenu.Label
-                              class="absolute mt-2 h-11 border-gray-300 dark:border-gray-800 border-b -top-1 z-20 fixed sticky bg-white dark:bg-default"
+                              class="absolute mt-2 h-11 border-gray-200/70 dark:border-zinc-800/80 border-b -top-1 z-20 fixed sticky bg-white/95 dark:bg-zinc-950/95"
                             >
                               <div
                                 class="flex items-center justify-start gap-x-1"
@@ -2049,7 +2051,7 @@
                                     <DropdownMenu.Trigger asChild let:builder
                                       ><Button
                                         builders={[builder]}
-                                        class="w-fit -mt-1 -ml-2 flex flex-row justify-between items-center "
+                                        class="w-fit -mt-1 -ml-2 flex flex-row justify-between items-center text-gray-600 dark:text-zinc-300"
                                       >
                                         <span
                                           class="truncate ml-2 text-sm sm:text-[1rem]"
@@ -2104,7 +2106,7 @@
                                         : ""}
                                       on:input={(e) =>
                                         handleValueInput(e, row?.rule, 0)}
-                                      class="ios-zoom-fix block max-w-[3.5rem] rounded-sm placeholder:text-muted dark:placeholder:text-gray-300 dark:text-gray-200 font-normal p-1 text-sm shadow focus:border-blue-500 focus:ring-blue-500 bg-gray-100 dark:bg-primary"
+                                      class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 dark:text-zinc-200 font-normal p-1 text-sm border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 focus:outline-none focus:ring-0"
                                     />
                                     <span class=" text-[1rem] font-normal mt-1">
                                       &
@@ -2119,7 +2121,7 @@
                                         : ""}
                                       on:input={(e) =>
                                         handleValueInput(e, row?.rule, 1)}
-                                      class="ios-zoom-fix block max-w-[3.5rem] rounded-sm placeholder:text-muted dark:placeholder:text-gray-300 dark:text-gray-200 font-normal p-1 text-sm shadow focus:border-blue-500 focus:ring-blue-500 bg-gray-100 dark:bg-primary"
+                                      class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 dark:text-zinc-200 font-normal p-1 text-sm border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 focus:outline-none focus:ring-0"
                                     />
                                   </div>
                                 {:else}
@@ -2131,7 +2133,7 @@
                                       : valueMappings[row?.rule]}
                                     on:input={(e) =>
                                       handleValueInput(e, row?.rule)}
-                                    class="ios-zoom-fix block max-w-[4.8rem] rounded-sm placeholder:text-muted dark:placeholder:text-gray-200 font-normal p-1 text-sm shadow focus:border-blue-500 focus:ring-blue-500 bg-gray-100 dark:bg-primary"
+                                    class="ios-zoom-fix block max-w-[4.8rem] rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 dark:text-zinc-200 font-normal p-1 text-sm border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 focus:outline-none focus:ring-0"
                                   />
                                 {/if}
 
@@ -2146,7 +2148,7 @@
                                           "add",
                                         )}
                                       ><svg
-                                        class="size-6 cursor-pointer"
+                                        class="size-6 cursor-pointer text-gray-500 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-300"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -2166,7 +2168,7 @@
                                           "minus",
                                         )}
                                       ><svg
-                                        class="size-6 cursor-pointer"
+                                        class="size-6 cursor-pointer text-gray-500 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-300"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -2198,7 +2200,7 @@
                                 {#if ruleCondition[row?.rule] === "between"}
                                   {#if newValue && row?.step[index + 1]}
                                     <DropdownMenu.Item
-                                      class="sm:hover:bg-gray-300 dark:sm:hover:bg-[#2A2E39]"
+                                      class="hover:text-violet-600 dark:hover:text-violet-300 rounded-xl"
                                     >
                                       <button
                                         on:click={() => {
@@ -2207,7 +2209,7 @@
                                             row?.step[index + 1],
                                           ]);
                                         }}
-                                        class="cursor-pointer block w-full border-b border-gray-300 dark:border-gray-600 px-4 py-1.5 text-left text-sm rounded last:border-0 focus:outline-hidden"
+                                        class="cursor-pointer block w-full border-b border-gray-200/70 dark:border-zinc-800/80 px-4 py-1.5 text-left text-sm rounded last:border-0 focus:outline-hidden"
                                       >
                                         {ruleCondition[row?.rule]?.replace(
                                           "between",
@@ -2221,13 +2223,13 @@
                                   {/if}
                                 {:else}
                                   <DropdownMenu.Item
-                                    class="sm:hover:bg-gray-300 dark:sm:hover:bg-[#2A2E39]"
+                                    class="hover:text-violet-600 dark:hover:text-violet-300 rounded-xl"
                                   >
                                     <button
                                       on:click={() => {
                                         handleChangeValue(newValue);
                                       }}
-                                      class="cursor-pointer block w-full border-b border-gray-300 dark:border-gray-600 px-4 py-1.5 text-left text-sm rounded last:border-0 focus:outline-hidden"
+                                      class="cursor-pointer block w-full border-b border-gray-200/70 dark:border-zinc-800/80 px-4 py-1.5 text-left text-sm rounded last:border-0 focus:outline-hidden"
                                     >
                                       {ruleCondition[row?.rule]
                                         ?.replace("under", "Under")
@@ -2241,7 +2243,7 @@
                             {:else if categoricalRules?.includes(row?.rule)}
                               {#each row?.step as item}
                                 <DropdownMenu.Item
-                                  class="sm:hover:bg-gray-300 dark:sm:hover:bg-[#2A2E39]"
+                                  class="hover:text-violet-600 dark:hover:text-violet-300 rounded-xl"
                                 >
                                   <div
                                     class="flex items-center"
@@ -2284,11 +2286,11 @@
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-3 mb-3">
           <!--Start Total Volume-->
           <div
-            class="shadow flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+            class="flex flex-row items-center flex-wrap w-full px-5 bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl h-20"
           >
             <div class="flex flex-col items-start">
               <span
-                class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
+                class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
                 >Total Volume</span
               >
               {#if data?.user?.tier === "Pro"}
@@ -2301,7 +2303,7 @@
               {:else}
                 <a href="/pricing" class="flex mt-2">
                   <svg
-                    class="size-5 text-muted dark:text-[#fff]"
+                    class="size-5 text-gray-500 dark:text-white"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     style="max-width: 40px;"
@@ -2320,11 +2322,11 @@
           <!--End Total Volume-->
           <!--Start Total Value-->
           <div
-            class="shadow flex flex-row items-center flex-wrap w-full px-5 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+            class="flex flex-row items-center flex-wrap w-full px-5 bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl h-20"
           >
             <div class="flex flex-col items-start">
               <span
-                class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
+                class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
                 >Total Value</span
               >
               {#if data?.user?.tier === "Pro"}
@@ -2339,7 +2341,7 @@
               {:else}
                 <a href="/pricing" class="flex mt-2">
                   <svg
-                    class="size-5 text-muted dark:text-[#fff]"
+                    class="size-5 text-gray-500 dark:text-white"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     style="max-width: 40px;"
@@ -2358,28 +2360,28 @@
           <!--End Total Value-->
           <!--Start Transaction Type (Dark Pool vs Block Order)-->
           <div
-            class="shadow flex flex-col w-full px-4 sm:px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded"
+            class="flex flex-col w-full px-4 sm:px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl"
           >
             <div
               class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2"
             >
               <span
-                class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
+                class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
                 >Transaction Type</span
               >
               {#if data?.user?.tier === "Pro"}
                 <div class="flex items-center gap-3 text-[11px] sm:text-xs">
                   <div class="flex items-center gap-1">
                     <span
-                      class="w-2 h-2 rounded-full bg-violet-500 dark:bg-violet-400"
+                      class="w-2 h-2 rounded-full bg-violet-500/70 dark:bg-violet-400/70"
                     ></span>
-                    <span class="text-muted dark:text-gray-300">Dark Pool</span>
+                    <span class="text-gray-500 dark:text-zinc-400">Dark Pool</span>
                   </div>
                   <div class="flex items-center gap-1">
                     <span
-                      class="w-2 h-2 rounded-full bg-sky-500 dark:bg-sky-400"
+                      class="w-2 h-2 rounded-full bg-amber-500/70 dark:bg-amber-400/70"
                     ></span>
-                    <span class="text-muted dark:text-gray-300">Block</span>
+                    <span class="text-gray-500 dark:text-zinc-400">Block</span>
                   </div>
                 </div>
               {/if}
@@ -2387,26 +2389,26 @@
             {#if data?.user?.tier === "Pro"}
               <div class="flex flex-col w-full">
                 <div
-                  class="relative flex w-full h-6 rounded overflow-hidden bg-gray-300 dark:bg-gray-700/80"
+                  class="relative flex w-full h-3.5 rounded-full overflow-hidden bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-200/70 dark:border-zinc-800/80"
                 >
                   <div
-                    class="bg-violet-500 dark:bg-violet-400 h-full transition-all duration-300 flex items-center justify-center"
+                    class="bg-violet-500/70 dark:bg-violet-400/70 h-full transition-all duration-300 flex items-center justify-center"
                     style="width: {darkPoolPercentage}%"
                   >
                     {#if darkPoolPercentage >= 15}
                       <span
-                        class="text-[10px] sm:text-xs font-semibold text-white dark:text-gray-900"
+                        class="text-[10px] sm:text-xs font-semibold text-white/90 dark:text-zinc-900/90"
                         >{darkPoolPercentage}%</span
                       >
                     {/if}
                   </div>
                   <div
-                    class="bg-sky-500 dark:bg-sky-400 h-full transition-all duration-300 flex items-center justify-center"
+                    class="bg-amber-500/70 dark:bg-amber-400/70 h-full transition-all duration-300 flex items-center justify-center"
                     style="width: {blockOrderPercentage}%"
                   >
                     {#if blockOrderPercentage >= 15}
                       <span
-                        class="text-[10px] sm:text-xs font-semibold text-white dark:text-gray-900"
+                        class="text-[10px] sm:text-xs font-semibold text-white/90 dark:text-zinc-900/90"
                         >{blockOrderPercentage}%</span
                       >
                     {/if}
@@ -2416,7 +2418,7 @@
             {:else}
               <a href="/pricing" class="flex">
                 <svg
-                  class="size-5 text-muted dark:text-[#fff]"
+                  class="size-5 text-gray-500 dark:text-white"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                   style="max-width: 40px;"
@@ -2433,28 +2435,28 @@
           <!--End Transaction Type-->
           <!--Start Asset Type (Stocks vs ETFs)-->
           <div
-            class="shadow flex flex-col w-full px-4 sm:px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded"
+            class="flex flex-col w-full px-4 sm:px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl"
           >
             <div
               class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2"
             >
               <span
-                class="font-semibold text-muted dark:text-gray-200 text-sm sm:text-[1rem]"
+                class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
                 >Asset Type</span
               >
               {#if data?.user?.tier === "Pro"}
                 <div class="flex items-center gap-3 text-[11px] sm:text-xs">
                   <div class="flex items-center gap-1">
                     <span
-                      class="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400"
+                      class="w-2 h-2 rounded-full bg-emerald-500/70 dark:bg-emerald-400/70"
                     ></span>
-                    <span class="text-muted dark:text-gray-300">Stock</span>
+                    <span class="text-gray-500 dark:text-zinc-400">Stock</span>
                   </div>
                   <div class="flex items-center gap-1">
                     <span
-                      class="w-2 h-2 rounded-full bg-amber-500 dark:bg-amber-400"
+                      class="w-2 h-2 rounded-full bg-amber-500/70 dark:bg-amber-400/70"
                     ></span>
-                    <span class="text-muted dark:text-gray-300">ETF</span>
+                    <span class="text-gray-500 dark:text-zinc-400">ETF</span>
                   </div>
                 </div>
               {/if}
@@ -2462,26 +2464,26 @@
             {#if data?.user?.tier === "Pro"}
               <div class="flex flex-col w-full">
                 <div
-                  class="relative flex w-full h-6 rounded overflow-hidden bg-gray-300 dark:bg-gray-700/80"
+                  class="relative flex w-full h-3.5 rounded-full overflow-hidden bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-200/70 dark:border-zinc-800/80"
                 >
                   <div
-                    class="bg-emerald-500 dark:bg-emerald-400 h-full transition-all duration-300 flex items-center justify-center"
+                    class="bg-emerald-500/70 dark:bg-emerald-400/70 h-full transition-all duration-300 flex items-center justify-center"
                     style="width: {stockPercentage}%"
                   >
                     {#if stockPercentage >= 15}
                       <span
-                        class="text-[10px] sm:text-xs font-semibold text-white dark:text-gray-900"
+                        class="text-[10px] sm:text-xs font-semibold text-white/90 dark:text-zinc-900/90"
                         >{stockPercentage}%</span
                       >
                     {/if}
                   </div>
                   <div
-                    class="bg-amber-500 dark:bg-amber-400 h-full transition-all duration-300 flex items-center justify-center"
+                    class="bg-amber-500/70 dark:bg-amber-400/70 h-full transition-all duration-300 flex items-center justify-center"
                     style="width: {etfPercentage}%"
                   >
                     {#if etfPercentage >= 15}
                       <span
-                        class="text-[10px] sm:text-xs font-semibold text-white dark:text-gray-900"
+                        class="text-[10px] sm:text-xs font-semibold text-white/90 dark:text-zinc-900/90"
                         >{etfPercentage}%</span
                       >
                     {/if}
@@ -2491,7 +2493,7 @@
             {:else}
               <a href="/pricing" class="flex">
                 <svg
-                  class="size-5 text-muted dark:text-[#fff]"
+                  class="size-5 text-gray-500 dark:text-white"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                   style="max-width: 40px;"
@@ -2531,7 +2533,7 @@
         <div class="flex justify-center items-center h-80">
           <div class="relative">
             <label
-              class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              class="bg-gray-900/80 dark:bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             >
               <span
                 class="loading loading-spinner loading-md text-white dark:text-white"
@@ -2556,16 +2558,16 @@
   ></label>
 
   <div
-    class="modal-box relative bg-white dark:bg-primary z-20 mx-2 min-h-[30vh] h-[800px] rounded opacity-100 border border-gray-300 dark:border-gray-600 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto"
+    class="modal-box relative bg-white/95 dark:bg-zinc-950/95 z-20 mx-2 min-h-[30vh] h-[800px] rounded-2xl opacity-100 border border-gray-200/70 dark:border-zinc-800/80 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto shadow-none"
   >
     <div class="relative flex flex-col w-full">
       <!-- Sticky Header -->
 
       <div
-        class="fixed w-full h-fit sticky -top-6 z-40 shadow opacity-100 pb-6 pt-5 border-gray-300 dark:border-gray-600 border-b"
+        class="fixed w-full h-fit sticky -top-6 z-40 opacity-100 pb-6 pt-5 border-gray-200/70 dark:border-zinc-800/80 border-b bg-white/95 dark:bg-zinc-950/95"
       >
         <div class="flex flex-row items-center justify-between mb-2">
-          <h2 class=" text-[1rem] sm:text-xl font-semibold">
+          <h2 class="text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white">
             Select screener filters ({allRows?.length} total)
           </h2>
           <label
@@ -2573,11 +2575,11 @@
             class="inline-block cursor-pointer absolute right-0 top-3 text-[1.3rem] sm:text-[1.8rem]"
           >
             <svg
-              class="w-6 h-6 sm:w-8 sm:h-8"
+              class="w-6 h-6 sm:w-8 sm:h-8 text-gray-500 dark:text-zinc-400"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               ><path
-                fill="white"
+                fill="currentColor"
                 d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
               /></svg
             >
@@ -2597,7 +2599,7 @@
               class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
             >
               <svg
-                class="w-4 h-4 text-muted dark:text-gray-200"
+                class="w-4 h-4 text-gray-500 dark:text-zinc-400"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -2621,7 +2623,7 @@
             >
               <button
                 on:click={() => (searchTerm = "")}
-                class="cursor-pointer text-muted dark:text-gray-200 dark:sm:hover:text-white"
+                class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-300"
                 tabindex="0"
                 ><svg
                   class="w-5 h-5"
@@ -2642,7 +2644,7 @@
             <input
               autocomplete="off"
               id="search"
-              class="focus:outline-none placeholder-gray-500 dark:placeholder-gray-300 block w-full p-2 ps-10 text-sm text-muted dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded bg-gray-100 dark:bg-primary border border-blue-500"
+              class="focus:outline-none placeholder:text-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm text-gray-700 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80 rounded-full bg-white/80 dark:bg-zinc-950/60"
               placeholder="Search"
               bind:value={searchTerm}
             />
@@ -2706,10 +2708,9 @@
   <label for="addStrategy" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 rounded border
-        bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+    class="modal-box w-full p-6 rounded-2xl border bg-white/95 dark:bg-zinc-950/95 border-gray-200/70 dark:border-zinc-800/80 shadow-none"
   >
-    <h1 class="text-2xl font-bold">New Filter</h1>
+    <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">New Filter</h1>
 
     <form
       on:submit={createStrategy}
@@ -2726,7 +2727,7 @@
 
       <button
         type="submit"
-        class="cursor-pointer mt-2 py-2.5 bg-black dark:bg-[#fff] dark:sm:hover:bg-gray-300 duration-100 w-full rounded m-auto text-white dark:text-black font-semibold text-md"
+        class="cursor-pointer mt-2 py-2.5 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-200 duration-100 w-full rounded-full m-auto font-semibold text-md"
       >
         Create Filter
       </button>
@@ -2743,26 +2744,26 @@
   <label for="deleteStrategy" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 rounded border
-          bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+    class="modal-box w-full p-6 rounded-2xl border bg-white/95 dark:bg-zinc-950/95 border-gray-200/70 dark:border-zinc-800/80 shadow-none"
   >
-    <h3 class="text-lg font-medium mb-2">Delete Filter</h3>
-    <p class="text-sm mb-6">
+    <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
+      Delete Filter
+    </h3>
+    <p class="text-sm mb-6 text-gray-600 dark:text-zinc-300">
       Are you sure you want to delete this filter? This action cannot be undone.
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteStrategy"
-        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
-              transition-colors duration-100
-              bg-gray-600 text-white dark:bg-white dark:text-black"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
+              transition-colors duration-100 border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-300"
         tabindex="0">Cancel</label
       ><label
         for="deleteStrategy"
         on:click={handleDeleteStrategy}
-        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
               transition-colors duration-100 flex items-center
-              bg-red-600 text-white sm:hover:bg-red-700
+              bg-rose-600 text-white hover:bg-rose-700
               "
         tabindex="0"
         ><svg
@@ -2801,7 +2802,7 @@
 
   <!-- Desktop modal content -->
   <div
-    class="modal-box rounded border border-gray-600 w-full bg-gray-100 dark:bg-secondary flex flex-col items-center"
+    class="modal-box rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 w-full bg-white/95 dark:bg-zinc-950/95 flex flex-col items-center shadow-none"
   >
     <div class=" mb-5 text-center">
       <h3 class="font-bold text-2xl mb-5">{tooltipTitle}</h3>
@@ -2814,10 +2815,10 @@
       {/if}
     </div>
 
-    <div class="border-t border-gray-600 mt-2 w-full">
+    <div class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-2 w-full">
       <label
         for="mobileTooltip"
-        class="mt-4 font-semibold text-xl m-auto flex justify-center cursor-pointer"
+        class="mt-4 font-semibold text-xl m-auto flex justify-center cursor-pointer text-gray-700 dark:text-zinc-200"
       >
         Close
       </label>

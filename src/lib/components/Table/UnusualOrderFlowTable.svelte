@@ -138,10 +138,12 @@
 <!-- Container with horizontal scrolling -->
 <div class="w-full overflow-x-auto">
   <!-- Set a min-width on smaller screens so the grid can show all columns -->
-  <div class="min-w-[1000px]">
+  <div
+    class="min-w-[1000px] rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
+  >
     <!-- Header row using grid -->
     <div
-      class="table-driver bg-black text-white grid grid-cols-11 sticky top-0 z-40 border border-gray-300 dark:border-gray-800 font-bold text-xs uppercase"
+      class="table-driver bg-white/60 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 grid grid-cols-11 sticky top-0 z-40 border-b border-gray-200/70 dark:border-zinc-800/80 font-semibold text-[11px] uppercase tracking-wide"
     >
       <div
         on:click={() => sortData("date")}
@@ -383,11 +385,7 @@
         let:index
         let:style
         {style}
-        class="grid grid-cols-11 gap-0 relative overflow-hidden"
-        class:bg-[#fff]={index % 2 === 0 && $mode === "light"}
-        class:bg-[#09090B]={index % 2 === 0 && $mode !== "light"}
-        class:bg-[#121217]={index % 2 !== 0 && $mode !== "light"}
-        class:bg-[#F6F7F8]={index % 2 !== 0 && $mode == "light"}
+        class={`grid grid-cols-11 gap-0 relative overflow-hidden `}
         class:opacity-30={index + 1 === rawData?.length &&
           data?.user?.tier !== "Pro"}
       >
