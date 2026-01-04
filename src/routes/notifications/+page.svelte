@@ -686,7 +686,7 @@
                 class="flex items-center ml-auto pt-1 pb-1 sm:pt-0 sm:pb-0 w-fit"
               >
                 <Button
-                  class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary  flex flex-row justify-between items-center  w-full sm:w-auto px-3 rounded truncate"
+                  class="w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   on:click={markAllAsRead}
                   disabled={markAllDisabled}
                   aria-disabled={markAllDisabled}
@@ -704,7 +704,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary  flex flex-row justify-between items-center  w-full sm:w-auto px-3 rounded truncate"
+                      class="transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm"
                         >Settings</span
@@ -730,10 +730,10 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto min-w-64 max-w-80 max-h-[400px] overflow-y-auto scroller relative"
+                    class="w-auto min-w-64 max-w-80 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <DropdownMenu.Label
-                      class="text-muted dark:text-gray-400 font-semibold dark:font-normal text-xs"
+                      class="text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500"
                     >
                       Customize your notifications
                     </DropdownMenu.Label>
@@ -742,7 +742,7 @@
                       {#if channelOptions.length > 0}
                         {#each channelOptions as option (option.key)}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
                           >
                             <label
                               class="inline-flex justify-between w-full items-center cursor-pointer"
@@ -764,7 +764,7 @@
                                     )}
                                 />
                                 <div
-                                  class="w-9 h-5 bg-gray-400 rounded-full peer peer-checked:bg-blue-600 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
+                                  class="w-9 h-5 bg-gray-300 dark:bg-zinc-700/60 rounded-full peer peer-checked:bg-gray-800 dark:peer-checked:bg-zinc-200/80 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-200 dark:after:border-zinc-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"
                                   class:opacity-50={channelUpdating[option.key]}
                                 ></div>
                               </div></label
@@ -773,7 +773,7 @@
                         {/each}
                       {:else}
                         <DropdownMenu.Item
-                          class="text-sm text-gray-500 dark:text-gray-400"
+                          class="text-sm text-gray-500 dark:text-zinc-400"
                         >
                           No notification channels available.
                         </DropdownMenu.Item>
@@ -786,7 +786,7 @@
                 <div class="flex items-center ml-2 w-fit">
                   <label
                     for="deleteNotifications"
-                    class="cursor-pointer py-2 w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center w-full sm:w-auto px-3 rounded truncate"
+                    class="cursor-pointer transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
                     on:click={() => {
                       deleteError = null;
                     }}
@@ -816,36 +816,42 @@
                 {#if item?.notifyType === "priceAlert"}
                   <!-- svelte-ignore a11y-click-events-have-key-events -->
                   <div
-                    class="border-b border-gray-300 dark:border-gray-800 pb-3 sm:p-3 mb-6 sm:mb-3 w-full {!item?.readed
-                      ? 'bg-blue-100 dark:bg-[#F9AB00]/10'
-                      : ''} "
+                    class="rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 px-3 py-3 sm:p-4 mb-4 w-full {!item?.readed
+                      ? 'bg-gray-50/90 dark:bg-zinc-900/60'
+                      : ''}"
                   >
                     <div class="flex flex-row items-center w-full">
                       <!-- svelte-ignore a11y-label-has-associated-control -->
                       <a
-                        class="avatar w-8 h-8 shrink-0 mr-4 bg-gray-200 dark:bg-gray-800 rounded-full"
+                        class="avatar w-8 h-8 shrink-0 mr-4 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60"
                       >
                         <img
                           style="clip-path: circle(50%);"
-                          class="shrink-0 w-8 h-8 rounded-full inline-block p-1"
+                          class="shrink-0 w-8 h-8 rounded-full inline-block p-0.5"
                           src={`https://financialmodelingprep.com/image-stock/${item?.liveResults?.symbol}.png`}
                           alt="Company Logo"
                         />
                       </a>
 
-                      <div class=" text-sm sm:text-[1rem]">
+                      <div
+                        class="text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-300"
+                      >
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <!-- svelte-ignore a11y-label-has-associated-control -->
                         <div class="flex flex-col items-start">
                           <div>
                             <div class="flex flex-col items-start">
-                              <div class="text-md mt-0.5">
+                              <div
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
+                              >
                                 Price Alert triggered for <HoverStockChart
                                   symbol={item?.liveResults?.symbol}
                                   assetType={item?.liveResults?.assetType}
                                 />
                               </div>
-                              <div class="text-md mt-0.5">
+                              <div
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
+                              >
                                 The price of <span class="font-semibold"
                                   >{item?.liveResults?.currentPrice}</span
                                 >
@@ -856,7 +862,8 @@
                               </div>
                             </div>
                           </div>
-                          <span class="text-sm mt-1 text-[#A6ADBB0"
+                          <span
+                            class="text-xs mt-1 text-gray-500 dark:text-zinc-500"
                             >{formatDate(item?.created)}
                           </span>
                         </div>
@@ -866,30 +873,34 @@
                 {:else if item?.notifyType === "wiim"}
                   <!-- svelte-ignore a11y-click-events-have-key-events -->
                   <div
-                    class="border-b border-gray-300 dark:border-gray-800 pb-3 sm:p-3 mb-6 sm:mb-3 w-full {!item?.readed
-                      ? 'bg-blue-100 dark:bg-[#F9AB00]/10'
-                      : ''} "
+                    class="rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 px-3 py-3 sm:p-4 mb-4 w-full {!item?.readed
+                      ? 'bg-gray-50/90 dark:bg-zinc-900/60'
+                      : ''}"
                   >
                     <div class="flex flex-row items-center w-full">
                       <!-- svelte-ignore a11y-label-has-associated-control -->
                       <a
-                        class="avatar w-8 h-8 shrink-0 mr-4 bg-gray-200 dark:bg-gray-800 rounded-full"
+                        class="avatar w-8 h-8 shrink-0 mr-4 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60"
                       >
                         <img
                           style="clip-path: circle(50%);"
-                          class="shrink-0 w-8 h-8 rounded-full inline-block p-1"
+                          class="shrink-0 w-8 h-8 rounded-full inline-block p-0.5"
                           src={`https://financialmodelingprep.com/image-stock/${item?.liveResults?.symbol}.png`}
                           alt="Company Logo"
                         />
                       </a>
 
-                      <div class=" text-sm sm:text-[1rem]">
+                      <div
+                        class="text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-300"
+                      >
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <!-- svelte-ignore a11y-label-has-associated-control -->
                         <div class="flex flex-col items-start">
                           <div>
                             <div class="flex flex-col items-start">
-                              <div class="text-md mt-0.5">
+                              <div
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
+                              >
                                 <span class="font-semibold"
                                   >BREAKING News for</span
                                 >
@@ -898,12 +909,15 @@
                                   assetType={item?.liveResults?.assetType}
                                 />
                               </div>
-                              <div class="text-md mt-0.5">
+                              <div
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
+                              >
                                 New data for "Why Price Moved" event is out.
                               </div>
                             </div>
                           </div>
-                          <span class="text-sm mt-1 text-[#A6ADBB0"
+                          <span
+                            class="text-xs mt-1 text-gray-500 dark:text-zinc-500"
                             >{formatDate(item?.created)}
                           </span>
                         </div>
@@ -912,30 +926,34 @@
                   </div>
                 {:else if item?.notifyType === "topAnalyst"}
                   <div
-                    class="border-b border-gray-300 dark:border-gray-800 pb-3 sm:p-3 mb-6 sm:mb-3 w-full {!item?.readed
-                      ? 'bg-blue-100 dark:bg-[#F9AB00]/10'
-                      : ''} "
+                    class="rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 px-3 py-3 sm:p-4 mb-4 w-full {!item?.readed
+                      ? 'bg-gray-50/90 dark:bg-zinc-900/60'
+                      : ''}"
                   >
                     <div class="flex flex-row items-center w-full">
                       <!-- svelte-ignore a11y-label-has-associated-control -->
                       <a
-                        class="avatar w-8 h-8 shrink-0 mr-4 bg-gray-200 dark:bg-gray-800 rounded-full"
+                        class="avatar w-8 h-8 shrink-0 mr-4 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60"
                       >
                         <img
                           style="clip-path: circle(50%);"
-                          class="shrink-0 w-8 h-8 rounded-full inline-block p-1"
+                          class="shrink-0 w-8 h-8 rounded-full inline-block p-0.5"
                           src={`https://financialmodelingprep.com/image-stock/${item?.liveResults?.symbol}.png`}
                           alt="Company Logo"
                         />
                       </a>
 
-                      <div class=" text-sm sm:text-[1rem]">
+                      <div
+                        class="text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-300"
+                      >
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <!-- svelte-ignore a11y-label-has-associated-control -->
                         <div class="flex flex-col items-start">
                           <div>
                             <div class="flex flex-col items-start">
-                              <div class="text-md mt-0.5">
+                              <div
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
+                              >
                                 <span class="font-semibold"
                                   >New Top Analyst Rating for</span
                                 >
@@ -945,7 +963,9 @@
                                   link="forecast/analyst"
                                 />
                               </div>
-                              <div class="text-md mt-0.5">
+                              <div
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
+                              >
                                 The rating company {item?.liveResults?.analyst} has
                                 issued a new rating of „{item?.liveResults
                                   ?.rating_current}“ with an updated price
@@ -954,7 +974,8 @@
                               </div>
                             </div>
                           </div>
-                          <span class="text-sm mt-1 text-[#A6ADBB0"
+                          <span
+                            class="text-xs mt-1 text-gray-500 dark:text-zinc-500"
                             >{formatDate(item?.created)}
                           </span>
                         </div>
@@ -963,30 +984,34 @@
                   </div>
                 {:else if item?.notifyType === "earningsSurprise"}
                   <div
-                    class="border-b border-gray-300 dark:border-gray-800 pb-3 sm:p-3 mb-6 sm:mb-3 w-full {!item?.readed
-                      ? 'bg-blue-100 dark:bg-[#F9AB00]/10'
-                      : ''} "
+                    class="rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 px-3 py-3 sm:p-4 mb-4 w-full {!item?.readed
+                      ? 'bg-gray-50/90 dark:bg-zinc-900/60'
+                      : ''}"
                   >
                     <div class="flex flex-row items-center w-full">
                       <!-- svelte-ignore a11y-label-has-associated-control -->
                       <a
-                        class="avatar w-8 h-8 shrink-0 mr-4 bg-gray-200 dark:bg-gray-800 rounded-full"
+                        class="avatar w-8 h-8 shrink-0 mr-4 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60"
                       >
                         <img
                           style="clip-path: circle(50%);"
-                          class="shrink-0 w-8 h-8 rounded-full inline-block p-1"
+                          class="shrink-0 w-8 h-8 rounded-full inline-block p-0.5"
                           src={`https://financialmodelingprep.com/image-stock/${item?.liveResults?.symbol}.png`}
                           alt="Company Logo"
                         />
                       </a>
 
-                      <div class=" text-sm sm:text-[1rem]">
+                      <div
+                        class="text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-300"
+                      >
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <!-- svelte-ignore a11y-label-has-associated-control -->
                         <div class="flex flex-col items-start">
                           <div>
                             <div class="flex flex-col items-start">
-                              <div class="text-md mt-0.5">
+                              <div
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
+                              >
                                 <span class="font-semibold"
                                   >Earnings Release for</span
                                 >
@@ -995,12 +1020,15 @@
                                   assetType={item?.liveResults?.assetType}
                                 />
                               </div>
-                              <div class="text-md mt-0.5">
+                              <div
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
+                              >
                                 New data for "Earnings Surprise" event is out.
                               </div>
                             </div>
                           </div>
-                          <span class="text-sm mt-1 text-[#A6ADBB0"
+                          <span
+                            class="text-xs mt-1 text-gray-500 dark:text-zinc-500"
                             >{formatDate(item?.created)}
                           </span>
                         </div>
@@ -1018,7 +1046,7 @@
                 <Button
                   on:click={() => goToPage(currentPage - 1)}
                   disabled={currentPage === 1}
-                  class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                  class="w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1038,7 +1066,7 @@
               </div>
 
               <div class="flex flex-row items-center gap-4">
-                <span class="text-sm sm:text-[1rem]">
+                <span class="text-sm text-gray-600 dark:text-zinc-300">
                   Page {currentPage} of {totalPages}
                 </span>
 
@@ -1046,7 +1074,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 rounded truncate"
+                      class="transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm"
                         >{selectedRowsPerPage} Rows</span
@@ -1072,12 +1100,12 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative"
+                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <DropdownMenu.Group class="pb-2">
                       {#each rowsPerPageOptions as item}
                         <DropdownMenu.Item
-                          class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                          class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
                         >
                           <label
                             on:click={() => changeRowsPerPage(item)}
@@ -1096,7 +1124,7 @@
                 <Button
                   on:click={() => goToPage(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                  class="w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="hidden sm:inline">Next</span>
                   <svg
@@ -1119,7 +1147,7 @@
             <div class="flex justify-center mt-4 w-full">
               <button
                 on:click={scrollToTop}
-                class="cursor-pointer sm:hover:text-muted text-blue-800 dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem] font-medium"
+                class="cursor-pointer text-sm font-medium text-gray-600 dark:text-zinc-400 transition hover:text-violet-600 dark:hover:text-violet-400"
               >
                 Back to Top
                 <svg
@@ -1146,34 +1174,40 @@
 
         <aside class="hidden lg:block relative fixed w-1/4 ml-4">
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/60 hover:bg-white dark:hover:bg-zinc-900/60 transition ease-out duration-100 h-fit pb-4 mt-4 cursor-pointer"
           >
             <a
               href="/watchlist/stocks"
               class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">Watchlist</h2>
+                <h2
+                  class="text-start text-lg font-semibold tracking-tight text-gray-900 dark:text-white ml-3"
+                >
+                  Watchlist
+                </h2>
               </div>
-              <span class=" p-3 ml-3 mr-3">
+              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                 Get realtime updates of your favorite stocks
               </span>
             </a>
           </div>
 
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/60 hover:bg-white dark:hover:bg-zinc-900/60 transition ease-out duration-100 h-fit pb-4 mt-4 cursor-pointer"
           >
             <a
               href="/portfolio"
               class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">
+                <h2
+                  class="text-start text-lg font-semibold tracking-tight text-gray-900 dark:text-white ml-3"
+                >
                   Portfolio Tracker
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3">
+              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                 Get realtime updates of your portfolio
               </span>
             </a>
@@ -1191,8 +1225,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 rounded border
-        bg-white dark:bg-secondary border border-gray-300 dark:border-gray-600"
+    class="modal-box w-full p-6 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/90 text-gray-700 dark:text-zinc-200"
   >
     <h3 class="text-lg font-medium mb-2">Delete All Notifications</h3>
     <p class="text-sm mb-4">
@@ -1207,16 +1240,14 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deleteNotifications"
-        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
-            transition-colors duration-100
-            bg-black text-white dark:bg-white dark:text-black"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-100 border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white dark:hover:bg-zinc-900"
         tabindex="0"
         on:click={() => {
           deleteError = null;
         }}>Cancel</label
       ><button
         type="button"
-        class="cursor-pointer px-4 py-2 rounded text-sm font-medium transition-colors duration-100 flex items-center bg-red-600 text-white disabled:opacity-70 disabled:cursor-not-allowed"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-100 flex items-center bg-red-600 text-white disabled:opacity-70 disabled:cursor-not-allowed"
         tabindex="0"
         on:click={deleteAllNotifications}
         disabled={deleteInFlight}
