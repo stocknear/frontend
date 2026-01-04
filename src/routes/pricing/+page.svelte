@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
 
   import SEO from "$lib/components/SEO.svelte";
-  //import Discount from "$lib/components/Discount.svelte";
+  import Discount from "$lib/components/Discount.svelte";
   export let data;
   export let form;
 
@@ -161,7 +161,7 @@
 
   <div class="relative">
     <div
-      class="flex flex-wrap items-center justify-center gap-3 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-[0.3em] text-[rgb(var(--pricing-muted))]"
+      class="flex flex-wrap items-center justify-center gap-3 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-[0.3em]"
     >
       <div
         class="flex items-center gap-2 rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 py-2 shadow-sm"
@@ -189,9 +189,7 @@
           />
         </svg>
         <span class="text-[rgb(var(--pricing-ink))]">4.6/5</span>
-        <span class="font-medium text-[rgb(var(--pricing-muted))]"
-          >Trustpilot</span
-        >
+        <span class="font-medium">Trustpilot</span>
         <a
           rel="noopener noreferrer"
           target="_blank"
@@ -207,12 +205,12 @@
       <h1 class="mt-4 text-4xl sm:text-5xl font-semibold tracking-tight">
         Faster research, smarter trades.
       </h1>
-      <p class="mt-4 text-base sm:text-lg text-[rgb(var(--pricing-muted))]">
+      <p class="mt-4 text-base sm:text-lg">
         Start free, upgrade anytime. Every tier is built for focus: clean data,
         smart alerts, and tools that save hours.
       </p>
       <div
-        class="mt-6 flex flex-wrap items-center justify-center gap-2 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-[0.18em] text-[rgb(var(--pricing-muted))]"
+        class="mt-6 flex flex-wrap items-center justify-center gap-2 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-[0.18em]"
       >
         <span
           class="rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1"
@@ -229,16 +227,12 @@
       </div>
     </div>
 
-    <!--<Discount />-->
+    <Discount />
 
     <div
-      class="mt-10 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold"
+      class="mt-5 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold"
     >
-      <span
-        class={mode
-          ? "text-[rgb(var(--pricing-muted))]"
-          : "text-[rgb(var(--pricing-ink))]"}
-      >
+      <span class={mode ? "" : "text-[rgb(var(--pricing-ink))]"}>
         Monthly
       </span>
       <label class="relative inline-flex cursor-pointer items-center">
@@ -250,13 +244,7 @@
           class="absolute left-1 top-1 h-6 w-6 rounded-full bg-muted dark:bg-white shadow-md transition peer-checked:translate-x-8 dark:bg-zinc-200"
         ></span>
       </label>
-      <span
-        class={mode
-          ? "text-[rgb(var(--pricing-ink))]"
-          : "text-[rgb(var(--pricing-muted))]"}
-      >
-        Annual
-      </span>
+      <span class={mode ? "text-[rgb(var(--pricing-ink))]" : ""}> Annual </span>
       <span
         class="rounded-full px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.2em]"
       >
@@ -271,22 +259,18 @@
         <div class="flex items-center justify-between">
           <h3 class="text-2xl font-semibold tracking-tight">Basic</h3>
           <span
-            class="rounded-full border border-[rgb(var(--pricing-border)/0.45)] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[rgb(var(--pricing-muted))]"
+            class="rounded-full border border-[rgb(var(--pricing-border)/0.45)] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em]"
           >
             Starter
           </span>
         </div>
-        <p class="mt-2 text-sm text-[rgb(var(--pricing-muted))]">
-          Everything you need to explore the platform.
-        </p>
+        <p class="mt-2 text-sm">Everything you need to explore the platform.</p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
           <span class="text-4xl font-semibold">$0</span>
-          <span class="text-sm text-[rgb(var(--pricing-muted))]">/month</span>
+          <span class="text-sm">/month</span>
         </div>
 
-        <ul
-          class="mt-6 mb-6 space-y-2 text-sm text-[rgb(var(--pricing-muted))]"
-        >
+        <ul class="mt-6 mb-6 space-y-2 text-sm">
           <li class="flex flex-row items-center">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
@@ -423,9 +407,7 @@
               </g></svg
             >
 
-            <span class="text-[rgb(var(--pricing-muted))]"
-              >Hedge Fund Portfolio Access</span
-            >
+            <span class="">Hedge Fund Portfolio Access</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -486,9 +468,7 @@
               </g></svg
             >
 
-            <span class="text-[rgb(var(--pricing-muted))]"
-              >US Congress Portfolio Access</span
-            >
+            <span class="">US Congress Portfolio Access</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -549,9 +529,7 @@
               </g></svg
             >
 
-            <span class="text-[rgb(var(--pricing-muted))]"
-              >Financial History Access</span
-            >
+            <span class="">Financial History Access</span>
           </li>
 
           <li class="flex items-start">
@@ -613,7 +591,7 @@
               </g></svg
             >
 
-            <span class="text-[rgb(var(--pricing-muted))]">Stock Screener</span>
+            <span class="">Stock Screener</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -674,9 +652,7 @@
               </g></svg
             >
 
-            <span class="text-[rgb(var(--pricing-muted))]"
-              >Financial Data Download</span
-            >
+            <span class="">Financial Data Download</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -737,7 +713,7 @@
               </g></svg
             >
 
-            <span class="text-[rgb(var(--pricing-muted))]">No Ads</span>
+            <span class="">No Ads</span>
           </li>
 
           <li class="flex items-start">
@@ -799,9 +775,7 @@
               </g></svg
             >
 
-            <span class="text-[rgb(var(--pricing-muted))]"
-              >Real-Time & Historical Options Data</span
-            >
+            <span class="">Real-Time & Historical Options Data</span>
           </li>
 
           <li class="flex items-start">
@@ -863,9 +837,7 @@
               </g></svg
             >
 
-            <span class="text-[rgb(var(--pricing-muted))]"
-              >Real-Time Options Flow Data</span
-            >
+            <span class="">Real-Time Options Flow Data</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -926,9 +898,7 @@
               </g></svg
             >
 
-            <span class="text-[rgb(var(--pricing-muted))]"
-              >Real-Time Unusual Orders</span
-            >
+            <span class="">Real-Time Unusual Orders</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -989,9 +959,7 @@
               </g></svg
             >
 
-            <span class="text-[rgb(var(--pricing-muted))]"
-              >Premium Discord Channel Access</span
-            >
+            <span class="">Premium Discord Channel Access</span>
           </li>
         </ul>
         <div
@@ -1025,24 +993,20 @@
         <div class="flex items-center justify-between">
           <h3 class="text-2xl font-semibold tracking-tight">Plus</h3>
         </div>
-        <p class="mt-2 text-sm text-[rgb(var(--pricing-muted))]">
-          Essential tools for individual investors.
-        </p>
+        <p class="mt-2 text-sm">Essential tools for individual investors.</p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
           <span class="text-4xl font-semibold">{mode ? "$10" : "$15"}</span>
-          <span class="text-sm text-[rgb(var(--pricing-muted))]">/month</span>
+          <span class="text-sm">/month</span>
         </div>
         <p
-          class="text-[rgb(var(--pricing-muted))] text-xs mt-2 uppercase tracking-[0.2em] {!mode
+          class=" text-xs mt-2 uppercase tracking-[0.2em] {!mode
             ? 'hidden'
             : ''}"
         >
           Billed annually ($120)
         </p>
 
-        <ul
-          class="mt-6 mb-6 space-y-2 text-sm text-[rgb(var(--pricing-muted))]"
-        >
+        <ul class="mt-6 mb-6 space-y-2 text-sm">
           <li class="flex flex-row items-center whitespace-nowrap">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
@@ -1284,9 +1248,7 @@
               </g></svg
             >
 
-            <span class="text-[rgb(var(--pricing-muted))]"
-              >Real-Time & Historical Options Data</span
-            >
+            <span class="">Real-Time & Historical Options Data</span>
           </li>
 
           <li class="flex items-start">
@@ -1348,9 +1310,7 @@
               </g></svg
             >
 
-            <span class="text-[rgb(var(--pricing-muted))]"
-              >Real-Time Options Flow Data</span
-            >
+            <span class="">Real-Time Options Flow Data</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -1411,9 +1371,7 @@
               </g></svg
             >
 
-            <span class="text-[rgb(var(--pricing-muted))]"
-              >Real-Time Unusual Orders</span
-            >
+            <span class="">Real-Time Unusual Orders</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -1474,9 +1432,7 @@
               </g></svg
             >
 
-            <span class="text-[rgb(var(--pricing-muted))]"
-              >Premium Discord Channel Access</span
-            >
+            <span class="">Premium Discord Channel Access</span>
           </li>
         </ul>
         <div
@@ -1484,7 +1440,7 @@
         >
           {#if data?.user?.tier === "Plus"}
             <div
-              class="w-full py-3 px-4 border border-[rgb(var(--pricing-border)/0.5)] bg-[rgb(var(--pricing-card)/0.7)] rounded-xl font-semibold text-[rgb(var(--pricing-muted))] flex items-center justify-center cursor-not-allowed"
+              class="w-full py-3 px-4 border border-[rgb(var(--pricing-border)/0.5)] bg-[rgb(var(--pricing-card)/0.7)] rounded-xl font-semibold flex items-center justify-center cursor-not-allowed"
             >
               <svg
                 class="w-5 h-5 mr-2"
@@ -1503,7 +1459,7 @@
             </div>
           {:else if data?.user?.tier === "Pro"}
             <div
-              class="w-full py-3 px-4 border border-[rgb(var(--pricing-border)/0.5)] bg-[rgb(var(--pricing-card)/0.7)] rounded-xl font-semibold text-[rgb(var(--pricing-muted))] flex items-center justify-center cursor-not-allowed"
+              class="w-full py-3 px-4 border border-[rgb(var(--pricing-border)/0.5)] bg-[rgb(var(--pricing-card)/0.7)] rounded-xl font-semibold flex items-center justify-center cursor-not-allowed"
             >
               Pro Plan Active
             </div>
@@ -1806,9 +1762,7 @@
             >
               Frequently Asked Questions
             </h2>
-            <p
-              class="mt-3 text-sm sm:text-base text-[rgb(var(--pricing-muted))]"
-            >
+            <p class="mt-3 text-sm sm:text-base">
               Clear answers to the most common questions about trials, billing,
               and upgrades.
             </p>
@@ -1826,7 +1780,7 @@
                 >
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] overflow-hidden transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     Stocknear Service provides simplified, actionable trading
                     data and an extensive tool suite for every investor,
@@ -1849,7 +1803,7 @@
                 </summary>
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] overflow-hidden transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     On Stocknear, certain premium features have monthly usage
                     limits. Credits represent your available usage for these
@@ -1873,7 +1827,7 @@
                 </summary>
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] overflow-hidden transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     Gain access to real-time options flow from major
                     institutional players, live dark pool activity, instant
@@ -1895,7 +1849,7 @@
                 </summary>
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 transition-all duration-300 ease-in-out"
                   >
                     You are entitled to one FREE 7 day trial. You can cancel
                     anytime within your trial period with no obligations. If you
@@ -1917,7 +1871,7 @@
                 </summary>
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 transition-all duration-300 ease-in-out"
                   >
                     Yes, you can easily upgrade your plan on your Account Page.
                     Or simply reach out to us via email, and we’ll take care of
@@ -1945,7 +1899,7 @@
                 </summary>
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] overflow-hidden transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     No, we do not charge any additional commissions or hidden
                     fees beyond our subscription plans.
@@ -1964,7 +1918,7 @@
                 </summary>
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] overflow-hidden transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     We offer a 30 day money back guarantee, no questions asked.
                     Just send an email to <a
@@ -1988,7 +1942,7 @@
                 </summary>
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] overflow-hidden transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     We support only Credit Card payments.
                   </p>
@@ -2007,7 +1961,7 @@
                 </summary>
                 <div class="collapse-content">
                   <p
-                    class="text-sm sm:text-base pb-5 text-[rgb(var(--pricing-muted))] overflow-hidden transition-all duration-300 ease-in-out"
+                    class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     Of course. There is a "Cancel Subscription" button in your
                     account area that you get access to after signing up. You
