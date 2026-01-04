@@ -131,7 +131,7 @@
         <aside class="inline-block relative w-full lg:w-1/4 mt-3">
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+              class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
               <a
                 href="/pricing"
@@ -152,7 +152,7 @@
 
           {#if newsList?.length !== 0}
             <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer"
+              class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
               <div class="p-4 text-sm">
                 <h3 class="text-xl font-bold mb-3">{$stockTicker} News</h3>
@@ -161,7 +161,7 @@
                     <li class="mb-3 last:mb-1">
                       {formatDate(item?.publishedDate)} ago -
                       <a
-                        class="sm:hover:text-muted dark:sm:hover:text-white text-blue-800 dark:text-blue-400"
+                        class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         href={item?.url}
                         target="_blank"
                         rel="noopener noreferrer nofollow">{item?.title}</a

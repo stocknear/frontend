@@ -564,7 +564,7 @@
                                 d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                               ></path></svg
                             >
-                            <span class="text-sm md:text-[1rem]">Watchlist</span
+                            <span class="text-sm md:text-sm">Watchlist</span
                             ></button
                           >
                           <label
@@ -588,7 +588,7 @@
                                 /></g
                               ></svg
                             >
-                            <span class="text-sm md:text-[1rem]"
+                            <span class="text-sm md:text-sm"
                               >Price Alert</span
                             ></label
                           >
@@ -617,44 +617,44 @@
                     <nav
                       class="pb-2 sm:ml-4 border-b border-gray-200/70 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
                     >
-                      <ul class="flex flex-row items-center w-full text-[1rem]">
+                      <ul class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base">
                         <a
                           href={`/stocks/${$stockTicker}`}
                           on:click={() => changeSection("overview")}
-                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
+                          class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'overview'
-                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
+                            ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                            : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           Overview
                         </a>
                         <a
                           href={`/stocks/${$stockTicker}/financials`}
                           on:click={() => changeSection("financials")}
-                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
+                          class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'financials'
-                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
+                            ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                            : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           Financials
                         </a>
                         <a
                           href={`/stocks/${$stockTicker}/statistics`}
                           on:click={() => changeSection("statistics")}
-                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
+                          class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'statistics'
-                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
+                            ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                            : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                           >Statistics</a
                         >
 
                         <a
                           href={`/stocks/${$stockTicker}/metrics`}
                           on:click={() => changeSection("metrics")}
-                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
+                          class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'metrics'
-                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
+                            ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                            : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                           >Metrics</a
                         >
 
@@ -662,10 +662,10 @@
                           <a
                             href={`/stocks/${$stockTicker}/forecast`}
                             on:click={() => changeSection("forecast")}
-                            class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
+                            class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                             'forecast'
-                              ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                              : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
+                              ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                              : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                           >
                             Forecast
                           </a>
@@ -673,20 +673,20 @@
                         <a
                           href={`/stocks/${$stockTicker}/unusual-orders`}
                           on:click={() => changeSection("unusual-orders")}
-                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
+                          class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'unusual-orders'
-                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
+                            ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                            : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           Unusual Orders
                         </a>
                         <a
                           href={`/stocks/${$stockTicker}/options`}
                           on:click={() => changeSection("options")}
-                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
+                          class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'options'
-                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
+                            ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                            : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           Options
                         </a>
@@ -694,10 +694,10 @@
                         <a
                           href={`/stocks/${$stockTicker}/insider`}
                           on:click={() => changeSection("insider")}
-                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
+                          class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'insider'
-                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
+                            ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                            : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           Insider
                         </a>
@@ -705,10 +705,10 @@
                           <a
                             href={`/stocks/${$stockTicker}/dividends`}
                             on:click={() => changeSection("dividends")}
-                            class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
+                            class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                             'dividends'
-                              ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                              : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
+                              ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                              : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                           >
                             Dividends
                           </a>
@@ -716,20 +716,20 @@
                         <a
                           href={`/stocks/${$stockTicker}/history`}
                           on:click={() => changeSection("history")}
-                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
+                          class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'history'
-                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
+                            ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                            : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           History
                         </a>
                         <a
                           href={`/stocks/${$stockTicker}/profile`}
                           on:click={() => changeSection("profile")}
-                          class="px-3 py-1.5 text-sm rounded-full cursor-pointer {displaySection ===
+                          class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'profile'
-                            ? ' bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
+                            ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                            : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           Profile
                         </a>
@@ -793,7 +793,7 @@
       </h3>
       <label
         for="addWatchListModal"
-        class="cursor-pointer absolute right-5 top-2 text-[1rem] sm:text-[1.5rem]"
+        class="cursor-pointer absolute right-5 top-2 text-sm sm:text-[1.5rem]"
       >
         ✕
       </label>
@@ -810,7 +810,7 @@
               class="flex flex-row items-center w-full border p-3 rounded-lg {item?.ticker?.includes(
                 $stockTicker,
               )
-                ? 'border-gray-300 dark:border-zinc-700 bg-gray-50/60 dark:bg-zinc-900/50'
+                ? 'border-gray-200/70 dark:border-zinc-700 bg-gray-50/60 dark:bg-zinc-900/50'
                 : 'border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40'}"
             >
               <div class="flex flex-col items-center w-full">
@@ -903,7 +903,6 @@
   ::-webkit-scrollbar-thumb {
     background: #6b6f79;
     -webkit-border-radius: 1ex;
-    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
   }
 
   ::-webkit-scrollbar-corner {

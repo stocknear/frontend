@@ -364,7 +364,7 @@
 
           // Loop through each point in the shared tooltip
           this.points?.forEach((point) => {
-            tooltipContent += `<span class="text-white text-[1rem] font-[501]">${point.series.name}: ${point.y}</span><br>`;
+            tooltipContent += `<span class="text-white text-sm font-[501]">${point.series.name}: ${point.y}</span><br>`;
           });
 
           // Append the formatted date at the end
@@ -1020,7 +1020,7 @@
                           class="cursor-pointer"
                         >
                           <span
-                            class="block px-3 sm:px-2 py-1 text-sm sm:text-[1rem] rounded-full duration-100 ease-in-out whitespace-nowrap
+                            class="block px-3 sm:px-2 py-1 text-sm rounded-full duration-100 ease-in-out whitespace-nowrap
           {displayData === interval
                               ? 'bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
                               : 'bg-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
@@ -1035,7 +1035,7 @@
                   </ul>
                 </div>
                 <div
-                  class="flex shrink flex-row space-x-1 pr-1 text-sm sm:text-[1rem]"
+                  class="flex shrink flex-row space-x-1 pr-1 text-sm"
                 >
                   {#if displayLegend?.graphChange}
                     <span
@@ -1060,7 +1060,7 @@
                 <div
                   class="flex justify-center w-full sm:w-[650px] h-[300px] sm:h-[320px] items-center"
                 >
-                  <p class="text-[1rem] text-gray-500 dark:text-zinc-400">
+                  <p class="text-sm text-gray-500 dark:text-zinc-400">
                     No data available
                   </p>
                 </div>
@@ -1084,7 +1084,7 @@
             <div
               class="mt-5 lg:mt-0 order-5 lg:order-1 flex flex-row space-x-2 sm:space-x-3 xs:space-x-4"
             >
-              <table class="w-[50%] text-sm sm:text-[1rem] lg:min-w-[250px]">
+              <table class="w-[50%] text-sm lg:min-w-[250px]">
                 <tbody
                   ><tr
                     class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
@@ -1093,7 +1093,7 @@
                       >Bid</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-[1rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{$wsBidPrice !== 0 && $wsBidPrice !== null
                         ? $wsBidPrice
                         : ((data?.getStockQuote?.bid !== 0
@@ -1112,7 +1112,7 @@
                       ></td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-[1rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{@html abbreviateNumber(
                         data?.getStockQuote?.marketCap,
                         false,
@@ -1195,7 +1195,7 @@
                       >P/B (ttm)</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-[1rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{stockDeck?.priceToBookRatioTTM
                         ? stockDeck?.priceToBookRatioTTM?.toFixed(2)
                         : "n/a"}</td
@@ -1209,7 +1209,7 @@
                       >P/S (ttm)</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-[1rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm font-semibold dark:font-normal xs:px-1 sm:text-right"
                       >{stockDeck?.priceToSalesRatioTTM
                         ? stockDeck?.priceToSalesRatioTTM?.toFixed(2)
                         : "n/a"}</td

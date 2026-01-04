@@ -627,7 +627,7 @@
             <div class="flex items-center justify-between mb-4">
               <label
                 for="showSteps"
-                class="cursor-pointer text-sm px-3 py-1 rounded-md border text-white border border-gray-300 dark:border-gray-600 bg-black sm:hover:bg-muted dark:bg-primary dark:sm:hover:bg-secondary"
+                class="inline-flex items-center gap-2 cursor-pointer text-sm px-3 py-1.5 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50"
               >
                 Show Calculation Steps
               </label>
@@ -638,7 +638,7 @@
                 <div class="grow">
                   <div class="relative">
                     <div
-                      class="sm:p-3 shadow border border-gray-300 dark:border-gray-800 rounded"
+                      class="sm:p-3 shadow-none border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                       use:highcharts={configHistoricalChart}
                     ></div>
                   </div>
@@ -655,7 +655,7 @@
                 <div class="grow">
                   <div class="relative">
                     <div
-                      class="sm:p-3 shadow border border-gray-300 dark:border-gray-800 rounded"
+                      class="sm:p-3 shadow-none border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                       use:highcharts={configMetricChart}
                     ></div>
                   </div>
@@ -665,7 +665,7 @@
           </main>
 
           <aside class="inline-block relative w-full lg:w-1/4 mt-3">
-            <div class="bg-gray-200 dark:bg-[#1F2937] p-6 rounded shadow">
+            <div class="bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 p-6 rounded-2xl shadow-none text-gray-700 dark:text-zinc-200">
               <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl font-bold">DCF Inputs</h2>
               </div>
@@ -686,7 +686,7 @@
                     id="metric"
                     bind:value={selectedMetric}
                     on:change={() => onMetricChange()}
-                    class="bg-white dark:bg-[#374151] border border-gray-300 shadow dark:border-gray-600 text-smrounded focus:outline-none block w-full pl-3 py-1 cursor-pointer"
+                    class="bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-3 py-1.5 cursor-pointer text-gray-700 dark:text-zinc-200"
                   >
                     <option value="freeCashFlow">Free Cash Flow</option>
                     <option value="operatingIncome">Operating Income</option>
@@ -712,7 +712,7 @@
                     id="years"
                     bind:value={yearsToProject}
                     on:change={() => (userHasModifiedInputs = true)}
-                    class="bg-white dark:bg-[#374151] border border-gray-300 shadow dark:border-gray-600 text-sm rounded focus:outline-none block w-full pl-3 py-1 cursor-pointer"
+                    class="bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-3 py-1.5 cursor-pointer text-gray-700 dark:text-zinc-200"
                   >
                     <option value={3}>3</option>
                     <option value={5}>5</option>
@@ -742,7 +742,7 @@
                       id="metric-growth"
                       bind:value={metricGrowthRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-white dark:bg-[#374151] border border-gray-300 shadow dark:border-gray-600 text-smrounded focus:outline-none block w-full pl-7 py-1"
+                      class="bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-gray-700 dark:text-zinc-200"
                     />
                   </div>
                   <p class="mt-2 text-xs">
@@ -775,7 +775,7 @@
                       id="shares-growth"
                       bind:value={sharesGrowthRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-white dark:bg-[#374151] border border-gray-300 shadow dark:border-gray-600 text-sm rounded focus:outline-none block w-full pl-7 py-1"
+                      class="bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-gray-700 dark:text-zinc-200"
                     />
                   </div>
                   <p class="mt-2 text-xs">
@@ -806,7 +806,7 @@
                       id="dividend-growth"
                       bind:value={dividendGrowthRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-white dark:bg-[#374151] border border-gray-300 shadow dark:border-gray-600 text-smrounded focus:outline-none block w-full pl-7 py-1"
+                      class="bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-gray-700 dark:text-zinc-200"
                     />
                   </div>
                 </div>
@@ -828,7 +828,7 @@
                     id="price-ratio"
                     bind:value={priceRatioAvg}
                     on:input={() => (userHasModifiedInputs = true)}
-                    class="bg-white dark:bg-[#374151] border border-gray-300 shadow dark:border-gray-600 text-sm rounded focus:outline-none block w-full pl-3 py-1"
+                    class="bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-3 py-1.5 text-gray-700 dark:text-zinc-200"
                   />
                   <p class="mt-2 text-xs">
                     5-year average P/{metricShortLabel}: {valuationData?.[
@@ -859,7 +859,7 @@
                       id="discount-rate"
                       bind:value={discountRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-white dark:bg-[#374151] border border-gray-300 shadow dark:border-gray-600 text-smrounded focus:outline-none block w-full pl-7 py-1"
+                      class="bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-gray-700 dark:text-zinc-200"
                     />
                   </div>
                   <p class="mt-2 text-xs">
@@ -881,12 +881,12 @@
 
 <input type="checkbox" id="showSteps" class="modal-toggle" />
 
-<dialog id="showSteps" class="modal p-3 sm:p-0 text-muted dark:text-white">
+<dialog id="showSteps" class="modal p-3 sm:p-0 text-gray-600 dark:text-zinc-300">
   <label for="showSteps" class="cursor-pointer modal-backdrop bg-[#000]/30"
   ></label>
 
   <div
-    class="modal-box rounded border border-gray-300 dark:border-gray-600 w-full bg-white dark:bg-secondary flex flex-col items-center"
+    class="modal-box rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 w-full bg-white dark:bg-zinc-950 flex flex-col items-center"
   >
     <div class="mx-auto h-1.5 w-20 shrink-0 rounded-full" />
     <div class="mb-5 text-center overflow-y-auto max-h-[80vh]">
@@ -1013,7 +1013,7 @@
       </div>
     </div>
 
-    <div class="border-t border-gray-300 dark:border-gray-600 mt-2 w-full">
+    <div class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-2 w-full">
       <label
         for="showSteps"
         class="mt-4 font-semibold text-xl m-auto flex justify-center cursor-pointer"

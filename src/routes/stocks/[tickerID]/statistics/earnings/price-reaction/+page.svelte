@@ -246,7 +246,7 @@
               class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"
             >
               <div
-                class="eps-beats-driver shadow bg-gray-200 dark:bg-[#1C1E22] rounded p-4"
+                class="eps-beats-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
                   <span>EPS Beats Estimate</span>
@@ -259,7 +259,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
                     >
                       <svg
                         class="size-6 mb-1 inline-block"
@@ -305,7 +305,7 @@
               </div>
 
               <div
-                class="revenue-beats-driver shadow bg-gray-200 dark:bg-[#1C1E22] rounded p-4"
+                class="revenue-beats-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
                   <span>Revenue Beats Estimate</span>
@@ -318,7 +318,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
                     >
                       <svg
                         class="size-6 mb-1 inline-block"
@@ -364,7 +364,7 @@
               </div>
 
               <div
-                class="avg-price-impact-driver shadow bg-gray-200 dark:bg-[#1C1E22] rounded p-4"
+                class="avg-price-impact-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
                   <span>Avg. Price Impact</span>
@@ -379,7 +379,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
                     >
                       <svg
                         class="size-6 mb-1 inline-block"
@@ -412,7 +412,7 @@
               </div>
 
               <div
-                class="volatility-impact-driver shadow bg-gray-200 dark:bg-[#1C1E22] rounded p-4"
+                class="volatility-impact-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
                   <span>Volatility Impact</span>
@@ -425,7 +425,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
                     >
                       <svg
                         class="size-6 mb-1 inline-block"
@@ -464,10 +464,10 @@
 
             <div class=" w-full overflow-x-auto">
               <table
-                class="earnings-table table-fixed leading-3 border-collapse border border-gray-300 dark:border-gray-800 font-sans tabular-nums w-full"
+                class="earnings-table table-fixed leading-3 border-collapse border border-gray-200/70 dark:border-zinc-800/80 font-sans tabular-nums w-full"
               >
                 <thead class="historical-data-driver"
-                  ><tr class=" text-sm sm:text-[1rem]"
+                  ><tr class=" text-sm"
                     ><th
                       class="w-36 whitespace-nowrap font-normal h-5 text-left px-1"
                       >Report Date</th
@@ -516,7 +516,7 @@
                   <tbody class="">
                     <tr class="group"
                       ><td
-                        class="whitespace-nowrap border-l border-t border-gray-300 dark:border-gray-800 py-0.5 rounded-tl-md px-1"
+                        class="whitespace-nowrap border-l border-t border-gray-200/70 dark:border-zinc-800/80 py-0.5 rounded-tl-md px-1"
                         ><div class="flex flex-col items-start w-fit">
                           <div
                             class="pl-0.5 pr-0.5 mt-2 flex flex-row items-center w-fit text-sm"
@@ -539,75 +539,75 @@
                           </div>
                         </div></td
                       ><td
-                        class="border-gray-300 dark:border-gray-800 px-3.5 py-0.5 border-t border-l px-4 last:pr-11 w-17 last:w-24.5 px-1 text-right"
-                        ><span class=" text-sm sm:text-[1rem]"
+                        class="border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 border-t border-l px-4 last:pr-11 w-17 last:w-24.5 px-1 text-right"
+                        ><span class=" text-sm"
                           >{item?.backward_4_days_close
                             ? item?.backward_4_days_close?.toFixed(2)
                             : "-"}</span
                         ></td
                       ><td
-                        class="border-gray-300 dark:border-gray-800 px-3.5 py-0.5 border-t border-l px-4 last:pr-11 w-17 last:w-24.5 px-1 text-right"
-                        ><span class=" text-sm sm:text-[1rem]"
+                        class="border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 border-t border-l px-4 last:pr-11 w-17 last:w-24.5 px-1 text-right"
+                        ><span class=" text-sm"
                           >{item?.backward_3_days_close?.toFixed(2)}</span
                         ></td
                       ><td
-                        class="border-gray-300 dark:border-gray-800 px-3.5 py-0.5 border-t border-l px-4 last:pr-11 w-17 last:w-24.5 px-1 text-right"
-                        ><span class=" text-sm sm:text-[1rem]"
+                        class="border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 border-t border-l px-4 last:pr-11 w-17 last:w-24.5 px-1 text-right"
+                        ><span class=" text-sm"
                           >{item?.backward_2_days_close?.toFixed(2)}</span
                         ></td
                       ><td
-                        class="border-gray-300 dark:border-gray-800 px-3.5 py-0.5 border-t border-l rounded-tr-md px-4 last:pr-11 w-17 last:w-24.5 border-r px-1 text-right"
-                        ><span class=" text-sm sm:text-[1rem]"
+                        class="border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 border-t border-l rounded-tr-md px-4 last:pr-11 w-17 last:w-24.5 border-r px-1 text-right"
+                        ><span class=" text-sm"
                           >{item?.backward_1_days_close?.toFixed(2)}</span
                         ></td
                       ><td
-                        class="border-gray-300 dark:border-gray-800 px-3.5 py-0.5 px-4 last:pr-11 w-17 last:w-24.5 px-1"
+                        class="border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 px-4 last:pr-11 w-17 last:w-24.5 px-1"
                       ></td><td
-                        class="border-gray-300 dark:border-gray-800 px-3.5 py-0.5 border-t border-l px-4 last:pr-11 w-17 last:w-24.5 dark:border-l-gray-800 px-1 text-center"
-                        ><span class=" text-sm sm:text-[1rem]"
+                        class="border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 border-t border-l px-4 last:pr-11 w-17 last:w-24.5 dark:border-l-gray-800 px-1 text-center"
+                        ><span class=" text-sm"
                           >{item?.open ? item?.open?.toFixed(2) : "-"}</span
                         ></td
                       ><td
-                        class="border-gray-300 dark:border-gray-800 px-3.5 py-0.5 border-t border-l border-r px-4 last:pr-11 w-17 last:w-24.5 px-1 text-center"
-                        ><span class=" text-sm sm:text-[1rem]"
+                        class="border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 border-t border-l border-r px-4 last:pr-11 w-17 last:w-24.5 px-1 text-center"
+                        ><span class=" text-sm"
                           >{item?.high ? item?.high?.toFixed(2) : "-"}</span
                         ></td
                       ><td
-                        class="border-gray-300 dark:border-gray-800 px-3.5 py-0.5 border-t border-l border-r px-4 last:pr-11 w-17 last:w-24.5 px-1 text-center"
-                        ><span class=" text-sm sm:text-[1rem]"
+                        class="border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 border-t border-l border-r px-4 last:pr-11 w-17 last:w-24.5 px-1 text-center"
+                        ><span class=" text-sm"
                           >{item?.low ? item?.low?.toFixed(2) : "-"}</span
                         ></td
                       ><td
-                        class="border-gray-300 dark:border-gray-800 px-3.5 py-0.5 border-t border-r dark:border-r-gray-800 px-4 last:pr-11 w-17 last:w-24.5 px-1 text-center"
-                        ><span class=" text-sm sm:text-[1rem]"
+                        class="border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 border-t border-r dark:border-r-gray-800 px-4 last:pr-11 w-17 last:w-24.5 px-1 text-center"
+                        ><span class=" text-sm"
                           >{item?.close ? item?.close?.toFixed(2) : "-"}</span
                         ></td
                       ><td
-                        class="border-gray-300 dark:border-gray-800 px-3.5 py-0.5 px-4 last:pr-11 w-17 last:w-24.5 px-1"
+                        class="border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 px-4 last:pr-11 w-17 last:w-24.5 px-1"
                       ></td><td
-                        class="border-gray-300 dark:border-gray-800 px-3.5 py-0.5 border-t border-l rounded-tl-md px-4 last:pr-11 w-17 last:w-24.5 border-l px-1 text-center"
-                        ><span class=" text-sm sm:text-[1rem]"
+                        class="border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 border-t border-l rounded-tl-md px-4 last:pr-11 w-17 last:w-24.5 border-l px-1 text-center"
+                        ><span class=" text-sm"
                           >{item?.forward_1_days_close !== undefined
                             ? item?.forward_1_days_close?.toFixed(2)
                             : "-"}</span
                         ></td
                       ><td
-                        class="border-gray-300 dark:border-gray-800 px-3.5 py-0.5 border-t border-l px-4 last:pr-11 w-17 last:w-24.5 px-1 text-center"
-                        ><span class=" text-sm sm:text-[1rem]"
+                        class="border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 border-t border-l px-4 last:pr-11 w-17 last:w-24.5 px-1 text-center"
+                        ><span class=" text-sm"
                           >{item?.forward_2_days_close !== undefined
                             ? item?.forward_2_days_close?.toFixed(2)
                             : "-"}</span
                         ></td
                       ><td
-                        class="border-gray-300 dark:border-gray-800 border-t border-l border-r px-3.5 py-0.5 px-4 last:pr-11 w-17 last:w-24.5 px-1 text-center"
-                        ><span class=" text-sm sm:text-[1rem]"
+                        class="border-gray-200/70 dark:border-zinc-800/80 border-t border-l border-r px-3.5 py-0.5 px-4 last:pr-11 w-17 last:w-24.5 px-1 text-center"
+                        ><span class=" text-sm"
                           >{item?.forward_3_days_close !== undefined
                             ? item?.forward_3_days_close?.toFixed(2)
                             : "-"}</span
                         ></td
                       ><td
-                        class="border-gray-300 dark:border-gray-800 px-3.5 py-0.5 border-t border-r px-4 last:pr-11 w-17 last:w-24.5 px-1 text-center"
-                        ><span class=" text-sm sm:text-[1rem]"
+                        class="border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 border-t border-r px-4 last:pr-11 w-17 last:w-24.5 px-1 text-center"
+                        ><span class=" text-sm"
                           >{item?.forward_6_days_close !== undefined
                             ? item?.forward_6_days_close?.toFixed(2)
                             : "-"}</span
@@ -622,7 +622,7 @@
                         : ''}"
                     >
                       <td
-                        class="border-l border-gray-300 dark:border-gray-800 mt-auto text-xs text-muted dark:text-gray-200"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 mt-auto text-xs text-gray-600 dark:text-zinc-300"
                       >
                         <div
                           class="grid grid-cols-2 items-center justify-center pl-0.5 pr-0.5 w-full m-auto text-center"
@@ -653,9 +653,9 @@
                       </td>
 
                       <td
-                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-300 dark:border-gray-800 px-3.5 py-0.5 border-l px-1 text-right"
+                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 border-l px-1 text-right"
                         ><span
-                          class="w-full text-sm sm:text-[1rem] items-baseline justify-end whitespace-nowrap {item?.backward_4_days_change_percent >=
+                          class="w-full text-sm items-baseline justify-end whitespace-nowrap {item?.backward_4_days_change_percent >=
                           0
                             ? "text-green-800 dark:text-positive before:content-['+']"
                             : 'text-red-800 dark:text-negative'}"
@@ -665,9 +665,9 @@
                             : "-"}<span class="w-0 text-center"></span></span
                         ></td
                       ><td
-                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-300 dark:border-gray-800 px-3.5 py-0.5 border-l px-1 text-right"
+                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 border-l px-1 text-right"
                         ><span
-                          class="w-full text-sm sm:text-[1rem] items-baseline justify-end whitespace-nowrap {item?.backward_3_days_change_percent >=
+                          class="w-full text-sm items-baseline justify-end whitespace-nowrap {item?.backward_3_days_change_percent >=
                           0
                             ? "text-green-800 dark:text-positive before:content-['+']"
                             : 'text-red-800 dark:text-negative'}"
@@ -676,9 +676,9 @@
                           ></span></span
                         ></td
                       ><td
-                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-300 dark:border-gray-800 px-3.5 py-0.5 border-l border-r px-1 text-right"
+                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 border-l border-r px-1 text-right"
                         ><span
-                          class="w-full text-sm sm:text-[1rem] items-baseline justify-end whitespace-nowrap {item?.backward_2_days_change_percent >=
+                          class="w-full text-sm items-baseline justify-end whitespace-nowrap {item?.backward_2_days_change_percent >=
                           0
                             ? "text-green-800 dark:text-positive before:content-['+']"
                             : 'text-red-800 dark:text-negative'}"
@@ -687,9 +687,9 @@
                           )}%<span class="w-0 text-center"></span></span
                         ></td
                       ><td
-                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-300 dark:border-gray-800 px-3.5 py-0.5 border-l border-r px-1 text-right"
+                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 border-l border-r px-1 text-right"
                         ><span
-                          class="w-full text-sm sm:text-[1rem] items-baseline justify-end whitespace-nowrap {item?.backward_1_days_change_percent >=
+                          class="w-full text-sm items-baseline justify-end whitespace-nowrap {item?.backward_1_days_change_percent >=
                           0
                             ? "text-green-800 dark:text-positive before:content-['+']"
                             : 'text-red-800 dark:text-negative'}"
@@ -698,11 +698,11 @@
                           )}%<span class="w-0 text-center"></span></span
                         ></td
                       ><td
-                        class="px-4 last:pr-11 w-17 last:w-24.5 border border-gray-300 dark:border-gray-800 px-3.5 py-0.5 px-1 text-center"
+                        class="px-4 last:pr-11 w-17 last:w-24.5 border border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 px-1 text-center"
                       ></td><td
-                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-300 dark:border-gray-800 px-3.5 py-0.5 dark:border-l-gray-800 px-1 text-center"
+                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 dark:border-l-gray-800 px-1 text-center"
                         ><div
-                          class="text-center w-full whitespace-nowrap rounded text-sm sm:text-[1rem] {item?.open_change_percent &&
+                          class="text-center w-full whitespace-nowrap rounded text-sm {item?.open_change_percent &&
                           item?.open_change_percent >= 0
                             ? "bg-positive/60 before:content-['+'] "
                             : item?.open_change_percent < 0
@@ -714,9 +714,9 @@
                             : "-"}
                         </div></td
                       ><td
-                        class="px-4 last:pr-11 w-17 last:w-24.5 px-3.5 py-0.5 px-1 text-center border-l border-r border-gray-300 dark:border-gray-800"
+                        class="px-4 last:pr-11 w-17 last:w-24.5 px-3.5 py-0.5 px-1 text-center border-l border-r border-gray-200/70 dark:border-zinc-800/80"
                         ><div
-                          class="text-center w-full whitespace-nowrap rounded text-sm sm:text-[1rem] {item?.high_change_percent &&
+                          class="text-center w-full whitespace-nowrap rounded text-sm {item?.high_change_percent &&
                           item?.high_change_percent >= 0
                             ? "bg-positive/60 before:content-['+'] "
                             : item?.high_change_percent < 0
@@ -728,9 +728,9 @@
                             : "-"}
                         </div></td
                       ><td
-                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-300 px-3.5 py-0.5 px-1 text-center border-l border-r border-gray-300 dark:border-gray-800"
+                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-200/70 px-3.5 py-0.5 px-1 text-center border-l border-r border-gray-200/70 dark:border-zinc-800/80"
                         ><div
-                          class="text-center w-full whitespace-nowrap rounded text-sm sm:text-[1rem] {item?.low_change_percent &&
+                          class="text-center w-full whitespace-nowrap rounded text-sm {item?.low_change_percent &&
                           item?.low_change_percent >= 0
                             ? "bg-positive/60 before:content-['+'] "
                             : item?.low_change_percent
@@ -742,9 +742,9 @@
                             : "-"}
                         </div></td
                       ><td
-                        class="px-4 last:pr-11 w-17 last:w-24.5 border-r border-gray-300 dark:border-gray-800 px-3.5 py-0.5 px-1 text-center"
+                        class="px-4 last:pr-11 w-17 last:w-24.5 border-r border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 px-1 text-center"
                         ><div
-                          class="text-center w-full whitespace-nowrap rounded text-sm sm:text-[1rem] {item?.close_change_percent &&
+                          class="text-center w-full whitespace-nowrap rounded text-sm {item?.close_change_percent &&
                           item?.close_change_percent >= 0
                             ? "bg-positive/60 before:content-['+']  "
                             : item?.close_change_percent < 0
@@ -756,11 +756,11 @@
                             : "-"}
                         </div></td
                       ><td
-                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-300 dark:border-gray-800 px-3.5 py-0.5 px-1 text-center"
+                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 px-1 text-center"
                       ></td><td
-                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-300 dark:border-gray-800 px-3.5 py-0.5 border-l border-r px-1 text-center"
+                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 border-l border-r px-1 text-center"
                         ><span
-                          class="w-full text-sm sm:text-[1rem] items-baseline justify-end whitespace-nowrap {item?.forward_1_days_change_percent >=
+                          class="w-full text-sm items-baseline justify-end whitespace-nowrap {item?.forward_1_days_change_percent >=
                           0
                             ? "text-green-800 dark:text-positive before:content-['+']"
                             : item?.forward_1_days_change_percent < 0
@@ -771,9 +771,9 @@
                             : "-"}<span class="w-0 text-center"></span></span
                         ></td
                       ><td
-                        class="px-4 last:pr-11 w-17 last:w-24.5 border-l border-r border-gray-300 dark:border-gray-800 px-3.5 py-0.5 px-1 text-center"
+                        class="px-4 last:pr-11 w-17 last:w-24.5 border-l border-r border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 px-1 text-center"
                         ><span
-                          class="w-full text-sm sm:text-[1rem] items-baseline justify-end whitespace-nowrap {item?.forward_2_days_change_percent >=
+                          class="w-full text-sm items-baseline justify-end whitespace-nowrap {item?.forward_2_days_change_percent >=
                           0
                             ? "text-green-800 dark:text-positive before:content-['+']"
                             : item?.forward_2_days_change_percent < 0
@@ -784,9 +784,9 @@
                             : "-"}<span class="w-0 text-center"></span></span
                         ></td
                       ><td
-                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-300 dark:border-gray-800 px-3.5 py-0.5 px-1 text-center"
+                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 px-1 text-center"
                         ><span
-                          class="w-full text-sm sm:text-[1rem] items-baseline justify-end whitespace-nowrap {item?.forward_3_days_change_percent >=
+                          class="w-full text-sm items-baseline justify-end whitespace-nowrap {item?.forward_3_days_change_percent >=
                           0
                             ? "text-green-800 dark:text-positive before:content-['+']"
                             : item?.forward_3_days_change_percent < 0
@@ -797,9 +797,9 @@
                             : "-"}<span class="w-0 text-center"></span></span
                         ></td
                       ><td
-                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-300 dark:border-gray-800 px-3.5 py-0.5 border-r px-1 text-center"
+                        class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-200/70 dark:border-zinc-800/80 px-3.5 py-0.5 border-r px-1 text-center"
                         ><span
-                          class="w-full text-sm sm:text-[1rem] items-baseline justify-end whitespace-nowrap {item?.forward_6_days_change_percent >=
+                          class="w-full text-sm items-baseline justify-end whitespace-nowrap {item?.forward_6_days_change_percent >=
                           0
                             ? "text-green-800 dark:text-positive before:content-['+']"
                             : item?.forward_6_days_change_percent < 0

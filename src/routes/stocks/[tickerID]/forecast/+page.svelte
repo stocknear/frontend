@@ -217,7 +217,7 @@
         },
         borderRadius: 4,
         headerFormat:
-          '<span class="font-semibold text-[1rem] text-white">{point.key}</span><br/>',
+          '<span class="font-semibold text-sm text-white">{point.key}</span><br/>',
         pointFormat:
           '<span style="color:{point.color}">\u25CF</span> ' +
           "<span class='text-sm text-white'>{series.name}: <b>{point.originalValue}</b><br/></span>",
@@ -383,7 +383,7 @@
 
               // "Analyst Consensus:" in white, rating in color
               return `
-          <span class="text-lg text-muted dark:text-white">Analyst Consensus: </span>
+          <span class="text-lg text-gray-600 dark:text-zinc-300">Analyst Consensus: </span>
           <span class="text-lg" style="color:${textColor};">${ratingText}</span>
         `;
             },
@@ -862,7 +862,7 @@
               >
                 <div class="">
                   <div class="inline-flex">
-                    <div class="inline-flex rounded-lg shadow-sm">
+                    <div class="inline-flex rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60">
                       {#each tabs as item, i}
                         {#if !["Pro", "Plus"]?.includes(data?.user?.tier) && i > 0}
                           <button
@@ -876,8 +876,8 @@
                               ? 'border-t border-b'
                               : ''}
                           {activeIdx === i
-                              ? 'bg-black dark:bg-white text-white dark:text-black'
-                              : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
+                              ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
+                              : 'bg-white/80 border-gray-200/70 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-800/80'}"
                           >
                             <span class="relative text-sm block font-semibold">
                               {item.title}
@@ -904,8 +904,8 @@
                               ? 'border-t border-b'
                               : ''}
                           {activeIdx === i
-                              ? 'bg-black dark:bg-white text-white dark:text-black'
-                              : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
+                              ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
+                              : 'bg-white/80 border-gray-200/70 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-800/80'}"
                           >
                             {item.title}
                           </button>
@@ -921,7 +921,7 @@
 
         <div class="w-full mb-6 mt-3">
           <div
-            class="rounded shadow border border-gray-300 dark:border-gray-600 p-0.5 xs:p-1 md:flex md:flex-col md:space-y-4 md:divide-y md:p-4 lg:flex-row lg:space-x-4 lg:space-y-0 lg:divide-x lg:divide-y-0 divide-gray-300 dark:divide-gray-600"
+            class="rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-0.5 xs:p-1 md:flex md:flex-col md:space-y-4 md:divide-y md:p-4 lg:flex-row lg:space-x-4 lg:space-y-0 lg:divide-x lg:divide-y-0 divide-gray-200/70 dark:divide-zinc-800/80"
           >
             <div
               class="p-3 md:flex md:space-x-4 md:p-0 lg:block lg:max-w-[32%] lg:space-x-0"
@@ -958,12 +958,12 @@
             <div class="grow p-3 md:pt-4 lg:pl-4 lg:pt-0">
               {#if numOfAnalyst > 0}
                 <div
-                  class="sm:shadow sm:border border-gray-300 dark:border-gray-800 rounded"
+                  class="sm:shadow-none sm:border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                   use:highcharts={config}
                 ></div>
               {:else}
                 <div
-                  class="mb-2 min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold shadow border border-gray-300 dark:border-gray-800 rounded flex justify-center items-center"
+                  class="mb-2 min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold shadow-none border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 flex justify-center items-center"
                 >
                   No Chart available
                 </div>
@@ -971,10 +971,10 @@
               <div
                 class=" mb-1 mt-2 overflow-x-auto px-1.5 text-center md:mb-0 md:px-0 lg:mt-2"
               >
-                <table class="w-full text-right text-tiny xs:text-sm sm:">
+                <table class="w-full text-right text-xs sm:text-sm">
                   <thead
                     ><tr
-                      class="border-b border-gray-300 dark:border-gray-600 font-normal text-sm sm:text-[1rem]"
+                      class="border-b border-gray-200/70 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                       ><th class="py-[3px] text-left font-semibold lg:py-0.5"
                         >Target</th
                       > <th class="font-semibold">Low</th>
@@ -985,7 +985,7 @@
                   >
                   <tbody
                     ><tr
-                      class="border-b border-gray-300 dark:border-gray-600 font-normal text-sm sm:text-[1rem]"
+                      class="border-b border-gray-200/70 dark:border-zinc-800/80 font-normal text-sm"
                       ><td class="py-[3px] text-left lg:py-0.5">Price</td>
                       <td>{lowPriceTarget > 0 ? lowPriceTarget : "n/a"}</td>
                       <td>{avgPriceTarget > 0 ? avgPriceTarget : "n/a"}</td>
@@ -1037,7 +1037,7 @@
           </div>
 
           <div
-            class="w-full shadow rounded-sm border border-gray-300 dark:border-gray-600 mt-8 p-3 divide-gray-300 dark:divide-gray-600 lg:flex lg:space-x-4 lg:divide-x"
+            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 mt-8 p-4 sm:p-5 divide-gray-200/70 dark:divide-zinc-800/80 lg:flex lg:space-x-4 lg:divide-x"
           >
             <div class="flex flex-col justify-between p-1 lg:max-w-[32%]">
               <div>
@@ -1047,7 +1047,7 @@
                   </h2>
                   {#if latestInfoDate(data?.getAnalystInsight?.date)}
                     <label
-                      class="bg-black dark:bg-[#fff] rounded text-white dark:text-black font-semibold text-xs px-2 py-0.5 ml-3"
+                      class="rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 font-semibold text-xs px-2 py-0.5 ml-3"
                       >New</label
                     >
                   {/if}
@@ -1066,7 +1066,7 @@
                       <span class="mt-3">
                         Unlock content with
                         <a
-                          class="inline-block ml-0.5 text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+                          class="inline-block ml-0.5 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                           href="/pricing"
                           >Pro Subscription <svg
                             class="w-4 h-4 mb-1 inline-block text[#A3A3A3] sm:hover:"
@@ -1108,12 +1108,12 @@
             <div class="grow pt-2 md:pt-4 lg:pl-4 lg:pt-0">
               {#if optionsBarChart !== null && numOfAnalyst > 0}
                 <div
-                  class="shadow border border-gray-300 dark:border-gray-800 rounded"
+                  class="shadow-none border border-gray-200/70 dark:border-zinc-800/80 rounded"
                   use:highcharts={optionsBarChart}
                 ></div>
               {:else}
                 <div
-                  class="min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold shadow border border-gray-300 dark:border-gray-800 rounded flex justify-center items-center"
+                  class="min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold shadow-none border border-gray-200/70 dark:border-zinc-800/80 rounded flex justify-center items-center"
                 >
                   No Chart available
                 </div>
@@ -1126,14 +1126,14 @@
                 >
                   <thead
                     ><tr
-                      class="border-b border-gray-300 dark:border-gray-600 font-normal"
+                      class="border-b border-gray-200/70 dark:border-zinc-800/80 font-normal"
                       ><th
-                        class="whitespace-nowrap px-1 py-[3px] text-sm sm:text-[1rem] text-left font-semibold"
+                        class="whitespace-nowrap px-1 py-[3px] text-sm text-left font-semibold"
                         >Rating</th
                       >
                       {#each recommendationList as item}
                         <th
-                          class="px-1 py-[3px] text-sm sm:text-[1rem] text-right font-semibold"
+                          class="px-1 py-[3px] text-sm text-right font-semibold"
                         >
                           {new Intl.DateTimeFormat("en", {
                             month: "short",
@@ -1147,15 +1147,15 @@
                   <tbody>
                     {#each categories as category}
                       <tr
-                        class="border-b border-gray-300 dark:border-gray-600 font-normal"
+                        class="border-b border-gray-200/70 dark:border-zinc-800/80 font-normal"
                       >
                         <td
-                          class="whitespace-nowrap px-1 py-[3px] text-sm sm:text-[1rem] text-left"
+                          class="whitespace-nowrap px-1 py-[3px] text-sm text-left"
                           >{category}</td
                         >
                         {#each recommendationList as entry}
                           <td
-                            class="px-1 py-[3px] text-sm sm:text-[1rem] text-right"
+                            class="px-1 py-[3px] text-sm text-right"
                             >{entry[category]}</td
                           >
                         {/each}
@@ -1163,12 +1163,12 @@
                     {/each}
                     <tr class="font-semibold"> </tr><tr class="font-semibold">
                       <td
-                        class="whitespace-nowrap px-1 py-[3px] text-sm sm:text-[1rem] text-left"
+                        class="whitespace-nowrap px-1 py-[3px] text-sm text-left"
                         >Total</td
                       >
                       {#each recommendationList as _, i}
                         <td
-                          class="px-1 py-[3px] text-sm sm:text-[1rem] text-right"
+                          class="px-1 py-[3px] text-sm text-right"
                         >
                           {getTotalForDate(i, recommendationList)}
                         </td>
@@ -1185,10 +1185,10 @@
           </h2>
           {#if data?.getAnalystEstimate?.length !== 0}
             <div
-              class="mb-4 shadow grid grid-cols-1 overflow-hidden rounded border divide-gray-300 dark:divide-gray-600 border-gray-300 dark:border-gray-600 md:grid-cols-2 lg:grid-cols-4"
+              class="mb-4 shadow-none grid grid-cols-1 overflow-hidden rounded border divide-gray-300 dark:divide-gray-600 border-gray-200/70 dark:border-zinc-800/80 md:grid-cols-2 lg:grid-cols-4"
             >
               <div
-                class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b lg:border-b-0 border-gray-300 dark:border-gray-600"
+                class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b lg:border-b-0 border-gray-200/70 dark:border-zinc-800/80"
               >
                 <div class=" font-normal">Revenue This Year</div>
                 <div
@@ -1363,7 +1363,7 @@
                 </div>
               </div>
               <div
-                class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-l border-gray-300 dark:border-gray-600"
+                class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-l border-gray-200/70 dark:border-zinc-800/80"
               >
                 <div class=" font-normal">EPS Next Year</div>
                 <div
@@ -1424,7 +1424,7 @@
             </div>
           {:else}
             <div
-              class=" p-3 sm:p-5 mb-10 rounded sm:flex sm:flex-row sm:items-center border border-gray-300 dark:border-gray-600 text-sm sm:text-[1rem]"
+              class=" p-3 sm:p-5 mb-10 rounded sm:flex sm:flex-row sm:items-center border border-gray-200/70 dark:border-zinc-800/80 text-sm"
             >
               <svg
                 class="w-6 h-6 shrink-0 inline-block sm:mr-2"

@@ -263,7 +263,7 @@
         animation: false,
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-[1rem] sm:text-lg">Historical AI Score Performance</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm sm:text-lg">Historical AI Score Performance</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
           // Using inline CSS for margin-top and margin-bottom
@@ -611,7 +611,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                   >
                     Upgrade <svg
                       class="w-4 h-4 mb-1 inline-block"
@@ -637,7 +637,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                   >
                     Upgrade <svg
                       class="w-4 h-4 mb-1 inline-block"
@@ -661,7 +661,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                   >
                     Upgrade <svg
                       class="w-4 h-4 mb-1 inline-block"
@@ -690,7 +690,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                   >
                     Upgrade <svg
                       class="w-4 h-4 mb-1 inline-block"
@@ -715,7 +715,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                   >
                     Upgrade <svg
                       class="w-4 h-4 mb-1 inline-block"
@@ -742,18 +742,18 @@
                       <div
                         class="{!isSubscribed
                           ? 'blur-[3px]'
-                          : ''} mt-5 shadow sm:mt-0 sm:border sm:border-gray-300 dark:border-gray-800 rounded"
+                          : ''} mt-5 shadow-none sm:mt-0 sm:border sm:border-gray-200/70 dark:border-zinc-800/80 rounded"
                         use:highcharts={configScore}
                       ></div>
                     {/if}
                     <!-- Overlay with "Upgrade to Pro" -->
                     {#if !isSubscribed}
                       <div
-                        class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-white"
+                        class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-gray-600 dark:text-zinc-300"
                       >
                         <a
                           href="/pricing"
-                          class="sm:hover:text-default dark:sm:hover:text-white dark:text-white flex flex-row items-center"
+                          class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row items-center"
                         >
                           <span>Upgrade</span>
                           <svg
@@ -778,16 +778,16 @@
                     >
                       <thead>
                         <tr
-                          class="border-b border-gray-300 dark:border-gray-600 font-normal text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="border-b border-gray-200/70 dark:border-zinc-800/80 font-normal text-sm whitespace-nowrap"
                         >
                           <th
-                            class="py-[3px] text-left font-semibold lg:py-0.5 text-muted dark:text-white"
+                            class="py-[3px] text-left font-semibold lg:py-0.5 text-gray-600 dark:text-zinc-300"
                           >
                             Date
                           </th>
                           {#each tableDates as item}
                             <th
-                              class="py-[3px] text-left font-semibold lg:py-0.5 text-muted dark:text-white"
+                              class="py-[3px] text-left font-semibold lg:py-0.5 text-gray-600 dark:text-zinc-300"
                             >
                               {item}
                             </th>
@@ -797,14 +797,14 @@
                       <tbody>
                         <!-- Score Row -->
                         <tr
-                          class="border-b border-gray-300 dark:border-gray-600 font-normal text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="border-b border-gray-200/70 dark:border-zinc-800/80 font-normal text-sm whitespace-nowrap"
                         >
-                          <td class="py-[3px] text-left lg:py-0.5 text-[1rem]"
+                          <td class="py-[3px] text-left lg:py-0.5 text-sm"
                             >Score</td
                           >
                           {#each tableScore as val, index}
                             <td
-                              class="text-right whitespace-nowrap text-[1rem]"
+                              class="text-right whitespace-nowrap text-sm"
                             >
                               {#if isSubscribed}
                                 {val}
@@ -816,7 +816,7 @@
                               {:else}
                                 <a
                                   href="/pricing"
-                                  class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                                  class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                                 >
                                   Upgrade
                                   <svg
@@ -836,13 +836,13 @@
                         </tr>
 
                         <tr
-                          class="font-normal text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="font-normal text-sm whitespace-nowrap"
                         >
-                          <td class="py-[3px] text-left lg:py-0.5 text-[1rem]"
+                          <td class="py-[3px] text-left lg:py-0.5 text-sm"
                             >Price</td
                           >
                           {#each tableQuarterChange as item, index}
-                            <td class="text-[1rem]">
+                            <td class="text-sm">
                               {#if isSubscribed}
                                 {item?.price && item?.price !== null
                                   ? "$" + item?.price
@@ -850,7 +850,7 @@
                               {:else}
                                 <a
                                   href="/pricing"
-                                  class="text-sm sm:hover:text-default dark:sm:hover:text-blue-400"
+                                  class="text-sm text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
                                 >
                                   Upgrade
                                   <svg
@@ -871,13 +871,13 @@
 
                         <!-- QoQ Change Row -->
                         <tr
-                          class="font-normal text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="font-normal text-sm whitespace-nowrap"
                         >
-                          <td class="py-[3px] text-left lg:py-0.5 text-[1rem]"
+                          <td class="py-[3px] text-left lg:py-0.5 text-sm"
                             >% Change</td
                           >
                           {#each tableQuarterChange as item, index}
-                            <td class="text-[1rem]">
+                            <td class="text-sm">
                               {#if isSubscribed}
                                 <span
                                   class={item?.change > 0
@@ -891,7 +891,7 @@
                               {:else}
                                 <a
                                   href="/pricing"
-                                  class="text-sm sm:hover:text-default dark:sm:hover:text-blue-400"
+                                  class="text-sm text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
                                 >
                                   Upgrade
                                   <svg
@@ -935,7 +935,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                     >
                       Upgrade <svg
                         class="w-4 h-4 mb-1 inline-block"
@@ -956,7 +956,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                     >
                       Upgrade <svg
                         class="w-4 h-4 mb-1 inline-block"
@@ -978,7 +978,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                     >
                       Upgrade <svg
                         class="w-4 h-4 mb-1 inline-block"
@@ -1009,7 +1009,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                     >
                       Upgrade <svg
                         class="w-4 h-4 mb-1 inline-block"
@@ -1031,7 +1031,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                     >
                       Upgrade <svg
                         class="w-4 h-4 mb-1 inline-block"
@@ -1059,18 +1059,18 @@
                       <div
                         class="{!isSubscribed
                           ? 'blur-[3px]'
-                          : ''} mt-5 shadow sm:mt-0 sm:border sm:border-gray-300 dark:border-gray-800 rounded"
+                          : ''} mt-5 shadow-none sm:mt-0 sm:border sm:border-gray-200/70 dark:border-zinc-800/80 rounded"
                         use:highcharts={config}
                       ></div>
                     {/if}
                     <!-- Overlay with "Upgrade to Pro" -->
                     {#if !isSubscribed}
                       <div
-                        class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-white"
+                        class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-gray-600 dark:text-zinc-300"
                       >
                         <a
                           href="/pricing"
-                          class="sm:hover:text-default dark:sm:hover:text-white dark:text-white flex flex-row items-center"
+                          class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row items-center"
                         >
                           <span>Upgrade</span>
                           <svg
@@ -1093,7 +1093,7 @@
                     <table class="w-full text-right text-tiny xs:text-sm">
                       <thead
                         ><tr
-                          class="border-b border-gray-300 dark:border-gray-600 font-normal text-sm sm:text-[1rem]"
+                          class="border-b border-gray-200/70 dark:border-zinc-800/80 font-normal text-sm"
                           ><th
                             class="py-[3px] text-left font-semibold lg:py-0.5"
                             >Target</th
@@ -1105,14 +1105,14 @@
                       >
                       <tbody
                         ><tr
-                          class="border-b border-gray-300 dark:border-gray-600 font-normal text-sm sm:text-[1rem]"
+                          class="border-b border-gray-200/70 dark:border-zinc-800/80 font-normal text-sm"
                         >
                           <td class="py-[3px] text-left lg:py-0.5">Price</td>
                           {#if !isSubscribed}
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                                 >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
@@ -1128,7 +1128,7 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                                 >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
@@ -1144,7 +1144,7 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                                 >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
@@ -1160,7 +1160,7 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                                 >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
@@ -1187,7 +1187,7 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                               >
                                 Upgrade
                                 <svg
@@ -1205,7 +1205,7 @@
                             <td class="whitespace-nowrap"
                               ><a
                                 href="/pricing"
-                                class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                                 >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
@@ -1221,7 +1221,7 @@
                             <td class="whitespace-nowrap"
                               ><a
                                 href="/pricing"
-                                class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                                 >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"
@@ -1237,7 +1237,7 @@
                             <td class="whitespace-nowrap"
                               ><a
                                 href="/pricing"
-                                class="sm:hover:text-default dark:sm:hover:text-blue-400 text-sm"
+                                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
                                 >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
                                   xmlns="http://www.w3.org/2000/svg"

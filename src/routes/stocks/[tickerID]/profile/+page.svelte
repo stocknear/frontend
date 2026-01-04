@@ -131,7 +131,7 @@ ${paragraphs.join("\n")}
           </div>
           <div class="lg:-mr-6 shrink-0 lg:float-right lg:w-[336px]">
             <div
-              class="mt-7 rounded border border-gray-300 dark:border-gray-600 bg-gray-200 shadow dark:bg-primary px-3 pb-2 pt-3 xs:px-4 xs:pt-4 lg:mt-1"
+              class="mt-7 rounded border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 px-3 pb-2 pt-3 xs:px-4 xs:pt-4 lg:mt-1"
             >
               <div class="text-center text-2xl font-semibold">
                 {$displayCompanyName}
@@ -146,7 +146,7 @@ ${paragraphs.join("\n")}
               <table class="w-full">
                 <tbody
                   ><tr
-                    class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2">Country</td>
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.country
@@ -156,7 +156,7 @@ ${paragraphs.join("\n")}
                   >
 
                   <tr
-                    class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2">IPO Date</td>
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.ipoDate !== null &&
@@ -171,38 +171,38 @@ ${paragraphs.join("\n")}
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2">Industry</td>
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       ><a
                         href={rawData?.industry
                           ? getIndustryHref(rawData?.industry)
                           : "#"}
-                        class="sm:hover:text-blue-800 dark:sm:hover:text-blue-400 underline underline-offset-4"
+                        class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition underline underline-offset-4"
                         >{rawData?.industry ?? "n/a"}</a
                       ></td
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2">Sector</td>
                     <td class="px-1 py-1.5 text-right lg:py-2">
                       <a
                         href={sectorNavigation?.find(
                           (item) => item?.title === rawData?.sector,
                         )?.link}
-                        class="sm:hover:text-blue-800 dark:sm:hover:text-blue-400 underline underline-offset-4"
+                        class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition underline underline-offset-4"
                         >{rawData?.sector ? rawData?.sector : "n/a"}</a
                       ></td
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2">Employees</td
                     >
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       ><a
-                        class="sm:hover:text-blue-800 dark:sm:hover:text-blue-400 underline underline-offset-4"
+                        class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition underline underline-offset-4"
                         href={`/stocks/${$stockTicker}/profile/employees`}
                         >{rawData?.fullTimeEmployees
                           ? new Intl.NumberFormat("en")?.format(
@@ -213,7 +213,7 @@ ${paragraphs.join("\n")}
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2">CEO</td>
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.ceo || "n/a"}</td
@@ -227,12 +227,12 @@ ${paragraphs.join("\n")}
               Contact Details
             </h2>
             <div
-              class="rounded border border-gray-300 dark:border-gray-600 bg-gray-200 shadow dark:bg-primary px-4 pb-2 pt-4"
+              class="rounded border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 px-4 pb-2 pt-4"
             >
               <table class="w-full">
                 <tbody
                   ><tr
-                    class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-0"
                     ><td colspan="2" class="pb-3"
                       ><div class="mb-2 text-lg font-bold">Address:</div>
                       <div>
@@ -248,12 +248,12 @@ ${paragraphs.join("\n")}
                   >
 
                   <tr
-                    class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-0"
                     ><td class="px-0.5 py-2 font-semibold">Website</td>
                     <td class="px-0.5 py-2 text-right">
                       <a
                         href={rawData?.website}
-                        class="sm:hover:text-muted dark:sm:hover:text-white truncate text-blue-800 dark:text-blue-400"
+                        class="truncate text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         target="_blank">{rawData?.website ?? "n/a"}</a
                       ></td
                     ></tr
@@ -263,12 +263,12 @@ ${paragraphs.join("\n")}
             </div>
             <h2 class="mt-6 xs:mt-8 font-bold text-2xl mb-2">Stock Details</h2>
             <div
-              class="rounded border border-gray-300 dark:border-gray-600 bg-gray-200 shadow dark:bg-primary px-2 pb-2 pt-2 xs:px-4 xs:pt-2.5"
+              class="rounded border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 px-2 pb-2 pt-2 xs:px-4 xs:pt-2.5"
             >
               <table class="w-full">
                 <tbody
                   ><tr
-                    class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >Ticker Symbol</td
                     >
@@ -277,14 +277,14 @@ ${paragraphs.join("\n")}
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2">Exchange</td>
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.exchange ?? "n/a"}</td
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >Fiscal Year</td
                     >
@@ -293,7 +293,7 @@ ${paragraphs.join("\n")}
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >Reporting Currency</td
                     >
@@ -302,14 +302,14 @@ ${paragraphs.join("\n")}
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2">CIK Code</td>
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.cik ?? "n/a"}</td
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >CUSIP Number</td
                     >
@@ -318,7 +318,7 @@ ${paragraphs.join("\n")}
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >ISIN Number</td
                     >
@@ -327,7 +327,7 @@ ${paragraphs.join("\n")}
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >Employer ID</td
                     >
@@ -336,7 +336,7 @@ ${paragraphs.join("\n")}
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2">SIC Code</td>
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.sicCode ?? "n/a"}</td
@@ -353,8 +353,8 @@ ${paragraphs.join("\n")}
             </h2>
             {#if rawData?.executives?.length > 0}
               <table class="mb-6 w-full xs:mb-8">
-                <thead class="text-white bg-default dark:bg-primary"
-                  ><tr class="border-y border-gray-300 dark:border-gray-600"
+                <thead class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  ><tr class="border-y border-gray-200/70 dark:border-zinc-800/80"
                     ><th
                       class="px-2 py-2.5 text-left font-semibold xs:px-3 xs:py-3 sm:px-4"
                       >Name</th
@@ -368,7 +368,7 @@ ${paragraphs.join("\n")}
                 <tbody>
                   {#each rawData?.executives as item}
                     <tr
-                      class="border-b border-gray-300 dark:border-gray-600 text-sm sm:text-[1rem]"
+                      class="border-b border-gray-200/70 dark:border-zinc-800/80 text-sm"
                       ><td
                         class="px-2 py-2.5 align-top font-semibold xs:px-3 xs:py-3 sm:px-4"
                         >{item?.name}</td
@@ -388,8 +388,8 @@ ${paragraphs.join("\n")}
             </h2>
             {#if rawData?.filings?.length > 0}
               <table class="w-full">
-                <thead class="text-white bg-default dark:bg-primary"
-                  ><tr class="border-y border-gray-300 dark:border-gray-600"
+                <thead class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  ><tr class="border-y border-gray-200/70 dark:border-zinc-800/80"
                     ><th
                       class="px-2 py-2.5 text-left font-semibold xs:px-3 xs:py-3 sm:px-4"
                       >Date</th
@@ -408,7 +408,7 @@ ${paragraphs.join("\n")}
                 <tbody>
                   {#each rawData?.filings as item}
                     <tr
-                      class="border-b border-gray-300 dark:border-gray-600 text-sm sm:text-[1rem]"
+                      class="border-b border-gray-200/70 dark:border-zinc-800/80 text-sm"
                       ><td
                         class="px-2 py-2.5 align-top font-semibold xs:px-3 xs:py-3 sm:px-4"
                         >{item?.date}</td
@@ -420,7 +420,7 @@ ${paragraphs.join("\n")}
                       <td
                         class="px-2 py-2.5 align-top font-semibold xs:px-3 xs:py-3 sm:px-4"
                         ><a
-                          class="text-blue-800 dark:text-blue-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:underline sm:hover:underline-offset-4"
+                          class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition sm:hover:underline sm:hover:underline-offset-4"
                           href={item?.link}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -437,10 +437,10 @@ ${paragraphs.join("\n")}
               No SEC filings available.
             {/if}
             <div
-              class="border-b border-gray-300 dark:border-gray-600 py-3 text-lg sm:text-xl font-semibold"
+              class="border-b border-gray-200/70 dark:border-zinc-800/80 py-3 text-lg sm:text-xl font-semibold"
             >
               <a
-                class="text-blue-800 dark:text-blue-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:underline sm:hover:underline-offset-4"
+                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition sm:hover:underline sm:hover:underline-offset-4"
                 href={`https://www.sec.gov/cgi-bin/browse-edgar?CIK=${rawData?.cik}&amp;count=100`}
                 target="_blank"
                 rel="noopener noreferrer">View All SEC Filings</a

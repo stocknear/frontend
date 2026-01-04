@@ -555,7 +555,7 @@ ${summaryData.outlook}
           {#if chats?.length !== 0}
             <!-- Header Card -->
             <div
-              class="border border-gray-300 dark:border-gray-700 rounded p-4 sm:p-6 mb-6 bg-gray-50 dark:bg-default"
+              class="border border-gray-200/70 dark:border-gray-700 rounded p-4 sm:p-6 mb-6 bg-white/70 dark:bg-zinc-950/40"
             >
               <div
                 class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
@@ -718,7 +718,7 @@ ${summaryData.outlook}
                       <div class="flex items-center gap-2">
                         <button
                           on:click={copyToClipboard}
-                          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-200/70 dark:border-zinc-800/80 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                         >
                           <svg
                             class="w-3.5 h-3.5"
@@ -737,7 +737,7 @@ ${summaryData.outlook}
                         </button>
                         <button
                           on:click={downloadMarkdown}
-                          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-200/70 dark:border-zinc-800/80 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                         >
                           <svg
                             class="w-3.5 h-3.5"
@@ -888,7 +888,7 @@ ${summaryData.outlook}
               {#each chats as item, i}
                 <div
                   class="group py-4 {i !== chats.length - 1
-                    ? 'border-b border-gray-200 dark:border-gray-800'
+                    ? 'border-b border-gray-200 dark:border-zinc-800/80'
                     : ''}"
                 >
                   <!-- Speaker Header -->
@@ -898,7 +898,7 @@ ${summaryData.outlook}
                         class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center flex-shrink-0"
                       >
                         <svg
-                          class="w-4 h-4 text-gray-600 dark:text-gray-300"
+                          class="w-4 h-4 text-gray-600 dark:text-zinc-300"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
                           fill="currentColor"
@@ -915,7 +915,7 @@ ${summaryData.outlook}
                       </span>
                     {:else}
                       <div
-                        class="w-8 h-8 rounded-full bg-[#3B82F6] flex items-center justify-center flex-shrink-0 text-white text-sm font-medium"
+                        class="w-8 h-8 rounded-full bg-gray-200/80 dark:bg-zinc-800/80 flex items-center justify-center flex-shrink-0 text-gray-700 dark:text-zinc-200 text-sm font-medium"
                       >
                         {item?.name?.slice(0, 1)}
                       </div>
@@ -928,7 +928,7 @@ ${summaryData.outlook}
                   <!-- Speech Content -->
                   <div class="pl-11">
                     <p
-                      class="text-sm sm:text-[15px] leading-relaxed text-gray-700 dark:text-gray-300"
+                      class="text-sm sm:text-[15px] leading-relaxed text-gray-700 dark:text-zinc-300"
                     >
                       {@html item?.description}
                     </p>
@@ -941,7 +941,7 @@ ${summaryData.outlook}
             <div class="flex justify-center mt-10 mb-6">
               <button
                 on:click={backToTop}
-                class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-[#202020] border border-gray-300 dark:border-gray-700 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80 rounded-full transition hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50"
               >
                 <svg
                   class="w-4 h-4"
@@ -968,7 +968,7 @@ ${summaryData.outlook}
           <div class="flex justify-center items-center h-80">
             <div class="relative">
               <label
-                class="bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                class="bg-gray-900/80 dark:bg-zinc-900/70 rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
               >
                 <span class="loading loading-spinner loading-md text-white"
                 ></span>

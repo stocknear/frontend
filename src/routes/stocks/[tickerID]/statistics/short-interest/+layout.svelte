@@ -18,7 +18,7 @@
         <aside class="inline-block relative w-full lg:w-1/4 mt-3">
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+              class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
               <a
                 href="/pricing"
@@ -38,7 +38,7 @@
           {/if}
 
           <div
-            class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4"
+            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
           >
             <h3 class="p-2 pt-4 text-xl font-semibold">Short Interest</h3>
             <div class=" p-2">
@@ -54,7 +54,7 @@
             <div class="px-2">
               <a
                 href="/learning-center/article/short-interest-what-it-means-for-traders-and-investors"
-                class="flex justify-center items-center rounded cursor-pointer w-full py-2 mt-3 text-[1rem] text-center font-semibold text-white dark:text-black m-auto sm:hover:bg-muted dark:sm:hover:bg-gray-300 bg-black dark:bg-[#fff] transition duration-100"
+                class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 Full Definition
               </a>
@@ -63,18 +63,18 @@
 
           {#if similarStocks?.length > 0}
             <div
-              class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4"
+              class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
               <h3 class="p-2 pt-4 text-xl font-semibold">Related Stocks</h3>
-              <table class="table table-sm table-compact w-full">
-                <thead class="text-muted dark:text-white"
+              <table class="table table-sm table-compact w-full text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
+                <thead class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                   ><tr
                     ><th
-                      class="whitespace-nowrap border-b border-gray-300 dark:border-gray-600 font-semibold text-[1rem] text-left px-2"
+                      class="whitespace-nowrap border-b border-gray-200/70 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-left px-2"
                       >Company</th
                     >
                     <th
-                      class="whitespace-nowrap border-b border-gray-300 dark:border-gray-600 font-semibold text-[1rem] text-right px-2"
+                      class="whitespace-nowrap border-b border-gray-200/70 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-right px-2"
                       >Short % Float</th
                     ></tr
                   ></thead
@@ -83,18 +83,18 @@
                   {#each similarStocks?.slice(0, 8) as item, index}
                     {#if item?.name}
                       <tr
-                        class="border-gray-300 dark:border-gray-600 text-[1rem] {index !==
+                        class="border-gray-200/70 dark:border-zinc-800/80 text-sm {index !==
                         similarStocks?.slice(0, 8)?.length - 1
                           ? 'border-b'
                           : ''}"
-                        ><td class="text-left text-[1rem] px-2"
+                        ><td class="text-left text-sm px-2"
                           ><a
                             href={`/stocks/${item?.symbol}/statistics/short-interest`}
-                            class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400"
+                            class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >{removeCompanyStrings(item?.name)}</a
                           ></td
                         >
-                        <td class="text-right cursor-normal text-[1rem] px-2"
+                        <td class="text-right cursor-normal text-sm px-2"
                           >{item?.shortFloatPercent
                             ? abbreviateNumber(item?.shortFloatPercent) + "%"
                             : "n/a"}</td
@@ -107,7 +107,7 @@
               <div class="px-2">
                 <a
                   href="/list/most-shorted-stocks"
-                  class="flex justify-center items-center rounded cursor-pointer w-full py-2 mt-3 text-[1rem] text-center font-semibold text-white dark:text-black m-auto sm:hover:bg-muted dark:sm:hover:bg-gray-300 bg-black dark:bg-[#fff] transition duration-100"
+                  class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
                 >
                   Short Interest Rankings
                 </a>

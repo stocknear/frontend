@@ -65,7 +65,7 @@
       >
         <main class="w-full">
           <nav
-            class="sm:ml-4 pt-1 text-sm sm:text-[1rem] whitespace-nowrap overflow-x-auto whitespace-nowrap"
+            class="sm:ml-4 pt-1 text-sm whitespace-nowrap overflow-x-auto whitespace-nowrap"
           >
             <ul class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base">
               <a
