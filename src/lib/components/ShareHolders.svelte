@@ -96,7 +96,7 @@
         animation: false,
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-center">${removeCompanyStrings($displayCompanyName)} Top Shareholders</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-center text-sm font-semibold tracking-tight">${removeCompanyStrings($displayCompanyName)} Top Shareholders</h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "black" : "white" },
       },
@@ -377,7 +377,9 @@
 <section class="overflow-hidden h-full pb-8">
   <main class="overflow-hidden">
     {#if shareholderList?.length !== 0}
-      <div class=" text-[1rem] mt-3">
+      <div
+        class="mt-3 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed"
+      >
         <p>
           Total Institutes of {rawData?.investorsHolding?.toLocaleString(
             "en-US",
@@ -385,14 +387,14 @@
           {rawData?.investorsHoldingChange >= 0
             ? "expanded their positions with an increase of"
             : "reduced their positions with a decrease of"}
-          <span class="font-semibold"
+          <span class="font-semibold text-gray-900 dark:text-white"
             >{Math.abs(rawData?.investorsHoldingChange)}</span
           >
           investors compared to the previous quarter.
           {rawData?.numberOf13FsharesChange >= 0
             ? "An additional"
             : "A reduction of"}
-          <span class="font-semibold">
+          <span class="font-semibold text-gray-900 dark:text-white">
             {@html abbreviateNumber(
               Math.abs(rawData?.numberOf13FsharesChange),
               false,
@@ -402,7 +404,7 @@
           shares, as total invested capital {rawData?.totalInvestedChange >= 0
             ? "grew by"
             : "declined by"}
-          <span class="font-semibold">
+          <span class="font-semibold text-gray-900 dark:text-white">
             {@html abbreviateNumber(
               Math.abs(rawData?.totalInvestedChange),
               true,
@@ -412,27 +414,29 @@
           {rawData?.ownershipPercent >= rawData?.lastOwnershipPercent
             ? "with ownership percentage increasing from"
             : "with ownership percentage dropping from"}
-          <span class="font-semibold"
+          <span class="font-semibold text-gray-900 dark:text-white"
             >{rawData?.lastOwnershipPercent?.toFixed(2)}%</span
           >
           to
-          <span class="font-semibold"
+          <span class="font-semibold text-gray-900 dark:text-white"
             >{rawData?.ownershipPercent?.toFixed(2)}%</span
           >.
         </p>
 
         <div
-          class="border border-gray-300 dark:border-gray-800 rounded w-full mt-3 shadow"
+          class="border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 w-full mt-4"
           use:highcharts={config}
         ></div>
       </div>
 
       {#if putCallRatio !== 0}
-        <h1 class=" font-semibold text-xl sm:text-2xl mb-3 mt-5">
+        <h1
+          class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3 mt-6"
+        >
           Options Activity
         </h1>
 
-        <div class="mt-3 text-md">
+        <div class="mt-2 text-sm text-gray-600 dark:text-zinc-400">
           Institutions are holding {callPercentage > 55
             ? "more Calls Contracts as Puts Contracts, indicating a bullish sentiment."
             : callPercentage < 45
@@ -446,11 +450,16 @@
           >
             <!--Start Put/Call-->
             <div
-              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 shadow border border-gray-300 dark:border-gray-600 bg-gray-200 dark:bg-primary rounded h-20"
+              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 rounded-2xl h-20"
             >
               <div class="flex flex-col items-start">
-                <span class="  text-sm sm:text-[1rem]">Put/Call</span>
-                <span class="text-start text-sm sm:text-[1rem]">
+                <span
+                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  >Put/Call</span
+                >
+                <span
+                  class="text-start text-sm text-gray-700 dark:text-zinc-200"
+                >
                   {putCallRatio?.toFixed(3)}
                 </span>
               </div>
@@ -467,7 +476,7 @@
                     cy="18"
                     r="16"
                     fill="none"
-                    class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
+                    class="stroke-current text-gray-200 dark:text-zinc-800"
                     stroke-width="3"
                   ></circle>
                   <!-- Progress Circle inside a group with rotation -->
@@ -477,7 +486,7 @@
                       cy="18"
                       r="16"
                       fill="none"
-                      class="stroke-current text-blue-800"
+                      class="stroke-current text-gray-600/70 dark:text-zinc-400"
                       stroke-width="3"
                       stroke-dasharray="100"
                       stroke-dashoffset={putCallRatio >= 1
@@ -490,7 +499,8 @@
                 <div
                   class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
                 >
-                  <span class="text-center text-sm"
+                  <span
+                    class="text-center text-sm text-gray-700 dark:text-zinc-200"
                     >{putCallRatio?.toFixed(2)}</span
                   >
                 </div>
@@ -500,11 +510,16 @@
             <!--End Put/Call-->
             <!--Start Call Flow-->
             <div
-              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 shadow border border-gray-300 dark:border-gray-600 bg-gray-200 dark:bg-primary rounded h-20"
+              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 rounded-2xl h-20"
             >
               <div class="flex flex-col items-start">
-                <span class="  text-sm sm:text-[1rem]">Call Flow</span>
-                <span class="text-start text-sm sm:text-[1rem]">
+                <span
+                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  >Call Flow</span
+                >
+                <span
+                  class="text-start text-sm text-gray-700 dark:text-zinc-200"
+                >
                   {new Intl.NumberFormat("en", {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0,
@@ -524,7 +539,7 @@
                     cy="18"
                     r="16"
                     fill="none"
-                    class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
+                    class="stroke-current text-gray-200 dark:text-zinc-800"
                     stroke-width="3"
                   ></circle>
                   <!-- Progress Circle inside a group with rotation -->
@@ -534,7 +549,7 @@
                       cy="18"
                       r="16"
                       fill="none"
-                      class="stroke-current text-[#00FC50]"
+                      class="stroke-current text-emerald-500/70 dark:text-emerald-400"
                       stroke-width="3"
                       stroke-dasharray="100"
                       stroke-dashoffset={(100 - callPercentage)?.toFixed(2)}
@@ -545,7 +560,8 @@
                 <div
                   class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
                 >
-                  <span class="text-center text-sm"
+                  <span
+                    class="text-center text-sm text-gray-700 dark:text-zinc-200"
                     >{callPercentage?.toFixed(0)}%</span
                   >
                 </div>
@@ -556,11 +572,16 @@
 
             <!--Start Put Flow-->
             <div
-              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 shadow border border-gray-300 dark:border-gray-600 bg-gray-200 dark:bg-primary rounded h-20"
+              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 rounded-2xl h-20"
             >
               <div class="flex flex-col items-start">
-                <span class="  text-sm sm:text-[1rem]">Put Flow</span>
-                <span class="text-start text-sm sm:text-[1rem]">
+                <span
+                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  >Put Flow</span
+                >
+                <span
+                  class="text-start text-sm text-gray-700 dark:text-zinc-200"
+                >
                   {new Intl.NumberFormat("en", {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0,
@@ -580,7 +601,7 @@
                     cy="18"
                     r="16"
                     fill="none"
-                    class="stroke-current text-gray-300 dark:text-[#3E3E3E]"
+                    class="stroke-current text-gray-200 dark:text-zinc-800"
                     stroke-width="3"
                   ></circle>
                   <!-- Progress Circle inside a group with rotation -->
@@ -590,7 +611,7 @@
                       cy="18"
                       r="16"
                       fill="none"
-                      class="stroke-current text-[#EE5365]"
+                      class="stroke-current text-rose-500/70 dark:text-rose-400"
                       stroke-width="3"
                       stroke-dasharray="100"
                       stroke-dashoffset={100 - putPercentage}
@@ -601,7 +622,8 @@
                 <div
                   class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
                 >
-                  <span class="text-center text-sm"
+                  <span
+                    class="text-center text-sm text-gray-700 dark:text-zinc-200"
                     >{putPercentage?.toFixed(0)}%</span
                   >
                 </div>
@@ -613,149 +635,143 @@
         </div>
       {/if}
 
-      <div
-        class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
-      >
-        <h2
-          class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold py-1 border-b border-gray-300 dark:border-gray-800 lg:border-none w-full"
-        >
-          Top Shareholders
-        </h2>
+      <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
         <div
-          class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+          class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
         >
-          <div class="relative lg:ml-auto w-full lg:w-fit">
-            <div
-              class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
-            >
-              {#if inputValue?.length > 0}
-                <label
-                  class="cursor-pointer"
-                  on:click={() => resetTableSearch()}
-                >
-                  <svg
-                    class="w-5 h-5"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    ><path
-                      fill="currentColor"
-                      d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                    /></svg
+          <h2
+            class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
+          >
+            Top Shareholders
+          </h2>
+          <div
+            class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+          >
+            <div class="relative lg:ml-auto w-full lg:w-fit">
+              <div
+                class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+              >
+                {#if inputValue?.length > 0}
+                  <label
+                    class="cursor-pointer"
+                    on:click={() => resetTableSearch()}
                   >
-                </label>
-              {/if}
+                    <svg
+                      class="w-5 h-5"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      ><path
+                        fill="currentColor"
+                        d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                      /></svg
+                    >
+                  </label>
+                {/if}
+              </div>
+
+              <input
+                bind:value={inputValue}
+                on:input={search}
+                type="text"
+                placeholder="Find..."
+                class="py-2 text-[0.85rem] sm:text-sm border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+              />
             </div>
 
-            <input
-              bind:value={inputValue}
-              on:input={search}
-              type="text"
-              placeholder="Find..."
-              class=" py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full sm:min-w-56 lg:max-w-14"
-            />
-          </div>
-
-          <div class="ml-2">
-            <DownloadData
-              {data}
-              rawData={shareholderList}
-              title={`13-institute-${$stockTicker}`}
-            />
+            <div class="ml-2">
+              <DownloadData
+                {data}
+                rawData={shareholderList}
+                title={`13-institute-${$stockTicker}`}
+              />
+            </div>
           </div>
         </div>
       </div>
 
-      <div
-        class="flex justify-start items-center w-full m-auto mt-3 overflow-x-auto"
-      >
-        <table
-          class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+      <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
+        <div
+          class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
         >
-          <thead>
-            <TableHeader {columns} {sortOrders} {sortData} />
-          </thead>
-          <tbody>
-            {#each displayList as item, index}
-              {#if item?.name?.length > 0}
-                <tr class="dark:sm:hover:bg-[#245073]/10">
-                  <td class=" text-sm sm:text-[1rem] whitespace-nowrap">
-                    <a
-                      href={"/hedge-funds/" + item?.cik}
-                      class="sm:hover:underline sm:hover:underline-offset-4"
-                    >
-                      {item?.name?.length > charNumber
-                        ? item?.name?.slice(0, charNumber) + "..."
-                        : item?.name}
-                    </a>
-                  </td>
-
-                  <td
-                    class=" text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                  >
-                    {item?.ownership <= 0.01
-                      ? "< 0.01%"
-                      : item?.ownership?.toFixed(2) + "%"}
-                  </td>
-
-                  <td
-                    class=" text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                  >
-                    {@html item?.sharesNumber !== null
-                      ? abbreviateNumber(item?.sharesNumber, false, true)
-                      : "-"}
-                  </td>
-
-                  <td
-                    class=" text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                  >
-                    {#if item?.changeInSharesNumberPercentage >= 0}
-                      <span class="text-emerald-600 dark:text-emerald-400"
-                        >+{abbreviateNumber(
-                          item?.changeInSharesNumberPercentage?.toFixed(2),
-                        )}%</span
+          <table
+            class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
+          >
+            <thead
+              class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+            >
+              <TableHeader {columns} {sortOrders} {sortData} />
+            </thead>
+            <tbody>
+              {#each displayList as item, index}
+                {#if item?.name?.length > 0}
+                  <tr class="transition-colors">
+                    <td class="text-sm whitespace-nowrap">
+                      <a
+                        href={"/hedge-funds/" + item?.cik}
+                        class="hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
-                    {:else if item?.changeInSharesNumberPercentage < 0}
-                      <span class="text-rose-600 dark:text-rose-400"
-                        >{abbreviateNumber(
-                          item?.changeInSharesNumberPercentage?.toFixed(2),
-                        )}%</span
-                      >
-                    {:else}
-                      -
-                    {/if}
-                  </td>
+                        {item?.name?.length > charNumber
+                          ? item?.name?.slice(0, charNumber) + "..."
+                          : item?.name}
+                      </a>
+                    </td>
 
-                  <td
-                    class=" text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                  >
-                    {item?.marketValue !== null
-                      ? abbreviateNumber(item?.marketValue)
-                      : "-"}
-                  </td>
+                    <td class="text-end text-sm whitespace-nowrap">
+                      {item?.ownership <= 0.01
+                        ? "< 0.01%"
+                        : item?.ownership?.toFixed(2) + "%"}
+                    </td>
 
-                  <td
-                    class=" text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                  >
-                    {item?.weight <= 0.01
-                      ? "< 0.01%"
-                      : item?.weight?.toFixed(2) + "%"}
-                  </td>
+                    <td class="text-end text-sm whitespace-nowrap">
+                      {@html item?.sharesNumber !== null
+                        ? abbreviateNumber(item?.sharesNumber, false, true)
+                        : "-"}
+                    </td>
 
-                  <td
-                    class=" text-end text-sm sm:text-[1rem] whitespace-nowrap"
-                  >
-                    {new Date(item?.filingDate)?.toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "2-digit",
-                      year: "numeric",
-                      timeZone: "UTC",
-                    })}
-                  </td>
-                </tr>
-              {/if}
-            {/each}
-          </tbody>
-        </table>
+                    <td class="text-end text-sm whitespace-nowrap">
+                      {#if item?.changeInSharesNumberPercentage >= 0}
+                        <span class="text-emerald-600 dark:text-emerald-400"
+                          >+{abbreviateNumber(
+                            item?.changeInSharesNumberPercentage?.toFixed(2),
+                          )}%</span
+                        >
+                      {:else if item?.changeInSharesNumberPercentage < 0}
+                        <span class="text-rose-600 dark:text-rose-400"
+                          >{abbreviateNumber(
+                            item?.changeInSharesNumberPercentage?.toFixed(2),
+                          )}%</span
+                        >
+                      {:else}
+                        -
+                      {/if}
+                    </td>
+
+                    <td class="text-end text-sm whitespace-nowrap">
+                      {item?.marketValue !== null
+                        ? abbreviateNumber(item?.marketValue)
+                        : "-"}
+                    </td>
+
+                    <td class="text-end text-sm whitespace-nowrap">
+                      {item?.weight <= 0.01
+                        ? "< 0.01%"
+                        : item?.weight?.toFixed(2) + "%"}
+                    </td>
+
+                    <td class="text-end text-sm whitespace-nowrap">
+                      {new Date(item?.filingDate)?.toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "2-digit",
+                        year: "numeric",
+                        timeZone: "UTC",
+                      })}
+                    </td>
+                  </tr>
+                {/if}
+              {/each}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- Pagination controls -->
@@ -827,7 +843,7 @@
                 <DropdownMenu.Group class="pb-2">
                   {#each rowsPerPageOptions as item}
                     <DropdownMenu.Item
-                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                      class="text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >
                       <label
                         on:click={() => changeRowsPerPage(item)}

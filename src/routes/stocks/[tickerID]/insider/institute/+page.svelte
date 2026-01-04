@@ -56,7 +56,11 @@
     >
       <div class="sm:pl-7 sm:pb-7 sm:pt-5 w-full m-auto mt-2 sm:mt-0">
         <div class="w-full">
-          <h1 class="text-xl sm:text-2xl font-bold">13F Institute Ownership</h1>
+          <h1
+            class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+          >
+            13F Institute Ownership
+          </h1>
         </div>
 
         <ShareHolders {data} />

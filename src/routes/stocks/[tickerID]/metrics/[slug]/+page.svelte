@@ -570,61 +570,57 @@
                     {categoryName}
                   </h2>
                   <div
-                    class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+                    class="mt-1 w-full flex flex-row items-center justify-end pb-1 pt-1 sm:pt-0 gap-1"
                   >
-                    <div class="ml-auto">
-                      <div class="inline-flex">
-                        <div
-                          class="inline-flex rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60"
+                    <!-- Tabs (segmented pill) -->
+                    <div
+                      class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-200/70 dark:border-zinc-800/80
+           "
+                    >
+                      {#each tabs as item, i (item)}
+                        <button
+                          on:click={() => handleTabClick(i)}
+                          class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
+          {activeIdx === i
+                            ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                            : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                         >
-                          {#each tabs as item, i (item)}
-                            <button
-                              on:click={() => handleTabClick(i)}
-                              class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
-                   {i === 0 ? ' border' : ''}
-                   {i === tabs?.length - 1 ? ' border-t border-r border-b' : ''}
-                   {i !== 0 && i !== tabs?.length - 1
-                                ? 'border-t border-b'
-                                : ''}
-                   {activeIdx === i
-                                ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
-                                : 'bg-white/80 border-gray-200/70 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-800/80'}"
-                            >
-                              {item}
-                            </button>
-                          {/each}
-                        </div>
-                      </div>
+                          {item}
+                        </button>
+                      {/each}
                     </div>
 
-                    <div class="ml-1 relative inline-block">
+                    <!-- Interval dropdown (kept separate, but styled to match height/feel) -->
+                    <div class="relative inline-block">
                       <DropdownMenu.Root>
                         <DropdownMenu.Trigger asChild let:builder>
                           <Button
                             builders={[builder]}
-                            class="flex-shrink-0 w-full sm:w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                            class="flex-shrink-0 transition-all border border-gray-200/70 dark:border-zinc-800/80
+                 bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900
+                 text-gray-900 dark:text-white rounded-full px-3 py-1.5 text-xs
+                 flex flex-row items-center gap-2 truncate disabled:opacity-60 disabled:cursor-not-allowed"
                           >
                             <span class="truncate">{selectedInterval}</span>
                             <svg
-                              class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
+                              class="h-4 w-4"
                               viewBox="0 0 20 20"
                               fill="currentColor"
-                              style="max-width:40px"
                               aria-hidden="true"
                             >
                               <path
                                 fill-rule="evenodd"
                                 d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                 clip-rule="evenodd"
-                              ></path>
+                              />
                             </svg>
                           </Button>
                         </DropdownMenu.Trigger>
+
                         <DropdownMenu.Content
                           side="bottom"
                           align="end"
                           sideOffset={10}
-                          alignOffset={0}
                           class="h-fit max-h-72 overflow-y-auto scroller"
                         >
                           <DropdownMenu.Group>
@@ -634,14 +630,15 @@
                             >
                               5Y
                             </DropdownMenu.Item>
+
                             <DropdownMenu.Item
                               on:click={() => changeStatement("10Y")}
-                              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row items-center"
+                              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 flex items-center"
                             >
                               10Y
                               {#if !isSubscribed}
                                 <svg
-                                  class="w-3 h-3 ml-auto inline-block"
+                                  class="w-3 h-3 ml-auto"
                                   viewBox="0 0 20 20"
                                   fill="currentColor"
                                 >
@@ -653,14 +650,15 @@
                                 </svg>
                               {/if}
                             </DropdownMenu.Item>
+
                             <DropdownMenu.Item
                               on:click={() => changeStatement("MAX")}
-                              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row items-center"
+                              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 flex items-center"
                             >
                               Max
                               {#if !isSubscribed}
                                 <svg
-                                  class="w-3 h-3 ml-auto inline-block"
+                                  class="w-3 h-3 ml-auto"
                                   viewBox="0 0 20 20"
                                   fill="currentColor"
                                 >

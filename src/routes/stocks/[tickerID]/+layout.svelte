@@ -588,8 +588,7 @@
                                 /></g
                               ></svg
                             >
-                            <span class="text-sm md:text-sm"
-                              >Price Alert</span
+                            <span class="text-sm md:text-sm">Price Alert</span
                             ></label
                           >
                         </div>
@@ -615,9 +614,11 @@
                     <!--Start Ticker Section-->
 
                     <nav
-                      class="pb-2 sm:ml-4 border-b border-gray-200/70 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
+                      class=" sm:ml-4 border-b border-gray-200/70 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
                     >
-                      <ul class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base">
+                      <ul
+                        class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base"
+                      >
                         <a
                           href={`/stocks/${$stockTicker}`}
                           on:click={() => changeSection("overview")}

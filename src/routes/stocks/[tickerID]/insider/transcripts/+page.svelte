@@ -276,21 +276,21 @@ ${summaryData.outlook}
     switch (sentiment?.toLowerCase()) {
       case "bullish":
         return {
-          text: "text-green-700 dark:text-green-400",
-          bg: "bg-green-100 dark:bg-green-900/40",
-          bar: "bg-green-500",
+          text: "text-emerald-700 dark:text-emerald-300",
+          bg: "bg-emerald-50/60 dark:bg-emerald-500/10",
+          bar: "bg-emerald-500/70 dark:bg-emerald-400",
         };
       case "bearish":
         return {
-          text: "text-red-700 dark:text-red-400",
-          bg: "bg-red-100 dark:bg-red-900/40",
-          bar: "bg-red-500",
+          text: "text-rose-700 dark:text-rose-300",
+          bg: "bg-rose-50/60 dark:bg-rose-500/10",
+          bar: "bg-rose-500/70 dark:bg-rose-400",
         };
       default:
         return {
-          text: "text-yellow-700 dark:text-yellow-400",
-          bg: "bg-yellow-100 dark:bg-yellow-900/40",
-          bar: "bg-yellow-500",
+          text: "text-amber-700 dark:text-amber-300",
+          bg: "bg-amber-50/60 dark:bg-amber-500/10",
+          bar: "bg-amber-500/70 dark:bg-amber-400",
         };
     }
   }
@@ -399,10 +399,19 @@ ${summaryData.outlook}
     <div class="relative flex justify-center items-center overflow-hidden">
       <div class="sm:p-7 w-full mt-2 sm:mt-0">
         <div class="mb-6">
-          <h1 class="text-xl sm:text-2xl font-bold mb-4">Transcripts</h1>
-
-          <div class="flex w-fit sm:w-[50%] md:block md:w-auto ml-auto">
-            <div class="relative inline-block text-left grow mr-2">
+          <div class="items-center lg:overflow-visible px-1 py-1">
+            <div
+              class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
+            >
+              <h1
+                class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
+              >
+                Transcripts
+              </h1>
+              <div
+                class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+              >
+                <div class="relative inline-block text-left grow mr-2">
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
@@ -430,7 +439,7 @@ ${summaryData.outlook}
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="min-w-40 h-fit max-h-72 overflow-y-auto scroller"
+                  class="min-w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                 >
                   <DropdownMenu.Group>
                     {#each yearRange as yr, index}
@@ -506,7 +515,7 @@ ${summaryData.outlook}
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="min-w-40 h-fit max-h-72 overflow-y-auto scroller"
+                  class="min-w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                 >
                   <DropdownMenu.Group>
                     {#each quarterRange as q, index}
@@ -548,6 +557,8 @@ ${summaryData.outlook}
                 </DropdownMenu.Content>
               </DropdownMenu.Root>
             </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -561,17 +572,19 @@ ${summaryData.outlook}
                 class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
               >
                 <div>
-                  <h2 class="text-lg sm:text-xl font-semibold">
+                  <h2
+                    class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                  >
                     Q{displayQuarter}
                     {displayYear} Earnings Call
                   </h2>
-                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  <p class="text-sm text-gray-500 dark:text-zinc-400 mt-1">
                     {$displayCompanyName} ({$stockTicker})
                   </p>
                 </div>
                 <div class="flex flex-col items-start sm:items-end gap-3">
                   <div
-                    class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400"
+                    class="flex items-center gap-2 text-sm text-gray-600 dark:text-zinc-400"
                   >
                     <svg
                       class="w-4 h-4"
@@ -683,7 +696,7 @@ ${summaryData.outlook}
                         </h3>
                       </div>
                       <div class="flex items-center gap-3">
-                        <span class="text-sm text-gray-600 dark:text-gray-400"
+                        <span class="text-sm text-gray-600 dark:text-zinc-400"
                           >Overall Sentiment:</span
                         >
                         <div class="flex items-center gap-2">
@@ -703,7 +716,7 @@ ${summaryData.outlook}
                               ></div>
                             </div>
                             <span
-                              class="text-xs text-gray-500 dark:text-gray-400"
+                              class="text-xs text-gray-500 dark:text-zinc-400"
                               >{summaryData?.sentimentScore ?? 50}%</span
                             >
                           </div>
@@ -760,10 +773,10 @@ ${summaryData.outlook}
                     <!-- Key Highlights -->
                     <div>
                       <h4
-                        class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2"
+                        class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
                       >
                         <svg
-                          class="w-4 h-4 text-yellow-500"
+                          class="w-4 h-4 text-gray-400 dark:text-zinc-500"
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
@@ -776,10 +789,10 @@ ${summaryData.outlook}
                       <ul class="space-y-2">
                         {#each summaryData?.keyHighlights ?? [] as highlight}
                           <li
-                            class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"
+                            class="flex items-start gap-2 text-sm text-gray-700 dark:text-zinc-200"
                           >
                             <svg
-                              class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"
+                              class="w-4 h-4 text-gray-400 dark:text-zinc-500 mt-0.5 flex-shrink-0"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                             >
@@ -798,10 +811,10 @@ ${summaryData.outlook}
                     <!-- Risks Section -->
                     <div>
                       <h4
-                        class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2"
+                        class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
                       >
                         <svg
-                          class="w-4 h-4 text-orange-500"
+                          class="w-4 h-4 text-gray-400 dark:text-zinc-500"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -818,10 +831,10 @@ ${summaryData.outlook}
                       <ul class="space-y-2">
                         {#each summaryData?.risks ?? [] as risk}
                           <li
-                            class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"
+                            class="flex items-start gap-2 text-sm text-gray-700 dark:text-zinc-200"
                           >
                             <svg
-                              class="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0"
+                              class="w-4 h-4 text-gray-400 dark:text-zinc-500 mt-0.5 flex-shrink-0"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                             >
@@ -840,7 +853,7 @@ ${summaryData.outlook}
                     <!-- Management Outlook -->
                     <div>
                       <h4
-                        class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2"
+                        class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
                       >
                         <svg
                           class="w-4 h-4 text-gray-400 dark:text-zinc-500"
@@ -888,7 +901,7 @@ ${summaryData.outlook}
               {#each chats as item, i}
                 <div
                   class="group py-4 {i !== chats.length - 1
-                    ? 'border-b border-gray-200 dark:border-zinc-800/80'
+                    ? 'border-b border-gray-200/70 dark:border-zinc-800/80'
                     : ''}"
                 >
                   <!-- Speaker Header -->
@@ -909,7 +922,7 @@ ${summaryData.outlook}
                         </svg>
                       </div>
                       <span
-                        class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide"
+                        class="text-sm font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wide"
                       >
                         {item?.name}
                       </span>
@@ -919,7 +932,7 @@ ${summaryData.outlook}
                       >
                         {item?.name?.slice(0, 1)}
                       </div>
-                      <span class="text-sm font-semibold">
+                      <span class="text-sm font-semibold text-gray-900 dark:text-white">
                         {item?.name}
                       </span>
                     {/if}
