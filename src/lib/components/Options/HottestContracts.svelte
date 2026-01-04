@@ -547,7 +547,7 @@
                         >+{item?.changeOI?.toLocaleString("en-US")}</span
                       >
                     {:else if item?.changeOI < 0}
-                      <span class="text-red-800 dark:text-[#FF2F1F]"
+                      <span class="text-rose-600 dark:text-rose-400"
                         >{item?.changeOI?.toLocaleString("en-US")}</span
                       >
                     {:else}

@@ -2258,7 +2258,7 @@
                     class=" text-sm sm:text-[1rem] text-end
                   {item?.optionType === 'Call'
                       ? 'text-green-800 dark:text-[#00FC50]'
-                      : 'text-red-800 dark:text-[#FF2F1F]'} "
+                      : 'text-rose-600 dark:text-rose-400'} "
                   >
                     {item?.optionType}
                   </td>
@@ -2283,7 +2283,7 @@
                           : item?.moneynessPercentage?.toFixed(2)}%</span
                       >
                     {:else}
-                      <span class="text-red-800 dark:text-[#FF2F1F]"
+                      <span class="text-rose-600 dark:text-rose-400"
                         >{item?.moneynessPercentage <= -1000
                           ? abbreviateNumber(item?.moneynessPercentage)
                           : item?.moneynessPercentage?.toFixed(2)}%
@@ -2309,7 +2309,7 @@
                           : item?.changesPercentageOI?.toFixed(1)}%</span
                       >
                     {:else if item?.changesPercentageOI < 0}
-                      <span class="text-red-800 dark:text-[#FF2F1F]"
+                      <span class="text-rose-600 dark:text-rose-400"
                         >{item?.changesPercentageOI <= -1000
                           ? abbreviateNumber(item?.changesPercentageOI)
                           : item?.changesPercentageOI?.toFixed(1)}%
@@ -2367,7 +2367,7 @@
                     class=" text-sm sm:text-[1rem] text-end
                 {item?.optionType === 'Call'
                       ? 'text-green-800 dark:text-[#00FC50]'
-                      : 'text-red-800 dark:text-[#FF2F1F]'} "
+                      : 'text-rose-600 dark:text-rose-400'} "
                   >
                     {item?.optionType}
                   </td>
@@ -2382,7 +2382,7 @@
                             class={item[row?.rule] > 0
                               ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
                               : item[row?.rule] < 0
-                                ? "text-red-800 dark:text-[#FF2F1F]"
+                                ? "text-rose-600 dark:text-rose-400"
                                 : ""}
                           >
                             {abbreviateNumber(item[row?.rule])}%
@@ -2397,7 +2397,7 @@
                               >{item[row?.rule]}</span
                             >
                           {:else if "Put" === item[row?.rule]}
-                            <span class=" text-red-800 dark:text-[#FF2F1F]"
+                            <span class=" text-rose-600 dark:text-rose-400"
                               >{item[row?.rule]}</span
                             >
                           {/if}
@@ -2452,7 +2452,7 @@
                     class=" text-sm sm:text-[1rem] text-end
                 {item?.optionType === 'Call'
                       ? 'text-green-800 dark:text-[#00FC50]'
-                      : 'text-red-800 dark:text-[#FF2F1F]'} "
+                      : 'text-rose-600 dark:text-rose-400'} "
                   >
                     {item?.optionType}
                   </td>

@@ -354,12 +354,14 @@
 
   const getGrowthDeltaClass = (value: unknown) => {
     const numericValue = Number(value);
-    if (!Number.isFinite(numericValue) || numericValue === 0) {
+    if (!Number?.isFinite(numericValue) || numericValue === 0) {
       return "";
     }
     return numericValue > 0
       ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-      : "text-red-800 dark:text-[#FF2F1F]";
+      : numericValue < 0
+        ? "text-rose-600 dark:text-rose-400"
+        : "text-gray-600 dark:text-zinc-300";
   };
 
   function formatModalMetricValue(value: number | null | undefined): string {
@@ -903,7 +905,7 @@
       </td>
       {#each data as item}
         <td
-          class={`text-sm sm:text-[0.95rem] text-end border-r border-gray-200/70 dark:border-zinc-800/80 text-gray-600 dark:text-zinc-300 tabular-nums ${field.isGrowth ? getGrowthDeltaClass(item[field.key]) : ""}`}
+          class={`text-sm sm:text-[0.95rem] text-end border-r border-gray-200/70 dark:border-zinc-800/80  tabular-nums ${field.isGrowth ? getGrowthDeltaClass(item[field.key]) : ""}`}
         >
           {formatValue(item[field.key], field.isMargin)}
         </td>

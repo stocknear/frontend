@@ -598,7 +598,7 @@
                     : item?.changesPercentage?.toFixed(2)}%</span
                 >
               {:else if item?.changesPercentage < 0 && item?.changesPercentage !== null}
-                <span class="text-red-800 dark:text-[#FF2F1F]"
+                <span class="text-rose-600 dark:text-rose-400"
                   >{item?.changesPercentage <= -1000
                     ? abbreviateNumber(item?.changesPercentage)
                     : item?.changesPercentage?.toFixed(2)}%
@@ -624,7 +624,7 @@
                     : item?.changesPercentageOI?.toFixed(2)}%</span
                 >
               {:else if item?.changesPercentageOI < 0 && item?.changesPercentageOI !== null}
-                <span class="text-red-800 dark:text-[#FF2F1F]"
+                <span class="text-rose-600 dark:text-rose-400"
                   >{item?.changesPercentageOI <= -1000
                     ? abbreviateNumber(item?.changesPercentageOI)
                     : item?.changesPercentageOI?.toFixed(2)}%

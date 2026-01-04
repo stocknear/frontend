@@ -682,7 +682,7 @@
                 class={avgReturn >= 0 && isSubscribed
                   ? "text-green-800 dark:text-[#00FC50]"
                   : avgReturn < 0 && isSubscribed
-                    ? "text-red-800 dark:text-[#FF2F1F]"
+                    ? "text-rose-600 dark:text-rose-400"
                     : ""}
               >
                 {#if isSubscribed}
@@ -882,7 +882,7 @@
                                 <span
                                   class={item?.change > 0
                                     ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-                                    : "text-red-800 dark:text-[#FF2F1F]"}
+                                    : "text-rose-600 dark:text-rose-400"}
                                 >
                                   {item?.change && item?.change !== null
                                     ? item?.change + "%"
@@ -997,7 +997,7 @@
                   class={medianChange >= 0 && isSubscribed
                     ? "text-green-800 dark:text-[#00FC50]"
                     : medianChange < 0 && isSubscribed
-                      ? "text-red-800 dark:text-[#FF2F1F]"
+                      ? "text-rose-600 dark:text-rose-400"
                       : ""}
                 >
                   {#if isSubscribed}
@@ -1254,25 +1254,25 @@
                             <td
                               class={lowChange > 0
                                 ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-                                : "text-red-800 dark:text-[#FF2F1F]"}
+                                : "text-rose-600 dark:text-rose-400"}
                               >{lowChange}%</td
                             >
                             <td
                               class={avgChange > 0
                                 ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-                                : "text-red-800 dark:text-[#FF2F1F]"}
+                                : "text-rose-600 dark:text-rose-400"}
                               >{avgChange}%</td
                             >
                             <td
                               class={medianChange > 0
                                 ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-                                : "text-red-800 dark:text-[#FF2F1F]"}
+                                : "text-rose-600 dark:text-rose-400"}
                               >{medianChange}%</td
                             >
                             <td
                               class={highChange > 0
                                 ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-                                : "text-red-800 dark:text-[#FF2F1F]"}
+                                : "text-rose-600 dark:text-rose-400"}
                               >{highChange}%</td
                             >
                           {/if}

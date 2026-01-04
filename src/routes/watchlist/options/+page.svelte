@@ -963,7 +963,7 @@
         Contract: <span
           class={optionType === "Calls"
             ? "text-green-800 dark:text-[#00FC50]"
-            : "text-red-800 dark:text-[#FF2F1F]"}
+            : "text-rose-600 dark:text-rose-400"}
           >{ticker}
           {strikePrice}
           {optionType}
@@ -1088,7 +1088,7 @@
                           >+{item?.changeOI?.toLocaleString("en-US")}</span
                         >
                       {:else if item?.changeOI < 0 && item?.changeOI !== null}
-                        <span class="text-red-800 dark:text-[#FF2F1F]"
+                        <span class="text-rose-600 dark:text-rose-400"
                           >{item?.changeOI?.toLocaleString("en-US")}</span
                         >
                       {:else}
@@ -1102,7 +1102,7 @@
                           >+{item?.changesPercentageOI + "%"}</span
                         >
                       {:else if item?.changesPercentageOI < 0 && item?.changesPercentageOI !== undefined}
-                        <span class="text-red-800 dark:text-[#FF2F1F]"
+                        <span class="text-rose-600 dark:text-rose-400"
                           >{item?.changesPercentageOI + "%"}</span
                         >
                       {:else if item?.changesPercentageOI === 0 && item?.changesPercentageOI !== undefined}

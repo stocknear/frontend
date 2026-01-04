@@ -594,7 +594,7 @@
               changesPercentage >= 0
                 ? "before:content-['+'] after:content-['%'] text-green-800 dark:text-[#00FC50]"
                 : changesPercentage && changesPercentage < 0
-                  ? "after:content-['%'] text-red-800 dark:text-[#FF2F1F]"
+                  ? "after:content-['%'] text-rose-600 dark:text-rose-400"
                   : ''}"
             >
               {changesPercentage ?? "n/a"}
@@ -766,7 +766,7 @@
                               0
                                 ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
                                 : upsideValue < 0
-                                  ? 'text-red-800 dark:text-[#FF2F1F]'
+                                  ? 'text-rose-600 dark:text-rose-400'
                                   : ''}"
                             >
                               {upsideValue?.toFixed(2)}%

@@ -443,7 +443,7 @@
             {@html callCount > putCount
               ? `showing a <span class="text-green-800 dark:text-[#00FC50]">bullish skew</span>`
               : putCount > callCount
-                ? `showing a <span class="text-red-800 dark:text-[#FF2F1F]">bearish skew</span>`
+                ? `showing a <span class="text-rose-600 dark:text-rose-400">bearish skew</span>`
                 : `showing <span>balanced</span> positioning`}. Sentiment
             analysis reveals
             <strong
@@ -551,7 +551,7 @@
                     'Bullish'
                       ? 'text-green-800 dark:text-[#00FC50]'
                       : item?.sentiment === 'Bearish'
-                        ? 'text-red-800 dark:text-[#FF2F1F]'
+                        ? 'text-rose-600 dark:text-rose-400'
                         : 'text-orange-800 dark:text-[#C8A32D]'} "
                   >
                     {item?.sentiment}

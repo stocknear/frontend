@@ -54,7 +54,7 @@
       class="{revenueRatio >= 0 && revenueRatio !== 'Infinity'
         ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
         : revenueRatio < 0 && revenueRatio !== 'Infinity'
-          ? 'text-red-800 dark:text-[#FF2F1F]'
+          ? 'text-rose-600 dark:text-rose-400'
           : 'text-muted dark:text-white'} "
       >{revenueRatio !== "Infinity"
         ? abbreviateNumber(revenueRatio) + "%"
@@ -67,7 +67,7 @@
       <span
         class="{epsRatio > 0
           ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-          : 'text-red-800 dark:text-[#FF2F1F]'} ">{epsRatio}%</span
+          : 'text-rose-600 dark:text-rose-400'} ">{epsRatio}%</span
       >
       {epsRatio > 0 ? "increase" : epsRatio < 0 ? "decrease" : ""} YoY.
     {:else}

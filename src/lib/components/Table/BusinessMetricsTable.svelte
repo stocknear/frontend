@@ -47,7 +47,7 @@
         {
           rootMargin: "200px", // Start loading 200px before visible
           threshold: 0.01,
-        }
+        },
       );
 
       observer.observe(containerElement);
@@ -145,7 +145,7 @@
                 growthNum > 0
                   ? "text-green-800 dark:text-[#00FC50]"
                   : growthNum < 0
-                    ? "text-red-800 dark:text-[#FF2F1F]"
+                    ? "text-rose-600 dark:text-rose-400"
                     : "";
             }
           }
@@ -174,38 +174,43 @@
     // Use override data if provided (for overview page with all categories)
     if (overrideDownloadData && overrideDownloadData.length > 0) {
       downloadData = overrideDownloadData;
-    } else if (!tableData.formattedDates || tableData.formattedDates.length === 0) {
+    } else if (
+      !tableData.formattedDates ||
+      tableData.formattedDates.length === 0
+    ) {
       downloadData = [];
     } else {
       // Create array of objects where each object is a column (date period)
-      downloadData = tableData.formattedDates.map((formattedDate, dateIndex) => {
-        const downloadRow: Record<string, any> = {
-          "Period Ending": formattedDate,
-        };
+      downloadData = tableData.formattedDates.map(
+        (formattedDate, dateIndex) => {
+          const downloadRow: Record<string, any> = {
+            "Period Ending": formattedDate,
+          };
 
-        // Add each metric's value for this date
-        tableData.rows.forEach((row) => {
-          const cell = row.cells[dateIndex];
-          if (cell && !cell.isPremium) {
-            downloadRow[row.name] = cell.formatted;
-            if (showGrowth && cell.growth !== "-") {
-              downloadRow[`${row.name} Growth`] = cell.growth;
+          // Add each metric's value for this date
+          tableData.rows.forEach((row) => {
+            const cell = row.cells[dateIndex];
+            if (cell && !cell.isPremium) {
+              downloadRow[row.name] = cell.formatted;
+              if (showGrowth && cell.growth !== "-") {
+                downloadRow[`${row.name} Growth`] = cell.growth;
+              }
+            } else if (cell?.isPremium) {
+              downloadRow[row.name] = "Premium";
+              if (showGrowth) {
+                downloadRow[`${row.name} Growth`] = "Premium";
+              }
+            } else {
+              downloadRow[row.name] = "-";
+              if (showGrowth) {
+                downloadRow[`${row.name} Growth`] = "-";
+              }
             }
-          } else if (cell?.isPremium) {
-            downloadRow[row.name] = "Premium";
-            if (showGrowth) {
-              downloadRow[`${row.name} Growth`] = "Premium";
-            }
-          } else {
-            downloadRow[row.name] = "-";
-            if (showGrowth) {
-              downloadRow[`${row.name} Growth`] = "-";
-            }
-          }
-        });
+          });
 
-        return downloadRow;
-      });
+          return downloadRow;
+        },
+      );
     }
   }
 </script>
@@ -219,89 +224,89 @@
   {:else}
     {#if first}
       <div class="items-center lg:overflow-visible">
-      <div
-        class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1"
-      >
-        <h2
-          class="text-start whitespace-nowrap text-xl sm:text-2xl font-bold py-1 w-full"
-        >
-          {removeCompanyStrings($displayCompanyName)}
-          {title}
-        </h2>
         <div
-          class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+          class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1"
         >
-          <div class="ml-auto">
-            <div class="inline-flex">
-              <div class="inline-flex rounded-lg shadow-sm">
-                {#each tabs as item, i (item)}
-                  <button
-                    on:click={() => handleTabClick(i)}
-                    class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
+          <h2
+            class="text-start whitespace-nowrap text-xl sm:text-2xl font-bold py-1 w-full"
+          >
+            {removeCompanyStrings($displayCompanyName)}
+            {title}
+          </h2>
+          <div
+            class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+          >
+            <div class="ml-auto">
+              <div class="inline-flex">
+                <div class="inline-flex rounded-lg shadow-sm">
+                  {#each tabs as item, i (item)}
+                    <button
+                      on:click={() => handleTabClick(i)}
+                      class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
                             {i === 0 ? 'rounded-l border' : ''}
                             {i === tabs?.length - 1
-                      ? 'rounded-r border-t border-r border-b'
-                      : ''}
+                        ? 'rounded-r border-t border-r border-b'
+                        : ''}
                             {i !== 0 && i !== tabs?.length - 1
-                      ? 'border-t border-b'
-                      : ''}
+                        ? 'border-t border-b'
+                        : ''}
                             {activeIdx === i
-                      ? 'bg-black dark:bg-white text-white dark:text-black'
-                      : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
-                  >
-                    {item}
-                  </button>
-                {/each}
+                        ? 'bg-black dark:bg-white text-white dark:text-black'
+                        : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
+                    >
+                      {item}
+                    </button>
+                  {/each}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="ml-2">
-            <DownloadData
-              {data}
-              rawData={downloadData}
-              title={overrideDownloadData
-                ? `${$stockTicker}_all_business_metrics_overview`
-                : `${$stockTicker}_${title?.toLowerCase().replace(/\s+/g, "_")}_metrics`}
-            />
+            <div class="ml-2">
+              <DownloadData
+                {data}
+                rawData={downloadData}
+                title={overrideDownloadData
+                  ? `${$stockTicker}_all_business_metrics_overview`
+                  : `${$stockTicker}_${title?.toLowerCase().replace(/\s+/g, "_")}_metrics`}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  {:else}
-    <h2 class="mt-5 text-xl font-bold mb-4">{title}</h2>
-  {/if}
+    {:else}
+      <h2 class="mt-5 text-xl font-bold mb-4">{title}</h2>
+    {/if}
 
-  <div
-    class="flex justify-start items-center w-screen sm:w-full mt-2 m-auto overflow-x-auto pr-5 sm:pr-0"
-  >
-    <table
-      class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+    <div
+      class="flex justify-start items-center w-screen sm:w-full mt-2 m-auto overflow-x-auto pr-5 sm:pr-0"
     >
-      <thead class="bg-default text-white w-full">
-        <tr>
-          <th
-            class="border-b border-r border-gray-800 font-semibold text-sm text-start"
-          >
-            Period Ending
-          </th>
-          {#each tableData.formattedDates as formattedDate (formattedDate)}
+      <table
+        class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+      >
+        <thead class="bg-default text-white w-full">
+          <tr>
             <th
-              class="z-20 border-b border-r min-w-[120px] border-gray-800 font-semibold text-sm text-end"
+              class="border-b border-r border-gray-800 font-semibold text-sm text-start"
             >
-              {formattedDate}
+              Period Ending
             </th>
-          {/each}
-        </tr>
-      </thead>
-      <tbody class="shadow w-full">
-        {#each tableData.rows as row, rowIndex (row.name)}
-          <tr class="w-full odd:bg-[#F6F7F8] dark:odd:bg-odd">
-            <th
-              class="whitespace-nowrap flex flex-row justify-between items-center text-sm sm:text-[1rem] font-normal text-start border-r border-gray-300 dark:border-gray-800"
-            >
-              {row.name}
-              <!--
+            {#each tableData.formattedDates as formattedDate (formattedDate)}
+              <th
+                class="z-20 border-b border-r min-w-[120px] border-gray-800 font-semibold text-sm text-end"
+              >
+                {formattedDate}
+              </th>
+            {/each}
+          </tr>
+        </thead>
+        <tbody class="shadow w-full">
+          {#each tableData.rows as row, rowIndex (row.name)}
+            <tr class="w-full odd:bg-[#F6F7F8] dark:odd:bg-odd">
+              <th
+                class="whitespace-nowrap flex flex-row justify-between items-center text-sm sm:text-[1rem] font-normal text-start border-r border-gray-300 dark:border-gray-800"
+              >
+                {row.name}
+                <!--
               <label
                 for="financialPlotModal"
                 on:click={() => handleChart(metrics[rowIndex], false)}
@@ -328,43 +333,43 @@
                 >
               </label>
               -->
-            </th>
-            {#each row.cells as cell, i}
-              <td
-                class="whitespace-nowrap text-sm sm:text-[1rem] text-end border-b border-r border-gray-300 dark:border-gray-800"
-              >
-                {#if cell?.isPremium && cell?.value !== null}
-                  <a
-                    href="/pricing"
-                    class="inline-flex items-center justify-end text-sm font-semibold"
-                  >
-                    Upgrade
-                    <svg
-                      class="ml-1 mt-px size-3.5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      style="max-width:40px"
+              </th>
+              {#each row.cells as cell, i}
+                <td
+                  class="whitespace-nowrap text-sm sm:text-[1rem] text-end border-b border-r border-gray-300 dark:border-gray-800"
+                >
+                  {#if cell?.isPremium && cell?.value !== null}
+                    <a
+                      href="/pricing"
+                      class="inline-flex items-center justify-end text-sm font-semibold"
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </a>
-                {:else}
-                  {cell.formatted}
-                {/if}
-              </td>
-            {/each}
-          </tr>
-          {#if showGrowth}
-            <tr>
-              <td
-                class="min-w-auto md:min-w-96 w-full whitespace-nowrap flex flex-row justify-between items-center text-sm sm:text-[1rem] font-normal text-start border-r border-gray-300 dark:border-gray-800"
-              >
-                <span class="ml-2 mr-5 md:mr-0">{row.name} Growth</span>
-                <!--
+                      Upgrade
+                      <svg
+                        class="ml-1 mt-px size-3.5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width:40px"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  {:else}
+                    {cell.formatted}
+                  {/if}
+                </td>
+              {/each}
+            </tr>
+            {#if showGrowth}
+              <tr>
+                <td
+                  class="min-w-auto md:min-w-96 w-full whitespace-nowrap flex flex-row justify-between items-center text-sm sm:text-[1rem] font-normal text-start border-r border-gray-300 dark:border-gray-800"
+                >
+                  <span class="ml-2 mr-5 md:mr-0">{row.name} Growth</span>
+                  <!--
                 <label
                   for="financialPlotModal"
                   on:click={() => handleChart(metrics[rowIndex], true)}
@@ -391,40 +396,40 @@
                   >
                 </label>
                 -->
-              </td>
-              {#each row.cells as cell, i}
-                <td
-                  class="text-sm sm:text-[1rem] text-end border-b border-r border-gray-300 dark:border-gray-800 {cell.growthClass}"
-                >
-                  {#if cell.isPremium && cell.growth !== "-"}
-                    <a
-                      href="/pricing"
-                      class="inline-flex items-center justify-end text-sm font-semibold text-muted dark:text-white"
-                    >
-                      Upgrade
-                      <svg
-                        class="ml-1 mt-px size-3.5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        style="max-width:40px"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                          clip-rule="evenodd"
-                        />
-                      </svg>
-                    </a>
-                  {:else}
-                    {cell.growth}
-                  {/if}
                 </td>
-              {/each}
-            </tr>
-          {/if}
-        {/each}
-      </tbody>
-    </table>
-  </div>
+                {#each row.cells as cell, i}
+                  <td
+                    class="text-sm sm:text-[1rem] text-end border-b border-r border-gray-300 dark:border-gray-800 {cell.growthClass}"
+                  >
+                    {#if cell.isPremium && cell.growth !== "-"}
+                      <a
+                        href="/pricing"
+                        class="inline-flex items-center justify-end text-sm font-semibold text-muted dark:text-white"
+                      >
+                        Upgrade
+                        <svg
+                          class="ml-1 mt-px size-3.5"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          style="max-width:40px"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </a>
+                    {:else}
+                      {cell.growth}
+                    {/if}
+                  </td>
+                {/each}
+              </tr>
+            {/if}
+          {/each}
+        </tbody>
+      </table>
+    </div>
   {/if}
 </section>

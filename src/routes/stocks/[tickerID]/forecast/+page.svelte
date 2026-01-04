@@ -1001,7 +1001,7 @@
                         class={lowChange > 0
                           ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
                           : lowChange < 0
-                            ? "text-red-800 dark:text-[#FF2F1F]"
+                            ? "text-rose-600 dark:text-rose-400"
                             : ""}
                         >{lowChange !== 0 ? lowChange + "%" : "n/a"}</td
                       >
@@ -1009,7 +1009,7 @@
                         class={avgChange > 0
                           ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
                           : avgChange < 0
-                            ? "text-red-800 dark:text-[#FF2F1F]"
+                            ? "text-rose-600 dark:text-rose-400"
                             : ""}
                         >{avgChange !== 0 ? avgChange + "%" : "n/a"}</td
                       >
@@ -1017,7 +1017,7 @@
                         class={medianChange > 0
                           ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
                           : medianChange < 0
-                            ? "text-red-800 dark:text-[#FF2F1F]"
+                            ? "text-rose-600 dark:text-rose-400"
                             : ""}
                         >{medianChange !== 0 ? medianChange + "%" : "n/a"}</td
                       >
@@ -1025,7 +1025,7 @@
                         class={highChange > 0
                           ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
                           : highChange < 0
-                            ? "text-red-800 dark:text-[#FF2F1F]"
+                            ? "text-rose-600 dark:text-rose-400"
                             : ""}
                         >{highChange !== 0 ? highChange + "%" : "n/a"}</td
                       ></tr

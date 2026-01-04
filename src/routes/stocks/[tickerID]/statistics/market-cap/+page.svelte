@@ -800,7 +800,7 @@
                             ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
                             : changePercentageYearAgo < 0 &&
                                 changePercentageYearAgo !== null
-                              ? 'text-red-800 dark:text-[#FF2F1F]'
+                              ? 'text-rose-600 dark:text-rose-400'
                               : ''}"
                         >
                           {changePercentageYearAgo >= 0
@@ -997,7 +997,7 @@
                             <span
                               class={item?.changesPercentage >= 0
                                 ? "text-green-800 dark:text-[#00FC50] before:content-['+']"
-                                : "text-red-800 dark:text-[#FF2F1F]"}
+                                : "text-rose-600 dark:text-rose-400"}
                             >
                               {item?.changesPercentage
                                 ? item?.changesPercentage + "%"

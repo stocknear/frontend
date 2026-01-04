@@ -3429,7 +3429,7 @@
                                             ? 'text-green-800 dark:text-[#00FC50]'
                                             : item?.action === 'SELL' &&
                                                 item?.action
-                                              ? 'text-red-800 dark:text-[#FF2F1F]'
+                                              ? 'text-rose-600 dark:text-rose-400'
                                               : ''}"
                                     >
                                         {item?.action ?? "n/a"}
@@ -3481,7 +3481,7 @@
                                             ? " before:content-['+'] text-green-800 dark:text-[#00FC50]"
                                             : item?.return_pct < 0 &&
                                                 item?.return_pct
-                                              ? 'text-red-800 dark:text-[#FF2F1F]'
+                                              ? 'text-rose-600 dark:text-rose-400'
                                               : ''}"
                                     >
                                         {item?.return_pct
@@ -3539,7 +3539,9 @@
                         </div>
 
                         <div class="flex flex-row items-center gap-4">
-                            <span class="text-sm text-gray-600 dark:text-zinc-300">
+                            <span
+                                class="text-sm text-gray-600 dark:text-zinc-300"
+                            >
                                 Page {tradeCurrentPage} of {tradeTotalPages}
                             </span>
 

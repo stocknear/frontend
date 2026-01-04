@@ -487,7 +487,7 @@
                   <span
                     class={`text-lg ${
                       (quote?.changesPercentage || 0) >= 0
-                        ? "text-green-800 dark:text-green-400"
+                        ? "text-emerald-600 dark:text-emerald-400"
                         : "text-red-800 dark:text-red-400"
                     }`}
                   >

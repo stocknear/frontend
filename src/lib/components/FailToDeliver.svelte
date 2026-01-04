@@ -613,7 +613,7 @@
                   class=" text-sm sm:text-[1rem] {item?.ftdChange > 0
                     ? "text-green-800 dark:text-[#00FC50] before:content-['+'] "
                     : item?.ftdChange < 0
-                      ? 'text-red-800 dark:text-red-400'
+                      ? 'text-rose-600 dark:text-rose-400'
                       : ''} text-right whitespace-nowrap"
                 >
                   {typeof item?.ftdChange === "number"
@@ -625,7 +625,7 @@
                   class=" text-sm sm:text-[1rem] {item?.ftdChangePercentage > 0
                     ? "text-green-800 dark:text-[#00FC50] before:content-['+'] "
                     : item?.ftdChangePercentage < 0
-                      ? 'text-red-800 dark:text-red-400'
+                      ? 'text-rose-600 dark:text-rose-400'
                       : ''} text-right whitespace-nowrap"
                 >
                   {typeof item?.ftdChangePercentage === "number"

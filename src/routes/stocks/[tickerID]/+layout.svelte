@@ -615,7 +615,7 @@
                     <!--Start Ticker Section-->
 
                     <nav
-                      class="sm:ml-4 border-b border-gray-200/70 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
+                      class="pb-2 sm:ml-4 border-b border-gray-200/70 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
                     >
                       <ul class="flex flex-row items-center w-full text-[1rem]">
                         <a
@@ -786,7 +786,9 @@
     <div
       class="mb-5 flex flex-row justify-between items-center border-b pb-2 border-gray-200/70 dark:border-zinc-800/80"
     >
-      <h3 class="font-semibold text-lg sm:text-xl text-gray-900 dark:text-white">
+      <h3
+        class="font-semibold text-lg sm:text-xl text-gray-900 dark:text-white"
+      >
         Add to Watchlist
       </h3>
       <label

@@ -132,7 +132,7 @@
                         >+{item?.changesPercentage?.toFixed(2)}%</span
                       >
                     {:else}
-                      <span class="text-red-800 dark:text-[#FF2F1F]"
+                      <span class="text-rose-600 dark:text-rose-400"
                         >{item?.changesPercentage?.toFixed(2)}%
                       </span>
                     {/if}

@@ -2323,121 +2323,123 @@
                 placeholder="Search indicators..."
               />
 
-            <!-- Clear Button - Shown only when searchQuery has input -->
-            {#if searchQuery?.length > 0}
-              <button
-                on:click={() => (searchQuery = "")}
-                aria-label="Clear"
-                title="Clear"
-                tabindex="0"
-                class="absolute right-2 top-1/2 transform -translate-y-1/2"
-              >
-                <svg
-                  class="h-5 w-5 text-icon cursor-pointer"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+              <!-- Clear Button - Shown only when searchQuery has input -->
+              {#if searchQuery?.length > 0}
+                <button
+                  on:click={() => (searchQuery = "")}
+                  aria-label="Clear"
+                  title="Clear"
+                  tabindex="0"
+                  class="absolute right-2 top-1/2 transform -translate-y-1/2"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  ></path>
-                </svg>
-              </button>
-            {/if}
-          </div>
-        </div>
-        <!-- Dropdown items -->
-        <DropdownMenu.Group class="pb-2">
-          {#if searchQuery?.length !== 0 && testList?.length === 0}
-            <div class="px-2 py-1 text-xs text-gray-500 dark:text-gray-400">
-              No indicators found
+                  <svg
+                    class="h-5 w-5 text-icon cursor-pointer"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    ></path>
+                  </svg>
+                </button>
+              {/if}
             </div>
-          {/if}
-          <!-- Added padding to avoid overlapping with Reset button -->
-          {#each searchQuery?.length !== 0 ? testList : indicatorRows as item}
-            <DropdownMenu.Item
-              class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
-            >
-              <div class="flex items-center">
-                {#if isRuleLocked(item?.rule)}
-                  <label
-                    on:click|capture={(event) => {
-                      event.preventDefault();
-                    }}
-                    class="cursor-pointer"
-                  >
-                    <input
-                      disabled={true}
-                      type="checkbox"
-                      class="cursor-pointer rounded border border-gray-200/70 dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 checked:bg-gray-900 dark:checked:bg-white"
-                      checked={ruleOfList.some(
-                        (listItem) => listItem.rule === item?.rule,
-                      )}
-                    />
-                    <span class="ml-2">{item?.name}</span>
-                  </label>
-                {:else if ["Pro", "Plus"]?.includes(data?.user?.tier) || excludedRules?.has(item?.rule)}
-                  <label
-                    on:click|capture={(event) => {
-                      event.preventDefault();
-                      handleChangeValue(item?.name);
-                    }}
-                    class="cursor-pointer"
-                    for={item?.name}
-                  >
-                    <input
-                      disabled={isRuleLocked(item?.rule)}
-                      type="checkbox"
-                      class="rounded border border-gray-200/70 dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 {isRuleLocked(item?.rule)
-                        ? 'checked:bg-gray-800 dark:checked:bg-zinc-200'
-                        : 'checked:bg-gray-900 dark:checked:bg-white'}"
-                      checked={ruleOfList.some(
-                        (listItem) => listItem.rule === item?.rule,
-                      )}
-                    />
-                    <span class="ml-2">{item?.name}</span>
-                  </label>
-                {:else}
-                  <a href="/pricing" class="cursor-pointer">
-                    <svg
-                      class="h-[18px] w-[18px] inline-block text-icon group-hover:text-dark-400"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      style="max-width:40px"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                    <span class="ml-2">{item?.name}</span>
-                  </a>
-                {/if}
+          </div>
+          <!-- Dropdown items -->
+          <DropdownMenu.Group class="pb-2">
+            {#if searchQuery?.length !== 0 && testList?.length === 0}
+              <div class="px-2 py-1 text-xs text-gray-500 dark:text-gray-400">
+                No indicators found
               </div>
-            </DropdownMenu.Item>
-          {/each}
-        </DropdownMenu.Group>
-        <!-- Reset Selection button -->
-        <div
-          class="sticky -bottom-1 bg-white/95 dark:bg-zinc-950/95 z-50 p-2 border-t border-gray-200/70 dark:border-zinc-800/80 w-full flex justify-between items-center"
-        >
-          <label
-            on:click={handleResetAll}
-            class="w-full text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 text-start text-sm cursor-pointer"
+            {/if}
+            <!-- Added padding to avoid overlapping with Reset button -->
+            {#each searchQuery?.length !== 0 ? testList : indicatorRows as item}
+              <DropdownMenu.Item
+                class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+              >
+                <div class="flex items-center">
+                  {#if isRuleLocked(item?.rule)}
+                    <label
+                      on:click|capture={(event) => {
+                        event.preventDefault();
+                      }}
+                      class="cursor-pointer"
+                    >
+                      <input
+                        disabled={true}
+                        type="checkbox"
+                        class="cursor-pointer rounded border border-gray-200/70 dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 checked:bg-gray-900 dark:checked:bg-white"
+                        checked={ruleOfList.some(
+                          (listItem) => listItem.rule === item?.rule,
+                        )}
+                      />
+                      <span class="ml-2">{item?.name}</span>
+                    </label>
+                  {:else if ["Pro", "Plus"]?.includes(data?.user?.tier) || excludedRules?.has(item?.rule)}
+                    <label
+                      on:click|capture={(event) => {
+                        event.preventDefault();
+                        handleChangeValue(item?.name);
+                      }}
+                      class="cursor-pointer"
+                      for={item?.name}
+                    >
+                      <input
+                        disabled={isRuleLocked(item?.rule)}
+                        type="checkbox"
+                        class="rounded border border-gray-200/70 dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 {isRuleLocked(
+                          item?.rule,
+                        )
+                          ? 'checked:bg-gray-800 dark:checked:bg-zinc-200'
+                          : 'checked:bg-gray-900 dark:checked:bg-white'}"
+                        checked={ruleOfList.some(
+                          (listItem) => listItem.rule === item?.rule,
+                        )}
+                      />
+                      <span class="ml-2">{item?.name}</span>
+                    </label>
+                  {:else}
+                    <a href="/pricing" class="cursor-pointer">
+                      <svg
+                        class="h-[18px] w-[18px] inline-block text-icon group-hover:text-dark-400"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width:40px"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                      <span class="ml-2">{item?.name}</span>
+                    </a>
+                  {/if}
+                </div>
+              </DropdownMenu.Item>
+            {/each}
+          </DropdownMenu.Group>
+          <!-- Reset Selection button -->
+          <div
+            class="sticky -bottom-1 bg-white/95 dark:bg-zinc-950/95 z-50 p-2 border-t border-gray-200/70 dark:border-zinc-800/80 w-full flex justify-between items-center"
           >
-            Reset Selection
-          </label>
-          <label
-            on:click={handleSelectAll}
-            class="w-full flex justify-end text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 text-start text-sm cursor-pointer"
-          >
-            Select All
-          </label>
-        </div>
+            <label
+              on:click={handleResetAll}
+              class="w-full text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 text-start text-sm cursor-pointer"
+            >
+              Reset Selection
+            </label>
+            <label
+              on:click={handleSelectAll}
+              class="w-full flex justify-end text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 text-start text-sm cursor-pointer"
+            >
+              Select All
+            </label>
+          </div>
         </DropdownMenu.Content>
       </DropdownMenu.Root>
     </div>
@@ -2661,7 +2663,7 @@
                       >+{item[column.key]?.toLocaleString("en-US")}</span
                     >
                   {:else if item[column.key] < 0}
-                    <span class="text-red-800 dark:text-[#FF2F1F]"
+                    <span class="text-rose-600 dark:text-rose-400"
                       >{item[column.key]?.toLocaleString("en-US")}</span
                     >
                   {/if}
@@ -2699,7 +2701,7 @@
                       >+{abbreviateNumber(item[column.key]?.toFixed(2))}%</span
                     >
                   {:else if item[column.key] < 0}
-                    <span class="text-red-800 dark:text-[#FF2F1F]"
+                    <span class="text-rose-600 dark:text-rose-400"
                       >{abbreviateNumber(item[column.key]?.toFixed(2))}%</span
                     >
                   {:else}
@@ -2716,7 +2718,7 @@
                         : ["Bearish", "Sell", "Strong Sell"]?.includes(
                               item[column.key],
                             )
-                          ? "text-red-800 dark:text-[#FF2F1F]"
+                          ? "text-rose-600 dark:text-rose-400"
                           : ""}
                   >
                     {item[column.key]}

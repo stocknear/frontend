@@ -82,9 +82,9 @@
     }
 
     function getScoreColor(score: string) {
-        if (score === "good") return "text-green-800 dark:text-green-400";
+        if (score === "good") return "text-emerald-600 dark:text-emerald-400";
         if (score === "moderate") return "text-yellow-800 dark:text-yellow-400";
-        return "text-red-800 dark:text-red-400";
+        return "text-rose-600 dark:text-rose-400";
     }
 
     function getScoreLabel(score: string) {

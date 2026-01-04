@@ -391,7 +391,7 @@
                 growthNum > 0
                   ? "text-green-800 dark:text-[#00FC50]"
                   : growthNum < 0
-                    ? "text-red-800 dark:text-[#FF2F1F]"
+                    ? "text-rose-600 dark:text-rose-400"
                     : "";
             }
           }

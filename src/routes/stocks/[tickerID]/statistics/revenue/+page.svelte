@@ -1000,7 +1000,7 @@
                                 +{item.changePercentageYoY.toFixed(2)}%
                               </span>
                             {:else}
-                              <span class="text-red-800 dark:text-[#FF2F1F]">
+                              <span class="text-rose-600 dark:text-rose-400">
                                 -{Math.abs(item.changePercentageYoY).toFixed(
                                   2,
                                 )}%
@@ -1019,7 +1019,7 @@
                               +{item.changePercentage.toFixed(2)}%
                             </span>
                           {:else}
-                            <span class="text-red-800 dark:text-[#FF2F1F]">
+                            <span class="text-rose-600 dark:text-rose-400">
                               -{Math.abs(item.changePercentage).toFixed(2)}%
                             </span>
                           {/if}

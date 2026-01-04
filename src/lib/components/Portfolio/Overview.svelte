@@ -300,14 +300,14 @@
 
     $: healthStatusColor = (() => {
         if (overallHealthStatus === "Excellent")
-            return "text-green-800 dark:text-green-400";
+            return "text-emerald-600 dark:text-emerald-400";
         if (overallHealthStatus === "Healthy")
-            return "text-green-800 dark:text-green-400";
+            return "text-emerald-600 dark:text-emerald-400";
         if (overallHealthStatus === "Neutral")
             return "text-yellow-800 dark:text-yellow-400";
         if (overallHealthStatus === "Bad")
-            return "text-red-800 dark:text-red-400";
-        return "text-red-800 dark:text-red-400";
+            return "text-rose-600 dark:text-rose-400";
+        return "text-rose-600 dark:text-rose-400";
     })();
 
     // --- Charts (reactive configs) ---
@@ -691,8 +691,8 @@
                                             <p
                                                 class="m-0 text-xl font-semibold tracking-tight {unrealizedReturns >=
                                                 0
-                                                    ? 'text-green-800 dark:text-green-400'
-                                                    : 'text-red-800 dark:text-red-400'}"
+                                                    ? 'text-emerald-600 dark:text-emerald-400'
+                                                    : 'text-rose-600 dark:text-rose-400'}"
                                                 data-testid="roi-value"
                                             >
                                                 {formatCurrency(
@@ -713,8 +713,8 @@
                                                     aria-label="Return percentage"
                                                     class={unrealizedReturns >=
                                                     0
-                                                        ? "text-green-800 dark:text-green-400"
-                                                        : "text-red-800 dark:text-red-400"}
+                                                        ? "text-emerald-600 dark:text-emerald-400"
+                                                        : "text-rose-600 dark:text-rose-400"}
                                                     >{unrealizedReturns >= 0
                                                         ? "+"
                                                         : ""}{unrealizedReturnsPercentage}%</span

@@ -1203,7 +1203,9 @@
                   <div class="w-fit ml-auto flex flex-row items-center gap-x-3">
                     <div class="">
                       <div class="inline-flex">
-                        <div class="inline-flex rounded shadow-sm border dark:border-gray-700">
+                        <div
+                          class="inline-flex rounded shadow-sm border dark:border-gray-700"
+                        >
                           {#each ["Price", "Vol/OI", "IV"] as item, i}
                             {#if !["Pro"]?.includes(data?.user?.tier) && i > 1}
                               <button
@@ -1414,7 +1416,7 @@
                               >+{item?.changeOI?.toLocaleString("en-US")}</span
                             >
                           {:else if item?.changeOI < 0 && item?.changeOI !== null}
-                            <span class="text-red-800 dark:text-[#FF2F1F]"
+                            <span class="text-rose-600 dark:text-rose-400"
                               >{item?.changeOI?.toLocaleString("en-US")}</span
                             >
                           {:else if item?.changeOI === 0 && item?.changeOI !== null}
@@ -1430,7 +1432,7 @@
                               >+{item?.changesPercentageOI + "%"}</span
                             >
                           {:else if item?.changesPercentageOI < 0 && item?.changesPercentageOI !== undefined}
-                            <span class="text-red-800 dark:text-[#FF2F1F]"
+                            <span class="text-rose-600 dark:text-rose-400"
                               >{item?.changesPercentageOI + "%"}</span
                             >
                           {:else if item?.changesPercentageOI === 0 && item?.changesPercentageOI !== undefined}

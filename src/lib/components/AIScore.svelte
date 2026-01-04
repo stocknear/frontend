@@ -62,7 +62,7 @@
                     ? 'text-green-800 dark:text-[#00FC50]'
                     : score >= 4
                       ? 'text-blue-800 dark:text-[#fff]'
-                      : 'text-red-800 dark:text-[#FF2F1F]'}"
+                      : 'text-rose-600 dark:text-rose-400'}"
                   stroke-width="3"
                   stroke-dasharray="100.48"
                   stroke-dashoffset={100.48 -

@@ -4208,7 +4208,7 @@ const handleKeyDown = (event) => {
                           : item?.changesPercentage?.toFixed(2)}%</span
                       >
                     {:else}
-                      <span class="text-red-800 dark:text-[#FF2F1F]"
+                      <span class="text-rose-600 dark:text-rose-400"
                         >{item?.changesPercentage <= -1000
                           ? abbreviateNumber(item?.changesPercentage)
                           : item?.changesPercentage?.toFixed(2)}%
@@ -4279,7 +4279,7 @@ const handleKeyDown = (event) => {
                           <span
                             class={item[row?.rule] >= 0
                               ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-                              : "text-red-800 dark:text-[#FF2F1F]"}
+                              : "text-rose-600 dark:text-rose-400"}
                           >
                             {abbreviateNumber(item[row?.rule])}%
                           </span>
@@ -4291,7 +4291,7 @@ const handleKeyDown = (event) => {
                               >{item[row?.rule]}</span
                             >
                           {:else if ["Strong Sell", "Sell"].includes(item[row?.rule])}
-                            <span class=" text-red-800 dark:text-[#FF2F1F]"
+                            <span class=" text-rose-600 dark:text-rose-400"
                               >{item[row?.rule]}</span
                             >
                           {:else if item[row?.rule] === "Hold"}
@@ -4351,7 +4351,7 @@ const handleKeyDown = (event) => {
                           )}%</span
                         >
                       {:else if item[row?.rule] < 0}
-                        <span class="text-red-800 dark:text-[#FF2F1F]"
+                        <span class="text-rose-600 dark:text-rose-400"
                           >{abbreviateNumber(
                             item[row?.rule]?.toFixed(2),
                           )}%</span
@@ -4410,7 +4410,7 @@ const handleKeyDown = (event) => {
                             >+{item[row?.rule]?.toFixed(2)}%</span
                           >
                         {:else if item[row?.rule] < 0}
-                          <span class="text-red-800 dark:text-[#FF2F1F]"
+                          <span class="text-rose-600 dark:text-rose-400"
                             >{item[row?.rule]?.toFixed(2)}%</span
                           >
                         {:else}
@@ -4422,7 +4422,7 @@ const handleKeyDown = (event) => {
                             >{item[row?.rule]}</span
                           >
                         {:else if ["Strong Sell", "Sell"].includes(item[row?.rule])}
-                          <span class=" text-red-800 dark:text-[#FF2F1F]"
+                          <span class=" text-rose-600 dark:text-rose-400"
                             >{item[row?.rule]}</span
                           >
                         {:else if item[row?.rule] === "Hold"}

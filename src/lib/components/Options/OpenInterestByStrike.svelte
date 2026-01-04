@@ -661,7 +661,7 @@
                   >{item?.put_call_ratio?.toFixed(2)}</span
                 >
               {:else if item?.put_call_ratio > 1 && item?.put_call_ratio !== null}
-                <span class=" text-red-800 dark:text-[#FF2F1F]"
+                <span class=" text-rose-600 dark:text-rose-400"
                   >{item?.put_call_ratio?.toFixed(2)}</span
                 >
               {:else}

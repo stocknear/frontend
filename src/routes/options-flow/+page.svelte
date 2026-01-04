@@ -2658,7 +2658,7 @@
                             >Bearish</span
                           >
                           <span
-                            class="font-semibold text-red-800 dark:text-[#FF2F1F]"
+                            class="font-semibold text-rose-600 dark:text-rose-400"
                             >{formatPremium(displayBearishPremium || 0)}</span
                           >
                         </div>
@@ -2933,7 +2933,7 @@
                       >
                       {#if data?.user?.tier === "Pro"}
                         <span
-                          class="text-sm font-semibold text-red-800 dark:text-[#FF2F1F]"
+                          class="text-sm font-semibold text-rose-600 dark:text-rose-400"
                         >
                           {formatPremium(displayPutPremium || 0)}
                         </span>
