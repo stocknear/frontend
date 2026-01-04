@@ -109,13 +109,13 @@
   {/if}
 
   <div
-    class="shadow mt-6 mb-4 flex flex-col divide-y divide-gray-300 dark:divide-gray-600 rounded border border-gray-300 dark:border-gray-600 sm:grid sm:grid-cols-3 sm:divide-x sm:divide-y-0"
+    class="mt-6 mb-4 grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 divide-y divide-gray-200/70 dark:divide-zinc-800/80 sm:divide-x sm:divide-y-0"
   >
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
-        <div class="text-[1rem] font-semibold">Total Stocks</div>
+        <div class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500">Total Stocks</div>
         <div
-          class="mt-1 break-words font-semibold leading-8 text-xl sm:text-2xl"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
         >
           {new Intl.NumberFormat("en")?.format(rawData?.length)}
         </div>
@@ -123,9 +123,9 @@
     </div>
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
-        <div class="text-[1rem] font-semibold">Total Market Cap</div>
+        <div class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500">Total Market Cap</div>
         <div
-          class="mt-1 break-words font-semibold leading-8 text-xl sm:text-2xl"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
         >
           {abbreviateNumber(totalMarketCap)}
         </div>
@@ -133,9 +133,9 @@
     </div>
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
-        <div class="text-[1rem] font-semibold">Total Revenue</div>
+        <div class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500">Total Revenue</div>
         <div
-          class="mt-1 break-words font-semibold leading-8 text-xl sm:text-2xl"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
         >
           {abbreviateNumber(totalRevenue)}
         </div>

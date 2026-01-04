@@ -42,34 +42,34 @@
 
 <!--Start Market Cap Group-->
 
-<section class="w-full overflow-hidden m-auto">
+<section class="w-full overflow-hidden m-auto text-gray-700 dark:text-zinc-200">
   <div class="mt-5">
-    <h2 class="mb-2 text-xl font-bold">Popular Lists</h2>
+    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white">Popular Lists</h2>
     <ul
-      class="list-outside list-disc space-y-1 p-1 pl-6 md:columns-2 md:gap-x-8 md:text-lg"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/highest-revenue">U.S. Companies With The Most Revenue</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/highest-income-tax"
           >U.S. Companies That Pay The Highest Taxes</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/most-employees">U.S. Companies With The Most Employees</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/most-ftd-shares"
           >U.S. Companies With The Most Fail-to-Deliver Shares</a
         >
@@ -78,43 +78,43 @@
   </div>
 
   <div>
-    <h2 class="mb-2 text-xl font-bold pt-10">Market Cap Groups</h2>
+    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">Market Cap Groups</h2>
     <ul
-      class="list-outside list-disc space-y-1 p-1 pl-6 md:columns-2 md:gap-x-8 md:text-lg"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/market-cap/mega-cap-stocks">Mega-Cap Stocks</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/market-cap/large-cap-stocks">Large-Cap Stocks</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/market-cap/mid-cap-stocks">Mid-Cap Stocks</a
         >
       </li>
       <li class="">
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/market-cap/small-cap-stocks">Small-Cap Stocks</a
         >
       </li>
       <li class="">
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/market-cap/micro-cap-stocks">Micro-Cap Stocks</a
         >
       </li>
       <li class="">
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/market-cap/nano-cap-stocks">Nano-Cap Stocks</a
         >
       </li>
@@ -122,19 +122,19 @@
   </div>
 
   <div>
-    <h2 class="mb-2 text-xl font-bold pt-10">Dividends Lists</h2>
+    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">Dividends Lists</h2>
     <ul
-      class="list-outside list-disc space-y-1 p-1 pl-6 md:columns-2 md:gap-x-8 md:text-lg"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/top-rated-dividend-stocks">Top-Rated Dividend Stocks</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/monthly-dividend-stocks"
           >Stocks That Pay Monthly Dividends</a
         >
@@ -142,13 +142,13 @@
 
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/dividend/dividend-kings">Dividend Kings</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/dividend/dividend-aristocrats">Dividend Aristocrats</a
         >
       </li>
@@ -157,25 +157,25 @@
   <!--End Market Cap Group-->
 
   <div>
-    <h2 class="mb-2 text-xl font-bold pt-10">Exchange Groups</h2>
+    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">Exchange Groups</h2>
     <ul
-      class="list-outside list-disc space-y-1 p-1 pl-6 md:columns-2 md:gap-x-8 md:text-lg"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/exchange/nasdaq">Listed on NASDAQ</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/exchange/nyse">Listed on NYSE</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/exchange/amex">Listed on AMEX</a
         >
       </li>
@@ -185,25 +185,25 @@
   <!--Start Index Group-->
 
   <div>
-    <h2 class="mb-2 text-xl font-bold pt-10">Index Groups</h2>
+    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">Index Groups</h2>
     <ul
-      class="list-outside list-disc space-y-1 p-1 pl-6 md:columns-2 md:gap-x-8 md:text-lg"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/index/dowjones">Listed on Dow Jones</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/index/nasdaq100">Listed on NASDAQ 100</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/index/sp500">Listed on S&P 500</a
         >
       </li>
@@ -213,58 +213,58 @@
   <!--End Index Group-->
 
   <div>
-    <h2 class="mb-2 text-xl font-bold pt-10">Options Lists</h2>
+    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">Options Lists</h2>
     <ul
-      class="list-outside list-disc space-y-1 p-1 pl-6 md:columns-2 md:gap-x-8 md:text-lg"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/highest-open-interest">Companies with Highest OI</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/highest-open-interest-change"
           >Companies with Highest OI Change</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/highest-option-iv-rank">Companies with Highest IV Rank</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/highest-option-premium">Companies with Highest Premium</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/highest-call-volume">Companies with Highest Call Volume</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/highest-put-volume">Companies with Highest Put Volume</a
         >
       </li>
 
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/highest-open-interest-by-contract"
           >Option Contracts with Highest Open Interest</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/highest-volume-by-contract"
           >Most Active Options by Contract</a
         >
@@ -274,65 +274,65 @@
 
   <!--Start Other Lists-->
   <div>
-    <h2 class="mb-2 text-xl font-bold pt-10">Other Lists</h2>
+    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">Other Lists</h2>
     <ul
-      class="list-outside list-disc space-y-1 p-1 pl-6 md:columns-2 md:gap-x-8 md:text-lg"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/faang">FAANG</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/magnificent-seven">Magnificent Seven</a
         >
       </li>
 
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/penny-stocks">Penny Stocks</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/most-shorted-stocks">Most Shorted Stocks</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/oversold-stocks/">Oversold Stocks</a
         >
       </li>
 
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/overbought-stocks/">Overbought Stocks</a
         >
       </li>
 
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/most-buybacks/">Biggest Buybacks</a
         >
       </li>
 
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/reit-stocks">All REITs</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/spacs-stocks">All SPACs</a
         >
       </li>
@@ -342,49 +342,49 @@
   <!--Start ETF Lists-->
 
   <div>
-    <h2 class="mb-2 text-xl font-bold pt-10">ETF Lists</h2>
+    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">ETF Lists</h2>
     <ul
-      class="list-outside list-disc space-y-1 p-1 pl-6 md:columns-2 md:gap-x-8 md:text-lg"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/etf/new-launches">New Launches</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/etf/etf-providers">ETF Providers</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/bitcoin-etfs">Bitcoin ETFs</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/ethereum-etfs">Ethereum ETFs</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/crypto-etfs">Crypto ETFs</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/covered-call-etfs">Covered Call ETFs</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/monthly-dividend-etfs">Monthly Dividend ETFs</a
         >
       </li>
@@ -392,99 +392,99 @@
   </div>
 
   <div>
-    <h2 class="mb-2 text-xl font-bold pt-10">
+    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">
       Category of Stocks Ranked by Market Cap
     </h2>
     <ul
-      class="list-outside list-disc space-y-1 p-1 pl-6 md:columns-2 md:gap-x-8 md:text-lg"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/mobile-games/">Mobile Games</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/social-media-stocks/">Social Media</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/clean-energy/">Clean Energy</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/esports/">E-Sports</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/car-company-stocks/">Car Companies</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/ai-stocks/">Artificial Intelligence</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/electric-vehicles/">Electric Vehicles</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/online-gambling/">Online Gambling</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/augmented-reality/">Augmented Reality</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/gaming-stocks/">Gaming</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/pharmaceutical-stocks/">Pharmaceuticals</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/online-dating/">Online Dating</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/virtual-reality/">Virtual Reality</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/sports-betting/">Sports Betting</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/metaverse/">Metaverse</a
         >
       </li>
@@ -493,51 +493,51 @@
 
   <!--Start Non-US Stocks Listed on US Exchanges-->
   <div>
-    <h2 class="mb-2 text-xl font-bold pt-10">
+    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">
       Non-US Stocks Listed on US Exchanges
     </h2>
     <ul
-      class="list-outside list-disc space-y-1 p-1 pl-6 md:columns-2 md:gap-x-8 md:text-lg"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/country/ca">Canada</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/country/cn">China</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/country/in">India</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/country/jp">Japan</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/country/de">Germany</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/country/il">Israel</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/country/gb">United Kingdom</a
         >
       </li>
@@ -548,73 +548,73 @@
 
   <!--Start Sector Group-->
   <div>
-    <h2 class="mb-2 text-xl font-bold pt-10">Sector Groups</h2>
+    <h2 class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10">Sector Groups</h2>
     <ul
-      class="list-outside list-disc space-y-1 p-1 pl-6 md:columns-2 md:gap-x-8 md:text-lg"
+      class="list-outside list-disc space-y-2 pl-5 text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-400 md:columns-2 md:gap-x-10"
     >
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/sector/financial">Financials</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/sector/healthcare">Healthcare</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/sector/technology">Technology</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/sector/industrials">Industrials</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/sector/energy">Energy</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/sector/utilities">Utilities</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/sector/consumer-cyclical">Consumer Cyclical</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/sector/real-estate">Real Estate</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/sector/basic-materials">Basic Materials</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/sector/communication-services">Communication Services</a
         >
       </li>
       <li>
         <a
-          class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/sector/consumer-defensive">Consumer Defensive</a
         >
       </li>

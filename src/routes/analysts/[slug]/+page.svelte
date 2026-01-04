@@ -348,18 +348,28 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 px-4 lg:px-3 mb-20"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 px-4 lg:px-3 mb-20 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-400">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+          >Home</a
+        >
       </li>
       <li>
-        <a href="/analysts" class="text-muted dark:text-gray-300">Analyst</a>
+        <a
+          href="/analysts"
+          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+          >Analyst</a
+        >
       </li>
 
-      <li class="text-muted dark:text-gray-300">{analystName ?? "n/a"}</li>
+      <li class="text-gray-500 dark:text-zinc-400">
+        {analystName ?? "n/a"}
+      </li>
     </ul>
   </div>
 
@@ -372,11 +382,11 @@
           <div class="w-full m-auto mt-12">
             <div class="items-center justify-between lg:flex">
               <div
-                class="flex space-x-3 border-b-[2px] border-below-title pb-3 lg:border-none lg:pb-0"
+                class="flex space-x-3 border-b border-gray-200/70 dark:border-zinc-800/80 pb-3 lg:border-none lg:pb-0"
               >
                 <div class="shrink-0">
                   <svg
-                    class="h-16 w-16 sm:h-20 sm:w-20 text-gray-500 dark:text-gray-200"
+                    class="h-16 w-16 sm:h-20 sm:w-20 text-gray-400 dark:text-zinc-300"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                     style="max-width:100px"
@@ -388,11 +398,11 @@
                   >
                 </div>
                 <div class="mt-0 pt-0.5 text-left">
-                  <h1 class="mb-0 text-2xl font-bold">
+                  <h1 class="mb-0 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
                     {analystName ?? "n/a"}
                   </h1>
                   <p
-                    class="mb-0.5 text-[1rem] font-semibold text-muted dark:text-gray-300"
+                    class="mb-0.5 text-sm font-medium text-gray-600 dark:text-zinc-400"
                   >
                     Stock Analyst at {companyName ?? "n/a"}
                   </p>
@@ -401,7 +411,7 @@
                       {#each Array.from({ length: 5 }) as _, i}
                         {#if i < Math?.floor(analystScore)}
                           <svg
-                            class="w-5 h-5 text-[#FFA500]"
+                            class="w-5 h-5 text-amber-400"
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="currentColor"
@@ -413,7 +423,7 @@
                           </svg>
                         {:else}
                           <svg
-                            class="w-5 h-5 text-gray-400 dark:text-gray-500"
+                            class="w-5 h-5 text-gray-300 dark:text-zinc-600"
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="currentColor"
@@ -426,47 +436,47 @@
                         {/if}
                       {/each}
                     </div>
-                    <span class="ml-1 text-[1rem]"
+                    <span class="ml-1 text-sm text-gray-500 dark:text-zinc-400"
                       >({analystScore ?? "n/a"})</span
                     >
                   </div>
                 </div>
               </div>
               <div
-                class="mt-4 grid grid-cols-2 overflow-hidden rounded border border-gray-300 dark:border-gray-600 py-2 text-center md:grid-cols-4 md:p-0 lg:mt-0 lg:border-none"
+                class="mt-4 grid grid-cols-2 overflow-hidden rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 py-2 text-center md:grid-cols-4 md:p-0 lg:mt-0 lg:border-none"
               >
                 <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
-                  <div class="text-2xl font-semibold tracking-tight">
+                  <div class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
                     # {rank ?? "n/a"}
                   </div>
                   <div
-                    class="text-[1rem] font-semibold leading-6 text-muted dark:text-gray-300"
+                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
                   >
                     Out of {numOfAnalysts ?? "n/a"} analysts
                   </div>
                 </div>
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l sm:border-gray-300 dark:sm:border-gray-600 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
                 >
-                  <div class="text-2xl font-bold tracking-tight">
+                  <div class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
                     {totalRatings ?? "n/a"}
                   </div>
                   <div
-                    class="text-[1rem] font-semibold leading-6 text-muted dark:text-gray-300"
+                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
                   >
                     Total ratings
                   </div>
                 </div>
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l sm:border-gray-300 dark:sm:border-gray-600 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
                 >
-                  <div class="text-2xl font-bold tracking-tight">
+                  <div class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={successRate >= 0 && successRate !== undefined
-                          ? "before:content-['+'] text-green-800 dark:text-[#36D984]"
+                          ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
                           : successRate < 0 && successRate !== undefined
-                            ? "text-red-800 dark:text-[#EF4444]"
+                            ? "text-rose-600 dark:text-rose-400"
                             : ""}
                         >{successRate !== undefined
                           ? successRate?.toFixed(2) + "%"
@@ -475,7 +485,7 @@
                     {:else}
                       <a href="/pricing" class="flex justify-center mb-2">
                         <svg
-                          class="size-6 text-muted dark:text-[#fff]"
+                          class="size-6 text-gray-400 dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -491,21 +501,21 @@
                     {/if}
                   </div>
                   <div
-                    class="text-[1rem] font-semibold leading-6 text-muted dark:text-gray-300"
+                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
                   >
                     Success rate
                   </div>
                 </div>
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l sm:border-gray-300 dark:sm:border-gray-600 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
                 >
-                  <div class="text-2xl font-bold tracking-tight">
+                  <div class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={avgReturn >= 0 && avgReturn !== undefined
-                          ? "before:content-['+'] text-green-800 dark:text-[#36D984]"
+                          ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
                           : avgReturn < 0 && avgReturn !== undefined
-                            ? "text-red-800 dark:text-[#EF4444]"
+                            ? "text-rose-600 dark:text-rose-400"
                             : ""}
                         >{avgReturn !== undefined
                           ? avgReturn?.toFixed(2) + "%"
@@ -514,7 +524,7 @@
                     {:else}
                       <a href="/pricing" class="flex justify-center mb-2">
                         <svg
-                          class="size-6 text-muted dark:text-[#fff]"
+                          class="size-6 text-gray-400 dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -530,7 +540,7 @@
                     {/if}
                   </div>
                   <div
-                    class="text-[1rem] font-semibold leading-6 text-muted dark:text-gray-300"
+                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
                   >
                     Average return
                   </div>
@@ -541,32 +551,34 @@
             {#if data?.getData?.mainSectors?.length > 0}
               <div class="mb-10 mt-10">
                 <div
-                  class="relative my-3 space-y-2 rounded border border-gray-300 dark:border-gray-600 sm:my-6 p-4"
+                  class="relative my-3 space-y-2 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 sm:my-6 p-4"
                 >
-                  <div class="flex flex-col sm:flex-row">
-                    <div class="mb-2 font-semibold sm:mb-0">Main Sectors:</div>
-                    <div class="flex flex-wrap gap-x-2 gap-y-3 sm:ml-2">
+                  <div class="flex flex-col sm:flex-row sm:items-center">
+                    <div class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500 sm:mb-0 sm:min-w-[120px]">
+                      Main Sectors:
+                    </div>
+                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 sm:ml-2">
                       {#each data?.getData?.mainSectors as item}
                         <a
                           href={sectorNavigation?.find(
                             (listItem) => listItem?.title === item,
                           )?.link}
-                          class="inline-block badge border-gray-300 dark:border-gray-800 rounded-[3px] bg-blue-100 dark:bg-primary duration-0 ml-1 px-3 m-auto text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted text-[1rem]"
+                          class="inline-flex items-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           {item}
                         </a>
                       {/each}
                     </div>
                   </div>
-                  <div class="flex flex-col sm:flex-row">
-                    <div class="mb-2 whitespace-nowrap font-semibold sm:mb-0">
+                  <div class="flex flex-col sm:flex-row sm:items-center">
+                    <div class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500 sm:mb-0 sm:min-w-[120px]">
                       Top Industries:
                     </div>
-                    <div class="flex flex-wrap gap-x-2 gap-y-3 sm:ml-2">
+                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 sm:ml-2">
                       {#each data?.getData?.mainIndustries as item}
                         <a
                           href={`/list/industry/${item?.replace(/ /g, "-")?.replace(/&/g, "and")?.replace(/-{2,}/g, "-")?.toLowerCase()}`}
-                          class="inline-block badge border-gray-300 dark:border-gray-800 rounded-[3px] bg-blue-100 dark:bg-primary duration-0 ml-1 px-3 m-auto text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted text-[1rem]"
+                          class="inline-flex items-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           {item}
                         </a>
@@ -579,10 +591,10 @@
 
             <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
               <div
-                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold py-1 border-b border-gray-300 dark:border-gray-800 lg:border-none w-full"
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
                 >
                   {rawData?.length?.toLocaleString("en-US")} Stocks
                 </h2>
@@ -616,7 +628,7 @@
                       on:input={search}
                       type="text"
                       placeholder="Find..."
-                      class=" py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full sm:min-w-56 lg:max-w-14"
+                      class="py-2 text-[0.85rem] sm:text-sm border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                     />
                   </div>
 
@@ -634,25 +646,25 @@
             {#if stockList?.length > 0}
               <div class="w-full m-auto mt-4">
                 <div
-                  class="w-full m-auto rounded-none sm:rounded mb-4 overflow-x-auto"
+                  class="w-full m-auto rounded-lg border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 mb-4 overflow-x-auto"
                 >
                   <table
-                    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+                    class="table table-sm table-compact w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                   >
                     <thead>
                       <TableHeader {columns} {sortOrders} {sortData} />
                     </thead>
-                    <tbody>
+                    <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
                       {#each stockList as item, index}
                         <tr
-                          class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
+                          class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 odd:bg-gray-50/60 dark:odd:bg-zinc-900/30"
                         >
                           <td class="hidden lg:table-cell"
                             ><button
                               on:click={() => openGraph(item?.ticker)}
                               class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
                               ><svg
-                                class="w-5 h-5 text-icon {checkedSymbol ===
+                                class="w-5 h-5 text-gray-400 dark:text-zinc-500 {checkedSymbol ===
                                 item?.ticker
                                   ? 'rotate-180'
                                   : ''}"
@@ -669,20 +681,20 @@
                           >
 
                           <td
-                            class="text-sm sm:text-[1rem] text-start whitespace-nowrap"
+                            class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-700 dark:text-zinc-200"
                           >
                             <HoverStockChart symbol={item?.ticker} />
                           </td>
 
                           <td
-                            class="text-sm sm:text-[1rem] text-start whitespace-nowrap"
+                            class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-700 dark:text-zinc-200"
                           >
                             {item?.name?.length > charNumber
                               ? item?.name?.slice(0, charNumber) + "..."
                               : item?.name}
                           </td>
                           <td
-                            class="text-sm sm:text-[1rem] text-start whitespace-nowrap"
+                            class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-700 dark:text-zinc-200"
                           >
                             <div class="flex flex-col sm:flex-row items-start">
                               <span class="mr-1">{item?.action_company}:</span>
@@ -692,11 +704,11 @@
                             </div>
                           </td>
 
-                          <td class=" text-sm sm:text-[1rem] whitespace-nowrap">
+                          <td class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200">
                             <div class="flex flex-row items-center justify-end">
                               {#if Math?.ceil(item?.adjusted_pt_prior) !== 0}
                                 <span
-                                  class="text-muted dark:text-gray-100 font-normal"
+                                  class="text-gray-500 dark:text-zinc-400 font-normal"
                                   >{Math?.ceil(item?.adjusted_pt_prior)}</span
                                 >
                                 <svg
@@ -712,11 +724,11 @@
                                     d="M4 12h16m0 0l-6-6m6 6l-6 6"
                                   /></svg
                                 >
-                                <span class=" font-semibold"
+                                <span class="font-semibold"
                                   >{Math?.ceil(item?.adjusted_pt_current)}</span
                                 >
                               {:else if Math?.ceil(item?.adjusted_pt_current) !== 0}
-                                <span class=" font-semibold"
+                                <span class="font-semibold"
                                   >{Math?.ceil(item?.adjusted_pt_current)}</span
                                 >
                               {:else}
@@ -726,29 +738,29 @@
                           </td>
 
                           <td
-                            class=" text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
                           >
                             {item?.price !== null ? item?.price : "n/a"}
                           </td>
 
                           <td
                             class="{item?.upside >= 0 && item?.upside !== null
-                              ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
+                              ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
                               : item?.upside < 0 && item?.upside !== null
-                                ? 'text-red-800 dark:text-[#FF2F1F]'
-                                : ''} text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                                ? 'text-rose-600 dark:text-rose-400'
+                                : ''} text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
                           >
                             {item?.upside !== null ? item?.upside + "%" : "n/a"}
                           </td>
 
                           <td
-                            class=" text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
                           >
                             {item?.ratings !== null ? item?.ratings : "n/a"}
                           </td>
 
                           <td
-                            class=" text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
                           >
                             {new Date(item?.date).toLocaleString("en-US", {
                               month: "short",
@@ -759,8 +771,8 @@
                           </td>
                         </tr>
                         {#if checkedSymbol === item?.ticker}
-                          <tr class=""
-                            ><td colspan="9" class="px-0" style=""
+                          <tr class="bg-white/80 dark:bg-zinc-950/60"
+                            ><td colspan="9" class="px-0"
                               ><div class="-mt-0.5 px-0 pb-2">
                                 <div class="relative h-[350px]">
                                   <div class="absolute top-0 w-full">

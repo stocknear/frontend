@@ -338,25 +338,37 @@
 </script>
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-40 pt-5 px-4 lg:px-3"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-500 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          >Home</a
+        >
       </li>
       {#if $page.url.pathname.startsWith("/list/industry")}
         <li>
-          <a href="/industry" class="text-muted dark:text-gray-300">Industry</a>
+          <a
+            href="/industry"
+            class="text-gray-500 dark:text-zinc-500 hover:text-violet-600 dark:hover:text-violet-400 transition"
+            >Industry</a
+          >
         </li>
       {:else}
         <li>
-          <a href="/list/" class="text-muted dark:text-gray-300">Lists</a>
+          <a
+            href="/list/"
+            class="text-gray-500 dark:text-zinc-500 hover:text-violet-600 dark:hover:text-violet-400 transition"
+            >Lists</a
+          >
         </li>
       {/if}
       {#if $page.url.pathname.startsWith("/list/")}
         <li>
-          <span class="text-muted dark:text-gray-300">
+          <span class="text-gray-500 dark:text-zinc-500">
             {combinedNavigation?.find(
               (item) => item?.link === $page.url.pathname,
             )?.title}
@@ -372,14 +384,14 @@
       <div class="ml-2 text-start w-full mb-2">
         {#each navigation as item}
           {#if item?.link === $page.url.pathname}
-            <h1 class="font-bold text-2xl">
+            <h1 class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
               {item?.title}
             </h1>
           {/if}
         {/each}
       </div>
 
-      <div class="border-b-[2px] w-full" />
+      <div class="border-b border-gray-200/70 dark:border-zinc-800/80 w-full" />
       <div
         class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
       >
@@ -390,18 +402,18 @@
         <aside class="inline-block relative w-full lg:w-1/4 mt-3">
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+              class="w-full rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4 mt-4 transition hover:bg-white/80 dark:hover:bg-zinc-900/60"
             >
               <a
                 href="/pricing"
-                class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+                class="w-full flex flex-col gap-2"
               >
-                <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-semibold sm:ml-3">
+                <div class="w-full flex justify-between items-center">
+                  <h2 class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500">
                     Pro Subscription
                   </h2>
                 </div>
-                <span class=" p-3 sm:ml-3 sm:mr-3 -mt-4">
+                <span class="text-sm text-gray-600 dark:text-zinc-400">
                   Upgrade now for unlimited access to all data, tools and no
                   ads.
                 </span>
@@ -410,34 +422,36 @@
           {/if}
 
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4 mt-4 transition hover:bg-white/80 dark:hover:bg-zinc-900/60"
           >
             <a
               href={"/watchlist/stocks"}
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+              class="w-full flex flex-col gap-2"
             >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">Watchlist</h2>
+              <div class="w-full flex justify-between items-center">
+                <h2 class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500">
+                  Watchlist
+                </h2>
               </div>
-              <span class="p-3 ml-3 mr-3">
+              <span class="text-sm text-gray-600 dark:text-zinc-400">
                 Build your watchlist to keep track of their performance.
               </span>
             </a>
           </div>
 
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4 mt-4 transition hover:bg-white/80 dark:hover:bg-zinc-900/60"
           >
             <a
               href={"/stock-screener"}
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+              class="w-full flex flex-col gap-2"
             >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">
+              <div class="w-full flex justify-between items-center">
+                <h2 class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500">
                   Stock Screener
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3">
+              <span class="text-sm text-gray-600 dark:text-zinc-400">
                 Build your Stock Screener to find profitable stocks.
               </span>
             </a>
