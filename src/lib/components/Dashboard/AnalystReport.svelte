@@ -4,79 +4,117 @@
   export let analystReport;
 </script>
 
-<section class="mx-auto lg:col-span-2 w-full">
-  <label class="inline-flex items-center text-left w-full"
-    ><h2 class="mb-2 text-xl font-bold leading-tight bp:text-2xl">
-      Analyst Insight Report
-    </h2>
-  </label>
-  {#if Object?.keys(analystReport)?.length > 0}
-    {analystReport?.insight}
+<section class="mx-auto lg:col-span-2 w-full text-gray-700 dark:text-zinc-200">
+  <h2
+    class="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
+  >
+    Analyst Insight Report
+  </h2>
 
-    <div class="text-muted dark:text-white mt-4">
+  {#if Object?.keys(analystReport)?.length > 0}
+    <div
+      class="text-sm sm:text-base leading-6 text-gray-600 dark:text-zinc-300"
+    >
+      {analystReport?.insight}
+    </div>
+
+    <div class="mt-4 text-sm text-gray-500 dark:text-zinc-400">
       According to {analystReport?.numOfAnalyst} analyst ratings, the average rating
       for
       <a
         href={`/stocks/${analystReport?.symbol}/forecast`}
-        class="text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted cursor-pointer"
+        class="font-semibold text-blue-700 dark:text-blue-300"
         >{analystReport?.symbol}</a
       >
-      stock is <strong>"{analystReport?.consensusRating}"</strong>. The 12-month
-      stock price forecast is
-      <strong>${analystReport?.highPriceTarget}</strong>, which is an {analystReport?.highPriceChange >
-      0
-        ? "increase"
-        : "decrease"} of <strong>{analystReport?.highPriceChange}%</strong> from
-      the latest price.
-    </div>
-    <table class="w-full text-right xs:text-sm sm: mt-5">
-      <thead
-        ><tr
-          class="border-b border-gray-300 dark:border-gray-600 font-normal text-sm sm:text-[1rem]"
-          ><th class="py-[3px] text-left font-semibold lg:py-0.5">Target</th>
-          <th class="font-semibold">Low</th>
-          <th class="font-semibold">Average</th>
-          <th class="font-semibold">Median</th>
-          <th class="font-semibold">High</th></tr
-        ></thead
+      is
+      <strong class="text-gray-900 dark:text-white"
+        >"{analystReport?.consensusRating}"</strong
+      >. The 12-month stock price forecast is
+      <strong class="text-gray-900 dark:text-white"
+        >${analystReport?.highPriceTarget}</strong
+      >, an {analystReport?.highPriceChange > 0 ? "increase" : "decrease"} of
+      <strong
+        class={analystReport?.highPriceChange > 0
+          ? "text-emerald-600 dark:text-emerald-400"
+          : "text-rose-600 dark:text-rose-400"}
+        >{Math.abs(analystReport?.highPriceChange ?? 0)}%</strong
       >
-      <tbody
-        ><tr
-          class="border-b border-gray-300 dark:border-gray-600 font-normal text-sm sm:text-[1rem]"
-          ><td class="py-[3px] text-left lg:py-0.5">Price</td>
-          <td>${analystReport?.lowPriceTarget}</td>
-          <td>${analystReport?.avgPriceTarget}</td>
-          <td>${analystReport?.medianPriceTarget}</td>
-          <td>${analystReport?.highPriceTarget}</td></tr
+      from the latest price.
+    </div>
+
+    <table class="w-full text-right text-sm sm:text-base mt-5">
+      <thead>
+        <tr
+          class="border-b border-gray-200/70 dark:border-zinc-800/80 text-gray-500 dark:text-zinc-500"
         >
-        <tr class="text-sm sm:text-[1rem]"
-          ><td class="py-[3px] text-left lg:py-0.5">Change</td>
+          <th
+            class="py-2 text-left font-semibold uppercase tracking-widest text-xs"
+          >
+            Target
+          </th>
+          <th class="font-semibold uppercase tracking-widest text-xs">Low</th>
+          <th class="font-semibold uppercase tracking-widest text-xs">Avg</th>
+          <th class="font-semibold uppercase tracking-widest text-xs">Median</th
+          >
+          <th class="font-semibold uppercase tracking-widest text-xs">High</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b border-gray-200/70 dark:border-zinc-800/80">
+          <td
+            class="py-2 text-left font-semibold text-gray-700 dark:text-zinc-200"
+          >
+            Price
+          </td>
+          <td class="text-gray-600 dark:text-zinc-300"
+            >${analystReport?.lowPriceTarget}</td
+          >
+          <td class="text-gray-600 dark:text-zinc-300"
+            >${analystReport?.avgPriceTarget}</td
+          >
+          <td class="text-gray-600 dark:text-zinc-300"
+            >${analystReport?.medianPriceTarget}</td
+          >
+          <td class="text-gray-600 dark:text-zinc-300"
+            >${analystReport?.highPriceTarget}</td
+          >
+        </tr>
+        <tr>
+          <td
+            class="py-2 text-left font-semibold text-gray-700 dark:text-zinc-200"
+          >
+            Change
+          </td>
           <td
             class={analystReport?.lowPriceChange > 0
-              ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-              : "text-red-800 dark:text-[#FF2F1F]"}
-            >{analystReport?.lowPriceChange}%</td
+              ? "before:content-['+'] text-emerald-600 dark:text-emerald-400 font-semibold"
+              : "text-rose-600 dark:text-rose-400 font-semibold"}
           >
+            {analystReport?.lowPriceChange ?? "0"}%
+          </td>
           <td
             class={analystReport?.avgPriceChange > 0
-              ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-              : "text-red-800 dark:text-[#FF2F1F]"}
-            >{analystReport?.avgPriceChange}%</td
+              ? "before:content-['+'] text-emerald-600 dark:text-emerald-400 font-semibold"
+              : "text-rose-600 dark:text-rose-400 font-semibold"}
           >
+            {analystReport?.avgPriceChange ?? "0"}%
+          </td>
           <td
             class={analystReport?.medianPriceChange > 0
-              ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-              : "text-red-800 dark:text-[#FF2F1F]"}
-            >{analystReport?.medianPriceChange}%</td
+              ? "before:content-['+'] text-emerald-600 dark:text-emerald-400 font-semibold"
+              : "text-rose-600 dark:text-rose-400 font-semibold"}
           >
+            {analystReport?.medianPriceChange ?? "0"}%
+          </td>
           <td
             class={analystReport?.highPriceChange > 0
-              ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-              : "text-red-800 dark:text-[#FF2F1F]"}
-            >{analystReport?.highPriceChange}%</td
-          ></tr
-        ></tbody
-      >
+              ? "before:content-['+'] text-emerald-600 dark:text-emerald-400 font-semibold"
+              : "text-rose-600 dark:text-rose-400 font-semibold"}
+          >
+            {analystReport?.highPriceChange ?? "0"}%
+          </td>
+        </tr>
+      </tbody>
     </table>
   {:else}
     <Infobox text="Currently, there are no new analyst reports available." />

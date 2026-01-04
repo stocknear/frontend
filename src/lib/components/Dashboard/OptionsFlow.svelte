@@ -5,15 +5,17 @@
   export let optionsFlowList;
 </script>
 
-<section>
-  <a href="/options-flow" class="inline-flex items-center"
+<section class="text-gray-700 dark:text-zinc-200">
+  <a
+    href="/options-flow"
+    class="inline-flex items-center gap-1 text-gray-900 dark:text-white group"
     ><h2
-      class="mb-2 text-xl font-bold leading-tight bp:text-2xl bp:leading-tight sm:hover:underline sm:hover:underline-offset-4"
+      class="mb-2 text-xl font-semibold tracking-tight sm:group-hover:underline sm:group-hover:underline-offset-4"
     >
       Unusual Options Orders
     </h2>
     <svg
-      class="h-5 w-5"
+      class="h-5 w-5 text-gray-400 dark:text-zinc-500 transition group-hover:text-gray-700 dark:group-hover:text-zinc-200"
       viewBox="0 0 20 20"
       fill="currentColor"
       style="max-width:40px"
@@ -26,72 +28,46 @@
     ></a
   >
   {#if optionsFlowList?.length > 0}
-    <table class="w-full text-sm sm:text-[1rem]">
-      <thead
-        ><tr
-          ><th
-            class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
-            >Symbol</th
-          >
-
-          <th
-            class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
-            >Prem</th
-          >
-          <th
-            class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
-            >Strike</th
-          >
-          <th
-            class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
-            >C/P</th
-          >
-          <th
-            class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
-            >Type</th
-          >
-        </tr></thead
-      >
+    <table class="w-full text-sm sm:text-[0.95rem] border-t border-gray-200/70 dark:border-zinc-800/80">
+      <thead>
+        <tr class="text-xs uppercase tracking-widest text-gray-500 dark:text-zinc-500">
+          <th class="py-2 text-left font-semibold">Symbol</th>
+          <th class="py-2 text-left font-semibold">Prem</th>
+          <th class="py-2 text-left font-semibold">Strike</th>
+          <th class="py-2 text-left font-semibold">C/P</th>
+          <th class="py-2 text-left font-semibold">Type</th>
+        </tr>
+      </thead>
       <tbody>
         {#each optionsFlowList as item}
-          <tr
-            ><td
-              class="whitespace-nowrap border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
-              ><a
+          <tr class="border-b border-gray-200/70 dark:border-zinc-800/80">
+            <td class="py-3 text-left whitespace-nowrap">
+              <a
                 href={`/${item?.underlying_type === "stock" ? "stocks" : "etf"}/${item?.ticker}/options/unusual-activity`}
-                class="text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted cursor-pointer"
+                class="text-blue-700 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-200 font-semibold"
                 >{item?.ticker}</a
-              ></td
-            >
-
-            <td
-              class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
-            >
-              {abbreviateNumber(item?.cost_basis)}</td
-            >
-            <td
-              class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
-              >{item?.strike_price}</td
-            >
-
-            <td
-              class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
-            >
+              >
+            </td>
+            <td class="py-3 text-left text-gray-600 dark:text-zinc-300">
+              {abbreviateNumber(item?.cost_basis)}
+            </td>
+            <td class="py-3 text-left text-gray-600 dark:text-zinc-300">
+              {item?.strike_price}
+            </td>
+            <td class="py-3 text-left">
               {#if item?.put_call === "Calls"}
-                <span class="text-green-800 dark:text-[#00FC50]"
+                <span class="text-emerald-600 dark:text-emerald-400 font-semibold"
                   >{item?.put_call}</span
                 >
               {:else}
-                <span class="text-red-800 dark:text-[#FF2F1F]"
+                <span class="text-rose-600 dark:text-rose-400 font-semibold"
                   >{item?.put_call}
                 </span>
               {/if}
             </td>
-
-            <td
-              class="border border-gray-300 dark:border-gray-800 px-2 py-1.5 text-left"
-              >{item?.option_activity_type}</td
-            >
+            <td class="py-3 text-left text-gray-600 dark:text-zinc-300">
+              {item?.option_activity_type}
+            </td>
           </tr>
         {/each}
       </tbody>
