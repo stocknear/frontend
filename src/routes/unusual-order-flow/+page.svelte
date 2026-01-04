@@ -1407,7 +1407,9 @@
         <div
           class="w-full flex flex-col sm:flex-row items-start sm:items-center sm:mt-4"
         >
-          <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          <h1
+            class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+          >
             Unusual Order Flow
           </h1>
           <span
@@ -1496,7 +1498,8 @@
                           e.preventDefault();
                           switchStrategy(item);
                         }}
-                        class="whitespace-nowrap cursor-pointer rounded-xl px-2 py-1.5 {item?.id === selectedStrategy
+                        class="whitespace-nowrap cursor-pointer rounded-xl px-2 py-1.5 {item?.id ===
+                        selectedStrategy
                           ? 'bg-gray-100/70 dark:bg-zinc-900/60'
                           : ''} hover:text-violet-600 dark:hover:text-violet-300"
                       >
@@ -1646,7 +1649,7 @@
                       }}
                     >
                       <svg
-                      class="ml-auto h-6 w-6 inline-block mr-3 text-gray-500 dark:text-zinc-400"
+                        class="ml-auto h-6 w-6 inline-block mr-3 text-gray-500 dark:text-zinc-400"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                         ><path
@@ -1679,7 +1682,9 @@
                     class="date-picker-driver font-semibold w-full sm:w-[160px] truncate sm:mr-3 py-2.5 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 justify-center sm:justify-start text-center sm:text-left border border-gray-200/70 dark:border-zinc-800/80 rounded-full hover:text-violet-600 dark:hover:text-violet-300"
                     builders={[builder]}
                   >
-                    <CalendarIcon class="mr-2 h-4 w-4 text-gray-500 dark:text-zinc-400" />
+                    <CalendarIcon
+                      class="mr-2 h-4 w-4 text-gray-500 dark:text-zinc-400"
+                    />
                     Pick a Date
                   </Button>
                 </Popover.Trigger>
@@ -1712,7 +1717,9 @@
           </button>
           <div class="flex flex-row items-center ml-auto justify-start">
             <div class="flex items-center gap-1">
-              <span class="inline-flex items-center text-xs text-gray-500 dark:text-zinc-400">
+              <span
+                class="inline-flex items-center text-xs text-gray-500 dark:text-zinc-400"
+              >
                 <svg
                   class="w-3 h-3 mr-1"
                   fill="currentColor"
@@ -1853,10 +1860,10 @@
                           ></path></svg
                         >
 
-                        <label class="text-left text-sm sm:text-[0.9rem]">
-                          <div
-                            class="font-medium text-gray-900 dark:text-white"
-                          >
+                        <label
+                          class="cursor-pointer text-left text-sm sm:text-[0.9rem]"
+                        >
+                          <div class="font-medium">
                             {result?.label}
                           </div>
                         </label>
@@ -2375,7 +2382,9 @@
                     <span
                       class="w-2 h-2 rounded-full bg-violet-500/70 dark:bg-violet-400/70"
                     ></span>
-                    <span class="text-gray-500 dark:text-zinc-400">Dark Pool</span>
+                    <span class="text-gray-500 dark:text-zinc-400"
+                      >Dark Pool</span
+                    >
                   </div>
                   <div class="flex items-center gap-1">
                     <span
@@ -2567,7 +2576,9 @@
         class="fixed w-full h-fit sticky -top-6 z-40 opacity-100 pb-6 pt-5 border-gray-200/70 dark:border-zinc-800/80 border-b bg-white/95 dark:bg-zinc-950/95"
       >
         <div class="flex flex-row items-center justify-between mb-2">
-          <h2 class="text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white">
+          <h2
+            class="text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
+          >
             Select screener filters ({allRows?.length} total)
           </h2>
           <label
@@ -2710,7 +2721,9 @@
   <div
     class="modal-box w-full p-6 rounded-2xl border bg-white/95 dark:bg-zinc-950/95 border-gray-200/70 dark:border-zinc-800/80 shadow-none"
   >
-    <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">New Filter</h1>
+    <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
+      New Filter
+    </h1>
 
     <form
       on:submit={createStrategy}
@@ -2815,7 +2828,9 @@
       {/if}
     </div>
 
-    <div class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-2 w-full">
+    <div
+      class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-2 w-full"
+    >
       <label
         for="mobileTooltip"
         class="mt-4 font-semibold text-xl m-auto flex justify-center cursor-pointer text-gray-700 dark:text-zinc-200"

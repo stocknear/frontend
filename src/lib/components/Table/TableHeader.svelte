@@ -103,7 +103,7 @@
 </script>
 
 <tr
-  class="bg-gray-50/80 dark:bg-zinc-900/60 border-b border-gray-200 dark:border-zinc-800/80 text-gray-600 dark:text-zinc-300"
+  class="bg-white/60 dark:bg-zinc-950/40 border-b border-gray-200/70 dark:border-zinc-800/80 text-gray-500 dark:text-zinc-400 z-20"
 >
   {#each columns as column}
     <th
