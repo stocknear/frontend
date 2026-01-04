@@ -53,18 +53,20 @@
         const isNegative = changesPercentage < 0;
 
         const lineColor = isNegative
-            ? "#CC261A"
+            ? $mode === "light"
+                ? "#dc2626"
+                : "#f87171"
             : $mode === "light"
-              ? "#137547"
-              : "#00FC50";
+              ? "#16a34a"
+              : "#34d399";
 
         const fillColorStart = isNegative
-            ? "rgba(204, 38, 26, 0.6)"
-            : "rgba(19, 117, 71, 0.6)";
+            ? "rgba(220, 38, 38, 0.18)"
+            : "rgba(22, 163, 74, 0.16)";
 
         const fillColorEnd = isNegative
-            ? "rgba(204, 38, 26, 0.01)"
-            : "rgba(19, 117, 71, 0.01)";
+            ? "rgba(220, 38, 38, 0.02)"
+            : "rgba(22, 163, 74, 0.02)";
 
         const baseDate =
             rawData && rawData?.length
@@ -184,19 +186,22 @@
 </script>
 
 {#if config}
-    <div class="rounded bg-white dark:bg-[#09090B] shadow overflow-hidden">
+    <div
+        class="rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 overflow-hidden text-gray-700 dark:text-zinc-200"
+    >
         <div
-            class="flex items-center justify-between px-2 py-1.5 sm:px-3 sm:py-2 border-b border-gray-200 dark:border-gray-700"
+            class="flex items-center justify-between px-2 py-1.5 sm:px-3 sm:py-2 border-b border-gray-200/70 dark:border-zinc-800/80"
         >
             <div class="flex items-center gap-1 sm:gap-2">
-                <span class="font-bold text-xs sm:text-sm"
+                <span
+                    class="text-xs sm:text-sm font-semibold tracking-tight text-gray-900 dark:text-white"
                     >{nameDict[symbol]}</span
                 >
             </div>
             <div
-                class="text-[10px] sm:text-xs font-semibold {isPositive
-                    ? 'text-green-600 dark:text-[#00FC50]'
-                    : 'text-red-600 dark:text-[#FF2F1F]'}"
+                class="text-[10px] sm:text-xs font-semibold tabular-nums {isPositive
+                    ? 'text-emerald-600 dark:text-emerald-400'
+                    : 'text-rose-600 dark:text-rose-400'}"
             >
                 ({isPositive ? "+" : ""}{changesPercentage?.toFixed(2)}%)
             </div>
@@ -207,17 +212,17 @@
                 <div class="flex flex-col items-center -mr-6">
                     <div class="-ml-5 flex flex-row items-stretch h-[90px]">
                         <div
-                            class="flex flex-col justify-between pr-1 text-[0.55rem] text-gray-500 dark:text-gray-400 select-none text-right w-4"
+                            class="flex flex-col justify-between pr-1 text-[0.55rem] text-gray-400 dark:text-zinc-500 select-none text-right w-4"
                         >
                             <div>2</div>
                             <div>1</div>
                             <div>0</div>
                         </div>
                         <div
-                            class="relative w-1.5 bg-slate-200 dark:bg-slate-700/60 overflow-hidden"
+                            class="relative w-1.5 bg-gray-200/70 dark:bg-zinc-800/70 overflow-hidden"
                         >
                             <div
-                                class="absolute bottom-0 left-0 right-0 bg-black dark:bg-blue-500 transition-all duration-500"
+                                class="absolute bottom-0 left-0 right-0 bg-gray-800/70 dark:bg-zinc-200/30 transition-all duration-500"
                                 style="height: {Math.min(
                                     relativeVolume * 50,
                                     100,
@@ -226,7 +231,7 @@
                         </div>
                     </div>
                     <div
-                        class="ml-1 mb-1 mt-1 text-[0.4rem] sm:text-[0.5rem] uppercase tracking-tighter text-gray-500 font-bold"
+                        class="ml-1 mb-1 mt-1 text-[0.4rem] sm:text-[0.5rem] uppercase tracking-wide text-gray-400 dark:text-zinc-500 font-semibold"
                     >
                         Relative Vol
                     </div>
@@ -236,7 +241,7 @@
             </div>
 
             <div
-                class="h-[40px] sm:h-[50px] px-2 pt-1 pb-2 border-t border-gray-100 dark:border-gray-800/50 bg-gray-50/50 dark:bg-white/5"
+                class="h-[40px] sm:h-[50px] px-2 pt-1 pb-2 border-t border-gray-200/70 dark:border-zinc-800/80 bg-gray-50/60 dark:bg-zinc-900/40"
             >
                 <!-- top row -->
                 <div
@@ -246,11 +251,11 @@
                     <div
                         class="min-w-0 text-[0.6rem] sm:text-[0.7rem] leading-none"
                     >
-                        <span class="py-0.5 block uppercase font-bold"
+                        <span class="py-0.5 block uppercase font-semibold text-gray-400 dark:text-zinc-500 tracking-wide"
                             >Bull</span
                         >
                         <span
-                            class="font-semibold text-green-600 dark:text-[#00FC50] whitespace-nowrap"
+                            class="font-semibold text-emerald-600 dark:text-emerald-400 whitespace-nowrap tabular-nums"
                         >
                             {bullPercentage}%
                             <span class="hidden sm:inline-block"
@@ -261,7 +266,7 @@
 
                     <!-- center -->
                     <div
-                        class="min-w-0 text-center text-[0.6rem] font-bold uppercase text-gray-400 leading-tight whitespace-nowrap"
+                        class="min-w-0 text-center text-[0.6rem] font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500 leading-tight whitespace-nowrap"
                     >
                         Option Flow
                     </div>
@@ -270,11 +275,11 @@
                     <div
                         class="min-w-0 text-[0.6rem] sm:text-[0.7rem] leading-none text-right"
                     >
-                        <span class=" py-0.5 block uppercase font-bold"
+                        <span class="py-0.5 block uppercase font-semibold text-gray-400 dark:text-zinc-500 tracking-wide"
                             >Bear</span
                         >
                         <span
-                            class="font-semibold text-red-600 dark:text-[#fa5157] whitespace-nowrap sm:-ml-4"
+                            class="font-semibold text-rose-600 dark:text-rose-400 whitespace-nowrap sm:-ml-4 tabular-nums"
                         >
                             <span class="hidden sm:inline-block"
                                 >({abbreviateNumber(bearPrem)})</span
@@ -286,10 +291,10 @@
 
                 <!-- bar -->
                 <div
-                    class="relative w-full h-1.5 bg-red-500 dark:bg-[#fa5157] rounded-full overflow-hidden"
+                    class="relative w-full h-1.5 bg-rose-500/30 dark:bg-rose-500/25 rounded-full overflow-hidden"
                 >
                     <div
-                        class="h-full bg-green-500 dark:bg-[#00FC50] transition-all duration-700"
+                        class="h-full bg-emerald-500/40 dark:bg-emerald-500/35 transition-all duration-700"
                         style="width: {bullPercentage}%"
                     ></div>
                 </div>

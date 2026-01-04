@@ -501,11 +501,6 @@
             </thead>
             <tbody>
               {#each data?.user?.tier !== "Pro" ? displayList?.slice(0, 3) : displayList as item, index}
-                {@const isCall = item?.optionType === "Calls"}
-                {@const isPut = item?.optionType === "Puts"}
-                {@const isBullish = item?.sentiment === "Bullish"}
-                {@const isBearish = item?.sentiment === "Bearish"}
-                {@const isNeutral = item?.sentiment === "Neutral"}
                 <tr
                   class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd relative {index +
                     1 ===
@@ -513,46 +508,6 @@
                   !['Pro']?.includes(data?.user?.tier)
                     ? 'opacity-[0.1]'
                     : ''}"
-                  style="background: {(() => {
-                    const baseColor =
-                      $mode === 'light'
-                        ? index % 2 === 0
-                          ? '#ffffff'
-                          : '#F6F7F8'
-                        : index % 2 === 0
-                          ? '#09090B'
-                          : '#1A1A1F';
-
-                    if ($mode === 'light') {
-                      if (isCall && isBullish) {
-                        return `linear-gradient(90deg, ${baseColor} 0%, rgba(34, 197, 94, 0.15) 60%, rgba(34, 197, 94, 0.25) 100%)`;
-                      }
-                      if (isCall && isBearish) {
-                        return `linear-gradient(90deg, ${baseColor} 0%, rgba(239, 68, 68, 0.15) 60%, rgba(239, 68, 68, 0.25) 100%)`;
-                      }
-                      if (isPut) {
-                        return `linear-gradient(90deg, ${baseColor} 0%, rgba(238, 83, 101, 0.15) 60%, rgba(238, 83, 101, 0.25) 100%)`;
-                      }
-                      if (isNeutral) {
-                        return `linear-gradient(90deg, ${baseColor} 0%, rgba(251, 146, 60, 0.15) 60%, rgba(251, 146, 60, 0.25) 100%)`;
-                      }
-                    } else {
-                      // Dark mode
-                      if (isCall && isBullish) {
-                        return `linear-gradient(90deg, ${baseColor} 0%, rgba(0, 252, 80, 0.08) 60%, rgba(0, 252, 80, 0.15) 100%)`;
-                      }
-                      if (isCall && isBearish) {
-                        return `linear-gradient(90deg, ${baseColor} 0%, rgba(255, 47, 31, 0.08) 60%, rgba(255, 47, 31, 0.15) 100%)`;
-                      }
-                      if (isPut) {
-                        return `linear-gradient(90deg, ${baseColor} 0%, rgba(238, 83, 101, 0.08) 60%, rgba(238, 83, 101, 0.15) 100%)`;
-                      }
-                      if (isNeutral) {
-                        return `linear-gradient(90deg, ${baseColor} 0%, rgba(200, 163, 45, 0.08) 60%, rgba(200, 163, 45, 0.15) 100%)`;
-                      }
-                    }
-                    return baseColor;
-                  })()}"
                 >
                   <td
                     class=" text-sm sm:text-[1rem] text-start whitespace-nowrap flex flex-row items-center justify-between"
