@@ -590,7 +590,7 @@
                 >
                   {presentValue && presentValue > 0 ? presentValue : "n/a"}
                   <span
-                    class="ml-2 px-2 py-1 rounded-md font-medium text-sm {upsidePresentValue >=
+                    class="ml-2 px-2 py-1 rounded-full font-medium text-sm {upsidePresentValue >=
                       0 && presentValue > 0
                       ? "before:content-['+'] bg-green-200 text-green-800 dark:bg-green-900/20 dark:text-[#00FC50]"
                       : upsidePresentValue < 0 && presentValue > 0
@@ -611,7 +611,7 @@
                     ? totalFutureValue
                     : "n/a"}
                   <span
-                    class="ml-2 px-2 py-1 rounded-md font-medium text-sm {upsideTotalFutureValue >=
+                    class="ml-2 px-2 py-1 rounded-full font-medium text-sm {upsideTotalFutureValue >=
                       0 && totalFutureValue > 0
                       ? "before:content-['+'] bg-green-200 text-green-800 dark:bg-green-900/20 dark:text-[#00FC50]"
                       : upsideTotalFutureValue < 0 && totalFutureValue > 0

@@ -774,7 +774,7 @@
                     class=" mb-1 mt-2 overflow-x-auto px-1.5 text-center md:mb-0 md:px-0 lg:mt-5"
                   >
                     <table
-                      class="table table-sm table-compact w-full text-right text-tiny xs:text-sm"
+                      class="table table-sm table-compact w-full text-right text-xs sm:text-sm"
                     >
                       <thead>
                         <tr
@@ -1090,7 +1090,7 @@
                   <div
                     class=" mb-1 mt-2 overflow-x-auto px-1.5 text-center md:mb-0 md:px-0 lg:mt-5"
                   >
-                    <table class="w-full text-right text-tiny xs:text-sm">
+                    <table class="w-full text-right text-xs sm:text-sm">
                       <thead
                         ><tr
                           class="border-b border-gray-200/70 dark:border-zinc-800/80 font-normal text-sm"

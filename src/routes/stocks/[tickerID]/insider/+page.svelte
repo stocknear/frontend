@@ -1031,7 +1031,7 @@ ${summaryData.outlook}
        <DropdownMenu.Group>
         {#each transactionList as item}
          <DropdownMenu.Item
-          class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+          class="text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
          >
           <div
            on:click|capture={(event) => event.preventDefault()}
@@ -1055,7 +1055,7 @@ ${summaryData.outlook}
      <button
       on:click={generateSummary}
       disabled={isGeneratingSummary || originalData?.length === 0}
-      class="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 rounded transition-colors"
+      class="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 disabled:opacity-60"
      >
       {#if isGeneratingSummary}
        <span class="loading loading-spinner loading-xs"></span>
@@ -1085,25 +1085,25 @@ ${summaryData.outlook}
     <!-- AI Summary Panel -->
     {#if showSummary}
      <div
-      class="border border-purple-300 dark:border-purple-800 rounded p-4 sm:p-6 mb-4 bg-purple-50 dark:bg-purple-950/30"
+      class="border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-6 mb-4 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200"
      >
       {#if isGeneratingSummary}
        <!-- Loading State -->
        <div class="flex flex-col items-center justify-center py-8">
         <div class="relative">
          <div
-          class="w-12 h-12 border-4 border-purple-200 dark:border-purple-800 rounded-full"
+          class="w-12 h-12 border-4 border-gray-200/80 dark:border-zinc-800/80 rounded-full"
          ></div>
          <div
-          class="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin absolute top-0 left-0"
+          class="w-12 h-12 border-4 border-gray-900/80 border-t-transparent dark:border-white/80 rounded-full animate-spin absolute top-0 left-0"
          ></div>
         </div>
         <p
-         class="mt-4 text-sm text-purple-700 dark:text-purple-300 font-medium"
+         class="mt-4 text-sm text-gray-700 dark:text-zinc-200 font-medium"
         >
          Analyzing insider trading data with AI...
         </p>
-        <p class="mt-1 text-xs text-purple-500 dark:text-purple-400">
+        <p class="mt-1 text-xs text-gray-500 dark:text-zinc-400">
          Extracting key patterns and sentiment
         </p>
        </div>
@@ -1116,7 +1116,7 @@ ${summaryData.outlook}
         >
          <div class="flex items-center gap-2">
           <svg
-           class="w-5 h-5 text-purple-600"
+           class="w-5 h-5 text-gray-600 dark:text-zinc-300"
            fill="none"
            stroke="currentColor"
            viewBox="0 0 24 24"
@@ -1129,7 +1129,7 @@ ${summaryData.outlook}
            />
           </svg>
           <h3
-           class="text-lg font-semibold text-purple-900 dark:text-purple-100"
+           class="text-lg font-semibold text-gray-900 dark:text-white"
           >
            AI-Generated Summary
           </h3>
@@ -1146,7 +1146,7 @@ ${summaryData.outlook}
            </span>
            <div class="flex items-center gap-1">
             <div
-             class="w-16 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden"
+            class="w-16 h-2 bg-gray-200 dark:bg-zinc-800 rounded-full overflow-hidden"
             >
              <div
               class="h-full {sentimentColors.bar} rounded-full"
@@ -1163,12 +1163,12 @@ ${summaryData.outlook}
 
         <!-- Export Actions -->
         <div
-         class="flex flex-wrap items-center justify-end gap-2 pb-4 border-b border-purple-200 dark:border-purple-800"
+        class="flex flex-wrap items-center justify-end gap-2 pb-4 border-b border-gray-200/70 dark:border-zinc-800/80"
         >
          <div class="flex items-center gap-2">
           <button
            on:click={copyToClipboard}
-           class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-200/70 dark:border-zinc-800/80 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80 rounded-full transition hover:text-violet-600 dark:hover:text-violet-400"
           >
            <svg
             class="w-3.5 h-3.5"
@@ -1187,7 +1187,7 @@ ${summaryData.outlook}
           </button>
           <button
            on:click={downloadMarkdown}
-           class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-200/70 dark:border-zinc-800/80 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80 rounded-full transition hover:text-violet-600 dark:hover:text-violet-400"
           >
            <svg
             class="w-3.5 h-3.5"
@@ -1293,7 +1293,7 @@ ${summaryData.outlook}
           class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2"
          >
           <svg
-           class="w-4 h-4 text-purple-500"
+          class="w-4 h-4 text-gray-400 dark:text-zinc-500"
            fill="none"
            stroke="currentColor"
            viewBox="0 0 24 24"
@@ -1314,7 +1314,7 @@ ${summaryData.outlook}
           Insider Activity Outlook
          </h4>
          <p
-          class="text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 rounded p-4 border border-gray-200 dark:border-gray-700"
+          class="text-sm text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 rounded-2xl p-4 border border-gray-200/70 dark:border-zinc-800/80"
          >
           {summaryData?.outlook ?? "No outlook available."}
          </p>
@@ -1322,7 +1322,7 @@ ${summaryData.outlook}
 
         <!-- Disclaimer -->
         <p
-         class="text-xs text-gray-500 dark:text-gray-500 italic border-t border-purple-200 dark:border-purple-800 pt-4"
+        class="text-xs text-gray-500 dark:text-zinc-400 italic border-t border-gray-200/70 dark:border-zinc-800/80 pt-4"
         >
          This summary was generated by AI based on insider trading
          data. It should not be considered investment advice. Please
@@ -1531,7 +1531,7 @@ ${summaryData.outlook}
           <DropdownMenu.Group class="pb-2">
            {#each rowsPerPageOptions as item}
             <DropdownMenu.Item
-             class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+             class="text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
             >
              <label
               on:click={() => changeRowsPerPage(item)}

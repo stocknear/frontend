@@ -969,9 +969,10 @@
                 </div>
               {/if}
               <div
-                class=" mb-1 mt-2 overflow-x-auto px-1.5 text-center md:mb-0 md:px-0 lg:mt-2"
+                class="mb-1 mt-2 overflow-x-auto px-1.5 text-center md:mb-0 md:px-0 lg:mt-2"
               >
-                <table class="w-full text-right text-xs sm:text-sm">
+                <div class="w-full overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40">
+                  <table class="w-full text-right text-xs sm:text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
                   <thead
                     ><tr
                       class="border-b border-gray-200/70 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
@@ -983,10 +984,9 @@
                       <th class="font-semibold">High</th></tr
                     ></thead
                   >
-                  <tbody
-                    ><tr
-                      class="border-b border-gray-200/70 dark:border-zinc-800/80 font-normal text-sm"
-                      ><td class="py-[3px] text-left lg:py-0.5">Price</td>
+                  <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
+                    <tr class="text-sm">
+                      <td class="py-[3px] text-left lg:py-0.5">Price</td>
                       <td>{lowPriceTarget > 0 ? lowPriceTarget : "n/a"}</td>
                       <td>{avgPriceTarget > 0 ? avgPriceTarget : "n/a"}</td>
                       <td
@@ -995,8 +995,8 @@
                       <td>{highPriceTarget > 0 ? highPriceTarget : "n/a"}</td
                       ></tr
                     >
-                    <tr class="text-sm text-gray-600 dark:text-zinc-300"
-                      ><td class="py-[3px] text-left lg:py-0.5">Change</td>
+                    <tr class="text-sm text-gray-600 dark:text-zinc-300">
+                      <td class="py-[3px] text-left lg:py-0.5">Change</td>
                       <td
                         class={lowChange > 0
                           ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
@@ -1032,6 +1032,7 @@
                     ></tbody
                   >
                 </table>
+                </div>
               </div>
             </div>
           </div>
@@ -1069,7 +1070,7 @@
                           class="inline-block ml-0.5 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                           href="/pricing"
                           >Pro Subscription <svg
-                            class="w-4 h-4 mb-1 inline-block text[#A3A3A3] sm:hover:"
+                            class="w-4 h-4 mb-1 inline-block text-gray-400 dark:text-zinc-500"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             ><path
@@ -1108,32 +1109,33 @@
             <div class="grow pt-2 md:pt-4 lg:pl-4 lg:pt-0">
               {#if optionsBarChart !== null && numOfAnalyst > 0}
                 <div
-                  class="shadow-none border border-gray-200/70 dark:border-zinc-800/80 rounded"
+                  class="shadow-none border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                   use:highcharts={optionsBarChart}
                 ></div>
               {:else}
                 <div
-                  class="min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold shadow-none border border-gray-200/70 dark:border-zinc-800/80 rounded flex justify-center items-center"
+                  class="min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold shadow-none border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 flex justify-center items-center"
                 >
                   No Chart available
                 </div>
               {/if}
               <div
-                class=" mb-1 mt-2 overflow-x-auto px-1.5 text-center md:mb-0 md:px-0 lg:mt-2"
+                class="mb-1 mt-2 overflow-x-auto px-1.5 text-center md:mb-0 md:px-0 lg:mt-2"
               >
-                <table
-                  class="w-full text-right text-tiny xs:text-sm md:text-smaller"
-                >
+                <div class="w-full overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40">
+                  <table
+                    class="w-full text-right text-xs sm:text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                  >
                   <thead
                     ><tr
-                      class="border-b border-gray-200/70 dark:border-zinc-800/80 font-normal"
+                      class="border-b border-gray-200/70 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                       ><th
-                        class="whitespace-nowrap px-1 py-[3px] text-sm text-left font-semibold"
+                        class="whitespace-nowrap px-1 py-[3px] text-left font-semibold"
                         >Rating</th
                       >
                       {#each recommendationList as item}
                         <th
-                          class="px-1 py-[3px] text-sm text-right font-semibold"
+                          class="px-1 py-[3px] text-right font-semibold"
                         >
                           {new Intl.DateTimeFormat("en", {
                             month: "short",
@@ -1144,31 +1146,29 @@
                       {/each}
                     </tr></thead
                   >
-                  <tbody>
+                  <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
                     {#each categories as category}
-                      <tr
-                        class="border-b border-gray-200/70 dark:border-zinc-800/80 font-normal"
-                      >
+                      <tr class="text-sm">
                         <td
-                          class="whitespace-nowrap px-1 py-[3px] text-sm text-left"
+                          class="whitespace-nowrap px-1 py-[3px] text-left"
                           >{category}</td
                         >
                         {#each recommendationList as entry}
                           <td
-                            class="px-1 py-[3px] text-sm text-right"
+                            class="px-1 py-[3px] text-right"
                             >{entry[category]}</td
                           >
                         {/each}
                       </tr>
                     {/each}
-                    <tr class="font-semibold"> </tr><tr class="font-semibold">
+                    <tr class="font-semibold"> </tr><tr class="font-semibold text-sm">
                       <td
-                        class="whitespace-nowrap px-1 py-[3px] text-sm text-left"
+                        class="whitespace-nowrap px-1 py-[3px] text-left"
                         >Total</td
                       >
                       {#each recommendationList as _, i}
                         <td
-                          class="px-1 py-[3px] text-sm text-right"
+                          class="px-1 py-[3px] text-right"
                         >
                           {getTotalForDate(i, recommendationList)}
                         </td>
@@ -1176,6 +1176,7 @@
                     </tr>
                   </tbody>
                 </table>
+                </div>
               </div>
             </div>
           </div>
@@ -1185,12 +1186,14 @@
           </h2>
           {#if data?.getAnalystEstimate?.length !== 0}
             <div
-              class="mb-4 shadow-none grid grid-cols-1 overflow-hidden rounded border divide-gray-300 dark:divide-gray-600 border-gray-200/70 dark:border-zinc-800/80 md:grid-cols-2 lg:grid-cols-4"
+              class="mb-4 grid grid-cols-1 overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 divide-gray-200/70 dark:divide-zinc-800/80 md:grid-cols-2 lg:grid-cols-4"
             >
               <div
                 class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b lg:border-b-0 border-gray-200/70 dark:border-zinc-800/80"
               >
-                <div class=" font-normal">Revenue This Year</div>
+                <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+                  Revenue This Year
+                </div>
                 <div
                   class="mt-1 flex flex-wrap items-baseline justify-between space-y-2 bp:space-y-0"
                 >
@@ -1217,11 +1220,11 @@
                     <div
                       class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-semibold md:mt-2 lg:mt-0 {changeRevenue >
                       0
-                        ? 'bg-[#00FC50]'
-                        : 'bg-[#FF2F1F]'} text-black"
+                        ? 'bg-emerald-100/70 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300'
+                        : 'bg-rose-100/70 text-rose-700 dark:bg-rose-500/10 dark:text-rose-300'}"
                     >
                       <svg
-                        class="-ml-1 mr-0.5 h-5 w-5 shrink-0 self-center text-black {changeRevenue >
+                        class="-ml-1 mr-0.5 h-5 w-5 shrink-0 self-center text-current {changeRevenue >
                         0
                           ? ''
                           : 'rotate-180 '}"
@@ -1256,7 +1259,9 @@
               <div
                 class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b md:border-l lg:border-b-0"
               >
-                <div class=" font-normal">Revenue Next Year</div>
+                <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+                  Revenue Next Year
+                </div>
                 <div
                   class="mt-1 flex flex-wrap items-baseline justify-between space-y-2 bp:space-y-0"
                 >
@@ -1281,11 +1286,11 @@
                   <div
                     class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-semibold md:mt-2 lg:mt-0 {changeRevenueNextYear >
                     0
-                      ? 'bg-[#00FC50]'
-                      : 'bg-[#FF2F1F]'} text-black"
+                      ? 'bg-emerald-100/70 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300'
+                      : 'bg-rose-100/70 text-rose-700 dark:bg-rose-500/10 dark:text-rose-300'}"
                   >
                     <svg
-                      class="-ml-1 mr-0.5 h-5 w-5 shrink-0 self-center text-black {changeRevenueNextYear >
+                      class="-ml-1 mr-0.5 h-5 w-5 shrink-0 self-center text-current {changeRevenueNextYear >
                       0
                         ? ''
                         : 'rotate-180 '}"
@@ -1318,7 +1323,9 @@
               <div
                 class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b-0 lg:border-l"
               >
-                <div class=" font-normal">EPS This Year</div>
+                <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+                  EPS This Year
+                </div>
                 <div
                   class="mt-1 flex flex-wrap items-baseline justify-between space-y-2 bp:space-y-0"
                 >
@@ -1333,11 +1340,11 @@
                   <div
                     class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-semibold md:mt-2 lg:mt-0 {changeEPS >
                     0
-                      ? 'bg-[#00FC50]'
-                      : 'bg-[#FF2F1F]'} text-black"
+                      ? 'bg-emerald-100/70 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300'
+                      : 'bg-rose-100/70 text-rose-700 dark:bg-rose-500/10 dark:text-rose-300'}"
                   >
                     <svg
-                      class="-ml-1 mr-0.5 h-5 w-5 shrink-0 self-center text-black {changeEPS >
+                      class="-ml-1 mr-0.5 h-5 w-5 shrink-0 self-center text-current {changeEPS >
                       0
                         ? ''
                         : 'rotate-180 '}"
@@ -1365,7 +1372,9 @@
               <div
                 class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-l border-gray-200/70 dark:border-zinc-800/80"
               >
-                <div class=" font-normal">EPS Next Year</div>
+                <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+                  EPS Next Year
+                </div>
                 <div
                   class="mt-1 flex flex-wrap items-baseline justify-between space-y-2 bp:space-y-0"
                 >
@@ -1382,11 +1391,11 @@
                   <div
                     class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-semibold md:mt-2 lg:mt-0 {changeEPSNextYear >
                     0
-                      ? 'bg-[#00FC50]'
-                      : 'bg-[#FF2F1F] '} text-black"
+                      ? 'bg-emerald-100/70 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300'
+                      : 'bg-rose-100/70 text-rose-700 dark:bg-rose-500/10 dark:text-rose-300'}"
                   >
                     <svg
-                      class="-ml-1 mr-0.5 h-5 w-5 shrink-0 self-center text-black {changeEPSNextYear >
+                      class="-ml-1 mr-0.5 h-5 w-5 shrink-0 self-center text-current {changeEPSNextYear >
                       0
                         ? ''
                         : 'rotate-180 '}"

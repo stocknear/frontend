@@ -744,7 +744,7 @@
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-2 mt-3"
        >
         <div
-         class="marketCap-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded p-4"
+         class="marketCap-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
         >
          <div class=" text-sm mb-2 flex items-center">
           <span>Market Cap</span>
@@ -757,7 +757,7 @@
         </div>
 
         <div
-         class="category-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded p-4"
+         class="category-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
         >
          <div class=" text-sm mb-2 flex items-center">
           <span>Category</span>
@@ -779,7 +779,7 @@
         </div>
 
         <div
-         class="oneYearChange-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded p-4"
+         class="oneYearChange-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
         >
          <div class=" text-sm mb-2 flex items-center">
           <span>1-Year Change</span>
@@ -867,43 +867,43 @@
             <DropdownMenu.Group>
              <DropdownMenu.Item
               on:click={() => changeStatement("1M")}
-              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
              >
               1 Month
              </DropdownMenu.Item>
              <DropdownMenu.Item
               on:click={() => changeStatement("6M")}
-              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
              >
               6 Months
              </DropdownMenu.Item>
              <DropdownMenu.Item
               on:click={() => changeStatement("1Y")}
-              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
              >
               1 Year
              </DropdownMenu.Item>
              <DropdownMenu.Item
               on:click={() => changeStatement("3Y")}
-              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
              >
               3 Years
              </DropdownMenu.Item>
              <DropdownMenu.Item
               on:click={() => changeStatement("5Y")}
-              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
              >
               5 Years
              </DropdownMenu.Item>
              <DropdownMenu.Item
               on:click={() => changeStatement("10Y")}
-              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
              >
               10 Years
              </DropdownMenu.Item>
              <DropdownMenu.Item
               on:click={() => changeStatement("Max")}
-              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
              >
               Max
              </DropdownMenu.Item>
@@ -920,7 +920,7 @@
        </div>
 
        <div
-        class="chart-driver border border-gray-200/70 shadow-none dark:border-zinc-800/80 rounded"
+                class="chart-driver border border-gray-200/70 shadow-none dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
         use:highcharts={config}
        ></div>
 
@@ -1077,7 +1077,7 @@
             <DropdownMenu.Group class="pb-2">
              {#each rowsPerPageOptions as item}
               <DropdownMenu.Item
-               class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+               class="text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
               >
                <label
                 on:click={() => changeRowsPerPage(item)}

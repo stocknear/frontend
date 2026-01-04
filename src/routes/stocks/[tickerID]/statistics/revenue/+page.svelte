@@ -754,7 +754,7 @@
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4 mt-3"
        >
         <div
-         class="revenue-ttm-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded p-4"
+         class="revenue-ttm-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
         >
          <div class="text-sm mb-2 flex items-center">
           <span>Revenue (ttm)</span>
@@ -768,7 +768,7 @@
         </div>
 
         <div
-         class="revenue-growth-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded p-4"
+         class="revenue-growth-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
         >
          <div class="text-sm mb-2 flex items-center">
           <span>Revenue Growth</span>
@@ -783,7 +783,7 @@
         </div>
 
         <div
-         class="ps-ratio-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded p-4"
+         class="ps-ratio-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
         >
          <div class="text-sm mb-2 flex items-center">
           <span>Price / Sales Ratio</span>
@@ -796,7 +796,7 @@
         </div>
 
         <div
-         class="rev-per-emp-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded p-4"
+         class="rev-per-emp-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
         >
          <div class="text-sm mb-2 flex items-center">
           <span>Revenue / Employee </span>
@@ -810,7 +810,7 @@
         </div>
 
         <div
-         class="employees-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded p-4"
+         class="employees-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
         >
          <div class="text-sm mb-2 flex items-center">
           <span>Employees </span>
@@ -823,7 +823,7 @@
          </div>
         </div>
         <div
-         class="marketCap-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded p-4"
+         class="marketCap-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
         >
          <div class="text-sm mb-2 flex items-center">
           <span>Market Cap </span>
@@ -897,19 +897,19 @@
             <DropdownMenu.Group>
              <DropdownMenu.Item
               on:click={() => ($timeFrame = "5Y")}
-              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
              >
               5Y
              </DropdownMenu.Item>
              <DropdownMenu.Item
               on:click={() => ($timeFrame = "10Y")}
-              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
              >
               10Y
              </DropdownMenu.Item>
              <DropdownMenu.Item
               on:click={() => ($timeFrame = "MAX")}
-              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary flex flex-row items-center"
+              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row items-center"
              >
               Max
              </DropdownMenu.Item>
@@ -921,7 +921,7 @@
        </div>
 
        <div
-        class="chart-driver shadow-none mt-5 sm:mt-0 border border-gray-200/70 dark:border-zinc-800/80 rounded"
+        class="chart-driver shadow-none mt-5 sm:mt-0 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
         use:highcharts={config}
        ></div>
        {#if currency !== "USD"}
@@ -1094,7 +1094,7 @@
             <DropdownMenu.Group class="pb-2">
              {#each rowsPerPageOptions as item}
               <DropdownMenu.Item
-               class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+               class="text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
               >
                <label
                 on:click={() => changeRowsPerPage(item)}

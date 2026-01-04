@@ -121,7 +121,7 @@
               class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4"
             >
               <div
-                class="ftd-total-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded p-4"
+                class="ftd-total-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
                   <span>Total FTD Shares</span>
@@ -143,7 +143,7 @@
               </div>
 
               <div
-                class="ftd-ratio-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded p-4"
+                class="ftd-ratio-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
                   <span>FTD / Avg. Volume</span>
@@ -165,7 +165,7 @@
               </div>
 
               <div
-                class="oneYearChange-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded p-4"
+                class="oneYearChange-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
                   <span>1-Year Change</span>
