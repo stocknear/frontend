@@ -170,7 +170,19 @@
   };
 
   let filteredData = [];
+  let currentUnsortedData = [];
   let displayResults = [];
+
+  // Update pagination when filteredData changes
+  $: if (filteredData && filteredData.length >= 0) {
+    updatePaginatedData();
+  }
+
+  // Pagination state
+  let currentPage = 1;
+  let rowsPerPage = 20; // Will be loaded from localStorage
+  let rowsPerPageOptions = [20, 50, 100];
+  let totalPages = 1;
 
   // Generate allRows from allRules
   $: allRows = Object?.entries(allRules)
@@ -278,7 +290,10 @@
 
       if (ruleOfList.length === 0) {
         filteredData = [];
+        currentUnsortedData = [];
         displayResults = [];
+        currentPage = 1;
+        totalPages = 1;
       }
 
       //await updateStockScreenerData();
@@ -431,7 +446,10 @@
 
     if (ruleOfList?.length === 0) {
       filteredData = [];
+      currentUnsortedData = [];
       displayResults = [];
+      currentPage = 1;
+      totalPages = 1;
     }
     //await updateStockScreenerData();
     checkedItems = new Map(
@@ -453,7 +471,9 @@
     );
 
     filteredData = event.data?.filteredData ?? [];
-    displayResults = filteredData?.slice(0, 50);
+    currentUnsortedData = [...filteredData];
+    currentPage = 1;
+    updatePaginatedData();
   };
 
   const handleScreenerMessage = (event) => {
@@ -539,7 +559,10 @@
     });
     ruleName = "";
     filteredData = [];
+    currentUnsortedData = [];
     displayResults = [];
+    currentPage = 1;
+    totalPages = 1;
     checkedItems = new Map();
     ruleOfList = [...ruleOfList];
     //await updateStockScreenerData();
@@ -600,13 +623,74 @@
         if (ruleOfList?.length === 0) {
           ruleName = "";
           filteredData = [];
+          currentUnsortedData = [];
           displayResults = [];
+          currentPage = 1;
+          totalPages = 1;
         } else if (state === ruleName) {
           ruleName = "";
         }
       }
 
       await updateStockScreenerData();
+    }
+  }
+
+  // Pagination functions
+  function updatePaginatedData() {
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    displayResults = filteredData?.slice(startIndex, endIndex) || [];
+    totalPages = Math.ceil((filteredData?.length || 0) / rowsPerPage);
+  }
+
+  function goToPage(page) {
+    if (page >= 1 && page <= totalPages) {
+      currentPage = page;
+      updatePaginatedData();
+    }
+  }
+
+  function changeRowsPerPage(newRowsPerPage) {
+    rowsPerPage = newRowsPerPage;
+    currentPage = 1;
+    updatePaginatedData();
+    saveRowsPerPage();
+  }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function saveRowsPerPage() {
+    if (typeof localStorage === "undefined") return;
+
+    try {
+      const paginationKey = `/options-screener_rowsPerPage`;
+      localStorage.setItem(paginationKey, String(rowsPerPage));
+    } catch (e) {
+      console.warn("Failed to save rows per page preference:", e);
+    }
+  }
+
+  function loadRowsPerPage() {
+    if (typeof localStorage === "undefined") {
+      rowsPerPage = 20;
+      return;
+    }
+
+    try {
+      const paginationKey = `/options-screener_rowsPerPage`;
+      const savedRows = localStorage.getItem(paginationKey);
+
+      if (savedRows && rowsPerPageOptions.includes(Number(savedRows))) {
+        rowsPerPage = Number(savedRows);
+      } else {
+        rowsPerPage = 20;
+      }
+    } catch (e) {
+      console.warn("Failed to load rows per page preference:", e);
+      rowsPerPage = 20;
     }
   }
 
@@ -689,16 +773,6 @@
     }, 150);
   }
 
-  async function handleScroll() {
-    const scrollThreshold = document.body.offsetHeight * 0.8; // 80% of the website height
-    const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
-    if (isBottom && displayResults?.length !== filteredData?.length) {
-      const nextIndex = displayResults?.length;
-      const filteredNewResults = filteredData?.slice(nextIndex, nextIndex + 30);
-      displayResults = [...displayResults, ...filteredNewResults];
-    }
-  }
-
   /*
   const handleKeyDown = (event) => {
       if (event.ctrlKey && event.key === 's') {
@@ -712,6 +786,8 @@
   let LoginPopup;
 
   onMount(async () => {
+    loadRowsPerPage();
+
     if (!syncWorker) {
       const SyncWorker = await import("./workers/filterWorker?worker");
       syncWorker = new SyncWorker.default();
@@ -1121,8 +1197,6 @@
     // Cycle through 'none', 'asc', 'desc' for the clicked key
     const orderCycle = ["none", "asc", "desc"];
 
-    let originalData = filteredData;
-
     const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
     sortOrders[key].order =
       orderCycle[(currentOrderIndex + 1) % orderCycle.length];
@@ -1130,7 +1204,9 @@
 
     // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
-      displayResults = [...originalData]?.slice(0, 50); // Reset to original data (spread to avoid mutation)
+      filteredData = [...currentUnsortedData];
+      currentPage = 1;
+      updatePaginatedData();
       return;
     }
 
@@ -1164,8 +1240,10 @@
       }
     };
 
-    // Sort using the generic comparison function
-    displayResults = [...originalData].sort(compareValues)?.slice(0, 50);
+    // Sort using the generic comparison function and update filteredData
+    filteredData = [...currentUnsortedData].sort(compareValues);
+    currentPage = 1;
+    updatePaginatedData();
   };
 
   let columns;
@@ -1314,18 +1392,22 @@
   }}
 />
 
-<svelte:window on:scroll={handleScroll} />
-
 <section
-  class="w-full max-w-3xl sm:max-w-(--breakpoint-xl) overflow-hidden min-h-screen pb-40 px-5 mt-5"
+  class="w-full max-w-3xl sm:max-w-(--breakpoint-xl) overflow-hidden min-h-screen pb-40 px-5 mt-5 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div
+    class="text-sm sm:text-[0.95rem] breadcrumbs text-gray-500 dark:text-zinc-400"
+  >
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          >Home</a
+        >
       </li>
       <li>
-        <span class="text-muted dark:text-gray-300">Options Screener</span>
+        <span class="text-gray-500 dark:text-zinc-400">Options Screener</span>
       </li>
     </ul>
   </div>
@@ -1334,8 +1416,14 @@
   <div class="sm:rounded">
     <div class="flex flex-col md:flex-row items-start md:items-center mb-5">
       <div class="w-full flex flex-row items-center sm:mt-4">
-        <h1 class="text-2xl sm:text-3xl font-semibold">Options Screener</h1>
-        <span class="inline-block text-xs sm:text-sm font-semibold ml-2 mt-3">
+        <h1
+          class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+        >
+          Options Screener
+        </h1>
+        <span
+          class="inline-block text-xs sm:text-sm font-medium ml-2 mt-3 text-gray-500 dark:text-zinc-400"
+        >
           {filteredData?.length?.toLocaleString("en-US")} Contracts Found
         </span>
       </div>
@@ -1343,7 +1431,7 @@
       <div class="flex flex-row items-center w-full mt-5 justify-end">
         <div class="flex w-full sm:w-[50%] sm:ml-3 md:block md:w-auto">
           <div
-            class="hidden text-sm sm:text-[1rem] font-semibold md:block sm:mb-1"
+            class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
           >
             Saved Screens
           </div>
@@ -1352,7 +1440,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="min-w-[110px]  w-full border-gray-300 dark:border-gray-600 border bg-black dark:bg-default sm:hover:bg-default dark:sm:hover:bg-primary text-white ease-out flex flex-row justify-between items-center px-3 py-2  rounded truncate"
+                  class="min-w-[110px] w-full transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate max-w-48"
                     >{selectedStrategy?.length !== 0
@@ -1377,10 +1465,10 @@
                 </Button>
               </DropdownMenu.Trigger>
               <DropdownMenu.Content
-                class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller"
+                class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
               >
                 <DropdownMenu.Label
-                  class="text-muted dark:text-gray-400 font-normal"
+                  class="text-gray-500 dark:text-zinc-400 font-normal"
                 >
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
@@ -1389,7 +1477,7 @@
                         handleCreateStrategy();
                       }}
                       builders={[builder]}
-                      class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap   bg-[#0909B] focus:outline-hidden "
+                      class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition focus:outline-hidden"
                     >
                       <svg
                         class="h-4 w-4"
@@ -1417,8 +1505,8 @@
                         switchStrategy(item);
                       }}
                       class="whitespace-nowrap {item?.id === selectedStrategy
-                        ? 'bg-gray-300 dark:bg-primary'
-                        : ''} cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                        ? 'text-violet-600 dark:text-violet-400'
+                        : ''} cursor-pointer sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
                     >
                       {item?.title?.length > 20
                         ? item?.title?.slice(0, 20) + "..."
@@ -1453,15 +1541,17 @@
     </div>
 
     <div
-      class="rounded border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-primary p-2"
+      class="rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-3"
     >
-      <div class="items-end border-b border-gray-300 dark:border-gray-600">
+      <div
+        class="items-end border-b border-gray-200/70 dark:border-zinc-800/80"
+      >
         <div
-          class="mr-1 flex items-center justify-between lg:mr-2 pb-1.5 border-b border-gray-300 dark:border-gray-600 mt-1.5"
+          class="mr-1 flex items-center justify-between lg:mr-2 pb-1.5 border-b border-gray-200/70 dark:border-zinc-800/80 mt-1.5"
         >
           <button
             on:click={() => (showFilters = !showFilters)}
-            class="flex cursor-pointer items-center text-lg font-semibold"
+            class="flex cursor-pointer items-center text-base font-semibold text-gray-900 dark:text-white"
             title="Hide Filter Area"
           >
             <svg
@@ -1486,7 +1576,7 @@
             <!-- Add Filters Button -->
             <label
               for="ruleModal"
-              class="w-full sm:w-fit text-[0.95rem] text-white inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold bg-default sm:hover:bg-black dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+              class="w-full sm:w-fit text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 pl-3 pr-4 font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus:outline-hidden"
             >
               <svg
                 class="h-5 w-5"
@@ -1511,7 +1601,7 @@
                   class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
                 >
                   <svg
-                    class="w-4 h-4 text-muted dark:text-gray-200"
+                    class="w-4 h-4 text-gray-400 dark:text-zinc-400"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -1534,7 +1624,7 @@
                   on:keydown={handleQuickSearchKeydown}
                   on:focus={() => updateQuickSearchResults(quickSearchTerm)}
                   on:blur={closeQuickSearchDropdown}
-                  class="block w-full lg:w-64 py-2 shadow bg-white placeholder:text-muted pl-10 text-[1rem] border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-[#2A2E39] dark:border-gray-800 dark:placeholder-gray-200 dark:text-white dark:focus:outline-none dark:focus:border-none"
+                  class="block w-full lg:w-64 py-2.5 bg-white/80 dark:bg-zinc-950/60 placeholder:text-gray-500 dark:placeholder:text-zinc-400 pl-10 text-sm border border-gray-200/70 dark:border-zinc-800/80 rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
                 />
 
                 <!-- Clear button -->
@@ -1549,7 +1639,7 @@
                     class="absolute inset-y-0 right-0 flex items-center pr-3"
                   >
                     <svg
-                      class="cursor-pointer w-4 h-4 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                      class="cursor-pointer w-4 h-4 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -1568,7 +1658,7 @@
               <!-- Quick Search Dropdown -->
               {#if showQuickSearchDropdown && quickSearchResults.length > 0}
                 <div
-                  class="absolute z-50 w-full mt-1 bg-white dark:bg-[#2A2E39] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-64 overflow-y-auto"
+                  class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none max-h-64 overflow-y-auto"
                   in:scale={{
                     start: 0.98,
                     duration: 140,
@@ -1579,9 +1669,9 @@
                 >
                   {#each quickSearchResults as result, index}
                     <button
-                      class="cursor-pointer w-full px-2 py-2 flex flex-row items-center sm:hover:bg-gray-100 dark:sm:hover:bg-gray-600 {index ===
+                      class="cursor-pointer w-full px-2 py-2 flex flex-row items-center text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 {index ===
                       selectedQuickSearchIndex
-                        ? 'bg-gray-100 dark:bg-gray-600'
+                        ? 'text-violet-600 dark:text-violet-400'
                         : ''}"
                       type="button"
                       on:click={() => selectQuickSearchRule(result)}
@@ -1598,8 +1688,10 @@
                         ></path></svg
                       >
 
-                      <label class="text-left text-sm sm:text-[0.9rem]">
-                        <div class="font-medium text-gray-900 dark:text-white">
+                      <label
+                        class="cursor-pointer text-left text-sm sm:text-[0.9rem]"
+                      >
+                        <div class="font-medium">
                           {result.label}
                         </div>
                       </label>
@@ -1611,7 +1703,7 @@
               <!-- No results message -->
               {#if showQuickSearchDropdown && quickSearchTerm.length > 0 && quickSearchResults.length === 0}
                 <div
-                  class="absolute z-50 w-full mt-1 bg-white dark:bg-[#2A2E39] border border-gray-300 dark:border-gray-600 rounded-md shadow-lg p-4 text-center text-sm text-gray-500 dark:text-gray-400"
+                  class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none p-4 text-center text-sm text-gray-500 dark:text-zinc-400"
                 >
                   No available filters found
                 </div>
@@ -1622,7 +1714,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class=" h-10 w-full sm:w-fit border-none text-[0.95rem] text-white inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold  bg-default sm:hover:bg-black dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out"
+                  class="h-10 w-full sm:w-fit text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
                   <span class="truncate text-sm"
                     >{formatDate(selectedDate)}</span
@@ -1648,7 +1740,7 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="min-w-48 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative"
+                class="min-w-48 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
               >
                 <!-- Dropdown items -->
                 <DropdownMenu.Group class="pb-2"
@@ -1660,8 +1752,8 @@
                           updateStockScreenerData();
                         }}
                         class="{selectedDate === item?.date
-                          ? 'bg-gray-200 dark:bg-primary'
-                          : ''}  sm:hover:bg-gray-200 dark:sm:hover:bg-primary cursor-pointer "
+                          ? 'text-violet-600 dark:text-violet-400'
+                          : ''} sm:hover:text-violet-600 dark:sm:hover:text-violet-400 cursor-pointer"
                       >
                         {formatDate(item?.date)}
                         ({item?.contractLength?.toLocaleString("en-US")})
@@ -1669,7 +1761,7 @@
                     {:else}
                       <DropdownMenu.Item
                         on:click={() => goto("/pricing")}
-                        class="cursor-pointer sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                        class="cursor-pointer sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
                       >
                         <div class="flex flex-row items-center gap-x-2">
                           <span>
@@ -1701,7 +1793,7 @@
               <label
                 for={!data?.user ? "userLogin" : ""}
                 on:click={() => handleSave(true)}
-                class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+                class="w-full sm:w-fit text-sm cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 pl-3 pr-4 font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus:outline-hidden"
               >
                 <svg
                   class="w-4 h-4 mr-2 inline-block cursor-pointer shrink-0"
@@ -1729,7 +1821,7 @@
                       });
                     }
                   }}
-                  class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+                  class="w-full sm:w-fit text-sm cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400 focus:outline-hidden"
                 >
                   <Copy class="w-4 h-4 inline-block mr-2" />
                   <div>Save as New</div>
@@ -1774,7 +1866,7 @@
             {#if ruleOfList?.length !== 0}
               <label
                 on:click={handleResetAll}
-                class="w-full sm:w-fit text-white text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold bg-black sm:hover:bg-default dark:bg-[#000] ease-out focus:outline-hidden"
+                class="w-full sm:w-fit text-sm cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-rose-600 dark:hover:text-rose-400 focus:outline-hidden"
               >
                 <svg
                   class="h-4 w-4"
@@ -1798,7 +1890,7 @@
         </div>
 
         <div
-          class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-b border-gray-300 dark:border-gray-600"
+          class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
         >
           {#each displayRules as row (row?.rule)}
             <!--Start Added Rules-->
@@ -1827,7 +1919,7 @@
               <div class="flex items-center">
                 <button
                   on:click={() => handleDeleteRule(row?.rule)}
-                  class="mr-1.5 cursor-pointer text-muted dark:text-gray-300 sm:hover:text-red-800 dark:sm:hover:text-red-400 focus:outline-hidden"
+                  class="mr-1.5 cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-rose-600 dark:hover:text-rose-400 transition focus:outline-hidden"
                   title="Remove filter"
                   >{#if ruleOfList?.find((item) => item.name === row?.rule)?.value !== "any"}
                     <svg
@@ -1865,7 +1957,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="border-gray-300 dark:border-none  bg-default sm:hover:bg-black text-white dark:bg-[#000] h-[35px] flex flex-row justify-between items-center w-[140px] xs:w-[130px] sm:w-[140px] px-3  rounded truncate"
+                          class="border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 h-[35px] flex flex-row justify-between items-center w-[140px] xs:w-[130px] sm:w-[140px] px-3 rounded-full truncate hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <span class="truncate ml-2 text-sm">
                             {#if valueMappings[row?.rule] === "any"}
@@ -1902,11 +1994,11 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-64 min-h-auto max-h-72 overflow-y-auto scroller"
+                        class="w-64 min-h-auto max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                       >
                         {#if !checkedRules?.includes(row?.rule)}
                           <DropdownMenu.Label
-                            class="absolute mt-2 h-11 border-gray-300 dark:border-gray-800 border-b -top-1 z-20 fixed sticky bg-white dark:bg-default"
+                            class="absolute mt-2 h-11 border-gray-200/70 dark:border-zinc-800/80 border-b -top-1 z-20 fixed sticky bg-white/95 dark:bg-zinc-950/95"
                           >
                             <div
                               class="flex items-center justify-start gap-x-1"
@@ -1919,7 +2011,7 @@
                                   <DropdownMenu.Trigger asChild let:builder
                                     ><Button
                                       builders={[builder]}
-                                      class="w-fit -mt-1 -ml-2  flex flex-row justify-between items-center "
+                                      class="w-fit -mt-1 -ml-2 flex flex-row justify-between items-center text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                                     >
                                       <span class="truncate ml-2 text-sm">
                                         {ruleCondition[ruleName]
@@ -1972,7 +2064,7 @@
                                       : ""}
                                     on:input={(e) =>
                                       handleValueInput(e, row?.rule, 0)}
-                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-sm placeholder-gray-500 dark:placeholder:text-gray-200 font-normal p-1 text-sm bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80"
                                   />
                                   <span class=" text-[1rem] font-normal mt-1">
                                     &
@@ -1987,7 +2079,7 @@
                                       : ""}
                                     on:input={(e) =>
                                       handleValueInput(e, row?.rule, 1)}
-                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-sm placeholder-gray-500 dark:placeholder:text-gray-200 font-normal p-1 text-sm bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80"
                                   />
                                 </div>
                               {:else}
@@ -1999,7 +2091,7 @@
                                     : ""}
                                   on:input={(e) =>
                                     handleValueInput(e, row?.rule)}
-                                  class="ios-zoom-fix block max-w-[4.8rem] rounded-sm placeholder-gray-500 dark:placeholder:text-gray-200 font-normal p-1 text-sm bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+                                  class="ios-zoom-fix block max-w-[4.8rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80"
                                 />
                               {/if}
 
@@ -2014,7 +2106,7 @@
                                         "add",
                                       )}
                                     ><svg
-                                      class="size-6 cursor-pointer text-gray-500 dark:text-gray-300"
+                                      class="size-6 cursor-pointer text-gray-400 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-400 transition"
                                       fill="none"
                                       viewBox="0 0 24 24"
                                       stroke="currentColor"
@@ -2034,7 +2126,7 @@
                                         "minus",
                                       )}
                                     ><svg
-                                      class="size-6 cursor-pointer text-gray-500 dark:text-gray-300"
+                                      class="size-6 cursor-pointer text-gray-400 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-400 transition"
                                       fill="none"
                                       viewBox="0 0 24 24"
                                       stroke="currentColor"
@@ -2059,7 +2151,7 @@
                               {#if ruleCondition[row?.rule] === "between"}
                                 {#if newValue && row?.step[index + 1]}
                                   <DropdownMenu.Item
-                                    class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                                    class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
                                   >
                                     <button
                                       on:click={() => {
@@ -2068,7 +2160,7 @@
                                           row?.step[index + 1],
                                         ]);
                                       }}
-                                      class="cursor-pointer block w-full border-b border-gray-300 dark:border-gray-600 px-4 py-1.5 text-left text-sm rounded last:border-0 dark:sm:hover:bg-primary"
+                                      class="cursor-pointer block w-full border-b border-gray-200/70 dark:border-zinc-800/80 px-4 py-1.5 text-left text-sm rounded last:border-0"
                                     >
                                       {ruleCondition[row?.rule]?.replace(
                                         "between",
@@ -2082,13 +2174,13 @@
                                 {/if}
                               {:else}
                                 <DropdownMenu.Item
-                                  class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                                  class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
                                 >
                                   <button
                                     on:click={() => {
                                       handleChangeValue(newValue);
                                     }}
-                                    class="cursor-pointer block w-full border-b border-gray-300 dark:border-gray-600 px-4 py-1.5 text-left text-sm rounded last:border-0"
+                                    class="cursor-pointer block w-full border-b border-gray-200/70 dark:border-zinc-800/80 px-4 py-1.5 text-left text-sm rounded last:border-0"
                                   >
                                     {ruleCondition[row?.rule]
                                       ?.replace("under", "Under")
@@ -2102,7 +2194,7 @@
                           {:else if checkedRules?.includes(row?.rule)}
                             {#each row?.step as item}
                               <DropdownMenu.Item
-                                class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                                class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
                               >
                                 <div
                                   class="flex items-center"
@@ -2145,9 +2237,11 @@
   <!--End Build Strategy-->
 
   <div
-    class="mt-6 grid-cols-2 items-center sm:grid lg:flex lg:space-x-1 lg:overflow-visible lg:px-1 py-1.5 border-t border-b border-gray-300 dark:border-gray-800 mb-2"
+    class="mt-6 grid-cols-2 items-center sm:grid lg:flex lg:space-x-1 lg:overflow-visible lg:px-1 py-1.5 border-t border-b border-gray-200/70 dark:border-zinc-800/80 mb-2"
   >
-    <h2 class=" whitespace-nowrap text-xl font-semibold bp:text-[1.3rem]">
+    <h2
+      class=" whitespace-nowrap text-xl font-semibold bp:text-[1.3rem] text-gray-900 dark:text-white"
+    >
       {filteredData?.length?.toLocaleString("en-US")} Contracts
     </h2>
     <div
@@ -2160,10 +2254,10 @@
           <li>
             <button
               on:click={() => (displayTableTab = "general")}
-              class="cursor-pointer text-[1rem] block rounded px-2 py-1 focus:outline-hidden sm:hover:bg-gray-100 dark:sm:hover:bg-primary {displayTableTab ===
+              class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'general'
-                ? 'font-semibold bg-gray-100 dark:bg-primary'
-                : ''}"
+                ? 'font-semibold border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               General
             </button>
@@ -2171,17 +2265,17 @@
           <li>
             <button
               on:click={() => (displayTableTab = "filters")}
-              class="cursor-pointer text-[1rem] flex flex-row items-center relative block rounded px-2 py-1 sm:hover:bg-gray-100 dark:sm:hover:bg-primary {displayTableTab ===
+              class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center relative block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'filters'
-                ? 'font-semibold bg-gray-100 dark:bg-primary'
-                : ''} focus:outline-hidden"
+                ? 'font-semibold border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               <span class="">Filters</span>
               <span
                 class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center {ruleOfList?.length !==
                 0
-                  ? 'text-white bg-red-500'
-                  : 'bg-gray-200 dark:bg-gray-600'}"
+                  ? 'text-white bg-rose-500'
+                  : 'text-gray-700 dark:text-zinc-200 bg-gray-100 dark:bg-zinc-900'}"
               >
                 {ruleOfList?.length}
               </span>
@@ -2190,10 +2284,10 @@
           <li>
             <button
               on:click={() => (displayTableTab = "greeks")}
-              class="cursor-pointer text-[1rem] flex flex-row items-center relative block rounded px-2 py-1 sm:hover:bg-gray-100 dark:sm:hover:bg-primary {displayTableTab ===
+              class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center relative block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'greeks'
-                ? 'font-semibold bg-gray-100 dark:bg-primary'
-                : ''} focus:outline-hidden"
+                ? 'font-semibold border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               <span class="">Greeks</span>
             </button>
@@ -2212,7 +2306,9 @@
     </div>
   </div>
 
-  <h3 class="text-[1rem] font-semibold mb-2 whitespace-nowrap">
+  <h3
+    class="text-[0.95rem] font-semibold mb-2 whitespace-nowrap text-gray-500 dark:text-zinc-400"
+  >
     All option contracts expire on {formatDate(selectedDate)}
   </h3>
 
@@ -2220,16 +2316,20 @@
   {#if isLoaded}
     {#if filteredData?.length !== 0}
       {#if displayTableTab === "general"}
-        <div class="w-full rounded overflow-x-auto">
+        <div
+          class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+        >
           <table
-            class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
           >
             <thead>
               <TableHeader {columns} {sortOrders} {sortData} />
             </thead>
             <tbody>
               {#each displayResults as item}
-                <tr class="dark:sm:hover:bg-[#245073]/10">
+                <tr
+                  class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none"
+                >
                   <td class=" whitespace-nowrap">
                     <a
                       href={`/${item?.assetType === "Stock" ? "stocks" : item?.assetType === "ETF" ? "etf" : "index"}/` +
@@ -2237,23 +2337,23 @@
                         `/options/contract-lookup?query=${item?.optionSymbol}`}
                       rel="noopener noreferrer"
                       target="_blank"
-                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 text-sm sm:text-[1rem]"
+                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 text-sm sm:text-[0.95rem]"
                       >{item?.symbol}</a
                     >
                   </td>
 
-                  <td class="whitespace-nowrap text-[1rem]">
+                  <td class="whitespace-nowrap text-sm sm:text-[0.95rem]">
                     {item?.name?.length > charNumber
                       ? item?.name?.slice(0, charNumber) + "..."
                       : item?.name}
                   </td>
 
-                  <td class=" text-sm sm:text-[1rem] text-end">
+                  <td class=" text-sm sm:text-[0.95rem] text-end">
                     {item?.strike ?? "n/a"}
                   </td>
 
                   <td
-                    class=" text-sm sm:text-[1rem] text-end
+                    class=" text-sm sm:text-[0.95rem] text-end
                   {item?.optionType === 'Call'
                       ? 'text-emerald-600 dark:text-emerald-400'
                       : 'text-rose-600 dark:text-rose-400'} "
@@ -2261,19 +2361,19 @@
                     {item?.optionType}
                   </td>
 
-                  <td class=" text-sm sm:text-[1rem] text-end">
+                  <td class=" text-sm sm:text-[0.95rem] text-end">
                     {item?.iv ? item?.iv + "%" : "n/a"}
                   </td>
 
-                  <td class=" text-sm sm:text-[1rem] text-end">
+                  <td class=" text-sm sm:text-[0.95rem] text-end">
                     {item?.ivRank ? item?.ivRank + "%" : "n/a"}
                   </td>
 
-                  <td class=" text-sm sm:text-[1rem] text-end">
+                  <td class=" text-sm sm:text-[0.95rem] text-end">
                     {item?.close < 0.01 ? "< 0.01" : item?.close?.toFixed(2)}
                   </td>
 
-                  <td class=" text-end text-sm sm:text-[1rem]">
+                  <td class=" text-end text-sm sm:text-[0.95rem]">
                     {#if item?.moneynessPercentage >= 0}
                       <span class="text-emerald-600 dark:text-emerald-400"
                         >+{item?.moneynessPercentage >= 1000
@@ -2289,17 +2389,17 @@
                     {/if}
                   </td>
 
-                  <td class=" text-sm sm:text-[1rem] text-end">
+                  <td class=" text-sm sm:text-[0.95rem] text-end">
                     {item?.volume
                       ? item?.volume?.toLocaleString("en-US")
                       : "n/a"}
                   </td>
 
-                  <td class=" text-sm sm:text-[1rem] text-end">
+                  <td class=" text-sm sm:text-[0.95rem] text-end">
                     {item?.oi ? item?.oi?.toLocaleString("en-US") : "n/a"}
                   </td>
 
-                  <td class=" text-end text-sm sm:text-[1rem]">
+                  <td class=" text-end text-sm sm:text-[0.95rem]">
                     {#if item?.changesPercentageOI > 0}
                       <span class="text-emerald-600 dark:text-emerald-400"
                         >+{item?.changesPercentageOI >= 1000
@@ -2319,7 +2419,7 @@
                     {/if}
                   </td>
 
-                  <td class=" text-sm sm:text-[1rem] text-end">
+                  <td class=" text-sm sm:text-[0.95rem] text-end">
                     {item?.totalPrem
                       ? abbreviateNumber(item?.totalPrem)
                       : "n/a"}
@@ -2330,16 +2430,20 @@
           </table>
         </div>
       {:else if displayTableTab === "filters"}
-        <div class="w-full rounded overflow-x-auto">
+        <div
+          class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+        >
           <table
-            class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
           >
             <thead>
               <TableHeader {columns} {sortOrders} {sortData} />
             </thead>
             <tbody>
               {#each displayResults as item}
-                <tr class="dark:sm:hover:bg-[#245073]/10">
+                <tr
+                  class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none"
+                >
                   <td class=" whitespace-nowrap">
                     <a
                       href={`/${item?.assetType === "Stock" ? "stocks" : item?.assetType === "ETF" ? "etf" : "index"}/` +
@@ -2347,20 +2451,22 @@
                         `/options/contract-lookup?query=${item?.optionSymbol}`}
                       rel="noopener noreferrer"
                       target="_blank"
-                      class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem]"
+                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 text-sm sm:text-[0.95rem]"
                       >{item?.symbol}</a
                     >
                   </td>
-                  <td class=" whitespace-nowrap text-[1rem]">
+                  <td class=" whitespace-nowrap text-sm sm:text-[0.95rem]">
                     {item?.name?.length > charNumber
                       ? item?.name?.slice(0, charNumber) + "..."
                       : item?.name}
                   </td>
-                  <td class="whitespace-nowrap text-sm sm:text-[1rem] text-end">
+                  <td
+                    class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
+                  >
                     {item?.strike}
                   </td>
                   <td
-                    class=" text-sm sm:text-[1rem] text-end
+                    class=" text-sm sm:text-[0.95rem] text-end
                 {item?.optionType === 'Call'
                       ? 'text-emerald-600 dark:text-emerald-400'
                       : 'text-rose-600 dark:text-rose-400'} "
@@ -2371,7 +2477,7 @@
                   {#each displayRules as row (row?.rule)}
                     {#if !["strike", "optionType"]?.includes(row?.rule)}
                       <td
-                        class="whitespace-nowrap text-sm sm:text-[1rem] text-end"
+                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
                         {#if row?.varType && row?.varType === "percentSign"}
                           <span
@@ -2414,16 +2520,20 @@
           </table>
         </div>
       {:else if displayTableTab === "greeks"}
-        <div class="w-full rounded overflow-x-auto">
+        <div
+          class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+        >
           <table
-            class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
           >
             <thead>
               <TableHeader {columns} {sortOrders} {sortData} />
             </thead>
             <tbody>
               {#each displayResults as item}
-                <tr class="dark:sm:hover:bg-[#245073]/10">
+                <tr
+                  class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none"
+                >
                   <td class=" whitespace-nowrap">
                     <a
                       href={`/${item?.assetType}/` +
@@ -2431,20 +2541,22 @@
                         `/options/contract-lookup?query=${item?.optionSymbol}`}
                       rel="noopener noreferrer"
                       target="_blank"
-                      class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem]"
+                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 text-sm sm:text-[0.95rem]"
                       >{item?.symbol}</a
                     >
                   </td>
-                  <td class=" whitespace-nowrap text-[1rem]">
+                  <td class=" whitespace-nowrap text-sm sm:text-[0.95rem]">
                     {item?.name?.length > charNumber
                       ? item?.name?.slice(0, charNumber) + "..."
                       : item?.name}
                   </td>
-                  <td class="whitespace-nowrap text-sm sm:text-[1rem] text-end">
+                  <td
+                    class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
+                  >
                     {item?.strike}
                   </td>
                   <td
-                    class=" text-sm sm:text-[1rem] text-end
+                    class=" text-sm sm:text-[0.95rem] text-end
                 {item?.optionType === 'Call'
                       ? 'text-emerald-600 dark:text-emerald-400'
                       : 'text-rose-600 dark:text-rose-400'} "
@@ -2452,22 +2564,157 @@
                     {item?.optionType}
                   </td>
 
-                  <td class="whitespace-nowrap text-sm sm:text-[1rem] text-end">
+                  <td
+                    class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
+                  >
                     {item?.delta}
                   </td>
-                  <td class="whitespace-nowrap text-sm sm:text-[1rem] text-end">
+                  <td
+                    class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
+                  >
                     {item?.gamma}
                   </td>
-                  <td class="whitespace-nowrap text-sm sm:text-[1rem] text-end">
+                  <td
+                    class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
+                  >
                     {item?.theta}
                   </td>
-                  <td class="whitespace-nowrap text-sm sm:text-[1rem] text-end">
+                  <td
+                    class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
+                  >
                     {item?.vega}
                   </td>
                 </tr>
               {/each}
             </tbody>
           </table>
+        </div>
+      {/if}
+
+      {#if displayResults?.length > 0}
+        <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
+          <div class="flex items-center gap-2">
+            <Button
+              on:click={() => goToPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              <svg
+                class="h-5 w-5 inline-block shrink-0 rotate-90"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span class="hidden sm:inline">Previous</span>
+            </Button>
+          </div>
+
+          <div class="flex flex-row items-center gap-4">
+            <span class="text-sm text-gray-600 dark:text-zinc-300">
+              Page {currentPage} of {totalPages}
+            </span>
+
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger asChild let:builder>
+                <Button
+                  builders={[builder]}
+                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  <span class="truncate text-[0.85rem] sm:text-sm"
+                    >{rowsPerPage} Rows</span
+                  >
+                  <svg
+                    class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style="max-width:40px"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </Button>
+              </DropdownMenu.Trigger>
+
+              <DropdownMenu.Content
+                side="bottom"
+                align="end"
+                sideOffset={10}
+                alignOffset={0}
+                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+              >
+                <DropdownMenu.Group class="pb-2">
+                  {#each rowsPerPageOptions as item}
+                    <DropdownMenu.Item
+                      class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                    >
+                      <label
+                        on:click={() => changeRowsPerPage(item)}
+                        class="inline-flex justify-between w-full items-center cursor-pointer"
+                      >
+                        <span class="text-sm">{item} Rows</span>
+                      </label>
+                    </DropdownMenu.Item>
+                  {/each}
+                </DropdownMenu.Group>
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <Button
+              on:click={() => goToPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              <span class="hidden sm:inline">Next</span>
+              <svg
+                class="h-5 w-5 inline-block shrink-0 -rotate-90"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </Button>
+          </div>
+        </div>
+
+        <div class="flex justify-center mt-4">
+          <button
+            on:click={scrollToTop}
+            class="cursor-pointer text-sm font-medium text-gray-600 dark:text-zinc-400 transition hover:text-violet-600 dark:hover:text-violet-400"
+          >
+            Back to Top
+            <svg
+              class="h-5 w-5 inline-block shrink-0 rotate-180"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              style="max-width:40px"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </button>
         </div>
       {/if}
     {:else}
@@ -2479,7 +2726,7 @@
     <div class="flex justify-center items-center h-80">
       <div class="relative">
         <label
-          class=" bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          class=" bg-gray-900/80 dark:bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         >
           <span
             class="loading loading-spinner loading-md text-white dark:text-white"
@@ -2517,16 +2764,18 @@
   ></label>
 
   <div
-    class="modal-box relative bg-white dark:bg-primary z-20 mx-2 min-h-[30vh] h-[800px] rounded bg-default opacity-100 border border-gray-300 dark:border-gray-600 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto"
+    class="modal-box relative bg-white dark:bg-zinc-950 z-20 mx-2 min-h-[30vh] h-[800px] rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto shadow-none"
   >
     <div class="relative flex flex-col w-full">
       <!-- Sticky Header -->
 
       <div
-        class="fixed w-full h-fit sticky -top-6 z-40 bg-white dark:bg-primary opacity-100 pb-6 pt-5 border-gray-300 dark:border-gray-600 border-b"
+        class="fixed w-full h-fit sticky -top-6 z-40 bg-white/95 dark:bg-zinc-950/95 pb-6 pt-5 border-gray-200/70 dark:border-zinc-800/80 border-b"
       >
         <div class="flex flex-row items-center justify-between mb-2">
-          <h2 class=" text-[1rem] sm:text-xl font-semibold">
+          <h2
+            class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
+          >
             Select screener filters ({allRows?.length} total)
           </h2>
           <label
@@ -2556,7 +2805,7 @@
               class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
             >
               <svg
-                class="w-4 h-4 text-gray-600 dark:text-gray-300"
+                class="w-4 h-4 text-gray-400 dark:text-zinc-400"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -2580,7 +2829,7 @@
             >
               <button
                 on:click={() => (searchTerm = "")}
-                class="cursor-pointer text-gray-600 dark:text-gray-300"
+                class="cursor-pointer text-gray-400 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                 tabindex="0"
                 ><svg
                   class="w-5 h-5"
@@ -2601,7 +2850,7 @@
             <input
               autocomplete="off"
               id="search"
-              class="focus:outline-none placeholder-gray-800 dark:placeholder-gray-300 block w-full p-2 ps-10 text-sm border border-gray-300 dark:border-gray-600 rounded bg-gray-100 dark:bg-secondary border border-blue-500"
+              class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm border border-gray-200/70 dark:border-zinc-800/80 rounded-full bg-white/80 dark:bg-zinc-950/60"
               placeholder="Search..."
               bind:value={searchTerm}
             />
@@ -2613,7 +2862,11 @@
       <!-- Content -->
       <div class="">
         {#each searchTerm?.length !== 0 ? Object?.entries(filteredGroupedRules) : Object?.entries(groupedRules) as [category, rules]}
-          <h4 class="mb-1 font-semibold text-lg mt-5">{category}</h4>
+          <h4
+            class="mb-1 font-semibold text-lg mt-5 text-gray-900 dark:text-white"
+          >
+            {category}
+          </h4>
           <div class="flex flex-wrap">
             {#each rules as row}
               <div
@@ -2624,7 +2877,7 @@
                   id={row?.rule}
                   type="checkbox"
                   checked={ruleOfList?.find((rule) => rule?.name === row?.rule)}
-                  class="h-[18px] w-[18px] rounded-sm ring-offset-0 lg:h-4 lg:w-4"
+                  class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-200/70 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
                 />
 
                 <div class="-mt-0.5">
@@ -2656,9 +2909,13 @@
 
   <div
     class="modal-box w-full p-6 rounded border
-        bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+        bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none"
   >
-    <h1 class="text-2xl font-bold">New Screener</h1>
+    <h1
+      class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+    >
+      New Screener
+    </h1>
 
     <form
       on:submit={createStrategy}
@@ -2675,7 +2932,7 @@
 
       <button
         type="submit"
-        class="cursor-pointer mt-2 py-2.5 bg-black dark:bg-[#fff] dark:sm:hover:bg-gray-300 duration-100 w-full rounded m-auto text-white dark:text-black font-semibold text-md"
+        class="cursor-pointer mt-2 py-2.5 bg-gray-900 text-white dark:bg-white dark:text-gray-900 duration-100 w-full rounded-full m-auto font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
       >
         Create Screener
       </button>
@@ -2693,26 +2950,27 @@
 
   <div
     class="modal-box w-full p-6 rounded border
-          bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+          bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none"
   >
-    <h3 class="text-lg font-medium mb-2">Delete Screener</h3>
-    <p class="text-sm mb-6">
+    <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
+      Delete Screener
+    </h3>
+    <p class="text-sm mb-6 text-gray-600 dark:text-zinc-400">
       Are you sure you want to delete this screener? This action cannot be
       undone.
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteStrategy"
-        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
-              transition-colors duration-100
-              bg-gray-600 text-white dark:bg-white dark:text-black"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
+              transition-colors duration-100 border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
         tabindex="0">Cancel</label
       ><label
         for="deleteStrategy"
         on:click={handleDeleteStrategy}
-        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
-              transition-colors duration-100 flex items-center
-              bg-red-600 text-white sm:hover:bg-red-700
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
+              transition-colors duration-100 flex items-center border border-rose-200/70 dark:border-rose-500/30
+              bg-rose-50/80 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300
               "
         tabindex="0"
         ><svg

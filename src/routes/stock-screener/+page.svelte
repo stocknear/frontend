@@ -3191,7 +3191,9 @@ const handleKeyDown = (event) => {
 <section
   class="w-full max-w-3xl sm:max-w-(--breakpoint-xl) overflow-hidden min-h-screen pb-40 px-5 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[0.95rem] breadcrumbs text-gray-500 dark:text-zinc-400">
+  <div
+    class="text-sm sm:text-[0.95rem] breadcrumbs text-gray-500 dark:text-zinc-400"
+  >
     <ul>
       <li>
         <a
@@ -3210,7 +3212,9 @@ const handleKeyDown = (event) => {
   <div class="sm:rounded">
     <div class="flex flex-col md:flex-row items-start md:items-center mb-5">
       <div class="w-full flex flex-row items-center sm:mt-4">
-        <h1 class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
+        <h1
+          class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+        >
           Stock Screener
         </h1>
         <span
@@ -3399,7 +3403,9 @@ const handleKeyDown = (event) => {
     <div
       class="rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-3"
     >
-      <div class="items-end border-b border-gray-200/70 dark:border-zinc-800/80">
+      <div
+        class="items-end border-b border-gray-200/70 dark:border-zinc-800/80"
+      >
         <div
           class="mr-1 flex items-center justify-between lg:mr-2 pb-1.5 border-b border-gray-200/70 dark:border-zinc-800/80 mt-1.5"
         >
@@ -3521,7 +3527,7 @@ const handleKeyDown = (event) => {
               >
                 {#each quickSearchResults as result, index}
                   <button
-                    class="cursor-pointer w-full px-2 py-2 flex flex-row items-center text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 {index ===
+                    class="cursor-pointer w-full px-2 py-2 flex flex-row items-center text-gray-700 dark:text-zinc-200 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 {index ===
                     selectedQuickSearchIndex
                       ? 'text-violet-600 dark:text-violet-400'
                       : ''}"
@@ -3552,8 +3558,10 @@ const handleKeyDown = (event) => {
                       >
                     {/if}
 
-                    <label class="text-left text-sm sm:text-[0.9rem]">
-                      <div class="font-medium text-gray-900 dark:text-white">
+                    <label
+                      class="cursor-pointer text-left text-sm sm:text-[0.9rem]"
+                    >
+                      <div class="font-medium">
                         {result.label}
                       </div>
                     </label>
@@ -4267,7 +4275,9 @@ const handleKeyDown = (event) => {
                       ? item?.name?.slice(0, charNumber) + "..."
                       : item?.name}
                   </td>
-                  <td class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end">
+                  <td
+                    class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
+                  >
                     {abbreviateNumber(item?.marketCap)}
                   </td>
                   {#each displayRules as row (row?.rule)}
@@ -4695,7 +4705,9 @@ const handleKeyDown = (event) => {
         class="fixed w-full h-fit sticky -top-6 z-40 bg-white/95 dark:bg-zinc-950/95 pb-6 pt-5 border-gray-200/70 dark:border-zinc-800/80 border-b"
       >
         <div class="flex flex-row items-center justify-between mb-2">
-          <h2 class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white">
+          <h2
+            class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
+          >
             Select screener filters ({allRows?.length} total)
           </h2>
           <label
@@ -4782,7 +4794,9 @@ const handleKeyDown = (event) => {
       <!-- Content -->
       <div class="">
         {#each searchTerm?.length !== 0 ? Object?.entries(filteredGroupedRules) : Object?.entries(groupedRules) as [category, rules]}
-          <h4 class="mb-1 font-semibold text-lg mt-5 text-gray-900 dark:text-white">
+          <h4
+            class="mb-1 font-semibold text-lg mt-5 text-gray-900 dark:text-white"
+          >
             {category}
           </h4>
           <div class="flex flex-wrap">
@@ -4853,7 +4867,9 @@ const handleKeyDown = (event) => {
     class="modal-box w-full p-6 rounded border
         bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none"
   >
-    <h1 class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+    <h1
+      class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+    >
       New Screener
     </h1>
 
@@ -4958,13 +4974,17 @@ const handleKeyDown = (event) => {
       >
       {#if infoText?.equation !== undefined}
         <div class="w-5/6 m-auto mt-5"></div>
-        <div class="text-[1rem] w-full pt-3 pb-3 m-auto text-gray-600 dark:text-zinc-400">
+        <div
+          class="text-[1rem] w-full pt-3 pb-3 m-auto text-gray-600 dark:text-zinc-400"
+        >
           {infoText?.equation}
         </div>
       {/if}
     </div>
 
-    <div class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-2 w-full">
+    <div
+      class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-2 w-full"
+    >
       <label
         for="mobileTooltip"
         class="cursor-pointer mt-4 font-semibold text-xl m-auto flex justify-center text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
