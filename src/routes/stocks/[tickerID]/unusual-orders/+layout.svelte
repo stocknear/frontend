@@ -84,7 +84,7 @@
             class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
           >
             <a
-              href={`/dark-pool-flow?query=${$stockTicker}`}
+              href={`/unusual-order-flow?query=${$stockTicker}`}
               class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">

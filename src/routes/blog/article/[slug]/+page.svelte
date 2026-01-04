@@ -58,7 +58,7 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-3 px-2 lg:px-3"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-3 px-2 lg:px-3 text-gray-700 dark:text-zinc-200"
 >
   <div class="w-full overflow-hidden m-auto">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
@@ -70,7 +70,7 @@
               article?.id,
               article?.cover,
             )}
-            class="h-[200px] w-full object-cover lg:h-[350px] rounded-[5px] border border-gray-100 dark:border-gray-900"
+            class="h-[200px] w-full object-cover lg:h-[350px] rounded-2xl border border-gray-200/70 dark:border-zinc-800/80"
             loading="lazy"
             alt="Wallpaper"
           />
@@ -79,16 +79,16 @@
           <article
             class="z-5 relative mx-1 {article?.cover
               ? '-mt-10 lg:-mt-16'
-              : 'lg:-mt-8'} rounded-t-[8px] p-3 xs:p-4 lg:ml-3 lg:p-5 xl:mx-4 bg-white dark:bg-default border border-gray-100 dark:border-gray-900 shadow-sm"
+              : 'lg:-mt-8'} rounded-2xl p-3 xs:p-4 lg:ml-3 lg:p-5 xl:mx-4 bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80 shadow-none"
           >
             <header
-              class="pb-3 border-b-[2px] border-[#2C6288] dark:border-white w-full sm:min-w-[1000px] sm:max-w-[1000px]"
+              class="pb-3 border-b border-gray-200/70 dark:border-zinc-800/80 w-full sm:min-w-[1000px] sm:max-w-[1000px]"
             >
-              <h1 class="mb-3 text-2xl sm:text-4xl font-bold">
+              <h1 class="mb-3 text-2xl sm:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
                 {article?.title}
               </h1>
               <div class="">
-                <div class="italic text-sm">
+                <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
                   Last Updated: {new Date(article?.updated)?.toLocaleString(
                     "en-US",
                     {
@@ -103,7 +103,7 @@
               </div>
             </header>
 
-            <div class="text-lg mt-4">
+            <div class="text-base mt-4 text-gray-600 dark:text-zinc-300 leading-relaxed">
               <div class="content max-w-[1000px]">
                 {#if article?.category === "pre-earnings"}
                   <PreEarningsPost rawData={article?.data} />

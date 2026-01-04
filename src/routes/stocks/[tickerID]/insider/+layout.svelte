@@ -158,13 +158,15 @@
               class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
               <div class="p-4 text-sm">
-                <h3 class="text-xl font-bold mb-3">{$stockTicker} News</h3>
+                <h3 class="text-lg font-semibold mb-3">
+                  {$stockTicker} News
+                </h3>
                 <ul class="">
                   {#each newsList?.slice(0, 10) as item}
                     <li class="mb-3 last:mb-1">
-                      {formatDate(item?.publishedDate)} ago -
+                      {formatDate(item?.publishedDate)} &#183;
                       <a
-                        class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400"
                         href={item?.url}
                         target="_blank"
                         rel="noopener noreferrer nofollow">{item?.title}</a

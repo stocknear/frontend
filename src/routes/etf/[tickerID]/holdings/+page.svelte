@@ -75,8 +75,8 @@
         enabled: false,
       },
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: $mode === "light" ? "transparent" : "transparent",
+        plotBackgroundColor: $mode === "light" ? "transparent" : "transparent",
         type: "pie",
         height: 330,
         animation: false,
@@ -90,10 +90,10 @@
           cursor: "pointer",
           dataLabels: {
             enabled: true,
-            distance: 30,
+            distance: 24,
             style: {
-              color: $mode === "light" ? "#333" : "#fff",
-              fontSize: "14px",
+              color: $mode === "light" ? "#4B5563" : "#A1A1AA",
+              fontSize: "12px",
               fontWeight: "500",
               textOutline: "none",
             },
@@ -165,9 +165,9 @@
         },
         labels: {
           style: {
-            color: $mode === "light" ? "#333" : "#fff",
-            fontSize: "14px",
-            fontWeight: "400",
+            color: $mode === "light" ? "#4B5563" : "#A1A1AA",
+            fontSize: "12px",
+            fontWeight: "500",
           },
         },
         lineWidth: 0,
@@ -194,8 +194,8 @@
             align: "left",
             x: 5,
             style: {
-              color: $mode === "light" ? "#333" : "#fff",
-              fontSize: "14px",
+              color: $mode === "light" ? "#374151" : "#E5E7EB",
+              fontSize: "12px",
               fontWeight: "600",
               textOutline: "none",
             },
@@ -203,7 +203,7 @@
               return this.y.toFixed(2) + "%";
             },
           },
-          color: "#4A90A4",
+          color: "#6B7280",
           borderWidth: 0,
           pointPadding: 0.1,
           groupPadding: 0.1,
@@ -326,7 +326,7 @@
 />
 
 <section
-  class=" overflow-hidden h-full min-h-screen mb-20 sm:mb-0 w-full mt-2 sm:mt-0"
+  class="overflow-hidden h-full min-h-screen mb-20 sm:mb-0 w-full mt-2 sm:mt-0 text-gray-700 dark:text-zinc-200"
 >
   <div class="flex justify-center m-auto h-full overflow-hidden w-full">
     <div
@@ -334,12 +334,12 @@
     >
       <div class="mt-5 sm:mt-0 sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
         <div class="flex flex-row items-center md:space-x-4 md:border-0">
-          <h1 class=" text-xl sm:text-2xl font-bold">
+          <h1 class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
             {$etfTicker} Holdings List
           </h1>
           {#if data?.getETFHoldings?.lastUpdate}
             <div
-              class="ml-3 sm:mt-1 whitespace-nowrap text-sm sm:text-[1rem] md:ml-0"
+              class="ml-3 sm:mt-1 whitespace-nowrap text-sm text-gray-500 dark:text-zinc-400 md:ml-0"
             >
               <span class="inline">As of </span>{formattedDate}
             </div>
@@ -350,28 +350,28 @@
         </div>
 
         <div
-          class="mt-4 shadow mb-4 grid grid-cols-2 grid-rows-1 divide-gray-300 dark:divide-gray-600 rounded border border-gray-300 dark:border-gray-600 md:grid-cols-3 md:grid-rows-1 divide-x"
+          class="mt-4 mb-4 grid grid-cols-2 grid-rows-1 divide-gray-200/70 dark:divide-zinc-800/80 rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 md:grid-cols-3 md:grid-rows-1 divide-x"
         >
           <div class="p-4 bp:p-5 sm:p-6">
             <label
-              class="mr-1 cursor-pointer flex flex-row items-center text-[1rem]"
+              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
             >
               Total Holdings
             </label>
-            <div class="mt-1 break-words font-semibold leading-8 text-xl">
+            <div class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-gray-900 dark:text-white">
               {rawData?.length?.toLocaleString("en-US")}
             </div>
           </div>
           <div
-            class="p-4 bp:p-5 sm:p-6 border-b border-gray-300 dark:border-gray-600"
+            class="p-4 bp:p-5 sm:p-6 border-b border-gray-200/70 dark:border-zinc-800/80"
           >
             <label
-              class="mr-1 cursor-pointer flex flex-row items-center text-[1rem]"
+              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
             >
               Top 10 Percentage
             </label>
 
-            <div class="mt-1 break-words font-semibold leading-8 text-xl">
+            <div class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-gray-900 dark:text-white">
               {rawData
                 ?.slice(0, 10)
                 ?.reduce((acc, item) => acc + (item?.weightPercentage || 0), 0)
@@ -380,48 +380,48 @@
           </div>
           <div class="p-4 bp:p-5 sm:p-6 border-t border-b sm:border-none">
             <label
-              class="mr-1 cursor-pointer flex flex-row items-center text-[1rem]"
+              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
             >
               Asset Class
             </label>
 
-            <div class="mt-1 break-words font-semibold leading-8 text-xl">
+            <div class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-gray-900 dark:text-white">
               {data?.getETFProfile?.at(0)?.assetClass}
             </div>
           </div>
 
           <div class="p-4 bp:p-5 sm:p-6 border-t">
             <label
-              class="mr-1 cursor-pointer flex flex-row items-center text-[1rem]"
+              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
             >
               Assets
             </label>
 
-            <div class="mt-1 break-words font-semibold leading-8 text-xl">
+            <div class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-gray-900 dark:text-white">
               {abbreviateNumber(data?.getETFProfile?.at(0)?.aum)}
             </div>
           </div>
           <div class="p-4 bp:p-5 sm:p-6">
             <label
-              class="mr-1 cursor-pointer flex flex-row items-center text-[1rem]"
+              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
             >
               PE Ratio
             </label>
 
-            <div class="mt-1 break-words font-semibold leading-8 text-xl">
+            <div class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-gray-900 dark:text-white">
               {data?.getStockQuote?.pe?.toFixed(2) ?? "n/a"}
             </div>
           </div>
           <div
-            class="p-4 bp:p-5 sm:p-6 border-t border-gray-300 dark:border-gray-600"
+            class="p-4 bp:p-5 sm:p-6 border-t border-gray-200/70 dark:border-zinc-800/80"
           >
             <label
-              class="mr-1 cursor-pointer flex flex-row items-center text-[1rem]"
+              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
             >
               Expense Ratio
             </label>
 
-            <div class="mt-1 break-words font-semibold leading-8 text-xl">
+            <div class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-gray-900 dark:text-white">
               {data?.getETFProfile?.at(0)?.expenseRatio?.toFixed(4) + "%"}
             </div>
           </div>
@@ -431,12 +431,12 @@
           <div class="">
             <div class="grow mt-5">
               <div class="relative">
-                <h2 class="mb-2 text-xl sm:text-2xl font-bold">
+                <h2 class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
                   Sector Allocation
                 </h2>
 
                 <div
-                  class=" sm:p-3 shadow border border-gray-300 dark:border-gray-800 rounded"
+                  class="sm:p-3 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                   use:highcharts={$screenWidth < 640
                     ? configBarChart
                     : configPieChart}

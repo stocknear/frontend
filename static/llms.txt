@@ -64,7 +64,7 @@
 - `/options-screener` - Options scanner
 - `/options-flow` - Options flow tracker
 - `/market-flow` - Market flow analysis
-- `/dark-pool-flow` - Dark pool tracker
+- `/unusual-order-flow` - Dark pool tracker
 
 ## Market Movers
 - `/market-mover/gainers` - Top gainers

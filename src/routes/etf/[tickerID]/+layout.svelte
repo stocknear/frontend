@@ -508,7 +508,7 @@
           <div class="sm:flex sm:justify-start w-full">
             <div class=" w-full px-3 sm:px-0 lg:pr-3">
               <div
-                class="md:flex md:justify-between md:divide-x md:divide-slate-800"
+                class="md:flex md:justify-between md:divide-x md:divide-gray-200/70 dark:md:divide-zinc-800/80"
               >
                 <!-- Main content -->
                 <div class="pb-12 md:pb-20 w-full">
@@ -534,7 +534,7 @@
                                 if (modal) modal.checked = true;
                               }
                             }}
-                            class="inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded bg-default sm:hover:bg-black dark:sm:hover:bg-[#2A2E39] border border-gray-300 dark:border-gray-600 px-3 py-1.5 text-base font-semibold text-white shadow lg:px-2.5 flex-1 md:flex-initial"
+                            class="inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 text-sm font-semibold lg:px-3 flex-1 md:flex-initial"
                             ><svg
                               class="size-5 flex-shrink-0"
                               fill="none"
@@ -549,13 +549,13 @@
                                 d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                               ></path></svg
                             >
-                            <span class="text-sm md:text-[1rem]">Watchlist</span
+                            <span class="text-sm md:text-sm">Watchlist</span
                             ></button
                           >
                           <label
                             on:click={() => ($openPriceAlert = true)}
                             for={data?.user ? "priceAlertModal" : "userLogin"}
-                            class="inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded bg-default sm:hover:bg-black dark:sm:hover:bg-[#2A2E39] border border-gray-300 dark:border-gray-600 px-3 py-1.5 text-base font-semibold text-white shadow lg:px-2.5 flex-1 md:flex-initial"
+                            class="inline-flex items-center justify-center gap-x-1.5 cursor-pointer transition-all whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 text-sm font-semibold lg:px-3 flex-1 md:flex-initial"
                             ><svg
                               xmlns="http://www.w3.org/2000/svg"
                               class="size-5 flex-shrink-0"
@@ -573,7 +573,7 @@
                                 /></g
                               ></svg
                             >
-                            <span class="text-sm md:text-[1rem]"
+                            <span class="text-sm md:text-sm"
                               >Price Alert</span
                             ></label
                           >
@@ -600,18 +600,18 @@
                     <!--Start Ticker Section-->
 
                     <nav
-                      class="sm:ml-4 border-b-[2px] border-[#2C6288] dark:border-white overflow-x-auto whitespace-nowrap"
+                      class="sm:ml-4 border-b border-gray-200/70 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
                     >
                       <ul
-                        class="flex flex-row items-center w-full text-[1rem] text-white"
+                        class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
                       >
                         <a
                           href={`/etf/${$etfTicker}`}
                           on:click={() => changeSection("overview")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
+                          class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'overview'
-                            ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                            ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           Overview
                         </a>
@@ -619,10 +619,10 @@
                         <a
                           href={`/etf/${$etfTicker}/holdings`}
                           on:click={() => changeSection("holdings")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
+                          class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'holdings'
-                            ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                            ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           Holdings
                         </a>
@@ -630,20 +630,20 @@
                         <a
                           href={`/etf/${$etfTicker}/unusual-orders`}
                           on:click={() => changeSection("unusual-orders")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
+                          class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'unusual-orders'
-                            ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                            ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           Unusual Orders
                         </a>
                         <a
                           href={`/etf/${$etfTicker}/options`}
                           on:click={() => changeSection("options")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
+                          class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'options'
-                            ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                            ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           Options
                         </a>
@@ -651,20 +651,20 @@
                         <a
                           href={`/etf/${$etfTicker}/dividends`}
                           on:click={() => changeSection("dividends")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
+                          class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'dividends'
-                            ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                            ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           Dividends
                         </a>
                         <a
                           href={`/etf/${$etfTicker}/history`}
                           on:click={() => changeSection("history")}
-                          class="p-2 px-5 cursor-pointer {displaySection ===
+                          class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'history'
-                            ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-secondary font-semibold'
-                            : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-secondary'}"
+                            ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           History
                         </a>
@@ -711,17 +711,17 @@
   ></label>
 
   <div
-    class="modal-box max-h-96 rounded w-full bg-white dark:bg-secondary border border-gray-600"
+    class="modal-box max-h-96 rounded-2xl w-full bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-800 text-gray-700 dark:text-zinc-200"
   >
     <div
-      class="mb-5 flex flex-row justify-between items-center border-b pb-2 border-gray-300 dark:border-gray-600"
+      class="mb-5 flex flex-row justify-between items-center border-b pb-2 border-gray-200/70 dark:border-zinc-800"
     >
-      <h3 class="font-semibold text-lg sm:text-xl text-black dark:text-white">
+      <h3 class="font-semibold text-lg sm:text-xl text-gray-900 dark:text-white">
         Add to Watchlist
       </h3>
       <label
         for="addWatchListModal"
-        class="cursor-pointer absolute right-5 top-2 text-[1rem] sm:text-[1.5rem]"
+        class="cursor-pointer absolute right-5 top-2 text-sm sm:text-[1.5rem]"
       >
         ✕
       </label>
@@ -735,28 +735,28 @@
             class="cursor-pointer w-full flex flex-row justify-start items-center mb-5"
           >
             <div
-              class="flex flex-row items-center w-full border p-3 rounded {item?.ticker?.includes(
+              class="flex flex-row items-center w-full border p-3 rounded-2xl {item?.ticker?.includes(
                 $etfTicker,
               )
-                ? 'border border-gray-600 dark:border-gray-300'
-                : 'border-gray-300 dark:border-gray-600'}"
+                ? 'border-gray-200/70 dark:border-zinc-700/80 bg-gray-50/60 dark:bg-zinc-900/50'
+                : 'border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40'}"
             >
               <div class="flex flex-col items-center w-full">
-                <span class="ml-1 mr-auto">
+                <span class="ml-1 mr-auto text-gray-700 dark:text-zinc-200">
                   {item?.title}
                 </span>
-                <span class="ml-1 text-sm mr-auto">
+                <span class="ml-1 text-sm mr-auto text-gray-500 dark:text-zinc-300">
                   {item?.ticker?.length}
                   {item?.ticker?.length !== 1 ? "Companies" : "Company"}
                 </span>
               </div>
 
               <div
-                class="rounded-full w-8 h-8 relative border border-[#737373]"
+                class="rounded-full w-8 h-8 relative border border-gray-300 dark:border-zinc-800/80"
               >
                 {#if item?.ticker?.includes($etfTicker)}
                   <svg
-                    class="w-full h-full rounded-full text-black dark:text-white"
+                    class="w-full h-full rounded-full text-gray-700 dark:text-zinc-200"
                     viewBox="0 0 48 48"
                     version="1.1"
                     xmlns="http://www.w3.org/2000/svg"
@@ -831,7 +831,6 @@
   ::-webkit-scrollbar-thumb {
     background: #6b6f79;
     -webkit-border-radius: 1ex;
-    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
   }
 
   ::-webkit-scrollbar-corner {

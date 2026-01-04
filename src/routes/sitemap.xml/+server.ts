@@ -12,7 +12,7 @@ const pages = [
   // Real-time data pages - High priority, frequent updates
   { title: "/market-news", priority: 0.9, changefreq: "hourly" },
   { title: "/options-flow", priority: 0.85, changefreq: "hourly" },
-  { title: "/dark-pool-flow", priority: 0.85, changefreq: "hourly" },
+  { title: "/unusual-order-flow", priority: 0.85, changefreq: "hourly" },
   { title: "/market-flow", priority: 0.85, changefreq: "hourly" },
   { title: "/heatmap", priority: 0.8, changefreq: "hourly" },
   
