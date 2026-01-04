@@ -1159,7 +1159,7 @@
             {/if}
 
             <div class="mt-6 md:mt-10">
-              <h3 class="font-semibold text-xl md:text-2xl">
+              <h3 class="font-semibold tracking-tight text-gray-900 dark:text-white text-xl md:text-2xl">
                 Popular Stock Comparisons
               </h3>
               <div class="my-4 sm:flex md:my-5">
@@ -1246,7 +1246,7 @@
             </div>
 
             <div class="mt-6 md:mt-10">
-              <h3 class="font-semibold text-xl md:text-2xl">
+              <h3 class="font-semibold tracking-tight text-gray-900 dark:text-white text-xl md:text-2xl">
                 Popular Stock Comparisons
               </h3>
               <div class="my-4 sm:flex md:my-5">
