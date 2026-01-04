@@ -70,7 +70,7 @@
                 <td class="py-3 px-3 sm:px-4 text-left">
                   <a
                     href={`/stocks/${item?.symbol}`}
-                    class="font-semibold text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
+                    class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400"
                     >{item?.symbol}</a
                   >
                 </td>
@@ -170,7 +170,7 @@
                 <td class="py-3 px-3 sm:px-4 text-left">
                   <a
                     href={`/stocks/${item?.symbol}`}
-                    class="font-semibold text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
+                    class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400"
                     >{item?.symbol}</a
                   >
                 </td>

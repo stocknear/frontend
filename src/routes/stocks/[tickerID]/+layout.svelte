@@ -782,10 +782,10 @@
   ></label>
 
   <div
-    class="modal-box max-h-96 rounded-2xl w-full bg-white/95 dark:bg-zinc-950/95 border border-gray-200/70 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200"
+    class="modal-box max-h-96 rounded-2xl w-full bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800 text-gray-700 dark:text-zinc-200"
   >
     <div
-      class="mb-5 flex flex-row justify-between items-center border-b pb-2 border-gray-200/70 dark:border-zinc-800/80"
+      class="mb-5 flex flex-row justify-between items-center border-b pb-2 border-gray-200/70 dark:border-zinc-800"
     >
       <h3
         class="font-semibold text-lg sm:text-xl text-gray-900 dark:text-white"
@@ -818,7 +818,9 @@
                 <span class="ml-1 mr-auto text-gray-700 dark:text-zinc-200">
                   {item?.title}
                 </span>
-                <span class="ml-1 text-sm mr-auto text-gray-500 dark:text-zinc-300">
+                <span
+                  class="ml-1 text-sm mr-auto text-gray-500 dark:text-zinc-300"
+                >
                   {item?.ticker?.length}
                   {item?.ticker?.length !== 1 ? "Companies" : "Company"}
                 </span>

@@ -23,7 +23,7 @@
       for
       <a
         href={`/stocks/${analystReport?.symbol}/forecast`}
-        class="font-semibold text-blue-700 dark:text-blue-300"
+        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400"
         >{analystReport?.symbol}</a
       >
       is

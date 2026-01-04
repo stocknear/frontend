@@ -52,14 +52,14 @@
                                 {#each item?.symbolList as symbol}
                                     <a
                                         href={`/${item?.assetType}/${symbol}`}
-                                        class="inline-flex items-center rounded-full border border-blue-200/80 dark:border-blue-500/40 bg-blue-50/80 dark:bg-blue-500/10 px-2 py-0.5 text-xs font-semibold text-blue-700 dark:text-blue-300 transition hover:text-blue-800 dark:hover:text-blue-200 ml-1.5 mb-1"
+                                        class="inline-flex items-center rounded-full border border-blue-200/80 dark:border-blue-500/40 bg-blue-50/80 dark:bg-blue-500/10 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white ml-1.5 mb-1"
                                         >{symbol}</a
                                     >
                                 {/each}
                             {:else if item?.symbol}
                                 <a
                                     href={`/${item?.assetType}/${item?.symbol}`}
-                                    class="inline-flex items-center rounded-full border border-blue-200/80 dark:border-blue-500/40 bg-blue-50/80 dark:bg-blue-500/10 px-2 py-0.5 text-xs font-semibold text-blue-700 dark:text-blue-300 transition hover:text-blue-800 dark:hover:text-blue-200 ml-1.5"
+                                    class="inline-flex items-center rounded-full border border-blue-200/80 dark:border-blue-500/40 bg-blue-50/80 dark:bg-blue-500/10 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white ml-1.5"
                                     >{item?.symbol}</a
                                 >
                             {/if}

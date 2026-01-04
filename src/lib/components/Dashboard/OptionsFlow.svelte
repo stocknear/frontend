@@ -48,7 +48,7 @@
             <td class="py-3 text-left whitespace-nowrap">
               <a
                 href={`/${item?.underlying_type === "stock" ? "stocks" : "etf"}/${item?.ticker}/options/unusual-activity`}
-                class="text-blue-700 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-200 font-semibold"
+                class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400"
                 >{item?.ticker}</a
               >
             </td>

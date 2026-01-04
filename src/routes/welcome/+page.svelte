@@ -87,23 +87,25 @@
 
 <SEO title="Welcome to Stocknear" description="" />
 
-<main class="text-muted dark:text-white w-full min-h-screen pb-20">
+<main class="text-gray-700 dark:text-zinc-200 w-full min-h-screen pb-20">
   <section
-    class="border-b border-gray-200 dark:border-none shadow dark:border-gray-800 sm:rounded w-full bg-gray-100 dark:bg-gray-500/20"
+    class="border-b border-gray-200/70 dark:border-zinc-800/80 sm:rounded-2xl w-full bg-white/70 dark:bg-zinc-950/40"
   >
-    <div class="mx-auto max-w-7xl px-6 py-16 sm:py-2 md:px-8">
+    <div class="mx-auto max-w-7xl px-6 py-16 sm:py-12 md:px-8">
       <div class="text-center">
         <img
-          class="m-auto w-20 sm:w-24 rounded-full mb-5 mt-3"
+          class="m-auto w-20 sm:w-24 rounded-full mb-5 mt-3 border border-gray-200/70 dark:border-zinc-800/80"
           src="/pwa-192x192.png"
           alt="Stocknear Logo"
           loading="lazy"
         />
-        <h1 class="mt-1 text-4xl font-bold sm:text-5xl">
+        <h1
+          class="mt-1 text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white"
+        >
           You have now {tier} Access!
         </h1>
         <p
-          class="mx-auto mt-5 max-w-3xl text-xl leading-relaxed md:mt-7 md:text-2xl mb-10"
+          class="mx-auto mt-5 max-w-3xl text-base sm:text-lg leading-relaxed md:mt-7 mb-10 text-gray-600 dark:text-zinc-400"
         >
           Your subscription pays for itself with just one better trade decision.
           Join thousands of investors making smarter, data-driven choices.
@@ -113,32 +115,34 @@
   </section>
 
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10">
-    <h2 class="text-xl font-semibold mb-5">Welcome aboard! 👋</h2>
+    <h2 class="text-xl font-semibold mb-5 tracking-tight text-gray-900 dark:text-white">
+      Welcome aboard! 👋
+    </h2>
 
-    <p class="mb-5 text-base md:text-lg leading-relaxed">
+    <p class="mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400">
       Thank you for subscribing to <strong>Stocknear</strong>! You've made a
       smart investment that typically pays for itself with just one prevented
       loss or better-timed trade.
     </p>
 
-    <p class="mb-5 text-base md:text-lg leading-relaxed">
+    <p class="mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400">
       You now have access to the same institutional-grade tools and real-time
       data that hedge funds pay thousands for monthly. Need assistance with any
       feature? Our support team is here to help at
       <a
         href="mailto:{emailAddress}"
-        class="text-violet-800 dark:text-violet-400 hover:underline"
+        class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 hover:underline transition"
       >
         {emailAddress}
       </a>.
     </p>
 
     {#if ["Pro", "Lifetime"]?.includes(tier)}
-      <p class="mb-5 text-base md:text-lg leading-relaxed">
+      <p class="mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400">
         Your Pro subscription unlocks:
       </p>
       <ul
-        class="list-disc list-inside mb-5 text-base md:text-lg leading-relaxed"
+        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400 marker:text-gray-400 dark:marker:text-zinc-600"
       >
         <li>Real-time options flow and dark pool activity tracking</li>
         <li>AI-powered forecasts and market analysis</li>
@@ -147,11 +151,11 @@
         <li>Priority access to new features and updates</li>
       </ul>
     {:else if tier === "Plus"}
-      <p class="mb-5 text-base md:text-lg leading-relaxed">
+      <p class="mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400">
         Your Plus subscription unlocks:
       </p>
       <ul
-        class="list-disc list-inside mb-5 text-base md:text-lg leading-relaxed"
+        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400 marker:text-gray-400 dark:marker:text-zinc-600"
       >
         <li>Unlimited watchlists and price alerts</li>
         <li>AI-powered forecasts and market analysis</li>
@@ -164,7 +168,7 @@
 
     <a
       href="/"
-      class="flex justify-center items-center w-fit px-10 m-auto py-2.5 mt-10 rounded duration-100 bg-black text-white sm:hover:bg-default dark:bg-[#fff] dark:sm:hover:hover:bg-gray-300 dark:text-black font-semibold"
+      class="flex justify-center items-center w-fit px-10 m-auto py-2.5 mt-10 rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200"
     >
       Start Researching Now!
     </a>
