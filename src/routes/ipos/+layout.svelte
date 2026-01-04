@@ -3,46 +3,36 @@
 
   export let data;
 
-  let navigation = [];
+  let navigation: { title: number; link: string }[] = [];
   let displaySection = "Latest";
 
-  for (let year = 2025; year >= 2019; year--) {
+  const startYear = 2019;
+  const currentYear = new Date().getFullYear();
+
+  for (let year = currentYear; year >= startYear; year--) {
     navigation.push({ title: year, link: `/ipos/${year}` });
   }
 
+  // Get year from URL if it looks like /ipos/2024 etc.
   $: {
-    if ($page.url.pathname) {
-      const parts = $page?.url?.pathname?.split("/");
-      const sectionMap = {
-        "2025": "2025",
-        "2024": "2024",
-        "2023": "2023",
-        "2022": "2022",
-        "2021": "2021",
-        "2020": "2020",
-        "2019": "2019",
-      };
-      displaySection =
-        sectionMap[
-          parts?.find((part) => Object?.keys(sectionMap)?.includes(part))
-        ] || "Latest";
-    }
+    const parts = $page.url.pathname.split("/");
+    const maybeYear = parts?.find((p) => /^\d{4}$/.test(p));
+
+    const yearNum = maybeYear ? Number(maybeYear) : null;
+
+    displaySection =
+      yearNum && yearNum >= startYear && yearNum <= currentYear
+        ? String(yearNum)
+        : "Latest";
   }
 
   const tabs = [
-    {
-      title: "Recent",
-      path: "/ipos",
-    },
-    {
-      title: "Statistics",
-      path: "/ipos/statistics",
-    },
+    { title: "Recent", path: "/ipos" },
+    { title: "Statistics", path: "/ipos/statistics" },
   ];
 
   let activeIdx = 0;
 
-  // Subscribe to the $page store to reactively update the activeIdx based on the URL
   $: if ($page.url.pathname === "/ipos") {
     activeIdx = 0;
   } else if ($page.url.pathname.startsWith("/ipos/statistics")) {

@@ -12,6 +12,8 @@
 
   export let avgGrowthList = [];
   export let graphType = null;
+
+  const thisYear = new Date().getFullYear() % 100;
 </script>
 
 {#if graphType !== "growth"}
@@ -179,7 +181,7 @@
             </tr><tr
               class="border-b border-gray-300 dark:border-gray-800 last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">Avg</td>
-              {#each avgGrowthList?.filter((item) => item.FY >= 25) as item, index}
+              {#each avgGrowthList?.filter((item) => item?.FY >= thisYear) as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
                   {#if index !== 0}
                     {#if !["Pro", "Plus"]?.includes(userTier) && index >= avgDataList?.length - 2}
