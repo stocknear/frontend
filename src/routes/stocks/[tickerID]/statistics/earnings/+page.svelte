@@ -157,9 +157,11 @@
   }
 
   const isDarkMode = $mode === "dark";
-  const textColor = isDarkMode ? "#545454" : "#545454";
+  const textColor = isDarkMode ? "#a1a1aa" : "#6b7280";
+  const titleColor = isDarkMode ? "#f4f4f5" : "#111827";
   const bgColor = isDarkMode ? "#09090B" : "#fff";
-  const gridColor = isDarkMode ? "#111827" : "#e5e7eb";
+  const gridColor = isDarkMode ? "#27272a" : "#e5e7eb";
+  const zeroLineColor = isDarkMode ? "#3f3f46" : "#9ca3af";
 
   const options = {
    credits: {
@@ -173,9 +175,9 @@
     animation: false,
    },
    title: {
-    text: `<h3 class="mt-3 mb-1">${seriesName}</h3>`,
+    text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${seriesName}</h3>`,
     style: {
-     color: isDarkMode ? "white" : "black",
+     color: titleColor,
     },
     useHTML: true,
    },
@@ -184,7 +186,7 @@
     gridLineWidth: 0,
     labels: {
      style: {
-      color: isDarkMode ? "white" : "#545454",
+      color: textColor,
       fontSize: "11px",
      },
      rotation: -45,
@@ -197,7 +199,7 @@
     gridLineWidth: 1,
     gridLineColor: gridColor,
     labels: {
-     style: { color: isDarkMode ? "white" : "#545454" },
+     style: { color: textColor },
      formatter: function () {
       return this.value + "%";
      },
@@ -207,7 +209,7 @@
     plotLines: [
      {
       value: 0,
-      color: isDarkMode ? "#374151" : "#9ca3af",
+      color: zeroLineColor,
       width: 1,
       zIndex: 5,
      },
@@ -267,7 +269,7 @@
    plotOptions: {
     column: {
      grouping: false,
-     shadow-none: false,
+     shadow: false,
      borderWidth: 0,
      animation: false,
      colorByPoint: true,
@@ -282,11 +284,11 @@
      ),
      dataLabels: {
       enabled: true,
-      color: isDarkMode ? "white" : "black",
+      color: isDarkMode ? "#e4e4e7" : "#111827",
       style: {
        fontSize: "11px",
        fontWeight: "bold",
-       textOutline: isDarkMode ? "1px black" : "1px white",
+       textOutline: isDarkMode ? "1px #18181b" : "1px #ffffff",
       },
       formatter: function () {
        if (Math.abs(this.y) < 0.5) return ""; // Hide very small values
@@ -586,7 +588,7 @@
  }}
 />
 
-<section class=" w-full overflow-hidden h-full">
+<section class="w-full overflow-hidden h-full text-gray-700 dark:text-zinc-200">
  <div class="w-full flex justify-center w-full sm-auto h-full overflow-hidden">
   <div
    class="w-full relative flex justify-center items-center overflow-hidden"
@@ -594,7 +596,9 @@
    <main class="w-full">
     <div class="sm:pl-7 sm:pb-7 sm:pt-7 m-auto mt-2 sm:mt-0">
      <div class="w-full flex flex-col sm:flex-row justify-between">
-      <h1 class="text-xl sm:text-2xl font-bold">
+      <h1
+       class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+      >
        {removeCompanyStrings($displayCompanyName)} Earnings Surprise
       </h1>
      </div>
@@ -608,9 +612,13 @@
        {/if}
 
        <div
-        class=" flex flex-col sm:flex-row items-start sm:items-center w-full justify-between border-t border-b border-gray-200/70 dark:border-zinc-800/80 py-2"
+        class="flex flex-col sm:flex-row items-start sm:items-center w-full justify-between border-t border-b border-gray-200/70 dark:border-zinc-800/80 py-2"
        >
-        <h2 class="text-xl sm:text-2xl font-bold">Earnings Chart</h2>
+        <h2
+         class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+        >
+         Earnings Chart
+        </h2>
         <div class="sm:ml-auto">
          <div class="inline-flex mt-2 sm:mt-0">
           <div class="inline-flex rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60">
@@ -626,7 +634,7 @@
               ? 'border-t border-b'
               : ''}
              {timeIdx === i
-              ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
+              ? 'bg-gray-100/80 text-gray-900 dark:bg-zinc-800/70 dark:text-white border-gray-200/70 dark:border-zinc-800/80'
               : 'bg-white/80 border-gray-200/70 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-800/80'}"
             >
              {item.title}
@@ -663,7 +671,7 @@
             align="end"
             sideOffset={10}
             alignOffset={0}
-            class=" h-fit max-h-72 overflow-y-auto scroller"
+            class="h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
            >
             <DropdownMenu.Group>
              {#each ["3Y", "5Y", "MAX"] as item, index}
@@ -707,96 +715,96 @@
         <div class="grow">
          <div class="relative">
           <div
-           class=" border border-gray-200/70 dark:border-zinc-800/80 rounded"
+           class="border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
            use:highcharts={config}
           ></div>
          </div>
         </div>
        </div>
 
-       <div
-        class="flex flex-row items-center w-full justify-between mt-3 border-t border-b border-gray-200/70 dark:border-zinc-800/80 py-2"
-       >
-        <h3 class=" history-driver text-xl sm:text-2xl font-bold">
-         History
-        </h3>
+       <div class="items-center lg:overflow-visible px-1 py-1 mt-3">
+        <div
+         class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
+        >
+         <h3
+          class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
+         >
+          History
+         </h3>
 
-        <div class="flex flex-row items-center w-fit w-[50%] ml-auto">
-         <DownloadData
-          {data}
-          rawData={baseTableData}
-          title={`earnings_${$stockTicker}`}
-         />
+         <div
+          class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+         >
+          <div class="ml-auto">
+           <DownloadData
+            {data}
+            rawData={baseTableData}
+            title={`earnings_${$stockTicker}`}
+           />
+          </div>
+         </div>
         </div>
        </div>
 
-       <div class="w-full overflow-x-auto">
-        <table
-         class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums m-auto mt-2"
+       <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
+        <div
+         class="w-full overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
         >
-         <thead>
-          <TableHeader {columns} {sortOrders} {sortData} />
-         </thead>
-         <tbody>
-          {#each paginatedTableList as item}
-           {#if !isFutureDate(item.date)}
-            <tr
-             class="transition-colors"
-            >
-             <td
-              class=" text-sm text-start whitespace-nowrap"
-             >
-              FY{String(item?.period_year)?.slice(-2)}
-              {item.period}
-             </td>
+         <table
+          class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
+         >
+          <thead
+           class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+          >
+           <TableHeader {columns} {sortOrders} {sortData} />
+          </thead>
+          <tbody>
+           {#each paginatedTableList as item}
+            {#if !isFutureDate(item.date)}
+             <tr class="transition-colors">
+              <td class="text-sm text-start whitespace-nowrap">
+               FY{String(item?.period_year)?.slice(-2)}
+               {item.period}
+              </td>
 
-             <td
-              class=" text-sm text-end sm:text-sm whitespace-nowrap"
-             >
-              {new Date(item.date).toLocaleDateString("en-US", {
-               day: "2-digit",
-               month: "short",
-               year: "numeric",
-               timeZone: "UTC",
-              })}
-             </td>
+              <td class="text-sm text-end whitespace-nowrap">
+               {new Date(item.date).toLocaleDateString("en-US", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+                timeZone: "UTC",
+               })}
+              </td>
 
-             <td
-              class=" text-sm text-right whitespace-nowrap"
-             >
-              {item?.eps && item?.eps?.length > 0
-               ? item?.eps
-               : "-"}
-             </td>
+              <td class="text-sm text-right whitespace-nowrap">
+               {item?.eps && item?.eps?.length > 0
+                ? item?.eps
+                : "-"}
+              </td>
 
-             <td
-              class=" text-sm text-right whitespace-nowrap"
-             >
-              {item?.eps_est && item?.eps_est?.length > 0
-               ? item?.eps_est
-               : "-"}
-             </td>
+              <td class="text-sm text-right whitespace-nowrap">
+               {item?.eps_est && item?.eps_est?.length > 0
+                ? item?.eps_est
+                : "-"}
+              </td>
 
-             <td
-              class=" text-sm text-right whitespace-nowrap"
-             >
-              {item.revenue && item.revenue?.length > 0
-               ? abbreviateNumber(item.revenue)
-               : "-"}
-             </td>
+              <td class="text-sm text-right whitespace-nowrap">
+               {item.revenue && item.revenue?.length > 0
+                ? abbreviateNumber(item.revenue)
+                : "-"}
+              </td>
 
-             <td
-              class=" text-sm text-right whitespace-nowrap"
-             >
-              {item.revenue_est && item.revenue_est?.length > 0
-               ? abbreviateNumber(item.revenue_est)
-               : "-"}
-             </td>
-            </tr>
-           {/if}
-          {/each}
-         </tbody>
-        </table>
+              <td class="text-sm text-right whitespace-nowrap">
+               {item.revenue_est && item.revenue_est?.length > 0
+                ? abbreviateNumber(item.revenue_est)
+                : "-"}
+              </td>
+             </tr>
+            {/if}
+           {/each}
+          </tbody>
+         </table>
+        </div>
        </div>
 
        {#if paginatedTableList?.length > 0}
