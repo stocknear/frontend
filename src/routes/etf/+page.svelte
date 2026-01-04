@@ -299,14 +299,18 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
+          >Home</a
+        >
       </li>
-      <li class="text-muted dark:text-gray-300">All ETFs</li>
+      <li class="text-gray-500 dark:text-zinc-500">All ETFs</li>
     </ul>
   </div>
 
@@ -316,9 +320,13 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:pr-5">
-          <div class="border-b-[2px] border-[#2C6288] dark:border-white">
-            <h1 class="mb-1 text-2xl sm:text-3xl font-bold">All ETF Symbols</h1>
-            <p class="mb-3 px-1 font-semibold sm:px-0">
+          <div class="border-b border-gray-200/70 dark:border-zinc-800/80 pb-2">
+            <h1
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
+              All ETF Symbols
+            </h1>
+            <p class="mb-3 px-1 text-sm text-gray-600 dark:text-zinc-400 sm:px-0">
               List of all {originalData?.length} ETF symbols we support
             </p>
           </div>
@@ -327,17 +335,19 @@
             <!-- Search functionality -->
             <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
               <div
-                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold py-1 border-b border-gray-300 dark:border-gray-800 lg:border-none w-full"
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
                 >
                   {originalData?.length?.toLocaleString("en-US")} ETFs
                 </h2>
                 <div
                   class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
                 >
-                  <div class="relative lg:ml-auto w-full lg:w-fit">
+                  <div
+                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 overflow-hidden flex items-center"
+                  >
                     <div
                       class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
                     >
@@ -364,7 +374,7 @@
                       on:input={search}
                       type="text"
                       placeholder="Find..."
-                      class=" py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full sm:min-w-56 lg:max-w-14"
+                      class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-400 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
                     />
                   </div>
 
@@ -378,29 +388,29 @@
             <!--Start ETF Table-->
             {#if stockList?.length > 0}
               <div
-                class="mt-6 w-full m-auto rounded-none sm:rounded mb-4 overflow-x-auto sm:overflow-hidden"
+                class="mt-6 w-full m-auto mb-4 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
               >
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                 >
                   <thead>
                     <TableHeader {columns} {sortOrders} {sortData} />
                   </thead>
-                  <tbody>
+                  <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
                     {#each stockList as item}
                       <tr
-                        class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
+                        class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                       >
-                        <td class="text-sm sm:text-[1rem] text-start">
+                        <td class="text-[0.85rem] sm:text-sm text-start">
                           <a
                             href={`/etf/${item?.symbol}`}
-                            class="sm:hover:text-muted dark:sm:hover:text-white text-blue-800 dark:text-blue-400"
+                            class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                           >
                             {item?.symbol}
                           </a>
                         </td>
                         <td
-                          class="whitespace-nowrap text-sm sm:text-[1rem] text-start truncate w-fit"
+                          class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start truncate w-fit text-gray-600 dark:text-zinc-300"
                         >
                           {item?.name?.length > charNumber
                             ? item?.name?.slice(0, charNumber) + "..."
@@ -408,19 +418,19 @@
                         </td>
 
                         <td
-                          class="whitespace-nowrap text-sm sm:text-[1rem] text-start truncate"
+                          class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start truncate text-gray-600 dark:text-zinc-300"
                         >
                           {item?.assetClass}
                         </td>
 
                         <td
-                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                         >
                           {abbreviateNumber(item?.aum)}
                         </td>
 
                         <td
-                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                         >
                           {item?.expenseRatio
                             ? item?.expenseRatio?.toFixed(2) + "%"
@@ -574,21 +584,21 @@
         <aside class="hidden lg:block relative fixed w-1/4 ml-4">
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+              class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-xl bg-white/70 dark:bg-zinc-950/40 h-fit pb-4 mt-4 cursor-pointer transition hover:border-gray-300/80 dark:hover:border-zinc-700/80"
             >
               <a
                 href="/pricing"
                 class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-semibold e ml-3">
+                  <h2 class="text-start text-xl font-semibold tracking-tight text-gray-900 dark:text-white ml-3">
                     Pro Subscription
                   </h2>
                   <ArrowLogo
-                    class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                    class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-zinc-500"
                   />
                 </div>
-                <span class="e p-3 ml-3 mr-3">
+                <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                   Upgrade now for unlimited access to all data, tools and no
                   ads.
                 </span>
@@ -597,21 +607,21 @@
           {/if}
 
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-xl bg-white/70 dark:bg-zinc-950/40 h-fit pb-4 mt-4 cursor-pointer transition hover:border-gray-300/80 dark:hover:border-zinc-700/80"
           >
             <a
               href="/stock-screener"
               class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-semibold e ml-3">
+                <h2 class="text-start text-xl font-semibold tracking-tight text-gray-900 dark:text-white ml-3">
                   Stock Screener
                 </h2>
                 <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-zinc-500"
                 />
               </div>
-              <span class="e p-3 ml-3 mr-3">
+              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                 Filter, sort and analyze all stocks to find your next
                 investment.
               </span>
@@ -619,21 +629,21 @@
           </div>
 
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-xl bg-white/70 dark:bg-zinc-950/40 h-fit pb-4 mt-4 cursor-pointer transition hover:border-gray-300/80 dark:hover:border-zinc-700/80"
           >
             <a
               href="/watchlist/stocks"
               class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-semibold e ml-3">
+                <h2 class="text-start text-xl font-semibold tracking-tight text-gray-900 dark:text-white ml-3">
                   Watchlist
                 </h2>
                 <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-zinc-500"
                 />
               </div>
-              <span class="e p-3 ml-3 mr-3">
+              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                 Keep track of your favorite stocks in realt-time.
               </span>
             </a>

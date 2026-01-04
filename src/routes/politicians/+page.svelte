@@ -491,7 +491,7 @@
             <div
               class="flex items-center ml-auto border-t border-b border-gray-200/70 dark:border-zinc-800/80 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 w-full"
             >
-              <div class="relative ml-auto w-full sm:min-w-56 sm:max-w-14">
+              <div class="relative ml-auto w-full sm:min-w-56 sm:max-w-14 mr-2">
                 <div
                   class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
                 >
@@ -588,7 +588,9 @@
                   <thead>
                     <TableHeader {columns} {sortOrders} {sortData} />
                   </thead>
-                  <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
+                  <tbody
+                    class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+                  >
                     {#each displayList as item}
                       <tr
                         class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
@@ -633,7 +635,9 @@
                             id={item?.id}
                             on:click|stopPropagation={(event) =>
                               addToFavorite(event, item?.id)}
-                            class="text-center transition hover:text-violet-600 dark:hover:text-violet-400 {favoriteList?.includes(item?.id)
+                            class="text-center transition hover:text-violet-600 dark:hover:text-violet-400 {favoriteList?.includes(
+                              item?.id,
+                            )
                               ? 'text-gray-700 dark:text-zinc-200'
                               : 'text-gray-400 dark:text-zinc-500'}"
                           >

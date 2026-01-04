@@ -251,9 +251,7 @@
           >Home</a
         >
       </li>
-      <li class="text-gray-500 dark:text-zinc-400">
-        Top Wall Street Analysts
-      </li>
+      <li class="text-gray-500 dark:text-zinc-400">Top Wall Street Analysts</li>
     </ul>
   </div>
 
@@ -262,14 +260,16 @@
       <div
         class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
       >
-        <main class="w-full lg:w-3/4 lg:pr-10">
+        <main class="w-full">
           <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
               Top Wall Street Analysts
             </h1>
-            <p class="mb-3 px-1 text-sm text-gray-600 dark:text-zinc-400 sm:px-0">
+            <p
+              class="mb-3 px-1 text-sm text-gray-600 dark:text-zinc-400 sm:px-0"
+            >
               A list of Wall Street Analysts, ranked by their performance
             </p>
           </div>
@@ -285,7 +285,9 @@
                   <thead>
                     <TableHeader {columns} {sortOrders} {sortData} />
                   </thead>
-                  <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
+                  <tbody
+                    class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+                  >
                     {#each analystList as item, index}
                       <tr
                         class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50 {(currentPage -
@@ -341,7 +343,9 @@
                                 {/if}
                               {/each}
 
-                              <span class="ml-1 text-gray-500 dark:text-zinc-400">
+                              <span
+                                class="ml-1 text-gray-500 dark:text-zinc-400"
+                              >
                                 ({item?.analystScore !== null
                                   ? item?.analystScore
                                   : 0})
@@ -542,70 +546,6 @@
 
           <AnalystInfo />
         </main>
-        <aside class="inline-block relative w-full lg:w-1/4 mt-3 text-gray-700 dark:text-zinc-200">
-          {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
-            <div
-              class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
-            >
-              <a
-                href="/pricing"
-                class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-              >
-                <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2
-                    class="text-start text-base font-semibold text-gray-900 dark:text-white sm:ml-3"
-                  >
-                    Pro Subscription
-                  </h2>
-                </div>
-                <span class="p-3 sm:ml-3 sm:mr-3 -mt-4 text-sm text-gray-600 dark:text-zinc-400">
-                  Upgrade now for unlimited access to all data, tools and no
-                  ads.
-                </span>
-              </a>
-            </div>
-          {/if}
-
-          <div
-            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
-          >
-            <a
-              href={"/analysts/top-stocks"}
-              class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2
-                  class="text-start text-base font-semibold text-gray-900 dark:text-white ml-3"
-                >
-                  Top Strong Buy Stocks
-                </h2>
-              </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
-                Get the latest top Wall Street analyst ratings.
-              </span>
-            </a>
-          </div>
-
-          <div
-            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
-          >
-            <a
-              href="/market-mover/gainers"
-              class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2
-                  class="text-start text-base font-semibold text-gray-900 dark:text-white ml-3"
-                >
-                  Market Movers
-                </h2>
-              </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
-                Today's Top Stock Gainers, Losers and most Active
-              </span>
-            </a>
-          </div>
-        </aside>
       </div>
     </div>
   </div>
