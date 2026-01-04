@@ -54,11 +54,7 @@
         <div class="mt-2 flex items-baseline justify-center gap-2">
           <span
             class="text-5xl sm:text-6xl font-semibold text-gray-900 dark:text-white tracking-tight"
-            >50</span
-          >
-          <span
-            class="text-2xl sm:text-3xl font-semibold text-violet-500 dark:text-violet-400"
-            >%</span
+            >50%</span
           >
         </div>
         <p class="text-sm">Off all plans</p>

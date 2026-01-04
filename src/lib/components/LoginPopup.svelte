@@ -155,14 +155,14 @@ const output = await response.json();
   ></label>
 
   <div
-    class="modal-box w-full bg-white shadow dark:bg-[#18181B] sm:border sm:border-gray-600 rounded-none sm:rounded {$screenWidth <
+    class="modal-box w-full bg-white/90 dark:bg-zinc-950/70 shadow-sm backdrop-blur-sm sm:border sm:border-gray-200/70 dark:sm:border-zinc-800/80 rounded-none sm:rounded-2xl {$screenWidth <
     640
       ? 'min-h-screen'
       : ''}"
   >
     <label
       for="userLogin"
-      class="cursor-pointer absolute right-3 top-2 text-xl"
+      class="cursor-pointer absolute right-3 top-3 text-lg text-gray-400 hover:text-gray-900 dark:text-zinc-500 dark:hover:text-white transition"
     >
       <svg
         class="h-8 w-8"
@@ -185,10 +185,16 @@ const output = await response.json();
     {#if displaySection === "login"}
       <div class="grid grid-cols-1 animate-fade-in-once">
         <div class="relative">
-          <h2 class="text-center text-2xl pt-10 sm:pt-4 font-bold">Sign In</h2>
+          <h2
+            class="text-center text-2xl sm:text-3xl pt-8 sm:pt-4 font-semibold tracking-tight"
+          >
+            Sign In
+          </h2>
         </div>
 
-        <span class="text-gray-600 dark:text-gray-400 text-center pb-4">
+        <span
+          class="text-gray-500 dark:text-zinc-400 text-center text-sm pb-5"
+        >
           Welcome back!
         </span>
 
@@ -199,7 +205,7 @@ const output = await response.json();
               : ''}"
             method="POST"
             use:enhance={submitLogin}
-            class="flex flex-col text-start items-center space-y-2 w-full md:w-5/6 md:ml-auto md:mr-auto"
+            class="flex flex-col text-start items-center space-y-3 w-full max-w-md md:ml-auto md:mr-auto"
           >
             <Input
               type="email"
@@ -217,35 +223,35 @@ const output = await response.json();
             <div class="text-start w-full max-w-lg">
               <a
                 href="/reset-password"
-                class="text-start text-sm font-semibold text-blue-800 dark:text-blue-400 cursor-pointer sm:hover:underline"
+                class="text-start text-sm text-gray-500 dark:text-zinc-400 cursor-pointer sm:hover:text-gray-900 dark:sm:hover:text-white transition"
                 >Forgot Password?</a
               >
             </div>
             <div class="w-full max-w-lg pt-5 m-auto pb-5">
-              {#if !loading && !isClicked}
-                <button
-                  type="submit"
-                  class="cursor-pointer py-2.5 bg-black text-white dark:bg-[#fff] border-none sm:hover:bg-default dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded m-auto text-white dark:text-black font-semibold text-[1rem]"
-                >
+              <button
+                type="submit"
+                class="py-2.5 px-4 bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-none hover:bg-gray-800 dark:hover:bg-gray-200 transition w-full rounded-full font-semibold text-[1rem] disabled:cursor-not-allowed disabled:opacity-60"
+                disabled={loading || isClicked}
+                aria-busy={loading || isClicked}
+              >
+                {#if !loading && !isClicked}
                   <span>Login</span>
-                </button>
-              {:else}
-                <label
-                  class="cursor-not-allowed btn bg-black text-white dark:bg-[#fff] opacity-[0.5] border border-gray-600 sm:hover:bg-default dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded m-auto text-white dark:text-black font-semibold text-[1rem]"
-                >
-                  <div class="flex flex-row m-auto items-center">
+                {:else}
+                  <span class="flex items-center justify-center gap-2">
                     <span class="loading loading-infinity"></span>
-                    <span class=" ml-1.5">Signing Up</span>
-                  </div>
-                </label>
-              {/if}
+                    <span>Signing in</span>
+                  </span>
+                {/if}
+              </button>
             </div>
 
-            <div class="divider divider-[#fff] dark:pt-10 pb-10">
-              <span class=" text-[1rem] z-10">Or login using</span>
+            <div class="divider text-gray-400 dark:text-zinc-500 py-6">
+              <span class="text-[11px] uppercase tracking-[0.3em] z-10"
+                >Or login using</span
+              >
             </div>
 
-            <div class="flex flex-row items-center gap-x-5 pb-6">
+            <div class="flex flex-row items-center gap-x-3 pb-6">
               <form
                 method="post"
                 action="?/oauth2&returnUrl={browser
@@ -257,7 +263,7 @@ const output = await response.json();
                   on:click={() => (oauthLoading = !oauthLoading)}
                   on:mouseenter={handleHoverGoogle}
                   on:mouseleave={handleHoverGoogle}
-                  class="cursor-pointer shrink-0 rounded-full w-12 h-12 relative bg-default flex items-center justify-center border border-gray-600 sm:hover:bg-secondary"
+                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition"
                 >
                   <svg
                     class="{isHoveredGoogle
@@ -311,7 +317,7 @@ const output = await response.json();
                   on:click={() => (oauthLoading = !oauthLoading)}
                   on:mouseenter={handleHoverDiscord}
                   on:mouseleave={handleHoverDiscord}
-                  class="cursor-pointer shrink-0 rounded-full w-12 h-12 relative bg-default flex items-center justify-center border border-gray-600 sm:hover:bg-secondary"
+                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition"
                 >
                   <svg
                     class="{isHoveredDiscord
@@ -850,7 +856,7 @@ const output = await response.json();
                   on:click={() => (oauthLoading = !oauthLoading)}
                   on:mouseenter={handleHoverGithub}
                   on:mouseleave={handleHoverGithub}
-                  class="cursor-pointer shrink-0 rounded-full w-12 h-12 relative bg-default flex items-center justify-center border border-gray-600 sm:hover:bg-secondary"
+                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition"
                 >
                   <svg
                     class="{isHoveredGithub
@@ -868,12 +874,12 @@ const output = await response.json();
             </div>
 
             <p
-              class="pb-1 text-sm w-full max-w-lg flex justify-center items-center"
+              class="pb-1 text-sm w-full max-w-lg flex justify-center items-center text-gray-500 dark:text-zinc-400"
             >
               You don't have an account?
               <label
                 on:click={() => (displaySection = "register")}
-                class="text-blue-800 dark:text-blue-400 sm:hover:underline ml-1 cursor-pointer"
+                class="text-gray-900 dark:text-white sm:hover:text-violet-500 ml-1 cursor-pointer transition"
                 >Sign up</label
               >
             </p>
@@ -883,12 +889,16 @@ const output = await response.json();
     {:else if displaySection === "register"}
       <div class="grid grid-cols-1 gap-4 animate-fade-in-once">
         <div class="relative">
-          <h2 class="text-center text-2xl pt-10 sm:pt-4 font-bold">
+          <h2
+            class="text-center text-2xl sm:text-3xl pt-8 sm:pt-4 font-semibold tracking-tight"
+          >
             Getting Started
           </h2>
         </div>
 
-        <span class="text-gray-600 dark:text-gray-400 text-center pb-4">
+        <span
+          class="text-gray-500 dark:text-zinc-400 text-center text-sm pb-5"
+        >
           Create an account to get started
         </span>
 
@@ -899,7 +909,7 @@ const output = await response.json();
               ? encodeURIComponent($page.url.pathname + $page.url.search)
               : ''}"
             use:enhance={submitRegistration}
-            class="flex flex-col text-start items-center space-y-2 w-full md:w-5/6 pt-4 md:ml-auto md:mr-auto"
+            class="flex flex-col text-start items-center space-y-3 w-full max-w-md pt-2 md:ml-auto md:mr-auto"
           >
             <!--<Input id="name" label="Your first and last name" value={form?.data?.name} errors={form?.errors?.name} />-->
 
@@ -929,30 +939,30 @@ const output = await response.json();
             />
 
             <div class="w-full max-w-lg pt-5 m-auto pb-3">
-              {#if !loading && !isClicked}
-                <button
-                  type="submit"
-                  class="cursor-pointer py-2.5 bg-black text-white dark:bg-[#fff] border-none sm:hover:bg-default dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded m-auto text-white dark:text-black font-semibold text-[1rem]"
-                >
+              <button
+                type="submit"
+                class="py-2.5 px-4 bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-none hover:bg-gray-800 dark:hover:bg-gray-200 transition w-full rounded-full font-semibold text-[1rem] disabled:cursor-not-allowed disabled:opacity-60"
+                disabled={loading || isClicked}
+                aria-busy={loading || isClicked}
+              >
+                {#if !loading && !isClicked}
                   <span>Register</span>
-                </button>
-              {:else}
-                <label
-                  class="cursor-not-allowed btn bg-black text-white dark:bg-[#fff] opacity-[0.5] border border-gray-600 sm:hover:bg-default dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded m-auto text-white dark:text-black font-semibold text-[1rem]"
-                >
-                  <div class="flex flex-row m-auto items-center">
+                {:else}
+                  <span class="flex items-center justify-center gap-2">
                     <span class="loading loading-infinity"></span>
-                    <span class="ml-1.5">Signing Up</span>
-                  </div>
-                </label>
-              {/if}
+                    <span>Signing up</span>
+                  </span>
+                {/if}
+              </button>
             </div>
 
-            <div class="divider divider-[#fff] pt-10 pb-10">
-              <span class=" text-[1rem] z-10">Or register using</span>
+            <div class="divider text-gray-400 dark:text-zinc-500 py-6">
+              <span class="text-[11px] uppercase tracking-[0.3em] z-10"
+                >Or register using</span
+              >
             </div>
 
-            <div class="flex flex-row items-center gap-x-5 pb-6">
+            <div class="flex flex-row items-center gap-x-3 pb-6">
               <form
                 method="post"
                 action="?/oauth2&returnUrl={browser
@@ -964,7 +974,7 @@ const output = await response.json();
                   on:click={() => (oauthLoading = !oauthLoading)}
                   on:mouseenter={handleHoverGoogle}
                   on:mouseleave={handleHoverGoogle}
-                  class="cursor-pointer shrink-0 rounded-full w-12 h-12 relative bg-default flex items-center justify-center border border-gray-600 sm:hover:bg-secondary"
+                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition"
                 >
                   <svg
                     class="{isHoveredGoogle
@@ -1018,7 +1028,7 @@ const output = await response.json();
                   on:click={() => (oauthLoading = !oauthLoading)}
                   on:mouseenter={handleHoverDiscord}
                   on:mouseleave={handleHoverDiscord}
-                  class="cursor-pointer shrink-0 rounded-full w-12 h-12 relative bg-default flex items-center justify-center border border-gray-600 sm:hover:bg-secondary"
+                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition"
                 >
                   <svg
                     class="{isHoveredDiscord
@@ -1557,7 +1567,7 @@ const output = await response.json();
                   on:click={() => (oauthLoading = !oauthLoading)}
                   on:mouseenter={handleHoverGithub}
                   on:mouseleave={handleHoverGithub}
-                  class="cursor-pointer shrink-0 rounded-full w-12 h-12 relative bg-default flex items-center justify-center border border-gray-600 sm:hover:bg-secondary"
+                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition"
                 >
                   <svg
                     class="{isHoveredGithub
@@ -1574,28 +1584,28 @@ const output = await response.json();
               </form>
             </div>
 
-            <p class="pb-1 text-xs text-center">
+            <p class="pb-1 text-xs text-center text-gray-500 dark:text-zinc-500">
               By registering you agree to Stocknear's
               <a
                 href="/terms-of-use"
-                class="text-blue-800 dark:text-blue-400 sm:hover:underline"
+                class="text-gray-800 dark:text-zinc-200 sm:hover:text-violet-500 transition"
                 >Terms of Use</a
               >
               and acknowledge that you've read our
               <a
                 href="/privacy-policy"
-                class="text-blue-800 dark:text-blue-400 sm:hover:underline"
+                class="text-gray-800 dark:text-zinc-200 sm:hover:text-violet-500 transition"
                 >Privacy Policy</a
               >.
             </p>
 
             <p
-              class="pt-3 pb-1 text-sm w-full max-w-lg flex justify-center items-center"
+              class="pt-3 pb-1 text-sm w-full max-w-lg flex justify-center items-center text-gray-500 dark:text-zinc-400"
             >
               You already have an account?
               <label
                 on:click={() => (displaySection = "login")}
-                class="text-blue-800 dark:text-blue-400 sm:hover:underline ml-1 cursor-pointer"
+                class="text-gray-900 dark:text-white sm:hover:text-violet-500 ml-1 cursor-pointer transition"
                 >Sign in</label
               >
             </p>
@@ -1608,10 +1618,10 @@ const output = await response.json();
       <div class="absolute right-1/2 left-1/2 top-1/2 bottom-1/2">
         <div class="relative">
           <label
-            class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-200/70 dark:border-zinc-800/80 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           >
             <span
-              class="loading loading-spinner loading-md text-white dark:text-white"
+              class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
             ></span>
           </label>
         </div>
