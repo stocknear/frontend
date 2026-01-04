@@ -359,7 +359,7 @@
     }
     return numericValue > 0
       ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
-      : "text-rose-600 dark:text-rose-400";
+      : "text-red-800 dark:text-[#FF2F1F]";
   };
 
   function formatModalMetricValue(value: number | null | undefined): string {
@@ -568,16 +568,11 @@
       lowestValueDate = dateList[lowestValueIndex] || null;
     }
 
-    if (valueList?.length >= 5) {
-      const firstValue = valueList[valueList.length - 5];
-      const lastValue = valueList[valueList.length - 1];
-    }
-
     const options = {
       chart: {
         type: chartMode === "bar" ? "column" : "spline",
-        backgroundColor: $mode === "light" ? "#fff" : "#2A2E39",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#2A2E39",
+        backgroundColor: $mode === "light" ? "#fff" : "#09090b",
+        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090b",
         height: 360,
         animation: false,
       },
@@ -948,8 +943,8 @@
   <label for="financialPlotModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full max-w-3xl p-6 rounded-2xl shadow-none border
-        bg-white/95 dark:bg-zinc-950/90 border border-gray-200/70 dark:border-zinc-800/80"
+    class="financial-modal modal-box w-full max-w-3xl p-6 rounded-2xl shadow-none border
+        bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800/80"
   >
     {#if config}
       <div
@@ -1030,9 +1025,12 @@
         >
       </div>
 
-      <div class="mt-2" use:highcharts={config}></div>
+      <div
+        class="mt-2 rounded-xl bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800/80 p-2"
+        use:highcharts={config}
+      ></div>
     {/if}
-    <p class="text-sm mb-6">
+    <p class="text-sm mb-6 mt-3">
       {modalLabel} peaked at
       <strong>{formatModalMetricValue(highestValue)}</strong>
       in <strong>{highestValueDate}</strong>
@@ -1041,7 +1039,9 @@
       in <strong>{lowestValueDate}</strong>.
     </p>
 
-    <div class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-2 w-full">
+    <div
+      class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-2 w-full"
+    >
       <label
         for="financialPlotModal"
         class="mt-4 font-semibold text-base text-gray-700 dark:text-zinc-200 m-auto flex justify-center cursor-pointer"
@@ -1074,5 +1074,13 @@
     100% {
       transform: rotate(0deg) scale(0.95);
     }
+  }
+
+  :global(.financial-modal .highcharts-background) {
+    fill: #ffffff;
+  }
+
+  :global(.dark .financial-modal .highcharts-background) {
+    fill: #0a0a0a;
   }
 </style>

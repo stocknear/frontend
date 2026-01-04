@@ -355,7 +355,7 @@
 
                   <Button
                     on:click={() => (switchDate = !switchDate)}
-                    class="w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="mr-1 w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="shrink-0 w-5 h-5 pointer-events-none m-auto"
@@ -422,8 +422,12 @@
                 <table
                   class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums"
                 >
-                  <thead class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
-                    <tr class="border-b border-gray-200/70 dark:border-zinc-800/80">
+                  <thead
+                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  >
+                    <tr
+                      class="border-b border-gray-200/70 dark:border-zinc-800/80"
+                    >
                       <td
                         class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-gray-200/70 dark:border-zinc-800/80"
                         >{$selectedTimePeriod !== "annual"
@@ -453,7 +457,9 @@
                         </td>
                       {/if}
                     </tr>
-                    <tr class="border-b border-gray-200/70 dark:border-zinc-800/80">
+                    <tr
+                      class="border-b border-gray-200/70 dark:border-zinc-800/80"
+                    >
                       <td
                         class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-gray-200/70 dark:border-zinc-800/80"
                         >Period Ending</td
@@ -478,7 +484,9 @@
                       {/if}
                     </tr>
                   </thead>
-                  <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
+                  <tbody
+                    class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+                  >
                     <!-- row -->
                     <FinancialTable
                       data={tableData}
