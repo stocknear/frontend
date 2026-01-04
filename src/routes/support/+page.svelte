@@ -166,11 +166,11 @@
                     </button>
                   {:else}
                     <label
-                      class="mt-5 cursor-not-allowed bg-gray-900 text-white dark:bg-white dark:text-gray-900 opacity-60 border border-gray-900/10 dark:border-white/10 transition w-full rounded-full m-auto font-semibold text-[1rem] py-2.5 px-4"
+                      class="mt-5 cursor-not-allowed py-2.5 px-4 bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-none opacity-80 transition w-full rounded-full font-semibold text-[1rem] flex justify-center"
                     >
                       <div class="flex flex-row m-auto items-center">
-                        <span class="loading loading-infinity"></span>
-                        <span class="ml-1.5">Sending Message</span>
+                        <span class="loading loading-spinner"></span>
+                        <span class="ml-1.5">Processing...</span>
                       </div>
                     </label>
                   {/if}
