@@ -613,10 +613,10 @@
             </div>
             {#if stockList?.length > 0}
               <div
-                class="w-full overflow-x-auto rounded-lg border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 mt-5"
+                class="w-full m-auto mt-4 mb-4 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
               >
                 <table
-                  class="table table-sm table-compact w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                 >
                   <!-- head -->
                   <thead
@@ -668,7 +668,7 @@
                   >
                     {#each stockList as item, index}
                       <tr
-                        class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 odd:bg-gray-50/60 dark:odd:bg-zinc-900/30"
+                        class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                       >
                         <td class="hidden lg:table-cell"
                           ><button
@@ -701,7 +701,7 @@
                         </td>
 
                         <td
-                          class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                          class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
                         >
                           {item?.name?.length > 20
                             ? item?.name?.slice(0, 20) + "..."
@@ -709,7 +709,7 @@
                         </td>
 
                         <td
-                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
+                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                         >
                           <span class="">
                             {#if item?.type === "Bought"}
@@ -729,19 +729,19 @@
                         >
 
                         <td
-                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
+                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                         >
                           {item?.amount}</td
                         >
 
                         <td
-                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
+                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                         >
                           {item?.transaction?.toLocaleString("en-US")}</td
                         >
 
                         <td
-                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
+                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                         >
                           {new Date(item?.transactionDate)?.toLocaleString(
                             "en-US",
@@ -755,7 +755,7 @@
                         </td>
 
                         <td
-                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
+                          class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                         >
                           {new Date(item?.disclosureDate)?.toLocaleString(
                             "en-US",
@@ -769,7 +769,7 @@
                         </td>
                       </tr>
                       {#if checkedSymbol === (item?.ticker ?? item?.symbol)}
-                        <tr class="bg-white/80 dark:bg-zinc-950/60">
+                        <tr class="bg-white/70 dark:bg-zinc-950/50">
                           <td colspan="8" class="px-0">
                             <div class="-mt-0.5 px-0 pb-2">
                               <div class="relative h-[350px]">

@@ -36,7 +36,7 @@
 </script>
 
 {#if Object?.keys(rawData)?.length !== 0}
-  <div class="space-y-3 overflow-hidden text-muted dark:text-white">
+  <div class="space-y-3 overflow-hidden text-gray-700 dark:text-zinc-200">
     <!--Start Content-->
     <div class="w-auto lg:w-full flex flex-col m-auto">
       {#if !hideTitle}
@@ -45,9 +45,9 @@
             <!--<img class="h-10 inline-block mr-2" src={copilotIcon} />-->
             <a
               href="/stocks/{$stockTicker}/statistics/earnings"
-              class="flex flex-row items-center sm:hover:underline sm:hover:underline-offset-4"
+              class="flex flex-row items-center hover:text-violet-600 dark:hover:text-violet-400 transition"
             >
-              <h3 class="mr-1 flex flex-row items-center text-2xl font-bold">
+              <h3 class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
                 Next Earnings Release
               </h3>
               <svg
@@ -67,7 +67,7 @@
         </div>
       {/if}
 
-      <div class=" text-[1rem]">
+      <div class="text-sm text-gray-600 dark:text-zinc-400">
         {$displayCompanyName} is scheduled to release its earnings on
         <strong
           >{new Date(rawData?.date ?? null)?.toLocaleString("en-US", {
@@ -88,7 +88,7 @@
         {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
           ...
           <a
-            class="inline-block ml-0.5 text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+            class="inline-block ml-0.5 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
             href="/pricing"
             >Upgrade <svg
               class="w-4 h-4 mb-1 inline-block"
@@ -106,10 +106,10 @@
           >, reflecting a
           <span
             class="{revenueRatio >= 0 && revenueRatio !== 'Infinity'
-              ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
+              ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
               : revenueRatio < 0 && revenueRatio !== 'Infinity'
-                ? 'text-red-800 dark:text-[#FF2F1F]'
-                : 'text-muted dark:text-white'} font-semibold"
+                ? 'text-rose-600 dark:text-rose-400'
+                : 'text-gray-500 dark:text-zinc-400'} font-semibold"
             >{revenueRatio !== "Infinity"
               ? abbreviateNumber(revenueRatio) + "%"
               : "n/a"}</span
@@ -124,8 +124,8 @@
             <span class="font-bold">{rawData?.epsEst}</span>, making a
             <span
               class="{epsRatio > 0
-                ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-                : 'text-red-800 dark:text-[#FF2F1F]'} font-semibold"
+                ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                : 'text-rose-600 dark:text-rose-400'} font-semibold"
               >{epsRatio}%</span
             >
             {epsRatio > 0 ? "increase" : epsRatio < 0 ? "decrease" : ""} YoY.

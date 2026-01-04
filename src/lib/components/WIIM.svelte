@@ -42,12 +42,12 @@
   }
 </script>
 
-<section class="overflow-hidden text-muted dark:text-white h-full mt-5">
+<section class="overflow-hidden text-gray-700 dark:text-zinc-200 h-full mt-5">
   <main class="overflow-hidden">
     <div class="flex flex-row items-center">
       <label
         for="whyPriceMovedInfo"
-        class="mr-1 cursor-pointer flex flex-row items-center text-2xl font-bold"
+        class="mr-1 cursor-pointer flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
       >
         <h2>Why Price Moved</h2>
       </label>
@@ -75,17 +75,17 @@
                     <div
                       class="w-1 h-full mr-4 rounded {item?.changesPercentage ===
                       '-'
-                        ? 'bg-black dark:bg-white'
+                        ? 'bg-gray-300 dark:bg-zinc-700'
                         : item?.changesPercentage >= 0
-                          ? 'bg-black dark:bg-[#00FC50]'
-                          : 'bg-black dark:bg-[#FF2F1F]'}"
+                          ? 'bg-emerald-500 dark:bg-emerald-400'
+                          : 'bg-rose-500 dark:bg-rose-400'}"
                     ></div>
                     <!-- Item Content -->
 
                     <div class="w-full h-full">
                       <div class="flex flex-col items-start">
                         <div class="flex flex-row items-start w-full">
-                          <span class=" text-[1rem]"
+                          <span class="text-sm text-gray-600 dark:text-zinc-400"
                             >{formatDate(item?.date)}
                             <!--
                             &#183;
@@ -99,19 +99,19 @@
                           </span>
                           {#if latestInfoDate(item?.date)}
                             <label
-                              class="bg-black text-white border border-gray-200 dark:border-0 dark:bg-[#fff] rounded dark:text-black font-semibold text-xs px-2 py-0.5 ml-3"
+                              class="bg-white/80 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80 rounded-full font-semibold text-[0.7rem] px-2 py-0.5 ml-3"
                               >New</label
                             >
                           {/if}
-                          <div class=" text-sm sm:text-[1rem] ml-auto">
+                          <div class="text-sm ml-auto">
                             {#if item?.changesPercentage >= 0}
                               <span
-                                class="text-green-800 dark:text-[#00FC50] inline-block"
+                                class="text-emerald-600 dark:text-emerald-400 inline-block"
                                 >+{item?.changesPercentage}%</span
                               >
                             {:else if item?.changesPercentage < 0}
                               <span
-                                class="text-red-800 dark:text-[#FF2F1F] inline-block"
+                                class="text-rose-600 dark:text-rose-400 inline-block"
                                 >{item?.changesPercentage}%
                               </span>
                             {/if}
@@ -124,7 +124,7 @@
                               {item?.text?.slice(0, 50) + "..."}
 
                               <a
-                                class="inline-block ml-0.5 text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+                                class="inline-block ml-0.5 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
                                 href="/pricing"
                                 >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -138,7 +138,7 @@
                               >
                             </span>
                           {:else}
-                            <span class=" text-[1rem]">
+                            <span class="text-sm text-gray-600 dark:text-zinc-400">
                               {item?.text}
                             </span>
                           {/if}
@@ -160,7 +160,7 @@
           class="cursor-pointer flex justify-center items-center mt-5"
         >
           <svg
-            class="w-10 h-10 transform text-black dark:text-[#2A323C] {showFullHistory
+            class="w-10 h-10 transform text-gray-500 dark:text-zinc-400 {showFullHistory
               ? 'rotate-180'
               : ''} "
             xmlns="http://www.w3.org/2000/svg"

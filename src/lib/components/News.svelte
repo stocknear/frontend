@@ -214,7 +214,7 @@
   }
 </script>
 
-<div class="space-y-3 overflow-hidden text-muted dark:text-white">
+<div class="space-y-3 overflow-hidden text-gray-700 dark:text-zinc-200">
   <div class="w-auto lg:w-full p-1 flex flex-col m-auto news-section-container">
     <div class="flex flex-col items-center w-full mb-1">
       <div class="flex flex-row justify-start mr-auto items-center">
@@ -230,17 +230,17 @@
 
     <div class=" mt-1 sm:mt-0">
       <div
-        class="hflex flex-row items-center justify-between overflow-x-auto border-b border-gray-300 dark:border-gray-600 py-1.5"
+        class="hflex flex-row items-center justify-between overflow-x-auto border-b border-gray-200/70 dark:border-zinc-800/80 py-1.5"
       >
         <ul
-          class=" mb-0.5 flex flex-row overflow-x-auto whitespace-nowrap text-lg"
+          class="mb-0.5 flex flex-row overflow-x-auto whitespace-nowrap text-sm"
         >
           <li>
             <button
               on:click={showAllNews}
-              class="cursor-pointer rounded px-3 py-0.5 sm:hover:bg-blue-50 dark:sm:hover:bg-secondary {displaySection ===
+              class="cursor-pointer rounded-full px-3 py-1 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
               'all'
-                ? 'bg-blue-50 dark:bg-secondary'
+                ? 'bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
                 : ''}">All</button
             >
           </li>
@@ -248,9 +248,9 @@
             <li>
               <button
                 on:click={() => getNewsVideos()}
-                class="ml-1 cursor-pointer rounded px-3 py-0.5 sm:hover:bg-blue-50 dark:sm:hover:bg-secondary {displaySection ===
+                class="ml-1 cursor-pointer rounded-full px-3 py-1 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
                 'videos'
-                  ? 'bg-blue-50 dark:bg-secondary'
+                  ? 'bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
                   : ''}">Videos</button
               >
             </li>
@@ -259,9 +259,9 @@
             <li>
               <button
                 on:click={() => getPressRelease()}
-                class="ml-1 cursor-pointer rounded px-3 py-0.5 sm:hover:bg-blue-50 dark:sm:hover:bg-secondary {displaySection ===
+                class="ml-1 cursor-pointer rounded-full px-3 py-1 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
                 'press-releases'
-                  ? 'bg-blue-50 dark:bg-secondary'
+                  ? 'bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
                   : ''}"
                 ><span class="inline sm:hidden">Press</span><span
                   class="hidden sm:inline">Press Releases</span
@@ -283,7 +283,7 @@
                   <!-- Show the YouTube iframe when the user clicks play -->
                   <div class="w-full aspect-video mb-4">
                     <iframe
-                      class="w-full h-full rounded border border-gray-300 dark:border-gray-800"
+                      class="w-full h-full rounded border border-gray-200/70 dark:border-zinc-800/80"
                       src={`https://www.youtube.com/embed/${checkIfYoutubeVideo(item.url)}`}
                       frameborder="0"
                       allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -309,7 +309,7 @@
                 {/if}
                 <div class="mt-3 w-full">
                   <h3
-                    class="text-sm text-gray-800 dark:text-white/80 truncate mb-2"
+                    class="text-sm text-gray-500 dark:text-zinc-400 truncate mb-2"
                   >
                     {formatDate(item?.publishedDate)} &#183; {item?.site}
                   </h3>
@@ -347,7 +347,7 @@
                   </a>
                   <div class="mt-3 sm:mt-0 w-full">
                     <h3
-                      class="text-sm text-gray-800 dark:text-white/80 truncate mb-2"
+                      class="text-sm text-gray-500 dark:text-zinc-400 truncate mb-2"
                     >
                       {formatDate(item?.publishedDate)} &#183; {item?.site}
                     </h3>
@@ -369,7 +369,7 @@
               {/if}
             </div>
             <hr
-              class="border-gray-300 dark:border-gray-600 w-full m-auto mt-5 mb-5"
+              class="border-gray-200/70 dark:border-zinc-800/80 w-full m-auto mt-5 mb-5"
             />
           {/each}
         </div>
