@@ -291,7 +291,7 @@
       <DropdownMenu.Trigger asChild let:builder>
         <Button
           builders={[builder]}
-          class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary  flex flex-row justify-between items-center  w-full sm:w-auto px-3 rounded truncate"
+          class="w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
         >
           <span class="truncate text-[0.85rem] sm:text-sm">Bulk Download</span>
           <svg
@@ -315,10 +315,10 @@
         align="end"
         sideOffset={10}
         alignOffset={0}
-        class="w-auto min-w-64 max-w-80 max-h-[400px] overflow-y-auto scroller relative"
+        class="w-auto min-w-64 max-w-80 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
       >
         <DropdownMenu.Label
-          class="text-muted dark:text-gray-400 font-semibold dark:font-normal text-xs"
+          class="text-gray-500 dark:text-zinc-400 font-semibold dark:font-normal text-xs"
         >
           {data?.user?.credits} Credits left
         </DropdownMenu.Label>
@@ -326,7 +326,7 @@
         <DropdownMenu.Group class="pb-2">
           {#each bulkData as item}
             <DropdownMenu.Item
-              class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+              class="sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
             >
               <label
                 on:click|capture={(event) => {
@@ -346,9 +346,9 @@
                     class="sr-only peer"
                   />
                   <div
-                    class="w-9 h-5 bg-gray-400 rounded-full peer peer-checked:bg-blue-600
+                    class="w-9 h-5 bg-gray-300 dark:bg-zinc-700 rounded-full peer peer-checked:bg-gray-900 dark:peer-checked:bg-white
       after:content-[''] after:absolute after:top-0.5 after:left-[2px]
-      after:bg-white after:border-gray-300 after:border
+      after:bg-white dark:after:bg-zinc-200 after:border-gray-300 dark:after:border-zinc-600 dark:peer-checked:after:bg-zinc-900 dark:peer-checked:after:border-zinc-800 after:border
       after:rounded-full after:h-4 after:w-4 after:transition-all
       peer-checked:after:translate-x-full"
                   ></div>
@@ -358,16 +358,16 @@
           {/each}
         </DropdownMenu.Group>
         <div
-          class="sticky -bottom-1 bg-white dark:bg-default z-50 p-2 border-t border-gray-300 dark:border-gray-600 w-full flex justify-between items-center"
+          class="sticky -bottom-1 bg-white/90 dark:bg-zinc-950/90 z-50 p-2 border-t border-gray-200/70 dark:border-zinc-800/80 w-full flex justify-between items-center"
         >
           <span
-            class="w-full text-muted dark:text-gray-300 bg-white dark:bg-default font-semibold dark:font-normal text-start text-xs select-none"
+            class="w-full text-gray-500 dark:text-zinc-400 bg-white/0 font-semibold dark:font-normal text-start text-xs select-none"
           >
             = Credit Cost {totalCreditCost}
           </span>
           <button
             on:click={handleBulkDownload}
-            class="whitespace-nowrap w-full flex justify-end dark:sm:hover:text-white text-muted dark:text-gray-300 bg-white dark:bg-default text-start text-sm cursor-pointer"
+            class="whitespace-nowrap w-full flex justify-end text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-zinc-200 text-start text-sm cursor-pointer"
           >
             Bulk Download
           </button>
@@ -379,7 +379,7 @@
       <DropdownMenu.Trigger asChild let:builder>
         <Button
           builders={[builder]}
-          class="transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary  flex flex-row justify-between items-center  w-full sm:w-auto px-3 rounded truncate"
+          class="transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
         >
           <span class="truncate text-[0.85rem] sm:text-sm"> Download </span>
           <svg
@@ -402,12 +402,12 @@
         align="end"
         sideOffset={10}
         alignOffset={0}
-        class="min-w-36 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative"
+        class="min-w-36 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
       >
         <DropdownMenu.Group>
           <DropdownMenu.Item
             on:click={() => download("csv")}
-            class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary cursor-pointer flex flex-row items-center justify-between"
+            class="sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 cursor-pointer flex flex-row items-center justify-between rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
           >
             <span>Download to CSV</span>
             {#if !isSubscribed}
@@ -429,7 +429,7 @@
 
           <DropdownMenu.Item
             on:click={() => download("excel")}
-            class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary cursor-pointer flex flex-row items-center justify-between"
+            class="sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 cursor-pointer flex flex-row items-center justify-between rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
           >
             <span>Download to Excel</span>
             {#if !isSubscribed}

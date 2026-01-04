@@ -135,14 +135,18 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-muted dark:text-white"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
+          >Home</a
+        >
       </li>
-      <li class="text-muted dark:text-gray-300">News Flow</li>
+      <li class="text-gray-500 dark:text-zinc-500">News Flow</li>
     </ul>
   </div>
 
@@ -153,7 +157,11 @@
       >
         <main class="w-full lg:w-3/4 lg:pr-5">
           <div class="mb-3">
-            <h1 class="mb-1 text-2xl sm:text-3xl font-bold">News Flow</h1>
+            <h1
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
+              News Flow
+            </h1>
           </div>
 
           <Infobox
@@ -162,10 +170,10 @@
 
           <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
             <div
-              class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+              class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
             >
               <h2
-                class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold py-1 border-b border-gray-300 dark:border-gray-800 lg:border-none w-full"
+                class="text-start whitespace-nowrap text-lg sm:text-xl font-semibold text-gray-900 dark:text-white py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
               >
                 {data?.getData?.totalItems?.toLocaleString("en-US")} News
               </h2>
@@ -200,7 +208,7 @@
                     on:input={search}
                     type="text"
                     placeholder="Find..."
-                    class=" py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full sm:min-w-56 lg:max-w-14"
+                    class="py-[7px] text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-200/70 dark:border-zinc-800/80 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-500 px-3 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 grow w-full sm:min-w-56 lg:max-w-14"
                   />
                 </div>
 
@@ -213,7 +221,7 @@
 
           {#if stockList?.length > 0}
             <table
-              class="border-t border-gray-300 dark:border-gray-800 text-sm sm:text-[1rem] mt-6 w-full"
+              class="border-t border-gray-200/70 dark:border-zinc-800/80 text-sm mt-6 w-full"
             >
               <tbody>
                 {#each stockList as item, index (item?.id ?? index)}
@@ -228,7 +236,7 @@
                     item?.text?.toLowerCase()?.includes("lower") &&
                     item?.changesPercentage < 0}
                   <tr
-                    class="border-b border-gray-300 dark:border-gray-800 transition-all duration-200 w-full
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 transition-all duration-200 w-full
         {index === list.length - 1 && data?.user?.tier !== 'Pro'
                       ? 'opacity-10'
                       : ''}"
@@ -255,12 +263,13 @@
                     })()}"
                   >
                     <td
-                      class="hidden sm:inline-block pr-1 pt-2 align-top text-sm whitespace-nowrap font-bold"
+                      class="hidden sm:inline-block pr-2 pt-3.5 align-top text-xs whitespace-nowrap font-medium text-gray-400 dark:text-zinc-500"
                     >
                       {formatDate(item?.date, true)}
                     </td>
-                    <td class="py-2 pl-2">
-                      <span class="sm:hidden font-semibold"
+                    <td class="py-3 pl-2 text-gray-700 dark:text-zinc-300">
+                      <span
+                        class="sm:hidden text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
                         >{formatDate(item?.date, true)} ago -</span
                       >
                       {item?.text}
@@ -269,7 +278,7 @@
                         {#each item?.symbolList as symbol}
                           <a
                             href={`/${item?.assetType}/${symbol}`}
-                            class="inline-block rounded badge border border-gray-300 dark:border-gray-800 shadow duration-0 bg-blue-100 dark:bg-secondary font-semibold dark:font-normal rounded-sm ml-1 mb-1 px-2 m-auto text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted"
+                            class="inline-flex items-center rounded-full border border-blue-200/70 dark:border-blue-900/50 bg-blue-50/70 dark:bg-blue-950/40 px-2 py-0.5 text-xs font-medium text-blue-800 dark:text-blue-400 transition hover:text-blue-900 dark:hover:text-blue-300 ml-1 mb-1"
                           >
                             {symbol}
                           </a>
@@ -277,7 +286,7 @@
                       {:else if item?.symbol}
                         <a
                           href={`/${item?.assetType}/${item?.symbol}`}
-                          class="inline-block rounded badge border border-gray-300 dark:border-gray-800 shadow duration-0 bg-blue-100 dark:bg-secondary font-semibold dark:font-normal rounded-sm ml-1 mb-1 px-2 m-auto text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted"
+                          class="inline-flex items-center rounded-full border border-blue-200/70 dark:border-blue-900/50 bg-blue-50/70 dark:bg-blue-950/40 px-2 py-0.5 text-xs font-medium text-blue-800 dark:text-blue-400 transition hover:text-blue-900 dark:hover:text-blue-300 ml-1 mb-1"
                         >
                           {item?.symbol}
                         </a>
@@ -309,58 +318,68 @@
 
         <aside class="hidden lg:block relative fixed w-1/4 ml-4">
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href="/market-flow"
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+              class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">Market Flow</h2>
+                <h2 class="text-start text-lg font-semibold ml-3">
+                  Market Flow
+                </h2>
                 <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                  class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                 />
               </div>
-              <span class=" p-3 ml-3 mr-3">
+              <span
+                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+              >
                 Track real-time options sentiment.
               </span>
             </a>
           </div>
 
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href="/options-flow"
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+              class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">Options Flow</h2>
+                <h2 class="text-start text-lg font-semibold ml-3">
+                  Options Flow
+                </h2>
                 <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                  class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                 />
               </div>
-              <span class=" p-3 ml-3 mr-3">
+              <span
+                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+              >
                 Monitor real-time unusual options activity and flow patterns
               </span>
             </a>
           </div>
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href="/dark-pool-flow"
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+              class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">
+                <h2 class="text-start text-lg font-semibold ml-3">
                   Dark Pool Flow
                 </h2>
                 <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                  class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                 />
               </div>
-              <span class=" p-3 ml-3 mr-3">
+              <span
+                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
+              >
                 Analyze hidden institutional flow and dark pool trading data
               </span>
             </a>
