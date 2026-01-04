@@ -51,14 +51,18 @@
 </script>
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-5 px-4 lg:px-3"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
+          >Home</a
+        >
       </li>
-      <li class="text-muted dark:text-gray-300">IPO Data</li>
+      <li class="text-gray-500 dark:text-zinc-500">IPO Data</li>
     </ul>
   </div>
 
@@ -68,7 +72,9 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:pr-5">
-          <h1 class="mb-6 text-2xl sm:text-3xl font-bold">
+          <h1
+            class="mb-6 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+          >
             {activeIdx === 0
               ? "Recent IPOs"
               : activeIdx === 1
@@ -77,15 +83,18 @@
           </h1>
 
           <nav
-            class=" border-[#2C6288] dark:border-white border-b-[2px] overflow-x-auto whitespace-nowrap"
+            class="pb-2 border-b border-gray-200/70 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
           >
-            <ul class="flex flex-row items-center w-full text-lg">
+            <ul
+              class="flex flex-row items-center w-full text-sm sm:text-base gap-2"
+            >
               {#each tabs as item, i}
                 <a
                   href={item?.path}
-                  class="p-2 px-5 cursor-pointer {activeIdx === i
-                    ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
-                    : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
+                  class="px-4 py-2 rounded-full cursor-pointer transition {activeIdx ===
+                  i
+                    ? 'text-gray-900 dark:text-white bg-gray-100/70 dark:bg-zinc-900/60 font-semibold'
+                    : 'text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400'}"
                 >
                   {item.title}
                 </a>
@@ -94,16 +103,17 @@
           </nav>
 
           {#if activeIdx === 0}
-            <nav class="overflow-x-auto whitespace-nowrap">
-              <ul class="flex flex-row items-center w-full">
+            <nav class="overflow-x-auto whitespace-nowrap mt-2">
+              <ul class="flex flex-row items-center w-full gap-2">
                 {#each ["Latest", "2025", "2024", "2023", "2022", "2021", "2020", "2019"] as item}
                   {#if item !== "Latest"}
                     <a
                       href={`/ipos/${item}`}
                       on:click={() => (displaySection = item)}
-                      class="p-2 px-5 cursor-pointer {displaySection === item
-                        ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
-                        : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
+                      class="px-3 py-1.5 rounded-full cursor-pointer transition text-sm sm:text-base {displaySection ===
+                      item
+                        ? 'text-gray-900 dark:text-white bg-gray-100/70 dark:bg-zinc-900/60 font-semibold'
+                        : 'text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400'}"
                     >
                       {item}
                     </a>
@@ -111,9 +121,10 @@
                     <a
                       href={`/ipos`}
                       on:click={() => (displaySection = item)}
-                      class="p-2 px-5 cursor-pointer {displaySection === item
-                        ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
-                        : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
+                      class="px-3 py-1.5 rounded-full cursor-pointer transition text-sm sm:text-base {displaySection ===
+                      item
+                        ? 'text-gray-900 dark:text-white bg-gray-100/70 dark:bg-zinc-900/60 font-semibold'
+                        : 'text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400'}"
                     >
                       {item}
                     </a>
