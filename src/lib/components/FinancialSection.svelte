@@ -308,7 +308,7 @@
   }
 </script>
 
-<section class=" w-full overflow-hidden h-full">
+<section class="w-full overflow-hidden h-full text-gray-700 dark:text-zinc-200">
   <div class="w-full flex justify-center w-full sm-auto h-full overflow-hidden">
     <div
       class="w-full relative flex justify-center items-center overflow-hidden"
@@ -318,7 +318,9 @@
           <div
             class="mb-3 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center justify-between"
           >
-            <h1 class="text-xl sm:text-2xl font-bold">
+            <h1
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
               {removeCompanyStrings($displayCompanyName)}
               {title}
             </h1>
@@ -328,7 +330,7 @@
             {#if financialData?.length > 0}
               <div class="flex flex-col md:flex-row items-end justify-between">
                 <span
-                  class="text-xs sm:text-sm order-1 sm:order-0 mt-5 sm:mt-0 text-gray-600 dark:text-gray-300 w-full"
+                  class="text-xs sm:text-sm order-1 sm:order-0 mt-5 sm:mt-0 text-gray-600 dark:text-zinc-400 w-full"
                 >
                   Financials in {financialData?.at(0)?.reportedCurrency}. Fiscal
                   year is
@@ -418,12 +420,12 @@
                 class="w-full rounded-none sm:rounded m-auto overflow-x-auto"
               >
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums"
                 >
-                  <thead class="text-white bg-default">
-                    <tr class="">
+                  <thead class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+                    <tr class="border-b border-gray-200/70 dark:border-zinc-800/80">
                       <td
-                        class="text-start text-sm font-semibold w-96 border-r border-gray-300 dark:border-gray-800"
+                        class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-gray-200/70 dark:border-zinc-800/80"
                         >{$selectedTimePeriod !== "annual"
                           ? "Fiscal Quarter"
                           : "Fiscal Year"}</td
@@ -431,13 +433,13 @@
                       {#each financialData as item, index}
                         {#if $selectedTimePeriod === "annual"}
                           <td
-                            class="font-semibold text-sm text-end border-l border-gray-300 dark:border-gray-800"
+                            class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-200/70 dark:border-zinc-800/80 text-gray-600 dark:text-zinc-300"
                           >
                             {"FY" + " " + item?.fiscalYear}
                           </td>
                         {:else}
                           <td
-                            class="font-semibold text-sm text-end border-l border-gray-300 dark:border-gray-800"
+                            class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-200/70 dark:border-zinc-800/80 text-gray-600 dark:text-zinc-300"
                           >
                             {item?.period + " " + item?.fiscalYear}
                           </td>
@@ -445,20 +447,20 @@
                       {/each}
                       {#if hasLockedData}
                         <td
-                          class="font-semibold text-center text-white border-l border-gray-300 dark:border-gray-800"
+                          class="font-semibold text-xs uppercase tracking-wide text-center text-gray-600 dark:text-zinc-300 border-l border-gray-200/70 dark:border-zinc-800/80"
                         >
                           {lockedFiscalYearRange || "Upgrade"}
                         </td>
                       {/if}
                     </tr>
-                    <tr class="border">
+                    <tr class="border-b border-gray-200/70 dark:border-zinc-800/80">
                       <td
-                        class="text-start text-sm font-semibold w-96 border-r border-gray-300 dark:border-gray-800"
+                        class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-gray-200/70 dark:border-zinc-800/80"
                         >Period Ending</td
                       >
                       {#each financialData as item, index}
                         <td
-                          class="font-semibold text-sm text-end border-l border-gray-300 dark:border-gray-800"
+                          class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-200/70 dark:border-zinc-800/80 text-gray-600 dark:text-zinc-300"
                         >
                           {new Date(item?.date).toLocaleDateString("en-US", {
                             month: "short",
@@ -469,14 +471,14 @@
                       {/each}
                       {#if hasLockedData}
                         <td
-                          class="font-semibold text-center text-white border-l border-gray-300 dark:border-gray-800"
+                          class="font-semibold text-xs uppercase tracking-wide text-center text-gray-600 dark:text-zinc-300 border-l border-gray-200/70 dark:border-zinc-800/80"
                         >
                           {lockedPeriodRange || "Upgrade"}
                         </td>
                       {/if}
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
                     <!-- row -->
                     <FinancialTable
                       data={tableData}
@@ -492,17 +494,17 @@
                 </table>
               </div>
               <div
-                class="sm:flex sm:justify-between text-sm text-gray-600 dark:text-gray-300"
+                class="sm:flex sm:justify-between text-sm text-gray-600 dark:text-zinc-400"
               >
                 <div>
                   Source: Financial Modeling Prep. <a
-                    class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                     href="/data-disclaimer/">Financial Sources.</a
                   >
                 </div>
                 <div class="mt-2 sm:-mt-2 flex items-center gap-x-2">
                   SEC Filings: <a
-                    class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white flex items-center"
+                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition flex items-center"
                     target="_blank"
                     rel="noopener noreferrer"
                     href={`https://www.sec.gov/cgi-bin/browse-edgar?CIK=${data?.getProfileData?.cik}&amp;type=10-K`}
@@ -522,7 +524,7 @@
                   >
                   ·
                   <a
-                    class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white flex items-center"
+                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition flex items-center"
                     target="_blank"
                     rel="noopener noreferrer"
                     href={`https://www.sec.gov/cgi-bin/browse-edgar?CIK=${data?.getProfileData?.cik}&amp;type=10-Q`}

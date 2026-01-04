@@ -383,7 +383,7 @@ ${summaryData.investorTakeaway}
 <Button
   on:click={generateSummary}
   disabled={isLoadingSummary}
-  class="ml-2 w-fit border-gray-300 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white dark:border-gray-600 border ease-out flex flex-row justify-between items-center px-3 py-1.5 rounded truncate disabled:opacity-50"
+  class="ml-2 w-fit border-gray-300 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white dark:border-gray-600 border ease-out flex flex-row justify-between items-center px-3 py-1.5 rounded-full truncate disabled:opacity-50"
 >
   {#if isLoadingSummary}
     <svg

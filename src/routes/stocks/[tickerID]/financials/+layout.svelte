@@ -85,17 +85,20 @@
         <main class="w-full">
           <div class="m-auto">
             <nav
-              class="mb-5 sm:mb-0 sm:ml-4 pt-1 text-sm sm:text-[1rem] whitespace-nowrap overflow-x-auto"
+              class="mb-5 sm:mb-0 sm:ml-4 pt-1 text-sm whitespace-nowrap overflow-x-auto border-b border-gray-200/70 dark:border-zinc-800/80"
             >
-              <ul class="flex flex-row items-center w-full">
+              <ul
+                class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base"
+              >
                 <a
                   href={$selectedTimePeriod !== "annual" && $selectedTimePeriod
                     ? `/stocks/${$stockTicker}/financials/?query=${$selectedTimePeriod}`
                     : `/stocks/${$stockTicker}/financials`}
                   on:click={() => changeSubSection("income")}
-                  class="p-2 px-5 cursor-pointer {displaySubSection === 'income'
-                    ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
-                    : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
+                  class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
+                  'income'
+                    ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                    : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   Income
                 </a>
@@ -105,10 +108,10 @@
                     ? `/stocks/${$stockTicker}/financials/balance-sheet/?query=${$selectedTimePeriod}`
                     : `/stocks/${$stockTicker}/financials/balance-sheet`}
                   on:click={() => changeSubSection("balance-sheet")}
-                  class="p-2 px-5 cursor-pointer {displaySubSection ===
+                  class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                   'balance-sheet'
-                    ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
-                    : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
+                    ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                    : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   Balance Sheet
                 </a>
@@ -117,10 +120,10 @@
                     ? `/stocks/${$stockTicker}/financials/cash-flow/?query=${$selectedTimePeriod}`
                     : `/stocks/${$stockTicker}/financials/cash-flow`}
                   on:click={() => changeSubSection("cash-flow")}
-                  class="p-2 px-5 cursor-pointer {displaySubSection ===
+                  class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                   'cash-flow'
-                    ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
-                    : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
+                    ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                    : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   Cashflow
                 </a>
@@ -129,9 +132,10 @@
                     ? `/stocks/${$stockTicker}/financials/ratios/?query=${$selectedTimePeriod}`
                     : `/stocks/${$stockTicker}/financials/ratios`}
                   on:click={() => changeSubSection("ratios")}
-                  class="p-2 px-5 cursor-pointer {displaySubSection === 'ratios'
-                    ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
-                    : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
+                  class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
+                  'ratios'
+                    ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                    : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   Ratios
                 </a>
@@ -139,62 +143,63 @@
                 <a
                   href={$page?.url?.pathname}
                   on:click|preventDefault={() => updateQuery("annual")}
-                  class="hidden sm:block ml-auto p-2 px-5 cursor-pointer {$selectedTimePeriod ===
+                  class="hidden sm:block ml-auto px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {$selectedTimePeriod ===
                   'annual'
-                    ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
-                    : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
+                    ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                    : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   Annual
                 </a>
                 <a
                   href={$page?.url?.pathname + "?query=quarterly"}
                   on:click|preventDefault={() => updateQuery("quarterly")}
-                  class="hidden sm:block p-2 px-5 cursor-pointer {$selectedTimePeriod ===
+                  class="hidden sm:block px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {$selectedTimePeriod ===
                   'quarterly'
-                    ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
-                    : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
+                    ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                    : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   Quarterly
                 </a>
                 <a
                   href={$page?.url?.pathname + "?query=ttm"}
                   on:click|preventDefault={() => updateQuery("ttm")}
-                  class="hidden sm:block p-2 px-5 cursor-pointer {$selectedTimePeriod ===
+                  class="hidden sm:block px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {$selectedTimePeriod ===
                   'ttm'
-                    ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
-                    : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
+                    ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                    : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   TTM
                 </a>
               </ul>
 
-              <ul class="flex flex-row items-center w-full mt-1 sm:hidden">
+              <ul class="flex flex-row items-center w-full mt-1 sm:hidden gap-1 pb-3 text-sm">
                 <a
                   href={$page?.url?.pathname}
                   on:click|preventDefault={() => updateQuery("annual")}
-                  class=" p-2 px-5 cursor-pointer {$selectedTimePeriod ===
+                  class="px-2.5 py-1.5 rounded-full border text-sm font-medium transition {$selectedTimePeriod ===
                   'annual'
-                    ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
-                    : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
+                    ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                    : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   Annual
                 </a>
                 <a
                   href={$page?.url?.pathname + "?query=quarterly"}
                   on:click|preventDefault={() => updateQuery("quarterly")}
-                  class="p-2 px-5 cursor-pointer {$selectedTimePeriod ===
+                  class="px-2.5 py-1.5 rounded-full border text-sm font-medium transition {$selectedTimePeriod ===
                   'quarterly'
-                    ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
-                    : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
+                    ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                    : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   Quarterly
                 </a>
                 <a
                   href={$page?.url?.pathname + "?query=ttm"}
                   on:click|preventDefault={() => updateQuery("ttm")}
-                  class="p-2 px-5 cursor-pointer {$selectedTimePeriod === 'ttm'
-                    ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
-                    : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
+                  class="px-2.5 py-1.5 rounded-full border text-sm font-medium transition {$selectedTimePeriod ===
+                  'ttm'
+                    ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                    : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   TTM
                 </a>
