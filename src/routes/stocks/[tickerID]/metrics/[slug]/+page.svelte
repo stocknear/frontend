@@ -581,10 +581,8 @@
                             <button
                               on:click={() => handleTabClick(i)}
                               class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
-                   {i === 0 ? 'rounded-l border' : ''}
-                   {i === tabs?.length - 1
-                                ? 'rounded-r border-t border-r border-b'
-                                : ''}
+                   {i === 0 ? ' border' : ''}
+                   {i === tabs?.length - 1 ? ' border-t border-r border-b' : ''}
                    {i !== 0 && i !== tabs?.length - 1
                                 ? 'border-t border-b'
                                 : ''}

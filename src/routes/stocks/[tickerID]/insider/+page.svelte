@@ -504,7 +504,7 @@ ${summaryData.outlook}
     },
     spline: {
      lineWidth: 2,
-     shadow-none: false,
+     shadow: false,
     },
     bubble: {
      minSize: 8,
@@ -1363,26 +1363,26 @@ ${summaryData.outlook}
         class="flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:justify-end lg:w-auto"
        >
         <div class="relative w-full sm:w-56">
-        <div
-         class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
-        >
-         {#if inputValue?.length > 0}
-          <label
-           class="cursor-pointer"
-           on:click={() => resetTableSearch()}
-          >
-           <svg
-            class="w-5 h-5"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            ><path
-             fill="currentColor"
-             d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-            /></svg
+         <div
+          class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+         >
+          {#if inputValue?.length > 0}
+           <label
+            class="cursor-pointer"
+            on:click={() => resetTableSearch()}
            >
-          </label>
-         {/if}
-        </div>
+            <svg
+             class="w-5 h-5"
+             xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 24 24"
+             ><path
+              fill="currentColor"
+              d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+             /></svg
+            >
+           </label>
+          {/if}
+         </div>
 
         <input
          bind:value={inputValue}
@@ -1403,7 +1403,6 @@ ${summaryData.outlook}
        </div>
       </div>
      </div>
-    </div>
     </div>
 
     {#if displayList?.length > 0}
