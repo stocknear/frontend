@@ -1205,7 +1205,7 @@
             <div class="hidden shrink-0 sm:inline-flex">
               <a
                 href="/pricing"
-                class="inline-flex items-center whitespace-nowrap justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-900/60 text-gray-700 dark:text-zinc-200 px-4 py-2 text-sm font-semibold transition hover:bg-white dark:hover:bg-zinc-900/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
+                class="inline-flex items-center whitespace-nowrap justify-center rounded-full bg-gray-900 text-white px-4 py-2 text-sm font-semibold transition hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 Start Trial
               </a>
@@ -1317,7 +1317,7 @@
             {:else}
               <a
                 href="/login"
-                class="inline-flex items-center justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-900/60 text-gray-700 dark:text-zinc-200 px-4 py-2 text-sm font-semibold transition hover:bg-white dark:hover:bg-zinc-900/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
+                class="inline-flex items-center justify-center rounded-full bg-gray-900 text-white px-4 py-2 text-sm font-semibold transition hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 Login
               </a>
