@@ -52,7 +52,7 @@
           >
             <span
               class={displayLegend?.change >= 0
-                ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
+                ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
                 : displayLegend?.change < 0
                   ? "text-rose-600 dark:text-rose-400"
                   : ""}
@@ -61,7 +61,7 @@
             </span>
             <span
               class={displayLegend?.changesPercentage >= 0
-                ? "text-green-800 dark:text-[#00FC50]"
+                ? "text-emerald-600 dark:text-emerald-400"
                 : displayLegend?.changesPercentage < 0
                   ? "text-rose-600 dark:text-rose-400"
                   : ""}
@@ -97,7 +97,7 @@
             <div
               class="mt-1.5 block sm:mt-0 sm:inline text-lg {prePostData?.changesPercentage >=
               0
-                ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
+                ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
                 : 'text-rose-600 dark:text-rose-400'}"
             >
               {prePostData?.changesPercentage?.toFixed(2)}%

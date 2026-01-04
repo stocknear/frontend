@@ -962,7 +962,7 @@
       >
         Contract: <span
           class={optionType === "Calls"
-            ? "text-green-800 dark:text-[#00FC50]"
+            ? "text-emerald-600 dark:text-emerald-400"
             : "text-rose-600 dark:text-rose-400"}
           >{ticker}
           {strikePrice}
@@ -1084,7 +1084,7 @@
                     </td>
                     <td class="text-sm sm:text-[1rem] text-end">
                       {#if item?.changeOI >= 0 && item?.changeOI !== null}
-                        <span class="text-green-800 dark:text-[#00FC50]"
+                        <span class="text-emerald-600 dark:text-emerald-400"
                           >+{item?.changeOI?.toLocaleString("en-US")}</span
                         >
                       {:else if item?.changeOI < 0 && item?.changeOI !== null}
@@ -1098,7 +1098,7 @@
 
                     <td class="text-sm sm:text-[1rem] text-end">
                       {#if item?.changesPercentageOI > 0 && item?.changesPercentageOI !== undefined}
-                        <span class="text-green-800 dark:text-[#00FC50]"
+                        <span class="text-emerald-600 dark:text-emerald-400"
                           >+{item?.changesPercentageOI + "%"}</span
                         >
                       {:else if item?.changesPercentageOI < 0 && item?.changesPercentageOI !== undefined}

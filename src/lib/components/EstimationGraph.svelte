@@ -17,7 +17,7 @@
 {#if graphType !== "growth"}
   <div class="shadow">
     <h2 class="mb-2 text-xl font-bold">{title} Forecast</h2>
-    <div class="rounded-sm border p-2 border-gray-300 dark:border-gray-600">
+    <div class="p-2">
       <div class="w-full">
         {#if config !== null}
           <div use:highcharts={config}></div>
@@ -27,7 +27,7 @@
         <table class="w-full text-right">
           <thead
             ><tr
-              class="border-b border-gray-300 dark:border-gray-600 align-bottom font-normal"
+              class="border-b border-gray-300 dark:border-gray-800 align-bottom font-normal"
               ><th class="p-1 text-left font-semibold text-sm sm:text-[1rem]"
                 >{title}</th
               >
@@ -40,7 +40,7 @@
           >
           <tbody
             ><tr
-              class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+              class="border-b border-gray-300 dark:border-gray-800 last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">High</td>
               {#each highDataList as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
@@ -64,7 +64,7 @@
                 </td>
               {/each}
             </tr><tr
-              class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+              class="border-b border-gray-300 dark:border-gray-800 last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">Avg</td>
               {#each avgDataList as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
@@ -88,7 +88,7 @@
                 </td>
               {/each}
             </tr><tr
-              class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+              class="border-b border-gray-300 dark:border-gray-800 last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">Low</td>
               {#each lowDataList as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
@@ -120,7 +120,7 @@
 {:else}
   <div class="shadow">
     <h2 class="mb-2 text-xl font-bold">{title}</h2>
-    <div class="rounded-sm border p-2 border-gray-300 dark:border-gray-600">
+    <div class="p-2">
       <div class="w-full">
         {#if config !== null}
           <div use:highcharts={config}></div>
@@ -130,7 +130,7 @@
         <table class="w-full text-right">
           <thead
             ><tr
-              class="border-b border-gray-300 dark:border-gray-600 align-bottom font-normal whitespace-nowrap"
+              class="border-b border-gray-300 dark:border-gray-800 align-bottom font-normal whitespace-nowrap"
               ><th class="p-1 text-left font-semibold text-sm sm:text-[1rem]"
                 >{title}</th
               >
@@ -143,7 +143,7 @@
           >
           <tbody
             ><tr
-              class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+              class="border-b border-gray-300 dark:border-gray-800 last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">High</td>
               {#each computeGrowthSingleList(highDataList, avgDataList) as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
@@ -163,7 +163,7 @@
                     {:else}
                       <span
                         class={item?.growth !== null && item?.growth > 0
-                          ? "text-green-800 dark:text-[#00FC50] before:content-['+']"
+                          ? "text-emerald-600 dark:text-emerald-400 before:content-['+']"
                           : item?.growth < 0
                             ? "text-rose-600 dark:text-rose-400"
                             : ""}
@@ -177,7 +177,7 @@
                 </td>
               {/each}
             </tr><tr
-              class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+              class="border-b border-gray-300 dark:border-gray-800 last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">Avg</td>
               {#each avgGrowthList?.filter((item) => item.FY >= 25) as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
@@ -197,7 +197,7 @@
                     {:else}
                       <span
                         class={item?.growth !== null && item?.growth > 0
-                          ? "text-green-800 dark:text-[#00FC50] before:content-['+']"
+                          ? "text-emerald-600 dark:text-emerald-400 before:content-['+']"
                           : item?.growth < 0
                             ? "text-rose-600 dark:text-rose-400"
                             : ""}
@@ -211,7 +211,7 @@
                 </td>
               {/each}
             </tr><tr
-              class="border-b border-gray-300 dark:border-gray-600 last:border-0"
+              class="border-b border-gray-300 dark:border-gray-800 last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">Low</td>
               {#each computeGrowthSingleList(lowDataList, avgDataList) as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
@@ -231,7 +231,7 @@
                     {:else}
                       <span
                         class={item?.growth !== null && item?.growth > 0
-                          ? "text-green-800 dark:text-[#00FC50] before:content-['+']"
+                          ? "text-emerald-600 dark:text-emerald-400 before:content-['+']"
                           : item?.growth < 0
                             ? "text-rose-600 dark:text-rose-400"
                             : ""}

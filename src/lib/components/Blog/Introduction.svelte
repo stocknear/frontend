@@ -52,7 +52,7 @@
     >, reflecting a
     <span
       class="{revenueRatio >= 0 && revenueRatio !== 'Infinity'
-        ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
+        ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
         : revenueRatio < 0 && revenueRatio !== 'Infinity'
           ? 'text-rose-600 dark:text-rose-400'
           : 'text-muted dark:text-white'} "
@@ -66,7 +66,7 @@
       <span class="">{blogData?.epsEst}</span>, making a
       <span
         class="{epsRatio > 0
-          ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
+          ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
           : 'text-rose-600 dark:text-rose-400'} ">{epsRatio}%</span
       >
       {epsRatio > 0 ? "increase" : epsRatio < 0 ? "decrease" : ""} YoY.

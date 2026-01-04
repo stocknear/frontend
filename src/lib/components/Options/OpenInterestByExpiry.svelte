@@ -470,7 +470,7 @@
 
             <td class=" text-sm sm:text-[1rem] text-end whitespace-nowrap">
               {#if item?.put_call_ratio <= 1 && item?.put_call_ratio !== null}
-                <span class="f text-green-800 dark:text-[#00FC50]"
+                <span class="f text-emerald-600 dark:text-emerald-400"
                   >{item?.put_call_ratio?.toFixed(2)}</span
                 >
               {:else if item?.put_call_ratio > 1 && item?.put_call_ratio !== null}

@@ -567,376 +567,362 @@
 </script>
 
 <SEO
- title={`${$displayCompanyName} (${$stockTicker}) Short Interest Analysis | Historical Data & Squeeze Indicators`}
- description={`Comprehensive short interest analysis for ${$displayCompanyName} (${$stockTicker}). Track short position changes, days to cover, short ratio, float percentage, and historical trends. Advanced short squeeze detection and bearish sentiment analysis tools.`}
- keywords={`${$stockTicker} short interest, ${$displayCompanyName} short squeeze, days to cover, short float percentage, ${$stockTicker} short ratio, short position analysis, short interest history, bearish sentiment analysis, squeeze indicators`}
- type="website"
- url={`https://stocknear.com/stocks/${$stockTicker}/statistics/short-interest`}
- structuredData={{
-  "@context": "https://schema.org",
-  "@type": ["FinancialProduct", "Dataset"],
-  name: `${$displayCompanyName} Short Interest Analysis`,
-  description: `Professional short interest tracking and squeeze analysis for ${$displayCompanyName} (${$stockTicker})`,
-  url: `https://stocknear.com/stocks/${$stockTicker}/statistics/short-interest`,
-  applicationCategory: "FinanceApplication",
-  featureList: [
-   "Short interest tracking",
-   "Days to cover analysis",
-   "Short float percentage",
-   "Historical short data",
-   "Short squeeze indicators",
-   "Bearish sentiment analysis",
-   "Short ratio calculations",
-   "Position change tracking",
-  ],
-  provider: {
-   "@type": "Organization",
-   name: "Stocknear",
-   url: "https://stocknear.com",
-  },
-  mainEntity: {
-   "@type": "Corporation",
-   name: $displayCompanyName,
-   tickerSymbol: $stockTicker,
-  },
-  about: {
-   "@type": "Thing",
-   name: "Short Interest Analysis",
-   description:
-    "Professional analysis of short positions and squeeze potential",
-  },
- }}
+  title={`${$displayCompanyName} (${$stockTicker}) Short Interest Analysis | Historical Data & Squeeze Indicators`}
+  description={`Comprehensive short interest analysis for ${$displayCompanyName} (${$stockTicker}). Track short position changes, days to cover, short ratio, float percentage, and historical trends. Advanced short squeeze detection and bearish sentiment analysis tools.`}
+  keywords={`${$stockTicker} short interest, ${$displayCompanyName} short squeeze, days to cover, short float percentage, ${$stockTicker} short ratio, short position analysis, short interest history, bearish sentiment analysis, squeeze indicators`}
+  type="website"
+  url={`https://stocknear.com/stocks/${$stockTicker}/statistics/short-interest`}
+  structuredData={{
+    "@context": "https://schema.org",
+    "@type": ["FinancialProduct", "Dataset"],
+    name: `${$displayCompanyName} Short Interest Analysis`,
+    description: `Professional short interest tracking and squeeze analysis for ${$displayCompanyName} (${$stockTicker})`,
+    url: `https://stocknear.com/stocks/${$stockTicker}/statistics/short-interest`,
+    applicationCategory: "FinanceApplication",
+    featureList: [
+      "Short interest tracking",
+      "Days to cover analysis",
+      "Short float percentage",
+      "Historical short data",
+      "Short squeeze indicators",
+      "Bearish sentiment analysis",
+      "Short ratio calculations",
+      "Position change tracking",
+    ],
+    provider: {
+      "@type": "Organization",
+      name: "Stocknear",
+      url: "https://stocknear.com",
+    },
+    mainEntity: {
+      "@type": "Corporation",
+      name: $displayCompanyName,
+      tickerSymbol: $stockTicker,
+    },
+    about: {
+      "@type": "Thing",
+      name: "Short Interest Analysis",
+      description:
+        "Professional analysis of short positions and squeeze potential",
+    },
+  }}
 />
 
 <section class=" w-full overflow-hidden h-full">
- <div class="w-full flex justify-center w-full sm-auto h-full overflow-hidden">
-  <div
-   class="w-full relative flex justify-center items-center overflow-hidden"
-  >
-   <main class="w-full">
-    <div class="sm:pl-7 sm:pb-7 sm:pt-7 m-auto mt-2 sm:mt-0">
-     <div class="w-full flex flex-col sm:flex-row justify-between">
-      <h1 class="text-xl sm:text-2xl font-bold">
-       {removeCompanyStrings($displayCompanyName)} Short Interest
-      </h1>
-     </div>
+  <div class="w-full flex justify-center w-full sm-auto h-full overflow-hidden">
+    <div
+      class="w-full relative flex justify-center items-center overflow-hidden"
+    >
+      <main class="w-full">
+        <div class="sm:pl-7 sm:pb-7 sm:pt-7 m-auto mt-2 sm:mt-0">
+          <div class="w-full flex flex-col sm:flex-row justify-between">
+            <h1 class="text-xl sm:text-2xl font-bold">
+              {removeCompanyStrings($displayCompanyName)} Short Interest
+            </h1>
+          </div>
 
-     {#if rawData?.length !== 0}
-      <div class="grid grid-cols-1 gap-2">
-       <Infobox
-        text={`${removeCompanyStrings($displayCompanyName)} has a total short interest of ${abbreviateNumber(
-         data?.getData?.sharesShort,
-        )}. Its short interest has ${
-         (latestEntry?.percentChangeMoMo ?? 0) > 0
-          ? "increased"
-          : (latestEntry?.percentChangeMoMo ?? 0) < 0
-           ? "decreased"
-           : "unchanged"
-        } by ${abbreviateNumber(
-         latestEntry?.percentChangeMoMo?.toFixed(2),
-        )}% to the previous month.`}
-       />
+          {#if rawData?.length !== 0}
+            <div class="grid grid-cols-1 gap-2">
+              <Infobox
+                text={`${removeCompanyStrings($displayCompanyName)} has a total short interest of ${abbreviateNumber(
+                  data?.getData?.sharesShort,
+                )}. Its short interest has ${
+                  (latestEntry?.percentChangeMoMo ?? 0) > 0
+                    ? "increased"
+                    : (latestEntry?.percentChangeMoMo ?? 0) < 0
+                      ? "decreased"
+                      : "unchanged"
+                } by ${abbreviateNumber(
+                  latestEntry?.percentChangeMoMo?.toFixed(2),
+                )}% to the previous month.`}
+              />
 
-       <div
-        class="my-5 grid grid-cols-2 gap-3 xs:mt-6 bp:mt-7 sm:grid-cols-3 sm:gap-6"
-       >
-        <div class="short-interest-driver">
-         Short Interest
-         <div
-          class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
-         >
-          {abbreviateNumber(data?.getData?.sharesShort)}
-         </div>
-        </div>
-        <div class="shortPriorMonth-driver">
-         Short Prior Month <div
-          class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
-         >
-          {abbreviateNumber(data?.getData?.sharesShortPriorMonth)}
-         </div>
-        </div>
-        <div class="changeMoM-driver">
-         % Change MoM <div
-          class="mt-0.5 text-lg {latestEntry?.percentChangeMoMo > 0
-           ? "before:content-['+'] "
-           : ''} font-semibold bp:text-xl sm:mt-1.5 sm:text-2xl"
-         >
-          {latestEntry?.percentChangeMoMo
-           ? latestEntry?.percentChangeMoMo + "%"
-           : "n/a"}
-         </div>
-        </div>
-        <div class="shortPercentFloat-driver">
-         Short % Floating
-         <div
-          class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
-         >
-          {data?.getData?.shortFloatPercent
-           ? data?.getData?.shortFloatPercent + "%"
-           : "n/a"}
-         </div>
-        </div>
-        <div class="shortPercentOutstanding-driver">
-         Short % Outstanding
-         <div
-          class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
-         >
-          {data?.getData?.shortOutstandingPercent
-           ? data?.getData?.shortOutstandingPercent + "%"
-           : "n/a"}
-         </div>
-        </div>
-        <div class="daysToCover-driver">
-         Days to Cover
-         <div
-          class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
-         >
-          {data?.getData?.shortRatio}
-         </div>
-        </div>
-       </div>
-
-       <div
-        class="flex flex-col sm:flex-row items-start sm:items-center w-full"
-       >
-        <h2 class="text-xl sm:text-2xl font-bold">
-         Short Interest Chart
-        </h2>
-       </div>
-
-       <div class="chart-driver">
-        <div class="grow">
-         <div class="relative">
-          <!-- Apply the blur class to the chart -->
-          <div
-           class="{!['Plus', 'Pro']?.includes(data?.user?.tier)
-            ? 'blur-[3px]'
-            : ''}  border border-gray-200/70 dark:border-zinc-800/80 rounded"
-           use:highcharts={config}
-          ></div>
-          <!-- Overlay with "Upgrade to Pro" -->
-          {#if !["Plus", "Pro"]?.includes(data?.user?.tier)}
-           <div
-            class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-gray-600 dark:text-zinc-300"
-           >
-            <a
-             href="/pricing"
-             class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition flex flex-row items-center"
-            >
-             <span>Upgrade</span>
-             <svg
-              class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              ><path
-               fill="currentColor"
-               d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-              /></svg
-             >
-            </a>
-           </div>
-          {/if}
-         </div>
-        </div>
-       </div>
-
-       <div
-        class="flex flex-row items-center w-full justify-between mt-3 border-t border-b border-gray-200/70 dark:border-zinc-800/80 py-2"
-       >
-        <h3 class=" history-driver text-xl sm:text-2xl font-bold">
-         History
-        </h3>
-
-        <div class="flex flex-row items-center w-fit w-[50%] ml-auto">
-         <DownloadData
-          {data}
-          {rawData}
-          title={`short_interest_${$stockTicker}`}
-         />
-        </div>
-       </div>
-
-       <div class="w-full overflow-x-auto">
-        <table
-         class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums m-auto mt-2"
-        >
-         <thead>
-          <TableHeader {columns} {sortOrders} {sortData} />
-         </thead>
-         <tbody>
-          {#each paginatedTableList as item}
-           <!-- row -->
-           <tr
-            class="transition-colors"
-           >
-            <td class=" text-sm whitespace-nowrap">
-             {new Date(item?.recordDate)?.toLocaleDateString(
-              "en-US",
-              {
-               day: "2-digit", // Include day number
-               month: "short", // Display short month name
-               year: "numeric", // Include year
-               timeZone: "UTC",
-              },
-             )}
-            </td>
-
-            <td
-             class=" text-sm text-right whitespace-nowrap"
-            >
-             {abbreviateNumber(item?.totalShortInterest)}
-            </td>
-            <td
-             class=" text-sm text-right whitespace-nowrap"
-            >
-             {abbreviateNumber(item?.shortPriorMo)}
-            </td>
-            <td
-             class=" text-sm whitespace-nowrap text-end"
-            >
-             <span
-              class={item?.percentChangeMoMo &&
-              item?.percentChangeMoMo >= 0
-               ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-               : "text-rose-600 dark:text-rose-400"}
-             >
-              {item?.percentChangeMoMo
-               ? item?.percentChangeMoMo + "%"
-               : "n/a"}
-             </span>
-            </td>
-            <td
-             class=" text-sm text-right whitespace-nowrap"
-            >
-             {abbreviateNumber(item?.daysToCover)}
-            </td>
-            <td
-             class=" text-sm text-right whitespace-nowrap"
-            >
-             {item?.shortPercentOfFloat
-              ? item?.shortPercentOfFloat + "%"
-              : "n/a"}
-            </td>
-            <td
-             class=" text-sm text-right whitespace-nowrap"
-            >
-             {item?.shortPercentOfOut
-              ? item?.shortPercentOfOut + "%"
-              : "n/a"}
-            </td>
-           </tr>
-          {/each}
-         </tbody>
-        </table>
-       </div>
-       {#if paginatedTableList?.length > 0}
-        <div
-         class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mt-6"
-        >
-         <Button
-          on:click={() => goToPage(currentPage - 1)}
-          disabled={currentPage === 1}
-          class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
-         >
-          <svg
-           class="h-5 w-5 inline-block shrink-0 rotate-90"
-           viewBox="0 0 20 20"
-           fill="currentColor"
-           style="max-width:40px"
-           aria-hidden="true"
-          >
-           <path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-           ></path>
-          </svg>
-          <span class="hidden sm:inline">Previous</span>
-         </Button>
-
-         <div class="flex flex-row items-center gap-4">
-          <span class="text-sm text-gray-600 dark:text-zinc-300">
-           Page {currentPage} of {totalPages}
-          </span>
-
-          <DropdownMenu.Root>
-           <DropdownMenu.Trigger asChild let:builder>
-            <Button
-             builders={[builder]}
-             class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-             <span class="truncate text-[0.85rem] sm:text-sm"
-              >{rowsPerPage} Rows</span
-             >
-             <svg
-              class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              style="max-width:40px"
-              aria-hidden="true"
-             >
-              <path
-               fill-rule="evenodd"
-               d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-               clip-rule="evenodd"
-              ></path>
-             </svg>
-            </Button>
-           </DropdownMenu.Trigger>
-
-           <DropdownMenu.Content
-            side="bottom"
-            align="end"
-            sideOffset={10}
-            alignOffset={0}
-            class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
-           >
-            <DropdownMenu.Group class="pb-2">
-             {#each rowsPerPageOptions as item}
-              <DropdownMenu.Item
-               class="text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+              <div
+                class="my-5 grid grid-cols-2 gap-3 xs:mt-6 bp:mt-7 sm:grid-cols-3 sm:gap-6"
               >
-               <label
-                on:click={() => changeRowsPerPage(item)}
-                class="inline-flex justify-between w-full items-center cursor-pointer"
-               >
-                <span class="text-sm">{item} Rows</span>
-               </label>
-              </DropdownMenu.Item>
-             {/each}
-            </DropdownMenu.Group>
-           </DropdownMenu.Content>
-          </DropdownMenu.Root>
-         </div>
+                <div class="short-interest-driver">
+                  Short Interest
+                  <div
+                    class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
+                  >
+                    {abbreviateNumber(data?.getData?.sharesShort)}
+                  </div>
+                </div>
+                <div class="shortPriorMonth-driver">
+                  Short Prior Month <div
+                    class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
+                  >
+                    {abbreviateNumber(data?.getData?.sharesShortPriorMonth)}
+                  </div>
+                </div>
+                <div class="changeMoM-driver">
+                  % Change MoM <div
+                    class="mt-0.5 text-lg {latestEntry?.percentChangeMoMo > 0
+                      ? "before:content-['+'] "
+                      : ''} font-semibold bp:text-xl sm:mt-1.5 sm:text-2xl"
+                  >
+                    {latestEntry?.percentChangeMoMo
+                      ? latestEntry?.percentChangeMoMo + "%"
+                      : "n/a"}
+                  </div>
+                </div>
+                <div class="shortPercentFloat-driver">
+                  Short % Floating
+                  <div
+                    class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
+                  >
+                    {data?.getData?.shortFloatPercent
+                      ? data?.getData?.shortFloatPercent + "%"
+                      : "n/a"}
+                  </div>
+                </div>
+                <div class="shortPercentOutstanding-driver">
+                  Short % Outstanding
+                  <div
+                    class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
+                  >
+                    {data?.getData?.shortOutstandingPercent
+                      ? data?.getData?.shortOutstandingPercent + "%"
+                      : "n/a"}
+                  </div>
+                </div>
+                <div class="daysToCover-driver">
+                  Days to Cover
+                  <div
+                    class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-semibold"
+                  >
+                    {data?.getData?.shortRatio}
+                  </div>
+                </div>
+              </div>
 
-         <Button
-          on:click={() => goToPage(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
-         >
-          <span class="hidden sm:inline">Next</span>
-          <svg
-           class="h-5 w-5 inline-block shrink-0 -rotate-90"
-           viewBox="0 0 20 20"
-           fill="currentColor"
-           style="max-width:40px"
-           aria-hidden="true"
-          >
-           <path
-            fill-rule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-           ></path>
-          </svg>
-         </Button>
+              <div
+                class="flex flex-col sm:flex-row items-start sm:items-center w-full"
+              >
+                <h2 class="text-xl sm:text-2xl font-bold">
+                  Short Interest Chart
+                </h2>
+              </div>
+
+              <div class="chart-driver">
+                <div class="grow">
+                  <div class="relative">
+                    <!-- Apply the blur class to the chart -->
+                    <div
+                      class="{!['Plus', 'Pro']?.includes(data?.user?.tier)
+                        ? 'blur-[3px]'
+                        : ''}  border border-gray-200/70 dark:border-zinc-800/80 rounded"
+                      use:highcharts={config}
+                    ></div>
+                    <!-- Overlay with "Upgrade to Pro" -->
+                    {#if !["Plus", "Pro"]?.includes(data?.user?.tier)}
+                      <div
+                        class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-gray-600 dark:text-zinc-300"
+                      >
+                        <a
+                          href="/pricing"
+                          class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition flex flex-row items-center"
+                        >
+                          <span>Upgrade</span>
+                          <svg
+                            class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            ><path
+                              fill="currentColor"
+                              d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                            /></svg
+                          >
+                        </a>
+                      </div>
+                    {/if}
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flex flex-row items-center w-full justify-between mt-3 border-t border-b border-gray-200/70 dark:border-zinc-800/80 py-2"
+              >
+                <h3 class=" history-driver text-xl sm:text-2xl font-bold">
+                  History
+                </h3>
+
+                <div class="flex flex-row items-center w-fit w-[50%] ml-auto">
+                  <DownloadData
+                    {data}
+                    {rawData}
+                    title={`short_interest_${$stockTicker}`}
+                  />
+                </div>
+              </div>
+
+              <div class="w-full overflow-x-auto">
+                <table
+                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums m-auto mt-2"
+                >
+                  <thead>
+                    <TableHeader {columns} {sortOrders} {sortData} />
+                  </thead>
+                  <tbody>
+                    {#each paginatedTableList as item}
+                      <!-- row -->
+                      <tr class="transition-colors">
+                        <td class=" text-sm whitespace-nowrap">
+                          {new Date(item?.recordDate)?.toLocaleDateString(
+                            "en-US",
+                            {
+                              day: "2-digit", // Include day number
+                              month: "short", // Display short month name
+                              year: "numeric", // Include year
+                              timeZone: "UTC",
+                            },
+                          )}
+                        </td>
+
+                        <td class=" text-sm text-right whitespace-nowrap">
+                          {abbreviateNumber(item?.totalShortInterest)}
+                        </td>
+                        <td class=" text-sm text-right whitespace-nowrap">
+                          {abbreviateNumber(item?.shortPriorMo)}
+                        </td>
+                        <td class=" text-sm whitespace-nowrap text-end">
+                          <span
+                            class={item?.percentChangeMoMo &&
+                            item?.percentChangeMoMo >= 0
+                              ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                              : "text-rose-600 dark:text-rose-400"}
+                          >
+                            {item?.percentChangeMoMo
+                              ? item?.percentChangeMoMo + "%"
+                              : "n/a"}
+                          </span>
+                        </td>
+                        <td class=" text-sm text-right whitespace-nowrap">
+                          {abbreviateNumber(item?.daysToCover)}
+                        </td>
+                        <td class=" text-sm text-right whitespace-nowrap">
+                          {item?.shortPercentOfFloat
+                            ? item?.shortPercentOfFloat + "%"
+                            : "n/a"}
+                        </td>
+                        <td class=" text-sm text-right whitespace-nowrap">
+                          {item?.shortPercentOfOut
+                            ? item?.shortPercentOfOut + "%"
+                            : "n/a"}
+                        </td>
+                      </tr>
+                    {/each}
+                  </tbody>
+                </table>
+              </div>
+              {#if paginatedTableList?.length > 0}
+                <div
+                  class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mt-6"
+                >
+                  <Button
+                    on:click={() => goToPage(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    <svg
+                      class="h-5 w-5 inline-block shrink-0 rotate-90"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                    <span class="hidden sm:inline">Previous</span>
+                  </Button>
+
+                  <div class="flex flex-row items-center gap-4">
+                    <span class="text-sm text-gray-600 dark:text-zinc-300">
+                      Page {currentPage} of {totalPages}
+                    </span>
+
+                    <DropdownMenu.Root>
+                      <DropdownMenu.Trigger asChild let:builder>
+                        <Button
+                          builders={[builder]}
+                          class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        >
+                          <span class="truncate text-[0.85rem] sm:text-sm"
+                            >{rowsPerPage} Rows</span
+                          >
+                          <svg
+                            class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            style="max-width:40px"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clip-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </Button>
+                      </DropdownMenu.Trigger>
+
+                      <DropdownMenu.Content
+                        side="bottom"
+                        align="end"
+                        sideOffset={10}
+                        alignOffset={0}
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      >
+                        <DropdownMenu.Group class="pb-2">
+                          {#each rowsPerPageOptions as item}
+                            <DropdownMenu.Item
+                              class="text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                            >
+                              <label
+                                on:click={() => changeRowsPerPage(item)}
+                                class="inline-flex justify-between w-full items-center cursor-pointer"
+                              >
+                                <span class="text-sm">{item} Rows</span>
+                              </label>
+                            </DropdownMenu.Item>
+                          {/each}
+                        </DropdownMenu.Group>
+                      </DropdownMenu.Content>
+                    </DropdownMenu.Root>
+                  </div>
+
+                  <Button
+                    on:click={() => goToPage(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    <span class="hidden sm:inline">Next</span>
+                    <svg
+                      class="h-5 w-5 inline-block shrink-0 -rotate-90"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </Button>
+                </div>
+              {/if}
+            </div>
+          {:else}
+            <Infobox text="No data available" />
+          {/if}
         </div>
-       {/if}
-      </div>
-     {:else}
-      <Infobox text="No data available" />
-     {/if}
+      </main>
     </div>
-   </main>
   </div>
- </div>
 </section>

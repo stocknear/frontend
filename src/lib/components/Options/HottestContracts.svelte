@@ -543,7 +543,7 @@
                     class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
                   >
                     {#if item?.changeOI >= 0}
-                      <span class="text-green-800 dark:text-[#00FC50]"
+                      <span class="text-emerald-600 dark:text-emerald-400"
                         >+{item?.changeOI?.toLocaleString("en-US")}</span
                       >
                     {:else if item?.changeOI < 0}

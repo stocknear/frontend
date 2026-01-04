@@ -816,7 +816,7 @@
                   {/each}
                 </tr>
 
-                <tr class="bg-[#F6F7F8] dark:bg-odd">
+                <tr class="">
                   <th
                     class=" whitespace-nowrap text-sm sm:text-[1rem] text-start font-normal"
                   >
@@ -838,7 +838,7 @@
                       {:else}
                         <span
                           class={item?.growth > 0
-                            ? "text-green-800 dark:text-[#00FC50] before:content-['+']"
+                            ? "text-emerald-600 dark:text-emerald-400 before:content-['+']"
                             : item?.growth < 0
                               ? "text-rose-600 dark:text-rose-400"
                               : ""}
@@ -867,7 +867,7 @@
                   {/each}
                 </tr>
 
-                <tr class="bg-[#F6F7F8] dark:bg-odd">
+                <tr class="">
                   <th
                     class=" whitespace-nowrap text-sm sm:text-[1rem] font-normal text-start"
                   >
@@ -889,7 +889,7 @@
                       {:else}
                         <span
                           class={item?.growth > 0
-                            ? "text-green-800 dark:text-[#00FC50] before:content-['+']"
+                            ? "text-emerald-600 dark:text-emerald-400 before:content-['+']"
                             : item?.growth < 0
                               ? "text-rose-600 dark:text-rose-400"
                               : ""}
@@ -918,7 +918,7 @@
                   {/each}
                 </tr>
 
-                <tr class="bg-[#F6F7F8] dark:bg-odd">
+                <tr class="">
                   <th
                     class=" whitespace-nowrap text-sm sm:text-[1rem] font-normal text-start"
                   >
@@ -940,7 +940,7 @@
                       {:else}
                         <span
                           class={item?.growth > 0
-                            ? "text-green-800 dark:text-[#00FC50] before:content-['+']"
+                            ? "text-emerald-600 dark:text-emerald-400 before:content-['+']"
                             : item?.growth < 0
                               ? "text-rose-600 dark:text-rose-400"
                               : ""}
@@ -969,7 +969,7 @@
                   {/each}
                 </tr>
 
-                <tr class="bg-[#F6F7F8] dark:bg-odd">
+                <tr class="">
                   <th
                     class=" whitespace-nowrap text-sm sm:text-[1rem] font-normal text-start"
                   >
@@ -991,7 +991,7 @@
                       {:else}
                         <span
                           class={item?.growth > 0
-                            ? "text-green-800 dark:text-[#00FC50] before:content-['+']"
+                            ? "text-emerald-600 dark:text-emerald-400 before:content-['+']"
                             : item?.growth < 0
                               ? "text-rose-600 dark:text-rose-400"
                               : ""}

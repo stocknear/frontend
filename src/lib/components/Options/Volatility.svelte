@@ -592,7 +592,7 @@
 
             <td class=" text-sm sm:text-[1rem] text-end">
               {#if item?.changesPercentage >= 0 && item?.changesPercentage !== null}
-                <span class="text-green-800 dark:text-[#00FC50]"
+                <span class="text-emerald-600 dark:text-emerald-400"
                   >+{item?.changesPercentage >= 1000
                     ? abbreviateNumber(item?.changesPercentage)
                     : item?.changesPercentage?.toFixed(2)}%</span
@@ -618,7 +618,7 @@
 
             <td class=" text-sm sm:text-[1rem] text-end">
               {#if item?.changesPercentageOI >= 0 && item?.changesPercentageOI !== null}
-                <span class="text-green-800 dark:text-[#00FC50]"
+                <span class="text-emerald-600 dark:text-emerald-400"
                   >+{item?.changesPercentageOI >= 1000
                     ? abbreviateNumber(item?.changesPercentageOI)
                     : item?.changesPercentageOI?.toFixed(2)}%</span

@@ -876,7 +876,7 @@
                       {item?.change ? item?.change?.toFixed(2) : "n/a"}
                       <span
                         class="ml-2 {item?.changesPercentage >= 0
-                          ? "text-green-800 dark:text-[#00FC50] before:content-['+']"
+                          ? "text-emerald-600 dark:text-emerald-400 before:content-['+']"
                           : 'text-rose-600 dark:text-rose-400'}"
                       >
                         ({item?.changesPercentage

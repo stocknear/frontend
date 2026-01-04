@@ -1203,7 +1203,7 @@ ${insightData.traderTakeaway}
           class="p-2 text-center text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
             index
           ]?.put_call === 'Calls'
-            ? 'text-green-800 dark:text-[#00FC50]'
+            ? 'text-emerald-600 dark:text-emerald-400'
             : 'text-rose-600 dark:text-rose-400'} "
         >
           {sortedDisplayData[index]?.put_call}
@@ -1213,7 +1213,7 @@ ${insightData.traderTakeaway}
           class="p-2 text-end text-sm sm:text-[1rem] whitespace-nowrap relative z-10 {sortedDisplayData[
             index
           ]?.sentiment === 'Bullish'
-            ? 'text-green-800 dark:text-[#00FC50]'
+            ? 'text-emerald-600 dark:text-emerald-400'
             : sortedDisplayData[index]?.sentiment === 'Bearish'
               ? 'text-rose-600 dark:text-rose-400'
               : 'text-orange-800 dark:text-[#C6A755]'} "

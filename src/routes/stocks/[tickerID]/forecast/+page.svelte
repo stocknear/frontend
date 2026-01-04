@@ -862,7 +862,9 @@
               >
                 <div class="">
                   <div class="inline-flex">
-                    <div class="inline-flex rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60">
+                    <div
+                      class="inline-flex rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60"
+                    >
                       {#each tabs as item, i}
                         {#if !["Pro", "Plus"]?.includes(data?.user?.tier) && i > 0}
                           <button
@@ -971,67 +973,75 @@
               <div
                 class="mb-1 mt-2 overflow-x-auto px-1.5 text-center md:mb-0 md:px-0 lg:mt-2"
               >
-                <div class="w-full overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40">
-                  <table class="w-full text-right text-xs sm:text-sm text-gray-700 dark:text-zinc-200 tabular-nums">
-                  <thead
-                    ><tr
-                      class="border-b border-gray-200/70 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
-                      ><th class="py-[3px] text-left font-semibold lg:py-0.5"
-                        >Target</th
-                      > <th class="font-semibold">Low</th>
-                      <th class="font-semibold">Average</th>
-                      <th class="font-semibold">Median</th>
-                      <th class="font-semibold">High</th></tr
-                    ></thead
+                <div
+                  class="w-full overflow-hidden bg-white/70 dark:bg-zinc-950/40"
+                >
+                  <table
+                    class="w-full text-right text-xs sm:text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
                   >
-                  <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
-                    <tr class="text-sm">
-                      <td class="py-[3px] text-left lg:py-0.5">Price</td>
-                      <td>{lowPriceTarget > 0 ? lowPriceTarget : "n/a"}</td>
-                      <td>{avgPriceTarget > 0 ? avgPriceTarget : "n/a"}</td>
-                      <td
-                        >{medianPriceTarget > 0 ? medianPriceTarget : "n/a"}</td
-                      >
-                      <td>{highPriceTarget > 0 ? highPriceTarget : "n/a"}</td
-                      ></tr
+                    <thead
+                      ><tr
+                        class="border-b border-gray-200/70 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                        ><th class="py-[3px] text-left font-semibold lg:py-0.5"
+                          >Target</th
+                        > <th class="font-semibold">Low</th>
+                        <th class="font-semibold">Average</th>
+                        <th class="font-semibold">Median</th>
+                        <th class="font-semibold">High</th></tr
+                      ></thead
                     >
-                    <tr class="text-sm text-gray-600 dark:text-zinc-300">
-                      <td class="py-[3px] text-left lg:py-0.5">Change</td>
-                      <td
-                        class={lowChange > 0
-                          ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-                          : lowChange < 0
-                            ? "text-rose-600 dark:text-rose-400"
-                            : ""}
-                        >{lowChange !== 0 ? lowChange + "%" : "n/a"}</td
+                    <tbody
+                      class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+                    >
+                      <tr class="text-sm">
+                        <td class="py-[3px] text-left lg:py-0.5">Price</td>
+                        <td>{lowPriceTarget > 0 ? lowPriceTarget : "n/a"}</td>
+                        <td>{avgPriceTarget > 0 ? avgPriceTarget : "n/a"}</td>
+                        <td
+                          >{medianPriceTarget > 0
+                            ? medianPriceTarget
+                            : "n/a"}</td
+                        >
+                        <td>{highPriceTarget > 0 ? highPriceTarget : "n/a"}</td
+                        ></tr
                       >
-                      <td
-                        class={avgChange > 0
-                          ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-                          : avgChange < 0
-                            ? "text-rose-600 dark:text-rose-400"
-                            : ""}
-                        >{avgChange !== 0 ? avgChange + "%" : "n/a"}</td
-                      >
-                      <td
-                        class={medianChange > 0
-                          ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-                          : medianChange < 0
-                            ? "text-rose-600 dark:text-rose-400"
-                            : ""}
-                        >{medianChange !== 0 ? medianChange + "%" : "n/a"}</td
-                      >
-                      <td
-                        class={highChange > 0
-                          ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-                          : highChange < 0
-                            ? "text-rose-600 dark:text-rose-400"
-                            : ""}
-                        >{highChange !== 0 ? highChange + "%" : "n/a"}</td
-                      ></tr
-                    ></tbody
-                  >
-                </table>
+                      <tr class="text-sm text-gray-600 dark:text-zinc-300">
+                        <td class="py-[3px] text-left lg:py-0.5">Change</td>
+                        <td
+                          class={lowChange > 0
+                            ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                            : lowChange < 0
+                              ? "text-rose-600 dark:text-rose-400"
+                              : ""}
+                          >{lowChange !== 0 ? lowChange + "%" : "n/a"}</td
+                        >
+                        <td
+                          class={avgChange > 0
+                            ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                            : avgChange < 0
+                              ? "text-rose-600 dark:text-rose-400"
+                              : ""}
+                          >{avgChange !== 0 ? avgChange + "%" : "n/a"}</td
+                        >
+                        <td
+                          class={medianChange > 0
+                            ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                            : medianChange < 0
+                              ? "text-rose-600 dark:text-rose-400"
+                              : ""}
+                          >{medianChange !== 0 ? medianChange + "%" : "n/a"}</td
+                        >
+                        <td
+                          class={highChange > 0
+                            ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                            : highChange < 0
+                              ? "text-rose-600 dark:text-rose-400"
+                              : ""}
+                          >{highChange !== 0 ? highChange + "%" : "n/a"}</td
+                        ></tr
+                      ></tbody
+                    >
+                  </table>
                 </div>
               </div>
             </div>
@@ -1122,60 +1132,59 @@
               <div
                 class="mb-1 mt-2 overflow-x-auto px-1.5 text-center md:mb-0 md:px-0 lg:mt-2"
               >
-                <div class="w-full overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40">
+                <div
+                  class="w-full overflow-hidden bg-white/70 dark:bg-zinc-950/40"
+                >
                   <table
                     class="w-full text-right text-xs sm:text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
                   >
-                  <thead
-                    ><tr
-                      class="border-b border-gray-200/70 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
-                      ><th
-                        class="whitespace-nowrap px-1 py-[3px] text-left font-semibold"
-                        >Rating</th
-                      >
-                      {#each recommendationList as item}
-                        <th
-                          class="px-1 py-[3px] text-right font-semibold"
+                    <thead
+                      ><tr
+                        class="border-b border-gray-200/70 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                        ><th
+                          class="whitespace-nowrap px-1 py-[3px] text-left font-semibold"
+                          >Rating</th
                         >
-                          {new Intl.DateTimeFormat("en", {
-                            month: "short",
-                            year: "2-digit",
-                            timeZone: "UTC",
-                          }).format(new Date(item?.date))}
-                        </th>
-                      {/each}
-                    </tr></thead
-                  >
-                  <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
-                    {#each categories as category}
-                      <tr class="text-sm">
-                        <td
-                          class="whitespace-nowrap px-1 py-[3px] text-left"
-                          >{category}</td
-                        >
-                        {#each recommendationList as entry}
-                          <td
-                            class="px-1 py-[3px] text-right"
-                            >{entry[category]}</td
+                        {#each recommendationList as item}
+                          <th class="px-1 py-[3px] text-right font-semibold">
+                            {new Intl.DateTimeFormat("en", {
+                              month: "short",
+                              year: "2-digit",
+                              timeZone: "UTC",
+                            }).format(new Date(item?.date))}
+                          </th>
+                        {/each}
+                      </tr></thead
+                    >
+                    <tbody
+                      class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+                    >
+                      {#each categories as category}
+                        <tr class="text-sm">
+                          <td class="whitespace-nowrap px-1 py-[3px] text-left"
+                            >{category}</td
                           >
+                          {#each recommendationList as entry}
+                            <td class="px-1 py-[3px] text-right"
+                              >{entry[category]}</td
+                            >
+                          {/each}
+                        </tr>
+                      {/each}
+                      <tr class="font-semibold"> </tr><tr
+                        class="font-semibold text-sm"
+                      >
+                        <td class="whitespace-nowrap px-1 py-[3px] text-left"
+                          >Total</td
+                        >
+                        {#each recommendationList as _, i}
+                          <td class="px-1 py-[3px] text-right">
+                            {getTotalForDate(i, recommendationList)}
+                          </td>
                         {/each}
                       </tr>
-                    {/each}
-                    <tr class="font-semibold"> </tr><tr class="font-semibold text-sm">
-                      <td
-                        class="whitespace-nowrap px-1 py-[3px] text-left"
-                        >Total</td
-                      >
-                      {#each recommendationList as _, i}
-                        <td
-                          class="px-1 py-[3px] text-right"
-                        >
-                          {getTotalForDate(i, recommendationList)}
-                        </td>
-                      {/each}
-                    </tr>
-                  </tbody>
-                </table>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -1191,7 +1200,9 @@
               <div
                 class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b lg:border-b-0 border-gray-200/70 dark:border-zinc-800/80"
               >
-                <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+                <div
+                  class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                >
                   Revenue This Year
                 </div>
                 <div
@@ -1218,10 +1229,10 @@
                   </div>
                   {#if data?.getAnalystEstimate[index]?.estimatedRevenueAvg !== null && data?.getAnalystEstimate[index]?.estimatedRevenueAvg !== 0}
                     <div
-                      class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-semibold md:mt-2 lg:mt-0 {changeRevenue >
+                      class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-semibold md:mt-2 lg:mt-0 border {changeRevenue >
                       0
-                        ? 'bg-emerald-100/70 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300'
-                        : 'bg-rose-100/70 text-rose-700 dark:bg-rose-500/10 dark:text-rose-300'}"
+                        ? 'border-emerald-200/70 text-emerald-700 bg-emerald-50/60 dark:border-emerald-500/20 dark:text-emerald-300 dark:bg-emerald-500/10'
+                        : 'border-rose-200/70 text-rose-700 bg-rose-50/60 dark:border-rose-500/20 dark:text-rose-300 dark:bg-rose-500/10'}"
                     >
                       <svg
                         class="-ml-1 mr-0.5 h-5 w-5 shrink-0 self-center text-current {changeRevenue >
@@ -1259,7 +1270,9 @@
               <div
                 class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b md:border-l lg:border-b-0"
               >
-                <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+                <div
+                  class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                >
                   Revenue Next Year
                 </div>
                 <div
@@ -1284,10 +1297,10 @@
                     </div>
                   </div>
                   <div
-                    class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-semibold md:mt-2 lg:mt-0 {changeRevenueNextYear >
+                    class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-semibold md:mt-2 lg:mt-0 border {changeRevenueNextYear >
                     0
-                      ? 'bg-emerald-100/70 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300'
-                      : 'bg-rose-100/70 text-rose-700 dark:bg-rose-500/10 dark:text-rose-300'}"
+                      ? 'border-emerald-200/70 text-emerald-700 bg-emerald-50/60 dark:border-emerald-500/20 dark:text-emerald-300 dark:bg-emerald-500/10'
+                      : 'border-rose-200/70 text-rose-700 bg-rose-50/60 dark:border-rose-500/20 dark:text-rose-300 dark:bg-rose-500/10'}"
                   >
                     <svg
                       class="-ml-1 mr-0.5 h-5 w-5 shrink-0 self-center text-current {changeRevenueNextYear >
@@ -1323,7 +1336,9 @@
               <div
                 class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b-0 lg:border-l"
               >
-                <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+                <div
+                  class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                >
                   EPS This Year
                 </div>
                 <div
@@ -1338,10 +1353,10 @@
                     </div>
                   </div>
                   <div
-                    class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-semibold md:mt-2 lg:mt-0 {changeEPS >
+                    class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-semibold md:mt-2 lg:mt-0 border {changeEPS >
                     0
-                      ? 'bg-emerald-100/70 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300'
-                      : 'bg-rose-100/70 text-rose-700 dark:bg-rose-500/10 dark:text-rose-300'}"
+                      ? 'border-emerald-200/70 text-emerald-700 bg-emerald-50/60 dark:border-emerald-500/20 dark:text-emerald-300 dark:bg-emerald-500/10'
+                      : 'border-rose-200/70 text-rose-700 bg-rose-50/60 dark:border-rose-500/20 dark:text-rose-300 dark:bg-rose-500/10'}"
                   >
                     <svg
                       class="-ml-1 mr-0.5 h-5 w-5 shrink-0 self-center text-current {changeEPS >
@@ -1372,7 +1387,9 @@
               <div
                 class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-l border-gray-200/70 dark:border-zinc-800/80"
               >
-                <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+                <div
+                  class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                >
                   EPS Next Year
                 </div>
                 <div
@@ -1389,10 +1406,10 @@
                     </div>
                   </div>
                   <div
-                    class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-semibold md:mt-2 lg:mt-0 {changeEPSNextYear >
+                    class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-semibold md:mt-2 lg:mt-0 border {changeEPSNextYear >
                     0
-                      ? 'bg-emerald-100/70 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300'
-                      : 'bg-rose-100/70 text-rose-700 dark:bg-rose-500/10 dark:text-rose-300'}"
+                      ? 'border-emerald-200/70 text-emerald-700 bg-emerald-50/60 dark:border-emerald-500/20 dark:text-emerald-300 dark:bg-emerald-500/10'
+                      : 'border-rose-200/70 text-rose-700 bg-rose-50/60 dark:border-rose-500/20 dark:text-rose-300 dark:bg-rose-500/10'}"
                   >
                     <svg
                       class="-ml-1 mr-0.5 h-5 w-5 shrink-0 self-center text-current {changeEPSNextYear >

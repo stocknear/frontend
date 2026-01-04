@@ -59,7 +59,7 @@
                   r="16"
                   fill="none"
                   class="stroke-current {score >= 7
-                    ? 'text-green-800 dark:text-[#00FC50]'
+                    ? 'text-emerald-600 dark:text-emerald-400'
                     : score >= 4
                       ? 'text-blue-800 dark:text-[#fff]'
                       : 'text-rose-600 dark:text-rose-400'}"

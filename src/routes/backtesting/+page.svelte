@@ -3426,7 +3426,7 @@
                                     <td
                                         class="text-end text-sm sm:text-[1rem] whitespace-nowrap {item?.action ===
                                             'BUY' && item?.action
-                                            ? 'text-green-800 dark:text-[#00FC50]'
+                                            ? 'text-emerald-600 dark:text-emerald-400'
                                             : item?.action === 'SELL' &&
                                                 item?.action
                                               ? 'text-rose-600 dark:text-rose-400'
@@ -3478,7 +3478,7 @@
                                     <td
                                         class="text-end text-sm sm:text-[1rem] whitespace-nowrap {item?.return_pct >=
                                             0 && item?.return_pct
-                                            ? " before:content-['+'] text-green-800 dark:text-[#00FC50]"
+                                            ? " before:content-['+'] text-emerald-600 dark:text-emerald-400"
                                             : item?.return_pct < 0 &&
                                                 item?.return_pct
                                               ? 'text-rose-600 dark:text-rose-400'

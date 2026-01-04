@@ -328,7 +328,7 @@
               const priceFormatted =
                 rawPrice !== null ? ` ${currency.format(rawPrice)}` : "";
 
-              content += `<div style="color: ${point.series.color}; margin-bottom: 4px;">${point.series.name} ${priceFormatted} (<span class="${point?.y > 0 ? "text-green-800 dark:text-[#00FC50]" : point?.y < 0 ? "text-red-800 dark:text-[#FF2F1F]" : ""}">${point.y >= 0 ? "+" : ""}${point.y?.toFixed(2)}%</span>)</div>`;
+              content += `<div style="color: ${point.series.color}; margin-bottom: 4px;">${point.series.name} ${priceFormatted} (<span class="${point?.y > 0 ? "text-emerald-600 dark:text-emerald-400" : point?.y < 0 ? "text-rose-600 dark:text-rose-400" : ""}">${point.y >= 0 ? "+" : ""}${point.y?.toFixed(2)}%</span>)</div>`;
             }
           });
           content += `<div style="color: ${$mode === "light" ? "#6b7280" : "#fff"}; font-size: 12px; margin-top: 4px;">${formattedTime}</div></div>`;
@@ -488,7 +488,7 @@
                     class={`text-lg ${
                       (quote?.changesPercentage || 0) >= 0
                         ? "text-emerald-600 dark:text-emerald-400"
-                        : "text-red-800 dark:text-red-400"
+                        : "text-rose-600 dark:text-rose-400"
                     }`}
                   >
                     {(quote?.changesPercentage || 0) >= 0 ? "+" : "-"}{Math.abs(

@@ -143,7 +143,7 @@
               growth = (growthNum > 0 ? "+" : "") + growthNum.toFixed(2) + "%";
               growthClass =
                 growthNum > 0
-                  ? "text-green-800 dark:text-[#00FC50]"
+                  ? "text-emerald-600 dark:text-emerald-400"
                   : growthNum < 0
                     ? "text-rose-600 dark:text-rose-400"
                     : "";

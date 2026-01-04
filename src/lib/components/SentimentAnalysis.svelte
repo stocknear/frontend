@@ -77,7 +77,7 @@
                     r="16"
                     fill="none"
                     class="stroke-current {oneYearResult > 5
-                      ? 'text-green-800 dark:text-[#00FC50]'
+                      ? 'text-emerald-600 dark:text-emerald-400'
                       : oneYearResult < 5
                         ? 'text-rose-600 dark:text-rose-400'
                         : 'text-white'} text-opacity-[0.7]"
@@ -114,7 +114,7 @@
                         r="16"
                         fill="none"
                         class="stroke-current {oneMonthResult > 5
-                          ? 'text-green-800 dark:text-[#00FC50]'
+                          ? 'text-emerald-600 dark:text-emerald-400'
                           : oneMonthResult < 5
                             ? 'text-rose-600 dark:text-rose-400'
                             : 'text-white'} "

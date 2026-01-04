@@ -441,7 +441,7 @@
               : "orders"}
             ({((putCount / rawData.length) * 100).toFixed(1)}%),
             {@html callCount > putCount
-              ? `showing a <span class="text-green-800 dark:text-[#00FC50]">bullish skew</span>`
+              ? `showing a <span class="text-emerald-600 dark:text-emerald-400">bullish skew</span>`
               : putCount > callCount
                 ? `showing a <span class="text-rose-600 dark:text-rose-400">bearish skew</span>`
                 : `showing <span>balanced</span> positioning`}. Sentiment
@@ -549,7 +549,7 @@
                   <td
                     class="text-sm sm:text-[1rem] text-end whitespace-nowrap {item?.sentiment ===
                     'Bullish'
-                      ? 'text-green-800 dark:text-[#00FC50]'
+                      ? 'text-emerald-600 dark:text-emerald-400'
                       : item?.sentiment === 'Bearish'
                         ? 'text-rose-600 dark:text-rose-400'
                         : 'text-orange-800 dark:text-[#C8A32D]'} "

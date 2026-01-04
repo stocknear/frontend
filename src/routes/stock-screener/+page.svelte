@@ -4202,7 +4202,7 @@ const handleKeyDown = (event) => {
 
                   <td class=" text-end text-sm sm:text-[1rem]">
                     {#if item?.changesPercentage >= 0}
-                      <span class="text-green-800 dark:text-[#00FC50]"
+                      <span class="text-emerald-600 dark:text-emerald-400"
                         >+{item?.changesPercentage >= 1000
                           ? abbreviateNumber(item?.changesPercentage)
                           : item?.changesPercentage?.toFixed(2)}%</span
@@ -4278,7 +4278,7 @@ const handleKeyDown = (event) => {
                         {:else if row?.varType && row?.varType === "percentSign"}
                           <span
                             class={item[row?.rule] >= 0
-                              ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
+                              ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
                               : "text-rose-600 dark:text-rose-400"}
                           >
                             {abbreviateNumber(item[row?.rule])}%
@@ -4287,7 +4287,8 @@ const handleKeyDown = (event) => {
                           {abbreviateNumber(item[row?.rule])}%
                         {:else if ["score", "analystRating", "topAnalystRating"]?.includes(row?.rule)}
                           {#if ["Strong Buy", "Buy"].includes(item[row?.rule])}
-                            <span class=" text-green-800 dark:text-[#00FC50]"
+                            <span
+                              class=" text-emerald-600 dark:text-emerald-400"
                               >{item[row?.rule]}</span
                             >
                           {:else if ["Strong Sell", "Sell"].includes(item[row?.rule])}
@@ -4345,7 +4346,7 @@ const handleKeyDown = (event) => {
                       {#if row?.rule === "marketCap"}
                         {abbreviateNumber(item[row?.rule])}
                       {:else if item[row?.rule] > 0}
-                        <span class="text-green-800 dark:text-[#00FC50]"
+                        <span class="text-emerald-600 dark:text-emerald-400"
                           >+{abbreviateNumber(
                             item[row?.rule]?.toFixed(2),
                           )}%</span
@@ -4406,7 +4407,7 @@ const handleKeyDown = (event) => {
                         >
                       {:else if row?.rule === "upside"}
                         {#if item[row?.rule] > 0}
-                          <span class="text-green-800 dark:text-[#00FC50]"
+                          <span class="text-emerald-600 dark:text-emerald-400"
                             >+{item[row?.rule]?.toFixed(2)}%</span
                           >
                         {:else if item[row?.rule] < 0}
@@ -4418,7 +4419,7 @@ const handleKeyDown = (event) => {
                         {/if}
                       {:else if ["analystRating", "topAnalystRating"]?.includes(row?.rule)}
                         {#if ["Strong Buy", "Buy"].includes(item[row?.rule])}
-                          <span class=" text-green-800 dark:text-[#00FC50]"
+                          <span class=" text-emerald-600 dark:text-emerald-400"
                             >{item[row?.rule]}</span
                           >
                         {:else if ["Strong Sell", "Sell"].includes(item[row?.rule])}

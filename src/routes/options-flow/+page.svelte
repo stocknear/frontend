@@ -2647,7 +2647,7 @@
                             >Bullish</span
                           >
                           <span
-                            class="font-semibold text-green-800 dark:text-[#00FC50]"
+                            class="font-semibold text-emerald-600 dark:text-emerald-400"
                             >{formatPremium(displayBullishPremium || 0)}</span
                           >
                         </div>
@@ -2829,7 +2829,7 @@
                       >
                       {#if data?.user?.tier === "Pro"}
                         <span
-                          class="text-sm font-semibold text-green-800 dark:text-[#00FC50]"
+                          class="text-sm font-semibold text-emerald-600 dark:text-emerald-400"
                         >
                           {formatPremium(displayCallPremium || 0)}
                         </span>

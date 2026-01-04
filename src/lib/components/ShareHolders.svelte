@@ -711,7 +711,7 @@
                     class=" text-end text-sm sm:text-[1rem] whitespace-nowrap"
                   >
                     {#if item?.changeInSharesNumberPercentage >= 0}
-                      <span class="text-green-800 dark:text-[#00FC50]"
+                      <span class="text-emerald-600 dark:text-emerald-400"
                         >+{abbreviateNumber(
                           item?.changeInSharesNumberPercentage?.toFixed(2),
                         )}%</span

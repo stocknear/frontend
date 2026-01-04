@@ -232,7 +232,7 @@
                         class="text-white text-end text-sm sm:text-[1rem] border-b-[#09090B]"
                       >
                         {#if item?.changesPercentage >= 0}
-                          <span class="text-green-800 dark:text-[#00FC50]"
+                          <span class="text-emerald-600 dark:text-emerald-400"
                             >+{item?.changesPercentage >= 1000
                               ? item?.changesPercentage
                               : item?.changesPercentage?.toFixed(2)}%</span

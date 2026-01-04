@@ -2257,7 +2257,7 @@
                   <td
                     class=" text-sm sm:text-[1rem] text-end
                   {item?.optionType === 'Call'
-                      ? 'text-green-800 dark:text-[#00FC50]'
+                      ? 'text-emerald-600 dark:text-emerald-400'
                       : 'text-rose-600 dark:text-rose-400'} "
                   >
                     {item?.optionType}
@@ -2277,7 +2277,7 @@
 
                   <td class=" text-end text-sm sm:text-[1rem]">
                     {#if item?.moneynessPercentage >= 0}
-                      <span class="text-green-800 dark:text-[#00FC50]"
+                      <span class="text-emerald-600 dark:text-emerald-400"
                         >+{item?.moneynessPercentage >= 1000
                           ? abbreviateNumber(item?.moneynessPercentage)
                           : item?.moneynessPercentage?.toFixed(2)}%</span
@@ -2303,7 +2303,7 @@
 
                   <td class=" text-end text-sm sm:text-[1rem]">
                     {#if item?.changesPercentageOI > 0}
-                      <span class="text-green-800 dark:text-[#00FC50]"
+                      <span class="text-emerald-600 dark:text-emerald-400"
                         >+{item?.changesPercentageOI >= 1000
                           ? abbreviateNumber(item?.changesPercentageOI)
                           : item?.changesPercentageOI?.toFixed(1)}%</span
@@ -2366,7 +2366,7 @@
                   <td
                     class=" text-sm sm:text-[1rem] text-end
                 {item?.optionType === 'Call'
-                      ? 'text-green-800 dark:text-[#00FC50]'
+                      ? 'text-emerald-600 dark:text-emerald-400'
                       : 'text-rose-600 dark:text-rose-400'} "
                   >
                     {item?.optionType}
@@ -2380,7 +2380,7 @@
                         {#if row?.varType && row?.varType === "percentSign"}
                           <span
                             class={item[row?.rule] > 0
-                              ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
+                              ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
                               : item[row?.rule] < 0
                                 ? "text-rose-600 dark:text-rose-400"
                                 : ""}
@@ -2393,7 +2393,8 @@
                           {item[row?.rule]?.toLocaleString("en-US")}
                         {:else if ["optionType"]?.includes(row?.rule)}
                           {#if "Call" === item[row?.rule]}
-                            <span class=" text-green-800 dark:text-[#00FC50]"
+                            <span
+                              class=" text-emerald-600 dark:text-emerald-400"
                               >{item[row?.rule]}</span
                             >
                           {:else if "Put" === item[row?.rule]}
@@ -2451,7 +2452,7 @@
                   <td
                     class=" text-sm sm:text-[1rem] text-end
                 {item?.optionType === 'Call'
-                      ? 'text-green-800 dark:text-[#00FC50]'
+                      ? 'text-emerald-600 dark:text-emerald-400'
                       : 'text-rose-600 dark:text-rose-400'} "
                   >
                     {item?.optionType}

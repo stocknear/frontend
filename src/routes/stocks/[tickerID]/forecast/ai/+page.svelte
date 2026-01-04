@@ -680,7 +680,7 @@
               the average return would be
               <strong
                 class={avgReturn >= 0 && isSubscribed
-                  ? "text-green-800 dark:text-[#00FC50]"
+                  ? "text-emerald-600 dark:text-emerald-400"
                   : avgReturn < 0 && isSubscribed
                     ? "text-rose-600 dark:text-rose-400"
                     : ""}
@@ -803,9 +803,7 @@
                             >Score</td
                           >
                           {#each tableScore as val, index}
-                            <td
-                              class="text-right whitespace-nowrap text-sm"
-                            >
+                            <td class="text-right whitespace-nowrap text-sm">
                               {#if isSubscribed}
                                 {val}
                                 {[10, 9, 8, 7].includes(Number(val))
@@ -835,9 +833,7 @@
                           {/each}
                         </tr>
 
-                        <tr
-                          class="font-normal text-sm whitespace-nowrap"
-                        >
+                        <tr class="font-normal text-sm whitespace-nowrap">
                           <td class="py-[3px] text-left lg:py-0.5 text-sm"
                             >Price</td
                           >
@@ -870,9 +866,7 @@
                         </tr>
 
                         <!-- QoQ Change Row -->
-                        <tr
-                          class="font-normal text-sm whitespace-nowrap"
-                        >
+                        <tr class="font-normal text-sm whitespace-nowrap">
                           <td class="py-[3px] text-left lg:py-0.5 text-sm"
                             >% Change</td
                           >
@@ -881,7 +875,7 @@
                               {#if isSubscribed}
                                 <span
                                   class={item?.change > 0
-                                    ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
+                                    ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
                                     : "text-rose-600 dark:text-rose-400"}
                                 >
                                   {item?.change && item?.change !== null
@@ -995,7 +989,7 @@
                 </strong>, indicating a
                 <strong
                   class={medianChange >= 0 && isSubscribed
-                    ? "text-green-800 dark:text-[#00FC50]"
+                    ? "text-emerald-600 dark:text-emerald-400"
                     : medianChange < 0 && isSubscribed
                       ? "text-rose-600 dark:text-rose-400"
                       : ""}
@@ -1253,25 +1247,25 @@
                           {:else}
                             <td
                               class={lowChange > 0
-                                ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
+                                ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
                                 : "text-rose-600 dark:text-rose-400"}
                               >{lowChange}%</td
                             >
                             <td
                               class={avgChange > 0
-                                ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
+                                ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
                                 : "text-rose-600 dark:text-rose-400"}
                               >{avgChange}%</td
                             >
                             <td
                               class={medianChange > 0
-                                ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
+                                ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
                                 : "text-rose-600 dark:text-rose-400"}
                               >{medianChange}%</td
                             >
                             <td
                               class={highChange > 0
-                                ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
+                                ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
                                 : "text-rose-600 dark:text-rose-400"}
                               >{highChange}%</td
                             >
