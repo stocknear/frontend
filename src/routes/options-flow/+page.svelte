@@ -1754,7 +1754,7 @@
           <div class="flex flex-row items-center w-full mt-5 justify-end">
             <div class="flex w-full sm:w-[50%] sm:ml-3 md:block md:w-auto">
               <div
-                class="hidden text-sm sm:text-[1rem] font-semibold md:block sm:mb-1"
+                class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
               >
                 Saved Filters
               </div>
@@ -1763,7 +1763,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="min-w-[110px]  w-full border-gray-300 dark:border-gray-600 border bg-black dark:bg-default sm:hover:bg-default dark:sm:hover:bg-primary text-white ease-out flex flex-row justify-between items-center px-3 py-2  rounded truncate"
+                      class="min-w-[110px] w-full transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate max-w-48"
                         >{selectedStrategy?.length !== 0
@@ -1788,10 +1788,10 @@
                     </Button>
                   </DropdownMenu.Trigger>
                   <DropdownMenu.Content
-                    class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller"
+                    class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <DropdownMenu.Label
-                      class="text-muted dark:text-gray-400 font-normal"
+                      class="text-gray-500 dark:text-zinc-400 font-normal"
                     >
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
@@ -1800,7 +1800,7 @@
                             handleCreateStrategy();
                           }}
                           builders={[builder]}
-                          class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap   bg-[#0909B] focus:outline-hidden "
+                          class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition focus:outline-hidden"
                         >
                           <svg
                             class="h-4 w-4"
@@ -1829,8 +1829,8 @@
                           }}
                           class="whitespace-nowrap {item?.id ===
                           selectedStrategy
-                            ? 'bg-gray-300 dark:bg-primary'
-                            : ''} cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                            ? 'text-violet-600 dark:text-violet-400'
+                            : ''} cursor-pointer sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
                         >
                           {item?.title?.length > 20
                             ? item?.title?.slice(0, 20) + "..."
@@ -1865,10 +1865,10 @@
         </div>
 
         <div
-          class="rounded border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-100 dark:bg-primary p-2"
+          class="rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-3"
         >
           <div
-            class="flex flex-col sm:flex-row items-center pt-3 sm:pt-1 pb-3 sm:border-b sm:border-gray-300 dark:border-gray-600"
+            class="flex flex-col sm:flex-row items-center pt-3 sm:pt-1 pb-3 sm:border-b sm:border-gray-200/70 dark:border-zinc-800/80"
           >
             <div
               class="flex flex-row items-center justify-center sm:justify-start"
@@ -1885,7 +1885,7 @@
                 class=" xl:tooltip xl:tooltip-bottom flex flex-col items-center mr-3 cursor-pointer"
               >
                 <div
-                  class="rounded-full w-10 h-10 relative text-white bg-[#000] flex items-center justify-center"
+                  class="rounded-full w-10 h-10 relative border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 flex items-center justify-center"
                 >
                   {#if !muted}
                     <svg
@@ -1912,9 +1912,7 @@
               </label>
 
               <span
-                class=" text-xs sm:text-sm sm:text-lg {!mode
-                  ? ''
-                  : 'text-muted dark:text-gray-400'} mr-3"
+                class="text-xs sm:text-sm sm:text-lg text-gray-500 dark:text-zinc-400 mr-3"
               >
                 {$isOpen ? "Paused" : "Market Closed"}
               </span>
@@ -1941,15 +1939,13 @@
                 />
 
                 <div
-                  class="relative w-11 h-6 bg-gray-600 focus:outline-hidden peer-focus:outline-hidden peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:rtl:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#00A96E]"
+                  class="relative w-11 h-6 bg-gray-200/80 dark:bg-zinc-800 focus:outline-hidden peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:rtl:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-200/70 dark:after:border-zinc-700/80 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"
                 ></div>
               </label>
 
               <div class=" ml-3 flex flex-col items-start">
                 <span
-                  class="text-xs sm:text-sm sm:text-lg {modeStatus
-                    ? ''
-                    : 'text-muted dark:text-gray-400'}"
+                  class="text-xs sm:text-sm sm:text-lg text-gray-500 dark:text-zinc-400"
                 >
                   Live Flow
                 </span>
@@ -1959,12 +1955,12 @@
             <div class="sm:ml-auto w-full sm:w-fit pt-5">
               <div class="relative flex flex-col sm:flex-row items-center">
                 <div
-                  class="relative w-full sm:w-fit pl-3 sm:mr-5 mb-4 sm:mb-0 flex-auto text-center shadow bg-white dark:bg-secondary rounded border border-gray-300 dark:border-gray-600"
+                  class="relative w-full sm:w-fit pl-3 sm:mr-5 mb-4 sm:mb-0 flex-auto text-center bg-white/80 dark:bg-zinc-950/60 rounded-full border border-gray-200/70 dark:border-zinc-800/80"
                 >
                   <label class=" flex flex-row items-center">
                     <input
                       id="modal-search"
-                      class="focus:outline-none sm:ml-2 text-[1rem] placeholder-gray-500 dark:placeholder-gray-300 border-transparent bg-white dark:bg-secondary focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-1.5"
+                      class="focus:outline-none sm:ml-2 text-sm placeholder-gray-500 dark:placeholder:text-zinc-400 border-transparent bg-transparent focus:border-transparent focus:ring-0 flex items-center justify-center w-full px-0 py-2"
                       placeholder="Find..."
                       bind:value={filterQuery}
                       on:input={debouncedHandleInput}
@@ -1989,12 +1985,12 @@
                         >
                       </label>
                     {:else}
-                      <svg
-                        class="ml-auto h-7 w-7 sm:h-8 sm:w-8 inline-block mr-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        ><path
-                          fill="currentColor"
+                        <svg
+                          class="ml-auto h-6 w-6 sm:h-7 sm:w-7 inline-block mr-4 text-gray-400 dark:text-zinc-400"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          ><path
+                            fill="currentColor"
                           d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.402 0-4.066-1.663T3.808 9.503T5.47 5.436t4.064-1.667t4.068 1.664T15.268 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37"
                         /></svg
                       >
@@ -2010,9 +2006,9 @@
                 </div>
 
                 <Popover.Root>
-                  <Popover.Trigger asChild let:builder>
-                    <Button
-                      class=" w-full sm:w-[160px] truncate sm:mr-3 py-3 shadow text-white bg-[#000] border-gray-300 justify-center sm:justify-start text-center sm:text-left  border-none rounded"
+                <Popover.Trigger asChild let:builder>
+                  <Button
+                      class="w-full sm:w-[160px] truncate sm:mr-3 py-2.5 border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 justify-center sm:justify-start text-center sm:text-left rounded-full font-medium hover:text-violet-600 dark:hover:text-violet-400 transition"
                       builders={[builder]}
                     >
                       <CalendarIcon class="mr-2 h-4 w-4" />
@@ -2029,7 +2025,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto p-0 border-gray-500 text-muted dark:text-white bg-white dark:bg-[#000]"
+                    class="w-auto p-0 border border-gray-200/70 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200 bg-white/95 dark:bg-zinc-950/95 rounded-2xl shadow-none"
                   >
                     <Calendar
                       class=" "
@@ -2046,11 +2042,11 @@
           </div>
 
           <div
-            class="mr-1 flex items-center justify-between lg:mr-2 pb-1.5 border-b border-gray-300 dark:border-gray-600 mt-1.5"
+            class="mr-1 flex items-center justify-between lg:mr-2 pb-1.5 border-b border-gray-200/70 dark:border-zinc-800/80 mt-1.5"
           >
             <button
               on:click={() => (showFilters = !showFilters)}
-              class="flex cursor-pointer items-center text-lg sm:text-xl font-semibold"
+              class="flex cursor-pointer items-center text-base sm:text-lg font-semibold text-gray-900 dark:text-white"
               title="Hide Filter Area"
             >
               <svg
@@ -2088,7 +2084,7 @@
             >
               <label
                 for="ruleModal"
-                class=" inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none py-2 pl-3 pr-4 font-semibold shadow bg-default text-white sm:hover:bg-black dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                class="inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white/80 py-2 pl-3 pr-4 font-semibold bg-gray-900 text-white dark:bg-white dark:text-gray-900 transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus:outline-hidden"
               >
                 <svg
                   class="h-5 w-5"
@@ -2112,12 +2108,12 @@
                   <div
                     class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
                   >
-                    <svg
-                      class="w-4 h-4 text-muted dark:text-gray-200"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 20 20"
+                  <svg
+                      class="w-4 h-4 text-gray-400 dark:text-zinc-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
                     >
                       <path
                         stroke="currentColor"
@@ -2136,8 +2132,8 @@
                     on:keydown={handleQuickSearchKeydown}
                     on:focus={() => updateQuickSearchResults(quickSearchTerm)}
                     on:blur={closeQuickSearchDropdown}
-                    class="block w-full lg:w-64 py-2.5 shadow bg-white placeholder:text-muted pl-10 text-[1rem] border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-[#2A2E39] dark:border-gray-800 dark:placeholder-gray-200 dark:text-white dark:focus:outline-none dark:focus:border-none"
-                  />
+                  class="block w-full lg:w-64 py-2.5 bg-white/80 dark:bg-zinc-950/60 placeholder:text-gray-500 dark:placeholder:text-zinc-400 pl-10 text-sm border border-gray-200/70 dark:border-zinc-800/80 rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+                />
 
                   <!-- Clear button -->
                   {#if quickSearchTerm.length > 0}
@@ -2151,7 +2147,7 @@
                       class="absolute inset-y-0 right-0 flex items-center pr-3"
                     >
                       <svg
-                        class="cursor-pointer w-4 h-4 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                        class="cursor-pointer w-4 h-4 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -2169,21 +2165,21 @@
 
                 <!-- Quick Search Dropdown -->
                 {#if showQuickSearchDropdown && quickSearchResults.length > 0}
-                  <div
-                    class="absolute z-50 w-full mt-1 bg-white dark:bg-[#2A2E39] border border-gray-300 dark:border-gray-800 rounded-md shadow-lg max-h-64 overflow-y-auto"
-                    in:scale={{
-                      start: 0.98,
-                      duration: 140,
-                      delay: 50,
-                      easing: cubicOut,
-                    }}
-                    out:fade={{ duration: 90 }}
-                  >
-                    {#each quickSearchResults as result, index}
-                      <button
-                        class="cursor-pointer w-full px-2 py-2 flex flex-row items-center sm:hover:bg-gray-100 dark:sm:hover:bg-gray-600 {index ===
+                <div
+                    class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none max-h-64 overflow-y-auto"
+                  in:scale={{
+                    start: 0.98,
+                    duration: 140,
+                    delay: 50,
+                    easing: cubicOut,
+                  }}
+                  out:fade={{ duration: 90 }}
+                >
+                  {#each quickSearchResults as result, index}
+                    <button
+                        class="cursor-pointer w-full px-2 py-2 flex flex-row items-center text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 {index ===
                         selectedQuickSearchIndex
-                          ? 'bg-gray-100 dark:bg-gray-600'
+                          ? 'text-violet-600 dark:text-violet-400'
                           : ''}"
                         type="button"
                         on:click={() => selectQuickSearchRule(result)}
@@ -2214,20 +2210,20 @@
 
                 <!-- No results message -->
                 {#if showQuickSearchDropdown && quickSearchTerm.length > 0 && quickSearchResults.length === 0}
-                  <div
-                    class="absolute z-50 w-full mt-1 bg-white dark:bg-[#2A2E39] border border-gray-300 dark:border-gray-600 rounded-md shadow-lg p-4 text-center text-sm text-gray-500 dark:text-gray-400"
-                  >
-                    No available filters found
-                  </div>
-                {/if}
-              </div>
-
-              {#if data?.user}
-                <label
-                  for={!data?.user ? "userLogin" : ""}
-                  on:click={() => handleSave(true)}
-                  class="text-[0.95rem] sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+                <div
+                    class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none p-4 text-center text-sm text-gray-500 dark:text-zinc-400"
                 >
+                  No available filters found
+                </div>
+              {/if}
+            </div>
+
+            {#if data?.user}
+              <label
+                for={!data?.user ? "userLogin" : ""}
+                on:click={() => handleSave(true)}
+                  class="text-sm sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 pl-3 pr-4 font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus:outline-hidden"
+              >
                   <svg
                     class="w-4 h-4 mr-2 inline-block cursor-pointer shrink-0"
                     xmlns="http://www.w3.org/2000/svg"
@@ -2254,7 +2250,7 @@
                         });
                       }
                     }}
-                    class="text-[0.95rem] sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:bg-default/60 ease-out focus:outline-hidden"
+                    class="text-sm sm:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400 focus:outline-hidden"
                   >
                     <Copy class="w-4 h-4 inline-block mr-2" />
                     <div>Save as New</div>
@@ -2265,7 +2261,7 @@
               {#if ruleOfList?.length !== 0}
                 <label
                   on:click={handleResetAll}
-                  class="text-[0.95rem] lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded border border-gray-300 dark:border-none bg-blue-brand_light py-2 pl-3 pr-4 font-semibold text-white bg-black sm:hover:bg-default dark:bg-[#000] dark:sm:hover:text-red-500 ease-out focus:outline-hidden"
+                  class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-rose-600 dark:hover:text-rose-400 focus:outline-hidden"
                 >
                   <svg
                     class="h-4 w-4"
@@ -2288,7 +2284,7 @@
             </div>
 
             <div
-              class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-b border-gray-300 dark:border-gray-600"
+              class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
             >
               {#each displayRules as row (row?.rule)}
                 <!--Start Added Rules-->
@@ -2317,7 +2313,7 @@
                   <div class="flex items-center">
                     <button
                       on:click={() => handleDeleteRule(row?.rule)}
-                      class="mr-1.5 cursor-pointer text-muted dark:text-gray-300 sm:hover:text-red-800 dark:sm:hover:text-red-400 focus:outline-hidden"
+                      class="mr-1.5 cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-rose-600 dark:hover:text-rose-400 transition focus:outline-hidden"
                       title="Remove filter"
                     >
                       <svg
@@ -2341,7 +2337,7 @@
                           <DropdownMenu.Trigger asChild let:builder>
                             <Button
                               builders={[builder]}
-                              class="shadow h-[40px] bg-default sm:hover:bg-black text-white flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 rounded truncate"
+                              class="h-[40px] border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 rounded-full truncate hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >
                               <span class="truncate ml-2 text-sm">
                                 {#if valueMappings[row?.rule] === "any"}
@@ -2378,11 +2374,11 @@
                             align="end"
                             sideOffset={10}
                             alignOffset={0}
-                            class="w-64 min-h-auto max-h-72 overflow-y-auto scroller"
+                            class="w-64 min-h-auto max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                           >
                             {#if !categoricalRules?.includes(row?.rule)}
                               <DropdownMenu.Label
-                                class="absolute mt-2 h-11 border-gray-300 dark:border-gray-800 border-b -top-1 z-20 fixed sticky bg-white dark:bg-default"
+                                class="absolute mt-2 h-11 border-gray-200/70 dark:border-zinc-800/80 border-b -top-1 z-20 fixed sticky bg-white/95 dark:bg-zinc-950/95"
                               >
                                 <div
                                   class="flex items-center justify-start gap-x-1"
@@ -2395,7 +2391,7 @@
                                       <DropdownMenu.Trigger asChild let:builder
                                         ><Button
                                           builders={[builder]}
-                                          class="w-fit -mt-1 -ml-2  flex flex-row justify-between items-center "
+                                          class="w-fit -mt-1 -ml-2 flex flex-row justify-between items-center text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                                         >
                                           <span
                                             class="truncate ml-2 text-sm sm:text-[1rem]"
@@ -2450,7 +2446,7 @@
                                           : ""}
                                         on:input={(e) =>
                                           handleValueInput(e, row?.rule, 0)}
-                                        class="ios-zoom-fix block max-w-[3.5rem] rounded-sm placeholder:text-muted dark:placeholder:text-gray-400 dark:text-gray-200 font-normal p-1 text-sm shadow focus:border-blue-500 focus:ring-blue-500 bg-gray-100 dark:bg-primary"
+                                        class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80"
                                       />
                                       <span
                                         class=" text-[1rem] font-normal mt-1"
@@ -2467,7 +2463,7 @@
                                           : ""}
                                         on:input={(e) =>
                                           handleValueInput(e, row?.rule, 1)}
-                                        class="ios-zoom-fix block max-w-[3.5rem] rounded-sm placeholder:text-muted dark:placeholder:text-gray-400 dark:text-gray-200 font-normal p-1 text-sm shadow focus:border-blue-500 focus:ring-blue-500 bg-gray-100 dark:bg-primary"
+                                        class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80"
                                       />
                                     </div>
                                   {:else}
@@ -2479,7 +2475,7 @@
                                         : valueMappings[row?.rule]}
                                       on:input={(e) =>
                                         handleValueInput(e, row?.rule)}
-                                      class="ios-zoom-fix block max-w-[4.8rem] rounded-sm placeholder:text-muted dark:placeholder:text-gray-400 dark:placeholder:text-gray-200 font-normal p-1 text-sm shadow focus:border-blue-500 focus:ring-blue-500 bg-gray-100 dark:bg-primary"
+                                      class="ios-zoom-fix block max-w-[4.8rem] rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80"
                                     />
                                   {/if}
 
@@ -2494,7 +2490,7 @@
                                             "add",
                                           )}
                                         ><svg
-                                          class="size-6 cursor-pointer"
+                                          class="size-6 cursor-pointer text-gray-400 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-400 transition"
                                           fill="none"
                                           viewBox="0 0 24 24"
                                           stroke="currentColor"
@@ -2514,7 +2510,7 @@
                                             "minus",
                                           )}
                                         ><svg
-                                          class="size-6 cursor-pointer"
+                                          class="size-6 cursor-pointer text-gray-400 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-400 transition"
                                           fill="none"
                                           viewBox="0 0 24 24"
                                           stroke="currentColor"
@@ -2546,7 +2542,7 @@
                                   {#if ruleCondition[row?.rule] === "between"}
                                     {#if newValue && row?.step[index + 1]}
                                       <DropdownMenu.Item
-                                        class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                                        class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
                                       >
                                         <button
                                           on:click={() => {
@@ -2555,7 +2551,7 @@
                                               row?.step[index + 1],
                                             ]);
                                           }}
-                                          class="block w-full cursor-pointer border-b border-gray-300 dark:border-gray-600 px-4 py-1.5 text-left text-sm rounded last:border-0 focus:outline-hidden"
+                                          class="block w-full cursor-pointer border-b border-gray-200/70 dark:border-zinc-800/80 px-4 py-1.5 text-left text-sm rounded last:border-0 focus:outline-hidden"
                                         >
                                           {ruleCondition[row?.rule]?.replace(
                                             "between",
@@ -2569,13 +2565,13 @@
                                     {/if}
                                   {:else}
                                     <DropdownMenu.Item
-                                      class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                                      class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
                                     >
                                       <button
                                         on:click={() => {
                                           handleChangeValue(newValue);
                                         }}
-                                        class="block w-full cursor-pointer border-b border-gray-300 dark:border-gray-600 px-4 py-1.5 text-left text-sm rounded last:border-0 focus:outline-hidden"
+                                        class="block w-full cursor-pointer border-b border-gray-200/70 dark:border-zinc-800/80 px-4 py-1.5 text-left text-sm rounded last:border-0 focus:outline-hidden"
                                       >
                                         {ruleCondition[row?.rule]
                                           ?.replace("under", "Under")
@@ -2589,7 +2585,7 @@
                               {:else if categoricalRules?.includes(row?.rule)}
                                 {#each row?.step as item}
                                   <DropdownMenu.Item
-                                    class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                                    class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
                                   >
                                     <div
                                       class="flex items-center"
@@ -2635,7 +2631,7 @@
               >
                 <!--Start Flow Sentiment-->
                 <div
-                  class=" shadow flex flex-col w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                  class="flex flex-col w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl h-20"
                 >
                   <div class="flex flex-col items-start justify-between mb-2">
                     {#if data?.user?.tier === "Pro"}
@@ -2645,7 +2641,7 @@
                         <div class="flex items-center gap-1">
                           <span class="w-2 h-2 rounded-full bg-[#00FC50]"
                           ></span>
-                          <span class="text-muted dark:text-gray-300"
+                          <span class="text-gray-500 dark:text-zinc-400"
                             >Bullish</span
                           >
                           <span
@@ -2656,7 +2652,7 @@
                         <div class="flex items-center gap-1">
                           <span class="w-2 h-2 rounded-full bg-[#FF2F1F]"
                           ></span>
-                          <span class="text-muted dark:text-gray-300"
+                          <span class="text-gray-500 dark:text-zinc-400"
                             >Bearish</span
                           >
                           <span
@@ -2696,7 +2692,7 @@
                     {:else}
                       <div class="flex flex-col items-start">
                         <span
-                          class="text-xs text-muted dark:text-gray-200 mt-1.5"
+                          class="text-xs text-gray-500 dark:text-zinc-400 mt-1.5"
                           >Flow Sentiment</span
                         >
                         {#if data?.user?.tier === "Pro"}
@@ -2706,7 +2702,7 @@
                         {:else}
                           <a href="/pricing" class="flex mt-2">
                             <svg
-                              class="size-5 text-muted dark:text-[#fff]"
+                            class="size-5 text-gray-500 dark:text-white"
                               viewBox="0 0 20 20"
                               fill="currentColor"
                               style="max-width: 40px;"
@@ -2728,10 +2724,10 @@
                 <!--End Flow Sentiment-->
                 <!--Start Put/Call-->
                 <div
-                  class="shadow flex flex-row items-center w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                  class="flex flex-row items-center w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl h-20"
                 >
                   <div class="flex flex-col items-start">
-                    <span class="text-xs text-muted dark:text-gray-200"
+                    <span class="text-xs text-gray-500 dark:text-zinc-400"
                       >Put to call</span
                     >
                     {#if data?.user?.tier === "Pro"}
@@ -2741,7 +2737,7 @@
                     {:else}
                       <a href="/pricing" class="flex mt-2">
                         <svg
-                          class="size-5 text-muted dark:text-[#fff]"
+                          class="size-5 text-gray-500 dark:text-white"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -2801,7 +2797,7 @@
                       {:else}
                         <a href="/pricing" class="flex">
                           <svg
-                            class="size-4 text-muted dark:text-[#fff]"
+                            class="size-4 text-gray-500 dark:text-white"
                             viewBox="0 0 20 20"
                             fill="currentColor"
                             style="max-width: 40px;"
@@ -2822,11 +2818,11 @@
                 <!--End Put/Call-->
                 <!--Start Call Flow-->
                 <div
-                  class=" shadow flex flex-row items-center w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                  class="flex flex-row items-center w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl h-20"
                 >
                   <div class="flex flex-col items-start">
                     <div class="flex flex-row items-center gap-2">
-                      <span class="text-xs text-muted dark:text-gray-200"
+                      <span class="text-xs text-gray-500 dark:text-zinc-400"
                         >Call flow</span
                       >
                       {#if data?.user?.tier === "Pro"}
@@ -2847,7 +2843,7 @@
                     {:else}
                       <a href="/pricing" class="flex mt-2">
                         <svg
-                          class="size-5 text-muted dark:text-[#fff]"
+                          class="size-5 text-gray-500 dark:text-white"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -2905,7 +2901,7 @@
                       {:else}
                         <a href="/pricing" class="flex">
                           <svg
-                            class="size-4 text-muted dark:text-[#fff]"
+                            class="size-4 text-gray-500 dark:text-white"
                             viewBox="0 0 20 20"
                             fill="currentColor"
                             style="max-width: 40px;"
@@ -2926,11 +2922,11 @@
                 <!--End Call Flow-->
                 <!--Start Put Flow-->
                 <div
-                  class=" shadow flex flex-row items-center w-full px-5 py-3 bg-gray-100 dark:bg-primary border border-gray-300 dark:border-gray-600 rounded h-20"
+                  class="flex flex-row items-center w-full px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl h-20"
                 >
                   <div class="flex flex-col items-start">
                     <div class="flex flex-row items-center gap-2">
-                      <span class="text-xs text-muted dark:text-gray-200"
+                      <span class="text-xs text-gray-500 dark:text-zinc-400"
                         >Put flow</span
                       >
                       {#if data?.user?.tier === "Pro"}
@@ -2951,7 +2947,7 @@
                     {:else}
                       <a href="/pricing" class="flex mt-2">
                         <svg
-                          class="size-5 text-muted dark:text-[#fff]"
+                          class="size-5 text-gray-500 dark:text-white"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -3009,7 +3005,7 @@
                       {:else}
                         <a href="/pricing" class="flex">
                           <svg
-                            class="size-4 text-muted dark:text-[#fff]"
+                            class="size-4 text-gray-500 dark:text-white"
                             viewBox="0 0 20 20"
                             fill="currentColor"
                             style="max-width: 40px;"
@@ -3054,7 +3050,7 @@
           <div class="flex justify-center items-center h-80">
             <div class="relative">
               <label
-                class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                class="bg-gray-900/80 dark:bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
               >
                 <span
                   class="loading loading-spinner loading-md text-white dark:text-white"
@@ -3080,16 +3076,16 @@
   ></label>
 
   <div
-    class="modal-box text-muted dark:text-white relative bg-gray-100 dark:bg-primary z-20 mx-2 min-h-[30vh] h-[800px] rounded opacity-100 border border-gray-300 dark:border-gray-600 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto"
+    class="modal-box text-gray-700 dark:text-zinc-200 relative bg-white dark:bg-zinc-950 z-20 mx-2 min-h-[30vh] h-[800px] rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto shadow-none"
   >
     <div class="relative flex flex-col w-full">
       <!-- Sticky Header -->
 
       <div
-        class="fixed w-full h-fit sticky -top-6 z-40 bg-gray-100 dark:bg-primary shadow opacity-100 pb-6 pt-5 border-gray-300 dark:border-gray-600 border-b"
+        class="fixed w-full h-fit sticky -top-6 z-40 bg-white/95 dark:bg-zinc-950/95 pb-6 pt-5 border-gray-200/70 dark:border-zinc-800/80 border-b"
       >
         <div class="flex flex-row items-center justify-between mb-2">
-          <h1 class=" text-[1rem] sm:text-xl font-semibold">
+          <h1 class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white">
             Select filters ({allRows?.length} total)
           </h1>
           <label
@@ -3119,7 +3115,7 @@
               class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
             >
               <svg
-                class="w-4 h-4 text-muted dark:text-gray-200"
+                class="w-4 h-4 text-gray-400 dark:text-zinc-400"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -3143,7 +3139,7 @@
             >
               <button
                 on:click={() => (searchTerm = "")}
-                class="cursor-pointer text-muted dark:text-gray-200 dark:sm:hover:text-white"
+                class="cursor-pointer text-gray-400 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                 tabindex="0"
                 ><svg
                   class="w-5 h-5"
@@ -3164,7 +3160,7 @@
             <input
               autocomplete="off"
               id="search"
-              class="focus:outline-none placeholder-gray-500 dark:placeholder-gray-300 block w-full p-2 ps-10 text-sm text-muted dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded bg-gray-100 dark:bg-primary border border-blue-500"
+              class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm text-gray-700 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80 rounded-full bg-white/80 dark:bg-zinc-950/60"
               placeholder="Search"
               bind:value={searchTerm}
             />
@@ -3198,7 +3194,7 @@
                   id={row?.rule}
                   type="checkbox"
                   checked={ruleOfList?.find((rule) => rule?.name === row?.rule)}
-                  class="h-[18px] w-[18px] rounded-sm ring-offset-0 lg:h-4 lg:w-4"
+                  class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-200/70 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
                 />
               {/if}
               <div class="-mt-0.5">
@@ -3231,9 +3227,11 @@
 
   <div
     class="modal-box w-full p-6 rounded border
-        bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+        bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none"
   >
-    <h1 class="text-2xl font-bold">New Filter</h1>
+    <h1 class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+      New Filter
+    </h1>
 
     <form
       on:submit={createStrategy}
@@ -3250,7 +3248,7 @@
 
       <button
         type="submit"
-        class="cursor-pointer mt-2 py-2.5 bg-black dark:bg-[#fff] dark:sm:hover:bg-gray-300 duration-100 w-full rounded m-auto text-white dark:text-black font-semibold text-md"
+        class="cursor-pointer mt-2 py-2.5 bg-gray-900 text-white dark:bg-white dark:text-gray-900 duration-100 w-full rounded-full m-auto font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
       >
         Create Filter
       </button>
@@ -3268,26 +3266,26 @@
 
   <div
     class="modal-box w-full p-6 rounded border
-          bg-white dark:bg-secondary border border-gray-300 dark:border-gray-800"
+          bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl shadow-none"
   >
-    <h3 class="text-lg font-medium mb-2">Delete Filter</h3>
-    <p class="text-sm mb-6">
+    <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
+      Delete Filter
+    </h3>
+    <p class="text-sm mb-6 text-gray-600 dark:text-zinc-400">
       Are you sure you want to delete this filter? This action cannot be undone.
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteStrategy"
-        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
-              transition-colors duration-100
-              bg-gray-600 text-white dark:bg-white dark:text-black"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
+              transition-colors duration-100 border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
         tabindex="0">Cancel</label
       ><label
         for="deleteStrategy"
         on:click={handleDeleteStrategy}
-        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
-              transition-colors duration-100 flex items-center
-              bg-red-600 text-white sm:hover:bg-red-700
-              "
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
+              transition-colors duration-100 flex items-center border border-rose-200/70 dark:border-rose-500/30
+              bg-rose-50/80 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300"
         tabindex="0"
         ><svg
           stroke="currentColor"
