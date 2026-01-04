@@ -31,14 +31,18 @@
 </script>
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-5 px-4 lg:px-3 text-muted dark:text-white"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
+          >Home</a
+        >
       </li>
-      <li class="text-muted dark:text-gray-300">Market News</li>
+      <li class="text-gray-500 dark:text-zinc-500">Market News</li>
     </ul>
   </div>
 
@@ -48,24 +52,31 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:pr-5">
-          <h1 class="mb-6 text-2xl sm:text-3xl font-bold">
-            {activeIdx === 0
-              ? "All Stocks News"
-              : activeIdx === 1
-                ? "Market News"
-                : "Press Releases"}
-          </h1>
+          <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
+            <h1
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
+              {activeIdx === 0
+                ? "All Stocks News"
+                : activeIdx === 1
+                  ? "Market News"
+                  : "Press Releases"}
+            </h1>
+          </div>
 
           <nav
-            class="border-[#2C6288] dark:border-white border-b-[2px] overflow-x-auto whitespace-nowrap"
+            class="border-b border-gray-200/70 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
           >
-            <ul class="flex flex-row items-center w-full text-[1rem]">
-              {#each tabs as item, i}
+            <ul
+              class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base"
+            >
+              {#each tabs as item, index}
                 <a
                   href={item?.path}
-                  class="p-2 px-5 cursor-pointer {activeIdx === i
-                    ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
-                    : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
+                  class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {activeIdx ===
+                  index
+                    ? 'border-gray-200/70 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                    : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {item.title}
                 </a>

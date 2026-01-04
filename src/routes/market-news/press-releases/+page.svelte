@@ -156,21 +156,23 @@
     >
       <main class="w-full lg:w-3/4 lg:pr-10">
         <div class="w-full m-auto">
-          <div class="grid grid-cols-1 gap-y-3 market-news-list">
+          <div class="grid grid-cols-1 gap-y-4 market-news-list">
             {#if news.length !== 0}
               {#each news as item}
-                <div class="w-full flex flex-col m-auto">
+                <div
+                  class="w-full flex flex-col rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4 sm:p-5"
+                >
                   <div class="w-full flex flex-col sm:flex-row">
                     <a
                       href={item?.url}
                       rel="noopener noreferrer"
                       target="_blank"
-                      class="w-full sm:max-w-56 h-fit max-h-96 sm:mr-3"
+                      class="w-full sm:max-w-56 h-fit max-h-96 sm:mr-3 border border-gray-200/70 dark:border-zinc-800/80 rounded-xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
                     >
                       <div class="shrink-0 m-auto">
                         <img
                           src={item?.image}
-                          class="h-full w-full object-cover rounded"
+                          class="h-full w-full object-cover"
                           alt="news image"
                           loading="lazy"
                         />
@@ -179,7 +181,7 @@
 
                     <div class="w-full">
                       <h3
-                        class="text-sm text-muted dark:text-white/80 truncate mb-2"
+                        class="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-zinc-400 truncate mb-2"
                       >
                         {formatDate(item?.publishedDate)} ago · {item?.site}
                       </h3>
@@ -188,21 +190,28 @@
                         href={item?.url}
                         rel="noopener noreferrer"
                         target="_blank"
-                        class="text-lg sm:text-xl font-bold"
+                        class="group"
                       >
-                        {item?.title}
-                        <p class=" text-sm mt-2 font-normal">
+                        <span
+                          class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white transition group-hover:text-violet-600 dark:group-hover:text-violet-400"
+                        >
+                          {item?.title}
+                        </span>
+                        <p class="mt-2 text-sm text-gray-600 dark:text-zinc-300">
                           {item?.text?.length > 200
                             ? item?.text?.slice(0, 200) + "..."
                             : item?.text}
                         </p>
                       </a>
-                      <div class=" mt-2">
-                        <span>Stocks:</span>
+                      <div class="mt-3">
+                        <span
+                          class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                          >Stocks:</span
+                        >
 
                         <a
                           href={"/stocks/" + item?.symbol}
-                          class="px-2.5 text-sm py-0.5 rounded bg-white/10 sm:hover:bg-white/20 ml-1"
+                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400 ml-2"
                         >
                           {item?.symbol}
                         </a>
@@ -211,9 +220,6 @@
                   </div>
                 </div>
 
-                <hr
-                  class="border-gray-300 dark:border-gray-600 w-full m-auto mt-3 mb-5"
-                />
               {/each}
             {/if}
           </div>
@@ -325,36 +331,42 @@
       <aside class="inline-block relative w-full lg:w-1/4 mt-3">
         {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
           >
-            <a
-              href="/pricing"
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-semibold sm:ml-3">
-                  Pro Subscription
-                </h2>
-              </div>
-              <span class=" p-3 sm:ml-3 sm:mr-3 -mt-4">
-                Upgrade now for unlimited access to all data, tools and no ads.
+            <a href="/pricing" class="group flex flex-col gap-2">
+              <span
+                class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
+                Upgrade
               </span>
+              <h2
+                class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white transition group-hover:text-violet-600 dark:group-hover:text-violet-400"
+              >
+                Pro Subscription
+              </h2>
+              <p class="text-sm text-gray-600 dark:text-zinc-300">
+                Upgrade now for unlimited access to all data, tools and no ads.
+              </p>
             </a>
           </div>
         {/if}
 
         {#if stockNews?.length !== 0}
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit mt-4 cursor-pointer"
+            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 h-fit mt-4"
           >
             <div class="p-4 text-sm">
-              <h3 class="text-xl font-bold mb-3">Stock News</h3>
-              <ul class="">
+              <h3
+                class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400 mb-3"
+              >
+                Stock News
+              </h3>
+              <ul class="text-sm text-gray-600 dark:text-zinc-300">
                 {#each stockNews?.slice(0, 10) as item}
                   <li class="mb-3 last:mb-1">
                     {formatDate(item?.publishedDate)} ago -
                     <a
-                      class="sm:hover:text-muted dark:sm:hover:text-white text-blue-800 dark:text-blue-400"
+                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       href={item?.url}
                       target="_blank"
                       rel="noopener noreferrer nofollow">{item?.title}</a
@@ -365,7 +377,7 @@
               </ul>
               <a
                 href={`/market-news`}
-                class="flex justify-center items-center rounded cursor-pointer w-full py-2 mt-5 text-[1rem] text-center font-semibold text-white dark:text-black m-auto sm:hover:bg-default dark:sm:hover:bg-gray-300 bg-black dark:bg-[#fff] transition duration-100"
+                class="flex justify-center items-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white cursor-pointer w-full py-2 mt-5 text-sm text-center font-semibold transition hover:bg-white dark:hover:bg-zinc-900"
               >
                 More Stock News
               </a>

@@ -1169,7 +1169,7 @@
                           <Gem class="h-5.5 w-5.5" />
                         </div>
                         <span
-                          class="ml-3 text-gray-600 dark:text-zinc-400 text-[0.95rem] group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                          class="ml-3 text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                           >Pricing Plan</span
                         >
                       </div>
@@ -1764,7 +1764,7 @@
                       <Gem class="h-5.5 w-5.5" />
                     </div>
                     <span
-                      class="ml-3 text-gray-600 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                      class="ml-3 text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                       >Pricing Plan</span
                     >
                   </a>
