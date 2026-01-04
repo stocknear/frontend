@@ -3189,14 +3189,20 @@ const handleKeyDown = (event) => {
 <!-- Removed scroll handler, using pagination instead -->
 
 <section
-  class="w-full max-w-3xl sm:max-w-(--breakpoint-xl) overflow-hidden min-h-screen pb-40 px-5"
+  class="w-full max-w-3xl sm:max-w-(--breakpoint-xl) overflow-hidden min-h-screen pb-40 px-5 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-sm sm:text-[0.95rem] breadcrumbs text-gray-500 dark:text-zinc-400">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          >Home</a
+        >
       </li>
-      <li><span class="text-muted dark:text-gray-300">Stock Screener</span></li>
+      <li>
+        <span class="text-gray-500 dark:text-zinc-400">Stock Screener</span>
+      </li>
     </ul>
   </div>
 
@@ -3204,8 +3210,12 @@ const handleKeyDown = (event) => {
   <div class="sm:rounded">
     <div class="flex flex-col md:flex-row items-start md:items-center mb-5">
       <div class="w-full flex flex-row items-center sm:mt-4">
-        <h1 class=" text-3xl font-semibold">Stock Screener</h1>
-        <span class="inline-block text-xs sm:text-sm font-semibold ml-2 mt-3">
+        <h1 class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          Stock Screener
+        </h1>
+        <span
+          class="inline-block text-xs sm:text-sm font-medium ml-2 mt-3 text-gray-500 dark:text-zinc-400"
+        >
           {filteredData?.length?.toLocaleString("en-US")} Matches Found
         </span>
       </div>
@@ -3213,7 +3223,7 @@ const handleKeyDown = (event) => {
       <div class="flex flex-row items-center w-full mt-5">
         <div class="flex w-full sm:w-[50%] md:block md:w-auto sm:ml-auto">
           <div
-            class="hidden text-sm sm:text-[1rem] font-semibold md:block sm:mb-1"
+            class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
           >
             Popular Screens
           </div>
@@ -3222,7 +3232,7 @@ const handleKeyDown = (event) => {
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-full transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate"
                     >{selectedPopularStrategy?.length !== 0
@@ -3249,10 +3259,10 @@ const handleKeyDown = (event) => {
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-56 h-fit max-h-72 overflow-y-auto scroller"
+                class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
               >
                 <DropdownMenu.Label
-                  class="text-muted dark:text-gray-400 font-normal"
+                  class="text-gray-500 dark:text-zinc-400 font-normal"
                 >
                   Popular Strategies
                 </DropdownMenu.Label>
@@ -3261,7 +3271,7 @@ const handleKeyDown = (event) => {
                   {#each popularStrategyList as item}
                     <DropdownMenu.Item
                       on:click={() => popularStrategy(item?.key)}
-                      class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-primary"
+                      class="cursor-pointer sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
                     >
                       {item?.label}
                     </DropdownMenu.Item>
@@ -3274,7 +3284,7 @@ const handleKeyDown = (event) => {
 
         <div class="flex w-full sm:w-[50%] sm:ml-3 md:block md:w-auto ml-3">
           <div
-            class="hidden text-sm sm:text-[1rem] font-semibold md:block sm:mb-1"
+            class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
           >
             Saved Screens
           </div>
@@ -3283,7 +3293,7 @@ const handleKeyDown = (event) => {
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="min-w-[110px] w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="min-w-[110px] w-full transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate max-w-48"
                     >{selectedStrategy?.length !== 0
@@ -3312,10 +3322,10 @@ const handleKeyDown = (event) => {
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller"
+                class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
               >
                 <DropdownMenu.Label
-                  class="text-muted dark:text-gray-400 font-normal"
+                  class="text-gray-500 dark:text-zinc-400 font-normal"
                 >
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
@@ -3324,7 +3334,7 @@ const handleKeyDown = (event) => {
                         handleCreateStrategy();
                       }}
                       builders={[builder]}
-                      class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap bg-[#0909B] focus:outline-hidden "
+                      class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition focus:outline-hidden"
                     >
                       <svg
                         class="h-4 w-4"
@@ -3351,8 +3361,8 @@ const handleKeyDown = (event) => {
                         switchStrategy(item);
                       }}
                       class=" {item?.id === selectedStrategy
-                        ? 'bg-gray-100 dark:bg-primary'
-                        : ''} cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-primary"
+                        ? 'text-violet-600 dark:text-violet-400'
+                        : ''} cursor-pointer sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
                     >
                       {item?.title?.length > 20
                         ? item?.title?.slice(0, 20) + "..."
