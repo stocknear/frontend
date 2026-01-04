@@ -305,14 +305,18 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-400">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+          >Home</a
+        >
       </li>
-      <li class="text-muted dark:text-gray-300">Analyst Live Flow</li>
+      <li class="text-gray-500 dark:text-zinc-400">Analyst Live Flow</li>
     </ul>
   </div>
 
@@ -322,8 +326,10 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:pr-5">
-          <div class=" border-[#2C6288] dark:border-white border-b-[2px]">
-            <h1 class="mb-3 text-2xl sm:text-3xl font-bold">
+          <div class="border-b border-gray-200/70 dark:border-zinc-800/80">
+            <h1
+              class="mb-3 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
               Latest Analyst Ratings
             </h1>
           </div>
@@ -334,10 +340,10 @@
 
           <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
             <div
-              class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+              class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
             >
               <h2
-                class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold py-1 border-b border-gray-300 dark:border-gray-800 lg:border-none w-full"
+                class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
               >
                 {originalData?.length?.toLocaleString("en-US")} Ratings
               </h2>
@@ -371,7 +377,7 @@
                     on:input={search}
                     type="text"
                     placeholder="Find..."
-                    class=" py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full sm:min-w-56 lg:max-w-14"
+                    class="py-2 text-[0.85rem] sm:text-sm border border-gray-200/70 dark:border-zinc-800/80 rounded-full bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                   />
                 </div>
 
@@ -389,21 +395,21 @@
           <div class="w-full m-auto mt-4">
             {#if stockList?.length > 0}
               <div
-                class="w-full m-auto rounded-none sm:rounded mb-4 overflow-x-auto"
+                class="w-full m-auto rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 mb-4 overflow-x-auto"
               >
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                 >
                   <thead>
                     <TableHeader {columns} {sortOrders} {sortData} />
                   </thead>
-                  <tbody>
+                  <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
                     {#each stockList as item, index}
                       <tr
-                        class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
+                        class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                       >
                         <td
-                          class="text-sm sm:text-[1rem] whitespace-nowrap flex flex-row mt-2.5 sm:mt-0 items-center"
+                          class="text-[0.85rem] sm:text-sm whitespace-nowrap flex flex-row mt-2.5 sm:mt-0 items-center"
                         >
                           <div>{item?.analystScore?.toFixed(1)}</div>
                           <svg
@@ -420,27 +426,27 @@
                         </td>
 
                         <td
-                          class="text-sm sm:text-[1rem] text-start whitespace-nowrap"
+                          class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap"
                         >
                           <a
                             href={`/analysts/${item?.analystId}`}
-                            class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+                            class="font-semibold text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400"
                             >{item?.analystName}</a
                           >
                         </td>
 
                         <td
-                          class="text-sm sm:text-[1rem] text-start whitespace-nowrap"
+                          class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap"
                         >
                           <a
                             href={`/stocks/${item?.symbol}`}
-                            class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+                            class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
                             >{item?.symbol}</a
                           >
                         </td>
 
                         <td
-                          class="text-sm sm:text-[1rem] text-start whitespace-nowrap"
+                          class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-600 dark:text-zinc-300"
                         >
                           {item?.name?.length > charNumber
                             ? item?.name?.slice(0, charNumber) + "..."
@@ -448,7 +454,7 @@
                         </td>
 
                         <td
-                          class="text-sm sm:text-[1rem] text-start whitespace-nowrap"
+                          class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-gray-600 dark:text-zinc-300"
                         >
                           <div class="flex flex-col sm:flex-row items-start">
                             <span class="mr-1">{item?.action}:</span>
@@ -458,11 +464,11 @@
                           </div>
                         </td>
 
-                        <td class=" text-sm sm:text-[1rem] whitespace-nowrap">
+                        <td class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300">
                           <div class="flex flex-row items-center justify-end">
                             {#if Math?.ceil(item?.adjusted_pt_prior) !== 0}
                               <span
-                                class="text-muted dark:text-gray-100 font-normal"
+                                class="text-gray-600 dark:text-zinc-300 font-normal"
                                 >{Math?.ceil(item?.adjusted_pt_prior)}</span
                               >
                               <svg
@@ -478,11 +484,11 @@
                                   d="M4 12h16m0 0l-6-6m6 6l-6 6"
                                 /></svg
                               >
-                              <span class=" font-semibold"
+                              <span class="font-semibold text-gray-900 dark:text-white"
                                 >{Math?.ceil(item?.adjusted_pt_current)}</span
                               >
                             {:else if Math?.ceil(item?.adjusted_pt_current) !== 0}
-                              <span class=" font-semibold"
+                              <span class="font-semibold text-gray-900 dark:text-white"
                                 >{Math?.ceil(item?.adjusted_pt_current)}</span
                               >
                             {:else}
@@ -493,16 +499,16 @@
 
                         <td
                           class="{item?.upside >= 0 && item?.upside !== null
-                            ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
+                            ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
                             : item?.upside < 0 && item?.upside !== null
-                              ? 'text-red-800 dark:text-[#FF2F1F]'
-                              : ''} text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                              ? 'text-rose-600 dark:text-rose-400'
+                              : ''} text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
                         >
                           {item?.upside !== null ? item?.upside + "%" : "n/a"}
                         </td>
 
                         <td
-                          class=" text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
                         >
                           {new Date(item?.date).toLocaleString("en-US", {
                             month: "short",

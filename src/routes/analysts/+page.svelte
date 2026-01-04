@@ -545,14 +545,16 @@
         <aside class="inline-block relative w-full lg:w-1/4 mt-3 text-gray-700 dark:text-zinc-200">
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <div
-              class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-lg h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:bg-white/90 dark:hover:bg-zinc-900/50 transition"
+              class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
               <a
                 href="/pricing"
-                class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+                class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-base font-semibold sm:ml-3">
+                  <h2
+                    class="text-start text-base font-semibold text-gray-900 dark:text-white sm:ml-3"
+                  >
                     Pro Subscription
                   </h2>
                 </div>
@@ -565,14 +567,16 @@
           {/if}
 
           <div
-            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-lg h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:bg-white/90 dark:hover:bg-zinc-900/50 transition"
+            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href={"/analysts/top-stocks"}
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+              class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-base font-semibold ml-3">
+                <h2
+                  class="text-start text-base font-semibold text-gray-900 dark:text-white ml-3"
+                >
                   Top Strong Buy Stocks
                 </h2>
               </div>
@@ -583,14 +587,16 @@
           </div>
 
           <div
-            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-lg h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:bg-white/90 dark:hover:bg-zinc-900/50 transition"
+            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href="/market-mover/gainers"
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+              class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-base font-semibold ml-3">
+                <h2
+                  class="text-start text-base font-semibold text-gray-900 dark:text-white ml-3"
+                >
                   Market Movers
                 </h2>
               </div>

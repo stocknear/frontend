@@ -108,12 +108,12 @@
     <label
       for="feedbackModalToggle"
       aria-label="Give Feedback"
-      class="flex fixed bottom-8 right-8 items-center gap-2 px-3 py-3 sm:px-4 sm:py-3 rounded-full bg-black dark:bg-white sm:hover:bg-default dark:hover:bg-gray-100 shadow hover:shadow-xl cursor-pointer pointer-events-auto text-white dark:text-black transition-all duration-50"
+      class="group flex fixed bottom-8 right-8 items-center gap-2 px-3 py-2.5 sm:px-4 sm:py-2.5 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/90 cursor-pointer pointer-events-auto text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 transition"
       style="position: fixed !important; z-index: 99999 !important;"
     >
-      <Question class="size-5 text-white dark:text-black" />
+      <Question class="size-5 text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition" />
       <span
-        class="text-white dark:text-black hidden sm:inline text-md font-semibold"
+        class="hidden sm:inline text-sm font-semibold"
         >Give feedback</span
       >
     </label>
@@ -131,20 +131,20 @@
 <!-- Modal -->
 <dialog
   id="feedbackModal"
-  class="modal overflow-hidden p-3 sm:p-0 bg-[#000]/30 text-muted dark:text-white"
+  class="modal modal-middle overflow-hidden p-3 sm:p-0 bg-black/40 text-gray-700 dark:text-zinc-200"
 >
   <label for="feedbackModalToggle" class="cursor-pointer modal-backdrop"
   ></label>
 
   <div
-    class="modal-box w-full max-w-4xl rounded bg-white dark:bg-secondary border border-gray-300 dark:border-gray-600"
+    class="modal-box w-full max-w-4xl rounded-2xl bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800/80 shadow-none"
   >
     <!-- Header -->
     <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-bold">Give feedback</h1>
+      <h1 class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Give feedback</h1>
       <label
         for="feedbackModalToggle"
-        class="inline-block cursor-pointer text-[1.6rem]"
+        class="inline-block cursor-pointer text-[1.6rem] text-gray-400 dark:text-zinc-500 hover:text-violet-600 dark:hover:text-violet-400 transition"
         aria-label="Close"
       >
         <svg
@@ -164,11 +164,11 @@
     <div class="mt-6 space-y-6">
       <!-- Describe your issue or suggestion -->
       <div class="space-y-2">
-        <label class="block text-base font-semibold"
+        <label class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
           >Describe your issue or suggestion:</label
         >
         <textarea
-          class="textarea w-full h-48 max-h-[600px] resize-vertical bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-800 focus:outline-none placeholder-gray-500 rounded"
+          class="w-full min-h-[160px] max-h-[600px] resize-y rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 p-3 text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
           placeholder=""
           bind:value={description}
         />
@@ -176,10 +176,10 @@
 
       <!-- Feedback for page -->
       <div class="space-y-2">
-        <label class="block text-base font-semibold">Feedback for page:</label>
+        <label class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500">Feedback for page:</label>
         <input
           type="text"
-          class="input cursor-not-allowed w-full h-12 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-800 focus:outline-none rounded px-3"
+          class="cursor-not-allowed w-full h-10 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 px-3 text-sm text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
           bind:value={pageUrl}
           readonly
         />
@@ -191,7 +191,7 @@
     <div class="mt-6 flex justify-end gap-2">
       <button
         type="button"
-        class="cursor-pointer px-4 py-2 rounded border border-gray-300 dark:border-gray-600 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-60"
+        class="cursor-pointer px-4 py-2 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-sm text-gray-700 dark:text-zinc-200 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 transition disabled:opacity-60"
         on:click={closeModal}
         disabled={isSubmitting}
       >
@@ -199,7 +199,7 @@
       </button>
       <button
         type="button"
-        class="cursor-pointer px-4 py-2 rounded bg-black text-white dark:bg-white dark:text-black text-sm font-medium hover:opacity-90 disabled:opacity-60 flex items-center gap-2"
+        class="cursor-pointer px-4 py-2 rounded-full border border-gray-900/80 bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 dark:border-zinc-200 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white transition disabled:opacity-60 flex items-center gap-2"
         on:click={sendFeedback}
         disabled={isSubmitting}
         aria-busy={isSubmitting}
@@ -212,10 +212,3 @@
     </div>
   </div>
 </dialog>
-
-<style>
-  /* Optional: ensure the textarea resizes but keeps corner radius intact */
-  textarea.textarea {
-    border-radius: 0.5rem;
-  }
-</style>
