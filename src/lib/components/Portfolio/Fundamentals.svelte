@@ -287,14 +287,14 @@
                                 gaugeData.value !== undefined
                                     ? `${gaugeData.value}${suffix}`
                                     : "n/a";
-                            return `<div class="flex justify-center space-x-8 text-sm sm:text-base">
+                            return `<div class="flex justify-center space-x-8 text-xs sm:text-sm">
                         <div class="flex flex-col items-center">
-                            <span class="text-muted dark:text-white font-semibold">${gaugeData.label}</span>
-                            <span class="text-muted dark:text-white text-lg font-bold">${displayValue}</span>
+                            <span class="text-gray-600 dark:text-zinc-400 font-semibold">${gaugeData.label}</span>
+                            <span class="text-gray-900 dark:text-white text-base sm:text-lg font-bold">${displayValue}</span>
                         </div>
                         <div class="flex flex-col items-center">
-                            <span class="text-[#1547e7] dark:text-[#22D3EE] font-semibold">${gaugeData.compareLabel}</span>
-                            <span class="text-[#1547e7] dark:text-[#22D3EE] text-lg font-bold">${gaugeData.compareValue}${suffix}</span>
+                            <span class="text-gray-500 dark:text-zinc-500 font-semibold">${gaugeData.compareLabel}</span>
+                            <span class="text-gray-700 dark:text-zinc-200 text-base sm:text-lg font-bold">${gaugeData.compareValue}${suffix}</span>
                         </div>
                     </div>`;
                         },
@@ -330,14 +330,14 @@
                     dial: {
                         radius: "70%",
                         backgroundColor:
-                            $mode === "light" ? "#1547e7" : "#22D3EE",
+                            $mode === "light" ? "#52525b" : "#d4d4d8",
                         baseWidth: 6,
                         baseLength: "0%",
                         rearLength: "0%",
                     },
                     pivot: {
                         backgroundColor:
-                            $mode === "light" ? "#1547e7" : "#22D3EE",
+                            $mode === "light" ? "#52525b" : "#d4d4d8",
                         radius: 4,
                     },
                 },
@@ -396,7 +396,7 @@
 </script>
 
 <div class="w-full" bind:this={componentElement}>
-    <h2 class="mb-6 text-lg sm:text-xl font-bold w-fit">
+    <h2 class="mb-6 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit">
         {title}
     </h2>
     {#if hasLoaded}
@@ -417,12 +417,12 @@
 
             <!-- Stats -->
             <div
-                class="grid grid-cols-2 gap-8 p-3 sm:p-0 text-[1rem] w-full sm:w-[50%]"
+                class="grid grid-cols-2 gap-8 p-3 sm:p-0 text-sm w-full sm:w-[50%]"
             >
                 {#each gaugeData.stats as stat}
                     <div class="flex flex-col">
                         <div
-                            class="text-gray-800 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                            class="text-gray-600 dark:text-zinc-400 text-sm flex flex-row items-center gap-x-2"
                         >
                             <span>{stat.label}</span>
                             <InfoModal
@@ -432,7 +432,7 @@
                                 parameter={stat?.infoId}
                             />
                         </div>
-                        <span class="font-semibold text-sm sm:text-[1rem]">
+                        <span class="font-semibold text-sm text-gray-900 dark:text-white">
                             {stat?.value}
                         </span>
                     </div>
@@ -443,7 +443,7 @@
         <div class="flex justify-center items-center h-80">
             <div class="relative">
                 <label
-                    class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                    class="bg-gray-900/80 dark:bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                 >
                     <span
                         class="loading loading-spinner loading-md text-white dark:text-white"
