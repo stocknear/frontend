@@ -1720,7 +1720,7 @@
   }}
 />
 
-<section class="overflow-y-auto mb-10">
+<section class="overflow-y-auto mb-10 text-gray-700 dark:text-zinc-200">
   <div
     class="w-full max-w-screen sm:max-w-7xl sm:max-w-[1400px] flex justify-center items-center p-3 sm:p-0"
   >
@@ -1738,9 +1738,11 @@
           <div
             class="w-full flex flex-col sm:flex-row items-start sm:items-center sm:mt-4"
           >
-            <h1 class="text-2xl sm:text-3xl font-semibold">Options Flow</h1>
+            <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
+              Options Flow
+            </h1>
             <span
-              class="inline-block text-xs sm:text-sm font-semibold sm:ml-2 mt-3"
+              class="inline-block text-xs sm:text-sm font-medium sm:ml-2 mt-3 text-gray-500 dark:text-zinc-400"
             >
               {(data?.user?.tier === "Pro"
                 ? displayedData?.length
