@@ -207,17 +207,19 @@
       <main class="w-full lg:w-3/4 lg:pr-10">
         <div class="w-full m-auto">
           <div class="grid grid-cols-1 gap-y-3">
-            <div class="mt-5">
+            <div class="mt-5 text-sm sm:text-base text-gray-600 dark:text-zinc-400">
               This page provides statistics and charts on initial public
               offerings (IPOs) in the U.S. stock market. Annual data is
               available from 2015 to 2025, with monthly data starting from 2019.
             </div>
 
-            <h1 class="text-xl sm:text-2xl font-bold mb-2 sm:mb-0 mt-2">
+            <h1
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 sm:mb-0 mt-2"
+            >
               Number of IPOs by Year
             </h1>
 
-            <div class="mb-2">
+            <div class="mb-2 text-sm sm:text-base text-gray-600 dark:text-zinc-400">
               There have been {data?.getIPOCalendar?.length?.toLocaleString(
                 "en-US",
               )} IPOs between 2015 and 2025. The least was in {minYear} with only
@@ -228,17 +230,17 @@
 
             {#if isLoaded && config}
               <div
-                class="shadow border border-gray-300 dark:border-gray-800 rounded"
+                class="border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                 use:highcharts={config}
               ></div>
             {:else}
               <div class="flex justify-center items-center h-80">
                 <div class="relative">
                   <label
-                    class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                    class="border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                   >
                     <span
-                      class="loading loading-spinner loading-md text-white dark:text-white"
+                      class="loading loading-spinner loading-md text-gray-600 dark:text-zinc-300"
                     ></span>
                   </label>
                 </div>
@@ -254,16 +256,18 @@
       <aside class="inline-block relative w-full lg:w-1/4 mt-3">
         {#if marketNews?.length !== 0}
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer bg-inherit"
+            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
-            <div class="p-4 text-sm">
-              <h3 class="text-xl font-bold mb-3">Stock News</h3>
+            <div class="p-4 text-sm text-gray-600 dark:text-zinc-300">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                Stock News
+              </h3>
               <ul class="">
                 {#each marketNews?.slice(0, 10) as item}
                   <li class="mb-3 last:mb-1">
                     {formatDate(item?.publishedDate)} -
                     <a
-                      class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400"
+                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       href={item?.url}
                       target="_blank"
                       rel="noopener noreferrer nofollow">{item?.title}</a
@@ -274,7 +278,7 @@
               </ul>
               <a
                 href={`/market-news`}
-                class="flex justify-center items-center rounded cursor-pointer w-full py-2 mt-3 text-[1rem] text-center font-semibold text-white dark:text-black m-auto sm:hover:bg-muted dark:sm:hover:bg-gray-300 bg-black dark:bg-[#fff] transition duration-100"
+                class="flex justify-center items-center rounded-full cursor-pointer w-full py-2.5 mt-3 text-[0.95rem] text-center font-semibold text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition"
               >
                 More Stocks News
               </a>

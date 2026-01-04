@@ -520,11 +520,11 @@
                 >
                   <div class="flex flex-col sm:flex-row sm:items-center">
                     <div
-                      class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500 sm:mb-0 sm:min-w-[120px]"
+                      class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
                     >
                       Main Sectors:
                     </div>
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 sm:ml-2">
+                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-center sm:justify-start">
                       {#each mainSectors as item}
                         <a
                           href={sectorNavigation?.find(
@@ -539,11 +539,11 @@
                   </div>
                   <div class="flex flex-col sm:flex-row sm:items-center">
                     <div
-                      class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500 sm:mb-0 sm:min-w-[120px]"
+                      class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
                     >
                       Top Industries:
                     </div>
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 sm:ml-2">
+                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-center sm:justify-start">
                       {#each mainIndustries as item}
                         <a
                           href={`/list/industry/${item?.replace(/ /g, "-")?.replace(/&/g, "and")?.replace(/-{2,}/g, "-")?.toLowerCase()}`}

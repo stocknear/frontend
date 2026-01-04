@@ -554,10 +554,10 @@
                   class="relative my-3 space-y-2 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 sm:my-6 p-4"
                 >
                   <div class="flex flex-col sm:flex-row sm:items-center">
-                    <div class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500 sm:mb-0 sm:min-w-[120px]">
+                    <div class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left">
                       Main Sectors:
                     </div>
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 sm:ml-2">
+                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-center sm:justify-start">
                       {#each data?.getData?.mainSectors as item}
                         <a
                           href={sectorNavigation?.find(
@@ -571,10 +571,10 @@
                     </div>
                   </div>
                   <div class="flex flex-col sm:flex-row sm:items-center">
-                    <div class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500 sm:mb-0 sm:min-w-[120px]">
+                    <div class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left">
                       Top Industries:
                     </div>
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 sm:ml-2">
+                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-center sm:justify-start">
                       {#each data?.getData?.mainIndustries as item}
                         <a
                           href={`/list/industry/${item?.replace(/ /g, "-")?.replace(/&/g, "and")?.replace(/-{2,}/g, "-")?.toLowerCase()}`}

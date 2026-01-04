@@ -104,20 +104,26 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 px-4 lg:px-3 pb-40"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
+          >Home</a
+        >
       </li>
       <li>
-        <a href="/hedge-funds" class="text-muted dark:text-gray-300"
+        <a
+          href="/hedge-funds"
+          class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
           >Hedge Fund</a
         >
       </li>
 
-      <li class="text-muted dark:text-gray-300">
+      <li class="text-gray-500 dark:text-zinc-500">
         {formatString(companyName)}
       </li>
     </ul>
@@ -132,12 +138,12 @@
           <div class="w-full m-auto mt-12">
             <div class="items-center justify-between lg:flex">
               <div
-                class="flex space-x-3 border-b-[2px] pb-3 lg:border-none lg:pb-0"
+                class="flex space-x-3 border-b border-gray-200/70 dark:border-zinc-800/80 pb-3 lg:border-none lg:pb-0"
               >
                 <div class="flex space-x-3 pb-3 lg:border-none lg:pb-0">
                   <div class="shrink-0">
                     <svg
-                      class="h-16 w-16 sm:h-20 sm:w-20 text-gray-500 dark:text-gray-200"
+                      class="h-16 w-16 sm:h-20 sm:w-20 text-gray-400 dark:text-zinc-500"
                       fill="currentColor"
                       viewBox="0 0 24 24"
                       style="max-width:100px"
@@ -151,72 +157,74 @@
                 </div>
 
                 <div class="mt-0 pt-0.5 text-left">
-                  <h1 class="mb-0 text-2xl font-bold">
+                  <h1
+                    class="mb-0 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                  >
                     {formatString(companyName)}
                   </h1>
                   <p
-                    class="mb-0.5 text-sm font-semibold text-muted dark:text-gray-300"
+                    class="mb-0.5 text-sm text-gray-600 dark:text-zinc-400"
                   >
                     CIK Number: {data?.getHedgeFundsData?.cik}
                   </p>
                 </div>
               </div>
               <div
-                class="mt-4 grid grid-cols-2 overflow-hidden rounded border border-gray-300 dark:border-gray-600 py-2 text-center md:grid-cols-5 md:p-0 lg:mt-0 lg:border-none"
+                class="mt-4 grid grid-cols-2 overflow-hidden rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 py-2 text-center md:grid-cols-5 md:p-0 lg:mt-0"
               >
                 <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
-                  <div class="text-2xl font-bold tracking-tight">
+                  <div class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
                     {abbreviateNumber(hedgeFundStats?.marketValue)}
                   </div>
                   <div
-                    class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
+                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
                   >
                     Market Value
                   </div>
                 </div>
 
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l sm:border-gray-300 dark:sm:border-gray-600 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
                 >
-                  <div class="text-2xl font-semibold tracking-tight">
+                  <div class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
                     {data?.getHedgeFundsData?.holdings?.length?.toLocaleString(
                       "en-US",
                     )}
                   </div>
                   <div
-                    class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
+                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
                   >
                     # of Holdings
                   </div>
                 </div>
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l sm:border-gray-300 dark:sm:border-gray-600 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
                 >
-                  <div class="text-2xl font-bold tracking-tight">
+                  <div class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
                     {hedgeFundStats?.averageHoldingPeriod} months
                   </div>
                   <div
-                    class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
+                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
                   >
                     Avg. Holding Period
                   </div>
                 </div>
 
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l sm:border-gray-300 dark:sm:border-gray-600 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
                 >
-                  <div class="text-2xl font-bold tracking-tight">
+                  <div class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={hedgeFundStats?.winRate >= 0
-                          ? "before:content-['+'] text-green-800 dark:text-[#36D984]"
-                          : "text-red-800 dark:text-[#EF4444]"}
+                          ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                          : "text-rose-600 dark:text-rose-400"}
                         >{hedgeFundStats?.winRate?.toFixed(2)}%</span
                       >
                     {:else}
                       <a href="/pricing" class="flex justify-center mb-2">
                         <svg
-                          class="size-6 text-muted dark:text-[#fff]"
+                          class="size-6 text-white"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -232,20 +240,20 @@
                     {/if}
                   </div>
                   <div
-                    class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
+                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
                   >
                     Win Rate
                   </div>
                 </div>
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l sm:border-gray-300 dark:sm:border-gray-600 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
                 >
-                  <div class="text-2xl font-bold tracking-tight">
+                  <div class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={hedgeFundStats?.performancePercentage3Year >= 0
-                          ? "before:content-['+'] text-green-800 dark:text-[#36D984]"
-                          : "text-red-800 dark:text-[#EF4444]"}
+                          ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                          : "text-rose-600 dark:text-rose-400"}
                         >{hedgeFundStats?.performancePercentage3Year?.toFixed(
                           2,
                         )}%</span
@@ -253,7 +261,7 @@
                     {:else}
                       <a href="/pricing" class="flex justify-center mb-2">
                         <svg
-                          class="size-6 text-muted dark:text-[#fff]"
+                          class="size-6 text-white"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -269,7 +277,7 @@
                     {/if}
                   </div>
                   <div
-                    class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
+                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
                   >
                     Peformance 3-Years
                   </div>
@@ -280,33 +288,39 @@
             {#if data?.getHedgeFundsData?.mainSectors?.length > 0}
               <div class="mb-10 mt-10">
                 <div
-                  class="relative my-3 space-y-2 rounded border border-gray-300 dark:border-gray-600 sm:my-6 p-4"
+                  class="relative my-3 space-y-2 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 sm:my-6 p-4"
                 >
-                  <div class="flex flex-col sm:flex-row">
-                    <div class="mb-2 font-semibold sm:mb-0">Main Sectors:</div>
-                    <div class="flex flex-wrap gap-x-2 gap-y-3 sm:ml-2">
+                  <div class="flex flex-col sm:flex-row sm:items-center">
+                    <div
+                      class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
+                    >
+                      Main Sectors:
+                    </div>
+                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-center sm:justify-start">
                       {#each data?.getHedgeFundsData?.mainSectors as item}
                         <a
                           href={sectorNavigation?.find(
                             (listItem) => listItem?.title === item,
                           )?.link}
-                          class="inline-block badge border-gray-300 dark:border-gray-800 rounded-[3px] bg-blue-100 dark:bg-primary duration-0 rounded-sm ml-1 px-3 m-auto text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted text-[1rem]"
+                          class="inline-flex items-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           {item}
                         </a>
                       {/each}
                     </div>
                   </div>
-                  <div class="flex flex-col sm:flex-row">
-                    <div class="mb-2 whitespace-nowrap font-semibold sm:mb-0">
+                  <div class="flex flex-col sm:flex-row sm:items-center">
+                    <div
+                      class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
+                    >
                       Top Industries:
                     </div>
 
-                    <div class="flex flex-wrap gap-x-2 gap-y-3 sm:ml-2">
+                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-center sm:justify-start">
                       {#each data?.getHedgeFundsData?.mainIndustries as item}
                         <a
                           href={`/list/industry/${item?.replace(/ /g, "-")?.replace(/&/g, "and")?.replace(/-{2,}/g, "-")?.toLowerCase()}`}
-                          class="inline-block badge border-gray-300 dark:border-gray-800 rounded-[3px] bg-blue-100 dark:bg-primary duration-0 rounded-sm ml-1 px-3 m-auto text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted text-[1rem]"
+                          class="inline-flex items-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           {item}
                         </a>

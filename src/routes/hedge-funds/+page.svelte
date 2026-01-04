@@ -429,15 +429,19 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 pb-40 px-3"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <body class="w-full overflow-hidden m-auto">
-    <div class="text-sm sm:text-[1rem] breadcrumbs">
+    <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
       <ul>
         <li>
-          <a href="/" class="text-muted dark:text-gray-300">Home</a>
+          <a
+            href="/"
+            class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
+            >Home</a
+          >
         </li>
-        <li class="text-muted dark:text-gray-300">Hedge Funds</li>
+        <li class="text-gray-500 dark:text-zinc-500">Hedge Funds</li>
       </ul>
     </div>
 
@@ -447,8 +451,10 @@
           class="relative flex justify-center items-center overflow-hidden w-full"
         >
           <main class="w-full">
-            <div class="mb-6 border-[#2C6288] dark:border-white border-b-[2px]">
-              <h1 class="mb-1 text-2xl sm:text-3xl font-bold">
+            <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
+              <h1
+                class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              >
                 Top Hedge Funds in US
               </h1>
             </div>
@@ -459,17 +465,19 @@
 
             <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
               <div
-                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold py-1 border-b border-gray-300 dark:border-gray-800 lg:border-none w-full"
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
                 >
                   {totalItems?.toLocaleString("en-US")} Institutes
                 </h2>
                 <div
                   class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
                 >
-                  <div class="relative lg:ml-auto w-full lg:w-fit">
+                  <div
+                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 overflow-hidden flex items-center"
+                  >
                     <div
                       class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
                     >
@@ -496,7 +504,7 @@
                       on:input={search}
                       type="text"
                       placeholder="Find..."
-                      class=" py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full sm:min-w-56 lg:max-w-14"
+                      class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-400 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
                     />
                   </div>
 
@@ -514,7 +522,7 @@
 
             <div class="w-full m-auto mt-5">
               <div
-                class="w-full m-auto rounded-none sm:rounded mb-4 overflow-x-auto sm:overflow-hidden relative transition-opacity duration-200"
+                class="w-full m-auto mb-4 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative transition-opacity duration-200"
                 class:opacity-60={isLoading}
               >
                 {#if isLoading}
@@ -524,21 +532,21 @@
                   ></div>
                 {/if}
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                   aria-busy={isLoading}
                 >
                   <thead>
                     <TableHeader {columns} {sortOrders} {sortData} />
                   </thead>
                   <tbody
-                    class="transition-opacity duration-100"
+                    class="transition-opacity duration-100 divide-y divide-gray-200/70 dark:divide-zinc-800/80"
                     class:opacity-70={isLoading}
                   >
                     {#if !tableData?.length}
                       <tr>
                         <td
                           colspan={columns.length}
-                          class="py-6 text-center text-sm sm:text-[1rem] text-muted dark:text-gray-300"
+                          class="py-6 text-center text-sm text-gray-600 dark:text-zinc-400"
                         >
                           {isLoading ? "Loading..." : "No data available."}
                         </td>
@@ -546,30 +554,30 @@
                     {:else}
                       {#each tableData as item, index}
                         <tr
-                          class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
+                          class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                         >
-                          <td class=" text-sm sm:text-[1rem] text-center">
+                          <td class="text-[0.85rem] sm:text-sm text-center text-gray-700 dark:text-zinc-200 tabular-nums">
                             {item?.rank}
                           </td>
 
                           <td
-                            class="text-start text-sm sm:text-[1rem] whitespace-nowrap"
+                            class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap"
                           >
                             <a
                               href={"/hedge-funds/" + item?.cik}
-                              class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400"
+                              class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                               >{formatString(item?.name)}
                             </a>
                           </td>
 
                           <td
-                            class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                           >
                             {abbreviateNumber(item?.marketValue)}
                           </td>
 
                           <td
-                            class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                           >
                             {new Intl.NumberFormat("en", {
                               minimumFractionDigits: 0,
@@ -578,7 +586,7 @@
                           </td>
 
                           <td
-                            class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                           >
                             {item?.turnover?.toFixed(2)}
                           </td>
@@ -590,16 +598,16 @@
                             -->
 
                           <td
-                            class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
                           >
                             {#if item?.performancePercentage3Year >= 0}
-                              <span class="text-green-800 dark:text-[#00FC50]"
+                              <span class="text-emerald-600 dark:text-emerald-400"
                                 >+{abbreviateNumber(
                                   item?.performancePercentage3Year?.toFixed(2),
                                 )}%</span
                               >
                             {:else}
-                              <span class="text-red-800 dark:text-[#FF2F1F]"
+                              <span class="text-rose-600 dark:text-rose-400"
                                 >{abbreviateNumber(
                                   item?.performancePercentage3Year?.toFixed(2),
                                 )}%
@@ -608,16 +616,16 @@
                           </td>
 
                           <td
-                            class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
                           >
                             {#if item?.winRate >= 0}
-                              <span class="text-green-800 dark:text-[#00FC50]"
+                              <span class="text-emerald-600 dark:text-emerald-400"
                                 >+{abbreviateNumber(
                                   item?.winRate?.toFixed(2),
                                 )}%</span
                               >
                             {:else}
-                              <span class="text-red-800 dark:text-[#FF2F1F]"
+                              <span class="text-rose-600 dark:text-rose-400"
                                 >{abbreviateNumber(item?.winRate?.toFixed(2))}%
                               </span>
                             {/if}

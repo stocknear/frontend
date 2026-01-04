@@ -431,7 +431,7 @@
               <Sheet.Close asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="-ml-4 mr-auto rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition"
+                  class="-ml-4 mr-auto rounded-full bg-transparent transition"
                 >
                   <a
                     href="/"
@@ -450,7 +450,7 @@
               <Sheet.Close asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="rounded-full w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 hover:bg-white dark:hover:bg-zinc-900/60 transition"
+                  class="rounded-full w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 transition"
                 >
                   <a
                     class="cursor-pointer w-full flex justify-start items-start"
@@ -470,7 +470,7 @@
                 <Button
                   builders={[builder]}
                   type="submit"
-                  class="w-full -ml-4 mr-auto rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition"
+                  class="w-full -ml-4 mr-auto rounded-full bg-transparent transition"
                 >
                   <a
                     href="/"
@@ -510,7 +510,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/industry"
@@ -522,7 +522,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/market-mover/gainers"
@@ -534,7 +534,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/heatmap"
@@ -546,7 +546,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/list"
@@ -580,7 +580,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/etf/new-launches"
@@ -591,7 +591,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/etf/etf-providers"
@@ -625,7 +625,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/analysts"
@@ -636,7 +636,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/analysts/top-stocks"
@@ -648,7 +648,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/analysts/analyst-flow"
@@ -682,7 +682,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/dividends-calendar"
@@ -693,7 +693,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/earnings-calendar"
@@ -705,7 +705,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/ipos"
@@ -717,7 +717,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/economic-calendar"
@@ -729,7 +729,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/economic-indicator"
@@ -742,7 +742,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/stock-splits-calendar"
@@ -778,7 +778,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/politicians/flow-data"
@@ -789,7 +789,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/politicians"
@@ -823,7 +823,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/market-flow"
@@ -835,7 +835,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/news-flow"
@@ -847,7 +847,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/options-flow"
@@ -858,7 +858,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/unusual-order-flow"
@@ -892,7 +892,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/stock-screener"
@@ -907,7 +907,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/options-screener"
@@ -942,7 +942,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/backtesting"
@@ -957,7 +957,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/options-calculator"
@@ -992,7 +992,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/compare"
@@ -1008,7 +1008,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/options-calculator"
@@ -1024,7 +1024,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/potus-tracker"
@@ -1040,7 +1040,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/insider-tracker"
@@ -1056,7 +1056,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition cursor-pointer"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
                               href="/reddit-tracker"
@@ -1075,7 +1075,7 @@
                 <Button
                   builders={[builder]}
                   type="submit"
-                  class="-ml-4 w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition"
+                  class="-ml-4 w-full rounded-full bg-transparent transition"
                 >
                   <a
                     href="/hedge-funds"
@@ -1102,7 +1102,7 @@
                 <Button
                   builders={[builder]}
                   type="submit"
-                  class="-ml-4 w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition"
+                  class="-ml-4 w-full rounded-full bg-transparent transition"
                 >
                   <a
                     href="/backtesting"
@@ -1129,7 +1129,7 @@
                 <Button
                   builders={[builder]}
                   type="submit"
-                  class="-ml-4 w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition"
+                  class="-ml-4 w-full rounded-full bg-transparent transition"
                 >
                   <a
                     href="/market-news"
@@ -1156,7 +1156,7 @@
                   <Button
                     builders={[builder]}
                     type="submit"
-                    class="-ml-4 w-full rounded-full bg-transparent hover:bg-gray-100/70 dark:hover:bg-zinc-900/60 transition"
+                    class="-ml-4 w-full rounded-full bg-transparent transition"
                   >
                     <a
                       href="/pricing"
@@ -1354,7 +1354,7 @@
                   class="mb-2 flex flex-row items-center ml-8 pr-7 w-full"
                 >
                   <div
-                    class="px-4 py-1 sm:py-2 rounded-full flex flex-row items-center justify-start w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 hover:bg-white dark:hover:bg-zinc-900/60 transition"
+                    class="px-4 py-1 sm:py-2 rounded-full flex flex-row items-center justify-start w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 transition"
                   >
                     <Plus class="w-4 h-4 inline-block mr-2" />
                     <span class="font-semibold">Start new chat</span>
