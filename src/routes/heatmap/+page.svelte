@@ -196,14 +196,18 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
+          >Home</a
+        >
       </li>
-      <li class="text-muted dark:text-gray-300">Heatmap</li>
+      <li class="text-gray-500 dark:text-zinc-500">Heatmap</li>
     </ul>
   </div>
 
@@ -213,8 +217,10 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <div class="mb-6 border-[#2C6288] dark:border-white border-b-[2px]">
-            <h1 class="mb-1 text-2xl sm:text-3xl font-bold">
+          <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
+            <h1
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
               {#if selectedETF === "SPY"}
                 S&P 500
               {:else if selectedETF === "DIA"}
@@ -235,7 +241,7 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="border-gray-300 bg-black sm:hover:bg-default text-white  dark:border-gray-600 border dark:bg-primary dark:sm:hover:bg-secondary ease-out flex flex-row justify-between items-center px-3 py-2  rounded"
+                    class="transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     disabled={isLoading}
                   >
                     <span class="truncate">
@@ -269,7 +275,7 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-auto h-fit max-h-72 overflow-y-auto scroller"
+                  class="w-auto h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                 >
                   <div
                     class="relative sticky z-40 focus:outline-hidden -top-1"
@@ -282,7 +288,7 @@
                       <DropdownMenu.Item
                         on:click={() =>
                           getHeatMap(selectedTimePeriod, item.value)}
-                        class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary cursor-pointer"
+                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition cursor-pointer"
                       >
                         <span class="mr-8">{item.label}</span>
                       </DropdownMenu.Item>
@@ -295,7 +301,7 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="border-gray-300 bg-black sm:hover:bg-default text-white  dark:border-gray-600 border dark:bg-primary dark:sm:hover:bg-secondary ease-out flex flex-row justify-between items-center px-3 py-2  rounded"
+                    class="transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     disabled={isLoading}
                   >
                     <span class="truncate">Time Period</span>
@@ -319,7 +325,7 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-auto h-fit max-h-72 overflow-y-auto scroller"
+                  class="w-auto h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                 >
                   <div
                     class="relative sticky z-40 focus:outline-hidden -top-1"
@@ -331,7 +337,7 @@
                     {#each ["1D", "1W", "1M", "3M", "6M", "1Y", "3Y"] as item}
                       <DropdownMenu.Item
                         on:click={() => getHeatMap(item, selectedETF)}
-                        class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary cursor-pointer"
+                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition cursor-pointer"
                       >
                         <span class="mr-8">{item}</span>
                       </DropdownMenu.Item>
@@ -368,7 +374,7 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-auto h-fit max-h-72 overflow-y-auto scroller"
+                  class="w-auto h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                 >
                   <div
                     class="relative sticky z-40 focus:outline-hidden -top-1"
@@ -379,7 +385,7 @@
                   <DropdownMenu.Group>
                     {#each ["PNG", "JPG", "SVG"] as item}
                       <DropdownMenu.Item
-                        class="sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
                       >
                         <div class="flex items-center">
                           <button
@@ -402,9 +408,10 @@
               <div class="flex justify-center items-center h-80">
                 <div class="relative">
                   <label
-                    class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                    class="border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                   >
-                    <span class="loading loading-spinner loading-md text-white"
+                    <span
+                      class="loading loading-spinner loading-md text-gray-600 dark:text-zinc-300"
                     ></span>
                   </label>
                 </div>
