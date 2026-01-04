@@ -1354,7 +1354,7 @@
                   class="mb-2 flex flex-row items-center ml-8 pr-7 w-full"
                 >
                   <div
-                    class="px-4 py-1 sm:py-2 rounded-full flex flex-row items-center justify-start w-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 transition"
+                    class="px-4 py-1 sm:py-2 rounded-full flex flex-row items-center justify-start w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 transition"
                   >
                     <Plus class="w-4 h-4 inline-block mr-2" />
                     <span class="font-semibold">Start new chat</span>
@@ -1365,12 +1365,12 @@
                   class="group flex flex-row items-center ml-9 w-full"
                 >
                   <div
-                    class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                    class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                   >
                     <Home class="h-5.5 w-5.5" />
                   </div>
                   <span
-                    class="ml-3 text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                    class="ml-3 text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                     >Home</span
                   >
                 </a>
@@ -1379,38 +1379,38 @@
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
                       <Accordion.Trigger
-                        class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                        class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <Stock
-                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto">Stocks</span>
                       </Accordion.Trigger>
                       <Accordion.Content
-                        class="border-l border-gray-200 dark:border-zinc-800/80 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <a
                             href="/industry"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >By Industry</a
                           >
 
                           <a
                             href="/market-mover/gainers"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Market Mover</a
                           >
 
                           <a
                             href="/heatmap"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Market Heatmap</a
                           >
 
                           <a
                             href="/list"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Stock Lists</a
                           >
                         </div>
@@ -1423,25 +1423,25 @@
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
                       <Accordion.Trigger
-                        class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                        class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <Layers
-                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto">ETFs</span>
                       </Accordion.Trigger>
                       <Accordion.Content
-                        class="border-l border-gray-200 dark:border-zinc-800/80 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <a
                             href="/etf/new-launches"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >New Launches</a
                           >
                           <a
                             href="/etf/etf-providers"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >ETF Providers</a
                           >
                         </div>
@@ -1454,31 +1454,31 @@
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
                       <Accordion.Trigger
-                        class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                        class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <Analyst
-                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto">Analyst</span>
                       </Accordion.Trigger>
                       <Accordion.Content
-                        class="border-l border-gray-200 dark:border-zinc-800/80 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <a
                             href="/analysts"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Top Analysts</a
                           >
                           <a
                             href="/analysts/top-stocks"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Top Analyst Stocks</a
                           >
 
                           <a
                             href="/analysts/analyst-flow"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Analyst Live Flow</a
                           >
                         </div>
@@ -1491,43 +1491,43 @@
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
                       <Accordion.Trigger
-                        class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                        class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <Calendar
-                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto">Calendar</span>
                       </Accordion.Trigger>
                       <Accordion.Content
-                        class="border-l border-gray-200 dark:border-zinc-800/80 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <a
                             href="/dividends-calendar"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Dividends Calendar</a
                           >
                           <a
                             href="/earnings-calendar"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Earnings Calendar</a
                           >
                           <!--
                           <a
                             href="/fda-calendar"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >FDA Calendar</a
                           >
                             -->
 
                           <a
                             href="/ipos"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >IPO Calendar</a
                           >
                           <a
                             href="/economic-calendar"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Economic Calendar</a
                           >
                         </div>
@@ -1540,27 +1540,27 @@
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
                       <Accordion.Trigger
-                        class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                        class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <HandShake
-                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto">Congress</span>
                       </Accordion.Trigger>
 
                       <Accordion.Content
-                        class="border-l border-gray-200 dark:border-zinc-800/80 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <div class="flex flex-col items-start">
                             <a
                               href="/politicians/flow-data"
-                              class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Congress Flow</a
                             >
                             <a
                               href="/politicians"
-                              class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >All Politicians</a
                             >
                           </div>
@@ -1574,37 +1574,37 @@
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
                       <Accordion.Trigger
-                        class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                        class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <Flow
-                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto">Flow Feed</span>
                       </Accordion.Trigger>
                       <Accordion.Content
-                        class="border-l border-gray-200 dark:border-zinc-800/80 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <a
                             href="/market-flow"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Market Flow</a
                           >
 
                           <a
                             href="/news-flow"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >News Flow</a
                           >
 
                           <a
                             href="/options-flow"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Options Flow</a
                           >
                           <a
                             href="/unusual-order-flow"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Unusual Order Flow</a
                           >
                         </div>
@@ -1617,26 +1617,26 @@
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
                       <Accordion.Trigger
-                        class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                        class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <Screener
-                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto">Screener</span>
                       </Accordion.Trigger>
                       <Accordion.Content
-                        class="border-l border-gray-200 dark:border-zinc-800/80 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <a
                             href="/stock-screener"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Stock Screener</a
                           >
 
                           <a
                             href="/options-screener"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Options Screener</a
                           >
                         </div>
@@ -1649,27 +1649,27 @@
                 <div class="flex flex-row items-center ml-9 w-full mt-3">
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
-                      <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
+                      <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition">
                         <Simulation
-                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto"
                           >Simulation</span
                         >
                       </Accordion.Trigger>
                       <Accordion.Content
-                        class="border-l border-gray-200 dark:border-zinc-800/80 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <a
                             href="/backtesting"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Backtesting Strategy</a
                           >
 
                           <a
                             href="/options-calculator"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Options Calculator</a
                           >
                         </div>
@@ -1683,42 +1683,42 @@
                   <Accordion.Root class="w-full">
                     <Accordion.Item value="item-1">
                       <Accordion.Trigger
-                        class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                        class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <Tools
-                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
                         />
                         <span class="ml-1 mr-auto">Tools</span>
                       </Accordion.Trigger>
                       <Accordion.Content
-                        class="border-l border-gray-200 dark:border-zinc-800/80 ml-2 mt-5"
+                        class="border-l border-gray-200/70 dark:border-zinc-800/80 ml-2 mt-5"
                       >
                         <div class="flex flex-col items-start">
                           <a
                             href="/compare"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Comparison Tool</a
                           >
 
                           <a
                             href="/options-calculator"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Options Calculator</a
                           >
 
                           <a
                             href="/potus-tracker"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >POTUS Tracker</a
                           >
                           <a
                             href="/insider-tracker"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Insider Tracker</a
                           >
                           <a
                             href="/reddit-tracker"
-                            class="text-[0.95rem] text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >Reddit Tracker</a
                           >
                         </div>
@@ -1732,12 +1732,12 @@
                   class="group flex flex-row items-center ml-9 w-full mt-3"
                 >
                   <div
-                    class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                    class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                   >
                     <Boxes class="h-5.5 w-5.5" />
                   </div>
                   <span
-                    class="ml-3 text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                    class="ml-3 text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                     >Hedge Funds</span
                   >
                 </a>
@@ -1747,12 +1747,12 @@
                   class="group flex flex-row items-center ml-9 w-full mt-3"
                 >
                   <div
-                    class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                    class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                   >
                     <Newspaper class="h-5.5 w-5.5" />
                   </div>
                   <span
-                    class="ml-3 text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                    class="ml-3 text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                     >Market News</span
                   >
                 </a>
@@ -1762,12 +1762,12 @@
                     class="group flex flex-row items-center ml-9 w-full mt-3"
                   >
                     <div
-                      class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                     >
                       <Gem class="h-5.5 w-5.5" />
                     </div>
                     <span
-                      class="ml-3 text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                      class="ml-3 text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                       >Pricing Plan</span
                     >
                   </a>
