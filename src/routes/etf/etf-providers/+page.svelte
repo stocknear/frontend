@@ -270,20 +270,20 @@
   }}
 />
 
-<section class="w-full overflow-hidden m-auto">
+<section class="w-full overflow-hidden m-auto text-gray-700 dark:text-zinc-200">
   <Infobox
     text={"Every Exchange-Traded Fund (ETF) is managed by a specific company. Below is a list of companies offering actively traded ETFs on the U.S. stock market."}
   />
 
   <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
     <div
-      class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+    class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
+  >
+    <h2
+      class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
     >
-      <h2
-        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold py-1 border-b border-gray-300 dark:border-gray-800 lg:border-none w-full"
-      >
-        {originalData?.length?.toLocaleString("en-US")} ETF Providers
-      </h2>
+      {originalData?.length?.toLocaleString("en-US")} ETF Providers
+    </h2>
       <div
         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
       >
@@ -306,13 +306,17 @@
             {/if}
           </div>
 
-          <input
-            bind:value={inputValue}
-            on:input={search}
-            type="text"
-            placeholder="Find..."
-            class=" py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full sm:min-w-56 lg:max-w-14"
-          />
+          <div
+            class="h-9 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 px-3 flex items-center"
+          >
+            <input
+              bind:value={inputValue}
+              on:input={search}
+              type="text"
+              placeholder="Find..."
+              class="w-full bg-transparent text-[0.85rem] sm:text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 pr-8 leading-none"
+            />
+          </div>
         </div>
 
         <div class="ml-2">
@@ -329,7 +333,7 @@
       {#if etfProviderList?.length > 0}
         <div class="w-full overflow-x-auto">
           <table
-            class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto mt-4"
+            class="table table-sm table-compact w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 m-auto mt-4"
           >
             <thead>
               <TableHeader {columns} {sortOrders} {sortData} />
@@ -338,37 +342,37 @@
               {#each etfProviderList as item}
                 <!-- row -->
                 <tr
-                  class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
+                  class="border-b border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                 >
-                  <td class="text-sm sm:text-[1rem] whitespace-nowrap">
+                  <td class="text-sm text-gray-700 dark:text-zinc-200 whitespace-nowrap">
                     <a
                       href={"/etf/etf-providers/" + item?.name}
-                      class="text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >
                       {formatETFName(item?.name)}
                     </a>
                   </td>
 
                   <td
-                    class=" text-sm sm:text-[1rem] whitespace-nowrap text-end"
+                    class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                   >
                     {abbreviateNumber(item?.totalAssets)}
                   </td>
 
                   <td
-                    class=" text-sm sm:text-[1rem] whitespace-nowrap text-end"
+                    class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                   >
                     {item?.funds}
                   </td>
 
                   <td
-                    class=" text-sm sm:text-[1rem] whitespace-nowrap text-end"
+                    class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                   >
                     {item?.avgExpenseRatio}%
                   </td>
 
                   <td
-                    class=" text-sm sm:text-[1rem] whitespace-nowrap text-end"
+                    class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                   >
                     {item?.avgHoldings}
                   </td>

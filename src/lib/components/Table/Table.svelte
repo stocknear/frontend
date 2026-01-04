@@ -2527,7 +2527,7 @@
 
 {#if stockList?.length > 0}
   <div
-    class="w-full overflow-x-auto rounded-lg border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 mt-2"
+    class="w-full overflow-x-auto rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 mt-2"
   >
     <table
       class="table table-sm table-compact w-full m-auto mt-0 text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -2538,7 +2538,7 @@
       <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
         {#each stockList as item, index}
           <tr
-            class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 odd:bg-gray-50/60 dark:odd:bg-zinc-900/30 {index +
+            class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50 {index +
               1 ===
               rawData?.length &&
             !['Pro', 'Plus']?.includes(data?.user?.tier) &&

@@ -20,20 +20,26 @@
 </script>
 
 <section
-  class="w-full max-w-(--breakpoint-2xl) overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
+  class="w-full max-w-(--breakpoint-2xl) overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-500 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          >Home</a
+        >
       </li>
       <li>
-        <a href="/etf/etf-providers" class="text-muted dark:text-gray-300"
+        <a
+          href="/etf/etf-providers"
+          class="text-gray-500 dark:text-zinc-500 hover:text-violet-600 dark:hover:text-violet-400 transition"
           >ETF Providers</a
         >
       </li>
       {#if currentPath?.length !== 0 && typeof currentPath !== undefined}
-        <li class="text-muted dark:text-gray-300">{currentPath}</li>
+        <li class="text-gray-500 dark:text-zinc-500">{currentPath}</li>
       {/if}
     </ul>
   </div>
@@ -44,7 +50,13 @@
         class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:pr-5">
-          <h1 class="text-2xl sm:text-3xl font-bold">ETF Providers</h1>
+          <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
+            <h1
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
+              ETF Providers
+            </h1>
+          </div>
 
           <div class="w-full m-auto mb-10 overflow-hidden">
             <div class="w-full flex flex-col justify-center items-center">
@@ -56,18 +68,21 @@
         <aside class="inline-block relative w-full lg:w-1/4 mt-3">
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+              class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
               <a
                 href="/pricing"
-                class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+                class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-semibold sm:ml-3">
+                  <h2 class="text-start text-lg font-semibold ml-3">
                     Pro Subscription
                   </h2>
+                  <ArrowLogo
+                    class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
+                  />
                 </div>
-                <span class=" p-3 sm:ml-3 sm:mr-3 -mt-4">
+                <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                   Upgrade now for unlimited access to all data, tools and no
                   ads.
                 </span>
@@ -76,40 +91,42 @@
           {/if}
 
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href={"/analysts"}
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+              class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">Top Analyst</h2>
+                <h2 class="text-start text-lg font-semibold ml-3">
+                  Top Analyst
+                </h2>
                 <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                  class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                 />
               </div>
-              <span class="p-3 ml-3 mr-3">
+              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                 Get the latest top Wall Street analyst ratings
               </span>
             </a>
           </div>
 
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href={"/politicians"}
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+              class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">
+                <h2 class="text-start text-lg font-semibold ml-3">
                   Congress Trading
                 </h2>
                 <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                  class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                 />
               </div>
-              <span class="p-3 ml-3 mr-3">
+              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                 Get the latest top Congress trading insights.
               </span>
             </a>

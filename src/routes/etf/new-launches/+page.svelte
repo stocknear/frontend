@@ -276,14 +276,20 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-5 px-4 lg:px-3 min-h-screen"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-500 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          >Home</a
+        >
       </li>
-      <li><a class="text-muted dark:text-gray-300">New Launches of ETFs</a></li>
+      <li>
+        <a class="text-gray-500 dark:text-zinc-500">New Launches of ETFs</a>
+      </li>
     </ul>
   </div>
 
@@ -293,8 +299,10 @@
         class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:pr-10">
-          <div class=" border-[#2C6288] dark:border-white border-b-[2px]">
-            <h1 class="mb-3 text-2xl sm:text-3xl font-bold">
+          <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
+            <h1
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
               New Launches of ETFs
             </h1>
           </div>
@@ -303,10 +311,10 @@
 
           <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
             <div
-              class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+              class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
             >
               <h2
-                class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold py-1 border-b border-gray-300 dark:border-gray-800 lg:border-none w-full"
+                class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
               >
                 {originalData?.length?.toLocaleString("en-US")} new ETFs
               </h2>
@@ -340,7 +348,7 @@
                     on:input={search}
                     type="text"
                     placeholder="Find..."
-                    class=" py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full sm:min-w-56 lg:max-w-14"
+                    class="py-2 text-[0.85rem] sm:text-sm border border-gray-200/70 dark:border-zinc-800/80 rounded-full bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                   />
                 </div>
 
@@ -361,7 +369,7 @@
               <div class="flex flex-col justify-center items-center">
                 <div class="w-full overflow-x-auto">
                   <table
-                    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+                    class="table table-sm table-compact w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 m-auto"
                   >
                     <thead>
                       <TableHeader {columns} {sortOrders} {sortData} />
@@ -369,9 +377,9 @@
                     <tbody>
                       {#each stockList as item}
                         <tr
-                          class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
+                          class="border-b border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                         >
-                          <td class=" text-sm sm:text-[1rem] whitespace-nowrap">
+                          <td class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums">
                             {new Date(item?.inceptionDate)?.toLocaleString(
                               "en-US",
                               {
@@ -383,23 +391,23 @@
                             )}
                           </td>
 
-                          <td class="text-sm sm:text-[1rem] whitespace-nowrap">
+                          <td class="text-sm text-gray-700 dark:text-zinc-200 whitespace-nowrap">
                             <a
                               href={"/etf/" + item?.symbol}
-                              class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400"
+                              class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >
                               {item?.symbol}
                             </a>
                           </td>
 
-                          <td class=" text-sm sm:text-[1rem] whitespace-nowrap">
+                          <td class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap">
                             {item?.name?.length > charNumber
                               ? item?.name?.slice(0, charNumber) + "..."
                               : item?.name}
                           </td>
 
                           <td
-                            class=" text-sm sm:text-[1rem] whitespace-nowrap text-end"
+                            class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                           >
                             {item?.price !== null && item?.price !== 0
                               ? item?.price
@@ -407,21 +415,21 @@
                           </td>
 
                           <td
-                            class=" text-sm sm:text-[1rem] whitespace-nowrap text-end"
+                            class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                           >
                             {#if item?.changesPercentage >= 0}
-                              <span class="text-green-800 dark:text-[#00FC50]"
+                              <span class="text-emerald-600 dark:text-emerald-400"
                                 >+{item?.changesPercentage?.toFixed(2)}%</span
                               >
                             {:else}
-                              <span class="text-red-800 dark:text-[#FF2F1F]"
+                              <span class="text-rose-600 dark:text-rose-400"
                                 >{item?.changesPercentage?.toFixed(2)}%</span
                               >
                             {/if}
                           </td>
 
                           <td
-                            class=" text-sm sm:text-[1rem] whitespace-nowrap text-end"
+                            class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                           >
                             {item?.numberOfHoldings !== null &&
                             item?.numberOfHoldings !== 0
@@ -430,7 +438,7 @@
                           </td>
 
                           <td
-                            class=" text-sm sm:text-[1rem] whitespace-nowrap text-end"
+                            class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                           >
                             {item?.totalAssets !== 0 &&
                             item?.totalAssets !== null
@@ -461,18 +469,21 @@
         <aside class="inline-block relative w-full lg:w-1/4 mt-3">
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+              class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
               <a
                 href="/pricing"
-                class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+                class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-semibold sm:ml-3">
+                  <h2 class="text-start text-lg font-semibold ml-3">
                     Pro Subscription
                   </h2>
+                  <ArrowLogo
+                    class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
+                  />
                 </div>
-                <span class=" p-3 sm:ml-3 sm:mr-3 -mt-4">
+                <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                   Upgrade now for unlimited access to all data, tools and no
                   ads.
                 </span>
@@ -481,40 +492,42 @@
           {/if}
 
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href={"/analysts"}
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+              class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">Top Analyst</h2>
+                <h2 class="text-start text-lg font-semibold ml-3">
+                  Top Analyst
+                </h2>
                 <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                  class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                 />
               </div>
-              <span class=" p-3 ml-3 mr-3">
+              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                 Get the latest top Wall Street analyst ratings
               </span>
             </a>
           </div>
 
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href={"/politicians"}
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+              class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">
+                <h2 class="text-start text-lg font-semibold ml-3">
                   Congress Trading
                 </h2>
                 <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                  class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                 />
               </div>
-              <span class=" p-3 ml-3 mr-3">
+              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                 Get the latest top Congress trading insights.
               </span>
             </a>

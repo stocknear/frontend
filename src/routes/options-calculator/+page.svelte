@@ -856,14 +856,18 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-muted dark:text-white"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-400">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+          >Home</a
+        >
       </li>
-      <li class="text-muted dark:text-gray-300">Options Calculator</li>
+      <li class="text-gray-500 dark:text-zinc-400">Options Calculator</li>
     </ul>
   </div>
 
@@ -876,18 +880,20 @@
       >
         <div class="w-full mt-5">
           <div class="w-full">
-            <div class="border-b-[2px] border-[#2C6288] dark:border-white">
-              <h1 class="mb-1 text-2xl sm:text-3xl font-bold">
+            <div class="border-b border-gray-200/70 dark:border-zinc-800/80">
+              <h1
+                class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              >
                 Options Calculator
               </h1>
             </div>
           </div>
 
           <div class="mt-5 mb-5 w-full">
-            <h2 class="mt-5 mb-1 text-xl sm:text-2xl font-bold">
+            <h2 class="mt-5 mb-1 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
               {selectedStrategy}
             </h2>
-            <p class="mt-3">
+            <p class="mt-3 text-sm text-gray-600 dark:text-zinc-400">
               {description}
             </p>
 
@@ -924,19 +930,19 @@
 
                     <Combobox.Input
                       on:input={search}
-                      class="text-sm  controls-input shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-600 dark:placeholder:text-gray-200 px-3 py-2 pl-8 xs:pl-10 grow w-full "
+                      class="text-[0.85rem] sm:text-sm border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
                       placeholder="Find..."
                       aria-label="Find..."
                     />
                   </div>
                   <Combobox.Content
-                    class="z-10 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-default px-1 py-2 shadow outline-hidden"
+                    class="z-10 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none outline-hidden"
                     sideOffset={8}
                   >
                     {#if inputValue?.length !== 0 && inputValue !== selectedTicker}
                       {#each searchBarData as searchItem}
                         <Combobox.Item
-                          class="py-2.5 cursor-pointer border-b border-gray-300 dark:border-gray-500 last:border-none flex h-fit w-auto select-none items-center rounded-button  px-2  text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-200 dark:data-highlighted:bg-primary"
+                          class="py-2.5 cursor-pointer border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-lg px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                           value={searchItem?.symbol}
                           label={searchItem?.symbol}
                           on:click={(e) => changeTicker(searchItem)}
@@ -945,27 +951,27 @@
                             class="flex flex-col sm:flex-row items-start sm:items-center"
                           >
                             <span
-                              class="text-sm text-blue-800 dark:text-blue-400"
+                              class="text-sm text-gray-900 dark:text-white"
                               >{searchItem?.symbol}</span
                             >
                             <span
-                              class="ml-0 sm:ml-2 text-xs sm:text-sm text-muted dark:text-white"
+                              class="ml-0 sm:ml-2 text-xs sm:text-sm text-gray-500 dark:text-zinc-400"
                               >{searchItem?.name}</span
                             >
                           </div>
                         </Combobox.Item>
                       {:else}
                         <span
-                          class="block px-5 py-2 text-sm text-muted dark:text-white"
+                          class="block px-5 py-2 text-sm text-gray-500 dark:text-zinc-400"
                         >
                           No results found
                         </span>
                       {/each}
                     {:else}
                       <Combobox.Item
-                        class="cursor-pointer border-b border-gray-300 dark:border-gray-600 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
+                        class="cursor-pointer border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                       >
-                        <span class=" text-sm text-muted dark:text-white">
+                        <span class="text-sm text-gray-500 dark:text-zinc-400">
                           {inputValue?.length > 0
                             ? "No results found"
                             : "Start searching..."}
@@ -978,19 +984,19 @@
                 <button
                   type="button"
                   on:click={() => handleAddOptionLeg()}
-                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded px-2.5 py-2 text-sm shadow text-white border-gray-300 bg-black sm:hover:bg-default text-white dark:border-gray-600 border dark:bg-primary dark:sm:hover:bg-secondary ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus:outline-none transition duration-150 ease-in-out whitespace-nowrap"
+                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
                   Add Option Leg
                 </button>
                 <button
                   type="button"
                   on:click={handleSaveStrategy}
-                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded px-2.5 py-2 text-sm shadow border-gray-300 bg-black sm:hover:bg-default text-white dark:border-gray-600 border dark:bg-primary dark:sm:hover:bg-secondary ease-out text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus:outline-none transition duration-150 ease-in-out whitespace-nowrap"
+                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
                   Save Strategy
                 </button>
                 <div
-                  class="order-last relative inline-block text-left cursor-pointer mt-3 sm:mt-0 sm:ml-3 shadow"
+                  class="order-last relative inline-block text-left cursor-pointer mt-3 sm:mt-0 sm:ml-3"
                 >
                   <DropdownMenu.Root>
                     <DropdownMenu.Trigger asChild let:builder>
@@ -1019,23 +1025,18 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-56 h-fit max-h-72 overflow-y-auto scroller"
+                      class="w-56 h-fit max-h-72 overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                     >
                       <DropdownMenu.Group>
                         {#each prebuiltStrategy as strategy}
                           <DropdownMenu.Item
                             on:click={() => changeStrategy(strategy)}
-                            class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                            class="cursor-pointer rounded-lg sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
                           >
                             <span>{strategy.name}</span>
                             {#if strategy?.sentiment}
                               <span
-                                class="ml-3 border-inherit shadow badge px-2 text-xs rounded-full {strategy.sentiment ===
-                                'Bullish'
-                                  ? 'bg-green-100 text-green-800 dark:bg-green-300 dark:text-black'
-                                  : strategy?.sentiment === 'Bearish'
-                                    ? 'bg-red-100 text-red-800 dark:bg-red-300 dark:text-black'
-                                    : 'bg-orange-100 text-orange-800 dark:bg-yellow-300/80 dark:text-black'}"
+                                class="ml-3 inline-flex items-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-[0.7rem] font-semibold text-gray-600 dark:text-zinc-300"
                                 >{strategy.sentiment}</span
                               >
                             {/if}
@@ -1049,77 +1050,74 @@
 
               <!-- Table container -->
               <div
-                class="overflow-x-auto border border-gray-300 dark:border-gray-600 rounded bg-[#F8F9FA] dark:bg-secondary"
+                class="overflow-x-auto rounded-lg border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
               >
                 <table
-                  class="min-w-full divide-y divide-gray-200 dark:divide-gray-600"
+                  class="min-w-full divide-y divide-gray-200/70 dark:divide-zinc-800/80 text-gray-700 dark:text-zinc-200 tabular-nums"
                 >
                   <!-- Table head -->
-                  <thead class="bg-gray-50 dark:bg-secondary">
+                  <thead class="bg-gray-50/80 dark:bg-zinc-900/60">
                     <tr class="">
                       <th
                         scope="col"
-                        class="px-4 py-1.5 text-left text-sm font-semibold"
+                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
                         Symbol
                       </th>
                       <th
                         scope="col"
-                        class="px-4 py-1.5 text-left text-sm font-semibold"
+                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
                         Action
                       </th>
                       <th
                         scope="col"
-                        class="px-4 py-1.5 text-left text-sm font-semibold"
+                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
                         Quantity
                       </th>
                       <th
                         scope="col"
-                        class="px-4 py-1.5 text-left text-sm font-semibold"
+                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
                         Expiration Date
                       </th>
                       <th
                         scope="col"
-                        class="px-4 py-1.5 text-left text-sm font-semibold"
+                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
                         Strike
                       </th>
                       <th
                         scope="col"
-                        class="px-4 py-1.5 text-left text-sm font-semibold"
+                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
                         Type
                       </th>
                       <th
                         scope="col"
-                        class="px-4 py-1.5 text-left text-sm font-semibold"
+                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                       >
                         Price
                       </th>
-                      <th scope="col" class="px-4 py-1.5 text-sm font-semibold"
+                      <th scope="col" class="px-4 py-2 text-sm font-semibold"
                       ></th>
                     </tr>
                   </thead>
 
                   <!-- Table body -->
                   <tbody
-                    class="bg-[#F8F9FA] dark:bg-secondary divide-y divide-gray-200 dark:divide-gray-600 text-sm"
+                    class="divide-y divide-gray-200/70 dark:divide-zinc-800/80 text-sm"
                   >
                     {#each userStrategy as item, index}
-                      <tr class="">
-                        <td class="px-4 whitespace-nowrap font-semibold">
+                      <tr class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 odd:bg-gray-50/60 dark:odd:bg-zinc-900/30">
+                        <td class="px-4 whitespace-nowrap font-semibold text-gray-900 dark:text-white">
                           {selectedTicker}
                         </td>
                         <td class="px-4 whitespace-nowrap py-2">
                           <label
                             on:click={() => handleAction(index)}
-                            class="badge px-2 border-none select-none rounded {item?.action ===
-                            'Buy'
-                              ? 'bg-green-100 text-green-800 dark:bg-green-300 dark:text-muted'
-                              : 'bg-red-100 text-red-800 dark:bg-red-300 dark:text-muted'} font-semibold cursor-pointer"
+                            class="inline-flex items-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-gray-600 dark:text-zinc-300 cursor-pointer select-none"
                             >{item?.action}</label
                           >
                         </td>
@@ -1129,7 +1127,7 @@
                             value={userStrategy[index]?.quantity}
                             min="0"
                             on:input={(e) => handleQuantityInput(e, index)}
-                            class="border border-gray-300 dark:border-gray-500 rounded px-2 py-1 w-20 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                            class="border border-gray-200/70 dark:border-zinc-800/80 rounded-md px-2 py-1 w-20 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
                           />
                         </td>
                         <td class="px-4 whitespace-nowrap py-2">
@@ -1137,7 +1135,7 @@
                             <DropdownMenu.Trigger asChild let:builder>
                               <Button
                                 builders={[builder]}
-                                class="mb-1 border border-gray-300 dark:border-none  bg-white dark:bg-[#000] h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto  px-3  rounded truncate"
+                                class="mb-1 border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate text-gray-700 dark:text-zinc-200"
                               >
                                 <span class="truncate text-sm"
                                   >{formatDate(userStrategy[index]?.date)}</span
@@ -1159,7 +1157,7 @@
                             </DropdownMenu.Trigger>
 
                             <DropdownMenu.Content
-                              class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative"
+                              class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                             >
                               <!-- Dropdown items -->
                               <DropdownMenu.Group class="pb-2"
@@ -1168,7 +1166,7 @@
                                     on:click={() => {
                                       handleExpirationDate(item, index);
                                     }}
-                                    class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary cursor-pointer "
+                                    class="cursor-pointer rounded-lg sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
                                   >
                                     {formatDate(item)}
                                   </DropdownMenu.Item>
@@ -1182,7 +1180,7 @@
                             <DropdownMenu.Trigger asChild let:builder>
                               <Button
                                 builders={[builder]}
-                                class="mb-1 border border-gray-300 dark:border-none  bg-white dark:bg-[#000] h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto  px-3  rounded truncate"
+                                class="mb-1 border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate text-gray-700 dark:text-zinc-200"
                               >
                                 <span class="truncate text-sm"
                                   >{userStrategy[index]?.strike}</span
@@ -1204,7 +1202,7 @@
                             </DropdownMenu.Trigger>
 
                             <DropdownMenu.Content
-                              class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative"
+                              class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                             >
                               <!-- Dropdown items -->
                               <DropdownMenu.Group class="pb-2">
@@ -1214,7 +1212,7 @@
                                     on:click={() => {
                                       handleStrikePrice(item, index);
                                     }}
-                                    class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary cursor-pointer "
+                                    class="cursor-pointer rounded-lg sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
                                   >
                                     {item}
                                   </DropdownMenu.Item>
@@ -1226,7 +1224,7 @@
                         <td class="px-4 whitespace-nowrap py-2">
                           <label
                             on:click={() => handleOptionType(index)}
-                            class="select-none badge px-2 rounded border-none bg-blue-100 text-blue-800 dark:bg-blue-300 dark:text-muted font-semibold cursor-pointer"
+                            class="select-none inline-flex items-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-gray-600 dark:text-zinc-300 cursor-pointer"
                             >{item?.optionType}</label
                           >
                         </td>
@@ -1237,7 +1235,7 @@
                             min="0"
                             value={userStrategy[index]?.optionPrice}
                             on:input={(e) => handleOptionPriceInput(e, index)}
-                            class="border border-gray-300 dark:border-gray-500 rounded px-2 py-1 w-24 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                            class="border border-gray-200/70 dark:border-zinc-800/80 rounded-md px-2 py-1 w-24 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
                           />
                         </td>
                         <td class="px-4 whitespace-nowrap py-2 select-none">
@@ -1245,20 +1243,16 @@
                             class="flex flex-row items-center m-auto text-center justify-center"
                           >
                             <a
-                              class="inline-block"
+                              class="inline-flex items-center text-gray-500 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
                               href={`/${["stocks", "stock"]?.includes(assetType) ? "stocks" : assetType === "etf" ? "etf" : "index"}/${selectedTicker}/options/contract-lookup?query=${userStrategy[index]?.optionSymbol}`}
                             >
-                              <Link
-                                class="w-4 h-4 text-gray-800 dark:text-gray-100 mt-0.5"
-                              />
+                              <Link class="w-4 h-4 mt-0.5" />
                             </a>
                             <label
                               on:click={() => handleDeleteOptionLeg(index)}
-                              class="ml-3 inline-block cursor-pointer"
+                              class="ml-3 inline-flex items-center cursor-pointer text-gray-500 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >
-                              <Trash
-                                class="w-4 h-4 text-gray-800 dark:text-gray-100"
-                              />
+                              <Trash class="w-4 h-4" />
                             </label>
                           </div>
                         </td>
@@ -1270,13 +1264,13 @@
 
               {#if isLoaded && config}
                 <h2
-                  class="mt-5 mb-1 text-lg sm:text-xl font-bold text-gray-800 dark:text-white"
+                  class="mt-5 mb-1 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
                 >
                   Profit/Loss Chart
                 </h2>
 
                 <div
-                  class="shadow border border-gray-300 dark:border-gray-800 rounded"
+                  class="border border-gray-200/70 dark:border-zinc-800/80 rounded-lg bg-white/70 dark:bg-zinc-950/40"
                   use:highcharts={config}
                 ></div>
               {:else}
@@ -1285,10 +1279,10 @@
                 >
                   <div class="relative">
                     <label
-                      class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      class="bg-white/90 dark:bg-zinc-950/70 border border-gray-200/70 dark:border-zinc-800/80 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                     >
                       <span
-                        class="loading loading-spinner loading-md text-white dark:text-white"
+                        class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
                       ></span>
                     </label>
                   </div>
@@ -1297,14 +1291,14 @@
 
               <div class="mt-10">
                 <h2
-                  class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white mb-3"
+                  class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
                 >
                   Trade Information
                 </h2>
 
                 <!-- Trade Information Card -->
                 <div
-                  class="border border-gray-300 dark:border-gray-800 rounded p-3 sm:p-4 mb-6 shadow max-w-sm"
+                  class="border border-gray-200/70 dark:border-zinc-800/80 rounded-lg bg-white/70 dark:bg-zinc-950/40 p-3 sm:p-4 mb-6 max-w-sm"
                 >
                   {#each userStrategy as item, index}
                     <div>
@@ -1312,8 +1306,8 @@
                     </div>
                     <div
                       class="{item?.action === 'Buy'
-                        ? 'text-green-800'
-                        : 'text-red-800'} dark:text-white font-semibold"
+                        ? 'text-emerald-600 dark:text-emerald-400'
+                        : 'text-rose-600 dark:text-rose-400'} font-semibold"
                     >
                       {item?.action?.toUpperCase()} +{item?.quantity}
                       {selectedTicker}
@@ -1326,17 +1320,17 @@
 
                 <!-- Stock Section -->
                 <h2
-                  class="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-4"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4"
                 >
                   Stock
                 </h2>
                 <div class="grid grid-cols-2 sm:grid-cols-4 mb-6">
                   <div>
-                    <div class="text-gray-600 dark:text-white">
+                    <div class="text-gray-600 dark:text-zinc-400 text-sm">
                       {selectedTicker} Current Price
                     </div>
                     <div class="flex items-baseline">
-                      <span class="text-lg font-semibold"
+                      <span class="text-lg font-semibold text-gray-900 dark:text-white"
                         >${currentStockPrice
                           ? currentStockPrice?.toFixed(2)
                           : "n/a"}</span
@@ -1346,7 +1340,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-white"
+                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
                     >
                       {selectedTicker} Breakeven Price
                       <InfoModal
@@ -1356,7 +1350,7 @@
                       />
                     </div>
                     <div class="flex items-baseline">
-                      <span class="text-lg font-semibold"
+                      <span class="text-lg font-semibold text-gray-900 dark:text-white"
                         >{typeof breakEvenPrice === "number"
                           ? "$" + breakEvenPrice?.toFixed(2)
                           : "n/a"}</span
@@ -1367,7 +1361,7 @@
 
                 <!-- Trade Details Section -->
                 <h2
-                  class="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-4"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4"
                 >
                   Trade Details
                 </h2>
@@ -1376,7 +1370,7 @@
                 >
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-white"
+                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
                     >
                       Cost of Trade
                       <InfoModal
@@ -1386,7 +1380,7 @@
                       />
                     </div>
                     <div class="flex items-baseline">
-                      <span class="text-lg font-semibold"
+                      <span class="text-lg font-semibold text-gray-900 dark:text-white"
                         >${totalPremium?.toLocaleString("en-US", {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
@@ -1397,7 +1391,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-white"
+                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
                     >
                       Maximum Profit
                       <InfoModal
@@ -1407,7 +1401,7 @@
                       />
                     </div>
                     <div
-                      class="text-lg font-semibold text-green-800 dark:text-green-400"
+                      class="text-lg font-semibold text-emerald-600 dark:text-emerald-400"
                     >
                       {metrics?.maxProfit}
                     </div>
@@ -1415,7 +1409,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-white"
+                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
                     >
                       Maximum Loss
                       <InfoModal
@@ -1425,7 +1419,7 @@
                       />
                     </div>
                     <div
-                      class="text-lg font-semibold text-red-600 dark:text-red-400"
+                      class="text-lg font-semibold text-rose-600 dark:text-rose-400"
                     >
                       {metrics?.maxLoss}
                     </div>
@@ -1434,7 +1428,7 @@
 
                 <!-- Probability Analysis Section -->
                 <h2
-                  class="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-4 mt-6"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4 mt-6"
                 >
                   Probability Analysis
                 </h2>
@@ -1443,7 +1437,7 @@
                 >
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-white"
+                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
                     >
                       Probability of Profit
                       <InfoModal
@@ -1454,8 +1448,8 @@
                     </div>
                     <div
                       class="text-lg font-semibold {probabilities?.pop >= 0.5
-                        ? 'text-green-800 dark:text-green-400'
-                        : 'text-red-600 dark:text-red-400'}"
+                        ? 'text-emerald-600 dark:text-emerald-400'
+                        : 'text-rose-600 dark:text-rose-400'}"
                     >
                       {(probabilities?.pop * 100)?.toFixed(1)}%
                     </div>
@@ -1463,7 +1457,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-white"
+                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
                     >
                       Prob. of Max Profit
                       <InfoModal
@@ -1473,7 +1467,7 @@
                       />
                     </div>
                     <div
-                      class="text-lg font-semibold text-green-800 dark:text-green-400"
+                      class="text-lg font-semibold text-emerald-600 dark:text-emerald-400"
                     >
                       {(probabilities?.popMaxProfit * 100)?.toFixed(1)}%
                     </div>
@@ -1481,7 +1475,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-white"
+                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
                     >
                       Prob. of Max Loss
                       <InfoModal
@@ -1491,7 +1485,7 @@
                       />
                     </div>
                     <div
-                      class="text-lg font-semibold text-red-600 dark:text-red-400"
+                      class="text-lg font-semibold text-rose-600 dark:text-rose-400"
                     >
                       {(probabilities?.popMaxLoss * 100)?.toFixed(1)}%
                     </div>
@@ -1500,7 +1494,7 @@
 
                 <!-- Risk Reward Analysis Section -->
                 <h2
-                  class="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-4 mt-6"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4 mt-6"
                 >
                   Risk Reward Analysis
                 </h2>
@@ -1509,7 +1503,7 @@
                 >
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-white"
+                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
                     >
                       Expected Value (EV)
                       <InfoModal
@@ -1523,8 +1517,8 @@
                       <div
                         class="text-lg font-semibold {riskRewardMetrics?.expectedValue >=
                         0
-                          ? 'text-green-800 dark:text-green-400'
-                          : 'text-red-600 dark:text-red-400'}"
+                          ? 'text-emerald-600 dark:text-emerald-400'
+                          : 'text-rose-600 dark:text-rose-400'}"
                       >
                         {riskRewardMetrics?.expectedValue >= 0
                           ? ""
@@ -1538,7 +1532,7 @@
                     {:else}
                       <a href="/pricing" class="flex mt-2">
                         <svg
-                          class="size-5 text-muted dark:text-[#fff]"
+                          class="size-5 text-gray-400 dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -1556,7 +1550,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-white"
+                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
                     >
                       Expected Return
                       <InfoModal
@@ -1570,8 +1564,8 @@
                       <div
                         class="text-lg font-semibold {riskRewardMetrics?.expectedReturn !==
                           null && riskRewardMetrics?.expectedReturn >= 0
-                          ? 'text-green-800 dark:text-green-400'
-                          : 'text-red-600 dark:text-red-400'}"
+                          ? 'text-emerald-600 dark:text-emerald-400'
+                          : 'text-rose-600 dark:text-rose-400'}"
                       >
                         {riskRewardMetrics?.expectedReturn !== null
                           ? `${riskRewardMetrics?.expectedReturn >= 0 ? "" : ""}${riskRewardMetrics?.expectedReturn?.toFixed(1)}%`
@@ -1580,7 +1574,7 @@
                     {:else}
                       <a href="/pricing" class="flex mt-2">
                         <svg
-                          class="size-5 text-muted dark:text-[#fff]"
+                          class="size-5 text-gray-400 dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -1598,7 +1592,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-white"
+                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
                     >
                       Reward/Risk
                       <InfoModal
@@ -1610,7 +1604,7 @@
 
                     {#if isPro}
                       <div
-                        class="text-lg font-semibold text-gray-800 dark:text-white"
+                        class="text-lg font-semibold text-gray-900 dark:text-white"
                       >
                         {riskRewardMetrics?.rewardRisk !== null
                           ? `${riskRewardMetrics?.rewardRisk?.toFixed(1)}%`
@@ -1619,7 +1613,7 @@
                     {:else}
                       <a href="/pricing" class="flex mt-2">
                         <svg
-                          class="size-5 text-muted dark:text-[#fff]"
+                          class="size-5 text-gray-400 dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -1638,7 +1632,7 @@
 
                 <!-- Position Greeks Section -->
                 <h2
-                  class="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-4 mt-6"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4 mt-6"
                 >
                   Position Greeks
                 </h2>
@@ -1647,7 +1641,7 @@
                 >
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-white"
+                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
                     >
                       Delta (Δ)
                       <InfoModal
@@ -1659,14 +1653,14 @@
 
                     {#if isPro}
                       <div
-                        class="text-lg font-semibold text-gray-800 dark:text-white"
+                        class="text-lg font-semibold text-gray-900 dark:text-white"
                       >
                         {positionGreeks?.delta?.toFixed(2)}
                       </div>
                     {:else}
                       <a href="/pricing" class="flex mt-2">
                         <svg
-                          class="size-5 text-muted dark:text-[#fff]"
+                          class="size-5 text-gray-400 dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -1684,7 +1678,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-white"
+                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
                     >
                       Gamma (Γ)
                       <InfoModal
@@ -1696,14 +1690,14 @@
 
                     {#if isPro}
                       <div
-                        class="text-lg font-semibold text-gray-800 dark:text-white"
+                        class="text-lg font-semibold text-gray-900 dark:text-white"
                       >
                         {positionGreeks?.gamma?.toFixed(4)}
                       </div>
                     {:else}
                       <a href="/pricing" class="flex mt-2">
                         <svg
-                          class="size-5 text-muted dark:text-[#fff]"
+                          class="size-5 text-gray-400 dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -1721,7 +1715,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-white"
+                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
                     >
                       Theta (Θ)
                       <InfoModal
@@ -1733,8 +1727,8 @@
                     {#if isPro}
                       <div
                         class="text-lg font-semibold {positionGreeks?.theta >= 0
-                          ? 'text-green-800 dark:text-green-400'
-                          : 'text-red-600 dark:text-red-400'}"
+                          ? 'text-emerald-600 dark:text-emerald-400'
+                          : 'text-rose-600 dark:text-rose-400'}"
                       >
                         {positionGreeks?.theta >= 0 ? "" : "-"}${Math.abs(
                           positionGreeks?.theta?.toFixed(2),
@@ -1743,7 +1737,7 @@
                     {:else}
                       <a href="/pricing" class="flex mt-2">
                         <svg
-                          class="size-5 text-muted dark:text-[#fff]"
+                          class="size-5 text-gray-400 dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -1761,7 +1755,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-gray-600 dark:text-white"
+                      class="flex items-center text-gray-600 dark:text-zinc-400 text-sm"
                     >
                       Vega (ν)
                       <InfoModal
@@ -1773,7 +1767,7 @@
 
                     {#if isPro}
                       <div
-                        class="text-lg font-semibold text-gray-800 dark:text-white"
+                        class="text-lg font-semibold text-gray-900 dark:text-white"
                       >
                         {positionGreeks?.vega >= 0 ? "" : "-"}${Math.abs(
                           positionGreeks?.vega,
@@ -1782,7 +1776,7 @@
                     {:else}
                       <a href="/pricing" class="flex mt-2">
                         <svg
-                          class="size-5 text-muted dark:text-[#fff]"
+                          class="size-5 text-gray-400 dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"

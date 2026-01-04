@@ -321,7 +321,7 @@
   }}
 />
 
-<section class="w-full overflow-hidden m-auto">
+<section class="w-full overflow-hidden m-auto text-gray-700 dark:text-zinc-200">
   {#if originalData?.length !== 0}
     <div class="mb-5 mt-5 sm:mt-0">
       <Infobox text={htmlOutput} />
@@ -329,13 +329,15 @@
   {/if}
 
   <div
-    class="shadow mb-4 flex flex-col divide-y divide-gray-300 dark:divide-gray-600 rounded border border-gray-300 dark:border-gray-600 sm:grid sm:grid-cols-3 sm:divide-x sm:divide-y-0"
+    class="mb-4 grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 divide-y divide-gray-200/70 dark:divide-zinc-800/80 sm:divide-x sm:divide-y-0"
   >
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
-        <div class="text-[1rem] font-normal">Listed Funds</div>
+        <div class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500">
+          Listed Funds
+        </div>
         <div
-          class="mt-1 break-words font-semibold leading-8 text-xl sm:text-2xl"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
         >
           {originalData?.length}
         </div>
@@ -343,9 +345,11 @@
     </div>
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
-        <div class="text-[1rem] font-normal">Total Assets</div>
+        <div class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500">
+          Total Assets
+        </div>
         <div
-          class="mt-1 break-words font-semibold leading-8 text-xl sm:text-2xl"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
         >
           {abbreviateNumber(totalAssets)}
         </div>
@@ -353,9 +357,11 @@
     </div>
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
-        <div class="text-[1rem] font-normal">Average Cost</div>
+        <div class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500">
+          Average Cost
+        </div>
         <div
-          class="mt-1 break-words font-semibold leading-8 text-xl sm:text-2xl"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
         >
           {avgExpenseRatio?.toFixed(2)}%
         </div>
@@ -366,13 +372,13 @@
   {#if originalData?.length !== 0}
     <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
       <div
-        class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+      class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
+    >
+      <h2
+        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
       >
-        <h2
-          class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold py-1 border-b border-gray-300 dark:border-gray-800 lg:border-none w-full"
-        >
-          {originalData?.length?.toLocaleString("en-US")} ETFs from {etfProviderName}
-        </h2>
+        {originalData?.length?.toLocaleString("en-US")} ETFs from {etfProviderName}
+      </h2>
         <div
           class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
         >
@@ -398,13 +404,17 @@
               {/if}
             </div>
 
-            <input
-              bind:value={inputValue}
-              on:input={search}
-              type="text"
-              placeholder="Find..."
-              class=" py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full sm:min-w-56 lg:max-w-14"
-            />
+            <div
+              class="h-9 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 px-3 flex items-center"
+            >
+              <input
+                bind:value={inputValue}
+                on:input={search}
+                type="text"
+                placeholder="Find..."
+                class="w-full bg-transparent text-[0.85rem] sm:text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 pr-8 leading-none"
+              />
+            </div>
           </div>
 
           <div class="ml-2">
@@ -425,7 +435,7 @@
         {#if etfProviderData?.length > 0}
           <div class="w-full overflow-x-auto">
             <table
-              class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+              class="table table-sm table-compact w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 m-auto"
             >
               <thead>
                 <TableHeader {columns} {sortOrders} {sortData} />
@@ -434,38 +444,38 @@
                 {#each etfProviderData as item, index}
                   <!-- row -->
                   <tr
-                    class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
+                    class="border-b border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                   >
-                    <td class=" text-sm sm:text-[1rem] whitespace-nowrap">
+                    <td class="text-sm text-gray-700 dark:text-zinc-200 whitespace-nowrap">
                       <HoverStockChart
                         symbol={item?.symbol}
                         assetType={"etf"}
                       />
                     </td>
 
-                    <td class="text-sm sm:text-[1rem] whitespace-nowrap">
+                    <td class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap">
                       {item?.name?.length > charNumber
                         ? item?.name?.slice(0, charNumber) + "..."
                         : item?.name}
                     </td>
 
                     <td
-                      class=" text-sm sm:text-[1rem] whitespace-nowrap text-end"
+                      class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                     >
                       {item?.price}
                     </td>
 
                     <td
-                      class=" text-sm sm:text-[1rem] whitespace-nowrap text-end"
+                      class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                     >
                       {#if item?.changesPercentage >= 0}
-                        <span class="text-green-800 dark:text-[#00FC50]"
+                        <span class="text-emerald-600 dark:text-emerald-400"
                           >+{item?.changesPercentage >= 1000
                             ? abbreviateNumber(item?.changesPercentage)
                             : item?.changesPercentage?.toFixed(2)}%</span
                         >
                       {:else if item?.changesPercentage < 0}
-                        <span class="text-red-800 dark:text-[#FF2F1F]"
+                        <span class="text-rose-600 dark:text-rose-400"
                           >{item?.changesPercentage <= -1000
                             ? abbreviateNumber(item?.changesPercentage)
                             : item?.changesPercentage?.toFixed(2)}%
@@ -476,19 +486,19 @@
                     </td>
 
                     <td
-                      class=" text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                      class="text-end text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
                     >
                       {abbreviateNumber(item?.totalAssets)}
                     </td>
 
                     <td
-                      class=" text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                      class="text-end text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
                     >
                       {item?.numberOfHoldings}
                     </td>
 
                     <td
-                      class=" text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                      class="text-end text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
                     >
                       {item?.expenseRatio}%
                     </td>
@@ -634,7 +644,7 @@
     </div>
   {:else}
     <div
-      class="mt-10 w-full flex justify-center items-center m-auto text-2xl font-bold text-gray-300"
+      class="mt-10 w-full flex justify-center items-center m-auto text-lg font-semibold text-gray-500 dark:text-zinc-500"
     >
       No data Available
     </div>
