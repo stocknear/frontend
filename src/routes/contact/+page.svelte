@@ -68,14 +68,18 @@
 
 {#key messageSent}
   <section
-    class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 px-4 lg:px-3 text-muted dark:text-white"
+    class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
   >
-    <div class="text-sm sm:text-[1rem] breadcrumbs">
+    <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
       <ul>
         <li>
-          <a href="/" class="text-muted dark:text-gray-300">Home</a>
+          <a
+            href="/"
+            class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
+            >Home</a
+          >
         </li>
-        <li class="text-muted dark:text-gray-300">Contact Us</li>
+        <li class="text-gray-500 dark:text-zinc-500">Contact Us</li>
       </ul>
     </div>
 
@@ -85,18 +89,22 @@
           class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
         >
           <main class="w-full lg:w-3/4 lg:pr-10">
-            <div class="mb-6 border-[#2C6288] dark:border-white border-b-[2px]">
-              <h1 class="mb-1 text-2xl sm:text-3xl font-bold">Contact Us</h1>
+            <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
+              <h1
+                class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              >
+                Contact Us
+              </h1>
             </div>
 
             <div class="w-full m-auto">
-              <p>
+              <p class="text-sm sm:text-base">
                 We would love to hear from you. Please submit a message using
                 the contact form below and we will get back to you as soon as
                 possible. You can also send an email directly to
                 <a
                   href={`mailto:${emailAddress}`}
-                  class="text-blue-800 dark:text-blue-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:underline"
+                  class="text-gray-900 dark:text-white hover:text-violet-500 transition"
                   >{emailAddress}</a
                 >.
               </p>
@@ -140,13 +148,13 @@
                   {#if !loading && !isClicked}
                     <button
                       type="submit"
-                      class="mt-5 cursor-pointer py-2.5 bg-black dark:bg-[#fff] border-none sm:hover:bg-default dark:sm:hover:bg-gray-300 transition duration-100 w-full rounded text-white dark:text-black font-semibold text-[1rem]"
+                      class="mt-5 cursor-pointer py-2.5 px-4 bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-none hover:bg-gray-800 dark:hover:bg-gray-200 transition w-full rounded-full font-semibold text-[1rem]"
                     >
                       <span>Send Message</span>
                     </button>
                   {:else}
                     <label
-                      class="mt-5 cursor-not-allowed btn bg-black dark:bg-[#fff] opacity-[0.5] border border-gray-600 sm:hover:bg-default dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded m-auto text-white dark:text-black font-semibold text-[1rem]"
+                      class="mt-5 cursor-not-allowed bg-gray-900 text-white dark:bg-white dark:text-gray-900 opacity-60 border border-gray-900/10 dark:border-white/10 transition w-full rounded-full m-auto font-semibold text-[1rem] py-2.5 px-4"
                     >
                       <div class="flex flex-row m-auto items-center">
                         <span class="loading loading-infinity"></span>
@@ -158,7 +166,7 @@
                   {#if messageSent}
                     <div class="my-4 pt-4">
                       <div
-                        class="border-l-4 border-green-400 bg-green-50 p-4 text-green-700 dark:bg-green-950 dark:text-white"
+                        class="rounded-lg border border-green-200/70 bg-green-50/70 p-4 text-green-700 dark:border-green-900/60 dark:bg-green-950/60 dark:text-green-100"
                       >
                         <div class="flex flex-row items-center">
                           <div class="shrink-0">
@@ -190,23 +198,23 @@
             </div>
           </main>
 
-          <aside class="inline-block relative w-full lg:w-1/4 mt-3">
+          <aside class="inline-block relative w-full lg:w-1/4 mt-4">
             <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+              class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
               <a
                 href="/pricing"
-                class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+                class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-bold ml-3">
+                  <h2 class="text-start text-lg font-semibold ml-3">
                     Pro Subscription
                   </h2>
                   <ArrowLogo
-                    class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                    class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                   />
                 </div>
-                <span class=" p-3 ml-3 mr-3">
+                <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                   Upgrade now for unlimited access to all data, tools and no
                   ads.
                 </span>
@@ -214,21 +222,21 @@
             </div>
 
             <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+              class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
               <a
                 href="/stock-screener"
-                class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+                class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-bold ml-3">
+                  <h2 class="text-start text-lg font-semibold ml-3">
                     Stock Screener
                   </h2>
                   <ArrowLogo
-                    class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                    class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                   />
                 </div>
-                <span class=" p-3 ml-3 mr-3">
+                <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                   Filter, sort and analyze all stocks to find your next
                   investment.
                 </span>
@@ -236,19 +244,19 @@
             </div>
 
             <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+              class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
               <a
                 href="/watchlist/stocks"
-                class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
+                class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-bold ml-3">Watchlists</h2>
+                  <h2 class="text-start text-lg font-semibold ml-3">Watchlists</h2>
                   <ArrowLogo
-                    class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
+                    class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
                   />
                 </div>
-                <span class=" p-3 ml-3 mr-3"
+                <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
                   >Keep track of your favorite stocks in real-time.
                 </span>
               </a>
