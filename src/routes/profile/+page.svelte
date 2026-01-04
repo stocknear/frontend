@@ -26,6 +26,7 @@
 
   let subscriptionData = data?.getSubscriptionData;
   let isClicked = false;
+  let installPlatform: "ios" | "android" = "ios";
   const emailAddress = "support@stocknear.com";
 
   const submitCancellation = () => {
@@ -302,14 +303,21 @@
 />
 
 <section
-  class="text-muted dark:text-white w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
+  class="text-gray-700 dark:text-zinc-200 w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div
+    class="text-sm sm:text-[1rem] breadcrumbs text-gray-500 dark:text-zinc-400"
+  >
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        >
+          Home
+        </a>
       </li>
-      <li class="text-muted dark:text-gray-300">My Account</li>
+      <li class="text-gray-500 dark:text-zinc-400">My Account</li>
     </ul>
   </div>
 
@@ -319,19 +327,29 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:mr-auto">
-          <div class="mb-6 border-[#2C6288] dark:border-white border-b-[2px]">
-            <h1 class="mb-1 text-2xl sm:text-3xl font-bold">My Account</h1>
+          <div
+            class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80 pb-2"
+          >
+            <h1
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
+              My Account
+            </h1>
           </div>
 
           <div
-            class="rounded shadow border border-gray-300 dark:border-gray-600 p-4 xs:p-4 xs:text-lg"
+            class="rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
           >
-            <h2 class=" text-2xl font-semibold mb-3">User Information</h2>
-            <div class="mt-1">
+            <h2
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
+            >
+              User Information
+            </h2>
+            <div class="mt-1 text-sm text-gray-600 dark:text-zinc-400">
               <strong>Email:</strong>
               {data?.user?.email}
             </div>
-            <div class="mt-1 mb-1">
+            <div class="mt-1 mb-1 text-sm text-gray-600 dark:text-zinc-400">
               <strong>Registered Date:</strong>
               {new Date(data?.user?.created ?? null)?.toLocaleString("en-US", {
                 month: "short",
@@ -341,31 +359,38 @@
             </div>
             <a
               href="/update-password"
-              class="sm:hover:text-muted dark:sm:hover:text-white text-blue-800 dark:text-blue-400"
+              class="text-sm text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
               >Update Password</a
             >
           </div>
 
           <div
-            class="mt-6 rounded shadow border border-gray-300 dark:border-gray-600 p-4 xs:text-lg pb-4"
+            class="mt-6 rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4 pb-4"
           >
-            <h2 class=" text-2xl font-semibold mb-3">Premium Discord Access</h2>
-            Gain access to real-time options flow from major institutional players,
-            live dark pool activity, instant earnings updates, market-moving news,
-            and much more — all designed to keep you ahead of the market.
+            <h2
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
+            >
+              Premium Discord Access
+            </h2>
+            <p class="text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">
+              Gain access to real-time options flow from major institutional
+              players, live dark pool activity, instant earnings updates,
+              market-moving news, and much more — all designed to keep you ahead
+              of the market.
+            </p>
 
             <div class="mt-2">
               {#if data?.getDiscordAccount}
                 {#if data?.user?.discord?.access}
                   <button
-                    class="flex flex-row items-center w-fit border border-gray-300 dark:border-gray-300 dark:border-gray-600 bg-default sm:hover:bg-black dark:bg-default text-white dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded mt-5"
+                    class="flex flex-row items-center w-fit border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white text-sm px-4 py-2 rounded-full mt-5"
                   >
                     Access Granted
                   </button>
                 {:else}
                   <button
                     on:click={handlePremiumAccess}
-                    class="flex flex-row items-center w-fit cursor-pointer border border-gray-300 dark:border-gray-300 dark:border-gray-600 bg-default sm:hover:bg-black dark:bg-default text-white dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded mt-5"
+                    class="flex flex-row items-center w-fit cursor-pointer border border-gray-200/70 dark:border-zinc-800/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
                   >
                     <Crown class="w-4 h-4 inline-block mr-1.5" />
                     Premium Access
@@ -376,7 +401,7 @@
                   <input class="hidden" name="provider" value="discord" />
                   <button
                     aria-label="Discord Login"
-                    class="flex flex-row items-center w-fit cursor-pointer border border-gray-300 dark:border-gray-300 dark:border-gray-600 bg-default sm:hover:bg-black dark:bg-default text-white dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded mt-5"
+                    class="flex flex-row items-center w-fit cursor-pointer border border-gray-200/70 dark:border-zinc-800/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
                   >
                     <Link class="w-4 h-4 inline-block mr-1.5" />
                     Link Discord Account
@@ -387,27 +412,35 @@
           </div>
 
           <div
-            class="mt-6 rounded shadow border border-gray-300 dark:border-gray-600 p-4 xs:text-lg pb-6"
+            class="mt-6 rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4 pb-6"
           >
-            <h3 class=" text-xl font-semibold mb-2">Push Notification</h3>
+            <h3
+              class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2"
+            >
+              Push Notification
+            </h3>
             {#if pwaInstalled}
               <div class="mt-3">
                 {#if nottifPermGranted === null}
-                  <p>Checking permissions...</p>
+                  <p class="text-sm text-gray-600 dark:text-zinc-400">
+                    Checking permissions...
+                  </p>
                 {:else if nottifPermGranted === true}
                   {#if isPushSubscribed}
-                    <p class="mb-3">Push notifications are currently active.</p>
+                    <p class="mb-3 text-sm text-gray-600 dark:text-zinc-400">
+                      Push notifications are currently active.
+                    </p>
                     <div class="mt-3">
                       {#if !loading}
                         <button
-                          class="shadow border border-gray-300 dark:border-gray-600 w-fit px-5 py-1.5 bg-white text-black text-sm font-semibold rounded sm:hover:bg-white/80 transition ease-out duration-100"
+                          class="border border-gray-200/70 dark:border-zinc-800/80 w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white text-sm font-semibold rounded-full hover:bg-white/80 dark:hover:bg-zinc-900/70 transition"
                           type="button"
                           on:click={handlePushUnsubscribe}
                           >Disable notifications</button
                         >
                       {:else}
                         <button
-                          class="cursor-not-allowed shadow border border-gray-300 dark:border-gray-600 w-fit px-5 py-1.5 bg-white/60 text-black text-sm font-semibold rounded transition ease-out duration-100"
+                          class="cursor-not-allowed border border-gray-200/70 dark:border-zinc-800/80 w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-gray-500 dark:text-zinc-400 text-sm font-semibold rounded-full transition"
                           disabled
                         >
                           <div class="flex flex-row m-auto items-center">
@@ -442,21 +475,21 @@
                       {/if}
                     </div>
                   {:else}
-                    <p class="mb-3">
+                    <p class="mb-3 text-sm text-gray-600 dark:text-zinc-400">
                       Stay up-to-date with real-time price alerts, the latest
                       stock news, and earnings calls delivered straight to your
                       device.
                     </p>
                     {#if !loading}
                       <button
-                        class="shadow border border-gray-300 dark:border-gray-600 w-fit px-5 py-1.5 bg-white text-black text-sm font-semibold rounded sm:hover:bg-white/80 transition ease-out duration-100"
+                        class="border border-gray-200/70 dark:border-zinc-800/80 w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white text-sm font-semibold rounded-full hover:bg-white/80 dark:hover:bg-zinc-900/70 transition"
                         type="button"
                         on:click={handlePushSubscribe}
                         >Enable notifications</button
                       >
                     {:else}
                       <button
-                        class="cursor-not-allowed shadow border border-gray-300 dark:border-gray-600 w-fit px-5 py-1.5 bg-white/60 text-black text-sm font-semibold rounded sm:hover:bg-white/80 transition ease-out duration-100"
+                        class="cursor-not-allowed border border-gray-200/70 dark:border-zinc-800/80 w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-gray-500 dark:text-zinc-400 text-sm font-semibold rounded-full transition"
                         ><div class="flex flex-row m-auto items-center">
                           <span class="loading loading-infinity"></span>
                           <span class=" ml-1.5">Activating...</span>
@@ -465,7 +498,7 @@
                     {/if}
                   {/if}
                 {:else if nottifPermGranted === false}
-                  <p class="">
+                  <p class="text-sm text-gray-600 dark:text-zinc-400">
                     Review your settings and enable notifications to stay
                     updated with Stocknear alerts.
                   </p>
@@ -473,13 +506,13 @@
               </div>
             {:else}
               <div class="mt-2">
-                <p class="mb-5">
+                <p class="mb-5 text-sm text-gray-600 dark:text-zinc-400">
                   You can activate the push notification only if you downloaded
                   the app.
                 </p>
                 <label
                   for="installModal"
-                  class="cursor-pointer border border-gray-300 dark:border-gray-300 dark:border-gray-600 bg-default sm:hover:bg-black dark:bg-default text-white dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded mt-5"
+                  class="cursor-pointer border border-gray-200/70 dark:border-zinc-800/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
                 >
                   Install the App
                 </label>
@@ -488,11 +521,19 @@
           </div>
 
           <div
-            class="mt-6 rounded shadow border border-gray-300 dark:border-gray-600 p-4 xs:p-4 xs:text-lg"
+            class="mt-6 rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
           >
-            <h2 class=" text-2xl font-semibold mb-3">Manage Subscription</h2>
+            <h2
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
+            >
+              Manage Subscription
+            </h2>
             <div class="flex flex-row items-center">
-              <span class=" text-[1rem] sm:text-lg"> Status: </span>
+              <span
+                class="text-sm sm:text-[1rem] text-gray-600 dark:text-zinc-400"
+              >
+                Status:
+              </span>
               <div class="ml-2 flex flex-row items-center">
                 <span class="relative flex h-2 w-2">
                   <span
@@ -514,7 +555,7 @@
                   ></span>
                 </span>
 
-                <span class="ml-2 text-[1rem] dark:text-slate-200">
+                <span class="ml-2 text-sm text-gray-700 dark:text-zinc-200">
                   {#if data?.user?.lifetime === true}
                     Active
                   {:else}
@@ -526,7 +567,7 @@
             </div>
             {#if !data?.user?.lifetime}
               {#if subscriptionData?.status_formatted === "Active"}
-                <span class=" text-sm pr-5">
+                <span class="text-sm text-gray-600 dark:text-zinc-400 pr-5">
                   Your subscription will automatically renew on {new Date(
                     subscriptionData?.renews_at,
                   )?.toLocaleDateString("en-GB", {
@@ -536,7 +577,7 @@
                   })}
                 </span>
               {:else if subscriptionData?.status_formatted === "On Trial"}
-                <span class=" text-sm pr-5">
+                <span class="text-sm text-gray-600 dark:text-zinc-400 pr-5">
                   Your subscription will automatically billed on {new Date(
                     subscriptionData?.trial_ends_at,
                   )?.toLocaleDateString("en-GB", {
@@ -547,7 +588,7 @@
                   })}
                 </span>
               {:else if subscriptionData?.status_formatted === "Cancelled"}
-                <span class=" text-sm">
+                <span class="text-sm text-gray-600 dark:text-zinc-400">
                   Your subscription will remain active until {new Date(
                     subscriptionData?.ends_at,
                   )?.toLocaleDateString("en-GB", {
@@ -560,8 +601,10 @@
             {/if}
 
             <div class="flex flex-col justify-start items-start mt-4 mb-3">
-              <span class=" mr-2 text-lg"> Current Plan: </span>
-              <span class="text-[1rem]">
+              <span class="mr-2 text-sm text-gray-600 dark:text-zinc-400">
+                Current Plan:
+              </span>
+              <span class="text-sm text-gray-700 dark:text-zinc-200">
                 {#if data?.user?.lifetime}
                   Lifetime Access
                 {:else}
@@ -579,12 +622,12 @@
             {#if ["Plus", "Pro"].includes(data?.user?.tier)}
               <div class="mx-auto w-full mt-4">
                 <div class="flex items-center gap-3">
-                  <p class=" text-blue-800 dark:text-blue-400">
+                  <p class="text-sm text-gray-600 dark:text-zinc-400">
                     <a
                       href="https://app.lemonsqueezy.com/my-orders"
                       target="_blank"
                       rel="noopener noreferrer"
-                      class=" sm:hover:text-muted dark:sm:hover:text-white"
+                      class="hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >Manage your subscription</a
                     >
                   </p>
@@ -654,18 +697,22 @@
           </div>
 
           <div
-            class="mt-6 rounded shadow border border-gray-300 dark:border-gray-600 p-4 xs:p-4 xs:text-lg"
+            class="mt-6 rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
           >
-            <h2 class=" text-2xl font-semibold mb-3">Need help?</h2>
-            <div class="mt-1">
+            <h2
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
+            >
+              Need help?
+            </h2>
+            <div class="mt-1 text-sm text-gray-600 dark:text-zinc-400">
               <strong>Here's how to get support:</strong>
             </div>
-            <div class="mt-2 mb-1">
+            <div class="mt-2 mb-1 text-sm text-gray-600 dark:text-zinc-400">
               <ul class="list-disc pl-5">
                 <li>
                   Send an email to <a
                     href={`mailto:${emailAddress}`}
-                    class="sm:hover:text-muted dark:sm:hover:text-white text-blue-800 dark:text-blue-400"
+                    class="hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >{emailAddress}</a
                   >
                 </li>
@@ -675,7 +722,7 @@
                     rel="noopener noreferrer"
                     target="_blank"
                     href="https://www.reddit.com/r/stocknear/"
-                    class="sm:hover:text-muted dark:sm:hover:text-white text-blue-800 dark:text-blue-400"
+                    class="hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
                     r/stocknear</a
                   >.
@@ -685,7 +732,7 @@
                     rel="noopener noreferrer"
                     target="_blank"
                     href="https://discord.com/invite/hCwZMMZ2MT"
-                    class="sm:hover:text-muted dark:sm:hover:text-white text-blue-800 dark:text-blue-400"
+                    class="hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >Discord Channel</a
                   >.
                 </li>
@@ -712,11 +759,15 @@
     method="POST"
     action="?/cancelSubscription"
     use:enhance={submitCancellation}
-    class="modal-box w-full bg-white dark:bg-secondary shadow border border-gray-300 dark:border-gray-600 flex flex-col items-center"
+    class="modal-box w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 flex flex-col items-center"
   >
     <div class=" mb-5 text-center">
-      <h3 class="font-bold text-2xl mb-5">Are you sure?</h3>
-      <span class=" text-[1rem] font-normal">
+      <h3
+        class="font-semibold tracking-tight text-2xl text-gray-900 dark:text-white mb-5"
+      >
+        Are you sure?
+      </h3>
+      <span class="text-sm text-gray-600 dark:text-zinc-400 font-normal">
         You will no longer be charged for this subscription, and at the end of
         the billing period, your account will transfer to the Free Plan.
       </span>
@@ -726,7 +777,7 @@
       on:click={() => (isClicked = !isClicked)}
       class="{!isClicked
         ? ''
-        : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded bg-black sm:hover:bg-default dark:bg-white dark:sm:hover:bg-white/80 ease-out duration-50 text-center text-white dark:text-black text-[1rem] font-normal"
+        : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 ease-out duration-150 text-center text-white dark:text-gray-900 text-[1rem] font-normal transition"
     >
       Proceed
       <input
@@ -737,11 +788,11 @@
     </button>
     {#if isClicked === true}
       <label
-        class="cursor-pointer px-7 py-2 mb-5 rounded bg-black sm:hover:bg-default dark:bg-white dark:bg-white dark:sm:hover:bg-white/80 ease-out duration-50 text-center text-white dark:text-black text-[1rem] font-normal"
+        class="cursor-pointer px-7 py-2 mb-5 rounded-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 ease-out duration-150 text-center text-white dark:text-gray-900 text-[1rem] font-normal transition"
       >
         <div class="flex flex-row m-auto">
           <span class="loading loading-infinity"></span>
-          <span class="text-white dark:text-black ml-2">Proceeding</span>
+          <span class="text-white dark:text-gray-900 ml-2">Proceeding</span>
         </div>
       </label>
     {/if}
@@ -765,11 +816,15 @@
     method="POST"
     action="?/reactivateSubscription"
     use:enhance={submitReactivate}
-    class="modal-box w-full bg-white dark:bg-secondary shadow border border-gray-300 dark:border-gray-600 flex flex-col items-center"
+    class="modal-box w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 flex flex-col items-center"
   >
     <div class=" mb-5 text-center">
-      <h3 class="font-bold text-2xl mb-5">Reactivate Subscription</h3>
-      <span class=" text-[1rem] font-normal">
+      <h3
+        class="font-semibold tracking-tight text-2xl text-gray-900 dark:text-white mb-5"
+      >
+        Reactivate Subscription
+      </h3>
+      <span class="text-sm text-gray-600 dark:text-zinc-400 font-normal">
         Reactivate your Subscription now to unlock unlimited features and gain
         the edge over the competition.
       </span>
@@ -779,7 +834,7 @@
       on:click={() => (isClicked = !isClicked)}
       class="{!isClicked
         ? ''
-        : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded bg-black sm:hover:bg-default dark:bg-white dark:sm:hover:bg-white/80 ease-out duration-50 text-center text-white dark:text-black text-[1rem] font-normal"
+        : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 ease-out duration-150 text-center text-white dark:text-gray-900 text-[1rem] font-normal transition"
     >
       Proceed
       <input
@@ -790,11 +845,11 @@
     </button>
     {#if isClicked === true}
       <label
-        class="cursor-pointer px-7 py-2 mb-5 rounded bg-black sm:hover:bg-default dark:bg-white dark:bg-white dark:sm:hover:bg-white/80 ease-out duration-50 text-center text-white dark:text-black text-[1rem] font-normal"
+        class="cursor-pointer px-7 py-2 mb-5 rounded-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 ease-out duration-150 text-center text-white dark:text-gray-900 text-[1rem] font-normal transition"
       >
         <div class="flex flex-row m-auto">
           <span class="loading loading-infinity"></span>
-          <span class="text-white dark:text-black ml-2">Proceeding</span>
+          <span class="text-white dark:text-gray-900 ml-2">Proceeding</span>
         </div>
       </label>
     {/if}
@@ -824,11 +879,15 @@
     method="POST"
     action="?/changeSubscription"
     use:enhance={submitChangePlan}
-    class="modal-box w-full bg-white dark:bg-secondary shadow border border-gray-300 dark:border-gray-600 flex flex-col items-center"
+    class="modal-box w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 flex flex-col items-center"
   >
     <div class=" mb-5 text-center">
-      <h3 class="font-bold text-2xl mb-5">Are you sure?</h3>
-      <span class=" text-[1rem] font-normal">
+      <h3
+        class="font-semibold tracking-tight text-2xl text-gray-900 dark:text-white mb-5"
+      >
+        Are you sure?
+      </h3>
+      <span class="text-sm text-gray-600 dark:text-zinc-400 font-normal">
         You're Account will be upgraded to Plus (Annual Plan). You’ll only be
         charged the difference between your current plan and the new one.
       </span>
@@ -838,7 +897,7 @@
       on:click={() => (isClicked = !isClicked)}
       class="{!isClicked
         ? ''
-        : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded bg-black sm:hover:bg-default dark:bg-white dark:sm:hover:bg-white/80 ease-out duration-50 text-center text-white dark:text-black text-[1rem] font-normal"
+        : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 ease-out duration-150 text-center text-white dark:text-gray-900 text-[1rem] font-normal transition"
     >
       Upgrade to Plus (Annual)
       <input
@@ -850,11 +909,11 @@
     </button>
     {#if isClicked === true}
       <label
-        class="cursor-pointer px-7 py-2 mb-5 rounded bg-black sm:hover:bg-default dark:bg-white dark:bg-white dark:sm:hover:bg-white/80 ease-out duration-50 text-center text-white dark:text-black text-[1rem] font-normal"
+        class="cursor-pointer px-7 py-2 mb-5 rounded-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 ease-out duration-150 text-center text-white dark:text-gray-900 text-[1rem] font-normal transition"
       >
         <div class="flex flex-row m-auto">
           <span class="loading loading-infinity"></span>
-          <span class="text-white dark:text-black ml-2">Proceeding</span>
+          <span class="text-white dark:text-gray-900 ml-2">Proceeding</span>
         </div>
       </label>
     {/if}
@@ -881,11 +940,15 @@
     method="POST"
     action="?/changeSubscription"
     use:enhance={submitChangePlan}
-    class="modal-box w-full bg-white dark:bg-secondary shadow border border-gray-300 dark:border-gray-600 flex flex-col items-center"
+    class="modal-box w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 flex flex-col items-center"
   >
     <div class=" mb-5 text-center">
-      <h3 class="font-bold text-2xl mb-5">Are you sure?</h3>
-      <span class=" text-[1rem] font-normal">
+      <h3
+        class="font-semibold tracking-tight text-2xl text-gray-900 dark:text-white mb-5"
+      >
+        Are you sure?
+      </h3>
+      <span class="text-sm text-gray-600 dark:text-zinc-400 font-normal">
         You're Account will be upgraded to Pro (Annual Plan). You’ll only be
         charged the difference between your current plan and the new one.
       </span>
@@ -895,7 +958,7 @@
       on:click={() => (isClicked = !isClicked)}
       class="{!isClicked
         ? ''
-        : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded bg-black sm:hover:bg-default dark:bg-white dark:sm:hover:bg-white/80 ease-out duration-50 text-center text-white dark:text-black text-[1rem] font-normal"
+        : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 ease-out duration-150 text-center text-white dark:text-gray-900 text-[1rem] font-normal transition"
     >
       Upgrade to Pro (Annual)
       <input
@@ -907,11 +970,11 @@
     </button>
     {#if isClicked === true}
       <label
-        class="cursor-pointer px-7 py-2 mb-5 rounded bg-black sm:hover:bg-default dark:bg-white dark:bg-white dark:sm:hover:bg-white/80 ease-out duration-50 text-center text-white dark:text-black text-[1rem] font-normal"
+        class="cursor-pointer px-7 py-2 mb-5 rounded-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 ease-out duration-150 text-center text-white dark:text-gray-900 text-[1rem] font-normal transition"
       >
         <div class="flex flex-row m-auto">
           <span class="loading loading-infinity"></span>
-          <span class="text-white dark:text-black ml-2">Proceeding</span>
+          <span class="text-white dark:text-gray-900 ml-2">Proceeding</span>
         </div>
       </label>
     {/if}
@@ -925,10 +988,14 @@
   <label for="installModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box rounded w-full bg-white dark:bg-secondary shadow border border-gray-300 dark:border-gray-600"
+    class="modal-box rounded-2xl w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200"
   >
     <div class="flex flex-row items-center pt-5">
-      <h4 class=" text-2xl font-bold text-center m-auto">Steps to install</h4>
+      <h4
+        class="mb-3 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white text-center m-auto"
+      >
+        Steps to install
+      </h4>
       <label
         for="installModal"
         class="inline-block cursor-pointer absolute right-3 top-3 text-[1.3rem] sm:text-[1.8rem]"
@@ -945,22 +1012,59 @@
       </label>
     </div>
 
-    <div class=" flex flex-col justify-center items-center text-xl h-full">
-      <ul class="list-decimal list-inside text-left mt-5">
-        <li class="mb-2">Tap on the Safari share button.</li>
-        <li class="mb-2">Tap on "Add to Home Screen."</li>
-        <li class="mb-4">Tap on "Add."</li>
+    <div class="flex flex-col justify-center items-center text-xl h-full">
+      <div
+        class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-200/70 dark:border-zinc-800/80"
+      >
+        <button
+          type="button"
+          on:click={() => (installPlatform = "ios")}
+          class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all {installPlatform ===
+          'ios'
+            ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+            : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+        >
+          Apple (iOS)
+        </button>
+        <button
+          type="button"
+          on:click={() => (installPlatform = "android")}
+          class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all {installPlatform ===
+          'android'
+            ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+            : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+        >
+          Android
+        </button>
+      </div>
 
-        <p class="text-lg mb-4">
-          Note that web apps on iOS can only be installed using Safari.
-        </p>
-      </ul>
+      {#if installPlatform === "ios"}
+        <ul
+          class="list-decimal list-inside text-left mt-5 text-sm text-gray-600 dark:text-zinc-400"
+        >
+          <li class="mb-2">Tap on the Safari share button.</li>
+          <li class="mb-2">Tap on "Add to Home Screen."</li>
+          <li class="mb-4">Tap on "Add."</li>
+          <p class="text-sm mb-4 text-gray-600 dark:text-zinc-400">
+            Note that web apps on iOS can only be installed using Safari.
+          </p>
+        </ul>
+      {:else}
+        <ul
+          class="list-decimal list-inside text-left mt-5 text-sm text-gray-600 dark:text-zinc-400"
+        >
+          <li class="mb-2">Open Stocknear in Chrome.</li>
+          <li class="mb-2">Tap the three-dot menu in the top right.</li>
+          <li class="mb-2">Tap "Install app" or "Add to Home screen."</li>
+          <li class="mb-4">Confirm to install.</li>
+        </ul>
+      {/if}
     </div>
 
-    <div class=" border-t border-gray-300 dark:border-gray-600 mt-2">
+    <div class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-2">
       <label
         for="installModal"
-        class="mt-4 font-semibold text-xl m-auto flex justify-center cursor-pointer"
+        class="mt-4 font-semibold text-lg text-gray-900 dark:text-white m-auto flex justify-center cursor-pointer"
       >
         Close
       </label>

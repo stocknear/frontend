@@ -45,7 +45,7 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-gray-700 dark:text-zinc-200"
 >
   <div class="w-full overflow-hidden m-auto mt-5">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
@@ -53,22 +53,26 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <div class="mb-6 border-b-[2px] border-[#2C6288] dark:border-white">
-            <h1 class="mb-1 text-2xl sm:text-3xl font-bold">Learning Center</h1>
+          <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80 pb-2">
+            <h1
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
+              Learning Center
+            </h1>
           </div>
 
           <div class="w-full grid grid-cols-1 sm:grid-cols-3 gap-y-5 gap-5">
             {#if allBlogPosts?.length !== 0}
               {#each allBlogPosts as item}
                 <div
-                  class="shadow-xl sm:hover:shadow-2xl flex flex-col overflow-hidden rounded-2xl border border-gray-300 dark:border-gray-700"
+                  class="flex flex-col overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
                 >
                   <div class="shrink-0">
                     <a
                       href={"/learning-center/article/" +
                         convertToSlug(item?.title)}
                       ><img
-                        class="h-56 w-full object-cover border-b border-gray-300 dark:border-gray-700"
+                        class="h-56 w-full object-cover border-b border-gray-200/70 dark:border-zinc-800/80"
                         src={getImageURL(
                           item?.collectionId,
                           item?.id,
@@ -80,17 +84,19 @@
                     >
                   </div>
                   <div
-                    class="flex flex-1 flex-col justify-between bg-white dark:bg-table p-4 sm:p-6"
+                    class="flex flex-1 flex-col justify-between bg-white/70 dark:bg-zinc-950/40 p-4 sm:p-6"
                   >
                     <div class="flex-1">
                       <a
                         href={"/learning-center/article/" +
                           convertToSlug(item?.title)}
-                        class="mt-2 block"
-                        ><h2 class="text-lg sm:text-xl font-semibold">
+                        class="mt-2 block group"
+                        ><h2
+                          class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                        >
                           {item?.title}
                         </h2>
-                        <p class="mt-3 text-sm">
+                        <p class="mt-3 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">
                           {item?.abstract.length > 250
                             ? item?.abstract?.slice(0, 250) + "..."
                             : item?.abstract}
@@ -98,15 +104,19 @@
                       >
                     </div>
                     <div class="mt-6 flex items-center">
-                      <div class="flex text-sm">
-                        Published: <time datetime={item?.created} class="ml-1">
+                      <div class="flex items-center text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+                        Published:
+                        <time
+                          datetime={item?.created}
+                          class="ml-1 text-sm normal-case text-gray-600 dark:text-zinc-300 tabular-nums"
+                        >
                           {new Date(item?.created)?.toLocaleString("en-US", {
                             month: "short",
                             day: "numeric",
                             year: "numeric",
                             daySuffix: "2-digit",
-                          })}</time
-                        >
+                          })}
+                        </time>
                       </div>
                     </div>
                   </div>
@@ -119,10 +129,10 @@
             {#if currentPage > 1}
               <a
                 href={`/learning-center/?page=${currentPage - 1}`}
-                class="mr-auto flex flex-row item-center text-blue-800 dark:text-white sm:hover:text-muted dark:sm:hover:text-blue-400"
+                class="mr-auto inline-flex items-center gap-2 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 px-3 py-2 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
               >
                 <svg
-                  class="w-6 h-6 mr-2 rotate-180"
+                  class="w-5 h-5 rotate-180"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -139,10 +149,10 @@
             {#if currentPage < totalPages}
               <a
                 href={`/learning-center/?page=${currentPage + 1}`}
-                class="ml-auto flex flex-row item-center text-blue-800 dark:text-white sm:hover:text-muted dark:sm:hover:text-blue-400"
+                class="ml-auto inline-flex items-center gap-2 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 px-3 py-2 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
                 ><span>Next</span>
                 <svg
-                  class="w-6 h-6 ml-2 inline-block"
+                  class="w-5 h-5 inline-block"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
