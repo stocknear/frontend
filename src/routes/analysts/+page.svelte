@@ -240,14 +240,20 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 px-4 lg:px-3 mb-20"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 px-4 lg:px-3 mb-20 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-400">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+          >Home</a
+        >
       </li>
-      <li class="text-muted dark:text-gray-300">Top Wall Street Analysts</li>
+      <li class="text-gray-500 dark:text-zinc-400">
+        Top Wall Street Analysts
+      </li>
     </ul>
   </div>
 
@@ -257,11 +263,13 @@
         class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:pr-10">
-          <div class="mb-6 border-[#2C6288] dark:border-white border-b-[2px]">
-            <h1 class="mb-1 text-2xl sm:text-3xl font-bold">
+          <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
+            <h1
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
               Top Wall Street Analysts
             </h1>
-            <p class="mb-3 px-1 font-semibold sm:px-0">
+            <p class="mb-3 px-1 text-sm text-gray-600 dark:text-zinc-400 sm:px-0">
               A list of Wall Street Analysts, ranked by their performance
             </p>
           </div>
@@ -269,18 +277,18 @@
           <div class="w-full m-auto mt-10">
             {#if analystList?.length > 0}
               <div
-                class="w-full m-auto rounded-none sm:rounded mb-4 overflow-x-auto sm:overflow-hidden"
+                class="w-full m-auto rounded-lg border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 mb-4 overflow-x-auto"
               >
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+                  class="table table-sm table-compact w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                 >
                   <thead>
                     <TableHeader {columns} {sortOrders} {sortData} />
                   </thead>
-                  <tbody>
+                  <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
                     {#each analystList as item, index}
                       <tr
-                        class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd{(currentPage -
+                        class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 odd:bg-gray-50/60 dark:odd:bg-zinc-900/30 {(currentPage -
                           1) *
                           rowsPerPage +
                           index +
@@ -290,17 +298,17 @@
                           ? 'opacity-[0.1]'
                           : ''}"
                       >
-                        <td class=" text-sm sm:text-[1rem] text-center">
+                        <td class="text-[0.85rem] sm:text-sm text-center">
                           {item?.rank}
                         </td>
 
                         <td
-                          class="text-start text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap"
                         >
                           <div class="flex flex-col items-start">
                             <a
                               href={"/analysts/" + item?.analystId}
-                              class="font-semibold dark:font-normal text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400"
+                              class="font-semibold text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400"
                               >{item?.analystName}
                             </a>
                             <!--<span class="">{item?.companyName} </span>-->
@@ -308,7 +316,7 @@
                               {#each Array.from({ length: 5 }) as _, i}
                                 {#if i < Math.floor(item?.analystScore)}
                                   <svg
-                                    class="w-3.5 h-3.5 text-[#FFA500]"
+                                    class="w-3.5 h-3.5 text-amber-400"
                                     aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="currentColor"
@@ -320,7 +328,7 @@
                                   </svg>
                                 {:else}
                                   <svg
-                                    class="w-3.5 h-3.5 text-gray-500"
+                                    class="w-3.5 h-3.5 text-gray-300 dark:text-zinc-600"
                                     aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="currentColor"
@@ -333,7 +341,7 @@
                                 {/if}
                               {/each}
 
-                              <span class="ml-1 dark:text-gray-400">
+                              <span class="ml-1 text-gray-500 dark:text-zinc-400">
                                 ({item?.analystScore !== null
                                   ? item?.analystScore
                                   : 0})
@@ -343,40 +351,40 @@
                         </td>
 
                         <td
-                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
                         >
                           {#if Number(item?.successRate) >= 0}
                             <span
-                              class="font-semibold dark:font-normal text-green-800 dark:text-[#00FC50]"
+                              class="font-medium text-emerald-600 dark:text-emerald-400"
                               >+{Number(item?.successRate)?.toFixed(2)}%</span
                             >
                           {/if}
                         </td>
 
                         <td
-                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
                         >
                           {#if Number(item?.avgReturn) >= 0}
                             <span
-                              class="font-semibold dark:font-normal text-green-800 dark:text-[#00FC50]"
+                              class="font-medium text-emerald-600 dark:text-emerald-400"
                               >+{Number(item?.avgReturn)?.toFixed(2)}%</span
                             >
                           {:else}
                             <span
-                              class="font-semibold dark:font-normal text-[#B84242]"
+                              class="font-medium text-rose-600 dark:text-rose-400"
                               >{Number(item?.avgReturn)?.toFixed(2)}%</span
                             >
                           {/if}
                         </td>
 
                         <td
-                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
                         >
                           {item?.totalRatings}
                         </td>
 
                         <td
-                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
                         >
                           {item?.lastRating !== null
                             ? new Date(item?.lastRating)?.toLocaleString(
@@ -409,7 +417,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center  sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -429,7 +437,7 @@
                 </div>
 
                 <div class="flex flex-row items-center gap-4">
-                  <span class="text-sm sm:text-[1rem]">
+                  <span class="text-sm text-gray-600 dark:text-zinc-300">
                     Page {currentPage} of {totalPages}
                   </span>
 
@@ -437,7 +445,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary  flex flex-row justify-between items-center  sm:w-auto px-2 sm:px-3 rounded truncate"
+                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
                           >{rowsPerPage} Rows</span
@@ -463,12 +471,12 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40  max-h-[400px] overflow-y-auto scroller relative"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                     >
                       <DropdownMenu.Group class="pb-2">
                         {#each rowsPerPageOptions as item}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
                           >
                             <label
                               on:click={() => changeRowsPerPage(item)}
@@ -487,7 +495,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline">Next</span>
                     <svg
@@ -510,7 +518,7 @@
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
-                  class=" cursor-pointer sm:hover:text-muted text-blue-800 dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem] font-medium"
+                  class="cursor-pointer text-sm font-medium text-gray-600 dark:text-zinc-400 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
                   Back to Top <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-180"
@@ -534,21 +542,21 @@
 
           <AnalystInfo />
         </main>
-        <aside class="inline-block relative w-full lg:w-1/4 mt-3">
+        <aside class="inline-block relative w-full lg:w-1/4 mt-3 text-gray-700 dark:text-zinc-200">
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+              class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-lg h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:bg-white/90 dark:hover:bg-zinc-900/50 transition"
             >
               <a
                 href="/pricing"
                 class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-semibold sm:ml-3">
+                  <h2 class="text-start text-base font-semibold sm:ml-3">
                     Pro Subscription
                   </h2>
                 </div>
-                <span class=" p-3 sm:ml-3 sm:mr-3 -mt-4">
+                <span class="p-3 sm:ml-3 sm:mr-3 -mt-4 text-sm text-gray-600 dark:text-zinc-400">
                   Upgrade now for unlimited access to all data, tools and no
                   ads.
                 </span>
@@ -557,34 +565,36 @@
           {/if}
 
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-lg h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:bg-white/90 dark:hover:bg-zinc-900/50 transition"
           >
             <a
               href={"/analysts/top-stocks"}
               class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">
+                <h2 class="text-start text-base font-semibold ml-3">
                   Top Strong Buy Stocks
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3">
+              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                 Get the latest top Wall Street analyst ratings.
               </span>
             </a>
           </div>
 
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-lg h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:bg-white/90 dark:hover:bg-zinc-900/50 transition"
           >
             <a
               href="/market-mover/gainers"
               class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">Market Movers</h2>
+                <h2 class="text-start text-base font-semibold ml-3">
+                  Market Movers
+                </h2>
               </div>
-              <span class="p-3 ml-3 mr-3">
+              <span class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400">
                 Today's Top Stock Gainers, Losers and most Active
               </span>
             </a>

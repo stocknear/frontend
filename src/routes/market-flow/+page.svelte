@@ -250,7 +250,7 @@
   }}
 />
 
-<section class="w-full overflow-hidden text-muted dark:text-white">
+<section class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200">
   <div class="w-full overflow-hidden m-auto">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
       <div
@@ -258,10 +258,10 @@
       >
         <main class="w-full">
           <div class="w-full m-auto">
-            <p class="mb-10">
-              Overview for all option chains of <strong>S&P500</strong>. As of
-              <strong>{marketFlowDate}</strong>, the total volume is
-              <strong>
+            <p class="mb-10 text-sm sm:text-base leading-6 text-gray-600 dark:text-zinc-300">
+              Overview for all option chains of <strong class="font-semibold text-gray-900 dark:text-white">S&P500</strong>. As of
+              <strong class="font-semibold text-gray-900 dark:text-white">{marketFlowDate}</strong>, the total volume is
+              <strong class="font-semibold text-gray-900 dark:text-white">
                 {#if isPro}
                   {(overview?.putVol + overview?.callVol)?.toLocaleString(
                     "en-US",
@@ -269,7 +269,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                    class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
                     Upgrade <svg
                       class="w-4 h-4 mb-1 inline-block"
@@ -285,7 +285,7 @@
                 {/if}
               </strong>
               contracts, which is
-              <strong>
+              <strong class="font-semibold text-gray-900 dark:text-white">
                 {#if isPro}
                   {overview?.avg30Vol && overview?.avg30Vol > 0
                     ? (
@@ -297,7 +297,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                    class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
                     Upgrade <svg
                       class="w-4 h-4 mb-1 inline-block"
@@ -313,13 +313,13 @@
                 {/if}
               </strong>
               of average daily volume of
-              <strong>
+              <strong class="font-semibold text-gray-900 dark:text-white">
                 {#if isPro}
                   {overview?.avg30Vol?.toLocaleString("en-US") || "n/a"}
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                    class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
                     Upgrade <svg
                       class="w-4 h-4 mb-1 inline-block"
@@ -335,13 +335,13 @@
                 {/if}
               </strong>
               contracts. The volume put-call ratio is
-              <strong>
+              <strong class="font-semibold text-gray-900 dark:text-white">
                 {#if isPro}
                   {overview?.pcVol?.toFixed(2) || "n/a"}
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                    class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
                     Upgrade <svg
                       class="w-4 h-4 mb-1 inline-block"
@@ -356,7 +356,7 @@
                   </a>
                 {/if}
               </strong>. Current net call premium flow is
-              <strong>
+              <strong class="font-semibold text-gray-900 dark:text-white">
                 {#if isPro}
                   {abbreviateNumber(
                     findLastNonNull(marketTideData, "net_call_premium"),
@@ -364,7 +364,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                    class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
                     Upgrade <svg
                       class="w-4 h-4 mb-1 inline-block"
@@ -380,7 +380,7 @@
                 {/if}
               </strong>
               and net put premium flow is
-              <strong>
+              <strong class="font-semibold text-gray-900 dark:text-white">
                 {#if isPro}
                   {abbreviateNumber(
                     findLastNonNull(marketTideData, "net_put_premium"),
@@ -388,7 +388,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                    class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
                     Upgrade <svg
                       class="w-4 h-4 mb-1 inline-block"
@@ -403,7 +403,7 @@
                   </a>
                 {/if}
               </strong>, indicating a
-              <strong>
+              <strong class="font-semibold text-gray-900 dark:text-white">
                 {#if isPro}
                   {(() => {
                     const netCallPremium = findLastNonNull(
@@ -440,7 +440,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                    class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
                     Upgrade <svg
                       class="w-4 h-4 mb-1 inline-block"
@@ -460,22 +460,22 @@
 
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <div
-                class="net-volume-driver shadow bg-gray-100 dark:bg-[#1C1E22] rounded p-4"
+                class="net-volume-driver rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
-                <div class="dark:text-[#c3c6d0] text-sm mb-2 flex items-center">
+                <div class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center">
                   <span>Net Volume</span>
                 </div>
                 <div class="flex items-baseline">
                   {#if data?.user?.tier === "Pro"}
-                    <span class="text-xl font-bold">
+                    <span class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums">
                       {abbreviateNumber(
                         findLastNonNull(marketTideData, "net_volume"),
                       )}</span
                     >
                   {:else}
-                    <a href="/pricing" class="flex mt-2">
+                    <a href="/pricing" class="mt-1 inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition">
                       <svg
-                        class="size-5 text-muted dark:text-[#fff]"
+                        class="size-5"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         style="max-width: 40px;"
@@ -493,22 +493,22 @@
               </div>
 
               <div
-                class="net-call-premium-driver shadow bg-gray-100 dark:bg-[#1C1E22] rounded p-4"
+                class="net-call-premium-driver rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
-                <div class="dark:text-[#c3c6d0] text-sm mb-2 flex items-center">
+                <div class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center">
                   <span>Net Call Prem</span>
                 </div>
                 <div class="flex items-baseline">
                   {#if data?.user?.tier === "Pro"}
-                    <span class="text-xl font-bold">
+                    <span class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums">
                       {abbreviateNumber(
                         findLastNonNull(marketTideData, "net_call_premium"),
                       )}</span
                     >
                   {:else}
-                    <a href="/pricing" class="flex mt-2">
+                    <a href="/pricing" class="mt-1 inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition">
                       <svg
-                        class="size-5 text-muted dark:text-[#fff]"
+                        class="size-5"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         style="max-width: 40px;"
@@ -526,22 +526,22 @@
               </div>
 
               <div
-                class="net-put-premium-driver shadow bg-gray-100 dark:bg-[#1C1E22] rounded p-4"
+                class="net-put-premium-driver rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
-                <div class="dark:text-[#c3c6d0] text-sm mb-2 flex items-center">
+                <div class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center">
                   <span>Net Put Prem</span>
                 </div>
                 <div class="flex items-baseline">
                   {#if data?.user?.tier === "Pro"}
-                    <span class="text-xl font-bold">
+                    <span class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums">
                       {abbreviateNumber(
                         findLastNonNull(marketTideData, "net_put_premium"),
                       )}</span
                     >
                   {:else}
-                    <a href="/pricing" class="flex mt-2">
+                    <a href="/pricing" class="mt-1 inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition">
                       <svg
-                        class="size-5 text-muted dark:text-[#fff]"
+                        class="size-5"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         style="max-width: 40px;"
@@ -558,8 +558,8 @@
                 </div>
               </div>
 
-              <div class=" shadow bg-gray-100 dark:bg-[#1C1E22] rounded p-4">
-                <div class="dark:text-[#c3c6d0] text-sm mb-2 flex items-center">
+              <div class="rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4">
+                <div class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center">
                   <span>Most Active Sector</span>
                 </div>
                 <div class="flex items-baseline">
@@ -569,16 +569,16 @@
                         (listItem) =>
                           listItem?.title === sectorFlow?.at(0)?.sector,
                       )?.link}
-                      class="text-xl font-bold text-blue-800 sm:hover:text-muted dark:text-blue-400 dark:sm:hover:text-white"
+                      class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >
                       {sectorFlow?.length > 0
                         ? sectorFlow?.at(0)?.sector
                         : "n/a"}
                     </a>
                   {:else}
-                    <a href="/pricing" class="flex mt-2">
+                    <a href="/pricing" class="mt-1 inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition">
                       <svg
-                        class="size-5 text-muted dark:text-[#fff]"
+                        class="size-5"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         style="max-width: 40px;"
@@ -610,11 +610,11 @@
                   <!-- Overlay with "Upgrade to Pro" -->
                   {#if !["Pro"]?.includes(data?.user?.tier)}
                     <div
-                      class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-white"
+                      class="font-semibold text-base sm:text-lg absolute inset-0 flex items-center justify-center text-gray-700 dark:text-zinc-200"
                     >
                       <a
                         href="/pricing"
-                        class="sm:hover:text-blue-800 dark:sm:hover:text-white dark:text-white flex flex-row items-center"
+                        class="inline-flex items-center gap-1 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <span>Upgrade</span>
                         <svg
@@ -644,11 +644,11 @@
                   <!-- Overlay with "Upgrade to Pro" -->
                   {#if !["Pro"]?.includes(data?.user?.tier)}
                     <div
-                      class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-white"
+                      class="font-semibold text-base sm:text-lg absolute inset-0 flex items-center justify-center text-gray-700 dark:text-zinc-200"
                     >
                       <a
                         href="/pricing"
-                        class="sm:hover:text-blue-800 dark:sm:hover:text-white dark:text-white flex flex-row items-center"
+                        class="inline-flex items-center gap-1 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                       >
                         <span>Upgrade</span>
                         <svg
@@ -672,10 +672,10 @@
                 <div
                   class="flex flex-row items-center justify-between mb-2 mt-5"
                 >
-                  <h2 class=" text-lg sm:text-xl font-bold w-fit">
+                  <h2 class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit">
                     Fear & Greed Index
                   </h2>
-                  <h3 class=" text-xs italic w-fit">
+                  <h3 class="text-xs italic text-gray-500 dark:text-zinc-500 w-fit">
                     Last Update: {new Date(
                       data?.getFearAndGreed?.current?.date,
                     )?.toLocaleDateString("en-US", {
@@ -694,7 +694,7 @@
               </div>
 
               <div class="order-0 sm:order-1">
-                <h2 class="mb-2 mt-5 text-lg sm:text-xl font-bold w-fit">
+                <h2 class="mb-2 mt-5 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit">
                   Avg. Market Seasonality
                 </h2>
 
@@ -710,11 +710,11 @@
                     <!-- Overlay with "Upgrade to Pro" -->
                     {#if !["Pro"]?.includes(data?.user?.tier)}
                       <div
-                        class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-white"
+                        class="font-semibold text-base sm:text-lg absolute inset-0 flex items-center justify-center text-gray-700 dark:text-zinc-200"
                       >
                         <a
                           href="/pricing"
-                          class="sm:hover:text-blue-800 dark:sm:hover:text-white dark:text-white flex flex-row items-center"
+                          class="inline-flex items-center gap-1 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <span>Upgrade</span>
                           <svg
@@ -739,7 +739,7 @@
                 <div
                   class="flex flex-wrap sm:flex-row items-center sm:justify-between mb-4"
                 >
-                  <h2 class="mb-6 text-xl sm:text-2xl font-bold w-fit">
+                  <h2 class="mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit">
                     Open Interest (OI)
                   </h2>
                   <div
@@ -754,7 +754,7 @@
                     >
                       <div class="flex flex-col">
                         <div
-                          class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-400 dark:text-zinc-500 flex items-center gap-x-2"
                         >
                           <span>Today's Open Interest</span>
                           <InfoModal
@@ -764,7 +764,7 @@
                     Low OI means less interest and lower liquidity."
                           />
                         </div>
-                        <span class="font-semibold text-sm sm:text-[1rem]">
+                        <span class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums">
                           {#if isPro}
                             {(
                               overview?.putOI + overview?.callOI
@@ -772,7 +772,7 @@
                           {:else}
                             <a
                               href="/pricing"
-                              class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                              class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -791,7 +791,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-400 dark:text-zinc-500 flex items-center gap-x-2"
                         >
                           <span>Put-Call Ratio</span>
                           <InfoModal
@@ -802,13 +802,13 @@
                           />
                         </div>
 
-                        <span class="font-semibold text-sm sm:text-[1rem]">
+                        <span class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums">
                           {#if isPro}
                             {overview?.pcOI?.toFixed(2)}
                           {:else}
                             <a
                               href="/pricing"
-                              class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                              class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -827,7 +827,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-400 dark:text-zinc-500 flex items-center gap-x-2"
                         >
                           <span>Put Open Interest</span>
                           <InfoModal
@@ -838,13 +838,13 @@
                           />
                         </div>
 
-                        <span class="font-semibold text-sm sm:text-[1rem]">
+                        <span class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums">
                           {#if isPro}
                             {overview?.putOI?.toLocaleString("en-US")}
                           {:else}
                             <a
                               href="/pricing"
-                              class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                              class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -863,7 +863,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-400 dark:text-zinc-500 flex items-center gap-x-2"
                         >
                           <span>Call Open Interest</span>
                           <InfoModal
@@ -874,13 +874,13 @@
                           />
                         </div>
 
-                        <span class="font-semibold text-sm sm:text-[1rem]">
+                        <span class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums">
                           {#if isPro}
                             {overview?.callOI?.toLocaleString("en-US")}
                           {:else}
                             <a
                               href="/pricing"
-                              class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                              class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -903,7 +903,7 @@
                 <div
                   class="flex flex-wrap sm:flex-row items-center sm:justify-between mb-4"
                 >
-                  <h2 class="mb-6 text-xl sm:text-2xl font-bold w-fit">
+                  <h2 class="mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit">
                     Volume
                   </h2>
                   <div
@@ -918,7 +918,7 @@
                     >
                       <div class="flex flex-col">
                         <div
-                          class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-400 dark:text-zinc-500 flex items-center gap-x-2"
                         >
                           <span>Today's Volume</span>
                           <InfoModal
@@ -928,7 +928,7 @@
                     Low volume indicates less trading activity."
                           />
                         </div>
-                        <span class="font-semibold text-sm sm:text-[1rem]">
+                        <span class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums">
                           {#if isPro}
                             {(
                               overview?.putVol + overview?.callVol
@@ -936,7 +936,7 @@
                           {:else}
                             <a
                               href="/pricing"
-                              class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                              class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -955,7 +955,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-400 dark:text-zinc-500 flex items-center gap-x-2"
                         >
                           <span>Put-Call Ratio</span>
                           <InfoModal
@@ -966,13 +966,13 @@
                           />
                         </div>
 
-                        <span class="font-semibold text-sm sm:text-[1rem]">
+                        <span class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums">
                           {#if isPro}
                             {overview?.pcVol?.toFixed(2)}
                           {:else}
                             <a
                               href="/pricing"
-                              class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                              class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -991,7 +991,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-400 dark:text-zinc-500 flex items-center gap-x-2"
                         >
                           <span>Put Volume</span>
                           <InfoModal
@@ -1002,13 +1002,13 @@
                           />
                         </div>
 
-                        <span class="font-semibold text-sm sm:text-[1rem]">
+                        <span class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums">
                           {#if isPro}
                             {overview?.putVol?.toLocaleString("en-US")}
                           {:else}
                             <a
                               href="/pricing"
-                              class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                              class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -1027,7 +1027,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-400 dark:text-zinc-500 flex items-center gap-x-2"
                         >
                           <span>Call Volume</span>
                           <InfoModal
@@ -1038,13 +1038,13 @@
                           />
                         </div>
 
-                        <span class="font-semibold text-sm sm:text-[1rem]">
+                        <span class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums">
                           {#if isPro}
                             {overview?.callVol?.toLocaleString("en-US")}
                           {:else}
                             <a
                               href="/pricing"
-                              class="sm:hover:text-default dark:sm:hover:text-blue-400"
+                              class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"

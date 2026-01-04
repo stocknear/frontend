@@ -339,7 +339,7 @@
                   <!--
                   <Button
                     on:click={toggleMode}
-                    class="  w-full max-w-36 sm:w-fit border-gray-300 bg-black sm:hover:bg-default text-white  dark:border-gray-600 border dark:bg-primary dark:sm:hover:bg-secondary ease-out  flex flex-row justify-between items-center px-4 py-1.5  rounded truncate"
+                    class="w-full max-w-36 sm:w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {#if $coolMode}
                       <TableMode class="w-4.5 h-4.5" />
@@ -353,7 +353,7 @@
 
                   <Button
                     on:click={() => (switchDate = !switchDate)}
-                    class="ml-2  w-fit border-gray-300 bg-black sm:hover:bg-default text-white  dark:border-gray-600 border dark:bg-primary dark:sm:hover:bg-secondary ease-out  flex flex-row justify-between items-center px-4 py-1.5  rounded truncate"
+                    class="w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="shrink-0 w-5 h-5 pointer-events-none m-auto"
@@ -371,7 +371,7 @@
                   >
                   <Button
                     on:click={() => exportFundamentalData("csv")}
-                    class=" ml-2 w-fit border-gray-300 bg-black sm:hover:bg-default text-white  dark:border-gray-600 border dark:bg-primary dark:sm:hover:bg-secondary ease-out flex flex-row justify-between items-center px-3 py-1.5  rounded truncate"
+                    class="w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="truncate">Download</span>
                     <svg

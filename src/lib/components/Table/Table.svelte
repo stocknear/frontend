@@ -2218,20 +2218,20 @@
 <!-- Content area -->
 
 <div
-  class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between w-full mt-5 text-muted sm:pt-2 sm:pb-2 dark:text-white sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-gray-800"
+  class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-gray-700 dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-200/70 sm:dark:border-zinc-800/80"
 >
   {#if title}
     <div
       class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
     >
       <h2
-        class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold"
+        class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
       >
         {title}
       </h2>
       {#if date}
         <span
-          class="text-sm sm:text-[0.9rem] text-gray-600 font-semibold dark:text-white ml-5 mt-1"
+          class="text-xs sm:text-sm text-gray-500 dark:text-zinc-400 font-medium ml-5 mt-1"
         >
           {date ? `Updated ${date}` : ""}
         </span>
@@ -2239,7 +2239,7 @@
     </div>
   {/if}
   <div
-    class="flex items-center ml-auto border-t border-b border-gray-300 dark:border-gray-800 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 w-full"
+    class="flex items-center ml-auto border-t border-b border-gray-200/70 dark:border-zinc-800/80 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 w-full"
   >
     <div class="relative lg:ml-auto w-full lg:w-fit">
       <div class="inline-block cursor-pointer absolute right-2 top-2 text-sm">
@@ -2263,11 +2263,11 @@
         on:input={search}
         type="text"
         placeholder="Find..."
-        class=" py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full sm:min-w-56 lg:max-w-14"
+        class="py-2 text-[0.85rem] sm:text-sm border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
       />
     </div>
 
-    <div class=" ml-2">
+    <div class="ml-2">
       <DownloadData
         {data}
         {rawData}
@@ -2275,52 +2275,53 @@
         {bulkDownload}
       />
     </div>
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger asChild let:builder>
-        <Button
-          builders={[builder]}
-          on:click={() => (allRows = sortIndicatorCheckMarks(allRows))}
-          class="ml-2 transition-all min-w-fit sm:min-w-[110px]  bg-black text-white shadow dark:border-gray-600 border sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary ease-out flex flex-row justify-between items-center px-3 py-2 rounded truncate"
-        >
-          <span class="w-fit text-[0.85rem] sm:text-sm">Indicators</span>
-          <svg
-            class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            style="max-width:40px"
-            aria-hidden="true"
+    <div class="ml-3">
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger asChild let:builder>
+          <Button
+            builders={[builder]}
+            on:click={() => (allRows = sortIndicatorCheckMarks(allRows))}
+            class="min-w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            <path
-              fill-rule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-        </Button>
-      </DropdownMenu.Trigger>
+            <span class="w-fit text-[0.85rem] sm:text-sm">Indicators</span>
+            <svg
+              class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              style="max-width:40px"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </Button>
+        </DropdownMenu.Trigger>
 
-      <DropdownMenu.Content
-        side="bottom"
-        align="end"
-        sideOffset={10}
-        alignOffset={0}
-        class="w-60 max-h-[400px] overflow-y-auto scroller relative"
-      >
-        <!-- Search Input -->
-        <div
-          class="sticky fixed -top-1 z-40 bg-white dark:bg-default p-2 border-b border-gray-300 dark:border-gray-600"
+        <DropdownMenu.Content
+          side="bottom"
+          align="end"
+          sideOffset={10}
+          alignOffset={0}
+          class="w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
         >
-          <div class="relative w-full">
-            <!-- Input Field -->
-            <input
-              bind:value={searchQuery}
-              on:input={handleInput}
-              autocomplete="off"
-              autofocus=""
-              class="text-sm w-full border-0 bg-white dark:bg-default focus:border-gray-200 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-gray-400 dark:text-gray-300 pr-8"
-              type="text"
-              placeholder="Search indicators..."
-            />
+          <!-- Search Input -->
+          <div
+            class="sticky fixed -top-1 z-40 bg-white/95 dark:bg-zinc-950/95 p-2 border-b border-gray-200/70 dark:border-zinc-800/80"
+          >
+            <div class="relative w-full">
+              <!-- Input Field -->
+              <input
+                bind:value={searchQuery}
+                on:input={handleInput}
+                autocomplete="off"
+                autofocus=""
+                class="text-sm w-full border-0 bg-transparent focus:border-gray-200/70 focus:ring-0 focus:outline-none placeholder:text-gray-500 dark:placeholder:text-zinc-400 text-gray-700 dark:text-zinc-200 pr-8"
+                type="text"
+                placeholder="Search indicators..."
+              />
 
             <!-- Clear Button - Shown only when searchQuery has input -->
             {#if searchQuery?.length > 0}
@@ -2358,7 +2359,7 @@
           <!-- Added padding to avoid overlapping with Reset button -->
           {#each searchQuery?.length !== 0 ? testList : indicatorRows as item}
             <DropdownMenu.Item
-              class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+              class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
             >
               <div class="flex items-center">
                 {#if isRuleLocked(item?.rule)}
@@ -2371,7 +2372,7 @@
                     <input
                       disabled={true}
                       type="checkbox"
-                      class="cursor-pointer rounded checked:bg-gray-700"
+                      class="cursor-pointer rounded border border-gray-200/70 dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 checked:bg-gray-900 dark:checked:bg-white"
                       checked={ruleOfList.some(
                         (listItem) => listItem.rule === item?.rule,
                       )}
@@ -2390,9 +2391,9 @@
                     <input
                       disabled={isRuleLocked(item?.rule)}
                       type="checkbox"
-                      class="rounded {isRuleLocked(item?.rule)
-                        ? 'checked:bg-gray-800'
-                        : 'checked:bg-blue-700'}"
+                      class="rounded border border-gray-200/70 dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 {isRuleLocked(item?.rule)
+                        ? 'checked:bg-gray-800 dark:checked:bg-zinc-200'
+                        : 'checked:bg-gray-900 dark:checked:bg-white'}"
                       checked={ruleOfList.some(
                         (listItem) => listItem.rule === item?.rule,
                       )}
@@ -2422,23 +2423,24 @@
         </DropdownMenu.Group>
         <!-- Reset Selection button -->
         <div
-          class="sticky -bottom-1 bg-white dark:bg-default z-50 p-2 border-t border-gray-300 dark:border-gray-600 w-full flex justify-between items-center"
+          class="sticky -bottom-1 bg-white/95 dark:bg-zinc-950/95 z-50 p-2 border-t border-gray-200/70 dark:border-zinc-800/80 w-full flex justify-between items-center"
         >
           <label
             on:click={handleResetAll}
-            class="w-full dark:sm:hover:text-white text-muted dark:text-gray-300 bg-white dark:bg-default text-start text-sm cursor-pointer"
+            class="w-full text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 text-start text-sm cursor-pointer"
           >
             Reset Selection
           </label>
           <label
             on:click={handleSelectAll}
-            class="w-full flex justify-end dark:sm:hover:text-white text-muted dark:text-gray-300 bg-white dark:bg-default text-start text-sm cursor-pointer"
+            class="w-full flex justify-end text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 text-start text-sm cursor-pointer"
           >
             Select All
           </label>
         </div>
-      </DropdownMenu.Content>
-    </DropdownMenu.Root>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+    </div>
   </div>
 </div>
 
@@ -2450,9 +2452,9 @@
     <li>
       <button
         on:click={() => changeTab("general")}
-        class="cursor-pointer text-[1rem] block rounded px-2 py-0.5 focus:outline-hidden sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-gray-100 dark:sm:hover:bg-primary {displayTableTab ===
+        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 focus:outline-hidden text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displayTableTab ===
         'general'
-          ? 'font-semibold bg-gray-100 text-muted dark:text-white dark:bg-primary'
+          ? 'font-semibold bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60'
           : ''}"
       >
         General
@@ -2461,9 +2463,9 @@
     <li>
       <button
         on:click={() => changeTab("performance")}
-        class="cursor-pointer text-[1rem] block rounded px-2 py-0.5 focus:outline-hidden sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-gray-100 dark:sm:hover:bg-primary {displayTableTab ===
+        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 focus:outline-hidden text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displayTableTab ===
         'performance'
-          ? 'font-semibold bg-gray-100 text-muted dark:text-white dark:bg-primary'
+          ? 'font-semibold bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60'
           : ''}"
       >
         Performance
@@ -2472,9 +2474,9 @@
     <li>
       <button
         on:click={() => changeTab("financials")}
-        class="cursor-pointer text-[1rem] block rounded px-2 py-0.5 focus:outline-hidden sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-gray-100 dark:sm:hover:bg-primary {displayTableTab ===
+        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 focus:outline-hidden text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displayTableTab ===
         'financials'
-          ? 'font-semibold bg-gray-100 text-muted dark:text-white dark:bg-primary'
+          ? 'font-semibold bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60'
           : ''}"
       >
         Financials
@@ -2483,9 +2485,9 @@
     <li>
       <button
         on:click={() => changeTab("analysts")}
-        class="cursor-pointer text-[1rem] block rounded px-2 py-0.5 focus:outline-hidden sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-gray-100 dark:sm:hover:bg-primary {displayTableTab ===
+        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 focus:outline-hidden text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displayTableTab ===
         'analysts'
-          ? 'font-semibold bg-gray-100 text-muted dark:text-white dark:bg-primary'
+          ? 'font-semibold bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60'
           : ''}"
       >
         Analysts
@@ -2494,9 +2496,9 @@
     <li>
       <button
         on:click={() => changeTab("dividends")}
-        class="cursor-pointer text-[1rem] block rounded px-2 py-0.5 focus:outline-hidden sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-gray-100 dark:sm:hover:bg-primary {displayTableTab ===
+        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 focus:outline-hidden text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displayTableTab ===
         'dividends'
-          ? 'font-semibold bg-gray-100 text-muted dark:text-white dark:bg-primary'
+          ? 'font-semibold bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60'
           : ''}"
       >
         Dividends
@@ -2505,15 +2507,15 @@
     <li>
       <button
         on:click={() => changeTab("indicators")}
-        class="cursor-pointer text-[1rem] flex flex-row items-center relative block rounded px-2 py-1 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-gray-100 dark:sm:hover:bg-primary {displayTableTab ===
+        class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center relative block rounded-full px-3 py-1 focus:outline-hidden text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displayTableTab ===
         'indicators'
-          ? 'font-semibold bg-gray-100 text-muted dark:text-white dark:bg-primary'
+          ? 'font-semibold bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60'
           : ''} focus:outline-hidden"
       >
         Indicators
         {#if indicatorsTabRules && indicatorsTabRules.length > defaultList.length}
           <div
-            class="ml-1 flex items-center justify-center h-4 w-4 bg-black dark:bg-white text-white dark:text-black rounded-full text-xs font-bold"
+            class="ml-1 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-200/70 dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 rounded-full text-xs font-semibold"
           >
             {indicatorsTabRules.length - defaultList.length}
           </div>
@@ -2524,17 +2526,19 @@
 </nav>
 
 {#if stockList?.length > 0}
-  <div class="w-full overflow-x-auto text-muted dark:text-white">
+  <div
+    class="w-full overflow-x-auto rounded-lg border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 mt-2"
+  >
     <table
-      class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto mt-2"
+      class="table table-sm table-compact w-full m-auto mt-0 text-gray-700 dark:text-zinc-200 tabular-nums"
     >
       <thead>
         <TableHeader {columns} {sortOrders} {sortData} />
       </thead>
-      <tbody>
+      <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
         {#each stockList as item, index}
           <tr
-            class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd {index +
+            class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 odd:bg-gray-50/60 dark:odd:bg-zinc-900/30 {index +
               1 ===
               rawData?.length &&
             !['Pro', 'Plus']?.includes(data?.user?.tier) &&
@@ -2544,7 +2548,7 @@
           >
             {#each columns as column}
               <td
-                class="text-sm sm:text-[1rem] whitespace-nowrap"
+                class="text-[0.85rem] sm:text-sm text-gray-700 dark:text-zinc-200 whitespace-nowrap"
                 class:text-left={column.align === "left"}
                 class:text-right={column.align === "right"}
               >
@@ -2571,7 +2575,7 @@
                       on:blur={(event) =>
                         handleInlineCellBlur(item, index, column.key, event)}
                       use:inlineInputAction={cellKey}
-                      class="border border-gray-300 dark:border-gray-500 rounded px-2 py-1 w-auto max-w-20 text-right bg-transparent text-muted dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-0"
+                      class="border border-gray-200/70 dark:border-zinc-800/80 rounded-md px-2 py-1 w-auto max-w-20 text-right bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-400 focus:outline-none focus:ring-0"
                     />
                   {:else}
                     <button
@@ -2615,10 +2619,10 @@
                         on:click={() =>
                           onToggleDeleteTicker &&
                           onToggleDeleteTicker(item[column.key])}
-                        class="dark:bg-[#2E3238] h-[18px] w-[18px] rounded-sm ring-offset-0 mr-3"
+                        class="h-4 w-4 rounded border border-gray-300/70 dark:border-zinc-700/80 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white accent-gray-900 dark:accent-white mr-3"
                       />
                       <label
-                        class="text-blue-800 dark:text-blue-400 sm:hover:text-muted dark:sm:hover:text-white cursor-pointer"
+                        class="text-gray-800 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 cursor-pointer"
                       >
                         {item[column.key]}
                       </label>
@@ -2653,7 +2657,7 @@
                     : "-"}
                 {:else if column?.type === "decimalSign"}
                   {#if item[column.key] >= 0}
-                    <span class="text-green-800 dark:text-[#00FC50]"
+                    <span class="text-emerald-600 dark:text-emerald-400"
                       >+{item[column.key]?.toLocaleString("en-US")}</span
                     >
                   {:else if item[column.key] < 0}
@@ -2675,7 +2679,7 @@
                           class="inline-flex rounded-full h-1 w-1 {item?.previous >
                           item[column?.key]
                             ? 'bg-red-600 dark:bg-[#FF2F1F]'
-                            : 'bg-green-600 dark:bg-[#00FC50]'} pulse-animation"
+                            : 'bg-emerald-500 dark:bg-emerald-400'} pulse-animation"
                         ></span>
                       </span>
                     {/if}
@@ -2691,7 +2695,7 @@
                   {#if item[column.key] === null || item[column.key] === undefined}
                     <span>-</span>
                   {:else if item[column.key] > 0}
-                    <span class="text-green-800 dark:text-[#00FC50]"
+                    <span class="text-emerald-600 dark:text-emerald-400"
                       >+{abbreviateNumber(item[column.key]?.toFixed(2))}%</span
                     >
                   {:else if item[column.key] < 0}
@@ -2706,7 +2710,7 @@
                     class={["Bullish", "Buy", "Strong Buy"]?.includes(
                       item[column.key],
                     )
-                      ? "text-green-800 dark:text-[#00FC50]"
+                      ? "text-emerald-600 dark:text-emerald-400"
                       : ["Neutral", "Hold"]?.includes(item[column.key])
                         ? "text-[#E57C34] dark:text-yellow-500"
                         : ["Bearish", "Sell", "Strong Sell"]?.includes(

@@ -2369,7 +2369,7 @@
                             <DropdownMenu.Trigger asChild let:builder>
                                 <Button
                                     builders={[builder]}
-                                    class="w-full border border-gray-300 dark:border-gray-600 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary  ease-out flex flex-row justify-between items-center px-3 py-2  rounded truncate"
+                                    class="w-full transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                                 >
                                     <span class="truncate">Select Popular</span>
                                     <svg
@@ -2425,7 +2425,7 @@
                             <DropdownMenu.Trigger asChild let:builder>
                                 <Button
                                     builders={[builder]}
-                                    class="min-w-[110px]  w-full border border-gray-300 dark:border-gray-600 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary ease-out flex flex-row justify-between items-center px-3 py-2  rounded truncate"
+                                    class="min-w-[110px] w-full transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                                 >
                                     <span class="truncate max-w-48"
                                         >{selectedStrategy?.length !== 0
@@ -3519,7 +3519,7 @@
                                 on:click={() =>
                                     goToTradePage(tradeCurrentPage - 1)}
                                 disabled={tradeCurrentPage === 1}
-                                class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                                class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                                 <svg
                                     class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -3539,7 +3539,7 @@
                         </div>
 
                         <div class="flex flex-row items-center gap-4">
-                            <span class="text-sm sm:text-[1rem]">
+                            <span class="text-sm text-gray-600 dark:text-zinc-300">
                                 Page {tradeCurrentPage} of {tradeTotalPages}
                             </span>
 
@@ -3547,7 +3547,7 @@
                                 <DropdownMenu.Trigger asChild let:builder>
                                     <Button
                                         builders={[builder]}
-                                        class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 rounded truncate"
+                                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                                     >
                                         <span
                                             class="truncate text-[0.85rem] sm:text-sm"
@@ -3574,12 +3574,12 @@
                                     align="end"
                                     sideOffset={10}
                                     alignOffset={0}
-                                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative"
+                                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                                 >
                                     <DropdownMenu.Group class="pb-2">
                                         {#each tradeRowsPerPageOptions as item}
                                             <DropdownMenu.Item
-                                                class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                                                class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
                                             >
                                                 <label
                                                     on:click={() =>
@@ -3604,7 +3604,7 @@
                                 on:click={() =>
                                     goToTradePage(tradeCurrentPage + 1)}
                                 disabled={tradeCurrentPage === tradeTotalPages}
-                                class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                                class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                                 <span class="hidden sm:inline">Next</span>
                                 <svg
@@ -3627,7 +3627,7 @@
                     <div class="flex justify-center mt-4">
                         <button
                             on:click={scrollTradingHistoryToTop}
-                            class="cursor-pointer sm:hover:text-muted text-blue-800 dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem] font-medium"
+                            class="cursor-pointer text-sm font-medium text-gray-600 dark:text-zinc-400 transition hover:text-violet-600 dark:hover:text-violet-400"
                         >
                             Back to Top
                             <svg

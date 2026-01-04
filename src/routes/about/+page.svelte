@@ -197,7 +197,7 @@
           <p
             class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 mb-4"
           >
-            The Founder
+            Solo Guy
           </p>
           <h2
             class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
@@ -223,7 +223,7 @@
                   Dr. Muslem Rahimi
                 </h3>
                 <p class="text-gray-500 dark:text-zinc-400 font-medium">
-                  Founder & CEO
+                  Chief of Nothing
                 </p>
               </div>
               <div class="text-gray-600 dark:text-zinc-400 space-y-3">

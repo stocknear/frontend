@@ -1181,7 +1181,7 @@
                           {/if}
                         </tr>
 
-                        <tr class="text-sm sm:text-[1rem]">
+                        <tr class="text-sm text-gray-600 dark:text-zinc-300">
                           <td class="py-[3px] text-left lg:py-0.5">% Change</td>
                           {#if !isSubscribed}
                             <td class="whitespace-nowrap">

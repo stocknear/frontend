@@ -262,20 +262,26 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
+          >Home</a
+        >
       </li>
       <li>
-        <a href="/politicians" class="text-muted dark:text-gray-300"
+        <a
+          href="/politicians"
+          class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
           >Politicians</a
         >
       </li>
 
-      <li class="text-muted dark:text-gray-300">{name}</li>
+      <li class="text-gray-500 dark:text-zinc-500">{name}</li>
     </ul>
   </div>
 
@@ -288,7 +294,7 @@
           <div class="w-full m-auto mt-12">
             <div class="items-center justify-between lg:flex">
               <div
-                class="flex space-x-3 border-b-[2px] border-below-title pb-3 lg:border-none lg:pb-0"
+                class="flex space-x-3 border-b border-gray-200/70 dark:border-zinc-800/80 pb-3 lg:border-none lg:pb-0"
               >
                 <div class="shrink-0">
                   <div
@@ -308,11 +314,13 @@
                   </div>
                 </div>
                 <div class="mt-0 pt-0.5 text-left">
-                  <h1 class="mb-0 text-xl sm:text-2xl font-bold">
+                  <h1
+                    class="mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                  >
                     {formatString(name)}
                   </h1>
                   <p
-                    class="mb-0.5 text-sm font-semibold text-muted dark:text-gray-300"
+                    class="mb-0.5 text-sm text-gray-600 dark:text-zinc-400"
                   >
                     {politicianParty ?? "n/a"} / {politicianCongress}
                     {#if politicianDistrict !== undefined && politicianDistrict?.length !== 0}
@@ -336,7 +344,7 @@
                           </svg>
                         {:else}
                           <svg
-                            class="w-5 h-5 text-gray-400 dark:text-gray-500"
+                            class="w-5 h-5 text-gray-400 dark:text-zinc-500"
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="currentColor"
@@ -349,30 +357,30 @@
                         {/if}
                       {/each}
                     </div>
-                    <span class="ml-1 text-[1rem]"
+                    <span class="ml-1 text-sm text-gray-500 dark:text-zinc-500"
                       >({performanceScore ?? "n/a"})</span
                     >
                   </div>
                 </div>
               </div>
               <div
-                class="mt-4 grid grid-cols-2 overflow-hidden rounded border border-gray-300 dark:border-gray-600 py-2 text-center md:grid-cols-4 md:p-0 lg:mt-0 lg:border-none"
+                class="mt-4 grid grid-cols-2 overflow-hidden rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 py-2 text-center md:grid-cols-4 md:p-0 lg:mt-0"
               >
                 <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
-                  <div class="text-xl sm:text-2xl font-semibold tracking-tight">
+                  <div class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
                     # {performanceRank ?? "n/a"}
                   </div>
                   <div
-                    class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
+                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
                   >
                     Rank
                   </div>
                 </div>
 
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-gray-600 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
                 >
-                  <div class="text-xl sm:text-2xl font-semibold tracking-tight">
+                  <div class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
                     {performanceTrades !== undefined &&
                     performanceTrades !== null
                       ? performanceTrades?.toLocaleString("en-US")
@@ -381,25 +389,25 @@
                         : "n/a"}
                   </div>
                   <div
-                    class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
+                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
                   >
                     Trades Scored
                   </div>
                 </div>
 
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-gray-600 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
                 >
-                  <div class="text-xl sm:text-2xl font-bold tracking-tight">
+                  <div class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
                     <span
                       class={performanceSuccessRate >= 0 &&
                       performanceSuccessRate !== undefined &&
                       performanceSuccessRate !== null
-                        ? "before:content-['+'] text-green-800 dark:text-[#36D984]"
+                        ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
                         : performanceSuccessRate < 0 &&
                             performanceSuccessRate !== undefined &&
                             performanceSuccessRate !== null
-                          ? "text-red-800 dark:text-[#EF4444]"
+                          ? "text-rose-600 dark:text-rose-400"
                           : ""}
                       >{performanceSuccessRate !== undefined &&
                       performanceSuccessRate !== null
@@ -408,24 +416,24 @@
                     >
                   </div>
                   <div
-                    class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
+                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
                   >
                     Success Rate
                   </div>
                 </div>
                 <div
-                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-gray-600 md:py-6"
+                  class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
                 >
-                  <div class="text-xl sm:text-2xl font-bold tracking-tight">
+                  <div class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
                     <span
                       class={performanceAvgReturn >= 0 &&
                       performanceAvgReturn !== undefined &&
                       performanceAvgReturn !== null
-                        ? "before:content-['+'] text-green-800 dark:text-[#36D984]"
+                        ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
                         : performanceAvgReturn < 0 &&
                             performanceAvgReturn !== undefined &&
                             performanceAvgReturn !== null
-                          ? "text-red-800 dark:text-[#EF4444]"
+                          ? "text-rose-600 dark:text-rose-400"
                           : ""}
                       >{performanceAvgReturn !== undefined &&
                       performanceAvgReturn !== null
@@ -434,7 +442,7 @@
                     >
                   </div>
                   <div
-                    class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
+                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
                   >
                     Avg. Return
                   </div>
@@ -443,39 +451,39 @@
             </div>
 
             <div
-              class="mt-4 grid grid-cols-2 overflow-hidden rounded border border-gray-300 dark:border-gray-800 py-2 text-center md:grid-cols-4 md:p-0"
+              class="mt-4 grid grid-cols-2 overflow-hidden rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 py-2 text-center md:grid-cols-4 md:p-0"
             >
               <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
-                <div class="text-xl sm:text-2xl font-bold tracking-tight">
+                <div class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
                   ${new Intl.NumberFormat("en", {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0,
                   }).format(totalAmountTraded)}
                 </div>
                 <div
-                  class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
+                  class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
                 >
                   Total Amount
                 </div>
               </div>
 
               <div
-                class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-gray-800 md:py-6"
+                class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
               >
-                <div class="text-xl sm:text-2xl font-semibold tracking-tight">
+                <div class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
                   {numOfTrades?.toLocaleString("en-US")}
                 </div>
                 <div
-                  class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
+                  class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
                 >
                   Transaction
                 </div>
               </div>
 
               <div
-                class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-gray-800 md:py-6"
+                class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
               >
-                <div class="text-xl sm:text-2xl font-semibold tracking-tight">
+                <div class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
                   {lastTradedDate?.length !== undefined
                     ? new Date(lastTradedDate)?.toLocaleString("en-US", {
                         month: "short",
@@ -486,19 +494,19 @@
                     : "n/a"}
                 </div>
                 <div
-                  class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
+                  class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
                 >
                   Last Transaction
                 </div>
               </div>
               <div
-                class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-gray-800 md:py-6"
+                class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
               >
-                <div class="text-xl sm:text-2xl font-bold tracking-tight">
+                <div class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
                   {buySellRatio?.toFixed(2)}
                 </div>
                 <div
-                  class="text-sm font-semibold leading-6 text-muted dark:text-gray-300"
+                  class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
                 >
                   Buy/Sell
                 </div>
@@ -508,17 +516,21 @@
             {#if mainSectors?.length !== 0}
               <div class="mb-10 mt-10">
                 <div
-                  class="relative my-3 space-y-2 rounded border border-gray-300 dark:border-gray-800 sm:my-6 p-4"
+                  class="relative my-3 space-y-2 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 sm:my-6 p-4"
                 >
                   <div class="flex flex-col sm:flex-row">
-                    <div class="mb-2 font-semibold sm:mb-0">Main Sectors:</div>
+                    <div
+                      class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500 sm:mb-0"
+                    >
+                      Main Sectors:
+                    </div>
                     <div class="flex flex-wrap gap-x-2 gap-y-3 sm:ml-2">
                       {#each mainSectors as item}
                         <a
                           href={sectorNavigation?.find(
                             (listItem) => listItem?.title === item,
                           )?.link}
-                          class="inline-block badge border-gray-300 dark:border-gray-800 rounded-[3px] bg-blue-100 dark:bg-primary duration-0 rounded-sm ml-1 px-3 m-auto text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted text-[1rem]"
+                          class="inline-flex items-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           {item}
                         </a>
@@ -526,14 +538,16 @@
                     </div>
                   </div>
                   <div class="flex flex-col sm:flex-row">
-                    <div class="mb-2 whitespace-nowrap font-semibold sm:mb-0">
+                    <div
+                      class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500 sm:mb-0"
+                    >
                       Top Industries:
                     </div>
                     <div class="flex flex-wrap gap-x-2 gap-y-3 sm:ml-2">
                       {#each mainIndustries as item}
                         <a
                           href={`/list/industry/${item?.replace(/ /g, "-")?.replace(/&/g, "and")?.replace(/-{2,}/g, "-")?.toLowerCase()}`}
-                          class="inline-block badge border-gray-300 dark:border-gray-800 rounded-[3px] bg-blue-100 dark:bg-primary duration-0 rounded-sm ml-1 px-3 m-auto text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted text-[1rem]"
+                          class="inline-flex items-center rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           {item}
                         </a>
@@ -544,12 +558,12 @@
               </div>
             {/if}
 
-            <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
+            <div class="items-center lg:overflow-visible px-1 py-1 mt-6">
               <div
-                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold py-1 border-b border-gray-300 dark:border-gray-800 lg:border-none w-full"
+                  class="text-left whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
                 >
                   {originalData?.length?.toLocaleString("en-US")} Stocks
                 </h2>
@@ -583,7 +597,7 @@
                       on:input={search}
                       type="text"
                       placeholder="Find..."
-                      class=" py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full sm:min-w-56 lg:max-w-14"
+                      class="py-[7px] text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-200/70 dark:border-zinc-800/80 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-500 px-3 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 grow w-full sm:min-w-56 lg:max-w-14"
                     />
                   </div>
 
@@ -600,41 +614,41 @@
             {#if stockList?.length > 0}
               <div class="w-full overflow-x-auto">
                 <table
-                  class="mt-5 table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+                  class="mt-5 w-full text-sm sm:text-[0.95rem] border border-gray-200/70 dark:border-zinc-800/80 rounded-xl overflow-hidden m-auto"
                 >
                   <!-- head -->
-                  <thead class="text-white bg-default">
+                  <thead class="text-xs uppercase tracking-widest text-gray-500 dark:text-zinc-500 border-b border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/60">
                     <tr class="">
                       <th
-                        class="hidden lg:table-cell text-start text-sm font-semibold"
+                        class="hidden lg:table-cell text-left text-xs font-semibold uppercase tracking-widest"
                       >
                       </th>
-                      <th class="text-start text-sm font-semibold"> Symbol </th>
-                      <th class="text-start text-sm font-semibold"> Name </th>
-                      <th class="text-end text-sm font-semibold">
+                      <th class="text-left text-xs font-semibold uppercase tracking-widest"> Symbol </th>
+                      <th class="text-left text-xs font-semibold uppercase tracking-widest"> Name </th>
+                      <th class="text-right text-xs font-semibold uppercase tracking-widest">
                         Transaction Type
                       </th>
-                      <th class="text-end text-sm font-semibold"> Amount </th>
-                      <th class="text-end text-sm font-semibold">
+                      <th class="text-right text-xs font-semibold uppercase tracking-widest"> Amount </th>
+                      <th class="text-right text-xs font-semibold uppercase tracking-widest">
                         Transaction
                       </th>
-                      <th class="text-end text-sm font-semibold">
+                      <th class="text-right text-xs font-semibold uppercase tracking-widest">
                         Last Trade
                       </th>
-                      <th class="text-end text-sm font-semibold"> Filed </th>
+                      <th class="text-right text-xs font-semibold uppercase tracking-widest"> Filed </th>
                     </tr>
                   </thead>
                   <tbody class="p-0">
                     {#each stockList as item, index}
                       <tr
-                        class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
+                        class="border-b border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                       >
                         <td class="hidden lg:table-cell"
                           ><button
                             on:click={() => openGraph(item?.ticker)}
                             class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
                             ><svg
-                              class="w-5 h-5 text-icon {(checkedSymbol ===
+                              class="w-5 h-5 text-gray-400 dark:text-zinc-500 transition {(checkedSymbol ===
                                 item?.ticker ?? item?.symbol)
                                 ? 'rotate-180'
                                 : ''}"
@@ -651,7 +665,7 @@
                         >
 
                         <td
-                          class="text-start text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-left text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
                         >
                           <HoverStockChart
                             symbol={item?.symbol ?? item?.ticker}
@@ -659,26 +673,26 @@
                           />
                         </td>
 
-                        <td class="text-sm sm:text-[1rem] whitespace-nowrap">
+                        <td class="text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300">
                           {item?.name?.length > 20
                             ? item?.name?.slice(0, 20) + "..."
                             : item?.name}
                         </td>
 
                         <td
-                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-right text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                         >
                           <span class="">
                             {#if item?.type === "Bought"}
-                              <span class="text-green-800 dark:text-[#00FC50]"
+                              <span class="text-emerald-600 dark:text-emerald-400"
                                 >Buy</span
                               >
                             {:else if item?.type === "Sold"}
-                              <span class="text-red-800 dark:text-[#FF2F1F]"
+                              <span class="text-rose-600 dark:text-rose-400"
                                 >Sell</span
                               >
                             {:else if item?.type === "Exchange"}
-                              <span class="text-orange-800 dark:text-[#C6A755]"
+                              <span class="text-amber-600 dark:text-amber-400"
                                 >Exchange</span
                               >
                             {/if}
@@ -686,19 +700,19 @@
                         >
 
                         <td
-                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-right text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                         >
                           {item?.amount}</td
                         >
 
                         <td
-                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-right text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                         >
                           {item?.transaction?.toLocaleString("en-US")}</td
                         >
 
                         <td
-                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-right text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                         >
                           {new Date(item?.transactionDate)?.toLocaleString(
                             "en-US",
@@ -712,7 +726,7 @@
                         </td>
 
                         <td
-                          class="text-end text-sm sm:text-[1rem] whitespace-nowrap"
+                          class="text-right text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
                         >
                           {new Date(item?.disclosureDate)?.toLocaleString(
                             "en-US",
@@ -784,7 +798,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center  sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -805,7 +819,7 @@
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
-                  <span class="text-sm sm:text-[1rem]">
+                  <span class="text-sm text-gray-600 dark:text-zinc-300">
                     Page {currentPage} of {totalPages}
                   </span>
 
@@ -813,7 +827,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-fit transition-all duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary  flex flex-row justify-between items-center  sm:w-auto px-2 sm:px-3 rounded truncate"
+                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
                           >{rowsPerPage} Rows</span
@@ -839,13 +853,13 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40  max-h-[400px] overflow-y-auto scroller relative"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                     >
                       <!-- Dropdown items -->
                       <DropdownMenu.Group class="pb-2">
                         {#each rowsPerPageOptions as item}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
                           >
                             <label
                               on:click={() => changeRowsPerPage(item)}
@@ -865,7 +879,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit transition-all flex flex-row items-center duration-50 border border-gray-300 dark:border-gray-700 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary flex flex-row justify-between items-center sm:w-auto px-1.5 sm:px-3 rounded truncate"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline">Next</span>
                     <svg
@@ -889,7 +903,7 @@
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
-                  class=" cursor-pointer sm:hover:text-muted text-blue-800 dark:sm:hover:text-white dark:text-blue-400 text-sm sm:text-[1rem] font-medium"
+                  class="cursor-pointer text-sm font-medium text-gray-600 dark:text-zinc-400 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
                   Back to Top <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-180"

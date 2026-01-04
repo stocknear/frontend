@@ -484,7 +484,7 @@
                       />
                     </div>
                     <span
-                      class="ml-1 mr-auot text-gray-600 dark:text-zinc-400 text-[0.95rem] group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                      class="ml-1 mr-auot text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                       >Home</span
                     >
                   </a>
@@ -1090,7 +1090,7 @@
                         />
                       </div>
                       <span
-                        class="ml-1 mr-auot text-gray-600 dark:text-zinc-400 text-[0.95rem] group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                        class="ml-1 mr-auot text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                         >Hedge Funds</span
                       >
                     </div>
@@ -1144,7 +1144,7 @@
                         />
                       </div>
                       <span
-                        class="ml-1 mr-auot text-gray-600 dark:text-zinc-400 text-[0.95rem] group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                        class="ml-1 mr-auot text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                         >Market News</span
                       >
                     </div>

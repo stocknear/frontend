@@ -102,11 +102,11 @@
   }
 </script>
 
-<tr class="bg-default border-b border-[#27272A] text-white">
+<tr class="bg-gray-50/80 dark:bg-zinc-900/60 border-b border-gray-200/70 dark:border-zinc-800/80 text-gray-600 dark:text-zinc-300">
   {#each columns as column}
     <th
       on:click={() => sortData(column.key)}
-      class="cursor-pointer select-none font-semibold text-sm sm:text-[1rem] whitespace-nowrap {column.align ===
+      class="cursor-pointer select-none font-semibold text-[0.7rem] sm:text-xs uppercase tracking-wide whitespace-nowrap {column.align ===
       'right'
         ? 'text-end'
         : column.align === 'left'

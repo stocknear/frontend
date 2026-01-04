@@ -462,7 +462,7 @@
                     {/if}
                     <!--
                     <DropdownMenu.Item
-                      class="sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
                     >
                    
                       <label

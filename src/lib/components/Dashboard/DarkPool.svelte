@@ -62,7 +62,7 @@
         <Table.Body>
           {#each darkPoolList as item}
             <Table.Row>
-              <Table.Cell class="text-sm sm:text-[1rem]">
+              <Table.Cell class="text-sm text-gray-600 dark:text-zinc-300">
                 <a
                   href={`/${item?.assetType === "Stock" ? "stocks" : "etf"}/${item?.ticker}`}
                   class="text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted cursor-pointer"
