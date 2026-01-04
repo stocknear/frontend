@@ -810,7 +810,7 @@
             <div class="relative">
               <!-- Apply the blur class to the chart -->
               <div
-                class="mt-5 shadow sm:mt-0 sm:border sm:border-gray-300 dark:border-gray-800 rounded"
+                class="mt-5 sm:mt-0 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                 use:highcharts={configExpiry}
               ></div>
             </div>
@@ -820,10 +820,10 @@
         {#if rawData?.length > 0}
           <div class="items-center lg:overflow-visible px-1 py-1 mt-10">
             <div
-              class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+              class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
             >
               <h2
-                class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold w-full"
+                class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
               >
                 Max Pain Table
               </h2>
@@ -846,30 +846,35 @@
             </div>
           </div>
 
-          <div class="w-full overflow-x-auto">
-            <table
-              class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto mt-4"
+          <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
+            <div
+              class="w-full overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
             >
-              <thead class="text-white bg-default">
-                <TableHeader {columns} {sortOrders} {sortData} />
-              </thead>
-              <tbody>
+              <table
+                class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
+              >
+                <thead
+                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                >
+                  <TableHeader {columns} {sortOrders} {sortData} />
+                </thead>
+                <tbody>
                 {#each displayList as item, index}
-                  <tr class="dark:sm:hover:bg-[#245073]/10">
+                  <tr class="transition-colors">
                     <td
-                      class=" text-sm sm:text-[1rem] text-start whitespace-nowrap"
+                      class="text-sm text-start whitespace-nowrap"
                     >
                       {formatDate(item?.expiration)}
                     </td>
 
                     <td
-                      class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
+                      class="text-sm text-end whitespace-nowrap"
                     >
                       {item?.maxPain}
                     </td>
 
                     <td
-                      class=" text-sm sm:text-[1rem] text-end whitespace-nowrap"
+                      class="text-sm text-end whitespace-nowrap"
                     >
                       {item?.change ? item?.change?.toFixed(2) : "n/a"}
                       <span
@@ -884,8 +889,9 @@
                     </td>
                   </tr>
                 {/each}
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <!-- Pagination controls -->

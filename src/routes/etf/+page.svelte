@@ -319,7 +319,7 @@
       <div
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
-        <main class="w-full lg:w-3/4 lg:pr-5">
+        <main class="w-full">
           <div class="border-b border-gray-200 dark:border-zinc-800/80 pb-2">
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
@@ -584,87 +584,6 @@
             {/if}
           </div>
         </main>
-
-        <aside class="hidden lg:block relative fixed w-1/4 ml-4">
-          {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
-            <div
-              class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-xl bg-white/70 dark:bg-zinc-950/40 h-fit pb-4 mt-4 cursor-pointer transition hover:border-gray-300/80 dark:hover:border-zinc-700/80"
-            >
-              <a
-                href="/pricing"
-                class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-              >
-                <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2
-                    class="text-start text-xl font-semibold tracking-tight text-gray-900 dark:text-white ml-3"
-                  >
-                    Pro Subscription
-                  </h2>
-                  <ArrowLogo
-                    class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-zinc-500"
-                  />
-                </div>
-                <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
-                >
-                  Upgrade now for unlimited access to all data, tools and no
-                  ads.
-                </span>
-              </a>
-            </div>
-          {/if}
-
-          <div
-            class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-xl bg-white/70 dark:bg-zinc-950/40 h-fit pb-4 mt-4 cursor-pointer transition hover:border-gray-300/80 dark:hover:border-zinc-700/80"
-          >
-            <a
-              href="/stock-screener"
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2
-                  class="text-start text-xl font-semibold tracking-tight text-gray-900 dark:text-white ml-3"
-                >
-                  Stock Screener
-                </h2>
-                <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-zinc-500"
-                />
-              </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
-              >
-                Filter, sort and analyze all stocks to find your next
-                investment.
-              </span>
-            </a>
-          </div>
-
-          <div
-            class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-xl bg-white/70 dark:bg-zinc-950/40 h-fit pb-4 mt-4 cursor-pointer transition hover:border-gray-300/80 dark:hover:border-zinc-700/80"
-          >
-            <a
-              href="/watchlist/stocks"
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2
-                  class="text-start text-xl font-semibold tracking-tight text-gray-900 dark:text-white ml-3"
-                >
-                  Watchlist
-                </h2>
-                <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-zinc-500"
-                />
-              </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-600 dark:text-zinc-400"
-              >
-                Keep track of your favorite stocks in realt-time.
-              </span>
-            </a>
-          </div>
-        </aside>
       </div>
     </div>
   </div>

@@ -71,12 +71,16 @@
 <section
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
+          >Home</a
+        >
       </li>
-      <li class="text-muted dark:text-gray-300">All Stocks</li>
+      <li class="text-gray-500 dark:text-zinc-500">All Stocks</li>
     </ul>
   </div>
 
@@ -85,12 +89,14 @@
       <div
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
-        <main class="w-full lg:w-3/4 lg:pr-5">
+        <main class="w-full">
           <div class="mb-2 border-b-[2px]">
             <h1 class="mb-1 e text-2xl sm:text-3xl font-bold">
               All Stock Symbols
             </h1>
-            <p class="mb-3 px-1 font-semibold sm:px-0">
+            <p
+              class="mb-3 px-1 text-sm text-gray-600 dark:text-zinc-400 sm:px-0"
+            >
               List of all {rawData?.length} stock symbols we support
             </p>
           </div>
@@ -106,74 +112,6 @@
             />
           </div>
         </main>
-        <aside class="hidden lg:block relative fixed w-1/4 ml-4">
-          {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
-            <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
-            >
-              <a
-                href="/pricing"
-                class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-              >
-                <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-semibold e ml-3">
-                    Pro Subscription
-                  </h2>
-                  <ArrowLogo
-                    class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
-                  />
-                </div>
-                <span class="e p-3 ml-3 mr-3">
-                  Upgrade now for unlimited access to all data, tools and no
-                  ads.
-                </span>
-              </a>
-            </div>
-          {/if}
-
-          <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
-          >
-            <a
-              href="/stock-screener"
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-semibold e ml-3">
-                  Stock Screener
-                </h2>
-                <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
-                />
-              </div>
-              <span class="e p-3 ml-3 mr-3">
-                Filter, sort and analyze all stocks to find your next
-                investment.
-              </span>
-            </a>
-          </div>
-
-          <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
-          >
-            <a
-              href="/watchlist/stocks"
-              class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
-            >
-              <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-semibold e ml-3">
-                  Watchlist
-                </h2>
-                <ArrowLogo
-                  class="w-8 h-8 mr-3 shrink-0 text-gray-400 dark:text-white"
-                />
-              </div>
-              <span class="e p-3 ml-3 mr-3">
-                Keep track of your favorite stocks in realt-time.
-              </span>
-            </a>
-          </div>
-        </aside>
       </div>
     </div>
   </div>
