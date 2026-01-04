@@ -21,6 +21,8 @@
     { length: currentYear - startYear + 1 },
     (_, i) => currentYear - i,
   );
+  let ipoYearCounts = {};
+  let filteredYearList = [];
 
   function findMinMax() {
     const rawData = data?.getIPOCalendar || [];
@@ -171,6 +173,21 @@
 
     isLoaded = true;
   });
+
+  $: {
+    const rawData = data?.getIPOCalendar || [];
+    ipoYearCounts = rawData.reduce((acc, ipo) => {
+      if (!ipo?.ipoDate) return acc;
+      const year = new Date(ipo.ipoDate).getFullYear();
+      if (Number.isNaN(year)) return acc;
+      acc[year] = (acc[year] || 0) + 1;
+      return acc;
+    }, {});
+
+    filteredYearList = yearList.filter(
+      (year) => year !== currentYear || (ipoYearCounts[year] ?? 0) > 0,
+    );
+  }
 </script>
 
 <SEO
@@ -251,7 +268,7 @@
               </div>
             {/if}
 
-            {#each yearList as year}
+            {#each filteredYearList as year}
               <IPOChart {data} {year} />
             {/each}
           </div>
