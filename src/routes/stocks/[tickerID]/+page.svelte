@@ -992,11 +992,11 @@
 />
 
 <section
-  class="text-muted dark:text-white min-h-screen pb-40 overflow-hidden w-full"
+  class="text-gray-700 dark:text-zinc-200 min-h-screen pb-40 overflow-hidden w-full"
 >
   <div class="w-full m-auto overflow-hidden">
     <div
-      class="md:flex md:justify-between md:divide-x md:divide-slate-800 w-full"
+      class="md:flex md:justify-between md:divide-x md:divide-gray-200/70 dark:md:divide-zinc-800/80 w-full"
     >
       <!-- Main content -->
       <div class="pb-12 md:pb-20 w-full sm:pr-6 xl:pr-0">
@@ -1008,7 +1008,7 @@
             class="sm:pl-7 mt-4 mb-5 lg:flex lg:flex-row lg:gap-x-4 w-full min-h-[320px]"
           >
             <div
-              class="order-1 lg:order-5 grow overflow-hidden border-gray-300 dark:border-gray-800 py-0.5 xs:py-1 sm:px-0.5 sm:pb-3 sm:pt-2.5 lg:mb-0 lg:border-0 lg:border-l lg:border-sharp lg:px-0 lg:py-0 lg:pl-5 md:mb-4 md:border-b"
+              class="order-1 lg:order-5 grow overflow-hidden border-gray-200/70 dark:border-zinc-800/80 py-0.5 xs:py-1 sm:px-0.5 sm:pb-3 sm:pt-2.5 lg:mb-0 lg:border-0 lg:border-l lg:px-0 lg:py-0 lg:pl-5 md:mb-4 md:border-b"
             >
               <div class="flex items-center justify-between py-1 sm:pt-0.5">
                 <div class=" overflow-x-auto">
@@ -1020,10 +1020,10 @@
                           class="cursor-pointer"
                         >
                           <span
-                            class="block px-3 sm:px-2 py-1 text-sm sm:text-[1rem] rounded duration-100 ease-in-out whitespace-nowrap
+                            class="block px-3 sm:px-2 py-1 text-sm sm:text-[1rem] rounded-full duration-100 ease-in-out whitespace-nowrap
           {displayData === interval
-                              ? 'bg-gray-100 text-muted dark:bg-primary dark:text-white font-semibold'
-                              : 'bg-transparent text-muted dark:text-gray-400 dark:sm:hover:text-white sm:hover:bg-gray-100 dark:sm:hover:bg-primary'}"
+                              ? 'bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
+                              : 'bg-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
                           >
                             {$screenWidth < 1200
                               ? interval
@@ -1040,13 +1040,14 @@
                   {#if displayLegend?.graphChange}
                     <span
                       class={displayLegend?.graphChange >= 0
-                        ? "before:content-['+'] text-green-800 dark:text-[#00FC50]"
-                        : "text-red-800 dark:text-[#FF2F1F]"}
+                        ? "before:content-['+'] text-emerald-600 dark:text-emerald-400"
+                        : "text-rose-600 dark:text-rose-400"}
                     >
                       {displayLegend?.graphChange ??
                         data?.getStockQuote?.changesPercentage?.toFixed(2)}%
                     </span>
-                    <span class="hidden text-muted dark:text-gray-200 sm:block"
+                    <span
+                      class="hidden text-gray-500 dark:text-zinc-400 sm:block"
                       >({displayData})</span
                     >
                   {/if}
@@ -1059,7 +1060,7 @@
                 <div
                   class="flex justify-center w-full sm:w-[650px] h-[300px] sm:h-[320px] items-center"
                 >
-                  <p class="text-[1rem] text-gray-500 dark:text-gray-400">
+                  <p class="text-[1rem] text-gray-500 dark:text-zinc-400">
                     No data available
                   </p>
                 </div>
@@ -1069,10 +1070,10 @@
                 >
                   <div class="relative">
                     <label
-                      class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      class="bg-white/90 dark:bg-zinc-950/70 border border-gray-200/70 dark:border-zinc-800/80 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                     >
                       <span
-                        class="loading loading-spinner loading-md text-white dark:text-white"
+                        class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
                       ></span>
                     </label>
                   </div>
@@ -1086,7 +1087,7 @@
               <table class="w-[50%] text-sm sm:text-[1rem] lg:min-w-[250px]">
                 <tbody
                   ><tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Bid</td
@@ -1101,12 +1102,12 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       ><a
                         href={`/stocks/${$stockTicker}/statistics/market-cap`}
-                        class="sm:hover:text-blue-800 dark:sm:hover:text-blue-400 underline underline-offset-4"
+                        class="hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
                         >Market Cap</a
                       ></td
                     >
@@ -1121,12 +1122,12 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       ><a
                         href={`/stocks/${$stockTicker}/statistics/revenue`}
-                        class="sm:hover:text-blue-800 dark:sm:hover:text-blue-400 underline underline-offset-4"
+                        class="hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
                         >Revenue (ttm)</a
                       ></td
                     >
@@ -1140,7 +1141,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Net Income (ttm)</td
@@ -1154,7 +1155,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >EPS (ttm)</td
@@ -1165,7 +1166,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >PE Ratio (ttm)</td
@@ -1176,7 +1177,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Forward PE</td
@@ -1188,7 +1189,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >P/B (ttm)</td
@@ -1202,7 +1203,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >P/S (ttm)</td
@@ -1216,7 +1217,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Total Assets (ttm)</td
@@ -1229,7 +1230,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Total Liabilities (ttm)</td
@@ -1244,7 +1245,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                     >
@@ -1264,7 +1265,7 @@
               <table class="w-[50%] text-sm lg:min-w-[250px]">
                 <tbody
                   ><tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Ask</td
@@ -1279,7 +1280,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Volume</td
@@ -1290,7 +1291,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Avg. Volume (20D)</td
@@ -1305,7 +1306,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Open</td
@@ -1318,7 +1319,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Previous Close</td
@@ -1331,7 +1332,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Day's Range</td
@@ -1346,7 +1347,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >52-Week Range</td
@@ -1361,7 +1362,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Beta</td
@@ -1375,7 +1376,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       ><a
@@ -1385,7 +1386,7 @@
                           : ""}
                         class={data?.getAnalystSummary?.consensusRating !==
                         undefined
-                          ? "sm:hover:text-blue-800 dark:sm:hover:text-blue-400 underline underline-offset-4"
+                          ? "hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
                           : " cursor-text"}>Analyst</a
                       >
                     </td>
@@ -1400,7 +1401,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       ><a
@@ -1410,7 +1411,7 @@
                           : ""}
                         class={data?.getAnalystSummary?.consensusRating !==
                         undefined
-                          ? "sm:hover:text-blue-800 dark:sm:hover:text-blue-400 underline underline-offset-4"
+                          ? "hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
                           : " cursor-text"}>Price Target</a
                       >
                     </td>
@@ -1426,7 +1427,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       ><a
@@ -1434,7 +1435,7 @@
                           ? `/stocks/${$stockTicker}/dividends`
                           : ""}
                         class={data?.getStockDeck?.annualDividend
-                          ? "sm:hover:text-blue-800 dark:sm:hover:text-blue-400 underline underline-offset-4"
+                          ? "hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
                           : " cursor-text"}>Dividends</a
                       >
                     </td>
@@ -1451,7 +1452,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-gray-800 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >Ex-Dividend Date</td
