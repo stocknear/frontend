@@ -278,9 +278,9 @@
         squareSymbol: true,
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 text-[1rem] sm:text-lg">${ticker} Open Interest By Strike</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">${ticker} Open Interest By Strike</h3>`,
         useHTML: true,
-        style: { color: $mode === "light" ? "black" : "white" },
+        style: { color: $mode === "light" ? "#111827" : "#f4f4f5" },
       },
       xAxis: {
         categories: allStrikes,
@@ -467,11 +467,13 @@
 </script>
 
 <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto mt-2 sm:mt-0">
-  <h2 class=" flex flex-row items-center text-xl sm:text-2xl font-bold w-fit">
+  <h2
+    class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
+  >
     {ticker} Open Interest Chart
   </h2>
 
-  <p class="mt-3 mb-2">
+  <p class="mt-3 mb-2 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">
     {#if rawData?.length > 0}
       Open interest data for <strong>{ticker}</strong> options contracts.
       {#if selectedDates.has("All")}
@@ -549,7 +551,7 @@
         align="end"
         sideOffset={10}
         alignOffset={0}
-        class="min-w-56 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative"
+        class="min-w-56 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
       >
         <DropdownMenu.Group class="pb-2">
           {#each dateList as item, index}
@@ -576,7 +578,7 @@
             {:else}
               <DropdownMenu.Item
                 on:click={() => goto("/pricing")}
-                class="cursor-pointer sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                class="cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
               >
                 {formatDate(item)}
                 <svg
@@ -600,13 +602,13 @@
     </DropdownMenu.Root>
   </div>
 
-  <div class="w-full overflow-hidden m-auto sm:mt-3 shadow">
+  <div class="w-full overflow-hidden m-auto sm:mt-3">
     {#if config !== null}
       <div>
         <div class="grow">
           <div class="relative">
             <div
-              class="mt-5 shadow sm:mt-0 sm:border sm:border-gray-300 dark:border-gray-800 rounded"
+              class="mt-5 sm:mt-0 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
               use:highcharts={config}
             ></div>
           </div>
@@ -617,10 +619,10 @@
 
   <div class="items-center lg:overflow-visible px-1 py-1 mt-10">
     <div
-      class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+      class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
     >
       <h2
-        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold w-full"
+        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
       >
         Open Interest Table
       </h2>
@@ -634,26 +636,31 @@
     </div>
   </div>
 
-  <div class="w-full overflow-x-auto mt-2">
-    <table
-      class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+  <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
+    <div
+      class="w-full overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
     >
-      <thead>
-        <TableHeader {columns} {sortOrders} {sortData} />
-      </thead>
-      <tbody>
+      <table
+        class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
+      >
+        <thead
+          class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+        >
+          <TableHeader {columns} {sortOrders} {sortData} />
+        </thead>
+        <tbody>
         {#each displayList as item, index}
-          <tr class="dark:sm:hover:bg-[#245073]/10">
-            <td class=" text-sm sm:text-[1rem] text-start whitespace-nowrap">
+          <tr class="transition-colors">
+            <td class="text-sm text-start whitespace-nowrap">
               {item?.strike}
             </td>
-            <td class=" text-sm sm:text-[1rem] text-end whitespace-nowrap">
+            <td class="text-sm text-end whitespace-nowrap">
               {item?.call_oi?.toLocaleString("en-US")}
             </td>
-            <td class=" text-sm sm:text-[1rem] text-end whitespace-nowrap">
+            <td class="text-sm text-end whitespace-nowrap">
               {item?.put_oi?.toLocaleString("en-US")}
             </td>
-            <td class=" text-sm sm:text-[1rem] text-end whitespace-nowrap">
+            <td class="text-sm text-end whitespace-nowrap">
               {#if item?.put_call_ratio <= 1 && item?.put_call_ratio !== null}
                 <span class=" text-emerald-600 dark:text-emerald-400"
                   >{item?.put_call_ratio?.toFixed(2)}</span
@@ -668,8 +675,9 @@
             </td>
           </tr>
         {/each}
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <!-- Pagination controls -->

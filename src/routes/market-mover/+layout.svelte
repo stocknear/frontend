@@ -64,7 +64,7 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:pr-5">
-          <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
+          <div class="mb-2 border-b border-gray-200/70 dark:border-zinc-800/80">
             <h1
               class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
@@ -76,7 +76,7 @@
             class="border-b border-gray-200/70 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
           >
             <ul
-              class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base"
+              class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
             >
               {#each tabs as item, index}
                 <a
@@ -92,7 +92,7 @@
             </ul>
           </nav>
 
-          <div class="mt-6">
+          <div class="mt-2">
             <slot />
           </div>
         </main>

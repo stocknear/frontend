@@ -493,10 +493,12 @@
 </script>
 
 <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto mt-2 sm:mt-0">
-  <h2 class=" flex flex-row items-center text-xl sm:text-2xl font-bold w-fit">
+  <h2
+    class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
+  >
     {ticker} Volatility Exposure
   </h2>
-  <div class="w-full mt-2">
+  <div class="w-full mt-2 text-sm text-gray-600 dark:text-zinc-400">
     {removeCompanyStrings($displayCompanyName)} has experienced an average implied
     volatility of {avgIV?.toFixed(2)} and an average realized volatility of {avgRV?.toFixed(
       2,
@@ -506,41 +508,42 @@
   <div class="w-full overflow-hidden m-auto">
     {#if config}
       <div class="flex justify-end pt-5 pb-2 space-x-2 ml-auto z-10">
-        {#each ["3M", "6M", "1Y"] as item, index}
-          {#if data?.user?.tier === "Pro" || index === 0}
-            <label
-              on:click={() => (timePeriod = item)}
-              class="px-3 py-1 text-sm shadow border-gray-300 dark:border-gray-600 {timePeriod ===
-              item
-                ? 'bg-gray-300 dark:bg-white text-black '
-                : ' bg-gray-100 dark:bg-table text-opacity-[0.6]'} transition ease-out duration-100 rounded cursor-pointer"
-            >
-              {item}
-            </label>
-          {:else if data?.user?.tier !== "Pro"}
-            <a
-              href="/pricing"
-              class="px-3 py-1 text-sm flex flex-row items-center border border-gray-300 dark:border-gray-600 {timePeriod ===
-              item
-                ? 'bg-gray-300 dark:bg-white text-black '
-                : ' bg-gray-100 dark:bg-table text-opacity-[0.6]'} transition ease-out duration-100 rounded cursor-pointer"
-            >
-              {item}
-              <svg
-                class="ml-1 -mt-w-3.5 h-3.5 inline-block"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                ><path
-                  fill="currentColor"
-                  d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                /></svg
+        <div
+          class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-200/70 dark:border-zinc-800/80"
+        >
+          {#each ["3M", "6M", "1Y"] as item, index}
+            {#if data?.user?.tier === "Pro" || index === 0}
+              <button
+                on:click={() => (timePeriod = item)}
+                class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
+              {timePeriod === item
+                  ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                  : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
               >
-            </a>
-          {/if}
-        {/each}
+                {item}
+              </button>
+            {:else if data?.user?.tier !== "Pro"}
+              <a
+                href="/pricing"
+                class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all text-gray-400 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white flex items-center"
+              >
+                {item}
+                <svg
+                  class="ml-1 h-3.5 w-3.5 inline-block"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  ><path
+                    fill="currentColor"
+                    d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                  /></svg
+                >
+              </a>
+            {/if}
+          {/each}
+        </div>
       </div>
       <div
-        class="border border-gray-300 dark:border-gray-800 rounded w-full"
+        class="border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 w-full"
         use:highcharts={config}
       ></div>
     {/if}
@@ -548,10 +551,10 @@
 
   <div class="items-center lg:overflow-visible px-1 py-1 mt-10">
     <div
-      class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-gray-800"
+      class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
     >
       <h2
-        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold w-full"
+        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
       >
         Volatility History
       </h2>
@@ -569,17 +572,22 @@
     </div>
   </div>
 
-  <div class="w-full overflow-x-auto">
-    <table
-      class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto mt-4"
+  <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
+    <div
+      class="w-full overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
     >
-      <thead>
-        <TableHeader {columns} {sortOrders} {sortData} />
-      </thead>
-      <tbody>
+      <table
+        class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
+      >
+        <thead
+          class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+        >
+          <TableHeader {columns} {sortOrders} {sortData} />
+        </thead>
+        <tbody>
         {#each data?.user?.tier === "Pro" ? displayList : displayList?.slice(0, 3) as item, index}
           <tr
-            class="dark:sm:hover:bg-[#245073]/10 {index + 1 ===
+            class="transition-colors {index + 1 ===
               displayList?.slice(0, 3)?.length &&
             !['Pro']?.includes(data?.user?.tier)
               ? 'opacity-[0.1]'
@@ -641,8 +649,9 @@
             </td>
           </tr>
         {/each}
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <!-- Pagination controls - only for Pro users -->

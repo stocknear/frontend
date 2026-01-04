@@ -550,12 +550,12 @@
         >
             <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto mt-2 sm:mt-0">
                 <h2
-                    class="flex flex-row items-center text-xl sm:text-2xl font-bold w-fit mb-2 sm:mb-0"
+                    class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit mb-2 sm:mb-0"
                 >
                     {removeCompanyStrings($displayCompanyName)} Greeks
                 </h2>
 
-                <div class="w-full mt-4 mb-6">
+                <div class="w-full mt-4 mb-6 text-sm text-gray-600 dark:text-zinc-400">
                     Delta, Gamma, Theta, and Vega Greek Charts for <strong
                         >{ticker}</strong
                     > options.
@@ -574,7 +574,7 @@
                                 <div class="">
                                     <div class="inline-flex">
                                         <div
-                                            class="inline-flex rounded-lg shadow-sm"
+                                            class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-200/70 dark:border-zinc-800/80"
                                         >
                                             {#each greekTabs as item, i}
                                                 <button
@@ -583,17 +583,10 @@
                                                             item,
                                                             i,
                                                         )}
-                                                    class="cursor-pointer border-r border-gray-300 dark:border-gray-600 px-4 py-2 font-medium focus:z-10 focus:outline-none transition-colors duration-50
-                          {i === 0 ? 'rounded-l border' : ''}
-                          {i === greekTabs?.length - 1
-                                                        ? 'rounded-r border-t border-r border-b'
-                                                        : ''}
-                          {i !== 0 && i !== greekTabs?.length - 1
-                                                        ? 'border-t border-b'
-                                                        : ''}
+                                                    class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
                           {activeGreekIdx === i
-                                                        ? 'bg-black dark:bg-white text-white dark:text-black'
-                                                        : 'bg-white border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
+                                                        ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                                                        : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                                                 >
                                                     {item}
                                                 </button>
@@ -613,23 +606,16 @@
                                 <div class="">
                                     <div class="inline-flex">
                                         <div
-                                            class="inline-flex rounded-lg shadow-sm"
+                                            class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-200/70 dark:border-zinc-800/80"
                                         >
                                             {#each pcTabs as item, i}
                                                 <button
                                                     on:click={() =>
                                                         onPCTabClick(item, i)}
-                                                    class="cursor-pointer border-r border-gray-300 dark:border-gray-600 px-4 py-2 font-medium focus:z-10 focus:outline-none transition-colors duration-50
-                          {i === 0 ? 'rounded-l border' : ''}
-                          {i === pcTabs?.length - 1
-                                                        ? 'rounded-r border-t border-r border-b'
-                                                        : ''}
-                          {i !== 0 && i !== pcTabs?.length - 1
-                                                        ? 'border-t border-b'
-                                                        : ''}
+                                                    class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
                           {activePCTabIdx === i
-                                                        ? 'bg-black dark:bg-white text-white dark:text-black'
-                                                        : 'bg-white border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
+                                                        ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                                                        : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                                                 >
                                                     {item}
                                                 </button>
@@ -674,7 +660,7 @@
                                 align="end"
                                 sideOffset={10}
                                 alignOffset={0}
-                                class="min-w-56 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative"
+                                class="min-w-56 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                             >
                                 <DropdownMenu.Group class="pb-2">
                                     {#each dateList as item, index}
@@ -684,12 +670,12 @@
                                                     selectedDate = item;
                                                 }}
                                                 class="{selectedDate === item
-                                                    ? 'bg-gray-200 dark:bg-primary'
-                                                    : ''} sm:hover:bg-gray-200 dark:sm:hover:bg-primary cursor-pointer"
+                                                    ? 'bg-gray-100/70 dark:bg-zinc-900/60'
+                                                    : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
                                             >
                                                 <span>{formatDate(item)}</span>
                                                 <span
-                                                    class="ml-2 text-xs text-gray-500 dark:text-gray-300"
+                                                    class="ml-2 text-xs text-gray-500 dark:text-zinc-400"
                                                     >({computeDTE(item)} day{computeDTE(
                                                         item,
                                                     ) === 1
@@ -701,11 +687,11 @@
                                             <DropdownMenu.Item
                                                 on:click={() =>
                                                     goto("/pricing")}
-                                                class="cursor-pointer sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                                                class="cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
                                             >
                                                 <span>{formatDate(item)}</span>
                                                 <span
-                                                    class="ml-2 text-xs text-gray-500 dark:text-gray-300"
+                                                    class="ml-2 text-xs text-gray-500 dark:text-zinc-400"
                                                     >({computeDTE(item)} day{computeDTE(
                                                         item,
                                                     ) === 1
@@ -736,7 +722,7 @@
                         <div class="grow mt-3">
                             <div class="relative">
                                 <div
-                                    class="mt-5 shadow sm:mt-0 sm:border sm:border-gray-300 dark:border-gray-800 rounded"
+                                    class="mt-5 sm:mt-0 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                                     use:highcharts={config}
                                 ></div>
                             </div>
@@ -744,71 +730,83 @@
                     </div>
                 </div>
 
-                <div
-                    class="mb-3 mt-10 flex flex-row items-center w-full border-t border-b border-gray-300 dark:border-gray-800 py-2"
-                >
-                    <h2 class=" text-xl sm:text-2xl font-bold">
-                        {selectedGreek} Table
-                    </h2>
-
+                <div class="items-center lg:overflow-visible px-1 py-1 mt-10">
                     <div
-                        class="flex flex-row items-center w-[50%] w-auto ml-auto"
+                        class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
                     >
-                        <DownloadData
-                            {data}
-                            rawData={originalList}
-                            title={`${selectedDate}_greek_data`}
-                        />
+                        <h2
+                            class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
+                        >
+                            {selectedGreek} Table
+                        </h2>
+
+                        <div
+                            class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+                        >
+                            <div class="ml-auto">
+                                <DownloadData
+                                    {data}
+                                    rawData={originalList}
+                                    title={`${selectedDate}_greek_data`}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="w-full overflow-x-auto mt-3">
-                    <table
-                        class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+                <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
+                    <div
+                        class="w-full overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
                     >
-                        <thead>
-                            <TableHeader {columns} {sortOrders} {sortData} />
-                        </thead>
-                        <tbody>
-                            {#each displayList as item}
-                                <tr class="dark:sm:hover:bg-[#245073]/10">
-                                    <td
-                                        class="text-sm sm:text-[1rem] text-start whitespace-nowrap"
-                                    >
-                                        {item?.strike?.toFixed(2)}
-                                    </td>
-                                    <td
-                                        class="text-sm sm:text-[1rem] text-end whitespace-nowrap"
-                                    >
-                                        {item?.totalDelta != null
-                                            ? abbreviateNumber(item.totalDelta)
-                                            : "-"}
-                                    </td>
-                                    <td
-                                        class="text-sm sm:text-[1rem] text-end whitespace-nowrap"
-                                    >
-                                        {item?.totalGamma != null
-                                            ? abbreviateNumber(item.totalGamma)
-                                            : "-"}
-                                    </td>
-                                    <td
-                                        class="text-sm sm:text-[1rem] text-end whitespace-nowrap"
-                                    >
-                                        {item?.totalTheta != null
-                                            ? abbreviateNumber(item.totalTheta)
-                                            : "-"}
-                                    </td>
-                                    <td
-                                        class="text-sm sm:text-[1rem] text-end whitespace-nowrap"
-                                    >
-                                        {item?.totalVega != null
-                                            ? abbreviateNumber(item.totalVega)
-                                            : "-"}
-                                    </td>
-                                </tr>
-                            {/each}
-                        </tbody>
-                    </table>
+                        <table
+                            class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
+                        >
+                            <thead
+                                class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                            >
+                                <TableHeader {columns} {sortOrders} {sortData} />
+                            </thead>
+                            <tbody>
+                                {#each displayList as item}
+                                    <tr class="transition-colors">
+                                        <td
+                                            class="text-sm text-start whitespace-nowrap"
+                                        >
+                                            {item?.strike?.toFixed(2)}
+                                        </td>
+                                        <td
+                                            class="text-sm text-end whitespace-nowrap"
+                                        >
+                                            {item?.totalDelta != null
+                                                ? abbreviateNumber(item.totalDelta)
+                                                : "-"}
+                                        </td>
+                                        <td
+                                            class="text-sm text-end whitespace-nowrap"
+                                        >
+                                            {item?.totalGamma != null
+                                                ? abbreviateNumber(item.totalGamma)
+                                                : "-"}
+                                        </td>
+                                        <td
+                                            class="text-sm text-end whitespace-nowrap"
+                                        >
+                                            {item?.totalTheta != null
+                                                ? abbreviateNumber(item.totalTheta)
+                                                : "-"}
+                                        </td>
+                                        <td
+                                            class="text-sm text-end whitespace-nowrap"
+                                        >
+                                            {item?.totalVega != null
+                                                ? abbreviateNumber(item.totalVega)
+                                                : "-"}
+                                        </td>
+                                    </tr>
+                                {/each}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- Pagination controls -->

@@ -46,7 +46,7 @@
           class="border-b border-gray-200/70 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
         >
           <ul
-            class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base"
+            class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
           >
             <a
               href="/market-mover/premarket/gainers"
