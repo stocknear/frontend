@@ -160,7 +160,7 @@
 -->
   <main id="main">
     <div
-      class="border-b border-gray-100 dark:border-gray-800 rounded-[5px] px-4 bg-gray-100 dark:bg-[#1C1E22] pt-8 sm:pt-12 shadow-sm pb-26 landscape:border-t-2 landscape:md:border-t-0"
+      class="border-b border-gray-100/80 dark:border-zinc-800/80 px-4 pt-8 sm:pt-12 pb-24"
     >
       <!--
       {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
@@ -185,13 +185,15 @@
       {/if}
       -->
 
-      <div class="mx-auto max-w-[850px] text-center">
+      <div class="mx-auto max-w-3xl text-center">
         <h1
-          class="mb-3 text-2xl font-bold sm:mb-5 md:text-4xl lg:mb-7 lg:text-[42px]"
+          class="mb-3 text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:mb-5 sm:text-4xl lg:mb-6 lg:text-[42px]"
         >
           Research your Trading Ideas
         </h1>
-        <p class=" sm:text-lg md:text-xl lg:text-[22px] lg:leading-8">
+        <p
+          class="text-sm text-gray-600 dark:text-zinc-400 sm:text-base md:text-lg lg:text-xl lg:leading-8"
+        >
           Accurate information on all US Stocks and funds. See stock prices,
           options data, dark pool orders, news, financials, forecasts, charts
           and more.
