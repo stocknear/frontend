@@ -540,21 +540,16 @@
         </h3>
 
         <div class="inline-flex ml-auto mt-2 sm:mt-0">
-          <div class="inline-flex rounded-lg shadow-sm">
+          <div
+            class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-200/70 dark:border-zinc-800/80"
+          >
             {#each tabs as item, i}
               <button
                 on:click={() => changeTimePeriod(i)}
-                class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
-                          {i === 0 ? 'rounded-l border' : ''}
-                          {i === tabs.length - 1
-                  ? 'rounded-r border-t border-r border-b'
-                  : ''}
-                          {i !== 0 && i !== tabs.length - 1
-                  ? 'border-t border-b'
-                  : ''}
-                          {activeIdx === i
-                  ? 'bg-black dark:bg-white text-white dark:text-black'
-                  : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
+                class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
+          {activeIdx === i
+                  ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                  : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
               >
                 {item.title}
               </button>

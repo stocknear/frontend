@@ -48,7 +48,7 @@
     <main class="w-full">
       <div class="m-auto">
         <nav
-          class="mb-5 sm:mb-0 sm:ml-4 pt-1 text-sm whitespace-nowrap overflow-x-auto border-b border-gray-200/70 dark:border-zinc-800/80"
+          class="mt-1 mb-5 sm:mb-0 sm:ml-4 pt-1 text-sm whitespace-nowrap overflow-x-auto border-b border-gray-200/70 dark:border-zinc-800/80"
         >
           <ul
             class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base"

@@ -129,9 +129,11 @@
       <div class="m-auto">
         {#if subsectionTitles.length > 0}
           <nav
-            class="sm:ml-4 pt-1 text-sm whitespace-nowrap overflow-x-auto scrollbar-thin"
+            class="sm:ml-4 mt-2 text-sm whitespace-nowrap overflow-x-auto scrollbar-thin"
           >
-            <ul class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base">
+            <ul
+              class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base"
+            >
               {#each subsectionTitles as title (title)}
                 {@const sectionKey = createSlug(title)}
                 <a
