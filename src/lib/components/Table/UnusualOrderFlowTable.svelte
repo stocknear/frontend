@@ -391,62 +391,76 @@
       >
         <!-- Date Column -->
         <div
-          class="p-2 text-end text-xs sm:text-sm whitespace-nowrap relative z-10"
+          class="p-2 text-end text-xs sm:text-sm whitespace-nowrap relative z-10 text-gray-500 dark:text-zinc-400 tabular-nums"
         >
           {$screenWidth < 640
             ? formatToNewYorkTime(displayedData[index]?.date)?.slice(0, -3)
             : formatToNewYorkTime(displayedData[index]?.date)}
         </div>
         <!-- Symbol Column -->
-        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10">
+        <div class="p-2 text-end text-sm sm:text-[0.95rem] relative z-10 text-gray-700 dark:text-zinc-200">
           <HoverStockChart
             symbol={displayedData[index]?.ticker}
             assetType={displayedData[index]?.assetType}
           />
         </div>
         <!-- Price Column -->
-        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10">
+        <div class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums">
           {displayedData[index]?.price}
         </div>
         <!-- Premium Column -->
-        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10">
+        <div class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums">
           {abbreviateNumber(displayedData[index]?.premium, true, true)}
         </div>
         <!-- Size Column -->
-        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10">
+        <div class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums">
           {new Intl.NumberFormat("en", {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           }).format(displayedData[index]?.size)}
         </div>
         <!-- Volume Column -->
-        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10">
+        <div class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums">
           {displayedData[index]?.volume?.toLocaleString("en-US")}
         </div>
         <!-- % Size / Vol Column -->
-        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10">
+        <div class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums">
           {displayedData[index]?.sizeVolRatio > 0.01
             ? displayedData[index]?.sizeVolRatio?.toFixed(2) + "%"
             : "< 0.01%"}
         </div>
         <!-- % Size / Avg Vol Column -->
-        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10">
+        <div class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300 tabular-nums">
           {displayedData[index]?.sizeAvgVolRatio > 0.01
             ? displayedData[index]?.sizeAvgVolRatio?.toFixed(2) + "%"
             : "< 0.01%"}
         </div>
+        {@const transactionType = displayedData[index]?.transactionType || ""}
+        {@const transactionLabel = transactionType
+          ?.replace("DP", "Dark Pool")
+          ?.replace("B", "Block")}
+        {@const isDarkPool =
+          transactionType === "DP" ||
+          transactionType?.toLowerCase().includes("dark")}
         <!-- Transaction Type Column -->
-        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10 -mr-3">
-          {displayedData[index]?.transactionType
-            ?.replace("DP", "Dark Pool")
-            ?.replace("B", "Block")}
+        <div class="p-2 text-end text-xs sm:text-sm relative z-10 -mr-3 text-gray-600 dark:text-zinc-300">
+          <span class="inline-flex items-center justify-end gap-2 w-full">
+            <span
+              class={`h-1.5 w-1.5 rounded-full ${
+                isDarkPool
+                  ? "bg-violet-500/70 dark:bg-violet-400/70"
+                  : "bg-amber-500/70 dark:bg-amber-400/70"
+              }`}
+            ></span>
+            <span class="whitespace-nowrap">{transactionLabel}</span>
+          </span>
         </div>
         <!-- Exchange Column -->
-        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10 -mr-3">
+        <div class="p-2 text-end text-xs sm:text-sm relative z-10 -mr-3 text-gray-600 dark:text-zinc-300">
           {displayedData[index]?.exchange}
         </div>
         <!-- Asset Type Column -->
-        <div class="p-2 text-end text-sm sm:text-[1rem] relative z-10">
+        <div class="p-2 text-end text-xs sm:text-sm relative z-10 text-gray-600 dark:text-zinc-300">
           {displayedData[index]?.assetType}
         </div>
       </div>
