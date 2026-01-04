@@ -62,7 +62,7 @@
           <a
             href={sectorNavigation?.find((item) => item?.title === sector)
               ?.link}
-            class=" cursor-pointer sm:hover:underline font-semibold text-lg sm:text-xl"
+            class="cursor-pointer font-semibold tracking-tight text-base sm:text-lg text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 transition"
           >
             Sector: {sector}
             <svg
@@ -79,10 +79,10 @@
           </a>
         </div>
 
-        <div class="border-t border-gray-300 dark:border-gray-600 mt-5" />
+        <div class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-5" />
 
         <IndustryTable {charNumber} industryList={rawData[sector]} />
-        <div class="border-t border-gray-300 dark:border-gray-600 mt-5" />
+        <div class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-5" />
       {/each}
     </div>
   </div>

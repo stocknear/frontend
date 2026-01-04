@@ -32,28 +32,34 @@
 </script>
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 px-4 lg:px-3 mb-20"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
+          >Home</a
+        >
       </li>
-      <li><span class="text-muted dark:text-gray-300">Industry</span></li>
+      <li><span class="text-gray-500 dark:text-zinc-500">Industry</span></li>
     </ul>
   </div>
 
   <div class="mt-10 sm:mt-5 w-full m-auto mb-10 overflow-hidden">
     <div class="mb-6">
-      <h1 class="mb-1 text-2xl sm:text-3xl font-bold">
+      <h1
+        class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+      >
         Stock Sectors & Industries
       </h1>
     </div>
 
     <nav
-      class="border-[#2C6288] dark:border-white border-b-[2px] overflow-x-auto whitespace-nowrap"
+      class="border-b border-gray-200/70 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
     >
-      <ul class="flex flex-row items-center w-full text-[1rem] sm:text-lg">
+      <ul class="flex flex-row items-center w-full text-sm sm:text-base">
         {#each tabs as item, i}
           <a
             href={i === 0
@@ -62,9 +68,10 @@
                 ? "/industry/sectors"
                 : "/industry/all"}
             on:click={() => handleMode(i)}
-            class="p-2 px-5 cursor-pointer {activeIdx === i
-              ? 'text-muted dark:text-white bg-[#EEEEEE] dark:bg-primary/90 font-semibold'
-              : 'text-gray-600 dark:text-gray-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:bg-[#EEEEEE] dark:sm:hover:bg-primary/90'}"
+            class="px-4 py-2 rounded-full cursor-pointer transition {activeIdx ===
+            i
+              ? 'text-gray-900 dark:text-white bg-gray-100/70 dark:bg-zinc-900/60 font-semibold'
+              : 'text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400'}"
           >
             {item.title}
           </a>
