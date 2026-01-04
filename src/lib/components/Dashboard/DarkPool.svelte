@@ -65,7 +65,7 @@
               <Table.Cell class="text-sm text-gray-600 dark:text-zinc-300">
                 <a
                   href={`/${item?.assetType === "Stock" ? "stocks" : "etf"}/${item?.ticker}`}
-                  class="text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted cursor-pointer"
+                  class="text-violet-800 dark:text-violet-400 dark:sm:hover:text-white sm:hover:text-muted cursor-pointer"
                   >{item?.ticker}</a
                 >
               </Table.Cell>

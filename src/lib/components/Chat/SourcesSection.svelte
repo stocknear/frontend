@@ -45,7 +45,7 @@
         {#each tickersWithUrls as { ticker, url }}
           <a
             href={url}
-            class="inline-block badge border-blue-100 dark:border-gray-800 bg-blue-50 dark:bg-primary font-semibold rounded px-2 text-blue-800 dark:text-blue-400 sm:hover:text-muted dark:sm:hover:text-white"
+            class="inline-block badge border-blue-100 dark:border-gray-800 bg-blue-50 dark:bg-primary font-semibold rounded px-2 text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white"
           >
             {ticker}
           </a>

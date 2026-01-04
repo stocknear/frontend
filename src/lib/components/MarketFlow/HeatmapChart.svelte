@@ -78,7 +78,7 @@
                     formatter: function () {
                         // 'this.value' contains the label text (e.g., "SPY")
                         // We apply the blue color (#3b82f6) directly to the <a> tag
-                        return `<a href="/etf/${this.value}" class="sm:hover:text-muted dark:sm:hover:text-white text-blue-800 dark:text-blue-400">${this.value}</a>`;
+                        return `<a href="/etf/${this.value}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400">${this.value}</a>`;
                     },
                 },
             },

@@ -160,7 +160,7 @@
                   pos + match.index,
                   pos + match.index + match[0]?.length,
                   {
-                    class: "text-blue-800 dark:text-blue-400 font-medium",
+                    class: "text-violet-800 dark:text-violet-400 font-medium",
                   },
                 ),
               );

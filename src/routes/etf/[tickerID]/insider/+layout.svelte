@@ -93,7 +93,7 @@
                     <li class="mb-3 last:mb-1">
                       {formatDate(item?.publishedDate)} ago -
                       <a
-                        class="sm:hover:text-muted dark:sm:hover:text-white text-blue-800 dark:text-blue-400"
+                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400"
                         href={item?.url}
                         target="_blank"
                         rel="noopener noreferrer nofollow">{item?.title}</a

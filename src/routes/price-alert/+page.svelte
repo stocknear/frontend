@@ -292,14 +292,18 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-3 text-muted dark:text-white"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-3 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-sm sm:text-[1rem] breadcrumbs">
+  <div class="text-sm sm:text-[0.95rem] breadcrumbs text-gray-500 dark:text-zinc-400">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          >Home</a
+        >
       </li>
-      <li class="text-muted dark:text-gray-300">Price Alert</li>
+      <li class="text-gray-500 dark:text-zinc-400">Price Alert</li>
     </ul>
   </div>
 
@@ -309,8 +313,12 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <div class="mb-6 border-[#2C6288] dark:border-white border-b-[2px]">
-            <h1 class="mb-1 text-2xl sm:text-3xl font-bold">Price Alerts</h1>
+          <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
+            <h1
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
+              Price Alerts
+            </h1>
           </div>
 
           {#if data?.user}
@@ -322,7 +330,7 @@
                   {#if editMode}
                     <label
                       on:click={handleDeleteTickers}
-                      class="shadow border text-sm border-gray-300 dark:border-gray-600 mr-2 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded py-2.5 pl-3 pr-4 font-semibold sm:hover:bg-gray-100 dark:sm:hover:bg-default/60 ease-out sm:hover:text-red-500"
+                      class="border text-sm border-gray-200/70 dark:border-zinc-800/80 mr-2 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-2 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-600 dark:hover:text-rose-400"
                     >
                       <svg
                         class="inline-block w-5 h-5"
@@ -340,7 +348,7 @@
                   {/if}
                   <label
                     on:click={handleEditMode}
-                    class="shadow border text-sm border-gray-300 dark:border-gray-600 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded py-2 px-3 sm:hover:bg-gray-100 dark:sm:hover:bg-primary ease-out sm:hover:text-red-500"
+                    class="border text-sm border-gray-200/70 dark:border-zinc-800/80 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
                   >
                     <svg
                       class="inline-block w-5 h-5"
@@ -374,19 +382,19 @@
                   <div class="relative w-full">
                     <Combobox.Input
                       on:input={search}
-                      class="py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-default shadow focus:outline-hidden border border-gray-300 dark:border-gray-600 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-600 grow w-full sm:min-w-56"
+                      class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-200/70 dark:border-zinc-800/80 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56"
                       placeholder="Find..."
                       aria-label="Find..."
                     />
                   </div>
                   <Combobox.Content
-                    class="w-auto z-10 rounded bg-white dark:bg-default border border-gray-300 dark:border-gray-700  px-1 py-3 shadow outline-hidden"
+                    class="w-auto z-10 rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 px-1 py-1.5 shadow-none outline-hidden"
                     sideOffset={8}
                   >
                     {#if inputValue?.length > 0}
                       {#each searchBarData as item}
                         <Combobox.Item
-                          class="cursor-pointer border-b border-gray-300 dark:border-gray-600 last:border-none flex h-fit w-auto select-none items-center rounded-button py-3 pl-5 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100 dark:data-highlighted:bg-primary"
+                          class="cursor-pointer border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-button py-2 pl-5 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-600 dark:data-[highlighted]:text-violet-400"
                           value={item.symbol}
                           label={item.name}
                           on:click={(e) =>
@@ -394,27 +402,27 @@
                         >
                           <div class="flex flex-col items-start">
                             <span
-                              class="text-sm text-blue-800 dark:text-blue-400"
+                              class="text-sm text-gray-700 dark:text-zinc-200"
                               >{item?.symbol}</span
                             >
                             <span
-                              class="text-xs sm:text-sm text-muted dark:text-white"
+                              class="text-xs sm:text-sm text-gray-500 dark:text-zinc-400"
                               >{item?.name}</span
                             >
                           </div>
                         </Combobox.Item>
                       {:else}
                         <span
-                          class="block px-5 py-2 text-sm text-muted dark:text-white"
+                          class="block px-5 py-2 text-sm text-gray-500 dark:text-zinc-400"
                         >
                           No results found
                         </span>
                       {/each}
                     {:else}
                       <Combobox.Item
-                        class="cursor-pointer border-b border-gray-300 dark:border-gray-600 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
+                        class="cursor-pointer border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                       >
-                        <span class=" text-sm text-muted dark:text-white">
+                        <span class=" text-sm text-gray-500 dark:text-zinc-400">
                           No results found
                         </span>
                       </Combobox.Item>
@@ -425,35 +433,39 @@
             </div>
             <!--Start Table-->
             {#if priceAlertList?.length > 0}
-              <div class="w-full rounded overflow-hidden overflow-x-auto">
+              <div
+                class="w-full rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-hidden overflow-x-auto mt-4"
+              >
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto mt-4"
+                  class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
                 >
                   <!-- head -->
-                  <thead class="text-white bg-default">
-                    <tr class="">
-                      <th class=" font-semibold text-sm sm:text-[1rem]"
+                  <thead
+                    class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 bg-white/60 dark:bg-zinc-950/30"
+                  >
+                    <tr class="border-b border-gray-200/70 dark:border-zinc-800/80">
+                      <th class=" font-semibold text-[11px] sm:text-[12px] text-left"
                         >Symbol</th
                       >
-                      <th class=" font-semibold text-sm sm:text-[1rem]"
+                      <th class=" font-semibold text-[11px] sm:text-[12px] text-left"
                         >Company</th
                       >
 
-                      <th class=" font-semibold text-end text-sm sm:text-[1rem]"
+                      <th class=" font-semibold text-end text-[11px] sm:text-[12px]"
                         >Price Target</th
                       >
-                      <th class=" font-semibold text-end text-sm sm:text-[1rem]"
+                      <th class=" font-semibold text-end text-[11px] sm:text-[12px]"
                         >Condition</th
                       >
                       <th
-                        class=" font-semibold text-end text-sm sm:text-[1rem]"
+                        class=" font-semibold text-end text-[11px] sm:text-[12px]"
                       >
                         Price</th
                       >
-                      <th class=" font-semibold text-end text-sm sm:text-[1rem]"
+                      <th class=" font-semibold text-end text-[11px] sm:text-[12px]"
                         >% Change</th
                       >
-                      <th class=" font-semibold text-end text-sm sm:text-[1rem]"
+                      <th class=" font-semibold text-end text-[11px] sm:text-[12px]"
                         >Volume</th
                       >
                     </tr>
@@ -461,10 +473,12 @@
                   <tbody class="p-3">
                     {#each priceAlertList as item}
                       <!-- row -->
-                      <tr class="dark:sm:hover:bg-[#245073]/10">
+                      <tr
+                        class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none"
+                      >
                         <td
                           on:click={() => handleFilter(item?.id)}
-                          class="text-blue-400 text-sm sm:text-[1rem] whitespace-nowrap text-start flex flex-row items-center"
+                          class="text-sm sm:text-[0.95rem] whitespace-nowrap text-start flex flex-row items-center"
                         >
                           <input
                             type="checkbox"
@@ -472,11 +486,11 @@
                               false}
                             class="{!editMode
                               ? 'hidden'
-                              : ''} dark:bg-[#2E3238] h-[18px] w-[18px] rounded-sm ring-offset-0 mr-3 cursor-pointer"
+                              : ''} h-[18px] w-[18px] rounded-sm border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 ring-offset-0 mr-3 cursor-pointer"
                           />
                           {#if editMode}
                             <label
-                              class="sm:hover:text-muted text-blue-800 dark:text-blue-400 dark:sm:hover:text-white cursor-pointer"
+                              class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 cursor-pointer transition"
                             >
                               {item?.symbol}
                             </label>
@@ -488,32 +502,32 @@
                           {/if}
                         </td>
 
-                        <td class=" text-sm sm:text-[1rem] whitespace-nowrap">
+                        <td class=" text-sm sm:text-[0.95rem] whitespace-nowrap">
                           {item?.name?.length > charNumber
                             ? item?.name?.slice(0, charNumber) + "..."
                             : item?.name}
                         </td>
 
                         <td
-                          class=" text-sm sm:text-[1rem] whitespace-nowrap text-end"
+                          class=" text-sm sm:text-[0.95rem] whitespace-nowrap text-end"
                         >
                           {item?.targetPrice}
                         </td>
 
                         <td
-                          class=" text-sm sm:text-[1rem] whitespace-nowrap text-end"
+                          class=" text-sm sm:text-[0.95rem] whitespace-nowrap text-end"
                         >
                           {item?.condition}
                         </td>
 
                         <td
-                          class=" text-sm sm:text-[1rem] whitespace-nowrap text-end"
+                          class=" text-sm sm:text-[0.95rem] whitespace-nowrap text-end"
                         >
                           {item?.price?.toFixed(2)}
                         </td>
 
                         <td
-                          class=" text-sm sm:text-[1rem] whitespace-nowrap text-end"
+                          class=" text-sm sm:text-[0.95rem] whitespace-nowrap text-end"
                         >
                           {#if item?.changesPercentage >= 0}
                             <span class="text-emerald-600 dark:text-emerald-400"
@@ -526,7 +540,7 @@
                           {/if}
                         </td>
                         <td
-                          class=" text-sm sm:text-[1rem] whitespace-nowrap text-end"
+                          class=" text-sm sm:text-[0.95rem] whitespace-nowrap text-end"
                         >
                           {abbreviateNumber(item?.volume)}
                         </td>
@@ -537,7 +551,7 @@
               </div>
 
               <div
-                class="w-full m-auto border-b border-gray-300 dark:border-gray-600 mt-10 mb-5"
+                class="w-full m-auto border-b border-gray-200/70 dark:border-zinc-800/80 mt-10 mb-5"
               ></div>
 
               <div class=" ">
@@ -548,27 +562,20 @@
                     class=" flex flex-col sm:flex-row items-start sm:items-center w-full justify-between"
                   >
                     <div class="">
-                      <div class="inline-flex">
-                        <div class="inline-flex rounded-lg shadow-sm">
-                          {#each tabs as item, i}
-                            <button
-                              on:click={() => changeTab(i)}
-                              class="cursor-pointer px-4 py-2 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-50
-                          {i === 0 ? 'rounded-l border' : ''}
-                          {i === tabs?.length - 1
-                                ? 'rounded-r border-t border-r border-b'
-                                : ''}
-                          {i !== 0 && i !== tabs?.length - 1
-                                ? 'border-t border-b'
-                                : ''}
+                          <div class="inline-flex">
+                            <div class="inline-flex gap-1">
+                              {#each tabs as item, i}
+                                <button
+                                  on:click={() => changeTab(i)}
+                                  class="cursor-pointer px-3 py-1.5 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-150 rounded-full border
                           {activeIdx === i
-                                ? 'bg-black dark:bg-white text-white dark:text-black'
-                                : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
-                            >
-                              {item.title}
-                            </button>
-                          {/each}
-                        </div>
+                                      ? 'border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                                      : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
+                                >
+                                  {item.title}
+                                </button>
+                              {/each}
+                            </div>
                       </div>
                     </div>
                   </div>
@@ -576,16 +583,22 @@
                 {#if activeIdx === 0}
                   {#if groupedNews?.length > 0}
                     {#each displayList as [date, titleGroups]}
-                      <h3 class="mb-1.5 mt-3 font-semibold">
+                      <h3
+                        class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400"
+                      >
                         {date}
                       </h3>
-                      <div class="border border-gray-300 dark:border-gray-700">
+                      <div
+                        class="border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                      >
                         {#each titleGroups as { title, items, symbols }, index}
                           <div
-                            class="flex border-gray-300 dark:border-gray-600 text-small"
+                            class="flex border-gray-200 {index > 0
+                              ? 'border-t'
+                              : ''} dark:border-zinc-800/80 text-sm"
                           >
                             <div
-                              class="hidden min-w-[100px] items-center justify-center bg-gray-200 dark:bg-primary p-1 lg:flex"
+                              class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
                             >
                               {new Date(
                                 items[0].publishedDate,
@@ -596,11 +609,9 @@
                               })}
                             </div>
                             <div
-                              class="grow px-3 py-2 lg:py-1 {index > 0
-                                ? 'border-t'
-                                : ''} border-gray-300 dark:border-gray-700"
+                              class="grow px-3 py-2 lg:py-1"
                             >
-                              <h4 class="text-sm font-semibold lg:text-[1rem]">
+                              <h4 class="text-sm font-semibold lg:text-base">
                                 {title}
                               </h4>
                               <div
@@ -619,7 +630,7 @@
                                   {#each symbols as symbol}
                                     <a
                                       href={`/${items[0].type}/${symbol}`}
-                                      class="text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-400"
+                                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                                     >
                                       {symbol}
                                     </a>
@@ -632,30 +643,34 @@
                       </div>
                     {/each}
                   {:else}
-                    <div class="text-sm sm:text-[1rem] mt-5">
-                      No news yet. Add some stocks to the price alert list to
-                      see the latest news.
-                    </div>
-                  {/if}
-                {:else if groupedEarnings?.length > 0}
-                  {#each displayList as [date, titleGroups]}
-                    <h3 class="mb-1.5 mt-3 font-semibold text-faded">
+                  <div class="text-sm sm:text-[1rem] mt-5 text-gray-600 dark:text-zinc-300">
+                    No news yet. Add some stocks to the price alert list to
+                    see the latest news.
+                  </div>
+                {/if}
+              {:else if groupedEarnings?.length > 0}
+                {#each displayList as [date, titleGroups]}
+                    <h3
+                      class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400"
+                    >
                       {date}
                     </h3>
-                    <div class="border border-gray-300 dark:border-gray-700">
+                    <div
+                      class="border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                    >
                       {#each titleGroups as item, index}
                         <div
-                          class="flex border-gray-300 dark:border-gray-600 text-small"
+                          class="flex border-gray-200 dark:border-zinc-800/80 text-sm"
                         >
                           <div
-                            class="hidden min-w-[100px] items-center justify-center bg-gray-100 dark:bg-primary p-1 lg:flex"
+                            class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
                           >
                             {formatTime(item?.time)}
                           </div>
                           <div
                             class="grow px-3 py-2 lg:py-1 {index > 0
                               ? 'border-t'
-                              : ''} border-gray-300 dark:border-gray-700"
+                              : ''} border-gray-200 dark:border-zinc-800/80"
                           >
                             <div>
                               <strong>{item?.name}</strong>
@@ -710,7 +725,7 @@
                     </div>
                   {/each}
                 {:else}
-                  <div class="text-sm sm:text-[1rem] mt-5">
+                  <div class="text-sm sm:text-[1rem] mt-5 text-gray-600 dark:text-zinc-300">
                     No earnings yet. Add some stocks to the alert list to see
                     the latest earnings data.
                   </div>
@@ -724,14 +739,14 @@
                 No Alerts set
               </span>
 
-              <span class=" text-sm sm:text-[1rem] m-auto p-4 text-center">
+              <span class=" text-sm sm:text-[1rem] m-auto p-4 text-center text-gray-600 dark:text-zinc-300">
                 Create price alerts for your stocks that have the most potential
                 in your opinion.
               </span>
 
               {#if !data?.user}
                 <a
-                  class="w-64 flex mt-10 justify-center items-center m-auto btn text-black bg-[#fff] sm:hover:bg-gray-300 transition duration-150 ease-in-out group"
+                  class="w-64 flex mt-10 justify-center items-center m-auto rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200 group"
                   href="/register"
                 >
                   Get Started

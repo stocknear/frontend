@@ -116,7 +116,7 @@
                 <strong>Get in touch today:</strong>
                 <br />Email us at
                 <a
-                  class="text-blue-800 dark:text-blue-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:underline font-medium"
+                  class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:underline font-medium"
                   href="mailto:contact@stocknear.com">contact@stocknear.com</a
                 > to discuss your advertising needs and discover how we can accelerate
                 your business growth.

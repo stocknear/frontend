@@ -42,7 +42,7 @@
         {#each recentEarnings as item}
           <strong>{item?.name}</strong> (<a
             href={`/stocks/${item?.symbol}`}
-            class="text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted cursor-pointer"
+            class="text-violet-800 dark:text-violet-400 dark:sm:hover:text-white sm:hover:text-muted cursor-pointer"
             >{item?.symbol}</a
           >) has released its quarterly earnings at {formatTime(item?.time)}:
 

@@ -31,7 +31,7 @@
           it to us via
           <a
             href={`mailto:${emailAddress}`}
-            class="inline-block text-blue-800 dark:text-blue-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:underline"
+            class="inline-block text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white sm:hover:underline"
             >{emailAddress}</a
           >.
           <br />

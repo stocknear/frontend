@@ -764,7 +764,7 @@
                             />
                           {:else}
                             <span
-                              class="text-blue-800 dark:text-blue-400 cursor-pointer"
+                              class="text-violet-800 dark:text-violet-400 cursor-pointer"
                               >{item?.ticker}</span
                             >
                           {/if}
@@ -778,7 +778,7 @@
                           on:click={() => handleViewData(item)}
                           on:mouseover={() =>
                             getContractHistory(item?.option_symbol)}
-                          class="cursor-pointer flex flex-row items-center justify-between text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:underline sm:hover:underline-offset-4"
+                          class="cursor-pointer flex flex-row items-center justify-between text-violet-800 dark:text-violet-400 dark:sm:hover:text-white sm:hover:underline sm:hover:underline-offset-4"
                         >
                           <div>
                             {item?.put_call === "Puts" ? "P" : "C"}

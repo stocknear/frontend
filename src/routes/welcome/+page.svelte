@@ -127,7 +127,7 @@
       feature? Our support team is here to help at
       <a
         href="mailto:{emailAddress}"
-        class="text-blue-800 dark:text-blue-400 hover:underline"
+        class="text-violet-800 dark:text-violet-400 hover:underline"
       >
         {emailAddress}
       </a>.

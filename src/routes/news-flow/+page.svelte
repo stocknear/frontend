@@ -278,7 +278,7 @@
                         {#each item?.symbolList as symbol}
                           <a
                             href={`/${item?.assetType}/${symbol}`}
-                            class="inline-flex items-center rounded-full border border-blue-200/70 dark:border-blue-900/50 bg-blue-50/70 dark:bg-blue-950/40 px-2 py-0.5 text-xs font-medium text-blue-800 dark:text-blue-400 transition hover:text-blue-900 dark:hover:text-blue-300 ml-1 mb-1"
+                            class="inline-flex items-center rounded-full border border-blue-200/70 dark:border-blue-900/50 bg-blue-50/70 dark:bg-blue-950/40 px-2 py-0.5 text-xs font-medium text-violet-800 dark:text-violet-400 transition hover:text-blue-900 dark:hover:text-blue-300 ml-1 mb-1"
                           >
                             {symbol}
                           </a>
@@ -286,7 +286,7 @@
                       {:else if item?.symbol}
                         <a
                           href={`/${item?.assetType}/${item?.symbol}`}
-                          class="inline-flex items-center rounded-full border border-blue-200/70 dark:border-blue-900/50 bg-blue-50/70 dark:bg-blue-950/40 px-2 py-0.5 text-xs font-medium text-blue-800 dark:text-blue-400 transition hover:text-blue-900 dark:hover:text-blue-300 ml-1 mb-1"
+                          class="inline-flex items-center rounded-full border border-blue-200/70 dark:border-blue-900/50 bg-blue-50/70 dark:bg-blue-950/40 px-2 py-0.5 text-xs font-medium text-violet-800 dark:text-violet-400 transition hover:text-blue-900 dark:hover:text-blue-300 ml-1 mb-1"
                         >
                           {item?.symbol}
                         </a>

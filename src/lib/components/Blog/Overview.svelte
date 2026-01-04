@@ -192,7 +192,7 @@
           href={sectorNavigation?.find(
             (listItem) => listItem?.title === blogData?.sector,
           )?.link}
-          class="inline-block text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted"
+          class="inline-block text-violet-800 dark:text-violet-400 dark:sm:hover:text-white sm:hover:text-muted"
         >
           {blogData?.sector}
         </a>

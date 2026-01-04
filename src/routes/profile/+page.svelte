@@ -687,7 +687,7 @@
               {:else}
                 <a
                   href="/pricing"
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-blue-800 dark:text-blue-400"
+                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400"
                 >
                   Get Full Access with our Subscription.
                 </a>
