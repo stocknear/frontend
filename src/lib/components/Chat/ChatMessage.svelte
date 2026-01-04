@@ -331,10 +331,10 @@
             <div class="flex items-center mt-2">
               <button
                 type="button"
-                class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs sm:text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-900 transition"
+                class="text-muted pr-2 dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out select-none relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm h-8 disabled:cursor-not-allowed disabled:opacity-60"
                 on:click={handleShare}
                 ><div
-                  class="flex flex-row items-center min-w-0 font-medium gap-1"
+                  class="flex flex-row items-center min-w-0 font-medium gap-x-1 justify-center"
                 >
                   <div class="flex shrink-0 items-center justify-center size-4">
                     <svg
