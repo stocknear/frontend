@@ -46,7 +46,7 @@
         instance.setContent("Loading…");
         await getInfoText();
         instance.setContent(`
-           <div class="text-sm sm:text-[1rem] text-white p-2 min-w-96">
+           <div class="text-xs sm:text-sm text-white p-2 min-w-72">
             <p>${content?.text}</p>
             ${
               content?.equation
@@ -60,18 +60,18 @@
   });
 </script>
 
-<tr
-  class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd relative"
->
+<tr class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-b-0">
   <td
-    class="px-[5px] py-1.5 xs:px-2.5 xs:py-2 relative flex flex-row items-center"
+    class="px-2.5 py-2 text-xs sm:text-sm text-gray-700 dark:text-zinc-200 relative flex flex-row items-center"
   >
     <label bind:this={labelEl} for="" class="cursor-text">
       {label}
     </label>
   </td>
 
-  <td class="px-[5px] py-1.5 text-right xs:px-2.5 xs:py-2">
+  <td
+    class="px-2.5 py-2 text-right text-xs sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
+  >
     {value}
   </td>
 </tr>

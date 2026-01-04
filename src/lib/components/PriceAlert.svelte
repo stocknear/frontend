@@ -115,7 +115,7 @@
   <label for="priceAlertModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box rounded w-full bg-white dark:bg-secondary border border-gray-300 dark:border-gray-600 min-h-fit h-[600px] sm:h-[500px]"
+    class="modal-box rounded w-full bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800/80 min-h-fit h-[600px] sm:h-[500px]"
   >
     <!--Start Trade Modal-->
     <label

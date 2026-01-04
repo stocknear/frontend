@@ -781,7 +781,7 @@
   ></label>
 
   <div
-    class="modal-box max-h-96 rounded-xl w-full bg-white/90 dark:bg-zinc-950/70 border border-gray-200/70 dark:border-zinc-800/80"
+    class="modal-box max-h-96 rounded-xl w-full bg-white dark:bg-zinc-950 border border-gray-200/70 dark:border-zinc-800/80"
   >
     <div
       class="mb-5 flex flex-row justify-between items-center border-b pb-2 border-gray-200/70 dark:border-zinc-800/80"
