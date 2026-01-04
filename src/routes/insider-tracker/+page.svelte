@@ -451,10 +451,12 @@
                   <thead>
                     <TableHeader {columns} {sortOrders} {sortData} />
                   </thead>
-                  <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
+                  <tbody
+                    class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+                  >
                     {#each stockList as item, index}
                       <tr
-                        class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 odd:bg-gray-50/60 dark:odd:bg-zinc-900/30"
+                        class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
                       >
                         <td class="hidden lg:table-cell"
                           ><button
@@ -477,7 +479,9 @@
                           ></td
                         >
 
-                        <td class="text-[0.85rem] sm:text-sm text-start text-gray-700 dark:text-zinc-200">
+                        <td
+                          class="text-[0.85rem] sm:text-sm text-start text-gray-700 dark:text-zinc-200"
+                        >
                           <HoverStockChart symbol={item?.symbol} />
                         </td>
                         <td

@@ -136,9 +136,7 @@
   >
     <tbody class="">
       {#each blogData as item}
-        <tr
-          class=" dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-        >
+        <tr class=" dark:sm:hover:bg-[#245073]/10">
           <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
             {item?.label}
           </td>
@@ -204,9 +202,7 @@
     </thead>
     <tbody class="">
       {#each dividendList as item}
-        <tr
-          class=" dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-        >
+        <tr class=" dark:sm:hover:bg-[#245073]/10">
           <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
             {new Date(item?.date)?.toLocaleString("en-US", {
               month: "short",

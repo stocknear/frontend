@@ -642,9 +642,7 @@
 
                     <tbody>
                       {#each stockList as item, index}
-                        <tr
-                          class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-                        >
+                        <tr class="dark:sm:hover:bg-[#245073]/10">
                           <td
                             class="text-start text-sm sm:text-[1rem] whitespace-nowrap"
                           >

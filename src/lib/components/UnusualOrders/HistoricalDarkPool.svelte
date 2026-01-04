@@ -606,8 +606,7 @@
             {#each paginatedTableList as item, index}
               <!-- row -->
               <tr
-                class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd {index +
-                  1 ===
+                class="dark:sm:hover:bg-[#245073]/10 {index + 1 ===
                   paginatedTableList?.length &&
                 !['Pro']?.includes(data?.user?.tier)
                   ? 'opacity-[0.1]'

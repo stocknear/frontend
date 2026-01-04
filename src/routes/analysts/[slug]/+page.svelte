@@ -398,7 +398,9 @@
                   >
                 </div>
                 <div class="mt-0 pt-0.5 text-left">
-                  <h1 class="mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                  <h1
+                    class="mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                  >
                     {analystName ?? "n/a"}
                   </h1>
                   <p
@@ -446,7 +448,9 @@
                 class="mt-4 grid grid-cols-2 overflow-hidden rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 py-2 text-center md:grid-cols-4 md:p-0 lg:mt-0"
               >
                 <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
-                  <div class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
+                  <div
+                    class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                  >
                     # {rank ?? "n/a"}
                   </div>
                   <div
@@ -458,7 +462,9 @@
                 <div
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
                 >
-                  <div class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
+                  <div
+                    class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                  >
                     {totalRatings ?? "n/a"}
                   </div>
                   <div
@@ -470,7 +476,9 @@
                 <div
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
                 >
-                  <div class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
+                  <div
+                    class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                  >
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={successRate >= 0 && successRate !== undefined
@@ -509,7 +517,9 @@
                 <div
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-200/70 dark:sm:border-zinc-800/80 md:py-6"
                 >
-                  <div class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums">
+                  <div
+                    class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                  >
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={avgReturn >= 0 && avgReturn !== undefined
@@ -554,10 +564,14 @@
                   class="relative my-3 space-y-2 rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 sm:my-6 p-4"
                 >
                   <div class="flex flex-col sm:flex-row sm:items-center">
-                    <div class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left">
+                    <div
+                      class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
+                    >
                       Main Sectors:
                     </div>
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-center sm:justify-start">
+                    <div
+                      class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-center sm:justify-start"
+                    >
                       {#each data?.getData?.mainSectors as item}
                         <a
                           href={sectorNavigation?.find(
@@ -571,10 +585,14 @@
                     </div>
                   </div>
                   <div class="flex flex-col sm:flex-row sm:items-center">
-                    <div class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left">
+                    <div
+                      class="mb-2 whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-300 sm:mb-0 sm:mr-2 text-center sm:text-left"
+                    >
                       Top Industries:
                     </div>
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-center sm:justify-start">
+                    <div
+                      class="flex flex-wrap items-center gap-x-2 gap-y-3 justify-center sm:justify-start"
+                    >
                       {#each data?.getData?.mainIndustries as item}
                         <a
                           href={`/list/industry/${item?.replace(/ /g, "-")?.replace(/&/g, "and")?.replace(/-{2,}/g, "-")?.toLowerCase()}`}
@@ -654,10 +672,12 @@
                     <thead>
                       <TableHeader {columns} {sortOrders} {sortData} />
                     </thead>
-                    <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
+                    <tbody
+                      class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+                    >
                       {#each stockList as item, index}
                         <tr
-                          class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 odd:bg-gray-50/60 dark:odd:bg-zinc-900/30"
+                          class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
                         >
                           <td class="hidden lg:table-cell"
                             ><button
@@ -704,7 +724,9 @@
                             </div>
                           </td>
 
-                          <td class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200">
+                          <td
+                            class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                          >
                             <div class="flex flex-row items-center justify-end">
                               {#if Math?.ceil(item?.adjusted_pt_prior) !== 0}
                                 <span

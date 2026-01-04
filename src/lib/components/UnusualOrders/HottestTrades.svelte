@@ -163,7 +163,7 @@
           <tbody>
             {#each displayedStockList as item, index}
               <tr
-                class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd {!showFullHistory &&
+                class="dark:sm:hover:bg-[#245073]/10 {!showFullHistory &&
                 index === displayedStockList.length - 1 &&
                 stockList?.length > DEFAULT_VISIBLE
                   ? 'opacity-60 cursor-pointer'

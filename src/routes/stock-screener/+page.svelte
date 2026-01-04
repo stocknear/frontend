@@ -4173,9 +4173,7 @@ const handleKeyDown = (event) => {
             </thead>
             <tbody>
               {#each displayResults as item}
-                <tr
-                  class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-                >
+                <tr class="dark:sm:hover:bg-[#245073]/10">
                   <td class=" whitespace-nowrap">
                     <a
                       href={"/stocks/" + item?.symbol}
@@ -4238,9 +4236,7 @@ const handleKeyDown = (event) => {
             </thead>
             <tbody>
               {#each displayResults as item (item?.symbol)}
-                <tr
-                  class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-                >
+                <tr class="dark:sm:hover:bg-[#245073]/10">
                   <td class=" whitespace-nowrap">
                     <a
                       href={"/stocks/" + item?.symbol}
@@ -4323,9 +4319,7 @@ const handleKeyDown = (event) => {
             </thead>
             <tbody>
               {#each displayResults as item (item?.symbol)}
-                <tr
-                  class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-                >
+                <tr class="dark:sm:hover:bg-[#245073]/10">
                   <td class=" whitespace-nowrap">
                     <a
                       href={"/stocks/" + item?.symbol}
@@ -4377,9 +4371,7 @@ const handleKeyDown = (event) => {
             </thead>
             <tbody>
               {#each displayResults as item (item?.symbol)}
-                <tr
-                  class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-                >
+                <tr class="dark:sm:hover:bg-[#245073]/10">
                   <td class=" whitespace-nowrap">
                     <a
                       href={"/stocks/" + item?.symbol}
@@ -4451,9 +4443,7 @@ const handleKeyDown = (event) => {
             </thead>
             <tbody>
               {#each displayResults as item (item?.symbol)}
-                <tr
-                  class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-                >
+                <tr class="dark:sm:hover:bg-[#245073]/10">
                   <td class=" whitespace-nowrap">
                     <a
                       href={"/stocks/" + item?.symbol}

@@ -890,7 +890,9 @@
           </div>
 
           <div class="mt-5 mb-5 w-full">
-            <h2 class="mt-5 mb-1 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+            <h2
+              class="mt-5 mb-1 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
               {selectedStrategy}
             </h2>
             <p class="mt-3 text-sm text-gray-600 dark:text-zinc-400">
@@ -950,8 +952,7 @@
                           <div
                             class="flex flex-col sm:flex-row items-start sm:items-center"
                           >
-                            <span
-                              class="text-sm text-gray-900 dark:text-white"
+                            <span class="text-sm text-gray-900 dark:text-white"
                               >{searchItem?.symbol}</span
                             >
                             <span
@@ -1110,8 +1111,12 @@
                     class="divide-y divide-gray-200/70 dark:divide-zinc-800/80 text-sm"
                   >
                     {#each userStrategy as item, index}
-                      <tr class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 odd:bg-gray-50/60 dark:odd:bg-zinc-900/30">
-                        <td class="px-4 whitespace-nowrap font-semibold text-gray-900 dark:text-white">
+                      <tr
+                        class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
+                      >
+                        <td
+                          class="px-4 whitespace-nowrap font-semibold text-gray-900 dark:text-white"
+                        >
                           {selectedTicker}
                         </td>
                         <td class="px-4 whitespace-nowrap py-2">
@@ -1330,7 +1335,8 @@
                       {selectedTicker} Current Price
                     </div>
                     <div class="flex items-baseline">
-                      <span class="text-lg font-semibold text-gray-900 dark:text-white"
+                      <span
+                        class="text-lg font-semibold text-gray-900 dark:text-white"
                         >${currentStockPrice
                           ? currentStockPrice?.toFixed(2)
                           : "n/a"}</span
@@ -1350,7 +1356,8 @@
                       />
                     </div>
                     <div class="flex items-baseline">
-                      <span class="text-lg font-semibold text-gray-900 dark:text-white"
+                      <span
+                        class="text-lg font-semibold text-gray-900 dark:text-white"
                         >{typeof breakEvenPrice === "number"
                           ? "$" + breakEvenPrice?.toFixed(2)
                           : "n/a"}</span
@@ -1380,7 +1387,8 @@
                       />
                     </div>
                     <div class="flex items-baseline">
-                      <span class="text-lg font-semibold text-gray-900 dark:text-white"
+                      <span
+                        class="text-lg font-semibold text-gray-900 dark:text-white"
                         >${totalPremium?.toLocaleString("en-US", {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,

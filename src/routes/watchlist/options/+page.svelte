@@ -735,7 +735,7 @@
                 <tbody>
                   {#each rawData as item, index}
                     <!-- row -->
-                    <tr class=" odd:bg-[#F6F7F8] dark:odd:bg-odd">
+                    <tr class=" ">
                       <td
                         class="text-xs sm:text-sm text-start whitespace-nowrap"
                       >
@@ -1064,9 +1064,7 @@
               <tbody>
                 {#each optionHistoryList as item}
                   <!-- row -->
-                  <tr
-                    class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-                  >
+                  <tr class="dark:sm:hover:bg-[#245073]/10">
                     <td class="text-sm sm:text-[1rem] text-start">
                       {formatDate(item?.date)}
                     </td>

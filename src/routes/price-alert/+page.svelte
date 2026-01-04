@@ -461,9 +461,7 @@
                   <tbody class="p-3">
                     {#each priceAlertList as item}
                       <!-- row -->
-                      <tr
-                        class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-                      >
+                      <tr class="dark:sm:hover:bg-[#245073]/10">
                         <td
                           on:click={() => handleFilter(item?.id)}
                           class="text-blue-400 text-sm sm:text-[1rem] whitespace-nowrap text-start flex flex-row items-center"

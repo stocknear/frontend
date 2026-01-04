@@ -451,9 +451,7 @@
       </thead>
       <tbody>
         {#each displayList as item, index}
-          <tr
-            class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-          >
+          <tr class="dark:sm:hover:bg-[#245073]/10">
             <td class="text-sm sm:text-[1rem] text-start whitespace-nowrap">
               {new Date(item?.expiry).toLocaleDateString("en-US", {
                 month: "short", // Abbreviated month (e.g., Jan)

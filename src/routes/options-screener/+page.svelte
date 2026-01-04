@@ -2229,9 +2229,7 @@
             </thead>
             <tbody>
               {#each displayResults as item}
-                <tr
-                  class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-                >
+                <tr class="dark:sm:hover:bg-[#245073]/10">
                   <td class=" whitespace-nowrap">
                     <a
                       href={`/${item?.assetType === "Stock" ? "stocks" : item?.assetType === "ETF" ? "etf" : "index"}/` +
@@ -2341,9 +2339,7 @@
             </thead>
             <tbody>
               {#each displayResults as item}
-                <tr
-                  class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-                >
+                <tr class="dark:sm:hover:bg-[#245073]/10">
                   <td class=" whitespace-nowrap">
                     <a
                       href={`/${item?.assetType === "Stock" ? "stocks" : item?.assetType === "ETF" ? "etf" : "index"}/` +
@@ -2427,9 +2423,7 @@
             </thead>
             <tbody>
               {#each displayResults as item}
-                <tr
-                  class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-                >
+                <tr class="dark:sm:hover:bg-[#245073]/10">
                   <td class=" whitespace-nowrap">
                     <a
                       href={`/${item?.assetType}/` +

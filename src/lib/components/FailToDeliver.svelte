@@ -575,9 +575,7 @@
           </thead>
           <tbody>
             {#each displayList as item}
-              <tr
-                class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-              >
+              <tr class="dark:sm:hover:bg-[#245073]/10">
                 <td class=" text-sm sm:text-[1rem] whitespace-nowrap">
                   {formatDisplayDate(item?.date)}
                 </td>

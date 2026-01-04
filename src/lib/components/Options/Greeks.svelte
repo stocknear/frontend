@@ -771,9 +771,7 @@
                         </thead>
                         <tbody>
                             {#each displayList as item}
-                                <tr
-                                    class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-                                >
+                                <tr class="dark:sm:hover:bg-[#245073]/10">
                                     <td
                                         class="text-sm sm:text-[1rem] text-start whitespace-nowrap"
                                     >
@@ -844,7 +842,9 @@
 
                         <!-- Page info and rows selector in center -->
                         <div class="flex flex-row items-center gap-4">
-                            <span class="text-sm text-gray-600 dark:text-zinc-300">
+                            <span
+                                class="text-sm text-gray-600 dark:text-zinc-300"
+                            >
                                 Page {currentPage} of {totalPages}
                             </span>
 

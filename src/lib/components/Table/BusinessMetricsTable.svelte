@@ -301,7 +301,7 @@
         </thead>
         <tbody class="shadow w-full">
           {#each tableData.rows as row, rowIndex (row.name)}
-            <tr class="w-full odd:bg-[#F6F7F8] dark:odd:bg-odd">
+            <tr class="w-full">
               <th
                 class="whitespace-nowrap flex flex-row justify-between items-center text-sm sm:text-[1rem] font-normal text-start border-r border-gray-300 dark:border-gray-800"
               >

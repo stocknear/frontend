@@ -72,9 +72,7 @@
             <tbody class="p-0">
               {#each watchList as item}
                 <!-- row -->
-                <tr
-                  class="dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-oddborder-b-[#09090B]"
-                >
+                <tr class="dark:sm:hover:bg-[#245073]/10 border-b-[#09090B]">
                   <td
                     class="text-sm sm:text-[1rem] text-start border-b-[#09090B]"
                   >

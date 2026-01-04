@@ -30,9 +30,7 @@
     <tbody class="">
       {#each blogData?.data as item}
         {#if ["evToFreeCashFlow", "evToEBIT", "evToEBITDA", "priceToEarningsRatio", "priceToFreeCashFlowRatio", "priceToSalesRatio"]?.includes(item?.key)}
-          <tr
-            class=" dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-          >
+          <tr class=" dark:sm:hover:bg-[#245073]/10">
             <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
               {item?.label}
             </td>
@@ -79,9 +77,7 @@
     <tbody class="">
       {#each blogData?.data as item}
         {#if ["cagr5YearRevenue", "cagr5YearEPS", "revenuePerShare", "revenuePerEmployee"]?.includes(item?.key)}
-          <tr
-            class=" dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-          >
+          <tr class=" dark:sm:hover:bg-[#245073]/10">
             <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
               {item?.label}
             </td>
@@ -128,9 +124,7 @@
     <tbody class="">
       {#each blogData?.data as item}
         {#if ["grossProfitMargin", "netProfitMargin", "operatingProfitMargin", "altmanZScore"]?.includes(item?.key)}
-          <tr
-            class=" dark:sm:hover:bg-[#245073]/10 odd:bg-[#F6F7F8] dark:odd:bg-odd"
-          >
+          <tr class=" dark:sm:hover:bg-[#245073]/10">
             <td class="text-start text-sm sm:text-[1rem] whitespace-nowrap">
               {item?.label}
             </td>

@@ -227,21 +227,21 @@ ${summaryData.outlook}
   switch (sentiment?.toLowerCase()) {
    case "bullish":
     return {
-     text: "text-green-700 dark:text-green-400",
-     bg: "bg-green-100 dark:bg-green-900/40",
-     bar: "bg-green-500",
+     text: "text-emerald-700 dark:text-emerald-300",
+     bg: "bg-emerald-50/60 dark:bg-emerald-500/10",
+     bar: "bg-emerald-500/70 dark:bg-emerald-400",
     };
    case "bearish":
     return {
-     text: "text-red-700 dark:text-red-400",
-     bg: "bg-red-100 dark:bg-red-900/40",
-     bar: "bg-red-500",
+     text: "text-rose-700 dark:text-rose-300",
+     bg: "bg-rose-50/60 dark:bg-rose-500/10",
+     bar: "bg-rose-500/70 dark:bg-rose-400",
     };
    default:
     return {
-     text: "text-yellow-700 dark:text-yellow-400",
-     bg: "bg-yellow-100 dark:bg-yellow-900/40",
-     bar: "bg-yellow-500",
+     text: "text-amber-700 dark:text-amber-300",
+     bg: "bg-amber-50/60 dark:bg-amber-500/10",
+     bar: "bg-amber-500/70 dark:bg-amber-400",
     };
   }
  }
@@ -942,12 +942,12 @@ ${summaryData.outlook}
   >
    <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto mt-2 sm:mt-0">
     <div class="w-full flex flex-row justify-between mb-5">
-     <h1 class="text-xl sm:text-2xl font-bold">
+     <h1 class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
       {$stockTicker} Insider Trading
      </h1>
     </div>
 
-    <p class="mt-4">
+    <p class="mt-4 text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">
      We track
      <strong>{totalTransaction}</strong> insider transactions spanning
      <strong
@@ -1026,7 +1026,7 @@ ${summaryData.outlook}
        align="end"
        sideOffset={10}
        alignOffset={0}
-       class="w-56 h-fit max-h-72 overflow-y-auto scroller"
+       class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
       >
        <DropdownMenu.Group>
         {#each transactionList as item}
@@ -1135,7 +1135,7 @@ ${summaryData.outlook}
           </h3>
          </div>
          <div class="flex items-center gap-3">
-          <span class="text-sm text-gray-600 dark:text-gray-400"
+          <span class="text-sm text-gray-600 dark:text-zinc-400"
            >Insider Sentiment:</span
           >
           <div class="flex items-center gap-2">
@@ -1153,7 +1153,7 @@ ${summaryData.outlook}
               style="width: {summaryData?.sentimentScore ?? 50}%"
              ></div>
             </div>
-            <span class="text-xs text-gray-500 dark:text-gray-400"
+            <span class="text-xs text-gray-500 dark:text-zinc-400"
              >{summaryData?.sentimentScore ?? 50}%</span
             >
            </div>
@@ -1210,10 +1210,10 @@ ${summaryData.outlook}
         <!-- Key Highlights -->
         <div>
          <h4
-          class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2"
+          class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
          >
           <svg
-           class="w-4 h-4 text-yellow-500"
+           class="w-4 h-4 text-gray-400 dark:text-zinc-500"
            fill="currentColor"
            viewBox="0 0 20 20"
           >
@@ -1226,10 +1226,10 @@ ${summaryData.outlook}
          <ul class="space-y-2">
           {#each summaryData?.keyHighlights ?? [] as highlight}
            <li
-            class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"
+            class="flex items-start gap-2 text-sm text-gray-700 dark:text-zinc-200"
            >
             <svg
-             class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"
+             class="w-4 h-4 text-gray-400 dark:text-zinc-500 mt-0.5 flex-shrink-0"
              fill="currentColor"
              viewBox="0 0 20 20"
             >
@@ -1248,10 +1248,10 @@ ${summaryData.outlook}
         <!-- Risks Section -->
         <div>
          <h4
-          class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2"
+          class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
          >
           <svg
-           class="w-4 h-4 text-orange-500"
+           class="w-4 h-4 text-gray-400 dark:text-zinc-500"
            fill="none"
            stroke="currentColor"
            viewBox="0 0 24 24"
@@ -1268,10 +1268,10 @@ ${summaryData.outlook}
          <ul class="space-y-2">
           {#each summaryData?.risks ?? [] as risk}
            <li
-            class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"
+            class="flex items-start gap-2 text-sm text-gray-700 dark:text-zinc-200"
            >
             <svg
-             class="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0"
+             class="w-4 h-4 text-gray-400 dark:text-zinc-500 mt-0.5 flex-shrink-0"
              fill="currentColor"
              viewBox="0 0 20 20"
             >
@@ -1290,7 +1290,7 @@ ${summaryData.outlook}
         <!-- Outlook -->
         <div>
          <h4
-          class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2"
+          class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
          >
           <svg
           class="w-4 h-4 text-gray-400 dark:text-zinc-500"
@@ -1336,24 +1336,33 @@ ${summaryData.outlook}
     <!-- Chart Section -->
     {#if chartConfig}
      <div
-      class=" border border-gray-200/70 dark:border-zinc-800/80 rounded mb-4"
+      class=" border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 mb-4"
       use:highcharts={chartConfig}
      ></div>
     {/if}
 
-    <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
+    <div class="mt-4">
      <div
-      class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
+      class="rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 px-4 py-3 sm:px-5 sm:py-4"
      >
-      <h2
-       class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold py-1 border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none w-full"
-      >
-       {totalTransaction} Transactions
-      </h2>
       <div
-       class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+       class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between"
       >
-       <div class="relative lg:ml-auto w-full lg:w-fit">
+       <div class="flex flex-col">
+        <span
+         class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+         >Transactions</span
+        >
+        <h2
+         class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
+        >
+         {totalTransaction} Transactions
+        </h2>
+       </div>
+       <div
+        class="flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:justify-end lg:w-auto"
+       >
+        <div class="relative w-full sm:w-56">
         <div
          class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
         >
@@ -1380,28 +1389,29 @@ ${summaryData.outlook}
          on:input={search}
          type="text"
          placeholder="Find..."
-         class=" py-[7px] text-[0.85rem] sm:text-sm border bg-white dark:bg-zinc-950/60 shadow-none focus:outline-hidden border border-gray-200/70 dark:border-zinc-800/80 rounded placeholder:text-gray-800 dark:placeholder:text-gray-300 px-3 focus:outline-none focus:ring-0 dark:focus:border-gray-800 grow w-full sm:min-w-56 lg:max-w-14"
+         class="w-full rounded-full border border-gray-300/80 bg-white/80 px-3 py-2 text-[0.85rem] text-gray-700 shadow-none placeholder:text-gray-500 focus:outline-none focus:ring-0 focus:border-gray-400/90 dark:border-zinc-700/80 dark:bg-zinc-950/60 dark:text-zinc-200 dark:placeholder:text-zinc-400 dark:focus:border-zinc-500/90"
         />
        </div>
 
-       <div class="ml-2">
-        <DownloadData
-         {data}
-         rawData={originalData}
-         title={`${$stockTicker}_insider_trading`}
-        />
+        <div class="sm:ml-2">
+         <DownloadData
+          {data}
+          rawData={originalData}
+          title={`${$stockTicker}_insider_trading`}
+         />
+        </div>
        </div>
       </div>
      </div>
     </div>
+    </div>
 
     {#if displayList?.length > 0}
-     <div
-      class="mt-3 flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-4 overflow-x-auto"
-     >
-      <table
-       class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
-      >
+     <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
+      <div class="w-full overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40">
+       <table
+        class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
+       >
        <thead class="insider-table-driver">
         <TableHeader {columns} {sortOrders} {sortData} />
        </thead>
@@ -1410,18 +1420,16 @@ ${summaryData.outlook}
          <tr
           class="transition-colors"
          >
-          <td class=" text-sm ] whitespace-nowrap">
+          <td class="text-sm whitespace-nowrap">
            <div class="flex flex-col">
             <span class="">{item?.name}</span>
-            <span class="text-sm"
+            <span class="text-xs text-gray-500 dark:text-zinc-400"
              >{extractOfficeInfo(item?.typeOfOwner)}</span
             >
            </div>
           </td>
 
-          <td
-           class="text-end text-sm whitespace-nowrap ]"
-          >
+          <td class="text-end text-sm whitespace-nowrap">
            {new Date(item?.transactionDate)?.toLocaleString(
             "en-US",
             {
@@ -1457,7 +1465,8 @@ ${summaryData.outlook}
          </tr>
         {/each}
        </tbody>
-      </table>
+       </table>
+      </div>
      </div>
 
      <!-- Pagination controls -->
