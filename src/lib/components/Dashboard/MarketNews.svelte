@@ -5,15 +5,17 @@
     export let wiim = [];
 </script>
 
-<section class="mx-auto lg:col-span-2 w-full">
-    <a href="/news-flow/" class="inline-flex items-center text-left w-full"
+<section class="mx-auto lg:col-span-2 w-full text-gray-700 dark:text-zinc-200">
+    <a
+        href="/news-flow/"
+        class="inline-flex items-center gap-1 text-left w-full text-gray-900 dark:text-white group"
         ><h2
-            class="mb-2 text-xl font-bold leading-tight bp:text-2xl bp:leading-tight sm:hover:underline sm:hover:underline-offset-4"
+            class="mb-2 text-lg sm:text-xl font-semibold tracking-tight sm:group-hover:underline sm:group-hover:underline-offset-4"
         >
             News Flow
         </h2>
         <svg
-            class="h-5 w-5"
+            class="h-5 w-5 text-gray-400 dark:text-zinc-500 transition group-hover:text-gray-700 dark:group-hover:text-zinc-200"
             viewBox="0 0 20 20"
             fill="currentColor"
             style="max-width:40px"
@@ -28,17 +30,17 @@
 
     {#if wiim?.length > 0}
         <table
-            class="border-t border-gray-300 dark:border-gray-800 text-sm sm:text-[1rem]"
+            class="w-full border-t border-gray-200/70 dark:border-zinc-800/80 text-sm sm:text-[0.95rem]"
         >
             <tbody>
                 {#each wiim as item}
-                    <tr class="border-b border-gray-300 dark:border-gray-800"
+                    <tr class="border-b border-gray-200/70 dark:border-zinc-800/80"
                         ><td
-                            class="hidden sm:inline-block pr-1 pt-2 align-top text-sm whitespace-nowrap font-bold"
+                            class="hidden sm:inline-block pr-2 pt-3 align-top text-xs whitespace-nowrap font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500"
                             >{formatDate(item?.date, true)}
                         </td>
-                        <td class="py-2 pl-2">
-                            <span class="sm:hidden font-semibold"
+                        <td class="py-3 sm:pl-2 leading-6 text-gray-700 dark:text-zinc-200">
+                            <span class="sm:hidden text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 font-semibold"
                                 >{formatDate(item?.date, true)} ago -
                             </span>
                             {item?.text}
@@ -47,14 +49,14 @@
                                 {#each item?.symbolList as symbol}
                                     <a
                                         href={`/${item?.assetType}/${symbol}`}
-                                        class="inline-block rounded badge border border-gray-300 dark:border-gray-800 shadow duration-0 bg-blue-100 dark:bg-primary font-semibold dark:font-normal rounded-sm ml-1 mb-1 px-2 m-auto text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted"
+                                        class="inline-flex items-center rounded-full border border-blue-200/80 dark:border-blue-500/40 bg-blue-50/80 dark:bg-blue-500/10 px-2 py-0.5 text-xs font-semibold text-blue-700 dark:text-blue-300 transition hover:text-blue-800 dark:hover:text-blue-200 ml-1.5 mb-1"
                                         >{symbol}</a
                                     >
                                 {/each}
                             {:else if item?.symbol}
                                 <a
                                     href={`/${item?.assetType}/${item?.symbol}`}
-                                    class="inline-block rounded badge border border-gray-300 dark:border-gray-800 shadow duration-0 bg-blue-100 dark:bg-primary font-semibold dark:font-normal rounded-sm ml-1 px-2 m-auto text-blue-800 dark:text-blue-400 dark:sm:hover:text-white sm:hover:text-muted"
+                                    class="inline-flex items-center rounded-full border border-blue-200/80 dark:border-blue-500/40 bg-blue-50/80 dark:bg-blue-500/10 px-2 py-0.5 text-xs font-semibold text-blue-700 dark:text-blue-300 transition hover:text-blue-800 dark:hover:text-blue-200 ml-1.5"
                                     >{item?.symbol}</a
                                 >
                             {/if}

@@ -129,7 +129,7 @@
         const widget = Decoration.widget(1, () => {
           const span = document.createElement("span");
           span.className =
-            "text-gray-800 dark:text-gray-200 pointer-events-none";
+            "text-gray-500 dark:text-zinc-400 pointer-events-none";
           span.textContent = editable
             ? "Ask anything"
             : "Read-only: You don’t have permission to edit this chat.";
@@ -774,7 +774,9 @@
   }}
 />
 
-<section class="w-full max-w-[1400px] mx-auto min-h-[80vh] pt-5 px-4 lg:px-0">
+<section
+  class="w-full max-w-[1400px] mx-auto min-h-[80vh] pt-5 px-4 lg:px-0 text-gray-700 dark:text-zinc-200"
+>
   <div class="relative w-full 2xl:max-w-[1100px] flex flex-col min-h-[80vh]">
     <main
       class="w-full overflow-y-auto p-4 space-y-4"
@@ -830,11 +832,11 @@
       <!-- Export button moved to ChatMessage component -->
 
       <div
-        class="bg-gray-50 dark:bg-[#2A2E39] fixed absolute bottom-10 sm:bottom-20 left-1/2 transform -translate-x-1/2 block p-3 min-w-[90vw] sm:min-w-0 sm:w-full sm:max-w-xl md:max-w-3xl border border-gray-300 dark:border-gray-600 shadow rounded-[8px] overflow-hidden"
+        class="bg-white dark:bg-zinc-950 fixed absolute bottom-10 sm:bottom-20 left-1/2 transform -translate-x-1/2 block p-3 min-w-[90vw] sm:min-w-0 sm:w-full sm:max-w-xl md:max-w-3xl border border-gray-200/70 dark:border-zinc-800/80 shadow-lg shadow-black/5 rounded-2xl overflow-hidden"
       >
         <div
           bind:this={editorDiv}
-          class="ml-2 bg-gray-50 dark:bg-[#2A2E39] w-full min-h-[5vh] sm:min-h-[60px] {!editable
+          class="ml-2 bg-white dark:bg-zinc-950 w-full min-h-[5vh] sm:min-h-[60px] {!editable
             ? 'cursor-not-allowed'
             : ''}"
           on:keydown={handleKeyDown}
@@ -847,7 +849,7 @@
             class="relative min-h-12 h-auto overflow-y-hidden w-full outline-none"
           >
             <div
-              class="absolute bottom-0 flex flex-row justify-end w-full bg:inherit dark:bg-[#2A2E39]"
+              class="absolute bottom-0 flex flex-row justify-end w-full bg:inherit dark:bg-transparent"
             >
               <div class="flex flex-row justify-between w-full">
                 <div
@@ -857,7 +859,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-full bg-white dark:bg-secondary text-gray-800 sm:hover:text-black dark:text-gray-200 dark:sm:hover:text-white ease-out flex flex-row justify-between items-center  rounded truncate"
+                        class="h-9 w-9 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
                       >
                         <svg
                           class="size-4.5"
@@ -883,12 +885,12 @@
                       align="start"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-64 h-fit max-h-56 overflow-y-auto scroller"
+                      class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
                     >
                       {#if selectedGroup === "overview"}
                         {#if data?.user}
                           <DropdownMenu.Label
-                            class="text-muted dark:text-gray-400 font-semibold dark:font-normal text-xs"
+                            class="text-gray-500 dark:text-zinc-400 font-semibold text-xs"
                           >
                             {data?.user?.credits} Credits left
                           </DropdownMenu.Label>
@@ -931,7 +933,7 @@
                               e.preventDefault();
                               selectedGroup = "stockAgents";
                             }}
-                            class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
                           >
                             <div
                               class="flex flex-row items-center w-full text-sm"
@@ -982,7 +984,7 @@
                                 e.preventDefault();
                                 selectedGroup = option;
                               }}
-                              class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                              class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
                             >
                               <div class="flex flex-row items-center w-full">
                                 <span
@@ -1009,7 +1011,7 @@
                           {/each}
                           <DropdownMenu.Item
                             on:click={() => goto("/faq/ai-agents")}
-                            class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
                           >
                             <div
                               class="flex flex-row items-center w-full text-sm"
@@ -1058,7 +1060,7 @@
                             {#if option?.group === selectedGroup}
                               <DropdownMenu.Item
                                 on:click={() => insertAgentOption(option?.name)}
-                                class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                                class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
                               >
                                 <div class="flex flex-row items-center w-full">
                                   <span>{option?.name} </span>
@@ -1078,7 +1080,7 @@
 
                 <Button
                   on:click={() => goto("/chat")}
-                  class="mr-auto px-1 bg-white dark:bg-secondary text-gray-800 sm:hover:text-black dark:text-gray-200 dark:sm:hover:text-white ease-out flex flex-row justify-between items-center"
+                  class="mr-auto h-9 w-9 shrink-0 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center px-0 py-0"
                 >
                   <!--<span class="hidden sm:block"> New chat</span>-->
                   <Plus class="h-5 w-5 inline-block" />
@@ -1102,7 +1104,7 @@
                   on:click={() => (data?.user ? llmChat() : "")}
                   class="{editorText?.trim()?.length > 0
                     ? 'cursor-pointer'
-                    : 'cursor-not-allowed opacity-60'} py-2 text-white dark:text-black text-[1rem] rounded border border-gray-300 dark:border-gray-700 bg-black dark:bg-white px-3 transition-colors duration-200"
+                    : 'cursor-not-allowed opacity-60'} h-9 w-9 shrink-0 text-white dark:text-gray-900 text-[0.95rem] rounded-full border border-gray-900/10 dark:border-white/10 bg-gray-900 dark:bg-white transition-colors duration-200 hover:bg-gray-800 dark:hover:bg-gray-100 flex items-center justify-center px-0 py-0"
                 >
                   {#if isLoading}
                     <span
@@ -1124,14 +1126,14 @@
     </main>
     {#if showSuggestions}
       <ul
-        class=" fixed bg-gray-50 dark:bg-[#2A2E39] rounded shadow border border-gray-300 dark:border-gray-600 z-[9999] w-56 h-fit max-h-56 overflow-y-auto scroller"
+        class="fixed rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 z-[9999] w-56 h-fit max-h-56 overflow-y-auto scroller"
         style="top: {suggestionPos?.top}px; left: {suggestionPos?.left}px;"
       >
         {#each suggestions as suggestion, i}
           <li
-            class="px-2 py-1 cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-[#1E222D] text-sm {i ===
+            class="px-2 py-1 rounded-lg cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 text-sm text-gray-700 dark:text-zinc-200 {i ===
             selectedSuggestion
-              ? 'bg-gray-100 dark:bg-[#1E222D]'
+              ? 'bg-gray-100 dark:bg-zinc-900'
               : ''}"
             on:click={() => insertSuggestion(suggestion)}
           >

@@ -134,7 +134,7 @@
         const widget = Decoration.widget(1, () => {
           const span = document.createElement("span");
           span.className =
-            "text-gray-800 dark:text-gray-200 pointer-events-none text-sm sm:text-[1rem]";
+            "text-gray-500 dark:text-zinc-400 pointer-events-none text-sm sm:text-[1rem]";
           span.textContent =
             "Ask anything about stocks — get real-time updates";
           return span;
@@ -508,13 +508,13 @@
 />
 
 <div
-  class="w-full max-w-8xl overflow-hidden m-auto min-h-screen bg-white dark:bg-default mb-16"
+  class="w-full max-w-8xl overflow-hidden m-auto min-h-screen bg-white dark:bg-default mb-16 text-gray-700 dark:text-zinc-200"
 >
   <div class="flex flex-col m-auto justify-center items-center">
     <div class="text-center mb-10 w-full sm:px-3">
       <main class="flex flex-1 flex-col gap-4 sm:p-4 md:gap-8 text-start">
         <div
-          class="border-b border-gray-100 dark:border-gray-800 rounded-none sm:rounded-[8px] px-4 bg-gray-100 dark:bg-[#1C1E22] landscape:border-t-2 landscape:md:border-t-0"
+          class="border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl px-4 bg-white/70 dark:bg-zinc-950/60 shadow-sm shadow-black/5 landscape:border-t-2 landscape:md:border-t-0"
         >
           <div
             class="mx-auto w-full max-w-[850px] flex flex-col justify-center items-center gap-6 pb-8"
@@ -526,31 +526,31 @@
               loading="lazy"
             />
             <h1
-              class="block text-2xl lg:text-4xl font-bold mb-3 text-center relative w-fit flex justify-center m-auto break-words"
+              class="block text-2xl lg:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3 text-center relative w-fit flex justify-center m-auto break-words"
             >
               Research your Trading Ideas
             </h1>
 
             <div
-              class="block p-3 w-full border border-gray-300 dark:border-gray-600 rounded-[5px] overflow-hidden bg-white dark:bg-[#2A2E39]"
+              class="block p-3 w-full border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl overflow-hidden bg-white/90 dark:bg-zinc-950/70 shadow-sm"
             >
               <div
                 bind:this={editorDiv}
-                class="ml-2 bg-white dark:bg-[#2A2E39] w-full min-h-[50px]"
+                class="ml-2 bg-transparent w-full min-h-[50px]"
                 on:keydown={handleKeyDown}
               />
 
               <!-- Suggestions Dropdown -->
               {#if showSuggestions}
                 <ul
-                  class="absolute bg-white dark:bg-default rounded-[5px] shadow border border-gray-300 dark:border-gray-600 mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
+                  class="absolute rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
                   style="top: {suggestionPos?.top}px; left: {suggestionPos?.left}px;"
                 >
                   {#each suggestions as suggestion, i}
                     <li
-                      class="px-2 py-1 cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-[#1E222D] text-sm {i ===
+                      class="px-2 py-1 rounded-lg cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 text-sm text-gray-700 dark:text-zinc-200 {i ===
                       selectedSuggestion
-                        ? ' bg-gray-100 dark:bg-[#1E222D]'
+                        ? ' bg-gray-100 dark:bg-zinc-900'
                         : ''}"
                       on:click={() => insertSuggestion(suggestion)}
                     >
@@ -565,9 +565,9 @@
                 <div
                   class="relative min-h-12 h-auto overflow-y-hidden w-full outline-none"
                 >
-                  <div
-                    class="absolute bottom-0 flex flex-row justify-end w-full bg:inherit dark:bg-[#2A2E39]"
-                  >
+                    <div
+                      class="absolute bottom-0 flex flex-row justify-end w-full bg:inherit dark:bg-transparent"
+                    >
                     <div class="flex flex-row justify-between w-full">
                       <div
                         class="order-first relative inline-block text-left cursor-pointer"
@@ -576,7 +576,7 @@
                           <DropdownMenu.Trigger asChild let:builder>
                             <Button
                               builders={[builder]}
-                              class="w-full bg-white dark:bg-secondary text-gray-800 sm:hover:text-black dark:text-gray-200 dark:sm:hover:text-white ease-out flex flex-row justify-between items-center  rounded truncate"
+                              class="h-9 w-9 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
                             >
                               <svg
                                 class="size-4.5"
@@ -602,12 +602,12 @@
                             align="start"
                             sideOffset={10}
                             alignOffset={0}
-                            class="w-64 h-fit max-h-56 overflow-y-auto scroller"
+                            class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
                           >
                             {#if selectedGroup === "overview"}
                               {#if data?.user}
                                 <DropdownMenu.Label
-                                  class="text-muted dark:text-gray-400 font-semibold dark:font-normal text-xs"
+                                  class="text-gray-500 dark:text-zinc-400 font-semibold text-xs"
                                 >
                                   {data?.user?.credits} Credits left
                                 </DropdownMenu.Label>
@@ -650,7 +650,7 @@
                                     e.preventDefault();
                                     selectedGroup = "stockAgents";
                                   }}
-                                  class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                                  class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
                                 >
                                   <div
                                     class="flex flex-row items-center w-full text-sm"
@@ -703,7 +703,7 @@
                                       e.preventDefault();
                                       selectedGroup = option;
                                     }}
-                                    class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                                    class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
                                   >
                                     <div
                                       class="flex flex-row items-center w-full"
@@ -732,7 +732,7 @@
                                 {/each}
                                 <DropdownMenu.Item
                                   on:click={() => goto("/faq/ai-agents")}
-                                  class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                                  class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
                                 >
                                   <div
                                     class="flex flex-row items-center w-full text-sm"
@@ -784,7 +784,7 @@
                                     <DropdownMenu.Item
                                       on:click={() =>
                                         insertAgentOption(option?.name)}
-                                      class="cursor-pointer sm:hover:bg-gray-300 dark:sm:hover:bg-primary"
+                                      class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
                                     >
                                       <div
                                         class="flex flex-row items-center w-full"
@@ -822,7 +822,7 @@
                         on:click={() => (data?.user ? createChat() : "")}
                         class="{editorText?.trim()?.length > 0
                           ? 'cursor-pointer'
-                          : 'cursor-not-allowed opacity-60'} py-2 text-white dark:text-black text-[1rem] rounded border border-gray-300 dark:border-gray-700 bg-black dark:bg-white px-3 transition-colors duration-200"
+                          : 'cursor-not-allowed opacity-60'} h-9 w-9 shrink-0 text-white dark:text-gray-900 text-[0.95rem] rounded-full border border-gray-900/10 dark:border-white/10 bg-gray-900 dark:bg-white transition-colors duration-200 hover:bg-gray-800 dark:hover:bg-gray-100 flex items-center justify-center px-0 py-0"
                       >
                         {#if isLoading}
                           <span
@@ -854,7 +854,7 @@
                       closePopup?.dispatchEvent(new MouseEvent("click"));
                     }
                   }}
-                  class="flex flex-col border border-gray-300 dark:border-gray-700 sm:hover:bg-gray-100 dark:sm:hover:bg-secondary bg-white dark:bg-[#1C1E22] shadow-sm"
+                  class="flex flex-col rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 sm:hover:bg-gray-50 dark:sm:hover:bg-zinc-900/70 transition"
                 >
                   <div class="block flex-grow">
                     <button
@@ -864,7 +864,7 @@
                         class="flex leading-none items-center h-full flex-grow"
                       >
                         <div
-                          class="ml-2 text-left text-[0.95rem] flex flex-col justify-center box-border relative text-wrap"
+                          class="ml-2 text-left text-[0.95rem] text-gray-900 dark:text-white flex flex-col justify-center box-border relative text-wrap"
                         >
                           {item?.label}
                           <div class="flex items-center font-medium pt-1">
@@ -876,7 +876,7 @@
                               enable-background="new 0 0 76.00 76.00"
                               xml:space="preserve"
                               fill="currentColor"
-                              class="h-5 w-5"
+                              class="h-5 w-5 text-gray-600 dark:text-zinc-300"
                               ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
                                 id="SVGRepo_tracerCarrier"
                                 stroke-linecap="round"
@@ -910,14 +910,14 @@
         {#if historyChat?.length > 0}
           <div class="px-4 sm:px-0 pt-5 sm:pt-0 mx-auto w-full max-w-[850px]">
             <h2
-              class="text-lg sm:text-xl text-start w-full font-semibold flex flex-row items-center"
+              class="text-base sm:text-lg text-start w-full font-semibold tracking-tight text-gray-900 dark:text-white flex flex-row items-center"
             >
               <svg
                 aria-hidden="true"
                 focusable="false"
                 data-prefix="fasr"
                 data-icon="rectangle-vertical-history"
-                class="w-5 h-5 inline-block"
+                class="w-5 h-5 inline-block text-gray-400 dark:text-zinc-500"
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 576 512"
@@ -931,7 +931,7 @@
               {#each historyChat as item}
                 <a
                   href={"/chat/" + item?.id}
-                  class="block rounded-[5px] border p-3 mb-3 border-gray-300 dark:border-gray-800 sm:hover:bg-gray-100 dark:sm:hover:bg-secondary transition-all cursor-pointer"
+                  class="block rounded-xl border p-3 mb-3 border-gray-200/70 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 sm:hover:bg-gray-50 dark:sm:hover:bg-zinc-900/60 transition-all cursor-pointer"
                 >
                   <div class="group border-transparent rounded-t-md">
                     <div class="mt-[2px]">
@@ -945,7 +945,7 @@
                       class="flex flex-row items-center justify-between w-full"
                     >
                       <span
-                        class="text-xs sm:text-sm text-gray-600 dark:text-gray-300 w-full"
+                        class="text-xs sm:text-sm text-gray-500 dark:text-zinc-400 w-full"
                         >Last message {formatDate(item?.updated)} ago</span
                       >
                       <button
@@ -956,7 +956,7 @@
                             document.getElementById("deleteThread");
                           clicked?.dispatchEvent(new MouseEvent("click"));
                         }}
-                        class="flex gap-2 w-fit items-center sm:hover:text-red-800 dark:sm:hover:text-red-400 text-sm font-semibold hover:font-bold border border-transparent cursor-pointer px-3 py-2 rounded-md"
+                        class="flex gap-2 w-fit items-center sm:hover:text-red-600 dark:sm:hover:text-red-400 text-xs sm:text-sm text-gray-500 dark:text-zinc-400 border border-transparent cursor-pointer px-2 py-1 rounded-md transition"
                         ><span class="text-sm"
                           ><svg
                             role="graphics-symbol"
@@ -980,14 +980,14 @@
         {:else if !data?.user}
           <div class="mx-auto w-full max-w-[850px] px-4 sm:px-0">
             <h2
-              class="text-lg sm:text-xl text-start w-full font-semibold flex flex-row items-center"
+              class="text-base sm:text-lg text-start w-full font-semibold tracking-tight text-gray-900 dark:text-white flex flex-row items-center"
             >
               <svg
                 aria-hidden="true"
                 focusable="false"
                 data-prefix="fasr"
                 data-icon="rectangle-vertical-history"
-                class="w-5 h-5 inline-block"
+                class="w-5 h-5 inline-block text-gray-400 dark:text-zinc-500"
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 576 512"
@@ -1002,18 +1002,18 @@
             </div>
 
             <div
-              class="bg-gray-100 border border-gray-300 dark:border-gray-600 shadow-lg dark:bg-[#2A2E39] p-6 rounded mt-2 text-center mb-8"
+              class="bg-white/80 border border-gray-200/70 dark:border-zinc-800/80 shadow-sm dark:bg-zinc-950/60 p-6 rounded-2xl mt-2 text-center mb-8"
             >
-              <h2 class="text-xl sm:text-2xl font-bold mb-4">
+              <h2 class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-4">
                 Ready to Analyze Stocks?
               </h2>
-              <p class="mb-4">
+              <p class="mb-4 text-gray-600 dark:text-zinc-400">
                 Explore detailed financial data, analyst ratings, and technicals
                 for thousands of stocks.
               </p>
               <label
                 for="userLogin"
-                class="cursor-pointer bg-black dark:bg-white text-white dark:text-muted px-4 py-2 rounded sm:hover:bg-default inline-block text-sm sm:text-[1rem] font-semibold"
+                class="cursor-pointer bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-2 rounded-full hover:bg-gray-800 dark:hover:bg-gray-100 inline-block text-sm sm:text-[1rem] font-semibold"
                 >Get Started</label
               >
             </div>
@@ -1021,14 +1021,14 @@
         {:else}
           <div class="mx-auto w-full max-w-[850px] px-4 sm:px-0">
             <h2
-              class="text-lg sm:text-xl text-start w-full font-semibold flex flex-row items-center"
+              class="text-base sm:text-lg text-start w-full font-semibold tracking-tight text-gray-900 dark:text-white flex flex-row items-center"
             >
               <svg
                 aria-hidden="true"
                 focusable="false"
                 data-prefix="fasr"
                 data-icon="rectangle-vertical-history"
-                class="w-5 h-5 inline-block"
+                class="w-5 h-5 inline-block text-gray-400 dark:text-zinc-500"
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 576 512"
@@ -1054,8 +1054,7 @@
   <label for="deleteThread" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 rounded shadow border
-        bg-white dark:bg-secondary border border-gray-300 dark:border-gray-600"
+    class="modal-box w-full p-6 rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white dark:bg-zinc-950 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5"
   >
     <h3 class="text-lg font-bold mb-2">Delete Thread</h3>
     <p class="text-sm mb-6">
@@ -1064,16 +1063,15 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deleteThread"
-        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
-            transition-colors bg-black sm:hover:bg-default text-white dark:bg-white dark:text-black"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
+            transition-colors bg-gray-900 hover:bg-gray-800 text-white dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
         tabindex="0">Cancel</label
       ><label
         for="deleteThread"
         on:click={handleDeleteThread}
-        class="cursor-pointer px-4 py-2 rounded text-sm font-medium
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
             transition-colors duration-100 flex items-center
-            bg-red-600 text-white
-            "
+            bg-red-600 hover:bg-red-500 text-white"
         tabindex="0"
         ><svg
           stroke="currentColor"

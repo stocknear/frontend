@@ -208,7 +208,7 @@
 </script>
 
 <div
-  class="flex m-auto mb-6 w-full max-w-[1000px] {assistant
+  class="flex m-auto mb-6 w-full max-w-[1000px] text-gray-700 dark:text-zinc-200 {assistant
     ? 'text-sm'
     : 'text-sm sm:text-[1rem]'}"
   class:justify-end={message.role === "user"}
@@ -225,7 +225,7 @@
       loading="lazy"
     />
     <div
-      class="rounded p-3 min-w-14 max-w-full {message?.role === 'user'
+      class="rounded-2xl p-3 min-w-14 max-w-full {message?.role === 'user'
         ? 'ml-auto group/turn-messages max-w-[80%]'
         : message?.role === 'system'
           ? 'mr-auto w-full'
@@ -234,7 +234,7 @@
       {#if isLoading}
         <div class="py-3">
           <div
-            class="text-sm sm:text-[1rem] text-gray-500 dark:text-gray-400 shimmer-text"
+            class="text-sm sm:text-[1rem] text-gray-500 dark:text-zinc-400 shimmer-text"
           >
             {$chatReasoning
               ? "Thinking very hard..."
@@ -245,7 +245,7 @@
         <div class="w-full">
           {#if message?.role === "user" && isEditMode}
             <div
-              class="p-3 border border-gray-200 dark:border-gray-800 rounded-[5px] bg-gray-200 dark:bg-table"
+              class="p-3 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/90 dark:bg-zinc-950/70"
             >
               <textarea
                 bind:this={textareaElement}
@@ -261,7 +261,7 @@
                     dispatch("cancel-edit");
                     editedContent = "";
                   }}
-                  class="cursor-pointer px-2.5 py-1.5 rounded text-sm relative bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500"
+                  class="cursor-pointer px-3 py-1.5 rounded-full text-xs sm:text-sm relative bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80 hover:bg-gray-200 dark:hover:bg-zinc-800"
                   >Cancel</button
                 >
                 <button
@@ -273,7 +273,7 @@
                       });
                     }
                   }}
-                  class="cursor-pointer px-3.5 py-1.5 rounded text-sm relative bg-black text-white dark:text-black sm:hove:bg-default dark:bg-white dark:sm:hover:bg-gray-100"
+                  class="cursor-pointer px-3.5 py-1.5 rounded-full text-xs sm:text-sm relative bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100"
                   >Save & Regenerate</button
                 >
               </div>
@@ -282,7 +282,7 @@
             <p
               class="w-full transition-all duration-75 ease-out break-words overflow-wrap-anywhere {message?.role ===
               'user'
-                ? 'p-3  border border-gray-200 dark:border-gray-800 rounded-[5px] bg-gray-200 dark:bg-table'
+                ? 'p-3 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white'
                 : ''}"
             >
               {@html isStreaming && message?.role === "system"
@@ -292,7 +292,7 @@
                   : message?.content}
               {#if isStreaming && message?.role === "system" && typewriterInterval}
                 <span
-                  class="inline-block w-1 h-4 ml-0.5 bg-gray-600 dark:bg-gray-400 animate-pulse"
+                  class="inline-block w-1 h-4 ml-0.5 bg-gray-400 dark:bg-zinc-500 animate-pulse"
                 ></span>
               {/if}
             </p>
@@ -331,11 +331,9 @@
             <div class="flex items-center mt-2">
               <button
                 type="button"
-                class="text-muted dark:text-gray-300 dark:sm:hover:text-white focus-visible:bg-offsetPlus dark:focus-visible:bg-offsetPlusDark hover:bg-offsetPlus text-textOff dark:text-textOffDark hover:text-textMain dark:hover:bg-offsetPlusDark dark:hover:text-textMainDark font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-out font-sans select-none items-center relative group/button justify-center text-center items-center rounded-full cursor-pointer active:scale-[0.97] active:duration-150 active:ease-outExpo origin-center whitespace-nowrap inline-flex text-sm pr-2"
+                class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs sm:text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-900 transition"
                 on:click={handleShare}
-                ><div
-                  class="flex flex-row items-center min-w-0 font-medium gap-1 justify-center"
-                >
+                ><div class="flex flex-row items-center min-w-0 font-medium gap-1">
                   <div class="flex shrink-0 items-center justify-center size-4">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -351,9 +349,7 @@
                       ></path></svg
                     >
                   </div>
-                  <div
-                    class="text-align-center relative truncate leading-loose -mb-px"
-                  >
+                  <div class="text-align-center relative truncate leading-loose -mb-px">
                     Share
                   </div>
                 </div></button
@@ -422,14 +418,14 @@
               class=" flex flex-wrap items-center justify-end gap-y-4 p-1 select-none focus-within:transition-none hover:transition-none duration-300 group-hover/turn-messages:delay-300 pointer-events-none opacity-0 motion-safe:transition-opacity group-hover/turn-messages:pointer-events-auto group-hover/turn-messages:opacity-100 group-focus-within/turn-messages:pointer-events-auto group-focus-within/turn-messages:opacity-100 has-data-[state=open]:pointer-events-auto has-data-[state=open]:opacity-100"
             >
               <!-- Copy button -->
-              <button
-                on:click={handleCopyPrompt}
-                class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-lg text-muted dark:text-gray-300 dark:sm:hover:text-white"
-                aria-label="Copy"
-                aria-selected="false"
-                data-testid="copy-turn-action-button"
-                data-state="closed"
-              >
+                <button
+                  on:click={handleCopyPrompt}
+                  class="cursor-pointer rounded-full text-gray-500 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-gray-900 dark:hover:text-white transition"
+                  aria-label="Copy"
+                  aria-selected="false"
+                  data-testid="copy-turn-action-button"
+                  data-state="closed"
+                >
                 <span
                   class="touch:w-10 flex h-8 w-8 items-center justify-center"
                 >
@@ -467,7 +463,7 @@
                       }
                     }, 100);
                   }}
-                  class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-lg text-muted dark:text-gray-300 dark:sm:hover:text-white"
+                  class="cursor-pointer rounded-full text-gray-500 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-gray-900 dark:hover:text-white transition"
                   aria-label="Edit message"
                   aria-selected="false"
                   data-state="closed"
