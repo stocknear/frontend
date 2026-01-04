@@ -282,7 +282,7 @@
       },
 
       title: {
-        text: `<h3 class="mt-3 mb-1 text-[1rem] sm:text-lg"> Max Pain By Strike</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">Max Pain By Strike</h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "black" : "white" },
       },
@@ -429,7 +429,7 @@
       },
 
       title: {
-        text: `<h3 class="mt-3 mb-1 text-[1rem] sm:text-lg"> Max Pain By Expiry</h3>`,
+        text: `<h3 class="mt-3 mb-1 text-sm font-semibold tracking-tight">Max Pain By Expiry</h3>`,
         useHTML: true,
         style: { color: $mode === "light" ? "black" : "white" },
       },
@@ -644,14 +644,14 @@
     >
       <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto mt-2 sm:mt-0">
         <h2
-          class=" flex flex-row items-center text-xl sm:text-2xl font-bold w-fit mb-2 sm:mb-0"
+          class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit mb-2 sm:mb-0"
         >
           {removeCompanyStrings($displayCompanyName)} Max Pain By Strike
         </h2>
 
         <!-- Insightful overview paragraph -->
         <div class="w-full mt-4 mb-6">
-          <p>
+          <p class="text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">
             <strong>{ticker}</strong> trades at
             <strong>${currentPrice}</strong>,
             {Math.abs(priceVsMaxPain) < 2
@@ -686,7 +686,7 @@
             <DropdownMenu.Trigger asChild let:builder>
               <Button
                 builders={[builder]}
-                class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                class="w-fit transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <span class="truncate text-sm"
                   >Date Expiration | {formatDate(selectedDate)}</span
@@ -712,7 +712,7 @@
               align="end"
               sideOffset={10}
               alignOffset={0}
-              class="min-w-56 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative"
+              class="min-w-56 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
             >
               <!-- Dropdown items -->
               <DropdownMenu.Group class="pb-2"
@@ -723,15 +723,15 @@
                         selectedDate = item;
                       }}
                       class="{selectedDate === item
-                        ? 'bg-gray-200 dark:bg-primary'
-                        : ''} sm:hover:bg-gray-200 dark:sm:hover:bg-primary cursor-pointer "
+                        ? 'text-gray-900 dark:text-white font-medium'
+                        : 'text-gray-600 dark:text-zinc-400'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
                     >
                       {formatDate(item)}
                     </DropdownMenu.Item>
                   {:else}
                     <DropdownMenu.Item
                       on:click={() => goto("/pricing")}
-                      class="cursor-pointer sm:hover:bg-gray-200 dark:sm:hover:bg-primary"
+                      class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
                     >
                       {formatDate(item)}
                       <svg
@@ -760,7 +760,7 @@
             <div class="relative">
               <!-- Apply the blur class to the chart -->
               <div
-                class="mt-5 shadow sm:mt-0 sm:border sm:border-gray-300 dark:border-gray-800 rounded"
+                class="mt-5 sm:mt-0 border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                 use:highcharts={configStrike}
               ></div>
             </div>
@@ -768,14 +768,14 @@
         </div>
 
         <h2
-          class="mt-10 flex flex-row items-center text-xl sm:text-2xl font-bold w-fit mb-2 sm:mb-0"
+          class="mt-10 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit mb-2 sm:mb-0"
         >
           {removeCompanyStrings($displayCompanyName)} Max Pain By Expiry
         </h2>
 
         <!-- Insightful overview paragraph for Max Pain By Expiry section -->
         <div class="w-full mt-4 mb-2">
-          <p>
+          <p class="text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">
             Max pain for <strong>{ticker}</strong> shows
             {maxPainTrend === "rising"
               ? ` an upward trend from ${maxPainRange.min} to ${maxPainRange.max}, suggesting bullish positioning in longer-dated options`
@@ -904,7 +904,7 @@
                 <Button
                   on:click={() => goToPage(currentPage - 1)}
                   disabled={currentPage === 1}
-                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -933,7 +933,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm"
                         >{rowsPerPage} Rows</span
@@ -959,13 +959,13 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <!-- Dropdown items -->
                     <DropdownMenu.Group class="pb-2">
                       {#each rowsPerPageOptions as item}
                         <DropdownMenu.Item
-                          class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                          class="hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <label
                             on:click={() => changeRowsPerPage(item)}
@@ -985,7 +985,7 @@
                 <Button
                   on:click={() => goToPage(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="hidden sm:inline">Next</span>
                   <svg

@@ -1134,11 +1134,11 @@ Lower volume today than average suggests less activity or fading interest."
 
         {#if rawData?.length > 0}
           {#if optionList?.length !== 0}
-            <h3 class="mb-4 text-xl sm:text-2xl font-bold w-fit">
+            <h3 class="mb-4 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit">
               Option Chain Statistics
             </h3>
 
-            <p>
+            <p class="text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">
               This table provides a comprehensive overview of all <strong
                 >{ticker}</strong
               >
@@ -1148,70 +1148,70 @@ Lower volume today than average suggests less activity or fading interest."
             <div
               class="flex justify-start items-center m-auto overflow-x-auto mt-1"
             >
-              <table
-                class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto mt-3"
+              <div
+                class="w-full overflow-hidden rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 mt-3"
               >
-                <thead class="bg-default text-white">
-                  <tr class="">
-                    <td class=" font-semibold text-sm text-start">Expiration</td
-                    >
-                    <td class=" font-semibold text-sm text-end">Call Vol</td>
-                    <td class=" font-semibold text-sm text-end">Put Vol</td>
-                    <td class=" font-semibold text-sm text-end">P/C Vol</td>
-                    <td class=" font-semibold text-sm text-end">Call OI</td>
-                    <td class=" font-semibold text-sm text-end">Put OI</td>
-
-                    <td class=" font-semibold text-sm text-end">P/C OI</td>
-                    <td class=" font-semibold text-sm text-end"
-                      >Implied Volatility</td
-                    >
-                    <td class=" font-semibold text-sm text-end">Max Pain</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {#each optionList as item}
-                    <tr class="dark:sm:hover:bg-[#245073]/10">
-                      <td
-                        class="text-sm sm:text-[1rem] text-start whitespace-nowrap"
-                      >
-                        {formatDate(item?.expiration)}
-                      </td>
-
-                      <td class="text-sm sm:text-[1rem] text-end">
-                        {item?.callVol?.toLocaleString("en-US")}
-                      </td>
-
-                      <td class="text-sm sm:text-[1rem] text-end">
-                        {item?.putVol?.toLocaleString("en-US")}
-                      </td>
-
-                      <td class="text-sm sm:text-[1rem] text-end">
-                        {item?.pcVol}
-                      </td>
-
-                      <td class="text-sm sm:text-[1rem] text-end">
-                        {item?.callOI?.toLocaleString("en-US")}
-                      </td>
-
-                      <td class="text-sm sm:text-[1rem] text-end">
-                        {item?.putOI?.toLocaleString("en-US")}
-                      </td>
-
-                      <td class="text-sm sm:text-[1rem] text-end">
-                        {item?.pcOI}
-                      </td>
-
-                      <td class="text-sm sm:text-[1rem] text-end">
-                        {item?.avgIV ? item?.avgIV + "%" : "n/a"}
-                      </td>
-
-                      <td class="text-sm sm:text-[1rem] text-end">
-                        {item?.maxPain}
-                      </td>
+                <table
+                  class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
+                >
+                  <thead
+                    class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  >
+                    <tr>
+                      <td class="text-start">Expiration</td>
+                      <td class="text-end">Call Vol</td>
+                      <td class="text-end">Put Vol</td>
+                      <td class="text-end">P/C Vol</td>
+                      <td class="text-end">Call OI</td>
+                      <td class="text-end">Put OI</td>
+                      <td class="text-end">P/C OI</td>
+                      <td class="text-end">Implied Volatility</td>
+                      <td class="text-end">Max Pain</td>
                     </tr>
-                  {/each}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {#each optionList as item}
+                      <tr class="transition-colors">
+                        <td class="text-sm text-start whitespace-nowrap">
+                          {formatDate(item?.expiration)}
+                        </td>
+
+                        <td class="text-sm text-end">
+                          {item?.callVol?.toLocaleString("en-US")}
+                        </td>
+
+                        <td class="text-sm text-end">
+                          {item?.putVol?.toLocaleString("en-US")}
+                        </td>
+
+                        <td class="text-sm text-end">
+                          {item?.pcVol}
+                        </td>
+
+                        <td class="text-sm text-end">
+                          {item?.callOI?.toLocaleString("en-US")}
+                        </td>
+
+                        <td class="text-sm text-end">
+                          {item?.putOI?.toLocaleString("en-US")}
+                        </td>
+
+                        <td class="text-sm text-end">
+                          {item?.pcOI}
+                        </td>
+
+                        <td class="text-sm text-end">
+                          {item?.avgIV ? item?.avgIV + "%" : "n/a"}
+                        </td>
+
+                        <td class="text-sm text-end">
+                          {item?.maxPain}
+                        </td>
+                      </tr>
+                    {/each}
+                  </tbody>
+                </table>
+              </div>
             </div>
           {/if}
         {/if}
