@@ -34,7 +34,7 @@
   // Common CSS classes
   const borderClasses = "border border-gray-200/70 dark:border-zinc-800/80";
   const navigationButtonClasses =
-    "h-16 w-48 cursor-pointer border m-auto flex bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 mb-3";
+    "h-16 w-48 cursor-pointer m-auto flex bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 mb-3";
   const dropdownButtonClasses =
     "border border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition flex flex-row justify-between items-center px-3 py-2 rounded-full truncate";
 
@@ -819,11 +819,11 @@
                         </h2>
                         {#if filterList.length !== 0}
                           <div
-                            class="ml-auto text-[1rem] sm:text-lg flex flex-row items-center relative block rounded px-2 py-1 focus:outline-hidden"
+                            class="ml-auto text-[1rem] sm:text-lg flex flex-row items-center relative block rounded px-2 py-1 text-gray-600 dark:text-zinc-300"
                           >
-                            <span class="">Filters</span>
+                            <span>Filters</span>
                             <span
-                              class="ml-2 text-white rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center bg-red-500"
+                              class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center bg-white/80 dark:bg-zinc-900/70 border border-gray-200/70 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200"
                             >
                               {filterList.length}
                             </span>
@@ -966,7 +966,7 @@
                                         </svg>
                                       {:else}
                                         <svg
-                                          class="w-4 h-4 text-gray-400 dark:text-gray-500"
+                                          class="w-4 h-4 text-gray-300 dark:text-zinc-600"
                                           aria-hidden="true"
                                           xmlns="http://www.w3.org/2000/svg"
                                           fill="currentColor"
@@ -1123,14 +1123,14 @@
                   {/if}
                 {/each}
                 <div
-                  class="text-sm border border-gray-300 dark:border-gray-800 p-3 mt-6"
+                  class="text-sm border border-gray-200/70 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 text-gray-600 dark:text-zinc-300 p-3 mt-6"
                 >
                   <strong>Source:</strong> Economic Calendar provided by
                   <a
                     href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear"
                     target="_blank"
                     rel="noopener"
-                    class="sm:hover:text-muted text-blue-800 dark:text-blue-400 dark:sm:hover:text-white"
+                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >Financial Modeling Prep</a
                   > and times are shown in ET (Eastern Time).
                 </div>

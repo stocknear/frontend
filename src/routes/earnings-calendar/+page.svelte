@@ -169,10 +169,10 @@
 
   // Reusable CSS classes
   const weekArrowClasses =
-    "hidden sm:flex h-16 w-48 cursor-pointer border m-auto flex bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80 mb-3";
+    "hidden sm:flex h-16 w-48 cursor-pointer m-auto flex bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80 mb-3";
   const mobileArrowClasses = "w-6 h-6 inline-block";
   const weekdayClasses =
-    "m-auto w-full cursor-pointer h-16 rounded-full sm:rounded-none flex bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 border border-gray-200/70 dark:border-zinc-800/80 mb-3";
+    "m-auto w-full cursor-pointer h-16 rounded-full sm:rounded-none flex border border-gray-200/70 dark:border-zinc-800/80 mb-3";
 
   let formattedMonday = startOfWeek(currentWeek, { weekStartsOn: 1 });
   let formattedTuesday = format(addDays(formattedMonday, 1), "EEE, MMM d");
@@ -606,7 +606,7 @@
                           </span>
                           {#if releaseTime === option.value}
                             <CheckMark
-                              class="w-4 h-4 text-emerald-600 dark:text-emerald-400 ml-2"
+                              class="w-4 h-4 text-gray-700 dark:text-zinc-200 ml-2"
                             />
                           {/if}
                         </DropdownMenu.Item>
@@ -665,7 +665,7 @@
                         on:click={() => toggleDate(index)}
                         class="{weekdayClasses} {index === selectedWeekday
                           ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                          : ''}"
+                          : 'bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'}"
                       >
                         <div
                           class=" flex flex-row justify-center items-center w-full"
@@ -837,27 +837,21 @@
                                 >
                                   {#if item?.release === "amc"}
                                     <svg
-                                      class="w-4 h-4 inline-block mr-1"
+                                      class="w-4 h-4 inline-block mr-1 text-gray-500 dark:text-zinc-400"
                                       xmlns="http://www.w3.org/2000/svg"
                                       viewBox="0 0 256 256"
                                       ><path
-                                        fill={$mode === "light"
-                                          ? "#397de9"
-                                          : "#70A1EF"}
+                                        fill="currentColor"
                                         d="M232.13 143.64a6 6 0 0 0-6-1.49a90.07 90.07 0 0 1-112.27-112.3a6 6 0 0 0-7.49-7.48a102.88 102.88 0 0 0-51.89 36.31a102 102 0 0 0 142.84 142.84a102.88 102.88 0 0 0 36.31-51.89a6 6 0 0 0-1.5-5.99m-42 48.29a90 90 0 0 1-126-126a90.9 90.9 0 0 1 35.52-28.27a102.06 102.06 0 0 0 118.69 118.69a90.9 90.9 0 0 1-28.24 35.58Z"
                                       /></svg
                                     >
                                     After Close
                                   {:else}
                                     <svg
-                                      class="w-4 h-4 inline-block mr-1"
+                                      class="w-4 h-4 inline-block mr-1 text-gray-500 dark:text-zinc-400"
                                       xmlns="http://www.w3.org/2000/svg"
                                       viewBox="0 0 256 256"
-                                      ><g
-                                        fill={$mode === "light"
-                                          ? "#C39401"
-                                          : "#FEC001"}
-                                        ><path
+                                      ><g fill="currentColor"><path
                                           d="M184 128a56 56 0 1 1-56-56a56 56 0 0 1 56 56Z"
                                           opacity=".2"
                                         /><path
@@ -1122,12 +1116,10 @@
                                               >
                                                 {#if item?.release === "amc"}
                                                   <svg
-                                                    class="h-4 w-4 mr-1"
+                                                    class="h-4 w-4 mr-1 text-gray-500 dark:text-zinc-400"
                                                     fill="none"
                                                     viewBox="0 0 24 24"
-                                                    stroke={$mode === "light"
-                                                      ? "#397de9"
-                                                      : "#70A1EF"}
+                                                    stroke="currentColor"
                                                   >
                                                     <path
                                                       stroke-linecap="round"
@@ -1139,7 +1131,7 @@
                                                   After Close
                                                 {:else}
                                                   <svg
-                                                    class="h-4 w-4 mr-1 text-yellow-500"
+                                                    class="h-4 w-4 mr-1 text-gray-500 dark:text-zinc-400"
                                                     fill="none"
                                                     viewBox="0 0 24 24"
                                                     stroke="currentColor"
@@ -1400,12 +1392,10 @@
                                         >
                                           {#if item?.release === "amc"}
                                             <svg
-                                              class="h-4 w-4 mr-1"
+                                              class="h-4 w-4 mr-1 text-gray-500 dark:text-zinc-400"
                                               fill="none"
                                               viewBox="0 0 24 24"
-                                              stroke={$mode === "light"
-                                                ? "#397de9"
-                                                : "#70A1EF"}
+                                              stroke="currentColor"
                                             >
                                               <path
                                                 stroke-linecap="round"
@@ -1417,7 +1407,7 @@
                                             After Close
                                           {:else}
                                             <svg
-                                              class="h-4 w-4 mr-1 text-yellow-500"
+                                              class="h-4 w-4 mr-1 text-gray-500 dark:text-zinc-400"
                                               fill="none"
                                               viewBox="0 0 24 24"
                                               stroke="currentColor"
@@ -1471,7 +1461,7 @@
                                             <span></span>
                                           {:else if item?.revenueEst / item?.revenuePrior - 1 >= 0}
                                             <span
-                                              class="text-green-800 dark:text-green-400"
+                                              class="text-emerald-600 dark:text-emerald-400"
                                             >
                                               +{(
                                                 (item?.revenueEst /
@@ -1482,7 +1472,7 @@
                                             </span>
                                           {:else}
                                             <span
-                                              class="text-red-800 dark:text-red-400"
+                                              class="text-rose-600 dark:text-rose-400"
                                             >
                                               {(
                                                 (item?.revenueEst /
@@ -1507,7 +1497,7 @@
                                         {#if item?.epsEst !== null && item?.epsPrior !== null && item?.epsPrior !== 0}
                                           {#if item?.epsEst / item?.epsPrior - 1 >= 0}
                                             <span
-                                              class="text-green-800 dark:text-green-400"
+                                              class="text-emerald-600 dark:text-emerald-400"
                                             >
                                               +{(
                                                 (item?.epsEst / item?.epsPrior -
@@ -1517,7 +1507,7 @@
                                             </span>
                                           {:else}
                                             <span
-                                              class="text-red-800 dark:text-red-400"
+                                              class="text-rose-600 dark:text-rose-400"
                                             >
                                               {(
                                                 (item?.epsEst / item?.epsPrior -
@@ -1538,7 +1528,7 @@
                       {/each}
                     {:else}
                       <div
-                        class="text-center text-sm text-gray-500 dark:text-gray-400 py-8"
+                        class="text-center text-sm text-gray-500 dark:text-zinc-400 py-8"
                       >
                         No earnings scheduled
                       </div>
