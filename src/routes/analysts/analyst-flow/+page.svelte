@@ -434,7 +434,7 @@
                         >
                           <a
                             href={`/analysts/${item?.analystId}`}
-                            class="font-semibold text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400"
+                            class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                             >{item?.analystName}</a
                           >
                         </td>
@@ -444,7 +444,7 @@
                         >
                           <a
                             href={`/stocks/${item?.symbol}`}
-                            class="text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                            class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                             >{item?.symbol}</a
                           >
                         </td>

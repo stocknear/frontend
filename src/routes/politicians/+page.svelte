@@ -2,7 +2,6 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
-  import ArrowLogo from "lucide-svelte/icons/move-up-right";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
 
@@ -623,7 +622,7 @@
                         >
                           <a
                             href={`/politicians/${item?.id}`}
-                            class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                            class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                             >{item?.representative?.replace("_", " ")}</a
                           >
                         </td>
@@ -635,11 +634,11 @@
                             id={item?.id}
                             on:click|stopPropagation={(event) =>
                               addToFavorite(event, item?.id)}
-                            class="text-center transition hover:text-violet-600 dark:hover:text-violet-400 {favoriteList?.includes(
+                            class="text-center transition hover:text-amber-500 dark:hover:text-amber-400 {favoriteList?.includes(
                               item?.id,
                             )
-                              ? 'text-gray-700 dark:text-zinc-200'
-                              : 'text-gray-800 dark:text-zinc-300'}"
+                              ? 'text-amber-500 dark:text-amber-400'
+                              : 'text-gray-400 dark:text-zinc-300'}"
                           >
                             <svg
                               class="{item?.id === animationId

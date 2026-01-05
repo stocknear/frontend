@@ -85,7 +85,7 @@
 <a
   href={getHref(symbol)}
   class={!/^\d/.test((symbol || "").replace(/^\^/, ""))
-    ? "sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400"
+    ? "sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
     : ""}
 >
   {#if symbol}
