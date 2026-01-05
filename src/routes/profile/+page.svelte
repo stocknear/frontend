@@ -620,14 +620,14 @@
             </div>
 
             {#if ["Plus", "Pro"].includes(data?.user?.tier)}
-              <div class="mx-auto w-full mt-4">
-                <div class="flex items-center gap-3">
+              <div class="mx-auto w-full mt-6 mb-2">
+                <div class="flex items-center mt-3">
                   <p class="text-sm text-gray-600 dark:text-zinc-400">
                     <a
                       href="https://app.lemonsqueezy.com/my-orders"
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      class="cursor-pointer border border-gray-300 dark:border-zinc-800/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
                       >Manage your subscription</a
                     >
                   </p>
