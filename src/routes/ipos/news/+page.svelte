@@ -81,19 +81,20 @@
   structuredData={{
     "@context": "https://schema.org",
     "@type": "NewsMediaOrganization",
-    "name": "IPO News Center",
-    "description": "Latest news and updates on initial public offerings and IPO market developments",
-    "url": "https://stocknear.com/ipos/news",
-    "sameAs": "https://stocknear.com",
-    "mainEntityOfPage": {
+    name: "IPO News Center",
+    description:
+      "Latest news and updates on initial public offerings and IPO market developments",
+    url: "https://stocknear.com/ipos/news",
+    sameAs: "https://stocknear.com",
+    mainEntityOfPage: {
       "@type": "WebPage",
-      "name": "Latest IPO News",
-      "url": "https://stocknear.com/ipos/news"
+      name: "Latest IPO News",
+      url: "https://stocknear.com/ipos/news",
     },
-    "about": {
+    about: {
       "@type": "Thing",
-      "name": "Initial Public Offerings"
-    }
+      name: "Initial Public Offerings",
+    },
   }}
 />
 
@@ -113,7 +114,7 @@
                       <!-- Show the YouTube iframe when the user clicks play -->
                       <div class="w-full aspect-video mb-4">
                         <iframe
-                          class="w-full h-full rounded border border-gray-300 dark:border-gray-800"
+                          class="w-full h-full rounded border border-gray-300 dark:border-zinc-700"
                           src={`https://www.youtube.com/embed/${checkIfYoutubeVideo(item?.link)}`}
                           frameborder="0"
                           allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -164,7 +165,7 @@
                         href={item?.link}
                         rel="noopener noreferrer"
                         target="_blank"
-                        class="w-full sm:max-w-56 h-fit max-h-96 sm:mr-3 border border-gray-300 dark:border-gray-800 rounded"
+                        class="w-full sm:max-w-56 h-fit max-h-96 sm:mr-3 border border-gray-300 dark:border-zinc-700 rounded"
                       >
                         <div class="shrink-0 m-auto">
                           <img

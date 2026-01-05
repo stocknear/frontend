@@ -742,7 +742,7 @@
                       <div
                         class="{!isSubscribed
                           ? 'blur-[3px]'
-                          : ''} mt-5 shadow-none sm:mt-0 sm:border sm:border-gray-200 dark:border-zinc-800/80 rounded"
+                          : ''} mt-5 shadow-none sm:mt-0 sm:border sm:border-gray-300 dark:border-zinc-700 rounded"
                         use:highcharts={configScore}
                       ></div>
                     {/if}
@@ -778,7 +778,7 @@
                     >
                       <thead>
                         <tr
-                          class="border-b border-gray-200 dark:border-zinc-800/80 font-normal text-sm whitespace-nowrap"
+                          class="border-b border-gray-300 dark:border-zinc-700 font-normal text-sm whitespace-nowrap"
                         >
                           <th
                             class="py-[3px] text-left font-semibold lg:py-0.5 text-gray-600 dark:text-zinc-300"
@@ -797,7 +797,7 @@
                       <tbody>
                         <!-- Score Row -->
                         <tr
-                          class="border-b border-gray-200 dark:border-zinc-800/80 font-normal text-sm whitespace-nowrap"
+                          class="border-b border-gray-300 dark:border-zinc-700 font-normal text-sm whitespace-nowrap"
                         >
                           <td class="py-[3px] text-left lg:py-0.5 text-sm"
                             >Score</td
@@ -1053,7 +1053,7 @@
                       <div
                         class="{!isSubscribed
                           ? 'blur-[3px]'
-                          : ''} mt-5 shadow-none sm:mt-0 sm:border sm:border-gray-200 dark:border-zinc-800/80 rounded"
+                          : ''} mt-5 shadow-none sm:mt-0 sm:border sm:border-gray-300 dark:border-zinc-700 rounded"
                         use:highcharts={config}
                       ></div>
                     {/if}
@@ -1087,7 +1087,7 @@
                     <table class="w-full text-right text-xs sm:text-sm">
                       <thead
                         ><tr
-                          class="border-b border-gray-200 dark:border-zinc-800/80 font-normal text-sm"
+                          class="border-b border-gray-300 dark:border-zinc-700 font-normal text-sm"
                           ><th
                             class="py-[3px] text-left font-semibold lg:py-0.5"
                             >Target</th
@@ -1099,7 +1099,7 @@
                       >
                       <tbody
                         ><tr
-                          class="border-b border-gray-200 dark:border-zinc-800/80 font-normal text-sm"
+                          class="border-b border-gray-300 dark:border-zinc-700 font-normal text-sm"
                         >
                           <td class="py-[3px] text-left lg:py-0.5">Price</td>
                           {#if !isSubscribed}

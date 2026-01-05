@@ -139,6 +139,6 @@
 </script>
 
 <div
-    class="border border-gray-300 dark:border-gray-800 rounded"
+    class="border border-gray-300 dark:border-zinc-700 rounded"
     use:highcharts={config}
 ></div>

@@ -293,7 +293,7 @@
                 {#each availableSubreddits as subreddit}
                   <button
                     on:click={() => changeSubreddit(subreddit.name)}
-                    class="cursor-pointer inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 px-3 py-1 text-xs font-semibold transition {currentSubreddit ===
+                    class="cursor-pointer inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 px-3 py-1 text-xs font-semibold transition {currentSubreddit ===
                     subreddit.name
                       ? 'bg-gray-900/90 text-white dark:bg-zinc-100/90 dark:text-zinc-900'
                       : 'bg-white/80 dark:bg-zinc-950/40 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
@@ -307,7 +307,7 @@
 
           <!-- Time Period Tabs -->
           <nav
-            class="border-b border-gray-200 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap"
+            class="border-b border-gray-300 dark:border-zinc-700 overflow-x-auto whitespace-nowrap"
           >
             <ul class="flex flex-row items-center w-full text-sm">
               {#each tabs as item, i}
@@ -354,7 +354,7 @@
                   </h2>
 
                   <div
-                    class="sm:p-3 border border-gray-300 shadow dark:border-zinc-800/80 rounded-lg bg-white/70 dark:bg-zinc-950/40"
+                    class="sm:p-3 border border-gray-300 shadow dark:border-zinc-700 rounded-lg bg-white/70 dark:bg-zinc-950/40"
                     use:highcharts={configPieChart}
                   ></div>
                 </div>
@@ -382,7 +382,7 @@
           class="hidden lg:block relative fixed w-1/4 ml-4 text-gray-700 dark:text-zinc-200"
         >
           <div
-            class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-lg h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:bg-white/90 dark:hover:bg-zinc-900/50 transition"
+            class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-lg h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:bg-white/90 dark:hover:bg-zinc-900/50 transition"
           >
             <a
               href="/potus-tracker"
@@ -405,7 +405,7 @@
           </div>
 
           <div
-            class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-lg h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:bg-white/90 dark:hover:bg-zinc-900/50 transition"
+            class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-lg h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:bg-white/90 dark:hover:bg-zinc-900/50 transition"
           >
             <a
               href="/insider-tracker"

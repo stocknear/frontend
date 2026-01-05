@@ -41,7 +41,7 @@
     </div>
     {#if gainersList?.length > 0}
       <div
-        class="overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40"
+        class="overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40"
       >
         <table class="w-full text-sm sm:text-[0.95rem]">
           <thead>
@@ -66,7 +66,7 @@
           </thead>
           <tbody>
             {#each gainersList as item}
-              <tr class="border-t border-gray-200 dark:border-zinc-800/80">
+              <tr class="border-t border-gray-300 dark:border-zinc-700">
                 <td class="py-3 px-3 sm:px-4 text-left">
                   <a
                     href={`/stocks/${item?.symbol}`}
@@ -141,7 +141,7 @@
     </div>
     {#if losersList?.length > 0}
       <div
-        class="overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40"
+        class="overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40"
       >
         <table class="w-full text-sm sm:text-[0.95rem]">
           <thead>
@@ -166,7 +166,7 @@
           </thead>
           <tbody>
             {#each losersList as item}
-              <tr class="border-t border-gray-200 dark:border-zinc-800/80">
+              <tr class="border-t border-gray-300 dark:border-zinc-700">
                 <td class="py-3 px-3 sm:px-4 text-left">
                   <a
                     href={`/stocks/${item?.symbol}`}

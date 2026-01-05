@@ -14,9 +14,10 @@
           Built for active traders who want an edge.
         </h3>
         <p class="mt-4 text-base sm:text-lg text-gray-600 dark:text-zinc-400">
-          You do not need more headlines. You need the flow, catalysts, and context
-          that move price. Pro puts real-time options and dark pool data, analyst
-          moves, and deep history in one place so you can plan the trade, not chase it.
+          You do not need more headlines. You need the flow, catalysts, and
+          context that move price. Pro puts real-time options and dark pool
+          data, analyst moves, and deep history in one place so you can plan the
+          trade, not chase it.
         </p>
       </div>
 
@@ -30,7 +31,7 @@
               class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
             >
               <div
-                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80"
+                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +61,7 @@
               class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
             >
               <div
-                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80"
+                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -79,8 +80,8 @@
               Live options + dark pool flow
             </dt>
             <dd class="mt-2 leading-7 text-gray-600 dark:text-zinc-400">
-              Spot unusual activity and large prints as they happen to move before
-              the crowd.
+              Spot unusual activity and large prints as they happen to move
+              before the crowd.
             </dd>
           </div>
 
@@ -90,7 +91,7 @@
               class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
             >
               <div
-                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80"
+                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
               >
                 <svg
                   class="w-6 h-6"
@@ -126,7 +127,7 @@
               class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
             >
               <div
-                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80"
+                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
               >
                 <svg
                   class="w-6 h-6"

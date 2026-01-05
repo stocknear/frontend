@@ -252,7 +252,7 @@
                         : ''}
                             {activeIdx === i
                         ? 'bg-black dark:bg-white text-white dark:text-black'
-                        : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-gray-800'}"
+                        : 'bg-white  border-gray-300 sm:hover:bg-gray-100 dark:bg-primary dark:border-zinc-700'}"
                     >
                       {item}
                     </button>
@@ -281,7 +281,7 @@
       class="flex justify-start items-center w-screen sm:w-full mt-2 m-auto overflow-x-auto pr-5 sm:pr-0"
     >
       <table
-        class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+        class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-zinc-700 m-auto"
       >
         <thead class="bg-default text-white w-full">
           <tr>
@@ -303,7 +303,7 @@
           {#each tableData.rows as row, rowIndex (row.name)}
             <tr class="w-full">
               <th
-                class="whitespace-nowrap flex flex-row justify-between items-center text-sm sm:text-[1rem] font-normal text-start border-r border-gray-300 dark:border-gray-800"
+                class="whitespace-nowrap flex flex-row justify-between items-center text-sm sm:text-[1rem] font-normal text-start border-r border-gray-300 dark:border-zinc-700"
               >
                 {row.name}
                 <!--
@@ -336,7 +336,7 @@
               </th>
               {#each row.cells as cell, i}
                 <td
-                  class="whitespace-nowrap text-sm sm:text-[1rem] text-end border-b border-r border-gray-300 dark:border-gray-800"
+                  class="whitespace-nowrap text-sm sm:text-[1rem] text-end border-b border-r border-gray-300 dark:border-zinc-700"
                 >
                   {#if cell?.isPremium && cell?.value !== null}
                     <a
@@ -366,7 +366,7 @@
             {#if showGrowth}
               <tr>
                 <td
-                  class="min-w-auto md:min-w-96 w-full whitespace-nowrap flex flex-row justify-between items-center text-sm sm:text-[1rem] font-normal text-start border-r border-gray-300 dark:border-gray-800"
+                  class="min-w-auto md:min-w-96 w-full whitespace-nowrap flex flex-row justify-between items-center text-sm sm:text-[1rem] font-normal text-start border-r border-gray-300 dark:border-zinc-700"
                 >
                   <span class="ml-2 mr-5 md:mr-0">{row.name} Growth</span>
                   <!--
@@ -399,7 +399,7 @@
                 </td>
                 {#each row.cells as cell, i}
                   <td
-                    class="text-sm sm:text-[1rem] text-end border-b border-r border-gray-300 dark:border-gray-800 {cell.growthClass}"
+                    class="text-sm sm:text-[1rem] text-end border-b border-r border-gray-300 dark:border-zinc-700 {cell.growthClass}"
                   >
                     {#if cell.isPremium && cell.growth !== "-"}
                       <a

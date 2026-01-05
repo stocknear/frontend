@@ -74,7 +74,7 @@
 
 <main class="text-muted dark:text-white w-full">
   <section
-    class="border-b border-gray-200 dark:border-none shadow dark:border-gray-800 sm:rounded w-full bg-gray-100 dark:bg-gray-500/20"
+    class="border-b border-gray-200 dark:border-none shadow dark:border-zinc-700 sm:rounded w-full bg-gray-100 dark:bg-gray-500/20"
   >
     <div class="mx-auto max-w-7xl px-6 py-16 sm:py-2 md:px-8">
       <div class="text-center">
@@ -411,7 +411,7 @@
   </section>
 
   <section
-    class="border-t border-gray-200 shadow dark:border-gray-800 bg-gray-100 sm:rounded dark:bg-gray-500/20"
+    class="border-t border-gray-200 shadow dark:border-zinc-700 bg-gray-100 sm:rounded dark:bg-gray-500/20"
   >
     <div
       class="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-28 rounded mt-10 mb-10"

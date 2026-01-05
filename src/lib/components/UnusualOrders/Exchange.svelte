@@ -399,7 +399,7 @@
 
       <div class="rounded mt-5 sm:mt-0">
         <div
-          class="border border-gray-300 dark:border-gray-800 rounded w-full"
+          class="border border-gray-300 dark:border-zinc-700 rounded w-full"
           use:highcharts={config}
         ></div>
       </div>

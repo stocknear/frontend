@@ -442,7 +442,7 @@
 {#if tickerList?.length > 0}
   <div class="w-full border-t border-gray-400 dark:border-gray-600 pt-10">
     <div
-      class="border border-gray-300 dark:border-gray-800 bg-white dark:bg-default rounded p-6"
+      class="border border-gray-300 dark:border-zinc-700 bg-white dark:bg-default rounded p-6"
     >
       <!-- Header -->
       <div class="flex items-center gap-2 mb-6">
@@ -597,7 +597,7 @@
             <button
               on:click={() => (isExpanded = !isExpanded)}
               class="cursor-pointer px-6 py-2 text-sm font-medium rounded shadow
-                     text-gray-800 dark:text-gray-300 sm:hover:bg-gray-100 dark:sm:hover:bg-primary transition-all duratio-50 border border-gray-300 dark:border-gray-800"
+                     text-gray-800 dark:text-gray-300 sm:hover:bg-gray-100 dark:sm:hover:bg-primary transition-all duratio-50 border border-gray-300 dark:border-zinc-700"
             >
               {#if isExpanded}
                 <span class="flex items-center gap-2">

@@ -880,7 +880,7 @@
       >
         <div class="w-full mt-5">
           <div class="w-full">
-            <div class="border-b border-gray-200 dark:border-zinc-800/80">
+            <div class="border-b border-gray-300 dark:border-zinc-700">
               <h1
                 class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
               >
@@ -932,19 +932,19 @@
 
                     <Combobox.Input
                       on:input={search}
-                      class="text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+                      class="text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
                       placeholder="Find..."
                       aria-label="Find..."
                     />
                   </div>
                   <Combobox.Content
-                    class="z-10 rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none outline-hidden"
+                    class="z-10 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none outline-hidden"
                     sideOffset={8}
                   >
                     {#if inputValue?.length !== 0 && inputValue !== selectedTicker}
                       {#each searchBarData as searchItem}
                         <Combobox.Item
-                          class="py-2.5 cursor-pointer border-b border-gray-200 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-lg px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                          class="py-2.5 cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-lg px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                           value={searchItem?.symbol}
                           label={searchItem?.symbol}
                           on:click={(e) => changeTicker(searchItem)}
@@ -970,7 +970,7 @@
                       {/each}
                     {:else}
                       <Combobox.Item
-                        class="cursor-pointer border-b border-gray-200 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
+                        class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                       >
                         <span class="text-sm text-gray-500 dark:text-zinc-400">
                           {inputValue?.length > 0
@@ -985,14 +985,14 @@
                 <button
                   type="button"
                   on:click={() => handleAddOptionLeg()}
-                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
+                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
                   Add Option Leg
                 </button>
                 <button
                   type="button"
                   on:click={handleSaveStrategy}
-                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
+                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
                   Save Strategy
                 </button>
@@ -1003,7 +1003,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate">Custom Strategy</span>
                         <svg
@@ -1026,7 +1026,7 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-56 h-fit max-h-72 overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      class="w-56 h-fit max-h-72 overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                     >
                       <DropdownMenu.Group>
                         {#each prebuiltStrategy as strategy}
@@ -1037,7 +1037,7 @@
                             <span>{strategy.name}</span>
                             {#if strategy?.sentiment}
                               <span
-                                class="ml-3 inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-[0.7rem] font-semibold text-gray-600 dark:text-zinc-300"
+                                class="ml-3 inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-[0.7rem] font-semibold text-gray-600 dark:text-zinc-300"
                                 >{strategy.sentiment}</span
                               >
                             {/if}
@@ -1051,7 +1051,7 @@
 
               <!-- Table container -->
               <div
-                class="overflow-x-auto rounded-lg border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
+                class="overflow-x-auto rounded-lg border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
               >
                 <table
                   class="min-w-full divide-y divide-gray-200/70 dark:divide-zinc-800/80 text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -1122,7 +1122,7 @@
                         <td class="px-4 whitespace-nowrap py-2">
                           <label
                             on:click={() => handleAction(index)}
-                            class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-gray-600 dark:text-zinc-300 cursor-pointer select-none"
+                            class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-gray-600 dark:text-zinc-300 cursor-pointer select-none"
                             >{item?.action}</label
                           >
                         </td>
@@ -1132,7 +1132,7 @@
                             value={userStrategy[index]?.quantity}
                             min="0"
                             on:input={(e) => handleQuantityInput(e, index)}
-                            class="border border-gray-300 shadow dark:border-zinc-800/80 rounded-md px-2 py-1 w-20 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
+                            class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-20 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
                           />
                         </td>
                         <td class="px-4 whitespace-nowrap py-2">
@@ -1140,7 +1140,7 @@
                             <DropdownMenu.Trigger asChild let:builder>
                               <Button
                                 builders={[builder]}
-                                class="mb-1 border border-gray-300 shadow dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate text-gray-700 dark:text-zinc-200"
+                                class="mb-1 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate text-gray-700 dark:text-zinc-200"
                               >
                                 <span class="truncate text-sm"
                                   >{formatDate(userStrategy[index]?.date)}</span
@@ -1162,7 +1162,7 @@
                             </DropdownMenu.Trigger>
 
                             <DropdownMenu.Content
-                              class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                              class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                             >
                               <!-- Dropdown items -->
                               <DropdownMenu.Group class="pb-2"
@@ -1185,7 +1185,7 @@
                             <DropdownMenu.Trigger asChild let:builder>
                               <Button
                                 builders={[builder]}
-                                class="mb-1 border border-gray-300 shadow dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate text-gray-700 dark:text-zinc-200"
+                                class="mb-1 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate text-gray-700 dark:text-zinc-200"
                               >
                                 <span class="truncate text-sm"
                                   >{userStrategy[index]?.strike}</span
@@ -1207,7 +1207,7 @@
                             </DropdownMenu.Trigger>
 
                             <DropdownMenu.Content
-                              class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                              class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                             >
                               <!-- Dropdown items -->
                               <DropdownMenu.Group class="pb-2">
@@ -1229,7 +1229,7 @@
                         <td class="px-4 whitespace-nowrap py-2">
                           <label
                             on:click={() => handleOptionType(index)}
-                            class="select-none inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-gray-600 dark:text-zinc-300 cursor-pointer"
+                            class="select-none inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-gray-600 dark:text-zinc-300 cursor-pointer"
                             >{item?.optionType}</label
                           >
                         </td>
@@ -1240,7 +1240,7 @@
                             min="0"
                             value={userStrategy[index]?.optionPrice}
                             on:input={(e) => handleOptionPriceInput(e, index)}
-                            class="border border-gray-300 shadow dark:border-zinc-800/80 rounded-md px-2 py-1 w-24 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
+                            class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-24 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
                           />
                         </td>
                         <td class="px-4 whitespace-nowrap py-2 select-none">
@@ -1275,7 +1275,7 @@
                 </h2>
 
                 <div
-                  class="border border-gray-300 shadow dark:border-zinc-800/80 rounded-lg bg-white/70 dark:bg-zinc-950/40"
+                  class="border border-gray-300 shadow dark:border-zinc-700 rounded-lg bg-white/70 dark:bg-zinc-950/40"
                   use:highcharts={config}
                 ></div>
               {:else}
@@ -1284,7 +1284,7 @@
                 >
                   <div class="relative">
                     <label
-                      class="bg-white/90 dark:bg-zinc-950/70 border border-gray-300 shadow dark:border-zinc-800/80 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      class="bg-white/90 dark:bg-zinc-950/70 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                     >
                       <span
                         class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
@@ -1303,7 +1303,7 @@
 
                 <!-- Trade Information Card -->
                 <div
-                  class="border border-gray-300 shadow dark:border-zinc-800/80 rounded-lg bg-white/70 dark:bg-zinc-950/40 p-3 sm:p-4 mb-6 max-w-sm"
+                  class="border border-gray-300 shadow dark:border-zinc-700 rounded-lg bg-white/70 dark:bg-zinc-950/40 p-3 sm:p-4 mb-6 max-w-sm"
                 >
                   {#each userStrategy as item, index}
                     <div>

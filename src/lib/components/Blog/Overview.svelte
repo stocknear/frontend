@@ -277,7 +277,7 @@
 
 {#if config}
   <div
-    class="chart-driver border border-gray-300 shadow dark:border-gray-800 rounded"
+    class="chart-driver border border-gray-300 shadow dark:border-zinc-700 rounded"
     use:highcharts={config}
   ></div>
 {/if}

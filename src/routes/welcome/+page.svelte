@@ -89,12 +89,12 @@
 
 <main class="text-gray-700 dark:text-zinc-200 w-full min-h-screen pb-20">
   <section
-    class="border-b border-gray-200/70 dark:border-zinc-800/80 sm:rounded-2xl w-full bg-white/70 dark:bg-zinc-950/40"
+    class="border-b border-gray-300 dark:border-zinc-700 sm:rounded-2xl w-full bg-white/70 dark:bg-zinc-950/40"
   >
     <div class="mx-auto max-w-7xl px-6 py-16 sm:py-12 md:px-8">
       <div class="text-center">
         <img
-          class="m-auto w-20 sm:w-24 rounded-full mb-5 mt-3 border border-gray-300 dark:border-zinc-800/80"
+          class="m-auto w-20 sm:w-24 rounded-full mb-5 mt-3 border border-gray-300 dark:border-zinc-700"
           src="/pwa-192x192.png"
           alt="Stocknear Logo"
           loading="lazy"

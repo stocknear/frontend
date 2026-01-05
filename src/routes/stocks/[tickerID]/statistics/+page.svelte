@@ -65,7 +65,7 @@
                 in one year.
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -140,7 +140,7 @@
                 </p>
               {/if}
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -192,7 +192,7 @@
               {/if}
 
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -260,7 +260,7 @@
                 {/if}
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -301,7 +301,7 @@
                 </p>
               {/if}
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -359,7 +359,7 @@
                 )}.
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -421,7 +421,7 @@
                 Taxes
               </h2>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -459,7 +459,7 @@
                   : "lower"} than the market average.
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -517,7 +517,7 @@
                 {/if}
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -597,7 +597,7 @@
                 </p>
               {/if}
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -677,7 +677,7 @@
                 </p>
               {/if}
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -735,7 +735,7 @@
                 {/if}
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -819,7 +819,7 @@
                 {/if}
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -893,7 +893,7 @@
                 {/if}
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -942,7 +942,7 @@
                 intrinsic value of a stock.
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -997,7 +997,7 @@
                   split with a ratio of {rawData?.splitRatio}.
                 </p>
                 <table
-                  class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                  class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
                 >
                   <tbody>
                     <PopupInfo
@@ -1034,7 +1034,7 @@
                 Scores
               </h2>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
               >
                 <tbody>
                   <PopupInfo

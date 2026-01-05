@@ -614,7 +614,7 @@
         <div class="w-full mt-5">
           <div class="lg:float-left lg:w-[calc(100%-336px-20px)]">
             <div
-              class="border-b border-gray-200 dark:border-zinc-800/80 flex flex-row justify-between"
+              class="border-b border-gray-300 dark:border-zinc-700 flex flex-row justify-between"
             >
               <h1
                 class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
@@ -639,7 +639,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate">{selectedSector}</span>
                       <svg
@@ -662,7 +662,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-56 h-fit max-h-72 overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="w-56 h-fit max-h-72 overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <DropdownMenu.Label
                       class="text-xs text-gray-500 dark:text-zinc-400 font-semibold"
@@ -708,12 +708,12 @@
             </div>
 
             <div
-              class="chart-driver mt-5 border border-gray-300 shadow dark:border-zinc-800/80 rounded-lg bg-white/70 dark:bg-zinc-950/40"
+              class="chart-driver mt-5 border border-gray-300 shadow dark:border-zinc-700 rounded-lg bg-white/70 dark:bg-zinc-950/40"
               use:highcharts={config}
             ></div>
 
             <nav
-              class="navbar-driver border-b border-gray-200 dark:border-zinc-800/80 overflow-x-auto whitespace-nowrap mt-4"
+              class="navbar-driver border-b border-gray-300 dark:border-zinc-700 overflow-x-auto whitespace-nowrap mt-4"
             >
               <ul class="flex flex-row items-center w-full text-sm">
                 {#each tabs as item, i}
@@ -732,7 +732,7 @@
 
             {#if activeIdx === 0}
               <h3
-                class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 mt-6 border-y border-gray-200 dark:border-zinc-800/80 py-2"
+                class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 mt-6 border-y border-gray-300 dark:border-zinc-700 py-2"
               >
                 Official Presidential Schedule
               </h3>
@@ -741,7 +741,7 @@
                   {#each Object?.entries(groupedByDate) as [date, items], indexA}
                     <div class="my-4">
                       <div
-                        class="border-b border-gray-200 dark:border-zinc-800/80 pb-2 w-full flex flex-row items-center justify-between"
+                        class="border-b border-gray-300 dark:border-zinc-700 pb-2 w-full flex flex-row items-center justify-between"
                       >
                         <span class="text-[1rem] sm:text-lg font-semibold">
                           {date}</span
@@ -825,7 +825,7 @@
               </div>
             {:else if activeIdx === 1}
               <h3
-                class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 mt-6 border-y border-gray-200 dark:border-zinc-800/80 py-2"
+                class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 mt-6 border-y border-gray-300 dark:border-zinc-700 py-2"
               >
                 Executive Actions
               </h3>
@@ -834,7 +834,7 @@
                   {#each Object.entries(groupedOrders) as [date, items], indexA}
                     <div class="my-4">
                       <div
-                        class="border-b border-gray-200 dark:border-zinc-800/80 pb-2 flex flex-row items-center"
+                        class="border-b border-gray-300 dark:border-zinc-700 pb-2 flex flex-row items-center"
                       >
                         <span class="text-[1rem] font-semibold">{date}</span>
                         {#if latestInfoDate(date)}
@@ -904,7 +904,7 @@
                           </div>
 
                           <div
-                            class="border-b border-gray-200 dark:border-zinc-800/80 mt-4 mb-4"
+                            class="border-b border-gray-300 dark:border-zinc-700 mt-4 mb-4"
                           ></div>
 
                           <!-- Source link -->
@@ -915,7 +915,7 @@
                               href={item?.link}
                               rel="noopener noreferrer"
                               target="_blank"
-                              class="mr-3 cursor-pointer border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold ml-auto"
+                              class="mr-3 cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold ml-auto"
                             >
                               Open link <svg
                                 class="size-5 inline-block"
@@ -947,7 +947,7 @@
                                 postDate = item?.date;
                                 postUrl = item?.link;
                               }}
-                              class="cursor-pointer border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold"
+                              class="cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold"
                             >
                               Read More
                             </label>
@@ -960,7 +960,7 @@
               </div>
             {:else if activeIdx === 2}
               <div
-                class="flex flex-row items-center mb-2 mt-6 border-y border-gray-200 dark:border-zinc-800/80 py-2"
+                class="flex flex-row items-center mb-2 mt-6 border-y border-gray-300 dark:border-zinc-700 py-2"
               >
                 <svg
                   class="w-7 h-7 rounded-full inline-block"
@@ -1034,7 +1034,7 @@
                       </p>
 
                       <div
-                        class="flex flex-row items-center mt-6 w-full border-b border-gray-200 dark:border-zinc-800/80 pb-2"
+                        class="flex flex-row items-center mt-6 w-full border-b border-gray-300 dark:border-zinc-700 pb-2"
                       >
                         <span class="text-sm text-gray-600 dark:text-zinc-400"
                           >{item?.date}</span
@@ -1046,7 +1046,7 @@
                             postContent = item?.content;
                             postDate = item?.date;
                           }}
-                          class="cursor-pointer border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold ml-auto"
+                          class="cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold ml-auto"
                         >
                           Read More
                         </label>
@@ -1061,7 +1061,7 @@
           <div class="order-4 shrink-0 lg:float-right lg:w-[336px]">
             {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
               <div
-                class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-lg h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:bg-white/90 dark:hover:bg-zinc-900/50 transition"
+                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-lg h-fit pb-4 mt-4 bg-white/70 dark:bg-zinc-950/40 hover:bg-white/90 dark:hover:bg-zinc-900/50 transition"
               >
                 <a
                   href="/pricing"
@@ -1085,7 +1085,7 @@
             {/if}
 
             <div
-              class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
+              class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
               <a
                 href="/stock-screener"
@@ -1105,7 +1105,7 @@
             </div>
 
             <div
-              class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
+              class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
               <a
                 href="/watchlist/stocks"
@@ -1136,7 +1136,7 @@
   <label for="executivePostModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 shadow-none"
+    class="modal-box w-full p-6 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 shadow-none"
   >
     <div class="flex items-start space-x-3">
       <span class="w-10 h-10 rounded-full shrink-0">
@@ -1172,7 +1172,7 @@
       {@html postContent}
     </p>
 
-    <div class="border-b border-gray-200 dark:border-zinc-800/80">
+    <div class="border-b border-gray-300 dark:border-zinc-700">
       <span class=" mb-4 text-sm"
         >{new Date(postDate ?? null)?.toLocaleString("en-US", {
           month: "long",
@@ -1185,14 +1185,14 @@
     <div class="flex justify-end space-x-3 mt-5">
       <label
         for="executivePostModal"
-        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
+        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
         tabindex="0">Close</label
       >
       <a
         href={postUrl}
         rel="noopener noreferrer"
         target="_blank"
-        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
+        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
         tabindex="0">Read Source</a
       >
     </div>
@@ -1205,7 +1205,7 @@
   <label for="socialPostModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 shadow-none"
+    class="modal-box w-full p-6 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 shadow-none"
     style="opacity: 1; transform: none;"
   >
     <div class="flex items-start space-x-3">
@@ -1251,7 +1251,7 @@
       {postContent}
     </p>
 
-    <div class="border-b border-gray-200 dark:border-zinc-800/80">
+    <div class="border-b border-gray-300 dark:border-zinc-700">
       <span class="mb-4 text-sm text-gray-600 dark:text-zinc-400"
         >{postDate}</span
       >
@@ -1260,7 +1260,7 @@
     <div class="flex justify-end space-x-3 mt-5">
       <label
         for="socialPostModal"
-        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
+        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
         tabindex="0">Close</label
       >
     </div>

@@ -135,7 +135,7 @@
   class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-8 mt-5"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-zinc-700 m-auto"
   >
     <tbody class="">
       {#each fundamentalData as item}
@@ -167,7 +167,7 @@
 
 {#if config}
   <div
-    class="chart-driver border border-gray-300 shadow dark:border-gray-800 rounded mb-6"
+    class="chart-driver border border-gray-300 shadow dark:border-zinc-700 rounded mb-6"
     use:highcharts={config}
   ></div>
 {/if}

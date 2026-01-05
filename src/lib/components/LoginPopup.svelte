@@ -261,7 +261,7 @@ const output = await response.json();
                   on:click={() => (oauthLoading = !oauthLoading)}
                   on:mouseenter={handleHoverGoogle}
                   on:mouseleave={handleHoverGoogle}
-                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-800/80 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
+                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
                 >
                   <svg
                     class="{isHoveredGoogle
@@ -315,7 +315,7 @@ const output = await response.json();
                   on:click={() => (oauthLoading = !oauthLoading)}
                   on:mouseenter={handleHoverDiscord}
                   on:mouseleave={handleHoverDiscord}
-                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-800/80 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
+                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
                 >
                   <svg
                     class="{isHoveredDiscord
@@ -854,7 +854,7 @@ const output = await response.json();
                   on:click={() => (oauthLoading = !oauthLoading)}
                   on:mouseenter={handleHoverGithub}
                   on:mouseleave={handleHoverGithub}
-                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-800/80 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
+                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
                 >
                   <svg
                     class="{isHoveredGithub
@@ -970,7 +970,7 @@ const output = await response.json();
                   on:click={() => (oauthLoading = !oauthLoading)}
                   on:mouseenter={handleHoverGoogle}
                   on:mouseleave={handleHoverGoogle}
-                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-800/80 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
+                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
                 >
                   <svg
                     class="{isHoveredGoogle
@@ -1024,7 +1024,7 @@ const output = await response.json();
                   on:click={() => (oauthLoading = !oauthLoading)}
                   on:mouseenter={handleHoverDiscord}
                   on:mouseleave={handleHoverDiscord}
-                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-800/80 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
+                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
                 >
                   <svg
                     class="{isHoveredDiscord
@@ -1563,7 +1563,7 @@ const output = await response.json();
                   on:click={() => (oauthLoading = !oauthLoading)}
                   on:mouseenter={handleHoverGithub}
                   on:mouseleave={handleHoverGithub}
-                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-800/80 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
+                  class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
                 >
                   <svg
                     class="{isHoveredGithub
@@ -1616,7 +1616,7 @@ const output = await response.json();
       <div class="absolute right-1/2 left-1/2 top-1/2 bottom-1/2">
         <div class="relative">
           <label
-            class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-800/80 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           >
             <span
               class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"

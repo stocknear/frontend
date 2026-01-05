@@ -727,7 +727,7 @@
             <!--Start Table-->
             <div class="w-full rounded overflow-hidden overflow-x-auto">
               <table
-                class="table table-sm table-compact rounded-none sm:rounded w-full m-auto mt-2 overflow-x-auto border border-gray-300 dark:border-gray-800"
+                class="table table-sm table-compact rounded-none sm:rounded w-full m-auto mt-2 overflow-x-auto border border-gray-300 dark:border-zinc-700"
               >
                 <thead>
                   <TableHeader {columns} {sortOrders} {sortData} />
@@ -951,7 +951,7 @@
   <div
     class="modal-box bg-white dark:bg-default w-full {rawDataHistory?.length > 0
       ? 'max-w-7xl'
-      : 'w-full'} rounded border-t sm:border border-gray-300 dark:border-gray-800 min-h-48 h-auto"
+      : 'w-full'} rounded border-t sm:border border-gray-300 dark:border-zinc-700 min-h-48 h-auto"
   >
     <form
       method="dialog"
@@ -984,7 +984,7 @@
     </form>
     {#if rawDataHistory?.length > 0}
       <div
-        class="border-b border-gray-300 dark:border-gray-800 w-full mt-2 mb-2 sm:mb-3 sm:mt-3"
+        class="border-b border-gray-300 dark:border-zinc-700 w-full mt-2 mb-2 sm:mb-3 sm:mt-3"
       ></div>
 
       <div class="hidden sm:flex flex-wrap pb-2">
@@ -1031,7 +1031,7 @@
           {/each}
         </div>
         <div
-          class="mt-2 border border-gray-300 dark:border-gray-800 rounded"
+          class="mt-2 border border-gray-300 dark:border-zinc-700 rounded"
           use:highcharts={config}
         ></div>
       </div>
@@ -1044,7 +1044,7 @@
         <div class="flex justify-start items-center m-auto cursor-normal">
           {#if isLoaded}
             <table
-              class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto mt-4"
+              class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-zinc-700 m-auto mt-4"
             >
               <thead class="text-white bg-default">
                 <tr class="">

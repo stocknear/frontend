@@ -70,7 +70,7 @@
               article?.id,
               article?.cover,
             )}
-            class="h-[200px] w-full object-cover lg:h-[350px] rounded-2xl border border-gray-200/70 dark:border-zinc-800/80"
+            class="h-[200px] w-full object-cover lg:h-[350px] rounded-2xl border border-gray-300 dark:border-zinc-700"
             loading="lazy"
             alt="Wallpaper"
           />
@@ -79,16 +79,20 @@
           <article
             class="z-5 relative mx-1 {article?.cover
               ? '-mt-10 lg:-mt-16'
-              : 'lg:-mt-8'} rounded-2xl p-3 xs:p-4 lg:ml-3 lg:p-5 xl:mx-4 bg-white/80 dark:bg-zinc-950/60 border border-gray-200/70 dark:border-zinc-800/80 shadow-none"
+              : 'lg:-mt-8'} rounded-2xl p-3 xs:p-4 lg:ml-3 lg:p-5 xl:mx-4 bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700 shadow-none"
           >
             <header
-              class="pb-3 border-b border-gray-200/70 dark:border-zinc-800/80 w-full sm:min-w-[1000px] sm:max-w-[1000px]"
+              class="pb-3 border-b border-gray-300 dark:border-zinc-700 w-full sm:min-w-[1000px] sm:max-w-[1000px]"
             >
-              <h1 class="mb-3 text-2xl sm:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
+              <h1
+                class="mb-3 text-2xl sm:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              >
                 {article?.title}
               </h1>
               <div class="">
-                <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
+                <div
+                  class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                >
                   Last Updated: {new Date(article?.updated)?.toLocaleString(
                     "en-US",
                     {
@@ -103,7 +107,9 @@
               </div>
             </header>
 
-            <div class="text-base mt-4 text-gray-600 dark:text-zinc-300 leading-relaxed">
+            <div
+              class="text-base mt-4 text-gray-600 dark:text-zinc-300 leading-relaxed"
+            >
               <div class="content max-w-[1000px]">
                 {#if article?.category === "pre-earnings"}
                   <PreEarningsPost rawData={article?.data} />

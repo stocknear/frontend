@@ -27,7 +27,7 @@
 
   .table {
     tr {
-  @apply border-b border-gray-400 dark:border-gray-800;
+  @apply border-b border-gray-400 dark:border-zinc-700;
 }
    
 }

@@ -45,7 +45,7 @@
 
 <div class="w-full max-w-xl mx-auto mb-10 mt-5">
   <div
-    class="rounded-2xl border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/60 px-6 py-7 sm:px-8"
+    class="rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/60 px-6 py-7 sm:px-8"
   >
     <div class="flex flex-col gap-6">
       <!-- Discount display -->
@@ -75,7 +75,7 @@
         <button
           on:click={copyPromoCode}
           type="button"
-          class="cursor-pointer group inline-flex items-center gap-3 rounded-full border border-gray-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/40 px-4 py-2 text-sm transition hover:border-gray-300/80 dark:hover:border-zinc-700/80 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
+          class="cursor-pointer group inline-flex items-center gap-3 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/40 px-4 py-2 text-sm transition hover:border-gray-300/80 dark:hover:border-zinc-700/80 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
         >
           <span
             class="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-gray-500 dark:text-zinc-400"
@@ -129,7 +129,7 @@
       </div>
 
       <!-- Countdown timer -->
-      <div class="border-t border-gray-100/80 dark:border-zinc-800/80 pt-5">
+      <div class="border-t border-gray-100/80 dark:border-zinc-700 pt-5">
         <p
           class="text-center text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-zinc-500"
         >
@@ -138,7 +138,7 @@
         <div class="mt-3 grid grid-cols-4 gap-2 max-w-sm mx-auto">
           <div class="text-center">
             <div
-              class="rounded-lg border border-gray-200/70 dark:border-zinc-800/80 bg-gray-50/70 dark:bg-zinc-900/40 px-2 py-3"
+              class="rounded-lg border border-gray-300 dark:border-zinc-700 bg-gray-50/70 dark:bg-zinc-900/40 px-2 py-3"
             >
               <span
                 class="countdown font-mono text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -153,7 +153,7 @@
           </div>
           <div class="text-center">
             <div
-              class="rounded-lg border border-gray-200/70 dark:border-zinc-800/80 bg-gray-50/70 dark:bg-zinc-900/40 px-2 py-3"
+              class="rounded-lg border border-gray-300 dark:border-zinc-700 bg-gray-50/70 dark:bg-zinc-900/40 px-2 py-3"
             >
               <span
                 class="countdown font-mono text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -168,7 +168,7 @@
           </div>
           <div class="text-center">
             <div
-              class="rounded-lg border border-gray-200/70 dark:border-zinc-800/80 bg-gray-50/70 dark:bg-zinc-900/40 px-2 py-3"
+              class="rounded-lg border border-gray-300 dark:border-zinc-700 bg-gray-50/70 dark:bg-zinc-900/40 px-2 py-3"
             >
               <span
                 class="countdown font-mono text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
@@ -183,7 +183,7 @@
           </div>
           <div class="text-center">
             <div
-              class="rounded-lg border border-gray-200/70 dark:border-zinc-800/80 bg-gray-50/70 dark:bg-zinc-900/40 px-2 py-3"
+              class="rounded-lg border border-gray-300 dark:border-zinc-700 bg-gray-50/70 dark:bg-zinc-900/40 px-2 py-3"
             >
               <span
                 class="countdown font-mono text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"

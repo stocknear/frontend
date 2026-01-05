@@ -513,9 +513,10 @@
                   {#each ["1M", "3M", "YTD", "1Y", "3Y", "5Y", "Max"] as item}
                     <label
                       on:click={() => (plotPeriod = item)}
-                      class="px-3 py-1 rounded-full text-xs font-medium border transition ease-out duration-100 cursor-pointer {plotPeriod === item
+                      class="px-3 py-1 rounded-full text-xs font-medium border transition ease-out duration-100 cursor-pointer {plotPeriod ===
+                      item
                         ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-gray-900/80 dark:border-white'
-                        : 'bg-white/70 dark:bg-zinc-950/50 text-gray-600 dark:text-zinc-300 border-gray-200/70 dark:border-zinc-800/80 hover:text-violet-600 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80'}"
+                        : 'bg-white/70 dark:bg-zinc-950/50 text-gray-600 dark:text-zinc-300 border-gray-300 dark:border-zinc-700 hover:text-violet-600 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80'}"
                     >
                       {item}
                     </label>
@@ -523,14 +524,14 @@
                 </div>
               </div>
               <div
-                class="border border-gray-300 dark:border-gray-800 rounded w-full"
+                class="border border-gray-300 dark:border-zinc-700 rounded w-full"
                 use:highcharts={config}
               ></div>
             {/if}
 
             {#if rawData?.length > 0}
               <div
-                class="mt-5 border-t border-b pt-2 pb-2 border-gray-300 dark:border-gray-800 flex flex-row items-center w-full sm:justify-between md:space-x-4 w-full mb-3"
+                class="mt-5 border-t border-b pt-2 pb-2 border-gray-300 dark:border-zinc-700 flex flex-row items-center w-full sm:justify-between md:space-x-4 w-full mb-3"
               >
                 <h2 class="text-xl sm:text-2xl font-bold">Historical Data</h2>
                 <div class="flex flex-row items-center ml-auto w-fit">
@@ -539,7 +540,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate px-1">{timePeriod}</span>
                           <svg
@@ -634,7 +635,7 @@
                   class="w-full m-auto rounded-none sm:rounded mb-4 overflow-x-auto"
                 >
                   <table
-                    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-gray-800 m-auto"
+                    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-zinc-700 m-auto"
                   >
                     <thead>
                       <TableHeader {columns} {sortOrders} {sortData} />

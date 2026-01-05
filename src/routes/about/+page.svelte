@@ -11,7 +11,7 @@
 <div class="text-gray-700 dark:text-zinc-200 w-full">
   <!-- Hero Section -->
   <section
-    class="border-b border-gray-200 dark:border-zinc-800/80 w-full bg-white dark:bg-zinc-950/60"
+    class="border-b border-gray-300 dark:border-zinc-700 w-full bg-white dark:bg-zinc-950/60"
   >
     <div class="mx-auto max-w-4xl px-6 py-16 sm:py-24 md:px-8">
       <div class="text-center">
@@ -31,7 +31,7 @@
   </section>
 
   <!-- Values Section -->
-  <section class="border-t border-gray-200 dark:border-zinc-800/80">
+  <section class="border-t border-gray-300 dark:border-zinc-700">
     <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
       <div class="lg:text-center">
         <p
@@ -57,7 +57,7 @@
           <div class="relative">
             <dt>
               <div
-                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80"
+                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
               >
                 <svg
                   class="w-6 h-6"
@@ -89,7 +89,7 @@
           <div class="relative">
             <dt>
               <div
-                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80"
+                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
               >
                 <svg
                   class="w-6 h-6"
@@ -121,7 +121,7 @@
           <div class="relative">
             <dt>
               <div
-                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80"
+                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
               >
                 <svg
                   class="w-6 h-6"
@@ -153,7 +153,7 @@
           <div class="relative">
             <dt>
               <div
-                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80"
+                class="absolute flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
               >
                 <svg
                   class="w-6 h-6"
@@ -189,7 +189,7 @@
 
   <!-- Founder Section -->
   <section
-    class="border-t border-gray-200 dark:border-zinc-800/80 bg-gray-50/60 dark:bg-zinc-950/50"
+    class="border-t border-gray-300 dark:border-zinc-700 bg-gray-50/60 dark:bg-zinc-950/50"
   >
     <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-20">
       <div class="lg:grid lg:grid-cols-3 lg:gap-12">
@@ -286,7 +286,7 @@
   </section>
 
   <!-- CTA Section -->
-  <section class="border-t border-gray-200 dark:border-zinc-800/80">
+  <section class="border-t border-gray-300 dark:border-zinc-700">
     <div class="mx-auto max-w-4xl px-6 py-16 lg:py-20 text-center">
       <div>
         <h2
@@ -309,7 +309,7 @@
           </a>
           <a
             href="/pricing"
-            class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 shadow dark:border-zinc-800/80 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
+            class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
           >
             View Pricing
           </a>

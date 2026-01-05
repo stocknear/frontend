@@ -855,7 +855,7 @@
                 <div class="">
                   <div class="inline-flex">
                     <div
-                      class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-800/80
+                      class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700
            "
                     >
                       {#each tabs as item, i (item)}
@@ -866,7 +866,7 @@
                 
                           {activeIdx === i
                               ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
-                              : 'bg-white/80 border-gray-200 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-800/80'}"
+                              : 'bg-white/80 border-gray-200 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-700'}"
                           >
                             <span class="relative text-sm block font-semibold">
                               {item}
@@ -903,7 +903,7 @@
 
         <div class="w-full mb-6 mt-3">
           <div
-            class="rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-0.5 xs:p-1 md:flex md:flex-col md:space-y-4 md:divide-y md:p-4 lg:flex-row lg:space-x-4 lg:space-y-0 lg:divide-x lg:divide-y-0 divide-gray-200/70 dark:divide-zinc-800/80"
+            class="rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-0.5 xs:p-1 md:flex md:flex-col md:space-y-4 md:divide-y md:p-4 lg:flex-row lg:space-x-4 lg:space-y-0 lg:divide-x lg:divide-y-0 divide-gray-200/70 dark:divide-zinc-800/80"
           >
             <div
               class="p-3 md:flex md:space-x-4 md:p-0 lg:block lg:max-w-[32%] lg:space-x-0"
@@ -940,12 +940,12 @@
             <div class="grow p-3 md:pt-4 lg:pl-4 lg:pt-0">
               {#if numOfAnalyst > 0}
                 <div
-                  class="sm:shadow-none sm:border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                  class="sm:shadow-none sm:border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                   use:highcharts={config}
                 ></div>
               {:else}
                 <div
-                  class="mb-2 min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold shadow-none border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 flex justify-center items-center"
+                  class="mb-2 min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold shadow-none border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 flex justify-center items-center"
                 >
                   No Chart available
                 </div>
@@ -961,7 +961,7 @@
                   >
                     <thead
                       ><tr
-                        class="border-b border-gray-200 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                        class="border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                         ><th class="py-[3px] text-left font-semibold lg:py-0.5"
                           >Target</th
                         > <th class="font-semibold">Low</th>
@@ -1028,7 +1028,7 @@
           </div>
 
           <div
-            class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 mt-8 p-4 sm:p-5 divide-gray-200/70 dark:divide-zinc-800/80 lg:flex lg:space-x-4 lg:divide-x"
+            class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-8 p-4 sm:p-5 divide-gray-200/70 dark:divide-zinc-800/80 lg:flex lg:space-x-4 lg:divide-x"
           >
             <div class="flex flex-col justify-between p-1 lg:max-w-[32%]">
               <div>
@@ -1038,7 +1038,7 @@
                   </h2>
                   {#if latestInfoDate(data?.getAnalystInsight?.date)}
                     <label
-                      class="rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 font-semibold text-xs px-2 py-0.5 ml-3"
+                      class="rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 font-semibold text-xs px-2 py-0.5 ml-3"
                       >New</label
                     >
                   {/if}
@@ -1099,12 +1099,12 @@
             <div class="grow pt-2 md:pt-4 lg:pl-4 lg:pt-0">
               {#if optionsBarChart !== null && numOfAnalyst > 0}
                 <div
-                  class="shadow-none border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                  class="shadow-none border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                   use:highcharts={optionsBarChart}
                 ></div>
               {:else}
                 <div
-                  class="min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold shadow-none border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 flex justify-center items-center"
+                  class="min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold shadow-none border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 flex justify-center items-center"
                 >
                   No Chart available
                 </div>
@@ -1120,7 +1120,7 @@
                   >
                     <thead
                       ><tr
-                        class="border-b border-gray-200 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                        class="border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                         ><th
                           class="whitespace-nowrap px-1 py-[3px] text-left font-semibold"
                           >Rating</th
@@ -1175,10 +1175,10 @@
           </h2>
           {#if data?.getAnalystEstimate?.length !== 0}
             <div
-              class="mb-4 grid grid-cols-1 overflow-hidden rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 divide-gray-200/70 dark:divide-zinc-800/80 md:grid-cols-2 lg:grid-cols-4"
+              class="mb-4 grid grid-cols-1 overflow-hidden rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 divide-gray-200/70 dark:divide-zinc-800/80 md:grid-cols-2 lg:grid-cols-4"
             >
               <div
-                class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b lg:border-b-0 border-gray-200 dark:border-zinc-800/80"
+                class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b lg:border-b-0 border-gray-300 dark:border-zinc-700"
               >
                 <div
                   class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
@@ -1365,7 +1365,7 @@
                 </div>
               </div>
               <div
-                class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-l border-gray-200 dark:border-zinc-800/80"
+                class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-l border-gray-300 dark:border-zinc-700"
               >
                 <div
                   class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
@@ -1430,7 +1430,7 @@
             </div>
           {:else}
             <div
-              class=" p-3 sm:p-5 mb-10 rounded sm:flex sm:flex-row sm:items-center border border-gray-300 shadow dark:border-zinc-800/80 text-sm"
+              class=" p-3 sm:p-5 mb-10 rounded sm:flex sm:flex-row sm:items-center border border-gray-300 shadow dark:border-zinc-700 text-sm"
             >
               <svg
                 class="w-6 h-6 shrink-0 inline-block sm:mr-2"

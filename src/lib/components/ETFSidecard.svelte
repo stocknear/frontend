@@ -71,7 +71,9 @@
 </script>
 
 <div class="px-0.5 lg:px-0 text-gray-700 dark:text-zinc-200">
-  <h2 class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+  <h2
+    class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+  >
     About {$etfTicker}
   </h2>
   <p class="text-sm text-gray-600 dark:text-zinc-400">
@@ -79,22 +81,34 @@
   </p>
 
   <div
-    class="mt-3 grid grid-cols-2 gap-3 w-full border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none pb-8 lg:pb-0"
+    class="mt-3 grid grid-cols-2 gap-3 w-full border-b border-gray-300 dark:border-zinc-700 lg:border-none pb-8 lg:pb-0"
   >
     <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
-      <span class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500">Asset Class</span>
+      <span
+        class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+        >Asset Class</span
+      >
       <span>{assetClass ?? "n/a"}</span>
     </div>
     <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
-      <span class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500">Ticker Symbol</span>
+      <span
+        class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+        >Ticker Symbol</span
+      >
       {$etfTicker}
     </div>
     <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
-      <span class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500">Inception Date</span>
+      <span
+        class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+        >Inception Date</span
+      >
       <span>{ipoDate}</span>
     </div>
     <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
-      <span class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500">Provider</span>
+      <span
+        class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+        >Provider</span
+      >
       <a
         href={`/etf/etf-providers/${provider}`}
         class="hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
@@ -102,8 +116,13 @@
       >
     </div>
 
-    <div class="col-span-1 whitespace-nowrap text-sm text-gray-600 dark:text-zinc-400">
-      <span class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500">Website</span>
+    <div
+      class="col-span-1 whitespace-nowrap text-sm text-gray-600 dark:text-zinc-400"
+    >
+      <span
+        class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+        >Website</span
+      >
       <a
         href={website}
         class="hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
@@ -111,43 +130,57 @@
       >
     </div>
 
-    <div class="col-span-1 whitespace-nowrap text-sm text-gray-600 dark:text-zinc-400">
-      <span class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500">Exchange</span>
+    <div
+      class="col-span-1 whitespace-nowrap text-sm text-gray-600 dark:text-zinc-400"
+    >
+      <span
+        class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+        >Exchange</span
+      >
       <span>{data?.getStockQuote?.exchange ?? "n/a"}</span>
     </div>
   </div>
 </div>
 
 {#if topSectorList?.length !== 0}
-  <div
-    class="space-y-3 pt-5 {topSectorList?.length !== 0 ? '' : 'hidden'}"
-  >
+  <div class="space-y-3 pt-5 {topSectorList?.length !== 0 ? '' : 'hidden'}">
     <div class="h-auto w-full">
       <!--Start Content-->
       <div class="w-auto lg:w-full flex flex-col m-auto">
         <h2 class="mb-2 text-xl sm:text-2xl flex flex-row items-center">
-          <span class="font-semibold tracking-tight text-gray-900 dark:text-white">Top Sectors</span>
+          <span
+            class="font-semibold tracking-tight text-gray-900 dark:text-white"
+            >Top Sectors</span
+          >
         </h2>
 
         <div class="mt-2 w-full overflow-hidden">
           <table class="w-full">
             <thead>
-              <tr class="border-y border-gray-200/70 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400">
-                <th class="px-1 py-1.5 text-left xs:px-2 font-semibold">Sector</th>
+              <tr
+                class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              >
+                <th class="px-1 py-1.5 text-left xs:px-2 font-semibold"
+                  >Sector</th
+                >
 
-                <th class="px-1 py-1.5 text-right xs:px-2 font-semibold">Weight %</th>
+                <th class="px-1 py-1.5 text-right xs:px-2 font-semibold"
+                  >Weight %</th
+                >
               </tr>
             </thead>
             <tbody>
               {#each topSectorList?.slice(0, 5) as item}
                 {#if item?.weightPercentage > 0}
-                  <tr class="border-b border-gray-200/70 dark:border-zinc-800/80 text-sm text-gray-600 dark:text-zinc-300">
+                  <tr
+                    class="border-b border-gray-300 dark:border-zinc-700 text-sm text-gray-600 dark:text-zinc-300"
+                  >
                     <td class="px-1 py-1.5 text-left xs:px-2">
                       <a
                         href={sectorNavigation?.find(
                           (listItem) => listItem?.title === item?.sector,
                         )?.link}
-                        class="hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4 truncate"
+                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400"
                       >
                         {item?.sector}
                       </a>
@@ -176,14 +209,21 @@
 
 {#if topHoldingList?.length !== 0}
   <div
-    class="space-y-3 pt-8 sm:pt-5 {topHoldingList?.length !== 0 ? '' : 'hidden'}"
+    class="space-y-3 pt-8 sm:pt-5 {topHoldingList?.length !== 0
+      ? ''
+      : 'hidden'}"
   >
     <div class="h-auto w-full">
       <!--Start Content-->
       <div class="w-auto lg:w-full flex flex-col m-auto">
         <h2 class="mb-2 text-xl sm:text-2xl flex flex-row items-center">
-          <span class="font-semibold tracking-tight text-gray-900 dark:text-white">Top 10 Holdings</span>
-          <span class="font-semibold ml-auto text-sm text-gray-500 dark:text-zinc-400">
+          <span
+            class="font-semibold tracking-tight text-gray-900 dark:text-white"
+            >Top 10 Holdings</span
+          >
+          <span
+            class="font-semibold ml-auto text-sm text-gray-500 dark:text-zinc-400"
+          >
             {totalAssetPercentage}% of assets
           </span>
         </h2>
@@ -191,17 +231,24 @@
         <div class="mt-2 w-full">
           <table class="w-full">
             <thead
-              ><tr class="border-y border-gray-200/70 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
-                ><th class="px-1 py-1.5 text-left xs:px-2 font-semibold">Name</th>
-                <th class="px-1 py-1.5 text-left xs:px-2 font-semibold">Symbol</th>
-                <th class="px-1 py-1.5 text-right xs:px-2 font-semibold">Weight</th></tr
+              ><tr
+                class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                ><th class="px-1 py-1.5 text-left xs:px-2 font-semibold"
+                  >Name</th
+                >
+                <th class="px-1 py-1.5 text-left xs:px-2 font-semibold"
+                  >Symbol</th
+                >
+                <th class="px-1 py-1.5 text-right xs:px-2 font-semibold"
+                  >Weight</th
+                ></tr
               ></thead
             >
             <tbody>
               {#each topHoldingList?.slice(0, 10) as item}
                 {#if item?.symbol !== null}
                   <tr
-                    class="border-b border-gray-200/70 dark:border-zinc-800/80 text-sm text-gray-600 dark:text-zinc-300"
+                    class="border-b border-gray-300 dark:border-zinc-700 text-sm text-gray-600 dark:text-zinc-300"
                   >
                     <td class="px-1 py-1.5 text-left xs:px-2">
                       {#if typeof item?.name !== "undefined"}
@@ -240,9 +287,8 @@
 
 {#if dividendHistoryList?.length !== 0}
   <div
-    class="space-y-3 pt-8 sm:pt-5 {(
-      dividendHistoryList?.length ?? []
-    )?.length !== 0
+    class="space-y-3 pt-8 sm:pt-5 {(dividendHistoryList?.length ?? [])
+      ?.length !== 0
       ? ''
       : 'hidden'}"
   >
@@ -250,8 +296,13 @@
       <!--Start Content-->
       <div class="w-auto lg:w-full flex flex-col m-auto">
         <h2 class="mb-2 text-xl sm:text-2xl flex flex-row items-center">
-          <span class="font-semibold tracking-tight text-gray-900 dark:text-white">Dividends</span>
-          <span class="font-semibold ml-auto text-sm text-gray-500 dark:text-zinc-400">
+          <span
+            class="font-semibold tracking-tight text-gray-900 dark:text-white"
+            >Dividends</span
+          >
+          <span
+            class="font-semibold ml-auto text-sm text-gray-500 dark:text-zinc-400"
+          >
             Dividend Yield {dividendYield ?? "0"}%
           </span>
         </h2>
@@ -259,16 +310,25 @@
         <div class="mt-2 w-full">
           <table class="w-full">
             <thead
-              ><tr class="border-y border-gray-200/70 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
-                ><th class="px-1 py-1.5 text-left xs:px-2 font-semibold">Ex-Dividend</th>
-                <th class="px-1 py-1.5 text-left xs:px-2 font-semibold">Amount</th>
-                <th class="px-1 py-1.5 text-right xs:px-2 font-semibold">Payment Date</th></tr
+              ><tr
+                class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                ><th class="px-1 py-1.5 text-left xs:px-2 font-semibold"
+                  >Ex-Dividend</th
+                >
+                <th class="px-1 py-1.5 text-left xs:px-2 font-semibold"
+                  >Amount</th
+                >
+                <th class="px-1 py-1.5 text-right xs:px-2 font-semibold"
+                  >Payment Date</th
+                ></tr
               ></thead
             >
 
             <tbody>
               {#each dividendHistoryList?.slice(0, 5) as item}
-                <tr class="border-b border-gray-200/70 dark:border-zinc-800/80 text-sm text-gray-600 dark:text-zinc-300">
+                <tr
+                  class="border-b border-gray-300 dark:border-zinc-700 text-sm text-gray-600 dark:text-zinc-300"
+                >
                   <td class="px-1 py-1.5 text-left xs:px-2">
                     {new Date(item?.date)?.toLocaleString("en-US", {
                       month: "short",

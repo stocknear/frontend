@@ -755,7 +755,7 @@
         />
 
         <div
-          class="rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4 mt-5"
+          class="rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 mt-5"
         >
           <div class="items-end">
             <div
@@ -763,7 +763,7 @@
             >
               <!--Start Added Rules-->
               <div
-                class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-gray-200/70 dark:border-zinc-800/80"
+                class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-gray-300 dark:border-zinc-700"
               >
                 <div class="flex flex-row items-center">
                   Date Expiration
@@ -781,7 +781,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="mb-1 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
+                      class="mb-1 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
                     >
                       <span class="truncate text-sm"
                         >{formatDate(selectedDate)}</span
@@ -807,7 +807,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="min-w-48 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="min-w-48 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <!-- Dropdown items -->
                     <DropdownMenu.Group class="pb-2"
@@ -851,7 +851,7 @@
                 </DropdownMenu.Root>
               </div>
               <div
-                class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-gray-200/70 dark:border-zinc-800/80"
+                class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-gray-300 dark:border-zinc-700"
               >
                 <div class="flex flex-row items-center">
                   Strike Price
@@ -869,7 +869,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="mb-1 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
+                      class="mb-1 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
                     >
                       <span class="truncate text-sm"
                         >{selectedStrike ?? "n/a"}</span
@@ -895,7 +895,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <!-- Dropdown items -->
                     <DropdownMenu.Group class="pb-2">
@@ -916,7 +916,7 @@
                 </DropdownMenu.Root>
               </div>
               <div
-                class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-gray-200/70 dark:border-zinc-800/80"
+                class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-gray-300 dark:border-zinc-700"
               >
                 <div class="flex flex-row items-center">
                   Option Type
@@ -934,7 +934,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="mb-1 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
+                      class="mb-1 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
                     >
                       <span class="truncate text-sm">{selectedOptionType}</span>
                       <svg
@@ -958,7 +958,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <!-- Dropdown items -->
                     <DropdownMenu.Group class="pb-2"
@@ -1003,7 +1003,7 @@
               <table class="w-[50%] text-sm sm:text-[1rem] xl:min-w-[300px]">
                 <tbody
                   ><tr
-                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Last</td
@@ -1015,7 +1015,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Bid</td
@@ -1029,7 +1029,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Mid</td
@@ -1041,7 +1041,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Ask</td
@@ -1055,7 +1055,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Open
@@ -1068,7 +1068,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Volume
@@ -1081,7 +1081,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Open Interest
@@ -1098,7 +1098,7 @@
               <table class="w-[50%] text-sm xl:min-w-[300px]">
                 <tbody
                   ><tr
-                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Implied Volatility (IV)</td
@@ -1115,7 +1115,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Delta</td
@@ -1127,7 +1127,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Gamma</td
@@ -1139,7 +1139,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Theta</td
@@ -1151,7 +1151,7 @@
                     </td></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-200/70 dark:border-zinc-800/80 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Vega</td
@@ -1190,7 +1190,7 @@
 
             <div class="items-center lg:overflow-visible px-1 py-1 mt-5">
               <div
-                class="flex flex-row items-center grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
+                class="flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
               >
                 <h2
                   class="text-start hidden sm:block whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
@@ -1204,7 +1204,7 @@
                     <div class="">
                       <div class="inline-flex">
                         <div
-                          class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-800/80"
+                          class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700"
                         >
                           {#each ["Price", "Vol/OI", "IV"] as item, i}
                             {#if !["Pro"]?.includes(data?.user?.tier) && i > 1}
@@ -1252,7 +1252,7 @@
                         <DropdownMenu.Trigger asChild let:builder>
                           <Button
                             builders={[builder]}
-                            class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                            class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                           >
                             <span class="truncate text-xs sm:text-sm"
                               >{selectedTimePeriod}</span
@@ -1277,7 +1277,7 @@
                           align="end"
                           sideOffset={10}
                           alignOffset={0}
-                          class="w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                          class="w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                         >
                           <DropdownMenu.Label
                             class="text-xs font-medium text-gray-500 dark:text-zinc-400"
@@ -1335,7 +1335,7 @@
                     <div class="relative">
                       <!-- Apply the blur class to the chart -->
                       <div
-                        class="mt-5 sm:mt-0 border border-gray-300 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                        class="mt-5 sm:mt-0 border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                         use:highcharts={config}
                       ></div>
                     </div>
@@ -1347,7 +1347,7 @@
             {#if displayList?.length > 0}
               <div class="items-center lg:overflow-visible px-1 py-1 mt-5">
                 <div
-                  class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
+                  class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
                 >
                   <h2
                     class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
@@ -1372,7 +1372,7 @@
                 class="flex justify-start items-center m-auto overflow-x-auto cursor-normal"
               >
                 <div
-                  class="w-full overflow-hidden rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
+                  class="w-full overflow-hidden rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
                 >
                   <table
                     class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
@@ -1480,7 +1480,7 @@
                     <Button
                       on:click={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <svg
                         class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1509,7 +1509,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
                             >{rowsPerPage} Rows</span
@@ -1535,7 +1535,7 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                       >
                         <!-- Dropdown items -->
                         <DropdownMenu.Group class="pb-2">
@@ -1561,7 +1561,7 @@
                     <Button
                       on:click={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="hidden sm:inline">Next</span>
                       <svg
@@ -1608,7 +1608,7 @@
             <div class="flex justify-center items-center h-80">
               <div class="relative">
                 <label
-                  class="border border-gray-300 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                  class="border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                 >
                   <span
                     class="loading loading-spinner loading-md text-white dark:text-white"
@@ -1639,7 +1639,7 @@
 
     <!-- Desktop modal content -->
     <div
-      class="modal-box rounded-2xl border border-gray-300 dark:border-zinc-800/80 w-full bg-white dark:bg-zinc-950/90 flex flex-col items-center"
+      class="modal-box rounded-2xl border border-gray-300 dark:border-zinc-700 w-full bg-white dark:bg-zinc-950/90 flex flex-col items-center"
     >
       <div class=" mb-5 text-center">
         <h3
@@ -1660,9 +1660,7 @@
         {/if}
       </div>
 
-      <div
-        class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-2 w-full"
-      >
+      <div class="border-t border-gray-300 dark:border-zinc-700 mt-2 w-full">
         <label
           for="mobileTooltip"
           class="cursor-pointer mt-4 font-semibold text-lg text-gray-900 dark:text-white m-auto flex justify-center"

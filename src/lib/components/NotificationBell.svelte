@@ -15,14 +15,14 @@
   <a
     href="/notifications"
     on:click={toggle}
-    class="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/50 text-gray-500 dark:text-zinc-400 transition hover:bg-white dark:hover:bg-zinc-900/70 hover:text-violet-600 dark:hover:text-violet-400"
+    class="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-gray-500 dark:text-zinc-400 transition hover:bg-white dark:hover:bg-zinc-900/70 hover:text-violet-600 dark:hover:text-violet-400"
   >
     <Bell class="h-[20px] w-[20px] " />
 
     {#if hasUnreadElement && $numberOfUnreadNotification > 0}
       <div class="absolute top-2 -right-2 flex">
         <div
-          class="relative inline-flex text-xs text-white dark:text-black font-bold w-[18px] h-[18px] bg-default dark:bg-white border-[1px] dark:border-gray-800 rounded-full -top-2 right-2"
+          class="relative inline-flex text-xs text-white dark:text-black font-bold w-[18px] h-[18px] bg-default dark:bg-white border-[1px] dark:border-zinc-700 rounded-full -top-2 right-2"
         >
           <span class="m-auto"
             >{$numberOfUnreadNotification <= 9

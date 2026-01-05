@@ -108,7 +108,7 @@
     <label
       for="feedbackModalToggle"
       aria-label="Give Feedback"
-      class="group flex fixed bottom-8 right-8 items-center gap-2 px-3 py-2.5 sm:px-4 sm:py-2.5 rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/90 cursor-pointer pointer-events-auto text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 transition"
+      class="group flex fixed bottom-8 right-8 items-center gap-2 px-3 py-2.5 sm:px-4 sm:py-2.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/90 cursor-pointer pointer-events-auto text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 transition"
       style="position: fixed !important; z-index: 99999 !important;"
     >
       <Question
@@ -136,7 +136,7 @@
   ></label>
 
   <div
-    class="modal-box w-full max-w-4xl rounded-2xl bg-white dark:bg-zinc-950 border border-gray-300 shadow dark:border-zinc-800/80 shadow-none"
+    class="modal-box w-full max-w-4xl rounded-2xl bg-white dark:bg-zinc-950 border border-gray-300 shadow dark:border-zinc-700 shadow-none"
   >
     <!-- Header -->
     <div class="flex items-center justify-between">
@@ -172,7 +172,7 @@
           >Describe your issue or suggestion:</label
         >
         <textarea
-          class="w-full min-h-[160px] max-h-[600px] resize-y rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 p-3 text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+          class="w-full min-h-[160px] max-h-[600px] resize-y rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 p-3 text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
           placeholder=""
           bind:value={description}
         />
@@ -186,7 +186,7 @@
         >
         <input
           type="text"
-          class="cursor-not-allowed w-full h-10 rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 px-3 text-sm text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
+          class="cursor-not-allowed w-full h-10 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 px-3 text-sm text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
           bind:value={pageUrl}
           readonly
         />
@@ -198,7 +198,7 @@
     <div class="mt-6 flex justify-end gap-2">
       <button
         type="button"
-        class="cursor-pointer px-4 py-2 rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-sm text-gray-700 dark:text-zinc-200 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 transition disabled:opacity-60"
+        class="cursor-pointer px-4 py-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-sm text-gray-700 dark:text-zinc-200 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 transition disabled:opacity-60"
         on:click={closeModal}
         disabled={isSubmitting}
       >

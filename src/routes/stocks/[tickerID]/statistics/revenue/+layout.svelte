@@ -49,7 +49,7 @@
         <aside class="inline-block relative w-full lg:w-1/4 mt-3">
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <div
-              class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
+              class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
               <a
                 href="/pricing"
@@ -69,7 +69,7 @@
           {/if}
 
           <div
-            class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
+            class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
           >
             <h3 class="p-2 pt-4 text-xl font-semibold">Revenue Definition</h3>
             <div class=" p-2">
@@ -90,7 +90,7 @@
 
           {#if similarStocks?.length > 0}
             <div
-              class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
+              class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
               <h3 class="p-2 pt-4 text-xl font-semibold">Related Stocks</h3>
               <table
@@ -100,11 +100,11 @@
                   class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                   ><tr
                     ><th
-                      class="whitespace-nowrap border-b border-gray-200 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-left px-2"
+                      class="whitespace-nowrap border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-left px-2"
                       >Company</th
                     >
                     <th
-                      class="whitespace-nowrap border-b border-gray-200 dark:border-zinc-800/80 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-right px-2"
+                      class="whitespace-nowrap border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-right px-2"
                       >Revenue</th
                     ></tr
                   ></thead
@@ -113,7 +113,7 @@
                   {#each similarStocks?.slice(0, 8) as item, index}
                     {#if item?.revenue > 0}
                       <tr
-                        class="border-gray-200 dark:border-zinc-800/80 text-sm {index !==
+                        class="border-gray-300 dark:border-zinc-700 text-sm {index !==
                         similarStocks?.slice(0, 8).length - 1
                           ? 'border-b'
                           : ''}"
@@ -145,7 +145,7 @@
 
           {#if newsList?.length !== 0}
             <div
-              class="w-full sm:hover: border border-gray-300 shadow dark:border-zinc-800/80 rounded h-fit pb-4 mt-4 cursor-pointer"
+              class="w-full sm:hover: border border-gray-300 shadow dark:border-zinc-700 rounded h-fit pb-4 mt-4 cursor-pointer"
             >
               <div class="p-4 text-sm">
                 <h3 class="text-xl font-semibold mb-3">

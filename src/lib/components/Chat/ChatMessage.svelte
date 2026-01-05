@@ -245,7 +245,7 @@
         <div class="w-full">
           {#if message?.role === "user" && isEditMode}
             <div
-              class="p-3 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/90 dark:bg-zinc-950/70"
+              class="p-3 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/90 dark:bg-zinc-950/70"
             >
               <textarea
                 bind:this={textareaElement}
@@ -261,7 +261,7 @@
                     dispatch("cancel-edit");
                     editedContent = "";
                   }}
-                  class="cursor-pointer px-3 py-1.5 rounded-full text-xs sm:text-sm relative bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80 hover:bg-gray-200 dark:hover:bg-zinc-800"
+                  class="cursor-pointer px-3 py-1.5 rounded-full text-xs sm:text-sm relative bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-200 dark:hover:bg-zinc-800"
                   >Cancel</button
                 >
                 <button
@@ -282,7 +282,7 @@
             <p
               class="w-full transition-all duration-75 ease-out break-words overflow-wrap-anywhere {message?.role ===
               'user'
-                ? 'p-3 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white'
+                ? 'p-3 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white'
                 : ''}"
             >
               {@html isStreaming && message?.role === "system"

@@ -303,7 +303,7 @@
                 </h3>
                 {#if portfolioData?.length > 0}
                     <span
-                        class="px-3 py-1 rounded-full text-sm font-medium border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 {getScoreColor(
+                        class="px-3 py-1 rounded-full text-sm font-medium border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 {getScoreColor(
                             diversificationMetrics?.hhiScore,
                         )}"
                     >
@@ -317,7 +317,7 @@
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <!-- HHI Score -->
             <div
-                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl p-4"
+                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
             >
                 <div
                     class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center"
@@ -346,7 +346,7 @@
 
             <!-- Sectors & Industries -->
             <div
-                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl p-4"
+                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
             >
                 <div
                     class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center"
@@ -370,7 +370,7 @@
 
             <!-- Largest Position -->
             <div
-                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl p-4"
+                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
             >
                 <div
                     class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center"
@@ -399,7 +399,7 @@
 
             <!-- Top 5 Concentration -->
             <div
-                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl p-4"
+                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
             >
                 <div
                     class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center"

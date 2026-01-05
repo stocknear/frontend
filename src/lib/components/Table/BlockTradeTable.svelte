@@ -217,7 +217,7 @@
   <div class="min-w-[900px]">
     <!-- Header row using grid -->
     <div
-      class="table-driver bg-default text-white grid grid-cols-10 sticky top-0 z-10 border border-gray-300 dark:border-gray-800 font-bold text-xs uppercase"
+      class="table-driver bg-default text-white grid grid-cols-10 sticky top-0 z-10 border border-gray-300 dark:border-zinc-700 font-bold text-xs uppercase"
     >
       <div
         on:click={() => sortData("time")}

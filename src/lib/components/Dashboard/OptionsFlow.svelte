@@ -29,7 +29,7 @@
   >
   {#if optionsFlowList?.length > 0}
     <table
-      class="w-full text-sm sm:text-[0.95rem] border-t border-gray-200 dark:border-zinc-800/80"
+      class="w-full text-sm sm:text-[0.95rem] border-t border-gray-300 dark:border-zinc-700"
     >
       <thead>
         <tr
@@ -44,7 +44,7 @@
       </thead>
       <tbody>
         {#each optionsFlowList as item}
-          <tr class="border-b border-gray-200 dark:border-zinc-800/80">
+          <tr class="border-b border-gray-300 dark:border-zinc-700">
             <td class="py-3 text-left whitespace-nowrap">
               <a
                 href={`/${item?.underlying_type === "stock" ? "stocks" : "etf"}/${item?.ticker}/options/unusual-activity`}

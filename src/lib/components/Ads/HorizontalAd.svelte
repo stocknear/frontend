@@ -54,7 +54,7 @@
   </h3>
 
   <div
-    class="ad-container mx-auto min-h-[90px] h-fit border border-gray-300 dark:border-gray-800 rounded bg-gray-100 dark:bg-[#2A2E39]"
+    class="ad-container mx-auto min-h-[90px] h-fit border border-gray-300 dark:border-zinc-700 rounded bg-gray-100 dark:bg-[#2A2E39]"
   >
     <ins
       class="adsbygoogle"

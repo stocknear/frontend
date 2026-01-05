@@ -3236,7 +3236,7 @@ const handleKeyDown = (event) => {
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate"
                     >{selectedPopularStrategy?.length !== 0
@@ -3263,7 +3263,7 @@ const handleKeyDown = (event) => {
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
               >
                 <DropdownMenu.Label
                   class="text-gray-500 dark:text-zinc-400 font-normal"
@@ -3297,7 +3297,7 @@ const handleKeyDown = (event) => {
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="min-w-[110px] w-full transition-all duration-150 border border-gray-300 dark:border-zinc-800/80 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="min-w-[110px] w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate max-w-48"
                     >{selectedStrategy?.length !== 0
@@ -3326,7 +3326,7 @@ const handleKeyDown = (event) => {
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
               >
                 <DropdownMenu.Label
                   class="text-gray-500 dark:text-zinc-400 font-normal"
@@ -3401,13 +3401,11 @@ const handleKeyDown = (event) => {
     </div>
 
     <div
-      class="rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-3"
+      class="rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-3"
     >
-      <div
-        class="items-end border-b border-gray-200/70 dark:border-zinc-800/80"
-      >
+      <div class="items-end border-b border-gray-300 dark:border-zinc-700">
         <div
-          class="mr-1 flex items-center justify-between lg:mr-2 pb-1.5 border-b border-gray-200/70 dark:border-zinc-800/80 mt-1.5"
+          class="mr-1 flex items-center justify-between lg:mr-2 pb-1.5 border-b border-gray-300 dark:border-zinc-700 mt-1.5"
         >
           <button
             on:click={() => (showFilters = !showFilters)}
@@ -3482,7 +3480,7 @@ const handleKeyDown = (event) => {
                 on:keydown={handleQuickSearchKeydown}
                 on:focus={() => updateQuickSearchResults(quickSearchTerm)}
                 on:blur={closeQuickSearchDropdown}
-                class="block w-full lg:w-64 py-2.5 bg-white/80 dark:bg-zinc-950/60 placeholder:text-gray-500 dark:placeholder:text-zinc-400 pl-10 text-sm border border-gray-300 dark:border-zinc-800/80 rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+                class="block w-full lg:w-64 py-2.5 bg-white/80 dark:bg-zinc-950/60 placeholder:text-gray-500 dark:placeholder:text-zinc-400 pl-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
               />
 
               <!-- Clear button -->
@@ -3516,7 +3514,7 @@ const handleKeyDown = (event) => {
             <!-- Quick Search Dropdown -->
             {#if showQuickSearchDropdown && quickSearchResults?.length > 0}
               <div
-                class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-300 dark:border-zinc-800/80 rounded-2xl shadow-none max-h-64 overflow-y-auto"
+                class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none max-h-64 overflow-y-auto"
                 in:scale={{
                   start: 0.98,
                   duration: 140,
@@ -3573,7 +3571,7 @@ const handleKeyDown = (event) => {
             <!-- No results message -->
             {#if showQuickSearchDropdown && quickSearchTerm.length > 0 && quickSearchResults.length === 0}
               <div
-                class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-300 dark:border-zinc-800/80 rounded-2xl shadow-none p-4 text-center text-sm text-gray-500 dark:text-zinc-400"
+                class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none p-4 text-center text-sm text-gray-500 dark:text-zinc-400"
               >
                 No available filters found
               </div>
@@ -3604,7 +3602,7 @@ const handleKeyDown = (event) => {
                 on:click={() => {
                   handleCreateStrategy();
                 }}
-                class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400 focus:outline-hidden"
+                class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400 focus:outline-hidden"
               >
                 <Copy class="w-4 h-4 inline-block mr-2" />
                 <div>Save as New</div>
@@ -3615,7 +3613,7 @@ const handleKeyDown = (event) => {
           {#if ruleOfList?.length !== 0}
             <label
               on:click={handleResetAll}
-              class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-rose-600 dark:hover:text-rose-400 focus:outline-hidden"
+              class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-rose-600 dark:hover:text-rose-400 focus:outline-hidden"
             >
               <svg
                 class="h-4 w-4"
@@ -3638,7 +3636,7 @@ const handleKeyDown = (event) => {
         </div>
 
         <div
-          class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
+          class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-b border-gray-300 dark:border-zinc-700"
         >
           {#each displayRules as row (row?.rule)}
             <!--Start Added Rules-->
@@ -3705,7 +3703,7 @@ const handleKeyDown = (event) => {
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="border border-gray-300 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 h-[35px] flex flex-row justify-between items-center w-[140px] xs:w-[130px] sm:w-[140px] px-3 rounded-full truncate hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 h-[35px] flex flex-row justify-between items-center w-[140px] xs:w-[130px] sm:w-[140px] px-3 rounded-full truncate hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <span class="truncate ml-2 text-sm">
                             {#if valueMappings[row?.rule] === "any"}
@@ -3742,11 +3740,11 @@ const handleKeyDown = (event) => {
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-64 min-h-auto max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                        class="w-64 min-h-auto max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                       >
                         {#if !checkedRules?.includes(row?.rule)}
                           <DropdownMenu.Label
-                            class="absolute mt-2 h-11 border-gray-200/70 dark:border-zinc-800/80 border-b -top-1 z-20 fixed sticky bg-white/95 dark:bg-zinc-950/95"
+                            class="absolute mt-2 h-11 border-gray-300 dark:border-zinc-700 border-b -top-1 z-20 fixed sticky bg-white/95 dark:bg-zinc-950/95"
                           >
                             <div
                               class="flex items-center justify-start gap-x-1"
@@ -3812,7 +3810,7 @@ const handleKeyDown = (event) => {
                                       : ""}
                                     on:input={(e) =>
                                       handleValueInput(e, row?.rule, 0)}
-                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-800/80"
+                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
                                   />
                                   <span class=" text-[1rem] font-normal mt-1">
                                     &
@@ -3827,7 +3825,7 @@ const handleKeyDown = (event) => {
                                       : ""}
                                     on:input={(e) =>
                                       handleValueInput(e, row?.rule, 1)}
-                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-800/80"
+                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
                                   />
                                 </div>
                               {:else}
@@ -3839,7 +3837,7 @@ const handleKeyDown = (event) => {
                                     : ""}
                                   on:input={(e) =>
                                     handleValueInput(e, row?.rule)}
-                                  class="ios-zoom-fix block max-w-[4.8rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-800/80"
+                                  class="ios-zoom-fix block max-w-[4.8rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
                                 />
                               {/if}
 
@@ -3913,7 +3911,7 @@ const handleKeyDown = (event) => {
                                 'country',
                               ]?.includes(row?.rule)
                                 ? 'hidden'
-                                : ''} text-sm p-2 absolute fixed sticky w-full border-0 bg-white/80 dark:bg-zinc-950/60 border-b border-gray-200/70 dark:border-zinc-800/80
+                                : ''} text-sm p-2 absolute fixed sticky w-full border-0 bg-white/80 dark:bg-zinc-950/60 border-b border-gray-300 dark:border-zinc-700
                                       focus:outline-none placeholder:text-gray-500 dark:placeholder:text-zinc-400"
                               placeholder="Search..."
                             />
@@ -3934,7 +3932,7 @@ const handleKeyDown = (event) => {
                                           row?.step[index + 1],
                                         ]);
                                       }}
-                                      class="cursor-pointer block w-full border-b border-gray-200/70 dark:border-zinc-800/80 px-4 py-1.5 text-left text-sm rounded last:border-0"
+                                      class="cursor-pointer block w-full border-b border-gray-300 dark:border-zinc-700 px-4 py-1.5 text-left text-sm rounded last:border-0"
                                     >
                                       {ruleCondition[row?.rule]?.replace(
                                         "between",
@@ -3954,7 +3952,7 @@ const handleKeyDown = (event) => {
                                     on:click={() => {
                                       handleChangeValue(newValue);
                                     }}
-                                    class="cursor-pointer block w-full border-b border-gray-200/70 dark:border-zinc-800/80 px-4 py-1.5 text-left text-sm rounded last:border-0"
+                                    class="cursor-pointer block w-full border-b border-gray-300 dark:border-zinc-700 px-4 py-1.5 text-left text-sm rounded last:border-0"
                                   >
                                     {ruleCondition[row?.rule]
                                       ?.replace("under", "Under")
@@ -4041,15 +4039,15 @@ const handleKeyDown = (event) => {
     class="mt-4 grid-cols-2 items-center lg:overflow-visible lg:px-1 py-1.5 mb-2"
   >
     <h2
-      class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-t border-gray-200/70 dark:border-zinc-800/80 text-gray-900 dark:text-white"
+      class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-t border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
     >
       {filteredData?.length?.toLocaleString("en-US")} Stocks
     </h2>
     <div
-      class="col-span-2 flex flex-col lg:flex-row items-center lg:order-2 lg:grow py-1.5 border-t border-b border-gray-200/70 dark:border-zinc-800/80"
+      class="col-span-2 flex flex-col lg:flex-row items-center lg:order-2 lg:grow py-1.5 border-t border-b border-gray-300 dark:border-zinc-700"
     >
       <div
-        class="w-full flex flex-row lg:flex order-1 items-center ml-auto border-b border-gray-200/70 dark:border-zinc-800/80 lg:border-none pb-2 sm:pt-0 lg:pb-0 w-full order-0 lg:order-1"
+        class="w-full flex flex-row lg:flex order-1 items-center ml-auto border-b border-gray-300 dark:border-zinc-700 lg:border-none pb-2 sm:pt-0 lg:pb-0 w-full order-0 lg:order-1"
       >
         <div class="relative lg:ml-auto w-full lg:w-fit">
           <div
@@ -4075,7 +4073,7 @@ const handleKeyDown = (event) => {
             on:input={search}
             type="text"
             placeholder="Find..."
-            class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-200/70 dark:border-zinc-800/80 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+            class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
 
@@ -4096,7 +4094,7 @@ const handleKeyDown = (event) => {
               on:click={() => (displayTableTab = "general")}
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'general'
-                ? 'font-semibold border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
                 : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               General
@@ -4107,7 +4105,7 @@ const handleKeyDown = (event) => {
               on:click={() => (displayTableTab = "filters")}
               class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center relative block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'filters'
-                ? 'font-semibold border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
                 : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               <span class="">Filters</span>
@@ -4128,7 +4126,7 @@ const handleKeyDown = (event) => {
               on:mouseleave={handleTabHoverLeave}
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'performance'
-                ? 'font-semibold border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
                 : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               Performance
@@ -4141,7 +4139,7 @@ const handleKeyDown = (event) => {
               on:mouseleave={handleTabHoverLeave}
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'analysts'
-                ? 'font-semibold border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
                 : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               Analysts
@@ -4154,7 +4152,7 @@ const handleKeyDown = (event) => {
               on:mouseleave={handleTabHoverLeave}
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'dividends'
-                ? 'font-semibold border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
                 : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               Dividends
@@ -4167,7 +4165,7 @@ const handleKeyDown = (event) => {
               on:mouseleave={handleTabHoverLeave}
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full border px-3 py-1.5 focus:outline-hidden transition-colors duration-150 {displayTableTab ===
               'financials'
-                ? 'font-semibold border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                ? 'font-semibold border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
                 : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
             >
               Financials
@@ -4183,7 +4181,7 @@ const handleKeyDown = (event) => {
     {#if filteredData?.length !== 0}
       {#if displayTableTab === "general"}
         <div
-          class="w-full rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+          class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
         >
           <table
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -4194,7 +4192,7 @@ const handleKeyDown = (event) => {
             <tbody>
               {#each displayResults as item}
                 <tr
-                  class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none"
+                  class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
                 >
                   <td class=" whitespace-nowrap">
                     <a
@@ -4250,7 +4248,7 @@ const handleKeyDown = (event) => {
         </div>
       {:else if displayTableTab === "filters"}
         <div
-          class="w-full rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+          class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
         >
           <table
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -4261,7 +4259,7 @@ const handleKeyDown = (event) => {
             <tbody>
               {#each displayResults as item (item?.symbol)}
                 <tr
-                  class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none"
+                  class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
                 >
                   <td class=" whitespace-nowrap">
                     <a
@@ -4339,7 +4337,7 @@ const handleKeyDown = (event) => {
         </div>
       {:else if displayTableTab === "performance"}
         <div
-          class="w-full rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+          class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
         >
           <table
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -4350,7 +4348,7 @@ const handleKeyDown = (event) => {
             <tbody>
               {#each displayResults as item (item?.symbol)}
                 <tr
-                  class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none"
+                  class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
                 >
                   <td class=" whitespace-nowrap">
                     <a
@@ -4395,7 +4393,7 @@ const handleKeyDown = (event) => {
         </div>
       {:else if displayTableTab === "analysts"}
         <div
-          class="w-full rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+          class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
         >
           <table
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -4406,7 +4404,7 @@ const handleKeyDown = (event) => {
             <tbody>
               {#each displayResults as item (item?.symbol)}
                 <tr
-                  class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none"
+                  class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
                 >
                   <td class=" whitespace-nowrap">
                     <a
@@ -4471,7 +4469,7 @@ const handleKeyDown = (event) => {
         </div>
       {:else if ["dividends", "financials"]?.includes(displayTableTab)}
         <div
-          class="w-full rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+          class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
         >
           <table
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -4482,7 +4480,7 @@ const handleKeyDown = (event) => {
             <tbody>
               {#each displayResults as item (item?.symbol)}
                 <tr
-                  class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none"
+                  class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
                 >
                   <td class=" whitespace-nowrap">
                     <a
@@ -4529,7 +4527,7 @@ const handleKeyDown = (event) => {
             <Button
               on:click={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <svg
                 class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -4557,7 +4555,7 @@ const handleKeyDown = (event) => {
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
                     >{rowsPerPage} Rows</span
@@ -4583,7 +4581,7 @@ const handleKeyDown = (event) => {
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
               >
                 <!-- Dropdown items -->
                 <DropdownMenu.Group class="pb-2">
@@ -4609,7 +4607,7 @@ const handleKeyDown = (event) => {
             <Button
               on:click={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span class="hidden sm:inline">Next</span>
               <svg
@@ -4696,13 +4694,13 @@ const handleKeyDown = (event) => {
   ></label>
 
   <div
-    class="modal-box relative bg-white dark:bg-zinc-950 z-20 mx-2 min-h-[30vh] h-[800px] rounded-2xl border border-gray-300 dark:border-zinc-800/80 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto shadow-none"
+    class="modal-box relative bg-white dark:bg-zinc-950 z-20 mx-2 min-h-[30vh] h-[800px] rounded-2xl border border-gray-300 dark:border-zinc-700 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto shadow-none"
   >
     <div class="relative flex flex-col w-full">
       <!-- Sticky Header -->
 
       <div
-        class="fixed w-full h-fit sticky -top-6 z-40 bg-white/95 dark:bg-zinc-950/95 pb-6 pt-5 border-gray-200/70 dark:border-zinc-800/80 border-b"
+        class="fixed w-full h-fit sticky -top-6 z-40 bg-white/95 dark:bg-zinc-950/95 pb-6 pt-5 border-gray-300 dark:border-zinc-700 border-b"
       >
         <div class="flex flex-row items-center justify-between mb-2">
           <h2
@@ -4782,7 +4780,7 @@ const handleKeyDown = (event) => {
             <input
               autocomplete="off"
               id="search"
-              class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm border border-gray-300 dark:border-zinc-800/80 rounded-full bg-white/80 dark:bg-zinc-950/60"
+              class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full bg-white/80 dark:bg-zinc-950/60"
               placeholder="Search..."
               bind:value={searchTerm}
             />
@@ -4865,7 +4863,7 @@ const handleKeyDown = (event) => {
 
   <div
     class="modal-box w-full p-6 rounded border
-        bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-800/80 rounded-2xl shadow-none"
+        bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none"
   >
     <h1
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
@@ -4906,7 +4904,7 @@ const handleKeyDown = (event) => {
 
   <div
     class="modal-box w-full p-6 rounded border
-        bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-800/80 rounded-2xl shadow-none"
+        bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none"
   >
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
       Delete Screener
@@ -4919,7 +4917,7 @@ const handleKeyDown = (event) => {
       <label
         for="deleteStrategy"
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
-            transition-colors duration-100 border border-gray-300 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+            transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
         tabindex="0">Cancel</label
       ><label
         for="deleteStrategy"
@@ -4963,7 +4961,7 @@ const handleKeyDown = (event) => {
 
   <!-- Desktop modal content -->
   <div
-    class="modal-box rounded-2xl border border-gray-300 dark:border-zinc-800/80 w-full bg-white dark:bg-zinc-950 flex flex-col items-center shadow-none"
+    class="modal-box rounded-2xl border border-gray-300 dark:border-zinc-700 w-full bg-white dark:bg-zinc-950 flex flex-col items-center shadow-none"
   >
     <div class=" mb-5 text-center">
       <h3 class="font-semibold text-2xl mb-5 text-gray-900 dark:text-white">
@@ -4982,9 +4980,7 @@ const handleKeyDown = (event) => {
       {/if}
     </div>
 
-    <div
-      class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-2 w-full"
-    >
+    <div class="border-t border-gray-300 dark:border-zinc-700 mt-2 w-full">
       <label
         for="mobileTooltip"
         class="cursor-pointer mt-4 font-semibold text-xl m-auto flex justify-center text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"

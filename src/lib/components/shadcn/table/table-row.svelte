@@ -12,7 +12,7 @@
 
 <tr
   class={cn(
-    "border-b border-gray-300 dark:border-gray-800  data-[state=selected]:bg-muted",
+    "border-b border-gray-300 dark:border-zinc-700  data-[state=selected]:bg-muted",
     className,
   )}
   {...$$restProps}

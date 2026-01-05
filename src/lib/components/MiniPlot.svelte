@@ -190,7 +190,7 @@
         class=" bg-white/60 dark:bg-zinc-950/40 overflow-hidden text-gray-700 dark:text-zinc-200"
     >
         <div
-            class="flex items-center justify-between px-2 py-1.5 sm:px-3 sm:py-2 border-b border-gray-200 dark:border-zinc-800/80"
+            class="flex items-center justify-between px-2 py-1.5 sm:px-3 sm:py-2 border-b border-gray-300 dark:border-zinc-700"
         >
             <div class="flex items-center gap-1 sm:gap-2">
                 <span
@@ -241,7 +241,7 @@
             </div>
 
             <div
-                class="h-[40px] sm:h-[50px] px-2 pt-1 pb-2 border-t border-gray-200 dark:border-zinc-800/80 bg-gray-50/60 dark:bg-zinc-900/40"
+                class="h-[40px] sm:h-[50px] px-2 pt-1 pb-2 border-t border-gray-300 dark:border-zinc-700 bg-gray-50/60 dark:bg-zinc-900/40"
             >
                 <!-- top row -->
                 <div

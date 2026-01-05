@@ -29,11 +29,11 @@
   >
   {#if upcomingEarnings?.length !== 0}
     <table
-      class="w-full border-t border-gray-200 dark:border-zinc-800/80 text-sm sm:text-[0.95rem]"
+      class="w-full border-t border-gray-300 dark:border-zinc-700 text-sm sm:text-[0.95rem]"
     >
       <tbody>
         {#each upcomingEarnings as item}
-          <tr class="border-b border-gray-200 dark:border-zinc-800/80">
+          <tr class="border-b border-gray-300 dark:border-zinc-700">
             <td class="py-3 sm:pl-2 leading-6 text-gray-700 dark:text-zinc-200">
               <strong class="font-semibold text-gray-900 dark:text-white"
                 >{item?.name}</strong
@@ -56,10 +56,10 @@
                   during market.
                 {/if}
               {/if}
-              Analysts estimate {abbreviateNumber(item?.revenueEst)} in revenue
-              ({((item?.revenueEst / item?.revenuePrior - 1) * 100)?.toFixed(
-                2,
-              )}% YoY) and {item?.epsEst} in earnings per share
+              Analysts estimate {abbreviateNumber(item?.revenueEst)} in revenue ({(
+                (item?.revenueEst / item?.revenuePrior - 1) *
+                100
+              )?.toFixed(2)}% YoY) and {item?.epsEst} in earnings per share
               {#if item?.epsPrior !== 0}
                 ({((item?.epsEst / item?.epsPrior - 1) * 100)?.toFixed(2)}%
                 YoY).
@@ -67,7 +67,7 @@
 
               <a
                 href={`/stocks/${item?.symbol}`}
-                class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white ml-1.5"
+                class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white ml-1.5"
                 >{item?.symbol}</a
               >
             </td>

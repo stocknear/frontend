@@ -315,7 +315,7 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <div class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80">
+          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
@@ -332,7 +332,7 @@
                   {#if editMode}
                     <label
                       on:click={handleDeleteTickers}
-                      class="border text-sm border-gray-200/70 dark:border-zinc-800/80 mr-2 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-2 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-600 dark:hover:text-rose-400"
+                      class="border text-sm border-gray-300 dark:border-zinc-700 mr-2 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-2 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-600 dark:hover:text-rose-400"
                     >
                       <svg
                         class="inline-block w-5 h-5"
@@ -350,7 +350,7 @@
                   {/if}
                   <label
                     on:click={handleEditMode}
-                    class="border text-sm border-gray-200/70 dark:border-zinc-800/80 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
+                    class="border text-sm border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
                   >
                     <svg
                       class="inline-block w-5 h-5"
@@ -384,19 +384,19 @@
                   <div class="relative w-full">
                     <Combobox.Input
                       on:input={search}
-                      class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-200/70 dark:border-zinc-800/80 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56"
+                      class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56"
                       placeholder="Find..."
                       aria-label="Find..."
                     />
                   </div>
                   <Combobox.Content
-                    class="w-auto z-10 rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 px-1 py-1.5 shadow-none outline-hidden"
+                    class="w-auto z-10 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 px-1 py-1.5 shadow-none outline-hidden"
                     sideOffset={8}
                   >
                     {#if inputValue?.length > 0}
                       {#each searchBarData as item}
                         <Combobox.Item
-                          class="cursor-pointer border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-button py-2 pl-5 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-600 dark:data-[highlighted]:text-violet-400"
+                          class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-2 pl-5 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-600 dark:data-[highlighted]:text-violet-400"
                           value={item.symbol}
                           label={item.name}
                           on:click={(e) =>
@@ -422,7 +422,7 @@
                       {/each}
                     {:else}
                       <Combobox.Item
-                        class="cursor-pointer border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
+                        class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                       >
                         <span class=" text-sm text-gray-500 dark:text-zinc-400">
                           No results found
@@ -436,7 +436,7 @@
             <!--Start Table-->
             {#if priceAlertList?.length > 0}
               <div
-                class="w-full rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 overflow-hidden overflow-x-auto mt-4"
+                class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-hidden overflow-x-auto mt-4"
               >
                 <table
                   class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -445,9 +445,7 @@
                   <thead
                     class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 bg-white/60 dark:bg-zinc-950/30"
                   >
-                    <tr
-                      class="border-b border-gray-200/70 dark:border-zinc-800/80"
-                    >
+                    <tr class="border-b border-gray-300 dark:border-zinc-700">
                       <th
                         class=" font-semibold text-[11px] sm:text-[12px] text-left"
                         >Symbol</th
@@ -484,7 +482,7 @@
                     {#each priceAlertList as item}
                       <!-- row -->
                       <tr
-                        class="border-b border-gray-200/70 dark:border-zinc-800/80 last:border-none"
+                        class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
                       >
                         <td
                           on:click={() => handleFilter(item?.id)}
@@ -563,7 +561,7 @@
               </div>
 
               <div
-                class="w-full m-auto border-b border-gray-200/70 dark:border-zinc-800/80 mt-10 mb-5"
+                class="w-full m-auto border-b border-gray-300 dark:border-zinc-700 mt-10 mb-5"
               ></div>
 
               <div class=" ">
@@ -581,7 +579,7 @@
                               on:click={() => changeTab(i)}
                               class="cursor-pointer px-3 py-1.5 text-sm font-medium focus:z-10 focus:outline-none transition-colors duration-150 rounded-full border
                           {activeIdx === i
-                                ? 'border-gray-200 dark:border-zinc-800/80 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
+                                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
                                 : 'border-transparent text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-200 dark:hover:border-zinc-800/80'}"
                             >
                               {item.title}
@@ -601,13 +599,13 @@
                         {date}
                       </h3>
                       <div
-                        class="border border-gray-300 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                        class="border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                       >
                         {#each titleGroups as { title, items, symbols }, index}
                           <div
                             class="flex border-gray-200 {index > 0
                               ? 'border-t'
-                              : ''} dark:border-zinc-800/80 text-sm"
+                              : ''} dark:border-zinc-700 text-sm"
                           >
                             <div
                               class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
@@ -668,11 +666,11 @@
                       {date}
                     </h3>
                     <div
-                      class="border border-gray-300 dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                      class="border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                     >
                       {#each titleGroups as item, index}
                         <div
-                          class="flex border-gray-200 dark:border-zinc-800/80 text-sm"
+                          class="flex border-gray-300 dark:border-zinc-700 text-sm"
                         >
                           <div
                             class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
@@ -682,7 +680,7 @@
                           <div
                             class="grow px-3 py-2 lg:py-1 {index > 0
                               ? 'border-t'
-                              : ''} border-gray-200 dark:border-zinc-800/80"
+                              : ''} border-gray-300 dark:border-zinc-700"
                           >
                             <div>
                               <strong>{item?.name}</strong>

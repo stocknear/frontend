@@ -29,7 +29,7 @@
       </ul>
     </div>
 
-    <div class="mt-8 border-b border-gray-200/70 pb-4 dark:border-zinc-800/80">
+    <div class="mt-8 border-b border-gray-200/70 pb-4 dark:border-zinc-700">
       <h1
         class="mt-2 text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
       >
@@ -152,7 +152,7 @@
 
       <aside class="space-y-4">
         <div
-          class="rounded-2xl border border-gray-200/70 bg-white/70 p-5 transition hover:border-gray-300/80 hover:bg-gray-50/70 dark:border-zinc-800/80 dark:bg-zinc-900/40 dark:hover:border-zinc-700/80 dark:hover:bg-zinc-900/60"
+          class="rounded-2xl border border-gray-200/70 bg-white/70 p-5 transition hover:border-gray-300/80 hover:bg-gray-50/70 dark:border-zinc-700 dark:bg-zinc-900/40 dark:hover:border-zinc-700/80 dark:hover:bg-zinc-900/60"
         >
           <a href="/donation" class="group flex flex-col gap-3">
             <div class="flex items-center justify-between">
@@ -173,7 +173,7 @@
         </div>
 
         <div
-          class="rounded-2xl border border-gray-200/70 bg-white/70 p-5 transition hover:border-gray-300/80 hover:bg-gray-50/70 dark:border-zinc-800/80 dark:bg-zinc-900/40 dark:hover:border-zinc-700/80 dark:hover:bg-zinc-900/60"
+          class="rounded-2xl border border-gray-200/70 bg-white/70 p-5 transition hover:border-gray-300/80 hover:bg-gray-50/70 dark:border-zinc-700 dark:bg-zinc-900/40 dark:hover:border-zinc-700/80 dark:hover:bg-zinc-900/60"
         >
           <a href="/contact" class="group flex flex-col gap-3">
             <div class="flex items-center justify-between">

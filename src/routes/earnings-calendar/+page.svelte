@@ -169,10 +169,10 @@
 
   // Reusable CSS classes
   const weekArrowClasses =
-    "hidden sm:flex h-16 w-48 cursor-pointer m-auto flex bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80 mb-3";
+    "hidden sm:flex h-16 w-48 cursor-pointer m-auto flex bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700 mb-3";
   const mobileArrowClasses = "w-6 h-6 inline-block";
   const weekdayClasses =
-    "m-auto w-full cursor-pointer h-16 rounded-full sm:rounded-none flex border border-gray-300 shadow dark:border-zinc-800/80 mb-3";
+    "m-auto w-full cursor-pointer h-16 rounded-full sm:rounded-none flex border border-gray-300 shadow dark:border-zinc-700 mb-3";
 
   let formattedMonday = startOfWeek(currentWeek, { weekStartsOn: 1 });
   let formattedTuesday = format(addDays(formattedMonday, 1), "EEE, MMM d");
@@ -541,7 +541,7 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:pr-5">
-          <div class="mb-6 border-b border-gray-200 dark:border-zinc-800/80">
+          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
             <div
               class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2"
             >
@@ -556,7 +556,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="flex-shrink-0 w-fit border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition flex flex-row justify-between items-center px-3 py-2 rounded-full truncate"
+                      class="flex-shrink-0 w-fit border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition flex flex-row justify-between items-center px-3 py-2 rounded-full truncate"
                     >
                       <span class="truncate">Time of Day</span>
                       <svg
@@ -579,7 +579,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto min-w-40 max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="w-auto min-w-40 max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <DropdownMenu.Group>
                       {#each timeOptions as option}
@@ -616,7 +616,7 @@
                 </DropdownMenu.Root>
 
                 <div
-                  class="inline-flex rounded-full ml-1.5 border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60"
+                  class="inline-flex rounded-full ml-1.5 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60"
                 >
                   {#each tabs as item, i}
                     <button
@@ -744,7 +744,7 @@
 
                       <div class="w-full overflow-x-auto mt-4">
                         <table
-                          class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
+                          class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
                         >
                           <thead>
                             <TableHeader {columns} {sortOrders} {sortData} />
@@ -889,7 +889,7 @@
                               on:click={() =>
                                 goToDailyPage(dailyCurrentPage - 1)}
                               disabled={dailyCurrentPage === 1}
-                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -920,7 +920,7 @@
                               <DropdownMenu.Trigger asChild let:builder>
                                 <Button
                                   builders={[builder]}
-                                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
@@ -947,7 +947,7 @@
                                 align="end"
                                 sideOffset={10}
                                 alignOffset={0}
-                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                               >
                                 <DropdownMenu.Group class="pb-2">
                                   {#each dailyRowsPerPageOptions as item}
@@ -973,7 +973,7 @@
                               on:click={() =>
                                 goToDailyPage(dailyCurrentPage + 1)}
                               disabled={dailyCurrentPage === dailyTotalPages}
-                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-800/80 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                               <span class="hidden sm:inline">Next</span>
                               <svg
@@ -1046,7 +1046,7 @@
                       <div class="w-full">
                         <label
                           on:click={() => switchToDailyView(index)}
-                          class="m-auto w-full cursor-pointer h-16 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 rounded-full sm:rounded-none flex border border-gray-300 shadow dark:border-zinc-800/80 mb-3 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="m-auto w-full cursor-pointer h-16 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 rounded-full sm:rounded-none flex border border-gray-300 shadow dark:border-zinc-700 mb-3 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <div
                             class="flex flex-col items-center truncate m-auto p-1"
@@ -1084,7 +1084,7 @@
                               {@const isExpanded =
                                 expandedItems[`${dayIndex}-${itemIndex}`]}
                               <div
-                                class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-[0.9rem]"
+                                class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-[0.9rem]"
                               >
                                 <div
                                   on:click={() =>
@@ -1115,12 +1115,12 @@
                                 {#if isExpanded}
                                   <div class="px-3 pb-2 pt-1">
                                     <div
-                                      class="border-t border-gray-200 dark:border-zinc-800/80"
+                                      class="border-t border-gray-300 dark:border-zinc-700"
                                     >
                                       <table class="w-full text-sm">
                                         <tbody>
                                           <tr
-                                            class="border-b border-gray-200 dark:border-zinc-800/80"
+                                            class="border-b border-gray-300 dark:border-zinc-700"
                                           >
                                             <td class="py-1.5">Reports</td>
                                             <td
@@ -1165,7 +1165,7 @@
                                           </tr>
                                           {#if item?.marketCap !== null}
                                             <tr
-                                              class="border-b border-gray-200 dark:border-zinc-800/80"
+                                              class="border-b border-gray-300 dark:border-zinc-700"
                                             >
                                               <td class="py-1.5">Market Cap</td>
                                               <td
@@ -1180,7 +1180,7 @@
                                             </tr>
                                           {/if}
                                           <tr
-                                            class="border-b border-gray-200 dark:border-zinc-800/80"
+                                            class="border-b border-gray-300 dark:border-zinc-700"
                                           >
                                             <td
                                               class="py-1.5"
@@ -1321,7 +1321,7 @@
                           class="m-auto w-full cursor-pointer h-16 {index ===
                           selectedWeekday
                             ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                            : 'bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'} rounded-full sm:rounded-none flex border border-gray-300 shadow dark:border-zinc-800/80 mb-3"
+                            : 'bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'} rounded-full sm:rounded-none flex border border-gray-300 shadow dark:border-zinc-700 mb-3"
                         >
                           <div
                             class=" flex flex-row justify-center items-center w-full"
@@ -1391,7 +1391,7 @@
                         {@const isExpanded =
                           expandedItems[`${selectedWeekday}-${itemIndex}`]}
                         <div
-                          class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-[0.9rem]"
+                          class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-[0.9rem]"
                         >
                           <!-- Collapsible Header -->
                           <div
@@ -1420,12 +1420,12 @@
                           {#if isExpanded}
                             <div class="px-3 pb-2">
                               <div
-                                class="border-t border-gray-200 dark:border-zinc-800/80 pt-2"
+                                class="border-t border-gray-300 dark:border-zinc-700 pt-2"
                               >
                                 <table class="w-full text-sm">
                                   <tbody>
                                     <tr
-                                      class="border-b border-gray-200 dark:border-zinc-800/80"
+                                      class="border-b border-gray-300 dark:border-zinc-700"
                                     >
                                       <td class="py-1.5">Reports</td>
                                       <td class="text-right font-semibold">
@@ -1468,7 +1468,7 @@
                                     </tr>
                                     {#if item?.marketCap !== null}
                                       <tr
-                                        class="border-b border-gray-200 dark:border-zinc-800/80"
+                                        class="border-b border-gray-300 dark:border-zinc-700"
                                       >
                                         <td class="py-1.5">Market Cap</td>
                                         <td class="text-right font-semibold">
@@ -1481,7 +1481,7 @@
                                       </tr>
                                     {/if}
                                     <tr
-                                      class="border-b border-gray-200 dark:border-zinc-800/80"
+                                      class="border-b border-gray-300 dark:border-zinc-700"
                                     >
                                       <td
                                         class="py-1.5"

@@ -22,7 +22,7 @@
     <div class="flex flex-col gap-0.5">
       {#each questions as question, index}
         <div
-          class="border-b border-gray-300 dark:border-gray-800 last:border-b-0"
+          class="border-b border-gray-300 dark:border-zinc-700 last:border-b-0"
         >
           <button
             class="cursor-pointer w-full flex justify-between items-center py-2 bg-transparent transition-colors text-left group"

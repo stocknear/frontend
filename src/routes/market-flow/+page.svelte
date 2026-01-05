@@ -469,7 +469,7 @@
 
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <div
-                class="net-volume-driver rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4"
+                class="net-volume-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
                   class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center"
@@ -509,7 +509,7 @@
               </div>
 
               <div
-                class="net-call-premium-driver rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4"
+                class="net-call-premium-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
                   class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center"
@@ -549,7 +549,7 @@
               </div>
 
               <div
-                class="net-put-premium-driver rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4"
+                class="net-put-premium-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
                   class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center"
@@ -589,7 +589,7 @@
               </div>
 
               <div
-                class="rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950/40 p-4"
+                class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
                   class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center"

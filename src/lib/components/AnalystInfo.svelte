@@ -1,5 +1,7 @@
-<div class="mt-6 py-8 xl:mt-10 border-t border-gray-200 dark:border-zinc-800/80">
-  <div class="mx-auto max-w-7xl px-3 xs:px-6 lg:px-8 text-gray-700 dark:text-zinc-200">
+<div class="mt-6 py-8 xl:mt-10 border-t border-gray-300 dark:border-zinc-700">
+  <div
+    class="mx-auto max-w-7xl px-3 xs:px-6 lg:px-8 text-gray-700 dark:text-zinc-200"
+  >
     <div class="mx-auto max-w-2xl text-center">
       <h3
         class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
@@ -11,11 +13,15 @@
       </p>
     </div>
     <div class="mx-auto mt-8 max-w-2xl lg:max-w-5xl">
-      <dl class="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-y-12">
+      <dl
+        class="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-y-12"
+      >
         <div class="relative pl-14">
-          <dt class="text-lg font-semibold leading-6 text-gray-900 dark:text-white">
+          <dt
+            class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+          >
             <div
-              class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80"
+              class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -38,9 +44,11 @@
           </dd>
         </div>
         <div class="relative pl-14">
-          <dt class="text-lg font-semibold leading-6 text-gray-900 dark:text-white">
+          <dt
+            class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+          >
             <div
-              class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80"
+              class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -63,9 +71,11 @@
           </dd>
         </div>
         <div class="relative pl-14">
-          <dt class="text-lg font-semibold leading-6 text-gray-900 dark:text-white">
+          <dt
+            class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+          >
             <div
-              class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80"
+              class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -88,9 +98,11 @@
           </dd>
         </div>
         <div class="relative pl-14">
-          <dt class="text-lg font-semibold leading-6 text-gray-900 dark:text-white">
+          <dt
+            class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+          >
             <div
-              class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80"
+              class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

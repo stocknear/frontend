@@ -514,7 +514,7 @@
     <div class="text-center mb-10 w-full sm:px-3">
       <main class="flex flex-1 flex-col gap-4 sm:p-4 md:gap-8 text-start">
         <div
-          class="border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl px-4 bg-white/70 dark:bg-zinc-950/60 shadow-sm shadow-black/5 landscape:border-t-2 landscape:md:border-t-0"
+          class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-4 bg-white/70 dark:bg-zinc-950/60 shadow-sm shadow-black/5 landscape:border-t-2 landscape:md:border-t-0"
         >
           <div
             class="mx-auto w-full max-w-[850px] flex flex-col justify-center items-center gap-6 pb-8"
@@ -532,7 +532,7 @@
             </h1>
 
             <div
-              class="block p-3 w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl overflow-hidden bg-white/90 dark:bg-zinc-950/70 shadow-sm"
+              class="block p-3 w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl overflow-hidden bg-white/90 dark:bg-zinc-950/70 shadow-sm"
             >
               <div
                 bind:this={editorDiv}
@@ -543,7 +543,7 @@
               <!-- Suggestions Dropdown -->
               {#if showSuggestions}
                 <ul
-                  class="absolute rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
+                  class="absolute rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
                   style="top: {suggestionPos?.top}px; left: {suggestionPos?.left}px;"
                 >
                   {#each suggestions as suggestion, i}
@@ -576,7 +576,7 @@
                           <DropdownMenu.Trigger asChild let:builder>
                             <Button
                               builders={[builder]}
-                              class="h-9 w-9 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
+                              class="h-9 w-9 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
                             >
                               <svg
                                 class="size-4.5"
@@ -602,7 +602,7 @@
                             align="start"
                             sideOffset={10}
                             alignOffset={0}
-                            class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
+                            class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
                           >
                             {#if selectedGroup === "overview"}
                               {#if data?.user}
@@ -854,7 +854,7 @@
                       closePopup?.dispatchEvent(new MouseEvent("click"));
                     }
                   }}
-                  class="flex flex-col rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 sm:hover:bg-gray-50 dark:sm:hover:bg-zinc-900/70 transition"
+                  class="flex flex-col rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 sm:hover:bg-gray-50 dark:sm:hover:bg-zinc-900/70 transition"
                 >
                   <div class="block flex-grow">
                     <button
@@ -931,7 +931,7 @@
               {#each historyChat as item}
                 <a
                   href={"/chat/" + item?.id}
-                  class="block rounded-xl border p-3 mb-3 border-gray-200 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 sm:hover:bg-gray-50 dark:sm:hover:bg-zinc-900/60 transition-all cursor-pointer"
+                  class="block rounded-xl border p-3 mb-3 border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 sm:hover:bg-gray-50 dark:sm:hover:bg-zinc-900/60 transition-all cursor-pointer"
                 >
                   <div class="group border-transparent rounded-t-md">
                     <div class="mt-[2px]">
@@ -1002,7 +1002,7 @@
             </div>
 
             <div
-              class="bg-white/80 border border-gray-300 shadow dark:border-zinc-800/80 shadow-sm dark:bg-zinc-950/60 p-6 rounded-2xl mt-2 text-center mb-8"
+              class="bg-white/80 border border-gray-300 shadow dark:border-zinc-700 shadow-sm dark:bg-zinc-950/60 p-6 rounded-2xl mt-2 text-center mb-8"
             >
               <h2
                 class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-4"
@@ -1056,7 +1056,7 @@
   <label for="deleteThread" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 rounded-2xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white dark:bg-zinc-950 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5"
+    class="modal-box w-full p-6 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white dark:bg-zinc-950 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5"
   >
     <h3 class="text-lg font-bold mb-2">Delete Thread</h3>
     <p class="text-sm mb-6">

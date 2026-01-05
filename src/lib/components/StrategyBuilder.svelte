@@ -349,7 +349,7 @@
 
     {#if strategyBlocks?.length > 0}
         <div
-            class="overflow-x-auto border border-gray-300 dark:border-gray-800 rounded bg-[#F8F9FA] dark:bg-secondary"
+            class="overflow-x-auto border border-gray-300 dark:border-zinc-700 rounded bg-[#F8F9FA] dark:bg-secondary"
         >
             <table
                 class="min-w-full divide-y divide-gray-200 dark:divide-gray-600"

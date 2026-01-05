@@ -832,7 +832,7 @@
       <!-- Export button moved to ChatMessage component -->
 
       <div
-        class="bg-white dark:bg-zinc-950 fixed absolute bottom-10 sm:bottom-20 left-1/2 transform -translate-x-1/2 block p-3 min-w-[90vw] sm:min-w-0 sm:w-full sm:max-w-xl md:max-w-3xl border border-gray-300 shadow dark:border-zinc-800/80 shadow-lg shadow-black/5 rounded-2xl overflow-hidden"
+        class="bg-white dark:bg-zinc-950 fixed absolute bottom-10 sm:bottom-20 left-1/2 transform -translate-x-1/2 block p-3 min-w-[90vw] sm:min-w-0 sm:w-full sm:max-w-xl md:max-w-3xl border border-gray-300 shadow dark:border-zinc-700 shadow-lg shadow-black/5 rounded-2xl overflow-hidden"
       >
         <div
           bind:this={editorDiv}
@@ -859,7 +859,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="h-9 w-9 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-800/80 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
+                        class="h-9 w-9 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
                       >
                         <svg
                           class="size-4.5"
@@ -885,7 +885,7 @@
                       align="start"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
+                      class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
                     >
                       {#if selectedGroup === "overview"}
                         {#if data?.user}
@@ -1080,7 +1080,7 @@
 
                 <Button
                   on:click={() => goto("/chat")}
-                  class="mr-auto h-9 w-9 shrink-0 rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center px-0 py-0"
+                  class="mr-auto h-9 w-9 shrink-0 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center px-0 py-0"
                 >
                   <!--<span class="hidden sm:block"> New chat</span>-->
                   <Plus class="h-5 w-5 inline-block" />
@@ -1126,7 +1126,7 @@
     </main>
     {#if showSuggestions}
       <ul
-        class="fixed rounded-xl border border-gray-300 shadow dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 z-[9999] w-56 h-fit max-h-56 overflow-y-auto scroller"
+        class="fixed rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 z-[9999] w-56 h-fit max-h-56 overflow-y-auto scroller"
         style="top: {suggestionPos?.top}px; left: {suggestionPos?.left}px;"
       >
         {#each suggestions as suggestion, i}

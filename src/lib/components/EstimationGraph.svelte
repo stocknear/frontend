@@ -29,7 +29,7 @@
         <table class="w-full text-right">
           <thead
             ><tr
-              class="border-b border-gray-300 dark:border-gray-800 align-bottom font-normal"
+              class="border-b border-gray-300 dark:border-zinc-700 align-bottom font-normal"
               ><th class="p-1 text-left font-semibold text-sm sm:text-[1rem]"
                 >{title}</th
               >
@@ -42,7 +42,7 @@
           >
           <tbody
             ><tr
-              class="border-b border-gray-300 dark:border-gray-800 last:border-0"
+              class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">High</td>
               {#each highDataList as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
@@ -66,7 +66,7 @@
                 </td>
               {/each}
             </tr><tr
-              class="border-b border-gray-300 dark:border-gray-800 last:border-0"
+              class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">Avg</td>
               {#each avgDataList as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
@@ -90,7 +90,7 @@
                 </td>
               {/each}
             </tr><tr
-              class="border-b border-gray-300 dark:border-gray-800 last:border-0"
+              class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">Low</td>
               {#each lowDataList as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
@@ -132,7 +132,7 @@
         <table class="w-full text-right">
           <thead
             ><tr
-              class="border-b border-gray-300 dark:border-gray-800 align-bottom font-normal whitespace-nowrap"
+              class="border-b border-gray-300 dark:border-zinc-700 align-bottom font-normal whitespace-nowrap"
               ><th class="p-1 text-left font-semibold text-sm sm:text-[1rem]"
                 >{title}</th
               >
@@ -145,7 +145,7 @@
           >
           <tbody
             ><tr
-              class="border-b border-gray-300 dark:border-gray-800 last:border-0"
+              class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">High</td>
               {#each computeGrowthSingleList(highDataList, avgDataList) as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
@@ -179,7 +179,7 @@
                 </td>
               {/each}
             </tr><tr
-              class="border-b border-gray-300 dark:border-gray-800 last:border-0"
+              class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">Avg</td>
               {#each avgGrowthList?.filter((item) => item?.FY >= thisYear) as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
@@ -213,7 +213,7 @@
                 </td>
               {/each}
             </tr><tr
-              class="border-b border-gray-300 dark:border-gray-800 last:border-0"
+              class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">Low</td>
               {#each computeGrowthSingleList(lowDataList, avgDataList) as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">

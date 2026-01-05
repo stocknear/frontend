@@ -255,7 +255,7 @@
           Help us improve by sharing what could be better with this response.
         </p>
         <textarea
-          class="textarea w-full h-48 max-h-[600px] resize-vertical bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-800 focus:outline-none placeholder-gray-500 dark:placeholder-gray-300 rounded"
+          class="textarea w-full h-48 max-h-[600px] resize-vertical bg-white dark:bg-gray-600 border border-gray-300 dark:border-zinc-700 focus:outline-none placeholder-gray-500 dark:placeholder-gray-300 rounded"
           placeholder="Tell us what could be improved..."
           bind:value={description}
           disabled={isSubmitting}

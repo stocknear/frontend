@@ -300,7 +300,7 @@
                   }}
                   on:consider={(e) => handleDndConsider(e, "available")}
                   on:finalize={(e) => handleDndFinalize(e, "available")}
-                  class="space-y-4 min-h-[10rem] max-h-[500px] sm:max-h-[700px] overflow-y-auto border border-gray-300 dark:border-gray-800 rounded p-4"
+                  class="space-y-4 min-h-[10rem] max-h-[500px] sm:max-h-[700px] overflow-y-auto border border-gray-300 dark:border-zinc-700 rounded p-4"
                   class:flex={availableWidgets?.length === 0}
                   class:items-center={availableWidgets?.length === 0}
                   class:justify-center={availableWidgets?.length === 0}
@@ -313,7 +313,7 @@
                   {#each availableWidgets as item (item.id)}
                     <div
                       animate:flip={{ duration: flipDurationMs }}
-                      class="border border-gray-300 shadow dark:border-gray-800 rounded p-4 shadow"
+                      class="border border-gray-300 shadow dark:border-zinc-700 rounded p-4 shadow"
                     >
                       <div class="flex items-center space-x-4">
                         <div
@@ -373,7 +373,7 @@
                   }}
                   on:consider={(e) => handleDndConsider(e, "selected")}
                   on:finalize={(e) => handleDndFinalize(e, "selected")}
-                  class="space-y-4 min-h-[10rem] border-2 border-dashed border-gray-300 dark:border-gray-800 rounded p-4"
+                  class="space-y-4 min-h-[10rem] border-2 border-dashed border-gray-300 dark:border-zinc-700 rounded p-4"
                   class:flex={selectedWidgets.length === 0}
                   class:items-center={selectedWidgets.length === 0}
                   class:justify-center={selectedWidgets.length === 0}
@@ -386,7 +386,7 @@
                     {#each selectedWidgets as item (item.id)}
                       <div
                         animate:flip={{ duration: flipDurationMs }}
-                        class="border border-gray-300 shadow dark:border-gray-800 rounded p-4 shadow"
+                        class="border border-gray-300 shadow dark:border-zinc-700 rounded p-4 shadow"
                       >
                         <div class="flex items-center space-x-4">
                           <div

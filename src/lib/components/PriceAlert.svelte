@@ -115,7 +115,7 @@
   <label for="priceAlertModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box rounded-2xl w-full bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-800/80 shadow-none min-h-fit h-[600px] sm:h-[500px] p-6"
+    class="modal-box rounded-2xl w-full bg-white dark:bg-zinc-950 border border-gray-300 dark:border-zinc-700 shadow-none min-h-fit h-[600px] sm:h-[500px] p-6"
   >
     <!--Start Trade Modal-->
     <label
@@ -149,7 +149,7 @@
         >
 
         <label
-          class="rounded-full w-full sm:w-[80%] py-2 px-3 text-sm border border-gray-300 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200"
+          class="rounded-full w-full sm:w-[80%] py-2 px-3 text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200"
         >
           <!--
           <img
@@ -175,7 +175,7 @@
           <input
             type="text"
             value="Price"
-            class="select-none w-full sm:w-[80%] border border-gray-300 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 px-3"
+            class="select-none w-full sm:w-[80%] border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 px-3"
             readonly
           />
         </div>
@@ -189,7 +189,7 @@
           <div class="relative w-full sm:w-[80%]">
             <select
               on:change={changeStatement}
-              class="cursor-pointer w-full border border-gray-300 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
+              class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
             >
               <option value="above" selected>Above</option>
               <option value="below">Below</option>
@@ -214,7 +214,7 @@
           <div class="relative w-full sm:w-[80%]">
             <input
               bind:value={targetPrice}
-              class="w-full border border-gray-300 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 px-3 pr-16"
+              class="w-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 px-3 pr-16"
             />
             <div
               class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-x-1.5"
@@ -272,7 +272,7 @@
         <div class="flex justify-end gap-4 mt-6 absolute bottom-5 right-5">
           <label
             for="priceAlertModal"
-            class="cursor-pointer border border-gray-300 dark:border-zinc-800/80 py-2 px-4 rounded-full text-sm bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+            class="cursor-pointer border border-gray-300 dark:border-zinc-700 py-2 px-4 rounded-full text-sm bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
           >
             Cancel
           </label>

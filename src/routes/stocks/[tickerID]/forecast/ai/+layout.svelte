@@ -15,7 +15,7 @@
         <aside class="inline-block relative w-full lg:w-1/4 mt-3">
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <div
-              class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
+              class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
               <a
                 href="/pricing"
@@ -36,7 +36,7 @@
 
           {#if data?.getAIScore?.backtest?.length > 0}
             <div
-              class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
+              class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
               <h3 class="p-2 pt-4 text-xl font-semibold">
                 AI Score Definition
@@ -67,7 +67,7 @@
 
           {#if Object?.keys(data?.getPriceAnalysis)?.length > 0}
             <div
-              class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
+              class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
               <h3 class="p-2 pt-4 text-xl font-semibold">
                 AI Trend Forecast Definition

@@ -743,13 +743,13 @@ ${insightData.traderTakeaway}
 </script>
 
 <div
-  class="w-full overflow-x-auto rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40"
+  class="w-full overflow-x-auto rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
 >
   <!-- Set a min-width on smaller screens so the grid can show all columns -->
   <div class="min-w-[1000px]">
     <!-- Header row using grid -->
     <div
-      class="table-driver bg-white/60 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 grid grid-cols-17 sticky top-0 z-10 border-b border-gray-200/70 dark:border-zinc-800/80 font-semibold text-[11px] uppercase tracking-wide"
+      class="table-driver bg-white/60 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 grid grid-cols-17 sticky top-0 z-10 border-b border-gray-300 dark:border-zinc-700 font-semibold text-[11px] uppercase tracking-wide"
     >
       <div
         on:click={() => sortData("time")}
@@ -1327,14 +1327,14 @@ ${insightData.traderTakeaway}
     tabindex="-1"
   >
     <div
-      class="relative w-full max-w-5xl max-h-[95vh] sm:max-h-[92vh] bg-white/95 dark:bg-zinc-950/95 rounded-2xl border border-gray-300 dark:border-zinc-800/80 shadow-none overflow-hidden animate-slideUp"
+      class="relative w-full max-w-5xl max-h-[95vh] sm:max-h-[92vh] bg-white/95 dark:bg-zinc-950/95 rounded-2xl border border-gray-300 dark:border-zinc-700 shadow-none overflow-hidden animate-slideUp"
       on:click|stopPropagation
       on:keydown|stopPropagation
       role="document"
     >
       <!-- Modal Header -->
       <div
-        class="sticky top-0 z-10 bg-white/80 dark:bg-zinc-950/70 px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 border-b border-gray-200/70 dark:border-zinc-800/80"
+        class="sticky top-0 z-10 bg-white/80 dark:bg-zinc-950/70 px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 border-b border-gray-300 dark:border-zinc-700"
       >
         <div class="flex items-center justify-between gap-3">
           <div class="flex items-center gap-2 sm:gap-3 md:gap-4 min-w-0 flex-1">
@@ -1389,7 +1389,7 @@ ${insightData.traderTakeaway}
           <div class="flex flex-col items-center justify-center py-16 gap-4">
             <div class="relative">
               <div
-                class="w-12 h-12 border-4 border-gray-200/70 dark:border-zinc-800/80 rounded-full"
+                class="w-12 h-12 border-4 border-gray-300 dark:border-zinc-700 rounded-full"
               ></div>
               <div
                 class="w-12 h-12 border-4 border-gray-500 dark:border-zinc-400 border-t-transparent rounded-full animate-spin absolute top-0 left-0"
@@ -1426,7 +1426,7 @@ ${insightData.traderTakeaway}
         {:else if insightData}
           <!-- Trade Score Card -->
           <div
-            class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-5 md:p-6 shadow-none"
+            class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 md:p-6 shadow-none"
           >
             <div
               class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
@@ -1520,7 +1520,7 @@ ${insightData.traderTakeaway}
 
           <!-- Executive Summary -->
           <div
-            class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-5 md:p-6 shadow-none"
+            class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 md:p-6 shadow-none"
           >
             <div class="flex items-center gap-2 sm:gap-2.5 md:gap-3 mb-3">
               <div
@@ -1556,7 +1556,7 @@ ${insightData.traderTakeaway}
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <!-- Order Analysis -->
             <div
-              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-5 shadow-none"
+              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 shadow-none"
             >
               <div class="flex items-center justify-between mb-3 sm:mb-4 gap-2">
                 <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
@@ -1629,7 +1629,7 @@ ${insightData.traderTakeaway}
 
             <!-- Sentiment Analysis -->
             <div
-              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-5 shadow-none"
+              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 shadow-none"
             >
               <div class="flex items-center justify-between mb-3 sm:mb-4 gap-2">
                 <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
@@ -1703,7 +1703,7 @@ ${insightData.traderTakeaway}
 
             <!-- Risk Profile -->
             <div
-              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-5 shadow-none"
+              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 shadow-none"
             >
               <div class="flex items-center justify-between mb-3 sm:mb-4 gap-2">
                 <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
@@ -1776,7 +1776,7 @@ ${insightData.traderTakeaway}
 
             <!-- Trade Setup -->
             <div
-              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-5 shadow-none"
+              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 shadow-none"
             >
               <div class="flex items-center justify-between mb-3 sm:mb-4 gap-2">
                 <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
@@ -1843,7 +1843,7 @@ ${insightData.traderTakeaway}
           <!-- Bullish Signals & Red Flags -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <div
-              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-5 shadow-none"
+              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 shadow-none"
             >
               <div class="flex items-center gap-2 sm:gap-2.5 mb-3 sm:mb-4">
                 <div
@@ -1892,7 +1892,7 @@ ${insightData.traderTakeaway}
 
             {#if insightData.redFlags?.length > 0}
               <div
-                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-5 shadow-none"
+                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 shadow-none"
               >
                 <div class="flex items-center gap-2 sm:gap-2.5 mb-3 sm:mb-4">
                   <div
@@ -1943,7 +1943,7 @@ ${insightData.traderTakeaway}
 
           <!-- Trader Takeaway -->
           <div
-            class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-5 md:p-6 shadow-none"
+            class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 md:p-6 shadow-none"
           >
             <div class="flex items-center gap-2 sm:gap-2.5 mb-3">
               <div
@@ -1974,7 +1974,7 @@ ${insightData.traderTakeaway}
 
           <!-- Disclaimer -->
           <div
-            class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-800/80 rounded-2xl p-3 sm:p-4 shadow-none"
+            class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-3 sm:p-4 shadow-none"
           >
             <p class="text-xs text-gray-500 dark:text-zinc-400 italic">
               This analysis was generated by AI based on order flow data and may

@@ -327,9 +327,7 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:mr-auto">
-          <div
-            class="mb-6 border-b border-gray-200/70 dark:border-zinc-800/80 pb-2"
-          >
+          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700 pb-2">
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
@@ -338,7 +336,7 @@
           </div>
 
           <div
-            class="rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
+            class="rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
           >
             <h2
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
@@ -349,7 +347,7 @@
               <strong>Email:</strong>
               {data?.user?.email}
             </div>
-            <div class="mt-1 mb-1 text-sm text-gray-600 dark:text-zinc-400">
+            <div class="mt-1 mb-5 text-sm text-gray-600 dark:text-zinc-400">
               <strong>Registered Date:</strong>
               {new Date(data?.user?.created ?? null)?.toLocaleString("en-US", {
                 month: "short",
@@ -359,13 +357,13 @@
             </div>
             <a
               href="/update-password"
-              class="text-sm text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+              class="cursor-pointer border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
               >Update Password</a
             >
           </div>
 
           <div
-            class="mt-6 rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4 pb-4"
+            class="mt-6 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 pb-4"
           >
             <h2
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
@@ -383,14 +381,14 @@
               {#if data?.getDiscordAccount}
                 {#if data?.user?.discord?.access}
                   <button
-                    class="flex flex-row items-center w-fit border border-gray-300 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white text-sm px-4 py-2 rounded-full mt-5"
+                    class="flex flex-row items-center w-fit border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white text-sm px-4 py-2 rounded-full mt-5"
                   >
                     Access Granted
                   </button>
                 {:else}
                   <button
                     on:click={handlePremiumAccess}
-                    class="flex flex-row items-center w-fit cursor-pointer border border-gray-300 dark:border-zinc-800/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
+                    class="flex flex-row items-center w-fit cursor-pointer border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
                   >
                     <Crown class="w-4 h-4 inline-block mr-1.5" />
                     Premium Access
@@ -401,7 +399,7 @@
                   <input class="hidden" name="provider" value="discord" />
                   <button
                     aria-label="Discord Login"
-                    class="flex flex-row items-center w-fit cursor-pointer border border-gray-300 dark:border-zinc-800/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
+                    class="flex flex-row items-center w-fit cursor-pointer border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
                   >
                     <Link class="w-4 h-4 inline-block mr-1.5" />
                     Link Discord Account
@@ -412,7 +410,7 @@
           </div>
 
           <div
-            class="mt-6 rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4 pb-6"
+            class="mt-6 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 pb-6"
           >
             <h3
               class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2"
@@ -433,14 +431,14 @@
                     <div class="mt-3">
                       {#if !loading}
                         <button
-                          class="border border-gray-300 dark:border-zinc-800/80 w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white text-sm font-semibold rounded-full hover:bg-white/80 dark:hover:bg-zinc-900/70 transition"
+                          class="border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white text-sm font-semibold rounded-full hover:bg-white/80 dark:hover:bg-zinc-900/70 transition"
                           type="button"
                           on:click={handlePushUnsubscribe}
                           >Disable notifications</button
                         >
                       {:else}
                         <button
-                          class="cursor-not-allowed border border-gray-300 dark:border-zinc-800/80 w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-gray-500 dark:text-zinc-400 text-sm font-semibold rounded-full transition"
+                          class="cursor-not-allowed border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-gray-500 dark:text-zinc-400 text-sm font-semibold rounded-full transition"
                           disabled
                         >
                           <div class="flex flex-row m-auto items-center">
@@ -482,14 +480,14 @@
                     </p>
                     {#if !loading}
                       <button
-                        class="border border-gray-300 dark:border-zinc-800/80 w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white text-sm font-semibold rounded-full hover:bg-white/80 dark:hover:bg-zinc-900/70 transition"
+                        class="border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white text-sm font-semibold rounded-full hover:bg-white/80 dark:hover:bg-zinc-900/70 transition"
                         type="button"
                         on:click={handlePushSubscribe}
                         >Enable notifications</button
                       >
                     {:else}
                       <button
-                        class="cursor-not-allowed border border-gray-300 dark:border-zinc-800/80 w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-gray-500 dark:text-zinc-400 text-sm font-semibold rounded-full transition"
+                        class="cursor-not-allowed border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-gray-500 dark:text-zinc-400 text-sm font-semibold rounded-full transition"
                         ><div class="flex flex-row m-auto items-center">
                           <span class="loading loading-infinity"></span>
                           <span class=" ml-1.5">Activating...</span>
@@ -512,7 +510,7 @@
                 </p>
                 <label
                   for="installModal"
-                  class="cursor-pointer border border-gray-300 dark:border-zinc-800/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
+                  class="cursor-pointer border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
                 >
                   Install the App
                 </label>
@@ -521,7 +519,7 @@
           </div>
 
           <div
-            class="mt-6 rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
+            class="mt-6 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
           >
             <h2
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
@@ -627,7 +625,7 @@
                       href="https://app.lemonsqueezy.com/my-orders"
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="cursor-pointer border border-gray-300 dark:border-zinc-800/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
+                      class="cursor-pointer border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
                       >Manage your subscription</a
                     >
                   </p>
@@ -697,7 +695,7 @@
           </div>
 
           <div
-            class="mt-6 rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
+            class="mt-6 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
           >
             <h2
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
@@ -759,7 +757,7 @@
     method="POST"
     action="?/cancelSubscription"
     use:enhance={submitCancellation}
-    class="modal-box w-full rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 flex flex-col items-center"
+    class="modal-box w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 flex flex-col items-center"
   >
     <div class=" mb-5 text-center">
       <h3
@@ -816,7 +814,7 @@
     method="POST"
     action="?/reactivateSubscription"
     use:enhance={submitReactivate}
-    class="modal-box w-full rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 flex flex-col items-center"
+    class="modal-box w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 flex flex-col items-center"
   >
     <div class=" mb-5 text-center">
       <h3
@@ -879,7 +877,7 @@
     method="POST"
     action="?/changeSubscription"
     use:enhance={submitChangePlan}
-    class="modal-box w-full rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 flex flex-col items-center"
+    class="modal-box w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 flex flex-col items-center"
   >
     <div class=" mb-5 text-center">
       <h3
@@ -940,7 +938,7 @@
     method="POST"
     action="?/changeSubscription"
     use:enhance={submitChangePlan}
-    class="modal-box w-full rounded-2xl border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 flex flex-col items-center"
+    class="modal-box w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 flex flex-col items-center"
   >
     <div class=" mb-5 text-center">
       <h3
@@ -988,7 +986,7 @@
   <label for="installModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box rounded-2xl w-full border border-gray-300 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200"
+    class="modal-box rounded-2xl w-full border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200"
   >
     <div class="flex flex-row items-center pt-5">
       <h4
@@ -1014,7 +1012,7 @@
 
     <div class="flex flex-col justify-center items-center text-xl h-full">
       <div
-        class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-800/80"
+        class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700"
       >
         <button
           type="button"
@@ -1061,7 +1059,7 @@
       {/if}
     </div>
 
-    <div class="border-t border-gray-200/70 dark:border-zinc-800/80 mt-2">
+    <div class="border-t border-gray-300 dark:border-zinc-700 mt-2">
       <label
         for="installModal"
         class="mt-4 font-semibold text-lg text-gray-900 dark:text-white m-auto flex justify-center cursor-pointer"

@@ -71,7 +71,7 @@
         {#if !data?.user}
           <a
             href="/register"
-            class="inline-flex w-full items-center justify-center rounded-full border border-gray-300/80 bg-white/80 px-6 py-3 text-sm font-semibold text-gray-800 transition hover:bg-gray-100/80 dark:border-zinc-800/80 dark:bg-zinc-900/60 dark:text-zinc-100 dark:hover:bg-zinc-800/70 sm:w-auto"
+            class="inline-flex w-full items-center justify-center rounded-full border border-gray-300/80 bg-white/80 px-6 py-3 text-sm font-semibold text-gray-800 transition hover:bg-gray-100/80 dark:border-zinc-700 dark:bg-zinc-900/60 dark:text-zinc-100 dark:hover:bg-zinc-800/70 sm:w-auto"
           >
             Sign Up for Free
           </a>

@@ -569,7 +569,7 @@
                       <div class="ml-auto">
                         <div class="inline-flex">
                           <div
-                            class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-800/80
+                            class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700
            "
                           >
                             {#each tabs as item, i (item)}
@@ -604,20 +604,20 @@
                 class="flex justify-start items-center w-screen sm:w-full mt-2 m-auto overflow-x-auto pr-5 sm:pr-0"
               >
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
                 >
                   <thead
                     class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
                   >
                     <tr>
                       <th
-                        class="border-b border-r border-gray-200 dark:border-zinc-800/80 font-semibold text-xs text-start"
+                        class="border-b border-r border-gray-300 dark:border-zinc-700 font-semibold text-xs text-start"
                       >
                         Period Ending
                       </th>
                       {#each tableData.formattedDates as formattedDate (formattedDate)}
                         <th
-                          class="z-20 border-b border-r min-w-[120px] border-gray-200 dark:border-zinc-800/80 font-semibold text-xs text-end"
+                          class="z-20 border-b border-r min-w-[120px] border-gray-300 dark:border-zinc-700 font-semibold text-xs text-end"
                         >
                           {formattedDate}
                         </th>
@@ -630,7 +630,7 @@
                     {#each tableData.rows as row (row.name)}
                       <tr class="w-full transition-colors">
                         <th
-                          class="whitespace-nowrap flex flex-row justify-between items-center text-sm font-normal text-start border-r border-gray-200 dark:border-zinc-800/80 text-gray-700 dark:text-zinc-200"
+                          class="whitespace-nowrap flex flex-row justify-between items-center text-sm font-normal text-start border-r border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200"
                         >
                           {row.name}
                           <label
@@ -661,7 +661,7 @@
                         </th>
                         {#each row.cells as cell}
                           <td
-                            class="whitespace-nowrap text-sm text-end border-b border-r border-gray-200 dark:border-zinc-800/80"
+                            class="whitespace-nowrap text-sm text-end border-b border-r border-gray-300 dark:border-zinc-700"
                           >
                             {#if cell?.isPremium && cell?.value !== null}
                               <a
@@ -690,7 +690,7 @@
                       </tr>
                       <tr>
                         <td
-                          class="min-w-auto md:min-w-96 w-full whitespace-nowrap flex flex-row justify-between items-center text-sm font-normal text-start border-r border-gray-200 dark:border-zinc-800/80"
+                          class="min-w-auto md:min-w-96 w-full whitespace-nowrap flex flex-row justify-between items-center text-sm font-normal text-start border-r border-gray-300 dark:border-zinc-700"
                         >
                           <span class="ml-2 mr-5 md:mr-0"
                             >{row.name} Growth</span
@@ -723,7 +723,7 @@
                         </td>
                         {#each row.cells as cell}
                           <td
-                            class="text-sm text-end border-b border-r border-gray-200 dark:border-zinc-800/80 {cell.growthClass}"
+                            class="text-sm text-end border-b border-r border-gray-300 dark:border-zinc-700 {cell.growthClass}"
                           >
                             {#if cell.isPremium && cell.growth !== "-"}
                               <a
@@ -758,7 +758,7 @@
           {/each}
 
           <div
-            class="text-sm border border-gray-300 shadow dark:border-zinc-800/80 p-3 -mt-5"
+            class="text-sm border border-gray-300 shadow dark:border-zinc-700 p-3 -mt-5"
           >
             <strong>Source:</strong> Business metrics provided by
             <a
@@ -784,13 +784,13 @@
   <label for="financialPlotModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="metrics-modal modal-box w-full max-w-3xl p-6 rounded-2xl shadow-none border bg-white dark:bg-zinc-950 border border-gray-300 shadow dark:border-zinc-800/80"
+    class="metrics-modal modal-box w-full max-w-3xl p-6 rounded-2xl shadow-none border bg-white dark:bg-zinc-950 border border-gray-300 shadow dark:border-zinc-700"
   >
     {#if config}
       <div class="flex justify-end items-center w-full">
         <Button
           on:click={toggleMode}
-          class="w-fit transition-all duration-50 border border-gray-300 shadow dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
+          class="w-fit transition-all duration-50 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
         >
           {#if chartMode === "bar"}
             <LineChart class="w-4.5 h-4.5" />
@@ -803,7 +803,7 @@
       </div>
 
       <div
-        class="mt-2 rounded-xl bg-white dark:bg-zinc-950 border border-gray-300 shadow dark:border-zinc-800/80 p-2"
+        class="mt-2 rounded-xl bg-white dark:bg-zinc-950 border border-gray-300 shadow dark:border-zinc-700 p-2"
         use:highcharts={config}
       ></div>
     {/if}
@@ -824,7 +824,7 @@
       in <strong>{lowestValueDate}</strong>.
     </p>
 
-    <div class="border-t border-gray-200 dark:border-zinc-800/80 mt-2 w-full">
+    <div class="border-t border-gray-300 dark:border-zinc-700 mt-2 w-full">
       <label
         for="financialPlotModal"
         class="mt-4 font-semibold text-base text-gray-700 dark:text-zinc-200 m-auto flex justify-center cursor-pointer"

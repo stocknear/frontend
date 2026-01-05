@@ -62,7 +62,7 @@
                   {#each similarStocks?.slice(0, 8) as item, index}
                     {#if item?.dividendYield > 0}
                       <tr
-                        class="border-gray-300 dark:border-gray-800 text-[1rem] {index !==
+                        class="border-gray-300 dark:border-zinc-700 text-[1rem] {index !==
                         similarStocks?.slice(0, 8).length - 1
                           ? 'border-b'
                           : ''}"
@@ -96,7 +96,7 @@
 
           {#if newsList?.length !== 0}
             <div
-              class="w-full border border-gray-300 shadow dark:border-zinc-800/80 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
+              class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
               <div class="p-4 text-sm">
                 <h3 class="text-lg font-semibold mb-3">

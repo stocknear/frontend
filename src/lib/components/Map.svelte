@@ -40,7 +40,7 @@
 <!-- Container for Highcharts -->
 {#if chartOptions}
   <div
-    class="shadow border border-gray-300 dark:border-gray-800 rounded w-full h-[400px]"
+    class="shadow border border-gray-300 dark:border-zinc-700 rounded w-full h-[400px]"
     use:highcharts={chartOptions}
   ></div>
 {/if}

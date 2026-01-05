@@ -160,7 +160,7 @@
 -->
   <main id="main">
     <div
-      class="border-b border-gray-100/80 dark:border-zinc-800/80 px-4 pt-8 sm:pt-12 pb-24"
+      class="border-b border-gray-100/80 dark:border-zinc-700 px-4 pt-8 sm:pt-12 pb-24"
     >
       <!--
       {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}

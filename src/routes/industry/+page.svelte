@@ -79,10 +79,10 @@
           </a>
         </div>
 
-        <div class="border-t border-gray-200 dark:border-zinc-800/80 mt-5" />
+        <div class="border-t border-gray-300 dark:border-zinc-700 mt-5" />
 
         <IndustryTable {charNumber} industryList={rawData[sector]} />
-        <div class="border-t border-gray-200 dark:border-zinc-800/80 mt-5" />
+        <div class="border-t border-gray-300 dark:border-zinc-700 mt-5" />
       {/each}
     </div>
   </div>
