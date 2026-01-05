@@ -400,162 +400,167 @@ ${summaryData.outlook}
       <div class="sm:p-7 w-full mt-2 sm:mt-0">
         <div class="mb-6">
           <div class="items-center lg:overflow-visible px-1 py-1">
-            <div
-              class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
-            >
-              <h1
-                class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
-              >
-                Transcripts
-              </h1>
+            <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
               <div
-                class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
               >
-                <div class="relative inline-block text-left grow mr-2">
-                  <DropdownMenu.Root>
-                    <DropdownMenu.Trigger asChild let:builder>
-                      <Button
-                        builders={[builder]}
-                        class="w-fit w-full sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
-                      >
-                        <span class="truncate">Year: {year}</span>
-                        <svg
-                          class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          style="max-width:40px"
-                          aria-hidden="true"
+                <h1
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+                >
+                  Transcripts
+                </h1>
+
+                <div
+                  class="mt-1 w-full flex flex-row items-center ml-auto pb-1 pt-1 sm:pt-0 order-0 lg:order-1"
+                >
+                  <!-- Year -->
+                  <div class="relative lg:ml-auto w-full lg:w-fit mr-2">
+                    <DropdownMenu.Root>
+                      <DropdownMenu.Trigger asChild let:builder>
+                        <Button
+                          builders={[builder]}
+                          class="w-full sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </Button>
-                    </DropdownMenu.Trigger>
-                    <DropdownMenu.Content
-                      side="bottom"
-                      align="end"
-                      sideOffset={10}
-                      alignOffset={0}
-                      class="min-w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
-                    >
-                      <DropdownMenu.Group>
-                        {#each yearRange as yr, index}
-                          {#if ["Plus", "Pro"]?.includes(data?.user?.tier) || index === 0}
-                            <DropdownMenu.Item
-                              on:click={() => {
-                                year = yr;
-                                // Reset quarter to first available for this year
-                                const availableQuarters = dateList
-                                  ?.filter((d) => d.fiscalYear === yr)
-                                  ?.map((d) => d.quarter)
-                                  ?.sort((a, b) => b - a);
-                                quarter = availableQuarters[0] ?? 1;
-                                getTranscripts();
-                              }}
-                              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
-                            >
-                              FY {yr}
-                            </DropdownMenu.Item>
-                          {:else}
-                            <DropdownMenu.Item
-                              on:click={() => goto("/pricing")}
-                              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
-                            >
-                              <div class="flex flex-row items-center gap-x-2">
-                                <span>FY {yr}</span>
-                                <svg
-                                  class="size-4"
-                                  viewBox="0 0 20 20"
-                                  fill="currentColor"
-                                  style="max-width: 40px;"
-                                >
-                                  <path
-                                    fill-rule="evenodd"
-                                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                    clip-rule="evenodd"
-                                  >
-                                  </path>
-                                </svg>
-                              </div>
-                            </DropdownMenu.Item>
-                          {/if}
-                        {/each}
-                      </DropdownMenu.Group>
-                    </DropdownMenu.Content>
-                  </DropdownMenu.Root>
-                </div>
-                <div class="relative inline-block text-left grow">
-                  <DropdownMenu.Root>
-                    <DropdownMenu.Trigger asChild let:builder>
-                      <Button
-                        builders={[builder]}
-                        class="w-fit w-full sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          <span class="truncate">Year: {year}</span>
+                          <svg
+                            class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            style="max-width:40px"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clip-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </Button>
+                      </DropdownMenu.Trigger>
+
+                      <DropdownMenu.Content
+                        side="bottom"
+                        align="end"
+                        sideOffset={10}
+                        alignOffset={0}
+                        class="min-w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                       >
-                        <span class="truncate">Quarter: Q{quarter}</span>
-                        <svg
-                          class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          style="max-width:40px"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </Button>
-                    </DropdownMenu.Trigger>
-                    <DropdownMenu.Content
-                      side="bottom"
-                      align="end"
-                      sideOffset={10}
-                      alignOffset={0}
-                      class="min-w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
-                    >
-                      <DropdownMenu.Group>
-                        {#each quarterRange as q, index}
-                          {#if ["Plus", "Pro"]?.includes(data?.user?.tier) || index === 0}
-                            <DropdownMenu.Item
-                              on:click={() => {
-                                quarter = q;
-                                getTranscripts();
-                              }}
-                              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
-                            >
-                              Q{q}
-                            </DropdownMenu.Item>
-                          {:else}
-                            <DropdownMenu.Item
-                              on:click={() => goto("/pricing")}
-                              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
-                            >
-                              <div class="flex flex-row items-center gap-x-2">
-                                <span>Q{q}</span>
-                                <svg
-                                  class="size-4"
-                                  viewBox="0 0 20 20"
-                                  fill="currentColor"
-                                  style="max-width: 40px;"
-                                >
-                                  <path
-                                    fill-rule="evenodd"
-                                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                    clip-rule="evenodd"
+                        <DropdownMenu.Group>
+                          {#each yearRange as yr, index}
+                            {#if ["Plus", "Pro"]?.includes(data?.user?.tier) || index === 0}
+                              <DropdownMenu.Item
+                                on:click={() => {
+                                  year = yr;
+                                  const availableQuarters = dateList
+                                    ?.filter((d) => d.fiscalYear === yr)
+                                    ?.map((d) => d.quarter)
+                                    ?.sort((a, b) => b - a);
+                                  quarter = availableQuarters[0] ?? 1;
+                                  getTranscripts();
+                                }}
+                                class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                              >
+                                FY {yr}
+                              </DropdownMenu.Item>
+                            {:else}
+                              <DropdownMenu.Item
+                                on:click={() => goto("/pricing")}
+                                class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                              >
+                                <div class="flex flex-row items-center gap-x-2">
+                                  <span>FY {yr}</span>
+                                  <svg
+                                    class="size-4"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                    style="max-width: 40px;"
                                   >
-                                  </path>
-                                </svg>
-                              </div>
-                            </DropdownMenu.Item>
-                          {/if}
-                        {/each}
-                      </DropdownMenu.Group>
-                    </DropdownMenu.Content>
-                  </DropdownMenu.Root>
+                                    <path
+                                      fill-rule="evenodd"
+                                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                      clip-rule="evenodd"
+                                    ></path>
+                                  </svg>
+                                </div>
+                              </DropdownMenu.Item>
+                            {/if}
+                          {/each}
+                        </DropdownMenu.Group>
+                      </DropdownMenu.Content>
+                    </DropdownMenu.Root>
+                  </div>
+
+                  <!-- Quarter -->
+                  <div class="relative w-full lg:w-fit">
+                    <DropdownMenu.Root>
+                      <DropdownMenu.Trigger asChild let:builder>
+                        <Button
+                          builders={[builder]}
+                          class="w-full sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        >
+                          <span class="truncate">Quarter: Q{quarter}</span>
+                          <svg
+                            class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            style="max-width:40px"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clip-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </Button>
+                      </DropdownMenu.Trigger>
+
+                      <DropdownMenu.Content
+                        side="bottom"
+                        align="end"
+                        sideOffset={10}
+                        alignOffset={0}
+                        class="min-w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      >
+                        <DropdownMenu.Group>
+                          {#each quarterRange as q, index}
+                            {#if ["Plus", "Pro"]?.includes(data?.user?.tier) || index === 0}
+                              <DropdownMenu.Item
+                                on:click={() => {
+                                  quarter = q;
+                                  getTranscripts();
+                                }}
+                                class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                              >
+                                Q{q}
+                              </DropdownMenu.Item>
+                            {:else}
+                              <DropdownMenu.Item
+                                on:click={() => goto("/pricing")}
+                                class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                              >
+                                <div class="flex flex-row items-center gap-x-2">
+                                  <span>Q{q}</span>
+                                  <svg
+                                    class="size-4"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                    style="max-width: 40px;"
+                                  >
+                                    <path
+                                      fill-rule="evenodd"
+                                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                      clip-rule="evenodd"
+                                    ></path>
+                                  </svg>
+                                </div>
+                              </DropdownMenu.Item>
+                            {/if}
+                          {/each}
+                        </DropdownMenu.Group>
+                      </DropdownMenu.Content>
+                    </DropdownMenu.Root>
+                  </div>
                 </div>
               </div>
             </div>

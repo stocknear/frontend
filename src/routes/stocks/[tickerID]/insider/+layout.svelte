@@ -77,7 +77,7 @@
       >
         <main class="w-full lg:w-3/4 lg:pr-10">
           <nav
-            class="mb-5 sm:mb-0 sm:ml-4 pt-1 text-sm whitespace-nowrap overflow-x-auto border-b border-gray-300 dark:border-zinc-700"
+            class="mb-5 sm:mb-0 sm:ml-4 pt-2 text-sm whitespace-nowrap overflow-x-auto border-b border-gray-300 dark:border-zinc-700"
           >
             <ul
               class="flex flex-row items-center w-full gap-1 pb-3 text-sm sm:text-base"
