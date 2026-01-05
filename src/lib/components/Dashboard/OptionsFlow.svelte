@@ -33,7 +33,7 @@
     >
       <thead>
         <tr
-          class="text-xs uppercase tracking-widest text-gray-500 dark:text-zinc-500"
+          class="text-xs uppercase tracking-widest text-gray-800 dark:text-zinc-300"
         >
           <th class="py-2 text-left font-semibold">Symbol</th>
           <th class="py-2 text-left font-semibold">Prem</th>

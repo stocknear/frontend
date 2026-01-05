@@ -71,16 +71,16 @@
 <section
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
 >
-  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300">
     <ul>
       <li>
         <a
           href="/"
-          class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
+          class="text-gray-800 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
           >Home</a
         >
       </li>
-      <li class="text-gray-500 dark:text-zinc-500">All Stocks</li>
+      <li class="text-gray-800 dark:text-zinc-300">All Stocks</li>
     </ul>
   </div>
 

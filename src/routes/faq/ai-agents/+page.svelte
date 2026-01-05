@@ -65,7 +65,11 @@
   <div class="text-sm sm:text-[1rem] breadcrumbs">
     <ul>
       <li>
-        <a href="/" class="text-muted dark:text-gray-300">Home</a>
+        <a
+          href="/"
+          class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          >Home</a
+        >
       </li>
       <li class="text-muted dark:text-gray-300">AI Agents Guide</li>
     </ul>

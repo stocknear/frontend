@@ -474,7 +474,7 @@
             {/each}
           {:else}
             <span
-              class="block px-5 py-2 text-sm text-gray-500 dark:text-zinc-500"
+              class="block px-5 py-2 text-sm text-gray-800 dark:text-zinc-300"
             >
               No results found
             </span>
@@ -636,7 +636,7 @@
           </li>
         {/each}
       {:else}
-        <span class="block px-5 py-2 text-sm text-gray-500 dark:text-zinc-500">
+        <span class="block px-5 py-2 text-sm text-gray-800 dark:text-zinc-300">
           No results found
         </span>
       {/if}

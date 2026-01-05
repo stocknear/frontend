@@ -51,7 +51,7 @@
       <!-- Discount display -->
       <div class="text-center space-y-2">
         <p
-          class="text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-zinc-500"
+          class="text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-gray-800 dark:text-zinc-300"
         >
           Limited offer
         </p>
@@ -61,7 +61,7 @@
             >50%</span
           >
           <span
-            class="text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-zinc-500"
+            class="text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-gray-800 dark:text-zinc-300"
             >Off</span
           >
         </div>
@@ -131,7 +131,7 @@
       <!-- Countdown timer -->
       <div class="border-t border-gray-100/80 dark:border-zinc-700 pt-5">
         <p
-          class="text-center text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-gray-500 dark:text-zinc-500"
+          class="text-center text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-gray-800 dark:text-zinc-300"
         >
           Ends in
         </p>
@@ -147,7 +147,7 @@
               </span>
             </div>
             <span
-              class="mt-2 block text-[0.6rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500"
+              class="mt-2 block text-[0.6rem] uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300"
               >Days</span
             >
           </div>
@@ -162,7 +162,7 @@
               </span>
             </div>
             <span
-              class="mt-2 block text-[0.6rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500"
+              class="mt-2 block text-[0.6rem] uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300"
               >Hours</span
             >
           </div>
@@ -177,7 +177,7 @@
               </span>
             </div>
             <span
-              class="mt-2 block text-[0.6rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500"
+              class="mt-2 block text-[0.6rem] uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300"
               >Min</span
             >
           </div>
@@ -192,7 +192,7 @@
               </span>
             </div>
             <span
-              class="mt-2 block text-[0.6rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500"
+              class="mt-2 block text-[0.6rem] uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300"
               >Sec</span
             >
           </div>

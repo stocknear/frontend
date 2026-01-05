@@ -374,7 +374,7 @@
       <div class="mt-3 grid grid-cols-2 gap-3 w-full">
         <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
           <span
-            class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+            class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
             >Industry</span
           >
           <a
@@ -385,7 +385,7 @@
         </div>
         <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
           <span
-            class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+            class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
             >Sector</span
           >
           <a
@@ -397,14 +397,14 @@
         </div>
         <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
           <span
-            class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+            class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
             >IPO Date</span
           >
           <span>{ipoDate}</span>
         </div>
         <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
           <span
-            class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+            class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
             >Employees</span
           >
           <a
@@ -417,14 +417,14 @@
         </div>
         <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
           <span
-            class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+            class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
             >Stock Exchange</span
           >
           <span>{exchange ?? "n/a"}</span>
         </div>
         <div class="col-span-1 text-sm text-gray-600 dark:text-zinc-400">
           <span
-            class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+            class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
             >Ticker Symbol</span
           >
           <span>{$stockTicker}</span>
@@ -434,7 +434,7 @@
             class="col-span-1 whitespace-nowrap text-sm text-gray-600 dark:text-zinc-400"
           >
             <span
-              class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+              class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
               >Website</span
             >
             <a

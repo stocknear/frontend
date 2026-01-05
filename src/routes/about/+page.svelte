@@ -35,7 +35,7 @@
     <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
       <div class="lg:text-center">
         <p
-          class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 mb-4"
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300 mb-4"
         >
           Our Values
         </p>
@@ -195,7 +195,7 @@
       <div class="lg:grid lg:grid-cols-3 lg:gap-12">
         <div>
           <p
-            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 mb-4"
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300 mb-4"
           >
             Solo Guy
           </p>
@@ -242,7 +242,7 @@
                   and build something meaningful.
                 </p>
 
-                <p class="text-sm text-gray-500 dark:text-zinc-500">
+                <p class="text-sm text-gray-800 dark:text-zinc-300">
                   PhD in Theoretical Particle Physics (University of Siegen) ·
                   MSc in Particle Physics (Technical University of Munich) · BSc
                   in Physics (University of Göttingen)

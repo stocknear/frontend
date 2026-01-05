@@ -1581,7 +1581,7 @@ const output = await response.json();
             </div>
 
             <p
-              class="pb-1 text-xs text-center text-gray-500 dark:text-zinc-500"
+              class="pb-1 text-xs text-center text-gray-800 dark:text-zinc-300"
             >
               By registering you agree to Stocknear's
               <a

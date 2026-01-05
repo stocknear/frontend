@@ -790,7 +790,7 @@
         </p>
 
         <p
-          class="pb-1 text-xs text-center pb-20 sm:pb-0 text-gray-500 dark:text-zinc-500"
+          class="pb-1 text-xs text-center pb-20 sm:pb-0 text-gray-800 dark:text-zinc-300"
         >
           By registering you agree to Stocknear's
           <a

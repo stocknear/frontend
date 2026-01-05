@@ -6,7 +6,6 @@
   import MarketTideChart from "$lib/components/MarketFlow/MarketTideChart.svelte";
   import SectorFlowChart from "$lib/components/MarketFlow/SectorFlowChart.svelte";
   import FearAndGreedChart from "$lib/components/MarketFlow/FearAndGreedChart.svelte";
-  import HeatmapChart from "$lib/components/MarketFlow/HeatmapChart.svelte";
   import OpenInterestChart from "$lib/components/MarketFlow/OpenInterestChart.svelte";
   import VolumeChart from "$lib/components/MarketFlow/VolumeChart.svelte";
 
@@ -251,17 +250,17 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
+  class="w-full overflow-hidden min-h-screen text-gray-700 dark:text-zinc-200"
 >
   <div class="w-full overflow-hidden m-auto">
-    <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
+    <div class=" flex justify-center w-full m-auto overflow-hidden">
       <div
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
           <div class="w-full m-auto">
             <p
-              class="mb-10 text-sm sm:text-base leading-6 text-gray-600 dark:text-zinc-300"
+              class="mb-5 text-sm sm:text-base leading-6 text-gray-600 dark:text-zinc-300"
             >
               Overview for all option chains of <strong
                 class="font-semibold text-gray-900 dark:text-white"
@@ -603,7 +602,7 @@
                         (listItem) =>
                           listItem?.title === sectorFlow?.at(0)?.sector,
                       )?.link}
-                      class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      class="text-lg sm:text-xl font-semibold sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                     >
                       {sectorFlow?.length > 0
                         ? sectorFlow?.at(0)?.sector
@@ -633,10 +632,14 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-4">
-              <div class="grow">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div class="lg:col-span-2">
+                <h2
+                  class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                >
+                  S&P 500 Flow
+                </h2>
                 <div class="relative">
-                  <!-- Apply the blur class to the chart -->
                   <div
                     class={!["Pro"]?.includes(data?.user?.tier)
                       ? "blur-[3px]"
@@ -644,7 +647,6 @@
                   >
                     <MarketTideChart {marketTideData} />
                   </div>
-                  <!-- Overlay with "Upgrade to Pro" -->
                   {#if !["Pro"]?.includes(data?.user?.tier)}
                     <div
                       class="font-semibold text-base sm:text-lg absolute inset-0 flex items-center justify-center text-gray-700 dark:text-zinc-200"
@@ -669,7 +671,35 @@
                 </div>
               </div>
 
-              <div class="grow">
+              <div class="">
+                <div class="flex items-center justify-between mb-2">
+                  <h2
+                    class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                  >
+                    Fear & Greed
+                  </h2>
+                  <span class="text-xs italic text-gray-800 dark:text-zinc-300">
+                    {new Date(
+                      data?.getFearAndGreed?.current?.date,
+                    )?.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </span>
+                </div>
+
+                <div class="relative">
+                  <FearAndGreedChart {fearAndGreedValue} {currentCategory} />
+                </div>
+              </div>
+
+              <div class="">
+                <h2
+                  class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                >
+                  Sector Flow
+                </h2>
                 <div class="relative">
                   <div
                     class={!["Pro"]?.includes(data?.user?.tier)
@@ -678,7 +708,6 @@
                   >
                     <SectorFlowChart {sectorFlow} />
                   </div>
-                  <!-- Overlay with "Upgrade to Pro" -->
                   {#if !["Pro"]?.includes(data?.user?.tier)}
                     <div
                       class="font-semibold text-base sm:text-lg absolute inset-0 flex items-center justify-center text-gray-700 dark:text-zinc-200"
@@ -700,79 +729,6 @@
                       </a>
                     </div>
                   {/if}
-                </div>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-4">
-              <div class="order-1 sm:order-0">
-                <div
-                  class="flex flex-row items-center justify-between mb-2 mt-5"
-                >
-                  <h2
-                    class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
-                  >
-                    Fear & Greed Index
-                  </h2>
-                  <h3
-                    class="text-xs italic text-gray-500 dark:text-zinc-500 w-fit"
-                  >
-                    Last Update: {new Date(
-                      data?.getFearAndGreed?.current?.date,
-                    )?.toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </h3>
-                </div>
-
-                <div class="grow mt-1">
-                  <div class="relative">
-                    <FearAndGreedChart {fearAndGreedValue} {currentCategory} />
-                  </div>
-                </div>
-              </div>
-
-              <div class="order-0 sm:order-1">
-                <h2
-                  class="mb-2 mt-5 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
-                >
-                  Avg. Market Seasonality
-                </h2>
-
-                <div class="grow mt-1">
-                  <div class="relative">
-                    <div
-                      class={!["Pro"]?.includes(data?.user?.tier)
-                        ? "blur-[3px]"
-                        : ""}
-                    >
-                      <HeatmapChart seasonData={data?.getMarketSeasonality} />
-                    </div>
-                    <!-- Overlay with "Upgrade to Pro" -->
-                    {#if !["Pro"]?.includes(data?.user?.tier)}
-                      <div
-                        class="font-semibold text-base sm:text-lg absolute inset-0 flex items-center justify-center text-gray-700 dark:text-zinc-200"
-                      >
-                        <a
-                          href="/pricing"
-                          class="inline-flex items-center gap-1 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
-                        >
-                          <span>Upgrade</span>
-                          <svg
-                            class="ml-1 w-5 h-5 sm:w-6 sm:h-6 inline-block"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            ><path
-                              fill="currentColor"
-                              d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                            /></svg
-                          >
-                        </a>
-                      </div>
-                    {/if}
-                  </div>
                 </div>
               </div>
             </div>

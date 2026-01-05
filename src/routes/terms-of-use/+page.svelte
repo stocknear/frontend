@@ -8,16 +8,16 @@
 <section
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
-  <div class="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-500">
+  <div class="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300">
     <ul>
       <li>
         <a
           href="/"
-          class="text-gray-500 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white transition"
+          class="text-gray-800 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
           >Home</a
         >
       </li>
-      <li class="text-gray-500 dark:text-zinc-500">Terms of Use</li>
+      <li class="text-gray-800 dark:text-zinc-300">Terms of Use</li>
     </ul>
   </div>
 
@@ -39,7 +39,7 @@
             class="w-full m-auto text-sm sm:text-base text-gray-600 dark:text-zinc-400"
           >
             <div class="">
-              <p class="italic mb-2 text-xs text-gray-500 dark:text-zinc-500">
+              <p class="italic mb-2 text-xs text-gray-800 dark:text-zinc-300">
                 Last updated: 01.11.2025
               </p>
 

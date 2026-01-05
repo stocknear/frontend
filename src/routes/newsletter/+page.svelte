@@ -18,7 +18,7 @@
       <div class="space-y-6">
         <div class="space-y-3">
           <p
-            class="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500"
+            class="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300"
           >
             Newsletter
           </p>

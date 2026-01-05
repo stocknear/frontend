@@ -293,7 +293,7 @@
                             <span class="text-gray-900 dark:text-white text-base sm:text-lg font-bold">${displayValue}</span>
                         </div>
                         <div class="flex flex-col items-center">
-                            <span class="text-gray-500 dark:text-zinc-500 font-semibold">${gaugeData.compareLabel}</span>
+                            <span class="text-gray-800 dark:text-zinc-300 font-semibold">${gaugeData.compareLabel}</span>
                             <span class="text-gray-700 dark:text-zinc-200 text-base sm:text-lg font-bold">${gaugeData.compareValue}${suffix}</span>
                         </div>
                     </div>`;
@@ -396,7 +396,9 @@
 </script>
 
 <div class="w-full" bind:this={componentElement}>
-    <h2 class="mb-6 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit">
+    <h2
+        class="mb-6 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
+    >
         {title}
     </h2>
     {#if hasLoaded}
@@ -432,7 +434,9 @@
                                 parameter={stat?.infoId}
                             />
                         </div>
-                        <span class="font-semibold text-sm text-gray-900 dark:text-white">
+                        <span
+                            class="font-semibold text-sm text-gray-900 dark:text-white"
+                        >
                             {stat?.value}
                         </span>
                     </div>

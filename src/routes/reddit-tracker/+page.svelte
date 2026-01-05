@@ -285,7 +285,7 @@
           {#if availableSubreddits.length > 0}
             <div class="mb-4">
               <label
-                class="block text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-500 mb-3"
+                class="block text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 mb-3"
               >
                 Select Subreddit
               </label>

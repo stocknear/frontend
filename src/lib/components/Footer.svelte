@@ -45,7 +45,7 @@
         <!-- Repeat this block for each section -->
         <nav class="space-y-3">
           <h6
-            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500"
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300"
           >
             Sections
           </h6>
@@ -84,7 +84,7 @@
         </nav>
         <nav class="space-y-3">
           <h6
-            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500"
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300"
           >
             Services
           </h6>
@@ -114,7 +114,7 @@
         </nav>
         <nav class="space-y-3">
           <h6
-            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500"
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300"
           >
             Website
           </h6>
@@ -203,7 +203,7 @@
         </nav>
         <nav class="space-y-3">
           <h6
-            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500"
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300"
           >
             Company
           </h6>
@@ -354,7 +354,7 @@
         >
       </div>
       <p
-        class="my-3 text-sm text-gray-500 dark:text-zinc-500 md:order-2 md:my-0 flex flex-row items-center"
+        class="my-3 text-sm text-gray-800 dark:text-zinc-300 md:order-2 md:my-0 flex flex-row items-center"
       >
         <!--© 2025 Stocknear. All rights reserved.-->
         <a

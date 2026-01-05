@@ -654,7 +654,7 @@
     </div>
   {:else}
     <div
-      class="mt-10 w-full flex justify-center items-center m-auto text-lg font-semibold text-gray-500 dark:text-zinc-500"
+      class="mt-10 w-full flex justify-center items-center m-auto text-lg font-semibold text-gray-800 dark:text-zinc-300"
     >
       No data Available
     </div>

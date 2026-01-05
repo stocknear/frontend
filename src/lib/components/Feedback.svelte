@@ -168,7 +168,7 @@
       <!-- Describe your issue or suggestion -->
       <div class="space-y-2">
         <label
-          class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+          class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
           >Describe your issue or suggestion:</label
         >
         <textarea
@@ -181,7 +181,7 @@
       <!-- Feedback for page -->
       <div class="space-y-2">
         <label
-          class="block text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+          class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
           >Feedback for page:</label
         >
         <input

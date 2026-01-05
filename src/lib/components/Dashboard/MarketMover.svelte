@@ -46,7 +46,7 @@
         <table class="w-full text-sm sm:text-[0.95rem]">
           <thead>
             <tr
-              class="text-xs uppercase tracking-widest text-gray-500 dark:text-zinc-500"
+              class="text-xs uppercase tracking-widest text-gray-800 dark:text-zinc-300"
             >
               <th class="py-2.5 px-3 sm:px-4 text-left font-semibold">
                 Symbol
@@ -146,7 +146,7 @@
         <table class="w-full text-sm sm:text-[0.95rem]">
           <thead>
             <tr
-              class="text-xs uppercase tracking-widest text-gray-500 dark:text-zinc-500"
+              class="text-xs uppercase tracking-widest text-gray-800 dark:text-zinc-300"
             >
               <th class="py-2.5 px-3 sm:px-4 text-left font-semibold">
                 Symbol

@@ -454,7 +454,7 @@
                     # {rank ?? "n/a"}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
                     Out of {numOfAnalysts ?? "n/a"} analysts
                   </div>
@@ -468,7 +468,7 @@
                     {totalRatings ?? "n/a"}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
                     Total ratings
                   </div>
@@ -509,7 +509,7 @@
                     {/if}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
                     Success rate
                   </div>
@@ -550,7 +550,7 @@
                     {/if}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-500"
+                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
                     Average return
                   </div>
