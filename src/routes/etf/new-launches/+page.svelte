@@ -491,7 +491,7 @@
                     Pro Subscription
                   </h2>
                   <ArrowLogo
-                    class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
+                    class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
                   />
                 </div>
                 <span
@@ -516,7 +516,7 @@
                   Top Analyst
                 </h2>
                 <ArrowLogo
-                  class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
+                  class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
                 />
               </div>
               <span
@@ -539,7 +539,7 @@
                   Congress Trading
                 </h2>
                 <ArrowLogo
-                  class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
+                  class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
                 />
               </div>
               <span

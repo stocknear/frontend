@@ -987,7 +987,7 @@
               {#each RANGE_OPTIONS as option}
                 <button
                   type="button"
-                  class={`cursor-pointer dd flex w-full items-center justify-between whitespace-nowrap px-4 py-2 text-sm sm:hover:text-violet-600 dark:sm:hover:text-violet-400 sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60`}
+                  class={`cursor-pointer dd flex w-full items-center justify-between whitespace-nowrap px-4 py-2 text-sm sm:hover:text-violet-800 dark:sm:hover:text-violet-400 sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60`}
                   title={option.label}
                   on:click={(event) => handleRangeSelection(option, event)}
                 >

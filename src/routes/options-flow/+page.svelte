@@ -1833,7 +1833,7 @@
                           class="whitespace-nowrap {item?.id ===
                           selectedStrategy
                             ? 'text-violet-600 dark:text-violet-400'
-                            : ''} cursor-pointer sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+                            : ''} cursor-pointer sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                         >
                           {item?.title?.length > 20
                             ? item?.title?.slice(0, 20) + "..."
@@ -2318,7 +2318,7 @@
                   <div class="flex items-center">
                     <button
                       on:click={() => handleDeleteRule(row?.rule)}
-                      class="mr-1.5 cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-rose-600 dark:hover:text-rose-400 transition focus:outline-hidden"
+                      class="mr-1.5 cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-rose-600 dark:hover:text-rose-400 transition focus:outline-hidden"
                       title="Remove filter"
                     >
                       <svg
@@ -2547,7 +2547,7 @@
                                   {#if ruleCondition[row?.rule] === "between"}
                                     {#if newValue && row?.step[index + 1]}
                                       <DropdownMenu.Item
-                                        class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+                                        class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                                       >
                                         <button
                                           on:click={() => {
@@ -2570,7 +2570,7 @@
                                     {/if}
                                   {:else}
                                     <DropdownMenu.Item
-                                      class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+                                      class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                                     >
                                       <button
                                         on:click={() => {
@@ -2590,7 +2590,7 @@
                               {:else if categoricalRules?.includes(row?.rule)}
                                 {#each row?.step as item}
                                   <DropdownMenu.Item
-                                    class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+                                    class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                                   >
                                     <div
                                       class="flex items-center"

@@ -45,7 +45,7 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+          class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
           Total Stocks
         </div>
@@ -59,7 +59,7 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+          class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
           Total Market Cap
         </div>
@@ -73,7 +73,7 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+          class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
           Total Revenue
         </div>

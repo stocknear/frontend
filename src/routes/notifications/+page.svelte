@@ -730,7 +730,7 @@
                     class="w-auto min-w-64 max-w-80 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <DropdownMenu.Label
-                      class="text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                      class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                     >
                       Customize your notifications
                     </DropdownMenu.Label>
@@ -739,7 +739,7 @@
                       {#if channelOptions.length > 0}
                         {#each channelOptions as option (option.key)}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                           >
                             <label
                               class="inline-flex justify-between w-full items-center cursor-pointer"
@@ -1102,7 +1102,7 @@
                     <DropdownMenu.Group class="pb-2">
                       {#each rowsPerPageOptions as item}
                         <DropdownMenu.Item
-                          class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                          class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                         >
                           <label
                             on:click={() => changeRowsPerPage(item)}
@@ -1180,7 +1180,7 @@
               <div class="w-full flex justify-between items-center p-3 mt-3">
                 <h2 class="text-start text-lg font-semibold ml-3">Watchlist</h2>
                 <ArrowLogo
-                  class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
+                  class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
                 />
               </div>
               <span
@@ -1203,7 +1203,7 @@
                   Portfolio Tracker
                 </h2>
                 <ArrowLogo
-                  class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
+                  class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
                 />
               </div>
               <span

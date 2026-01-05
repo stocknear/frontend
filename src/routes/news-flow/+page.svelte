@@ -263,13 +263,13 @@
                     })()}"
                   >
                     <td
-                      class="hidden sm:inline-block pr-2 pt-3.5 align-top text-xs whitespace-nowrap font-medium text-gray-400 dark:text-zinc-500"
+                      class="hidden sm:inline-block pr-2 pt-3.5 align-top text-xs whitespace-nowrap font-medium text-gray-800 dark:text-zinc-300"
                     >
                       {formatDate(item?.date, true)}
                     </td>
                     <td class="py-3 pl-2 text-gray-700 dark:text-zinc-300">
                       <span
-                        class="sm:hidden text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                        class="sm:hidden text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                         >{formatDate(item?.date, true)} ago -</span
                       >
                       {item?.text}
@@ -329,7 +329,7 @@
                   Market Flow
                 </h2>
                 <ArrowLogo
-                  class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
+                  class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
                 />
               </div>
               <span
@@ -352,7 +352,7 @@
                   Options Flow
                 </h2>
                 <ArrowLogo
-                  class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
+                  class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
                 />
               </div>
               <span
@@ -374,7 +374,7 @@
                   Dark Pool Flow
                 </h2>
                 <ArrowLogo
-                  class="w-6 h-6 mr-3 shrink-0 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition"
+                  class="w-6 h-6 mr-3 shrink-0 text-gray-800 dark:text-zinc-300 group-hover:text-violet-500 transition"
                 />
               </div>
               <span

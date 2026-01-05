@@ -1060,7 +1060,7 @@
                           class="inline-block ml-0.5 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                           href="/pricing"
                           >Pro Subscription <svg
-                            class="w-4 h-4 mb-1 inline-block text-gray-400 dark:text-zinc-500"
+                            class="w-4 h-4 mb-1 inline-block text-gray-800 dark:text-zinc-300"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             ><path

@@ -1032,7 +1032,7 @@
                         {#each prebuiltStrategy as strategy}
                           <DropdownMenu.Item
                             on:click={() => changeStrategy(strategy)}
-                            class="cursor-pointer rounded-lg sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                            class="cursor-pointer rounded-lg sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                           >
                             <span>{strategy.name}</span>
                             {#if strategy?.sentiment}
@@ -1171,7 +1171,7 @@
                                     on:click={() => {
                                       handleExpirationDate(item, index);
                                     }}
-                                    class="cursor-pointer rounded-lg sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                                    class="cursor-pointer rounded-lg sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                                   >
                                     {formatDate(item)}
                                   </DropdownMenu.Item>
@@ -1217,7 +1217,7 @@
                                     on:click={() => {
                                       handleStrikePrice(item, index);
                                     }}
-                                    class="cursor-pointer rounded-lg sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                                    class="cursor-pointer rounded-lg sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                                   >
                                     {item}
                                   </DropdownMenu.Item>

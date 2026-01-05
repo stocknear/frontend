@@ -710,7 +710,7 @@
                 <li>
                   Send an email to <a
                     href={`mailto:${emailAddress}`}
-                    class="hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                     >{emailAddress}</a
                   >
                 </li>
@@ -720,7 +720,7 @@
                     rel="noopener noreferrer"
                     target="_blank"
                     href="https://www.reddit.com/r/stocknear/"
-                    class="hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >
                     r/stocknear</a
                   >.
@@ -730,7 +730,7 @@
                     rel="noopener noreferrer"
                     target="_blank"
                     href="https://discord.com/invite/hCwZMMZ2MT"
-                    class="hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                     >Discord Channel</a
                   >.
                 </li>

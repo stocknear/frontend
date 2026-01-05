@@ -3275,7 +3275,7 @@ const handleKeyDown = (event) => {
                   {#each popularStrategyList as item}
                     <DropdownMenu.Item
                       on:click={() => popularStrategy(item?.key)}
-                      class="cursor-pointer sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+                      class="cursor-pointer sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                     >
                       {item?.label}
                     </DropdownMenu.Item>
@@ -3366,7 +3366,7 @@ const handleKeyDown = (event) => {
                       }}
                       class=" {item?.id === selectedStrategy
                         ? 'text-violet-600 dark:text-violet-400'
-                        : ''} cursor-pointer sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+                        : ''} cursor-pointer sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                     >
                       {item?.title?.length > 20
                         ? item?.title?.slice(0, 20) + "..."
@@ -3525,7 +3525,7 @@ const handleKeyDown = (event) => {
               >
                 {#each quickSearchResults as result, index}
                   <button
-                    class="cursor-pointer w-full px-2 py-2 flex flex-row items-center text-gray-700 dark:text-zinc-200 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 {index ===
+                    class="cursor-pointer w-full px-2 py-2 flex flex-row items-center text-gray-700 dark:text-zinc-200 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 {index ===
                     selectedQuickSearchIndex
                       ? 'text-violet-600 dark:text-violet-400'
                       : ''}"
@@ -3665,7 +3665,7 @@ const handleKeyDown = (event) => {
               <div class="flex items-center">
                 <button
                   on:click={() => handleDeleteRule(row?.rule)}
-                  class="mr-1.5 cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-rose-600 dark:hover:text-rose-400 transition focus:outline-hidden"
+                  class="mr-1.5 cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-rose-600 dark:hover:text-rose-400 transition focus:outline-hidden"
                   title="Remove filter"
                   >{#if ruleOfList?.find((item) => item.name === row?.rule)?.value !== "any"}
                     <svg
@@ -3923,7 +3923,7 @@ const handleKeyDown = (event) => {
                               {#if ruleCondition[row?.rule] === "between"}
                                 {#if newValue && row?.step[index + 1]}
                                   <DropdownMenu.Item
-                                    class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+                                    class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                                   >
                                     <button
                                       on:click={() => {
@@ -3946,7 +3946,7 @@ const handleKeyDown = (event) => {
                                 {/if}
                               {:else}
                                 <DropdownMenu.Item
-                                  class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+                                  class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                                 >
                                   <button
                                     on:click={() => {
@@ -3966,7 +3966,7 @@ const handleKeyDown = (event) => {
                           {:else if checkedRules?.includes(row?.rule)}
                             {#each row?.step as item}
                               <DropdownMenu.Item
-                                class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+                                class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                               >
                                 <div
                                   class="flex items-center"
@@ -3993,7 +3993,7 @@ const handleKeyDown = (event) => {
                           {:else}
                             {#each testList.length > 0 && searchQuery?.length > 0 ? testList : searchQuery?.length > 0 && testList?.length === 0 ? [] : row?.rule === "country" ? listOfRelevantCountries : row?.rule === "sector" ? sectorList : row?.rule === "industry" ? industryList : ["analystRating", "topAnalystRating", "score"]?.includes(ruleName) ? ["Strong Buy", "Buy", "Hold", "Sell", "Strong Sell"] : [] as item}
                               <DropdownMenu.Item
-                                class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+                                class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                               >
                                 <div
                                   class="flex items-center"
@@ -4587,7 +4587,7 @@ const handleKeyDown = (event) => {
                 <DropdownMenu.Group class="pb-2">
                   {#each rowsPerPageOptions as item}
                     <DropdownMenu.Item
-                      class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                      class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                     >
                       <label
                         on:click={() => changeRowsPerPage(item)}

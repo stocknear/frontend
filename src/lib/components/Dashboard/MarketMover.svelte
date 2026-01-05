@@ -26,7 +26,7 @@
               : "Afterhours"} Gainers
         </h2>
         <svg
-          class="h-5 w-5 text-gray-400 dark:text-zinc-500 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
+          class="h-5 w-5 text-gray-800 dark:text-zinc-300 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
           viewBox="0 0 20 20"
           fill="currentColor"
           style="max-width:40px"
@@ -126,7 +126,7 @@
               : "Afterhours"} Losers
         </h2>
         <svg
-          class="h-5 w-5 text-gray-400 dark:text-zinc-500 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
+          class="h-5 w-5 text-gray-800 dark:text-zinc-300 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
           viewBox="0 0 20 20"
           fill="currentColor"
           style="max-width:40px"

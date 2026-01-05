@@ -614,7 +614,7 @@
                               {/if}
                               <!--
                               <DropdownMenu.Item
-                                class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                                class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                               >
                                 <label
                                   on:click|capture={(event) => {
@@ -917,7 +917,7 @@
                 focusable="false"
                 data-prefix="fasr"
                 data-icon="rectangle-vertical-history"
-                class="w-5 h-5 inline-block text-gray-400 dark:text-zinc-500"
+                class="w-5 h-5 inline-block text-gray-800 dark:text-zinc-300"
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 576 512"
@@ -987,7 +987,7 @@
                 focusable="false"
                 data-prefix="fasr"
                 data-icon="rectangle-vertical-history"
-                class="w-5 h-5 inline-block text-gray-400 dark:text-zinc-500"
+                class="w-5 h-5 inline-block text-gray-800 dark:text-zinc-300"
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 576 512"
@@ -1030,7 +1030,7 @@
                 focusable="false"
                 data-prefix="fasr"
                 data-icon="rectangle-vertical-history"
-                class="w-5 h-5 inline-block text-gray-400 dark:text-zinc-500"
+                class="w-5 h-5 inline-block text-gray-800 dark:text-zinc-300"
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 576 512"

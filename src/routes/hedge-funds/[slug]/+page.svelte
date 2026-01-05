@@ -143,7 +143,7 @@
                 <div class="flex space-x-3 pb-3 lg:border-none lg:pb-0">
                   <div class="shrink-0">
                     <svg
-                      class="h-16 w-16 sm:h-20 sm:w-20 text-gray-400 dark:text-zinc-500"
+                      class="h-16 w-16 sm:h-20 sm:w-20 text-gray-800 dark:text-zinc-300"
                       fill="currentColor"
                       viewBox="0 0 24 24"
                       style="max-width:100px"
@@ -177,7 +177,7 @@
                     {abbreviateNumber(hedgeFundStats?.marketValue)}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
                     Market Value
                   </div>
@@ -194,7 +194,7 @@
                     )}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
                     # of Holdings
                   </div>
@@ -208,7 +208,7 @@
                     {hedgeFundStats?.averageHoldingPeriod} months
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
                     Avg. Holding Period
                   </div>
@@ -246,7 +246,7 @@
                     {/if}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
                     Win Rate
                   </div>
@@ -285,7 +285,7 @@
                     {/if}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
                     Peformance 3-Years
                   </div>

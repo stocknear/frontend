@@ -1188,7 +1188,7 @@
             alt="Stocknear Logo"
           />
           <span
-            class="text-gray-900 dark:text-white font-semibold tracking-tight ml-2 text-xl"
+            class="text-gray-900 dark:text-white sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition font-semibold tracking-tight ml-2 text-xl"
             >Stocknear</span
           >
         </a>
@@ -1223,7 +1223,7 @@
                     builders={[builder]}
                   >
                     <svg
-                      class="h-[28px] w-[28px] overflow-hidden rounded-full text-gray-500 dark:text-zinc-400"
+                      class="h-[28px] w-[28px] overflow-hidden rounded-full text-gray-500 dark:text-zinc-400 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       ><path
@@ -1242,7 +1242,7 @@
                 >
                   <a href="/profile" class="cursor-pointer">
                     <DropdownMenu.Item
-                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition cursor-pointer"
+                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition cursor-pointer"
                     >
                       My Account
                     </DropdownMenu.Item>
@@ -1253,7 +1253,7 @@
 
                   <a href="/portfolio" class="cursor-pointer">
                     <DropdownMenu.Item
-                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition cursor-pointer"
+                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition cursor-pointer"
                     >
                       Portfolio
                     </DropdownMenu.Item>
@@ -1261,14 +1261,14 @@
 
                   <a href="/watchlist/stocks" class="cursor-pointer">
                     <DropdownMenu.Item
-                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition cursor-pointer"
+                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition cursor-pointer"
                     >
                       Watchlist
                     </DropdownMenu.Item>
                   </a>
                   <a href="/price-alert" class="cursor-pointer">
                     <DropdownMenu.Item
-                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition cursor-pointer"
+                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition cursor-pointer"
                     >
                       Price Alert
                     </DropdownMenu.Item>
@@ -1276,7 +1276,7 @@
 
                   <button
                     on:click={handleModeChange}
-                    class="cursor-pointer w-full sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition relative flex cursor-default select-none items-center rounded px-2 py-1.5 text-sm outline-hidden data-disabled:pointer-events-none"
+                    class="cursor-pointer w-full sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition relative flex cursor-default select-none items-center rounded px-2 py-1.5 text-sm outline-hidden data-disabled:pointer-events-none"
                   >
                     <span>{$mode === "light" ? "Dark" : "Light"} Mode</span>
                     <span class="sr-only">Toggle theme</span>
@@ -1292,7 +1292,7 @@
                       class="w-full text-start cursor-pointer"
                     >
                       <DropdownMenu.Item
-                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition cursor-pointer"
+                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition cursor-pointer"
                       >
                         <svg
                           class="lucide lucide-log-out mr-2 w-3.5 h-3.5 transform scale-x-[-1]"
@@ -1344,7 +1344,7 @@
                     alt="Stocknear Logo"
                   />
                   <span
-                    class="text-gray-900 dark:text-white text-lg font-semibold tracking-tight"
+                    class="text-gray-900 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition dark:text-white sm:hover:text-violet-800 dark:sm:hover:text-violet-400 text-lg font-semibold tracking-tight"
                     >Stocknear</span
                   >
                 </a>

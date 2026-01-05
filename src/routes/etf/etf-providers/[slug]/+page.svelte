@@ -334,7 +334,7 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+          class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
           Listed Funds
         </div>
@@ -348,7 +348,7 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+          class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
           Total Assets
         </div>
@@ -362,7 +362,7 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+          class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
         >
           Average Cost
         </div>
@@ -586,7 +586,7 @@
                   <DropdownMenu.Group class="pb-2">
                     {#each rowsPerPageOptions as item}
                       <DropdownMenu.Item
-                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                       >
                         <label
                           on:click={() => changeRowsPerPage(item)}

@@ -525,7 +525,7 @@
             {:else if data?.user?.tier !== "Pro"}
               <a
                 href="/pricing"
-                class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all text-gray-400 dark:text-zinc-500 hover:text-gray-900 dark:hover:text-white flex items-center"
+                class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all text-gray-800 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white flex items-center"
               >
                 {item}
                 <svg

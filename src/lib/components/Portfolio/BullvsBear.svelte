@@ -488,7 +488,7 @@
               class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
             >
               <svg
-                class="w-4 h-4 text-gray-400 dark:text-zinc-500"
+                class="w-4 h-4 text-gray-800 dark:text-zinc-300"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -504,7 +504,7 @@
                   class="flex items-start gap-2 text-sm text-gray-700 dark:text-zinc-200"
                 >
                   <svg
-                    class="w-4 h-4 text-gray-400 dark:text-zinc-500 mt-0.5 flex-shrink-0"
+                    class="w-4 h-4 text-gray-800 dark:text-zinc-300 mt-0.5 flex-shrink-0"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -527,7 +527,7 @@
                 class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
               >
                 <svg
-                  class="w-4 h-4 text-gray-400 dark:text-zinc-500"
+                  class="w-4 h-4 text-gray-800 dark:text-zinc-300"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -547,7 +547,7 @@
                     class="flex items-start gap-2 text-sm text-gray-700 dark:text-zinc-200"
                   >
                     <svg
-                      class="w-4 h-4 text-gray-400 dark:text-zinc-500 mt-0.5 flex-shrink-0"
+                      class="w-4 h-4 text-gray-800 dark:text-zinc-300 mt-0.5 flex-shrink-0"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -570,7 +570,7 @@
               class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
             >
               <svg
-                class="w-4 h-4 text-gray-400 dark:text-zinc-500"
+                class="w-4 h-4 text-gray-800 dark:text-zinc-300"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

@@ -147,7 +147,7 @@
       </h1>
       <label
         for="feedbackModalToggle"
-        class="inline-block cursor-pointer text-[1.6rem] text-gray-400 dark:text-zinc-500 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="inline-block cursor-pointer text-[1.6rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         aria-label="Close"
       >
         <svg

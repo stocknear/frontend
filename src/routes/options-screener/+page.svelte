@@ -1504,7 +1504,7 @@
                       }}
                       class="whitespace-nowrap {item?.id === selectedStrategy
                         ? 'text-violet-600 dark:text-violet-400'
-                        : ''} cursor-pointer sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+                        : ''} cursor-pointer sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                     >
                       {item?.title?.length > 20
                         ? item?.title?.slice(0, 20) + "..."
@@ -1749,7 +1749,7 @@
                         }}
                         class="{selectedDate === item?.date
                           ? 'text-violet-600 dark:text-violet-400'
-                          : ''} sm:hover:text-violet-600 dark:sm:hover:text-violet-400 cursor-pointer"
+                          : ''} sm:hover:text-violet-800 dark:sm:hover:text-violet-400 cursor-pointer"
                       >
                         {formatDate(item?.date)}
                         ({item?.contractLength?.toLocaleString("en-US")})
@@ -1757,7 +1757,7 @@
                     {:else}
                       <DropdownMenu.Item
                         on:click={() => goto("/pricing")}
-                        class="cursor-pointer sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+                        class="cursor-pointer sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                       >
                         <div class="flex flex-row items-center gap-x-2">
                           <span>
@@ -1915,7 +1915,7 @@
               <div class="flex items-center">
                 <button
                   on:click={() => handleDeleteRule(row?.rule)}
-                  class="mr-1.5 cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-rose-600 dark:hover:text-rose-400 transition focus:outline-hidden"
+                  class="mr-1.5 cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-rose-600 dark:hover:text-rose-400 transition focus:outline-hidden"
                   title="Remove filter"
                   >{#if ruleOfList?.find((item) => item.name === row?.rule)?.value !== "any"}
                     <svg
@@ -2147,7 +2147,7 @@
                               {#if ruleCondition[row?.rule] === "between"}
                                 {#if newValue && row?.step[index + 1]}
                                   <DropdownMenu.Item
-                                    class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+                                    class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                                   >
                                     <button
                                       on:click={() => {
@@ -2170,7 +2170,7 @@
                                 {/if}
                               {:else}
                                 <DropdownMenu.Item
-                                  class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+                                  class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                                 >
                                   <button
                                     on:click={() => {
@@ -2190,7 +2190,7 @@
                           {:else if checkedRules?.includes(row?.rule)}
                             {#each row?.step as item}
                               <DropdownMenu.Item
-                                class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+                                class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                               >
                                 <div
                                   class="flex items-center"
@@ -2652,7 +2652,7 @@
                 <DropdownMenu.Group class="pb-2">
                   {#each rowsPerPageOptions as item}
                     <DropdownMenu.Item
-                      class="sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                      class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                     >
                       <label
                         on:click={() => changeRowsPerPage(item)}

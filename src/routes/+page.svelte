@@ -142,7 +142,7 @@
           >XMAS25</span
         >
         <svg
-          class="w-4 h-4 text-gray-400 dark:text-zinc-500 group-hover:translate-x-0.5 transition-transform"
+          class="w-4 h-4 text-gray-800 dark:text-zinc-300 group-hover:translate-x-0.5 transition-transform"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

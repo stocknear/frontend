@@ -993,7 +993,7 @@
         </div>
         <p class="mt-2 text-sm">Essential tools for individual investors.</p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
-          <span class="text-sm text-gray-400 dark:text-zinc-500 line-through">
+          <span class="text-sm text-gray-800 dark:text-zinc-300 line-through">
             {mode ? "$10" : "$15"}
           </span>
           <span class="text-4xl font-semibold">
@@ -1006,7 +1006,7 @@
             ? 'hidden'
             : ''}"
         >
-          <span class="text-gray-400 dark:text-zinc-500 line-through mr-2">
+          <span class="text-gray-800 dark:text-zinc-300 line-through mr-2">
             Billed annually ($120)
           </span>
           <span class="text-gray-700 dark:text-zinc-200">Now $60</span>
@@ -1510,7 +1510,7 @@
           Professional tools at retail pricing.
         </p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
-          <span class="text-sm text-gray-400 dark:text-zinc-500 line-through">
+          <span class="text-sm text-gray-800 dark:text-zinc-300 line-through">
             {mode ? "$30" : "$45"}
           </span>
           <span class="text-4xl font-semibold">
@@ -1523,7 +1523,7 @@
             ? 'hidden'
             : ''}"
         >
-          <span class="text-gray-400 dark:text-zinc-500 line-through mr-2">
+          <span class="text-gray-800 dark:text-zinc-300 line-through mr-2">
             Billed annually ($360)
           </span>
           <span class="text-gray-700 dark:text-zinc-200">Now $180</span>

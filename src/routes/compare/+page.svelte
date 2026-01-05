@@ -1002,7 +1002,7 @@
                             on:click={() => changeCategory(item)}
                             class="{selectedPlotCategory?.name === item?.name
                               ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                              : ''} cursor-pointer rounded-lg sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                              : ''} cursor-pointer rounded-lg sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                           >
                             {item?.name}
                           </DropdownMenu.Item>

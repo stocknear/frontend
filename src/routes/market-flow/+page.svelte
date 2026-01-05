@@ -471,7 +471,7 @@
                 class="net-volume-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center"
+                  class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
                 >
                   <span>Net Volume</span>
                 </div>
@@ -511,7 +511,7 @@
                 class="net-call-premium-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center"
+                  class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
                 >
                   <span>Net Call Prem</span>
                 </div>
@@ -551,7 +551,7 @@
                 class="net-put-premium-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center"
+                  class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
                 >
                   <span>Net Put Prem</span>
                 </div>
@@ -591,7 +591,7 @@
                 class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 mb-2 flex items-center"
+                  class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
                 >
                   <span>Most Active Sector</span>
                 </div>
@@ -755,7 +755,7 @@
                     >
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-400 dark:text-zinc-500 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>Today's Open Interest</span>
                           <InfoModal
@@ -794,7 +794,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-400 dark:text-zinc-500 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>Put-Call Ratio</span>
                           <InfoModal
@@ -832,7 +832,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-400 dark:text-zinc-500 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>Put Open Interest</span>
                           <InfoModal
@@ -870,7 +870,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-400 dark:text-zinc-500 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>Call Open Interest</span>
                           <InfoModal
@@ -929,7 +929,7 @@
                     >
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-400 dark:text-zinc-500 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>Today's Volume</span>
                           <InfoModal
@@ -968,7 +968,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-400 dark:text-zinc-500 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>Put-Call Ratio</span>
                           <InfoModal
@@ -1006,7 +1006,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-400 dark:text-zinc-500 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>Put Volume</span>
                           <InfoModal
@@ -1044,7 +1044,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-400 dark:text-zinc-500 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm uppercase tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>Call Volume</span>
                           <InfoModal

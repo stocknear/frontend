@@ -342,7 +342,7 @@
                           </svg>
                         {:else}
                           <svg
-                            class="w-5 h-5 text-gray-400 dark:text-zinc-500"
+                            class="w-5 h-5 text-gray-800 dark:text-zinc-300"
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="currentColor"
@@ -371,7 +371,7 @@
                     # {performanceRank ?? "n/a"}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
                     Rank
                   </div>
@@ -391,7 +391,7 @@
                         : "n/a"}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
                     Trades Scored
                   </div>
@@ -420,7 +420,7 @@
                     >
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
                     Success Rate
                   </div>
@@ -448,7 +448,7 @@
                     >
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                   >
                     Avg. Return
                   </div>
@@ -469,7 +469,7 @@
                   }).format(totalAmountTraded)}
                 </div>
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                  class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                 >
                   Total Amount
                 </div>
@@ -484,7 +484,7 @@
                   {numOfTrades?.toLocaleString("en-US")}
                 </div>
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                  class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                 >
                   Transaction
                 </div>
@@ -506,7 +506,7 @@
                     : "n/a"}
                 </div>
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                  class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                 >
                   Last Transaction
                 </div>
@@ -520,7 +520,7 @@
                   {buySellRatio?.toFixed(2)}
                 </div>
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                  class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                 >
                   Buy/Sell
                 </div>
@@ -693,7 +693,7 @@
                             on:click={() => openGraph(item?.ticker)}
                             class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
                             ><svg
-                              class="w-5 h-5 text-gray-400 dark:text-zinc-500 transition {(checkedSymbol ===
+                              class="w-5 h-5 text-gray-800 dark:text-zinc-300 transition {(checkedSymbol ===
                                 item?.ticker ?? item?.symbol)
                                 ? 'rotate-180'
                                 : ''}"
@@ -907,7 +907,7 @@
                       <DropdownMenu.Group class="pb-2">
                         {#each rowsPerPageOptions as item}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                           >
                             <label
                               on:click={() => changeRowsPerPage(item)}

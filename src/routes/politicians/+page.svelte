@@ -554,7 +554,7 @@
                   <DropdownMenu.Group>
                     {#each ["Democratic", "Republican", "Other"] as item}
                       <DropdownMenu.Item
-                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                       >
                         <div class="flex items-center">
                           <label
@@ -639,7 +639,7 @@
                               item?.id,
                             )
                               ? 'text-gray-700 dark:text-zinc-200'
-                              : 'text-gray-400 dark:text-zinc-500'}"
+                              : 'text-gray-800 dark:text-zinc-300'}"
                           >
                             <svg
                               class="{item?.id === animationId
@@ -791,7 +791,7 @@
                       <DropdownMenu.Group class="pb-2">
                         {#each rowsPerPageOptions as item}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                           >
                             <label
                               on:click={() => changeRowsPerPage(item)}

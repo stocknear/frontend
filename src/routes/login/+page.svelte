@@ -154,7 +154,7 @@
             {/if}
           </div>
 
-          <div class="divider text-gray-400 dark:text-zinc-500 py-6">
+          <div class="divider text-gray-800 dark:text-zinc-300 py-6">
             <span class="text-[11px] uppercase tracking-[0.3em] z-10"
               >Or login using</span
             >

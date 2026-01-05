@@ -212,7 +212,7 @@
                 <div class="flex flex-col items-center -mr-6">
                     <div class="-ml-5 flex flex-row items-stretch h-[90px]">
                         <div
-                            class="flex flex-col justify-between pr-1 text-[0.55rem] text-gray-400 dark:text-zinc-500 select-none text-right w-4"
+                            class="flex flex-col justify-between pr-1 text-[0.55rem] text-gray-800 dark:text-zinc-300 select-none text-right w-4"
                         >
                             <div>2</div>
                             <div>1</div>
@@ -231,7 +231,7 @@
                         </div>
                     </div>
                     <div
-                        class="ml-1 mb-1 mt-1 text-[0.4rem] sm:text-[0.5rem] uppercase tracking-wide text-gray-400 dark:text-zinc-500 font-semibold"
+                        class="ml-1 mb-1 mt-1 text-[0.4rem] sm:text-[0.5rem] uppercase tracking-wide text-gray-800 dark:text-zinc-300 font-semibold"
                     >
                         Relative Vol
                     </div>
@@ -252,7 +252,7 @@
                         class="min-w-0 text-[0.6rem] sm:text-[0.7rem] leading-none"
                     >
                         <span
-                            class="py-0.5 block uppercase font-semibold text-gray-400 dark:text-zinc-500 tracking-wide"
+                            class="py-0.5 block uppercase font-semibold text-gray-800 dark:text-zinc-300 tracking-wide"
                             >Bull</span
                         >
                         <span
@@ -267,7 +267,7 @@
 
                     <!-- center -->
                     <div
-                        class="min-w-0 text-center text-[0.6rem] font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500 leading-tight whitespace-nowrap"
+                        class="min-w-0 text-center text-[0.6rem] font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 leading-tight whitespace-nowrap"
                     >
                         Option Flow
                     </div>
@@ -277,7 +277,7 @@
                         class="min-w-0 text-[0.6rem] sm:text-[0.7rem] leading-none text-right"
                     >
                         <span
-                            class="py-0.5 block uppercase font-semibold text-gray-400 dark:text-zinc-500 tracking-wide"
+                            class="py-0.5 block uppercase font-semibold text-gray-800 dark:text-zinc-300 tracking-wide"
                             >Bear</span
                         >
                         <span

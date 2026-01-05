@@ -15,7 +15,7 @@
             News Flow
         </h2>
         <svg
-            class="h-5 w-5 text-gray-400 dark:text-zinc-500 transition group-hover:text-gray-700 dark:group-hover:text-zinc-200"
+            class="h-5 w-5 text-gray-800 dark:text-zinc-300 transition group-hover:text-gray-700 dark:group-hover:text-zinc-200"
             viewBox="0 0 20 20"
             fill="currentColor"
             style="max-width:40px"
@@ -36,14 +36,14 @@
                 {#each wiim as item}
                     <tr class="border-b border-gray-300 dark:border-zinc-700"
                         ><td
-                            class="hidden sm:inline-block pr-2 pt-3 align-top text-xs whitespace-nowrap font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                            class="hidden sm:inline-block pr-2 pt-4 align-top text-xs whitespace-nowrap font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300"
                             >{formatDate(item?.date, true)}
                         </td>
                         <td
                             class="py-3 sm:pl-2 leading-6 text-gray-700 dark:text-zinc-200"
                         >
                             <span
-                                class="sm:hidden text-xs uppercase tracking-wide text-gray-400 dark:text-zinc-500 font-semibold"
+                                class="sm:hidden text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300 font-semibold"
                                 >{formatDate(item?.date, true)} ago -
                             </span>
                             {item?.text}

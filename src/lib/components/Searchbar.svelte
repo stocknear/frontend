@@ -358,10 +358,10 @@
           class="relative w-full"
         >
           <div
-            class="absolute inset-y-0 left-0 flex items-center pl-2.5 text-gray-400 dark:text-zinc-500"
+            class="absolute inset-y-0 left-0 flex items-center pl-2.5 text-gray-800 dark:text-zinc-300"
           >
             <svg
-              class="h-5 w-5 text-gray-400 dark:text-zinc-500"
+              class="h-5 w-5 text-gray-800 dark:text-zinc-300"
               fill="none"
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -382,7 +382,7 @@
             aria-label="Company or stock symbol..."
           />
           <div
-            class="absolute inset-y-0 right-0 flex items-center gap-x-2 px-3 text-gray-400 dark:text-zinc-500 font-semibold"
+            class="absolute inset-y-0 right-0 flex items-center gap-x-2 px-3 text-gray-800 dark:text-zinc-300 font-semibold"
           >
             {#if isLoading}
               <span class="loading loading-spinner loading-sm"></span>
@@ -420,7 +420,7 @@
         >
           {#if inputValue?.length > 0 && searchBarData?.length > 0}
             <div
-              class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500 w-full"
+              class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 w-full"
             >
               Suggestions
             </div>
@@ -447,7 +447,7 @@
             {/each}
           {:else if inputValue?.length === 0 || !showSuggestions}
             <div
-              class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500 w-full"
+              class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 w-full"
             >
               {searchHistory?.length > 0 ? "Recent" : "Popular"}
             </div>
@@ -566,7 +566,7 @@
 
         <button class="absolute inset-0 right-auto group" aria-label="Search">
           <svg
-            class="w-4 h-4 shrink-0 fill-current ml-4 mr-2 text-gray-400 dark:text-zinc-500"
+            class="w-4 h-4 shrink-0 fill-current ml-4 mr-2 text-gray-800 dark:text-zinc-300"
             viewBox="0 0 16 16"
             xmlns="http://www.w3.org/2000/svg"
             ><path
@@ -585,7 +585,7 @@
     >
       {#if inputValue?.length > 0 && searchBarData?.length > 0}
         <div
-          class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500 w-full"
+          class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 w-full"
         >
           Suggestions
         </div>
@@ -611,7 +611,7 @@
         {/each}
       {:else if inputValue?.length === 0 || !showSuggestions}
         <div
-          class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500 w-full"
+          class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 w-full"
         >
           {searchHistory?.length > 0 ? "Recent" : "Popular"}
         </div>

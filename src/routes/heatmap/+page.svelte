@@ -288,7 +288,7 @@
                       <DropdownMenu.Item
                         on:click={() =>
                           getHeatMap(selectedTimePeriod, item.value)}
-                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition cursor-pointer"
+                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition cursor-pointer"
                       >
                         <span class="mr-8">{item.label}</span>
                       </DropdownMenu.Item>
@@ -337,7 +337,7 @@
                     {#each ["1D", "1W", "1M", "3M", "6M", "1Y", "3Y"] as item}
                       <DropdownMenu.Item
                         on:click={() => getHeatMap(item, selectedETF)}
-                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition cursor-pointer"
+                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition cursor-pointer"
                       >
                         <span class="mr-8">{item}</span>
                       </DropdownMenu.Item>
@@ -385,7 +385,7 @@
                   <DropdownMenu.Group>
                     {#each ["PNG", "JPG", "SVG"] as item}
                       <DropdownMenu.Item
-                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                       >
                         <div class="flex items-center">
                           <button

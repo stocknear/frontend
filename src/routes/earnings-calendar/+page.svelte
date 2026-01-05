@@ -583,7 +583,7 @@
                       {#each timeOptions as option}
                         <DropdownMenu.Item
                           on:click={() => handleTimeOptionClick(option)}
-                          class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:hover:text-violet-400 transition flex items-center justify-between"
+                          class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:hover:text-violet-400 transition flex items-center justify-between"
                         >
                           <span
                             class="flex items-center justify-between w-full"
@@ -950,7 +950,7 @@
                                 <DropdownMenu.Group class="pb-2">
                                   {#each dailyRowsPerPageOptions as item}
                                     <DropdownMenu.Item
-                                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-600 dark:sm:hover:text-violet-400 transition"
+                                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                                     >
                                       <label
                                         on:click={() =>
