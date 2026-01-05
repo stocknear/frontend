@@ -269,14 +269,14 @@
       <li>
         <a
           href="/"
-          class="text-gray-800 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+          class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           >Home</a
         >
       </li>
       <li>
         <a
           href="/politicians"
-          class="text-gray-800 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+          class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           >Politicians</a
         >
       </li>
