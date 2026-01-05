@@ -1676,14 +1676,15 @@
 </script>
 
 <SEO
-  title="Options Flow - Real-Time  Options Activity & Smart Money Tracking "
-  description="Track real-time options flow and  options activity from institutional traders. Monitor smart money movements, large block trades, and options sweeps for TSLA, NVDA, SPY and all US stocks. Free options flow scanner with live alerts."
-  keywords="options flow,  options activity, smart money, options sweeps, institutional trading, options scanner, block trades, options alerts, dark pool options, call flow, put flow"
+  title="Options Flow Scanner - Live Sweeps, Blocks & Unusual Activity"
+  description="Monitor live options flow, sweeps, and blocks across US stocks and ETFs. Spot unusual activity and short-term trade setups in real time."
+  keywords="options flow, options flow scanner, unusual options activity, sweep orders, block trades, smart money, call flow, put flow, options alerts, OPRA options flow"
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "Options Flow Scanner",
-    description: "Real-time options flow tracking and  activity scanner",
+    description:
+      "Live options flow with sweeps, blocks, and unusual activity for short-term trade setups",
     url: "https://stocknear.com/options-flow",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
@@ -1708,14 +1709,14 @@
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD",
-      description: "Free real-time options flow tracking",
+      description: "Free live options flow scanner",
     },
     featureList: [
-      "Real-time options flow",
-      "Smart money tracking",
-      "Block trade monitoring",
-      "Options sweep alerts",
-      "Institutional flow analysis",
+      "Live sweeps & blocks",
+      "Unusual options activity",
+      "Call/put flow breakdown",
+      "Premium & size filters",
+      "Short-term setup discovery",
     ],
   }}
 />

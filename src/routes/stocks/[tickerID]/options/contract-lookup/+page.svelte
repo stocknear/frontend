@@ -9,16 +9,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Options Contract Lookup | Live Analytics & Volume Data`}
-  description={`Comprehensive options contract analysis for ${$displayCompanyName} (${$stockTicker}). Real-time contract lookup with volume, open interest, bid-ask spreads, and Greeks data. Advanced filtering and search tools for options traders.`}
-  keywords={`${$stockTicker} options contracts, ${$displayCompanyName} options lookup, contract volume analysis, options open interest, bid ask spreads, options Greeks calculator, options chain analysis, ${$stockTicker} options data, contract search tool, options trading platform`}
+  title={`${$displayCompanyName} (${$stockTicker}) Options Contract Lookup`}
+  description={`Lookup ${$displayCompanyName} (${$stockTicker}) options contracts and key metrics for fast trade planning.`}
+  keywords={`${$stockTicker} options contract lookup, options chain, options metrics`}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/contract-lookup`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "WebApplication"],
     name: `${$displayCompanyName} Options Contract Lookup`,
-    description: `Professional options contract analysis and lookup tool for ${$displayCompanyName} (${$stockTicker})`,
+    description: `Options contract lookup for ${$displayCompanyName} (${$stockTicker})`,
     url: `https://stocknear.com/stocks/${$stockTicker}/options/contract-lookup`,
     applicationCategory: "FinanceApplication",
     offers: {

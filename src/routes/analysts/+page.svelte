@@ -202,15 +202,15 @@
 </script>
 
 <SEO
-  title="Top Wall Street Stock Analysts - Best Performing Equity Research"
-  description="Discover the top Wall Street stock analysts ranked by success rate and average returns. Track analyst ratings, price targets, and performance metrics from leading investment banks and research firms."
-  keywords="top wall street analysts, best stock analysts, analyst ratings, equity research analysts, analyst success rate, stock recommendations, analyst price targets, investment bank analysts, sell side research"
+  title="Analyst Rankings - Ratings That Move Stocks"
+  description="Track top analyst rankings and recent rating changes to spot catalyst-driven moves and short-term trade setups."
+  keywords="analyst rankings, analyst ratings, price target changes, upgrades downgrades, analyst catalysts, short-term trade setups"
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Top Wall Street Stock Analysts",
+    name: "Analyst Rankings",
     description:
-      "Comprehensive ranking of Wall Street equity research analysts by performance metrics",
+      "Analyst rankings and rating performance for catalyst-driven trade ideas",
     url: "https://stocknear.com/analysts",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -224,7 +224,7 @@
         {
           "@type": "ListItem",
           position: 2,
-          name: "Top Wall Street Analysts",
+          name: "Analyst Rankings",
           item: "https://stocknear.com/analysts",
         },
       ],
@@ -233,7 +233,7 @@
       "@type": "ItemList",
       name: "Wall Street Analyst Rankings",
       description:
-        "List of equity research analysts ranked by success rate and average returns",
+        "Analyst performance rankings with recent rating catalysts",
       numberOfItems: rawData?.length || 0,
     },
   }}

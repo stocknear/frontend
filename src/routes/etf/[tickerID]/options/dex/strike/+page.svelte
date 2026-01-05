@@ -8,9 +8,9 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$etfTicker}) ETF Delta Exposure by Strike Price - Greeks Analysis`}
-  description={`Comprehensive delta exposure analysis by strike price for ${$displayCompanyName} (${$etfTicker}) ETF options. Identify delta concentration levels, market maker hedging points, and systematic flow patterns across different strike prices for ETF derivatives trading.`}
-  keywords={`${$etfTicker} delta by strike, ${$displayCompanyName} ETF options strikes, delta exposure analysis, ETF options greeks, strike price analysis, ETF delta hedging`}
+  title={`${$displayCompanyName} (${$etfTicker}) DEX by Strike`}
+  description={`Delta exposure by strike for ${$displayCompanyName} (${$etfTicker}) to map hedging levels.`}
+  keywords={`${$etfTicker} DEX by strike, delta exposure, dealer hedging`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "AnalysisNewsArticle",

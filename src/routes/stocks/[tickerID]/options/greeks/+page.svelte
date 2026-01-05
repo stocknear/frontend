@@ -10,16 +10,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Options Greeks | Delta, Gamma, Theta & Vega Analysis`}
-  description={`Detailed Greeks analysis for ${$displayCompanyName} (${$stockTicker}) options. Track delta, gamma, theta, and vega to understand options risk, price sensitivity, and market maker exposure. Real-time Greeks charts with expiration and sentiment insights.`}
-  keywords={`${$stockTicker} options greeks, ${$displayCompanyName} delta gamma theta vega, options sensitivity analysis, ${$stockTicker} options chart, options risk metrics, options hedging pressure, ${$stockTicker} options sentiment`}
+  title={`${$displayCompanyName} (${$stockTicker}) Options Greeks - Delta, Gamma, Theta, Vega`}
+  description={`Monitor options Greeks for ${$displayCompanyName} (${$stockTicker}) to manage risk on short-term trades.`}
+  keywords={`${$stockTicker} options Greeks, delta gamma theta vega, options exposure`}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/greeks`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
     name: `${$displayCompanyName} Options Greeks Analysis`,
-    description: `Professional Greeks tracking and analysis for ${$displayCompanyName} (${$stockTicker}) options — including delta, gamma, theta, and vega sensitivity metrics.`,
+    description: `Options Greeks for ${$displayCompanyName} (${$stockTicker})`,
     url: `https://stocknear.com/stocks/${$stockTicker}/options/greeks`,
     applicationCategory: "FinanceApplication",
     featureList: [

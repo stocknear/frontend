@@ -8,9 +8,9 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$etfTicker}) ETF Daily Delta Exposure Analysis - Options Greeks`}
-  description={`Track daily delta exposure for ${$displayCompanyName} (${$etfTicker}) ETF options. Analyze delta-hedging flows, market maker positioning, and systematic options activity affecting ETF price movements. Essential for understanding ETF options market structure and institutional flows.`}
-  keywords={`${$etfTicker} delta exposure, ${$displayCompanyName} ETF delta, ETF options greeks, delta hedging, ETF market makers, options flow analysis, ETF systematic trading`}
+  title={`${$displayCompanyName} (${$etfTicker}) Delta Exposure (DEX)`}
+  description={`Track delta exposure for ${$displayCompanyName} (${$etfTicker}) to gauge dealer hedging pressure and trend risk.`}
+  keywords={`${$etfTicker} DEX, delta exposure, dealer hedging, options delta`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "AnalysisNewsArticle",

@@ -63,15 +63,15 @@
 </script>
 
 <SEO
-  title="Advanced Stock Analysis & Financial Data Platform"
-  description="Free advanced stock analysis, AI-powered forecasting, options flow tracking, and comprehensive financial data for all US stocks. Get real-time insights for TSLA, NVDA, AAPL and thousands more with Stocknear's powerful analysis tools."
-  keywords="stocknear, stock analysis, stock forecast, tsla forecast, nvda analysis, options flow, earnings analysis, financial data, stock screener, market analysis, AI stock predictions, dark pool data, insider trading, congress trading"
+  title="Real-Time Options Flow, Sweeps & Unusual Activity"
+  description="Live options flow, sweeps, blocks, and unusual activity across US stocks and ETFs. Find short-term trade setups faster with Stocknear."
+  keywords="options flow, unusual options activity, sweep orders, block trades, dark pool, implied volatility, IV skew, open interest, options chain, short-term trade setups, stocknear"
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "Stocknear",
     description:
-      "Advanced stock analysis and financial data platform with AI-powered insights",
+      "Real-time options flow and unusual activity for short-term trade setups",
     url: "https://stocknear.com",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
@@ -81,13 +81,13 @@
       priceCurrency: "USD",
     },
     featureList: [
-      "Real-time stock analysis",
-      "AI-powered forecasting",
-      "Options flow tracking",
-      "Financial data analysis",
+      "Live options flow & sweeps",
+      "Unusual options activity",
       "Dark pool monitoring",
-      "Earnings analysis",
-      "Market insights",
+      "Implied volatility & skew",
+      "Options chain & open interest",
+      "Earnings volatility setup",
+      "Market catalysts",
     ],
     provider: {
       "@type": "Organization",

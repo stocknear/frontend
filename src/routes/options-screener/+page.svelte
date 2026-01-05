@@ -1356,16 +1356,15 @@
 </script>
 
 <SEO
-  title="Advanced Options Screener - Free Options Filter & Analysis Tool"
-  description="Powerful options screener with {allRows?.length ||
-    'comprehensive'} filtering criteria. Screen options by implied volatility, open interest, volume, Greeks, and expiration dates. Find high-probability options trades with real-time options chain data."
-  keywords="options screener, free options screener, options filter, options scanner, implied volatility screener, options chain analysis, high volume options, options trading tool, Greeks screener, open interest analysis"
+  title="Options Screener - Find Unusual Flow & High-Conviction Setups"
+  description="Screen options by unusual activity, implied volatility, open interest, volume, Greeks, and expiration to surface short-term trade setups."
+  keywords="options screener, unusual options activity, options scanner, implied volatility screener, IV skew, open interest, high volume options, options trading tool, Greeks screener"
   structuredData={{
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: "Options Screener Tool",
     description:
-      "Advanced options screening and filtering platform with real-time options market data",
+      "Options screener focused on unusual activity, IV, and open interest for short-term setups",
     url: "https://stocknear.com/options-screener",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
@@ -1375,12 +1374,11 @@
       priceCurrency: "USD",
     },
     featureList: [
-      "Multi-criteria options filtering",
-      "Implied volatility screening",
-      "Open interest analysis",
-      "Options volume filtering",
-      "Greeks-based screening",
-      "Expiration date filtering",
+      "Unusual activity filters",
+      "Implied volatility & IV rank",
+      "Open interest & volume screening",
+      "Greeks-based filters",
+      "Expiration & moneyness",
       "Real-time options data",
       "Custom screening strategies",
     ],

@@ -582,9 +582,9 @@
 </script>
 
 <SEO
-  title="POTUS Tracker: Real-Time Presidential Schedule, Executive Orders & Market Impact"
-  description="Track President Trump's daily schedule, executive orders, and Truth Social posts. Monitor real-time market reactions to presidential actions with S&P 500 and sector performance analytics."
-  keywords="POTUS tracker, Trump schedule, executive orders, presidential actions, market impact, Truth Social posts, S&P 500 performance, sector analysis, Trump administration, presidential calendar"
+  title="POTUS Tracker - Policy Catalysts & Market Impact"
+  description="Follow presidential schedule, executive orders, and Truth Social posts to spot policy catalysts and sector moves for short-term trades."
+  keywords="POTUS tracker, executive orders, policy catalysts, market impact, sector moves, Truth Social posts, short-term trade catalysts"
   structuredData={structuredDataGraph}
 />
 

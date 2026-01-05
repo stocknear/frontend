@@ -10,16 +10,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Open Interest Analysis | OI by Strike Price & Volume`}
-  description={`Comprehensive open interest (OI) analysis by strike price for ${$displayCompanyName} (${$stockTicker}) options. Track open interest trends, strike price concentration, and institutional positioning with detailed OI charts and historical data.`}
-  keywords={`${$stockTicker} open interest analysis, ${$displayCompanyName} OI by strike, options open interest tracking, strike price concentration, ${$stockTicker} options positioning, OI volume analysis, open interest trends, institutional options positioning`}
+  title={`${$displayCompanyName} (${$stockTicker}) Open Interest by Strike | Options Positioning`}
+  description={`Track open interest by strike for ${$displayCompanyName} (${$stockTicker}) to spot positioning and key levels for short-term moves.`}
+  keywords={`${$stockTicker} open interest, OI by strike, options positioning, strike concentration`}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/oi`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
     name: `${$displayCompanyName} Open Interest Analysis`,
-    description: `Professional open interest tracking by strike price for ${$displayCompanyName} (${$stockTicker}) options`,
+    description: `Open interest by strike for ${$displayCompanyName} (${$stockTicker}) options`,
     url: `https://stocknear.com/stocks/${$stockTicker}/options/oi`,
     applicationCategory: "FinanceApplication",
     featureList: [

@@ -1,9 +1,9 @@
 <script lang="ts">
   import { page } from "$app/stores";
 
-  export let title = "Advanced Stock Analysis & Financial Data Platform";
+  export let title = "Real-Time Options Flow & Unusual Activity";
   export let description =
-    "Stocknear gives you realtime market insights for your stock analysis with up-to-date financials, news, and interactive charts.";
+    "Track live options flow, sweeps, blocks, and unusual activity to spot short-term trade setups faster.";
   export let keywords: string | null = null;
   export let image: string | null = null;
   export let structuredData: any = null;
@@ -15,11 +15,13 @@
 
   const siteName = "Stocknear";
   const twitterHandle = "@stocknear";
+  const defaultImage = baseURL + "/favicon.png";
 
   // Default keywords for stock analysis
   const defaultKeywords =
-    "stocknear, stock analysis, stock forecast, financial data, options flow, earnings analysis, market insights, AI stock predictions";
+    "stocknear, options flow, unusual options activity, sweep orders, block trades, dark pool, implied volatility, IV skew, open interest, options chain, short-term trade setups";
   const finalKeywords = keywords || defaultKeywords;
+  const finalImage = image || defaultImage;
 </script>
 
 <svelte:head>
@@ -68,8 +70,8 @@
   <meta property="og:title" content={`${title} - ${siteName}`} />
   <meta property="og:description" content={description} />
 
-  {#if image}
-    <meta property="og:image" content={image} />
+  {#if finalImage}
+    <meta property="og:image" content={finalImage} />
     <meta property="og:image:width" content="256" />
     <meta property="og:image:height" content="256" />
     <meta property="og:image:type" content="image/png" />
@@ -102,8 +104,8 @@
   <meta name="twitter:title" content={`${title} - ${siteName}`} />
   <meta name="twitter:description" content={description} />
 
-  {#if image}
-    <meta name="twitter:image" content={image} />
+  {#if finalImage}
+    <meta name="twitter:image" content={finalImage} />
     <meta name="twitter:image:alt" content={`${title} - ${siteName}`} />
   {/if}
 

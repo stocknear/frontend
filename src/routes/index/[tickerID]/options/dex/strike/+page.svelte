@@ -10,8 +10,8 @@
 </script>
 
 <SEO
-  title="Delta Exposure By Strike Price"
-  description={`Analyze delta exposure for ${$displayCompanyName} (${$indexTicker}) by strike price. Access historical volume, open interest trends, and save options contracts for detailed analysis and insights.`}
+  title={`${$displayCompanyName} (${$indexTicker}) DEX by Strike`}
+  description={`Delta exposure by strike for ${$displayCompanyName} (${$indexTicker}) to map hedging levels.`}
 />
 
 <section class="w-full overflow-hidden min-h-screen pb-40">
@@ -20,7 +20,7 @@
       class="w-full relative flex justify-center items-center overflow-hidden"
     >
       {#if Object?.keys(data?.getData)?.length > 0}
-        <GreekByStrike {data} title="Delta" ticker={$indexTicker} />
+        <GreekByStrike {data} title={`${$displayCompanyName} (${$indexTicker}) DEX by Strike`} ticker={$indexTicker} />
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
           <div class="">

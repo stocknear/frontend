@@ -8,14 +8,14 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$etfTicker}) ETF Options Analysis - Chain Data, Volume & Implied Volatility`}
-  description={`Professional ETF options analysis for ${$displayCompanyName} (${$etfTicker}) with real-time options chain data, volume tracking, open interest analysis, max pain calculations, and implied volatility trends. Monitor ETF options flow, institutional activity, and hedging patterns for systematic trading strategies.`}
-  keywords={`${$etfTicker} ETF options, ${$displayCompanyName} options chain, ETF options trading, ETF options volume, ETF implied volatility, ETF max pain, ETF options analysis, ETF hedging, systematic options trading, ETF derivatives`}
+  title={`${$displayCompanyName} (${$etfTicker}) ETF Options Flow, IV & Open Interest`}
+  description={`Live ETF options chain, flow, IV, and open interest for ${$displayCompanyName} (${$etfTicker}) to plan short-term trades.`}
+  keywords={`${$etfTicker} options flow, ${$displayCompanyName} options chain, unusual options activity, implied volatility, open interest, options sweeps`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "FinancialProduct",
     name: `${$displayCompanyName} (${$etfTicker}) ETF Options`,
-    description: "ETF options analysis with chain data and trading metrics",
+    description: `ETF options flow and chain data for ${$displayCompanyName} (${$etfTicker})`,
     category: "ETF Options",
     url: `https://stocknear.com/etf/${$etfTicker}/options`,
     about: {

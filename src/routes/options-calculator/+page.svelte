@@ -810,15 +810,15 @@
 </script>
 
 <SEO
-  title="Options Calculator - Free Options Profit & Loss Calculator "
-  description="Free options calculator to calculate profit/loss, breakeven prices, Greeks, and risk-reward for calls and puts. Analyze option strategies, max profit, max loss, and probability of profit. Perfect for options trading."
-  keywords="options calculator, options profit calculator, options P&L calculator, breakeven calculator, options Greeks calculator, call calculator, put calculator, options strategy calculator, free options calculator"
+  title="Options Calculator - P/L, Breakeven & Greeks for Fast Trade Planning"
+  description="Calculate options P/L, breakeven, Greeks, and risk-reward in seconds. Built for short-term options setups and fast decision-making."
+  keywords="options calculator, options P&L calculator, breakeven calculator, options Greeks calculator, risk reward, probability of profit, options strategy calculator"
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "Options Calculator",
     description:
-      "Free options profit and loss calculator with Greeks and strategy analysis",
+      "Options P/L, breakeven, and Greeks calculator for fast trade planning",
     url: "https://stocknear.com/options-calculator",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
@@ -847,10 +847,10 @@
     featureList: [
       "Options profit/loss calculator",
       "Breakeven price calculator",
-      "Greeks calculator (Delta, Gamma, Theta, Vega)",
+      "Greeks (Delta, Gamma, Theta, Vega)",
       "Risk-reward analysis",
-      "Multiple options strategies",
-      "Real-time calculations",
+      "Probability of profit",
+      "Fast scenario testing",
     ],
   }}
 />

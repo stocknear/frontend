@@ -10,9 +10,9 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$indexTicker}) Index Volatility Analysis - Market Fear & Greed Indicator`}
-  description={`Comprehensive volatility analysis for ${$displayCompanyName} (${$indexTicker}) index tracking market fear, implied volatility trends, and systematic risk patterns. Monitor VIX-style volatility indicators, term structure analysis, and market stress levels for portfolio risk management and market timing.`}
-  keywords={`${$indexTicker} volatility, ${$displayCompanyName} index volatility, market volatility analysis, implied volatility, realized volatility, market fear indicator, volatility trading, systematic risk`}
+  title={`${$displayCompanyName} (${$indexTicker}) Implied Volatility & IV Rank`}
+  description={`Track IV, IV rank, and volatility trends for ${$displayCompanyName} (${$indexTicker}) options to plan premium or momentum trades.`}
+  keywords={`${$indexTicker} implied volatility, IV rank, IV percentile, options volatility, ${$indexTicker} options IV`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "AnalysisNewsArticle",

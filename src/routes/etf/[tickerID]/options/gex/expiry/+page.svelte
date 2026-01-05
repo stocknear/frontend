@@ -10,8 +10,8 @@
 </script>
 
 <SEO
-  title="Gamma Exposure by Expiry"
-  description={`Analyze Gamma Exposure by expiry for ${$displayCompanyName} (${$etfTicker}). Access historical volume, open interest trends, and save options contracts for detailed analysis and insights.`}
+  title={`${$displayCompanyName} (${$etfTicker}) GEX by Expiry`}
+  description={`Gamma exposure by expiry for ${$displayCompanyName} (${$etfTicker}) to map dealer positioning into expiration.`}
 />
 
 <section class="w-full overflow-hidden min-h-screen pb-40">
@@ -22,7 +22,7 @@
       {#if rawData?.length > 0}
         <GreekByExpiry
           {data}
-          title="Gamma"
+          title={`${$displayCompanyName} (${$etfTicker}) GEX by Expiry`}
           ticker={$etfTicker?.toUpperCase()}
         />
       {:else}

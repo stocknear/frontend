@@ -9,16 +9,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Gamma Exposure Analysis | GEX Options Flow & Volatility`}
-  description={`Advanced gamma exposure (GEX) analysis for ${$displayCompanyName} (${$stockTicker}) options. Track dealer gamma positioning, volatility suppression zones, and market maker hedging activity. Real-time GEX charts with historical gamma flow data.`}
-  keywords={`${$stockTicker} gamma exposure, ${$displayCompanyName} GEX analysis, options gamma flow, dealer gamma positioning, volatility suppression, market maker gamma, ${$stockTicker} options volatility, gamma exposure chart, options market structure, dealer gamma hedging`}
+  title={`${$displayCompanyName} (${$stockTicker}) Gamma Exposure (GEX)`}
+  description={`Track gamma exposure by strike and expiry for ${$displayCompanyName} (${$stockTicker}) to spot pin levels and volatility pressure.`}
+  keywords={`${$stockTicker} GEX, gamma exposure, options gamma, pin risk`}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/gex`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
     name: `${$displayCompanyName} Gamma Exposure Analysis`,
-    description: `Professional gamma exposure (GEX) tracking and analysis tool for ${$displayCompanyName} (${$stockTicker}) options`,
+    description: `Gamma exposure for ${$displayCompanyName} (${$stockTicker}) options`,
     url: `https://stocknear.com/stocks/${$stockTicker}/options/gex`,
     applicationCategory: "FinanceApplication",
     featureList: [

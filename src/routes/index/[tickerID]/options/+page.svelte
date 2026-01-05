@@ -8,15 +8,14 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$indexTicker}) Index Options Analysis - Market Index Derivatives & Hedging Tools`}
-  description={`Professional index options analysis for ${$displayCompanyName} (${$indexTicker}) with real-time options chain data, volatility analysis, and institutional hedging patterns. Track market-wide options flow, systematic hedging activity, and index volatility for portfolio risk management and market timing strategies.`}
-  keywords={`${$indexTicker} index options, ${$displayCompanyName} options analysis, index derivatives, market hedging, index volatility, systematic options trading, portfolio hedging, market index options`}
+  title={`${$displayCompanyName} (${$indexTicker}) Index Options Flow, IV & Open Interest`}
+  description={`Live Index options chain, flow, IV, and open interest for ${$displayCompanyName} (${$indexTicker}) to plan short-term trades.`}
+  keywords={`${$indexTicker} options flow, ${$displayCompanyName} options chain, unusual options activity, implied volatility, open interest, options sweeps`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "FinancialProduct",
     name: `${$displayCompanyName} (${$indexTicker}) Index Options`,
-    description:
-      "Index options analysis for market hedging and portfolio management",
+    description: `Index options flow and chain data for ${$displayCompanyName} (${$indexTicker})`,
     category: "Index Options",
     url: `https://stocknear.com/index/${$indexTicker}/options`,
     about: {

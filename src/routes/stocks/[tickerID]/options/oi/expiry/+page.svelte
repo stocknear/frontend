@@ -10,16 +10,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Open Interest by Expiry | OI Expiration Analysis`}
-  description={`Comprehensive open interest (OI) analysis by expiration date for ${$displayCompanyName} (${$stockTicker}) options. Track OI distribution across expiry dates, institutional positioning, and expiration-based options sentiment with detailed historical trends.`}
-  keywords={`${$stockTicker} open interest expiry, ${$displayCompanyName} OI by expiration, options open interest calendar, OI expiration analysis, ${$stockTicker} options positioning expiry, open interest trends by expiry, institutional positioning calendar`}
+  title={`${$displayCompanyName} (${$stockTicker}) Open Interest by Expiry | Positioning`}
+  description={`See open interest by expiry for ${$displayCompanyName} (${$stockTicker}) to gauge near-term positioning and roll risk.`}
+  keywords={`${$stockTicker} open interest by expiry, options calendar, expiry positioning`}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/oi/expiry`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
     name: `${$displayCompanyName} Open Interest by Expiry`,
-    description: `Professional open interest tracking by expiration date for ${$displayCompanyName} (${$stockTicker}) options`,
+    description: `Open interest by expiry for ${$displayCompanyName} (${$stockTicker}) options`,
     url: `https://stocknear.com/stocks/${$stockTicker}/options/oi/expiry`,
     applicationCategory: "FinanceApplication",
     featureList: [

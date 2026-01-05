@@ -10,16 +10,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Gamma Exposure by Expiry | GEX Expiration Analysis`}
-  description={`Comprehensive gamma exposure (GEX) analysis by expiration date for ${$displayCompanyName} (${$stockTicker}) options. Track dealer gamma positioning and volatility suppression zones across different expiry dates. Advanced options Greeks calendar analysis.`}
-  keywords={`${$stockTicker} gamma exposure expiry, ${$displayCompanyName} GEX by expiration, options gamma flow by expiry, dealer gamma positioning expiry, volatility suppression by expiry, ${$stockTicker} options Greeks expiry, gamma exposure calendar, options volatility expiration`}
+  title={`${$displayCompanyName} (${$stockTicker}) GEX by Expiry`}
+  description={`Gamma exposure by expiry for ${$displayCompanyName} (${$stockTicker}) to map dealer positioning into expiration.`}
+  keywords={`${$stockTicker} GEX by expiry, gamma exposure, options gamma, dealer positioning`}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/gex/expiry`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
     name: `${$displayCompanyName} Gamma Exposure by Expiry`,
-    description: `Professional gamma exposure tracking by expiration date for ${$displayCompanyName} (${$stockTicker}) options`,
+    description: `Gamma exposure by expiry for ${$displayCompanyName} (${$stockTicker}) options`,
     url: `https://stocknear.com/stocks/${$stockTicker}/options/gex/expiry`,
     applicationCategory: "FinanceApplication",
     featureList: [

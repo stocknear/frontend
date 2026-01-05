@@ -9,16 +9,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Hottest Options Contracts | Top Volume & Open Interest`}
-  description={`Discover the hottest options contracts for ${$displayCompanyName} (${$stockTicker}) by volume and open interest. Real-time analysis of most active options with detailed volume trends, open interest data, and trading activity insights for professional traders.`}
-  keywords={`${$stockTicker} hottest options contracts, ${$displayCompanyName} high volume options, top options by open interest, most active ${$stockTicker} options, options volume leaders, highest OI options, ${$stockTicker} options activity, trending options contracts`}
+  title={`${$displayCompanyName} (${$stockTicker}) Most Active Options Contracts`}
+  description={`See the most active ${$displayCompanyName} (${$stockTicker}) contracts by volume and premium for short-term flow.`}
+  keywords={`${$stockTicker} most active options, top contracts, options volume, options flow`}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/hottest-contracts`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataFeed"],
     name: `${$displayCompanyName} Hottest Options Contracts`,
-    description: `Real-time tracking of the most active options contracts for ${$displayCompanyName} (${$stockTicker}) by volume and open interest`,
+    description: `Most active options contracts for ${$displayCompanyName} (${$stockTicker})`,
     url: `https://stocknear.com/stocks/${$stockTicker}/options/hottest-contracts`,
     applicationCategory: "FinanceApplication",
     featureList: [

@@ -10,9 +10,9 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$indexTicker?.toUpperCase()}) Index Options Max Pain Analysis - Market Sentiment & Strike Pressure`}
-  description={`Comprehensive max pain analysis for ${$displayCompanyName} (${$indexTicker?.toUpperCase()}) index options. Identify optimal expiration levels, market maker positioning, and systematic hedging pressure affecting index movements. Essential for understanding broad market sentiment and institutional options flow.`}
-  keywords={`${$indexTicker?.toUpperCase()} max pain, ${$displayCompanyName} index options, market sentiment analysis, options strike pressure, index options max pain, systematic hedging analysis`}
+  title={`${$displayCompanyName} (${$indexTicker}) Max Pain & Pin Levels`}
+  description={`Find max pain levels and potential pin zones for ${$displayCompanyName} (${$indexTicker}) options into expiration.`}
+  keywords={`${$indexTicker} max pain, options pin, pin risk, max pain level`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "AnalysisNewsArticle",

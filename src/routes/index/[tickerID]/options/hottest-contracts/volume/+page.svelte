@@ -9,8 +9,8 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$indexTicker}) | Explore the Hottest Options Contracts`}
-  description={`Analyze historical volume, open interest, and trends in option chains for ${$displayCompanyName} (${$indexTicker}). Discover actionable insights for trading decisions.`}
+  title={`${$displayCompanyName} (${$indexTicker}) Highest Options Volume Contracts`}
+  description={`Track the highest-volume contracts for ${$displayCompanyName} (${$indexTicker}) to spot concentrated flow.`}
 />
 
 <section class="w-full overflow-hidden min-h-screen pb-40">

@@ -10,8 +10,8 @@
 </script>
 
 <SEO
-  title="Open Interest by Expiry"
-  description={`Analyze Gamma Exposure by expiry for ${$displayCompanyName} (${$indexTicker}). Access historical volume, open interest trends, and save options contracts for detailed analysis and insights.`}
+  title={`${$displayCompanyName} (${$indexTicker}) Open Interest by Expiry | Positioning`}
+  description={`See open interest by expiry for ${$displayCompanyName} (${$indexTicker}) to gauge near-term positioning and roll risk.`}
 />
 
 <section class="w-full overflow-hidden min-h-screen pb-40">

@@ -8,16 +8,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Gamma Exposure by Strike | GEX Strike Analysis & Volatility`}
-  description={`Advanced gamma exposure (GEX) analysis by strike price for ${$displayCompanyName} (${$stockTicker}) options. Track dealer gamma positioning, volatility suppression zones, and market maker hedging across strike prices. Professional gamma flow analysis.`}
-  keywords={`${$stockTicker} gamma exposure strike, ${$displayCompanyName} GEX by strike price, options gamma flow by strike, dealer gamma positioning strike, volatility suppression strike, ${$stockTicker} options volatility strike, gamma exposure strike price, options gamma hedging strike`}
+  title={`${$displayCompanyName} (${$stockTicker}) GEX by Strike`}
+  description={`Gamma exposure by strike for ${$displayCompanyName} (${$stockTicker}) to map pin levels and hedging pressure.`}
+  keywords={`${$stockTicker} GEX by strike, gamma exposure, options gamma, pin risk`}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/gex/strike`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
     name: `${$displayCompanyName} Gamma Exposure by Strike`,
-    description: `Professional gamma exposure tracking by strike price for ${$displayCompanyName} (${$stockTicker}) options`,
+    description: `Gamma exposure by strike for ${$displayCompanyName} (${$stockTicker}) options`,
     url: `https://stocknear.com/stocks/${$stockTicker}/options/gex/strike`,
     applicationCategory: "FinanceApplication",
     featureList: [

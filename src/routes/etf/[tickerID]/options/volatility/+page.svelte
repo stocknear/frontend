@@ -10,8 +10,8 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$etfTicker}) Volatility`}
-  description={`Track volatility and implied volatility trends with our interactive chart. Analyze price movements, 30-day implied volatility, and realized volatility to make data-driven trading decisions.`}
+  title={`${$displayCompanyName} (${$etfTicker}) Implied Volatility & IV Rank`}
+  description={`Track IV, IV rank, and volatility trends for ${$displayCompanyName} (${$etfTicker}) options to plan premium or momentum trades.`}
 />
 
 <section class="w-full overflow-hidden min-h-screen">

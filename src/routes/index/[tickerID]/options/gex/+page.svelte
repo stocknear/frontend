@@ -8,8 +8,8 @@
 </script>
 
 <SEO
-  title="Daily Gamma Exposure"
-  description={`Analyze daily gamma exposure for ${$displayCompanyName} (${$indexTicker}). Access historical volume, open interest trends, and save options contracts for detailed analysis and insights.`}
+  title={`${$displayCompanyName} (${$indexTicker}) Gamma Exposure (GEX)`}
+  description={`Track gamma exposure by strike and expiry for ${$displayCompanyName} (${$indexTicker}) to spot pin levels and volatility pressure.`}
 />
 <section class="w-full overflow-hidden min-h-screen pb-40">
   <div class="w-full flex h-full overflow-hidden">
@@ -17,7 +17,7 @@
       class="w-full relative flex justify-center items-center overflow-hidden"
     >
       {#if data?.getData?.length > 0}
-        <GreekExposure {data} title="Gamma" params="" ticker={$indexTicker} />
+        <GreekExposure {data} title={`${$displayCompanyName} (${$indexTicker}) Gamma Exposure (GEX)`} params="" ticker={$indexTicker} />
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
           <div class="">

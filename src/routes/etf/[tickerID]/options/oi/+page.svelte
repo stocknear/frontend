@@ -10,8 +10,8 @@
 </script>
 
 <SEO
-  title="Open Interest by Strike Price"
-  description={`Discover detailed Open Interest analysis by strike price for ${$displayCompanyName} (${$etfTicker}). Explore historical volume, open interest, and save individual options contracts for in-depth insights.`}
+  title={`${$displayCompanyName} (${$etfTicker}) Open Interest by Strike | Options Positioning`}
+  description={`Track open interest by strike for ${$displayCompanyName} (${$etfTicker}) to spot positioning and key levels for short-term moves.`}
 />
 
 <section class="w-full overflow-hidden min-h-screen pb-40">

@@ -9,8 +9,8 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$etfTicker}) Gamma Exposure by Strike Price`}
-  description={`Discover detailed Gamma Exposure analysis by strike price for ${$displayCompanyName} (${$etfTicker}). Explore historical volume, open interest, and save individual options contracts for in-depth insights.`}
+  title={`${$displayCompanyName} (${$etfTicker}) GEX by Strike`}
+  description={`Gamma exposure by strike for ${$displayCompanyName} (${$etfTicker}) to map pin levels and hedging pressure.`}
 />
 
 <section class="w-full overflow-hidden min-h-screen pb-40">

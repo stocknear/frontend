@@ -9,15 +9,14 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$indexTicker}) Index Options Contract Lookup - Detailed Derivatives Analysis`}
-  description={`Advanced index options contract analysis for ${$displayCompanyName} (${$indexTicker}). Research individual index options contracts with historical volume, open interest trends, and pricing data. Essential tool for portfolio hedging, market timing, and systematic index trading strategies.`}
-  keywords={`${$indexTicker} options contracts, ${$displayCompanyName} index options lookup, index derivatives analysis, portfolio hedging tools, market index options data`}
+  title={`${$displayCompanyName} (${$indexTicker}) Options Contract Lookup`}
+  description={`Lookup ${$displayCompanyName} (${$indexTicker}) options contracts and key metrics for fast trade planning.`}
+  keywords={`${$indexTicker} options contract lookup, options chain, options metrics`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: `${$displayCompanyName} (${$indexTicker}) Index Options Contract Lookup`,
-    description:
-      "Index options contract research and analysis tool for portfolio management",
+    description: `Options contract lookup for ${$displayCompanyName} (${$indexTicker})`,
     url: `https://stocknear.com/index/${$indexTicker}/options/contract-lookup`,
     applicationCategory: "Financial Analysis Tool",
     about: {

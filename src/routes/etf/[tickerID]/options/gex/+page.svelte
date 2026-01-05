@@ -9,8 +9,8 @@
 </script>
 
 <SEO
-  title="Daily Gamma Exposure"
-  description={`Analyze daily gamma exposure for ${$displayCompanyName} (${$etfTicker}). Access historical volume, open interest trends, and save options contracts for detailed analysis and insights.`}
+  title={`${$displayCompanyName} (${$etfTicker}) Gamma Exposure (GEX)`}
+  description={`Track gamma exposure by strike and expiry for ${$displayCompanyName} (${$etfTicker}) to spot pin levels and volatility pressure.`}
 />
 
 <section class="w-full overflow-hidden min-h-screen pb-40">
@@ -21,7 +21,7 @@
       {#if data?.getData?.length > 0}
         <GreekExposure
           {data}
-          title="Gamma"
+          title={`${$displayCompanyName} (${$etfTicker}) Gamma Exposure (GEX)`}
           ticker={$etfTicker?.toUpperCase()}
         />
       {:else}

@@ -1354,15 +1354,15 @@
 </script>
 
 <SEO
-  title="Unusual Order Flow | Dark Pool & Block Trade Tracker"
-  description="Monitor real-time dark pool trades and block orders from institutional investors. Track unusual order flow, large hidden trades, and smart money activity across stocks and ETFs with advanced filtering."
-  keywords="unusual order flow, dark pool trades, block trades, institutional trading, smart money flow, hidden trades, large block orders, institutional investors, hedge fund activity, dark pool scanner, real-time order flow, SIP data"
+  title="Unusual Order Flow - Dark Pool Prints & Block Trades"
+  description="Track real-time dark pool prints and block trades to spot institutional activity that often precedes short-term moves."
+  keywords="unusual order flow, dark pool prints, block trades, institutional order flow, smart money, hidden liquidity, real-time order flow, dark pool scanner"
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "Unusual Order Flow Scanner",
     description:
-      "Real-time dark pool and block trade monitoring tool for tracking institutional order flow and smart money activity",
+      "Real-time dark pool prints and block trades for short-term market signal",
     url: "https://stocknear.com/unusual-order-flow",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
@@ -1372,15 +1372,13 @@
       priceCurrency: "USD",
     },
     featureList: [
-      "Real-time dark pool trade monitoring",
-      "Block order tracking",
-      "Institutional order flow analysis",
-      "Exchange-level filtering",
-      "Stock and ETF asset filtering",
-      "Premium and volume analysis",
-      "Size to volume ratio screening",
-      "Historical order flow data",
-      "Custom filter strategies",
+      "Real-time dark pool prints",
+      "Block trade tracking",
+      "Institutional order flow",
+      "Exchange-level filters",
+      "Stock and ETF coverage",
+      "Historical order flow",
+      "Custom flow strategies",
     ],
     provider: {
       "@type": "Organization",

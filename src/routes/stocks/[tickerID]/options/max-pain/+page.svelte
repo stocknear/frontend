@@ -10,16 +10,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Options Max Pain Analysis | Strike Price Pressure & Sentiment`}
-  description={`Advanced max pain analysis for ${$displayCompanyName} (${$stockTicker}) options. Track maximum pain strike prices, market maker positioning, and options-driven price pressure. Real-time max pain charts with expiration analysis and sentiment indicators.`}
-  keywords={`${$stockTicker} max pain analysis, ${$displayCompanyName} options max pain, maximum pain strike price, options price pressure, market maker positioning, ${$stockTicker} options sentiment, max pain chart, options expiration pressure`}
+  title={`${$displayCompanyName} (${$stockTicker}) Max Pain & Pin Levels`}
+  description={`Find max pain levels and potential pin zones for ${$displayCompanyName} (${$stockTicker}) options into expiration.`}
+  keywords={`${$stockTicker} max pain, options pin, pin risk, max pain level`}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/max-pain`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
     name: `${$displayCompanyName} Options Max Pain Analysis`,
-    description: `Professional max pain tracking and analysis for ${$displayCompanyName} (${$stockTicker}) options`,
+    description: `Max pain analysis for ${$displayCompanyName} (${$stockTicker}) options`,
     url: `https://stocknear.com/stocks/${$stockTicker}/options/max-pain`,
     applicationCategory: "FinanceApplication",
     featureList: [

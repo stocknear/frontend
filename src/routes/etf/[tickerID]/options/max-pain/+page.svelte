@@ -10,8 +10,8 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$etfTicker?.toUpperCase()}) Options Max Pain Chart`}
-  description={`View the Max Pain chart for ${$displayCompanyName} (${$etfTicker?.toUpperCase()}) to analyze options strike price pressure and market sentiment.`}
+  title={`${$displayCompanyName} (${$etfTicker}) Max Pain & Pin Levels`}
+  description={`Find max pain levels and potential pin zones for ${$displayCompanyName} (${$etfTicker}) options into expiration.`}
 />
 
 <section class="w-full overflow-hidden min-h-screen pb-40">

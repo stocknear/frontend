@@ -98,15 +98,15 @@
 </script>
 
 <SEO
-  title="Stock Market News Flow - Real-Time Financial News & Market Updates"
-  description="Track real-time stock market news and understand why prices moved. Get instant access to breaking financial news, market updates, and stock price movements with detailed explanations. Free real-time news flow tracker."
-  keywords="stock market news, financial news, market updates, stock news flow, real-time news, breaking news stocks, price movement news, market news tracker, stock alerts, financial updates"
+  title="Market News Flow - Trade-Ready Catalysts in Real Time"
+  description="Follow real-time market news and catalysts that move price. Built for options traders who need fast context for short-term setups."
+  keywords="market news flow, trade catalysts, breaking market news, options trader news, price movement news, real-time market updates"
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Stock Market News Flow",
+    name: "Market News Flow",
     description:
-      "Real-time stock market news tracker with price movement explanations",
+      "Real-time market news and catalysts for short-term trade planning",
     url: "https://stocknear.com/news-flow",
     applicationCategory: "FinanceApplication",
     breadcrumb: {

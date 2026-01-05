@@ -10,16 +10,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Delta Exposure by Strike | DEX Strike Analysis & Option Flow`}
-  description={`Advanced delta exposure (DEX) analysis by strike price for ${$displayCompanyName} (${$stockTicker}) options. Track dealer positioning, gamma hedging flows, and market maker exposure across strike prices. Professional options flow analysis by strike.`}
-  keywords={`${$stockTicker} delta exposure strike, ${$displayCompanyName} DEX by strike price, options delta flow by strike, dealer positioning strike analysis, gamma hedging by strike, ${$stockTicker} options Greeks strike, delta exposure strike price, options flow strike analysis`}
+  title={`${$displayCompanyName} (${$stockTicker}) DEX by Strike`}
+  description={`Delta exposure by strike for ${$displayCompanyName} (${$stockTicker}) to map hedging levels.`}
+  keywords={`${$stockTicker} DEX by strike, delta exposure, dealer hedging`}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/dex/strike`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
     name: `${$displayCompanyName} Delta Exposure by Strike`,
-    description: `Professional delta exposure tracking by strike price for ${$displayCompanyName} (${$stockTicker}) options`,
+    description: `Delta exposure by strike for ${$displayCompanyName} (${$stockTicker}) options`,
     url: `https://stocknear.com/stocks/${$stockTicker}/options/dex/strike`,
     applicationCategory: "FinanceApplication",
     featureList: [

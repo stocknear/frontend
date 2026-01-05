@@ -10,16 +10,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Volatility Analysis | Implied vs Realized Volatility Charts`}
-  description={`Advanced volatility analysis for ${$displayCompanyName} (${$stockTicker}) with implied volatility (IV) vs realized volatility tracking. Monitor IV crush opportunities, volatility skew, and trading ranges with professional volatility indicators and historical comparisons.`}
-  keywords={`${$stockTicker} volatility analysis, ${$displayCompanyName} implied volatility, IV vs realized volatility, ${$stockTicker} volatility skew, IV crush analysis, options volatility, volatility trading, ${$stockTicker} VIX analysis`}
+  title={`${$displayCompanyName} (${$stockTicker}) Implied Volatility & IV Rank`}
+  description={`Track IV, IV rank, and volatility trends for ${$displayCompanyName} (${$stockTicker}) options to plan premium or momentum trades.`}
+  keywords={`${$stockTicker} implied volatility, IV rank, IV percentile, options volatility, ${$stockTicker} options IV`}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/volatility`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
     name: `${$displayCompanyName} Volatility Analysis`,
-    description: `Professional volatility tracking and analysis for ${$displayCompanyName} (${$stockTicker}) options`,
+    description: `Implied volatility and IV rank for ${$displayCompanyName} (${$stockTicker}) options`,
     url: `https://stocknear.com/stocks/${$stockTicker}/options/volatility`,
     applicationCategory: "FinanceApplication",
     featureList: [

@@ -8,15 +8,15 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Options Analysis - Options Chain, Volume & Implied Volatility`}
-  description={`Comprehensive ${$displayCompanyName} (${$stockTicker}) options analysis with real-time options chain data, volume analysis, open interest, max pain levels, and implied volatility trends. Track ${$stockTicker} options flow, unusual activity, and institutional sentiment with professional-grade options trading tools and analytics.`}
-  keywords={`${$stockTicker} options, ${$displayCompanyName} options chain, ${$stockTicker} options volume, implied volatility, options analysis, max pain, open interest, options flow, ${$stockTicker} calls, ${$stockTicker} puts, options trading, gamma exposure, unusual options activity`}
+  title={`${$displayCompanyName} (${$stockTicker}) Options Flow, IV & Open Interest`}
+  description={`Live options chain, flow, IV, and open interest for ${$displayCompanyName} (${$stockTicker}) to plan short-term trades.`}
+  keywords={`${$stockTicker} options flow, ${$displayCompanyName} options chain, unusual options activity, implied volatility, open interest, options sweeps`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "WebPage", "AnalysisNewsArticle"],
     name: `${$displayCompanyName} (${$stockTicker}) Options Analysis`,
-    headline: `${$displayCompanyName} Options Trading Analysis - Comprehensive Options Chain Data`,
-    description: `Professional options analysis for ${$displayCompanyName} (${$stockTicker}) including options chain, volume, implied volatility, and institutional options flow`,
+    headline: `${$displayCompanyName} Options Flow & Volatility Snapshot`,
+    description: `Options flow, implied volatility, and open interest overview for ${$displayCompanyName} (${$stockTicker})`,
     url: `https://stocknear.com/stocks/${$stockTicker}/options`,
 
     author: {
@@ -43,8 +43,7 @@
     about: {
       "@type": "Thing",
       name: "Options Analysis",
-      description:
-        "Comprehensive analysis of options trading data, implied volatility, and derivatives market activity",
+      description: `options flow and chain data for ${$displayCompanyName} (${$stockTicker})`,
     },
     breadcrumb: {
       "@type": "BreadcrumbList",

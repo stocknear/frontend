@@ -8,16 +8,16 @@
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$stockTicker}) Delta Exposure Analysis | DEX Options Flow & Market Impact`}
-  description={`Advanced delta exposure (DEX) analysis for ${$displayCompanyName} (${$stockTicker}) options. Track dealer positioning, gamma hedging flows, and market maker delta exposure. Real-time DEX charts with historical trends for options flow analysis.`}
-  keywords={`${$stockTicker} delta exposure, ${$displayCompanyName} DEX analysis, options delta flow, dealer positioning, gamma hedging, market maker exposure, ${$stockTicker} options flow, delta exposure chart, options market impact, dealer delta analysis`}
+  title={`${$displayCompanyName} (${$stockTicker}) Delta Exposure (DEX)`}
+  description={`Track delta exposure for ${$displayCompanyName} (${$stockTicker}) to gauge dealer hedging pressure and trend risk.`}
+  keywords={`${$stockTicker} DEX, delta exposure, dealer hedging, options delta`}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/options/dex`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
     name: `${$displayCompanyName} Delta Exposure Analysis`,
-    description: `Professional delta exposure (DEX) tracking and analysis tool for ${$displayCompanyName} (${$stockTicker}) options`,
+    description: `Delta exposure for ${$displayCompanyName} (${$stockTicker}) options`,
     url: `https://stocknear.com/stocks/${$stockTicker}/options/dex`,
     applicationCategory: "FinanceApplication",
     featureList: [

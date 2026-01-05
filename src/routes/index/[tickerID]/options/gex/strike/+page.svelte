@@ -10,8 +10,8 @@
 </script>
 
 <SEO
-  title="Gamma Exposure By Strike Price"
-  description={`Analyze gamma exposure for ${$displayCompanyName} (${$indexTicker}) by strike price. Access historical volume, open interest trends, and save options contracts for detailed analysis and insights.`}
+  title={`${$displayCompanyName} (${$indexTicker}) GEX by Strike`}
+  description={`Gamma exposure by strike for ${$displayCompanyName} (${$indexTicker}) to map pin levels and hedging pressure.`}
 />
 
 <section class="w-full overflow-hidden min-h-screen pb-40">
@@ -20,7 +20,7 @@
       class="w-full relative flex justify-center items-center overflow-hidden"
     >
       {#if Object?.keys(data?.getData)?.length > 0}
-        <GreekByStrike {data} title="Gamma" ticker={$indexTicker} />
+        <GreekByStrike {data} title={`${$displayCompanyName} (${$indexTicker}) GEX by Strike`} ticker={$indexTicker} />
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
           <div class="">

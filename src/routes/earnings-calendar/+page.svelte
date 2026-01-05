@@ -465,15 +465,15 @@
 </script>
 
 <SEO
-  title="Earnings Calendar - Corporate Earnings Releases & Financial Results Schedule"
-  description="Track upcoming earnings announcements with our comprehensive earnings calendar. Get real-time earnings dates, revenue estimates, EPS forecasts, and financial results for all major US stocks. Monitor pre-market and after-hours earnings releases with detailed analyst expectations and historical performance data."
-  keywords="earnings calendar, earnings announcements, corporate earnings, earnings dates, EPS estimates, revenue forecasts, financial results, earnings season, quarterly earnings, earnings schedule, earnings reports, analyst estimates, earnings per share, company financials"
+  title="Earnings Calendar - Volatility Setups for Options Traders"
+  description="Track earnings dates, expected moves, and analyst estimates to plan options volatility trades and IV crush setups."
+  keywords="earnings calendar, options earnings plays, expected move, IV crush, earnings volatility, EPS estimates, revenue forecasts, earnings schedule"
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "Earnings Calendar",
     description:
-      "Comprehensive earnings calendar tracking corporate earnings announcements, financial results, and analyst estimates for US stocks",
+      "Earnings calendar built for options traders focused on volatility and expected moves",
     url: "https://stocknear.com/earnings-calendar",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web Browser",
@@ -502,14 +502,12 @@
       availability: "https://schema.org/InStock",
     },
     featureList: [
-      "Real-time earnings announcement tracking",
-      "Revenue and EPS estimate analysis",
-      "Pre-market and after-hours earnings identification",
-      "Market capitalization filtering",
-      "Weekly earnings calendar navigation",
-      "Analyst consensus forecasts",
-      "Historical earnings performance",
-      "Sortable earnings data tables",
+      "Earnings dates for options planning",
+      "Expected move tracking",
+      "Pre-market and after-hours timing",
+      "Analyst EPS and revenue estimates",
+      "Historical earnings moves",
+      "Sortable earnings list",
     ],
     creator: {
       "@type": "Organization",
