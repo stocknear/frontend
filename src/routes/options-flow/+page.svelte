@@ -3034,9 +3034,7 @@
 
             <!-- Page wrapper -->
             <div class="flex w-full m-auto h-full overflow-hidden">
-              <div
-                class="mt-3 w-full overflow-x-auto h-[900px] overflow-hidden"
-              >
+              <div class="mt-3 w-full overflow-x-auto overflow-hidden">
                 <OptionsFlowTable
                   {data}
                   {optionsWatchlist}

@@ -2523,14 +2523,14 @@
         <!-- Page wrapper -->
         <div class="flex w-full m-auto h-full overflow-hidden">
           {#if displayedData?.length !== 0}
-            <div class="mt-3 w-full overflow-x-auto h-[850px] overflow-hidden">
+            <div class="mt-3 w-full overflow-x-auto overflow-hidden">
               <UnusualOrderFlowTable
                 {data}
                 {displayedData}
                 {filteredData}
                 {rawData}
               />
-              <div class="-mt-10">
+              <div class="-mt-3">
                 <UpgradeToPro {data} display={true} />
               </div>
             </div>
