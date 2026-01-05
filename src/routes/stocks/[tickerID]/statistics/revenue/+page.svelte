@@ -826,7 +826,7 @@
                 class=" flex flex-col sm:flex-row items-start sm:items-center w-full justify-between border-t border-b border-gray-300 dark:border-zinc-700 py-2"
               >
                 <h2 class="text-xl sm:text-2xl font-bold">Revenue Chart</h2>
-                <div class="sm:ml-auto">
+                <div class="ml-auto">
                   <div class="inline-flex mt-2 sm:mt-0">
                     <div
                       class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700"
@@ -936,7 +936,7 @@
 
               <div class="w-full overflow-x-auto">
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums m-auto mt-4"
+                  class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
                 >
                   <thead
                     class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
@@ -1004,7 +1004,7 @@
               </div>
               {#if paginatedTableList?.length > 0}
                 <div
-                  class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mt-6"
+                  class="flex gap-3 mt-3 flex-row items-center justify-between mb-5 sm:mb-0 w-full"
                 >
                   <Button
                     on:click={() => goToPage(currentPage - 1)}

@@ -694,7 +694,7 @@
           class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
         >
           <table
-            class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
+            class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
           >
             <thead
               class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"

@@ -1044,7 +1044,7 @@
         <div class="flex justify-start items-center m-auto cursor-normal">
           {#if isLoaded}
             <table
-              class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-zinc-700 m-auto mt-4"
+              class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
             >
               <thead class="text-white bg-default">
                 <tr class="">
