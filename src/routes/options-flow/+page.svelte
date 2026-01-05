@@ -3035,7 +3035,7 @@
             <!-- Page wrapper -->
             <div class="flex w-full m-auto h-full overflow-hidden">
               <div
-                class="mt-8 w-full overflow-x-auto h-[900px] overflow-hidden"
+                class="mt-5 w-full overflow-x-auto h-[900px] overflow-hidden"
               >
                 <OptionsFlowTable
                   {data}
@@ -3044,7 +3044,9 @@
                   {filteredData}
                   {rawData}
                 />
-                <UpgradeToPro {data} display={true} />
+                <div class="-mt-3">
+                  <UpgradeToPro {data} display={true} />
+                </div>
               </div>
             </div>
           {:else}

@@ -5,15 +5,17 @@
   export let upcomingEarnings = [];
 </script>
 
-<section>
-  <a href="/earnings-calendar/" class="inline-flex items-center"
+<section class="mx-auto w-full text-gray-700 dark:text-zinc-200">
+  <a
+    href="/earnings-calendar/"
+    class="inline-flex items-center gap-1 text-left w-full text-gray-900 dark:text-white group"
     ><h2
-      class="mb-2 text-xl font-bold leading-tight bp:text-2xl bp:leading-tight sm:hover:underline sm:hover:underline-offset-4"
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight sm:group-hover:underline sm:group-hover:underline-offset-4"
     >
       Upcoming Earnings
     </h2>
     <svg
-      class="h-5 w-5"
+      class="h-5 w-5 text-gray-400 dark:text-zinc-500 transition group-hover:text-gray-700 dark:group-hover:text-zinc-200"
       viewBox="0 0 20 20"
       fill="currentColor"
       style="max-width:40px"
@@ -27,13 +29,15 @@
   >
   {#if upcomingEarnings?.length !== 0}
     <table
-      class="border-t border-gray-300 dark:border-gray-800 text-sm sm:text-[1rem]"
+      class="w-full border-t border-gray-200 dark:border-zinc-800/80 text-sm sm:text-[0.95rem]"
     >
       <tbody>
         {#each upcomingEarnings as item}
-          <tr class="border-b border-gray-300 dark:border-gray-800">
-            <td class="py-2 pl-2">
-              <strong>{item?.name}</strong>
+          <tr class="border-b border-gray-200 dark:border-zinc-800/80">
+            <td class="py-3 sm:pl-2 leading-6 text-gray-700 dark:text-zinc-200">
+              <strong class="font-semibold text-gray-900 dark:text-white"
+                >{item?.name}</strong
+              >
               {item?.isToday === true
                 ? "will report today"
                 : ["Monday", "Tuesday", "Wednesday", "Thursday"].includes(
@@ -51,7 +55,8 @@
                 {:else}
                   during market.
                 {/if}
-              {/if}Analysts estimate {abbreviateNumber(item?.revenueEst)} in revenue
+              {/if}
+              Analysts estimate {abbreviateNumber(item?.revenueEst)} in revenue
               ({((item?.revenueEst / item?.revenuePrior - 1) * 100)?.toFixed(
                 2,
               )}% YoY) and {item?.epsEst} in earnings per share
@@ -62,7 +67,7 @@
 
               <a
                 href={`/stocks/${item?.symbol}`}
-                class="inline-block rounded badge border border-gray-300 dark:border-gray-800 shadow duration-0 bg-blue-100 dark:bg-primary font-semibold dark:font-normal rounded-sm ml-1 px-2 m-auto text-violet-800 dark:text-violet-400 dark:sm:hover:text-white sm:hover:text-muted"
+                class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white ml-1.5"
                 >{item?.symbol}</a
               >
             </td>

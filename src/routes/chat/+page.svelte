@@ -528,7 +528,7 @@
             <h1
               class="block text-2xl lg:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3 text-center relative w-fit flex justify-center m-auto break-words"
             >
-              Research your Trading Ideas
+              Your investing friend
             </h1>
 
             <div
